@@ -3,11 +3,11 @@ title: "Feltételek kiválasztása az Azure számítási beállítás"
 description: "Az Azure compute szolgáltatások összehasonlítása több tengely mentén."
 author: MikeWasson
 layout: LandingPage
-ms.openlocfilehash: 640793b56c1713f63456bab75ab4b9289d22a53c
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 36b57d1fb674b5a1452a0e8208de836963b2b01b
+ms.sourcegitcommit: c53adf50d3a787956fc4ebc951b163a10eeb5d20
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 11/23/2017
 ---
 # <a name="criteria-for-choosing-an-azure-compute-option"></a>Feltételek kiválasztása az Azure számítási beállítás
 
@@ -17,12 +17,12 @@ A kifejezés *számítási* a számítási erőforrásokért, az alkalmazásokat
 
 | Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Container Service | Cloud Services | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
-| Alkalmazás összeállítás | Független | Alkalmazások | Szolgáltatások, a Vendég végrehajtható fájlok | Functions | Tárolók | Szerepkörök | Ütemezett feladatok  |
+| Alkalmazás összeállítás | Független | Alkalmazások | Szolgáltatások, a Vendég végrehajtható fájlok, a tárolók | Functions | Tárolók | Szerepkörök | Ütemezett feladatok  |
 | Sűrűség | Független | Több alkalmazás keresztül alkalmazás tervek példányonként | Több szolgáltatás virtuális gépenként | Nincs kijelölt példány <a href="#note1"> <sup>1</sup></a> | Több tároló virtuális gépenként | Egy szerepkör példánya virtuális gépenként | Több alkalmazás, virtuális gépenként |
 | Csomópontok minimális száma | 1 <a href="#note2"><sup>2</sup></a>  | 1 | 5 <a href="#note3"><sup>3</sup></a> | A csomópontok nem dedikált <a href="#note1"> <sup>1</sup></a> | 3 | 2 | 1 <a href="#note4"><sup>4</sup></a> |
 | Felügyeleti állapot | Állapot nélküli és állapotalapú | Állapot nélküli | Stateless vagy állapotalapú alkalmazások és szolgáltatások | Állapot nélküli | Állapot nélküli és állapotalapú | Állapot nélküli | Állapot nélküli |
-| Webtároláshoz | Független | A beépített | Önálló gazdagép, az IIS-tárolókban lévő | Nem alkalmazható | Független | Beépített (IIS) | Nem |
-| Operációs rendszer | Windows, Linux | Windows, Linux (előzetes verzió)  | Windows, Linux (előzetes verzió) | Nem alkalmazható | Windows, Linux | Windows | Windows, Linux |
+| Webtároláshoz | Független | A beépített | Független | Nem alkalmazható | Független | Beépített (IIS) | Nem |
+| Operációs rendszer | Windows, Linux | Windows, Linux  | Windows, Linux | Nem alkalmazható | Windows (előzetes verzió), Linux | Windows | Windows, Linux |
 | Telepíthetők dedikált virtuális hálózatot? | Támogatott | Támogatott <a href="#note5"> <sup>5</sup></a> | Támogatott | Nem támogatott | Támogatott | Támogatott <a href="#note6"> <sup>6</sup></a> | Támogatott |
 | A hibrid kapcsolat | Támogatott | Támogatott <a href="#note1"> <sup>7</sup></a>  | Támogatott | Nem támogatott | Támogatott | Támogatott <a href="#note8"> <sup>8</sup></a> | Támogatott |
 
@@ -69,7 +69,7 @@ Megjegyzések
 | Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Container Service | Cloud Services | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | SLA | [SLA-t a virtuális gépek][sla-vm] | [Az App Service SLA][sla-app-service] | [A Service Fabric SLA][sla-sf] | [A funkciók SLA][sla-functions] | [Az Azure Tárolószolgáltatás SLA][sla-acs] | [SLA-t, a Cloud Services csomag][sla-cloud-service] | [Az Azure Batch SLA][sla-batch] |
-| Több régióban feladatátvétel | Forgalomkezelő | Forgalomkezelő | A TRAFFIC manager, több területi fürt | Nem támogatott  | Forgalomkezelő | Forgalomkezelő | Nem támogatott |
+| Több régióban feladatátvétel | Traffic Manager | Traffic Manager | A TRAFFIC manager, több területi fürt | Nem támogatott  | Traffic Manager | Traffic Manager | Nem támogatott |
 
 ## <a name="security"></a>Biztonság
 

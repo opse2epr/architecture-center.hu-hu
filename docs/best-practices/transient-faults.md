@@ -4,11 +4,11 @@ description: "Átmeneti hiba célból újrapróbálkozási útmutatást."
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 05558abad8938788d09caa5df8b1f088ce3b5bdc
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9562e3447b2219fe2f3df96cfca24b845efa39b0
+ms.sourcegitcommit: c53adf50d3a787956fc4ebc951b163a10eeb5d20
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 11/23/2017
 ---
 # <a name="transient-fault-handling"></a>Átmeneti hiba kezelése
 
@@ -93,7 +93,7 @@ A következő irányelveket segít kialakítani a megfelelő átmeneti hiba, az 
 * **Egyéb szempontok**
   
   * Az újrapróbálkozások számának és a házirend újrapróbálkozási intervallumok meghatározásakor vegye figyelembe, ha a szolgáltatás vagy az erőforrás a művelet hosszú futású vagy többlépéses művelet része. Nehéz lehet, vagy drága kiegyensúlyozása működési lépést a, ha egy már sikeres volt sikertelen. Ebben az esetben egy nagyon hosszú időtartamot és nagyszámú újrapróbálkozások is elfogadható mindaddig, amíg nem blokkolja a többi művelet okozó vagy szűkös erőforrások zárolása.
-  * Vegye figyelembe, ha megpróbálná megismételni a műveletet is inkonzisztenciát okozhat adatok. Ha a folyamat egyes részei ismétlődjenek-e, és a műveletek még nem idempotent, akkor azt eredményezheti, inkonzisztencia. Például-os értéket, művelet ismétlődik, ha a művelet létrehoz egy érvénytelen eredményt. Üzenet küldése egy üzenetsorba műveletet ismétlődő okozhat Inkonzisztencia a üzenetfogyasztó Ha nem tudja megállapítani a duplikált üzenetek. Ennek megelőzése érdekében győződjön meg arról, hogy alakítson ki minden lépés idempotent műveletként. Idempotencia kapcsolatos további információkért lásd: [idempotencia minták](http://blog.jonathanoliver.com/2010/04/idempotency-patterns/).
+  * Vegye figyelembe, ha megpróbálná megismételni a műveletet is inkonzisztenciát okozhat adatok. Ha a folyamat egyes részei ismétlődjenek-e, és a műveletek még nem idempotent, akkor azt eredményezheti, inkonzisztencia. Például-os értéket, művelet ismétlődik, ha a művelet létrehoz egy érvénytelen eredményt. Üzenet küldése egy üzenetsorba műveletet ismétlődő okozhat Inkonzisztencia a üzenetfogyasztó Ha nem tudja megállapítani a duplikált üzenetek. Ennek megelőzése érdekében győződjön meg arról, hogy alakítson ki minden lépés idempotent műveletként. Idempotencia kapcsolatos további információkért lásd: [idempotencia minták][idempotency-patterns].
   * Vegye figyelembe a megpróbálja műveletek körét. Elképzelhető például, amely magában foglalja a több művelet szinten újrapróbálkozási kód megvalósítását, majd próbálja újra őket minden meghibásodásakor könnyebben. Azonban ez azt eredményezheti, idempotencia problémák vagy a felesleges visszaállítási műveleteket.
   * Ha úgy dönt, amely magában foglalja a több művelet újrapróbálkozási hatókör, vegye figyelembe a teljes késést, az összes őket a újrapróbálkozási időközt meghatározásakor, amikor az igénybe vett idő, valamint a hibák riasztás kiváltása előtt.
   * Vegye figyelembe, hogyan az újrapróbálkozási stratégiát befolyásolhatják a szomszédok és más bérlők egy megosztott alkalmazásban, illetve megosztott erőforrások és szolgáltatások használatakor. Agresszív újrapróbálkozási házirend átmeneti hibák előforduló, ezek más felhasználók és az alkalmazások, szolgáltatások és erőforrások egyre több okozhat. Hasonlóképpen a más felhasználók, erőforrások és szolgáltatások által végrehajtott újrapróbálkozási házirend hatással lehet az alkalmazás. Kritikus fontosságú alkalmazások esetén előfordulhat, hogy használata mellett dönt, amely nem megosztott premium-szolgáltatásokhoz. Ez lehetővé teszi a több ellenőrzést a terhelés és ezt követő eldobására sávszélesség-szabályozási ezen erőforrások és szolgáltatások, így a további költségeket alkossanak.
@@ -103,5 +103,7 @@ A következő irányelveket segít kialakítani a megfelelő átmeneti hiba, az 
 * [Az átmeneti hiba kezelési alkalmazás letiltása](http://msdn.microsoft.com/library/hh680934.aspx)
 * [Áramköri megszakító minta](http://msdn.microsoft.com/library/dn589784.aspx)
 * [Tranzakció mintát Compensating](http://msdn.microsoft.com/library/dn589804.aspx)
-* [Idempotencia minták](http://blog.jonathanoliver.com/2010/04/idempotency-patterns/)
+* [Idempotencia minták][idempotency-patterns]
+
+[idempotency-patterns]: http://blog.jonathanoliver.com/idempotency-patterns/
 
