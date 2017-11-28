@@ -1,0 +1,21 @@
+- name: Azure Architecture Center
+  href: /azure/architecture
+- name: Teljesítménnyel kapcsolatos kizárási minták
+  href: index.md
+  items:
+    - name: Foglalt adatbázis
+      href: busy-database/index.md
+    - name: Foglalt előtér
+      href: busy-front-end/index.md
+    - name: Forgalmas I/O
+      href: chatty-io/index.md
+    - name: Felesleges beolvasások
+      href: extraneous-fetching/index.md
+    - name: Nem megfelelő példányosítás
+      href: improper-instantiation/index.md
+    - name: Monolitikus adatmegőrzés
+      href: monolithic-persistence/index.md
+    - name: Nincs gyorsítótárazás
+      href: no-caching/index.md
+    - name: Szinkron I/O
+      href: synchronous-io/index.md

@@ -1,0 +1,30 @@
+- name: Azure Architecture Center
+  href: /azure/architecture
+- name: Identitáskezelés több-bérlős alkalmazásokban
+  items:
+    - name: Bevezetés
+      href: index.md
+    - name: A Tailspin forgatókönyv
+      href: tailspin.md
+    - name: Authentication
+      href: authenticate.md
+    - name: Jogcímalapú identitás
+      href: claims.md
+    - name: Bérlői feliratkozás
+      href: signup.md
+    - name: Alkalmazás-szerepkörök
+      href: app-roles.md
+    - name: Engedélyezés
+      href: authorize.md
+    - name: Webes API-k biztonságossá tétele
+      href: web-api.md
+    - name: Hozzáférési jogkivonatok gyorsítótárazása
+      href: token-cache.md
+    - name: Ügyféltény
+      href: client-assertion.md
+    - name: Titkos alkalmazáskulcsok védelme
+      href: key-vault.md
+    - name: Összevonás az ügyfél AD FS szolgáltatásával
+      href: adfs.md
+    - name: A Surveys alkalmazás futtatása
+      href: run-the-app.md

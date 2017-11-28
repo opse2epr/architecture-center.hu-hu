@@ -1,0 +1,60 @@
+- name: Azure Architecture Center
+  href: /azure/architecture
+- name: Útmutató az alkalmazásarchitektúrához
+  href: index.md
+  items:
+    - name: Architektúrastílusok
+      href: architecture-styles/index.md
+      items:
+        - name: N szintű alkalmazás
+          href: architecture-styles/n-tier.md
+        - name: Webüzenetsor-feldolgozó
+          href: architecture-styles/web-queue-worker.md
+        - name: Mikroszolgáltatások
+          href: architecture-styles/microservices.md
+        - name: CQRS
+          href: architecture-styles/cqrs.md
+        - name: Eseményvezérelt architektúra
+          href: architecture-styles/event-driven.md
+        - name: Big Data
+          href: architecture-styles/big-data.md
+        - name: Big Compute
+          href: architecture-styles/big-compute.md
+    - name: Technológiai lehetőségek
+      href: technology-choices/index.md
+      items:
+        - name: Számítási lehetőségek áttekintése
+          href: technology-choices/compute-overview.md
+        - name: Számítási lehetőségek összehasonlítása
+          href: technology-choices/compute-comparison.md
+        - name: Adattárak áttekintése
+          href: technology-choices/data-store-overview.md
+        - name: Adattárak összehasonlítása
+          href: technology-choices/data-store-comparison.md
+    - name: Tervezési alapelvek
+      href: design-principles/index.md
+      items:
+        - name: Tervezzen az önjavítást szem előtt tartva
+          href: design-principles/self-healing.md
+        - name: Tervezzen mindent redundánsra
+          href: design-principles/redundancy.md
+        - name: Minimalizálja a koordinációt
+          href: design-principles/minimize-coordination.md
+        - name: Tervezzen horizontális felskálázásra
+          href: design-principles/scale-out.md
+        - name: Particionáljon a korlátok kiküszöböléséhez
+          href: design-principles/partition.md
+        - name: Tervezzen műveletekhez
+          href: design-principles/design-for-operations.md
+        - name: Használjon felügyelt szolgáltatásokat
+          href: design-principles/managed-services.md
+        - name: Használja a feladathoz legmegfelelőbb adattárat
+          href: design-principles/use-the-best-data-store.md
+        - name: Tervezzen a fejlődést szem előtt tartva
+          href: design-principles/design-for-evolution.md
+        - name: Tervezzen a vállalkozás igényei szerint
+          href: design-principles/build-for-business.md
+    - name: A szoftverminőség alappillérei
+      href: pillars.md
+    - name: Tervezési minták
+      href: ../patterns/index.md?toc=/azure/architecture/guide/toc.json
