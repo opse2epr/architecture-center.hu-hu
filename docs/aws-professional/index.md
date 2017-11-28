@@ -5,11 +5,11 @@ keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 251489e7a6d78d82f3ed70ca2df6c88f8759f9a5
-ms.sourcegitcommit: fbcf9a1c25db13b2627a8a58bbc985cd01ea668d
+ms.openlocfilehash: 75fda82ee5ca7ca3665501fe428d1d01995e7422
+ms.sourcegitcommit: c53adf50d3a787956fc4ebc951b163a10eeb5d20
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/16/2017
+ms.lasthandoff: 11/23/2017
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -21,7 +21,7 @@ Az oktatóanyagból a következőket sajátíthatja el:
 * Az elérhető megoldások struktúrája az Azure-ban.
 * A legfontosabb Azure-szolgáltatások és AWS-szolgáltatások közötti különbségek.
 
- Az Azure és az AWS a képességeit az idők során egymástól függetlenül fejlesztette ki, ezért fontos implementációbeli és tervezésbeli különbségekkel kell számolni.
+Az Azure és az AWS a képességeit az idők során egymástól függetlenül fejlesztette ki, ezért fontos implementációbeli és tervezésbeli különbségekkel kell számolni.
 
 ## <a name="overview"></a>Áttekintés
 
@@ -62,7 +62,7 @@ Ezek a korlátok a maximális értékre növelhetők [egy támogatási kérelem 
 
 Az Azure-ban az „erőforrás” kifejezés ugyanúgy fordul elő, mint az AWS-ben, tehát bármilyen számítási példányra, tárolási objektumra, hálózati eszközre vagy egyéb, a platformon létrehozható vagy konfigurálható entitásra utalhat.
 
-Az Azure-erőforrások üzembe helyezése és kezelése az alábbi két modell egyike alapján történik: [Az Azure Resource Manager vagy a régebbi, [klasszikus Azure üzemi modell](/azure/azure-resource-manager/resource-manager-deployment-model).
+Az Azure-erőforrások üzembe helyezése és kezelése az alábbi két modell egyike alapján történik: az [Azure Resource Manager](/azure/azure-resource-manager/resource-group-overview) vagy a régebbi, [klasszikus Azure üzemi modell](/azure/azure-resource-manager/resource-manager-deployment-model).
 Minden új erőforrás létrehozása a Resource Manager-alapú modell alapján történik.
 
 ### <a name="resource-groups"></a>Erőforráscsoportok
@@ -166,7 +166,7 @@ Bár az AWS-példánytípusok és az Azure-beli virtuális gépek méretei hason
 
 Az AWS másodpercalapú számlázásával ellentétben az Azure-beli igény szerinti virtuális gépek percalapú számlázást alkalmaznak.
 
-Az Azure-ban nem állnak rendelkezésre az EC2-beli kihasználatlan példányoknak, lefoglalt példányoknak vagy dedikált gazdagépeknek megfelelő megoldások.
+Az Azure-ban nem állnak rendelkezésre az EC2-beli kihasználatlan példányoknak vagy dedikált gazdagépeknek megfelelő megoldások.
 
 #### <a name="ebs-and-azure-storage-for-vm-disks"></a>EBS és Azure Storage virtuálisgép-lemezekhez
 
@@ -232,16 +232,18 @@ Az AWS platformon a felhőalapú tárolás elsődlegesen három szolgáltatásra
 Az Azure Storage-ban az előfizetéshez kötött [tárfiókokkal](https://azure.microsoft.com/documentation/articles/storage-create-storage-account/) a következő tárolási szolgáltatásokat hozhatja létre és kezelheti:
 
 -   [Blob Storage](https://azure.microsoft.com/documentation/articles/storage-create-storage-account/) – képes tárolni bármilyen szöveget vagy bináris adatot, például dokumentumot, médiafájlt vagy egy alkalmazástelepítőt. A Blob Storage tárolót beállíthatja magánjellegű hozzáféréshez vagy a tartalmak nyilvános, az interneten keresztüli megosztásához. A Blob Storage ugyanazt a célt szolgálja, mint az AWS S3 és az EBS.
-
 -   [Table Storage](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-table-storage/) – a strukturált adatkészleteket tárolja. A Table Storage a NoSQL-kulcsattribútumok adattára, amely gyors fejlesztési lehetőségeket és nagy adatmennyiségek gyors elérését biztosítja. Hasonló az AWS SimpleDB és DynamoDB szolgáltatásához.
 
 -   [Queue Storage](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-queues/) – üzenetküldést biztosít a munkafolyamat-feldolgozáshoz és a felhőszolgáltatás összetevői közötti kommunikációhoz.
 
 -   [File Storage](https://azure.microsoft.com/documentation/articles/storage-java-how-to-use-file-storage/) – közös tárterületet biztosít a szabványos SMB protokollt használó örökölt alkalmazások számára. A fájltároló ugyanúgy használható, mint az AWS platform EFS-e.
 
-#### <a name="glacier-and-azure-storage"></a>Glacier és Azure Storage
 
-Az Azure Storage nem teszi elérhetővé az AWS hosszútávú archiválási célú Glacier-tárolójának közvetlen megfelelőjét. A ritkán használt, hosszú élettartamú adatok tárolására az Azure a [ritkán használt adatok Azure Blob Storage-rétegét](https://azure.microsoft.com/documentation/articles/storage-blob-storage-tiers/) nyújtja.
+
+
+ 
+#### <a name="glacier-and-azure-storage"></a>Glacier és Azure Storage 
+Az [Azure Storage Standard Archive](/azure/storage/blobs/storage-blob-storage-tiers) az AWS hosszútávú, archiválási célú Glacier-tárolójának közvetlen megfelelőjeként szolgál. A ritkán használt, hosszú élettartamú adatok tárolására az Azure a [ritkán használt adatok Azure Blob Storage-rétegét](/azure/storage/blobs/storage-blob-storage-tiers) nyújtja.
 A ritkán használt adatok tárolója olcsóbb, kisebb teljesítményű tárolást nyújt, mint a szokásos Blob Storage, és az AWS S3 ritka hozzáférésű eszközéhez hasonlítható.
 
 #### <a name="see-also"></a>Lásd még:
@@ -284,13 +286,17 @@ Az Azure hasonló, helyek közötti dedikált kapcsolatokat nyújt az [ExpressRo
 
 ### <a name="database-services"></a>Adatbázis–szolgáltatások
 
-#### <a name="rds-and-azure-sql-database-service"></a>RDS és Azure SQL Database szolgáltatás
+#### <a name="rds-and-azure-relational-database-services"></a>RDS és Azure relációsadatbázis-szolgáltatások
 
-Az AWS és az Azure különböző megközelítési módot használ a felhőben lévő relációsadatbázis-ajánlatok esetén. Az AWS relációsadatbázis-szolgáltatás (RDS) támogatja a különböző (pl.: Oracle és a MySQL) adatbázismotorokkal való példánylétrehozást.
+Az Azure több különböző relációsadatbázis-szolgáltatást kínál, amelyek az AWS Relational Database Service (RDS) megfelelői.
 
-Az [SQL Database](https://azure.microsoft.com/documentation/articles/sql-database-technical-overview/) az Azure felhőalapú adatbázis-ajánlata. Hatékonyan skálázható relációs adattárat nyújt, egy felügyelt szolgáltatáson keresztül. Az SQL Database a saját motorját használja, és nem támogatja más adatbázistípusok létrehozását. Az Azure-beli virtuálisgép-példányokkal üzembe helyezhetők más adatbázismotorok is, például az [SQL Server](https://azure.microsoft.com/services/virtual-machines/sql-server/), az [Oracle](https://azure.microsoft.com/campaigns/oracle/) vagy a [MySQL](https://azure.microsoft.com/documentation/articles/virtual-machines-windows-classic-mysql-2008r2/).
+-   [SQL Database](https://docs.microsoft.com/azure/sql-database/sql-database-technical-overview)
+-   [Azure Database for MySQL](https://docs.microsoft.com/azure/mysql/overview)
+-   [Azure Database for PostgreSQL](https://docs.microsoft.com/azure/postgresql/overview)
 
-Az AWS RDS költségeit a példány által használt hardveres erőforrások (például a CPU, RAM, tárhely és hálózati sávszélesség) mennyisége határozza meg. Az SQL Database szolgáltatásban a költségek az adatbázis méretétől, az egyidejű kapcsolatoktól és az átviteli sebességtől függnek.
+Egyéb adatbázismotorok, például az [SQL Server](https://azure.microsoft.com/services/virtual-machines/sql-server/), az [Oracle](https://azure.microsoft.com/campaigns/oracle/) és a [MySQL](https://azure.microsoft.com/documentation/articles/virtual-machines-windows-classic-mysql-2008r2/), Azure-beli virtuálisgép-példányokkal helyezhetők üzembe.
+
+Az AWS RDS költségeit a példány által használt hardveres erőforrások (például a CPU, RAM, tárhely és hálózati sávszélesség) mennyisége határozza meg. Az Azure adatbázis-szolgáltatásokban a költségek az adatbázis méretétől, az egyidejű kapcsolatok számától és az átviteli sebességektől függnek.
 
 #### <a name="see-also"></a>Lásd még:
 
