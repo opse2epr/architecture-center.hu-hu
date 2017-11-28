@@ -1,0 +1,145 @@
+- name: Azure Architecture Center
+  href: index.md
+- name: Útmutató az alkalmazásarchitektúrához
+  href: guide/index.md
+  items:
+    - name: Architektúrastílusok
+      href: guide/architecture-styles/index.md
+    - name: Technológiai lehetőségek
+      href: guide/technology-choices/index.md
+      items: null
+    - name: Tervezési alapelvek
+      href: guide/design-principles/index.md
+    - name: A szoftverminőség alappillérei
+      href: guide/pillars.md
+    - name: Tervezési minták
+      href: patterns/index.md?toc=/azure/architecture/guide/toc.json
+- name: Referenciaarchitektúrák
+  href: reference-architectures/index.md
+  items:
+    - name: Identitáskezelés
+      href: reference-architectures/identity/index.md
+    - name: Hibrid hálózat
+      href: reference-architectures/hybrid-networking/index.md
+    - name: App Service webalkalmazás
+      href: reference-architectures/app-service-web-app/index.md
+    - name: Hálózati DMZ
+      href: reference-architectures/dmz/index.md
+    - name: SAP NetWeaver és SAP HANA
+      href: reference-architectures/sap/index.md
+    - name: SharePoint Server 2016
+      href: reference-architectures/sharepoint/index.md
+    - name: Virtuális gépek munkaterhelése (Linux)
+      href: reference-architectures/virtual-machines-linux/index.md
+    - name: Virtuális gépek munkaterhelése (Windows)
+      href: reference-architectures/virtual-machines-windows/index.md
+- name: Tervezési minták felhőkhöz
+  href: patterns/index.md
+  items:
+    - name: Rendelkezésre állási minták
+      href: patterns/category/availability.md
+    - name: Adatkezelési minták
+      href: patterns/category/data-management.md
+    - name: Tervezési és implementálási minták
+      href: patterns/category/design-implementation.md
+    - name: Kezelési és figyelési minták
+      href: patterns/category/management-monitoring.md
+    - name: Üzenetkezelési minták
+      href: patterns/category/messaging.md
+    - name: Teljesítménnyel kapcsolatos és skálázhatósági minták
+      href: patterns/category/performance-scalability.md
+    - name: Rugalmassági minták
+      href: patterns/category/resiliency.md
+    - name: Biztonsági minták
+      href: patterns/category/security.md
+- name: Ajánlott eljárások
+  items:
+    - name: API-tervezés
+      href: best-practices/api-design.md
+    - name: API-implementáció
+      href: best-practices/api-implementation.md
+    - name: Automatikus skálázás
+      href: best-practices/auto-scaling.md
+    - name: Háttérfeladatok
+      href: best-practices/background-jobs.md
+    - name: Gyorsítótárazás
+      href: best-practices/caching.md
+    - name: Content Delivery Network
+      href: best-practices/cdn.md
+    - name: Adatparticionálás
+      href: best-practices/data-partitioning.md
+    - name: Monitorozás és diagnosztika
+      href: best-practices/monitoring.md
+    - name: Elnevezési konvenciók
+      href: best-practices/naming-conventions.md
+    - name: Átmeneti hibák kezelése
+      href: best-practices/transient-faults.md
+    - name: Újrapróbálkozási útmutatás adott szolgáltatásoknál
+      href: best-practices/retry-service-specific.md
+- name: Teljesítménnyel kapcsolatos kizárási minták
+  href: antipatterns/index.md
+  items:
+    - name: Foglalt adatbázis
+      href: antipatterns/busy-database/index.md
+    - name: Foglalt előtér
+      href: antipatterns/busy-front-end/index.md
+    - name: Forgalmas I/O
+      href: antipatterns/chatty-io/index.md
+    - name: Felesleges beolvasások
+      href: antipatterns/extraneous-fetching/index.md
+    - name: Nem megfelelő példányosítás
+      href: antipatterns/improper-instantiation/index.md
+    - name: Monolitikus adatmegőrzés
+      href: antipatterns/monolithic-persistence/index.md
+    - name: Nincs gyorsítótárazás
+      href: antipatterns/no-caching/index.md
+    - name: Szinkron I/O
+      href: antipatterns/synchronous-io/index.md
+- name: Tervezésáttekintési ellenőrzőlista
+  items:
+    - name: Rendelkezésre állás
+      href: checklist/availability.md
+    - name: DevOps
+      href: checklist/dev-ops.md
+    - name: Resiliency
+      href: checklist/resiliency.md
+    - name: Méretezhetőség
+      href: checklist/scalability.md
+- name: Rugalmasságot szem előtt tartó tervezés
+  items:
+    - name: Rugalmas alkalmazások tervezése
+      href: resiliency/index.md
+    - name: Rugalmasságra vonatkozó ellenőrzőlista
+      href: checklist/resiliency.md?toc=/azure/architecture/resiliency/toc.json
+    - name: A hibaállapot elemzése
+      href: resiliency/failure-mode-analysis.md
+- name: Forgatókönyvekre vonatkozó útmutatók
+  items:
+    - name: Azure AWS-szakembereknek
+      href: aws-professional/index.md
+    - name: Identitáskezelés több-bérlős alkalmazásokban
+      href: multitenant-identity/index.md
+    - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
+      href: service-fabric/migrate-from-cloud-services.md
+    - name: Elasticsearch futtatása az Azure-on
+      href: elasticsearch/index.md
+    - name: Az Azure Resource Manager-sablon funkciójának bővítése
+      href: building-blocks/extending-templates/index.md
+- name: Erőforrások
+  items:
+    - name: Azure-ütemterv
+      href: 'https://azure.microsoft.com/roadmap/'
+    - name: Microsoft biztonsági és adatkezelési központ az Azure-hoz
+      href: 'https://www.microsoft.com/en-us/trustcenter/cloudservices/azure'
+    - name: Ikonok és diagramok
+      href: resources/diagrams.md
+    - name: Az Azure-frissítések naptára
+      href: 'https://azure.microsoft.com/updates/'
+    - name: Képzés
+      href: 'https://azure.microsoft.com/community/training/'
+    - name: SQLCAT blog
+      href: 'https://blogs.msdn.microsoft.com/sqlcat/'
+    - name: AzureCAT blog
+      href: 'https://blogs.msdn.microsoft.com/azurecat/'
+    - name: Tanulmányok
+      href: 'https://azure.microsoft.com/resources/whitepapers/'
