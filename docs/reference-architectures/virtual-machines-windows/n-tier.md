@@ -6,28 +6,28 @@ ms.date: 11/22/2016
 pnp.series.title: Windows VM workloads
 pnp.series.next: multi-region-application
 pnp.series.prev: multi-vm
-ms.openlocfilehash: f3c375f8fccc633d9525a8afbd11c13037265f4a
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: e25d10d661ac4759f209bd27384303dee2ee454e
+ms.sourcegitcommit: 583e54a1047daa708a9b812caafb646af4d7607b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 11/28/2017
 ---
 # <a name="run-windows-vms-for-an-n-tier-application"></a>Futtassa a Windows virtuális gépek N szintű alkalmazás
 
-A referencia-architektúrában futó Windows virtuális gépeket (VM) N szintű alkalmazások bevált gyakorlatok csoportja jeleníti meg. [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution) 
+A referencia-architektúrában futó Windows virtuális gépeket (VM) N szintű alkalmazások bevált gyakorlatok csoportja jeleníti meg. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
 
 ![[0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra 
 
 Számos módon valósítja meg az N szintű architektúrát. Az ábrán egy tipikus 3 szintű webalkalmazást. Ez az architektúra épül [futtassa a virtuális gépek elosztott terhelésű a méretezhetőség és a rendelkezésre állási][multi-vm]. A web és business szintek használata virtuális gépek elosztott terhelésű.
 
-* **Rendelkezésre állási készletek.** Hozzon létre egy [rendelkezésre állási csoport] [ azure-availability-sets] minden egyes réteg, és minden egyes rétegben legalább két virtuális gépek telepítéséhez. Ez lehetővé teszi a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatásiszint-szerződés (SLA) szolgáltatás] [ vm-sla] virtuális gépekhez.
+* **Rendelkezésre állási készletek.** Hozzon létre egy [rendelkezésre állási csoport] [ azure-availability-sets] minden egyes réteg, és minden egyes rétegben legalább két virtuális gépek telepítéséhez. Ez lehetővé teszi a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatásiszint-szerződés (SLA) szolgáltatás] [ vm-sla] virtuális gépekhez. Telepíthet egy virtuális rendelkezésre állási csoportba, de a virtuális rendszer nem felel meg egy (SLA) garantált csak egyetlen virtuális gép prémium szintű Azure Storage használ az operációs rendszer és az összes lemez.  
 * **Alhálózatok.** Hozzon létre egy külön alhálózatot az egyes rétegekhez. Adja meg a címtartományt és alhálózati maszk használatával [CIDR] jelöléssel. 
-* **A terheléselosztók.** Használjon egy [internetre irányuló terheléselosztót] [ load-balancer-external] terjeszteni a webes réteg bejövő internetes forgalmat és egy [belső terheléselosztó] [ load-balancer-internal]hálózati forgalmat a a webes réteg az üzleti szint és terjeszteni.
-* **Jumpbox.** Más néven a [megerősített állomás]. Biztonságos virtuális gép, amely a rendszergazdák csatlakozhat a virtuális gépeket a hálózaton. A jumpbox van egy NSG-t, amely lehetővé teszi a távoli forgalom csak nyilvános IP-címekről érkező biztonságos listán. Az NSG engedélyezniük kell a távoli asztal (RDP) forgalmat.
+* **Terheléselosztók**. Használjon egy [internetre irányuló terheléselosztót] [ load-balancer-external] terjeszteni a webes réteg bejövő internetes forgalmat és egy [belső terheléselosztó] [ load-balancer-internal]hálózati forgalmat a a webes réteg az üzleti szint és terjeszteni.
+* **Jumpbox.** Más néven a [megerősített állomás]. Biztonságos virtuális gép, amely a rendszergazdák csatlakozhat a virtuális gépeket a hálózaton. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-nek engedélyeznie kell a távoli asztali (RDP) forgalmat.
 * **Figyelés.** Például a figyelés szoftver [Nagios], [Zabbix], vagy [Icinga] biztosíthat, válaszidő, illetve a virtuális gép hasznos üzemidő és a rendszer általános állapotát. Telepíti a figyelési, amely egy különálló felügyeleti alhálózat el van helyezve.
 * **Az NSG-k.** Használjon [hálózati biztonsági csoportok] [ nsg] (NSG-ket) korlátozzák a hálózati forgalmat a Vneten belül. Például a 3-rétegű architektúra itt látható, az adatbázis-rétegből nem fogadja el a előtér, csak az üzleti szint és a felügyeleti alhálózati a forgalmat.
 * **SQL Server Always On rendelkezésre állási csoporthoz.** Itt az adatréteg: magas rendelkezésre állású replikációs és feladatátvételi engedélyezésével.
@@ -35,7 +35,7 @@ Számos módon valósítja meg az N szintű architektúrát. Az ábrán egy tipi
 
 ## <a name="recommendations"></a>Javaslatok
 
-A követelmények eltérhetnek az itt leírt architektúra. Ezek a javaslatok használja kiindulópontként. 
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak. 
 
 ### <a name="vnet--subnets"></a>Virtuális hálózatot / alhálózatot
 
@@ -126,35 +126,52 @@ A terheléselosztók hálózati forgalmat és a web és business szintek terjesz
 
 Egyszerűbb kezelés a teljes rendszer központosított kiszolgálófelügyelet eszközei többek között a [Azure Automation][azure-administration], [a Microsoft Operations Management Suite] [ operations-management-suite], [Chef][chef], vagy [Puppet][puppet]. Ezek az eszközök konszolidálja rögzített több virtuális gépek és a rendszer általános áttekintést nyújt a diagnosztika és állapotfigyelő információkat.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez az architektúra telepítésének érhető el a [GitHub][github-folder]. Az architektúra három lépésben történik. Az architektúra üzembe helyezéséhez kövesse az alábbi lépéseket: 
+A központi telepítés a referenciaarchitektúra megtalálható [GitHub][github-folder]. 
 
-1. Kattintson a gombra az első fázist, a telepítés megkezdéséhez:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fvirtual-machines%2Fn-tier-windows%2FvirtualNetwork.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-2. Ha a kapcsolat az Azure portálon nyitotta meg, írja be a kövesse értékeket: 
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-ntier-sql-network-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-3. Ellenőrizze, hogy helyesek-e az első szakasza a központi telepítés üzenet az Azure portál értesítései.
-4. Kattintson a gombra, a második lépést a telepítés megkezdéséhez:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fvirtual-machines%2Fn-tier-windows%2Fworkload.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-5. Ha a kapcsolat az Azure portálon nyitotta meg, írja be a kövesse értékeket: 
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-ntier-sql-workload-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-6. Ellenőrizze, hogy helyesek-e a második lépést a központi telepítés üzenet az Azure portál értesítései.
-7. Kattintson a gombra a központi telepítés harmadik szakasza megkezdéséhez:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fvirtual-machines%2Fn-tier-windows%2Fsecurity.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-8. Ha a kapcsolat az Azure portálon nyitotta meg, írja be a kövesse értékeket: 
-   * A **erőforráscsoport** neve már definiálva van a paraméterfájl, ezért select **használata meglévő** , és írja be `ra-ntier-sql-network-rg` a szövegmezőben.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-9. Ellenőrizze, hogy helyesek-e a központi telepítés harmadik szakasza üzenet az Azure portál értesítései.
-10. A paraméter-fájlok közé tartoznak a kódolt rendszergazda felhasználói neveket és jelszavakat, és erősen ajánlott, hogy azonnal módosítsa a virtuális gépekre is. Kattintson az egyes virtuális gépek az Azure portálon, majd kattintson a lehetőségre **jelszó-átállítási** a a **támogatási + hibaelhárítási** panelen. A **Mód** legördülő listában válassza a **Jelszó alaphelyzetbe állítása** lehetőséget, majd adjon meg új értéket a **Felhasználónév** és a **Jelszó** mezőben. Kattintson a **frissítés** gombra kattintva mentse az új felhasználónevet és jelszót. 
+### <a name="prerequisites"></a>Előfeltételek
+
+Mielőtt a saját előfizetésének telepítése a referencia-architektúrában, a következő lépésekkel kell azt.
+
+1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [AzureCAT referencia architektúra] [ ref-arch-repo] GitHub-tárházban.
+
+2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve a számítógépre. A parancssori felület telepítéséhez kövesse az utasításokat a [Azure CLI 2.0 telepítése][azure-cli-2].
+
+3. Telepítse a [Azure építőelemeket] [ azbb] npm csomag.
+
+  ```bash
+  npm install -g @mspnp/azure-building-blocks
+  ```
+
+4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával használja az alábbi parancsok egyikét, és kövesse az utasításokat.
+
+  ```bash
+  az login
+  ```
+
+### <a name="deploy-the-solution-using-azbb"></a>Az üzembe helyezéséhez azbb használatával
+
+A Windows virtuális gépek egy N szintű alkalmazás referencia architektúra telepítéséhez kövesse az alábbi lépéseket:
+
+1. Keresse meg a `virtual-machines\n-tier-windows` az 1. lépésben a fenti előfeltételek klónozott tárház mappáját.
+
+2. A paraméterfájl egy alapértelmezett adminsztrátori felhasználónevet és jelszót határozza meg a központi telepítésben lévő összes virtuális Géphez. Ezek a referencia-architektúrában központi telepítése előtt kell módosítani. Nyissa meg a `n-tier-windows.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mező az új beállításokkal.
+  
+  > [!NOTE]
+  > Nincsenek több futtatott parancsfájlok, a telepítés során mind a a **VirtualMachineExtension** objektumok és az a **bővítmények** egyes beállításokat a **VirtualMachine**objektumok. Ezek a parancsfájlok némelyike igényelnek, a rendszergazdai felhasználónevet és jelszót, amely csak módosította. Javasoljuk, hogy tekintse át ezeket a parancsfájlokat győződjön meg arról, hogy a megfelelő hitelesítő adatokat adott meg. A telepítés sikertelen lehet, ha nem adott meg a megfelelő hitelesítő adatokkal.
+  > 
+  > 
+
+Mentse a fájlt.
+
+3. Telepíthető a referencia architektúra például a **azbb** parancssori eszköz alább látható módon.
+
+  ```bash
+  azbb -s <your subscription_id> -g <your resource_group_name> -l <azure region> -p n-tier-windows.json --deploy
+  ```
+
+A minta referenciaarchitektúra használata Azure építőelemeket telepítésével kapcsolatos további információkért látogasson el a [GitHub-tárházban][git].
 
 
 <!-- links -->
@@ -162,14 +179,16 @@ Ez az architektúra telepítésének érhető el a [GitHub][github-folder]. Az a
 [multi-dc]: multi-region-application.md
 [multi-vm]: multi-vm.md
 [n-tier]: n-tier.md
-
+[azbb]: https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks
 [azure-administration]: /azure/automation/automation-intro
 [azure-availability-sets]: /azure/virtual-machines/virtual-machines-windows-manage-availability#configure-each-application-tier-into-separate-availability-sets
 [azure-cli]: /azure/virtual-machines-command-line-tools
+[azure-cli-2]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [azure-key-vault]: https://azure.microsoft.com/services/key-vault
 [megerősített állomás]: https://en.wikipedia.org/wiki/Bastion_host
 [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 [chef]: https://www.chef.io/solutions/azure/
+[git]: https://github.com/mspnp/template-building-blocks
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/virtual-machines/n-tier-windows
 [lb-external-create]: /azure/load-balancer/load-balancer-get-started-internet-portal
 [lb-internal-create]: /azure/load-balancer/load-balancer-get-started-ilb-arm-portal
@@ -181,6 +200,7 @@ Ez az architektúra telepítésének érhető el a [GitHub][github-folder]. Az a
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
 [nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
+[ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [sql-alwayson]: https://msdn.microsoft.com/library/hh510230.aspx
 [sql-alwayson-force-failover]: https://msdn.microsoft.com/library/ff877957.aspx
 [sql-alwayson-getting-started]: https://msdn.microsoft.com/library/gg509118.aspx
