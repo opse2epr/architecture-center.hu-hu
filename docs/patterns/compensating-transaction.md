@@ -8,7 +8,7 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories: resiliency
 ms.openlocfilehash: f8337717c4afd6b558f0da8e1ded3a8071340db7
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
 ---

@@ -12,7 +12,7 @@ pnp.pattern.categories:
 - resiliency
 ms.openlocfilehash: d8b010648d4ec0edcfbb24f9b03243a79a34a40b
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
 ---

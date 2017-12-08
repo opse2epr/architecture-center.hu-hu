@@ -8,7 +8,7 @@ pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
 ms.openlocfilehash: 7f771f77c7fa7f266dcce9f5b45e5be658213b8d
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
 ---

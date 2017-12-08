@@ -8,7 +8,7 @@ pnp.series.next: multi-vm
 pnp.series.prev: ./index
 ms.openlocfilehash: b519cb96c124a91d95fb5965f34b86026c95805c
 ms.sourcegitcommit: 115db7ee008a0b1f2b0be50a26471050742ddb04
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/17/2017
 ---

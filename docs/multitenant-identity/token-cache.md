@@ -8,7 +8,7 @@ pnp.series.prev: web-api
 pnp.series.next: adfs
 ms.openlocfilehash: ed0def244f3229bbd3fdd0976574d13a345f9aee
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
 ---

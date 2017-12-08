@@ -9,7 +9,7 @@ pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
 ms.openlocfilehash: bb7e57af2afacf1faa7679c854bf49217918eba8
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
 ---
