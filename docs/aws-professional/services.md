@@ -7,7 +7,7 @@ ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
 ms.openlocfilehash: 047fb779aeba2aa7d6e977cff0d718a4f671e5c9
 ms.sourcegitcommit: 115db7ee008a0b1f2b0be50a26471050742ddb04
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/17/2017
 ---
