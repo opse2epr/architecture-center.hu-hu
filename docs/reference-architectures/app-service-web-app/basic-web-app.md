@@ -2,13 +2,13 @@
 title: "Alapszintű webalkalmazás"
 description: "A Microsoft Azure-ban futó webalkalmazás alapvető ajánlott architektúra."
 author: MikeWasson
-ms.date: 11/23/2016
+ms.date: 12/12/2017
 cardTitle: Basic web application
-ms.openlocfilehash: b7475c4087a184bb7608d0c45ffecee912c920d7
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 598eb547f0e96ae334af391183a792637caa8631
+ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/02/2018
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
@@ -17,7 +17,7 @@ A referencia-architektúrában jeleníti meg a webes alkalmazás esetén bevált
 
 ![[0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra 
 
@@ -29,22 +29,30 @@ A referencia-architektúrában jeleníti meg a webes alkalmazás esetén bevált
 Az architektúra a következő részből áll:
 
 * **Erőforráscsoport**. A [erőforráscsoport](/azure/azure-resource-manager/resource-group-overview) Azure-erőforrások logikai tárolója.
+
 * **App Service alkalmazás**. [Az Azure App Service] [ app-service] egy teljes körűen felügyelt platform létrehozására és központi telepítésére a felhőalapú alkalmazásokhoz.     
+
 * **App Service-csomag**. Egy [App Service-csomag] [ app-service-plans] biztosít a felügyelt üzemeltető virtuális gépek (VM) az alkalmazás. Futtassa az ugyanazon Virtuálisgép-példányok a csomagot hozzárendelt összes alkalmazáshoz.
 
 * **Üzembe helyezési**.  A [üzembe helyezési pont] [ deployment-slots] lehetővé teszi, hogy a központi telepítés tesztelése és felcserélni az éles üzemelő példányhoz. Így elkerülheti a közvetlenül éles környezetben üzembe helyezése. Tekintse meg a [kezelhetőségi](#manageability-considerations) szakasz konkrét javaslatokért.
 
-* **IP-cím**. Az App Service alkalmazás rendelkezik, egy nyilvános IP-cím és tartománynév. A tartománynév altartománya `azurewebsites.net`, például a `contoso.azurewebsites.net`. Egy egyéni tartománynevet, például a használandó `contoso.com`, hozzon létre a tartomány neve szolgáltatási (DNS) azt jelzi, hogy az egyéni tartománynév leképezése az IP-cím. További információkért lásd: [egyéni tartománynév beállítása az Azure App Service][custom-domain-name].
+* **IP-cím**. Az App Service alkalmazás rendelkezik, egy nyilvános IP-cím és tartománynév. A tartománynév altartománya `azurewebsites.net`, például a `contoso.azurewebsites.net`.  
+
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti. Egy egyéni tartománynevet használni (például `contoso.com`), az egyéni tartománynév leképezése az IP-cím DNS-rekordok létrehozása. További információkért lásd: [egyéni tartománynév beállítása az Azure App Service][custom-domain-name].  
+
 * **Azure SQL Database** [SQL-adatbázis] [ sql-db] egy relációs adatbázis-a-szolgáltatás a felhőben van.
+
 * **A logikai kiszolgáló**. Az Azure SQL Database logikai kiszolgáló üzemelteti az adatbázisokat. Egy logikai kiszolgálón több adatbázist hozhat létre.
-* **Az Azure Storage**. Hozzon létre egy Azure storage-fiók egy blob-tároló diagnosztikai naplók tárolásához.
+
+* **Azure Storage**. Hozzon létre egy Azure storage-fiók egy blob-tároló diagnosztikai naplók tárolásához.
+
 * **Az Azure Active Directory** (az Azure AD). Használja az Azure AD vagy egy másik identitásszolgáltató-hitelesítéshez.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-A követelmények eltérhetnek az itt leírt architektúra. A javaslatok használja ebben a szakaszban kiindulási pontként.
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. A javaslatok használja ebben a szakaszban kiindulási pontként.
 
-### <a name="app-service-plan"></a>App Service-csomag
+### <a name="app-service-plan"></a>App Service-csomagot
 A Standard vagy prémium rétegek akkor használható, mert támogatják a bővített kapacitású, automatikus skálázás, és a secure sockets layer (SSL). Minden egyes réteg támogatja több *példány mérete* magok száma és memória, amely eltérő. Terv létrehozása után módosíthatja a réteg vagy a példány mérete. App Service-csomagokról kapcsolatos további információkért lásd: [App Service szolgáltatás díjszabása][app-service-plans-tiers].
 
 Van szó, a példányok az App Service-csomag, még akkor is, ha az alkalmazás leállt. Ügyeljen arra, hogy terveket, amelyeket nem használ (például a próbatelepítések) törlése.
@@ -91,7 +99,7 @@ Ha egy magasabb réteg vagy a teljesítmény szolgáltatásszint SQL-adatbázis,
 >
 >
 
-### <a name="backups"></a>Biztonsági másolatok
+### <a name="backups"></a>A hivatkozás a Safari böngészőben nem nyitható meg. Lehet, hogy a Safari használata korlátozva van a beállítások között, vagy a rendszergazda letiltotta a hozzáférést.
 Adatvesztés esetén az SQL-adatbázis biztosít pont időponthoz kötött visszaállítás és georedundáns helyreállítás. Ezeket a funkciókat minden csomagban elérhető, és automatikusan engedélyezve van. Nem kell ütemezni, vagy a biztonsági mentéseit. 
 
 - Használja a visszaállításhoz időpontban [emberi tévedések helyreállíthatók] [ sql-human-error] vissza az adatbázist egy korábbi időpontbeli időben. 
@@ -112,7 +120,7 @@ Erőforrások erőforráscsoportok rendelése, vegye figyelembe a következőket
 
 További információk: [Azure Resource Manager overview](/azure/azure-resource-manager/resource-group-overview) (Az Azure Resource Manager áttekintése).
 
-### <a name="deployment"></a>Környezet
+### <a name="deployment"></a>Üzembe helyezés
 Telepítés két lépésből áll:
 
 1. Az Azure-erőforrások kiépítése. Azt javasoljuk, hogy használjon [Azure Resoure Manager-sablonok] [ arm-template] ehhez a lépéshez. Sablonok megkönnyítik a PowerShell vagy az Azure parancssori felület (CLI) használatával központi telepítések automatizálásához.
@@ -138,7 +146,7 @@ Soha ne ellenőrizze jelszavakat, a tárelérési kulcsok és a kapcsolati karak
 
 Felcserélés egy üzembe helyezési pont, amikor az alkalmazás beállításaiban alapértelmezés szerint van cserélve. Ha eltérő beállításokat az üzemi és átmeneti, tárhely anyagot, és nem get felcserélve Alkalmazásbeállítások is létrehozhat.
 
-### <a name="diagnostics-and-monitoring"></a>Diagnosztika és figyelés
+### <a name="diagnostics-and-monitoring"></a>Diagnosztika és monitorozás
 Engedélyezése [diagnosztikai naplózás][diagnostic-logs]alkalmazásnaplózás és a webkiszolgáló naplózásának is beleértve. A Blob storage használata naplózásának konfigurálása. A megfelelő teljesítmény érdekében hozzon létre egy külön tárfiókot a diagnosztikai naplókat. Ne használja ugyanazt a tárfiókot naplókat és az alkalmazásadatokat. Részletes útmutatás a naplózást, lásd: [megfigyelési és diagnosztikai útmutatást][monitoring-guidance].
 
 Használjon, mint a szolgáltatást [New Relic] [ new-relic] vagy [Application Insights] [ app-insights] alkalmazás teljesítményének figyelése és a terhelés viselkedését. Vegye figyelembe a [adatok sebességhatárok] [ app-insights-data-rate] az Application insights szolgáltatással.
@@ -158,7 +166,7 @@ Ez a szakasz ebben a cikkben leírt Azure-szolgáltatásokhoz való vonatkozó b
 ### <a name="sql-database-auditing"></a>SQL Database auditing
 Naplózás segít törvényi megfelelőség fenntartásában és az eltérések és rendellenességek, amelyek üzleti problémát jelenthetnek, vagy a biztonság megsértésére megismerése. Lásd: [Ismerkedés az SQL-adatbázis naplózásának][sql-audit].
 
-### <a name="deployment-slots"></a>Üzembehelyezési pontok
+### <a name="deployment-slots"></a>Üzembe helyezési tárhelyek
 Minden egyes üzembe helyezési pont egy nyilvános IP-címmel rendelkezik. Az éles üzembe helyezési ponti használatával biztonságos [Azure Active Directory bejelentkezési] [ aad-auth] , hogy csak a fejlesztési és DevOps csapat tagjai ezekre a végpontokra érhető el.
 
 ### <a name="logging"></a>Naplózás
@@ -169,7 +177,7 @@ Egy App Service-alkalmazást tartalmaz olyan altartomány, SSL végpontja `azure
 
 Biztonsági szempontból ajánlott az alkalmazás érvényesítenie kell a HTTPS irányítják át HTTP-kérelmekre. Az alkalmazáson belüli megvalósításának, vagy egy URL-cím átdolgozás szabály használata a [HTTPS engedélyezése az Azure App Service alkalmazás][ssl-redirect].
 
-### <a name="authentication"></a>Authentication
+### <a name="authentication"></a>Hitelesítés
 Javasoljuk, hogy hitelesítése keresztül az identitásszolgáltató (IDP), például Azure AD Facebook, Google, vagy Twitter. OAuth 2 vagy OpenID Connect (OIDC) használ a hitelesítési folyamat. Az Azure AD felhasználók és csoportok kezelése, alkalmazás szerepköröket hozhat létre, a helyszíni identitások integrálása és háttér szolgáltatásait például az Office 365 és a Skype vállalati lehetőségeket kínál.
 
 Kerülje az alkalmazás felhasználói bejelentkezést és a hitelesítő adatok kezelése közvetlenül, mivel az hozza létre a potenciális támadási felületet.  Ajánlott legalább kellene e-mailes megerősítés, a jelszó-helyreállítás és a többtényezős hitelesítés; jelszó erőssége; érvényesítése és azok kivonatai tárolja biztonságos helyen. A nagy identitás-szolgáltatóktól kezelni tudja a ezeket a beállításokat, és folyamatosan figyelése és javítása a biztonsági eljárásokat.
@@ -188,7 +196,7 @@ App Service hitelesítés korlátozásai:
 * Ha egynél több IDP használ, nincs olyan beépített mechanizmus a hitelesítőtartomány feltárásához.
 * Több-bérlős forgatókönyvek esetén az alkalmazás ellenőrzése a jogkivonat-kibocsátó programot kell megvalósítania.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 Ez az architektúra Resoure Manager sablon egy példa [elérhető a Githubon][paas-basic-arm-template].
 
 A sablon PowerShell használatával történő üzembe helyezéséhez futtassa a következő parancsokat:
@@ -215,6 +223,7 @@ További információkért lásd: [telepítése Azure Resource Manager-sablonok 
 [app-service-security]: /azure/app-service-web/web-sites-security
 [app-settings]: /azure/app-service-web/web-sites-configure
 [arm-template]: /azure/azure-resource-manager/resource-group-overview#resource-groups
+[azure-dns]: /azure/dns/dns-overview
 [custom-domain-name]: /azure/app-service-web/web-sites-custom-domain-name
 [deploy]: /azure/app-service-web/web-sites-deploy
 [deploy-arm-template]: /azure/resource-group-template-deploy
@@ -223,7 +232,7 @@ További információkért lásd: [telepítése Azure Resource Manager-sablonok 
 [kudu]: https://azure.microsoft.com/blog/windows-azure-websites-online-tools-you-should-know-about/
 [monitoring-guidance]: ../../best-practices/monitoring.md
 [new-relic]: http://newrelic.com/
-[paas-basic-arm-template]: https://github.com/mspnp/reference-architectures/tree/master/app-service-web-app/basic-web-app/Paas-Basic/Templates
+[paas-basic-arm-template]: https://github.com/mspnp/reference-architectures/tree/master/managed-web-app/basic-web-app/Paas-Basic/Templates
 [perf-analysis]: https://github.com/mspnp/performance-optimization/blob/master/Performance-Analysis-Primer.md
 [rbac]: /azure/active-directory/role-based-access-control-what-is
 [resource-group]: /azure/azure-resource-manager/resource-group-overview

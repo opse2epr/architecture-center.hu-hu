@@ -6,19 +6,19 @@ ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
-ms.openlocfilehash: 7f771f77c7fa7f266dcce9f5b45e5be658213b8d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: 216c59a0a5912d0fe90011e49ad20eb017ada6be
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory tartományi szolgáltatások (AD DS) kiterjesztése
 
-A referencia-architektúrában bemutatja, hogyan terjeszthető ki az Active Directory környezet az Azure-bA elosztott hitelesítési szolgáltatásokat használó [Active Directory tartományi szolgáltatások (AD DS)][active-directory-domain-services].  [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution)
+A referencia-architektúrában bemutatja, hogyan terjeszthető ki az Active Directory környezet az Azure-bA elosztott hitelesítési szolgáltatásokat használó [Active Directory tartományi szolgáltatások (AD DS)][active-directory-domain-services].  [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 Active Directory tartományi szolgáltatások felhasználói, számítógép, alkalmazás vagy többi egy biztonsági tartomány szereplő identitások hitelesítésére szolgál. Lehet üzemeltethető a helyszínen, de ha az alkalmazás üzemel részben a helyszíni és részben az Azure-ban Ez a funkció az Azure-ban replikálásához hatékonyabb lehet. Ez csökkentheti a várakozási okozta hitelesítési küld, és fut a helyszíni AD DS biztonsági helyi engedélyezési kérelmeket a felhőből. 
 
@@ -37,7 +37,7 @@ Ez az architektúra kibővíti az architektúra látható [Azure és az Internet
 
 Udr-EK és a NVAs konfigurálásával kapcsolatos további információkért lásd: [valósít meg olyan biztonságos hibrid hálózati architektúra Azure][implementing-a-secure-hybrid-network-architecture]. 
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei. 
 
@@ -72,7 +72,7 @@ A műveleti főkiszolgáló szerepkör rendelhet az Active Directory tartományi
 
 Azt javasoljuk, hogy nem rendel műveleti főkiszolgálói szerepkörökre az Azure szolgáltatásba telepített tartományvezérlőre.
 
-### <a name="monitoring"></a>Figyelés
+### <a name="monitoring"></a>Monitorozás
 
 A tartományvezérlő virtuális gépeket, valamint az AD DS szolgáltatások erőforrások figyelése, és hozzon létre egy csomagot, hogy gyorsan javítsa az esetleges problémákat. További információkért lásd: [Active Directory figyelési][monitoring_ad]. Eszközök is telepítheti, mint [Microsoft Systems Center] [ microsoft_systems_center] a felügyeleti kiszolgálón (lásd az architektúra diagramja) segítségével a következő feladatok végrehajtására.  
 
@@ -88,7 +88,7 @@ A az AD DS-ben futó virtuális gépeket telepíteni egy [rendelkezésre állás
 
 Rendszeresen biztonsági másolatokat Active Directory tartományi Szolgáltatásokban. Nem egyszerűen másolása a VHD-fájlok helyett rendszeres biztonsági mentéseket a tartományvezérlők, mert az Active Directory tartományi szolgáltatások adatbázis-fájl a virtuális merevlemez nem, előfordulhat, konzisztens állapotban másolását követően lehetetlenné indítsa újra az adatbázist.
 
-Nem állnak le egy tartományvezérlő virtuális Gépnek az Azure portál használatával. Ehelyett állítsa le és indítsa újra a vendég operációs rendszerből. Címtárszolgáltatás le a portálon keresztül hatására a virtuális gép felszabadítása, amely mindkét alaphelyzetbe állítja a `VM-GenerationID` és a `invocationID` az Active Directory-tárház. Ez az Active Directory tartományi szolgáltatások relatív azonosító (RID) készlet elveti jelöli meg a SYSVOL nem mérvadó, és előfordulhat, hogy a tartományvezérlő újrakonfigurálása.
+Nem állnak le egy tartományvezérlő virtuális Gépnek az Azure portál használatával. Ehelyett állítsa le és indítsa újra a vendég operációs rendszerből. A portálon keresztül kikapcsol a virtuális gép felszabadítása, amely mindkét alaphelyzetbe állítja a `VM-GenerationID` és a `invocationID` az Active Directory-tárház. Ez az Active Directory tartományi szolgáltatások relatív azonosító (RID) készlet elveti jelöli meg a SYSVOL nem mérvadó, és előfordulhat, hogy a tartományvezérlő újrakonfigurálása.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -98,11 +98,11 @@ Vegye fontolóra egy további biztonsági szegélyhálózati körül alhálózat
 
 A BitLocker vagy a Azure lemeztitkosítás segítségével titkosíthatja a lemezt az AD DS-adatbázis tárolásához.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [Github] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-powershell] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-powershell] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [Github] [ github] a helyi számítógépre.
+1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
 
 2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
 
@@ -111,7 +111,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
     ```
     Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
-    A `<location>`, adjon meg egy Azure-régió, például `eastus` vagy `westus`.
+    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
     A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
     * `Onpremise`: a helyszíni szimulált környezetben telepíti.
     * `Infrastructure`: az Azure virtuális hálózat infrastruktúra és a jump mezőben telepíti.
@@ -122,7 +122,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
 
 4. Várjon, amíg az üzembe helyezés befejeződik. Ha telepíti a `All` központi telepítését, a több óráig tart.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 * A gyakorlati tanácsokat [létrehozása az Active Directory tartományi szolgáltatások Erőforráserdő] [ adds-resource-forest] az Azure-ban.
 * A gyakorlati tanácsokat [egy Active Directory összevonási szolgáltatások (AD FS) infrastruktúra létrehozásának] [ adfs] az Azure-ban.

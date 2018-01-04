@@ -1,6 +1,6 @@
 ---
-title: "Simítás várólista alapú betöltése"
-description: "Egy feladat és egy szolgáltatás, amely meghívja a érdekében időszakos nagy terhelések közötti pufferként a várólista használja."
+title: Queue-Based Load Leveling
+description: "Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket."
 keywords: "Kialakítási mintája"
 author: dragon119
 ms.date: 06/23/2017
@@ -10,11 +10,11 @@ pnp.pattern.categories:
 - availability
 - performance-scalability
 - resiliency
-ms.openlocfilehash: d8b010648d4ec0edcfbb24f9b03243a79a34a40b
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: 99b226511fe14bffdab3cdcf65d4e6cffe89bba6
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="queue-based-load-leveling-pattern"></a>Betöltési simítás mintát várólista-alapú
 
@@ -67,7 +67,7 @@ A Microsoft Azure webes szerepkör tárolja az adatokat egy különálló tárhe
 ![2. ábra – folyamatban túl sok egyidejű kéréseinek webes szerepkör példánya nagy számú szolgáltatás](./_images/queue-based-load-leveling-overwhelmed.png)
 
 
-A probléma megoldásához, várólista segítségével szinten a terhelést a webes szerepkörpéldányokat és a tárolási szolgáltatás között. Azonban a társzolgáltatás szinkron kérések fogadására van tervezve, és nem lehet egyszerűen módosítani olvashatja és teljesítmény kezelését. A feldolgozói szerepkör kéréseket fogad a várólistából, és továbbítja őket a társzolgáltatás proxy szolgáltatás ügyfélgépként is vezethet. Az alkalmazás logikája a feldolgozói szerepkör szabályozhatják a sebesség, amellyel kérelmeket továbbítja a társzolgáltatás, hogy megakadályozza a társzolgáltatás nem egyszerre. Ez az ábra azt mutatja be, a várólista rang és a feldolgozói szerepkör szinten a terhelést a webes szerepkör példánya és a szolgáltatás között.
+A probléma megoldásához, várólista segítségével szinten a terhelést a webes szerepkörpéldányokat és a tárolási szolgáltatás között. Azonban a társzolgáltatás szinkron kérések fogadására van tervezve, és nem lehet egyszerűen módosítani olvashatja és teljesítmény kezelését. A feldolgozói szerepkör kéréseket fogad a várólistából, és továbbítja őket a társzolgáltatás proxy szolgáltatás ügyfélgépként is vezethet. Az alkalmazás logikája a feldolgozói szerepkör szabályozhatják a sebesség, amellyel kérelmeket továbbítja a társzolgáltatás, hogy megakadályozza a társzolgáltatás nem egyszerre. Az ábra azt mutatja be, várólistát és a feldolgozói szerepkör segítségével szinten a terhelést a webes szerepkör példánya és a szolgáltatás között.
 
 ![3. ábra - várólista és a feldolgozói szerepkör segítségével szinten a terhelést a webes szerepkör példánya és a szolgáltatás között](./_images/queue-based-load-leveling-worker-role.png)
 

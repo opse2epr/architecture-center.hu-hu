@@ -7,19 +7,19 @@ pnp.series.title: Identity management
 pnp.series.prev: adds-extend-domain
 pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
-ms.openlocfilehash: bb7e57af2afacf1faa7679c854bf49217918eba8
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: b946afa91e8bd303c51f97e18be170c4105cc8c5
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Hozzon létre egy Active Directory tartományi szolgáltatások (AD DS) Erőforráserdő az Azure-ban
 
-A referencia-architektúrában mutatja egy külön Active Directory-tartomány létrehozása a megbízható tartományok által a helyszíni Azure Active Directory-erdőben. [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution)
+A referencia-architektúrában mutatja egy külön Active Directory-tartomány létrehozása a megbízható tartományok által a helyszíni Azure Active Directory-erdőben. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 Active Directory tartományi szolgáltatások (AD DS) tárolja az azonosító adatok hierarchikus. A hierarchikus struktúrában a legfelső csomópontra erdő néven ismert. Erdő-tartományt tartalmaz, és a tartományok más típusú objektumokat tartalmazzák. A referencia-architektúrában az AD DS-erdő az Azure-ban egy helyszíni tartományban kimenő egyirányú megbízhatósági kapcsolatot hoz létre. Az Azure-ban az erdő, amely nem létezik a helyi tartományt tartalmaz. A megbízhatósági kapcsolat miatt bejelentkezések a helyi tartományok ellen lehet megbízható a különböző Azure-tartományban lévő erőforrások eléréséhez. 
 
@@ -37,14 +37,14 @@ Az architektúra a következő részből áll.
 * **Active Directory-alhálózathoz**. Az Active Directory tartományi szolgáltatások kiszolgálókon tárolt külön alhálózathoz. Hálózati biztonsági csoport (NSG) szabályok az Active Directory tartományi szolgáltatások kiszolgálók védelméhez, és adja meg a tűzfal váratlan forrásból ellen.
 * **Az Azure átjáró**. Az Azure átjáró biztosítja a kapcsolatot a helyszíni hálózat és az Azure VNet között. Ez lehet egy [VPN-kapcsolat] [ azure-vpn-gateway] vagy [Azure ExpressRoute][azure-expressroute]. További információkért lásd: [valósít meg olyan biztonságos hibrid hálózati architektúra Azure][implementing-a-secure-hybrid-network-architecture].
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
 Az Azure Active Directory végrehajtási konkrét javaslatokért tekintse meg a következő cikkeket:
 
 - [Az Azure Active Directory tartományi szolgáltatások (AD DS) kiterjesztése][adds-extend-domain]. 
 - [Telepítési útmutatója Windows Server Active Directory Azure virtuális gépeken futó][ad-azure-guidelines].
 
-### <a name="trust"></a>Bizalmi kapcsolat
+### <a name="trust"></a>Trust
 
 A helyszíni tartományok belül egy másik erdőben a tartományok a felhőben található. Ahhoz, hogy a hitelesítés a helyszíni felhasználók a felhőben, az Azure-ban a tartományok megbízhatónak kell lennie a helyi erdő bejelentkezési tartományában. Hasonlóképpen a felhő biztosít a külső felhasználók bejelentkezési tartomány, ha szükségessé válhat a helyszíni erdő esetén, hogy bízzon meg a felhőalapú tartományt.
 
@@ -57,7 +57,7 @@ Lehet, hogy egyirányú bizalmi kapcsolatok (egyirányú) vagy kétirányú (ké
 
 A következő táblázat összefoglalja a megbízhatósági konfigurációi néhány egyszerű forgatókönyv:
 
-| Forgatókönyv | A helyszíni bizalmi kapcsolat | Felhő bizalmi kapcsolat |
+| Eset | A helyszíni bizalmi kapcsolat | Felhő bizalmi kapcsolat |
 | --- | --- | --- |
 | A helyszíni felhasználóknak szükségük van a felhőben található erőforrásokhoz való hozzáférést, de nem ez fordítva is igaz |Egyirányú bejövő |Egyirányú, kimenő |
 | Hozzáférést igényelnek a felhasználók a felhőben található erőforrásokhoz a helyszínen, de nem ez fordítva is igaz |Egyirányú, kimenő |Egyirányú bejövő |
@@ -85,11 +85,11 @@ Erdő szintű bizalmi kapcsolat olyan tranzitív. Egy helyi erdőben és a felh�
 
 Active Directory-specifikus biztonsági szempontokról, tekintse meg a biztonsági szempontok című [az Azure Active Directory kiterjesztése][adds-extend-domain].
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [Github] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a Powershell-parancsfájlt, amely telepíti a megoldás futtatásához az Azure parancssori felület legújabb verzióját. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a Powershell-parancsfájlt, amely telepíti a megoldás futtatásához az Azure parancssori felület legújabb verzióját. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [Github] [ github] a helyi számítógépre.
+1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
 
 2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
 
@@ -101,7 +101,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
    
     Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
    
-    A `<location>`, adjon meg egy Azure-régió, például `eastus` vagy `westus`.
+    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
    
     A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
    
@@ -133,7 +133,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
 
 9. Várjon néhány percet, amíg az előző lépéseket követve végezze el, akkor csatlakozik egy helyszíni virtuális Gépre, és a cikkben ismertetett lépésekkel [megbízhatósági kapcsolat ellenőrzése] [ verify-a-trust] meghatározásához e közötti megbízhatósági kapcsolat a *contoso.com* és *treyresearch.com* tartományok megfelelően van beállítva.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 * A gyakorlati tanácsokat [kiterjeszti a helyszíni Active Directory tartományi szolgáltatások tartományt az Azure-bA][adds-extend-domain]
 * A gyakorlati tanácsokat [egy AD FS-infrastruktúra létrehozásának] [ adfs] az Azure-ban.

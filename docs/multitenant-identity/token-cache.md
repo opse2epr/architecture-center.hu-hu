@@ -6,19 +6,19 @@ ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: web-api
 pnp.series.next: adfs
-ms.openlocfilehash: ed0def244f3229bbd3fdd0976574d13a345f9aee
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: cffc15686ef9d77fafb40982efdbcd4a79f5aaf2
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
-# <a name="cache-access-tokens"></a>Gyorsítótár hozzáférési jogkivonatok
+# <a name="cache-access-tokens"></a>Hozzáférési jogkivonatok gyorsítótárazása
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
 Akkor is elérheti az OAuth jogkivonat, mert ahhoz szükséges, hogy a jogkivonat végpontjához HTTP-kérelem viszonylag drága. Ezért is érdemes gyorsítótár jogkivonatokat, amikor csak lehetséges. A [Azure AD Authentication Library] [ ADAL] (ADAL) automatikusan gyorsítótárazza az Azure AD, beleértve a frissítési jogkivonatokat kapott jogkivonatok.
 
-Adal-t egy alapértelmezett token gyorsítótár-megvalósítással biztosít. Azonban ez a token gyorsítótár natív ügyfél-alkalmazásokhoz készült, és *nem* webalkalmazások alkalmas:
+Adal-t egy alapértelmezett token gyorsítótár-megvalósítással biztosít. Azonban ez a token gyorsítótár natív ügyfél-alkalmazásokhoz készült, és **nem** webalkalmazások alkalmas:
 
 * Ez nem egy statikus példányt, és nem többszálú futtatásra.
 * Mivel az összes felhasználó tokenek az ugyanazon szótár kísérhet, nem méretezhető nagy a felhasználók számára.
@@ -135,7 +135,7 @@ Ebben az esetben döntöttünk nem két eseményekből kezelése érdekében.
 * Párhuzamossági, az utolsó írás wins. Ez OK, mert, hogy jogkivonatok tárolják egymástól függetlenül minden felhasználót + ügyfél, így ütközés csak akkor fordulhat elő, ha ugyanazon felhasználó kellett két egyidejű munkamenetek.
 * Olvasását, a gyorsítótár halasztása minden kérelemnél betölteni azt. Kérések rövid élettartamú használata. Adott időpont módosításakor a gyorsítótár lekérdezi a következő kérés felveszi az új érték.
 
-[**Következő**][client-assertion]
+[**Tovább**][client-assertion]
 
 <!-- links -->
 [ADAL]: https://msdn.microsoft.com/library/azure/jj573266.aspx

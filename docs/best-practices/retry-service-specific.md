@@ -4,13 +4,13 @@ description: "Szolgáltatás beállítása az újrapróbálkozási mechanizmussa
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 6aba60dc3a60e96e59e2034d4a1e380e0f1c996a
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 0a416bc6297c7406de92fbc695b62c39c637de8f
+ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/02/2018
 ---
-# <a name="retry-guidance-for-specific-services"></a>Ismételje meg az adott szolgáltatások útmutató
+# <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
 Az Azure-szolgáltatások és az ügyfél SDK-k tartalmaznak egy újrapróbálkozási mechanizmus. Azonban ezek eltérnek, mert minden egyes szolgáltatás eltérő jellemzőkkel és a követelmények, és így minden újrapróbálkozási mechanizmussal van beállítva, hogy egy adott szolgáltatás. Ez az útmutató az Azure-szolgáltatások többsége a újrapróbálkozási mechanizmus szolgáltatásokat foglalja, és segítséget nyújtanak a használata, igazítja, vagy az újrapróbálkozási mechanizmussal, hogy a szolgáltatás kiterjesztése tartalmaz.
 
@@ -37,7 +37,7 @@ A következő táblázat összefoglalja az ebben az útmutatóban leírt Azure-s
 >
 >
 
-## <a name="azure-storage-retry-guidelines"></a>Az Azure Storage újrapróbálkozási irányelvek
+## <a name="azure-storage-retry-guidelines"></a>Azure Storage újrapróbálkozási irányelveinek
 Az Azure storage szolgáltatások közé tartoznak a tábla és a blob storage, fájlok és tárüzenetsort.
 
 ### <a name="retry-mechanism"></a>Ismételje meg a mechanizmus
@@ -59,7 +59,7 @@ TableRequestOptions interactiveRequestOption = new TableRequestOptions()
   // For Read-access geo-redundant storage, use PrimaryThenSecondary.
   // Otherwise set this to PrimaryOnly.
   LocationMode = LocationMode.PrimaryThenSecondary,
-  // Maximum execution time based on the business use case. Maximum value up to 10 seconds.
+  // Maximum execution time based on the business use case. 
   MaximumExecutionTime = TimeSpan.FromSeconds(2)
 };
 ```
@@ -94,13 +94,32 @@ Használhat egy **OperationContext** példány, adja meg a kódot a végrehajtá
 
 Mellett jelző hiba megfelelő-e az újra gombra, a kiterjesztett újrapróbálkozási házirendek vissza egy **RetryContext** objektum, amely jelzi, hogy a legutóbbi kérelem eredményeit, az újrapróbálkozások száma a legközelebbi újrapróbálkozás fordul elő az elsődleges vagy másodlagos helyre (lásd az alábbi táblázatban részletei). A tulajdonságait a **RetryContext** objektum segítségével döntse el, ha, és ha egy újabb kísérletet. További részletekért lásd: [IExtendedRetryPolicy.Evaluate metódus](http://msdn.microsoft.com/library/microsoft.windowsazure.storage.retrypolicies.iextendedretrypolicy.evaluate.aspx).
 
-Az alábbi táblázat a beépített alapértelmezett beállításainak ismételje meg a házirendeket.
+Az alábbi táblázatok bemutatják az alapértelmezett beállításokat az a beépített házirendek próbálkozzon újra.
 
-| **Környezet** | **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
-| --- | --- | --- | --- |
-| Tábla / Blob / fájl<br />QueueRequestOptions |MaximumExecutionTime<br /><br />ServerTimeout<br /><br /><br /><br /><br />LocationMode<br /><br /><br /><br /><br /><br /><br />a retryPolicy |120 másodperc<br /><br />None<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />ExponentialPolicy |A kérelem, beleértve az összes lehetséges újrapróbálkozási kísérletek maximális végrehajtási ideje.<br />A kérés a kiszolgáló időkorlátja (kerekített másodperc). Ha nincs megadva, az alapértelmezett érték a kiszolgáló összes kérelem fog használni. Általában a legjobb lehetőség egy hagyja ki ezt a beállítást, hogy a kiszolgáló alapértelmezett szolgál.<br />A tárfiók létrejön az írásvédett georedundáns tárolás (RA-GRS) replikációs beállítás, ha a hely mód segítségével jelzi, hogy melyik helyen kell kapnia a kérelmet. Például ha **PrimaryThenSecondary** van megadva, kérelmek mindig küldi el az elsődleges helyre először. A kérés nem teljesíthető, ha a másodlagos helyre való továbbítás.<br />További információ alább olvasható az egyes lehetőségek. |
-| Az exponenciális házirend |maxAttempt<br />deltaBackoff<br /><br /><br />MinBackoff<br /><br />MaxBackoff |3<br />4 másodperc<br /><br /><br />3 másodpercenként<br /><br />120 másodperc |Újrapróbálkozások száma.<br />Vissza az indító időköz újrapróbálkozások között. A TimeSpan érték, egy véletlenszerű elem, beleértve többszörösei későbbi újrapróbálkozás használható.<br />Hozzáadandó deltaBackoff alapján kiszámított intervallumokban próbálkozzon újra. Ez az érték nem módosítható.<br />MaxBackoff akkor használatos, ha az számított újrapróbálkozási időköz érték nagyobb, mint MaxBackoff. Ez az érték nem módosítható. |
-| Lineáris házirend |maxAttempt<br />deltaBackoff |3<br />30 másodperc |Újrapróbálkozások száma.<br />Vissza az indító időköz újrapróbálkozások között. |
+**Lehetőségek**
+
+| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| --- | --- | --- |
+| MaximumExecutionTime | 120 másodperc | A kérelem, beleértve az összes lehetséges újrapróbálkozási kísérletek maximális végrehajtási ideje. |
+| ServerTimeout | None | A kérés a kiszolgáló időkorlátja (kerekített másodperc). Ha nincs megadva, az alapértelmezett érték a kiszolgáló összes kérelem fog használni. Általában a legjobb lehetőség egy hagyja ki ezt a beállítást, hogy a kiszolgáló alapértelmezett szolgál. | 
+| LocationMode | None | A tárfiók létrejön az írásvédett georedundáns tárolás (RA-GRS) replikációs beállítás, ha a hely mód segítségével jelzi, hogy melyik helyen kell kapnia a kérelmet. Például ha **PrimaryThenSecondary** van megadva, kérelmek mindig küldi el az elsődleges helyre először. A kérés nem teljesíthető, ha a másodlagos helyre való továbbítás. |
+| a retryPolicy | ExponentialPolicy | További információ alább olvasható az egyes lehetőségek. |
+
+**Az exponenciális házirend** 
+
+| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| --- | --- | --- |
+| maxAttempt | 3 | Újrapróbálkozások száma. |
+| deltaBackoff | 4 másodperc | Vissza az indító időköz újrapróbálkozások között. A TimeSpan érték, egy véletlenszerű elem, beleértve többszörösei későbbi újrapróbálkozás használható. |
+| MinBackoff | 3 másodpercenként | Hozzáadandó deltaBackoff alapján kiszámított intervallumokban próbálkozzon újra. Ez az érték nem módosítható.
+| MaxBackoff | 120 másodperc | MaxBackoff akkor használatos, ha az számított újrapróbálkozási időköz érték nagyobb, mint MaxBackoff. Ez az érték nem módosítható. |
+
+**Lineáris házirend**
+
+| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| --- | --- | --- |
+| maxAttempt | 3 | Újrapróbálkozások száma. |
+| deltaBackoff | 30 másodperc | Vissza az indító időköz újrapróbálkozások között. |
 
 ### <a name="retry-usage-guidance"></a>Ismételje meg a használati útmutató
 A tárolási ügyfél API-ja használatával az Azure storage szolgáltatások elérésekor, vegye figyelembe a következő irányelveket:
@@ -113,9 +132,9 @@ A tárolási ügyfél API-ja használatával az Azure storage szolgáltatások e
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.  
 
-| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a házirend** | **Beállítások** | **Értékek** | **Működés** |
+| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a házirend** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felületén<br />előtérben vagy a |2 másodperc |lineáris |maxAttempt<br />deltaBackoff |3<br />500 ms |Kísérlet történt az 1 - 500 ms késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
+| Interaktív, felhasználói felületén<br />előtérben vagy a |2 másodperc |Lineáris |maxAttempt<br />deltaBackoff |3<br />500 ms |Kísérlet történt az 1 - 500 ms késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
 | Háttér<br />vagy kötegelt |30 másodperc |Az exponenciális |maxAttempt<br />deltaBackoff |5<br />4 másodperc |Próbálja meg az 1 – ~ 3 mp késleltetés<br />Kísérlet történt a 2 – ~ 7 mp késleltetés<br />Próbálja meg a 3 - késleltetés ~ 15 másodperc |
 
 ### <a name="telemetry"></a>Telemetria
@@ -149,7 +168,7 @@ namespace RetryCodeSamples
                 // For Read-access geo-redundant storage, use PrimaryThenSecondary.
                 // Otherwise set this to PrimaryOnly.
                 LocationMode = LocationMode.PrimaryThenSecondary,
-                // Maximum execution time based on the business use case. Maximum value up to 10 seconds.
+                // Maximum execution time based on the business use case. 
                 MaximumExecutionTime = TimeSpan.FromSeconds(2)
             };
 
@@ -270,7 +289,14 @@ További információkért lásd: [kód-alapú konfigurációban (EF6 és újabb
 
 A következő táblázat a beépített alapértelmezett beállításainak újrapróbálkozási házirendet EF6 használatakor.
 
-![Ismételje meg a útmutatást tábla](./images/retry-service-specific/RetryServiceSpecificGuidanceTable4.png)
+| Beállítás | Alapértelmezett érték | Jelentése |
+|---------|---------------|---------|
+| Szabályzat | Az exponenciális | Az exponenciális vissza-ki. |
+| MaxRetryCount | 5 | Az újrapróbálkozások maximális számát. |
+| MaxDelay | 30 másodperc | A maximális késleltetés, újrapróbálkozások között. Ez az érték nem befolyásolja, hogyan késések sorozatát arra az esetre vonatkoznak. Csak egy felső határa határozza meg. |
+| DefaultCoefficient | 1 másodperc | Az exponenciális vissza az indító számítási együttható. Ez az érték nem módosítható. |
+| DefaultRandomFactor | 1.1 | A többszöröző segítségével vegye fel azokat a véletlenszerű késleltetés minden bejegyzéshez. Ez az érték nem módosítható. |
+| DefaultExponentialBase | 2 | A többszöröző, a következő késleltetési kiszámításához használt. Ez az érték nem módosítható. |
 
 ### <a name="retry-usage-guidance"></a>Ismételje meg a használati útmutató
 EF6 használatával SQL-adatbázis elérésekor, vegye figyelembe a következő irányelveket:
@@ -282,7 +308,7 @@ EF6 használatával SQL-adatbázis elérésekor, vegye figyelembe a következő 
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. A késleltetés, újrapróbálkozások (le, és létrehozott egy exponenciális sorozatot) között nem adható meg. Csak a maximális értékeket adhat meg, ahogy Itt; Ha létrehoz egy egyéni újrapróbálkozási stratégiát. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.
 
-| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a házirend** | **Beállítások** | **Értékek** | **Működés** |
+| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a házirend** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
 | Interaktív, felhasználói felületén<br />előtérben vagy a |2 másodperc |Az exponenciális |MaxRetryCount<br />MaxDelay |3<br />750 ms |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 – 750 ms késleltetés<br />Próbálja meg a 3 – 750 ms késleltetés |
 | Háttér<br /> vagy kötegelt |30 másodperc |Az exponenciális |MaxRetryCount<br />MaxDelay |5<br />12 másodperc |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 1 másodperc késleltetés<br />Próbálja meg a 3 - ~ 3 mp késleltetés<br />Kísérlet történt a 4 – ~ 7 mp késleltetés<br />Kísérlet történt az 5 – 12 mp késleltetés |
@@ -413,10 +439,10 @@ Az ADO.NET használatával SQL-adatbázis elérésekor, vegye figyelembe a köve
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.
 
-| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működés** |
+| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újbóli próbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />igaz |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
-| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Újbóli próbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />hamis |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
+| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újrapróbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />true |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
+| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />false |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
 
 > [!NOTE]
 > A végpontok közötti késés célokat azt feltételezik, hogy a szolgáltatáshoz való csatlakozásokat az alapértelmezett időkorlátját. Ha hosszabb ideig kapcsolat időtúllépése ad meg, a végpontok közötti késés minden újrapróbálkozási kísérlethez további időpontig bővíthető.
@@ -510,7 +536,15 @@ client.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
 Az újrapróbálkozási házirendje nem állítható be, az egyedi művelet szintjén. Az üzenetküldési ügyfél minden műveletet vonatkozik.
 A következő táblázat a beépített alapértelmezett beállításainak újrapróbálkozási házirendet.
 
-![Ismételje meg a útmutatást tábla](./images/retry-service-specific/RetryServiceSpecificGuidanceTable7.png)
+| Beállítás | Alapértelmezett érték | Jelentése |
+|---------|---------------|---------|
+| Szabályzat | Az exponenciális | Az exponenciális vissza-ki. |
+| MinimalBackoff | 0 | Minimális biztonsági ki időköz. Ez az újrapróbálkozási időköz deltaBackoff alapján kiszámított kerül. |
+| MaximumBackoff | 30 másodperc | Maximális vissza az indító időköz. MaximumBackoff akkor használatos, ha az számított újrapróbálkozási időköz érték nagyobb, mint MaxBackoff. |
+| deltaBackoff | 3 másodpercenként | Vissza az indító időköz újrapróbálkozások között. A timespan többszörösei későbbi újrapróbálkozás használható. |
+| TimeBuffer | 5 másodperc | A megszakítási idő puffer társított az újra gombra. Ha a hátralévő idő TimeBuffer kisebb újrapróbálkozások elhagyásra kerül. |
+| MaxRetryCount | 10 | Az újrapróbálkozások maximális számát. |
+| ServerBusyBaseSleepTime | 10 másodperc | Ha az utolsó kivétel történt a **ServerBusyException**, ez az érték nem kerülnek be a számított újrapróbálkozási időközt. Ez az érték nem módosítható. |
 
 ### <a name="retry-usage-guidance"></a>Ismételje meg a használati útmutató
 Vegye figyelembe az alábbi iránymutatásokat, amikor a Service Bus használatával:
@@ -520,7 +554,12 @@ Vegye figyelembe az alábbi iránymutatásokat, amikor a Service Bus használat�
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.
 
-![Ismételje meg a útmutatást tábla](./images/retry-service-specific/RetryServiceSpecificGuidanceTable8.png)
+| Környezet | Példa maximális késleltetés | Újrapróbálkozási házirend | Beállítások | A működési elv |
+|---------|---------|---------|---------|---------|
+| Interaktív, a felhasználói felület vagy a előtér | 2 másodperc *  | Az exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff = 300 ms. <br/> TimeBuffer = 300 ms. <br/> MaxRetryCount = 2 | 1. kísérlet: Késleltetés 0 másodperc. <br/> 2. kísérlet: Késleltetés ~ 300 ms. <br/> 3. kísérlet: Késleltetés ~ 900 MS. |
+| Háttér vagy kötegelt | 30 másodperc | Az exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff 1,75 mp =. <br/> TimeBuffer = 5 másodperc. <br/> MaxRetryCount = 3 | 1. kísérlet: Késleltetés ~ 1 másodperc. <br/> 2. kísérlet: ~ 3 mp késleltetés. <br/> 3. kísérlet: Késleltetés ~ 6 MS. <br/> 4. kísérlet: Késleltetés ~ 13 MS. |
+
+\*További késleltetés, ha a kiszolgáló elfoglalt választ hozzáadott nem beleértve.
 
 ### <a name="telemetry"></a>Telemetria
 A Service Bus újrapróbálkozások naplózza az ETW-eseményként is használ egy **EventSource**. Hozzá kell rendelni egy **eseményfigyelő Visszahívásán** az események rögzítése és megtekinthetők a teljesítmény-megjelenítőben, vagy azokat a megfelelő cél naplóba bejegyezni esemény forrását. Használhatja a [szemantikai naplózás alkalmazás blokk](http://msdn.microsoft.com/library/dn775006.aspx) ehhez. A kísérletek naplózása a következő formátumot követi a következők:
@@ -880,7 +919,7 @@ Nyomkövetési ETW vagy egy egyéni nyomkövetési szolgáltató regisztrálja. 
 Azure Active Directory (Azure AD) egy olyan átfogó identitás- és hozzáférés felügyeleti felhőalapú megoldás, hogy a címtárszolgáltatások mag, speciális identitás irányítás, biztonsági és alkalmazáshozzáférés-kezeléshez. Az Azure AD ezenkívül identitáskezelő platformot kínál a fejlesztőknek, hogy központi házirendeken és szabályokon alapuló hozzáférés-szabályozással bővíthessék az alkalmazásaikat.
 
 ### <a name="retry-mechanism"></a>Ismételje meg a mechanizmus
-Az Azure Active Directory a az Active Directory Authentication Library (ADAL) beépített újrapróbálkozási mechanizmussal van. Váratlan zárolásokat elkerülése érdekében azt javasoljuk, hogy külső gyártótól származó kódtárak és alkalmazáskód hajthatja végre *nem* próbálja meg újra a hibás kapcsolatok, de lehetővé teszi az ADAL újrapróbálkozások kezelésére. 
+Az Azure Active Directory a az Active Directory Authentication Library (ADAL) beépített újrapróbálkozási mechanizmussal van. Váratlan zárolásokat elkerülése érdekében azt javasoljuk, hogy külső gyártótól származó kódtárak és alkalmazáskód hajthatja végre **nem** próbálja meg újra a hibás kapcsolatok, de lehetővé teszi az ADAL újrapróbálkozások kezelésére. 
 
 ### <a name="retry-usage-guidance"></a>Ismételje meg a használati útmutató
 Amikor az Azure Active Directoryval, vegye figyelembe az alábbi irányelveket:
@@ -891,10 +930,10 @@ Amikor az Azure Active Directoryval, vegye figyelembe az alábbi irányelveket:
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.
 
-| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működés** |
+| **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újbóli próbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />igaz |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
-| Háttér vagy<br />Kötegelt |60 másodperc |ExponentialBackoff |Újbóli próbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />hamis |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
+| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újrapróbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />true |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
+| Háttér vagy<br />Kötegelt |60 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />false |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
 
 ### <a name="more-information"></a>További információ
 * [Az Azure Active Directory hitelesítési Kódtárai][adal]

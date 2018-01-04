@@ -4,13 +4,13 @@ description: "A feladatok rendszert futtató, függetlenül a felhasználói fel
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 62266b822a238ee53b62e74e91d753dc5da308b4
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: d8c1d4dfe12208b72fd6991def805f90a830b5f0
+ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/29/2017
 ---
-# <a name="background-jobs"></a>Feladatok a háttérben
+# <a name="background-jobs"></a>Háttérfeladatok
 [!INCLUDE [header](../_includes/header.md)]
 
 Számos különböző típusú alkalmazások háttérfeladatok, függetlenül a felhasználói felület (UI) futtató igényelnek. Például kötegelt feladatok, intenzív feladatokat, és a hosszú futású folyamatokat, például a munkafolyamatok. Nincs szükség felhasználói beavatkozásra – az alkalmazás végrehajtható feladatok a háttérben is indítsa el a feladatot, és folytassa a felhasználók interaktív kérelmek feldolgozásához. Ez segít az alkalmazás felhasználói felületén, amelyek javíthatják a rendelkezésre állási és interaktív a válaszhoz szükséges idő csökkentése terhelése minimalizálása érdekében.
@@ -28,7 +28,7 @@ Feladatok a háttérben rendszerint tartalmazza a következő típusú feladatok
 * Hosszan futó munkafolyamatok, például a megrendelés teljesítésének vagy a szolgáltatások és rendszerek kiépítése.
 * Ha a feladat elkészül biztonságosabb helyre feldolgozás érzékeny-adatok feldolgozása. Például előfordulhat, hogy nem szeretné a webalkalmazáson belül bizalmas adatok feldolgozására. Ehelyett használhatja mintaként, mint [forgalomirányító](http://msdn.microsoft.com/library/dn589793.aspx) egy elkülönített háttérfolyamatként, amely védett tárolóra hozzáféréssel rendelkezik az adatok átvitele.
 
-## <a name="triggers"></a>Eseményindítók
+## <a name="triggers"></a>Triggerek
 Feladatok a háttérben számos különböző módon kezdeményezhető. Az alábbi kategóriák valamelyikébe tartoznak:
 
 * [**Eseményindítók eseményvezérelt**](#event-driven-triggers). A feladat elindult válaszul egy eseményt, általában egy felhasználó vagy egy lépést, a munkafolyamat által végrehajtott műveletet.
@@ -129,7 +129,7 @@ A korábbi szakaszban [eseményindítók](#triggers) hogyan háttérfeladatok is
 Amikor szükségességéről központi telepítése a háttérben futó feladatot egy Azure virtuális gépen, vegye figyelembe a következő szempontokat:
 
 * Üzemeltetési háttérfeladatok külön Azure virtuális gépen, ami rugalmasságot biztosít, és lehetővé teszi a kezdeményezés, végrehajtás, ütemezés és erőforrás-elosztás pontosan meghatározhatja. Azonban futásidejű költség esetén megnöveli a virtuális gépek csak a háttér-feladatok futtatásához telepítenie kell.
-* Nincs a figyelheti a feladatokat az Azure-portálon, és nincs automatikus újraindítás képes a sikertelen feladatok – Bár a virtuális gép alapszintű állapotának figyelése és használatával kezelni nem létesítmény a [Azure Resource Manager parancsmagok](https://msdn.microsoft.com/en-us/library/mt125356.aspx). Azonban nem állnak rendelkezésre folyamatok és a számítási csomópontok szálak szabályozására. Általában virtuális gépek használata szükséges további annak érdekében, hogy olyan mechanizmus, amely adatokat gyűjt a feladat instrumentation, és a virtuális gép operációs rendszerről megvalósításához. Egy olyan megoldás, amely megfelelő lehet, hogy használja a [System Center felügyeleti csomag az Azure-](https://www.microsoft.com/en-us/download/details.aspx?id=50013).
+* Nincs a figyelheti a feladatokat az Azure-portálon, és nincs automatikus újraindítás képes a sikertelen feladatok – Bár a virtuális gép alapszintű állapotának figyelése és használatával kezelni nem létesítmény a [Azure Resource Manager parancsmagok](https://msdn.microsoft.com/library/mt125356.aspx). Azonban nem állnak rendelkezésre folyamatok és a számítási csomópontok szálak szabályozására. Általában virtuális gépek használata szükséges további annak érdekében, hogy olyan mechanizmus, amely adatokat gyűjt a feladat instrumentation, és a virtuális gép operációs rendszerről megvalósításához. Egy olyan megoldás, amely megfelelő lehet, hogy használja a [System Center felügyeleti csomag az Azure-](https://www.microsoft.com/download/details.aspx?id=50013).
 * Akkor érdemes létrehozása a figyelési mintavételek menüpontban, HTTP-végpontokról keresztül elérhetővé tett tárolókra. Ezek mintavételt kódjának sikerült Állapotellenőrzések végrehajtásához, működéssel kapcsolatos adatokat és a statisztika--gyűjthet vagy hibainformációk collate és vissza egy kezelési alkalmazás. További információkért lásd: [állapotfigyelő végpont figyelési mintát](http://msdn.microsoft.com/library/dn589789.aspx).
 
 #### <a name="more-information"></a>További információ
@@ -180,7 +180,7 @@ A webes szerepkör vagy egy külön feldolgozói szerepkör háttérfeladatok ha
 
 Többféleképpen is a Felhőszolgáltatások szerepkörön belüli háttérfeladatok megvalósításához:
 
-* Hozzon létre egy megvalósítása a **RoleEntryPoint** osztályt a szerepkör és a módszerekkel hajtható végre a háttérben futó feladatot. A feladatok WaIISHost.exe környezetében futnak. Használhatnak a **GetSetting** metódusában a **CloudConfigurationManager** osztály betölteni a konfigurációs beállításokat. További információkért lásd: [életciklusának (Felhőszolgáltatások)](#lifecycle-cloud-services).
+* Hozzon létre egy megvalósítása a **RoleEntryPoint** osztályt a szerepkör és a módszerekkel hajtható végre a háttérben futó feladatot. A feladatok WaIISHost.exe környezetében futnak. Használhatnak a **GetSetting** metódusában a **CloudConfigurationManager** osztály betölteni a konfigurációs beállításokat. További információkért lásd: [életciklus](#lifecycle).
 * Indítási feladatok segítségével hajtható végre a háttérben futó feladatot, ha az alkalmazás indítása. A feladatok a háttérben futnak kényszerítéséhez állítsa be a **taskType** tulajdonságot **háttér** (Ha ezt nem teszi meg, az alkalmazás indítási folyamat fog halt és várjon, amíg a feladat befejezéséhez). További információkért lásd: [indítási feladatok futtatása az Azure-ban](/azure/cloud-services/cloud-services-startup-tasks).
 * A WebJobs SDK segítségével háttér feladatokhoz, mint az indítási feladatok indított webjobs-feladatok végrehajtása. További információkért lásd: [.NET webjobs-feladat létrehozása az Azure App Service](/azure/app-service-web/websites-dotnet-webjobs-sdk-get-started).
 * Egy indítási feladat segítségével telepíthet egy Windows-szolgáltatás, amely egy vagy több háttérfeladatok végrehajtja. Meg kell adni a **taskType** tulajdonságot **háttér** , hogy a szolgáltatás hajtja végre a háttérben. További információkért lásd: [indítási feladatok futtatása az Azure-ban](/azure/cloud-services/cloud-services-startup-tasks).
@@ -321,9 +321,8 @@ Háttérfeladatok kell nyújtania elegendő teljesítményét annak ellenőrzés
 * [Háttér-feladatok végrehajtása](http://msdn.microsoft.com/library/ff803365.aspx)
 * [Az Azure szerepkör indítása életciklusának](http://blog.syntaxc4.net/post/2011/04/13/windows-azure-role-startup-life-cycle.aspx) (blogbejegyzés)
 * [Azure Cloud Services szerepkör életciklus](http://channel9.msdn.com/Series/Windows-Azure-Cloud-Services-Tutorials/Windows-Azure-Cloud-Services-Role-Lifecycle) (videó)
-* [Mi az Azure WebJobs SDK?](https://docs.microsoft.com/en-us/azure/app-service-web/websites-dotnet-webjobs-sdk)
-* [.NET WebJobs-feladat létrehozása az Azure App Service-ben](https://docs.microsoft.com/en-us/azure/app-service-web/websites-dotnet-webjobs-sdk-get-started)
-* [Háttérfeladatok futtatása WebJobs-feladatokkal](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-create-web-jobs)
-* [Az Azure várólisták és a Service Bus-üzenetsorok - az képest és ellentétben](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted)
-* [Diagnosztika a egy felhőalapú szolgáltatás engedélyezése](https://docs.microsoft.com/en-us/azure/cloud-services/cloud-services-dotnet-diagnostics)
+* [Mi az Azure WebJobs SDK?](https://docs.microsoft.com/azure/app-service-web/websites-dotnet-webjobs-sdk)
+* [Háttérfeladatok futtatása WebJobs-feladatokkal](https://docs.microsoft.com/azure/app-service-web/web-sites-create-web-jobs)
+* [Az Azure várólisták és a Service Bus-üzenetsorok - az képest és ellentétben](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted)
+* [Diagnosztika a egy felhőalapú szolgáltatás engedélyezése](https://docs.microsoft.com/azure/cloud-services/cloud-services-dotnet-diagnostics)
 

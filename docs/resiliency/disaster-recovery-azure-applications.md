@@ -3,21 +3,30 @@ title: "Az Azure-alkalmazások katasztrófa utáni helyreállítás"
 description: "Műszaki áttekintés és alkalmazások a Microsoft Azure vész-helyreállítási megtervezésével kapcsolatos részletes információkat."
 author: adamglick
 ms.date: 05/26/2017
-ms.openlocfilehash: d415b27dd7928996e2a6dc7fd8fcf6a77c835768
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 5ed6e2cec149571724f1545b40f628d6bbe1ad71
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
-[!INCLUDE [header](../_includes/header.md)]
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások katasztrófa utáni helyreállítás
-Rugalmasság és a magas rendelkezésre állást biztosító stratégiáikhoz célja, hogy átmeneti hiba feltételek kezelésére. Vészhelyreállítás (DR) arra irányul, végezze el az alkalmazás funkciói helyreállíthatatlan adatvesztést. Például egy Azure-régió, az alkalmazás nem érhető el, ha szüksége a tervek az alkalmazás fut, vagy egy másik régióban az adatok elérésekor. A terv végrehajtása magában foglalja a személyeket, folyamatok és támogató alkalmazások, amelyek lehetővé teszik a rendszer folytatja a működését. A tervnek mindenképp tartalmaznia kell próba során hibák, és a terv biztosításához adatbázisok helyreállítási tesztelés hang-e. Üzleti és informatikai tulajdonosai számára adja meg egy olyan vészhelyzet esetén a rendszer működési módját is meghatározni a szolgáltatás funkcióit során egy olyan vészhelyzet esetén szükséges. Ez a funkció szint is igénybe vehet néhány űrlapok: teljesen elérhetetlenné, részben elérhető csökkentett vagy késleltetett feldolgozási keresztül vagy teljes érhető el.
+
+Vészhelyreállítás (DR) arra irányul, végezze el az alkalmazás funkciói helyreállíthatatlan adatvesztést. Például egy Azure-régió, az alkalmazás nem érhető el, ha szüksége a tervek az alkalmazás fut, vagy egy másik régióban az adatok elérésekor. 
+
+Üzleti és informatikai tulajdonosok meg kell határoznia, mennyi funkció is szükséges, egy olyan vészhelyzet esetén során. Ez a funkció szint is igénybe vehet néhány űrlapok: teljesen elérhetetlenné, részben elérhető csökkentett vagy késleltetett feldolgozási keresztül vagy teljes érhető el.
+
+Rugalmasság és a magas rendelkezésre állást biztosító stratégiáikhoz célja, hogy átmeneti hiba feltételek kezelésére.  A terv végrehajtása magában foglalja a személyeket, folyamatok és támogató alkalmazások, amelyek lehetővé teszik a rendszer folytatja a működését. A tervnek mindenképp tartalmaznia kell próba során hibák, és a terv biztosításához adatbázisok helyreállítási tesztelés hang-e. 
 
 ## <a name="azure-disaster-recovery-features"></a>Azure vész-helyreállítási szolgáltatások
+
 Mivel a rendelkezésre állási lehetőségekért Azure biztosít [rugalmassági műszaki útmutatót](./index.md) arra tervezték, hogy katasztrófa utáni helyreállítás. Kapcsolat áll fenn is az Azure és a vészhelyreállításnak rendelkezésre állása szolgáltatásai között. A tartalék tartományok közötti szerepkörök felügyeleti például egy alkalmazás rendelkezésre állásának növeli. Egy nem kezelt hardverhiba anélkül, hogy a felügyeleti válna a "vész" forgatókönyvhöz. Ezen rendelkezésre állási funkciók és stratégiák, ami fontos eleme annak a vész-ellenőrző van az alkalmazás. Azonban ez a cikk túllép általános elérhetőségével kapcsolatos problémákat katasztrófa események több súlyos (és egyes).
 
 ## <a name="multiple-datacenter-regions"></a>Több adatközpont-régiókban
 Azure adatközpontjaiban a világ számos régiókban tart fenn. Ez az infrastruktúra támogatja a több vész-helyreállítási eljárással, például a rendszer által biztosított georeplikáció az Azure Storage másodlagos régióban. Is könnyen és olcsón telepíthet egy felhőalapú szolgáltatás világszerte több helyre. Hasonlítsa össze a költségek és nehezen létrehozása és karbantartása a saját adatközpontját több régióba. Adatok és a szolgáltatások telepítése több területre megvédi az alkalmazást egy fő leállás egy régió a. A vész-helyreállítási terv tervezéséhez, fontos párosított régiók fogalom megértéséhez. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure-régiókat párosítva](/azure/best-practices-availability-paired-regions).
+
+## <a name="azure-site-recovery"></a>Azure Site Recovery
+
+[Az Azure Site Recovery](/azure/site-recovery/) Azure virtuális gépek replikálása régiók közötti egyszerű módszert kínál. Minimumal felügyeleti terhelést, mert nem kell kiépíteni semmilyen további erőforrásokat a másodlagos régióban van. Ha engedélyezi a replikációt, Site Recovery automatikusan létrehozza a szükséges erőforrások a cél a régióban, a forrás virtuális gép beállításai alapján. Automatizált folyamatos replikálásra biztosít, és lehetővé teszi az alkalmazás feladatátvételt egyetlen kattintással. Is futtathatja katasztrófa utáni helyreállítás csukja a feladatátvétel teszteléséhez a termelési számítási feladatokhoz vagy a folyamatban lévő replikáció befolyásolása nélkül. 
 
 ## <a name="azure-traffic-manager"></a>Azure Traffic Manager
 Egy régióspecifikus hiba akkor fordul elő, amikor services vagy egy másik régióban központi telepítései kell átirányítja a forgalmat. A leghatékonyabb kezelésére a szolgáltatások, például az Azure Traffic Managerben, amely automatizálja a felhasználói forgalomnak egy másik régióban a feladatátvétel az elsődleges régióban meghibásodásakor keresztül is. A Traffic Manager alapja megértése fontos egy hatékony vész-Helyreállítási stratégia tervezésekor.
@@ -69,9 +78,7 @@ Az egyes függő szolgáltatás használata esetén meg kell ismernie a szolgál
 A korábbi hibák elsősorban törölték az Azure-régión belül kezelhető hibák. Azonban el kell készítenie is, hogy van-e a szolgáltatás szüneteltetése a teljes régió lehetőséget. A régió kiterjedő szolgáltatás szüneteltetése akkor fordul elő, ha a helyileg redundáns másolatait az adatok nem érhetők el. Ha engedélyezett a georeplikáció, nincsenek a blobok és egy másik régióban táblák három további példányokat. Ha Microsoft deklarálja a régió elveszett, amelyek Azure összes DNS-bejegyzéseket, a georeplikált régióban.
 
 > [!NOTE]
-> Vegye figyelembe, hogy nem tudja befolyásolni bármely ezt a folyamatot, és azt csak a régió kiterjedő szolgáltatáskimaradás történik. Emiatt más alkalmazás-specifikus biztonsági stratégiák a legmagasabb rendelkezésre állásának eléréséhez kell támaszkodnak. További információkért lásd [vész-helyreállítási adatok stratégiák](#data-strategies-for-disaster-recovery).
-> 
-> 
+> Vegye figyelembe, hogy nem tudja befolyásolni bármely ezt a folyamatot, és azt csak a régió kiterjedő szolgáltatáskimaradás történik. Érdemes lehet [Azure Site Recovery](/azure/site-recovery/) jobb RPO és RTO eléréséhez. A Site Recovery lehetővé teszi, hogy az alkalmazás döntse el, hogy mi elfogadható kimaradás, és ha a replikált virtuális gépek a feladatátvételt.
 
 ### <a name="azure-wide-service-disruption"></a>Azure kiterjedő szolgáltatáskiesés várható
 A vészhelyreállítás megtervezése, figyelembe kell vennie a lehetséges katasztrófák teljes skáláját. Minden Azure-régió egyidejűleg járna a legsúlyosabb károkat okozó szolgáltatás szolgáltatások közül. Akárcsak más service üzemzavarokhoz vezethet, dönthet ebben az esetben elfogadja az ideiglenes állásidő kockázatát. Széles körű szolgáltatás zavarokat régiók kiterjedő olyan sokkal ritkább mint függő szolgáltatások vagy egyetlen régiók elkülönített szolgáltatás vezetnének.
@@ -179,6 +186,18 @@ Az összes legalább kritikus fontosságú alkalmazások, a megtervezi a külön
 
 Most vessen egy pillantást most egyedi megközelítésekre teszi lehetővé a feladatátvevő különböző régiókban között. Ezek a példák összes két régió segítségével folyamatát írják le.
 
+### <a name="failover-using-azure-site-recovery"></a>Feladatátvétel az Azure Site Recovery segítségével
+
+Ha engedélyezi az Azure Site Recovery segítségével Azure Virtuálisgép-replikációt, a másodlagos régióban létrehoz több erőforrások:
+
+- Erőforráscsoport.
+- Virtuális hálózathoz (VNet).
+- Storage-fiók. 
+- Rendelkezésre állási készletek tárolásához a virtuális gépek a feladatátvételt követően.
+
+A virtuális gép lemezeken az elsődleges régióban adatírás folyamatosan átkerülnek a tárfiók másodlagos régióban. Helyreállítási pontok létrejönnek a céloldali tárfiók néhány percenként. Kezdeményezzen feladatátvételt, ha a helyreállított virtuális gépek jönnek létre a célként megadott csoportot, a virtuális hálózat és a rendelkezésre állási erőforráskészlethez. A feladatátvétel során bármely elérhető helyreállítási pont választhat.
+
+
 ### <a name="redeployment-to-a-secondary-azure-region"></a>Egy másodlagos Azure régióra újbóli üzembe helyezése
 A módjáról lévőre egy másodlagos régióban csak az elsődleges régióban alkalmazásokat és adatbázisokat futtató rendelkezik. A másodlagos régióba nincs beállítva az automatikus feladatátvételre. Ezért ha katasztrófa történik, meg kell léptetéses fel az új szolgáltatás a kijelzők. Ez magában foglalja a felhőalapú szolgáltatás feltöltése az Azure-ba, a felhőalapú szolgáltatás telepítéséhez, az adatok helyreállításához és a forgalom átirányítása a DNS módosítása.
 
@@ -248,7 +267,7 @@ A hibrid forgatókönyvek esetében a feladatátvételt a központi telepítése
 
 A vész-Helyreállítási stratégia több felhőalapú platform alapul, akkor értékes ahhoz, hogy a megoldás kialakításának absztrakciós réteget szerepeljen. A szükségtelenné fejlesztésére, és ugyanahhoz az alkalmazáshoz, a másik felhőt platformok katasztrófa esetén két különböző verzióinak kezelése. A hibrid forgatókönyv esetén az Azure virtuális gépek vagy az Azure Tárolószolgáltatás használata lehet egyszerűbben ezekben az esetekben a felhő-specifikus PaaS tervek használatát.
 
-## <a name="automation"></a>Automatizálás
+## <a name="automation"></a>Automation
 A minta csak ismertettük némelyike szükséges offline központi telepítésekhez gyors aktiválásának, valamint a rendszer meghatározott részeit visszaállítása. Automatizálási parancsfájlokat az igény szerinti erőforrások aktiválhatja és gyorsan állíthat rendszerbe megoldásokat. Az automatizálási vész-Helyreállítási kapcsolatos példák használata alatt [Azure PowerShell](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) vagy a [szolgáltatásfelügyelet REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) helyes módon is.
 
 Automatizálási parancsfájlokat kezelheti a vész-Helyreállítási nem transzparens módon kezeli az Azure tulajdonságát. Ennek eredménye következetes és ismételhető, minimalizálja a emberi tévedések. Előre definiált vész-Helyreállítási parancsfájlokat is, hogy a rendszer és a bennük foglalt részeit során egy olyan vészhelyzet esetén idő csökkentése érdekében. Nem szeretnénk próbálja meg manuálisan mérje fel, a hely visszaállítása, amíg le, és elveszett pénz percenként.
@@ -269,19 +288,21 @@ Fontolja meg a "kapcsolótábla" manuálisan szimulálása elérhetőségével k
 
 A szimuláció nem megfelelően foglalkozott fellépő esetleges problémákat mutatja be. A szimulált forgatókönyvek teljesen ellenőrizhetőnek kell lenniük. Ez azt jelenti, hogy akkor is, ha a helyreállítási terv úgy tűnik, hogy hibás, visszaállíthatja a helyzet vissza a normál jelentős károsodása nélkül. Fontos továbbá, tájékoztatják a magasabb szintű felügyeleti arról, hogy mikor és hogyan a szimuláció gyakorlatok fogja végrehajtani. Ezt a tervet az idő vagy az erőforrások lesz hatással a szimuláció kell részletesen. A mértékek siker is definiálhat a vész-helyreállítási terv tesztelése során.
 
+Ha az Azure Site Recovery használ, az Azure-ba, ellenőrizze a replikációs stratégiát, vagy a vész-helyreállítási részletezéshez adatvesztés vagy leállás nélkül végezzen feladatátvételi tesztet hajthat végre. Feladatátvételi teszt nem érinti a folyamatban lévő Virtuálisgép-replikációt vagy az éles környezetben.
+
 Számos más módszert tesztelheti a vész-helyreállítási tervek. Azonban legtöbbjük nem egyszerűen az alábbi alapvető eljárások változata. Ez a leképezés tesztelése az, hogy a helyreállítási terv megvalósíthatósági kiértékelése. A részleteket az egyszerű helyreállítási terv hiányosságait felderítésére összpontosít vész-helyreállítási tesztelése.
 
 ## <a name="service-specific-guidance"></a>Szolgáltatással kapcsolatos útmutatást
 
 A következő témakörök ismertetik a katasztrófa utáni helyreállítás adott Azure-szolgáltatások:
 
-| Szolgáltatás | Témakör |
+| Szolgáltatás | Téma |
 |---------|-------|
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
-|Storage | [Mi a teendő, ha egy Azure Storage kimaradás során](/azure/storage/storage-disaster-recovery-guidance) |
+|Tárhely | [Mi a teendő, ha egy Azure Storage kimaradás során](/azure/storage/storage-disaster-recovery-guidance) |
 | SQL Database | [Egy Azure SQL Database vagy feladatátvételi visszaállításához a másodlagos](/azure/sql-database/sql-database-disaster-recovery) |
-| Virtual machines (Virtuális gépek) | [Mi a teendő arra az esetre, ha egy Azure szolgáltatás megszűnésének hatással van az Azure virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
+| Virtuális gépek | [Mi a teendő arra az esetre, ha egy Azure szolgáltatás megszűnésének hatással van az Azure virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
 | Virtuális hálózatok | [Virtuális hálózat – az üzletmenet folytonossága](/azure/virtual-network/virtual-network-disaster-recovery-guidance) |
 
 

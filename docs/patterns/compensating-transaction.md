@@ -1,16 +1,16 @@
 ---
-title: "Tranzakció Compensating"
-description: "Több lépésből áll, amelyek együtt határozza meg, hogy idővel konzisztenssé művelet által végzett munka visszavonása."
+title: Compensating Transaction
+description: "Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát."
 keywords: "Kialakítási mintája"
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories: resiliency
-ms.openlocfilehash: f8337717c4afd6b558f0da8e1ded3a8071340db7
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: a822de990d6ce933024207073b110e98f8da40bf
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="compensating-transaction-pattern"></a>Tranzakció mintát Compensating
 
@@ -38,7 +38,7 @@ A megoldás, hogy a kompenzációs tranzakció alkalmazza. A lépéseket egy kom
 
 > Ez a megközelítés hasonlít a tárgyalt Sagas stratégia [Clemens Vasters blog](http://vasters.com/clemensv/2012/09/01/Sagas.aspx).
 
-A kompenzációs tranzakció során is idővel konzisztenssé és is meghiúsulhat. A rendszer kell tudni folytatni a kompenzációs tranzakció helyén sikertelen, és továbbra is. A lépést, amely nem sikerült, ismétlődő kompenzációs tranzakcióban lépéseket definiálni kell az idempotent parancsként, szükség lehet. További információkért lásd: [idempotencia minták](http://blog.jonathanoliver.com/2010/04/idempotency-patterns/) Jonathan Oliver blogjában.
+A kompenzációs tranzakció során is idővel konzisztenssé és is meghiúsulhat. A rendszer kell tudni folytatni a kompenzációs tranzakció helyén sikertelen, és továbbra is. A lépést, amely nem sikerült, ismétlődő kompenzációs tranzakcióban lépéseket definiálni kell az idempotent parancsként, szükség lehet. További információkért lásd: [idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában.
 
 Bizonyos esetekben nem esetleg helyreállítása a lépést, amely manuális beavatkozásra keresztül kivételével nem sikerült. Ilyen helyzetekben a rendszer kell hoz létre riasztást, és adja meg a hiba okát a lehető legtöbb információ.
 

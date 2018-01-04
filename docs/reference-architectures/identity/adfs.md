@@ -6,19 +6,19 @@ ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: adds-forest
 cardTitle: Extend AD FS to Azure
-ms.openlocfilehash: b24f4e72b13331437d92f20a228e3ba8121db90a
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: b8c9ae0621c087c68d449dd13e60046104c01513
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Azure Active Directory összevonási szolgáltatások (AD FS) kiterjesztése
 
-A referencia-architektúrában valósítja meg, amely kiterjeszti a helyszíni hálózat Azure és a biztonságos hibrid hálózat [Active Directory összevonási szolgáltatások (AD FS)] [ active-directory-federation-services] végrehajtásához összevont hitelesítési és engedélyezési Azure-beli összetevőnél. [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution)
+A referencia-architektúrában valósítja meg, amely kiterjeszti a helyszíni hálózat Azure és a biztonságos hibrid hálózat [Active Directory összevonási szolgáltatások (AD FS)] [ active-directory-federation-services] végrehajtásához összevont hitelesítési és engedélyezési Azure-beli összetevőnél. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 Az AD FS lehet üzemeltethető a helyszínen, de ha az alkalmazás egy hibrid Azure végrehajtott bizonyos részei, hatékonyabb, ha az AD FS-ben a felhő replikálni lehet. 
 
@@ -83,7 +83,7 @@ A kijelzők a architektúra, amely nem kapcsolódik az AD FS kapcsolatos tovább
 - [Az Azure-ban egy biztonságos hibrid hálózati architektúra az Active Directory identitások megvalósítása][extending-ad-to-azure].
 
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei. 
 
@@ -212,11 +212,11 @@ Az AD FS a HTTPS protokollt használja, ezért győződjön meg arról, hogy az 
 
 Érdemes lehet virtuális hálózati berendezések csoportja, amely a virtuális hálózat széle a naplózási célokra áthaladó forgalom részletes információkat naplózza.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [Github] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-cli] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-cli] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [Github] [ github] a helyi számítógépre.
+1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
 
 2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
 
@@ -228,7 +228,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
    
     Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
    
-    A `<location>`, adjon meg egy Azure-régió, például `eastus` vagy `westus`.
+    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
    
     A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
    
@@ -280,7 +280,7 @@ A megoldás érhető el a [Github] [ github] központi telepítése a referencia
 
 13. Kövesse az utasításokat, a parancsfájl által megjelenített, a teljes proxykonfigurációt teszteléséhez.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 * További tudnivalók [az Azure Active Directory][aad].
 * További tudnivalók [az Azure Active Directory B2C][aadb2c].

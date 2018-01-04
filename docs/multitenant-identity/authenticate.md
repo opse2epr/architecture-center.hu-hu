@@ -6,15 +6,15 @@ ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: tailspin
 pnp.series.next: claims
-ms.openlocfilehash: 74f4e85e282799b7eee92caf2da083fb264f8733
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
-ms.translationtype: HT
+ms.openlocfilehash: e85817626675cec4d126921c19a31a0983ecd62d
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="authenticate-using-azure-ad-and-openid-connect"></a>Hitelesítés az Azure AD használatával és az OpenID Connect
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
 A felmérések alkalmazás az OpenID Connect (OIDC) protokoll használatával hitelesíti a felhasználókat az Azure Active Directory (Azure AD). A felmérések alkalmazás, amelynek beépített köztes OIDC az ASP.NET Core használja. Az alábbi ábrán látható, hogy mi történik, ha a felhasználó bejelentkezik, magas szinten.
 
@@ -131,7 +131,7 @@ A hitelesítési folyamat a következő:
 Ha a hitelesítés sikeres, a OIDC köztes hitelesítési jegyre, amely tartalmaz, amely tárolja a felhasználói jogcímek jogcímek rendszerbiztonsági tag hoz létre. A jegy belül végezheti el a **AuthenticationValidated** vagy **TicketReceived** esemény.
 
 > [!NOTE]
-> Az egész hitelesítési folyamat befejezéséig `HttpContext.User` továbbra is rendelkezik egy névtelen egyszerű *nem* a hitelesített felhasználó. A névtelen rendszerbiztonsági tag egy üres jogcímek gyűjteményt tartalmaz. Hitelesítés befejeződik, és az alkalmazás átirányítja a cookie-k köztes deserializes után a hitelesítési cookie-t és a készletek `HttpContext.User` a jogcímek rendszerbiztonsági tag, amely a hitelesített felhasználó jelöli.
+> Az egész hitelesítési folyamat befejezéséig `HttpContext.User` továbbra is rendelkezik egy névtelen egyszerű **nem** a hitelesített felhasználó. A névtelen rendszerbiztonsági tag egy üres jogcímek gyűjteményt tartalmaz. Hitelesítés befejeződik, és az alkalmazás átirányítja a cookie-k köztes deserializes után a hitelesítési cookie-t és a készletek `HttpContext.User` a jogcímek rendszerbiztonsági tag, amely a hitelesített felhasználó jelöli.
 > 
 > 
 
@@ -181,7 +181,7 @@ app.UseOpenIdConnectAuthentication(options =>
 }
 ```
 
-[**Következő**][claims]
+[**Tovább**][claims]
 
 [claims]: claims.md
 [cookie-options]: /aspnet/core/security/authentication/cookie#controlling-cookie-options
