@@ -5,11 +5,11 @@ author: MikeWasson
 ms.date: 11/22/2016
 pnp.series.title: Windows VM workloads
 pnp.series.prev: n-tier
-ms.openlocfilehash: b3f1fcf1403a5199191cb37dfed4fbe86695766d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9c54959da96115e55ba8a5c9e0f3c358d29ce5dd
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-windows-vms-in-multiple-regions-for-high-availability"></a>Futtassa a Windows virtuális gépek több régióba a magas rendelkezésre állás
 
@@ -17,13 +17,14 @@ A referencia-architektúrában futó N szintű alkalmazás több Azure-régiók,
 
 [![0]][0] 
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra 
 
 Ez az architektúra látható egy épít [futtassa a Windows virtuális gépek N szintű alkalmazások](n-tier.md). 
 
-* **Elsődleges és másodlagos régiók**. Két régió segítségével magasabb rendelkezésre állásának eléréséhez. Az elsődleges régióban egyik. A más régióban van, a feladatátvételre. 
+* **Elsődleges és másodlagos régiók**. Két régió segítségével magasabb rendelkezésre állásának eléréséhez. Az elsődleges régióban egyik. A más régióban van, a feladatátvételre.
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 * **Az Azure Traffic Manager**. [A TRAFFIC Manager] [ traffic-manager] irányítja a bejövő kéréseket a régiók egyikéhez sem. A normál működés során az elsődleges régióban irányítja a kérelmeket. Ha az adott régióban, a Traffic Manager feladatátadás a másodlagos régióba. További információkért tekintse meg a szakasz [Traffic Manager konfigurációs](#traffic-manager-configuration).
 * **Erőforráscsoportok**. Hozzon létre külön [erőforráscsoportok] [ resource groups] az elsődleges régióban, a másodlagos régióba, és a Traffic Manager. Ez lehetővé teszi a rugalmasság, minden egyes régió szerinti egyetlen gyűjtemény-erőforrások kezelésére. Például egy régió tartozik, sikerült újratelepítése nélkül a másik egy le. [Az erőforráscsoportok hivatkozás][resource-group-links], így az alkalmazás az erőforrások listájának lekérdezés futtatása.
 * **Vnetek**. Hozzon létre egy külön hálózatok mindegyik régióhoz. Ellenőrizze, hogy a címterek nem lehetnek átfedésben. 
@@ -148,13 +149,13 @@ Az SQL Server-fürt van két feladatátvételi forgatókönyvek kell figyelembe 
 
 Ha a telepítés frissítéséhez frissíteni egy régió tartozik csökkenti annak esélyét, a globális hibák egy helytelen konfiguráció vagy az alkalmazás hiba egyszerre.
 
-Tesztelje a rugalmasság, a rendszer a hibák. Az alábbiakban néhány gyakori hiba helyzetek ellenőrzéséhez:
+Tesztelje a rugalmasság, a rendszer a hibák. Alább található néhány gyakori meghibásodási helyzet:
 
-* Állítsa le a Virtuálisgép-példányok.
+* Állítson le virtuálisgép-példányokat.
 * Nyomás erőforrások, például CPU és memória.
 * Hálózati kapcsolat bontása/késleltetés.
-* Összeomlás-folyamatokat.
-* Tanúsítványok lejárnak.
+* Váltsa ki egyes folyamatok összeomlását.
+* Alkalmazzon lejárt tanúsítványokat.
 * Hardver hibák szimulálásához.
 * Állítsa le a DNS-szolgáltatás a tartományvezérlőkön.
 
@@ -164,7 +165,7 @@ A helyreállítási idő mérését, és győződjön meg arról, hogy megfeleln
 
 <!-- Links -->
 [hybrid-vpn]: ../hybrid-networking/vpn.md
-
+[azure-dns]: /azure/dns/dns-overview
 [azure-sla]: https://azure.microsoft.com/support/legal/sla/
 [azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx

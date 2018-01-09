@@ -6,11 +6,11 @@ ms.date: 11/22/2016
 pnp.series.title: Windows VM workloads
 pnp.series.next: multi-region-application
 pnp.series.prev: multi-vm
-ms.openlocfilehash: e25d10d661ac4759f209bd27384303dee2ee454e
-ms.sourcegitcommit: 583e54a1047daa708a9b812caafb646af4d7607b
+ms.openlocfilehash: 0654239a5bbd966a2aa776415b7f15ae723ffd63
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/28/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-windows-vms-for-an-n-tier-application"></a>Futtassa a Windows virtuális gépek N szintű alkalmazás
 
@@ -32,6 +32,7 @@ Számos módon valósítja meg az N szintű architektúrát. Az ábrán egy tipi
 * **Az NSG-k.** Használjon [hálózati biztonsági csoportok] [ nsg] (NSG-ket) korlátozzák a hálózati forgalmat a Vneten belül. Például a 3-rétegű architektúra itt látható, az adatbázis-rétegből nem fogadja el a előtér, csak az üzleti szint és a felügyeleti alhálózati a forgalmat.
 * **SQL Server Always On rendelkezésre állási csoporthoz.** Itt az adatréteg: magas rendelkezésre állású replikációs és feladatátvételi engedélyezésével.
 * **Active Directory tartományi szolgáltatások (AD DS) kiszolgálók**. Előtt a Windows Server 2016 SQL Server Always On rendelkezésre állási csoportok egy tartományhoz kell csatlakoztatni. Ennek az az oka a rendelkezésre állási csoportok Windows Server feladatátvételi fürt (WSFC) technológia függ. Windows Server 2016 vezet be Active Directory nélküli feladatátvevő fürt létrehozásának ebben az esetben az Active Directory tartományi szolgáltatások-kiszolgálók esetén nincs szükség ebbe az architektúrába. További információkért lásd: [a Windows Server 2016 feladatátvételi fürtszolgáltatásával kapcsolatos újdonságok][wsfc-whats-new].
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 
 ## <a name="recommendations"></a>Javaslatok
 
@@ -184,6 +185,7 @@ A minta referenciaarchitektúra használata Azure építőelemeket telepítésé
 [azure-availability-sets]: /azure/virtual-machines/virtual-machines-windows-manage-availability#configure-each-application-tier-into-separate-availability-sets
 [azure-cli]: /azure/virtual-machines-command-line-tools
 [azure-cli-2]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[azure-dns]: /azure/dns/dns-overview
 [azure-key-vault]: https://azure.microsoft.com/services/key-vault
 [megerősített állomás]: https://en.wikipedia.org/wiki/Bastion_host
 [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing

@@ -3,11 +3,11 @@ title: "Mikroszolgáltatási határok azonosítása"
 description: "Mikroszolgáltatási határok azonosítása"
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: 046749191bd565813218b3834cb4674c4c5100e2
-ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
+ms.openlocfilehash: e4f11da9f970724c55ad99824f808a10c4558971
+ms.sourcegitcommit: 744ad1381e01bbda6a1a7eff4b25e1a337385553
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/29/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="designing-microservices-identifying-microservice-boundaries"></a>Mikroszolgáltatások tervezése: mikroszolgáltatási határok azonosítása
 
@@ -116,7 +116,7 @@ Az alábbiakban néhány tényezők választás az orchestrator megközelítés 
 
 **Hordozhatósága**. Az itt felsorolt orchestrators (Kubernetes, a DC/OS, Docker Swarm és a Service Fabric) összes futtatható helyi vagy több nyilvános felhőkben. 
 
-**Alkalmazások integrálása**. Ez hozható létre olyan összetett alkalmazás használatával egy kiszolgáló nélküli architektúra kihívást jelenthet. Az Azure-ban egy lehetőség [Azure Logic Apps](/azure/logic-apps/) Azure Functions készletét. Ez a megközelítés példáért lásd: [, amely az Azure Logic Apps függvény létrehozása](/azure/azure-functions/functions-twitter-email.)
+**Alkalmazások integrálása**. Ez hozható létre olyan összetett alkalmazás használatával egy kiszolgáló nélküli architektúra kihívást jelenthet. Az Azure-ban egy lehetőség [Azure Logic Apps](/azure/logic-apps/) Azure Functions készletét. Ez a megközelítés példáért lásd: [hozzon létre egy függvényt, amely az Azure Logic Apps](/azure/azure-functions/functions-twitter-email).
 
 **Költség**. Az egy orchestrator kell fizetnie a a fürt futó virtuális gépeket. Egy kiszolgáló nélküli alkalmazást, a kell fizetnie csak a tényleges számítási erőforrások használatának. Mindkét esetben kell számításba a további szolgáltatások, például a tárolás, az adatbázisok és az üzenetkezelési szolgáltatások költségét.
 

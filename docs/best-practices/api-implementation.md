@@ -4,18 +4,17 @@ description: "Útmutatás az API-k megvalósítása után."
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: b4d197719380bf55033942b3ebcad384170d950d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: cc28864de36afdeed2f8a7155a307e312c3a398e
+ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/05/2018
 ---
 # <a name="api-implementation"></a>API-implementáció
-[!INCLUDE [header](../_includes/header.md)]
 
 Gondosan tervezett RESTful webes API-k meghatározása az erőforrásokat, a kapcsolatokat és a navigációs rendszerek ügyfélalkalmazások számára elérhető. Megvalósítása és központi telepítése a webes API-k, gondolja át a fizikai követelményeinek a a webes API-t és az üzemeltetési környezetben található, amely a webes API-k összeállított ahelyett, hogy az adatok logikai szerkezetének. Ez az útmutató mutatja be gyakorlati tanácsok a webes API-k megvalósítása és közzétételi azt, hogy az ügyfélalkalmazások számára elérhető legyen. Részletes információ a webes API modell: [API tervezési útmutató](/azure/architecture/best-practices/api-design).
 
-## <a name="considerations-for-processing-requests"></a>Szempontok a kérelmek feldolgozása
+## <a name="processing-requests"></a>Kérelmek feldolgozása
 
 A kód a tanúsítványigénylések bevezetésekor, vegye figyelembe a következő szempontokat.
 
@@ -126,7 +125,7 @@ A példa HTTP-válasz HATEOAS hivatkozások arra utal, hogy egy ügyfél-alkalma
 * Az URI azonosító a HTTP GET kérelemre `http://adventure-works.com/customers/2/orders` az ügyfél a rendeléseket kereséséhez. Az adatok adhatók vissza XML-vagy JSON-NÁ.
 * Az URI egy HTTP PUT-kérelmet `http://adventure-works.com/customers/2/orders` hozzon létre egy új ahhoz, hogy az ügyfél számára. Az adatok a kérelemüzenet x-www-form-urlencoded formátumban kell megadni.
 
-## <a name="considerations-for-handling-exceptions"></a>Szempontok a kivételek kezelése
+## <a name="handling-exceptions"></a>Kivételek kezelése
 
 Ha egy művelet nem kezelt kivételt jelez, vegye figyelembe a következő szempontokat.
 
@@ -190,7 +189,7 @@ Egységes módon kezelje a kivételeket, vegye fontolóra egy globális hibakeze
 
 A HTTP protokoll különböztet miatt az ügyfélalkalmazás (a HTTP 4xx állapotkódok) előforduló hibákat, és a kiszolgálón (a HTTP 5xx állapotkódok) szülőmappához által okozott hibákat. Győződjön meg arról, hogy a válasz hibaüzeneteket az egyezmény tiszteletben.
 
-## <a name="considerations-for-optimizing-client-side-data-access"></a>Ügyféloldali adatelérési optimalizálása szempontjai
+## <a name="optimizing-client-side-data-access"></a>Ügyféloldali adatelérési optimalizálása
 Például a webkiszolgáló és az ügyfélalkalmazások elosztott környezetben a hálózati érintő elsődleges forrásokból. Ez működhet, és jelentős szűk keresztmetszet, különösen akkor, ha az ügyfélalkalmazás gyakran kérelmeket küld vagy fogad adatokat. Ezért akkor érhető el a hálózaton keresztül zajló kommunikációról forgalom csökkentése érdekében. A kód lekéri és adatok karbantartása bevezetésekor, vegye figyelembe a következő szempontokat:
 
 ### <a name="support-client-side-caching"></a>Támogatja az ügyféloldali gyorsítótárazás
@@ -541,7 +540,7 @@ public class OrdersController : ApiController
 >
 >
 
-## <a name="considerations-for-handling-large-requests-and-responses"></a>Szempontok a nagy kérelmeit és válaszait kezelése
+## <a name="handling-large-requests-and-responses"></a>Nagy kérelmeit és válaszait kezelése
 Lehetnek olyan alkalmak, amikor egy ügyfél alkalmazást kell elküldeni vagy fogadni a több mérete (MB) lehet adatokat kérelmek ki (vagy nagyobb) mérete. Várakozás a adatmennyiség továbbított okozhat az ügyfélalkalmazás válaszol. Ha jelentős mennyiségű adatot tartalmazó kérelmek kezeléséhez van szüksége, vegye figyelembe a következő szempontokat:
 
 ### <a name="optimize-requests-and-responses-that-involve-large-objects"></a>Kérelmeit és válaszait, például a nagyméretű objektumok optimalizálása
@@ -608,7 +607,7 @@ Egy ügyfélalkalmazás kiadhatnak egy URI segítségével 50 eltolástól kezdv
 >
 >
 
-## <a name="considerations-for-maintaining-responsiveness-scalability-and-availability"></a>Reakcióidőt, a méretezhetőség és a rendelkezésre állás fenntartása szempontjai
+## <a name="maintaining-responsiveness-scalability-and-availability"></a>Reakcióidőt, a méretezhetőség és a rendelkezésre állás fenntartása
 Az azonos web API futtató bárhol a világon sok ügyfélalkalmazások előfordulhat, hogy lesz szükség. Fontos biztosítania, hogy a webes API-t kell lennie a magas különböző munkaterhelések támogatásához, és rendelkezésre állás biztosításához az üzleti szempontból kulcsfontosságú műveleteket az ügyfelek méretezhető, nagy terhelés alatt válaszkészsége fenntartásához. Ha ezek a követelmények teljesítéséhez módjának meghatározása, vegye figyelembe a következő szempontokat:
 
 ### <a name="provide-asynchronous-support-for-long-running-requests"></a>Aszinkron támogatást nyújt a hosszan futó kérelmek
@@ -652,7 +651,7 @@ Csökkenti a késést és a hálózati torlódás válaszkészsége javítása �
 >
 >
 
-## <a name="considerations-for-publishing-and-managing-a-web-api"></a>Szempontok a közzétételi és webes API-k kezelése
+## <a name="publishing-and-managing-a-web-api"></a>Közzététele és webes API-k kezelése
 Webes API-k akkor válik elérhetővé az ügyfélalkalmazások, a webes API-t telepíteni kell egy gazdagép-környezetben. Ebben a környezetben az általában a webkiszolgáló, bár lehet, hogy más típusú gazdafolyamat. A webes API közzétételekor, a következő szempontokat kell figyelembe vennie:
 
 * Összes kérelem kell hitelesítenie és engedélyeznie, és a megfelelő szintű hozzáférés-vezérlés kényszerítettnek kell lennie.
@@ -668,7 +667,7 @@ Akkor célszerű lehet használata leválasztja ezeket a problémákat a műszak
 * Üzenetek átalakítása, és a kommunikációs protokollokat fordítása ügyfelek különböző technológiák használatával készültek.
 * Gyorsítótárazás kérelmeit és válaszait csökkentése érdekében betölteni a webes API-t futtató kiszolgálón.
 
-## <a name="considerations-for-testing-a-web-api"></a>A webes API tesztelése szempontjai
+## <a name="testing-a-web-api"></a>A webes API tesztelése
 Egy webes API-t, mint minden más olyan szoftver alaposan kell vizsgálni. Érdemes lehet egység tesztet végrehajtva ellenőrizze a webes API-k jellege működésére létrehozása számos lehetőséget kínál a saját további követelmények ellenőrzése, hogy megfelelően működik-e. Meg kell különös figyelmet fordítani az alábbi szempontokat:
 
 * Az összes útvonal ellenőrzése, hogy azok a megfelelő műveleteket hívhatnak meg a teszteléséhez. Különösen ügyeljen a visszaadott HTTP-állapotkód: (a metódus nem engedélyezett) 405 váratlanul Ez azt jelzi, hogy az útvonal és a HTTP-metódus (GET, POST, PUT, DELETE), amely képes továbbítani, hogy az útvonal eltérést.
@@ -699,8 +698,9 @@ Figyelje, hogy váratlan állapotkódok 5xx tartományban vannak. Ezek az üzene
 
 Inkább hozzon létre, és teljesítmény tesztek futtatása annak ellenőrzése, hogy a webes API-k cselekedjenek kielégítően működik. Webalkalmazás teljesítmény- és tesztelése a projekt betöltésekor Visual Studio Ultimate használatával hozhat létre. További információkért lásd: [teljesítmény vizsgálat futtatása előtt egy alkalmazás](https://msdn.microsoft.com/library/dn250793.aspx).
 
-## <a name="publish-and-manage-a-web-api-using-the-azure-api-management-service"></a>Közzétehet és kezelhet egy webes API-t az Azure API Management szolgáltatással
-Azure biztosít a [API Management szolgáltatás](https://azure.microsoft.com/documentation/services/api-management/) , amely segítségével közzétehet és kezelhet egy webes API-t. Ez a funkció segítségével is létrehozhat olyan szolgáltatás, amely egy vagy több Web API-k egy homlokzati funkcionál. A szolgáltatás pedig egy méretezhető webszolgáltatás, amelyet hozhat létre és konfigurálja az Azure felügyeleti portál használatával. Ez a szolgáltatás segítségével közzétehet és kezelhet a webes API-k az alábbiak szerint:
+## <a name="using-azure-api-management"></a>Az Azure API Management használata 
+
+A Azure-érdemes [Azue API Management](https://azure.microsoft.com/documentation/services/api-management/) közzétételét és kezelését egy webes API-t. Ez a funkció segítségével is létrehozhat olyan szolgáltatás, amely egy vagy több Web API-k egy homlokzati funkcionál. A szolgáltatás pedig egy méretezhető webszolgáltatás, amelyet hozhat létre és konfigurálja az Azure felügyeleti portál használatával. Ez a szolgáltatás segítségével közzétehet és kezelhet a webes API-k az alábbiak szerint:
 
 1. Egy webhely, az Azure cloud service vagy Azure virtuális gép központi telepítése a webes API-t.
 2. Az API management szolgáltatás kapcsolódni a webes API-t. A felügyeleti API URL-címre küldött kérelmeket a webes API URI-azonosítók van leképezve. Az azonos API management szolgáltatás irányíthatja a kérelmek egynél több webes API-hoz. Ez lehetővé teszi, hogy több webes API-k az egyetlen felügyeleti szolgáltatást összesíteni. Ehhez hasonlóan az azonos web API lehet hivatkozni több API management szolgáltatás Ha korlátozhatja, vagy a különböző alkalmazások funkcióinak partícióazonosító kell.
@@ -729,7 +729,7 @@ További információkért lásd: a [API Management dokumentációja](/azure/api
 > Ez a struktúra a webhelyek, az egyéni DNS-nevek használatakor konfigurálnia kell a megfelelő CNAME rekordot a DNS-nevével, az Azure Traffic Manager webhely ponthoz minden webhelyhez.
 >
 
-## <a name="support-developers-building-client-applications"></a>Támogatja a fejlesztők ügyfélalkalmazások felépítése
+## <a name="supporting-client-side-developers"></a>Ügyféloldali fejlesztők támogatása
 A fejlesztők ügyfélalkalmazások általában hozhat létre a web API, és a paraméterek, a adattípusok, a visszatérési típusok és a visszatérési kódokat, amelyek bemutatják a különböző kérelmek és között a webes válaszok vonatkozó dokumentációt elérésével ismereteket igényel szolgáltatás és az ügyfélalkalmazást.
 
 ### <a name="document-the-rest-operations-for-a-web-api"></a>A webes API-k REST műveleteinek dokumentálása

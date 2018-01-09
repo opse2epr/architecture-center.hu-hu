@@ -1,17 +1,17 @@
 ---
 title: "Víruskereső sérülés réteg minta"
-description: "A modern alkalmazás- és egy örökölt közötti homlokzat vagy adapter rétegben megvalósításához."
+description: "Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között."
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: 590d5f3676c92f5f18661360106e2b2fdd4efbe1
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: e41f080abbef772596ee7f8b10ad72bb03a3b829
+ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/05/2018
 ---
 # <a name="anti-corruption-layer-pattern"></a>Víruskereső sérülés réteg minta
 
-A modern alkalmazás- és egy örökölt, amelyektől függ közötti homlokzat vagy adapter rétegben megvalósításához. Ez a réteg az eszköz közötti a modern alkalmazás- és az örökölt kérelmek. Ez a minta segítségével győződjön meg arról, hogy a régebbi rendszerekre függőségek nem korlátozza az alkalmazás tervét.
+A modern alkalmazás- és egy örökölt, amelyektől függ közötti homlokzat vagy adapter rétegben megvalósításához. Ez a réteg az eszköz közötti a modern alkalmazás- és az örökölt kérelmek. Ez a minta segítségével győződjön meg arról, hogy a régebbi rendszerekre függőségek nem korlátozza az alkalmazás tervét. Ebben a mintában először szerint Eric Evans a *Domain-Driven tervezési*.
 
 ## <a name="context-and-problem"></a>A környezetben, és probléma
 
@@ -49,7 +49,7 @@ Ez mintát, mikor használja:
 
 Előfordulhat, hogy ez a minta nem megfelelő, ha új és a korábbi rendszerek között nincs jelentős szemantikai különbségek vannak. 
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
 - [Strangler minta][strangler]
 

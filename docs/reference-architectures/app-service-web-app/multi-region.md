@@ -4,11 +4,11 @@ description: "Ajánlott architektúra magas rendelkezésre állással, a Microso
 author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
-ms.openlocfilehash: 2d7d0c38bef3efc73a7ba2dd61e4190d07deb1b5
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 60caa121d0ce2f1aa2638650229bed8048804c22
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Egy webalkalmazás több régióba futtatása
 [!INCLUDE [header](../../_includes/header.md)]
@@ -17,13 +17,14 @@ A referencia-architektúrában több régióba magas rendelkezésre állás bizt
 
 ![Architektúra hivatkozni: magas rendelkezésre állású-webalkalmazás](./images/multi-region-web-app-diagram.png) 
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra 
 
 Ez az architektúra látható egy épít [webalkalmazás a méretezhetőség javítása][guidance-web-apps-scalability]. A fő különbségek a következők:
 
 * **Elsődleges és másodlagos régiók**. Ez az architektúra két régió magasabb rendelkezésre állásának eléréséhez használja. Az alkalmazás központi telepítése mindegyik régióhoz. A normál működés során a rendszer a hálózati forgalom irányítja az elsődleges régióban. Ha nem érhető el az elsődleges régióban, továbbítódik a másodlagos régióba. 
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 * **Az Azure Traffic Manager**. [A TRAFFIC Manager] [ traffic-manager] irányítja a bejövő kéréseket az elsődleges régióban. Ha az adott régióban futó alkalmazás nem érhető el, a Traffic Manager feladatátadás a másodlagos régióba.
 * **A georeplikáció** SQL-adatbázis és a Cosmos-adatbázis. 
 
@@ -40,7 +41,7 @@ A referencia-architektúrában melegtartalék feladatátvételi Traffic Manager 
 
 ## <a name="recommendations"></a>Javaslatok
 
-A követelmények eltérhetnek az itt leírt architektúra. A javaslatok használja ebben a szakaszban kiindulási pontként.
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. A javaslatok használja ebben a szakaszban kiindulási pontként.
 
 ### <a name="regional-pairing"></a>Regionális párosítás
 Minden Azure-régió, egy másik ugyanazon a földrajzi régióját párosított. Régiók általában választhat a azonos regionális pár (például USA keleti régiója 2. régiója, USA középső RÉGIÓJA). Ennek során a következő előnyöket nyújtja:
@@ -77,7 +78,7 @@ Regionális kimaradás esetén is utasíthat el át egy másik régióban kell l
 >
 >
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 Az Azure Storage használata [írásvédett georedundáns tárolás] [ ra-grs] (RA-GRS). Az RA-GRS tárolással rendelkező másodlagos régióba replikálja az adatok. Az adatok csak olvasási hozzáféréssel rendelkezik a másodlagos régióban külön végpontot keresztül. Ha egy regionális kimaradás vagy katasztrófa, az Azure Storage csapat dönthet, hogy a másodlagos régióba földrajzi-feladatátvétel végrehajtásához. Nincs nincs feladatátvételi szükség felhasználói beavatkozásra.
 
 A Queue storage a biztonsági mentési várólista létrehozása a másodlagos régióban. A feladatátvétel során az alkalmazás használhatja a biztonsági mentési várólista, míg az elsődleges régióban elérhető újra. Így az alkalmazás továbbra is az új kérelmek tud feldolgozni.
@@ -99,7 +100,7 @@ A TRAFFIC Manager ponttá lehetséges hiba a rendszerben. Ha a szolgáltatás ne
 ### <a name="sql-database"></a>SQL Database
 A helyreállítási időkorlát (RPO) és az SQL-adatbázis becsült helyreállításkor (Beszúrása) című témakörben [az Azure SQL Database üzletmenet áttekintése][sql-rpo]. 
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 RA-GRS tárolási tartós tárolására szolgál, de fontos tudni, mi történhet kimaradás során:
 
 * A tárolási tervezett kimaradás esetén nem lesznek egy adott időn belül, ha nem rendelkezik írási-férhetnek hozzá az adatokhoz. Ön továbbra is olvashatók be a másodlagos végponti a szolgáltatáskimaradás elhárítása során.
@@ -147,6 +148,7 @@ Ha az elsődleges adatbázis, hajtsa végre a másodlagos adatbázis manuális f
 <!-- links -->
 
 [azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
+[azure-dns]: /azure/dns/dns-overview
 [docdb-geo]: /azure/documentdb/documentdb-distribute-data-globally
 [guidance-web-apps-scalability]: ./scalable-web-app.md
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx

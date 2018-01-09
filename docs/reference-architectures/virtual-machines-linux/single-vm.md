@@ -6,11 +6,11 @@ ms.date: 12/12/2017
 pnp.series.title: Linux VM workloads
 pnp.series.next: multi-vm
 pnp.series.prev: ./index
-ms.openlocfilehash: a51e0d7ed4e35c5331241cf78d1715e63f9b4d86
-ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
+ms.openlocfilehash: 7caef46e53b42011b5a12ef53384c0352b9b9a72
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/02/2018
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-a-linux-vm-on-azure"></a>Linux virtuális gép futtatása az Azure-on
 
@@ -31,12 +31,12 @@ Egy Azure virtuális gép kiépítése további összetevők, például a szám�
 * **Adatlemezek.** Az [adatlemez][data-disk] egy állandó, az alkalmazásadatokhoz használt VHD. Az adatlemezeket (pl. az operációsrendszer-lemezt) az Azure Storage tárolja.
 * **Virtuális hálózat (VNet) és alhálózat.** Minden Azure virtuális Gépen központilag telepítik egy Vnetet, amely több szegmentált is lehet.
 * **Nyilvános IP-cím.** Egy nyilvános IP-cím van szükség a virtuális gép kommunikálni &mdash; például ssh.
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.  
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 * **Hálózati adapter (NIC)**. Egy olyan hozzárendelt hálózati adapter lehetővé teszi, hogy a virtuális gép és a virtuális hálózat kommunikációját.
 * **Hálózati biztonsági csoport (NSG)**. [Hálózati biztonsági csoportok] [ nsg] használt hálózati erőforráshoz hálózati adatforgalom engedélyezéséhez vagy letiltásához. Egy NSG-t társíthat egy különálló hálózati adapterhez vagy egy alhálózathoz. Ha egy alhálózathoz társítja, az NSG-szabályok az alhálózat összes virtuális gépére vonatkoznak.
 * **Diagnosztika.** A diagnosztikai naplózás létfontosságú a virtuális gép kezeléséhez és hibaelhárításához.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 Ez az architektúra látható a baseline javaslatok az Azure-ban futó Linux virtuális gép. Azonban nem ajánlott használatával egy virtuális a kritikus fontosságú számítási feladatokhoz, mert azt egy hibaérzékeny pontot hoz létre. A magasabb rendelkezésre állás érdekében helyezzen üzembe több virtuális gépet egy [rendelkezésre állási csoportban][availability-set]. További információkért tekintse meg a [több virtuális gép Azure-on való futtatását][multi-vm] ismertető szakaszt. 
 

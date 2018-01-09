@@ -6,19 +6,19 @@ ms.date: 11/16/2017
 pnp.series.title: Windows VM workloads
 pnp.series.next: n-tier
 pnp.series.prev: single-vm
-ms.openlocfilehash: c9b1e52044d38348ecf1bd29cb24b3c20d1d6a45
-ms.sourcegitcommit: 115db7ee008a0b1f2b0be50a26471050742ddb04
+ms.openlocfilehash: 14e7e023afd7cb7cbe0e8db8e224ba777f6fe863
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/17/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-load-balanced-vms-for-scalability-and-availability"></a>Virtuális gépek elosztott terhelésű a méretezhetőség és a rendelkezésre állási futtatása
 
-A referencia-architektúrában több Windows virtuális gépek (VM) futtatásához bevált gyakorlatok csoportja terjedő skálán rendelkezésre állás és méretezhetőség javítása érdekében egy terheléselosztó mögött beállítása jeleníti meg. Ez az architektúra bármely állapot nélküli alkalmazások és szolgáltatások, például webkiszolgálót, nem használható és alaprendszert n szintű alkalmazások központi telepítéséhez. [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution)
+A referencia-architektúrában több Windows virtuális gépek (VM) futtatásához bevált gyakorlatok csoportja terjedő skálán rendelkezésre állás és méretezhetőség javítása érdekében egy terheléselosztó mögött beállítása jeleníti meg. Ez az architektúra bármely állapot nélküli alkalmazások és szolgáltatások, például webkiszolgálót, nem használható és alaprendszert n szintű alkalmazások központi telepítéséhez. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 ![[0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra
 
@@ -32,6 +32,7 @@ Az architektúra a következő részből áll:
 * **Virtuális hálózat (VNet) és alhálózat.** Minden Azure virtuális Gépen központilag telepítik egy Vnetet, amely több szegmentált is lehet.
 * **Azure Load Balancer**. A [terheléselosztó] [ load-balancer] osztja el a Virtuálisgép-példányok bejövő Internet kéréseket. 
 * **Nyilvános IP-cím**. Egy nyilvános IP-címet a terheléselosztóhoz internetes forgalom fogadására van szükség.
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 * **Virtuálisgép-méretezési készlet**. A [Virtuálisgép-méretezési készlet] [ vm-scaleset] üzemeltetni a munkaterhelés azonos virtuális gépek halmaza. Méretezési készlet lehetővé teszi a bejövő vagy kimenő tolja virtuális gépek számát manuálisan vagy automatikusan előre meghatározott szabályok alapján.
 * **A rendelkezésre állási csoport**. A [rendelkezésre állási csoport] [ availability-set] tartalmazza a virtuális gépeket, így a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatásiszint-szerződés (SLA) szolgáltatás][vm-sla]. A magasabb garantált szolgáltatási szintje alkalmazandó a rendelkezésre állási csoport tartalmaznia kell legalább két virtuális gépek. Rendelkezésre állási készletek implicit a méretezési készlet. A skála készleten kívüli virtuális gépeket hoz létre, ha meg szeretne létrehozni a rendelkezésre állási csoportot egymástól függetlenül.
 * **Által kezelt lemezeken**. Azure-lemezeket kezeli a virtuális merevlemez (VHD) fájlok, a virtuális gép lemezeivel kezelése. 
@@ -39,7 +40,7 @@ Az architektúra a következő részből áll:
 
 ## <a name="recommendations"></a>Javaslatok
 
-A követelmények nem lehetséges, hogy teljesen igazodnak az itt leírt architektúra. Ezek a javaslatok használja kiindulópontként. 
+A követelmények nem lehetséges, hogy teljesen igazodnak az itt leírt architektúra. Ezeket a javaslatokat tekintse kiindulópontnak. 
 
 ### <a name="availability-and-scalability-recommendations"></a>Rendelkezésre állás és méretezhetőség javaslatok
 
@@ -115,7 +116,7 @@ Virtuális hálózatok a forgalom elkülönítési határt alkotnak, az Azure-ba
 
 A bejövő internetes forgalmat a betöltés terheléselosztó szabályok határozzák meg, melyik forgalmat el lehet-e érni a háttérben. Azonban load balancer szabályok nem támogatják a biztonságos IP-listákat, így ha azt szeretné, hogy bizonyos nyilvános IP-címek hozzáadása a biztonságos listáját, és adja hozzá egy NSG alhálózathoz.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 Ez az architektúra telepítésének érhető el a [GitHub][github-folder]. Telepíti a következő:
 
@@ -169,6 +170,7 @@ A minta referenciaarchitektúra telepítésével kapcsolatos további informáci
 [azure-automation]: /azure/automation/automation-intro
 [azure-cli]: /azure/virtual-machines-command-line-tools
 [azure-cli-2]: /azure/install-azure-cli?view=azure-cli-latest
+[azure-dns]: /azure/dns/dns-overview
 [git]: https://github.com/mspnp/reference-architectures/tree/master/virtual-machines/multi-vm
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/virtual-machines/multi-vm
 [health-probe-log]: /azure/load-balancer/load-balancer-monitor-log

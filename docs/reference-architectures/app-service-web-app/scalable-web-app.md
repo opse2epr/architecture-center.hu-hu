@@ -7,11 +7,11 @@ pnp.series.prev: basic-web-app
 pnp.series.next: multi-region-web-app
 ms.date: 11/23/2016
 cardTitle: Improve scalability
-ms.openlocfilehash: b875b89b87edd5636d90da8b7f8211f965b39937
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 1fdaf6e3695cb814fa4c275a4a273f9fa9a7b71b
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="improve-scalability-in-a-web-application"></a>A webalkalmazás a méretezhetőség javítása
 
@@ -19,7 +19,7 @@ A referencia-architektúrában bevált eljárások a méretezhetőség és telje
 
 ![[0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra  
 
@@ -34,10 +34,11 @@ Ez az architektúra látható egy épít [alapvető webalkalmazás][basic-web-ap
 * **Adattárolás**. Használjon [Azure SQL Database] [ sql-db] relációs adatok. A nem relációs adatokhoz, fontolja meg egy NoSQL-tároló, például [Cosmos DB][documentdb].
 * **Az Azure Search**. Használjon [Azure Search] [ azure-search] hozzá például a keresési javaslatok, az intelligens egyeztetésű keresési és a nyelvspecifikus keresési keresési funkciót. Az Azure Search általában egy másik adattár együtt használatos, különösen akkor, ha az elsődleges adattár megköveteli a szigorú konzisztencia. Ez a megközelítés tároljuk mérvadó adatok szerepel az adattárban és az Azure Search search-index. Az Azure Search vonják össze egy egyetlen search-index több adat áruházakból is használható.  
 * **E-mailek/SMS**. Például a SendGrid vagy Twilio egy külső szolgáltatás segítségével küldjön e-mailek vagy SMS-üzenetek helyett ezt a funkciót felépítése közvetlenül az alkalmazásba.
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 
 ## <a name="recommendations"></a>Javaslatok
 
-A követelmények eltérhetnek az itt leírt architektúra. A javaslatok használja ebben a szakaszban kiindulási pontként.
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. A javaslatok használja ebben a szakaszban kiindulási pontként.
 
 ### <a name="app-service-apps"></a>App Service-alkalmazások
 Azt javasoljuk, hogy a webalkalmazás és a webes API létrehozása, külön App Service-alkalmazásokhoz. Ez a kialakítás teszi futtathatók az önálló App Service-csomagokról, így azokat egymástól függetlenül lehet méretezni. Ha kezdetben méretezhetőség, amely szintnek nincs szüksége, az alkalmazások üzembe helyezés a csomagot, és helyezze azokat különálló tervek az később szükség esetén.
@@ -73,7 +74,7 @@ Ha az alkalmazás főként a statikus lapokat tartalmaz, érdemes lehet [a telje
 
 Részletes útmutatást, lásd: [Content Delivery Network (CDN) útmutatást][cdn-guidance].
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 Modern alkalmazások gyakran nagy mennyiségű adat feldolgozására. Ahhoz, hogy méretezni a felhőben, fontos válassza ki a megfelelő tárolási típusát. Az alábbiakban néhány alapterv javaslatokat. 
 
 | Szeretné tárolni | Példa | Ajánlott tárolási |
@@ -127,6 +128,7 @@ Használjon [átlátható adattitkosítási] [ sql-encryption] Ha az adatbázis 
 [app-service-api-app]: /azure/app-service-api/app-service-api-apps-why-best-platform
 [app-service-pricing]: https://azure.microsoft.com/pricing/details/app-service/
 [azure-cdn]: https://azure.microsoft.com/services/cdn/
+[azure-dns]: /azure/dns/dns-overview
 [azure-redis]: https://azure.microsoft.com/services/cache/
 [azure-search]: https://azure.microsoft.com/documentation/services/search/
 [azure-search-scaling]: /azure/search/search-capacity-planning

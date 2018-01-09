@@ -6,11 +6,11 @@ ms.date: 11/22/2017
 pnp.series.title: Linux VM workloads
 pnp.series.next: multi-region-application
 pnp.series.prev: multi-vm
-ms.openlocfilehash: 98814685e0f33f2a1258bf8307a86f92d8a81968
-ms.sourcegitcommit: 583e54a1047daa708a9b812caafb646af4d7607b
+ms.openlocfilehash: e875a58aa83339560fd1de5b03a960f071883927
+ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/28/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="run-linux-vms-for-an-n-tier-application"></a>Linux virtuális gépek futtatásához N szintű alkalmazások
 
@@ -27,6 +27,7 @@ Számos módon valósítja meg az N szintű architektúrát. Az ábrán egy tipi
 * **Rendelkezésre állási készletek.** Hozzon létre egy [rendelkezésre állási csoport] [ azure-availability-sets] minden egyes réteg, és minden egyes rétegben legalább két virtuális gépek telepítéséhez.  Ez lehetővé teszi a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatásiszint-szerződés (SLA) szolgáltatás] [ vm-sla] virtuális gépekhez. Telepíthet egy virtuális rendelkezésre állási csoportba, de a virtuális rendszer nem felel meg egy (SLA) garantált csak egyetlen virtuális gép prémium szintű Azure Storage használ az operációs rendszer és az összes lemez.  
 * **Alhálózatok.** Hozzon létre egy külön alhálózatot az egyes rétegekhez. Adja meg a címtartományt és alhálózati maszk használatával [CIDR] jelöléssel. 
 * **Terheléselosztók**. Használjon egy [internetre irányuló terheléselosztót] [ load-balancer-external] terjeszteni a webes réteg bejövő internetes forgalmat és egy [belső terheléselosztó] [ load-balancer-internal]hálózati forgalmat a a webes réteg az üzleti szint és terjeszteni.
+* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 * **Jumpbox.** Más néven a [megerősített állomás]. Biztonságos virtuális gép, amely a rendszergazdák csatlakozhat a virtuális gépeket a hálózaton. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-t kell lehetővé teszik a secure shell (SSH) forgalom.
 * **Figyelés.** Például a figyelés szoftver [Nagios], [Zabbix], vagy [Icinga] biztosíthat, válaszidő, illetve a virtuális gép hasznos üzemidő és a rendszer általános állapotát. Telepíti a figyelési, amely egy különálló felügyeleti alhálózat el van helyezve.
 * **Az NSG-k.** Használjon [hálózati biztonsági csoportok] [ nsg] (NSG-ket) korlátozzák a hálózati forgalmat a Vneten belül. Például a 3-rétegű architektúra itt látható, az adatbázis-rétegből nem fogadja el a előtér, csak az üzleti szint és a felügyeleti alhálózati a forgalmat.
@@ -160,6 +161,7 @@ A minta referenciaarchitektúra használata Azure építőelemeket telepítésé
 [azure-administration]: /azure/automation/automation-intro
 [azure-availability-sets]: /azure/virtual-machines/virtual-machines-linux-manage-availability
 [azure-cli-2]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[azure-dns]: /azure/dns/dns-overview
 [megerősített állomás]: https://en.wikipedia.org/wiki/Bastion_host
 [cassandra-in-azure]: https://docs.datastax.com/en/datastax_enterprise/4.5/datastax_enterprise/install/installAzure.html
 [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing

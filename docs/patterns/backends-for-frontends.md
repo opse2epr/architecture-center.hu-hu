@@ -1,17 +1,17 @@
 ---
 title: "Háttérkiszolgálókon Frontends minta"
-description: "Hozzon létre külön háttér szolgáltatások által meghatározott előtér-alkalmazások vagy felületeket."
+description: "Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre."
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: dd71b65e99ae21dff1443f5728ae5f0f54f8122c
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 87acd39d021c5e44594a2e7c9574e4dd363ce83b
+ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/05/2018
 ---
 # <a name="backends-for-frontends-pattern"></a>Háttérkiszolgálókon Frontends minta
 
-Hozzon létre külön háttér szolgáltatások által meghatározott előtér-alkalmazások vagy felületeket. Ebben a mintában akkor hasznos, ha el szeretné kerülni, több kapcsolathoz egyetlen háttérkiszolgálón testreszabása.
+Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre. Ebben a mintában akkor hasznos, ha el szeretné kerülni, több kapcsolathoz egyetlen háttérkiszolgálón testreszabása. Ebben a mintában Sam Newman először le lett.
 
 ## <a name="context-and-problem"></a>A környezetben, és probléma
 
@@ -32,6 +32,8 @@ Hozzon létre egy háttér egy felhasználói felületet. Konfigurálva finomhan
 ![](./_images/backend-for-frontend-example.png) 
 
 Mivel több olyan illesztőt háttérkészletek, azt is lehet optimalizálni kapcsolat. Ennek eredményeképpen lesz kisebb, kevésbé összetett, és valószínűleg gyorsabb, mint az általános háttérkiszolgálón, amely megfelel az összes illesztő megkísérli. Minden felületet csoport rendelkezik saját háttér vezérlésére önállóan, és nem függ egy központosított háttérkiszolgálón fejlesztői csapat a. A nyelv kiválasztása kiadás ütemben történik, alkalmazások és szolgáltatások és szolgáltatások integrációja a a háttérbeli rangsorolási felület csapata rugalmasan segítségével.
+
+További információkért lásd: [mintát: háttérkiszolgálókon a Frontends](http://samnewman.io/patterns/architectural/bff/).
 
 ## <a name="issues-and-considerations"></a>Problémákat és szempontok
 
@@ -56,7 +58,7 @@ Ez a minta nem alkalmasak lehetnek:
 - Ha felületek kéréseket az ugyanazon vagy hasonló háttérkiszolgálóra.
 - Csak egy kapcsolat használatakor a háttérrendszer kommunikál.
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
 - [Átjáró összesítési minta](./gateway-aggregation.md)
 - [Átjáró Offloading minta](./gateway-offloading.md)
