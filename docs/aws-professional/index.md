@@ -5,11 +5,11 @@ keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 75fda82ee5ca7ca3665501fe428d1d01995e7422
-ms.sourcegitcommit: c53adf50d3a787956fc4ebc951b163a10eeb5d20
+ms.openlocfilehash: b576b11bc152ef721f56e79609cb7a03f2d31dd3
+ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/23/2017
+ms.lasthandoff: 01/02/2018
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -52,7 +52,7 @@ Az előfizetési szint alatt a felhasználói szerepkörök és az egyéni enged
 Az AWS-fiókokhoz hasonlóan az előfizetések alapértelmezett szolgáltatási kvótákkal és korlátokkal rendelkeznek. A korlátok teljes listáját [az Azure-előfizetések és -szolgáltatások korlátozásait, kvótáit és megkötéseit](https://azure.microsoft.com/documentation/articles/azure-subscription-service-limits/) ismertető cikkben találja.
 Ezek a korlátok a maximális értékre növelhetők [egy támogatási kérelem a felügyeleti portálon történő kitöltésével](https://blogs.msdn.microsoft.com/girishp/2015/09/20/increasing-core-quota-limits-in-azure/).
 
-### <a name="see-also"></a>Lásd még:
+### <a name="see-also"></a>Lásd még
 
 -   [Azure-rendszergazdai szerepkörök hozzáadása vagy módosítása](https://azure.microsoft.com/documentation/articles/billing-add-change-azure-subscription-administrator/)
 
@@ -97,7 +97,7 @@ Az ilyen kezelőfelületekben az erőforráscsoport központi szerepet játszik 
 
 A kezelőfelületek szintaxisa és szerkezete különbözik az AWS-beli megfelelőiktől, azonban összehasonlítható képességekkel is rendelkeznek. Továbbá számos, az AWS-ben használt, harmadik féltől származó felügyeleti eszköz – például a [Hashicorp Terraform](https://www.terraform.io/docs/providers/azurerm/) és a [Netflix Spinnaker](http://www.spinnaker.io/) – szintén elérhető az Azure-ban.
 
-### <a name="see-also"></a>Lásd még:
+### <a name="see-also"></a>Lásd még
 
 -   [Az Azure-erőforráscsoportokkal kapcsolatos irányelvek](https://azure.microsoft.com/documentation/articles/virtual-machines-windows-infrastructure-resource-groups-guidelines/)
 
@@ -134,7 +134,7 @@ Az AWS rendelkezésre állási zónáitól eltérően, amelyek fizikailag külö
 
 Az Azure [georedundáns tárolási szolgáltatásának](https://azure.microsoft.com/documentation/articles/storage-redundancy/#geo-redundant-storage) biztonsági mentése automatikusan a megfelelő párosított régióra történik. Minden egyéb erőforrás esetében a párosított régiókat használó teljesen redundáns megoldás létrehozása egyet jelent a megoldás teljes másolatának létrehozásával mindkét régióban.
 
-### <a name="see-also"></a>Lásd még:
+### <a name="see-also"></a>Lásd még
 
 -   [Az Azure-beli virtuális gépek régiók szerinti csoportosítása és rendelkezésre állása](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-regions-and-availability/)
 
@@ -205,7 +205,7 @@ Az Azure számos olyan számítási szolgáltatást nyújt, amelyeknek nincs kö
 
 -   A [Service Fabric](https://azure.microsoft.com/documentation/articles/service-fabric-overview/) a skálázható [mikroszolgáltatás](https://azure.microsoft.com/documentation/articles/service-fabric-overview-microservices/)-megoldások fejlesztésére és üzemeltetésére szolgáló platform.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Linuxos virtuális gép létrehozása az Azure-ban a portál használatával](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-quick-create-portal/)
 
@@ -217,7 +217,7 @@ Az Azure számos olyan számítási szolgáltatást nyújt, amelyeknek nincs kö
 
 -   [Az első Azure-függvény létrehozása](https://azure.microsoft.com/documentation/articles/functions-create-first-azure-function/)
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 
 #### <a name="s3ebsefs-and-azure-storage"></a>S3/EBS/EFS és Azure Storage
 
@@ -237,16 +237,14 @@ Az Azure Storage-ban az előfizetéshez kötött [tárfiókokkal](https://azure.
 -   [Queue Storage](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-queues/) – üzenetküldést biztosít a munkafolyamat-feldolgozáshoz és a felhőszolgáltatás összetevői közötti kommunikációhoz.
 
 -   [File Storage](https://azure.microsoft.com/documentation/articles/storage-java-how-to-use-file-storage/) – közös tárterületet biztosít a szabványos SMB protokollt használó örökölt alkalmazások számára. A fájltároló ugyanúgy használható, mint az AWS platform EFS-e.
-
-
-
-
  
 #### <a name="glacier-and-azure-storage"></a>Glacier és Azure Storage 
-Az [Azure Storage Standard Archive](/azure/storage/blobs/storage-blob-storage-tiers) az AWS hosszútávú, archiválási célú Glacier-tárolójának közvetlen megfelelőjeként szolgál. A ritkán használt, hosszú élettartamú adatok tárolására az Azure a [ritkán használt adatok Azure Blob Storage-rétegét](/azure/storage/blobs/storage-blob-storage-tiers) nyújtja.
-A ritkán használt adatok tárolója olcsóbb, kisebb teljesítményű tárolást nyújt, mint a szokásos Blob Storage, és az AWS S3 ritka hozzáférésű eszközéhez hasonlítható.
 
-#### <a name="see-also"></a>Lásd még:
+Az [Azure Archive Blob Storage](/azure/storage/blobs/storage-blob-storage-tiers#archive-access-tier) az AWS Glacier társzolgáltatáshoz hasonlítható. Olyan adatok tárolására tervezték, amelyeket legalább 180 napig tárol, és amelyeknél nem okoz gondot a lekérés több órás késése. 
+
+Olyan adatokhoz, amelyeket ritkán használ, azonban az elérésükre azonnal szükség van, az [Azure Blob Storage-réteg](/azure/storage/blobs/storage-blob-storage-tiers#cool-access-tier) olcsóbb tárhelyet kínál, mint a szabványos blobtárolók. Ez a tárolási szint az AWS S3 ritka elérésű társzolgáltatásához hasonlítható.
+
+#### <a name="see-also"></a>Lásd még
 
 -   [A Microsoft Azure Storage teljesítmény- és skálázhatósági ellenőrzőlistája](https://azure.microsoft.com/documentation/articles/storage-performance-checklist/)
 
@@ -276,7 +274,7 @@ Az AWS-ben a Route 53 a DNS-nevek kezelését és DNS-szintű forgalom-útválas
 
 Az Azure hasonló, helyek közötti dedikált kapcsolatokat nyújt az [ExpressRoute](https://azure.microsoft.com/documentation/services/expressroute/) szolgáltatáson keresztül. Az ExpressRoute lehetővé teszi, hogy a helyi hálózatot közvetlenül az Azure-erőforrásokhoz csatlakoztassa egy dedikált magánhálózati kapcsolaton keresztül. Az Azure hagyományosabb, [helyek közötti VPN-kapcsolatokat](https://azure.microsoft.com/documentation/articles/vpn-gateway-howto-site-to-site-resource-manager-portal/) is elérhetővé tesz, alacsonyabb áron.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Virtuális hálózat létrehozása az Azure Portallal](https://azure.microsoft.com/documentation/articles/virtual-networks-create-vnet-arm-pportal/)
 
@@ -298,7 +296,7 @@ Egyéb adatbázismotorok, például az [SQL Server](https://azure.microsoft.com/
 
 Az AWS RDS költségeit a példány által használt hardveres erőforrások (például a CPU, RAM, tárhely és hálózati sávszélesség) mennyisége határozza meg. Az Azure adatbázis-szolgáltatásokban a költségek az adatbázis méretétől, az egyidejű kapcsolatok számától és az átviteli sebességektől függnek.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Azure SQL Database-oktatóanyagok](https://azure.microsoft.com/documentation/articles/sql-database-explore-tutorials/)
 
@@ -326,7 +324,7 @@ Az Azure a következő ajánlatokra osztja a címtárszolgáltatásokat:
 
 Az [Application Gateway webalkalmazási tűzfal](https://azure.microsoft.com/documentation/articles/application-gateway-webapplicationfirewall-overview/) mellett külső felek, például a [Barracuda Networks](https://azure.microsoft.com/marketplace/partners/barracudanetworks/waf/) [webalkalmazási tűzfalát](https://azure.microsoft.com/documentation/articles/application-gateway-webapplicationfirewall-overview/) is használhatja.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Ismerkedés a Microsoft Azure biztonsági szolgáltatásaival](https://azure.microsoft.com/documentation/articles/azure-security-getting-started/)
 
@@ -352,11 +350,11 @@ A Device Farm eszközök közötti tesztelési szolgáltatásokat nyújt. Az Azu
 
 Az előtértesztelés mellett az [Azure DevTest Labs](https://azure.microsoft.com/services/devtest-lab/) háttértesztelési erőforrásokat nyújt a linuxos és windowsos környezetekhez.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [How to use Queue storage from Node.js (A Queue Storage használata Node.js-sel)](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-queues/)
 
--   [A Service Bus-üzenetsorok használata](https://azure.microsoft.com/documentation/articles/service-bus-nodejs-how-to-use-queues/)
+-   [How to use Service Bus Queues](https://azure.microsoft.com/documentation/articles/service-bus-nodejs-how-to-use-queues/) (A Service Bus-üzenetsorok használata)
 
 ### <a name="analytics-and-big-data"></a>Elemzés és big data
 
@@ -378,7 +376,7 @@ Az előtértesztelés mellett az [Azure DevTest Labs](https://azure.microsoft.co
 
 -   A [PowerBI](https://powerbi.microsoft.com/) az adatok megjelenítésére szolgál.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Cortana Intelligence Gallery](https://gallery.cortanaintelligence.com/)
 
@@ -388,7 +386,7 @@ Az előtértesztelés mellett az [Azure DevTest Labs](https://azure.microsoft.co
 
 ### <a name="internet-of-things"></a>Eszközök internetes hálózata
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Ismerkedés az Azure IoT Hub szolgáltatással](https://azure.microsoft.com/documentation/articles/iot-hub-csharp-csharp-getstarted/)
 
@@ -400,7 +398,7 @@ Az előtértesztelés mellett az [Azure DevTest Labs](https://azure.microsoft.co
 
 A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, ezért külső szolgáltatásokra van szükség az ilyen típusú üzenetküldéshez.
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 
 -   [Android-alkalmazás létrehozása](https://azure.microsoft.com/documentation/articles/app-service-mobile-android-get-started/)
 
@@ -410,7 +408,7 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 
 ### <a name="management-and-monitoring"></a>Kezelés és figyelés
 
-#### <a name="see-also"></a>Lásd még:
+#### <a name="see-also"></a>Lásd még
 -   [Megfigyelési és diagnosztikai útmutató](https://azure.microsoft.com/documentation/articles/best-practices-monitoring/)
 
 -   [Az Azure Resource Manager-sablonok létrehozásának ajánlott eljárásai](https://azure.microsoft.com/documentation/articles/resource-manager-template-best-practices/)
@@ -418,7 +416,7 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 -   [Az Azure Resource Manager gyorsindítási sablonjai](https://azure.microsoft.com/documentation/templates/)
 
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 -   [Az AWS és az Azure szolgáltatás-összehasonlító mátrixa](https://aka.ms/azure4aws-services)
 

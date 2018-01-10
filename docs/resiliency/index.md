@@ -5,11 +5,11 @@ author: MikeWasson
 ms.date: 05/26/2017
 ms.custom: resiliency
 pnp.series.title: Design for Resiliency
-ms.openlocfilehash: 31a685e46da02fb59d93a210e6f14da5c68331de
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 0cbcf0a8af1a8e20f2a1c024f5146a37176c5d1e
+ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/08/2017
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -25,13 +25,17 @@ A **rugalmasság** a rendszer azon képessége, hogy helyreálljon a hibák utá
 A rugalmasság két fontos szempontja a magas rendelkezésre állás és a vészhelyreállítás.
 
 * A **magas rendelkezésre állás** az alkalmazás azon képessége, amellyel kifogástalan állapotban tudja folytatni a működést, jelentős állásidő nélkül. A „kifogástalan állapot” alatt azt értjük, hogy az alkalmazás válaszol, és a felhasználók csatlakozni tudnak az alkalmazáshoz, valamint használni tudják azt.  
-* A **vészhelyreállítás** a ritka, de nagyobb incidensekből való helyreállítás képessége: ezek nem átmeneti, széleskörű hibák, például a szolgáltatás megszakadása, ami hatással van egy teljes régióra. A vészhelyreállításba tartozik az adatok biztonsági mentése és archiválása, és manuális beavatkozást foglalhat magába, például az adatbázis biztonsági mentésből való helyreállítását. 
+* A **vészhelyreállítás** a ritka, de nagyobb incidensekből való helyreállítás képessége: ezek nem átmeneti, széleskörű hibák, például a szolgáltatás megszakadása, ami hatással van egy teljes régióra. A vészhelyreállításba tartozik az adatok biztonsági mentése és archiválása, és manuális beavatkozást foglalhat magába, például az adatbázis biztonsági mentésből való helyreállítását.
 
-A magas rendelkezésre állás és a vészhelyreállítás úgy képzelhető el a legegyszerűbben, hogy a vészhelyreállítás akkor kezdődik, amikor a hiba hatása nagyobb annál, mint amit a magas rendelkezésre állás kezelni képes. Ha például több virtuális gépet tesz egy terheléselosztó mögé, az rendelkezésre állást nyújthat egy virtuális gép meghibásodása esetén, de akkor nem, ha mindegyik egyszerre hibásodik meg. 
+A magas rendelkezésre állás és a vészhelyreállítás úgy képzelhető el a legegyszerűbben, hogy a vészhelyreállítás akkor kezdődik, amikor a hiba hatása nagyobb annál, mint amit a magas rendelkezésre állás kezelni képes.  
 
-Amikor egy alkalmazást rugalmasan tervez meg, tudnia kell a rendelkezésreállási követelményeket. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez? Azt is meg kell határoznia, hogy mit jelent az alkalmazás rendelkezésre állása. Az alkalmazás „üzemen kívül” van-e, ha egy ügyfél el tud küldeni egy rendelést, de a rendszer nem tudja feldolgozni azt a normál időkereten belül? Egy bizonyos típusú üzemszünet előfordulásának esélyét is vegye figyelembe, valamint hogy a kockázatcsökkentési stratégia költséghatékony-e.
+Amikor rugalmasságra törekszik a tervezéskor, ismernie kell a rendelkezésre állási követelményeket. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez? Azt is meg kell határoznia, hogy mit jelent az alkalmazás rendelkezésre állása. Az alkalmazás „üzemen kívül” van-e, ha egy ügyfél el tud küldeni egy rendelést, de a rendszer nem tudja feldolgozni azt a normál időkereten belül? Egy bizonyos típusú üzemszünet előfordulásának esélyét is vegye figyelembe, valamint hogy a kockázatcsökkentési stratégia költséghatékony-e.
 
-Egy másik gyakori kifejezés az **üzletmenet folytonossága**, amely kedvezőtlen feltételek, például természeti katasztrófa vagy egy szolgáltatás kiesése alatt és után az alapvető üzleti funkciók elvégzésének képességét jelenti. Az üzletmenet folytonosságába beletartozik az üzlet teljes működése, beleértve a fizikai létesítményeket, a személyeket, a kommunikációt, a szállítást és az informatikát. Ez a cikk a felhőalapú alkalmazásokra összpontosít, de a rugalmasság tervezését az általános üzletmenet-folytonossági követelményeket figyelembe véve kell elvégezni. További információt az Amerikai Nemzeti Szabványügyi és Technológiai Intézet (National Institute of Standards and Technology, NIST) [Contingency Planning Guide][capacity-planning-guide][capacity-planning-guide] (Válságtervkészítési útmutató) című dokumentumában talál.
+Egy másik gyakori kifejezés az **üzletmenet folytonossága**, amely kedvezőtlen feltételek, például természeti katasztrófa vagy egy szolgáltatás kiesése alatt és után az alapvető üzleti funkciók elvégzésének képességét jelenti. Az üzletmenet folytonosságába beletartozik az üzlet teljes működése, beleértve a fizikai létesítményeket, a személyeket, a kommunikációt, a szállítást és az informatikát. Ez a cikk a felhőalapú alkalmazásokra összpontosít, de a rugalmasság tervezését az általános üzletmenet-folytonossági követelményeket figyelembe véve kell elvégezni. 
+
+Az **adatok biztonsági mentése** a DR kritikus része. Ha egy alkalmazás állapot nélküli összetevői meghibásodnak, mindig újból üzembe helyezheti őket. Adatvesztés esetén azonban a rendszer nem tud visszatérni stabil állapotba. Az adatokról biztonsági mentést kell készíteni, ideális esetben egy másik régióban, egy egész régióra kiterjedő katasztrófa esetére. 
+
+A biztonsági mentés nem azonos az **adatreplikációval**. Adatreplikáció esetén az adatok másolása szinte valós időben történik, hogy a rendszer gyorsan átadhassa a műveleteket egy replikának. Számos adatbázisrendszer támogatja a replikálást, például az SQL Server támogatja az SQL Server Always On rendelkezésre állási csoportokat. Az adatreplikáció csökkentheti a kimaradás utáni helyreálláshoz szükséges időt, mivel biztosítja, hogy az adatok replikája mindig készenlétben legyen. Az adatreplikáció azonban nem véd az emberi hibák ellen. Ha az adatok emberi hiba miatt sérülnek, ezek a sérült adatok egyszerűen átmásolódnak a replikákba. Ezért a DR-stratégiájának tartalmaznia kell a hosszú távú biztonsági mentést. 
 
 ## <a name="process-to-achieve-resiliency"></a>A rugalmasság elérésének folyamata
 A rugalmasság nem kezelhető bővítményként. A rendszer integrált részeként kell megtervezni, és a gyakorlat részévé kell tenni. Itt láthat egy általános modellt, amelyet követhet:
@@ -64,6 +68,7 @@ A használati mintákat is érdemes figyelembe venni. Vannak bizonyos kritikus i
 Két fontos mérőszámot érdemes figyelembe vennie: a helyreállítási időre vonatkozó célkitűzést és a helyreállítási időkorlátot.
 
 * A **helyreállítási időre vonatkozó célkitűzés** (RTO) az a maximális elfogadható idő, ameddig egy alkalmazás elérhetetlen maradhat egy incidens után. Ha az RTO 90 perc, akkor a katasztrófa kezdetétől számított 90 percen belül helyre kell tudnia állítani az alkalmazás futó állapotát. Ha nagyon alacsony RTO-val kell számolnia, egy második üzemelő példány folyamatosan készenléti módban futhat, amely megvédi a regionális leállásoktól.
+
 * A **helyreállítási időkorlát** (RPO) a katasztrófa során elfogadható adatveszteség maximális ideje. Ha például egyetlen adatbázisban tárol adatokat, és nem készít replikát egy másik adatbázisba, és óránként végez biztonsági mentéseket, akkor legfeljebb egy órányi adatot veszíthet. 
 
 Az RTO-ra és az RPO-ra üzleti követelményként tekinthet. A kockázatfelmérés elvégzésével meghatározhatja az alkalmazás RTO- és RPO-értékét. Egy másik gyakori mérőszám a **helyreállítás átlagos ideje** (MTTR), amely a hiba után az alkalmazás visszaállításával töltött átlagos idő. Az MTTR a rendszer empirikus jellemzője. Ha az MTTR nagyobb, mint az RTO, akkor a rendszer hibája az üzletmenet elfogadhatatlan mértékű szüneteltetését okozza, mert nem lehet visszaállítani a rendszert a megadott RTO-n belül. 
@@ -134,6 +139,33 @@ A feladatátvétel továbbá nem azonnali lefutású, így a feladatátvétel so
 
 A kiszámított SLA-szám hasznos kiindulási alap, de nem mutat teljes képet a rendelkezésre állásról. Gyakran előfordul, hogy egy alkalmazás teljesítménye leállás nélkül csökken, ha nem kritikus útvonal hibásodik meg. Vegyünk például egy könyvkatalógust megjelenítő alkalmazást. Ha az alkalmazás nem tudja lekérni a borítók miniatűrjét, helyőrző képet jeleníthet meg helyette. Ebben az esetben a kép lekérésének sikertelensége nem csökkenti az alkalmazás üzemidejét, de hatással van a felhasználói élményre.  
 
+## <a name="redundancy-and-designing-for-failure"></a>Redundancia és meghibásodásra felkészült tervezés
+
+A hibák a hatásukat illetően eltérőek lehetnek. Bizonyos hardveres hibák – például egy meghibásodott lemez – csak egyetlen gazdagépet érintenek. Egy meghibásodott hálózati kapcsoló egy teljes kiszolgálószekrényt érinthet. Kevésbé gyakori meghibásodások teljes adatközpontok működését zavarhatják meg, például egy áramkimaradás esetén az adatközpontban. Ritkán egy teljes régió válhat elérhetetlenné.
+
+Az alkalmazások rugalmasságának egyik legfőbb eleme a redundancia. Ezt a redundanciát azonban meg kell terveznie az alkalmazás fejlesztésekor. A szükséges redundancia szintje az üzleti követelményeitől függ. Nem szükséges minden alkalmazáshoz régiók közötti redundancia, hogy védelmet nyújtson a regionális kimaradással szemben. Általában a nagyobb redundancia és megbízhatóság magasabb költséget és összetettséget von magával.  
+
+Az Azure számos funkciót kínál, amellyel az alkalmazások számára biztosítja a redundanciát a meghibásodások minden szintjén, egyetlen virtuális géptől kezdve egészen a teljes régiókig. 
+
+![](./images/redundancy.svg)
+
+**Egyetlen virtuális gép**. Az Azure üzemidőre vonatkozó SLA-t biztosít a virtuális gépekhez. Bár magasabb SLA-t kaphat két vagy több virtuális gép futtatása esetén, egyetlen virtuális gép is elég megbízható lehet bizonyos számítási feladatokhoz. Az éles számítási feladatokhoz két vagy több virtuális gép használatát javasoljuk a redundancia biztosítása érdekében. 
+
+**Rendelkezésre állási csoportok**. A helyi hardverhibák, például lemezek vagy hálózati kapcsolók meghibásodása elleni védelem érdekében helyezzen üzembe két vagy több virtuális gépet egy rendelkezésre állási csoportban. Egy rendelkezésre állási csoport két vagy több *tartalék tartományból* áll, amelyek közös áramforrással és hálózati kapcsolóval rendelkeznek. A rendelkezésre állási csoportban található virtuális gépek el vannak osztva a tartalék tartományok között, ezért ha hardverhiba merül fel az egyik tartalék tartományban, a hálózati forgalom átirányítható a többi tartalék tartományban található virtuális gépekre. További információt a rendelkezésre állási csoportokról [a Windows rendszerű virtuális gépek rendelkezésre állásának az Azure-ban történő kezelését](/azure/virtual-machines/windows/manage-availability) ismertető cikkben talál.
+
+**Rendelkezésre állási zónák (előzetes verzió)**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
+
+**Párosított régiók**. Annak érdekében, hogy védelmet nyújtson egy alkalmazás számára regionális kimaradás esetén, helyezze üzembe az alkalmazást egyszerre több régióban, és az Azure Traffic Manager használatával ossza el az internetes forgalmat a különböző régiók között. Minden egyes Azure-régió párban áll egy másikkal. Ezek együtt egy [régiópárt](/azure/best-practices-availability-paired-regions) alkotnak. Dél-Brazília kivételével a régiópárok azonos földrajzi helyen találhatók, hogy adóügyi és törvényi szempontból megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
+
+Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók közötti hálózati késés magasabb, mint egy régión belül. Például, ha egy adatbázist replikál a feladatátvétel támogatása érdekében, használjon szinkron adatreplikációt a régión belül, míg aszinkron adatreplikációt a régiók között.
+
+| &nbsp; | Rendelkezésre állási csoport | Rendelkezésre állási zóna | Párosított régió |
+|--------|------------------|-------------------|---------------|
+| Hiba hatóköre | Kiszolgálószekrény | Adatközpont | Régió |
+| Kérések útválasztása | Load Balancer | Zónák közötti terheléselosztó | Traffic Manager |
+| Hálózati késleltetés | Nagyon alacsony | Alacsony | Közepes vagy magas |
+| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony (előzetes verzió) |
+
 ## <a name="designing-for-resiliency"></a>Rugalmasságot szem előtt tartó tervezés
 A tervezési fázis során javasolt hibaállapot-elemzést (FMA) végezni. Az FMA célja a lehetséges meghibásodási pontok megtalálása, és annak definiálása, hogyan reagáljon az alkalmazás ezekre a hibákra.
 
@@ -150,7 +182,7 @@ Az FMA eljárásra vonatkozó további információkért – a kifejezetten az A
 | --- | --- |
 | A szolgáltatás nem érhető el |HTTP 5xx |
 | Szabályozás |HTTP 429 (Túl sok kérelem) |
-| Authentication |HTTP 401 (Jogosulatlan) |
+| Hitelesítés |HTTP 401 (Jogosulatlan) |
 | Lassú válasz |A kérés túllépi az időkorlátot |
 
 ## <a name="resiliency-strategies"></a>Rugalmassági stratégiák
@@ -168,12 +200,11 @@ További információkért lásd: [Újrapróbálkozási minta][retry-pattern].
 ### <a name="load-balance-across-instances"></a>Terheléselosztás példányok között
 A skálázhatóság érdekében a felhőalkalmazásoknak képesnek kell lenniük a további példányok hozzáadása révén történő horizontális felskálázásra. Ez a módszer is növeli a rugalmasságot, mert a nem megfelelő állapotú példányokat ki lehet iktatni a rotációból.  
 
-Példa:
+Például:
 
 * Helyezzen két vagy több virtuális gépet terheléselosztó mögé. A terheléselosztó az összes virtuális gép között osztja el a forgalmat. Lásd az [elosztott terhelésű virtuális gépek üzemeltetése a skálázhatóság és a rendelkezésre állás érdekében][ra-multi-vm] témakörrel foglalkozó részt.
 * Skálázzon fel horizontálisan egy Azure App Service alkalmazást több példányra. Az App Service automatikusan elosztja a terhelést a példányok között. Lásd: [Alapszintű webalkalmazás][ra-basic-web].
 * Az [Azure Traffic Managerrel][tm] ossza el a forgalmat végpontok között.
-
 
 ### <a name="replicate-data"></a>Adatok replikálása
 Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik.  
@@ -183,7 +214,7 @@ Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnol
 A rendelkezésre állás maximalizálása érdekében a replikákat több régióban is el lehet helyezni. Ez azonban növeli az adatok replikálásával járó késést. A régiók közötti replikálás általában aszinkron módon történik, ami végleges konzisztenciájú modellt jelent, valamint azt, hogy egy replika meghibásodása adatveszteséggel járhat. 
 
 ### <a name="degrade-gracefully"></a>Leállás nélküli teljesítménycsökkenés
-Ha egy szolgáltatás meghibásodik, és nincs feladatátvételi útvonal, az alkalmazás képes lehet leállás nélküli teljesítménycsökkenéssel tovább futni, továbbra is elfogadható felhasználói élményt nyújtva. Példa:
+Ha egy szolgáltatás meghibásodik, és nincs feladatátvételi útvonal, az alkalmazás képes lehet leállás nélküli teljesítménycsökkenéssel tovább futni, továbbra is elfogadható felhasználói élményt nyújtva. Például:
 
 * Helyezzen egy munkaelemet üzenetsorba későbbi kezelés céljából. 
 * Adjon vissza becsült értéket.
@@ -320,7 +351,7 @@ A korábbi szakaszok az automatizált helyreállítási stratégiákról szólta
 
 Dokumentálja és tesztelje a vészhelyreállítási tervet. Értékelje az alkalmazáshibák üzletmenetre gyakorolt hatását. A lehető legnagyobb mértékben automatizálja a folyamatot, és dokumentálja az összes manuális lépést, például a manuális feladatátvételt vagy az adatok biztonsági másolatból történő visszaállítását. A terv ellenőrzéséhez és továbbfejlesztéséhez rendszeresen tesztelje a vészhelyreállítási folyamatot. 
 
-## <a name="summary"></a>Összefoglalás
+## <a name="summary"></a>Összegzés
 A cikk holisztikus szempontból tárgyalta a rugalmasságot, és kiemelte a felhőalapú környezet néhány egyedi kihívását. Ezek közé tartozik a felhőalapú számítógép-használat elosztott jellege, a hagyományos hardverek használata és az átmeneti hálózati hibák jelenléte.
 
 A cikk lényeges pontjai a következők:
