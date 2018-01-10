@@ -2,11 +2,11 @@
 title: Azure Architecture Center
 description: "Az Azure Architecture Center a Microsoft Azure-alapú megoldások létrehozásával kapcsolatos útmutatások, tervek, minták és ajánlott eljárások hivatalos gyűjteménye, amelyet a Microsoft mintákkal és gyakorlatokkal foglalkozó csoportja állít össze."
 layout: LandingPage
-ms.openlocfilehash: 3afe907b8ea1fe59d6c2eb9505ddb34775fdcd62
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: d48861a1001c9bef8cad152a3664077f2ad915c6
+ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 12/29/2017
 ---
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
@@ -84,20 +84,20 @@ ms.lasthandoff: 11/14/2017
             </div>
         </a>
     </li>
-    <!-- Performance anti-practices -->
+    <!-- Microservices -->
     <li>
-        <a href="/azure/architecture/antipatterns">
+        <a href="/azure/architecture/microservices">
             <div class="cardSize">
                 <div class="cardPadding">
                     <div class="card">
                         <div class="cardImageOuter">
                             <div class="cardImage">
-                                <img src="_images/performance.svg" alt="Performance antipatterns" />
+                                <img src="_images/new-content.svg" alt="Designing, building, and operating microservices on Azure" />
                             </div>
                         </div>
                         <div class="cardText">
-                            <h3>Teljesítménnyel kapcsolatos kizárási minták</h3>
-                            <p>A felhőalkalmazások teljesítményével és méretezhetőségével kapcsolatos problémák leggyakoribb okainak észlelése és javítása.</p>
+                            <h3>Mikroszolgáltatások létrehozása az Azure-ban</h3>
+                            <p>Ez a többrészes sorozat végigvezeti egy Azure-alapú mikroszolgáltatási architektúra tervezésének és létrehozásának folyamatán. Mellékeltünk egy referenciaimplementációt is.</p>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,27 @@ ms.lasthandoff: 11/14/2017
             </div>
         </a>
     </li>
-    <!-- Azure for AWS Professionals -->
+    <!-- Azure Virtual Datacenter -->
+    <li>
+        <a href="https://aka.ms/vdc">
+            <div class="cardSize">
+                <div class="cardPadding">
+                    <div class="card">
+                        <div class="cardImageOuter">
+                            <div class="cardImage">
+                                <img src="_images/virtual-datacenter.svg" alt="Azure Virtual Datacenter e-book" />
+                            </div>
+                        </div>
+                        <div class="cardText">
+                            <h3>Azure Virtual Datacenter e-könyv</h3>
+                            <p>Ez az e-könyv bemutatja, hogyan helyezhet üzembe vállalati számítási feladatokat az Azure-felhőplatformon a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+        <!-- Azure for AWS Professionals -->
     <li>
         <a href="/azure/architecture/aws-professional">
             <div class="cardSize">
@@ -178,6 +198,26 @@ ms.lasthandoff: 11/14/2017
                         <div class="cardText">
                             <h3>Az Azure építőelemei</h3>
                             <p>Egyszerűsítse az Azure-erőforrások üzembe helyezését. Összetett architektúrák üzembe helyezése egyetlen beállításfájllal az Azure-ban.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+    <!-- Performance anti-practices -->
+    <li>
+        <a href="/azure/architecture/antipatterns">
+            <div class="cardSize">
+                <div class="cardPadding">
+                    <div class="card">
+                        <div class="cardImageOuter">
+                            <div class="cardImage">
+                                <img src="_images/performance.svg" alt="Performance antipatterns" />
+                            </div>
+                        </div>
+                        <div class="cardText">
+                            <h3>Teljesítménnyel kapcsolatos kizárási minták</h3>
+                            <p>A felhőalkalmazások teljesítményével és méretezhetőségével kapcsolatos problémák leggyakoribb okainak észlelése és javítása.</p>
                         </div>
                     </div>
                 </div>
@@ -238,26 +278,6 @@ ms.lasthandoff: 11/14/2017
                         <div class="cardText">
                             <h3>Identitáskezelés a több-bérlős alkalmazásokban</h3>
                             <p>Ajánlott eljárások a több-bérlős módhoz az Azure AD identitáskezelésre való használata esetén.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- ElasticSearch -->
-    <li>
-        <a href="/azure/architecture/elasticsearch">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/elasticsearch.svg" alt="Run Elasticsearch on Azure" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Elasticsearch futtatása az Azure-on</h3>
-                            <p>Megtudhatja, hogyan telepíthet, kezelhet és állíthat be Elasticsearch-fürtöt az Azure-ban.</p>
                         </div>
                     </div>
                 </div>
