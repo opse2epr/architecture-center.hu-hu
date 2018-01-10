@@ -2,15 +2,15 @@
 title: "Mikroszolgáltatások architektúra stílus"
 description: "Előnyeit, kihívást és mikroszolgáltatások architektúrák ajánlott eljárásai ismerteti az Azure-on"
 author: MikeWasson
-ms.openlocfilehash: 6426b3342a319832baf5eec35e9c783ba9348bdd
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 08fd39b6cf0b3c88af654b27e21b2d7dd9fb19b1
+ms.sourcegitcommit: 7764a804f000180c37a4f8dbab946b525f784f58
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/09/2018
 ---
 # <a name="microservices-architecture-style"></a>Mikroszolgáltatások architektúra stílus
 
-Egy mikroszolgáltatások architektúra kicsi, önálló szolgáltatások gyűjteményei. Minden szolgáltatás önálló, és meg kell valósítania egy egyetlen üzleti képesség. 
+Egy mikroszolgáltatások architektúra kicsi, önálló szolgáltatások gyűjteményei. Minden szolgáltatás önálló, és meg kell valósítania egy egyetlen üzleti képesség. Az Azure-on a mikroszolgáltatások architektúra létrehozásával kapcsolatos részletes útmutatóért lásd: [tervezési, kiépítési és mikroszolgáltatások létrehozására az Azure-on működő](../../microservices/index.md).
 
 ![](./images/microservices-logical.svg)
  
@@ -73,13 +73,13 @@ Vegye figyelembe a architektúra stílus:
 
 ## <a name="challenges"></a>Kihívásai
 
-- **Összetettsége**. A mikroszolgáltatások alkalmazások áthelyezése több részből áll az egyenértékű egységes alkalmazásnál. Minden szolgáltatás egyszerűbb, de a teljes rendszer egészének összetettebb.
+- **Összetettség**. A mikroszolgáltatások alkalmazások áthelyezése több részből áll az egyenértékű egységes alkalmazásnál. Minden szolgáltatás egyszerűbb, de a teljes rendszer egészének összetettebb.
 
 - **Fejlesztési és tesztelési**. Szolgáltatásfüggőségek fejlesztésről másik módszert igényel. Meglévő eszközök nem feltétlenül tervezték együtt szolgáltatásfüggőségek. Szolgáltatás határain túlnyúló újrabontása bonyolult lehet. Is nehéz függőségei, teszteléséhez, különösen akkor, ha az alkalmazás gyorsan fejlődnek-e.
 
 - **A cégirányítási hiánya**. Mikroszolgáltatások létrehozására decentralizált megközelítés előnye is van, de azt is problémákkal is járhat. A sok különböző nyelv és keretrendszer, az alkalmazás váló nehéz fenntartani fordulhatnak elő. Bevezetni néhány projekt kiterjedő szabványok, csapat rugalmasságot túlságosan korlátozás nélkül hasznos lehet. Ez különösen több területet funkciók, például a naplózás vonatkozik.
 
-- **Hálózati torlódás és késés**. A sok kisméretű, a részletes szolgáltatások használatát további értekezleteire kommunikációt eredményez. Is a szolgáltatás függőségek lekérdezi a lánc túl hosszú (A B kiszolgálóra, amely meghívja a C...) hívásokról, a további várakozási probléma válhat. Szüksége lesz a Tervező API-k gondosan. Kerülje túlságosan chatty API-k, gondolja át szerializálási formátumok és használ aszinkron kommunikációt mintákat keressen.
+- **Hálózati torlódás és késleltetés**. A sok kisméretű, a részletes szolgáltatások használatát további értekezleteire kommunikációt eredményez. Is a szolgáltatás függőségek lekérdezi a lánc túl hosszú (A B kiszolgálóra, amely meghívja a C...) hívásokról, a további várakozási probléma válhat. Szüksége lesz a Tervező API-k gondosan. Kerülje túlságosan chatty API-k, gondolja át szerializálási formátumok és használ aszinkron kommunikációt mintákat keressen.
 
 - **Adatok sértetlensége**. Az egyes mikroszolgáltatási saját adatmegőrzés felelős. Ennek eredményeképpen a adatkonzisztencia kihívást lehet. Vezessék be a végleges konzisztencia, ahol csak lehetséges.
 
@@ -111,7 +111,7 @@ Vegye figyelembe a architektúra stílus:
 
 ## <a name="microservices-using-azure-container-service"></a>Azure Tárolószolgáltatás használatával Mikroszolgáltatások 
 
-Azure Tárolószolgáltatás segítségével konfigurálhatja, és helyezze üzembe egy Docker-fürtöt. Az Azure tárolószolgáltatások számos népszerű tároló orchestrators, beleértve a Kubernetes, a DC/OS és a Docker Swarm támogatja.
+Használhat [Azure Tárolószolgáltatás](/azure/container-service/) konfigurálása, és helyezze üzembe egy Docker-fürt számára. Az Azure tárolószolgáltatások számos népszerű tároló orchestrators, beleértve a Kubernetes, a DC/OS és a Docker Swarm támogatja.
 
 ![](./images/microservices-acs.png)
  
@@ -133,7 +133,7 @@ Az alábbi ábrán látható négy különböző szolgáltatásokat (különböz
 
 ## <a name="microservices-using-azure-service-fabric"></a>Azure Service Fabric használatával Mikroszolgáltatások
 
-Az alábbi ábrán egy mikroszolgáltatások architektúra Azure Service Fabric használatával.
+Az alábbi ábrán látható egy mikroszolgáltatások architektúra használatával [Azure Service Fabric](/azure/service-fabric/).
 
 ![](./images/service-fabric.png)
 
