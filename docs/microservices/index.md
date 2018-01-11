@@ -3,17 +3,17 @@ title: "Mikroszolgáltatások tervezése, létrehozása és működtetése az Az
 description: "Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban"
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: c279546552d731a01ed970e7942ad7d4a56157da
-ms.sourcegitcommit: 94c769abc3d37d4922135ec348b5da1f4bbcaa0a
+ms.openlocfilehash: 857e91a8eeefec18b459f2e66fde9a4f8bbe7b21
+ms.sourcegitcommit: 744ad1381e01bbda6a1a7eff4b25e1a337385553
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/13/2017
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="designing-building-and-operating-microservices-on-azure"></a>Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban
 
 ![](./images/drone.svg)
 
-A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához. Azonban ahhoz, hogy ez több legyen, mint egy divatos kifejezés, a mikroszolgáltatások esetén új megközelítés szükséges az alkalmazások tervezésekor és létrehozásakor. 
+A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához. Azonban ahhoz, hogy ez több legyen, mint egy divatos kifejezés, a mikroszolgáltatások esetén új megközelítés szükséges az alkalmazások tervezésekor és létrehozásakor. 
 
 Ezekben a cikkekben megismerjük, hogyan hozhat létre és futtathat egy mikroszolgáltatási architektúrát az Azure-ban. A témakörök a következők:
 
@@ -35,7 +35,7 @@ Elsőként kezdjük az alapokkal. Mik azok a mikroszolgáltatások, és mik a mi
 A mikroszolgáltatási architektúrákat kisebb, független szolgáltatások alkotják. Íme néhány a mikroszolgáltatások meghatározó jellemzői közül:
 
 - Mindegyik mikroszolgáltatás egyetlen üzleti képességet valósít meg.
-- A mikroszolgáltatások általában elég kis méretűek ahhoz, hogy fejlesztők egy kis csoportja, általában 5–10 fő alkalmas legyen a megírásukra és fenntartásukra.
+- A mikroszolgáltatások általában elég kis méretűek ahhoz, hogy fejlesztők egy kis csoportja alkalmas legyen a megírásukra és fenntartásukra.
 - A mikroszolgáltatások külön folyamatokban futnak, jól meghatározott API-kon vagy üzenetkezelési mintákon keresztül kommunikálva. 
 - A mikroszolgáltatások nem osztoznak az adattárolókon vagy adatsémákon. Mindegyik mikroszolgáltatás a saját adatainak kezeléséért felelős. 
 - A mikroszolgáltatások külön kódbázissal és forráskóddal rendelkeznek. Használhatnak azonban közös segédprogramkódtárat.

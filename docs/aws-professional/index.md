@@ -5,11 +5,11 @@ keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: b576b11bc152ef721f56e79609cb7a03f2d31dd3
-ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
+ms.openlocfilehash: ac96110e3fe69b4bb69714e18fd0f193208bc244
+ms.sourcegitcommit: 744ad1381e01bbda6a1a7eff4b25e1a337385553
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/02/2018
+ms.lasthandoff: 01/08/2018
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -103,36 +103,45 @@ A kezelőfelületek szintaxisa és szerkezete különbözik az AWS-beli megfelel
 
 ## <a name="regions-and-zones-high-availability"></a>Régiók és zónák (magas rendelkezésre állás)
 
-Az AWS-ben a rendelkezésre állás a rendelkezésre állási zónák fogalma köré épül. Az Azure-ban a tartalék tartományok és a rendelkezésre állási csoportok mind részét képezik a magas elérhetőségű megoldások létrehozásának. A párosított régiók további vészhelyreállítási képességeket is nyújtanak.
+A hibák a hatásukat illetően eltérőek lehetnek. Bizonyos hardveres hibák – például egy meghibásodott lemez – csak egyetlen gazdagépet érintenek. Egy meghibásodott hálózati kapcsoló egy teljes kiszolgálószekrényt érinthet. Kevésbé gyakori meghibásodások teljes adatközpontok működését zavarhatják meg, például egy áramkimaradás esetén az adatközpontban. Ritkán egy teljes régió válhat elérhetetlenné.
 
-### <a name="availability-zones-azure-fault-domains-and-availability-sets"></a>Rendelkezésre állási zónák, tartalék tartományok az Azure-ban, és a rendelkezésre állási csoportok
+Az alkalmazások rugalmasságának egyik legfőbb eleme a redundancia. Ezt a redundanciát azonban meg kell terveznie az alkalmazás fejlesztésekor. A szükséges redundancia szintje az üzleti követelményeitől függ. Nem szükséges minden alkalmazáshoz régiók közötti redundancia, hogy védelmet nyújtson a regionális kimaradással szemben. Általában a nagyobb redundancia és megbízhatóság magasabb költséget és összetettséget von magával.  
 
-Az AWS-ben egy régió kettő vagy több rendelkezésre állási zónára oszlik. A rendelkezésre állási zóna megfelel a földrajzi régió egyik fizikailag elkülönített adatközpontjának.
-Ha az alkalmazáskiszolgálókat különböző rendelkezésre állási zónákban helyezi üzembe, akkor az egyik zónát érintő hardver- vagy kapcsolatkiesés nincs hatással a más zónákban üzemeltetett kiszolgálókra.
+Az AWS-ben egy régió kettő vagy több rendelkezésre állási zónára oszlik. A rendelkezésre állási zóna megfelel a földrajzi régió egyik fizikailag elkülönített adatközpontjának. Az Azure számos funkciót kínál, amellyel az alkalmazások számára biztosítja a redundanciát a meghibásodások minden szintjén. Ezek közé tartoznak a **rendelkezésre állási csoportok**, a **rendelkezésre állási zónák** és a **párosított régiók**. 
 
-Az Azure-ban a [tartalék tartományok](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-manage-availability/) közös fizikai tápforrással és hálózati kapcsolóval rendelkező virtuális gépek csoportjai.
-A [rendelkezésre állási csoportok](https://azure.microsoft.com/documentation/articles/virtual-machines-windows-manage-availability/) használatával a virtuális gépek több tartalék tartomány között is eloszthatók. Ha több példányt rendel hozzá ugyanahhoz a rendelkezésre állási csoporthoz, az Azure egyenlően osztja el azokat több tartalék tartomány között. Ha az egyik tartományban áramkimaradás vagy hálózatkiesés történik, akkor a csoport virtuális gépeinek legalább egy része egy másik tartalék tartományban van, így az üzemszünet nincs rá hatással.
+![](../resiliency/images/redundancy.svg)
 
-![Az AWS-beli rendelkezésre állási zónák összehasonlítása az Azure-beli tartalék tartományokkal és rendelkezésre állási csoportokkal](./images/zone-fault-domains.png "Az AWS-beli rendelkezésre állási zónák összehasonlítása az Azure-beli tartalék tartományokkal és rendelkezésre állási csoportokkal")
-<br/>*Az AWS-beli rendelkezésre állási zónák összehasonlítása az Azure-beli tartalék tartományokkal és rendelkezésre állási csoportokkal*
-<br/><br/>
+Az alábbi táblázat bemutatja ezek mindegyikét.
 
-A rendelkezésre állási csoportokat a példány az alkalmazásban betöltött szerepe szerint kell meghatározni, hogy minden példány működőképes legyen minden szerepkörben. Például egy normál háromszintű webalkalmazásban külön rendelkezésre állási csoportot kell létrehozni a felhasználói felülethez, az alkalmazáshoz és az adatpéldányokhoz is.
+| &nbsp; | Rendelkezésre állási csoport | Rendelkezésre állási zóna | Párosított régió |
+|--------|------------------|-------------------|---------------|
+| Hiba hatóköre | Kiszolgálószekrény | Adatközpont | Régió |
+| Kérések útválasztása | Load Balancer | Zónák közötti terheléselosztó | Traffic Manager |
+| Hálózati késleltetés | Nagyon alacsony | Alacsony | Közepes vagy magas |
+| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony (előzetes verzió) |
+
+### <a name="availability-sets"></a>Rendelkezésre állási csoportok 
+
+A helyi hardverhibák, például lemezek vagy hálózati kapcsolók meghibásodása elleni védelem érdekében helyezzen üzembe két vagy több virtuális gépet egy rendelkezésre állási csoportban. Egy rendelkezésre állási csoport két vagy több *tartalék tartományból* áll, amelyek közös áramforrással és hálózati kapcsolóval rendelkeznek. A rendelkezésre állási csoportban található virtuális gépek el vannak osztva a tartalék tartományok között, ezért ha hardverhiba merül fel az egyik tartalék tartományban, a hálózati forgalom átirányítható a többi tartalék tartományban található virtuális gépekre. További információt a rendelkezésre állási csoportokról [a Windows rendszerű virtuális gépek rendelkezésre állásának az Azure-ban történő kezelését](/azure/virtual-machines/windows/manage-availability) ismertető cikkben talál.
+
+A virtuális gépek a rendelkezésre állási csoporthoz való hozzáadásukkor egy [frissítési tartományt](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-manage-availability/) is kapnak. A frissítési tartomány virtuális gépek olyan csoportja, amelyben egyezik a tervezett karbantartási események időpontja. A virtuális gépek több tartományban való elosztásával biztosítható, hogy a tervezett frissítési és javítási események egyszerre csak a szóban forgó virtuális gépek egy részét érintsék.
+
+A rendelkezésre állási csoportokat a példány az alkalmazásban betöltött szerepe szerint kell meghatározni, hogy minden példány működőképes legyen minden szerepkörben. Például egy háromszintű webalkalmazásban külön rendelkezésre állási csoportot kell létrehozni a felhasználói felülethez, az alkalmazáshoz és az adatrétegekhez is.
 
 ![Azure-beli rendelkezésre állási csoportok az egyes alkalmazás-szerepkörökhöz](./images/three-tier-example.png "Rendelkezésre állási csoportok az egyes alkalmazás-szerepkörökhöz")
-<br/>*Azure-beli rendelkezésre állási csoportok az egyes alkalmazás-szerepkörökhöz*
-<br/><br/>
 
-A virtuális gépek a rendelkezésre állási csoporthoz való hozzáadásukkor egy [frissítési tartományt](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-manage-availability/) is kapnak.
-A frissítési tartomány virtuális gépek olyan csoportja, amelyben egyezik a tervezett karbantartási események időpontja. A virtuális gépek több tartományban való elosztásával biztosítható, hogy a tervezett frissítési és javítási események egyszerre csak a szóban forgó virtuális gépek egy részét érintsék.
+### <a name="availability-zones-preview"></a>Rendelkezésre állási zónák (előzetes verzió)
+
+A [rendelkezésre állási zónák](/azure/availability-zones/az-overview) egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
 
 ### <a name="paired-regions"></a>Párosított régiók
 
-Az Azure-ban a [párosított régiók](https://azure.microsoft.com/documentation/articles/best-practices-availability-paired-regions/) használatával támogatható a két előre meghatározott földrajzi régió közötti redundancia, ezáltal biztosítható, hogy a megoldás akkor is elérhető legyen, ha az üzemszünet egy teljes Azure-régiót érint.
+Annak érdekében, hogy védelmet nyújtson egy alkalmazás számára regionális kimaradás esetén, helyezze üzembe az alkalmazást egyszerre több régióban, és az [Azure Traffic Manager][traffic-manager] használatával ossza el az internetes forgalmat a különböző régiók között. Minden egyes Azure-régió párban áll egy másikkal. Ezek együtt egy [régiópárt][paired-regions] alkotnak. Dél-Brazília kivételével a régiópárok azonos földrajzi helyen találhatók, hogy adóügyi és törvényi szempontból megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Az AWS rendelkezésre állási zónáitól eltérően, amelyek fizikailag különálló adatközpontok, de egymáshoz viszonylag közeli földrajzi helyen találhatók, a párosított régiókat általában legalább 500 kilométernyi távolság választja el egymástól. Ennek célja, hogy biztosíthassuk azt, hogy a nagy méretű katasztrófák se érintsék a pár mindkét tagját. A szomszédos párok esetén konfigurálható az adatbázisok és a tárolási szolgáltatások adatainak szinkronizálása, és megadható, hogy a platformfrissítések egyszerre csak a pár egyik tagján legyenek kibocsátva.
+A rendelkezésre állási zónáktól eltérően, amelyek fizikailag különálló adatközpontok, de egymáshoz viszonylag közeli földrajzi helyen találhatók, a párosított régiókat általában legalább 500 kilométernyi távolság választja el egymástól. Ennek célja, hogy biztosíthassuk azt, hogy a nagy méretű katasztrófák se érintsék a pár mindkét tagját. A szomszédos párok esetén konfigurálható az adatbázisok és a tárolási szolgáltatások adatainak szinkronizálása, és megadható, hogy a platformfrissítések egyszerre csak a pár egyik tagján legyenek kibocsátva.
 
 Az Azure [georedundáns tárolási szolgáltatásának](https://azure.microsoft.com/documentation/articles/storage-redundancy/#geo-redundant-storage) biztonsági mentése automatikusan a megfelelő párosított régióra történik. Minden egyéb erőforrás esetében a párosított régiókat használó teljesen redundáns megoldás létrehozása egyet jelent a megoldás teljes másolatának létrehozásával mindkét régióban.
+
 
 ### <a name="see-also"></a>Lásd még
 
@@ -268,7 +277,7 @@ Az AWS-ben a Route 53 a DNS-nevek kezelését és DNS-szintű forgalom-útválas
 
 -   Az [Azure DNS](https://azure.microsoft.com/documentation/services/dns/) tartomány- és DNS-kezelést nyújt.
 
--   A [Traffic Manager](https://azure.microsoft.com/documentation/articles/traffic-manager-overview/) DNS-szintű forgalom-útválasztást, terheléselosztást és feladatátvételi képességeket nyújt.
+-   A [Traffic Manager][traffic-manager] DNS-szintű forgalom-útválasztást, terheléselosztást és feladatátvételi képességeket nyújt.
 
 #### <a name="direct-connect-and-azure-expressroute"></a>Direct Connect és Azure ExpressRoute
 
@@ -431,3 +440,9 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 -   [Minták és gyakorlatok: Azure-útmutató](https://azure.microsoft.com/documentation/articles/guidance/)
 
 -   [Ingyenes online tanfolyam: Microsoft Azure AWS-szakértőknek](http://aka.ms/azureforaws)
+
+
+<!-- links -->
+
+[paired-regions]: https://azure.microsoft.com/documentation/articles/best-practices-availability-paired-regions/
+[traffic-manager]: /azure/traffic-manager/
