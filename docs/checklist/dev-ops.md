@@ -1,8 +1,6 @@
 # <a name="devops-checklist"></a>DevOps ellenőrzőlista
 
-DevOps, az integráció fejlesztési, minőségi megbízhatósági és egy egyesített kulturális környezet az IT-üzemeltetők és a folyamatok szoftver kézbesítéséhez készletét. 
-
-Kiindulási pontként az alábbi ellenőrzőlista segítségével mérje fel a DevOps kulturális környezet és a folyamat.
+DevOps, az integráció fejlesztési, minőségi megbízhatósági és egy egyesített kulturális környezet az IT-üzemeltetők és a folyamatok szoftver kézbesítéséhez készletét. Kiindulási pontként az alábbi ellenőrzőlista segítségével mérje fel a DevOps kulturális környezet és a folyamat.
 
 ## <a name="culture"></a>Kulturális környezet
 

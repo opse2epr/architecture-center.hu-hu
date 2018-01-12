@@ -3,11 +3,11 @@ title: "Tartomány-elemzés mikroszolgáltatások"
 description: "Tartomány-elemzés mikroszolgáltatások"
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: dc07c5195299c88a946accbe4e13a997afaaff90
-ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
+ms.openlocfilehash: c3c353a6b30507369357af4b520a51f8afc2fb8d
+ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/29/2017
+ms.lasthandoff: 01/11/2018
 ---
 # <a name="designing-microservices-domain-analysis"></a>Mikroszolgáltatások tervezése: tartomány elemzés 
 
@@ -27,7 +27,7 @@ Ez a fejezet, a következő, a végigvesszük az alábbi lépéseket, azok alkal
 
 3. A kötött környezeten belül taktikai DDD minták adható meg entitások, az összesítések és a tartományi szolgáltatások alkalmazni. 
  
-4. Az eredmények az előző lépésben a mikroszolgáltatások identitása használja az alkalmazásban.
+4. Az előző lépésből származó eredmények segítségével azonosíthatja a mikroszolgáltatások az alkalmazásban.
 
 Ebben a fejezetben azt az első három lépést, amely elsősorban DDD fedik le. A következő fejezetben azt azonosítja a mikroszolgáltatások létrehozására. Fontos azonban megjegyezni, hogy DDD egy iteratív, folyamatban lévő folyamat. Szolgáltatás határok nem rögzített követ. Egy alkalmazás fejlődésének dönthet felosztása egymástól szolgáltatás több kisebb szolgáltatások.
 

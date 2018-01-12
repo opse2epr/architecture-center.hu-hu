@@ -4,11 +4,11 @@ description: "A jobb teljesítmény és méretezhetőség gyorsítótárazás ú
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: f8bc25ef10847e8308e830b745e87a176438d200
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 7968c1578dfef2c7ad28576b9aafbbe2b6672cd9
+ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/11/2018
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -185,23 +185,13 @@ Korlátozza a hozzáférést a gyorsítótárazott adatok megfelelő részhalmaz
 Az adatok védelme kell azt tranzakciós átviteléhez is. Ehhez az szükséges, hogy a biztonsági szolgáltatásoktól függő a hálózati infrastruktúra, amely a gyorsítótárban való csatlakozáskor használandó ügyfélalkalmazások által biztosított. Ha a gyorsítótár megvalósítása a szervezeten belül helyszíni kiszolgáló használata, amely futtatja az ügyfélalkalmazások számára, majd a hálózat elkülönítését nem szükség lehet további lépéseket kell tennie. Ha a gyorsítótárban található távolról, és a TCP- vagy HTTP-kapcsolatot igényel (például az internethez) nyilvános hálózaton keresztül, vegye fontolóra SSL.
 
 ## <a name="considerations-for-implementing-caching-with-microsoft-azure"></a>Szempontok a gyorsítótárazást, ha a Microsoft Azure
-Azure biztosít az Azure Redis Cache. Ez a Redis gyorsítótár, amely egy Azure-adatközpontban szolgáltatásként fut nyílt forráskódú megvalósítása. A gyorsítótárazási szolgáltatás, amely elérhető az összes Azure-alkalmazást, hogy az alkalmazás egy felhőalapú szolgáltatás, a webhely, vagy egy Azure virtuális gépen belüli biztosít. Gyorsítótárak megoszthatók ügyfélalkalmazások, amelyek rendelkeznek a megfelelő hozzáférési kulcsot.
+
+[Azure Redis Cache](/azure/redis-cache/) nyílt forráskódú Redis gyorsítótár, amely egy Azure-adatközpontban szolgáltatásként fut megvalósítása. A gyorsítótárazási szolgáltatás, amely elérhető az összes Azure-alkalmazást, hogy az alkalmazás egy felhőalapú szolgáltatás, a webhely, vagy egy Azure virtuális gépen belüli biztosít. Gyorsítótárak megoszthatók ügyfélalkalmazások, amelyek rendelkeznek a megfelelő hozzáférési kulcsot.
 
 Azure Redis Cache egy olyan nagy teljesítményű gyorsítótárazási megoldás, amely rendelkezésre állását, méretezhetőségét és biztonsági biztosít. Ez általában szolgáltatásként fut egy vagy több dedikált gépek elosztva. Megkísérli mértékű tárolása a memóriában gyors hozzáférés biztosítására használhatja. Ez az architektúra készült biztosít alacsony késéssel és magas teljesítmény ami csökkenti a lassú i/o-műveletek végrehajtásához.
 
  Azure Redis Cache összeegyeztethető számos olyan ügyfél-alkalmazások által használt különböző API-k. Ha meglévő alkalmazásokat, amelyek már az Azure Redis Cache helyileg futó, az Azure Redis Cache kapcsolatot biztosít gyors áttelepítés gyorsítótárazás a felhőben.
 
-> [!NOTE]
-> Azure Managed Cache Service is biztosít. Ez a szolgáltatás az Azure Service Fabric gyorsítótár motor alapul. Ez lehetővé teszi, hogy hozzon létre egy elosztott gyorsítótár, amely a lazán alkalmazások megoszthatók. A gyorsítótár van kiszolgálókon található nagy teljesítményű egy Azure-adatközpontban található.
-> Azonban ez a beállítás már nem ajánlott, és csak megadott meglévő alkalmazások készített történő használatát támogatja. Minden új fejlesztésekhez inkább Azure Redis Cache.
-> 
-> Ezenkívül az Azure támogatja szerepköralapú gyorsítótár. Ez a funkció lehetővé teszi a gyorsítótár adott egy felhőalapú szolgáltatás létrehozása.
-> A gyorsítótár egy webes vagy feldolgozói szerepkör példánya üzemelteti, és csak az azonos felhőalapú szolgáltatás telepítési egység részeként működő szerepkörök érhető el. (Egy központi telepítési egység egy adott területre felhő alapú szolgáltatásként telepített szerepkör-példányokat.) A gyorsítótár fürtözve van, és minden példánya a belül az azonos telepítési egység, amelyen a gyorsítótár gyorsítótár ugyanazon fürt részét képezik. Azonban ez a beállítás már nem ajánlott, és csak megadott meglévő alkalmazások készített történő használatát támogatja. Minden új fejlesztésekhez inkább Azure Redis Cache.
-> 
-> Mind az Azure Managed Cache Service, mind az Azure szerepköralapú gyorsítótár vannak jelenleg nyár kerül piacra használatból való kivonást 2016 November 16.
-> Javasoljuk, hogy át Azure Redis Cache a használatból való kivonást előkészítésekor. További információkért lásd: [Mi az Azure Redis Cache-ajánlatot és milyen méretet használjam?](/azure/redis-cache/cache-faq#what-redis-cache-offering-and-size-should-i-use).
-> 
-> 
 
 ### <a name="features-of-redis"></a>A Redis jellemzői
  A redis több mint egy egyszerű gyorsítótár-kiszolgálót. Memóriában elosztott adatbázist biztosít olyan széles körű parancs-készletet, számos gyakori forgatókönyveket támogat. Ezek a jelen dokumentum szakasz használata a Redis gyorsítótárazás ismerteti. Ez a szakasz néhány fő funkciója Redis biztosító foglalja össze.
