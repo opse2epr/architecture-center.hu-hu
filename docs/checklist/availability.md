@@ -4,11 +4,11 @@ description: "Feladatlista, amely útmutatást a rendelkezésre állási aggály
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist
-ms.openlocfilehash: b66968f8e0e4cdde9b5ce9aea11c2b4011958b38
-ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
+ms.openlocfilehash: 324d8200d822eb1a7dce95ba4b2a7f29b00fb291
+ms.sourcegitcommit: 441185360db49cfb3cf39527b68f318d17d4cb3d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/11/2018
+ms.lasthandoff: 01/19/2018
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlista
 
@@ -18,7 +18,7 @@ Rendelkezésre állási időpont a rendszer működési, és üzemel aránya, é
 
 **Kerülje a hibaérzékeny pontok kialakulását.** Összetevők, szolgáltatások, erőforrások és számítási példányokért, megakadályozhatja, hogy a hibaérzékeny pontok kialakulását a rendelkezésre állási érintő több példányt kell telepíteni. Ez magában foglalja a hitelesítési mechanizmusok. Tervezze meg az alkalmazás több példányt használja, és a automatikusan észleli a hibákat, és nem sérült példányokat, ahol a platform ezt nem automatikusan irányuló kérelmek átirányítása konfigurálható.
 
-**Munkaterhelések felbontani szolgáltatásiszint-objectove által.** Ha egy szolgáltatás áll kritikus és kevésbé szempontból kritikus fontosságú munkaterhelésekhez, másképp kezelheti azokat, és adja meg a szolgáltatások és a rendelkezésre állási követelményeinek megfelelően-példányok száma.
+**Munkaterhelések felbontani szolgáltatásiszint-célkitűzés által.** Ha egy szolgáltatás áll kritikus és kevésbé szempontból kritikus fontosságú munkaterhelésekhez, másképp kezelheti azokat, és adja meg a szolgáltatások és a rendelkezésre állási követelményeinek megfelelően-példányok száma.
 
 **Kis méret, és függőségei ismertetése.** Különböző szolgáltatások, ahol csak lehetséges használt számának minimálisra csökkentése, és ismerje meg az összes, amely szerepel a rendszer a szolgáltatás és a szolgáltatás függőségeit. Ez magában foglalja az ügyet, ezeket a függőségeket, és a meghibásodás hatása, vagy az alkalmazás általános mindegyiknél a szűk. Lásd: [a rugalmasság követelmények meghatározását](../resiliency/index.md#defining-your-resiliency-requirements).
 

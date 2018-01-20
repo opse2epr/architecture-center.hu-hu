@@ -4,11 +4,11 @@ description: "A jobb teljesítmény és méretezhetőség gyorsítótárazás ú
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 7968c1578dfef2c7ad28576b9aafbbe2b6672cd9
-ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
+ms.openlocfilehash: fde1c3e8c65d357746e4ccaddebeebace943cf9d
+ms.sourcegitcommit: 441185360db49cfb3cf39527b68f318d17d4cb3d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/11/2018
+ms.lasthandoff: 01/19/2018
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -123,15 +123,15 @@ Gyorsítótárak gyakran tervezték, hogy egy alkalmazás több példánya is va
 
 Attól függően, hogy az adatok természetét és ütközések valószínűségét is elfogadja párhuzamossági két módszer egyikét:
 
-* **Az optimista.** Azonnal előtt frissíti az adatokat, az alkalmazás ellenőrzi a gyorsítótárban lévő adatok módosulásának lekérdezés óta. Ha az adatok továbbra is azonos, a módosítás hajtható végre. Ellenkező esetben az alkalmazásnak van határozza meg, hogy a frissítést. (Az üzleti logika, amely ehhez a döntéshez meghajtók lesz az alkalmazás-specifikus.) Ezt a módszert alkalmas a helyzetekben, ahol frissítések alkalomszerű, vagy ha ütközések nem valószínű, hogy mi történjen.
-* **Pesszimista.** Amikor lekérdezi az adatokat, az alkalmazás zárolja a gyorsítótárban, megakadályozhatja, hogy egy másik példány a módosítás. Ez a folyamat biztosítja, hogy ütközések nem fordulhat elő, de blokkolására is képesek más esetekben kell feldolgozni ugyanazokat az adatokat. Pesszimista feldolgozási hatással lehet a megoldás a méretezhetőséget, és csak rövid élettartamú műveletek ajánlott. Ezt a módszert akkor lehet hasznos olyan esetekben, ahol ütközések valószínűbb, különösen akkor, ha egy alkalmazás több elem gyorsítótárában frissíti, és győződjön meg arról, hogy ezek a változások következetesen alkalmazzák.
+* **Optimistic.** Azonnal előtt frissíti az adatokat, az alkalmazás ellenőrzi a gyorsítótárban lévő adatok módosulásának lekérdezés óta. Ha az adatok továbbra is azonos, a módosítás hajtható végre. Ellenkező esetben az alkalmazásnak van határozza meg, hogy a frissítést. (Az üzleti logika, amely ehhez a döntéshez meghajtók lesz az alkalmazás-specifikus.) Ezt a módszert alkalmas a helyzetekben, ahol frissítések alkalomszerű, vagy ha ütközések nem valószínű, hogy mi történjen.
+* **Pessimistic.** Amikor lekérdezi az adatokat, az alkalmazás zárolja a gyorsítótárban, megakadályozhatja, hogy egy másik példány a módosítás. Ez a folyamat biztosítja, hogy ütközések nem fordulhat elő, de blokkolására is képesek más esetekben kell feldolgozni ugyanazokat az adatokat. Pesszimista feldolgozási hatással lehet a megoldás a méretezhetőséget, és csak rövid élettartamú műveletek ajánlott. Ezt a módszert akkor lehet hasznos olyan esetekben, ahol ütközések valószínűbb, különösen akkor, ha egy alkalmazás több elem gyorsítótárában frissíti, és győződjön meg arról, hogy ezek a változások következetesen alkalmazzák.
 
 ### <a name="implement-high-availability-and-scalability-and-improve-performance"></a>Magas rendelkezésre állás és méretezhetőség megvalósítása, és a teljesítmény javítása
 Kerülje a gyorsítótár elsődleges tárházaként adatok; Ez az a szerepe az eredeti adattárolóban, amelyből a rendszer a gyorsítótárból tölti fel. Az eredeti adattárolóban a megőrzése biztosításáért felelős.
 
 Ügyeljen arra, hogy a megoldás megosztott gyorsítótár szolgáltatás rendelkezésre állását a kritikus függőségeket bevezetéséhez. Egy alkalmazás tudják is működjenek, ha a szolgáltatás, amely a megosztott gyorsítótár nem érhető el. Az alkalmazás nem kell lefagy vagy miközben a rendszer a gyorsítótár-szolgáltatást a sikertelen.
 
-Ezért az alkalmazás ismeri fel a gyorsítótár-szolgáltatás rendelkezésre állását, és térhet vissza az eredeti adattárolóban, ha a gyorsítótár nem érhető el kell készíteni. A [megszakító mintát](http://msdn.microsoft.com/library/dn589784.aspx) akkor hasznos, ha ez a forgatókönyv kezelésére. A szolgáltatás, amely a gyorsítótár állíthatók helyre, és amint elérhetővé válik, a gyorsítótár tölteni, adatolvasás az eredeti adattárolóban, például a következő stratégia kialakításához, a [gyorsítótár-tartalékoljon mintát](http://msdn.microsoft.com/library/dn589799.aspx).
+Ezért az alkalmazás ismeri fel a gyorsítótár-szolgáltatás rendelkezésre állását, és térhet vissza az eredeti adattárolóban, ha a gyorsítótár nem érhető el kell készíteni. A [megszakító mintát](http://msdn.microsoft.com/library/dn589784.aspx) akkor hasznos, ha ez a forgatókönyv kezelésére. A szolgáltatás, amely a gyorsítótár állíthatók helyre, és amint elérhetővé válik, a gyorsítótár tölteni, adatolvasás adattárolóból az eredeti, például a következő stratégiát, a [gyorsítótár-tartalékoljon mintát](http://msdn.microsoft.com/library/dn589799.aspx).
 
 Azonban előfordulhat, a méretezhetőség hatása a rendszer, ha az alkalmazás visszaáll az eredeti adattárolóban átmenetileg nem érhető el a gyorsítótár esetén.
 Az adattár helyreállítás alatt álló, amíg az eredeti adattárolóban sikerült kell swamped adatokat, és így a időtúllépések kérések, és nem sikerült a kapcsolat.
@@ -250,7 +250,7 @@ További tudnivalókért keresse fel a [biztonsági Redis](http://redis.io/topic
 > 
 > 
 
-### <a name="azure-redis-cache"></a>Az Azure Redis cache
+### <a name="azure-redis-cache"></a>Azure Redis cache
 Azure Redis Cache Redis-kiszolgálók az Azure adatközpontjában futó hozzáférést biztosít. A hozzáférés-vezérlés és adatvédelmet homlokzati funkcionál. A gyorsítótár az Azure portál használatával építhető ki.
 
 A portál számos előre definiált konfigurációkat. A tartomány egy dedikált futtató 53 GB gyorsítótárában, hogy támogatja az SSL-kommunikáció (adatvédelmi) és a szolgáltatás fő-és alárendelt replikációt szolgáltatásiszint-szerződésben garantált 99,9 %-os rendelkezésre állás érdekében nélkül (nincs rendelkezésre állási garanciák) replikációs 250 MB méretű gyorsítótárat le a futó megosztott hardver.
