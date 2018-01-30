@@ -17,12 +17,14 @@
 - name: Referenciaarchitektúrák
   href: reference-architectures/index.md
   items:
+    - name: App Service-webalkalmazások
+      href: reference-architectures/app-service-web-app/index.md
+    - name: Hibrid hálózatok
+      href: reference-architectures/hybrid-networking/index.md
     - name: Identitáskezelés
       href: reference-architectures/identity/index.md
-    - name: Hibrid hálózat
-      href: reference-architectures/hybrid-networking/index.md
-    - name: App Service webalkalmazás
-      href: reference-architectures/app-service-web-app/index.md
+    - name: Jenkins server
+      href: reference-architectures/jenkins/index.md
     - name: Hálózati DMZ
       href: reference-architectures/dmz/index.md
     - name: SAP NetWeaver és SAP HANA
@@ -125,7 +127,7 @@
       href: elasticsearch/index.md
     - name: Az Azure Resource Manager-sablon funkciójának bővítése
       href: building-blocks/extending-templates/index.md
-- name: Erőforrások
+- name: További források
   items:
     - name: Azure-ütemterv
       href: 'https://azure.microsoft.com/roadmap/'

@@ -3,7 +3,7 @@
 - name: Referenciaarchitektúrák
   href: index.md
   items:
-    - name: App Service webalkalmazás
+    - name: App Service-webalkalmazások
       href: app-service-web-app/index.md
       items:
         - name: Alapszintű webalkalmazás
@@ -12,6 +12,19 @@
           href: app-service-web-app/scalable-web-app.md
         - name: Többrégiós üzembe helyezés
           href: app-service-web-app/multi-region.md
+    - name: Hibrid hálózatok
+      href: hybrid-networking/index.md
+      items:
+        - name: Melyiket válasszam?
+          href: hybrid-networking/considerations.md
+        - name: VPN
+          href: hybrid-networking/vpn.md
+        - name: ExpressRoute
+          href: hybrid-networking/expressroute.md
+        - name: ExpressRoute VPN-alapú feladatátvétellel
+          href: hybrid-networking/expressroute-vpn-failover.md
+        - name: Küllős topológia
+          href: hybrid-networking/hub-spoke.md
     - name: Identitáskezelés
       href: identity/index.md
       items:
@@ -25,19 +38,6 @@
           href: identity/adds-forest.md
         - name: Az AD FS kiterjesztése az Azure-ra
           href: identity/adfs.md
-    - name: Hibrid hálózat
-      href: hybrid-networking/index.md
-      items:
-        - name: Melyiket válasszam?
-          href: hybrid-networking/considerations.md
-        - name: VPN
-          href: hybrid-networking/vpn.md
-        - name: ExpressRoute
-          href: hybrid-networking/expressroute.md
-        - name: ExpressRoute VPN-alapú feladatátvétellel
-          href: hybrid-networking/expressroute-vpn-failover.md
-        - name: Küllős topológia
-          href: hybrid-networking/hub-spoke.md
     - name: Hálózati DMZ
       href: dmz/index.md
       items:
@@ -69,6 +69,8 @@
           href: virtual-machines-windows/n-tier.md
         - name: Többrégiós alkalmazás
           href: virtual-machines-windows/multi-region-application.md
+    - name: Jenkins server
+      href: jenkins/index.md
     - name: SAP NetWeaver és SAP HANA
       href: sap/index.md
     - name: SharePoint Server 2016
