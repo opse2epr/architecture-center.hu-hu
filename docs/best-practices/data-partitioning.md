@@ -4,11 +4,11 @@ description: "Útmutató a szétválasztásának kezelhető és külön-külön 
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: c139fd1ef59ea94235cd9519dd064d0722cee3c9
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 3dce288b4f958e93a072c6019bccb5bb6e043f55
+ms.sourcegitcommit: cf207fd10110f301f1e05f91eeb9f8dfca129164
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/29/2018
 ---
 # <a name="data-partitioning"></a>Adatparticionálás
 [!INCLUDE [header](../_includes/header.md)]
@@ -392,12 +392,12 @@ A feladat a megfelelő shard kérelmek általában közvetlen alkalmazásával s
 
 A DocumentDB API adatok particionálása módjának, vegye figyelembe a következő szempontokat:
 
-* **A DocumentDB API-adatbázis számára elérhető erőforrások használata tekintetében a fiók sablonkérelem**. Az egyes adatbázisok tárolására képes a gyűjtemények számos (ebben az esetben korlátozás van), és egyes gyűjtemények társítva, amely szabályozza a RU sávszélesség-korlátjának (fenntartott átviteli sebességet), hogy a gyűjtemény egy teljesítményszint szükséges. További információ: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések].
+* **A DocumentDB API-adatbázis számára elérhető erőforrások használata tekintetében a fiók sablonkérelem**. Az egyes adatbázisok tárolására képes a gyűjtemények számos (ebben az esetben korlátozás van), és egyes gyűjtemények társítva, amely szabályozza a RU sávszélesség-korlátjának (fenntartott átviteli sebességet), hogy a gyűjtemény egy teljesítményszint szükséges. További információkért lásd: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][azure-limits].
 * **Ügyeljen rá, hogy a dokumentum a gyűjteményt, amelyben tárolt belül egyedi azonosítására használható egy attribútummal kell rendelkeznie,**. Ez az attribútum található a szilánkcímtárban kulcs, amely meghatározza, mely a gyűjtemény kérelemfejléceket tárol, a dokumentum eltér. Egy gyűjtemény tartalmazhat nagyszámú dokumentumok. Elméletileg azt csak korlátozza a maximális időtartamot, a dokumentum azonosítóját. A dokumentum azonosító legfeljebb 255 karakterből állhat.
 * **Az összes dokumentum elleni műveleteket egy tranzakció keretén belül. Tranzakciók hatóköre a gyűjteményt, amelyben a dokumentum tartalmazza.** Egy művelet meghiúsul, ha a munka még hajtott végre vissza lesz állítva. Míg egy dokumentumot egy művelet függvényében, minden egyes helyadatbázisokban végrehajtott módosításokat a pillanatkép szintű elkülönítés vonatkoznak. Ez a módszer biztosítja azt, hogy ha például egy új dokumentum létrehozása sikertelen, akik egy időben kérdezi le az adatbázis egy másik felhasználó kérést nem jelenik meg egy részleges dokumentumot, majd eltávolítani.
 * **A gyűjtemény szintjén is hatóköre az adatbázis-lekérdezések**. Egyetlen lekérdezés adatainak lekérése is csak egy gyűjtemény. Ha adatainak lekérése több gyűjteményre van szüksége, kell egyes gyűjtemények külön-külön és -lekérdezés egyesítése az eredményeket az alkalmazás kódjában.
 * **A DocumentDB API adatbázisok által támogatott programozható elemek, amelyek az összes találhatók dokumentumok mellett egy gyűjtemény**. Ezek közé tartozik a tárolt eljárások, felhasználó által definiált függvények és eseményindítók (JavaScript nyelven írt). Ezek az elemek összes dokumentumának belül ugyanaz a gyűjtemény. Ezenkívül ezek az elemek futtatása (esetén egy eseményindítót, amely akkor következik be, mert eredménye egy létrehozása, törlése, vagy műveletet hajt végre a dokumentum cseréje), a környezeti tranzakció hatókörén belül, vagy (esetén tárolt eljárás új tranzakció elindítása futtatott az explicit ügyfélkérés miatt). A kód egy programozható elemben kivételt jelez, ha a tranzakció vissza lesz állítva. Tárolt eljárások és eseményindítók használhatja az integritásra és a dokumentumok között konzisztencia fenntartása, de ezeket a dokumentumokat ugyanaz a gyűjtemény részének kell lennie.
-* **A gyűjtemények, melyet a adatbázisokban tárolásához valószínűleg nem haladja meg a teljesítményszintet gyűjtemények által megadott átviteli sebességének korlátai kell**. Lásd: Azure Cosmos DB egység kérjen további informationm][cosmos-db-ru]. Ha várhatóan a működés felső korlátjának elérése, fontolja meg a gyűjtemények gyűjteményenként a terhelés csökkentése érdekében különböző fiókok az adatbázisok közötti felosztásával.
+* **A gyűjtemények, melyet a adatbázisokban tárolásához valószínűleg nem haladja meg a teljesítményszintet gyűjtemények által megadott átviteli sebességének korlátai kell**. További informationm, lásd: [Azure Cosmos DB egység kérelem][cosmos-db-ru]. Ha várhatóan a működés felső korlátjának elérése, fontolja meg a gyűjtemények gyűjteményenként a terhelés csökkentése érdekében különböző fiókok az adatbázisok közötti felosztásával.
 
 ## <a name="partitioning-strategies-for-azure-search"></a>Az Azure Search particionálási stratégia
 Adatok keresése a gyakran és sok webes alkalmazások által biztosított feltárása az elsődleges módszer. Ennek segítségével a felhasználók, erőforrások gyorsan (például az e-kereskedelmi alkalmazás-termékek) kombinációit keresési feltételek alapján található. Az Azure Search szolgáltatás teljes szöveges keresési lehetőségeket biztosítanak a webes tartalom, és a szolgáltatások, mint a találatok és a jellemzőalapú navigáció közelében alapuló begépelt, javasolt lekérdezések tartalmaz. Ezek a képességek teljes leírását az oldalon érhető el [Azure Search újdonságai?] a Microsoft webhelyén.
@@ -562,7 +562,7 @@ Amikor kiválasztja az adatok konzisztenciájának bevezetése, a következő mi
 * A [adattípusok] a Redis-webhelyen lap ismerteti, hogy a Redis és az Azure Redis Cache adatok típusát.
 
 [rendelkezésre állását és az Event Hubs következetes]: /azure/event-hubs/event-hubs-availability-and-consistency
-[azure-limits]: /azure/azure-subscription-service-limit
+[azure-limits]: /azure/azure-subscription-service-limits
 [Azure Content Delivery Network]: /azure/cdn/cdn-overview
 [Azure Redis Cache]: http://azure.microsoft.com/services/cache/
 [Az Azure Storage méretezhetőségi és teljesítménycéloknak]: /azure/storage/storage-scalability-targets

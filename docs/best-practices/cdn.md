@@ -4,16 +4,16 @@ description: "Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltete
 author: dragon119
 ms.date: 09/30/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 94036c803552d5e7061f99e6dd0ca9e563a32690
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: fffe0b0523c0a9c817f4346744ff3b5e3f11dede
+ms.sourcegitcommit: cf207fd10110f301f1e05f91eeb9f8dfca129164
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/29/2018
 ---
 # <a name="content-delivery-network"></a>Content Delivery Network
 [!INCLUDE [header](../_includes/header.md)]
 
-A Microsoft Azure tartalom Delivery Network (CDN) az Azure vagy bármely más helyen tárolt tartalmak nagy sávszélességű kézbesítéséhez globális megoldást kínál a fejlesztők. CDN használatával gyorsítótárazhatja a nyilvánosan elérhető objektumok betöltődnek az Azure blob Storage tárolóban, webalkalmazás, virtuális gép, alkalmazásmappa vagy más HTTP/HTTPS-hely. A CDN-gyorsítótár stratégiai helyét adja meg a maximális sávszélesség kézbesíteni a tartalmakat a felhasználók is kell tartani. A CDN tipikus felhasználási területe a statikus tartalmak, képek, stíluslapok, dokumentumok, fájlok, az ügyféloldali parancsprogramok és HTML-lapok például kézbesítéséhez.
+A Microsoft Azure [Content Delivery Network (CDN)](/azure/cdn/cdn-overview) fejlesztők egy globális megoldást kínál az Azure vagy bármely más helyen található, amelyek tartalmak nagy sávszélességű kézbesítéséhez. CDN használatával gyorsítótárazhatja a nyilvánosan elérhető objektumok betöltődnek az Azure blob Storage tárolóban, webalkalmazás, virtuális gép, alkalmazásmappa vagy más HTTP/HTTPS-hely. A CDN-gyorsítótár stratégiai helyét adja meg a maximális sávszélesség kézbesíteni a tartalmakat a felhasználók is kell tartani. A CDN tipikus felhasználási területe a statikus tartalmak, képek, stíluslapok, dokumentumok, fájlok, az ügyféloldali parancsprogramok és HTML-lapok például kézbesítéséhez.
 
 Akkor is használható a CDN a gyorsítótár a dinamikus tartalom, például a PDF-jelentés vagy a diagramon a megadott bemeneti adatok; alapján Ha a különböző felhasználók által biztosított az ugyanazon bemeneti értékeket az eredmény a azonosnak kell lennie.
 
@@ -74,7 +74,7 @@ Olyan esetekben, ahol CDN lehet, hogy kevesebb hasznos belefoglalása:
 A CDN használata minimálisra csökkentése az alkalmazás terhelését, és rendelkezésre állás és teljesítmény maximalizálása érdekében egy jó módszer. Vegye figyelembe, hogy ezt a stratégiát, az összes a megfelelő tartalom és az alkalmazás által használt erőforrások bevezetése. A CDN használata a stratégia tervezésekor, vegye figyelembe a következő szakaszokban pontok:  
 
 ### <a name="origin"></a>Forrás
-A CDN a tartalom központi telepítése egyszerűen csak adja meg, hogy a CDN szolgáltatás használni fog eléréséhez, és a tartalom gyorsítótárazása HTTP vagy HTTPS végpont.
+A CDN a tartalom központi telepítése egyszerűen csak meg kell adjon meg egy HTTP vagy HTTPS [végpont](/azure/cdn/cdn-create-new-endpoint) , hogy a CDN szolgáltatás eléréséhez, és a tartalom gyorsítótárazása fogja használni.
 
 A végpont adhatja meg az Azure blob storage tárolót, amely tárolja a CDN keresztül szállítani szeretné a statikus tartalmat. A tároló nyilvánosként kell megjelölni. Nyilvános tárolókban lévő csak a nyilvános olvasási hozzáféréssel rendelkező blobot a CDN keresztül érhetők el.
 
@@ -181,7 +181,7 @@ A CDN naplózásának engedélyezéséről, és figyelje ezt a naplót a napi sz
 Vegye figyelembe a használati minták CDN forgalom elemzése. Az Azure-portálon biztosít, amelyek lehetővé teszik a figyelheti eszközök:
 
 * Sávszélesség,
-* Az adatok átvitele,
+* Data Transferred,
 * Találatok (állapotkódok)
 * Gyorsítótár állapota
 * Gyorsítótár TALÁLATI arány és
