@@ -5,11 +5,11 @@ keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: ac96110e3fe69b4bb69714e18fd0f193208bc244
-ms.sourcegitcommit: 744ad1381e01bbda6a1a7eff4b25e1a337385553
+ms.openlocfilehash: e5f7cb5062b0b4a8526f3b29a9fa4ddaff399fc0
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -311,7 +311,7 @@ Az AWS RDS költségeit a példány által használt hardveres erőforrások (p�
 
 -   [Georeplikáció konfigurálása az Azure SQL Database-adatbázishoz az Azure Portalon](https://azure.microsoft.com/documentation/articles/sql-database-geo-replication-portal/)
 
--   [A Cosmos DB, egy NoSQL-alapú JSON-adatbázis bemutatása](https://azure.microsoft.com/documentation/articles/documentdb-introduction/)
+-   [A Cosmos DB, egy NoSQL-alapú JSON-adatbázis bemutatása](/azure/cosmos-db/sql-api-introduction)
 
 -   [Az Azure Table Storage használata Node.js-sel](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-table-storage/)
 

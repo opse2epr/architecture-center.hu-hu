@@ -4,11 +4,11 @@ description: "Ajánlott architektúra magas rendelkezésre állással, a Microso
 author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
-ms.openlocfilehash: 60caa121d0ce2f1aa2638650229bed8048804c22
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: 50ac9636e1e3c25bd0403c89281a3a06915d065f
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Egy webalkalmazás több régióba futtatása
 [!INCLUDE [header](../../_includes/header.md)]
@@ -71,7 +71,7 @@ Használjon [aktív Georeplikáció] [ sql-replication] olvasható másodlagos r
 ### <a name="cosmos-db"></a>Cosmos DB
 Cosmos DB georeplikáció különböző régiókban támogat. Egy régió tartozik kijelölt írható és a többi csak olvasható replika.
 
-Regionális kimaradás esetén is utasíthat el át egy másik régióban kell lennie a írási régió kiválasztásával. SDK automatikusan elküldi az ügyfélnek az aktuális írási terület, az írási kérelmeket szolgál, így nem kell frissíteni az ügyfél beállításait egy feladatátvétel után. További információkért lásd: [miként ossza el a globális adatok Azure Cosmos DB?][docdb-geo]
+Regionális kimaradás esetén is utasíthat el át egy másik régióban kell lennie a írási régió kiválasztásával. SDK automatikusan elküldi az ügyfélnek az aktuális írási terület, az írási kérelmeket szolgál, így nem kell frissíteni az ügyfél beállításait egy feladatátvétel után. További információkért lásd: [miként ossza el a globális adatok Azure Cosmos DB][cosmosdb-geo].
 
 > [!NOTE]
 > A replikák mindegyikét tartozik ugyanabban az erőforráscsoportban.
@@ -149,7 +149,7 @@ Ha az elsődleges adatbázis, hajtsa végre a másodlagos adatbázis manuális f
 
 [azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
 [azure-dns]: /azure/dns/dns-overview
-[docdb-geo]: /azure/documentdb/documentdb-distribute-data-globally
+[cosmosdb-geo]: /azure/cosmos-db/distribute-data-globally
 [guidance-web-apps-scalability]: ./scalable-web-app.md
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx
 [ra-grs]: /azure/storage/storage-redundancy#read-access-geo-redundant-storage

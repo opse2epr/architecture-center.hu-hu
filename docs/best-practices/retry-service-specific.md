@@ -4,11 +4,11 @@ description: "Szolgáltatás beállítása az újrapróbálkozási mechanizmussa
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 0a416bc6297c7406de92fbc695b62c39c637de8f
-ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
+ms.openlocfilehash: da1145e2f2f91befd69505ae9ef2734d6110c1d0
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/02/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -20,17 +20,17 @@ A következő táblázat összefoglalja az ebben az útmutatóban leírt Azure-s
 
 | **Szolgáltatás** | **Ismételje meg a képességek** | **Házirend-konfiguráció** | **Hatókör** | **Telemetria szolgáltatások** |
 | --- | --- | --- | --- | --- |
-| **[Az Azure Storage](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél és az egyes műveletek |TraceSource |
-| **[Az Entity Framework SQL-adatbázis](#sql-database-using-entity-framework-6-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |None |
-| **[Az Entity Framework Core SQL-adatbázis](#sql-database-using-entity-framework-core-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |None |
+| **[Azure Storage](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél és az egyes műveletek |TraceSource |
+| **[Az Entity Framework SQL-adatbázis](#sql-database-using-entity-framework-6-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |Nincs |
+| **[Az Entity Framework Core SQL-adatbázis](#sql-database-using-entity-framework-core-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |Nincs |
 | **[Az ADO.NET SQL-adatbázis](#sql-database-using-adonet-retry-guidelines)** |[Polly](#transient-fault-handling-with-polly) |Programozott és deklaratív |Egyetlen utasítások vagy kódblokkokat |Egyéni |
-| **[A Service Bus](#service-bus-retry-guidelines)** |Natív ügyfél |Programozott |Namespace Manager, az üzenetkezelési gyárból és az ügyfél |ETW |
-| **[Azure Redis gyorsítótár](#azure-redis-cache-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |TextWriter |
-| **[A DocumentDB API](#documentdb-api-retry-guidelines)** |Natív szolgáltatásban |Nem konfigurálható |Globális |TraceSource |
-| **[Az Azure Search](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |ETW vagy egyéni |
-| **[Az Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív az ADAL-könyvtár |Az ADAL-könyvtár beágyazása |Belső |None |
-| **[A Service Fabric](#service-fabric-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |None | 
-| **[Az Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |None |
+| **[Service Bus](#service-bus-retry-guidelines)** |Natív ügyfél |Programozott |Namespace Manager, az üzenetkezelési gyárból és az ügyfél |ETW |
+| **[Azure Redis Cache](#azure-redis-cache-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |TextWriter |
+| **[Cosmos DB](#cosmos-db-retry-guidelines)** |Natív szolgáltatásban |Non-configurable |Globális |TraceSource |
+| **[Azure Search](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |ETW vagy egyéni |
+| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív az ADAL-könyvtár |Az ADAL-könyvtár beágyazása |Belső |Nincs |
+| **[Service Fabric](#service-fabric-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |Nincs | 
+| **[Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |Nincs |
 
 > [!NOTE]
 > Az Azure beépített része próbálja meg újból a mechanizmusok, jelenleg nem tudja alkalmazni a különböző típusú hiba különböző újrapróbálkozási házirendje vagy a kivétel a funkciók túl az újrapróbálkozási házirendet. Ezért ajánlott útmutatások érhetők el írásának időpontjában, az optimális átlagos teljesítményt és rendelkezésre állást biztosító házirendet konfigurálhat. Egy a házirend finomhangolását módja elemzése a naplófájlokat, és határozza meg az átmeneti előforduló hibák típusát. Például ha hálózati problémák kapcsolódó hibák többségének, akkor előfordulhat, hogy egy azonnali újrapróbálkozási kísérlet ahelyett Várjon, amíg az első újrapróbálkozásnál hosszú ideig.
@@ -101,9 +101,9 @@ Az alábbi táblázatok bemutatják az alapértelmezett beállításokat az a be
 | **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
 | --- | --- | --- |
 | MaximumExecutionTime | 120 másodperc | A kérelem, beleértve az összes lehetséges újrapróbálkozási kísérletek maximális végrehajtási ideje. |
-| ServerTimeout | None | A kérés a kiszolgáló időkorlátja (kerekített másodperc). Ha nincs megadva, az alapértelmezett érték a kiszolgáló összes kérelem fog használni. Általában a legjobb lehetőség egy hagyja ki ezt a beállítást, hogy a kiszolgáló alapértelmezett szolgál. | 
-| LocationMode | None | A tárfiók létrejön az írásvédett georedundáns tárolás (RA-GRS) replikációs beállítás, ha a hely mód segítségével jelzi, hogy melyik helyen kell kapnia a kérelmet. Például ha **PrimaryThenSecondary** van megadva, kérelmek mindig küldi el az elsődleges helyre először. A kérés nem teljesíthető, ha a másodlagos helyre való továbbítás. |
-| a retryPolicy | ExponentialPolicy | További információ alább olvasható az egyes lehetőségek. |
+| ServerTimeout | Nincs | A kérés a kiszolgáló időkorlátja (kerekített másodperc). Ha nincs megadva, az alapértelmezett érték a kiszolgáló összes kérelem fog használni. Általában a legjobb lehetőség egy hagyja ki ezt a beállítást, hogy a kiszolgáló alapértelmezett szolgál. | 
+| LocationMode | Nincs | A tárfiók létrejön az írásvédett georedundáns tárolás (RA-GRS) replikációs beállítás, ha a hely mód segítségével jelzi, hogy melyik helyen kell kapnia a kérelmet. Például ha **PrimaryThenSecondary** van megadva, kérelmek mindig küldi el az elsődleges helyre először. A kérés nem teljesíthető, ha a másodlagos helyre való továbbítás. |
+| RetryPolicy | ExponentialPolicy | További információ alább olvasható az egyes lehetőségek. |
 
 **Az exponenciális házirend** 
 
@@ -441,8 +441,8 @@ Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás 
 
 | **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újrapróbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />true |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
-| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />false |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
+| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Ismétlések száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />igaz |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
+| Háttér<br />vagy kötegelt |30 sec |ExponentialBackoff |Ismétlések száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />hamis |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
 
 > [!NOTE]
 > A végpontok közötti késés célokat azt feltételezik, hogy a szolgáltatáshoz való csatlakozásokat az alapértelmezett időkorlátját. Ha hosszabb ideig kapcsolat időtúllépése ad meg, a végpontok közötti késés minden újrapróbálkozási kísérlethez további időpontig bővíthető.
@@ -541,7 +541,7 @@ A következő táblázat a beépített alapértelmezett beállításainak újrap
 | Szabályzat | Az exponenciális | Az exponenciális vissza-ki. |
 | MinimalBackoff | 0 | Minimális biztonsági ki időköz. Ez az újrapróbálkozási időköz deltaBackoff alapján kiszámított kerül. |
 | MaximumBackoff | 30 másodperc | Maximális vissza az indító időköz. MaximumBackoff akkor használatos, ha az számított újrapróbálkozási időköz érték nagyobb, mint MaxBackoff. |
-| deltaBackoff | 3 másodpercenként | Vissza az indító időköz újrapróbálkozások között. A timespan többszörösei későbbi újrapróbálkozás használható. |
+| DeltaBackoff | 3 másodpercenként | Vissza az indító időköz újrapróbálkozások között. A timespan többszörösei későbbi újrapróbálkozás használható. |
 | TimeBuffer | 5 másodperc | A megszakítási idő puffer társított az újra gombra. Ha a hátralévő idő TimeBuffer kisebb újrapróbálkozások elhagyásra kerül. |
 | MaxRetryCount | 10 | Az újrapróbálkozások maximális számát. |
 | ServerBusyBaseSleepTime | 10 másodperc | Ha az utolsó kivétel történt a **ServerBusyException**, ez az érték nem kerülnek be a számított újrapróbálkozási időközt. Ez az érték nem módosítható. |
@@ -554,10 +554,10 @@ Vegye figyelembe az alábbi iránymutatásokat, amikor a Service Bus használat�
 
 Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás kezdési. Ezek a beállítások az általános célú, és, felügyelheti a műveleteit, és az értékeket a saját forgatókönyvnek megfelelően konfigurálva finomhangolhatják.
 
-| Környezet | Példa maximális késleltetés | Újrapróbálkozási házirend | Beállítások | A működési elv |
+| Környezet | Példa maximális késleltetés | Újrapróbálkozási házirend | Beállítások | Működés |
 |---------|---------|---------|---------|---------|
-| Interaktív, a felhasználói felület vagy a előtér | 2 másodperc *  | Az exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff = 300 ms. <br/> TimeBuffer = 300 ms. <br/> MaxRetryCount = 2 | 1. kísérlet: Késleltetés 0 másodperc. <br/> 2. kísérlet: Késleltetés ~ 300 ms. <br/> 3. kísérlet: Késleltetés ~ 900 MS. |
-| Háttér vagy kötegelt | 30 másodperc | Az exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff 1,75 mp =. <br/> TimeBuffer = 5 másodperc. <br/> MaxRetryCount = 3 | 1. kísérlet: Késleltetés ~ 1 másodperc. <br/> 2. kísérlet: ~ 3 mp késleltetés. <br/> 3. kísérlet: Késleltetés ~ 6 MS. <br/> 4. kísérlet: Késleltetés ~ 13 MS. |
+| Interaktív, a felhasználói felület vagy a előtér | 2 másodperc *  | Az exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff = 300 msec. <br/> TimeBuffer = 300 ms. <br/> MaxRetryCount = 2 | 1. kísérlet: Késleltetés 0 másodperc. <br/> 2. kísérlet: Késleltetés ~ 300 ms. <br/> Attempt 3: Delay ~900 msec. |
+| Háttér vagy kötegelt | 30 másodperc | Az exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff 1,75 mp =. <br/> TimeBuffer = 5 másodperc. <br/> MaxRetryCount = 3 | 1. kísérlet: Késleltetés ~ 1 másodperc. <br/> 2. kísérlet: ~ 3 mp késleltetés. <br/> 3. kísérlet: Késleltetés ~ 6 MS. <br/> Attempt 4: Delay ~13 msec. |
 
 \*További késleltetés, ha a kiszolgáló elfoglalt választ hozzáadott nem beleértve.
 
@@ -858,9 +858,9 @@ További példákért lásd [konfigurációs](http://github.com/StackExchange/St
 ### <a name="more-information"></a>További információ
 * [Webhely redis](http://redis.io/)
 
-## <a name="documentdb-api-retry-guidelines"></a>A DocumentDB API újrapróbálkozási irányelvek
+## <a name="cosmos-db-retry-guidelines"></a>Cosmos DB újrapróbálkozási irányelvek
 
-Cosmos DB egy teljes körűen felügyelt több modellre adatbázis, amely támogatja a séma nélküli JSON-adatokat a [DocumentDB API][documentdb-api]. Teljesítménye konfigurálható és megbízható, natív JavaScript-tranzakciófeldolgozást kínál, és mivel felhőbeli felhasználásra készült, rugalmasan méretezhető.
+Cosmos DB egy olyan teljes körűen felügyelt több modellre adatbázis, amely támogatja a séma nélküli JSON-adatokat. Teljesítménye konfigurálható és megbízható, natív JavaScript-tranzakciófeldolgozást kínál, és mivel felhőbeli felhasználásra készült, rugalmasan méretezhető.
 
 ### <a name="retry-mechanism"></a>Ismételje meg a mechanizmus
 A `DocumentClient` osztály automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása [ConnectionPolicy.RetryOptions]. Kivételek, amely kiváltja az ügyfél újrapróbálkozási házirend túl vagy nem átmeneti hibák.
@@ -897,7 +897,7 @@ Például ha az App.config fájlban adja hozzá a következő, nyomkövetési ad
     <sources>
       <source name="DocDBTrace" switchName="SourceSwitch" switchType="System.Diagnostics.SourceSwitch" >
         <listeners>
-          <add name="MyTextListener" type="System.Diagnostics.TextWriterTraceListener" traceOutputOptions="DateTime,ProcessId,ThreadId" initializeData="DocumentDBTrace.txt"></add>
+          <add name="MyTextListener" type="System.Diagnostics.TextWriterTraceListener" traceOutputOptions="DateTime,ProcessId,ThreadId" initializeData="CosmosDBTrace.txt"></add>
         </listeners>
       </source>
     </sources>
@@ -932,8 +932,8 @@ Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás 
 
 | **Környezet** | **A minta cél E2E<br />maximális késleltetés** | **Ismételje meg a stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Újrapróbálkozások száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />true |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
-| Háttér vagy<br />Kötegelt |60 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />false |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
+| Interaktív, felhasználói felületén<br />előtérben vagy a |2 mp |FixedInterval |Ismétlések száma<br />Újrapróbálkozás<br />Első gyors újrapróbálkozási |3<br />500 ms<br />igaz |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - 500 ms késleltetés<br />Próbálja meg a 3 - 500 ms késleltetés |
+| Háttér vagy<br />batch |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Minimális biztonsági kikapcsolása<br />Maximális vissza kikapcsolása<br />Különbözeti biztonsági kikapcsolása<br />Első gyors újrapróbálkozási |5<br />0 (mp)<br />60 másodperc<br />2 mp<br />hamis |Kísérlet történt az 1 – 0 mp késleltetés<br />Kísérlet történt a 2 - ~ 2 mp késleltetés<br />Próbálja meg a 3 - ~ 6 mp késleltetés<br />Kísérlet történt a 4 – ~ 14 mp késleltetés<br />Kísérlet történt az 5 – kb. 30 másodperc késleltetés |
 
 ### <a name="more-information"></a>További információ
 * [Az Azure Active Directory hitelesítési Kódtárai][adal]
@@ -990,9 +990,9 @@ Azure vagy harmadik féltől származó szolgáltatások eléréséhez vegye fig
 * Az átmeneti észlelési logika az ügyfél tényleges API meghívása a REST-hívások segítségével függ. Egyes ügyfelek, például a újabb **HttpClient** osztály, nem egy nem sikeres HTTP-állapotkód: teljesített kérelmek kivételeinek kivételhibát. Ez javítja a teljesítményt, de megakadályozza, hogy az átmeneti hiba kezelési alkalmazás-blokk használata. Ebben az esetben burkolása sikerült kóddal, amely nem sikeres HTTP-állapotkódok, amely a blokk majd tudja feldolgozni a kivételeket a REST API-hívás. Egy másik mechanizmus segítségével azt is megteheti, az újbóli próbálkozások meghajtó.
 * A szolgáltatás által visszaadott HTTP-állapotkód: jelzi, hogy a hiba átmeneti segítséget. Előfordulhat, hogy egy ügyfél vagy a újrapróbálkozási keretrendszer állapotkód eléréséhez, vagy a megfelelő kivétel típusának meghatározására által létrehozott kivételek vizsgálata szükséges. A következő HTTP-kódok általában azt jelzi, hogy egy újabb megfelelő:
   * 408 kérelmi időkorlátot.
-  * 500 belső kiszolgálóhiba
+  * 500 Internal Server Error
   * 502 Hibás átjáró
-  * 503-as szolgáltatás nem érhető el
+  * 503 Service Unavailable
   * 504-es számú átjáró időtúllépése
 * Ha a kivételek az újrapróbálkozási logika, a következő általában jelzi, hogy egy átmeneti hiba, ha nem sikerült kapcsolatot:
   * WebExceptionStatus.ConnectionClosed
@@ -1036,7 +1036,6 @@ A tipikus objektumtípusokra újrapróbálkozási stratégia intervallumok a kö
 [autorest]: https://github.com/Azure/autorest/tree/master/docs
 [circuit-breaker]: ../patterns/circuit-breaker.md
 [ConnectionPolicy.RetryOptions]: https://msdn.microsoft.com/library/azure/microsoft.azure.documents.client.connectionpolicy.retryoptions.aspx
-[documentdb-api]: /azure/documentdb/documentdb-introduction
 [dotnet-foundation]: https://dotnetfoundation.org/
 [polly]: http://www.thepollyproject.org
 [redis-cache-troubleshoot]: /azure/redis-cache/cache-how-to-troubleshoot

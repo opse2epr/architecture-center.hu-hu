@@ -1,17 +1,17 @@
 ---
-title: "Hibaelemzés mód"
+title: "A hibaállapot elemzése"
 description: "Útmutató az Azure-alapú megoldások mód elemzés végrehajtásához."
 author: MikeWasson
 ms.date: 03/24/2017
 ms.custom: resiliency
 pnp.series.title: Design for Resiliency
-ms.openlocfilehash: 09d09468eebe5c6fe1c9cdab14e142ff46cf0b25
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: aca2088cb007728c5717a968969000c0a19bcd07
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/30/2018
 ---
-# <a name="failure-mode-analysis"></a>Hibaelemzés mód
+# <a name="failure-mode-analysis"></a>A hibaállapot elemzése
 [!INCLUDE [header](../_includes/header.md)]
 
 Hibaelemzés mód (FMA) az a folyamat rugalmassági készítéséhez rendszerben, a rendszer lehetséges hiba pontok azonosításával. A FMA felépítéséről és kialakításáról fázisok részének kell lennie, úgy, hogy a rendszer az elejéről történő hibaelhárítás hozhat létre.
@@ -116,9 +116,9 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 * Állvány-kompatibilis központi telepítés, a tartalék tartományok pontjain adatok csomópontokkal használata.
 * Telepíthet több régióba helyi kvórum konzisztencia. Nem átmeneti hiba lép fel, ha átadja egy másik régióban.
 
-**Diagnosztika**. Alkalmazás-naplók
+**Diagnosztika**. Alkalmazásnaplók
 
-## <a name="cloud-service"></a>A felhőalapú szolgáltatás
+## <a name="cloud-service"></a>Felhőszolgáltatás
 ### <a name="web-or-worker-roles-are-unexpectedlybeing-shut-down"></a>Webes vagy feldolgozói szerepköröket vannak váratlanul leáll.
 **Észlelési**. A [RoleEnvironment.Stopping] [ RoleEnvironment.Stopping] az esemény.
 
@@ -133,7 +133,7 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 * Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Kivételek, amely kiváltja az ügyfél újrapróbálkozási házirend túl vagy nem átmeneti hibák.
 * Ha Cosmos DB azelőtt gyorsítja fel, az ügyfél, HTTP 429 hibát ad vissza. Az állapotkód: Ellenőrizze a `DocumentClientException`. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
     * A MongoDB API-t használ, ha a szolgáltatás a esetén a sávszélesség-szabályozás hibakód 16500 ad vissza.
-* A Cosmos DB adatbázis két vagy több régió replikálásához. Összes replikát is olvasható. Az ügyfél SDK-k használata, adja meg a `PreferredLocations` paraméter. Ez az Azure-régiók rendezett listáját. Az összes olvasási kapnak a lista első rendelkezésre álló terület. A kérés nem teljesíthető, ha az ügyfél megpróbál a más régiókból, a listában, sorrendben. További információkért lásd: [telepítő Azure Cosmos DB globális terjesztési a DocumentDB API használatával hogyan][docdb-multi-region].
+* A Cosmos DB adatbázis két vagy több régió replikálásához. Összes replikát is olvasható. Az ügyfél SDK-k használata, adja meg a `PreferredLocations` paraméter. Ez az Azure-régiók rendezett listáját. Az összes olvasási kapnak a lista első rendelkezésre álló terület. A kérés nem teljesíthető, ha az ügyfél megpróbál a más régiókból, a listában, sorrendben. További információkért lásd: [telepítője az SQL API-val Azure Cosmos DB globális terjesztési hogyan][cosmosdb-multi-region].
 
 **Diagnosztika**. Ügyféloldali összes hibák naplózására.
 
@@ -145,7 +145,7 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 * Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Kivételek, amely kiváltja az ügyfél újrapróbálkozási házirend túl vagy nem átmeneti hibák.
 * Ha Cosmos DB azelőtt gyorsítja fel, az ügyfél, HTTP 429 hibát ad vissza. Az állapotkód: Ellenőrizze a `DocumentClientException`. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
 * A Cosmos DB adatbázis két vagy több régió replikálásához. Ha az elsődleges régióban meghibásodik, egy másik régióban lesz előléptetve írni. A feladatátvétel manuálisan is elindítható. Az SDK automatikus felderítést és az útválasztást, végzi, az alkalmazás kódjában folytatja a működést egy feladatátvétel után. Időszakban a feladatátvétel (általában percben) az írási műveletek, az SDK megkeresi az új írási terület lesz nagyobb késleltetéssel járhat.
-  További információkért lásd: [telepítő Azure Cosmos DB globális terjesztési a DocumentDB API használatával hogyan][docdb-multi-region].
+  További információkért lásd: [telepítője az SQL API-val Azure Cosmos DB globális terjesztési hogyan][cosmosdb-multi-region].
 * Tartalékként továbbra is fennáll a dokumentum a biztonsági mentési üzenetsorba, és a várólista később feldolgozni.
 
 **Diagnosztika**. Ügyféloldali összes hibák naplózására.
@@ -329,9 +329,9 @@ További információkért lásd: [áttekintése a Service Bus kézbesítetlen l
 
 **Helyreállítási**. A megszakítási token leállítási észleléséhez használni. Ha a Service Fabric törlését kéri, Befejezés munka, és zárja be `RunAsync` lehető leggyorsabban tegye.
 
-**Diagnosztika**. Alkalmazás-naplók
+**Diagnosztika**. Alkalmazásnaplók
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárolás
 ### <a name="writing-data-to-azure-storage-fails"></a>Sikertelen az adatok Azure Storage való írásakor
 **Észlelési**. Az ügyfél megkapja a hibák írása közben.
 
@@ -369,7 +369,7 @@ További információkért lásd: [áttekintése a Service Bus kézbesítetlen l
 * Állandó vagy nem átmeneti hiba, megvalósítani a [áramköri megszakító] [ circuit-breaker] mintát.
 * Ha a hívó VM túllépi ezt a hálózati kilépő, a kimenő várólista betelik. Ha a kimenő várólista következetesen teljes, fontolja meg a kiterjesztése.
 
-**Diagnosztika**. Alkalmazásnapló-események, szolgáltatás határokat.
+**Diagnosztika**. Naplózza a szolgáltatáshatárokon történő eseményeket.
 
 ### <a name="vm-instance-becomes-unavailable-or-unhealthy"></a>Virtuálisgép-példány nem érhető el vagy nem megfelelő állapotú lesz.
 **Észlelési**. Egy terheléskiegyenlítő [állapotmintáihoz] [ lb-probe] , amely jelzi, hogy a Virtuálisgép-példány állapota kifogástalan. A mintavétel ellenőriznie kell, hogy a kritikus fontosságú funkciók helytelenül válaszol-e.
@@ -381,7 +381,7 @@ További információkért lásd: [áttekintése a Service Bus kézbesítetlen l
 * A felügyeleti rendszer figyelheti az összes a állapotfigyelési végpontok konfigurálása.
 
 ### <a name="operator-accidentally-shuts-down-a-vm"></a>Operátor véletlenül egy virtuális gép leáll.
-**Észlelési**. N/A
+**Észlelési**. –
 
 **Helyreállítási**. Állítsa be az erőforrás-zárolást a következő `ReadOnly` szintjét. Lásd: [erőforrások az Azure Resource Manager zárolása][rm-locks].
 
@@ -434,7 +434,7 @@ További információkért lásd: [áttekintése a Service Bus kézbesítetlen l
 
 **Diagnosztika**. A naplófájl minden távoli hívás sikertelen.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 A FMA folyamattal kapcsolatos további információkért lásd: [rugalmas kialakítás a felhőszolgáltatások] [ resilience-by-design-pdf] (PDF-fájl letöltése).
 
 <!-- links -->
@@ -453,7 +453,7 @@ A FMA folyamattal kapcsolatos további információkért lásd: [rugalmas kialak
 [BrokeredMessage.TimeToLive]: https://msdn.microsoft.com/library/microsoft.servicebus.messaging.brokeredmessage.timetolive.aspx
 [cassandra-error-handling]: http://www.datastax.com/dev/blog/cassandra-error-handling-done-right
 [circuit-breaker]: https://msdn.microsoft.com/library/dn589784.aspx
-[docdb-multi-region]: /azure/documentdb/documentdb-developing-with-multiple-regions/
+[cosmosdb-multi-region]: /azure/cosmos-db/tutorial-global-distribution-sql-api
 [elasticsearch-azure]: ../elasticsearch/index.md
 [elasticsearch-client]: https://www.elastic.co/guide/en/elasticsearch/client/index.html
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx

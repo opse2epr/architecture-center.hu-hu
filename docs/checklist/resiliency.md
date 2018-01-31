@@ -4,11 +4,11 @@ description: "Feladatlista, amely útmutatást hibatűrési szempontok a tervez�
 author: petertaylor9999
 ms.date: 01/10/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 66ff802c1f7b35db147ffe4279982c827570c3c1
-ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
+ms.openlocfilehash: 51f807715d0ac929806b9a5a13da4efa00566592
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/11/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -203,7 +203,7 @@ A következő ellenőrzőlista elemek az Azure-ban meghatározott szolgáltatás
 
 ### <a name="cosmos-db"></a>Cosmos DB
 
-**Az adatbázis replikálása régiók között.** Cosmos DB lehetővé teszi tetszőleges számú Azure-régiók társítandó egy Cosmos-adatbázis adatbázis-fiók. Egy Cosmos DB adatbázisban régió egy írási és olvasási több régióba is rendelkezik. Ha hiba történik a írási régióban, egy másik replikából olvashatja. Az ügyfél SDK kezeli ezt automatikusan. Az írási régió, egy másik régióban is átadásra. További információkért lásd: [miként ossza el a globális adatok Azure Cosmos DB?](/azure/documentdb/documentdb-distribute-data-globally)
+**Az adatbázis replikálása régiók között.** Cosmos DB lehetővé teszi tetszőleges számú Azure-régiók társítandó egy Cosmos-adatbázis adatbázis-fiók. Egy Cosmos DB adatbázisban régió egy írási és olvasási több régióba is rendelkezik. Ha hiba történik a írási régióban, egy másik replikából olvashatja. Az ügyfél SDK kezeli ezt automatikusan. Az írási régió, egy másik régióban is átadásra. További információkért lásd: [miként ossza el a globális adatok Azure Cosmos DB](/azure/cosmos-db/distribute-data-globally).
 
 ### <a name="redis-cache"></a>Redis Cache
 

@@ -4,14 +4,13 @@ description: "Útmutató a szétválasztásának kezelhető és külön-külön 
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 3dce288b4f958e93a072c6019bccb5bb6e043f55
-ms.sourcegitcommit: cf207fd10110f301f1e05f91eeb9f8dfca129164
+ms.openlocfilehash: aa59a99ae87328424379e1f9c6fee8cc5887e61c
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/29/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="data-partitioning"></a>Adatparticionálás
-[!INCLUDE [header](../_includes/header.md)]
 
 A sok nagy méretű megoldások adatok, kezelhető és érhető el külön külön partíciókra oszlik. A jó particionálási stratégia a következő előnyöket maximalizálása ugyanakkor minimalizálja a negatív hatások gondosan kell kiválasztani. Particionálás segíthet a méretezhetőség javítása, csökkentse a versengés és teljesítményének optimalizálásához. Egy másik particionálás előnye, hogy egy olyan mechanizmus adatok elosztjuk használatának nyújthat. Például úgy archiválhatók régebbi, kevésbé aktív (ritkán használt) adatok olcsóbb adattárolásra.
 
@@ -360,43 +359,30 @@ Vegye figyelembe az alábbiakat, ha meghatározásakor vagy a Service Bus-üzene
 * A particionált üzenetsorok és témakörök automatikusan törlésekor üresjárati válnának nem konfigurálható.
 * A particionált üzenetsorok és témakörök jelenleg használható a speciális Message Queuing protokoll (AMQP) platformfüggetlen vagy hibrid megoldások készítésekor.
 
-## <a name="partitioning-strategies-for-documentdb-api"></a>A DocumentDB API particionálási stratégia
-Azure Cosmos DB egy NoSQL-adatbázis, amely dokumentumokat tárolhat a [DocumentDB API][documentdb-api]. A dokumentum egy Cosmos DB adatbázisban egy objektum vagy egyéb adatok JSON-szerializált ábrázolását. Nincsenek rögzített sémák kerül minden alkalom, azzal a különbséggel, hogy minden dokumentumnak tartalmaznia kell egy egyedi azonosítót.
+## <a name="partitioning-strategies-for-cosmos-db"></a>A Cosmos DB particionálási stratégia
+
+Azure Cosmos DB egy NoSQL-adatbázis, amely segítségével JSON-dokumentumokat tárolhat a [Azure Cosmos DB SQL API][cosmosdb-sql-api]. A dokumentum egy Cosmos DB adatbázisban egy objektum vagy egyéb adatok JSON-szerializált ábrázolását. Nincsenek rögzített sémák kerül minden alkalom, azzal a különbséggel, hogy minden dokumentumnak tartalmaznia kell egy egyedi azonosítót.
 
 Dokumentumok gyűjteményekbe vannak rendezve. Kapcsolódó dokumentumok együtt egy gyűjteményen belül csoportosíthatja. Például az állapotinformációkat bejegyzéseket, tárolhatja minden blogbejegyzés tartalmát a gyűjtemény-dokumentumként. Az egyes tulajdonos gyűjteményeket is létrehozhat. Azt is megteheti több-bérlős alkalmazásokban, például a rendszer, ahol a különböző szerzők szabályozza, és kezelheti a saját blogbejegyzések is Szerző blogok partícióazonosító és minden egyes Szerző külön gyűjtemények létrehozása. A gyűjtemények lefoglalt tárhely rugalmas és zsugorításával vagy igény szerinti.
 
-A dokumentum gyűjtemények lehetővé természetes egyetlen adatbázisban lévő adatok particionálása. Belső egy Cosmos DB adatbázisban több kiszolgáló is kiterjedhet, és megkísérelhetik a terhelés terjednek gyűjtemények elosztásával kiszolgáló között. A legegyszerűbben horizontális megvalósítása után minden shard a gyűjtemény létrehozásához.
+Cosmos DB támogatja az adatokat az alkalmazás által meghatározott partíciós kulcs alapján automatikus particionálási. A *logikai partíciót* javasoljuk, hogy az összes adatot tárolja az egypartíciós kulcs értéke van. Összes dokumentumot, amely ugyanazt az értéket a partíciós kulcs belül az azonos logikai partíció el őket. Cosmos DB osztja el a kivonat a partíciókulcs szerint értékeket. Egy logikai partíciónak mérete 10 GB-os. Ezért a választott a partíciós kulcs, egy fontos döntés tervezési időben. Válassza ki az értékeket, és még akkor is, hozzáférési minták számos tulajdonságot. További információkért lásd: [partíció és a skála Azure Cosmos DB](/azure/cosmos-db/partition-data).
 
 > [!NOTE]
-> Minden egyes Cosmos DB-adatbázis egy *teljesítményszintet* , amely meghatározza, hogy lekéri a mérete. A teljesítményszintet társítva van egy *kérelem egység* sávszélesség-korlátjának (RU). A sávszélesség-korlátjának RU meg fenntartott és a rendelkezésre álló kizárólagos adott gyűjtemény által használt erőforrások mennyisége határozza meg. A gyűjtemény költségét attól függ, hogy az adott gyűjtemény kiválasztott teljesítményszint szükséges. Minél nagyobb teljesítményt szint (és a sávszélesség-korlátjának RU) minél nagyobb a kell fizetni. Az Azure portál használatával módosíthatja a gyűjtemény teljesítményszintjét. További információkért lásd a [teljesítményszintek az Adatbázisba az Cosmos] cikket a Microsoft webhelyén.
+> Minden egyes Cosmos DB-adatbázis egy *teljesítményszintet* , amely meghatározza, hogy lekéri a mérete. A teljesítményszintet társítva van egy *kérelem egység* sávszélesség-korlátjának (RU). A sávszélesség-korlátjának RU meg fenntartott és a rendelkezésre álló kizárólagos adott gyűjtemény által használt erőforrások mennyisége határozza meg. A gyűjtemény költségét attól függ, hogy az adott gyűjtemény kiválasztott teljesítményszint szükséges. Minél nagyobb teljesítményt szint (és a sávszélesség-korlátjának RU) minél nagyobb a kell fizetni. Az Azure portál használatával módosíthatja a gyűjtemény teljesítményszintjét. További információkért lásd: [Azure Cosmos DB egység kérelem][cosmos-db-ru].
 >
 >
+
+Ha nincs elegendő Cosmos DB biztosít paritioning mechanizmust, esetleg shard az adatokat az alkalmazás szintjén. A dokumentum gyűjtemények lehetővé természetes egyetlen adatbázisban lévő adatok particionálása. A legegyszerűbben horizontális megvalósítása után minden shard a gyűjtemény létrehozásához. Tárolók logikai erőforrásokat, és egy vagy több kiszolgálóra is kiterjedhetnek. Rögzített méretű tárolók rendelkezik egy legfeljebb 10 GB és 10000 RU/s átviteli sebesség. Korlátlan tárolók nem rendelkezik a sotrage maximális méretét, de kell adnia egy partíciókulcsot. Az alkalmazás horizontális az ügyfélalkalmazás kell közvetlen kéréseket a megfelelő shard általában alkalmazásával segítse a saját leképezés mechanizmus az adatokat, amelyek meghatározzák a shard kulcs bizonyos attribútumai alapján. 
 
 Összes adatbázis egy Cosmos-adatbázis adatbázis-fiók környezetében jönnek létre. Egy olyan fiók több adatbázisok tartalmazhat, és meghatározza azokat a területeket az adatbázisok jön létre. Minden felhasználói fiókhoz is érvényesíti a saját hozzáférés-vezérlést. Használhatja a földrajzi Cosmos DB fiókokat-keresse meg a szilánkok (gyűjtemények adatbázisok belül) megközelíti a felhasználók, akik azok eléréséhez, és a korlátozások érvényesítése, hogy csak azokat a felhasználók kapcsolódhatnak őket.
 
-Minden Cosmos DB rendelkezik, amely korlátozza a számú adatbázisból és gyűjteményeket, amelyek tartalmazhat, és elérhető a dokumentum tárolókapacitást. További információkért lásd: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][azure-limits]. Elméletileg lehetséges, hogy alkalmazza a rendszer, ahol minden szilánkok tartozik ugyanarra az adatbázisra, ha előfordulhat, hogy elérte a fiók a tárolási kapacitásán belül.
+Adatok Cosmos DB SQL API-val particionálásáról meghatározásakor, vegye figyelembe a következő szempontokat:
 
-Ebben az esetben szükség lehet további fiókok és adatbázisok létrehozása, és a szilánkok szét ezeket az adatbázisokat. Azonban akkor is, ha a tárolási kapacitás-adatbázis eléréséhez valószínűleg ajánlott egy több adatbázis használatára. Ennek oka az egyes adatbázisok saját rendelkezik a felhasználókat és engedélyeket, és a mechanizmus segítségével elkülönítése adatbázis-alapú gyűjtemények elérésére.
-
-8. ábra a DocumentDB API általános szerkezetét mutatja be.
-
-![A DocumentDB API szerkezete](./images/data-partitioning/DocumentDBStructure.png)
-
-*8. ábra.  A DocumentDB API architektúra szerkezete*
-
-A feladat a megfelelő shard kérelmek általában közvetlen alkalmazásával segítse a saját leképezés mechanizmus az adatokat, amelyek meghatározzák a shard kulcs bizonyos attribútumai alapján az ügyfélalkalmazás. 9. ábra mutatja a két DocumentDB API-adatbázisok esetén két szilánkok működő gyűjteményeket tartalmazó. Az adatok szilánkos egy bérlő-azonosító szerint, és tartalmazza az adatokat egy adott bérlő számára. Az adatbázisok külön Cosmos DB fiókok jönnek létre. Ezeket a fiókokat és a bérlők számára, amelyek adatokat tartalmaznak ugyanabban a régióban találhatók. Az ügyfélalkalmazás az útválasztási logika a bérlő azonosítója a shard kulcsként használja.
-
-![A DocumentDB API-jával végrehajtási horizontális](./images/data-partitioning/DocumentDBPartitions.png)
-
-*9. ábra. A DocumentDB API-jával végrehajtási horizontális*
-
-A DocumentDB API adatok particionálása módjának, vegye figyelembe a következő szempontokat:
-
-* **A DocumentDB API-adatbázis számára elérhető erőforrások használata tekintetében a fiók sablonkérelem**. Az egyes adatbázisok tárolására képes a gyűjtemények számos (ebben az esetben korlátozás van), és egyes gyűjtemények társítva, amely szabályozza a RU sávszélesség-korlátjának (fenntartott átviteli sebességet), hogy a gyűjtemény egy teljesítményszint szükséges. További információkért lásd: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][azure-limits].
+* **A fiók sablonkérelem lépnek egy Cosmos DB adatbázis számára elérhető erőforrások**. Az egyes adatbázisok tárolására képes a gyűjtemények számos, és minden gyűjtemény egy teljesítményszint szükséges, amely szabályozza a RU sávszélesség-korlátjának (fenntartott átviteli sebességet), hogy a gyűjtemény társítva. További információkért lásd: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][azure-limits].
 * **Ügyeljen rá, hogy a dokumentum a gyűjteményt, amelyben tárolt belül egyedi azonosítására használható egy attribútummal kell rendelkeznie,**. Ez az attribútum található a szilánkcímtárban kulcs, amely meghatározza, mely a gyűjtemény kérelemfejléceket tárol, a dokumentum eltér. Egy gyűjtemény tartalmazhat nagyszámú dokumentumok. Elméletileg azt csak korlátozza a maximális időtartamot, a dokumentum azonosítóját. A dokumentum azonosító legfeljebb 255 karakterből állhat.
 * **Az összes dokumentum elleni műveleteket egy tranzakció keretén belül. Tranzakciók hatóköre a gyűjteményt, amelyben a dokumentum tartalmazza.** Egy művelet meghiúsul, ha a munka még hajtott végre vissza lesz állítva. Míg egy dokumentumot egy művelet függvényében, minden egyes helyadatbázisokban végrehajtott módosításokat a pillanatkép szintű elkülönítés vonatkoznak. Ez a módszer biztosítja azt, hogy ha például egy új dokumentum létrehozása sikertelen, akik egy időben kérdezi le az adatbázis egy másik felhasználó kérést nem jelenik meg egy részleges dokumentumot, majd eltávolítani.
 * **A gyűjtemény szintjén is hatóköre az adatbázis-lekérdezések**. Egyetlen lekérdezés adatainak lekérése is csak egy gyűjtemény. Ha adatainak lekérése több gyűjteményre van szüksége, kell egyes gyűjtemények külön-külön és -lekérdezés egyesítése az eredményeket az alkalmazás kódjában.
-* **A DocumentDB API adatbázisok által támogatott programozható elemek, amelyek az összes találhatók dokumentumok mellett egy gyűjtemény**. Ezek közé tartozik a tárolt eljárások, felhasználó által definiált függvények és eseményindítók (JavaScript nyelven írt). Ezek az elemek összes dokumentumának belül ugyanaz a gyűjtemény. Ezenkívül ezek az elemek futtatása (esetén egy eseményindítót, amely akkor következik be, mert eredménye egy létrehozása, törlése, vagy műveletet hajt végre a dokumentum cseréje), a környezeti tranzakció hatókörén belül, vagy (esetén tárolt eljárás új tranzakció elindítása futtatott az explicit ügyfélkérés miatt). A kód egy programozható elemben kivételt jelez, ha a tranzakció vissza lesz állítva. Tárolt eljárások és eseményindítók használhatja az integritásra és a dokumentumok között konzisztencia fenntartása, de ezeket a dokumentumokat ugyanaz a gyűjtemény részének kell lennie.
+* **Cosmos DB programozható elemek összes tárolható egy gyűjtemény dokumentumok mellett támogatja**. Ezek közé tartozik a tárolt eljárások, felhasználó által definiált függvények és eseményindítók (JavaScript nyelven írt). Ezek az elemek összes dokumentumának belül ugyanaz a gyűjtemény. Ezenkívül ezek az elemek futtatása (esetén egy eseményindítót, amely akkor következik be, mert eredménye egy létrehozása, törlése, vagy műveletet hajt végre a dokumentum cseréje), a környezeti tranzakció hatókörén belül, vagy (esetén tárolt eljárás új tranzakció elindítása futtatott az explicit ügyfélkérés miatt). A kód egy programozható elemben kivételt jelez, ha a tranzakció vissza lesz állítva. Tárolt eljárások és eseményindítók használhatja az integritásra és a dokumentumok között konzisztencia fenntartása, de ezeket a dokumentumokat ugyanaz a gyűjtemény részének kell lennie.
 * **A gyűjtemények, melyet a adatbázisokban tárolásához valószínűleg nem haladja meg a teljesítményszintet gyűjtemények által megadott átviteli sebességének korlátai kell**. További informationm, lásd: [Azure Cosmos DB egység kérelem][cosmos-db-ru]. Ha várhatóan a működés felső korlátjának elérése, fontolja meg a gyűjtemények gyűjteményenként a terhelés csökkentése érdekében különböző fiókok az adatbázisok közötti felosztásával.
 
 ## <a name="partitioning-strategies-for-azure-search"></a>Az Azure Search particionálási stratégia
@@ -454,11 +440,11 @@ Azure Redis Cache adatok particionálása módjának, vegye figyelembe a követk
   * Összesített típuson például listák (amely működhet várólisták és a verem)
   * Beállítja a (rendezett és rendezetlen)
   * A kivonatok (amely is kapcsolódó mezők egy csoportba, például a elemek, amelyek megfelelnek a mezők objektum)
-* Az összesített típusok lehetővé teszik a ugyanazzal a kulccsal sok kapcsolódó értéket hozzárendelni. Egy Redis-key listáját, be van állítva, vagy kivonatoló helyett a benne tárolt adatelemek azonosítja. Ezek a típusok Azure Redis Cache segítségével elérhetők, és ismerteti a által a [adattípusok] lap a Redis-webhelyen. Például részben az elektronikus kereskedelmi rendszer, amely nyomon követi az ügyfelek általi rendeléseket, mindegyik ügyfél részletes adatait tárolhatja a Redis-kivonat, amely a felhasználói azonosítóját. a kulccsal van Minden Kivonatoló azonosítók rendelés gyűjteménye tárolható az ügyfél. Egy külön Redis-készlet tárolására képes újra, a kivonatok strukturált, és az azonosító. a kulccsal definiált rendelések 10. ábrán látható, ez a struktúra. Vegye figyelembe, hogy Redis nem valósítja meg a hivatkozási integritás bármilyen, a fejlesztő felelőssége, hogy az ügyfelek és a rendeléseket kapcsolatának fenntartásához.
+* Az összesített típusok lehetővé teszik a ugyanazzal a kulccsal sok kapcsolódó értéket hozzárendelni. Egy Redis-key listáját, be van állítva, vagy kivonatoló helyett a benne tárolt adatelemek azonosítja. Ezek a típusok Azure Redis Cache segítségével elérhetők, és ismerteti a által a [adattípusok] lap a Redis-webhelyen. Például részben az elektronikus kereskedelmi rendszer, amely nyomon követi az ügyfelek általi rendeléseket, mindegyik ügyfél részletes adatait tárolhatja a Redis-kivonat, amely a felhasználói azonosítóját. a kulccsal van Minden Kivonatoló azonosítók rendelés gyűjteménye tárolható az ügyfél. Egy külön Redis-készlet tárolására képes újra, a kivonatok strukturált, és az azonosító. a kulccsal definiált rendelések 8. ábrán látható, ez a struktúra. Vegye figyelembe, hogy Redis nem valósítja meg a hivatkozási integritás bármilyen, a fejlesztő felelőssége, hogy az ügyfelek és a rendeléseket kapcsolatának fenntartásához.
 
 ![A Redis-tároló megrendelések és azok adatai rögzítése javasolt struktúra](./images/data-partitioning/RedisCustomersandOrders.png)
 
-*10. ábra. A Redis-tároló megrendelések és azok adatai rögzítése javasolt struktúra*
+*8. ábra. A Redis-tároló megrendelések és azok adatai rögzítése javasolt struktúra*
 
 > [!NOTE]
 > A Redis minden kulcs bináris adatok értékek (például a Redis-karakterláncok), és legfeljebb 512 MB adatokat is tartalmazhat. Elméletileg kulcs szinte bármilyen információkat is tartalmazhat. Azt javasoljuk azonban bevezetése egységes elnevezési kulcsok leíró, milyen típusú adatok, amelyek, amely azonosítja az entitást, de nem túl hosszú. Általános gyakorlatként javasolt, hogy az űrlap "entity_type:ID" kulcsok használja. Például az "felhasználói: 99" segítségével jelzik az azonosító 99 az ügyfél a kulcsot.
@@ -568,12 +554,12 @@ Amikor kiválasztja az adatok konzisztenciájának bevezetése, a következő mi
 [Az Azure Storage méretezhetőségi és teljesítménycéloknak]: /azure/storage/storage-scalability-targets
 [Az Azure Storage táblázat kialakítási útmutató]: /azure/storage/storage-table-design-guide
 [A Polyglot megoldás létrehozása]: https://msdn.microsoft.com/library/dn313279.aspx
-[cosmos-db-ru]: /azure/documentdb/documentdb-request-units
+[cosmos-db-ru]: /azure/cosmos-db/request-units
 [A magas szinten méretezhető megoldások adatelérési: SQL, nosql-alapú és Polyglot adatmegőrzési használatával]: https://msdn.microsoft.com/library/dn271399.aspx
 [adatok konzisztencia ismertetése]: http://aka.ms/Data-Consistency-Primer
 [Adatok particionálási útmutató]: https://msdn.microsoft.com/library/dn589795.aspx
 [Adattípusok]: http://redis.io/topics/data-types
-[documentdb-api]: /azure/documentdb/documentdb-introduction
+[cosmosdb-sql-api]: /azure/cosmos-db/sql-api-introduction
 [rugalmas adatbázis-szolgáltatások áttekintése]: /azure/sql-database/sql-database-elastic-scale-introduction
 [event-hubs]: /azure/event-hubs
 [Federations Migration Utility]: https://code.msdn.microsoft.com/vstudio/Federations-Migration-ce61e9c1

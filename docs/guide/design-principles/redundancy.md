@@ -1,15 +1,15 @@
 ---
-title: "Ellenőrizze minden redundancia"
+title: "Tervezzen mindent redundánsra"
 description: "Kerülje a hibaérzékeny pontokat redundancia épület az alkalmazásba."
 author: MikeWasson
 layout: LandingPage
-ms.openlocfilehash: 89a1e6d2d3b1217ab07c9a99a4c4fb3e8cd2cd29
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 05ccf78c2cfbcd4e2d26200e70463d388d54f671
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/30/2018
 ---
-# <a name="make-all-things-redundant"></a>Ellenőrizze minden redundancia
+# <a name="make-all-things-redundant"></a>Tervezzen mindent redundánsra
 
 ## <a name="build-redundancy-into-your-application-to-avoid-having-single-points-of-failure"></a>Az alkalmazásba, hogy kerülje az egyetlen ponton felmerülő hibákat redundancia összeállítása
 
@@ -25,7 +25,7 @@ Egy rugalmas alkalmazás útvonalak hibát körül. A kritikus elérési utak az
 
 **Adatbázisok replikálása**. Az Azure SQL Database és Cosmos DB automatikusan replikálja az adatokat a régión belül, és engedélyezheti a georeplikáció régiók között. Ha egy infrastruktúra-szolgáltatási adatbázis megoldást használ, válasszon egyet, amely támogatja a replikációt és feladatátvételt, például a [SQL Server Always On rendelkezésre állási csoportok][sql-always-on]. 
 
-**A georeplikáció engedélyezéséhez**. A georeplikáció [Azure SQL Database] [ sql-geo-replication] és [Cosmos DB] [ docdb-geo-replication] hozza létre, egy vagy több másodlagos olvasható replika adatait másodlagos régióban. Nem tervezett kimaradás esetén az adatbázis átveheti a másodlagos régióba az írásokhoz.
+**A georeplikáció engedélyezéséhez**. A georeplikáció [Azure SQL Database] [ sql-geo-replication] és [Cosmos DB] [ cosmosdb-geo-replication] hozza létre, egy vagy több másodlagos olvasható replika adatait másodlagos régióban. Nem tervezett kimaradás esetén az adatbázis átveheti a másodlagos régióba az írásokhoz.
 
 **A rendelkezésre állás érdekében partíció**. Adatbázis particionálási gyakran használják a méretezhetőség javítása érdekében, de azt is tovább fejlesztheti rendelkezésre állását. Ha egy shard leáll, a más szilánkok továbbra is elérhetők. Egy shard hibája miatt csak megszakítja majd a teljes tranzakció egy részét. 
 
@@ -46,6 +46,6 @@ Egy rugalmas alkalmazás útvonalak hibát körül. A kritikus elérési utak az
 [multi-vm-blueprint]: ../../reference-architectures/virtual-machines-windows/multi-vm.md
 
 [cassandra]: http://cassandra.apache.org/
-[docdb-geo-replication]: /azure/documentdb/documentdb-distribute-data-globally
+[cosmosdb-geo-replication]: /azure/cosmos-db/distribute-data-globally
 [sql-always-on]: https://msdn.microsoft.com/library/hh510230.aspx
 [sql-geo-replication]: /azure/sql-database/sql-database-geo-replication-overview

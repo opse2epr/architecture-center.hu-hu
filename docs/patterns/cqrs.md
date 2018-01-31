@@ -1,6 +1,6 @@
 ---
 title: CQRS
-description: "Elkülönítse műveletekkel kapcsolatos adatokat olvasni az operatív adatokat frissítő külön-felületek használatával."
+description: "Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől."
 keywords: "Kialakítási mintája"
 author: dragon119
 ms.date: 06/23/2017
@@ -9,17 +9,17 @@ pnp.pattern.categories:
 - data-management
 - design-implementation
 - performance-scalability
-ms.openlocfilehash: f36f759b16566a6c46bf78b8c8b8df4fcd2c493d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 80f4a8880cf2212acf82dadb67b0181e1cbae099
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Szabály parancs és a lekérdezés felelősségi elkülönítése (CQRS)
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Elkülönítse műveletekkel kapcsolatos adatokat olvasni az operatív adatokat frissítő külön-felületek használatával. Maximalizálhatja a teljesítményt, a méretezhetőség és a biztonsági. Támogatja a rendszer fejlődéséhez magasabb rugalmassága időbeli, előfordulhat, hogy a frissítési parancsok, amely a tartományi szinten egyesítési ütközések.
+Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. Maximalizálhatja a teljesítményt, a méretezhetőség és a biztonsági. Támogatja a rendszer fejlődéséhez magasabb rugalmassága időbeli, előfordulhat, hogy a frissítési parancsok, amely a tartományi szinten egyesítési ütközések.
 
 ## <a name="context-and-problem"></a>A környezetben, és probléma
 
@@ -79,7 +79,7 @@ Használja ezt a mintát a következő esetekben:
 
 - Feladat-alapú felhasználói felületek, ahol felhasználók végigvezeti egy összetett folyamat lépésből áll, vagy összetett tartomány modellekkel való sorozataként. Ezenkívül hasznos csapatának már ismeri a tartomány-központú kialakítás (nnn) technikák. Az írási modellnek van egy parancs feldolgozása verem üzleti logikát, bemenet-ellenőrzéshez és üzleti-ellenőrzéssel győződjön meg arról, hogy minden mindig konzisztens minden, a aggregátumok (minden az adatok változásait egy egységként kezelt kapcsolódó objektumok fürt) a az írási modell. Az olvasási modell üzleti logika és érvényesítési verem rendelkezik, és csak egy nézet modell adja vissza egy DTO való használatra. Az olvasási modell idővel konzisztenssé váljanak a írási modell.
 
-- Forgatókönyvek, ahol adatok olvasási műveletek teljesítményének finom kell beállított külön teljesítményének adatok írási műveletekről, különösen akkor, ha az olvasási/írási arányt nagyon magas, és ha horizontális skálázás szükség. Például számos rendszer beolvasott száma műveletek van nagyobb sokszor, amely írási műveletek száma. Ez teljesítése érdekében fontolja meg az olvasási modell kiterjesztése, de az írási modell futó csak egy vagy néhány példányát. A kis mennyiségű írási modell példánnyal is segíti a egyesítési ütközések előfordulása minimalizálása érdekében.
+- Forgatókönyvek, ahol adatok olvasási műveletek teljesítményének finom kell beállított külön teljesítményének adatok írási műveletekről, különösen akkor, ha az olvasási/írási arányt nagyon magas, és ha horizontális skálázás szükség. Például számos rendszer az olvasási műveletek sokszor több az írási műveletek számát. Ez teljesítése érdekében fontolja meg az olvasási modell kiterjesztése, de az írási modell futó csak egy vagy néhány példányát. A kis mennyiségű írási modell példánnyal is segíti a egyesítési ütközések előfordulása minimalizálása érdekében.
 
 - Azok az esetek, amikor a fejlesztők egy csoportot, amely része a írási modell összetett tartománymodell összpontosíthat, így egy másik csapatban az olvasási és a felhasználói felületek összpontosíthat.
 

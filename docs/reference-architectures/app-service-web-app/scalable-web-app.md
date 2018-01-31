@@ -7,11 +7,11 @@ pnp.series.prev: basic-web-app
 pnp.series.next: multi-region-web-app
 ms.date: 11/23/2016
 cardTitle: Improve scalability
-ms.openlocfilehash: 1fdaf6e3695cb814fa4c275a4a273f9fa9a7b71b
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: 4ad12fb041a79fcb706530c9968fd0f96211d7f9
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 01/30/2018
 ---
 # <a name="improve-scalability-in-a-web-application"></a>A webalkalmazás a méretezhetőség javítása
 
@@ -27,11 +27,11 @@ Ez az architektúra látható egy épít [alapvető webalkalmazás][basic-web-ap
 
 * **Erőforráscsoport**. A [erőforráscsoport] [ resource-group] Azure-erőforrások logikai tárolója.
 * **[A webalkalmazás] [ app-service-web-app]**  és  **[API-alkalmazás][app-service-api-app]**. A modern alkalmazások is egy webhelyet, és egy vagy több RESTful webes API-k vehetők igénybe. A webes API keresztül AJAX azoknál a böngészőügyfeleknél, natív ügyfélalkalmazások, vagy kiszolgálóoldali alkalmazások előfordulhat, hogy használni. Szempontok a designing webes API-k, lásd: [API tervezési útmutató][api-guidance].    
-* **Webjobs-feladat**. Használjon [Azure WebJobs] [ webjobs] hosszan futó feladatokat futtatni a háttérben. Webjobs-feladatok ütemezés szerint, változásáig, vagy egy eseményindítót, például egy üzenetet a várólistában üzembe válaszul futtathatja. Webjobs-feladat az App Service alkalmazás környezetében háttérfolyamatként fut.
+* **WebJob**. Használjon [Azure WebJobs] [ webjobs] hosszan futó feladatokat futtatni a háttérben. Webjobs-feladatok ütemezés szerint, változásáig, vagy egy eseményindítót, például egy üzenetet a várólistában üzembe válaszul futtathatja. Webjobs-feladat az App Service alkalmazás környezetében háttérfolyamatként fut.
 * **Várólista**. Az architektúra látható itt, az alkalmazás várólisták feladatok háttérben által egy üzenet, amely egy [Azure Queue storage] [ queue-storage] várólista. Az üzenet elindítja a webjobs-feladat egy függvényt. Azt is megteheti Service Bus-üzenetsorok is használhatja. Lásd: [Azure várólisták és a Service Bus üzenetsorok - képest és ellentétben][queues-compared].
 * **Gyorsítótár**. A félig statikus adatok tárolásához [Azure Redis Cache][azure-redis].  
 * **CDN**. Használjon [Azure tartalom Delivery Network] [ azure-cdn] (CDN) kisebb késést biztosít, és a tartalom gyorsabb kézbesítési nyilvánosan elérhető tartalmak gyorsítótárazására való.
-* **Adattárolás**. Használjon [Azure SQL Database] [ sql-db] relációs adatok. A nem relációs adatokhoz, fontolja meg egy NoSQL-tároló, például [Cosmos DB][documentdb].
+* **Adattárolás**. Használjon [Azure SQL Database] [ sql-db] relációs adatok. A nem relációs adatokhoz, fontolja meg egy NoSQL-tároló, például [Cosmos DB][cosmosdb].
 * **Az Azure Search**. Használjon [Azure Search] [ azure-search] hozzá például a keresési javaslatok, az intelligens egyeztetésű keresési és a nyelvspecifikus keresési keresési funkciót. Az Azure Search általában egy másik adattár együtt használatos, különösen akkor, ha az elsődleges adattár megköveteli a szigorú konzisztencia. Ez a megközelítés tároljuk mérvadó adatok szerepel az adattárban és az Azure Search search-index. Az Azure Search vonják össze egy egyetlen search-index több adat áruházakból is használható.  
 * **E-mailek/SMS**. Például a SendGrid vagy Twilio egy külső szolgáltatás segítségével küldjön e-mailek vagy SMS-üzenetek helyett ezt a funkciót felépítése közvetlenül az alkalmazásba.
 * **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
@@ -116,7 +116,7 @@ Ha létrehoz egy webhely és a webes API-t, a különálló alkalmazás, a webhe
 
 App Service szolgáltatások beépített támogatása CORS, anélkül, hogy az alkalmazás kód írása rendelkezik. Lásd: [javascriptből CORS használatával API-alkalmazások felhasználása][cors]. A webhely hozzáadása az engedélyezett eredetet listája az API-hoz.
 
-### <a name="sql-database-encryption"></a>SQL adatbázis-titkosítás
+### <a name="sql-database-encryption"></a>SQL Database encryption
 Használjon [átlátható adattitkosítási] [ sql-encryption] Ha az adatbázis inaktív adatok titkosítása van szüksége. Ez a szolgáltatás hajtja végre a valós idejű titkosítása és visszafejtése egy teljes adatbázisra (egyebek között a biztonsági mentések és a tranzakciós naplófájlok), és nem kell módosítani az alkalmazáshoz. Titkosítási hozzáadása némi késés, ezért ajánlott külön kell biztonságossá tételével kapcsolatosak, a saját adatbázisába, és engedélyezheti a titkosítást csak az, hogy az adatbázis adatai.  
   
 
@@ -140,7 +140,7 @@ Használjon [átlátható adattitkosítási] [ sql-encryption] Ha az adatbázis 
 [cdn-storage-account]: /azure/cdn/cdn-create-a-storage-account-with-cdn
 [cdn-guidance]: ../../best-practices/cdn.md
 [cors]: /azure/app-service-api/app-service-api-cors-consume-javascript
-[documentdb]: https://azure.microsoft.com/documentation/services/documentdb/
+[cosmosdb]: /azure/cosmos-db/
 [queue-storage]: /azure/storage/storage-dotnet-how-to-use-queues
 [queues-compared]: /azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted
 [resource-group]: /azure/azure-resource-manager/resource-group-overview#resource-groups

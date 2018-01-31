@@ -1,16 +1,16 @@
 ---
-title: "A szoftver minőségi oszlopok"
+title: "A szoftverminőség alappillérei"
 description: "A software quality, a méretezhetőség, a rendelkezésre állási, a rugalmasság, a felügyeleti és a biztonsági öt oszlopok ismerteti."
 author: MikeWasson
-ms.openlocfilehash: 78e613368a07718f5923d619ace335d399b0cc80
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 1d5e30602cafa0d39f92de3101974e77ae258595
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/30/2018
 ---
-# <a name="pillars-of-software-quality"></a>A szoftver minőségi oszlopok 
+# <a name="pillars-of-software-quality"></a>A szoftverminőség alappillérei 
 
-A sikeres felhőalapú alkalmazások összpontosítanak ezek a szoftver minőségi öt oszlopok: méretezhetőséget, a rendelkezésre állási, a rugalmasság, a felügyeleti és biztonsági.
+Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
 
 | Oszlop | Leírás |
 |--------|-------------|
@@ -57,11 +57,11 @@ Rendelkezésre állási gyakran leírt tekintetében "9s" &mdash; például a "n
 
 | % Hasznos üzemidő | Állásidő hetente | Állásidő havonta | Állásidő évente |
 |----------|-------------------|--------------------|-------------------|
-| 99% | 1.68 üzemideje (óra) | 7,2 üzemideje (óra) | 3.65 nap |
-| 99.9% | 10 perc | 43.2 perc | 8.76 üzemideje (óra) |
-| 99,95% | 5 perc | 21,6 perc | 4,38 üzemideje (óra) |
-| 99.99% | 1 perc | 4.32 perc | 52.56 perc |
-| 99.999% | 6 másodperc | 26 másodpercben | 5.26 perc |
+| 99% | 1,68 óra | 7,2 óra | 3,65 nap |
+| 99.9% | 10 perc | 43,2 perc | 8,76 óra |
+| 99.95% | 5 perc | 21,6 perc | 4,38 óra |
+| 99.99% | 1 perc | 4,32 perc | 52,56 perc |
+| 99.999% | 6 másodperc | 26 másodpercben | 5,26 perc |
 
 Figyelje meg, hogy 99 %-os hasznos üzemidő hetente szinte 2 óra szolgáltatás kimaradás lehetett lefordítani. Számos alkalmazás, különösen a felhasználók felé néző alkalmazások, amelyek nem elfogadható slo-t. Másrészről, öt 9s (99.999 %) azt jelenti, hogy az állásidő legfeljebb 5 perc egy *év*. Nehéz elég csak kimaradás, amely gyorsan észlelésére, hát alone a probléma megoldását. Nagyon magas rendelkezésre állás eléréséhez (99,99 % vagy magasabb), nem elegendő a helyreállni hibák után manuális beavatkozásra. Az alkalmazás legyen önálló diagnosztizálni és önjavítás, amely, ahol rugalmassági kritikus fontosságú válik.
 
@@ -95,7 +95,7 @@ Ezek a tényezők jelenti, hogy a felhőalapú alkalmazások mindegyikét kell m
 
 Említett, továbbra is szeretné rugalmassági építenie az alkalmazást. Rugalmasság stratégiák a architektúra minden szinten alkalmazható. Néhány azok mérséklési több más ajánlások taktikai jellegűek &mdash; például egy átmeneti hálózati hiba után újból próbálkozik a távoli hívásban. Egyéb megoldást több stratégiai, például a teljes alkalmazás másodlagos régióba feladatátvételét. Taktikai megoldást teheti a nagy különbség. Habár ritkán fordul elő, egy teljes régió egy problémákat tapasztalhat, átmeneti problémákat, például hálózati torlódás gyakori &mdash; így cél először ezeket. A megfelelő figyelési és diagnosztika az is fontos, mind hibák észlelés, ha akkor fordulhat elő, és keresi okait.
 
-Az alkalmazás rugalmas tervezésekor ismernie kell a rendelkezésre állási követelményeinek. Mennyi állásidő az elfogadható? Ez az részben költség függvényében. Milyen mértékű várható állásidő az üzleti ára? Milyen mértékű kell fektet magas elérhetővé az alkalmazások?
+Az alkalmazás rugalmas tervezésekor ismernie kell a rendelkezésre állási követelményeinek. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez?
 
 Használja a [rugalmassági ellenőrzőlista] [ resiliency-checklist] rugalmassági szempontból a kialakítás áttekintése.
 
@@ -143,7 +143,7 @@ Ha azt szeretné, a helyszíni Active Directory-környezeten integrálása az Az
 
 Az üzembe helyezett Azure erőforrásokhoz való hozzáférés szabályozása. Minden Azure-előfizetéssel rendelkezik egy [megbízhatósági kapcsolat] [ ad-subscriptions] az Azure AD-bérlő. Használjon [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) adja meg a szervezeten belüli felhasználók Azure-erőforrások a megfelelő engedélyeket. Adjon hozzáférést RBAC szerepkört rendel felhasználókat és csoportokat egy adott hatókörben. A hatókör lehet előfizetés, egy erőforráscsoport vagy egy erőforrást. [Naplózási] [ resource-manager-auditing] infrastruktúra összes módosítását. 
 
-### <a name="application-security"></a>Az alkalmazásbiztonság
+### <a name="application-security"></a>Alkalmazások biztonsága
 
 Alkalmazásfejlesztési ajánlott biztonsági eljárások általánosságban továbbra is érvényesek a felhőben. Ezek közé tartozik többek között az SSL tetszőleges helyszínről, CSRF, és lehetővé támadások elleni védelem megakadályozza az SQL injektálási támadásokat, és így tovább. 
 
@@ -153,7 +153,7 @@ Felhőalapú alkalmazások gyakran használnak a hívóbetűket felügyelt szolg
 
 Győződjön meg arról, hogy az adatok továbbra is a megfelelő geopolitikai zónában amikor Azure használatával a magas rendelkezésre állású. Azure georeplikált tárolási fogalmát alkalmazza a [párosított régió] [ paired-region] geopolitikai ugyanabban a régióban. 
 
-Key Vault segítségével megakadályozhatja a titkosítási kulcsok és titkos kulcsok. Key Vault használatával titkosíthatja kulcsok és titkos hardveres biztonsági modulokkal (HSM) védett kulcsokkal. Sok Azure storage és DB services támogatja az adatok titkosítását, beleértve a [Azure Storage][storage-encryption], [Azure SQL Database][sql-db-encryption], [ Azure SQL Data Warehouse][data-warehouse-encryption], és [Cosmos DB][documentdb-encryption].
+Key Vault segítségével megakadályozhatja a titkosítási kulcsok és titkos kulcsok. Key Vault használatával titkosíthatja kulcsok és titkos hardveres biztonsági modulokkal (HSM) védett kulcsokkal. Sok Azure storage és DB services támogatja az adatok titkosítását, beleértve a [Azure Storage][storage-encryption], [Azure SQL Database][sql-db-encryption], [ Azure SQL Data Warehouse][data-warehouse-encryption], és [Cosmos DB][cosmosdb-encryption].
 
 ### <a name="security-resources"></a>Biztonsági erőforrások
 
@@ -171,7 +171,7 @@ Key Vault segítségével megakadályozhatja a titkosítási kulcsok és titkos 
 
 [ad-subscriptions]: /azure/active-directory/active-directory-how-subscriptions-associated-directory
 [data-warehouse-encryption]: /azure/data-lake-store/data-lake-store-security-overview#data-protection
-[documentdb-encryption]: /azure/documentdb/documentdb-nosql-database-security
+[cosmosdb-encryption]: /azure/cosmos-db/database-security
 [rbac]: /azure/active-directory/role-based-access-control-what-is
 [paired-region]: /azure/best-practices-availability-paired-regions
 [resource-manager-auditing]: /azure/azure-resource-manager/resource-group-audit
