@@ -1,15 +1,15 @@
 ---
-title: "Koordinációs minimalizálása érdekében"
+title: "Minimalizálja a koordinációt"
 description: "Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében"
 author: MikeWasson
 layout: LandingPage
-ms.openlocfilehash: 1f8caa8b7cd85593c937f1d99d582492d4cf9a8b
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 3cab05b539612234fd8e66517b140ac5257c3e70
+ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 01/30/2018
 ---
-# <a name="minimize-coordination"></a>Koordinációs minimalizálása érdekében 
+# <a name="minimize-coordination"></a>Minimalizálja a koordinációt 
 
 ## <a name="minimize-coordination-between-application-services-to-achieve-scalability"></a>Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében
 
@@ -49,7 +49,7 @@ Ezek két minták egészítik ki egymást. Ha a csak írható tárban CQRS esem�
 
 **Használja a hozzáférések optimista, amikor lehetséges**. Pesszimista feldolgozási használ adatbázis zárolások ütközések elkerülése érdekében. Ez teljesítményproblémákat okozhat, és csökkentheti a rendelkezésre állási. Az egyidejű hozzáférések optimista vezérlését minden tranzakció módosítja, a másolási vagy az adatok pillanatképe. Ha a tranzakció véglegesítése, az adatbázismotor érvényesíti a tranzakció, és hatással lenne az adatbázis-konzisztencia tranzakciók elutasítja. 
 
-Az Azure SQL Database és SQL Server támogatja az egyidejű hozzáférések optimista keresztül [pillanatkép-elkülönítés][sql-snapshot-isolation]. Bizonyos Azure storage szolgáltatások támogatja az egyidejű hozzáférések optimista révén ETag-EK, beleértve a [DocumentDB API] [ docdb-faq] és [Azure Storage] [ storage-concurrency].
+Az Azure SQL Database és SQL Server támogatja az egyidejű hozzáférések optimista keresztül [pillanatkép-elkülönítés][sql-snapshot-isolation]. Bizonyos Azure storage szolgáltatások támogatja az egyidejű hozzáférések optimista révén ETag-EK, beleértve a [Azure Cosmos DB] [ cosmosdb-faq] és [Azure Storage] [ storage-concurrency].
 
 **Távolítsa el a MapReduce vagy más párhuzamos, elosztott algoritmusok**. Attól függően, hogy az adatok és végzett munka típusú előfordulhat független feladatokat, amelyek párhuzamosan több csomópontok végzi el a munkahelyi leíró. Lásd: [nagy számítási architektúra stílus][big-compute].
 
@@ -62,7 +62,7 @@ Az Azure SQL Database és SQL Server támogatja az egyidejű hozzáférések opt
 [compensating-transaction]: ../../patterns/compensating-transaction.md
 [cqrs-style]: ../architecture-styles/cqrs.md
 [cqrs-pattern]: ../../patterns/cqrs.md
-[docdb-faq]: /azure/documentdb/documentdb-faq
+[cosmosdb-faq]: /azure/cosmos-db/faq
 [domain-event]: https://martinfowler.com/eaaDev/DomainEvent.html
 [event-sourcing]: ../../patterns/event-sourcing.md
 [leader-election]: ../../patterns/leader-election.md
