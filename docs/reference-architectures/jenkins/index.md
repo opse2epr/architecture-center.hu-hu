@@ -3,11 +3,11 @@ title: "Jenkins-kiszolgáló futtatása az Azure-on"
 description: "Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on."
 author: njray
 ms.date: 01/21/18
-ms.openlocfilehash: d06b16c212951c629612d69b13fa2b32b1030475
-ms.sourcegitcommit: 9998334bebccb86be0f715ac7dffc0c3175aea68
+ms.openlocfilehash: 9cab4990b259695f310da339bfef3060b0905640
+ms.sourcegitcommit: 3426a9c5ed937f097725c487cf3d073ae5e2a347
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/26/2018
+ms.lasthandoff: 02/01/2018
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -27,7 +27,7 @@ Az architektúra az alábbi összetevőkből áll:
 
 -   **Erőforráscsoport.** Az [erőforráscsoportok][rg] Azure-objektumok csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat Azure-objektumokat, a számlázási költségeket pedig erőforráscsoportonként tarthatja számon. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében.
 
--   **Jenkins-kiszolgáló**. Egy, a [Jenkins][azure-market] automatizáló kiszolgálóként való futtatására üzembe helyezett virtuális gép, amely Jenkins-főkiszolgálóként szolgál. Ez a referenciaarchitektúra [az Azure-hoz készült Jenkins megoldássablonját][solution] használja, amely egy Linux (Ubuntu 14.04 LTS) rendszerű virtuális gépre telepítve az Azure-ban. Az egyéb Jenkins-ajánlatok az Azure Marketplace áruházban érhetők el.
+-   **Jenkins-kiszolgáló**. Egy, a [Jenkins][azure-market] automatizáló kiszolgálóként való futtatására üzembe helyezett virtuális gép, amely Jenkins-főkiszolgálóként szolgál. Ez a referenciaarchitektúra [az Azure-hoz készült Jenkins megoldássablonját][solution] használja, amely egy Linux (Ubuntu 16.04 LTS) rendszerű virtuális gépre van telepítve az Azure-ban. Az egyéb Jenkins-ajánlatok az Azure Marketplace áruházban érhetők el.
 
     > [!NOTE]
     > A virtuális gépre telepített Nginx fordított proxyként szolgál a Jenkinshez. A Nginx konfigurálásával engedélyezhető az SSL a Jenkins-kiszolgáló számára.
