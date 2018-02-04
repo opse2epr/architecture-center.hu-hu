@@ -3,15 +3,15 @@ title: "Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése
 description: "Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric."
 author: MikeWasson
 ms.date: 04/27/2017
-ms.openlocfilehash: 22b6cca0d4714dd4cde0fd7449340d6e1f45e65b
-ms.sourcegitcommit: fbcf9a1c25db13b2627a8a58bbc985cd01ea668d
+ms.openlocfilehash: 73e34c53ffd2f2eeb466d12a5f6c65dcfdaae389
+ms.sourcegitcommit: 2c9a8edf3e44360d7c02e626ea8ac3b03fdfadba
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/16/2017
+ms.lasthandoff: 02/03/2018
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése 
 
-[![GitHub](../_images/github.png) példakód][sample-code]
+[![GitHub](../_images/github.png) Mintakód][sample-code]
 
 Ez a cikk ismerteti, hogy egy alkalmazás áttelepítése Azure Cloud Services Azure Service Fabric. Az architektúra döntések összpontosít, és ajánlott eljárások. 
 
@@ -74,13 +74,13 @@ A következő táblázat összefoglalja néhány fontos Cloud Services és a Ser
 | Alkalmazás összeállítás | Szerepkörök| Szolgáltatások |
 | Sűrűség |Egy szerepkör példánya virtuális gépenként | Az egyetlen csomópont több szolgáltatás |
 | Csomópontok minimális száma | 2 / szerepkör | az üzemi környezetek fürtönként 5 |
-| Felügyeleti állapot | Állapot nélküli | Stateless vagy állapotalapú alkalmazások és szolgáltatások |
-| Üzemeltetési | Azure | Felhőalapú vagy helyszíni |
-| Webtároláshoz | IIS ** | Önálló üzemeltetéséhez |
+| Állapotkezelés | Állapot nélküli | Stateless vagy állapotalapú alkalmazások és szolgáltatások |
+| Hosting | Azure | Felhőalapú vagy helyszíni |
+| Webtároláshoz | IIS** | Self-hosting |
 | Üzemi modell | [Klasszikus telepítési modell][azure-deployment-models] | [Erőforrás-kezelő][azure-deployment-models]  |
-| Csomag | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szervizcsomagok |
+| Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szervizcsomagok |
 | Alkalmazás frissítése | Virtuális IP-címcsere vagy a működés közbeni frissítés | Működés közbeni frissítés |
-| Automatikus skálázással | [Beépített szolgáltatás][cloud-service-autoscale] | Automatikus Virtuálisgép-méretezési készlet horizontális felskálázása |
+| Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Automatikus Virtuálisgép-méretezési készlet horizontális felskálázása |
 | Hibakeresés | Helyi emulátor | Helyi fürt |
 
 
@@ -178,7 +178,7 @@ Egy szolgáltatás, explicit módon létre kell hoznia figyelői végpontok. A h
 
 | Fájl | Leírás |
 |------|-------------|
-| Szolgáltatás definíciós (.csdef) | A felhőszolgáltatás konfigurálása az Azure-ban használt beállításokat. Határozza meg a szerepköröket, végpontok, indítási feladatok és a konfigurációs beállítások neveit. |
+| Service definition (.csdef) | A felhőszolgáltatás konfigurálása az Azure-ban használt beállításokat. Határozza meg a szerepköröket, végpontok, indítási feladatok és a konfigurációs beállítások neveit. |
 | Szolgáltatás konfigurációs (.cscfg) | Egy központi telepítési beállításokat, beleértve a szerepkörpéldányok számát, a végpont portszámok és a konfigurációs beállítások értékeit. 
 | Szolgáltatás csomagba (.cspkg) | Tartalmazza az alkalmazás kódjában és konfigurációk és a szolgáltatásdefiníciós fájlban.  |
 
@@ -289,9 +289,9 @@ A Service Fabric felmérések alkalmazás eljárás lett meglehetősen egyszerű
 
 Emellett a telepítési állapotról Felhőszolgáltatások egy Virtuálisgép-méretezési csoportban futó Service Fabric-fürt.
 
-Azonban ezen a ponton az alkalmazás nem kap mikroszolgáltatások létrehozására, például a független szolgáltatástelepítés és versioning előnyeit. A Service Fabric teljes körű kihasználása érdekében Dejójáték optimalizálása egy kicsit tovább kell.
+## <a name="next-steps"></a>További lépések
 
-
+Most, hogy a felmérések alkalmazás legelterjedtebb sikeresen megtörtént, a Dejójáték szeretné kihasználni a Service Fabric-szolgáltatások, például független szolgáltatástelepítés és versioning. Ismerje meg, hogyan Dejójáték kiválasztott ezek a szolgáltatások számára, hogy kihasználja a Service Fabric funkciók részletesebb architektúrát [Azonosítóterületen egy Azure Service Fabric-alkalmazás átemelt Azure Cloud Services csomag][refactor-surveys]
 
 <!-- links -->
 
@@ -308,6 +308,7 @@ Azonban ezen a ponton az alkalmazás nem kap mikroszolgáltatások létrehozás�
 [kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel
 [lb-probes]: /azure/load-balancer/load-balancer-custom-probe-overview
 [owin]: https://www.asp.net/aspnet/overview/owin-and-katana
+[refactor-surveys]: refactor-migrated-app.md
 [sample-code]: https://github.com/mspnp/cloud-services-to-service-fabric
 [sf-application-model]: /azure/service-fabric/service-fabric-application-model
 [sf-aspnet-core]: /azure/service-fabric/service-fabric-add-a-web-frontend
