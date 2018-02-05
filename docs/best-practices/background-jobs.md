@@ -4,11 +4,11 @@ description: "A feladatok rendszert futtató, függetlenül a felhasználói fel
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: d8c1d4dfe12208b72fd6991def805f90a830b5f0
-ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
+ms.openlocfilehash: 10c24afee4b880cfbf8ee534f4d7f945d2b046a9
+ms.sourcegitcommit: 3426a9c5ed937f097725c487cf3d073ae5e2a347
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/29/2017
+ms.lasthandoff: 02/01/2018
 ---
 # <a name="background-jobs"></a>Háttérfeladatok
 [!INCLUDE [header](../_includes/header.md)]
@@ -28,7 +28,7 @@ Feladatok a háttérben rendszerint tartalmazza a következő típusú feladatok
 * Hosszan futó munkafolyamatok, például a megrendelés teljesítésének vagy a szolgáltatások és rendszerek kiépítése.
 * Ha a feladat elkészül biztonságosabb helyre feldolgozás érzékeny-adatok feldolgozása. Például előfordulhat, hogy nem szeretné a webalkalmazáson belül bizalmas adatok feldolgozására. Ehelyett használhatja mintaként, mint [forgalomirányító](http://msdn.microsoft.com/library/dn589793.aspx) egy elkülönített háttérfolyamatként, amely védett tárolóra hozzáféréssel rendelkezik az adatok átvitele.
 
-## <a name="triggers"></a>Triggerek
+## <a name="triggers"></a>Eseményindítók
 Feladatok a háttérben számos különböző módon kezdeményezhető. Az alábbi kategóriák valamelyikébe tartoznak:
 
 * [**Eseményindítók eseményvezérelt**](#event-driven-triggers). A feladat elindult válaszul egy eseményt, általában egy felhasználó vagy egy lépést, a munkafolyamat által végrehajtott műveletet.
@@ -244,7 +244,7 @@ Ha egy webes vagy feldolgozói szerepkör háttérfeladatok végrehajtási, vegy
     }
     ```
     
-    * Adja hozzá a definícióját a **rögzítése** olyan logikai érték beállítást a szerepkör ServiceDefinition.csdef és ServiceConfiguration.*.cscfg fájljait egy érték, és állítsa az értékét **hamis**. Ha a szerepkör egy ismételt újraindítási módba kerül, módosíthatja a beállításokat, hogy **igaz** szerepkör-végrehajtási rögzítése, és engedélyezze a korábbi verziójával kell cserélni.
+  * Adja hozzá a definícióját a **rögzítése** beállítását egy logikai értéket a ServiceDefinition.csdef és ServiceConfiguration.\*. a szerepkör a szolgáltatáskonfigurációs séma fájlok létrehozásáról és **hamis**. Ha a szerepkör egy ismételt újraindítási módba kerül, módosíthatja a beállításokat, hogy **igaz** szerepkör-végrehajtási rögzítése, és engedélyezze a korábbi verziójával kell cserélni.
 
 #### <a name="more-information"></a>További információ
 * [Számítási erőforrás-összevonási minta](http://msdn.microsoft.com/library/dn589778.aspx)
@@ -287,7 +287,7 @@ Háttérfeladatok rugalmas ahhoz, hogy az alkalmazás megbízható szolgáltatá
 * Háttér-feladatok kezelésére szerepkör vagy szolgáltatás újraindítása nélkül rongál adatok, vagy ellentmondás bevezetni az alkalmazás képesnek kell lennie. Hosszan futó vagy többlépéses feladatok, érdemes lehet *mutató ellenőrizze* mentésével feladatok állapotának állandó tároló, vagy a várólistán lévő üzenetek Ha ez szükséges. Például megőrizni az állapotadatokat, egy üzenet a várólistában lévő, és fokozatosan frissítse az állapotadatokat a tevékenység végrehajtása az, hogy a feladat tudja feldolgozni a legutóbbi ellenőrzőponttól jó--az elejétől újraindítása helyett. Azure Service Bus-üzenetsorok használata esetén az azonos terület engedélyezéséhez üzenet munkamenetek használatával. Munkamenetek mentéséhez és a kérelem feldolgozása állapotának beolvasására használatával teszik a [SetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.setstate?view=azureservicebus-4.0.0) és [GetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.getstate?view=azureservicebus-4.0.0) módszerek. Megbízható többlépéses folyamatok és munkafolyamatok megtervezésével kapcsolatos további információkért lásd: [Feladatütemező ügynök felügyelő mintát](http://msdn.microsoft.com/library/dn589780.aspx).
 * Amikor webes vagy feldolgozói szerepköröket használ több háttérfeladatok futtatásához, a felülbírálásának tervezése a **futtatása** metódus sikertelen vagy memóriavesztésének előfordulási helyét feladatok figyelése, és újra kell indítania őket. Ha ez nem gyakorlati, és a feldolgozói szerepkör használ, a feldolgozói szerepkör szerint kilépésekor kényszerítheti a **futtatása** metódust.
 * Használatakor a várólisták kommunikálni háttérfeladatok, a várólisták működhet-e a feladatokat az alkalmazás során küldött kérelmek tárolására puffer magasabb, mint a szokásos terhelés alatt áll. Ez lehetővé teszi, hogy a feladatokat a felhasználói felületen kevésbé forgalmas időszakokban szinkronizálásához. Azt is jelenti, hogy a szerepkör újrahasznosítási nem akadályozza meg a felhasználói felületen. További információkért lásd: [terhelés simítás mintát várólista alapú](http://msdn.microsoft.com/library/dn589783.aspx). Ha egyes feladatok fontosabbak, mint a többire, vegye fontolóra a [prioritású várólista mintát](http://msdn.microsoft.com/library/dn589794.aspx) annak érdekében, hogy ezek a feladatok futtatása kevésbé fontos néhányat a meglévők közül.
-* Háttérfeladatok üzenetek által kezdeményezett, illetve üzenetek feldolgozásához kell megtervezni, inkonzisztenciát kezelni, például a sorrendje, nem érkező üzenetek ismételten üzeneteket, amelyek hibát jelez (más néven *elhalt üzenetek*), és üzenetek kézbesítési egynél többször. Vegye figyelembe a következőket:
+* Háttérfeladatok üzenetek által kezdeményezett, illetve üzenetek feldolgozásához kell megtervezni, inkonzisztenciát kezelni, például a sorrendje, nem érkező üzenetek ismételten üzeneteket, amelyek hibát jelez (más néven *elhalt üzenetek*), és üzenetek kézbesítési egynél többször. A következőket ajánljuk figyelmébe:
   * Meghatározott sorrendben, például azokkal, amelyek módosítani az adatokat (például egy értéket ad hozzá egy meglévő érték) a meglévő adatok érték alapján fel kell dolgozni, előfordulhat, hogy nem érkeznek, az elküldés volt eredeti üzenetek. Azt is megteheti akkor előfordulhat, hogy kezelje, minden példány különböző terhelése miatt más sorrendben háttérfeladat különböző példányai. Meghatározott sorrendben kell végrehajtani üzenetek tartalmaznia kell a sorszámot, kulcs vagy valamilyen más mutató, háttérfeladatok segítségével győződjön meg arról, hogy a megfelelő sorrendben feldolgozásra kerülnek. Azure Service Bus használ, ha üzenet munkamenetek segítségével garantálja a szállítási sorrendjét. Azt azonban általában hatékonyabb, ha lehetséges, a folyamat kialakítani, hogy az üzenet sorrendje nem lényeges.
   * Háttérfeladat általában üzenetet a várólistában, amely ideiglenesen elrejti azokat más üzenet fogyasztói betekintés. Törli az üzenetek sikeresen feldolgozása után. Ha háttérfeladat nem sikerül, egy üzenet feldolgozása közben, az üzenet újból meg fog jelenni a várólistában a betekintés idő lejárta után. A feladat, vagy erre a következő feldolgozási ciklusban másik példánya kerül feldolgozásra. Az üzenet a fogyasztói következetesen hibát okoz, ha blokkolja a feladat, a várólista, és végül magának az alkalmazásnak, amikor a várólista megtelik. Ezért elengedhetetlen észlelni és eltávolítani az elhalt üzenetek az üzenetsorból. Ha az Azure Service Bus használ, hibát okozó üzenetek helyezheti át automatikusan vagy manuálisan egy társított halott levél várósor.
   * Várólisták garantált *legalább egyszer* kézbesítési mechanizmus, de előfordulhat, hogy az azonos üzenetet kézbesíteni egynél többször. Ezenkívül ha háttérfeladat nem sikerül, egy üzenet feldolgozása után, de a várólista törlése előtt, az üzenet is elérhető lesz újra feldolgozásra. Háttérfeladatok idempotent, ami azt jelenti, hogy ugyanaz az üzenet feldolgozása egynél többször nem okozhat hiba vagy ellentmondás az alkalmazásadatok kell lennie. Egyes műveletek esetében természetesen az idempotent, például a tárolt érték beállítása a megadott új értékre. Azonban műveletek, például egy érték hozzáadása egy meglévő tárolt értéket annak ellenőrzése, hogy a tárolt érték továbbra is ugyanaz, mint amikor az eredetileg üzenet nélkül inkonzisztenciát okozhat. Az Azure Service Bus-üzenetsorok beállítható úgy, hogy automatikusan eltávolítja a duplikált üzenetek.
