@@ -123,6 +123,8 @@
       href: multitenant-identity/index.md
     - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
       href: service-fabric/migrate-from-cloud-services.md
+    - name: Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
+      href: service-fabric/refactor-migrated-app.md
     - name: Elasticsearch futtatása az Azure-on
       href: elasticsearch/index.md
     - name: Az Azure Resource Manager-sablon funkciójának bővítése
