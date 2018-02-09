@@ -4,11 +4,11 @@ description: "Azure-erőforrások elnevezési szabályainak. Virtuális gépek n
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 364735dec9658b4d2a9d21330f38c57f6fa694bd
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: f814201901af69b816d7f1588e58057b252b22db
+ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 02/09/2018
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -39,9 +39,9 @@ Az ajánlott mintázatát elnevezési előfizetések van:
 
 | Cég | Részleg | Sor termék vagy szolgáltatás | Környezet | Teljes név |
 | --- | --- | --- | --- | --- |
-| Contoso |SocialGaming |AwesomeService |Éles |Contoso SocialGaming AwesomeService éles |
+| Contoso |SocialGaming |AwesomeService |Üzemi |Contoso SocialGaming AwesomeService éles |
 | Contoso |SocialGaming |AwesomeService |Fejlesztői |Contoso SocialGaming AwesomeService fejlesztői |
-| Contoso |IT |InternalApps |Éles |Contoso informatikai InternalApps éles |
+| Contoso |IT |InternalApps |Üzemi |Contoso informatikai InternalApps éles |
 | Contoso |IT |InternalApps |Fejlesztői |Contoso informatikai InternalApps fejlesztői |
 
 További információk a nagyobb vállalatok előfizetések rendezésének módját, a [irányítás útmutató részletes utasításokkal megadott előfizetés][scaffold].
@@ -52,8 +52,8 @@ Az Azure-erőforrások elnevezésekor közös előtagok vagy utótagok segítsé
 
 Például az alábbiakban egy szolgáltatáshoz, egy számítási program üzemeltető két lehetséges név:
 
-* SvcCalculationEngine (előtag)
-* CalculationEngineSvc (utótag)
+* SvcCalculationEngine (prefix)
+* CalculationEngineSvc (suffix)
 
 A konkrét erőforrásokat leíró különböző szempontjairól elő-/ utótagok hivatkozhat. Az alábbi táblázat néhány példát mutat általában akkor használható.
 
@@ -79,13 +79,13 @@ Az Azure-ban minden egyes erőforrásokhoz vagy szolgáltatásokhoz típus érv�
 | --- | --- | --- | --- | --- | --- | --- |
 |Erőforráscsoport |Előfizetés |1-90 |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjelet, kerek zárójeleket tartalmazhatnak, kötőjelet és időszak (kivéve záró) |`<service short name>-<environment>-rg` |`profx-prod-rg` |
 |Rendelkezésre állási csoport |Erőforráscsoport |1-80 |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjelet és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
-|Címke |Társított entitás |512 (név), 256 (érték) |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus |`"key" : "value"` |`"department" : "Central IT"` |
+|Címke |Társított entitás |512 (name), 256 (value) |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus |`"key" : "value"` |`"department" : "Central IT"` |
 
 ### <a name="compute"></a>Számítás
 
 | Entitás | Hatókör | Hossz | Kis-és nagybetűk | Érvényes karaktereket | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Virtuális gép |Erőforráscsoport |1 – 15 (Windows), 1-64 (Linux) |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjelet és kötőjel |`<name>-<role>-vm<number>` |`profx-sql-vm1` |
+|Virtuális gép |Erőforráscsoport |1-15 (Windows), 1-64 (Linux) |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjelet és kötőjel |`<name>-<role>-vm<number>` |`profx-sql-vm1` |
 |Függvényalkalmazás | Globális |1-60 |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus és kötőjelet tartalmazhat |`<name>-func` |`calcprofit-func` |
 
 > [!NOTE]
@@ -96,10 +96,10 @@ Az Azure-ban minden egyes erőforrásokhoz vagy szolgáltatásokhoz típus érv�
 | Entitás | Hatókör | Hossz | Kis-és nagybetűk | Érvényes karaktereket | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
 |A tárfiók neve (adatok) |Globális |3-24 |kisbetűk |Alfanumerikus |`<globally unique name><number>`(függvény használható storage-fiókok elnevezési egyedi guid kiszámításához) |`profxdata001` |
-|A tárfiók neve (lemez) |Globális |3-24 |kisbetűk |Alfanumerikus |`<vm name without dashes>st<number>` |`profxsql001st0` |
-| Tárolónév |Tárfiók |3-63 |kisbetűk |Alfanumerikus, valamint a kötőjel |`<context>` |`logs` |
-|Blob neve | Tároló |1-1024 |Kis-és nagybetűket |A URL-cím karaktereket |`<variable based on blob usage>` |`<variable based on blob usage>` |
-|Üzenetsor neve |Tárfiók |3-63 |kisbetűk |Alfanumerikus, valamint a kötőjel |`<service short name>-<context>-<num>` |`awesomeservice-messages-001` |
+|A tárfiók neve (lemez) |Globális |3-24 |kisbetűk |Alfanumerikus |`<vm name without hyphens>st<number>` |`profxsql001st0` |
+| Tárolónév |Tárfiók |3-63 |kisbetűk |Alfanumerikus és kötőjelet tartalmazhat |`<context>` |`logs` |
+|A BLOB neve | Tároló |1-1024 |Kis- és nagybetűk megkülönböztetése |A URL-cím karaktereket |`<variable based on blob usage>` |`<variable based on blob usage>` |
+|Sor neve |Tárfiók |3-63 |kisbetűk |Alfanumerikus és kötőjelet tartalmazhat |`<service short name>-<context>-<num>` |`awesomeservice-messages-001` |
 |Tábla neve | Tárfiók |3-63 |Kis-és nagybetűk megkülönböztetése nélkül |Alfanumerikus |`<service short name><context>` |`awesomeservicelogs` |
 |Fájlnév | Tárfiók |3-63 |kisbetűk | Alfanumerikus |`<variable based on blob usage>` |`<variable based on blob usage>` |
 |Data Lake Store | Globális |3-24 |kisbetűk | Alfanumerikus |`<name>-dls` |`telemetry-dls` |

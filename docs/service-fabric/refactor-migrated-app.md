@@ -1,15 +1,15 @@
 ---
-title: "Azonosítóterületen egy Azure Service Fabric-alkalmazás átemelt Azure Cloud Services csomag"
+title: "Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása"
 description: "Egy meglévő Azure Service Fabric-alkalmazás refactor hogyan átemelt Azure Cloud Services csomag"
 author: petertay
 ms.date: 01/30/2018
-ms.openlocfilehash: 4889fae8f157b0f1205e7d8223f125974be59ba9
-ms.sourcegitcommit: 2c9a8edf3e44360d7c02e626ea8ac3b03fdfadba
+ms.openlocfilehash: 18af7c7fe0c0933b1a2a132ee2ee0d8479d41b2a
+ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/03/2018
+ms.lasthandoff: 02/09/2018
 ---
-# <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azonosítóterületen egy Azure Service Fabric-alkalmazás átemelt Azure Cloud Services csomag
+# <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
 
 [![GitHub](../_images/github.png) Mintakód][sample-code]
 
@@ -64,15 +64,15 @@ Az alábbi ábra a részletesebb architektúrát átkerült felmérések alkalma
 
 **Tailspin.Web** egy önálló helyet adó Dejójáték ügyfelek felmérések létrehozásához, és felmérések eredményeinek megtekintéséhez látogasson el az ASP.NET MVC alkalmazás állapot nélküli szolgáltatás. Ez a szolgáltatás osztja meg a kódot a legtöbb a *Tailspin.Web* szolgáltatás a merültek fel a Service Fabric-alkalmazás. Amint azt korábban említettük, ez a szolgáltatás az ASP.NET core használ, és vércse használja, mint egy WebListener végrehajtási webes előtér vált.
 
-**Tailspin.Web.Surveys.Public** is egy ASP.NET MVC-helyek önálló üzemeltetéséhez állapot nélküli szolgáltatás. Felhasználók által felkeresett felmérések válasszon a listából, és töltse ki a helyet. Ez a szolgáltatás osztja meg a kódot a legtöbb a *Tailspin.Web.Survey.Public* szolgáltatás a merültek fel a Service Fabric-alkalmazás. Ez a szolgáltatás is használja az ASP.NET Core, és egy WebListener végrehajtási webes előtér vércse használatával is vált.
+**Tailspin.Web.Survey.Public** is egy ASP.NET MVC-helyek önálló üzemeltetéséhez állapot nélküli szolgáltatás. Felhasználók által felkeresett felmérések válasszon a listából, és töltse ki a helyet. Ez a szolgáltatás osztja meg a kódot a legtöbb a *Tailspin.Web.Survey.Public* szolgáltatás a merültek fel a Service Fabric-alkalmazás. Ez a szolgáltatás is használja az ASP.NET Core, és egy WebListener végrehajtási webes előtér vércse használatával is vált.
 
-**Tailspin.SurveyResponseService** , hogy a tároló válaszok az Azure Blob Storage felmérés állapotalapú szolgáltatás. Azt is egyesít válaszok a felmérés analitikai adatokat. A szolgáltatás, állapotalapú szolgáltatási lett megvalósítva, mert használ egy [ReliableConcurrentQueue] [ reliable-concurrent-queue] felmérés válaszok kötegekben feldolgozni. Ez a funkció eredetileg lett megvalósítva a *Tailspin.Web.Survey.Public* merültek fel a Service Fabric-alkalmazás szolgáltatással. Dejójáték átkerült az eredeti funkciókat ezt a szolgáltatást, hogy engedélyezi-méretezését.
+**Tailspin.SurveyResponseService** , hogy a tároló válaszok az Azure Blob Storage felmérés állapotalapú szolgáltatás. Azt is egyesít válaszok a felmérés analitikai adatokat. A szolgáltatás, állapotalapú szolgáltatási lett megvalósítva, mert használ egy [ReliableConcurrentQueue] [ reliable-concurrent-queue] felmérés válaszok kötegekben feldolgozni. Ez a funkció eredetileg lett megvalósítva a *Tailspin.AnswerAnalysisService* merültek fel a Service Fabric-alkalmazás szolgáltatással.
 
-**Tailspin.SurveyManagementService** állapotmentes szolgáltatások van, hogy tárolja és beolvassa kérdőívekkel és felmérés kérdéseket. A szolgáltatás használja az Azure Blob Storage tárolóban. Ez a funkció is eredetileg lett megvalósítva a *Tailspin.AnswerAnalysisService* merültek fel a Service Fabric-alkalmazás szolgáltatással. Dejójáték átkerült az eredeti funkciókat is engedélyezi, hogy méretezését a szolgáltatásba.
+**Tailspin.SurveyManagementService** állapotmentes szolgáltatások van, hogy tárolja és beolvassa kérdőívekkel és felmérés kérdéseket. A szolgáltatás használja az Azure Blob Storage tárolóban. Ez a funkció a data access Components az eredetileg is megtörtént a *Tailspin.Web* és *Tailspin.Web.Survey.Public* merültek fel a Service Fabric-alkalmazás szolgáltatásait. Dejójáték átkerült az eredeti funkciókat ezt a szolgáltatást, hogy engedélyezi-méretezését.
 
-**Tailspin.SurveyAnswerService** , hogy beolvassa válaszok megtekintheti, és megtekintheti a elemzési állapot nélküli szolgáltatás. A szolgáltatás is használja az Azure Blob Storage tárolóban. Ez a funkció is eredetileg lett megvalósítva a *Tailspin.AnswerAnalysisService* merültek fel a Service Fabric-alkalmazás szolgáltatással. Dejójáték átkerült az eredeti funkciókat ezt a szolgáltatást, mert kevesebb terhelés vár, és kevesebb példányt erőforrásokkal való takarékoskodáshoz használni szeretné.
+**Tailspin.SurveyAnswerService** , hogy beolvassa válaszok megtekintheti, és megtekintheti a elemzési állapot nélküli szolgáltatás. A szolgáltatás is használja az Azure Blob Storage tárolóban. Ez a funkció a data access Components az eredetileg is megtörtént a *Tailspin.Web* merültek fel a Service Fabric-alkalmazás szolgáltatással. Dejójáték átkerült az eredeti funkciókat ezt a szolgáltatást, mert kevesebb terhelés vár, és kevesebb példányt erőforrásokkal való takarékoskodáshoz használni szeretné.
 
-**Tailspin.SurveyAnalysisService** tartja fenn a felmérés válasz összegző adatokat a Redis gyorsítótár a gyors beolvasásához állapot nélküli szolgáltatás. Ez a szolgáltatás hívja a *Tailspin.SurveyResponseService* minden alkalommal, amikor egy felmérés melléket, és az új felmérés válasz oszlopneveit az az összegzett adatokat. A szolgáltatás része a fennmaradó funkcióit a *Tailspin.SurveyAnalysisService* szolgáltatás a merültek fel a Service Fabric-alkalmazás.
+**Tailspin.SurveyAnalysisService** tartja fenn a felmérés válasz összegző adatokat a Redis gyorsítótár a gyors beolvasásához állapot nélküli szolgáltatás. Ez a szolgáltatás hívja a *Tailspin.SurveyResponseService* minden alkalommal, amikor egy felmérés melléket, és az új felmérés válasz oszlopneveit az az összegzett adatokat. A szolgáltatás része az eredetileg megvalósított funkciókat a *Tailspin.AnswerAnalysisService* szolgáltatás a merültek fel a Service Fabric-alkalmazás.
 
 ## <a name="stateless-versus-stateful-services"></a>Állapot nélküli és állapotalapú szolgáltatások
 
@@ -82,7 +82,7 @@ Az Azure Service Fabric támogatja a következő programozási modellek:
 * A megbízható szolgáltatások programozási modell lehetővé teszi, hogy állapot nélküli és állapotalapú szolgáltatások, amelyek integrálják az összes Service Fabric platform szolgáltatás létrehozásához. Állapotalapú szolgáltatások lehetővé teszik a rendszer ne tárolja őket a Service Fabric-fürt replikált állapothoz. Állapotmentes szolgáltatások azonban nem.
 * A megbízható actors programozási modell lehetővé teszi, hogy a virtuális szereplő mintát megvalósító szolgáltatások létrehozásához.
 
-Minden a szolgáltatások a felmérések alkalmazás csak megbízható állapotmentes szolgáltatásokhoz, kivéve a *Tailspin.SurveyResponseService* szolgáltatás. Ez a szolgáltatás biztosítja a [ReliableConcurrentQueue] [ reliable-concurrent-queue] felmérés válaszok akkor dolgozza fel, ha azokat. A ReliableConcurrentQueue válaszokat az Azure Blob Storage tárolási és átadott a *Tailspin.SurveyAnalysisService* elemzés céljából. Dejójáték úgy dönt, hogy egy ReliableConcurrentQueue alapján, mert a válaszok nem igényelnek szigorú első-first out (FIFO) rendelési például az Azure Service Bus egy várólista által biztosított. Egy ReliableConcurrentQueue is célja, hogy nagyobb teljesítményt és alacsony késést várólista biztosítanak, és műveletek feldolgozásához.
+Minden a szolgáltatások a felmérések alkalmazás csak megbízható állapotmentes szolgáltatásokhoz, kivéve a *Tailspin.SurveyResponseService* szolgáltatás. Ez a szolgáltatás biztosítja a [ReliableConcurrentQueue] [ reliable-concurrent-queue] felmérés válaszok akkor dolgozza fel, ha azokat. A ReliableConcurrentQueue válaszokat az Azure Blob Storage tárolási és átadott a *Tailspin.SurveyAnalysisService* elemzés céljából. Dejójáték egy ReliableConcurrentQueue úgy dönt, mert a válaszok nem igényelnek szigorú első-first out (FIFO) rendelési például az Azure Service Bus egy várólista által biztosított. Egy ReliableConcurrentQueue is célja, hogy nagyobb teljesítményt és alacsony késést várólista biztosítanak, és műveletek feldolgozásához.
 
 Vegye figyelembe, hogy egy ReliableConcurrentQueue várólistából kivéve tételekhez megőrizni műveletek kell ideális esetben az idempotent. Ha a rendszer kivételt hoz létre egy elem feldolgozása során az üzenetsorból, azonos elem egynél többször feldolgozása történhet. Felmérések alkalmazás felmérés egyesíteni művelet választ a *Tailspin.SurveyAnalysisService* nem idempotent van, mert Dejójáték úgy döntött, hogy a felmérés analitikai adatokat csak a jelenlegi pillanatképét a analitikai adatokat, és nem kell lenniük. A felmérési válaszokat az Azure Blob Storage menteni végül megegyeznek, a felmérést végső analysis is mindig újra kell számolni megfelelően ezek az adatok a.
 

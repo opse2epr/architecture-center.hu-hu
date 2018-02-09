@@ -4,11 +4,11 @@ description: "Útmutató a szétválasztásának kezelhető és külön-külön 
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: aa59a99ae87328424379e1f9c6fee8cc5887e61c
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: d1d9c1b3cf07f724eb010fc260d86ceb84b789ca
+ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 02/09/2018
 ---
 # <a name="data-partitioning"></a>Adatparticionálás
 
@@ -383,7 +383,7 @@ Adatok Cosmos DB SQL API-val particionálásáról meghatározásakor, vegye fig
 * **Az összes dokumentum elleni műveleteket egy tranzakció keretén belül. Tranzakciók hatóköre a gyűjteményt, amelyben a dokumentum tartalmazza.** Egy művelet meghiúsul, ha a munka még hajtott végre vissza lesz állítva. Míg egy dokumentumot egy művelet függvényében, minden egyes helyadatbázisokban végrehajtott módosításokat a pillanatkép szintű elkülönítés vonatkoznak. Ez a módszer biztosítja azt, hogy ha például egy új dokumentum létrehozása sikertelen, akik egy időben kérdezi le az adatbázis egy másik felhasználó kérést nem jelenik meg egy részleges dokumentumot, majd eltávolítani.
 * **A gyűjtemény szintjén is hatóköre az adatbázis-lekérdezések**. Egyetlen lekérdezés adatainak lekérése is csak egy gyűjtemény. Ha adatainak lekérése több gyűjteményre van szüksége, kell egyes gyűjtemények külön-külön és -lekérdezés egyesítése az eredményeket az alkalmazás kódjában.
 * **Cosmos DB programozható elemek összes tárolható egy gyűjtemény dokumentumok mellett támogatja**. Ezek közé tartozik a tárolt eljárások, felhasználó által definiált függvények és eseményindítók (JavaScript nyelven írt). Ezek az elemek összes dokumentumának belül ugyanaz a gyűjtemény. Ezenkívül ezek az elemek futtatása (esetén egy eseményindítót, amely akkor következik be, mert eredménye egy létrehozása, törlése, vagy műveletet hajt végre a dokumentum cseréje), a környezeti tranzakció hatókörén belül, vagy (esetén tárolt eljárás új tranzakció elindítása futtatott az explicit ügyfélkérés miatt). A kód egy programozható elemben kivételt jelez, ha a tranzakció vissza lesz állítva. Tárolt eljárások és eseményindítók használhatja az integritásra és a dokumentumok között konzisztencia fenntartása, de ezeket a dokumentumokat ugyanaz a gyűjtemény részének kell lennie.
-* **A gyűjtemények, melyet a adatbázisokban tárolásához valószínűleg nem haladja meg a teljesítményszintet gyűjtemények által megadott átviteli sebességének korlátai kell**. További informationm, lásd: [Azure Cosmos DB egység kérelem][cosmos-db-ru]. Ha várhatóan a működés felső korlátjának elérése, fontolja meg a gyűjtemények gyűjteményenként a terhelés csökkentése érdekében különböző fiókok az adatbázisok közötti felosztásával.
+* **A gyűjtemények, melyet a adatbázisokban tárolásához valószínűleg nem haladja meg a teljesítményszintet gyűjtemények által megadott átviteli sebességének korlátai kell**. További információkért lásd: [Azure Cosmos DB egység kérelem][cosmos-db-ru]. Ha várhatóan a működés felső korlátjának elérése, fontolja meg a gyűjtemények gyűjteményenként a terhelés csökkentése érdekében különböző fiókok az adatbázisok közötti felosztásával.
 
 ## <a name="partitioning-strategies-for-azure-search"></a>Az Azure Search particionálási stratégia
 Adatok keresése a gyakran és sok webes alkalmazások által biztosított feltárása az elsődleges módszer. Ennek segítségével a felhasználók, erőforrások gyorsan (például az e-kereskedelmi alkalmazás-termékek) kombinációit keresési feltételek alapján található. Az Azure Search szolgáltatás teljes szöveges keresési lehetőségeket biztosítanak a webes tartalom, és a szolgáltatások, mint a találatok és a jellemzőalapú navigáció közelében alapuló begépelt, javasolt lekérdezések tartalmaz. Ezek a képességek teljes leírását az oldalon érhető el [Azure Search újdonságai?] a Microsoft webhelyén.
