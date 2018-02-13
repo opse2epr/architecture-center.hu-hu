@@ -53,7 +53,7 @@
                 - name: 'Ismertető: Mi az Azure virtuális hálózat?'
                   href: /azure/virtual-network/virtual-networks-overview?toc=/azure/architecture/cloud-adoption-guide/toc.json
                 - name: 'Bemutató: Virtuális hálózat üzembe helyezése az Azure-ban'
-                  href: /azure/virtual-network/virtual-networks-create-vnet-arm-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/virtual-network/virtual-networks-create-vnet-arm-pportal?toc=/azure/architecture/cloud-adoption-guide/toc.json
                 - name: 'Bemutató: Egyetlen Windows rendszerű virtuális gép IaaS típusú munkaterhelésének telepítése az Azure-ba'
                   href: /azure/virtual-machines/windows/quick-create-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json
                 - name: 'Útmutató: Windows rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai'
