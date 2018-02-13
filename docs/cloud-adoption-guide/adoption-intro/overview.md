@@ -2,11 +2,11 @@
 title: "Azure bevezetése: eligazodást"
 description: "Az alapkonfiguráció szintű bevezessék az Azure számára szükséges vállalati Tudásbázis"
 author: petertay
-ms.openlocfilehash: fcd95b5c7583050c6a0960810dfa85fe2b58113b
-ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
+ms.openlocfilehash: e9421b610e4eb07a3ed37bca56e513b0689484ef
+ms.sourcegitcommit: 9ba82cf84cee06ccba398ec04c51dab0e1ca8974
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/09/2018
+ms.lasthandoff: 02/13/2018
 ---
 # <a name="adopting-azure-foundational"></a>Azure bevezetése: eligazodást
 
@@ -39,9 +39,9 @@ Az alábbi lista tartalmazza a feladatok befejezése a legalapvetőbb Bevezetés
         - **Útmutató:** központi telepítésének eljárásai bizonyítása egy [alapvető webalkalmazás](/azure/architecture/reference-architectures/app-service-web-app/basic-web-app?toc=/azure/architecture/cloud-adoption-guide/toc.json) az Azure-bA
     - Infrastruktúra-szolgáltatási: Virtuális hálózati bemutatása:
         - **Explainer:** [Azure-beli virtuális hálózat](/azure/virtual-network/virtual-networks-overview?toc=/azure/architecture/cloud-adoption-guide/toc.json)
-        - **Hogyan:** [telepíthet virtuális hálózatot az Azure portál használatával](/azure/virtual-network/virtual-networks-create-vnet-arm-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json)
+        - **Hogyan:** [telepíthet virtuális hálózatot az Azure portál használatával](/azure/virtual-network/virtual-networks-create-vnet-arm-pportal?toc=/azure/architecture/cloud-adoption-guide/toc.json)
     - Számvitel: Telepítsen egy egyetlen virtuális machine(VM) munkaterhelés (a Windows és Linux):
-        - **Hogyan:** [telepítse a Windows virtuális gépek az Azure portálon](/azure/virtual-network/virtual-networks-create-vnet-arm-pportal?toc=/azure/architecture/cloud-adoption-guide/toc.json)
+        - **Hogyan:** [telepítse a Windows virtuális gépek az Azure portálon](/azure/virtual-machines/windows/quick-create-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json)
         - **Útmutató:** [bizonyítása eljárások az Azure-on futó Windows virtuális gép](/azure/architecture/reference-architectures/virtual-machines-windows/single-vm?toc=/azure/architecture/cloud-adoption-guide/toc.json)
         - **Hogyan:** [Linux virtuális gép telepítse az Azure portálon](/azure/virtual-machines/linux/quick-create-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json)
         - **Útmutató:** [bizonyítása eljárások az Azure-on futó Linux virtuális gép](/azure/architecture/reference-architectures/virtual-machines-linux/single-vm?toc=/azure/architecture/cloud-adoption-guide/toc.json)
