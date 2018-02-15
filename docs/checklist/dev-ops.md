@@ -1,3 +1,15 @@
+---
+title: "DevOps ellenőrzőlista"
+description: "DevOps kapcsolatos útmutatást ellenőrzőlistát."
+author: dragon119
+ms.date: 01/10/2018
+ms.custom: checklist
+ms.openlocfilehash: c435ea0aed9571cb6508d7d23f93414a138998fe
+ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.translationtype: MT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 02/14/2018
+---
 # <a name="devops-checklist"></a>DevOps ellenőrzőlista
 
 DevOps, az integráció fejlesztési, minőségi megbízhatósági és egy egyesített kulturális környezet az IT-üzemeltetők és a folyamatok szoftver kézbesítéséhez készletét. Kiindulási pontként az alábbi ellenőrzőlista segítségével mérje fel a DevOps kulturális környezet és a folyamat.
