@@ -2,14 +2,14 @@
 title: "A hálózati hub-küllős topológia végrehajtása az Azure-ban"
 description: "Hogyan egy hub-küllős hálózati topológia végrehajtásához az Azure-ban."
 author: telmosampaio
-ms.date: 05/05/2017
+ms.date: 02/14/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: e6f07a7962dd5728226b023700268340590d97a3
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: c03ecd4ba5ddbe50cfb17e56d75c18102b751cfb
+ms.sourcegitcommit: 475064f0a3c2fac23e1286ba159aaded287eec86
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 02/19/2018
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>A hálózati hub-küllős topológia végrehajtása az Azure-ban
 
@@ -34,7 +34,7 @@ Ez az architektúra a jellemző használati többek között:
 
 ## <a name="architecture"></a>Architektúra
 
-Az architektúra a következő összetevőkből áll.
+Az architektúra a következőkben leírt összetevőkből áll.
 
 * **A helyszíni hálózat**. Helyi magánhálózat fut egy szervezeten belül.
 
@@ -80,7 +80,7 @@ Magas rendelkezésre állás érdekében használhatja az ExpressRoute- és VPN-
 
 A központ-küllős topológia is nélkül használható lesz átjárót, ha nem szükséges kapcsolat a helyszíni hálózattal. 
 
-### <a name="vnet-peering"></a>Virtuális hálózatok közötti társviszony
+### <a name="vnet-peering"></a>Társviszony létesítése virtuális hálózatok között
 
 VNet-társviszony létesítése – két Vnetek között nem tranzitív kapcsolat. Ha csatlakozni egymáshoz küllők van szüksége, fontolja meg, ezek küllők külön társviszony-létesítési kapcsolatát.
 
@@ -110,7 +110,7 @@ Mindenképpen vegye figyelembe a [tartozó Vnetek esetében egy virtuális hál�
 
 Figyelembe venni az milyen szolgáltatásokat megosztott központban, annak érdekében, a központ méretezi küllők nagyobb számú. Például ha a központ tűzfal szolgáltatásokat nyújt, fontolja meg a sávszélesség korlátja a tűzfal megoldás több küllők hozzáadásakor. Érdemes a megosztott szolgáltatások hubok a második szintű át.
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 Ez az architektúra telepítésének érhető el a [GitHub][ref-arch-repo]. Kapcsolat tesztelése Ubuntu virtuális gépeket használ minden egyes virtuális. Nincsenek tárolva tényleges szolgáltatások a **megosztott szolgáltatások** alhálózatának a **hub VNet**.
 
@@ -339,68 +339,6 @@ Győződjön meg arról, hogy a hub-küllős topológia egy helyszíni adatközp
 
   ```bash
   ping 10.1.1.37
-  ```
-
-### <a name="add-connectivity-between-spokes"></a>Adja hozzá a küllők közötti kapcsolat
-
-Ha szeretné engedélyezni a küllők csatlakozni egymáshoz, udr-EK minden küllős, amely a VNet központban átjáró más küllők irányuló forgalom továbbítására kell telepítenie. Hajtsa végre az alábbi lépések végrehajtásával ellenőrizze, hogy jelenleg nem képes egy küllős a másikra, majd a udr-EK központi telepítése és tesztelése újra.
-
-1. Ha nem kapcsolódik a virtuális gép jumpbox már ismételje meg a fenti 1 – 4.
-
-2. Csatlakozhat a webkiszolgálók küllős 1 egyikére.
-
-  ```bash
-  ssh 10.1.1.37
-  ```
-
-3. Küllős 1 és 2 küllős közötti kapcsolat tesztelése. Akkor kell sikertelen.
-
-  ```bash
-  ping 10.1.2.37
-  ```
-
-4. Lépjen vissza a számítógép parancssort.
-
-5. Váltás a `hybrid-networking\hub-spoke\spokes` a fenti előfeltételek lépésben letöltött tárház mappát.
-
-6. Futtassa a bash vagy a PowerShell-parancsot az alábbi egy UDR telepítéséhez az első küllős. Helyettesítse be az értékeket az előfizetését, erőforráscsoport-név, és az Azure-régió.
-
-  ```bash
-  sh ./spoke.udr.deploy.sh --subscription xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
-    --resourcegroup ra-spoke1-rg \
-    --location westus \
-    --spoke 1
-  ```
-
-  ```powershell
-  ./spoke.udr.deploy.ps1 -Subscription xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx `
-    -ResourceGroup ra-spoke1-rg `
-    -Location westus `
-    -Spoke 1
-  ```
-
-7. Futtassa a bash vagy a PowerShell-parancsot az alábbi központi telepítése egy UDR a második küllős. Helyettesítse be az értékeket az előfizetését, erőforráscsoport-név, és az Azure-régió.
-
-  ```bash
-  sh ./spoke.udr.deploy.sh --subscription xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
-    --resourcegroup ra-spoke2-rg \
-    --location westus \
-    --spoke 2
-  ```
-
-  ```powershell
-  ./spoke.udr.deploy.ps1 -Subscription xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx `
-    -ResourceGroup ra-spoke2-rg `
-    -Location westus `
-    -Spoke 2
-  ```
-
-8. Váltás a ssh terminál.
-
-9. Küllős 1 és 2 küllős közötti kapcsolat tesztelése. Sikeres legyen.
-
-  ```bash
-  ping 10.1.2.37
   ```
 
 <!-- links -->

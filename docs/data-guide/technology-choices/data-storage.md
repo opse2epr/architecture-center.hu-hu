@@ -3,15 +3,15 @@ title: "Olyan adatok tárolási technológia kiválasztása"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: a51c8d990818e0b0efb04dd7686b065e5b98338a
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: d8f831e758ddc8604758392644a68b56dc51cf57
+ms.sourcegitcommit: 475064f0a3c2fac23e1286ba159aaded287eec86
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 02/19/2018
 ---
 # <a name="choosing-a-big-data-storage-technology-in-azure"></a>A big Data típusú adatok tárolási technológia kiválasztása az Azure-ban
 
-Ez a témakör összehasonlítja a big data-megoldások adatok tárolási lehetőségei &mdash; pontosabban adatok tárolási tömeges adatfeldolgozást és kötegfeldolgozási, és nem a [analitikai adattárolókhoz](./analytical-data-stores.md) vagy [valós idejű adatfolyam-továbbítási adatfeldolgozást](./real-time-ingestion.md)
+Ez a témakör összehasonlítja a big data-megoldások adatok tárolási lehetőségei &mdash; pontosabban adatok tárolási tömeges adatfeldolgozást és kötegfeldolgozási, és nem a [analitikai adattárolókhoz](./analytical-data-stores.md) vagy [valós idejű adatfolyam-adatfeldolgozást](./real-time-ingestion.md).
 
 ## <a name="what-are-your-options-when-choosing-data-storage-in-azure"></a>Mik azok a beállítások adattárolás kiválasztásakor az Azure-ban?
 
