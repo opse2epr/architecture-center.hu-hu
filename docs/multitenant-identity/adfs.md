@@ -1,18 +1,18 @@
 ---
-title: "Az ügyfél az AD FS összevonni"
+title: "Összevonás az ügyfél AD FS szolgáltatásával"
 description: "Hogyan való federate az ügyfél által az AD FS egy több-bérlős alkalmazásban"
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: bf385ccc988a709a61d9bee5fb1ee084a133138d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: a5dc25a4b61ffd13d86f1abb2b839054e5fb4c7f
+ms.sourcegitcommit: 475064f0a3c2fac23e1286ba159aaded287eec86
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 02/19/2018
 ---
-# <a name="federate-with-a-customers-ad-fs"></a>Az ügyfél az AD FS összevonni
+# <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
 Ez a cikk ismerteti, hogyan egy több-bérlős SaaS-alkalmazáshoz is támogatják a hitelesítés az Active Directory összevonási szolgáltatások (AD FS) keresztül ahhoz, hogy az ügyfél az AD FS összevonni.
 
@@ -57,7 +57,7 @@ Alapértelmezés szerint a függő entitás alkalmazás csak meghatározott érh
 
 | Jogcím | Leírás |
 | --- | --- |
-| és |A célközönség. Az alkalmazás, amelynek a állítottak ki jogcímeket. |
+| és |A célközönség. Az alkalmazás, amelyhez a jogcímek kiállítása volt. |
 | AuthenticationInstant |[Hitelesítési azonnali]. Az időpontot, mely hitelesítési történt. |
 | c_hash |Kód kivonat értéke. Ez a token tartalmának kivonatát. |
 | Exp |[Lejárati idő]. Az az idő, amely után a jogkivonatot már nem fogja elfogadni. |
