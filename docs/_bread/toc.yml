@@ -38,6 +38,9 @@
         - name: Útmutató
           tocHref: /azure/architecture/guide
           topicHref: /azure/architecture/guide
+        - name: Útmutató az adatarchitektúrához
+          tocHref: /azure/architecture/data-guide
+          topicHref: /azure/architecture/data-guide
         - name: Teljesítménnyel kapcsolatos kizárási minták
           tocHref: /azure/architecture/antipatterns
           topicHref: /azure/architecture/

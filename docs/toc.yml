@@ -19,6 +19,8 @@
       href: guide/pillars.md
     - name: Tervezési minták
       href: patterns/index.md?toc=/azure/architecture/guide/toc.json
+- name: Útmutató az adatarchitektúrához
+  href: data-guide/index.md
 - name: Referenciaarchitektúrák
   href: reference-architectures/index.md
   items:
