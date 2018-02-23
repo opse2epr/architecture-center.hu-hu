@@ -4,11 +4,11 @@ description: "Szolgáltatás beállítása az újrapróbálkozási mechanizmussa
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: da1145e2f2f91befd69505ae9ef2734d6110c1d0
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: 6bb623bd8be89573178f250570407bf83d62c098
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -21,14 +21,14 @@ A következő táblázat összefoglalja az ebben az útmutatóban leírt Azure-s
 | **Szolgáltatás** | **Ismételje meg a képességek** | **Házirend-konfiguráció** | **Hatókör** | **Telemetria szolgáltatások** |
 | --- | --- | --- | --- | --- |
 | **[Azure Storage](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél és az egyes műveletek |TraceSource |
-| **[Az Entity Framework SQL-adatbázis](#sql-database-using-entity-framework-6-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |Nincs |
+| **[Az Entity Framework SQL-adatbázis](#sql-database-using-entity-framework-6-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |None |
 | **[Az Entity Framework Core SQL-adatbázis](#sql-database-using-entity-framework-core-retry-guidelines)** |Natív ügyfél |Programozott |Globális egy AppDomain tartományban |Nincs |
 | **[Az ADO.NET SQL-adatbázis](#sql-database-using-adonet-retry-guidelines)** |[Polly](#transient-fault-handling-with-polly) |Programozott és deklaratív |Egyetlen utasítások vagy kódblokkokat |Egyéni |
 | **[Service Bus](#service-bus-retry-guidelines)** |Natív ügyfél |Programozott |Namespace Manager, az üzenetkezelési gyárból és az ügyfél |ETW |
 | **[Azure Redis Cache](#azure-redis-cache-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |TextWriter |
 | **[Cosmos DB](#cosmos-db-retry-guidelines)** |Natív szolgáltatásban |Non-configurable |Globális |TraceSource |
 | **[Azure Search](#azure-storage-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |ETW vagy egyéni |
-| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív az ADAL-könyvtár |Az ADAL-könyvtár beágyazása |Belső |Nincs |
+| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív az ADAL-könyvtár |Az ADAL-könyvtár beágyazása |Belső |None |
 | **[Service Fabric](#service-fabric-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |Nincs | 
 | **[Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív ügyfél |Programozott |Ügyfél |Nincs |
 
@@ -37,7 +37,7 @@ A következő táblázat összefoglalja az ebben az útmutatóban leírt Azure-s
 >
 >
 
-## <a name="azure-storage-retry-guidelines"></a>Azure Storage újrapróbálkozási irányelveinek
+## <a name="azure-storage-retry-guidelines"></a>Az Azure Storage újrapróbálkozási irányelvek
 Az Azure storage szolgáltatások közé tartoznak a tábla és a blob storage, fájlok és tárüzenetsort.
 
 ### <a name="retry-mechanism"></a>Ismételje meg a mechanizmus
@@ -98,7 +98,7 @@ Az alábbi táblázatok bemutatják az alapértelmezett beállításokat az a be
 
 **Lehetőségek**
 
-| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| **Beállítás** | **Alapértelmezett érték** | Jelentése |
 | --- | --- | --- |
 | MaximumExecutionTime | 120 másodperc | A kérelem, beleértve az összes lehetséges újrapróbálkozási kísérletek maximális végrehajtási ideje. |
 | ServerTimeout | Nincs | A kérés a kiszolgáló időkorlátja (kerekített másodperc). Ha nincs megadva, az alapértelmezett érték a kiszolgáló összes kérelem fog használni. Általában a legjobb lehetőség egy hagyja ki ezt a beállítást, hogy a kiszolgáló alapértelmezett szolgál. | 
@@ -107,7 +107,7 @@ Az alábbi táblázatok bemutatják az alapértelmezett beállításokat az a be
 
 **Az exponenciális házirend** 
 
-| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| **Beállítás** | **Alapértelmezett érték** | Jelentése |
 | --- | --- | --- |
 | maxAttempt | 3 | Újrapróbálkozások száma. |
 | deltaBackoff | 4 másodperc | Vissza az indító időköz újrapróbálkozások között. A TimeSpan érték, egy véletlenszerű elem, beleértve többszörösei későbbi újrapróbálkozás használható. |
@@ -116,7 +116,7 @@ Az alábbi táblázatok bemutatják az alapértelmezett beállításokat az a be
 
 **Lineáris házirend**
 
-| **Beállítás** | **Alapértelmezett érték** | **Jelentése** |
+| **Beállítás** | **Alapértelmezett érték** | Jelentése |
 | --- | --- | --- |
 | maxAttempt | 3 | Újrapróbálkozások száma. |
 | deltaBackoff | 30 másodperc | Vissza az indító időköz újrapróbálkozások között. |
@@ -416,7 +416,7 @@ using (var db = new BloggingContext())
 
 ### <a name="more-information"></a>További információ
 * [Kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency)
-* [Adatpont - EF Core 1.1](https://msdn.microsoft.com/en-us/magazine/mt745093.aspx)
+* [Adatpont - EF Core 1.1](https://msdn.microsoft.com/magazine/mt745093.aspx)
 
 ## <a name="sql-database-using-adonet-retry-guidelines"></a>Az ADO.NET újrapróbálkozási szerint SQL-adatbázis
 SQL-adatbázis egy olyan üzemeltetett SQL-adatbázis széles méretű és (megosztott) standard és premium (nem megosztott) szolgáltatás is elérhető.
@@ -559,7 +559,7 @@ Vegye figyelembe a következő beállításokkal műveletek újrapróbálkozás 
 | Interaktív, a felhasználói felület vagy a előtér | 2 másodperc *  | Az exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff = 300 msec. <br/> TimeBuffer = 300 ms. <br/> MaxRetryCount = 2 | 1. kísérlet: Késleltetés 0 másodperc. <br/> 2. kísérlet: Késleltetés ~ 300 ms. <br/> Attempt 3: Delay ~900 msec. |
 | Háttér vagy kötegelt | 30 másodperc | Az exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 másodperc. <br/> DeltaBackoff 1,75 mp =. <br/> TimeBuffer = 5 másodperc. <br/> MaxRetryCount = 3 | 1. kísérlet: Késleltetés ~ 1 másodperc. <br/> 2. kísérlet: ~ 3 mp késleltetés. <br/> 3. kísérlet: Késleltetés ~ 6 MS. <br/> Attempt 4: Delay ~13 msec. |
 
-\*További késleltetés, ha a kiszolgáló elfoglalt választ hozzáadott nem beleértve.
+\* További késleltetés, ha a kiszolgáló elfoglalt választ hozzáadott nem beleértve.
 
 ### <a name="telemetry"></a>Telemetria
 A Service Bus újrapróbálkozások naplózza az ETW-eseményként is használ egy **EventSource**. Hozzá kell rendelni egy **eseményfigyelő Visszahívásán** az események rögzítése és megtekinthetők a teljesítmény-megjelenítőben, vagy azokat a megfelelő cél naplóba bejegyezni esemény forrását. Használhatja a [szemantikai naplózás alkalmazás blokk](http://msdn.microsoft.com/library/dn775006.aspx) ehhez. A kísérletek naplózása a következő formátumot követi a következők:
@@ -724,7 +724,7 @@ További információkért lásd: [verem Exchange Redis konfigurációja](https:
 
 A következő táblázat a beépített alapértelmezett beállításainak újrapróbálkozási házirendet.
 
-| **Környezet** | **Beállítás** | **Alapértelmezett érték**<br />(v 1.2.2) | **Jelentése** |
+| **Környezet** | **Beállítás** | **Alapértelmezett érték**<br />(v 1.2.2) | Jelentése |
 | --- | --- | --- | --- |
 | ConfigurationOptions |ConnectRetry<br /><br />ConnectTimeout<br /><br />SyncTimeout<br /><br />ReconnectRetryPolicy |3<br /><br />Legfeljebb 5000 ms plus SyncTimeout<br />1000<br /><br />5000 ms LinearRetry |Ismétlődő hányszor kísérletek csatlakozzon a kezdeti kapcsolat művelet során.<br />Időkorlát (ms) a műveletek csatlakozzon. Nem a késleltetés újrapróbálkozási kísérletek között.<br />Idő (ms) szinkron műveletek engedélyezése.<br /><br />Ismételje meg minden 5000 ms.|
 
@@ -980,7 +980,7 @@ client.RetryPolicy = RetryPolicy.Default;
 ```
 
 ### <a name="more-information"></a>További információ
-[Az Azure Event Hubs szabványos .NET ügyféloldali kódtár](https://github.com/Azure/azure-event-hubs-dotnet)
+[ Az Azure Event Hubs szabványos .NET ügyféloldali kódtár](https://github.com/Azure/azure-event-hubs-dotnet)
 
 ## <a name="general-rest-and-retry-guidelines"></a>Általános REST, és próbálkozzon újra irányelveket
 Azure vagy harmadik féltől származó szolgáltatások eléréséhez vegye figyelembe a következőket:

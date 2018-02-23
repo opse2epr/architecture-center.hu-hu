@@ -3,11 +3,11 @@ title: "Az Azure-alkalmazások katasztrófa utáni helyreállítás"
 description: "Műszaki áttekintés és alkalmazások a Microsoft Azure vész-helyreállítási megtervezésével kapcsolatos részletes információkat."
 author: adamglick
 ms.date: 05/26/2017
-ms.openlocfilehash: 5ed6e2cec149571724f1545b40f628d6bbe1ad71
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 7235e752cf1b96e392a700b223d63b07c0f85b66
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások katasztrófa utáni helyreállítás
 
@@ -209,7 +209,7 @@ Ez a beállítás akkor gyakorlati csak magas RTO tűri nem kritikus fontosság�
 
 ![Egy másodlagos Azure régióra újbóli üzembe helyezése](./images/disaster-recovery-azure-applications/redeploy-to-a-secondary-azure-region.png)
 
-### <a name="active-passive"></a>Aktív-passzív
+### <a name="active-passive"></a>Active-passive
 Egy aktív-passzív topológia a választott számos vállalat alkalmazást. Ez a topológia tartalmaz javításokat az költség viszonylag kis növekedése RTO keresztül az újratelepítés módszerrel. Ilyen esetben van újra egy elsődleges és egy másodlagos Azure-régiót. Összes forgalmat állapotba aktív központi az elsődleges régióban. Mivel az adatbázis fut mindkét régió a másodlagos régióba jobban felkészül a vész-helyreállítási. Emellett a szinkronizálási mechanizmus közöttük rendelkezésre áll. Ez a megközelítés készenléti magába foglaló két változata: csak adatbázis megközelítés vagy egy másodlagos régióban teljes telepítése.
 
 #### <a name="database-only"></a>Csak az adatbázis
@@ -232,14 +232,14 @@ Az alábbi ábrán látható, ha az elsődleges és másodlagos területeket tar
 
 ![Aktív-passzív, a teljes replika](./images/disaster-recovery-azure-applications/active-passive-full-replica.png)
 
-### <a name="active-active"></a>Aktív-aktív
+### <a name="active-active"></a>Active-active
 Egy aktív-aktív topológia a felhőszolgáltatás és az adatbázis teljes mértékben telepítve mindkét régióban. Az aktív-passzív modell eltérően mindkét régió felhasználói forgalom fogadására. Ez a beállítás a leggyorsabb helyreállítási adja eredményül. A szolgáltatások kezeléséhez a terhelés mellett minden egyes régió egy része már méretezése. DNS már engedélyezve van a másodlagos régióba használatára. Nincs nagyobb fokú összetettségével jár a felhasználók a megfelelő régióba irányításához módjának meghatározása. Ciklikus multiplexelés ütemezés esetleg. Valószínűbb, hogy bizonyos felhasználókra szeretné használni egy adott területre, ahol az adatokat az elsődleges példány található.
 
 A feladatátvétel esetén csupán letiltsa DNS az elsődleges régióban. Ez továbbítja az összes forgalom a másodlagos régióba.
 
 Még akkor is, ez a modell több változata is. Például a következő ábra szemlélteti a elsődleges régióban, amely azonos a fő másolatot az adatbázisról. A cloud services csomag mindkét régiókban írni, hogy az elsődleges adatbázis. A másodlagos központi telepítés is olvassa a elsődleges vagy replikált adatbázis. Ebben a példában a replikációt még csak egyirányú.
 
-![Aktív-aktív](./images/disaster-recovery-azure-applications/active-active.png)
+![Active-active](./images/disaster-recovery-azure-applications/active-active.png)
 
 Az aktív-aktív architektúra a fenti ábrán egy hátránya van. A második régióban kell hozzáférni az adatbázis az első régióban, mert a fő példány nem található. Teljesítmény jelentős mértékben csökken egy régiót kívül származó adatok elérésekor. A kereszt-régió adatbázishívások érdemes valamilyen kötegelés stratégia az adott hívások a teljesítmény javítása érdekében. További információkért lásd: [használata a kötegelés SQL-adatbázis teljesítményének javítása érdekében](/azure/sql-database/sql-database-use-batching-to-improve-performance/).
 
@@ -267,8 +267,8 @@ A hibrid forgatókönyvek esetében a feladatátvételt a központi telepítése
 
 A vész-Helyreállítási stratégia több felhőalapú platform alapul, akkor értékes ahhoz, hogy a megoldás kialakításának absztrakciós réteget szerepeljen. A szükségtelenné fejlesztésére, és ugyanahhoz az alkalmazáshoz, a másik felhőt platformok katasztrófa esetén két különböző verzióinak kezelése. A hibrid forgatókönyv esetén az Azure virtuális gépek vagy az Azure Tárolószolgáltatás használata lehet egyszerűbben ezekben az esetekben a felhő-specifikus PaaS tervek használatát.
 
-## <a name="automation"></a>Automation
-A minta csak ismertettük némelyike szükséges offline központi telepítésekhez gyors aktiválásának, valamint a rendszer meghatározott részeit visszaállítása. Automatizálási parancsfájlokat az igény szerinti erőforrások aktiválhatja és gyorsan állíthat rendszerbe megoldásokat. Az automatizálási vész-Helyreállítási kapcsolatos példák használata alatt [Azure PowerShell](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) vagy a [szolgáltatásfelügyelet REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) helyes módon is.
+## <a name="automation"></a>Automatizálás
+A minta csak ismertettük némelyike szükséges offline központi telepítésekhez gyors aktiválásának, valamint a rendszer meghatározott részeit visszaállítása. Automatizálási parancsfájlokat az igény szerinti erőforrások aktiválhatja és gyorsan állíthat rendszerbe megoldásokat. Az automatizálási vész-Helyreállítási kapcsolatos példák használata alatt [Azure PowerShell](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI](https://docs.microsoft.com/cli/azure/get-started-with-azure-cli) vagy a [szolgáltatásfelügyelet REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) helyes módon is.
 
 Automatizálási parancsfájlokat kezelheti a vész-Helyreállítási nem transzparens módon kezeli az Azure tulajdonságát. Ennek eredménye következetes és ismételhető, minimalizálja a emberi tévedések. Előre definiált vész-Helyreállítási parancsfájlokat is, hogy a rendszer és a bennük foglalt részeit során egy olyan vészhelyzet esetén idő csökkentése érdekében. Nem szeretnénk próbálja meg manuálisan mérje fel, a hely visszaállítása, amíg le, és elveszett pénz percenként.
 
@@ -277,7 +277,7 @@ Tesztelje a parancsfájlokat ismételten elejétől a végéig. Annak ellenőrz�
 Az Automation szolgáltatásban, a legjobb, ha egy PowerShell-parancsfájlok vagy parancssori felület (CLI) parancsfájlok Azure vész-helyreállítási-tárházat. Egyértelműen megjelölni, és kategorizálása őket a gyors elérés érdekében. A tárház és a parancsfájlok versioning elsődleges személyt kijelölni. Dokumentum jól igazodik ismereteket szeretnének elsajátítani a paraméterek és példákat a parancsfájlt használja őket. Bizonyosodjon meg arról, hogy Ön szinkronban tartsa az ebben a dokumentációban és az Azure-környezetekhez. Ez a célja, hogy egy elsődleges személy feladata a tárház mindegyik részének aláhúzásjeleket tartalmazhatnak.
 
 ## <a name="failure-detection"></a>Hiba észlelése
-Rendelkezésre álláshoz és vészhelyreállításhoz kapcsolatos problémák kezeléséhez, észlelheti és diagnosztizálhatja a hibák képesnek kell lennie. Hajtsa végre a kiszolgáló speciális és a központi telepítés figyelésének gyors felismerése a rendszer vagy az összetevők hirtelen elérhetetlenné válik. Figyelési eszközök általános állapotát, a felhőszolgáltatás és a függőségek felmérő része a munka hajthat végre. Egy megfelelő Microsoft eszköz [System Center 2016](https://www.microsoft.com/en-us/server-cloud/products/system-center-2016/). Külső eszközöket is biztosít figyelési lehetőségek körét. A legtöbb figyelési megoldások nyomon követheti a főbb teljesítményszámlálók és a szolgáltatás rendelkezésre állása.
+Rendelkezésre álláshoz és vészhelyreállításhoz kapcsolatos problémák kezeléséhez, észlelheti és diagnosztizálhatja a hibák képesnek kell lennie. Hajtsa végre a kiszolgáló speciális és a központi telepítés figyelésének gyors felismerése a rendszer vagy az összetevők hirtelen elérhetetlenné válik. Figyelési eszközök általános állapotát, a felhőszolgáltatás és a függőségek felmérő része a munka hajthat végre. Egy megfelelő Microsoft eszköz [System Center 2016](https://www.microsoft.com/server-cloud/products/system-center-2016/). Külső eszközöket is biztosít figyelési lehetőségek körét. A legtöbb figyelési megoldások nyomon követheti a főbb teljesítményszámlálók és a szolgáltatás rendelkezésre állása.
 
 Annak ellenére, hogy ezek az eszközök létfontosságú, meg kell terveznie és a jelentéskészítés a felhőszolgáltatásban. Megfelelően használni az Azure Diagnostics is meg kell tervezni. Egyéni teljesítményszámlálóit vagy eseménynapló bejegyzés is lehet a teljes stratégiájának a részét. Így lehetővé teszi több adat esetén gyorsan diagnosztizálhatja a problémát, és állítsa vissza a szolgáltatás összes funkciójáról. A Hálózatfigyelő eszközök segítségével meghatározhatja az alkalmazás állapotának további metrikák is tartalmazza. További információkért lásd: [Azure Diagnostics engedélyezése az Azure Cloud Services](/azure/cloud-services/cloud-services-dotnet-diagnostics/). Olyan, átfogó "állapotmodell" tervezéséről tárgyalását lásd: [Failsafe: Útmutató a rugalmas felhő architektúrák](https://channel9.msdn.com/Series/FailSafe).
 
@@ -296,13 +296,13 @@ Számos más módszert tesztelheti a vész-helyreállítási tervek. Azonban leg
 
 A következő témakörök ismertetik a katasztrófa utáni helyreállítás adott Azure-szolgáltatások:
 
-| Szolgáltatás | Téma |
+| Szolgáltatás | Témakör |
 |---------|-------|
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
-|Tárhely | [Mi a teendő, ha egy Azure Storage kimaradás során](/azure/storage/storage-disaster-recovery-guidance) |
+|Tárolás | [Mi a teendő, ha egy Azure Storage kimaradás során](/azure/storage/storage-disaster-recovery-guidance) |
 | SQL Database | [Egy Azure SQL Database vagy feladatátvételi visszaállításához a másodlagos](/azure/sql-database/sql-database-disaster-recovery) |
-| Virtuális gépek | [Mi a teendő arra az esetre, ha egy Azure szolgáltatás megszűnésének hatással van az Azure virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
+| Virtual machines (Virtuális gépek) | [Mi a teendő arra az esetre, ha egy Azure szolgáltatás megszűnésének hatással van az Azure virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
 | Virtuális hálózatok | [Virtuális hálózat – az üzletmenet folytonossága](/azure/virtual-network/virtual-network-disaster-recovery-guidance) |
 
 

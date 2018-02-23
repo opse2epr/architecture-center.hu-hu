@@ -4,11 +4,11 @@ description: "DevOps kapcsolatos útmutatást ellenőrzőlistát."
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist
-ms.openlocfilehash: c435ea0aed9571cb6508d7d23f93414a138998fe
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 356fef2415347ae132915695a25fd9b50779bd8b
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="devops-checklist"></a>DevOps ellenőrzőlista
 
@@ -126,7 +126,7 @@ Megosztott dokumentáció alapvető fontosságú. Ösztönözze közre és oszth
 
 **Konfigurációkezelés használja.** Konfigurációs módosítások tervezett, műveletek számára látható és rögzített kell lennie. Ez a konfigurációkezelési adatbázis, vagy a konfiguráció szerint kód megközelítés formában is beletelhet. Konfigurációs rendszeresen naplózni annak biztosításához, hogy mi az elvárás ténylegesen helyen.
 
-**Az Azure támogatási terv és a folyamatához.** Azure számos [tervek támogatja][azure-support-plans]. Az Ön igényeinek megfelelő csomag határozza meg, és győződjön meg arról, hogy a teljes csoport tudja, hogy miképpen lehet vele. Csoporttagok ismerje meg a csomag részletes adatait, a támogatási folyamat működéséről és az Azure támogatási jegy megnyitása. Ha egy magas szintű esemény vannak előrejelző, az Azure támogatási segíthet a növelését a szolgáltatásra vonatkozó korlátozások. További információkért lásd: a [Azure támogatás – gyakori kérdések](https://azure.microsoft.com/en-us/support/faq/).
+**Az Azure támogatási terv és a folyamatához.** Azure számos [tervek támogatja][azure-support-plans]. Az Ön igényeinek megfelelő csomag határozza meg, és győződjön meg arról, hogy a teljes csoport tudja, hogy miképpen lehet vele. Csoporttagok ismerje meg a csomag részletes adatait, a támogatási folyamat működéséről és az Azure támogatási jegy megnyitása. Ha egy magas szintű esemény vannak előrejelző, az Azure támogatási segíthet a növelését a szolgáltatásra vonatkozó korlátozások. További információkért lásd: a [Azure támogatás – gyakori kérdések](https://azure.microsoft.com/support/faq/).
 
 **Kövesse a legalacsonyabb jogosultsági alapelvek, amikor erőforrásokhoz való hozzáférés.** Gondosan erőforrásokhoz való hozzáférés kezelése. Hozzáférés alapértelmezés szerint nem kap, kivéve, ha a felhasználó explicit módon kap hozzáférést egy erőforráshoz. Csak hozzáférést egy felhasználó szükséges el tudják végezni feladataikat. A felhasználói engedélyek nyomon, és végezze el a rendszeres biztonsági eseményeket.
 

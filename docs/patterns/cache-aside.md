@@ -1,6 +1,6 @@
 ---
-title: "Gyorsítótár-Tartalékoljon"
-description: "Adatok betöltése az igény szerinti egy adattárból a gyorsítótárba"
+title: Cache-Aside
+description: "Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból"
 keywords: "Kialakítási mintája"
 author: dragon119
 ms.date: 06/23/2017
@@ -8,11 +8,11 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: e0a6a91fda6ea43236f6eea552f7b8f8d31160ad
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 1536a33884c9c9faa1e3702c951067249e691bf8
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="cache-aside-pattern"></a>Gyorsítótár-Tartalékoljon minta
 
@@ -125,7 +125,7 @@ public async Task<MyEntity> GetMyEntityAsync(int id)
 }
 ```
 
->  A példák a tárolóhoz, és információt lekérni a gyorsítótár az Azure Redis Cache API segítségével. További információkért lásd: [használatával a Microsoft Azure Redis Cache](https://docs.microsoft.com/en-us/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Redis Cache-webalkalmazás létrehozása](https://docs.microsoft.com/en-us/azure/redis-cache/cache-web-app-howto)
+>  A példák a tárolóhoz, és információt lekérni a gyorsítótár az Azure Redis Cache API segítségével. További információkért lásd: [használatával a Microsoft Azure Redis Cache](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Redis Cache-webalkalmazás létrehozása](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
 
 A `UpdateEntityAsync` alább látható módszer bemutatja, hogyan kell érvénytelenné válnak a gyorsítótár objektumára, az alkalmazás által az érték megváltozásakor. A kód frissíti az eredeti adattárolóban, és majd eltávolítja a gyorsítótárazott elem a gyorsítótárból.
 
@@ -147,10 +147,10 @@ public async Task UpdateEntityAsync(MyEntity entity)
 > Fontos, a lépések sorrendjét. Az adattár frissítése *előtt* elem eltávolítása a gyorsítótárból. Ha először távolítsa el a gyorsítótárazott elem, akkor egy kis ablakban idő, amikor egy ügyfél előfordulhat, hogy beolvasni az elem az adattár frissítése előtt. Vezethet a gyorsítótár-tévesztései (mivel az elem el lett távolítva a gyorsítótárból), a korábbi verziót az adattárból beolvasását elem okozza, és vissza a gyorsítótár fel. A gyorsítótár elavult adatokat lesz.
 
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató 
+## <a name="related-guidance"></a>Kapcsolódó útmutatók 
 
 A következő információkat lehet megfelelő, ebben a mintában végrehajtása során:
 
-- [Útmutatás gyorsítótárazás](https://docs.microsoft.com/en-us/azure/architecture/best-practices/caching). További tájékoztatást nyújt hogyan egy felhőalapú megoldáson, és a problémák is figyelembe kell vennie a gyorsítótár bevezetésekor adatokat képes gyorsítótárazni.
+- [Útmutatás gyorsítótárazás](https://docs.microsoft.com/azure/architecture/best-practices/caching). További tájékoztatást nyújt hogyan egy felhőalapú megoldáson, és a problémák is figyelembe kell vennie a gyorsítótár bevezetésekor adatokat képes gyorsítótárazni.
 
 - [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). A felhőalapú alkalmazásokhoz általában használja megjelenített adattárolókhoz. Kezelése, és biztosítja az adatok konzisztenciáját ebben a környezetben az egyik fontos szempontja, hogy a rendszer, különösen a feldolgozási mód és a rendelkezésre állási kapcsolatban felmerülő hibákat. A kezdés konzisztencia kapcsolatos problémákat ismerteti elosztott adatokon keresztül, és összefoglalja, hogyan alkalmazás rendelkezésre állásának adatok végleges konzisztencia is létrehozható.

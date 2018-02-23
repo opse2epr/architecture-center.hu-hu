@@ -1,16 +1,17 @@
 ---
-title: "Újra"
-description: "Lehetővé teszik az alkalmazások, szeretné kezelni a várható, ideiglenes hibák csatlakozik egy szolgáltatás vagy a hálózati erőforráshoz transzparens módon megpróbálásával korábban sikertelen műveletet."
+title: Retry
+description: "Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével."
 keywords: "Kialakítási mintája"
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories: resiliency
-ms.openlocfilehash: 6c02b384e71c068ecbc78f3170d28cea406538e2
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+pnp.pattern.categories:
+- resiliency
+ms.openlocfilehash: 73fdcbcc2bd75593a4c8e33dc2259c90593e14db
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="retry-pattern"></a>Ismételje meg a minta
 
@@ -48,7 +49,7 @@ Az alkalmazás összes próbálja meg elérni a távoli szolgáltatás, amely me
 
 Az alkalmazás adatainak hibák, de sikertelenül műveletek kell naplózása. Ez az információ operátorok. Egy szolgáltatás, a rendszer gyakran nem érhető el vagy foglalt esetén gyakran, mert a szolgáltatás kimerítette erőforrásait. A gyakorisága, ezek csökkentheti, ha a szolgáltatás kiterjesztése. Például ha egy adatbázis-szolgáltatás folyamatosan túl van terhelve, annak lehet hasznos az adatbázis partícióazonosító és a terhelés elosztva több kiszolgáló között.
 
-> [Microsoft Entity Framework](https://docs.microsoft.com/ef/) újra próbálkozik a Helyadatbázis-műveletekhez szolgáltatásokat tartalmazza. Is az Azure-szolgáltatások és az ügyfél SDK-k tartalmaznak egy újrapróbálkozási mechanizmus. További információkért lásd: [ismételje meg az adott szolgáltatások útmutatást](https://docs.microsoft.com/en-us/azure/architecture/best-practices/retry-service-specific).
+> [Microsoft Entity Framework](https://docs.microsoft.com/ef/) újra próbálkozik a Helyadatbázis-műveletekhez szolgáltatásokat tartalmazza. Is az Azure-szolgáltatások és az ügyfél SDK-k tartalmaznak egy újrapróbálkozási mechanizmus. További információkért lásd: [ismételje meg az adott szolgáltatások útmutatást](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific).
 
 ## <a name="issues-and-considerations"></a>Problémákat és szempontok
 
@@ -172,5 +173,5 @@ private bool IsTransient(Exception ex)
 ## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
 
 - [Áramköri megszakító mintát](circuit-breaker.md). A újrapróbálkozási minta nem hasznos, ha átmeneti kezelése. Ha hiba várhatóan több hosszú tartós, több megfelelő áramköri megszakító minta végrehajtásához lehet. Az újrapróbálkozási mintát is használható egy áramköri megszakító együtt arra, hogy egy átfogó megközelítés hibák kezelnek.
-- [Ismételje meg az adott szolgáltatások útmutató](https://docs.microsoft.com/en-us/azure/architecture/best-practices/retry-service-specific)
-- [Kapcsolat rugalmassága](https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency)
+- [Ismételje meg az adott szolgáltatások útmutató](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific)
+- [Kapcsolat rugalmassága](https://docs.microsoft.com/ef/core/miscellaneous/connection-resiliency)

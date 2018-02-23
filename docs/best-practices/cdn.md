@@ -4,11 +4,11 @@ description: "Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltete
 author: dragon119
 ms.date: 02/02/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: 73da41edec246b672564dd4a52b317eacf8ad649
-ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
+ms.openlocfilehash: 9ee9099c85818af9486408f6ece41d3f6fcd9b44
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/09/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="best-practices-for-using-content-delivery-networks-cdns"></a>Gyakorlati tanácsok a tartalomkézbesítési hálózat (tartalomtovábbító) használatát
 
@@ -95,5 +95,3 @@ Ha az eszközök statikus betűtípus fájlok például a CDN használatával, p
 
 ### <a name="cdn-fallback"></a>CDN tartalék
 Vegye figyelembe, hogyan az alkalmazás fogja a folyamatosan növekvő adatmennyiségnek hiba vagy ideiglenes hiányában a CDN-t. Előfordulhat, hogy ügyfélalkalmazások másolja a helyileg (az ügyfél) a gyorsítótárazott erőforrások használhatják az előző kérelem során, vagy megadhat kódot, amely hibát észlel, és helyette a forrásból (az alkalmazás mappájában, vagy az Azure blob-erőforrások kérelmek az tároló, amely az erőforrások) Ha a CDN nem érhető el.
-
-A következő példa bemutatja egy tartalék mecha

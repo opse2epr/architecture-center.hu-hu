@@ -3,11 +3,11 @@ title: "Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások új
 description: "Egy meglévő Azure Service Fabric-alkalmazás refactor hogyan átemelt Azure Cloud Services csomag"
 author: petertay
 ms.date: 01/30/2018
-ms.openlocfilehash: 18af7c7fe0c0933b1a2a132ee2ee0d8479d41b2a
-ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
+ms.openlocfilehash: 450648fbd0b19cdc7585738701914a1ebc1ed779
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/09/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
 
@@ -78,7 +78,7 @@ Az alábbi ábra a részletesebb architektúrát átkerült felmérések alkalma
 
 Az Azure Service Fabric támogatja a következő programozási modellek:
 * A Vendég végrehajtható modell lehetővé teszi, hogy a szolgáltatás csomagolni, és a Service Fabric-fürt központi telepítése a végrehajtható fájlok. A Service Fabric koordinálja, és a Vendég végrehajtható végrehajtási kezeli.
-* A tároló modell lehetővé teszi, hogy a tároló-lemezképekben szolgáltatások telepítését. A Service Fabric támogatja létrehozását és és a Linux kernel fölött tárolók kezelése tartalmazza, valamint a Windows Server-tárolók. 
+* A tároló modell lehetővé teszi, hogy a tároló-lemezképekben szolgáltatások telepítését. A Service Fabric létrehozását támogatja, és a Linux kernel fölött tárolók kezelése tartalmazza, valamint a Windows Server-tárolók. 
 * A megbízható szolgáltatások programozási modell lehetővé teszi, hogy állapot nélküli és állapotalapú szolgáltatások, amelyek integrálják az összes Service Fabric platform szolgáltatás létrehozásához. Állapotalapú szolgáltatások lehetővé teszik a rendszer ne tárolja őket a Service Fabric-fürt replikált állapothoz. Állapotmentes szolgáltatások azonban nem.
 * A megbízható actors programozási modell lehetővé teszi, hogy a virtuális szereplő mintát megvalósító szolgáltatások létrehozásához.
 
@@ -151,7 +151,7 @@ A felmérések alkalmazás kódja megtalálható [GitHub][sample-code].
 Ha most elkezdi az [Azure Service Fabric][service-fabric], először állítsa be a fejlesztési környezetet, akkor letöltheti a legújabb [Azure SDK] [ azure-sdk] és a [Azure Service Fabric SDK][service-fabric-sdk]. Az SDK magában foglalja a OneBox-kezelőt, telepítheti és helyileg, a teljes F5 hibakeresés a felmérések alkalmazás teszteléséhez.
 
 <!-- links -->
-[azure-sdk]: https://azure.microsoft.com/en-us/downloads/archive-net-downloads/
+[azure-sdk]: https://azure.microsoft.com/downloads/archive-net-downloads/
 [container-scenarios]: /azure/service-fabric/service-fabric-containers-overview
 [kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore2x
 [kestrel-intro]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore1x
