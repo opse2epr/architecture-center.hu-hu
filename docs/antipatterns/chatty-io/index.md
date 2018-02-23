@@ -2,11 +2,11 @@
 title: "Forgalmas I/O kizárási minta"
 description: "Ha sok I/O-kérés érkezik be, az negatívan befolyásolhatja a teljesítményt és a válaszkészséget."
 author: dragon119
-ms.openlocfilehash: 50001316939b56c9b57a119f6ae20f0878f54c0f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 4f0e0e455ceb58317d3029d8ab4631d476802499
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="chatty-io-antipattern"></a>Forgalmas I/O kizárási minta
 
@@ -215,7 +215,7 @@ await SaveCustomerListToFileAsync(customers);
 
 - Az adatok írásakor kerülje az erőforrások szükségesnél tovább történő zárolását, így csökkentheti a versengés kialakulásának esélyét a hosszabb műveletek során. Ha az írási művelet több adattárolót, fájlt vagy szolgáltatást is érint, akkor használjon olyan módszert, amely végül konzisztens eredményekhez vezet. Lásd: [Adatkonzisztencia-útmutató][data-consistency-guidance].
 
-- Ha puffereli az adatokat a memóriában az írása előtt, akkor az adatok a folyamatleállások esetén sebezhetővé válnak. Ha az adatátvitel viszonylag ritka, vagy adatlöketek jellemzik, akkor biztonságosabb az adatok tartósabb, külső üzenetsorban (például az [Event Hubsban](http://azure.microsoft.com/en-us/services/event-hubs/)) történő pufferelése.
+- Ha puffereli az adatokat a memóriában az írása előtt, akkor az adatok a folyamatleállások esetén sebezhetővé válnak. Ha az adatátvitel viszonylag ritka, vagy adatlöketek jellemzik, akkor biztonságosabb az adatok tartósabb, külső üzenetsorban (például az [Event Hubsban](http://azure.microsoft.com/services/event-hubs/)) történő pufferelése.
 
 - Fontolja meg a szolgáltatásból vagy adatbázisból lekért adatok gyorsítótárazását. Ezzel segíthet csökkenteni az I/O-műveletek mennyiségét, mert elkerüli az ugyanazon adatokra vonatkozó ismételt kéréseket. További információkért lásd a [Gyorsítótárazás – Ajánlott eljárások][caching-guidance] című témakört.
 

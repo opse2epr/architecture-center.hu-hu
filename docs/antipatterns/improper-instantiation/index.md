@@ -3,11 +3,11 @@ title: "Nem megfelelő példányosítás kizárási minta"
 description: "Elkerülheti, hogy folyamatosan új példányok jöjjenek létre olyan objektumokból, amelyeket elvileg csak egyszer kéne létrehozni, hogy utána meg lehessen őket osztani."
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 8955f37e76c8b5e66c1ed7737d200d11ed321612
-ms.sourcegitcommit: 9ba82cf84cee06ccba398ec04c51dab0e1ca8974
+ms.openlocfilehash: 4d5ef9ad9e675b46df94b51e81d7a4bd4c1b25e9
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/13/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="improper-instantiation-antipattern"></a>Nem megfelelő példányosítás kizárási minta
 
@@ -22,9 +22,7 @@ Számos kódtár biztosít absztrakt entitásokat a külső erőforrásokhoz. Ez
 - `Microsoft.Azure.Documents.Client.DocumentClient`. Kapcsolódik egy Cosmos DB-példányhoz.
 - `StackExchange.Redis.ConnectionMultiplexer`. Kapcsolódik a Redishez, beleértve az Azure Redis Cache-t is.
 
-Ezeket az osztályokat csak egyszer kell példányosítani, majd újra felhasználhatók az alkalmazás teljes élettartama során. Azonban gyakori téveszme, hogy ezeket az osztályokat csak akkor kell létrehozni, amikor épp szükség van rájuk, és gyorsan ki kell őket adni. (Az itt felsorolt osztályok .NET-kódtárak, azonban ez a jelenség nem csak a .NET-re jellemző.)
-
-A következő ASP.NET egy `HttpClient` példányt hoz létre egy távoli szolgáltatással folytatott kommunikációhoz. A teljes kódmintát [itt][sample-app] találja.
+Ezeket az osztályokat csak egyszer kell példányosítani, majd újra felhasználhatók az alkalmazás teljes élettartama során. Azonban gyakori téveszme, hogy ezeket az osztályokat csak akkor kell létrehozni, amikor épp szükség van rájuk, és gyorsan ki kell őket adni. (Az itt felsorolt osztályok .NET-kódtárak, azonban ez a jelenség nem csak a .NET-re jellemző.) A következő ASP.NET egy `HttpClient` példányt hoz létre egy távoli szolgáltatással folytatott kommunikációhoz. A teljes kódmintát [itt][sample-app] találja.
 
 ```csharp
 public class NewHttpClientInstancePerRequestController : ApiController
@@ -76,18 +74,18 @@ A következő példában egy statikus `HttpClient` példány szerepel, amely min
 ```csharp
 public class SingleHttpClientInstanceController : ApiController
 {
-    private static readonly HttpClient HttpClient;
+    private static readonly HttpClient httpClient;
 
     static SingleHttpClientInstanceController()
     {
-        HttpClient = new HttpClient();
+        httpClient = new HttpClient();
     }
 
     // This method uses the shared instance of HttpClient for every call to GetProductAsync.
     public async Task<Product> GetProductAsync(string id)
     {
         var hostName = HttpContext.Current.Request.Url.Host;
-        var result = await HttpClient.GetStringAsync(string.Format("http://{0}:8080/api/...", hostName));
+        var result = await httpClient.GetStringAsync(string.Format("http://{0}:8080/api/...", hostName));
         return new Product { Name = result };
     }
 }

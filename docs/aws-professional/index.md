@@ -5,11 +5,11 @@ keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: e5f7cb5062b0b4a8526f3b29a9fa4ddaff399fc0
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: b8698675efa42bb3fae73cefe7b078942549b412
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -351,7 +351,7 @@ Az AWS egyszerű üzenetsor-szolgáltatása (SQS) egy üzenetkezelési rendszert
 
 -   A [Queue Storage](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-queues/) egy felhőalapú üzenetkezelő szolgáltatás, amely lehetővé teszi az Azure platformon lévő alkalmazás-összetevők közötti kommunikációt.
 
--   A [Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) egy robusztusabb üzenetküldő rendszer az alkalmazások, szolgáltatások és eszközök összekapcsolásához. A kapcsolódó [Service Bus Relay](https://docs.microsoft.com/en-us/azure/service-bus-relay/relay-what-is-it) használatával a Service Bus távolról futtatott alkalmazásokhoz és szolgáltatásokhoz is kapcsolódhat.
+-   A [Service Bus](https://azure.microsoft.com/services/service-bus/) egy robusztusabb üzenetküldő rendszer az alkalmazások, szolgáltatások és eszközök összekapcsolásához. A kapcsolódó [Service Bus Relay](https://docs.microsoft.com/azure/service-bus-relay/relay-what-is-it) használatával a Service Bus távolról futtatott alkalmazásokhoz és szolgáltatásokhoz is kapcsolódhat.
 
 #### <a name="device-farm"></a>Device Farm
 
