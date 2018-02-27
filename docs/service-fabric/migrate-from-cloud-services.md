@@ -3,11 +3,11 @@ title: "Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése
 description: "Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric."
 author: MikeWasson
 ms.date: 04/27/2017
-ms.openlocfilehash: 73e34c53ffd2f2eeb466d12a5f6c65dcfdaae389
-ms.sourcegitcommit: 2c9a8edf3e44360d7c02e626ea8ac3b03fdfadba
+ms.openlocfilehash: ce9c138a6b093fb7f0329c619c75bd4f4aacc2e7
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/03/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése 
 
@@ -84,7 +84,7 @@ A következő táblázat összefoglalja néhány fontos Cloud Services és a Ser
 | Hibakeresés | Helyi emulátor | Helyi fürt |
 
 
-\*Állapotalapú alkalmazások és szolgáltatások használatát szolgáltatások [megbízható gyűjtemények] [ sf-reliable-collections] állapot tárolására replikák között, amelyek minden olvasási helyi a fürt csomópontjaihoz. Írás a megbízhatóság csomópontok replikálódnak. Állapotmentes szolgáltatások rendelkezhet külső állapotot, egy adatbázist, vagy más külső tárolási.
+\* Állapotalapú alkalmazások és szolgáltatások használatát szolgáltatások [megbízható gyűjtemények] [ sf-reliable-collections] állapot tárolására replikák között, amelyek minden olvasási helyi a fürt csomópontjaihoz. Írás a megbízhatóság csomópontok replikálódnak. Állapotmentes szolgáltatások rendelkezhet külső állapotot, egy adatbázist, vagy más külső tárolási.
 
 ** Feldolgozói szerepkörök saját maguk is tárolhatja, ASP.NET Web API OWIN használatával.
 
@@ -227,7 +227,7 @@ Ahogy azt korábban említettük, a vércse webkiszolgáló fordított proxy biz
 
 ### <a name="layer-7-routing"></a>7 útválasztási. réteg
 
-Az a [eredeti felmérések alkalmazás](https://msdn.microsoft.com/en-us/library/hh534477.aspx#sec21), a 80-as porton figyel egy webes szerepkör, és a 443-as porton figyel a webes szerepkör. 
+Az a [eredeti felmérések alkalmazás](https://msdn.microsoft.com/library/hh534477.aspx#sec21), a 80-as porton figyel egy webes szerepkör, és a 443-as porton figyel a webes szerepkör. 
 
 | Nyilvános webhely | Felmérés felügyeleti webhely |
 |-------------|------------------------|
@@ -328,7 +328,7 @@ Most, hogy a felmérések alkalmazás legelterjedtebb sikeresen megtörtént, a 
 [sf-reverse-proxy]: /azure/service-fabric/service-fabric-reverseproxy
 [sf-security]: /azure/service-fabric/service-fabric-cluster-security
 [sf-why-microservices]: /azure/service-fabric/service-fabric-overview-microservices
-[tailspin-book]: https://msdn.microsoft.com/en-us/library/ff966499.aspx
-[tailspin-scenario]: https://msdn.microsoft.com/en-us/library/hh534482.aspx
-[unity]: https://msdn.microsoft.com/en-us/library/ff647202.aspx
+[tailspin-book]: https://msdn.microsoft.com/library/ff966499.aspx
+[tailspin-scenario]: https://msdn.microsoft.com/library/hh534482.aspx
+[unity]: https://msdn.microsoft.com/library/ff647202.aspx
 [vm-scale-sets]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-overview

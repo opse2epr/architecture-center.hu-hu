@@ -6,11 +6,11 @@ ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: a5dc25a4b61ffd13d86f1abb2b839054e5fb4c7f
-ms.sourcegitcommit: 475064f0a3c2fac23e1286ba159aaded287eec86
+ms.openlocfilehash: 08bf567085a940287de310f61b9f447d0ce5d5ec
+ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/19/2018
+ms.lasthandoff: 02/23/2018
 ---
 # <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
@@ -63,10 +63,10 @@ Alapértelmezés szerint a függő entitás alkalmazás csak meghatározott érh
 | Exp |[Lejárati idő]. Az az idő, amely után a jogkivonatot már nem fogja elfogadni. |
 | IAT |Kiállított. Az az idő, amikor a jogkivonat lett kiállítva. |
 | iss |Kibocsátó. A jogcím értéke mindig az erőforráspartner AD FS. |
-| név |A felhasználónév. Példa: `john@corp.fabrikam.com`. |
+| név |A felhasználónév. Példa: `john@corp.fabrikam.com` |
 | NameIdentifier |[Névazonosítója]. A neve, amelynek a token ki az entitás azonosítója. |
 | Nonce |Munkamenet nonce. Ismétléses támadások megelőzése érdekében az AD FS által létrehozott egyedi értéket. |
-| egyszerű felhasználónév |Egyszerű felhasználónév (UPN). Példa:john@corp.fabrikam.com |
+| egyszerű felhasználónév |Egyszerű felhasználónév (UPN). Példa: `john@corp.fabrikam.com` |
 | pwd_exp |Jelszó lejárati időt. Mindaddig, amíg a felhasználó jelszava vagy hasonló hitelesítési titkos kulcs, például a PIN-kód másodpercek számát. lejár. |
 
 > [!NOTE]
