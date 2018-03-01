@@ -1,15 +1,15 @@
 ---
-title: "Speciális elemzésekre"
+title: "Bővített analitika"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 8fd3a4d8eea9e507b3e75ab825c4bd88c0eb5149
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 31ba357fe37b1de35a6eea324d2d1d6766e172e5
+ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 02/27/2018
 ---
-# <a name="advanced-analytics"></a>Speciális elemzésekre
+# <a name="advanced-analytics"></a>Bővített analitika
 
 Speciális elemzésekre túllép a korábbi jelentéskészítési és a hagyományos üzleti intelligenciával és matematikai, használja a probabilisztikus és statisztikai modellezési módszereket adatösszesítés prediktív feldolgozási és automatizált révén engedélyezése .
 

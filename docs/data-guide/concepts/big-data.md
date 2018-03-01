@@ -1,17 +1,17 @@
 ---
-title: "Big Data típusú adatok architektúrák"
+title: "Big data-architektúrák"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 6ee44c6d94ae7ac5cb67cb5f16337deb1ffd4b70
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 2a1336faea81470b082d4eef8e2cc53a082c63c7
+ms.sourcegitcommit: 023d88e781f7fe64c62b247d876441ee40921b1b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 02/28/2018
 ---
-# <a name="big-data-architectures"></a>Big Data típusú adatok architektúrák
+# <a name="big-data-architectures"></a>Big data-architektúrák
 
-A big Data típusú adatok architektúra az adatfeldolgozást, feldolgozása és elemzések adatok, amelyek túl nagy vagy túl bonyolult, a hagyományos adatbázis-rendszerek kezelésére terveztek. A küszöbérték, amellyel a szervezetek írja be a big Data típusú adatok tartomány eltér attól függően, hogy a felhasználók és az eszközök képességeit. Az egyes azzal járhat több száz gigabájt adatok, míg mások több száz terabájt jelent. Munkavégzés big data készletek eszközök előzetes, mivel ezáltal a big Data típusú adatok jelentése. Nagyobb ez a kifejezés vonatkozik, az érték kinyerése a speciális elemzés keresztül adatkészletek ahelyett, hogy szigorúan csak az adatok mérete bár az ezekben az esetekben Igen tekintélyes lehet általában.
+A big data típusú architektúrák kialakításuknak köszönhetően képesek kezelni az olyan adatok bevitelét, feldolgozását és elemzését, amelyek túl nagyok vagy túl összetettek a hagyományos adatbázisrendszerek számára. A küszöbérték, amellyel a szervezetek írja be a big Data típusú adatok tartomány eltér attól függően, hogy a felhasználók és az eszközök képességeit. Az egyes azzal járhat több száz gigabájt adatok, míg mások több száz terabájt jelent. Munkavégzés big data készletek eszközök előzetes, mivel ezáltal a big Data típusú adatok jelentése. Nagyobb ez a kifejezés vonatkozik, az érték kinyerése a speciális elemzés keresztül adatkészletek ahelyett, hogy szigorúan csak az adatok mérete bár az ezekben az esetekben Igen tekintélyes lehet általában.
 
 Az évek során az adatok fekvő megváltozott. Milyen akkor teheti meg, vagy tegye, várhatóan adatokkal megváltozott. A tárolók költségét jelentősen, csökkent, amíg az összegyűjtött adatok azt jelenti, hogy növekvő tartja. Néhány adat érkezik egy gyors lépést, folyamatosan gyűjti és megfigyelt igényelnek. Egyéb adat érkezik lassabb, de a nagyon nagy méretű adattömböket, gyakran előzményadatoknak évtizedekben formájában. Előfordulhat, hogy egy speciális elemzésekre probléma, vagy egy gépi tanulás igénylő szemben. Ezek a kihívások, amely a big Data típusú adatok architektúrák pozícionálni oldja meg.
 
@@ -55,19 +55,6 @@ A big data-architektúrák vagy azok egy részét az alábbi összetevőket tart
 * **Elemzési és jelentéskészítési**. A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. Építve a felhasználók számára az adatok elemzése, az architektúra a réteg, például a többdimenziós OLAP-kocka vagy az Azure Analysis Services táblázatos adatmodell modellezési adatokat is tartalmazhat. Az önkiszolgáló üzleti Intelligencia, a Microsoft Power bi-ban vagy a Microsoft Excel modellezési és a képi megjelenítés technológiái is használható lehet. Elemzési és jelentéskészítési is számos adatok interaktív áttekintését adatszakértőkön vagy adatelemzők formájában. Ezek a forgatókönyvek számos Azure-szolgáltatások támogatási analitikai notebookok, például a Jupyter, ezeket a felhasználókat, hogy kihasználja a meglévő ismeretei r és Python engedélyezése A nagyméretű adatok feltárása, használhatja a Microsoft R Server, vagy önálló vagy Spark.
 
 * **Vezénylési**. Megoldásokat ismételt adatfeldolgozási műveletek, a munkafolyamatokban, forrásadatok átalakító, beágyazott alkotják a big Data típusú adatok közötti több források és felül, a feldolgozott adatok betöltése az analitikus adatok tárolóba, vagy az eredményeket a egyenes leküldéses áthelyezése egy jelentést és az irányítópultot. Ezek a munkafolyamatok automatizálását, használhatja az orchestration technológia ilyen Azure Data Factory vagy az Apache Oozie és a Sqoop.
-
-## <a name="data-lake"></a>Data Lake
-
-Ha mindenképpen olvassa el a big data semmit, valószínű megtudhatta kifejezés _a data lake_. Előfordulhat, hogy a látható a word, a termék, vagy lehet, hogy a nagy mennyiségű adatok tárolására vonatkozó koncepció nevét használja. 
-
-Data lake mind a tároló, mind a feldolgozási áll. Több célok szem előtt tartásával a Data lake tárolási épül: hibatűrést, a végtelen méretezhetőség és a nagy átviteli adatfeldolgozást az adatok különböző alakra. Data lake feldolgozási magában foglalja egy vagy több feldolgozórendszerekkel ezen célok szem előtt-val készült, és léptékű data lake-ben tárolt adatokat is működik.
-
-Data lake tárolók gyakran használják adatfolyam-esemény vagy az IoT-forgatókönyvek esetén, mert nagy mennyiségű relációs és nonrelational adatok átalakítása vagy a séma meghatározása nélkül is megőrzik. A kis késleltetésű kis írása jelentős mennyiségű kezelésére beépített, és jelentős átviteli sebességet vannak optimalizálva.
-
-Gyakran használt adatok forgatókönyvek egy másik kifejezés van _adatpiac_. Egy adatpiacot általában tisztítani, csomagolt, és az egyszerű felhasználás strukturált adattárat. Egy adatpiacot eltérően a data lake célja, hogy hagyja az eredeti, se a legkevésbé feldolgozott űrlap kérdések kéri, és különböző időpontokban különböző módokon nyers adatok. Az adatok tisztítani és a meghatározott módon strukturált, például egy adatpiacot az majd esetén az adatok feldolgozása és elemzése, amikor új kérdéseket és az eszközök olyan jövőbeli hogyan nehezen. Ezért a data lake áll mind a tároló, mind a feldolgozási külön entitásokként.
-
-Megfelelő Azure szolgáltatás:
-- [Azure Data Lake](https://azure.microsoft.com/scenarios/data-lake/)
 
 ## <a name="lambda-architecture"></a>Lambda architektúrája
 

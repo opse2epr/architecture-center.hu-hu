@@ -1,15 +1,15 @@
 ---
-title: "A szemantikai modellezési"
+title: "Szemantikai modellezés"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: e989a7a5a58e7d05e261931005069bb12bd79186
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 343d17af0d933d515c724a062237c8d5df3a9e31
+ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 02/27/2018
 ---
-# <a name="semantic-modeling"></a>A szemantikai modellezési
+# <a name="semantic-modeling"></a>Szemantikai modellezés
 
 A szemantikai adatmodell a fogalmi modell, amely leírja a benne található adatelemek szerinti. Szervezetek sokszor a saját feltételei dolgot, egyes esetekben a szinonimák, vagy akár különböző jelentésekkel azonos kifejezés. Például egy készlet adatbázis előfordulhat, hogy nyomon berendezés, eszköz-Azonosítóval és a sorszámot, de az értékesítési adatbázis utalhat a sorozatszám eszköz azonosítóként Nincs egyszerű mód más ezeket az értékeket egy modell, amely leírja a kapcsolat nélkül. 
 
@@ -46,7 +46,6 @@ A szemantikai modellezési és elemzésfeldolgozási általában a következő j
 
 | Követelmény | Leírás |
 | --- | --- |
-| Normalizálási | Magas normalizált |
 | Séma | Írás, erősen kényszerített séma|
 | Használja a tranzakciók | Nem |
 | Zárolási stratégia | Nincs |

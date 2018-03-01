@@ -4,11 +4,11 @@ description: "Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltete
 author: dragon119
 ms.date: 02/02/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: 9ee9099c85818af9486408f6ece41d3f6fcd9b44
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: 42b73db08ecef858f5279ea292cf8c0df77b847c
+ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 02/27/2018
 ---
 # <a name="best-practices-for-using-content-delivery-networks-cdns"></a>Gyakorlati tanácsok a tartalomkézbesítési hálózat (tartalomtovábbító) használatát
 
@@ -91,7 +91,7 @@ Ha az eszközök statikus betűtípus fájlok például a CDN használatával, p
 
 * A CORS fejlécek hozzáadása a válaszokat a CDN konfigurálásához. További információkért lásd: [az Azure CDN szolgáltatás használata a CORS](/azure/cdn/cdn-cors). 
 * Ha a forrás az Azure blob Storage tárolóban, vegye fel a CORS-szabályokat a storage-végponthoz. További információkért lásd: [Cross-Origin Resource Sharing (CORS) támogatása az Azure Storage szolgáltatásainak](http://msdn.microsoft.com/library/azure/dn535601.aspx).
-* Konfigurálja a CORS fejlécek beállítása az alkalmazást. Lásd például: [engedélyezi eltérő eredetű kérések (CORS)](/aspnet/core/security/cors) az ASp.NET Core dokumentációjában.
+* Konfigurálja a CORS fejlécek beállítása az alkalmazást. Lásd például: [engedélyezi eltérő eredetű kérések (CORS)](/aspnet/core/security/cors) az ASP.NET Core dokumentációjában.
 
 ### <a name="cdn-fallback"></a>CDN tartalék
 Vegye figyelembe, hogyan az alkalmazás fogja a folyamatosan növekvő adatmennyiségnek hiba vagy ideiglenes hiányában a CDN-t. Előfordulhat, hogy ügyfélalkalmazások másolja a helyileg (az ügyfél) a gyorsítótárazott erőforrások használhatják az előző kérelem során, vagy megadhat kódot, amely hibát észlel, és helyette a forrásból (az alkalmazás mappájában, vagy az Azure blob-erőforrások kérelmek az tároló, amely az erőforrások) Ha a CDN nem érhető el.
