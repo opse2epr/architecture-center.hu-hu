@@ -39,6 +39,8 @@
               href: concepts/non-relational-data.md
             - name: CSV- és JSON-fájlok használata
               href: concepts/csv-and-json.md
+            - name: Data lake tárolók
+              href: concepts/data-lake.md
             - name: Big data-architektúrák
               href: concepts/big-data.md
             - name: Bővített analitika
