@@ -3,11 +3,11 @@ title: "Kötegelt feldolgozás"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 55113b61c2684a7826fa6c0034503f842cdb840f
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: d3d3b92034c251586ecc9caff2785ecd0808b2a7
+ms.sourcegitcommit: 943e671a8d522cef5ddc8c6e04848134b03c2de4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/05/2018
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
@@ -19,11 +19,11 @@ Például a webkiszolgáló naplói mappába másolt előfordulhat, hogy, és ma
 
 ## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
 
-Kötegfeldolgozási lehetőségeket, egyszerű adatátalakítást jóval összetettebb ETL (extract-átalakítási-betöltés)-feldolgozási folyamat különböző használatban van. A big Data típusú adatok környezetben kötegfeldolgozási előfordulhat, hogy hatnak a nagyon nagy méretű adatkészletekhez, ahol a számítási jelentős időt vesz igénybe. (Lásd például: [Lambda architektúra](../concepts/big-data.md##lambda-architecture).) Kötegfeldolgozási általában további interaktív adatkutatási vezet, a modellezési használatra kész adatokat biztosít a gépi tanulás, vagy a adatokat ír az adattároló, amely elemzés és -megjelenítésre van optimalizálva.
+Kötegfeldolgozási lehetőségeket, egyszerű adatátalakítást jóval összetettebb ETL (extract-átalakítási-betöltés)-feldolgozási folyamat különböző használatban van. A big Data típusú adatok környezetben kötegfeldolgozási előfordulhat, hogy hatnak a nagyon nagy méretű adatkészletekhez, ahol a számítási jelentős időt vesz igénybe. (Lásd például: [Lambda architektúra](../concepts/big-data.md#lambda-architecture).) Kötegfeldolgozási általában további interaktív adatkutatási vezet, a modellezési használatra kész adatokat biztosít a gépi tanulás, vagy a adatokat ír az adattároló, amely elemzés és -megjelenítésre van optimalizálva.
 
 Egy példa a köteges feldolgozás van átalakítása egyszerű, félig strukturált CSV- vagy JSON-fájlok számos olyan formátumra sematizált és strukturált, amely készen áll a további lekérdezése. Általában az adatok alakul a nyers formátumok adatfeldolgozást (például a fürt megosztott kötetei szolgáltatás) használatos bináris formátum, amelyek több performant lekérdezése, mert az adat tárolása oszlopos formátumot, és gyakran biztosítanak az indexek és az adatok beágyazott statisztikája.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 - **Adatok formázása és kódolás**. A legbonyolultabb problémák hibakeresési fordulhat elő, ha a fájlok használata érvénytelen formátumú vagy kódolást. Például forrásfájlok előfordulhat, hogy az UTF-16 és UTF-8 kódolását, vagy váratlan elválasztó karaktert (hely és a lapon) tartalmaz, vagy használni nem várt karakter. Egy másik közös: tartalmazó lapokat, szóközök és vesszővel válassza el egymástól, amelyeket az elválasztó karakterként szöveg mezők. Adatok betöltése és értelmezése logika vajon elég rugalmas az észlelésére, és ezek a problémák kezelésére kell lennie.
 
@@ -35,7 +35,7 @@ A kötegelt architektúrákban rendelkezik a következő logikai összetevők, a
 
 - **Adattárolás.** Általában egy elosztott szolgáltatásfájl-tároló, amely a különböző formátumokban nagy fájlok jelentős mennyiségű tára szolgálhatnak. Általános az ilyen tároló gyakran nevezik data lake. 
 
-- **Kötegfeldolgozási.** A big Data típusú adatok nagy mennyiségű jellege gyakran azt jelenti, hogy a megoldások kell feldolgozni az adatfájlok hosszan futó kötegelt feladatok segítségével szűréséhez, összesített és ellenkező esetben az adatok előkészítése az analysis. Általában ezeket a feladatokat tartalmaz, amely forrásfájlok olvasása, őket, és a kimeneti új fájlok írása. 
+- **Kötegfeldolgozási.** A big Data típusú adatok nagy mennyiségű jellege gyakran azt jelenti, hogy a megoldások kell feldolgozni az adatfájlok hosszan futó kötegelt feladatok segítségével szűréséhez, összesített és ellenkező esetben az adatok előkészítése az analysis. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. 
 
 - **Analitikai adatokat tároló.** Adatok előkészítése az elemzési és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel sok big data-megoldások tervezték. 
 
@@ -72,7 +72,7 @@ További információkért lásd: [kötegfeldolgozási](../technology-choices/ba
 
 További információkért lásd: [analitikai adattárolókhoz](../technology-choices/analytical-data-stores.md).
 
-### <a name="analytics-and-reporting"></a>Elemzés és jelentéskészítés
+### <a name="analytics-and-reporting"></a>Elemzések és jelentéskészítés
 
 - **Az Azure Analysis Services**. Sok big data-megoldások hagyományos vállalati üzleti intelligencia architektúrák emulálni (más néven a kocka) központi online analitikus feldolgozási (OLAP) adatmodell-ot a jelentéseket, irányítópultok, és interaktív "részletekbe menően" Analysis-alapú lehet. Az Azure Analysis Services többdimenziós és táblázatos modellek az igénynek a kielégítése létrehozását támogatja.
 - **Power BI**. A Power BI lehetővé teszi, hogy az adatelemzők, az adatok interaktív képi megjelenítéseket készíthet, az OLAP-modell, vagy közvetlenül az analitikus adatok áruházból adatmodellekben alapján.

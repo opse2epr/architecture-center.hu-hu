@@ -3,11 +3,11 @@ title: "A streamfeldolgozási technológia kiválasztása"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: e06f46e2951159219bd8cc430102e2ec0c5d6d4d
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 23d9849c14964b0905300f191a41084b589fd127
+ms.sourcegitcommit: 943e671a8d522cef5ddc8c6e04848134b03c2de4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/05/2018
 ---
 # <a name="choosing-a-stream-processing-technology-in-azure"></a>A streamfeldolgozási az Azure-ban technológia kiválasztása
 
@@ -19,6 +19,7 @@ Valós idejű stream feldolgozási üzenetek üzenetsorból vagy a fájlalapú t
 Azure-ban a valós idejű feldolgozással támogatja core követelményeknek megfelelő összes a következő adatokat tárolja:
 - [Azure Stream Analytics](/azure/stream-analytics/)
 - [HDInsight Spark Streamelési](/azure/hdinsight/spark/apache-spark-streaming-overview)
+- [Az Apache Spark on Azure Databricks](/azure/azure-databricks/)
 - [HDInsight Storm](/azure/hdinsight/storm/apache-storm-overview)
 - [Azure Functions](/azure/azure-functions/functions-overview)
 - [Azure App Service WebJobs](/azure/app-service/web-sites-create-web-jobs)
@@ -40,25 +41,25 @@ Valós idejű feldolgozással forgatókönyvek esetén az igényeinek megfelelő
 A következő táblázat összefoglalja a főbb változásai képességeit. 
 
 ### <a name="general-capabilities"></a>Általános képességek
-| | Azure Stream Analytics | HDInsight Spark Streamelési | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
-| --- | --- | --- | --- | --- | --- | 
-| Programozható | A Stream analytics lekérdezési nyelv, JavaScript | Scala, Python, Java | A Java, a C# | C#, F #, Node.js | C#, Node.js, PHP, Java, Python |
-| Programozási paradigma | Deklaratív | Deklaratív és imperatív | Imperatív | Imperatív | Imperatív |    
-| Díjszabási modell | Által adatfolyam-egységek | Fürt óránként | Fürt óránként | Egy függvény végrehajtása és erőforrás-felhasználás | App service csomag óránként |  
+| | Azure Stream Analytics | HDInsight Spark Streamelési | Apache Spark az Azure Databricksben | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
+| --- | --- | --- | --- | --- | --- | --- | 
+| Programozható | A Stream analytics lekérdezési nyelv, JavaScript | Scala, Python, Java | Scala, Python, Java, R | A Java, a C# | C#, F #, Node.js | C#, Node.js, PHP, Java, Python |
+| Programozási paradigma | Deklaratív | Deklaratív és imperatív | Deklaratív és imperatív | Imperatív | Imperatív | Imperatív |    
+| Díjszabási modell | [Adatfolyam-egységek](https://azure.microsoft.com/pricing/details/stream-analytics/) | Fürt óránként | [Databricks egység](https://azure.microsoft.com/pricing/details/databricks/) | Fürt óránként | Egy függvény végrehajtása és erőforrás-felhasználás | App service csomag óránként |  
 
 ### <a name="integration-capabilities"></a>Integrációs funkciók
-| | Azure Stream Analytics | HDInsight Spark Streamelési | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
-| --- | --- | --- | --- | --- | --- | 
-| Bemenetek | [Stream Analytics bemenetek](/azure/stream-analytics/stream-analytics-define-inputs)  | Event Hubs, IoT Hub, Kafka, HDFS  | Az Event Hubs, IoT-központot, Storage blobs szolgáltatásban, az Azure Data Lake Store  | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, Tárüzenetsort, Storage blobs szolgáltatásban, az Event Hubs, Webhookokkal, DB, Cosmos-fájlok |
-| fogadók esetében |  [A Stream Analytics kimenete](/azure/stream-analytics/stream-analytics-define-outputs) | HDFS | Event Hubs, Service Bus, Kafka | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, Tárüzenetsort, Storage blobs szolgáltatásban, az Event Hubs, Webhookokkal, DB, Cosmos-fájlok | 
+| | Azure Stream Analytics | HDInsight Spark Streamelési | Apache Spark az Azure Databricksben | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
+| --- | --- | --- | --- | --- | --- | --- | 
+| Bemenetek | [Stream Analytics bemenetek](/azure/stream-analytics/stream-analytics-define-inputs)  | Az Event Hubs, IoT-központot, Kafka, HDFS, Storage blobs szolgáltatásban, az Azure Data Lake Store  | Az Event Hubs, IoT-központot, Kafka, HDFS, Storage blobs szolgáltatásban, az Azure Data Lake Store  | Az Event Hubs, IoT-központot, Storage blobs szolgáltatásban, az Azure Data Lake Store  | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, Tárüzenetsort, Storage blobs szolgáltatásban, az Event Hubs, Webhookokkal, DB, Cosmos-fájlok |
+| fogadók esetében |  [A Stream Analytics kimenete](/azure/stream-analytics/stream-analytics-define-outputs) | HDFS, Kafka, Storage blobs szolgáltatásban, az Azure Data Lake Store, Cosmos DB | HDFS, Kafka, Storage blobs szolgáltatásban, az Azure Data Lake Store, Cosmos DB | Event Hubs, Service Bus, Kafka | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, Tárüzenetsort, Storage blobs szolgáltatásban, az Event Hubs, Webhookokkal, DB, Cosmos-fájlok | 
 
 ### <a name="processing-capabilities"></a>Feldolgozási képességek
-| | Azure Stream Analytics | HDInsight Spark Streamelési | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
-| --- | --- | --- | --- | --- | --- | 
-| Beépített historikus Ablakozó/támogatása | Igen | Igen | Igen | Nem | Nem |
-| A bemeneti adatok formátumok | Az Avro, JSON vagy CSV, UTF-8 kódolású | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban |
-| Méretezhetőség | [Lekérdezési partíciók](/azure/stream-analytics/stream-analytics-parallelization) | Fürt méretét, amelyet | Fürt méretét, amelyet | 200 függvény app példányok párhuzamos feldolgozása | Amelyet az app service csomag kapacitás | 
-| Késő érkezés és nem megfelelő sorrendben eseménykezelést | Igen | Igen | Igen | Nem | Nem |
+| | Azure Stream Analytics | HDInsight Spark Streamelési | Apache Spark az Azure Databricksben | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
+| --- | --- | --- | --- | --- | --- | --- | 
+| Beépített historikus Ablakozó/támogatása | Igen | Igen | Igen | Igen | Nem | Nem |
+| A bemeneti adatok formátumok | Az Avro, JSON vagy CSV, UTF-8 kódolású | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban | Olyan egyéni kód használatával formátumban |
+| Méretezhetőség | [Lekérdezési partíciók](/azure/stream-analytics/stream-analytics-parallelization) | Fürt méretét, amelyet | Határolt Databricks méretezési fürtkonfiguráció | Fürt méretét, amelyet | 200 függvény app példányok párhuzamos feldolgozása | Amelyet az app service csomag kapacitás | 
+| Késő érkezés és nem megfelelő sorrendben eseménykezelést | Igen | Igen | Igen | Igen | Nem | Nem |
 
 Lásd még:
 

@@ -3,17 +3,17 @@ title: "Tranzakciós adatok"
 description: 
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 6277badde1845c42858e69f6c8ecc73331e7a945
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: b7fdbb403d2a438ebc59e40ef58ed8067489dddc
+ms.sourcegitcommit: 943e671a8d522cef5ddc8c6e04848134b03c2de4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/05/2018
 ---
 # <a name="transactional-data"></a>Tranzakciós adatok
 
 Tranzakciós adatok, amely nyomon követi a kapcsolati, a szervezetek tevékenységekkel kapcsolatos információkat. A kapcsolati jellemzően üzleti tranzakciók, például az ügyfelektől, szállítók, a leltározást, végrehajtott rendeléseket és a szolgáltatások kézbesíteni való áthaladás termékek kifizetéseket kapott. Tranzakciós események, amelyek megfelelnek a tranzakciók magukat, általában a egy time dimenzió, bizonyos számértékeket és egyéb adatok mutató hivatkozásokat tartalmaz. 
 
-Tranzakciók általában kell lenniük *atomi* és *konzisztens*. Atomicity azt jelenti, hogy a teljes tranzakció mindig sikeres vagy sikertelen munka egy egységként, soha nem egy félig kitöltött állapotban marad. A tranzakció nem hajtható végre, ha az adatbázis-rendszer kell visszaállítása volt meg, hogy a tranzakció részeként műveleteket. A hagyományos RDBMS a visszaállítás automatikusan történik, ha a tranzakció nem lehet compoleted. Konzisztencia azt jelenti, hogy tranzakciók mindig hagyja meg az adatokat állapota érvénytelen. (Ezek a atomicity és konzisztencia nagyon kötetlen leírását. Nincsenek formális definíciója ezeket a tulajdonságokat, például a [sav](https://en.wikipedia.org/wiki/ACID).)
+Tranzakciók általában kell lenniük *atomi* és *konzisztens*. Atomicity azt jelenti, hogy a teljes tranzakció mindig sikeres vagy sikertelen munka egy egységként, soha nem egy félig kitöltött állapotban marad. A tranzakció nem hajtható végre, ha az adatbázis-rendszer kell visszaállítása volt meg, hogy a tranzakció részeként műveleteket. A hagyományos RDBMS a visszaállítás automatikusan történik, a tranzakció nem hajtható végre, ha. Konzisztencia azt jelenti, hogy tranzakciók mindig hagyja meg az adatokat állapota érvénytelen. (Ezek a atomicity és konzisztencia nagyon kötetlen leírását. Nincsenek formális definíciója ezeket a tulajdonságokat, például a [sav](https://en.wikipedia.org/wiki/ACID).)
 
 Tranzakciós adatbázisok is támogatja az erős konzisztencia, különböző zárolási, például pesszimista zárolás használatával gondoskodjon arról, hogy minden adatot a vállalati keretén belül kifejezetten konzisztens tranzakciókhoz, a felhasználók és a folyamatok. 
 
