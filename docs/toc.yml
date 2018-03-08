@@ -110,8 +110,10 @@
       href: checklist/availability.md
     - name: DevOps
       href: checklist/dev-ops.md
-    - name: Resiliency
+    - name: Rugalmasság (általános)
       href: checklist/resiliency.md
+    - name: Rugalmasság (Azure-szolgáltatások)
+      href: checklist/resiliency-per-service.md
     - name: Méretezhetőség
       href: checklist/scalability.md
 - name: Rugalmasságot szem előtt tartó tervezés
@@ -132,8 +134,6 @@
       href: service-fabric/migrate-from-cloud-services.md
     - name: Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
       href: service-fabric/refactor-migrated-app.md
-    - name: Elasticsearch futtatása az Azure-on
-      href: elasticsearch/index.md
     - name: Az Azure Resource Manager-sablon funkciójának bővítése
       href: building-blocks/extending-templates/index.md
 - name: További források
