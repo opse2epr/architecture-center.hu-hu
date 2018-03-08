@@ -25,6 +25,8 @@
           href: hybrid-networking/expressroute-vpn-failover.md
         - name: Küllős topológia
           href: hybrid-networking/hub-spoke.md
+        - name: Küllős topológia közös szolgáltatásokkal
+          href: hybrid-networking/shared-services.md
     - name: Identitáskezelés
       href: identity/index.md
       items:
