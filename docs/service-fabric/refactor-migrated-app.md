@@ -3,11 +3,11 @@ title: "Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások új
 description: "Egy meglévő Azure Service Fabric-alkalmazás refactor hogyan átemelt Azure Cloud Services csomag"
 author: petertay
 ms.date: 01/30/2018
-ms.openlocfilehash: 450648fbd0b19cdc7585738701914a1ebc1ed779
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: 08ef3af68b8eaba36a5b871449f0aba764fe5a04
+ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 03/08/2018
 ---
 # <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
 
@@ -78,7 +78,7 @@ Az alábbi ábra a részletesebb architektúrát átkerült felmérések alkalma
 
 Az Azure Service Fabric támogatja a következő programozási modellek:
 * A Vendég végrehajtható modell lehetővé teszi, hogy a szolgáltatás csomagolni, és a Service Fabric-fürt központi telepítése a végrehajtható fájlok. A Service Fabric koordinálja, és a Vendég végrehajtható végrehajtási kezeli.
-* A tároló modell lehetővé teszi, hogy a tároló-lemezképekben szolgáltatások telepítését. A Service Fabric létrehozását támogatja, és a Linux kernel fölött tárolók kezelése tartalmazza, valamint a Windows Server-tárolók. 
+* A tároló modell lehetővé teszi, hogy a tároló-lemezképekben szolgáltatások telepítését. A Service Fabric létrehozása és kezelése Linux kernel tárolók, valamint a Windows Server-tárolók fölött tárolók támogatja. 
 * A megbízható szolgáltatások programozási modell lehetővé teszi, hogy állapot nélküli és állapotalapú szolgáltatások, amelyek integrálják az összes Service Fabric platform szolgáltatás létrehozásához. Állapotalapú szolgáltatások lehetővé teszik a rendszer ne tárolja őket a Service Fabric-fürt replikált állapothoz. Állapotmentes szolgáltatások azonban nem.
 * A megbízható actors programozási modell lehetővé teszi, hogy a virtuális szereplő mintát megvalósító szolgáltatások létrehozásához.
 

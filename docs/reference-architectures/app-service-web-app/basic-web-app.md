@@ -1,19 +1,19 @@
 ---
 title: "Alapszintű webalkalmazás"
-description: "A Microsoft Azure-ban futó webalkalmazás alapvető ajánlott architektúra."
+description: "A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasolt architektúra."
 author: MikeWasson
 ms.date: 12/12/2017
 cardTitle: Basic web application
-ms.openlocfilehash: 598eb547f0e96ae334af391183a792637caa8631
-ms.sourcegitcommit: 1c0465cea4ceb9ba9bb5e8f1a8a04d3ba2fa5acd
+ms.openlocfilehash: 38b0739cc61d679742b610b99e92aaad8d3b394d
+ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/02/2018
+ms.lasthandoff: 03/08/2018
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
 
-A referencia-architektúrában jeleníti meg a webes alkalmazás esetén bevált gyakorlatok csoportja [Azure App Service] [ app-service] és [Azure SQL Database] [ sql-db]. [**A megoldás üzembe helyezéséhez.**](#deploy-the-solution)
+Ez a referenciaarchitektúra bevált eljárásokat mutat be az [Azure App Service][app-service]-t és az [Azure SQL Database][sql-db]-t használó webalkalmazásokhoz. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![[0]][0]
 
@@ -22,184 +22,184 @@ A referencia-architektúrában jeleníti meg a webes alkalmazás esetén bevált
 ## <a name="architecture"></a>Architektúra 
 
 > [!NOTE]
-> Ez az architektúra nem összpontosítani alkalmazásfejlesztés, és nem feltételezi azt minden egyes alkalmazás-keretrendszer. Az célja annak megértése, hogyan különböző Azure-szolgáltatások működnek együtt.
+> Ez az architektúra nem az alkalmazásfejlesztésre összpontosít, és nem feltételezi semmilyen konkrét alkalmazás-keretrendszer használatát. A célja, hogy ismertesse a különböző Azure-szolgáltatások együttes használatát.
 >
 >
 
-Az architektúra a következő részből áll:
+Az architektúra a következő összetevőkből áll:
 
-* **Erőforráscsoport**. A [erőforráscsoport](/azure/azure-resource-manager/resource-group-overview) Azure-erőforrások logikai tárolója.
+* **Erőforráscsoport**. Az [erőforráscsoport](/azure/azure-resource-manager/resource-group-overview) az Azure-erőforrások logikai tárolója.
 
-* **App Service alkalmazás**. [Az Azure App Service] [ app-service] egy teljes körűen felügyelt platform létrehozására és központi telepítésére a felhőalapú alkalmazásokhoz.     
+* **App Service-alkalmazás**. Az [Azure App Service][app-service] egy teljes körűen felügyelt platform felhőalapú alkalmazások létrehozásához és üzembe helyezéséhez.     
 
-* **App Service-csomag**. Egy [App Service-csomag] [ app-service-plans] biztosít a felügyelt üzemeltető virtuális gépek (VM) az alkalmazás. Futtassa az ugyanazon Virtuálisgép-példányok a csomagot hozzárendelt összes alkalmazáshoz.
+* **App Service-csomag**. Az [App Service-csomag][app-service-plans] biztosítja az alkalmazást futtató felügyelt virtuális gépeket (VM). Az egy adott csomaghoz tartozó alkalmazások mindig ugyanazokon a virtuálisgép-példányokon futnak.
 
-* **Üzembe helyezési**.  A [üzembe helyezési pont] [ deployment-slots] lehetővé teszi, hogy a központi telepítés tesztelése és felcserélni az éles üzemelő példányhoz. Így elkerülheti a közvetlenül éles környezetben üzembe helyezése. Tekintse meg a [kezelhetőségi](#manageability-considerations) szakasz konkrét javaslatokért.
+* **Üzembehelyezési pontok**.  Az [üzembehelyezési pontok][deployment-slots] lehetővé teszik egy üzemelő példány előkészítését, majd áthelyezését az éles környezetbe. Így elkerülhető a közvetlenül az éles környezetbe való üzembe helyezés. Konkrét javaslatokért tekintse meg a [Felügyeleti szempontok](#manageability-considerations) szakaszt.
 
-* **IP-cím**. Az App Service alkalmazás rendelkezik, egy nyilvános IP-cím és tartománynév. A tartománynév altartománya `azurewebsites.net`, például a `contoso.azurewebsites.net`.  
+* **IP-cím**. Az App Service-alkalmazás rendelkezik egy nyilvános IP-címmel és egy tartománynévvel. A tartománynév az `azurewebsites.net` altartománya, például `contoso.azurewebsites.net`.  
 
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti. Egy egyéni tartománynevet használni (például `contoso.com`), az egyéni tartománynév leképezése az IP-cím DNS-rekordok létrehozása. További információkért lásd: [egyéni tartománynév beállítása az Azure App Service][custom-domain-name].  
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti. Egyéni tartománynév (például `contoso.com`) használatához hozzon létre DNS-rekordokat, amelyek leképezik az egyéni tartománynevet az IP-címre. További információkat az [egyéni tartománynevek az Azure App Service-ben való konfigurálásával][custom-domain-name] kapcsolatos cikkben olvashat.  
 
-* **Azure SQL Database** [SQL-adatbázis] [ sql-db] egy relációs adatbázis-a-szolgáltatás a felhőben van.
+* **Azure SQL Database** Az [SQL Database][sql-db] egy felhőben futó, szolgáltatásként nyújtott relációs adatbázis. SQL-adatbázis a Microsoft SQL Server adatbázis-kezelő a kódbázis osztanak meg. Az alkalmazás követelményeitől függően használhatja [MySQL az Azure-adatbázis](/azure/mysql) vagy [PostgreSQL az Azure-adatbázis](/azure/postgresql). Ezek a teljes körűen felügyelt adatbázis-szolgáltatások, a nyílt forráskódú MySQL-kiszolgáló és Postgres adatbázis-kezelők, illetve alapján.
 
-* **A logikai kiszolgáló**. Az Azure SQL Database logikai kiszolgáló üzemelteti az adatbázisokat. Egy logikai kiszolgálón több adatbázist hozhat létre.
+* **Logikai kiszolgáló**. Az Azure SQL Database-ben egy logikai kiszolgáló üzemelteti az adatbázisokat. Logikai kiszolgálónként több adatbázis is létrehozható.
 
-* **Azure Storage**. Hozzon létre egy Azure storage-fiók egy blob-tároló diagnosztikai naplók tárolásához.
+* **Azure Storage**. Hozzon létre egy Azure Storage-fiókot és egy blobtárolót a diagnosztikai naplók tárolásához.
 
-* **Az Azure Active Directory** (az Azure AD). Használja az Azure AD vagy egy másik identitásszolgáltató-hitelesítéshez.
+* **Azure Active Directory** (Azure AD). A hitelesítéshez használja az Azure AD-t vagy egy másik identitásszolgáltatót.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
-Az Ön követelményei eltérhetnek az itt leírt architektúrától. A javaslatok használja ebben a szakaszban kiindulási pontként.
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. A jelen szakaszban leírt javaslatokat tekintse kiindulópontnak.
 
-### <a name="app-service-plan"></a>App Service-csomagot
-A Standard vagy prémium rétegek akkor használható, mert támogatják a bővített kapacitású, automatikus skálázás, és a secure sockets layer (SSL). Minden egyes réteg támogatja több *példány mérete* magok száma és memória, amely eltérő. Terv létrehozása után módosíthatja a réteg vagy a példány mérete. App Service-csomagokról kapcsolatos további információkért lásd: [App Service szolgáltatás díjszabása][app-service-plans-tiers].
+### <a name="app-service-plan"></a>App Service-csomag
+Használjon standard vagy prémium szintű csomagokat, amelyek támogatják a horizontális felskálázást, az automatikus skálázást és az SSL-t. Az egyes szintek több különféle *példányméretet* támogatnak, amelyek eltérő mennyiségű processzormagot és memóriát biztosítanak. A csomag létrehozása után módosíthatja a szintet és a példányméretet. További információk az App Service-csomagokról: [App Service – díjszabás][app-service-plans-tiers].
 
-Van szó, a példányok az App Service-csomag, még akkor is, ha az alkalmazás leállt. Ügyeljen arra, hogy terveket, amelyeket nem használ (például a próbatelepítések) törlése.
+A számlázás az App Service-csomagban található példányok alapján történik, még akkor is, ha az alkalmazás leállt. Ügyeljen arra, hogy a nem használt csomagokat (például a tesztelési célú telepítéseket) törölje.
 
 ### <a name="sql-database"></a>SQL Database
-Használja a [12-es verzióra] [ sql-db-v12] SQL-adatbázis. SQL-adatbázis támogatja a Basic, Standard és Premium [szolgáltatásszintek][sql-db-service-tiers], több teljesítménnyel belül az egyes rétegek szintek mért [adatbázis-tranzakciós egységek (dtu-k)][sql-dtu]. Kapacitástervezés, és válassza ki azt, amelyik megfelel a követelményeknek és teljesítményszintet szintet.
+Használja az SQL Database [12-es verzióját][sql-db-v12]. Az SQL Database az alapszintű, a standard és a prémium [szolgáltatásszintet][sql-db-service-tiers] támogatja. Mindegyik szinten több teljesítményszint érhető el, amelyek mérése [adatbázis-tranzakciós egységben (DTU-ban)][sql-dtu] történik. Tervezze meg a kapacitást, és válasszon az igényeinek megfelelő szolgáltatásszintet és teljesítményszintet.
 
 ### <a name="region"></a>Régió
-Az App Service-csomag és az SQL-adatbázis ugyanabban a régióban, hálózati késés csökkentése érdekében érdemes telepíteni. Általában válassza ki a felhasználók a legközelebb eső régiót.
+Telepítse az App Service-csomagot és az SQL Database-t ugyanabban a régióban a hálózati késés minimalizálása érdekében. Általában érdemes a felhasználókhoz legközelebbi régiót választani.
 
-Az erőforráscsoport egy régiót, amely megadja a központi telepítési metaadatok tárolására is rendelkezik. Helyezze el az erőforráscsoportot és az erőforrások ugyanabban a régióban. Ez javíthatja a rendelkezésre állási üzembe helyezése során. 
+Az erőforráscsoportnak szintén van régiója, amely azt adja meg, hogy a telepítés metaadatai hol vannak tárolva. Az erőforráscsoportot és a hozzá tartozó erőforrásokat helyezze ugyanabba a régióba. Ez javíthatja a rendelkezésre állást az üzembe helyezés során. 
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Egy Azure App Service fő előnye az alkalmazás terhelés alapján méretezési képességét. Az alábbiakban néhány szempontot szem előtt tartani az alkalmazás horizontális tervezése során.
+Az Azure App Service egyik fő előnye az alkalmazások skálázásának lehetősége a terhelés alapján. A következő szempontokat kell szem előtt tartani az alkalmazás skálázásának tervezésekor.
 
-### <a name="scaling-the-app-service-app"></a>Az App Service alkalmazás skálázás
+### <a name="scaling-the-app-service-app"></a>Az App Service-alkalmazás skálázása
 
-Egy App Service-alkalmazást méretezési két módja van:
+Az App Service-alkalmazások skálázásának két módja van:
 
-* *Vertikális felskálázás*, ami azt jelenti, hogy a példány méretének módosítása. A példány mérete határozza meg a memória, a magok száma, és minden egyes Virtuálisgép-példány tárolója. Legfeljebb manuálisan példányméretének vagy a csomag réteg módosításával.  
+* *Vertikális felskálázás*, azaz a példány méretének módosítása. A példány mérete határozza meg a memória mennyiségét, a magok számát és az egyes virtuálisgép-példányokon rendelkezésre álló tároló mennyiségét. Vertikálisan felskálázni manuálisan, a példányméret vagy a csomagszint módosításával lehet.  
 
-* *Horizontális felskálázás*, ami azt jelenti, hogy a megnövekedett terhelés kezelése hozzáadása. Minden tarifacsomag rendelkezik példányok maximális száma. 
+* *Horizontális felskálázás*, azaz további példányok hozzáadása a megnövekedett terhelés kezeléséhez. Minden tarifacsomaghoz meg van adva a példányok maximális száma. 
 
-  Horizontális felskálázás kézi a példányszámot módosításával, vagy használjon [automatikus skálázás] [ web-app-autoscale] való automatikusan és a egy ütemezést és/vagy a teljesítmény metrikák példányainak törlése. Minden egyes skálázási művelet gyorsan&mdash;általában másodpercen belül. 
+  A horizontális felskálázás elvégezhető a példányszám manuális módosításával vagy [automatikus skálázással][web-app-autoscale], amikor az Azure egy ütemezés és/vagy teljesítménymetrikák alapján automatikusan hozzáad vagy eltávolít példányokat a csomagból. Az egyes skálázási műveletek gyorsan, általában másodpercek alatt lezajlanak. 
 
-  Ahhoz, hogy az automatikus skálázást, hozzon létre egy automatikus skálázás *profil* , amely meghatározza, hogy a példányok minimális és maximális számát. Profilok ütemezhető. Létrehozhat például különálló profilok létrehozását és tartozik. Szükség esetén a profil hozzáadásához vagy eltávolításához példányok a szabályokat tartalmaz. (Példa: két példányt hozzáadása, ha CPU-használat 70 % feletti 5 perc.)
+  Az automatikus skálázás engedélyezéséhez hozzon létre egy automatikus skálázási *profilt*, amely meghatározza a példányok minimális és maximális számát. A profilok ütemezhetőek. Létrehozhat például külön profilokat munkanapokra és hétvégére. A profilok arra vonatkozó szabályokat is tartalmazhatnak, hogy mikor kell példányokat hozzáadni vagy eltávolítani. (Példa: Két példány hozzáadása, ha a CPU-használat 70% fölé emelkedik 5 perce.)
   
-A webes alkalmazás méretezéshez ajánlásokat:
+Javaslatok webalkalmazások skálázásához:
 
-* Amennyire csak lehet ne használjon skálázás felfelé és lefelé, mert azt indíthatnak újra kell indítani az alkalmazást. Ehelyett válassza ki a réteg és méretét, hogy alkalmazkodjanak a teljesítménykövetelményekhez szokásos terhelés és majd terjessze ki a példányok adatforgalma változásainak kezeléséhez.    
-* Automatikus skálázás engedélyezéséhez. Ha az alkalmazás egy előre jelezhető, rendszeres munkaterhelés, hozzon létre a profilt ütemezése előre a példányok számát. Ha a munkaterhelés nem előre jelezhető, akkor a szabály-alapú automatikus skálázás reagálni a terhelés módosításokat, azok bekövetkezésekor. Mindkét megközelítés kombinálhatja.
-* CPU-használat általában jó metrikáját automatikus skálázási szabályok. Azonban be kell tölteni az alkalmazás teszteléséhez, potenciális szűk keresztmetszetek azonosítása és az automatikus skálázási szabályok alapjául az adatokat.  
-* Automatikus skálázási szabályok a következők egy *várakozási* időszak, amely egy új skálázási művelet indítása előtt a méretezési művelet befejeződése után várakozási időt. A várakozási időszak lehetővé teszi, hogy a rendszer stabilizálását előtt skálázás megismételni. Állítsa be a példány és egy már várakozási időszak a példányok eltávolításához hozzáadásához rövidebb várakozási időszakot. Állítsa be például a 5 perc – adjon hozzá egy, de a példány eltávolítása 60 perc. Érdemes gyorsan számára a további forgalom kezelésére, és fokozatosan méretezését vissza túl nagy terhelés alatt új példányok felvételéhez.
+* Ha lehet, kerülje a vertikális fel- és leskálázást, mert ez az alkalmazás újraindítását okozhatja. Ehelyett válasszon egy olyan szintet és méretet, amely megfelel a teljesítményigényeinek tipikus terhelés mellett, majd horizontálisan skálázza fel a példányokat a megváltozott forgalommennyiség kezeléséhez.    
+* Engedélyezze az automatikus skálázást. Ha az alkalmazás kiszámítható és rendszeres számítási feladatokat lát el, profilok létrehozásával előre ütemezheti a példányok számát. Ha a számítási feladatok mennyisége nem jelezhető előre, használjon szabályalapú automatikus skálázást, amely azonnal reagál a bekövetkező változásokra. A két módszer kombinálható.
+* A CPU-használat általában jól használható metrikaként az automatikus skálázási szabályokhoz. Azonban az alkalmazáson terhelésteszteket kell végezni, azonosítani kell a potenciális szűk keresztmetszeteket, és ezek alapján kell megadni az automatikus skálázási szabályokat.  
+* Az automatikus skálázási szabályok tartalmaznak egy *nyugalomba kerülési* időt. Ez az az időtartam, amennyit a rendszer vár egy skálázási művelet befejezése után, mielőtt elindítana egy újabb skálázási műveletet. A nyugalomba kerülési idő lehetővé teszi a rendszer stabilizálását az újabb skálázási műveletek előtt. Példányok hozzáadásához állítson be rövidebb nyugalomba kerülési időt, az eltávolításukhoz pedig hosszabbat. Például állítson be 5 perc nyugalomba kerülési időt példányok hozzáadásához, példányok eltávolításához azonban 60 percet. Érdemesebb a nagy terhelés alatt gyorsan új példányokat hozzáadni a megnövekedett forgalom kezelésére, majd fokozatosan csökkenteni az erőforrások számát.
 
-### <a name="scaling-sql-database"></a>SQL-adatbázis méretezése
-Ha egy magasabb réteg vagy a teljesítmény szolgáltatásszint SQL-adatbázis, legfeljebb alkalmazásleállás elkerülése az egyes adatbázisokat. További információkért lásd: [SQL Database beállításai és teljesítménye: az egyes szolgáltatásszinteken elérhető][sql-db-scale].
+### <a name="scaling-sql-database"></a>Az SQL Database skálázása
+Ha magasabb szolgáltatásszintre vagy teljesítményszintre van szüksége az SQL Database-hez, az egyes adatbázisokat egyenként vertikálisan felskálázhatja az alkalmazás leállása nélkül. További információk: [Az SQL Database beállításai és teljesítménye: mi érhető el az egyes szolgáltatásszinteken][sql-db-scale].
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
-Írásának időpontjában a szolgáltatásiszint-szerződés (SLA) App Service 99,95 % pedig az SLA-t az SQL Database esetén a Basic, Standard és Premium szintjeinek 99,99 %. 
+Az oktatóanyag összeállításakor az App Service SLA-ja 99,95%, az SQL Database alap, standard és prémium szintjeinek SKA-ja pedig 99,99%. 
 
 > [!NOTE]
-> Az App Service SLA-t is egyetlen és több példány vonatkozik.  
+> Az App Service SLA-ja önálló példányokra és több példányra is vonatkozik.  
 >
 >
 
-### <a name="backups"></a>A hivatkozás a Safari böngészőben nem nyitható meg. Lehet, hogy a Safari használata korlátozva van a beállítások között, vagy a rendszergazda letiltotta a hozzáférést.
-Adatvesztés esetén az SQL-adatbázis biztosít pont időponthoz kötött visszaállítás és georedundáns helyreállítás. Ezeket a funkciókat minden csomagban elérhető, és automatikusan engedélyezve van. Nem kell ütemezni, vagy a biztonsági mentéseit. 
+### <a name="backups"></a>Biztonsági másolatok
+Adatvesztés esetén az SQL Database időponthoz kötött visszaállítást és georedundáns visszaállítást biztosít. Ezek a funkciók minden szinten elérhetőek, és automatikusan engedélyezve vannak. A biztonsági mentéseket nem kell ütemezni vagy kezelni. 
 
-- Használja a visszaállításhoz időpontban [emberi tévedések helyreállíthatók] [ sql-human-error] vissza az adatbázist egy korábbi időpontbeli időben. 
-- Használja a georedundáns helyreállítás [szolgáltatáskimaradás helyreállíthatók] [ sql-outage-recovery] állítja vissza egy adatbázist egy georedundáns biztonsági másolatból. 
+- Az időponthoz kötött visszaállítással [az emberi hibák állíthatók helyre][sql-human-error], mivel ez a funkció visszaállítja az adatbázist egy korábbi időpont szerinti állapotára. 
+- A georedundáns visszaállítás [szolgáltatáskimaradás utáni helyreállítást biztosít][sql-outage-recovery], mivel az adatbázist egy georedundáns biztonsági másolatból állítja vissza. 
 
-További információkért lásd: [üzleti folytonossági és az adatbázis katasztrófa utáni helyreállítás az SQL Database Felhőbeli][sql-backup].
+További információkért tekintse meg [a felhőalapú üzletmenet-folytonossággal és az SQL Database-zel végzett adatbázis-vészhelyreállítással][sql-backup] kapcsolatos cikket.
 
-App Service biztosít egy [biztonsági mentése és visszaállítása] [ web-app-backup] szolgáltatást ahhoz, hogy az alkalmazásfájlokat. Azonban ügyeljen arra, hogy a biztonságimásolat-fájlok tartalmazzák alkalmazásbeállítások egyszerű szövegként, és ezek közé tartozhatnak a titkos kulcsokat, például a kapcsolati karakterláncokat. Kerülje az alkalmazás biztonsági mentési szolgáltatás biztonsági mentése az SQL-adatbázisok, mert azt az adatbázis egy SQL .bacpac fájlba exportálja fel [dtu-k][sql-dtu]. Ehelyett használja a fenti SQL-adatbázis időpontban visszaállítás.
+Az App Service [biztonsági mentési és visszaállítási][web-app-backup] funkciót biztosít az alkalmazásfájlokhoz. Azonban ügyeljen arra, hogy a biztonságimásolat-fájlok egyszerű szövegként tartalmazzák az alkalmazásbeállításokat, amelyek titkos adatokat is tartalmazhatnak, például kapcsolati karakterláncokat. Kerülje az App Service biztonsági mentési funkciójának használatát az SQL-adatbázisok biztonsági mentéséhez, mert a funkció exportálja az adatbázist egy SQL .bacpac fájlba, és ezzel [DTU-kat][sql-dtu] fogyaszt. Ehelyett használja az SQL Database fentebb leírt, időponthoz kötött visszaállítását.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
-Termelési környezetben, fejlesztési, külön erőforráscsoportokat létrehozni, és tesztelési környezetben. Ez megkönnyíti a központi telepítések felügyeletéhez szükséges, törölje a próbatelepítések és hozzáférési engedélyek hozzárendelése.
+Termelési környezetben, fejlesztési, külön erőforráscsoportokat létrehozni, és tesztelési környezetben. Ez megkönnyíti az üzemelő példányok felügyeletét, a tesztkörnyezetek törlését és a hozzáférési jogok kiosztását.
 
-Erőforrások erőforráscsoportok rendelése, vegye figyelembe a következőket:
+Amikor erőforrásokat rendel az erőforráscsoportokhoz, vegye figyelembe a következőket:
 
-* Életciklusát. Az azonos életciklussal rendelkező erőforrásokat általában üzembe ugyanabban az erőforráscsoportban.
-* A hozzáférés. Használhat [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) hozzáférési házirendek alkalmazása az erőforrások csoportba.
-* Számlázási. Megtekintheti az összegzett költségeinek ahhoz az erőforráscsoporthoz.  
+* Életciklus. Általában érdemes az azonos életciklusú erőforrásokat ugyanabba az erőforráscsoportba helyezni.
+* Hozzáférés. A csoportokban található erőforrások hozzáférési szabályzatainak megadásához [szerepköralapú hozzáférés-vezérlést][rbac] (RBAC-t) használhat.
+* Számlázás. Megtekintheti az erőforráscsoport összegzett költségeit.  
 
 További információk: [Azure Resource Manager overview](/azure/azure-resource-manager/resource-group-overview) (Az Azure Resource Manager áttekintése).
 
-### <a name="deployment"></a>Üzembe helyezés
-Telepítés két lépésből áll:
+### <a name="deployment"></a>Környezet
+Az üzembe helyezés két lépésből áll:
 
-1. Az Azure-erőforrások kiépítése. Azt javasoljuk, hogy használjon [Azure Resoure Manager-sablonok] [ arm-template] ehhez a lépéshez. Sablonok megkönnyítik a PowerShell vagy az Azure parancssori felület (CLI) használatával központi telepítések automatizálásához.
-2. (A kódot, a bináris fájljait és a tartalomfájlok) az alkalmazás telepítéséhez. Több lehetőség közül választhat, beleértve a helyi Git-tárház telepítése a Visual Studio vagy felhőalapú verziókövetésből folyamatos üzembe helyezést. Lásd: [az alkalmazás telepítése az Azure App Service][deploy].  
+1. Az Azure-erőforrások kiépítése. Javasoljuk, hogy ehhez a lépéshez használjon [Azure Resoure Manager-sablonokat][arm-template]. A sablonok megkönnyítik az üzembe helyezések automatizálását a PowerShell vagy az Azure CLI használatával.
+2. Az alkalmazás (a kód, a bináris fájlok és a tartalomfájlok) üzembe helyezése. Több lehetőség közül választhat, például üzembe helyezést végezhet a helyi Git-adattárból, használhatja a Visual Studiót, vagy folyamatos üzembe helyezést végezhet egy felhőalapú forrásvezérlőből. További információkat az [alkalmazások az Azure App Service szolgáltatásban való üzembe helyezését][deploy] ismertető cikkben olvashat.  
 
-Egy App Service-alkalmazást mindenhol nevű egy üzembe helyezési pont `production`, amely jelöli az élő munkakörnyezeti helyet. Ajánlott létrehozni egy átmeneti helyet frissítéseinek telepítéséhez. Az előkészítési pont használatának előnyei a következők:
+Az App Service-alkalmazások mindig rendelkeznek egy `production` nevű üzembehelyezési ponttal, amely az éles helyet jelöli. Javasoljuk, hogy a frissítések telepítéséhez hozzon létre egy előkészítési pontot. Az előkészítési pont használatának előnyei a következők:
 
-* A telepítés sikeres volt, mielőtt az éles környezetben csere ellenőrizheti.
-* Átmeneti pont telepítése biztosítja, hogy a példányainak Mielőtt éles környezetben felcserélés folyamatban vannak tárolóhelyspecifikus. Számos alkalmazás jelentős melegítési és cold-a kezdési idő rendelkeznek.
+* Ellenőrizhető az üzembe helyezés sikeressége az éles környezetbe váltás előtt.
+* Az előkészítési pontra való üzembe helyezéssel biztosítható, hogy minden példány üzemkészen kerüljön az éles környezetbe. Számos alkalmazás jelentős melegítési és cold-a kezdési idő rendelkeznek.
 
-Javasoljuk továbbá, egy harmadik tárolóhely ahhoz, hogy a legutóbbi helyes központi telepítés létrehozása. Átmeneti és üzemi cserél, miután az utolsó helyes tárhely helyezze át a korábbi éles környezetben (amely most a tesztelési). Így ha később, a probléma felderítéséhez gyorsan visszatérhet a legutóbbi helyes verzióját.
+Javasoljuk továbbá egy harmadik pont létrehozását a legutóbbi megfelelően működő üzemelő példány tárolásához. Az előkészítési és az üzembehelyezési pontok közötti váltáskor a korábbi éles környezetet (amely most az előkészítési ponton található) helyezze át a legutóbbi megfelelően működő példányt tároló pontra. Így ha később probléma merül fel, gyorsan vissza lehet váltani a legutóbbi megfelelően működő verzióra.
 
 ![[1]][1]
 
-Visszaállítás egy korábbi verzióját esetén győződjön meg róla adatbázis séma módosításait visszamenőlegesen kompatibilis.
+Korábbi verzióra való visszaváltáskor győződjön meg arról, hogy az adatbázisok sémamódosításai visszamenőlegesen kompatibilisek.
 
-Ne használjon üzembe helyezési ponti a éles telepítés tesztelése, mert belül az azonos App Service-csomag összes alkalmazás ugyanazon Virtuálisgép-példányára. Például terhelés tesztek csökkentheti a élő munkakörnyezeti helyet. Ehelyett hozzon létre külön App Service-csomagokról éles és tesztelési. Tegyen próbatelepítést egy külön tervbe, hogy ezeket elszigeteli éles verzióját.
+Ne használja az éles környezet pontjait tesztelésre, mivel az egy adott App Service-csomagban található alkalmazások ugyanazokat a virtuálisgép-példányokat használják. Például terhelés tesztek csökkentheti a élő munkakörnyezeti helyet. Ehelyett hozzon létre külön App Service-csomagot az éles és a tesztelési környezethez. Tegyen próbatelepítést egy külön tervbe, hogy ezeket elszigeteli éles verzióját.
 
 ### <a name="configuration"></a>Konfiguráció
-Tárolja a konfigurációs beállításokat [Alkalmazásbeállítások][app-settings]. Adja meg az alkalmazás beállításaiban a Resource Manager-sablonok vagy a PowerShell használatával. Alkalmazása futásidőben Alkalmazásbeállítások érhetők el az alkalmazásra, amely a környezeti változók.
+Tárolja a konfigurációs beállításokat [alkalmazásbeállításokként][app-settings]. Adja meg az alkalmazás beállításait Resource Manager-sablonokkal, vagy a PowerShell-lel. Futtatáskor az alkalmazásbeállítások környezeti változókként elérhetők az alkalmazás számára.
 
-Soha ne ellenőrizze jelszavakat, a tárelérési kulcsok és a kapcsolati karakterláncok forrás vezérlőbe. Ehelyett át paraméterekként ezeket a telepítési parancsfájlt, amely tárolja ezeket az értékeket Alkalmazásbeállítások.
+Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati karakterláncokat a forrásvezérlőben. Ehelyett adja át ezeket az adatokat paraméterként egy üzembehelyezési szkriptnek, amely alkalmazásbeállításokként tárolja ezeket az értékeket.
 
-Felcserélés egy üzembe helyezési pont, amikor az alkalmazás beállításaiban alapértelmezés szerint van cserélve. Ha eltérő beállításokat az üzemi és átmeneti, tárhely anyagot, és nem get felcserélve Alkalmazásbeállítások is létrehozhat.
+Az üzembehelyezési pontok közötti váltáskor a rendszer alapértelmezés szerint vált az alkalmazásbeállítások között is. Ha különböző beállítások szükségesek az éles és az előkészítési környezethez, létrehozhat olyan alkalmazásbeállításokat, amelyek adott ponthoz vannak rögzítve, és nem változnak.
 
-### <a name="diagnostics-and-monitoring"></a>Diagnosztika és monitorozás
-Engedélyezése [diagnosztikai naplózás][diagnostic-logs]alkalmazásnaplózás és a webkiszolgáló naplózásának is beleértve. A Blob storage használata naplózásának konfigurálása. A megfelelő teljesítmény érdekében hozzon létre egy külön tárfiókot a diagnosztikai naplókat. Ne használja ugyanazt a tárfiókot naplókat és az alkalmazásadatokat. Részletes útmutatás a naplózást, lásd: [megfigyelési és diagnosztikai útmutatást][monitoring-guidance].
+### <a name="diagnostics-and-monitoring"></a>Diagnosztika és figyelés
+Engedélyezze a [diagnosztikai naplózást][diagnostic-logs], beleértve az alkalmazásnaplózást és a webkiszolgáló-naplózást. Konfigurálja a naplózást a Blob Storage használatára. A jobb teljesítmény érdekében hozzon létre egy önálló tárfiókot a diagnosztikai naplók számára. Ne használja ugyanazt a tárfiókot naplókat és az alkalmazásadatokat. A naplózással kapcsolatos részletesebb útmutatásért tekintse meg a [monitorozási és diagnosztikai útmutatót][monitoring-guidance].
 
-Használjon, mint a szolgáltatást [New Relic] [ new-relic] vagy [Application Insights] [ app-insights] alkalmazás teljesítményének figyelése és a terhelés viselkedését. Vegye figyelembe a [adatok sebességhatárok] [ app-insights-data-rate] az Application insights szolgáltatással.
+Az alkalmazások terhelés alatti teljesítményének és viselkedésének monitorozásához használjon olyan szolgáltatásokat, mint a [New Relic][new-relic] vagy az [Application Insights][app-insights]. Vegye figyelembe az Application Insights [adatátviteli sebességre vonatkozó korlátozásait][app-insights-data-rate].
 
-Tesztelheti az terhelés, például egy eszközzel [Visual Studio Team Services][vsts]. A felhőalapú alkalmazások teljesítményét elemző általános áttekintést, lásd: [teljesítményét elemző ismertetése][perf-analysis].
+Végezzen terheléstesztet, például a [Visual Studio Team Services][vsts] használatával. A felhőalapú alkalmazások teljesítményelemzésének általános áttekintéséért tekintse meg a [teljesítményelemzési ismertetőt][perf-analysis].
 
-Az alkalmazás hibaelhárítási tippeket:
+Tippek az alkalmazás hibaelhárításához:
 
-* Használja a [panel hibaelhárítása] [ troubleshoot-blade] az Azure-portálon keresse meg a megoldást a problémára.
-* Engedélyezése [napló streaming] [ web-app-log-stream] közel valós idejű naplóinformációk megjelenítéséhez.
-* A [Kudu irányítópult] [ kudu] rendelkezik figyelési és az alkalmazás hibakeresése eszközöket. További információkért lásd: [Azure Websitesra online eszközök kell tudni] [ kudu] (blogbejegyzés). A Kudu irányítópult Azure-portálról érhető el. Nyissa meg az alkalmazáshoz, majd kattintson a panel **eszközök**, majd kattintson a **Kudu**.
-* Ha a Visual Studio használata esetén olvassa el [hibaelhárítása a webes alkalmazás az Azure App Service szolgáltatásban a Visual Studio használatával] [ troubleshoot-web-app] Hibakeresés és a hibaelhárítási tippek.
+* Az Azure Portal [hibaelhárítási paneljén][troubleshoot-blade] megoldást találhat a leggyakoribb problémákra.
+* A [naplóstreamelés][web-app-log-stream] engedélyezésével közel valós idejű naplóinformációkat tekinthet meg.
+* A [Kudu irányítópultján][kudu] számos eszközt találhat az alkalmazások monitorozásához és hibaelhárításához. További információkért tekintse meg az [Azure-webhelyek online eszközeit ismertető][kudu] blogbejegyzést. A Kudu irányítópultja az Azure Portalról érhető el. Nyissa meg az alkalmazása paneljét, és kattintson az **Eszközök**, majd a **Kudu** elemre.
+* Visual Studio használata esetén olvassa el a [webalkalmazások az Azure App Service-ben a Visual Studióval végzett hibaelhárítását][troubleshoot-web-app] ismertető cikket hibakeresési és hibaelhárítási tippekért.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
-Ez a szakasz ebben a cikkben leírt Azure-szolgáltatásokhoz való vonatkozó biztonsági szempontokat sorolja fel. Ajánlott biztonsági eljárások teljes listáját nincs. További biztonsági szempontokat lásd: [az Azure App Service alkalmazás biztonságos][app-service-security].
+Ez a szakasz a cikkben leírt Azure-szolgáltatásokra vonatkozó biztonsági szempontokat ismerteti. Nem tartalmazza az összes ajánlott biztonsági eljárást. A további biztonsági szempontokért lásd: [Alkalmazás védelme az Azure App Service-ben][app-service-security].
 
-### <a name="sql-database-auditing"></a>SQL Database auditing
-Naplózás segít törvényi megfelelőség fenntartásában és az eltérések és rendellenességek, amelyek üzleti problémát jelenthetnek, vagy a biztonság megsértésére megismerése. Lásd: [Ismerkedés az SQL-adatbázis naplózásának][sql-audit].
+### <a name="sql-database-auditing"></a>Az SQL Database naplózási funkciója
+A naplózás segíthet a jogszabályi megfelelőség fenntartásában és az olyan ellentmondások és rendellenességek feltárásában, amelyek üzleti veszélyekre vagy esetleges biztonsági problémákra utalhatnak. További információk: [Ismerkedés az SQL-adatbázis naplózási szolgáltatásával][sql-audit].
 
-### <a name="deployment-slots"></a>Üzembe helyezési tárhelyek
-Minden egyes üzembe helyezési pont egy nyilvános IP-címmel rendelkezik. Az éles üzembe helyezési ponti használatával biztonságos [Azure Active Directory bejelentkezési] [ aad-auth] , hogy csak a fejlesztési és DevOps csapat tagjai ezekre a végpontokra érhető el.
+### <a name="deployment-slots"></a>Üzembehelyezési pontok
+Minden üzembehelyezési pont nyilvános IP-címmel rendelkezik. A nem éles pontok védelme az [Azure Active Directory-bejelentkezéssel][aad-auth] biztosítható, hogy az adott végpontokhoz csak a fejlesztési és üzemeltetési csapatok tagjai férhessenek hozzá.
 
 ### <a name="logging"></a>Naplózás
-Naplók soha nem rögzíteni kell a felhasználói jelszavakat és egyéb adatait, amelyik alkalmas lehet identitás csalás véglegesítéséhez. Megtisztítás a adatokból adatai előtt tárolja.   
+A naplókban soha nem szabad rögzíteni a felhasználók jelszavait és a személyazonossági csalások elkövetéséhez felhasználható egyéb adatait. Tárolás előtt az adatok közül el kell távolítani az ilyen részleteket.   
 
 ### <a name="ssl"></a>SSL
-Egy App Service-alkalmazást tartalmaz olyan altartomány, SSL végpontja `azurewebsites.net` minden további költség nélkül. Az SSL-végpontot tartalmaz, a helyettesítő tanúsítvány a `*.azurewebsites.net` tartomány. Ha egy egyéni tartománynevet használ, meg kell adnia az egyéni tartomány megfelelő tanúsítványt. A legegyszerűbb vásárolhat egy tanúsítványt közvetlenül az Azure portálon keresztül. Tanúsítványokat más hitelesítésszolgáltatótól is importálhat. További információkért lásd: [vásárolnia és SSL-tanúsítvány konfigurálása az Azure App Service][ssl-cert].
+Az App Service-alkalmazásokhoz elérhető egy SSL-végpont az `azurewebsites.net` egy résztartományán további költségek nélkül. Az SSL-végpont tartalmaz egy helyettesítő tanúsítványt az `*.azurewebsites.net` tartományhoz. Ha egyéni tartománynevet használ, meg kell adnia egy, az egyéni tartománynak megfelelő tanúsítványt. A legegyszerűbb megoldás az, ha közvetlenül az Azure Portalon vásárol egy tanúsítványt. Más hitelesítésszolgáltatóktól származó tanúsítványokat is importálhat. További információkért lásd: [SSL-tanúsítvány vásárlása és konfigurálása saját Azure App Service szolgáltatások számára][ssl-cert].
 
-Biztonsági szempontból ajánlott az alkalmazás érvényesítenie kell a HTTPS irányítják át HTTP-kérelmekre. Az alkalmazáson belüli megvalósításának, vagy egy URL-cím átdolgozás szabály használata a [HTTPS engedélyezése az Azure App Service alkalmazás][ssl-redirect].
+Biztonsági szempontból ajánlott, hogy az alkalmazás kikényszerítse a HTTPS használatát a HTTP-kérelmek átirányításával. Ez megvalósítható az alkalmazáson belül, vagy egy URL-átírási szabály használatával, amelynek leírását a [HTTPS az Azure App Service-ben alkalmazásokhoz való engedélyezésével][ssl-redirect] kapcsolatos cikkben olvashatja.
 
 ### <a name="authentication"></a>Hitelesítés
-Javasoljuk, hogy hitelesítése keresztül az identitásszolgáltató (IDP), például Azure AD Facebook, Google, vagy Twitter. OAuth 2 vagy OpenID Connect (OIDC) használ a hitelesítési folyamat. Az Azure AD felhasználók és csoportok kezelése, alkalmazás szerepköröket hozhat létre, a helyszíni identitások integrálása és háttér szolgáltatásait például az Office 365 és a Skype vállalati lehetőségeket kínál.
+Hitelesítéshez javasoljuk egy identitásszolgáltató (IDP), például az Azure AD, a Facebook, a Google vagy a Twitter használatát. A hitelesítési folyamathoz használja az OAuth 2 vagy az OpenID Connect (OIDC) megoldást. Az Azure AD funkciókat biztosít felhasználók és csoportok kezeléséhez, alkalmazások szerepköreinek létrehozásához, a helyszíni identitások integrálásához és az olyan háttérszolgáltatások használatához, mint az Office 365 és a Skype Vállalati verzió.
 
-Kerülje az alkalmazás felhasználói bejelentkezést és a hitelesítő adatok kezelése közvetlenül, mivel az hozza létre a potenciális támadási felületet.  Ajánlott legalább kellene e-mailes megerősítés, a jelszó-helyreállítás és a többtényezős hitelesítés; jelszó erőssége; érvényesítése és azok kivonatai tárolja biztonságos helyen. A nagy identitás-szolgáltatóktól kezelni tudja a ezeket a beállításokat, és folyamatosan figyelése és javítása a biztonsági eljárásokat.
+Lehetőség szerint ne közvetlenül az alkalmazás kezelje a felhasználói bejelentkezéseket és a hitelesítő adatokat, mivel ez potenciális támadási felületet jelenthet.  Mindenképp használjon e-mail-visszaigazolást, jelszó-helyreállítást és többtényezős hitelesítést, ellenőrizze a jelszavak erősségét és tárolja a jelszavak kivonatait biztonságos helyen. A nagyobb identitásszolgáltatók ezek mindegyikét elvégzik Ön helyett, emellett folyamatosan monitorozzák és fejlesztik biztonsági eljárásaikat.
 
-Érdemes lehet [App Service hitelesítés] [ app-service-auth] az OAuth/OIDC hitelesítési folyamat végrehajtásához. Az App Service hitelesítés előnyei a következők:
+Érdemes lehet [App Service-hitelesítést][app-service-auth] használni az OAuth/OIDC hitelesítési folyamat implementálásához. Az App Service-hitelesítés előnyei a következők:
 
 * Könnyen konfigurálható.
-* Nincs kód egyszerű hitelesítési forgatókönyvek szükség.
-* Támogatja az OAuth jogkivonatot használja a felhasználó nevében erőforrást engedélyezési meghatalmazott.
-* Itt egy beépített jogkivonatok gyorsítótárát.
+* Az egyszerű hitelesítési forgatókönyvekhez nem szükséges kód.
+* Támogatja a delegált hitelesítést: az OAuth hozzáférési tokenek lehetővé teszik az erőforrások használatát egy felhasználó nevében.
+* Rendelkezik beépített tokengyorsítótárral.
 
-App Service hitelesítés korlátozásai:  
+Az App Service-hitelesítés néhány korlátja:  
 
-* Korlátozott testreszabási beállításait.
-* Delegált engedélyezési korlátozódik bejelentkezési munkamenetenként egy háttér-erőforrást.
-* Ha egynél több IDP használ, nincs olyan beépített mechanizmus a hitelesítőtartomány feltárásához.
-* Több-bérlős forgatókönyvek esetén az alkalmazás ellenőrzése a jogkivonat-kibocsátó programot kell megvalósítania.
+* Korlátozottak a testreszabási lehetőségek.
+* A delegált engedélyezés bejelentkezési munkamenetenként egy háttérerőforrásra korlátozódik.
+* Több IDP használata esetén nincs beépített mechanizmus a hitelesítő tartomány észleléséhez.
+* Több-bérlős forgatókönyvek esetén az alkalmazásnak kell implementálnia a tokenkiállító ellenőrzését végző logikát.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
-Ez az architektúra Resoure Manager sablon egy példa [elérhető a Githubon][paas-basic-arm-template].
+Az architektúrához elérhető egy Resoure Manager-példasablon [a GitHubon][paas-basic-arm-template].
 
-A sablon PowerShell használatával történő üzembe helyezéséhez futtassa a következő parancsokat:
+A sablon PowerShell-lel történő üzembe helyezéséhez futtassa a következő parancsokat:
 
 ```
 New-AzureRmResourceGroup -Name <resource-group-name> -Location "West US"
@@ -209,7 +209,7 @@ $parameters = @{"appName"="<app-name>";"environment"="dev";"locationShort"="uw";
 New-AzureRmResourceGroupDeployment -Name <deployment-name> -ResourceGroupName <resource-group-name> -TemplateFile .\PaaS-Basic.json -TemplateParameterObject  $parameters
 ```
 
-További információkért lásd: [telepítése Azure Resource Manager-sablonok erőforrások][deploy-arm-template].
+További információkért lásd az [erőforrások Azure Resource Manager-sablonokkal végzett üzembe helyezését][deploy-arm-template] ismertető cikket.
 
 <!-- links -->
 
@@ -257,5 +257,5 @@ További információkért lásd: [telepítése Azure Resource Manager-sablonok 
 [web-app-autoscale]: /azure/app-service-web/web-sites-scale
 [web-app-backup]: /azure/app-service-web/web-sites-backup
 [web-app-log-stream]: /azure/app-service-web/web-sites-enable-diagnostic-log#streamlogs
-[0]: ./images/basic-web-app.png "Alapszintű Azure webalkalmazás architektúrája"
-[1]: ./images/paas-basic-web-app-staging-slots.png "Üzembe helyezési ponti csere üzemi és átmeneti példányai"
+[0]: ./images/basic-web-app.png "Alapszintű Azure-webalkalmazások architektúrája"
+[1]: ./images/paas-basic-web-app-staging-slots.png "Váltás az éles és az előkészítési környezetek pontjai között"
