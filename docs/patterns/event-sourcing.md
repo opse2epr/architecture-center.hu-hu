@@ -1,165 +1,165 @@
 ---
-title: "Esemény forrás"
-description: "Egy csak append tároló segítségével rögzítheti a teljes eseménysorozatokat, amelyek egy tartományban lévő adatokon műveleteit tartalmazzák."
-keywords: "Kialakítási mintája"
+title: Event Sourcing
+description: "Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére."
+keywords: "tervezési minta"
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: d5d4e99a6ff49cb823f592c83590471c0d68bfd1
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9a0bf170c9b54c3b2ee9cc91d6dcb5c55a13b96a
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 03/17/2018
 ---
-# <a name="event-sourcing-pattern"></a>Esemény Sourcing minta
+# <a name="event-sourcing-pattern"></a>Események forráskezelése minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Helyett csak az adatok aktuális állapotát egy tartományban, használja a egy csak append tároló műveleteket végezhet el az adatok a teljes sorozatát rögzítéséhez.
-A tároló úgy működik, mint a rendszer rekord, és a tartomány objektumok materializálni használható. Ezzel egyszerűsítheti feladatok összetett tartományok, így nem kell szinkronizálni az adatokat az adatmodellbe és a vállalati tartományhoz, teljesítmény, méretezhetőség és reakcióidőt fokozása mellett. Azt is adja meg a konzisztencia tranzakciós adatok, és teljes naplózási előzmények kezelése és engedélyezheti a kompenzációs műveletek előzményeinek megőrzése.
+Ahelyett, hogy a tartomány adatainak csak az aktuális állapotát tárolná, egy csak hozzáfűzéssel bővíthető tár használatával rögzítheti az adatokon végzett műveletek teljes sorozatát is.
+A tároló rekordrendszerként működik, és a használatával tényleges táblává alakíthatóak tartományi objektumok. Ez egyszerűsítheti a feladatokat az összetett tartományokban, mivel nem szükséges szinkronizálni az adatmodellt és a vállalati tartományt, miközben nő a teljesítmény, a skálázhatóság és a válaszképesség. Emellett konzisztenciát kölcsönöz a tranzakciós adatoknak, és teljeskörű naplókat és előzményeket tárol, ami lehetővé teszi a kompenzáló műveletek végrehajtását.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-A legtöbb alkalmazás adatokkal dolgozni, és a szokásos megoldás, az alkalmazás az adatok aktuális állapotának karbantartásához frissítené azt a felhasználók használható. Például a hagyományos létrehozás, Olvasás, frissítés és Törlés (CRUD) modell a jellemző adatok folyamat az adatokat olvasni az áruházból, a módosításokat bizonyos azt, és az adatok aktuális állapotának frissítéséhez az új értékekkel&mdash;gyakran tranzakciók használatával az adatok, amelyek zárolása.
+A legtöbb alkalmazás adatokkal dolgozik, és a szokásos megközelítés szerint az alkalmazás az adatok aktuális állapotát tárolja, és folyamatosan frissíti, ahogy a felhasználók használják azokat. Például a hagyományos CRUD (create – létrehozás, read – olvasás, update – frissítés, delete – törlés) modellben a tipikus adatfolyamat szerint az alkalmazás beolvassa az adatokat a tárolóból, bizonyos módosításokat végez azokon, majd frissíti az adatok aktuális állapotát az új értékekkel,&mdash;gyakran olyan tranzakciók használatával, amelyek zárolják az adatokat.
 
-A CRUD megközelítés azzal bizonyos korlátozások vonatkoznak:
+A CRUD megközelítésnek vannak bizonyos korlátai:
 
-- CRUD rendszerek hajtsa végre a frissítési műveleteket közvetlenül a tárolóban, így lelassíthatják a teljesítmény és reakcióidőt, és korlátozza a méretezhetőség miatt a feldolgozási terhelést van szükség.
+- A CRUD rendszerek a frissítési műveleteket közvetlenül az adattárolóban hajtják végre, ami ronthatja a teljesítményt és a válaszképességet, valamint a szükséges feldolgozási többletterhelés miatt korlátozhatja a skálázhatóságot.
 
-- Olyan együttműködési tartomány nagyszámú egyidejű felhasználót frissítés adatütközések valószínűbb, mert a frissítési műveletek csak egy elemet az adatok alapján történik.
+- A nagyszámú egyidejű felhasználót tartalmazó együttműködési tartományokban az adatfrissítés konfliktusok valószínűbbek, mivel a frissítési műveletek egyetlen adatelemen vannak végrehajtva.
 
-- Kivéve, ha egy további naplózási mechanizmus, amely az egyes műveletek részleteit rögzíti egy külön naplóban, el fog veszni.
+- Hacsak nincs valamilyen további naplózási mechanizmus kiépítve, amely az egyes műveletek részleteit egy külön naplóban rögzíti, az előzmények elvesznek.
 
-> Bemutatják a CRUD megközelítés határain, lásd: [CRUD, csak ha akkor is biztosít az](https://blogs.msdn.microsoft.com/maarten_mullender/2004/07/23/crud-only-when-you-can-afford-it-revisited/).
+> A CRUD megközelítés korlátairól részletesebben a [CRUD – csak akkor, ha megengedheti](https://blogs.msdn.microsoft.com/maarten_mullender/2004/07/23/crud-only-when-you-can-afford-it-revisited/) című cikkben olvashat.
 
 ## <a name="solution"></a>Megoldás
 
-Az esemény forrás mintát megközelítés a kezelési műveletek, amelyek célja a események, sorozata, amelyek csak a hozzáfűző tárolóban rögzítése adatokon határozza meg. Alkalmazáskód küld egy eseménysorozatokat, amelyek imperatively ismertetik, hogy történt az esemény tárolóba, ahol éppen megőrzött adatokat. Minden esemény módosítások készletét reprezentálja, az adatok (például `AddedItemToOrder`).
+Az Események forráskezelése minta az adatokon végrehajtott műveletek kezelésére eseménysorozat-alapú megközelítést definiál, amelyben az események egy csak hozzáfűzéssel bővíthető tárban vannak rögzítve. Az alkalmazáskód ez egyes adatműveleteket imperatív módon leíró események sorát küldi a tárolóba, ahol azok megőrződnek. Mindegyik esemény az adatok módosításainak egy halmazát (például `AddedItemToOrder`) jelöli.
 
-Az események megmaradnak, amely a rekord (a mérvadó adatforrása) az adatok aktuális állapotát a rendszer esemény tárolóban. Az esemény tároló általában ezeket az eseményeket tesz közzé, hogy a felhasználók értesítést kapni, és kezelheti azokat szükség esetén. Fogyasztók nem, például más rendszerek az események műveletek feladatokat kezdeményez, vagy hajtsa végre az egyéb kapcsolódó művelet, amely a művelet végrehajtásához szükséges. Figyelje meg, hogy az alkalmazás kódjában, amely létrehozza az eseményeket a rendszer leválasztja a rendszerekre, amelyek az események előfizetni.
+Az eseményeket egy eseménytár őrzi, amely az adatok aktuális állapotát rögzítő rekordrendszerként (mérvadó adatforrásként) működik. Az eseménytár általában közzéteszi ezeket az eseményeket, hogy a felhasználók értesüljenek róluk, és szükség szerint kezelhessék azokat. A fogyasztók például inicializálhatnak olyan feladatokat, amelyek az eseményekben lévő műveleteket más rendszerekre alkalmazzák, vagy egyéb kapcsolódó műveleteket hajtanak végre, amelyek a működéshez szükségesek. Vegyük észre, hogy az eseményeket létrehozó alkalmazáskód elválik az eseményekre feliratkozó rendszerektől.
 
-Az események az esemény tároló által közzétett a gyakori felhasználási entitások materializált nézetek fenntartásához műveletek az alkalmazás módosítsa őket, és külső rendszerekkel való integrációra. Például a rendszer fenntarthatja a materializált nézet összes ügyfél rendelés, amely a felhasználói felület részei feltöltésére használt eszköz. Az alkalmazás új rendelések hozzáadja, hozzáadja vagy eltávolítja az elemet a sorrendnek, és hozzáadja a szállítási adatokat, a módosítások leíró események kezelje-e, és hogy frissítheti a [materializált nézet](materialized-view.md).
+Az eseménytár által közzétett események tipikus felhasználása az entitások tényleges táblán alapuló nézeteinek karbantartása, ahogy az alkalmazás műveletei módosítják azokat, valamint a külső rendszerekkel való integráció biztosítása. Például a rendszer megtarthatja az összes olyan ügyfélmegrendelés tényleges táblán alapuló nézetét, amelyek a felhasználói felület részein megjelentek. Ahogy az alkalmazás új megrendeléseket ad hozzá, tételeket ad hozzá vagy távolít el a megrendelésekben, szállítási információkat ad hozzá, az ezeket a módosításokat leíró események kezelhetőek, és a használatukkal frissíthetőek a [tényleges táblán alapuló nézetek](materialized-view.md).
 
-Emellett bármikor lehetőség az alkalmazások számára az előzmények események olvasását, és vissza és adott entitáshoz kapcsolódó összes eseményt fel entitás jelenlegi állapotának materializálni segítségével. Ez akkor fordulhat elő, a tartományobjektum materializálni, amikor a kérelmet kezelő igény szerint vagy ütemezett feladat keresztül, hogy az entitás állapotát is tárolhatók a bemutató réteg támogatásához materializált nézetként.
+Emellett az alkalmazásoknak bármikor lehetősége van olvasni az eseményelőzményeket, és azok használatával tényleges táblává alakítani az entitások aktuális állapotát az adott eseményhez tartozó összes esemény visszajátszásával és feldolgozásával. Ez történhet igény szerint a tartományobjektumok tényleges táblává alakításával a kérések feldolgozása során, vagy pedig ütemezett feladatokon keresztül, hogy az entitás állapota tényleges táblán alapuló nézetként tárolható legyen a megjelenítési réteg kiszolgálására.
 
-Az ábra mutatja a mintát, köztük egyes a beállításokat, például a materializált nézetek létrehozásával, külső alkalmazások és rendszerek események integrálása és események visszajátszását az eseménystream használatával történő létrehozásához leképezések aktuális állapotának áttekintése adott entitások.
+Az ábrán a minta áttekintése látható, beleértve az eseménystream használata kínálta egyes lehetőségeket, például a tényleges táblán alapuló nézetek létrehozását, az események külső alkalmazásokkal és rendszerekkel való integrálását, valamint az események visszajátszását az adott entitások aktuális állapotai leképezéseinek létrehozásához.
 
-![Áttekintés és példa az esemény forrás minta](./_images/event-sourcing-overview.png)
+![Az Események forráskezelése minta áttekintése és példája](./_images/event-sourcing-overview.png)
 
 
-Az esemény forrás mintát a következő előnyöket nyújtja:
+Az Események forráskezelése minta az alábbi előnyöket biztosítja:
 
-Események nem módosíthatók, és csak a hozzáfűző művelet is tárolhatók. A felhasználói felület, a munkafolyamat vagy a folyamat, amely egy esemény kezdeményezett továbbra is, és feladatokat, amelyek az események kezelésére is fusson a háttérben. Kombinálva a tényt, hogy van-e nem a versengés tranzakciók, a feldolgozás során jelentősen javítja a teljesítmény és méretezhetőség, az alkalmazások, különösen a bemutatási szint vagy a felhasználói felület.
+- Az események nem módosíthatók, és egy csak hozzáfűzési művelettel tárolhatók. Az eseményt inicializáló felhasználói felület, munkafolyamat vagy folyamat folytatódhat, és az eseményeket kezelő feladatok a háttérben futhatnak. Kombinálva azzal a ténnyel, hogy a tranzakciók a feldolgozás során nem versengenek, ez rendkívüli mértékben javíthatja az alkalmazások teljesítményét és skálázhatóságét, különösen a megjelenítési szint vagy a felhasználói felület vonatkozásában.
 
-Események olyan egyszerű-objektumok leíró néhány művelet, amely történt, és minden kapcsolódó adatairól, hogy az esemény által képviselt művelet leírása. Események közvetlenül nem frissíti a tárolóban. Azok egyszerűen megfelelő időben kezelésére van rögzítve. Ez egyszerűbbé teszi megvalósítása és kezelése.
+- Az események olyan egyszerű objektumok, amelyek valamely megtörtént műveletet írnak le, az esemény által jelölt művelet leírásához szükséges társított adatokkal együtt. Az események közvetlenül nem frissítik az adattárakat. Egyszerűen csak rögzítve vannak, hogy a megfelelő időben kezelhetőek legyenek. Ez egyszerűbbé teheti az implementálást és a felügyeletet.
 
-Események általában jelentéssel bírnak az egy tartomány szakértő, mivel [objektum relációs impedancia eltérés](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch) összetett adatbázistáblák megértése nehéz tehet. Táblák olyan mesterséges szerkezetek, amelyek megfelelnek a rendszer, a jelenlegi állapotában nem előforduló eseményeket.
+- Az események általában jelentéssel bírnak a tartományszakértők számára, miközben az [objektumrelációs impedanciaeltérés](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch) miatt az összetett adatbázistáblák nehezen érthetőek lehetnek. A táblák olyan mesterséges szerkezetek, amelyek a rendszer aktuális állapotát és nem a bekövetkezett eseményeket mutatják.
 
-Esemény forrás segítségével megakadályozhatja, hogy a párhuzamos frissítések ütközést okoz, mivel ezzel elkerülheti a követelmény közvetlenül objektumokat frissíteni az adattárban. Azonban a modell továbbra is kell megtervezni, a kérelmek, ami okozhatja azt inkonzisztens állapotban védeni magát.
+- Az Események forráskezelése segítségével megelőzhető, hogy a párhuzamos frissítések ütközést okozzanak, mivel nem szükséges az objektumokat közvetlenül az adattárban frissíteni. Azonban a tartománymodellt továbbra is úgy kell kialakítani, hogy védje magát az olyan kérések ellen, amelyek inkonzisztens állapotot okozhatnak.
 
-Az események csak append tárolását biztosít, amely által végrehajtott műveletek elleni adattárat, újragenerálása a jelenlegi állapotában materializált nézetek vagy leképezések az események visszajátszását bármikor figyelésére használható, és annak elősegítéséhez, a tesztelés és hibakeresés elővizsgálati a a rendszer. A vonatkozó követelményt a változtatások visszavonásához kompenzációs eseményeknek a segítségével emellett egy korábbi módosításait, amely lettek visszaállítva, amely így akkor fordulhat elő, ha a modell egyszerűen a jelenlegi állapotában. Az események listájának is használható, az alkalmazások teljesítményének elemzése és a felhasználói viselkedés trendek észlelése, vagy más hasznos üzleti adatok beszerzéséhez.
+- Az események csak hozzáfűzéssel bővíthető tárolása biztosítja, hogy a naplózás használatával monitorozhatóak az adattáron végrehajtott műveletek, az aktuális állapot a tényleges táblán alapuló nézetekként vagy leképezésekként újra létrehozható az események bármely pillanatban való visszajátszásával, valamint támogatja a tesztelést és a hibakeresést is. Emellett azzal, hogy a változásokat kompenzáló eseményekkel kell visszavonni, a visszavont módosítások is szerepelnek az előzményekben, ami nem így lenne, ha a modell egyszerűen csak az aktuális állapotot tárolná. Az események listájának használatával emellett elemezhető az alkalmazás teljesítménye, és észlelhetőek a felhasználók viselkedési trendjei, valamint egyéb, üzleti szempontból hasznos információk is kinyerhetőek.
 
-Az esemény tároló eseményeket indít, és a feladatok műveleteket ezeket az eseményeket adott válaszként. Ez a feladatok az események leválasztásával biztosít rugalmasságot és bővíthetőséget. Feladatok tudja, milyen típusú eseményt és eseményadatok, de nem az eseményt kiváltó működésével kapcsolatos. Több feladat emellett képes kezelni minden esemény. Ez lehetővé teszi, hogy az egyszerű integráció az egyéb szolgáltatások és rendszerekről, amelyek csak az esemény tároló által kiváltott új események figyelését. Azonban az esemény forrás események általában nagyon alacsony, és helyette az adott integrációs események generálásához szükség lehet.
+- Az eseménytár eseményeket indít, és a feladatok ezekre válaszképp hajtanak végre műveleteket. A feladatok ily módú leválasztása az eseményekről biztosítja a rugalmasságot és a bővíthetőséget. A feladatok ismerik az események típusát és adatait, az eseményeket kiváltó műveleteket azonban nem. További előny, hogy egyszerre több feladat is kezelheti az egyes eseményeket. Ez egyszerűsíti az integrációt az olyan szolgáltatásokkal és rendszerekkel, amelyek csak az eseménytár által kiváltott új eseményeket figyelik. Azonban az Események forráskezelése események általában nagyon alacsony szintűek, így szükség lehet inkább adott integrációs események létrehozására.
 
-> Esemény forrás általában együtt a CQRS minta az adatok kezelési feladatainak végrehajtása az eseményekre válaszként, valamint a tárolt események nézeteket materializálása.
+> Az Események forráskezelése mintát általában a CQRS mintával kombinálva alkalmazzák az adatkezelési feladatoknak az eseményekre való válaszként történő végrehajtásával és a tárolt eseményekből tényleges táblán alapuló nézeteket létrehozásával.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-A rendszer csak akkor idővel konzisztenssé, ha létrehozása materializált nézet, és az adatok előállítása leképezések által események visszajátszását. Egyes események az esemény tanúsítványtárolójához adását eredményezi egy kérést a közzétett események kezelésére kérelmet, és azokat az eseményeket a késleltetés van. Ebben az időszakban, leíró további módosítások entitások új események előfordulhat, hogy az esemény üzletben érkezett.
+A rendszer végül csak a tényleges táblán alapuló nézetek vagy adatleképezések a visszajátszott adatok alapján való létrehozásával válik konzisztenssé. Bizonyos időbeli késedelem van az eseményeknek a kérések kezelése során az eseménytárba való felvétele, az események közzététele és az események a fogyasztók általi feldolgozása között. Ez alatt az idő alatt az entitások további módosításait leíró új események érkezhetnek az eseménytárba.
 
 > [!NOTE]
-> Tekintse meg a [adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx) végleges konzisztencia kapcsolatos információkat.
+> A végleges konzisztenciával kapcsolatos információkért lásd: [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx).
 
-Az esemény tároló információk állandó forrását, és így eseményadatok soha nem kell frissíteni. A csak a módosítások visszavonásához entitás frissítése, kompenzációs esemény hozzáadása az esemény-tárolóhoz. Ha a formátum (az adatok helyett) a megőrzött események módosítani kell, lehet, hogy a áttelepítés során nehézkes lehet egyesítése meglévő események a tárolóban lévő új verzióval. Módosítások végrehajtása úgy is kompatibilis az új formátummal összes esemény iterációt, vagy adja hozzá az új formátumot használó új eseményeket szükség lehet. Érdemes lehet egy verziószámmal minden az esemény-séma verziója is a régi és az új esemény-formátumok.
+Az eseménytár szolgál az adatok állandó forrásaként, emiatt az eseményadatokat soha nem szabad frissíteni. Az entitások frissítésének egyetlen módja a módosítások visszavonására, ha egy kompenzáló eseményt vesz fel az eseménytárba. Ha a megőrzött események formátumát (tehát nem magukat az adatokat) kell módosítani, például egy migrálás során, nehézkes lehet a tárolóban lévő meglévő eseményeket kombinálni az új verzióval. Esetleg szükséges lehet a módosításokat végrehajtó összes eseményt végigléptetni, hogy kompatibilisek legyenek az új formátummal, vagy az új formátumot használó új eseményeket hozzáadni. Érdemes lehet az eseményséma minden verzióját verzióbélyeggel ellátni a régi és az új eseményformátumok megtartásához.
 
-Többszálas alkalmazások és az alkalmazások több példánya lehet, hogy tárolni események az esemény-tárolóban. Események az esemény tárolójában konzisztencia létfontosságú, mivel egy adott entitás (a sorrendet, hogy a változás entitás hatással van a jelenlegi állapotában) érintő események sorrendjének. Időbélyeg ad hozzá minden esemény segíthet problémák elkerülése érdekében. Másik gyakori eljárása minden eredő egy kérelem növekményes azonosítójú esemény a jegyzet. Ha két művelet megkísérli eseményeket ugyanaz az entitás hozzáadása egy időben, az esemény tároló elutasíthatja egy eseményt, amely megegyezik egy meglévő entitásazonosító és eseményazonosító.
+Az eseménytárban több szálon vagy példányban futó alkalmazások is tárolhatnak eseményeket. Az eseménytárban tárolt események konzisztenciája létfontosságú, csakúgy, mint az egyes entitásokra ható események sorrendje (az entitásokat érintő változások sorrendje befolyásolja azok aktuális állapotát). Segíthet elkerülni a problémákat, ha az egyes eseményeket időbélyeggel látja el. Egy másik gyakori eljárás, ha a kérésekből eredő minden eseményt egy növekményes azonosítóval jelöl. Ha két művelet egyidőben próbál eseményeket hozzáadni ugyanahhoz az entitáshoz, az eseménytár elutasíthatja az olyan eseményeket, amelyek entitásazonosítója és eseményazonosítója megegyezik egy meglévőével.
 
-Nincs szabványos módszert, vagy az SQL-lekérdezések, például a meglévő mechanizmusok tájékoztatást kaphat az események olvasását. Az adatok közül kizárólag kiolvasható áll eseményeket esemény azonosító feltételt. Egyes szervezetek általában összekapcsolódnak eseményazonosító. A jelenlegi állapotában az entitás csak meghatározható visszajátszását az események, amelyek kapcsolódnak az ellen, hogy az entitás eredeti állapotát.
+Nincs szabványos megközelítés vagy létező mechanizmus (mint például az SQL-lekérdezések) az események olvasására az adatok beszerzéséhez. Adatként kizárólag eseménystreamek olvashatóak ki feltételként egy eseményazonosítót megadva. Az eseményazonosító tipikusan egyedi entitásokra képezhető le. Egy entitás aktuális állapota csak úgy határozható meg, ha visszajátssza az összes hozzá kapcsolódó eseményt az entitás eredeti állapotából kiindulva.
 
-Minden esemény adatfolyam hossza kezelése és a rendszer frissítése hatással van. Ha az adatfolyamokat nagy, fontolja meg a megadott számú események például adott időközönként pillanatképeinek. Az entitás jelenlegi állapotában érhető el a pillanatképből, és később idő előfordult eseményeket visszajátszását. Pillanatképeket készíteni létrehozásával kapcsolatos további információkért lásd: [pillanatkép-Anna Fowler vállalati alkalmazás architektúra webhelyen](http://martinfowler.com/eaaDev/Snapshot.html) és [fő-alárendelt pillanatkép-replikálási](https://msdn.microsoft.com/library/ff650012.aspx).
+Az egyes eseménystreamek hossza kihat a rendszer kezelésére és frissítésére. Nagyobb streamek esetén érdemes lehet adott időközönként, például adott számú eseményenként pillanatképeket létrehozni. Az entitás aktuális állapota a pillanatképből kiindulva és az annak időpontját követően bekövetkezett eseményeket visszajátszva kérhető le. Az adatpillanatképek létrehozásával kapcsolatos további információkért lásd: [Pillanatkép Martin Fowler Enterprise Application Architecture webhelyén](http://martinfowler.com/eaaDev/Snapshot.html) és [Mester-alárendelt pillanatkép-replikálás](https://msdn.microsoft.com/library/ff650012.aspx).
 
-Annak ellenére, hogy az esemény forrás minimalizálja az esélye, az adatok ütköző frissítések, az alkalmazás továbbra is képesnek kell lennie inkonzisztenciát foglalkozik a végleges konzisztencia származó és a tranzakciók hiánya. Például tőzsdei készlet csökkenését jelző esemény előfordulhat, hogy az ügyfélszámítógépekre érkeznek az adattárban egy sorrendet, hogy az elem alatt helyezkedik el, a követelmény, hogy aztán összeegyeztesse a két művelet, vagy az ügyfél tanácsadás, vagy hozzon létre egy rendelés eredményezve közben.
+Bár az Események forráskezelése minimalizálja az adatok ütköző frissítésének esélyét, az alkalmazásnak így is képesnek kell lennie kezelni a végleges konzisztenciából és a tranzakciók hiányából eredő inkonzisztenciát. Például egy, a leltárkészlet csökkenését jelző esemény érkezhet az adattárba, miközben éppen egy, az adott tételre vonatkozó megrendelés érkezik, ami azt eredményezi, hogy a két művelet egyeztetni kell, és vagy az ügyfelet tájékoztatni kell, vagy egy teljesítetlen rendelést létrehozni.
 
-Esemény kiadvány "legalább egyszeri" lehet, és így az események fogyasztók idempotent kell lennie. A frissítés ismertetett egy eseményt, ha az esemény kezelése egynél többször nem azokat kell telepítenie. Például ha egy felhasználó több példánya karbantartása összesítő egy entitás tulajdonság, például a megrendelések, teljes száma csak az egyiket kell sikeres összesített növekvő sorrendhez elhelyezett esemény bekövetkezésekor. Bár ez nem egy forrás esemény kulcsfontosságú jellemzője, ez a beállítás a szokásos megvalósítási döntési.
+Az esemény-közzététel lehet „legalább egyszer” beállítású, amely esetben az események fogyasztóinak idempotensnek kell lenniük. Az eseményekben leírt frissítéseket nem szabad ismételten alkalmazniuk, ha az esemény többször is kezelve lett. Például ha egy fogyasztó több példánya is karbantartja egy entitás valamely tulajdonságának összesítését, például a leadott megrendelések teljes számát, csak az egyiknek szabad sikeresen növelnie az összesítést a megrendelésleadás esemény bekövetkezésekor. Bár nem kulcsfontosságú jellemzője az Események forráskezelése mintának, ez az általános implementációs döntés.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez a minta a következő helyzetekben használhatja:
+Az alábbi esetekben alkalmazza ezt a mintát:
 
-- Ha szeretné rögzíteni a célt, cél vagy az adatok OK. Például egy ügyfélentitást módosításai rögzíthetők adott eseménytípusok sorozataként például _áthelyezett otthoni_, _lezárt számla_, vagy _elhunyt_.
+- Ha rögzíteni szeretné a szándékokat, a célokat vagy az okokat az adatokban. Például egy ügyfélentitás módosításai rögzíthetők adott eseménytípusok sorozataként, például _Hazaköltözött_, _Lezárt számla_ vagy _Elhalálozott_.
 
-- Ha elengedhetetlen, hogy minimalizálja vagy teljesen megelőzze adatok ütköző frissítéseit.
+- Ha elengedhetetlen az ütköző adatfrissítések előfordulásának minimalizálása vagy teljes megszüntetése.
 
-- Ha azt szeretné, és lehet, hogy a rendszer állapotának visszaállítása, visszaállítható a változás, vagy egy megőrzése, és eseménynaplója visszajátszásos eseményeket rögzíteni. Például ha egy feladat több lépésből áll szükség lehet visszaállítani a frissítések és majd az egyes lépéseket annak érdekében, az adatok ismét konzisztens állapotának visszajátszásos célzó műveletek végrehajtásához.
+- Ha szeretné a bekövetkező eseményeket rögzíteni, majd azok visszajátszásával visszaállítani a rendszer állapotát, visszafordítani a változásokat, vagy megőrizni az előzményeket és naplózni az eseményeket. Például ha egy feladat több lépésből áll, esetleg szükség lehet olyan műveletek végrehajtására, amelyek visszavonják a frissítéseket, majd egyes lépések visszajátszásával visszaállítják az adatokat egy konzisztens állapotba.
 
-- Események használata esetén az alkalmazás működésének természetes szolgáltatása, és kissé további fejlesztési vagy megvalósítási beavatkozást igényel.
+- Ha az események használata az alkalmazás működésének természetes funkciója, és további fejlesztést vagy implementálási ráfordítást igényel.
 
-- Ha szeretné absztrakcióhoz bevitel, és ezek a műveletek alkalmazásához szükséges feladatok adatainak frissítése. Ez lehet UI teljesítmény javítása érdekében, vagy más, a művelet végrehajtása, ha az esemény bekövetkeztekor figyelői események terjesztését. Például egy bérlistarendszer szolgáltatással való integráció egy költség küldésének webhelyet, hogy az esemény által kiváltott események válaszként a webhelyen végzett fel a webhelyet, mind a bérlistarendszer adatok tárolásához.
+- Ha le szeretné választani az adatok bevitelének vagy frissítésének folyamatát az adott műveletek alkalmazásához szükséges feladatokról. Ez történhet a felhasználói felület teljesítményének javítása vagy az események olyan figyelőkre való terjesztésének érdekében, amelyek az események bekövetkezésekor végeznek műveleteket. Például egy bérlistarendszer integrálása egy költségbeküldési webhellyel azzal a céllal, hogy az eseménytár által a webhelyen megvalósított adatfrissítésekre válaszként indított eseményeket a webhely és a bérlistarendszer egyaránt feldolgozza.
 
-- Ha azt szeretné, hogy rugalmasan módosíthatja a materializált modellek és Entitásadatok formátuma, módosíthatja a követelményeket, ha vagy&mdash;CQRS együtt használva&mdash;kell egy olvasási modell, vagy felfedheti azokat a nézeteket.
+- Ha szeretné tudni rugalmasan módosítani a tényleges táblává alakított modellek és entitásadatok formátumát a követelmények változásakor, vagy&mdash;a CQRS-sel való együttes használatkor&mdash;igazítania kell valamely olvasási modellt vagy az adatokat feltáró nézeteket.
 
-- CQRS, és végül mind együtt történő használat esetén konzisztencia elfogadható, amíg olvasási modell frissül, vagy a teljesítményre gyakorolt hatást entitásokat és adatainak áttelepítését egy eseményfelhasználó rehidratálása nem elfogadható.
+- A CQRS-sel való együttes használatkor, és ha a végleges konzisztencia az olvasási modellek frissítése közben elfogadható, vagy az eseménystreamekből származó entitások és adatok rehidratálása eredményezte teljesítményváltozás elfogadható.
 
-Ez a minta nem lehet a következő esetekben lehet hasznos:
+Nem érdemes ezt a mintát használni a következő helyzetekben:
 
-- Kis vagy egyszerű tartományok, rendszerek, amelyeken kevéssé vagy egyáltalán ne üzleti logika vagy útválasztással rendszerek természetes jól használható felügyeleti mechanizmusok hagyományos CRUD adatokat.
+- Kis vagy egyszerű tartományok, rendszerek, kis vagy semmilyen üzleti logikával nem rendelkező rendszerek, valamint a hagyományos CRUD adatkezelési mechanizmusokkal eleve jól együttműködő nem tartományi rendszerek esetén.
 
-- Azok a rendszerek, ahol konzisztencia és a nézetek az adatok a valós idejű frissítések szükségesek.
+- Olyan rendszerek esetén, ahol a konzisztencia és az adatnézetek valós idejű frissítése szükséges.
 
-- Ahol elkérése rendszerek, előzményei és funkciók visszaállítása és visszajátszásos műveletek esetén nincs szükség.
+- Olyan rendszerek esetén, ahol a naplózásra, az előzmények megőrzésére, a visszaállítási képességekre és a műveletek visszajátszására nincs szükség.
 
-- Rendszerek a mögöttes adatok ütköző frissítések csak nagyon kis előfordulása esetén. Például a rendszerek, hanem frissítése túlnyomórészt hozzáadása.
+- Olyan rendszerek esetén, ahol a mögöttes adatok ütköző frissítései rendkívül kis eséllyel fordulnak elő. Például olyan rendszerek esetén, amelyek túlnyomórészt hozzáadnak, nem pedig frissítenek adatokat.
 
 ## <a name="example"></a>Példa
 
-A konferencia rendszer szüksége van egy konferencia befejezett lefoglalások számát úgy, hogy azt is ellenőrzi, hogy vannak-munkaállomásokat marad. Ha egy potenciális résztvevő megpróbál egy foglalási. A rendszer sikerült tárolni a konferencia lefoglalások száma legalább két módon:
+Egy konferenciakezelő rendszerben nyomon kell követni a kész foglalások számát, hogy lehessen tudni, van-e még szabad hely egy adott konferencián, ha egy érdeklődő foglalni szeretne. A rendszer az egyes konferenciákra érkezett foglalások számát legalább kétféleképpen tárolhatja:
 
-- A rendszer egy adatbázisban, amely tartalmazza a foglalási külön egységként sikerült tárolja a lefoglalások teljes számával kapcsolatos információkat. Lefoglalások készített, illetve megszakítva, a rendszer nem növelhető vagy nem ez a szám, megfelelő módon csökkentheti. Ez a megközelítés elméletileg egyszerű, de méretezhetőség hibákat is okozhat, ha nagyszámú résztvevők könyv munkaállomásokat próbál során rövid időn belül. Például az utolsó napja vagy, a foglalási időszakának záró előtt.
+- A rendszer az egyes konferenciákra érkezett foglalások számára vonatkozó adatokat tárolhatja külön entitásként a foglalási adatokat tartalmazó adatbázisban. A foglalások vagy a lemondások alkalmával a rendszer megfelelően növelheti vagy csökkentheti ezt a számot. Ez a megközelítés elméletben egyszerű, azonban skálázhatósági problémákat okozhat, ha rövid időn belül nagy számú résztvevő próbál foglalni. Például egy foglalási időszak utolsó vagy utolsó néhány napján.
 
-- A rendszer sikerült tárolni a lefoglalások és a sikertelen esemény tárolóban tárolt eseményként is rögzíti. Ezek az események visszajátszását által elérhető helyek száma kiszámításához majd azt sikerült. Lehet, hogy ez a megközelítés több méretezhető események immutability miatt. A rendszer csak kell adatokat olvasni az esemény-tároló, vagy adatok hozzáfűzése a esemény tároló. Lefoglalások és a sikertelen esemény információ soha nem módosul.
+- A rendszer a foglalásokkal és lemondásokkal kapcsolatos adatokat tárolhatja eseményekként egy eseménytárban. Ezután a szabad helyek számát ezeknek az eseményeknek a visszajátszásával számíthatja ki. Ez a megközelítés az események változtathatatlansága miatt jobban skálázható lehet. A rendszernek csak az eseménytárból kell tudnia adatokat olvasni, vagy adatokat hozzáfűzni ugyanitt. A foglalások és a lemondások eseményadatai soha nem módosulnak.
 
-A következő diagram azt ábrázolja, hogyan lehet, hogy a konferencia felügyeleti rendszer ülések foglalás alrendszere esemény forrás készletével megvalósított.
+A következő ábra azt mutatja be, hogy a konferenciakezelő rendszer helyfoglaló alrendszere hogyan implementálható az Események forráskezelése használatával.
 
-![Az esemény rögzítéséhez helyfoglalás kapcsolatos információkat a konferencia-kezelési rendszerbe forrás használatával](./_images/event-sourcing-bounded-context.png)
+![Helyfoglalási adatok rögzítése az Események forráskezelése használatával egy konferenciakezelő rendszerben](./_images/event-sourcing-bounded-context.png)
 
 
-A két hely lefoglalása műveletek sorrendjét a következőképpen történik:
+Két hely foglalása esetén a műveletek sorrendje a következő:
 
-1. A felhasználói felület munkaállomásokat foglalása két résztvevők parancsot ad ki. A parancs egy külön parancskezelő kezeli. Egy adat logika, amely a felhasználói felület különválik és parancsként közzétett kérelmek kezeléséért felelős.
+1. A felhasználói felület kiad egy parancsot két hely foglalására két résztvevő számára. A parancsot egy külön parancskezelő dolgozza fel. Egy, a felhasználói felületről leválasztott és a parancsként közzétett kérések kezeléséért felelős logikai rész.
 
-2. A konferencia összes lefoglalását kapcsolatos információkat tartalmazó összesítő összeállított a foglalások és a törlések leíró események lekérdezésével. Az összesítés nevezik `SeatAvailability`, és magában foglal egy tartományi modellt, amely kérdez le, és az adatok módosítása aggregált használatos metódusok közzététele.
+2. A konferencia összes foglalásával kapcsolatos adatokat tartalmazó összesítés a foglalásokat és a lemondásokat leíró események lekérdezésével állatható össze. Az összesítés neve `SeatAvailability`, és egy olyan tartományi modell tartalmazza, amely az összesítésben foglalt adatok lekérdezésére és módosítására szolgáló metódusokat tárja fel.
 
-    > Figyelembe kell venni néhány optimalizálásokat pillanatképek használ (így nem kell lekérdezni, és a teljes listát az beszerzése a jelenlegi állapotában a összesítés események visszajátszásos), és az összesítés a memóriában gyorsítótárazott másolatának megtartásával.
+    > A fontolóra vehető optimalizálási lehetőségek a pillanatképek használata (így az összesítés aktuális állapotának bekéréséhez nem szükséges a teljes eseménylistát lekérdezni és visszajátszani), valamint az összesítés gyorsítótárazott másolatának tárolása a memóriában.
 
-3. A parancskezelő jelennek meg, ha a tartomány modellt a fenntartásokat metódus meghívja.
+3. A parancskezelő egy, a tartományi modellben feltárt metódust hív meg a foglalások intézésére.
 
-4. A `SeatAvailability` összesítés volt fenntartva munkaállomásszámot tartalmazó esemény rögzíti. Összesített vonatkozik események, amikor legközelebb a lefoglalását használandó számítási hány munkaállomásokat maradnak.
+4. A `SeatAvailability` összesítés rögzíti a lefoglalt helyek számát tartalmazó eseményt. A következő alkalommal, amikor az összesítés valamilyen eseményt alkalmaz, a szabad helyek számát a rendszer az összes foglalás használatával számítja ki.
 
-5. A rendszer hozzáfűzi az új esemény események az esemény-tárolóban.
+5. A rendszer hozzáfűzi az új eseményt az események sorához az eseménytárban.
 
-Ha egy felhasználó megszakítja a helyet, a rendszer egy hasonló folyamatot követi, azzal a különbséggel parancskezelő generál egy eseményt, ülések megszakítása és fűzi azokat hozzá az esemény tároló parancsot ad ki.
+Ha egy felhasználó lemond egy helyet, a rendszer ugyanezt a folyamatot követi, azzal a különbséggel, hogy a parancskezelő egy helylemondási eseményt létrehozó parancsot ad ki és fűz hozzá az eseménytárhoz.
 
-A méretezhetőség érdekében további hatókör biztosít, valamint egy esemény tárolót használó is biztosít a teljes előzmények, illetve a napló, a lefoglalások és konferencia a következménye. Az események az esemény tárolóban a pontos rekord. Nincs szükség más módon összesítések megőrizni, mert a rendszer egyszerűen visszajátszásos az események és az állapot visszaállítása bármely időpontra.
+Amellett, hogy több lehetőséget kínál a skálázásra, az eseménytár teljes körű előzményeket – vagy naplózást – is biztosít a konferencia foglalásaival és lemondásaival kapcsolatban. Az eseménytárban szereplő események szolgálnak pontos rekordként. Az összesítéseket nem szükséges egyéb módon megőrizni, mivel a rendszer könnyedén visszajátszhatja az eseményeket, és visszaállíthatja az állapotot bármely időpontra.
 
-> Ebben a példában található további információ található [esemény forrás bevezetéséről](https://msdn.microsoft.com/library/jj591559.aspx).
+> Ezzel a példával kapcsolatban további információkat [az Események forráskezelése bemutatásában](https://msdn.microsoft.com/library/jj591559.aspx) talál.
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-- [Parancsot, és lekérdezi a felelősség elkülönítése (CQRS) mintát](cqrs.md). Az írási tároló, amely az állandó információforrás a CQRS megvalósításának gyakran alapú esemény forrás minta megvalósítása. Ismerteti, hogyan elkülönítse a műveleteket, amelyek az alkalmazás adatokat olvasni az operatív adatokat frissítő külön-felületek használatával.
+- [Parancskiadási és lekérdezési felelősségek elkülönítése (CQRS) minta](cqrs.md). A CQRS implementálások állandó adatforrását biztosító írási tároló alapjául gyakran az Események forráskezelése minta egy implementálása szolgál. A szakasz azt ismerteti, hogyan lehet különböző felületek használatával elkülöníteni az alkalmazások adatolvasó műveleteit az adatfrissítő műveletektől.
 
-- [A materializált nézet mintát](materialized-view.md). Egy esemény forrás alapján rendszerben használt adattároló nincs általában kiválóan alkalmas a hatékony lekérdezése. Ehelyett egy közös megoldás, az adatok előfeltöltött nézetek létrehozásához, rendszeres időközönként, vagy az adatok változásakor. Bemutatja, hogyan ehhez.
+- [A Materialized View minta](materialized-view.md). Az Események forráskezelése mintán alapuló rendszerekben használt adattárak tipikusan nem nagyon alkalmasak a hatékony lekérdezésre. Ehelyett az általános megközelítés szerint rendszeres időközönként vagy az adatok változásakor szokás előfeltöltött nézeteket létrehozni az adatokról. Ez a szakasz ennek a menetét mutatja be.
 
-- [Tranzakció mintát Compensating](compensating-transaction.md). A meglévő adatok esemény sourcing tárolóban nem frissül, inkább új bejegyzések kerülnek, térjen át az entitás állapotát az új értékekkel. Fordított módosítását, mert nem lehet az előző módosítás egyszerűen fordított kell használni kompenzációs bejegyzéseket. Ismerteti, hogyan vonható vissza egy korábbi művelet által végzett munka.
+- [Kompenzáló tranzakció mintája](compensating-transaction.md). Az Események forráskezelése tárban található meglévő adatok nem frissülnek, hanem új bejegyzések lesznek hozzáadva, amelyek átváltják az entitások állapotát az új értékekre. A módosítások visszavonásához kompenzáló bejegyzéseket kell alkalmazni, mivel a megelőző módosításokat nem lehet egyszerűen visszavonni. A szakasz azt ismerteti, hogyan lehet visszavonni a korábbi műveletek által végrehajtott módosításokat.
 
-- [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). Ha esemény forrás egy külön olvassa el a tároló vagy materializált nézetek, a beolvasott adat nem lesz azonnal konzisztens, ehelyett lesz csak idővel konzisztenssé. A konzisztencia fenntartása körülvevő elosztott adatokon keresztül problémákat foglalja össze.
+- [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). Ha az Események forráskezelése mintát egy külön olvasási tárral vagy tényleges táblán alapuló nézetekkel alkalmazza, a beolvasott adatok nem azonnal, hanem csak végül lesznek konzisztensek. A szakasz az elosztott adatok konzisztenciájának megőrzésével kapcsolatos problémákat foglalja össze.
 
-- [Útmutatás particionálás adatok](https://msdn.microsoft.com/library/dn589795.aspx). Adatok gyakran particionálása használatakor esemény forrás méretezhetőség javítása, csökkentse a versengés és teljesítményének optimalizálásához. Adatok felosztása diszkrét partíció, és az esetlegesen felmerülő problémákat ismerteti.
+- [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx). Az Események forráskezelése minta alkalmazása esetén az adatokat gyakorta szokás particionálni a skálázhatóság javítása, a versengés csökkentése és a teljesítmény optimalizálása érdekében. A szakasz az adatok diszkrét partíciókra való felosztását és az esetlegesen felmerülő problémákat ismerteti.
 
-- Greg Young post [miért érdemes használni a esemény forrás?](http://codebetter.com/gregyoung/2010/02/20/why-use-event-sourcing/).
+- Greg Young bejegyzése: [Miért érdemes az Események forráskezelése mintát alkalmazni?](http://codebetter.com/gregyoung/2010/02/20/why-use-event-sourcing/).

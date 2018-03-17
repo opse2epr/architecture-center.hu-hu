@@ -1,56 +1,56 @@
 ---
-title: "Víruskereső sérülés réteg minta"
+title: "Sérülésgátló réteg minta"
 description: "Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között."
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: e41f080abbef772596ee7f8b10ad72bb03a3b829
-ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
+ms.openlocfilehash: efb1f90be33c2621c7a24c42730da9fffe70dfad
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/05/2018
+ms.lasthandoff: 03/17/2018
 ---
-# <a name="anti-corruption-layer-pattern"></a>Víruskereső sérülés réteg minta
+# <a name="anti-corruption-layer-pattern"></a>Sérülésgátló réteg minta
 
-A modern alkalmazás- és egy örökölt, amelyektől függ közötti homlokzat vagy adapter rétegben megvalósításához. Ez a réteg az eszköz közötti a modern alkalmazás- és az örökölt kérelmek. Ez a minta segítségével győződjön meg arról, hogy a régebbi rendszerekre függőségek nem korlátozza az alkalmazás tervét. Ebben a mintában először szerint Eric Evans a *Domain-Driven tervezési*.
+Egy homlokzat vagy adapter réteg között különböző alrendszereket, ne ossza meg az azonos szemantikáját megvalósításához. Ez a réteg az eszköz egy alrendszer hajt végre a más alrendszer kérelmek. Ez a minta segítségével győződjön meg arról, hogy egy alkalmazás tervét nem korlátozza a külső alrendszereket függőségek. A mintáról először Eric Evans írt *Domain-Driven Design* című könyvében.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-A legtöbb alkalmazás bizonyos adatokhoz vagy funkciókhoz más rendszerek támaszkodnak. Például ha egy örökölt alkalmazás modern rendszerre telepít át, az továbbra is esetleg meglévő hagyományos erőforrásokat. Új szolgáltatások korábbi rendszer képesnek kell lennie. Ez különösen igaz a fokozatos áttelepítéseket, ahol egy nagyobb alkalmazás különböző funkcióit áthelyezik egy modern rendszer adott idő alatt.
+A legtöbb alkalmazás más rendszerekre támaszkodik bizonyos adatokért vagy funkciókért. Ha például egy örökölt alkalmazást egy modern rendszerbe migrálnak, annak továbbra is szüksége lehet a meglévő régebbi erőforrásokra. Az új funkcióknak képesnek kell lenniük meghívni a régi rendszert. Ez különösen igaz fokozatos migrálás esetén, ahol az idő előrehaladtával egy nagyobb alkalmazás különböző funkcióit helyezik át egy modern rendszerbe.
 
-A régebbi rendszerekre gyakran érinti a minőségi problémákat, például csavart adatok sémák vagy elavult API-t. A szolgáltatások és korábbi rendszerekben használt technológiák széles körben változhat korszerűbb rendszerek. A korábbi rendszerrel működik, az új alkalmazás támogatja az elavult infrastruktúra, protokollok, adatmodellekben, API-k vagy egyéb szolgáltatásokat, amelyek a modern alkalmazások egyébként nem tudnák üzembe kell.
+A régebbi rendszerekben gyakoriak a minőségbeli hibák (pl. szövevényes adatsémák, elavult API-k). A korábbi rendszerek funkciói és technológiái nagyban eltérhetnek a modern rendszerekétől. Ahhoz, hogy az új alkalmazás együttműködhessen a régebbi alkalmazással, nagy eséllyel támogatnia kell elavult infrastruktúrákat, protokollokat, adatmodelleket, API-kat vagy más olyan funkciókat, amelyeket máskülönben nem tennénk egy korszerű alkalmazás részévé.
 
-Az új rendszer igazodnia kell legalább egy új és korábbi rendszerek közötti hozzáférés fenntartásához kényszerítheti a korábbi rendszer API-k vagy más szemantikáját. Ha a régi szolgáltatások minőségének problémák vannak, azokat támogató "megsérülnek" milyen más módon lehet egy szabályszerűen tervezett modern alkalmazások. 
+Az új és a régebbi rendszer közötti hozzáférés fenntartása érdekében előfordulhat, hogy az új rendszernek alkalmazkodnia kell néhányhoz a korábbi rendszer API-jai vagy más szemantikái közül. Ha ezek a régebbi funkciók hibásak, támogatásukkal „megsérül” a máskülönben letisztult tervezésű korszerű alkalmazás. 
+
+Bármely külső rendszer szabályozó developmenmt csapata nem, csak a régebbi rendszerekre hasonló problémák merülhetnek fel. 
 
 ## <a name="solution"></a>Megoldás
 
-Különítse el a régebbi és modern rendszerek úgy, hogy egy víruskereső sérülés réteg között. Ez a réteg lefordítja a két rendszer, így a korábbi rendszer változatlanok maradnak, amíg a modern alkalmazásnak a tervezési és technológiai megközelítést veszélyeztetése elkerülése érdekében közötti kommunikáció.
+Különítse el a különböző alrendszereket úgy, hogy egy víruskereső sérülés réteg között. Ez a réteg lefordítja a két rendszer, így egy rendszer változatlanok maradnak, amíg a másik elkerülése érdekében a tervezési és technológiai megközelítést veszélyeztetése közötti kommunikáció.
 
 ![](./_images/anti-corruption-layer.png) 
 
-A modern alkalmazások és a sérülés elleni réteg közötti kommunikáció mindig az alkalmazás adatokat az adatmodellbe és architektúra használja. Az örökölt rendszer hívásainak a víruskereső sérülés réteg által adott rendszer adatmodell vagy módszerek felelnek meg. A víruskereső sérülés réteg tartalmazza az összes szükséges lefordítani a két rendszer között logika. A réteg összetevőjeként az alkalmazáson belül, vagy egy független szolgáltatásként valósítható meg.
+A fenti ábra mutatja az alkalmazás két alrendszereket. Alrendszer A hívások alrendszer B keresztül egy víruskereső sérülés réteget. Alrendszer közötti kommunikációt és a sérülés elleni réteg mindig használja az adatmodellben és az architektúra alrendszer A. hívások a víruskereső sérülés rétegből alrendszer B felelnek meg, hogy alrendszer adatmodell vagy módszert. A sérülésgátló réteg tartalmazza az összes logikát, amely a két rendszer közötti fordításhoz szükséges. A réteget implementálhatja egy alkalmazáson belüli összetevőként, de akár független szolgáltatásként is.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-- A víruskereső sérülés réteg késés adhat hozzá a két rendszer hívások.
-- A víruskereső sérülés réteg hozzáadja egy másik szolgáltatást, amely felügyelt és karbantartani kell.
-- Vegye figyelembe, hogyan lesz skálázva a víruskereső sérülés réteg.
-- Vegye figyelembe, hogy szükséges-e egynél több víruskereső sérülés réteg. Érdemes lehet felbontani funkció szolgáltatásba több különböző technológiákkal, illetve azokat a nyelveket, vagy előfordulhat, hogy a víruskereső sérülés réteg particionálásához más okok miatt.
-- Vegye figyelembe, hogy a víruskereső sérülés réteg hogyan kezelik a más alkalmazásokkal vagy szolgáltatásokkal kapcsolatban. Hogyan fogja azt integrálni kell a figyelés, release és konfigurációs folyamatok?
-- Győződjön meg arról, tranzakció és az adatok konzisztenciájának megmaradnak, és figyelhető.
-- Vegye figyelembe, hogy a víruskereső sérülés réteg kell-e a hagyományos és modern rendszerek vagy szolgáltatások egy részhalmaza közötti összes kommunikáció kezelésére. 
-- Vegye figyelembe, hogy a víruskereső sérülés réteg célja, hogy végleges vagy végül kivont egyszer minden örökölt funkciója migrálása befejeződött.
+- A sérülésgátló réteg késéseket okozhat a két rendszer közötti hívásoknál.
+- A sérülésgátló réteg egy további szolgáltatást képez, amely kezelést és karbantartást igényel.
+- Gondolja át, hogyan lesz skálázva a sérülésgátló réteg.
+- Fontolja meg, hogy egynél több sérülésgátló rétegre lenne-e szüksége. Érdemes lehet funkció szerint felbontani több, különböző technológiákat és nyelveket használó szolgáltatásra, de más okokból is particionálhatja a sérülésgátló réteget.
+- Gondolja át, hogy egyéb alkalmazásaihoz vagy szolgáltatásaihoz képest hogyan fogja kezelni a sérülésgátló réteget. Hogyan fogja integrálni a monitorozási, kiadási és konfigurációs folyamataiba?
+- Győződjön meg arról, hogy a tranzakciós és adatkonzisztencia fenntartható és monitorozható.
+- Vegye figyelembe, hogy kell-e a víruskereső sérülés réteg különböző alrendszereket, vagy a szolgáltatások egy részhalmaza közötti összes kommunikáció kezelésére. 
+- Ha a víruskereső sérülés réteg az alkalmazás áttelepítési stratégiájának a részét, fontolja meg a végleges, vagy rendszerből összes örökölt funkció migrálása befejeződött.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez mintát, mikor használja:
+Használja ezt a mintát, ha:
 
-- Áttelepítés tervezett megtörténjen-e keresztül több szakaszt, de új és korábbi rendszerek közötti integrációs kell megőrizni.
-- Új és korábbi rendszer különböző szemantikáját, de továbbra is kell való kommunikációhoz.
+- Több lépésben tervez migrációt végrehajtani, de szükség van a régi és az új rendszer közötti integráció fenntartására.
+- Két vagy több alrendszereket különböző szemantikáját, de továbbra is kell való kommunikációhoz. 
 
-Előfordulhat, hogy ez a minta nem megfelelő, ha új és a korábbi rendszerek között nincs jelentős szemantikai különbségek vannak. 
+Nem érdemes ezt a mintát használni, ha nincsenek jelentős szemantikai különbségek az új és a régebbi rendszer között. 
 
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Strangler minta][strangler]
-
-[strangler]: ./strangler.md
+- [Strangler minta](./strangler.md)

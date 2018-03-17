@@ -1,20 +1,20 @@
 ---
-title: "Azure virtuális gépek elosztott terhelésű futtassa a méretezhetőség és a rendelkezésre állási"
-description: "Több Linux virtuális gépek futtatásához Azure a méretezhetőség és a rendelkezésre állási módját."
+title: "Elosztott terhelésű virtuális gépek üzemeltetése a méretezhetőség és a rendelkezésre állás érdekében"
+description: "Több Linux rendszerű virtuális gép futtatása az Azure-ban a méretezhetőség és a rendelkezésre állás érdekében."
 author: telmosampaio
 ms.date: 11/16/2017
 pnp.series.title: Linux VM workloads
 pnp.series.next: n-tier
 pnp.series.prev: single-vm
-ms.openlocfilehash: 8f081baa40355b4f02b83c308466df8333d7ad87
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: baccf610e0859358ef71d0c5a1d6228752fc1e2f
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 03/17/2018
 ---
-# <a name="run-load-balanced-vms-for-scalability-and-availability"></a>Virtuális gépek elosztott terhelésű a méretezhetőség és a rendelkezésre állási futtatása
+# <a name="run-load-balanced-vms-for-scalability-and-availability"></a>Elosztott terhelésű virtuális gépek üzemeltetése a méretezhetőség és a rendelkezésre állás érdekében
 
-A referencia-architektúrában több Linux virtuális gépek (VM) futtatásához bevált gyakorlatok csoportja terjedő skálán rendelkezésre állás és méretezhetőség javítása érdekében egy terheléselosztó mögött beállítása jeleníti meg. Ez az architektúra bármely állapot nélküli alkalmazások és szolgáltatások, például webkiszolgálót, nem használható és alaprendszert n szintű alkalmazások központi telepítéséhez. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bevált eljárásokat mutat be, amelyekkel a méretezhetőség és a rendelkezésre állás javítása érdekében több Linux rendszerű virtuális gép (VM) futtatható egy terheléselosztó mögötti méretezési csoportban. Ez az architektúra bármilyen állapot nélküli számítási feladathoz használható (például webkiszolgálókhoz), és alapul szolgál az N szintű alkalmazások üzembe helyezéséhez. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 ![[0]][0]
 
@@ -22,145 +22,145 @@ A referencia-architektúrában több Linux virtuális gépek (VM) futtatásához
 
 ## <a name="architecture"></a>Architektúra
 
-Ez az architektúra épít, a [egyetlen virtuális gép referencia-architektúrában][single-vm]. Az ajánlások ebbe az architektúrába is vonatkozik.
+Ez az architektúra az [egyetlen virtuális géppel rendelkező referenciaarchitektúrára][single-vm] épít. Az arra vonatkozó javaslatok erre az architektúrára is érvényesek.
 
-Ebben az architektúrában az adott munkaterheléshez pontjain több Virtuálisgép-példányok. Egy egyetlen nyilvános IP-címet, és internetes forgalmat a virtuális gépeket, a terheléselosztó terjesztése. Ez az architektúra egyszintű alkalmazások, például az állapot nélküli webalkalmazás használható.
+Ebben az architektúrában a számítási feladatok több virtuálisgép-példányon oszlanak el. Az architektúra egyetlen nyilvános IP-címet használ, és az internetes forgalom terheléselosztón keresztül jut el a virtuális gépekhez. Ez az architektúra egyrétegű alkalmazásokhoz, például állapot nélküli webalkalmazásokhoz használható.
 
-Az architektúra a következő részből áll:
+Az architektúra a következő összetevőkből áll:
 
-* **Erőforráscsoport.** [Erőforráscsoportok] [ resource-manager-overview] erőforrások segítségével, így élettartamát, a tulajdonos vagy más feltételek felügyelhetők.
-* **Virtuális hálózat (VNet) és alhálózat.** Minden Azure virtuális Gépen központilag telepítik egy Vnetet, amely több szegmentált is lehet.
-* **Azure Load Balancer**. A [terheléselosztó] [ load-balancer] osztja el a Virtuálisgép-példányok bejövő Internet kéréseket. 
-* **Nyilvános IP-cím**. Egy nyilvános IP-címet a terheléselosztóhoz internetes forgalom fogadására van szükség.
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
-* **Virtuálisgép-méretezési készlet**. A [Virtuálisgép-méretezési készlet] [ vm-scaleset] üzemeltetni a munkaterhelés azonos virtuális gépek halmaza. Méretezési készlet lehetővé teszi a bejövő vagy kimenő tolja virtuális gépek számát manuálisan vagy automatikusan előre meghatározott szabályok alapján.
-* **A rendelkezésre állási csoport**. A [rendelkezésre állási csoport] [ availability-set] tartalmazza a virtuális gépeket, így a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatásiszint-szerződés (SLA) szolgáltatás][vm-sla]. A magasabb garantált szolgáltatási szintje alkalmazandó a rendelkezésre állási csoport tartalmaznia kell legalább két virtuális gépek. Rendelkezésre állási készletek implicit a méretezési készlet. A skála készleten kívüli virtuális gépeket hoz létre, ha meg szeretne létrehozni a rendelkezésre állási csoportot egymástól függetlenül.
-* **Által kezelt lemezeken**. Azure-lemezeket kezeli a virtuális merevlemez (VHD) fájlok, a virtuális gép lemezeivel kezelése. 
-* **Tárolási**. Hozzon létre egy Azure Storage-fiók a virtuális gépek diagnosztikai naplók tárolásához.
+* **Erőforráscsoport.** Az [erőforráscsoportok][resource-manager-overview] az erőforrások csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők.
+* **Virtuális hálózat (VNet) és alhálózat.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve.
+* **Azure Load Balancer**. A [terheléselosztó][load-balancer] elosztja a beérkező internetes kérelmeket a virtuálisgép-példányok között. 
+* **Nyilvános IP-cím**. Ahhoz, hogy a terheléselosztó fogadni tudja az internetes forgalmat, egy nyilvános IP-címre van szükség.
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+* **Virtuálisgép-méretezési csoport**. A [Virtuálisgép-méretezési csoport] [ vm-scaleset] egymással megegyező virtuális gépek csoportja, amely egy adott számítási feladatot üzemeltet. A méretezési csoportok lehetővé teszik, hogy a virtuális gépek száma manuálisan, vagy előre meghatározott szabályok szerint automatikusan fel- vagy leskálázható legyen.
+* **Rendelkezésre állási csoport**. A [rendelkezésre állási csoport][availability-set] magában foglalja a virtuális gépeket, így azok magasabb szintű [szolgáltatói szerződésre (SLA-ra)][vm-sla] jogosultak. A magasabb szintű szolgáltatói szerződés érvénybe lépéséhez a rendelkezésre állási csoportnak legalább két virtuális gépet kell tartalmaznia. A rendelkezésre állási csoportok a méretezési csoportokkal járnak. Ha méretezési csoporton kívül hoz létre virtuális gépeket, külön létre kell hoznia a rendelkezésre állási csoportot.
+* **Felügyelt lemezek**. Az Azure Managed Disks szolgáltatás kezeli a virtuális gépek lemezeihez tartozó virtuális merevlemezek (VHD) fájljait. 
+* **Tárhely**. Hozzon létre egy Azure Storage-fiókot a virtuális gépek diagnosztikai naplóinak tárolására.
 
 ## <a name="recommendations"></a>Javaslatok
 
-A követelmények nem lehetséges, hogy teljesen igazodnak az itt leírt architektúra. Ezeket a javaslatokat tekintse kiindulópontnak. 
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak. 
 
-### <a name="availability-and-scalability-recommendations"></a>Rendelkezésre állás és méretezhetőség javaslatok
+### <a name="availability-and-scalability-recommendations"></a>Rendelkezésre állási és méretezhetőségi javaslatok
 
-A beállítás a rendelkezésre állást és méretezhetőséget, hogy használja a [virtuálisgép-méretezési csoport][vmss]. Virtuálisgép-méretezési készlet segítségével telepítheti és az azonos virtuális gépek kezelésére. Skálázási készletekben támogatási automatikus skálázás teljesítménymutatók alapján. Ha a virtuális gépeken a terhelés növekszik, további virtuális gépeket a rendszer automatikusan hozzáadja a terheléselosztót. Ha gyorsan terjessze ki a virtuális gépeket, vagy az automatikus skálázás kell módosítania, fontolja meg méretezési készlet.
+A rendelkezésre állás és a méretezhetőség érdekében használható egyik lehetőség a [virtuálisgép-méretezési csoport][vmss]. A virtuálisgép-méretezési csoportok segítségével azonos virtuális gépek csoportját hozhatja létre és kezelheti. A méretezési csoportok támogatják a teljesítménymetrikák alapján történő automatikus skálázást. Ahogy a terhelés növekszik a virtuális gépeken, a rendszer további virtuális gépeket ad a terheléselosztóhoz. Fontolja meg a méretezési csoportok használatát, ha virtuális gépek gyors horizontális felskálázására vagy automatikus méretezésre van szüksége.
 
-Alapértelmezés szerint méretezési készlet használhatja "elhelyezésétől", ami azt jelenti, a méretezési kezdetben látja el, mint hogy kérjen további virtuális gépeket, majd törli az extra virtuális Gépekért. Ez javítja az általános sikerességi arányát, a virtuális gépek kiépítésekor. Ha nem használ [által kezelt lemezeken](/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-managed-disks), legfeljebb 20 gépek javasoljuk a elhelyezésétől engedélyezve van, és legfeljebb 40 elhelyezésétől rendelkező virtuális gépek le van tiltva.
+Alapértelmezés szerint a méretezési csoportok „túlzott mértékű kiépítést” használnak, ami azt jelenti, hogy a méretezési csoport kezdetben az Ön által igényeltnél több virtuális gépet oszt ki, majd törli a nem szükséges példányokat. Ez javítja az általános sikeresség arányát a virtuális gépek kiépítésekor. Ha nem használ [felügyelt lemezeket](/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-managed-disks), túlzott mértékű kiépítéssel beállított tárfiókonként 20-nál több virtuális gép használata nem ajánlott, a túlzott mértékű kiépítés letiltása mellett pedig legfeljebb 40 virtuális gép ajánlott.
 
-Méretezési csoportban lévő telepített virtuális gépek konfigurálása két alapvető módja van:
+A méretezési csoportokban üzembe helyezett virtuális gépek konfigurálásának két alapvető módja van:
 
-- Bővítmények segítségével konfigurálhatja a virtuális Gépet, akkor kiépítése után. Ezt a módszert új Virtuálisgép-példányok hosszabb időt vehet igénybe indul el, mint egy virtuális gép nem kiterjesztésű fájl.
+- Bővítmények segítségével konfigurálhatja a virtuális gépet annak kiépítése után. Ezzel a módszerrel az új virtuálisgép-példányok indítása több időt vehet igénybe, mint a bővítmények nélküli virtuális gépeké.
 
-- Központi telepítése egy [felügyelt lemezes](/azure/storage/storage-managed-disks-overview) az egyéni lemezképet. Lehet, hogy ez a beállítás gyorsabban telepíthető. Azonban ehhez szükséges a kép naprakészen tartása.
+- Üzembe helyezhet egy [felügyelt lemezt](/azure/storage/storage-managed-disks-overview) egy egyéni rendszerképpel. Ez a módszer gyorsabban kivitelezhető. Azonban ebben az esetben naprakészen kel tartania a rendszerképet.
 
-További szempontokat lásd: [kialakítási szempontok a méretezési készlet][vmss-design].
+További szempontokért lásd: [Kialakítási szempontok a méretezési csoportokhoz][vmss-design].
 
 > [!TIP]
-> Minden automatikus skálázási megoldás használata esetén tesztelte éles szintű munkaterhelések jó előre.
+> Bármilyen automatikus méretezési megoldás használata esetén jóval előre tesztelje azt az éles környezetre jellemző mennyiségű számítási feladattal.
 
-Ha egy méretezési készlet nem használja, fontolja meg legalább használatával egy rendelkezésre állási csoportot. Hozzon létre legalább két virtuális gépek rendelkezésre állási csoportban, támogatásához a [Azure virtuális gépek SLA-elérhetőséget][vm-sla]. Az Azure load balancer is szükséges, hogy elosztott terhelésű virtuális gépek ugyanabban a rendelkezésre állási csoportba tartozik.
+Ha nem használ méretezési csoportot, fontolja meg legalább egy rendelkezésre állási csoport használatát. Hozzon létre legalább két virtuális gépet a rendelkezésre állási csoportban az [Azure-beli virtuális gépekre vonatkozó rendelkezésre állási SLA][vm-sla] támogatásához. Az Azure-terheléselosztó további követelménye, hogy az elosztott terhelésű virtuális gépek ugyanabba a rendelkezésre állási csoportba tartozzanak.
 
-Minden Azure-előfizetéssel rendelkezik alapértelmezett korlátokat, többek között a régiónként eltérő virtuális gépek maximális számát. A korlát növeléséhez által tervátalakítási egy támogatási kérést. További információkért lásd: [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][subscription-limits].
+Minden Azure-előfizetésre alapértelmezett korlátozások vonatkoznak. Ilyen például a régiónként alkalmazható virtuális gépek maximális száma. Támogatási kérelem kitöltésével megnövelheti ezt a korlátot. További információk: [Az Azure-előfizetések és -szolgáltatások korlátozásai, kvótái és megkötései][subscription-limits].
 
 ### <a name="network-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
-Telepítse a virtuális gépeket ugyanazon az alhálózaton belül. Nem fedheti fel a virtuális gép közvetlenül az internethez, de ehelyett adjon egy magánhálózati IP-cím az egyes virtuális gépek. A terheléselosztó a nyilvános IP-címet használja az ügyfelek kapcsolódnak.
+A virtuális gépeket ugyanabban az alhálózatban helyezze üzembe. Ne engedélyezze a virtuális gépek elérését közvetlenül az internetről – ehelyett adjon mindegyiknek privát IP-címet. Az ügyfelek a terheléselosztó nyilvános IP-címével kapcsolódnak.
 
-Ha jelentkezzen be a virtuális gépeket, a terheléselosztó mögött van szüksége, fontolja meg egy virtuális egy jumpbox (más néven a megerősített gazdagépen), jelentkezzen be a nyilvános IP-címmel. Majd jelentkezzen be a virtuális gépeket a jumpbox a terheléselosztó mögött. Másik lehetőségként beállíthatja a terheléselosztó bejövő hálózati cím címfordítási (NAT) szabályok. Azonban rendelkezik egy jumpbox esetén jobb megoldás n szintű munkaterhelések vagy több munkaterhelés üzemeltet.
+Ha a terheléselosztó mögötti virtuális gépekre kell bejelentkeznie, javasolt egy virtuális gép jumpboxként (más néven bástyagazdagépként) való hozzáadása egy olyan nyilvános IP-címmel, amelyre be tud jelentkezni. Ezután jelentkezzen be a terheléselosztó mögötti virtuális gépekbe a jumpboxról. Alternatív lehetőségként konfigurálhatja a terheléselosztó bejövő hálózati címfordítási (NAT-) szabályait. Azonban a jumpbox jobb megoldás, ha N szintű számítási feladatokat vagy több számítási feladatot kíván futtatni.
 
-### <a name="load-balancer-recommendations"></a>Load balancer javaslatok
+### <a name="load-balancer-recommendations"></a>Terheléselosztóra vonatkozó javaslatok
 
-Adja hozzá az összes virtuális gép rendelkezésre állási csoportban, a terheléselosztó a háttér-címkészlethez.
+Adja hozzá a rendelkezésre állási csoportban található összes virtuális gépet a terheléselosztó háttércímkészletéhez.
 
-Adja meg a load balancer szabályok közvetlen hálózati forgalmat a virtuális gépekhez. Ahhoz, hogy a HTTP-forgalom, hozzon létre például egy szabályt, amely leképezhető a 80-as porton az előtér-konfigurációból a háttér-címkészlet a 80-as porton. Amikor egy ügyfél HTTP-kérelmet küld a 80-as porton, a terheléselosztó kiválasztja a háttér IP-címnek a [kivonatoló algoritmus] [ load-balancer-hashing] , amely tartalmazza a forrás IP-cím. Ily módon ügyfélkéréseket a virtuális gépek különböző pontjain.
+Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen hálózati forgalomra vonatkozó szabályait. Például a HTTP-forgalom engedélyezéséhez hozzon létre egy szabályt, amely hozzárendeli a 80-as portot az előtérbeli konfigurációból a háttércímkészletben található 80-as porthoz. Amikor egy ügyfél HTTP-kérelmet küld a 80-as port felé, a terheléselosztó kiválaszt egy háttérbeli IP-címet egy [kivonatoló algoritmus][load-balancer-hashing] használatával, amely tartalmazza a forrás IP-címét. Így a kérelmek megoszlanak az összes virtuális gép között.
 
-Irányíthatja a forgalmat egy adott virtuális géphez, használja a NAT-szabályok. Ahhoz, hogy a virtuális gépek RDP, hozzon létre például egy külön NAT-szabály az egyes virtuális gépek. Minden egyes szabály egy eltérő portszámot kell leképezése 3389-es, az alapértelmezett port RDP. Például a "VM1", "Vm2 virtuális gépnek," 50002 port 50001 portot használja, és így tovább. Rendelje hozzá a NAT-szabályok a hálózati adaptert a virtuális gépeken.
+Ahhoz, hogy az adatforgalmat egy meghatározott virtuális gépre irányítsa, használjon NAT-szabályokat. Ha például szeretné engedélyezni az RDP-vel való kapcsolódást a virtuális gépekhez, hozzon létre egy külön NAT-szabályt minden egyes virtuális gép számára. Minden egyes szabálynak hozzá kell rendelnie egy meghatározott portszámot a 3389-es porthoz, azaz az RDP-hez használt alapértelmezett porthoz. Például használja az 50001-es portot a „VM1” virtuális géphez, az 50002-est a „VM2”-höz, és így tovább. A NAT-szabályokat a virtuális gépek hálózati adaptereihez rendelje hozzá.
 
-### <a name="storage-account-recommendations"></a>Tárolási fiók javaslatok
+### <a name="storage-account-recommendations"></a>Tárfiókokra vonatkozó javaslatok
 
-Azt javasoljuk, hogy használatát [által kezelt lemezeken](/azure/storage/storage-managed-disks-overview) rendelkező [prémium szintű storage][premium]. Kezelt lemezeken nincs szükség a storage-fiók. Egyszerűen adja meg, méretének és típusú lemez, és azt egy magas rendelkezésre állású erőforrás van telepítve.
+Javasoljuk a [felügyelt lemezek](/azure/storage/storage-managed-disks-overview) és a [prémium szintű tároló][premium] használatát. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a méretet és a lemez típusát, és az magas rendelkezésre állású erőforrásként lesz üzembe helyezve.
 
-Ha nem felügyelt lemezt használ, hozzon létre külön az Azure storage-fiókok az egyes virtuális gépek a virtuális merevlemezek (VHD), ahhoz, hogy elérte-e a bemeneti/kimeneti műveletek száma másodpercenként elkerülése érdekében [(IOPS) vonatkozó korlátok] [ vm-disk-limits]storage-fiókok.
+Ha nem felügyelt lemezeket használ, hozzon létre külön Azure Storage-fiókot minden virtuális géphez a virtuális merevlemezek (VHD-k) tárolására, hogy elkerülje az [IOPS-korlátok][vm-disk-limits] (másodpercenkénti bemeneti/kimeneti műveletek) elérését a tárfiókban.
 
-Hozzon létre egy tárfiókot a diagnosztikai naplókat. Ez a tárfiók a virtuális gépek megoszthatók. Ez lehet normál lemezek nem felügyelt tárolási fiókot.
+Hozzon létre egy tárfiókot a diagnosztikai naplók számára. Ezt a tárfiókot az összes virtuális gép megoszthatja. A fiók lehet általános lemezeket használó nem felügyelt tárfiók.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-A rendelkezésre állási csoport hajt végre az alkalmazás rugalmasabb, mindkét tervezett és nem tervezett karbantartási események.
+A rendelkezésre állási csoport rugalmasabbá teszi alkalmazását mind a tervezett, mind a nem tervezett karbantartási eseményekkel szemben.
 
-* *A tervezett karbantartások* akkor fordul elő, amikor a Microsoft frissíti az alapul szolgáló platform néha a virtuális gépek újraindítását okozza. Azure biztosítja, hogy a virtuális gépek rendelkezésre állási csoport nem mindegyike egyszerre újraindul. Legalább egy tartják mások újraindítása közben.
-* *Nem tervezett karbantartás* hardverhiba esetén történik. Azure gondoskodik arról, hogy a virtuális gépek rendelkezésre állási csoportba között egynél több kiszolgálószekrény törlődnek. Ez segít a hardver meghibásodása hatásának csökkentéséhez, hálózati kimaradások, megszakítás mellett folytathatja a power és így tovább.
+* *Tervezett karbantartás* akkor fordul elő, amikor a Microsoft frissíti az alapul szolgáló platformot. Ez olykor a virtuális gépek újraindításával jár. Az Azure gondoskodik arról, hogy egy rendelkezésre állási csoporton belüli virtuális gépek ne egy időben induljanak újra. Legalább egy mindig fut, amíg a többi újraindítása folyamatban van.
+* *Nem tervezett karbantartás* hardverhiba esetén történik. Az Azure gondoskodik arról, hogy egy rendelkezésre állási csoporton belüli virtuális gépek több kiszolgálószekrényben helyezkedjenek el. Ez csökkenti az esetleges hardverhibák, hálózati kimaradások, áramkimaradások és hasonlók hatását.
 
-További információkért lásd: [virtuális gépek rendelkezésre állásának kezelése][availability-set]. A következő videó is jó áttekintést nyújt a rendelkezésre állási csoportok: [konfigurálása a skála virtuális gépek rendelkezésre állási csoport][availability-set-ch9].
+További információk: [Virtuális gépek rendelkezésre állásának kezelése][availability-set]. A következő videó áttekintést nyújt a rendelkezésre állási csoportokról: [Hogyan konfigurálhatók rendelkezésre állási csoportok a virtuális gépek méretezéséhez?][availability-set-ch9].
 
 > [!WARNING]
-> Győződjön meg arról, hogy a rendelkezésre állási csoportot, ha a virtuális gép konfigurálása. Jelenleg nincs semmilyen módon nem adja hozzá a Resource Manager virtuális gépek rendelkezésre állási készlet a virtuális gép kiépítése után.
+> Mindenképp konfigurálja a rendelkezésre állási csoportot a virtuális gép kiépítésekor. Jelenleg nem lehet Resource Manager-alapú virtuális gépet hozzáadni egy rendelkezésre állási csoporthoz a virtuális gép kiépítése után.
 
-Használ a load balancer [állapotteljesítmény] [ health-probes] Virtuálisgép-példányok rendelkezésre állásának figyelésére. Egy mintavételt nem érhető el egy példányt a határidőn belül, ha a terheléselosztó leállítja a forgalom küldése ezt a virtuális Gépet. Azonban továbbra is a terheléselosztó mintavételi, és ha a virtuális gép ismét elérhetővé válik, a terheléselosztó folytatja-e a forgalom küldése ezt a virtuális Gépet.
+A terheléselosztó [állapotmintákat][health-probes] használ a virtuálisgép-példányok rendelkezésre állásának monitorozásához. Ha a mintavétel nem ér el egy példányt egy bizonyos időkorláton belül, a terheléselosztó nem irányít több forgalmat az adott virtuális gép felé. A terheléselosztó ezután is folytatja a mintavételezést, és amint a virtuális gép újra elérhetővé válik, a terheléselosztó ismét elkezd forgalmat irányítani felé.
 
-Az alábbiakban néhány javaslattal terheléselosztó:
+Az alábbiakban néhány javaslat olvasható a terheléselosztó állapot-mintavételére vonatkozóan:
 
-* Mintavételt tesztelheti, HTTP vagy TCP. Ha a virtuális gépek futtatása a HTTP-kiszolgáló, hozzon létre egy HTTP-vizsgálatot. Máskülönben hozzon létre egy TCP-Hálózatfigyelővel.
-* HTTP-vizsgálatot adja meg a HTTP-végpont elérési útja. A mintavétel ellenőrzi, hogy az elérési út egy 200-as HTTP-válaszát. Ez lehet a legfelső szintű elérési útja ("/"), vagy egy állapotfigyelés végpontot, amely megvalósítja az egyes egyéni logika az alkalmazás állapotának ellenőrzéséhez. A végpont engedélyeznie kell a névtelen HTTP-kérelmekre.
-* A mintavétel küldi a [ismert IP-cím][health-probe-ip], 168.63.129.16. Győződjön meg arról, hogy a bejövő és kimenő forgalmat a IP-cím bármely tűzfal házirendek és a hálózati biztonsági csoport (NSG) szabályok nem tiltja le.
-* Használjon [állapot-mintavételi naplók] [ health-probe-log] a health mintavételt állapotának megtekintéséhez. Az Azure-portál a terheléselosztók naplózásának engedélyezése. Az Azure Blob storage írja a naplókat. A naplók hány virtuális gépek megjelenítése a háttérben futó nem fordulnak elő a hálózati forgalom miatt sikertelen mintavételi válaszokat.
+* A mintavételek a HTTP-t vagy a TCP-t tesztelhetik. Ha a virtuális gépek HTTP-kiszolgálót futtatnak, HTTP-mintavételt hozzon létre. Egyéb esetben TCP-mintavételt hozzon létre.
+* A HTTP-mintavétel esetében adjon meg elérési utat egy HTTP-végponthoz. A mintavétel 200-as HTTP-választ vár erről a megadott elérési útról. Ez lehet a gyökérútvonal („/”) vagy egy állapotmonitorozó végpont, amely valamilyen egyéni logikát alkalmaz az alkalmazás állapotának ellenőrzésére. A végpontnak engedélyeznie kell a névtelen HTTP-kérelmeket.
+* A mintavétel [ismert IP-címről érkezik:][health-probe-ip] 168.63.129.16. Győződjön meg arról, hogy nem tiltja a bejövő és kimenő forgalmat erről az IP-címről valamelyik tűzfalszabályzatban vagy NSG-szabályban.
+* Az állapotminták állapotának megtekintéséhez használjon [állapotminta-naplókat][health-probe-log]. Engedélyezze a naplózást az Azure Portalon minden egyes terheléselosztóra vonatkozóan. A naplókat a rendszer az Azure Blob Storage-ba írja. A naplók megmutatják, hány háttérbeli virtuális gép nem fogad hálózati forgalmat a meghiúsult mintavételi válaszok miatt.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Több virtuális géphez fontos folyamatok automatizálása, így azok a megbízható és ismételhető. Használhat [Azure Automation] [ azure-automation] telepítési, az operációs rendszer javítását és más feladatok automatizálásához.
+Több virtuális gép használata esetén fontos a folyamatok automatizálása azok megbízhatósága és megismételhetősége érdekében. Az [Azure Automation][azure-automation] használatával automatizálhatja az üzembe helyezést, az operációs rendszer javításait és az egyéb feladatokat.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Virtuális hálózatok a forgalom elkülönítési határt alkotnak, az Azure-ban. Egy virtuális hálózatot a virtuális gépek nem tud közvetlenül kommunikálni egy másik virtuális hálózatot a virtuális gépek. Ugyanahhoz a virtuális gépek virtuális hálózat kommunikálhatnak, kivéve, ha hoz létre [hálózati biztonsági csoportok] [ nsg] (NSG-ket) korlátozzák a forgalmat. További információkért lásd: [Microsoft cloud services és a hálózati biztonság][network-security].
+A virtuális hálózatok forgalomelkülönítési határok az Azure-ban. Egy adott virtuális hálózatban található virtuális gépek nem képesek közvetlenül kommunikálni egy másik virtuális hálózat gépeivel. Az azonos virtuális hálózatban elhelyezkedő virtuális gépek képesek a kommunikációra, hacsak [hálózati biztonsági csoportokat] [ nsg] (NSG-ket) nem hoz létre a forgalom korlátozására. További információ: [A Microsoft felhőszolgáltatásai és hálózati biztonság][network-security].
 
-A bejövő internetes forgalmat a betöltés terheléselosztó szabályok határozzák meg, melyik forgalmat el lehet-e érni a háttérben. Azonban load balancer szabályok nem támogatják a biztonságos IP-listákat, így ha azt szeretné, hogy bizonyos nyilvános IP-címek hozzáadása a biztonságos listáját, és adja hozzá egy NSG alhálózathoz.
+A bejövő internetes forgalom esetében a terheléselosztó szabályai határozzák meg, milyen forgalom érheti el a háttérrendszert. A terheléselosztó szabályai azonban nem támogatják a biztonságos IP-címek listázását, ezért ha fel kíván venni bizonyos nyilvános IP-címeket a biztonságos címek listájára, adjon hálózati biztonsági csoportot az alhálózathoz.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez az architektúra telepítésének érhető el a [GitHub][github-folder]. Telepíti a következő:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. A következőket helyezi üzembe:
 
-  * Egy virtuális hálózatot egyetlen alhálózattal nevű **webes** , amely tartalmazza a virtuális gépeket.
-  * A Virtuálisgép-méretezési készlet, amely tartalmazza a legújabb Ubuntu 16.04.3 rendszert futtató virtuális gépek LTS. Automatikus skálázás engedélyezve van.
-  * Olyan terheléselosztóhoz, amely az előtérben található a Virtuálisgép-méretezési állítva.
-  * Az NSG bejövő szabályok, amelyek lehetővé teszik a HTTP-forgalom, hogy a Virtuálisgép-méretezési beállítása.
+  * Egy virtuális hálózatot egyetlen, **web** nevű alhálózattal, amely tartalmazza a virtuális gépeket.
+  * Egy virtuálisgép-méretezési csoportot, amely az Ubuntu 16.04.3 LTS. legújabb verzióját futtató virtuális gépeket tartalmaz. Az automatikus méretezés engedélyezve van.
+  * Egy terheléselosztót, amely a virtuálisgép-méretezési csoport előtt helyezkedik el.
+  * Egy hálózati biztonsági csoportot bejövő forgalomra vonatkozó szabályokkal, amelyek engedélyezik a HTTP-forgalmat a virtuálisgép-méretezési csoport felé.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-Mielőtt a saját előfizetésének telepítése a referencia-architektúrában, a következő lépésekkel kell azt.
+Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúrát, az alábbi lépéseket kell elvégeznie.
 
-1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [AzureCAT referencia architektúra] [ ref-arch-repo] GitHub-tárházban.
+1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
 
-2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve a számítógépre. A parancssori felület telepítési utasításokért lásd: [Azure CLI 2.0 telepítése][azure-cli-2].
+2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve van a számítógépén. Információk a CLI telepítésével kapcsolatban: [Az Azure CLI 2.0 telepítése][azure-cli-2].
 
-3. Telepítse a [Azure építőelemeket] [ azbb] npm csomag.
+3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
 
-4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával használja az alábbi parancsok egyikét, és kövesse az utasításokat.
+4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
 
   ```bash
   az login
   ```
 
-### <a name="deploy-the-solution-using-azbb"></a>Az üzembe helyezéséhez azbb használatával
+### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
-A minta egyetlen virtuális gép számítási feladat telepítéséhez kövesse az alábbi lépéseket:
+A mintául szolgáló, egyetlen virtuális gépet alkalmazó számítási feladat üzembe helyezéséhez kövesse az alábbi lépéseket:
 
-1. Keresse meg a `virtual-machines\multi-vm\parameters\linux` a fenti előfeltételek lépésben letöltött tárház mappát.
+1. Navigáljon az előfeltételekre vonatkozó előző lépésekben letöltött adattár `virtual-machines\multi-vm\parameters\linux` mappájához.
 
-2. Nyissa meg a `multi-vm-v2.json` fájlt, és adjon meg egy felhasználónév és SSH-kulcs az idézőjelek között alább látható módon, majd mentse a fájlt.
+2. Nyissa meg a `multi-vm-v2.json` fájlt, és adjon meg egy felhasználónevet és egy SSH-kulcsot az idézőjelek között az alább látható módon, majd mentse a fájlt.
 
   ```bash
   "adminUsername": "",
   "sshPublicKey": "",
   ```
 
-3. Futtatás `azbb` a virtuális gépek telepítése a lent látható módon.
+3. Az `azbb` futtatásával helyezze üzembe a virtuális gépet az alább látható módon.
 
   ```bash
   azbb -s <subscription_id> -g <resource_group_name> -l <location> -p multi-vm-v2.json --deploy
   ```
 
-A minta referenciaarchitektúra telepítésével kapcsolatos további információkért látogasson el a [GitHub-tárházban][git].
+A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
 
 <!-- links -->
 
@@ -195,4 +195,4 @@ A minta referenciaarchitektúra telepítésével kapcsolatos további informáci
 [vmss]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-overview
 [vmss-design]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-design-overview
 [vmss-quickstart]: https://azure.microsoft.com/documentation/templates/?term=scale+set
-[0]: ./images/multi-vm-diagram.png "Az Azure, amely magában foglalja a rendelkezésre állási készlet két virtuális gépek és a terheléselosztó virtuális Gépre kiterjedő megoldás architektúrája"
+[0]: ./images/multi-vm-diagram.png "Több Azure-beli virtuális gépet tartalmazó megoldás architektúrája, amely egy két virtuális gépet tartalmazó rendelkezésre állási csoportból és egy terheléselosztóból áll"

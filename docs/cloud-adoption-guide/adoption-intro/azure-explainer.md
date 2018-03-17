@@ -2,11 +2,11 @@
 title: "Explainer: Azure működése"
 description: "Azure belső működését ismerteti"
 author: petertay
-ms.openlocfilehash: 847d24b7057d80f3d34aac7900cfb64fec60a640
-ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
+ms.openlocfilehash: b4830fec69ac6d256d934d91ea2c295219925a9a
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/09/2018
+ms.lasthandoff: 03/17/2018
 ---
 # <a name="explainer-how-does-azure-work"></a>Explainer: Azure működése
 
@@ -22,7 +22,7 @@ Minden állványt vagy fürt a kiszolgálók többsége vannak kijelölve, a fel
 
 A fabric controller minden példánya csatlakozik-e egy másik készlet felhő vezénylési szoftvert, általában néven futtató kiszolgálók egy **előtér**. Az előtér üzemelteti a webes szolgáltatások RESTful API-k és a felhő végez összes funkciójának használt belső Azure adatbázisok. 
 
-Így például az előtér tárolja a szolgáltatásokat, amelyeket az ügyfél-tanúsítványigénylések Azure-erőforrásokat lefoglalni [virtuális hálózatok][vnet], [virtuális gépek] [ vms], például a szolgáltatások és [CosmosDB]. Az előtér először ellenőrzi a felhasználó, és ellenőrzi, hogy a felhasználó jogosult-e a kért erőforrásokat. Ha igen, az előtér egy kiszolgálószekrény található elegendő kapacitással rendelkező adatbázis olvas, és majd arra utasítja a fabric controller az állványra lefoglalni az erőforrás.
+Így például az előtér tárolja a szolgáltatásokat, amelyeket az ügyfél-tanúsítványigénylések Azure-erőforrásokat lefoglalni [virtuális hálózatok][vnet], [virtuális gépek] [ vms], például a szolgáltatások és [Cosmos DB][cosmosdb]. Az előtér először ellenőrzi a felhasználó, és ellenőrzi, hogy a felhasználó jogosult-e a kért erőforrásokat. Ha igen, az előtér egy kiszolgálószekrény található elegendő kapacitással rendelkező adatbázis olvas, és majd arra utasítja a fabric controller az állványra lefoglalni az erőforrás.
 
 Igen nagyon egyszerűen Azure gyűjteménye túl nagy a kiszolgálók és a hálózati hardver, valamint álló összetett készlettel, amely a konfigurációs levezényelni elosztott alkalmazások és az ezeken a kiszolgálókon a virtualizált hardver- és működését. És így hatékony Azure teszi lehetővé a vezénylési – felhasználó már nem felelős és frissítése hardver, Azure összes ezt a háttérben végzi. 
 

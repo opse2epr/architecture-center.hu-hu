@@ -1,52 +1,52 @@
 ---
 title: "API-tervezési segédlet"
-description: "Útmutatás hozzon létre egy jól kidolgozott webes API-t."
+description: "Segédlet egy jól megtervezett webes API létrehozásához."
 author: dragon119
 ms.date: 01/12/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: f0813c18da03b9deeabbf529a560c60e8ce579d8
-ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
+ms.openlocfilehash: a8c4a81835ebd3ebdba2fd2cec624a9a9d5646f5
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/05/2018
+ms.lasthandoff: 03/17/2018
 ---
 # <a name="api-design"></a>API-tervezés
 
-A legtöbb modern webalkalmazások teszi közzé az API-k, amellyel az ügyfelek számára az alkalmazással. Tetszetős webes API-k támogatása érhető el:
+A legtöbb modern webalkalmazás API-kat tesz elérhetővé, amelyek segítségével az ügyfelek interakcióba léphetnek az alkalmazással. Egy jól megtervezett webes API-nak a következők támogatására kell törekednie:
 
-* **Platform függetlenség**. Bármely ügyfél kell tudni hívja az API-t, függetlenül az API hogyan a belsőleg történik. Ehhez szükséges szabványos protokollok segítségével, és amelyek az ügyfél egy olyan mechanizmus rendelkezik, és a webszolgáltatás hozzájárulhat az exchange-adatok formátumát.
+* **Platformfüggetlenség**. Bármelyik ügyfélnek meg kell tudnia hívni az API-t – függetlenül az API belső implementálásától. Ehhez szabványos protokollokra van szükség, valamint olyan mechanizmusra, amely által az ügyfél és a webszolgáltatás meg tud egyezni a kicserélendő adatok formátumában.
 
-* **Szolgáltatás alakulása**. A webes API-k fejlődnek, és egymástól függetlenül funkciókkal az ügyfélalkalmazásokból képesnek kell lennie. Az API-t fejlődésének meglévő ügyfélalkalmazások továbbra is módosítás nélkül működik. Minden funkciója felderíthető, kell, hogy az ügyfélalkalmazások teljesen használhatják azt.
+* **Szolgáltatásfejlődés**. A webes API-nak képesnek kell lennie a fejlődésre és új funkciók hozzáadására – az ügyfélalkalmazásoktól függetlenül. Az API fejlődése mellett biztosítani kell a meglévő ügyfélalkalmazások módosítás nélküli működését. Minden funkció felderíthetőnek kell lennie, hogy az ügyfélalkalmazások teljesen kihasználhassák azok képességeit.
 
-Ez az útmutató a webes API-k tervezésekor érdemes problémákat ismerteti.
+Ez az útmutató a webes API-k tervezése során megfontolandó problémákat ismerteti.
 
-## <a name="introduction-to-rest"></a>REST bemutatása
+## <a name="introduction-to-rest"></a>A REST bemutatása
 
-2000 Roy Fielding egy architekturális módjáról webes szolgáltatások tervezése, javasolt a Representational State Transfer (REST). REST egy architekturális stílus hipermédia alapján elosztott rendszerek készítéséhez. REST független a mögöttes protokollt, és nem feltétlenül kötődik HTTP. Azonban a leggyakoribb REST-alkalmazása HTTP használata a protokoll, és ez az útmutató elsősorban a HTTP REST API-k tervezésekor.
+Roy Fielding 2000-ben mutatta be a REST (Representational State Transfer, reprezentáción alapuló állapotátvitel) nevű, a webes szolgáltatások tervezésére szolgáló architekturális módszert. A REST egy architekturális stílus a hipermédián alapuló elosztott rendszerek készítéséhez. A REST mindennemű mögöttes protokolltól független, és nem feltétlenül kötődik a HTTP-hez. A leggyakoribb REST-alkalmazások azonban a HTTP-protokollt használják, így ez az útmutató elsősorban a HTTP REST API-k tervezésére koncentrál.
 
-Egy elsődleges REST HTTP Protokollon keresztül előnye, hogy az nyitott szabványok használ, és nem köthető az API-t vagy az ügyfélalkalmazások végrehajtásának egyetlen megvalósítása sem. Például egy REST-alapú webszolgáltatás sikerült írni az ASP.NET, és ügyfélalkalmazások használhat bármilyen nyelven vagy eszközkészlet, amely HTTP-kérelmek előállítására és elemezni a HTTP-válaszokat.
+A REST egyik fő előnye a HTTP-vel szemben a nyitott szabványok használata, valamint az, hogy nem köti az API vagy az ügyfélalkalmazások végrehajtását egyetlen konkrét implementáláshoz sem. Egy REST-alapú webszolgáltatás például megírható ASP.NET-ben, az ügyfélalkalmazások pedig bármilyen nyelvet vagy eszközkészletet használhatnak, amelyekkel HTTP-kérések hozhatók létre és HTTP-válaszok elemezhetők.
 
-Az alábbiakban néhány fő tervezési alapelvek RESTful API-k, HTTP-n keresztül:
+Az alábbiakban a HTTP-t használó RESTful API-k fő tervezési alapelvei közül ismertetünk néhányat:
 
-- REST API-k ellátására van kialakítva *erőforrások*, amelyeket bármilyen típusú objektum, adatokat vagy egy szolgáltatást, az ügyfél által elérhető. 
+- A REST API-k *erőforrások* köré vannak szervezve. Az erőforrások olyan objektumok, adatok vagy szolgáltatások, amelyek az ügyfél által elérhetők. 
 
-- Egy erőforrás rendelkezik egy *azonosítója*, ez az URI, amely egyedileg azonosítja az adott erőforrás. Például egy adott felhasználói sorrendben URI-JÁNAK lehet: 
+- Minden erőforrás rendelkezik egy *azonosítóval*. Ez az URI, amely egyedileg azonosítja az adott erőforrást. Például egy adott ügyfélrendelés URI-ja a következő lehet: 
  
     ```http
     http://adventure-works.com/orders/1
     ```
  
-- Kommunikáljanak az ügyfelek egy szolgáltatás kicserélésével *felelősséget* erőforrások. Számos webes API-k használata JSON-ban az exchange-formátumban. Például egy GET kérelmet a fent felsorolt URI előfordulhat, hogy térjen vissza az adott válasz törzse:
+- Az ügyfelek az erőforrások *reprezentációinak* cseréje révén lépnek interakcióba a szolgáltatásokkal. Számos webes API a JSON-t használja csereformátumként. Például, ha a fent említett URI-ra egy GET-kérés érkezik, akkor a rendszer a következő válaszüzenetet adhatja vissza:
 
     ```json
     {"orderId":1,"orderValue":99.90,"productId":1,"quantity":1}
     ```
 
-- REST API-k használata, ami segít a használata leválasztja az ügyfél és a szolgáltatás megvalósítások egységes felületet. A HTTP REST API-k lett felépítve, az egységes felületet tartalmaz szabványos HTTP-n keresztül műveletek erőforrások meg műveleteket elvégezni. A leggyakoribb műveletek esetében, GET, POST, PUT, javítás és törlése. 
+- A REST API-k egységes felületet használnak, amely segít az ügyfél és a szolgáltatás implementálásának különválasztásában. A REST API-k HTTP épül a egységes felületet hozzátartozik, hogy szabványos HTTP-műveleteket az erőforrásokon végrehajtott műveletek végrehajtásához. A leggyakoribb műveletek a következők: GET, POST, PUT, PATCH és DELETE. 
 
-- REST API-k állapot nélküli kérelem használ. HTTP-kérelmek függetlennek kell lenniük, és bármilyen sorrendben fordulhat elő, a kérelmek között átmeneti állapotadatokat megőrzi esetén nem valósítható meg. Az egyetlen hely adatokat tároló magukat az erőforrások, és minden kérelmet egy atomi művelet kell lennie. Ennél a határértéknél lehetővé teszi, hogy a webes szolgáltatások kell kiválóan méretezhető, mert nincs szükség semmilyen ügyfelek és kiszolgálók közötti kapcsolat megőrzéséhez. Bármely kiszolgáló kezelni tud a bármely ügyfél kérelmet. Említett, más tényezőktől korlátozhatja a méretezhetőségét. Számos webes szolgáltatás például egy háttérbeli adattára, amely bővítő nehéz lehet írni. (A cikk [Adatparticionálás](./data-partitioning.md) adattárat horizontális stratégiák ismerteti.)
+- A REST API-k állapot nélküli kérésmodellt használnak. A HTTP-kéréseknek függetlennek kell lenniük, és bármilyen sorrendben előfordulhatnak, ezért nem valósítható meg az átmeneti állapotadatok kérések közötti megőrzése. Az információt egyedül maguk az erőforrások tárolják, és minden kérésnek atomi műveletnek kell lennie. Ez a megkötés teszi lehetővé a webes szolgáltatások kiváló méretezhetőségét, mert nincs szükség az ügyfelek és kiszolgálók közötti affinitás megőrzésére. Bármely kiszolgáló képes kezelni bármilyen ügyféltől beérkező kérést. Mindemellett más tényezők korlátozhatják a méretezhetőséget. Számos webes szolgáltatás például egy háttérbeli adattárba ír, amelyet adott esetben nehéz lehet felskálázni. (Az [adatparticionálást](./data-partitioning.md) ismertető cikk az adattárak felskálázási stratégiáit ismerteti.)
 
-- REST API-k, amelyek szerepelnek a ábrázolását hipermédia hivatkozások alakítják. Például a következő látható sorrendben JSON-ábrázolását. Beolvasni vagy frissíteni az ügyfél az ahhoz társított mutató hivatkozásokat tartalmaz. 
+- A REST API-kat a reprezentációban szereplő hipermédia-hivatkozások vezérlik. A következő példában egy rendelés JSON-reprezentációja látható. Hivatkozásokat tartalmaz, amelyek lekérdezik vagy frissítik a rendeléshez társított ügyfelet. 
  
     ```json
     {
@@ -62,18 +62,18 @@ Az alábbiakban néhány fő tervezési alapelvek RESTful API-k, HTTP-n kereszt�
     ```
 
 
-Leonard Richardson 2008, a következő javasolt [lejárat modell](https://martinfowler.com/articles/richardsonMaturityModel.html) Web API-kat:
+Leonard Richardson 2008-ban a következő [érettségi modellt](https://martinfowler.com/articles/richardsonMaturityModel.html) javasolta a webes API-khoz:
 
-- 0. szint: Egy URI megadása, és minden műveletet POST-kérésnél ezt az URI.
-- 1. szint: Hozzon létre külön URI-azonosítók az egyes erőforrásokra vonatkozó.
-- 2. szint: HTTP használata módszerek meghatározása az erőforrásokon végrehajtott műveletek.
-- 3. szint: Hipermédia (HATEOAS, az alábbiakban) használja.
+- 0. szint: Egy URI meghatározása, majd minden művelet erre az URI-ra vonatkozó POST-kérésben adható meg.
+- 1. szint: Külön URI-k létrehozása az egyes erőforrásokhoz.
+- 2. szint: HTTP-metódusok használata az erőforrásokon végrehajtott műveletek definiálásához.
+- 3. szint: Hipermédia (az alábbiakban kifejtett HATEOAS) használata.
 
-3 szintje Fielding tartozó definíciója szerint valóban RESTful API felel meg. A gyakorlatban sok a közzétett webes API-k tartoznak valahol 2. szint körül.  
+A 3. szint Fielding definíciója szerint igazi RESTful API-nak felel meg. A gyakorlatban számos közzétett webes API a 2. szint környékén van.  
 
-## <a name="organize-the-api-around-resources"></a>Az API-t körül erőforrások rendszerezése
+## <a name="organize-the-api-around-resources"></a>Az API erőforrások köré szervezése
 
-Összpontosítson az üzleti entitásokat, amely a webes API-k elérhetővé teszi. Például az e-kereskedelmi rendszer elsődleges entitások lehet az ügyfelek és a rendeléseket. Rendelés megvalósítható úgy, hogy a rendelés információt tartalmazó HTTP POST-kérelmet küld. A HTTP-válasz azt jelzi, hogy a megbízást sikeres volt-e. Ha lehetséges, erőforrás URI-azonosítók alapuljon főnevek (erőforrás) és a műveleteket (az erőforrás-műveletek). 
+Összpontosítson a webes API-k által elérhetővé tett üzleti entitásokra. Például az e-kereskedelmi rendszerekben az elsődleges entitások az ügyfelek és a rendelések lehetnek. Egy rendelés megvalósítható egy HTTP POST-kérés küldésével, amely tartalmazza a rendelési adatokat. A HTTP-válasz jelzi, hogy a rendelés sikeres volt-e. Ha lehetséges, az erőforrás-URI-k alapuljanak főneveken (az erőforrás), ne pedig igéken (az erőforráson végrehajtott műveletek). 
 
 ```HTTP
 http://adventure-works.com/orders // Good
@@ -81,70 +81,70 @@ http://adventure-works.com/orders // Good
 http://adventure-works.com/create-order // Avoid
 ```
 
-Egy erőforrás nem rendelkezik egyetlen fizikai adatelemet alapján. Például egy rendelés erőforrás előfordulhat, hogy kell belső, mint egy relációs adatbázisban több táblázat implementálva, de egyetlen egységként az ügyfél számára. Ne hozzon létre olyan API-k, amelyek egyszerűen tükrözik az adatbázis belső szerkezete. REST célja a modell entitásokat és egy alkalmazás entitásainak végezhető műveletek. Egy ügyfél nem szabad felfedni a belső megvalósításához.
+Egy erőforrásnak nem szükséges egyetlen fizikai adatelemen alapulnia. Például egy rendelési erőforrás esetében előfordulhat, hogy belsőleg implementálják egy relációs adatbázis több táblájaként, de az ügyfél számára egyetlen egységként kell bemutatni. Kerülje az olyan API-k létrehozását, amelyek egyszerűen csak tükrözik az adatbázis belső szerkezetét. A REST célja, hogy modellt képezzen az entitásokról és a műveletekről, amelyeket egy alkalmazás elvégezhet az adott entitásokon. Az ügyfél előtt nem szerencsés felfedni a belső implementáció részleteit.
 
-Entitások gyakran gyűjteményekbe vannak csoportosítva együtt (rendelések, az ügyfelek). A gyűjtemény egy külön erőforrás elemet a elem a gyűjteményben, és rendelkeznie kell a saját URI. A következő URI Azonosítót jelölheti például a rendelések gyűjteménye: 
+Az entitások gyakran gyűjteményekbe vannak csoportosítva (rendelések, ügyfelek). A gyűjtemény a gyűjtemény elemétől különálló erőforrást képez, így rendelkeznie kell saját URI-val. A következő URI jelölheti például a rendelések gyűjteményét: 
 
 ```HTTP
 http://adventure-works.com/orders
 ```
 
-A gyűjtemény elemeinek listáját egy HTTP GET kérést küld a gyűjtemény URI kéri le. A gyűjtemény minden elemén is saját egyedi URI tartozik. A cikk URI HTTP GET kérelemre, hogy az elem részletes adatait adja vissza. 
+Egy HTTP GET-kérés a gyűjtemény URI-jának történő küldése lekéri a gyűjteményben szereplő elemek listáját. A gyűjtemény minden egyes eleméhez is egyedi URI tartozik. Egy, az elem URI-jának küldött HTTP GET-kérés visszaadja az elem részletes adatait. 
 
-Az URI-azonosítók egységes elnevezési fogad el. Általában segít, hogy a referencia-gyűjtemények használata többes számú főnevek az URI-azonosítók. Ajánlott egy URI-k rendszerezéséhez gyűjteményekhez és elemek hierarchiába. Például `/customers` elérési útját a felhasználók gyűjteményhez, és `/customers/5` elérési útját a felhasználói Azonosítóval rendelkező megegyezik az 5. Ez a megközelítés segít távol tartani nyújt a webes API-k intuitív. Is, számos webes API-keretrendszerek irányíthatja a kérelmet, meghatározhatja, hogy az elérési útvonal paraméteres URI elérési utak alapján `/customers/{id}`.
+Az URI-k elnevezésekor használjon egységes elnevezési módszert. Általában segít, ha hivatkozásgyűjtemények használatakor többes számú főneveket ad meg URI-ként. Javasolt a gyűjteményekhez és elemekhez tartozó URI-k hierarchiába rendezése. Például a `/customers` az ügyfélgyűjteményhez tartozó elérési út, a `/customers/5` pedig az 5-ös azonosítóval rendelkező ügyfélhez tartozó elérési út. Ez a megközelítés segít abban, hogy a webes API hosszabb távon is könnyen használható maradjon. Ezenkívül számos webes API-keretrendszer képes a kérések paraméteralapú URI-elérésiutak alapján történő irányítására, így meghatározhat egy útvonalat a következő elérési úthoz: `/customers/{id}`.
 
-Figyelembe venni a különböző típusú erőforrások, és hogyan akkor esetleg felfedi a társításokat közötti kapcsolatokat. Például a `/customers/5/orders` előfordulhat, hogy az összes ügyfél 5 rendelések képviseli. Sikerült is keresse meg az ellenkező irányba, majd megjelenítik például a társítás megrendelés vissza az ügyfél egy URI-azonosítójú `/orders/99/customer`. Azonban túl, amennyiben ez a modell kibővítése válhat nehézkes lehet megvalósítani. Jobb megoldás, hogy hajózható, a HTTP-válasz üzenet törzsét kapcsolódó forrásokra mutató hivatkozásokat biztosít. A mechanizmus a szakaszban részletesen ismertetett [a HATEOAS megközelítéssel engedélyezése navigációs a kapcsolódó erőforrások később](#using-the-hateoas-approach-to-enable-navigation-to-related-resources).
+Vegye figyelembe a különböző típusú erőforrások közötti kapcsolatokat, valamint a társítások elérhetővé tételének módját. Például a `/customers/5/orders` az 5-ös azonosítójú ügyfél összes rendelését reprezentálhatja. De megközelítheti a kérdést az ellenkező irányból is. Ábrázolhatja a rendeléstől az ügyfélig is a társítást egy olyan URI-val, mint a következő: `/orders/99/customer`. Ha azonban túlzottan kibővíti ezt a modellt, az nehézkessé teszi az implementálását. Jobb megoldás, ha navigálható hivatkozásokkal szolgál, amelyek a HTTP-válaszüzenet törzsében lévő, társított forrásokra mutatnak. Ezt a mechanizmust a későbbiekben, [a HATEOAS-megközelítés a kapcsolódó erőforrásokhoz való navigálás engedélyezéséhez történő használatát](#using-the-hateoas-approach-to-enable-navigation-to-related-resources) ismertető szakaszban mutatjuk be részletesen.
 
-Összetettebb rendszereken URI-azonosítók, amelyek lehetővé teszik több szintet kapcsolatokat, például a navigálni ügyfél így tempting lehet `/customers/1/orders/99/products`. Azonban ez a szint összetettségi nehéz lehet karbantartása és rugalmatlan, ha erőforrásainak kapcsolatai később módosíthatja. Ehelyett próbálnia úgy elhelyezni az URI-azonosítók viszonylag egyszerű. Az alkalmazás legalább egy erőforráshoz, amennyiben ez a hivatkozás segítségével található erőforráshoz kapcsolódó cikkek lehetővé kell tenni. Az előző lekérdezés az URI azonosító lehet cserélni `/customers/1/orders` ügyfél 1, a rendeléseket kereséséhez, majd `/orders/99/products` sorrendje a termékek kereséséhez.
+Összetettebb rendszereken vonzónak tűnhet olyan URI-k biztosítása, amelyek lehetővé teszik az ügyfél számára a több szintnyi kapcsolatok közötti navigálást, például: `/customers/1/orders/99/products`. Azonban ezt az összetettségi szintet nehéz lehet fenntartani, illetve rugalmatlan, ha az erőforrások kapcsolatai később módosulnak. Törekedjen inkább az URI-k viszonylagos egyszerűségének megőrzésére. Ha egy alkalmazás hivatkozással rendelkezik egy erőforrásra, akkor célszerű biztosítani, hogy a hivatkozás által rá lehessen keresni az adott erőforráshoz kapcsolódó elemekre is. Az előző lekérdezés lecserélhető a következő URI-val: `/customers/1/orders`. Így a rendszer kiadja az 1-es ügyfélhez tartozó összes rendelést, majd a `/orders/99/products` segítségével a jelen rendelésben szereplő termékekre kereshet.
 
 > [!TIP]
-> Kerülni, hogy az erőforrás URI-azonosítók eddigieknél még bonyolultabbá kelljen *gyűjtemény/elemgyűjtemény*.
+> Kerülje a következőnél összetettebb erőforrás-URI-k megkövetelését: *collection/item/collection*.
 
-Egy másik tényező, hogy minden webes kérésnek ugyanazok a terhelést a webkiszolgálón. A további kérelmeket, annál nagyobb terhelés. Ezért lehetőleg kerülje a "chatty" webes API-k kis erőforrások nagy számú visszaállítását. Ilyen az API-k szükség lehet egy ügyfélalkalmazás található összes adat, amely igényli több kérés küldése. Ehelyett érdemes denormalize az adatokat, és nagyobb erőforrásokat lehet beolvasni a kapcsolódó információk egyesíthető egy kérelemhez. Azonban kell ezt a módszert használja a terhelést növelni az, hogy az ügyfél nem szükséges adatok beolvasása elleni elosztása érdekében. Nagy objektumok beolvasása növelheti a Tiltás késése a kérelmet, és fel Önnek további sávszélességgel kapcsolatos költségek. A teljesítmény antipatterns kapcsolatos további információkért lásd: [Chatty i/o](../antipatterns/chatty-io/index.md) és [idegen beolvasása](../antipatterns/extraneous-fetching/index.md).
+Egy másik tényező, hogy minden webes kérés terheli a webkiszolgálót. Minél több a kérés, annál nagyobb a terhelés. Ezért lehetőleg kerülje a „forgalmas” webes API-kat, amelyek kis méretű erőforrásokat tesznek elérhetővé nagy számban. Ilyen API esetén szükség lehet egy olyan ügyfélalkalmazásra, amely több kérést küld ki, hogy minden szükséges adatot megtalálhasson. Ehelyett inkább denormalizálja az adatokat, és ötvözze a kapcsolódó információkat nagyobb erőforrásokban, amelyek egy kéréssel lekérhetők. E megközelítés használatakor azonban fontos vigyázni arra, hogy ne olvasson be túl sok olyan adatot, amire az ügyfélnek nincs szüksége. A nagy objektumok lekérése növelheti a kérés késését, és további sávszélességgel kapcsolatos költséget okozhat. A teljesítményre vonatkozó rossz példákkal kapcsolatos további információért lásd a [forgalmas I/O](../antipatterns/chatty-io/index.md) és a [felesleges beolvasások](../antipatterns/extraneous-fetching/index.md) témakörét.
 
-Ne vezet be, a webes API-t és az alapjául szolgáló adatforrásai közötti függőségek. Például ha az adatok egy relációs adatbázisban, a webes API-t nem szükséges teszi közzé minden tábla olyan erőforrások gyűjteménye, mint. Amely valójában valószínűleg rossz kialakítást. Ehelyett gondol a webes API-t, az adatbázis absztrakciós. Ha szükséges, akkor az adatbázis és a webes API-k közötti leképezést rétegben. Ily módon ügyfélalkalmazások különítve a módosításokat az alapul szolgáló adatbázis rendszerhez.
+Kerülje a webes API-k és az alapul szolgáló adatforrások közötti függőségek bevezetését. Például ha az adatok egy relációs adatbázisban vannak tárolva, akkor nem szükséges a webes API-nak minden táblát erőforrások gyűjteményeként elérhetővé tennie. Valójában az egy rossz kialakítás volna. Tekintsen inkább a webes API-kra az adatbázis absztrakciójaként. Ha szükséges, vezessen be egy leképezési réteget az adatbázis és a webes API között. E módon az ügyfélalkalmazások függetlenítve lesznek az alapul szolgáló adatbázisséma módosításaitól.
 
-Végül hogy előfordulhat, hogy nem lehet megfeleltetni minden műveletet a webes API-k egy adott erőforrás által megvalósított. Például kezelheti *nem erőforrás-* forgatókönyvek keresztül, amely egy függvényt, és térjen vissza az eredményeket egy HTTP-válaszüzenetnek, HTTP-kérelmekre. Például egy webes API-ja, amely megvalósítja az egyszerű számológép műveletek, mint hozzáadása, és kivonás biztosítani, hogy ezek a műveletek pszeudo erőforrásként közzétételére, és használja a lekérdezési karakterláncot határozza meg a paraméter kötelező URI. Például egy GET kérelem URI */ add? operand1 99 & operand2 = = 1* alakítanák vissza válaszüzenetet 100 értéket tartalmazó szervezethez. Azonban csak ezek forma közül választhat URI-azonosítók módjával.
+Végül pedig előfordulhat az is, hogy nem lehetséges minden olyan művelet leképezése, amelyet egy webes API implementál egy meghatározott erőforráson. Az ilyen *nem erőforrás* típusú forgatókönyveket kezelheti HTTP-kéréseken keresztül, amelyek meghívnak egy függvényt, az eredményeket pedig HTTP-válaszüzenetként adják vissza. Például egy webes API, amely egyszerű számológépes műveleteket valósít meg – pl. a hozzáadást és a kivonást –, megadhat olyan URI-kat, amelyek ezeket a műveleteket pszeudo-erőforrásként teszik közzé, és lekérdezési karakterláncot használhat a szükséges paraméterek meghatározására. Például egy, az URI-hoz beérkező GET-kérés (*/add?operand1=99&operand2=1*) olyan válaszüzenetet adna vissza, amelynek a törzse a 100-as értéket tartalmazza. Azonban csak módjával használja az ilyen típusú URI-kat.
 
-## <a name="define-operations-in-terms-of-http-methods"></a>Adja meg a HTTP-metódus műveletek
+## <a name="define-operations-in-terms-of-http-methods"></a>Műveletek meghatározása HTTP-metódusok keretében
 
-A HTTP protokoll számos módszer, amely a szemantikai jelentés hozzárendelése egy kérelem határozza meg. A legtöbb RESTful webes API-k által használt közös HTTP megoldások a következők:
+A HTTP-protokoll számos olyan metódust határoz meg, amely szemantikai jelentést rendel hozzá egy adott kéréshez. A RESTful webes API-k által használt gyakoribb HTTP-metódusok a következők:
 
-* **ELSŐ** lekéri a megjelenítése az erőforrás a megadott URI-t. A szervezet a válaszüzenet a kért erőforrás részleteit tartalmazza.
-* **POST** hoz létre egy új erőforrást a megadott URI-t. A kérelem üzenet törzsét részletesen bemutatja az új erőforrás. Vegye figyelembe, hogy POST is használható, amelyek ténylegesen ne hozzon létre erőforrások műveleteket indítsanak.
-* **PUT** hoz létre, vagy a felváltja az erőforrás a megadott URI-t. A kérelem üzenet törzsét határozza meg az erőforrás létrehozása vagy frissítése.
-* **JAVÍTÁS** erőforrás részleges frissítést hajt végre. A kérelem törzsében megadja a módosítások alkalmazásához az erőforráshoz.
-* **Törlés** eltávolítja az erőforrás a megadott URI-t.
+* **GET**: lekéri az erőforrás reprezentációját a megadott URI-n keresztül. A válaszüzenet törzse tartalmazza a kért erőforrás részleteit.
+* **POST**: egy új erőforrást hoz létre a megadott URI-n. A kérésüzenet törzse tartalmazza az új erőforrás részleteit. Vegye figyelembe, hogy a POST olyan műveletek aktiválására is használható, amelyek nem hoznak létre erőforrásokat.
+* **PUT**: A megadott URI-n létrehoz egy új erőforrást, vagy cseréli a meglévőt. A kérésüzenet törzse meghatározza a létrehozni vagy frissíteni kívánt erőforrást.
+* **PATCH**: egy erőforrás részleges frissítését hajtja végre. A kérés törzse megadja az erőforrásra alkalmazni kívánt módosításokat.
+* **DELETE**: eltávolítja az erőforrást a megadott URI-n.
 
-Egy adott kérelem hatásának függ-e az erőforrást a gyűjtemény vagy egy egyéni elemet. A következő táblázat összefoglalja az kereskedelmi példát a RESTful megvalósítások által elfogadott közös szabályok. Vegye figyelembe, hogy ezek a kérelmek nem az összes is elegendő lehet; az adott forgatókönyv függ.
+Egy adott kérés hatása függ attól, hogy az erőforrás egy gyűjtemény része vagy egy egyéni elem. A következő táblázat az e-kereskedelmi példa használatával összefoglalja a legtöbb RESTful-implementáció által elfogadott közös szabályokat. Vegye figyelembe, hogy e kérések közül nem feltétlenül implementálható mindegyik – ez az adott forgatókönyvtől is függ.
 
-| **Erőforrás** | **POST** | **GET** | **A PUT** | **TÖRLÉSE** |
+| **Erőforrás** | **POST** | **GET** | **PUT** | **DELETE** |
 | --- | --- | --- | --- | --- |
-| /Customers |Hozzon létre egy új ügyfél |Összes ügyfél beolvasása |Tömeges frissítés ügyfelek |Távolítsa el az összes ügyfél számára |
-| / ügyfelek/1 |Hiba |Ügyfél 1 adatainak beolvasása |Az ügyfél 1 részleteinek frissítése, ha létezik |Távolítsa el az ügyfél 1 |
-| /Customers/1/orders |Hozzon létre egy új ahhoz, hogy az ügyfél 1 |Ügyfél 1 összes rendelés beolvasása |Tömeges frissítés rendelések ügyfél 1 |Távolítsa el az összes rendelés ügyfél 1 |
+| /customers |Új ügyfél létrehozása |Az összes ügyfél beolvasása |Ügyfelek tömeges frissítése |Az összes ügyfél eltávolítása |
+| /customers/1 |Hiba |1-es ügyfél adatainak beolvasása |1-es ügyfél adatainak frissítése, ha létezik |1-es ügyfél eltávolítása |
+| /customers/1/orders |Új rendelés létrehozása az 1-es ügyfélhez |Az 1-es ügyfél minden rendelésének beolvasása |1-es ügyfél rendeléseinek tömeges frissítése |1-es ügyfél összes rendelésének eltávolítása |
 
-A POST, PUT és javítás közötti különbségek zavaró lehet.
+Előfordulhat, hogy a POST, PUT és PATCH közötti különbségek elsőre nem egyértelműek.
 
-- Egy POST kérést hoz létre egy erőforrást. A kiszolgáló rendeli hozzá az új erőforrás URI, és elküldi az ügyfélnek, hogy URI. A többi modellben, gyakran a POST kérelmek gyűjteményére vonatkoznak. Az új erőforrás van hozzá a gyűjteményhez. Egy POST kérést küldje el az adatokat a feldolgozáshoz erőforrással, bármely új erőforrás létrehozása nélkül is használható.
+- A POST-kérések egy erőforrást hoznak létre. A kiszolgáló hozzárendel az új erőforráshoz egy URI-t, és elküldi az illető URI-t az ügyfélnek. A REST-modellben gyűjtemények esetében gyakran alkalmaznak POST-kéréseket. Az új erőforrás hozzáadódik a gyűjteményhez. A POST-kérés az adatok egy meglévő erőforráshoz való elküldésére is használható (azok feldolgozása céljából), anélkül, hogy bármilyen új erőforrást kellene létrehozni.
 
-- Egy PUT-kérelmekben létrehoz egy erőforrás *vagy* frissíti a meglévő erőforrás. Az ügyfél határozza meg az erőforrás URI. A kérelem törzsében tartalmazza a teljes megjelenítése az erőforrás. Ha ez az URI-azonosítójú erőforrás már létezik, a rendszer lecseréli. Ellenkező esetben egy új erőforrást jön létre, ha a kiszolgáló támogatja, így. PUT kérelmek leggyakrabban elemek, például a gyűjtemények helyett egy adott ügyfélhez erőforrásokhoz is vonatkozik. A kiszolgáló támogathatja a frissítéseket, de nem keresztül PUT létrehozása. Hogy keresztül PUT létrehozását támogatja-e függ, hogy az ügyfél készítéséhez rendelhet egy URI-t egy erőforrást ahhoz, hogy létezik-e. Ha nem, használja POST erőforrások és a PUT vagy frissíteni a javítás létrehozásához.
+- A PUT-kérések létrehoznak egy erőforrást, *vagy* frissítenek egy meglévő erőforrást. Az ügyfél határozza meg az erőforrás URI-ját. A kérés törzse tartalmazza az erőforrás teljes reprezentációját. Ha ez az URI már tartalmaz egy erőforrást, azt a rendszer lecseréli. Ellenkező esetben egy új erőforrás jön létre, ha a kiszolgáló támogatja ezt. A PUT-kéréseket leggyakrabban olyan erőforrások esetében alkalmazzák, amelyek egyedi elemek – például egy meghatározott ügyfél –, nem pedig gyűjteményeknél. Előfordulhat, hogy a kiszolgáló támogatja a frissítéseket, de a PUT-kérésen keresztüli létrehozást nem. A PUT-kérésen keresztüli létrehozás támogatottsága attól függ, hogy az ügyfél közérthetően tud-e URI-t hozzárendelni egy erőforráshoz, mielőtt az létrejönne. Ha nem, használja a POST-kérést erőforrások létrehozásához, a PUT- vagy a PATCH-kérést pedig a frissítéshez.
 
-- A PATCH kérésnek hajt végre egy *részleges frissítés* erőforrással. Az ügyfél határozza meg az erőforrás URI. A kérelem törzsében kumulatív *módosítások* alkalmazása az erőforrás. Ez attól az esettől, PUT, hatékonyabb lehet, mert az ügyfél csak akkor küldi el a módosításokat, nem az erőforrás teljes ábrázolását. Technikailag javítás is létrehozhat egy új erőforrást (megadásával "null" erőforráshoz frissítéseit), ha a kiszolgáló támogatja ezt. 
+- A PATCH-kérés *részleges frissítést* hajt végre egy meglévő erőforráson. Az ügyfél határozza meg az erőforrás URI-ját. A kérés törzse *módosítások* egy halmazát határozza meg, amelyeket az erőforráson kell alkalmazni. Ez a PUT használatánál hatékonyabb megoldás lehet, mert az ügyfél csak a módosításokat küldi el, nem pedig az erőforrás teljes reprezentációját. Tulajdonképpen a PATCH is létrehozhat egy új erőforrást („null” erőforráshoz tartozó frissítések megadásával), ha a kiszolgáló támogatja ezt. 
 
-PUT kérelmek idempotent kell lennie. Ha egy ügyfél elküldte a PUT kérésben többször, az eredmények mindig meg kell egyeznie (az azonos erőforrás módosulnak ugyanazokat az értékeket). POST és a PATCH kéréseknek nem garantált, hogy az idempotent lehet.
+A PUT-kéréseknek idempotensnek kell lenniük. Ha egy ügyfél egyazon PUT-kérést többször is elküld, az eredményeknek mindig meg kell egyezniük (ugyanaz az erőforrás ugyanazon értékekkel lesz módosítva). A POST- és a PATCH-kérések esetén nem garantált, hogy idempotensek lesznek.
 
-## <a name="conform-to-http-semantics"></a>HTTP szemantikáját felel meg
+## <a name="conform-to-http-semantics"></a>HTTP-szemantikának való megfelelés
 
-Ez a szakasz ismerteti az API-k, amely megfelel-e a HTTP-specifikáció tervezéséhez jellemző szempontokat. Azt azonban nem fedi le, minden lehetséges részlet vagy a forgatókönyvet. A kétségei vannak, tekintse meg a HTTP-specifikációk.
+Ez a szakasz a HTTP-specifikációknak megfelelő API-k tervezésekor jellemző szempontokat ismerteti. Nem fed le azonban minden lehetséges részletet vagy forgatókönyvet. Ha kétségei vannak, tekintse meg a HTTP-specifikációkat.
 
 ### <a name="media-types"></a>Adathordozó-típusok
 
-Amint azt korábban említettük, az ügyfelek és kiszolgálók erőforrások ábrázolásai exchange. Például egy POST kérelemben a kérés törzsében tartalmazza a megjelenítése az erőforrás létrehozásához. GET kérést az adott válasz törzsének tartalmazza a lehívott erőforrás ábrázolása.
+Mint fentebb említettük, az ügyfelek és a kiszolgálók erőforrások reprezentációit cserélik ki egymás között. Például egy POST-kérés esetén a kérés törzse tartalmazza a létrehozandó erőforrás reprezentációját. Egy GET-kérés esetén a válasz törzse tartalmazza a lekért erőforrás reprezentációját.
 
-A HTTP protokoll használatával formátumban vannak megadva *adathordozók típusairól*, más néven a MIME-típusok. A nem bináris adatok nagy webes API-k támogatása JSON (adathordozó-típus az application/json =) és az esetlegesen XML (adathordozó-típus = application/xml). 
+A HTTP-protokoll használatával az *adathordozók típusai*, más néven a MIME-típusok használatán keresztül adja meg a rendszer a formátumokat. A nem bináris adatok esetén a legtöbb webes API támogatja a JSON (media type = application/json) és esetlegesen az XML (media type = application/xml) formátum használatát. 
 
-A Content-Type fejléc a következő olyan kérésre vagy válaszra megadja a ábrázolását formátumát. Íme egy példa egy POST kérést JSON-adatokat tartalmazó:
+A kérés Content-Type fejléce megadja a reprezentáció formátumát. Az alábbiakban egy példát láthat egy POST-kérésre, amely JSON-adatokat tartalmaz:
 
 ```HTTP
 POST http://adventure-works.com/orders HTTP/1.1
@@ -154,44 +154,44 @@ Content-Length: 57
 {"Id":1,"Name":"Gizmo","Category":"Widgets","Price":1.99}
 ```
 
-Ha a kiszolgáló nem támogatja az adathordozó típusát, az HTTP-állapotkód 415 (nem támogatott adathordozó-típust) kell visszaadnia.
+Ha a kiszolgáló nem támogatja az adathordozó típusát, akkor a rendszer a 415-ös HTTP-állapotkódot adja vissza („Nem támogatott adathordozó-típus”).
 
-Egy ügyfél kérelmet tartalmazhat egy Accept fejlécet, amely tartalmazza az ügyfél elfogadja a kiszolgálóról a válaszüzenetben adathordozó-típusok listája. Példa:
+Az ügyfél kérése tartalmazhat egy Accept fejlécet, amely tartalmazza az ügyfél által a kiszolgáló válaszüzenetében elfogadott adathordozó-típusok listáját. Példa:
 
 ```HTTP
 GET http://adventure-works.com/orders/2 HTTP/1.1
 Accept: application/json
 ```
 
-A kiszolgáló nem található olyan, az adathordozó típusú szerepel a listában, ha az HTTP-állapotkódot (elfogadható) 406 kell visszaadnia. 
+Ha a kiszolgáló nem egyezik a listában szereplő adathordozó-típusok egyikével sem, a rendszer a 406-os HTTP-állapotkódot adja vissza („Nem elfogadható”). 
 
-### <a name="get-methods"></a>Módszerek beolvasása
+### <a name="get-methods"></a>GET-metódusok
 
-Egy sikeres GET metódus általában a HTTP-állapotkód 200 (OK) adja vissza. Ha az erőforrás nem található, a módszer 404-es (nem található) kell visszaadnia.
+Egy sikeres GET-metódus általában a 200-as HTTP-állapotkódot („OK”) adja vissza. Ha az erőforrás nem található, a metódus a 404-es („Nem található”) kódot adja vissza.
 
-### <a name="post-methods"></a>POST metódus
+### <a name="post-methods"></a>POST-metódusok
 
-Ha a POST metódussal hoz létre egy új erőforrást, HTTP-állapotkód (létrehozva) 201 adja vissza. A helyet megjelölő fejlécet a válasz URI-azonosítója az új erőforrást tartalmazza. Az adott válasz törzsének tartalmazza a megjelenítése az erőforrás.
+Ha egy POST-metódus új erőforrást hoz létre, akkor a rendszer a 201-es HTTP-állapotkódot („Létrehozva”) adja vissza. Az új erőforrás URI-ját a válasz Location fejléce tartalmazza. A válasz törzse tartalmazza az erőforrás reprezentációját.
 
-Ha a metódus egyes feldolgozási does, de nem hoz létre egy új erőforrást, a módszer térjen vissza a 200-as HTTP-állapotkód:, és a művelet eredményét szerepeljenek az adott válasz törzse. Másik lehetőségként Nincs visszaadandó eredmény, ha a metódus HTTP-állapotkód: 204 (nincs tartalom) a választörzs adhat vissza.
+Ha a metódus feldolgozást végez, de nem hoz létre új erőforrást, előfordulhat, hogy a 200-as HTTP-állapotkódot adja vissza, majd beleveszi a művelet eredményét az adott válasz törzsébe. Egyébként, ha nincs visszaadandó eredmény, a metódus a 204-es HTTP-állapotkódot („Nincs tartalom”) adja vissza, választörzs nélkül.
 
-Ha az ügyfél érvénytelen adatokat elhelyezi a kérelmet, a kiszolgáló HTTP-állapotkód: 400 (hibás kérés) kell visszaadnia. Az adott válasz törzsének további információt a hiba vagy URI, amely további részleteket tartalmaz egy hivatkozást is tartalmaz.
+Ha az ügyfél érvénytelen adatokat helyez a kérésbe, a kiszolgáló a 400-as HTTP-állapotkódot („Hibás kérés”) adja vissza. A választörzs tartalmazhat további információt a hibáról vagy egy URI-hivatkozást, amely további részleteket tesz elérhetővé.
 
-### <a name="put-methods"></a>PUT metódust
+### <a name="put-methods"></a>PUT-metódusok
 
-Egy PUT metódust hoz létre egy új erőforrást, egyébként HTTP-állapotkód (létrehozva) 201 csakúgy, mint a POST metódussal. Ha a metódus frissíti a meglévő erőforrás, 200-as (OK) vagy a (nincs tartalom) 204 adja vissza. Bizonyos esetekben nem esetleg meglévő erőforrás frissítése. Ebben az esetben érdemes lehet HTTP-állapotkód 409 (Ütközés) ad vissza. 
+Ha egy PUT-metódus új erőforrást hoz létre, akkor a 201-es HTTP-állapotkódot („Létrehozva”) adja vissza, pontosan úgy, mint a POST-metódus. Ha a metódus meglévő erőforrást frissít, akkor vagy a 200-as („OK”), vagy a 204-es („Nincs tartalom”) állapotkódot adja vissza. Bizonyos esetekben nem lehetséges egy meglévő erőforrás frissítése. Ilyenkor érdemes lehet a 409-es HTTP-állapotkódot („Ütközés”) visszaadni. 
 
-Vegye figyelembe, hogy csak egy erőforráshoz egy gyűjtemény frissítések kötegelhető tömeges HTTP PUT műveletek végrehajtása. A PUT kérés URI-azonosítója a gyűjteményt kell megadnia, és a kérés törzsében adja meg a módosítani kívánt erőforrások részleteit. Ez a megközelítés segíthet chattiness csökkentéséhez és a teljesítmény javításához.
+Fontolja meg a tömeges HTTP PUT-műveletek implementálását, amelyek képesek egy gyűjtemény több erőforrására vonatkozó frissítések kötegelt feldolgozására. A PUT-kérésnek meg kell határoznia a gyűjtemény URI-ját, a kérés törzsének pedig a módosítandó erőforrások részleteit. Ez a megközelítés segíthet a forgalom csökkentésében és a teljesítmény javításában.
 
-### <a name="patch-methods"></a>JAVÍTÁS módszerek
+### <a name="patch-methods"></a>PATCH-metódusok
 
-A javítás kérelemmel az ügyfél frissítéseit küld valamelyik meglévő erőforrására formájában egy *javítás dokumentum*. A kiszolgáló feldolgozza a javítás dokumentum, a frissítés végrehajtásához. A javítás dokumentum nem ismerteti a teljes erőforrás csak meghatározott módosítások alkalmazásához. A javítás metódus specification ([RFC 5789](https://tools.ietf.org/html/rfc5789)) nem adja meg a javítás dokumentumok formátumát. A formátum kell következtethető ki a kérelemben szereplő adathordozó-típus.
+A PATCH-kérés használatával az ügyfél frissítések halmazát küldi egy meglévő erőforrásnak egy *javítási dokumentum* formájában. A kiszolgáló feldolgozza a javítási dokumentumot a frissítés végrehajtásához. A javítási dokumentum nem ismerteti a teljes erőforrást, csak az alkalmazandó módosításokat. A PATCH-metódus specifikációi ([RFC 5789](https://tools.ietf.org/html/rfc5789)) nem határozzák meg a javítási dokumentumok formátumát. A formátumot a kérésben szereplő adathordozó-típusból kell kikövetkeztetni.
 
-JSON-ja valószínűleg a leggyakrabban használt adatformátum; Ez a webes API-k. Nincsenek a két fő JSON-alapú javítás formátum, úgynevezett *JSON javítás* és *JSON egyesítési javítás*.
+A JSON valószínűleg a leggyakrabban használt adatformátum a webes API-k esetében. Két fő JSON-alapú javítási formátum létezik: a *JSON-javítás* és az *egyesített JSON-javítás*.
 
-JSON egyesítési javítás rendszer némileg egyszerűbb. A javítás dokumentum ugyanazt a szerkezetet az eredeti JSON-erőforrásként rendelkezik, de csak a mezőket, amelyeknek meg kell új és módosított részét tartalmazza. Emellett egy mező megadásával törölhető `null` a mezőérték a javítás dokumentumban. (Ez azt jelenti, egyesítési javítás nincs megfelelő, ha az eredeti erőforrás explicit null értékeket veheti fel.)
+Az egyesített JSON-javítás rendszere némileg egyszerűbb. A javítási dokumentum szerkezete ugyanaz, mint az eredeti JSON-erőforrásé, de csak a módosítandó vagy hozzáadandó mezők alkészletét tartalmazza. Emellett egy mező törölhető, ha a javítási dokumentum egy mezőjénél a `null` értéket adják meg. (Ez azt jelenti, hogy az egyesített javítás nem megfelelő, ha az eredeti erőforrás explicit nullértékeket is tartalmazhat.)
 
-Tegyük fel például, hogy az eredeti erőforrás van a következő JSON-Megjelenítés:
+Tegyük fel például, hogy az eredeti erőforrás a következő JSON-reprezentációval rendelkezik:
 
 ```json
 { 
@@ -202,7 +202,7 @@ Tegyük fel például, hogy az eredeti erőforrás van a következő JSON-Megjel
 }
 ```
 
-Íme egy JSON egyesítési javítást ehhez az erőforráshoz:
+Az alábbiakban egy lehetséges egyesített JSON-javítást talál ehhez az erőforráshoz:
 
 ```json
 { 
@@ -212,34 +212,34 @@ Tegyük fel például, hogy az eredeti erőforrás van a következő JSON-Megjel
 }
 ```
 
-Ez alapján a kiszolgálót frissíteni a "price", "szín" törlés, és adja hozzá a "mérete". "Name" és "kategória" nem módosulnak. A pontos JSON egyesítési javításának, lásd: [RFC 7396](https://tools.ietf.org/html/rfc7396). A médiatípus JSON egyesítési javítás "application/egyesítési-javítás + json".
+Ez közli a kiszolgálóval, hogy frissíteni kell a „price” (ár) mezőt, törölni a „color” (szín) mezőt, és hozzá kell adni a „size” (méret) mezőt. A „Name” (Név) és a „Category” (Kategória) mező nem módosul. Az egyesített JSON-javítás pontos részleteiért lásd az [RFC 7396](https://tools.ietf.org/html/rfc7396)-ot. Az egyesített JSON-javítás adathordozó-típusa az „application/merge-patch+json”.
 
-Egyesítési javítás nincs megfelelő, ha az eredeti erőforrást tartalmazhat explicit null értékeket, különleges szerinti miatt `null` a javítás dokumentumban. Emellett a javítás dokumentum nem ad meg, hogy a kiszolgáló vonatkozzon-e a frissítések sorrendje. Amely lehet, vagy előfordulhat, hogy nem számít, attól függően, hogy az adatok és a tartomány. JSON-javítás definiált [RFC 6902](https://tools.ietf.org/html/rfc6902), rugalmasabb. Azt adja meg a módosítások alkalmazásához műveletek sorozata. A műveletek hozzáadása, eltávolítása, cserélje le, másolja és tesztelni (érték érvényesítése). A médiatípus JSON javítás "application/json-javítás + json".
+Az egyesített javítás a javítási dokumentumban szereplő `null` különleges jelentése miatt nem megfelelő, ha az eredeti erőforrás tartalmazhat explicit nullértékeket. Emellett a javítási dokumentum nem adja meg a kiszolgáló által alkalmazandó frissítések sorrendjét. Az adatoktól és a tartománytól függ, hogy ez számít-e. Az [RFC 6902](https://tools.ietf.org/html/rfc6902) által definiált JSON-javítás rugalmasabb. Alkalmazandó műveletek sorozataként adja meg a módosításokat. A műveletek a következők lehetnek: hozzáadás, eltávolítás, csere, másolás és tesztelés (az értékek érvényesítéséhez). A JSON-javítás adathordozó-típusa az „application/json-patch+json”.
 
-Az alábbiakban néhány tipikus hiba feltételeket, amelyek feldolgozása közben egy javítás, valamint a megfelelő HTTP-állapotkód szembesülhet.
+Az alábbiakban a PATCH-kérés feldolgozása közben jellemzően előforduló hibafeltételeket ismertetjük, valamint a hozzájuk tartozó HTTP-állapotkódokat.
 
-| Hiba az állapot | HTTP-állapotkód: |
+| Hibafeltétel | HTTP-állapotkód |
 |-----------|------------|
-| A javítás dokumentum formátuma nem támogatott. | 415 (nem támogatott adathordozó-típus) |
-| A dokumentum nem megfelelően formázott javítás. | 400 (hibás kérés) |
-| A javítás dokumentum érvényes, de az erőforrás jelenlegi állapotában nem lehet alkalmazni a módosításokat. | 409 (Ütközés)
+| A javítás dokumentumformátuma nem támogatott. | 415 (Nem támogatott adathordozó-típus) |
+| Nem megfelelően formázott javítási dokumentum. | 400 (Hibás kérés) |
+| A javítási dokumentum érvényes, de az erőforrás jelenlegi állapotában nem lehet alkalmazni a módosításokat. | 409 (Ütközés)
 
-### <a name="delete-methods"></a>Módszerek törlése
+### <a name="delete-methods"></a>DELETE-metódusok
 
-A törlési művelet végrehajtása sikeres, ha a webkiszolgálón, amely jelzi, hogy a folyamat sikeresen már kezelt, de, hogy az adott válasz törzsének tartalmazza-e további információ nem HTTP-állapotkód: 204, kell válaszolnia. Ha az erőforrás nem létezik, a webkiszolgáló (nem található) HTTP 404 adhat vissza.
+Ha a törlési művelet sikeres, a webkiszolgálónak a 204-es HTTP-állapotkóddal kell válaszolnia, amely jelzi, hogy a rendszer már sikeresen kezelte a folyamatot, de a válasz törzse nem tartalmaz további információt. Ha az erőforrás nem létezik, a webkiszolgáló HTTP 404 (Nem található) hibát adhat vissza.
 
-### <a name="asynchronous-operations"></a>Az aszinkron műveletek
+### <a name="asynchronous-operations"></a>Aszinkron műveletek
 
-Néha egy POST, PUT, javítását vagy DELETE művelet befejezéséhez feldolgozására valamennyit lehet szükség. Várja meg a művelet befejeződése után az ügyfél választ küld, ha nem fogadható el késést okozhat. Ha igen, vegye figyelembe, így a művelet aszinkron. Térjen vissza a HTTP-állapotkód: 202 (elfogadható) jelzi a kérés elfogadva feldolgozásra, de nem végzi el. 
+Előfordulhat, hogy egy POST-, PUT-, PATCH- vagy DELETE-művelet feldolgozásához hosszabb időre van szükség. Ha megvárja a művelet befejezését, mielőtt válaszol az ügyfélnek, az elfogadhatatlan mértékű késést okozhat. Ilyenkor fontolja meg a művelet aszinkronná tételét. Adja vissza a 202-es HTTP-állapotkódot („Elfogadva”), ha jelezni kívánja, hogy a kérés el lett fogadva feldolgozásra, de az még nem lett befejezve. 
 
-Olyan végponttal, amely adja vissza egy aszinkron kérés állapotát, így az ügyfél állapota figyelhető a állapot végpont lekérdezésével kell tenni. Vegye fel a helyet megjelölő fejlécet a 202 válasz az állapot-végpont URI. Példa:
+Elérhetővé kell tennie egy végpontot, amely egy aszinkron kérés állapotát adja vissza, így az ügyfél monitorozhatja az állapotot az állapotvégpont lekérdezésével. Vegye fel az állapotvégpont URI-ját a 202-es válasz Location fejlécébe. Példa:
 
 ```http
 HTTP/1.1 202 Accepted
 Location: /api/status/12345
 ```
 
-Az ügyfél végponti GET kérést küld, ha a válasz tartalmaznia kell a kérés aktuális állapotát. Az opcionális, is lehetnek egy becsült ideje a befejezési vagy összekötőelemre kattintva szakítsa meg a műveletet. 
+Ha az ügyfél GET-kérést küld erre a végpontra, a válasznak tartalmaznia kell a kérés aktuális állapotát. Tartalmazhatja emellett a befejezés becsült idejét vagy egy hivatkozást, amellyel visszavonható a művelet. 
 
 ```http
 HTTP/1.1 200 OK
@@ -251,46 +251,46 @@ Content-Type: application/json
 }
 ```
 
-Ha az aszinkron művelet hoz létre egy új erőforrást, az állapot végpont kell visszatérési állapotkód 303 (lásd az egyéb) a művelet befejeződése után. A 303 válaszként helyet megjelölő fejlécet, amely az új erőforrás URI a következők:
+Ha az aszinkron művelet egy új erőforrást hoz létre, az állapotvégpontnak a 303-as állapotkódot („Lásd másik helyen”) kell visszaadnia a művelet befejezése után. A 303-as válaszba vegyen bele egy Location fejlécet, amely megadja az új erőforrás URI-ját:
 
 ```http
 HTTP/1.1 303 See Other
 Location: /api/orders/12345
 ```
 
-További információkért lásd: [többi aszinkron műveletek](https://www.adayinthelifeof.nl/2011/06/02/asynchronous-operations-in-rest/).
+További információkért lásd az [aszinkron műveletek végrehajtását a REST-ben](https://www.adayinthelifeof.nl/2011/06/02/asynchronous-operations-in-rest/).
 
-## <a name="filter-and-paginate-data"></a>Szűrés és megjelenítheti az adatokat
+## <a name="filter-and-paginate-data"></a>Adatok szűrése és oldalakra bontása
 
-Egyetlen URI keresztül erőforrások gyűjteményét az ilyen alkalmazások nagy mennyiségű adat beolvasása, amikor szükség az információkat csak egy részét is járhat. Tegyük fel, hogy ügyfélalkalmazás meg kell keresnie az összes rendelés helyköltséggel keresztül megadott értékkel. Előfordulhat, hogy beolvasni a összes rendelést a */rendelések* URI és szűréssel ezeket a rendeléseket az ügyféloldalon. Egyértelműen a folyamat nem nagyon hatékony. A webes API-t futtató kiszolgálón hulladékok azt a hálózati sávszélesség és a feldolgozási kapacitást.
+Az erőforrások gyűjteménye egyetlen URI-val való közzététele ahhoz vezethet, hogy az alkalmazások hatalmas mennyiségű adatokat kérnek le olyankor is, amikor az információnak csak egy részletére van szükség. Tegyük fel például, hogy az ügyfélalkalmazásnak meg kell keresnie az összes olyan rendelést, amelynek a költsége meghalad egy bizonyos értéket. Ilyenkor előfordulhat, hogy minden rendelést lekér az */orders* URI-ból, majd az ügyféloldalon szűri a találatokat. Egyértelmű, hogy ez a folyamat nem túl hatékony. A hálózati sávszélesség és a webes API-t üzemeltető kiszolgáló feldolgozási teljesítménye szempontjából nagyon pazarló megoldás.
 
-Ehelyett az API lehetővé tehetik a szűrőt, mint a lekérdezési karakterláncban az URI átadásakor */rendelések? minCost = n*. A webes API-k felelős majd elemzése és kezelése a `minCost` paraméter a lekérdezési karakterláncot, és a kiszolgáló oldalán a szűrt eredmények visszaadása. 
+Ehelyett az API engedélyezheti egy szűrő megadását az URI lekérdezési karakterláncában. Például: */orders?minCost=n*. Ezt követően a webes API felelős a lekérdezési karakterláncban szereplő `minCost` paraméter elemzéséért és kezeléséért, valamint a kiszolgálóoldali szűrt eredmények visszaadásáért. 
 
-Gyűjtemény-erőforrások keresztül küldött GET-kérések esetleg adhat vissza nagyszámú elemet. Akkor tervezzen a webes API bármely egyetlen kérelem által visszaadott adatok korlátozásához. Vegye figyelembe, hogy adja meg az elemek beolvasása és a kezdő eltolása maximális számát a gyűjteményhez lekérdezési karakterláncok támogató. Példa:
+A GET-kérések gyűjtemény-erőforrások esetében nagy számú elemet is visszaadhatnak. Tervezzen olyan webes API-t, amely korlátozza az egyetlen kérés által visszaadott adatok mennyiségét. Fontolja meg olyan lekérdezési karakterláncok támogatását, amelyek megadják a beolvasható elemek maximális számát és egy, a gyűjteményre vonatkozó kezdőértéket (ofszetet). Példa:
 
 ```
 /orders?limit=25&offset=50
 ```
 
-Is érdemes lehet olyan szolgáltatásmegtagadási támadások megelőzése érdekében a visszaadott elemek számának felső korlátja. Segít az ügyfélalkalmazások, GET kérések többoldalas adatokat is tartalmaznia kell a metaadatok valamilyen visszaadó jelző érhető el a gyűjteményben lévő erőforrások teljes száma. Emellett érdemes valamilyen más intelligens lapozás stratégiák; További információkért lásd: [API tervezési megjegyzések: intelligens lapozás](http://bizcoder.com/api-design-notes-smart-paging)
+Szintén megfontolandó egy felső határérték meghatározása a visszaadott elemek számára vonatkozóan, így megakadályozhatja a szolgáltatásmegtagadásos (DoS-) támadásokat. Segítheti az ügyfélalkalmazások működését, ha azon GET-kérések, amelyek többoldalas adatokat adnak vissza, szintén tartalmazzák a metaadatokat valamilyen formában, amelyek jelzik az adott gyűjteményben lévő elérhető erőforrások teljes számát. Emellett érdemes megfontolnia egyéb intelligens oldalakrabontási stratégiák használatát is. További információért lásd az [API-tervezéssel kapcsolatos, az intelligens oldalakra bontásra vonatkozó megjegyzéseket](http://bizcoder.com/api-design-notes-smart-paging)
 
-Egy hasonló stratégia segítségével van lehívása, azáltal, hogy egy rendezési paraméter, amely a mezőnév értékeként, például a módon rendezheti az adatokat */rendelések? rendezési = ProductID*. Azonban ez a megközelítés is negatív hatással a gyorsítótár, mert a lekérdezési karakterlánc paramétereket kulcsként számos gyorsítótár megvalósítását által a gyorsítótárazott adatokat az erőforrás-azonosító részét képezik.
+Hasonló stratégiát alkalmazhat az adatok szűrésére azok lekérésekor, ha egy olyan rendezési paraméterrel szolgál, amely a mezők nevét veszi fel értékként. Például: */orders?sort=ProductID*. Ez a megközelítés azonban negatív hatással lehet a gyorsítótárazásra, mert a lekérdezési karakterlánc paraméterei szerepelnek az erőforrás-azonosítóban, amelyet számos gyorsítótárazási implementáció kulcsként használ a gyorsítótárazott adatokhoz történő hozzáféréshez.
 
-Bővítheti ezt a módszert a mezők vissza minden elemhez korlátozni, ha egyes elemek nagy mennyiségű adatot tartalmaz. Például használhatja a lekérdezési karakterlánc paraméterként, amely a mezőket, vesszővel tagolt listáját fogadja el, mint */rendelések? mezők ProductID, mennyiség =*. 
+Bővítheti ezt a módszert úgy, hogy korlátozza az elemenként visszaadott mezők számát, ha az egyes elemek nagy mennyiségű adatot tartalmaznak. Például használhat egy olyan lekérdezésikarakterlánc-paramétert, amely vesszővel elválasztott mezőket fogad. Például: */orders?fields=ProductID,Quantity*. 
 
-Adjon meg a lekérdezési karakterláncok a választható paramétereket jelentéssel bíró alapértelmezett értékeket. Például a `limit` 10 paraméter és a `offset` paraméter 0 értékre tördelési, ha a rendezési paraméter értéke az erőforrás kulcsa, amennyiben rendezést alkalmazza, és állítsa be a `fields` paramétert az erőforrás található összes mezőhöz Ha Ön támogatja a leképezések.
+A lekérdezési karakterláncokban minden választható paraméternek adjon közérthető alapértelmezett értékeket. Például állítsa a `limit` paramétert 10-es értékre, az `offset` paramétert pedig 0-ra, ha oldalakra bontást szeretne megvalósítani. Állítsa a rendezési paramétert az erőforrás kulcsának megfelelőre, ha szeretne rendezést megvalósítani. Végül adja meg a `fields` paramétert az erőforrás összes mezőjénél, ha támogatja a leképezéseket.
 
-## <a name="support-partial-responses-for-large-binary-resources"></a>Részleges válasz támogatása nagy bináris erőforrások
+## <a name="support-partial-responses-for-large-binary-resources"></a>Részleges válaszok támogatása nagyméretű bináris erőforrásokhoz
 
-Egy erőforrás tartalmazhatnak nagy bináris mezőkön, például a fájlok vagy képeket. Problémák megoldásához okozott megbízhatatlanná és időszakos kapcsolatokhoz és javíthatja a válaszidejét, érdemes lehet engedélyezni az ezekhez az erőforrásokhoz az adattömbök kérhető. Ehhez az szükséges, a webes API-t kell támogatja az elfogadás-tartományokat fejlécet nagy erőforrások GET kérelmek. Ezt a fejlécet, az azt jelzi, hogy a GET műveletet részleges kérelmeket támogatja. Az ügyfélalkalmazás kérelmezheti GET, amely egy adott erőforrás használata, megadott bájttartomány részét adja vissza. 
+Egy erőforrás tartalmazhat nagyméretű bináris mezőket, például fájlokat vagy képeket. A megbízhatatlan és időszakos kapcsolatok okozta problémák megoldásához és a válaszidő javításához érdemes lehet engedélyezni az ilyen erőforrások adattömbökként való lekérését. Ehhez szükséges, hogy a webes API támogassa az Accept-Ranges fejlécet a nagyméretű erőforrásokra vonatkozó GET-kérések esetében. Ez a fejléc jelzi, hogy a GET-művelet támogatja a részleges kéréseket. Az ügyfélalkalmazás küldhet olyan GET-kéréseket, amelyek egy adott erőforrás alkészletét adják vissza, és bájttartományként vannak megadva. 
 
-Emellett vegye fontolóra a HEAD HTTP kérések. Egy HEAD kérelem hasonlít GET kérés, azzal a különbséggel, hogy csak a HTTP-fejléceket az erőforrást, egy üres üzenettörzs leíró adja vissza. Egy ügyfélalkalmazás adhatnak ki olyan HEAD kérelem annak megállapításához, hogy egy erőforrást beolvasni a részleges GET kérelmek használatával. Példa:
+Emellett az ilyen erőforrások esetében fontolja meg a HTTP HEAD-kérések implementálását. A HEAD-kérések hasonlítanak a GET-kérésekre, azzal a különbséggel, hogy csak az erőforrást leíró HTTP-fejléceket adják vissza, üres üzenettörzzsel. Az ügyfélalkalmazások kiadhatnak olyan HEAD-kérést, amely megállapítja, hogy részleges GET-kérésekkel kell-e lekérni egy erőforrást. Példa:
 
 ```HTTP
 HEAD http://adventure-works.com/products/10?fields=productImage HTTP/1.1
 ```
 
-Íme egy példa válaszüzenet: 
+Az alábbiakban egy példát láthat a válaszüzenetre: 
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -300,14 +300,14 @@ Content-Type: image/jpeg
 Content-Length: 4580
 ```
 
-A Content-Length fejlécet ad a erőforrás teljes méretét, és az elfogadás-tartományokat fejléc azt jelzi, hogy, hogy a megfelelő GET műveletet támogatja-e a részleges eredményt. Az ügyfélalkalmazás ezen információk használatával kéri le a képet a kisebb csoportjai. Az első kérelem első 2500 bájtok beolvassa a tartomány fejléc használatával:
+A Content-Length fejléc megadja az erőforrás teljes méretét, az Accept-Ranges fejléc pedig jelzi, hogy a kapcsolódó GET-művelet támogatja-e a részleges eredményeket. Az ügyfélalkalmazás az információk használatával kisebb adattömbökben kérheti le a képet. Az első kérés az első 2500 bájtot olvassa be a Range fejléc használatával:
 
 ```HTTP
 GET http://adventure-works.com/products/10?fields=productImage HTTP/1.1
 Range: bytes=0-2499
 ```
 
-A hibaválasz-üzenet jelzi, hogy a részleges válasz HTTP-állapotkód 206 vissza. A Content-Length fejlécet az üzenet törzsében (nem az erőforrás mérete) visszaadott bájtok tényleges számát adja meg, és a Content-Range fejléc azt jelzi, hogy melyik erőforrás része azt (0-2499 kívüli 4580. bájt):
+A válaszüzenet jelzi a részleges választ a 206-os HTTP-állapotkód visszaadásával. A Content-Length fejléc határozza meg az üzenet törzse által visszaadott bájtok tényleges számát (nem az erőforrás méretét), a Content-Range fejléc pedig azt jelzi, hogy ez az erőforrás melyik része (0–2499 a 4580 bájtból):
 
 ```HTTP
 HTTP/1.1 206 Partial Content
@@ -320,18 +320,18 @@ Content-Range: bytes 0-2499/4580
 [...]
 ```
 
-Az ügyfélalkalmazás egy későbbi kérés kérheti le az erőforrás további része.
+Az ügyfélalkalmazás egy későbbi kérése beolvashatja az erőforrás további részét.
 
-## <a name="use-hateoas-to-enable-navigation-to-related-resources"></a>Ahhoz, hogy a kapcsolódó erőforrások navigációs HATEOAS használata
+## <a name="use-hateoas-to-enable-navigation-to-related-resources"></a>HATEOAS használata a kapcsolódó erőforrásokhoz való navigáció engedélyezéséhez
 
-Az elsődleges összefüggések mögött REST egyik, hogy lehetővé kell tenni az erőforrások teljes készletét megnyitása anélkül, hogy az URI-séma előzetes ismerete. Minden HTTP GET kérést kell visszaadnia az információk szükségesek ahhoz, hogy a közvetlenül a kért objektum keresztül a válaszban szereplő hivatkozások kapcsolódó erőforrás megkeresése, és azt is rendelkezniük kell az elérhető műveletek leíró adatokat minden egyes ezeket az erőforrásokat. Ez az elv HATEOAS, vagy az alkalmazás motor állapot Hypertext néven ismert. A rendszer gyakorlatilag egy véges állapotjelző gép, és az egyes irányuló kérelemre adott válasz tartalmazza a szükséges áthelyezése egy másik; adatok nincs más információ szükséges kell lennie.
+A REST használatának egyik elsődleges célja, hogy az URI-séma előzetes ismeretének szükségessége nélkül lehetséges legyen a navigálás az erőforrások teljes készletében. Minden HTTP GET-kérésnek vissza kell adnia a kért objektumhoz közvetlenül kapcsolódó erőforrások megkereséséhez szükséges információt a válaszban lévő hiperhivatkozások által, valamint rendelkezniük kell az egyes erőforrásokon elérhető műveleteket leíró adatokkal is. Ez az elv HATEOAS (Hypertext as the Engine of Application State, azaz az alkalmazásállapot motorját adó hiperszöveg) néven ismert. A rendszer gyakorlatilag egy véges állapotú gép, és az egyes kérésekre adott válaszok tartalmazzák az egyik állapotból a másikba való mozgáshoz szükséges adatokat. Más információra nincs szükség.
 
 > [!NOTE]
-> Jelenleg nincsenek szabványok vagy meghatározhatja, hogyan kell a HATEOAS elv modell specifikációk. Az ebben a szakaszban szereplő példák bemutatják, egy lehetséges megoldás.
+> Jelenleg nincsenek szabványok vagy specifikációk a HATEOAS-elv modellezésére vonatkozóan. A jelen szakaszban szereplő példák egy lehetséges megoldást mutatnak be.
 >
 >
 
-Például egy megrendelés és az ügyfél közötti kapcsolat kezelése, sorrendben ábrázolását sikerült mutató hivatkozásokat tartalmaznak, amelyek azonosítják az elérhető műveletek az ügyfél a rendelés. A lehetséges megjelenítése a következő: 
+Például egy megrendelés és egy ügyfél közötti kapcsolat kezeléséhez a rendelés reprezentációja hivatkozásokat tartalmazhat, amelyek azonosítják a rendeléshez tartozó ügyfél számára elérhető műveleteket. Az alábbiakban látható egy lehetséges reprezentáció: 
 
 ```json
 {
@@ -379,22 +379,22 @@ Például egy megrendelés és az ügyfél közötti kapcsolat kezelése, sorren
 }
 ```
 
-Ebben a példában a `links` tömböt tartalmaz hivatkozásokat tartalmaz. Mindegyik hivatkozás egy műveletet a kapcsolódó entitás jelöli. Minden hivatkozás szerepel a kapcsolatban ("ügyfél"), az URI (`http://adventure-works.com/customers/3`), a HTTP-metódus, és a támogatott MIME-típusok. Ez az ügyfélalkalmazás képesnek kell lennie a művelet a meghívni kívánt összes információt. 
+Ebben a példában a `links` tömb hivatkozások halmazát tartalmazza. Mindegyik hivatkozás egy kapcsolódó entitáson elvégzendő műveletet jelöl. Minden hivatkozás adatai tartalmazzák a kapcsolatot („customer”), az URI-t (`http://adventure-works.com/customers/3`), a HTTP-metódust és a támogatott MIME-típusokat. Ez minden információ, amelyre az ügyfélalkalmazásnak szüksége van a művelet meghívásához. 
 
-A `links` tömböt is tartalmaz önmagára hivatkozó az erőforrással kapcsolatos információkat saját magát, amely beolvasása. Ezek a kapcsolat rendelkezik *önkiszolgáló*.
+A `links` tömb a lekért erőforrásra vonatkozó, önmagára hivatkozó információt is tartalmaz. Ezek a *self*-kapcsolattal rendelkeznek.
 
-A visszaadott hivatkozások készlete változhat, attól függően, hogy az erőforrás állapotát. Ez mit jelent a "motor alkalmazásállapot." alatt hypertext az
+A visszaadott hivatkozások halmaza az erőforrás állapotától függően módosulhat. Ezt értjük az alatt, hogy a hiperszöveg az „alkalmazásállapot motorja”.
 
-## <a name="versioning-a-restful-web-api"></a>Versioning egy RESTful webes API
+## <a name="versioning-a-restful-web-api"></a>Webes RESTful API verziókezelése
 
-Nagyon valószínű, hogy a webes API statikus marad. Üzleti követelmények módosítása az új gyűjtemények erőforrások vehetők, erőforrásainak kapcsolatai változhat, és erőforrásokat az adatok szerkezete, előfordulhat, hogy módosítani kell. Amíg a webes API-k új vagy eltérő követelmények kezelésére frissítése egy viszonylag egyszerű folyamat, meg kell fontolnia, hogy a változások rendelkezik majd a webes API-t használó ügyfélalkalmazások által okozott hatások. A probléma oka, hogy a fejlesztő tervezésével és megvalósításával webes API-k, hogy API keresztül teljes körű vezérléssel rendelkezik, bár a fejlesztői nincs szabályozhatják, előfordulhat, hogy kialakítani, harmadik féltől származó szervezetek működő távoli ügyfél-alkalmazással azonos szinten. Az elsődleges imperatív a meglévő ügyfél alkalmazások is működjenek, miközben lehetővé teszi az új ügyfél alkalmazások új szolgáltatásait és az erőforrások kihasználását változatlan.
+Nagyon valószínűtlen, hogy egy webes API statikus marad. Az üzleti követelmények módosulásával erőforrás-gyűjtemények vehetők fel, az egyes erőforrások kapcsolatai változhatnak, valamint előfordulhat, hogy az erőforrások adatszerkezetét is módosítani kell. Bár a webes API-k az új vagy eltérő követelmények teljesítésének érdekében történő frissítése viszonylag egyszerű folyamat, meg kell fontolnia, hogy a változások miképpen fognak kihatni a webes API-t használó ügyfélalkalmazásokra. A probléma oka, hogy a fejlesztő, aki megtervezi és implementálja a webes API-t, teljes körű vezérléssel rendelkezik az API fölött, de nem bír ugyanekkora irányítással az ügyfélalkalmazások felett, amelyeket lehet, hogy egy távolról üzemelő harmadik fél hozott létre. Az elsődleges cél lehetővé tenni, hogy a meglévő ügyfélalkalmazások továbbra is változtatás nélkül működjenek, miközben új ügyfélalkalmazások is élhessenek az új funkciók és erőforrások előnyeivel.
 
-Versioning lehetővé teszi, hogy a webes API-k jelzi a következő szolgáltatásokat és erőforrásokat, amely azt mutatja, és egy ügyfélalkalmazás kérelmezheti irányított egy szolgáltatás vagy az erőforrás egy adott verziójához. A következő szakaszok ismertetik, amelyek mindegyikének saját előnyei és vonzatai több különböző módon.
+A verziókezelés lehetővé teszi a webes API-k számára, hogy jelezzék az elérhetővé tett szolgáltatásokat és erőforrásokat, az ügyfélalkalmazások pedig küldhetnek olyan kéréseket, amelyek egy szolgáltatás vagy erőforrás meghatározott verziójára vonatkoznak. A következő szakaszokban számos különféle megközelítést ismertetünk, az előnyeikkel és a hátrányaikkal együtt.
 
-### <a name="no-versioning"></a>Semmilyen verziószámozási
-Ez a legegyszerűbb módszere az, és egyes belső API-k elfogadható. Nagy változások sikerült jeleníthető meg új erőforrások vagy mutató új hivatkozásokat.  Tartalom hozzáadása a meglévő erőforrásokkal nem találhatók használhatatlanná tévő változást, ügyfélalkalmazások, amelyek nem számított a tartalom egyszerűen figyelmen kívül hagyja azt.
+### <a name="no-versioning"></a>Nincs verziókezelés
+Ez a legegyszerűbb megközelítés, és egyes belső API-k esetében elfogadható. A nagy változások megjeleníthetők új erőforrásokként vagy hivatkozásokként.  A tartalom meglévő erőforrásokhoz való hozzáadása nem biztos, hogy alapvető változást jelent, mivel az ügyfélalkalmazások, amelyek nem számítanak erre a tartalomra, egyszerűen figyelmen kívül hagyják azt.
 
-Például az URI kérelem *http://adventure-works.com/customers/3* visszaadja-e részletes adatait tartalmazó egyetlen ügyfél `id`, `name`, és `address` az ügyfélalkalmazás által várt mezők :
+Például az URI kérelem  *http://adventure-works.com/customers/3*  visszaadja-e részletes adatait tartalmazó egyetlen ügyfél `id`, `name`, és `address` az ügyfélalkalmazás által várt mezők:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -404,11 +404,11 @@ Content-Type: application/json; charset=utf-8
 ```
 
 > [!NOTE]
-> Az egyszerűség kedvéért az itt látható példa válaszok nem HATEOAS mutató hivatkozásokat tartalmaznak.
+> Az egyszerűség kedvéért a jelen szakaszban bemutatott példaválaszok nem tartalmaznak HATEOAS-hivatkozásokat.
 >
 >
 
-Ha a `DateCreated` mező hozzáadódik a séma, a felhasználói erőforrás, akkor a válasz néz ki:
+Ha a `DateCreated` mező hozzá van adva az ügyfélerőforrás sémájához, akkor a válasz a következőképpen néz ki:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -417,12 +417,12 @@ Content-Type: application/json; charset=utf-8
 {"id":3,"name":"Contoso LLC","dateCreated":"2014-09-04T12:11:38.0376089Z","address":"1 Microsoft Way Redmond WA 98053"}
 ```
 
-Meglévő ügyfélalkalmazások továbbra is megfelelően működik, ha azok figyelmen kívül hagyása ismeretlen mezők, amíg új ügyfélalkalmazások is kell megtervezni, hogy ez az új mező kezelésére képes. Azonban a sémában az erőforrások több legradikálisabb változások történnek (például eltávolítása, vagy mezők átnevezése) vagy a erőforrásainak kapcsolatai módosítani majd ezek jelenthet akár jelentős változásokat, amelyek meggátolják a meglévő ügyfél alkalmazások megfelelően működik-e . Ezekben az esetekben érdemes lehet a következő módszerek egyikét.
+A meglévő ügyfélalkalmazások továbbra is megfelelően működhetnek, ha figyelmen kívül tudják hagyni az ismeretlen mezőket, az új ügyfélalkalmazások pedig megtervezhetők úgy, hogy képesek legyenek kezelni az új mezőket. Azonban ha radikálisabb változások történnek az erőforrások sémájában (például mezők eltávolítása vagy átnevezése), vagy az erőforrások közötti kapcsolatok módosulnak, akkor ez akár jelentős változásokat is jelenthet, amelyek meggátolják a meglévő ügyfélalkalmazások megfelelő működését. Ilyen esetekben érdemes lehet megfontolni a következő módszerek egyikét.
 
-### <a name="uri-versioning"></a>URI versioning
-Minden alkalommal, amikor módosítja a webes API-t vagy módosítja a sémát, az erőforrások hozzáadása egy verziószámot minden erőforrás URI. A korábban meglévő URI-k továbbra is működnek, mint korábban tartó erőforrások visszatér az eredeti séma.
+### <a name="uri-versioning"></a>URI-verziókezelés
+Minden alkalommal, amikor módosítja a webes API-t vagy az erőforrások sémáját, minden erőforrás esetében hozzáad egy verziószámot az URI-hoz. A korábban meglévő URI-k továbbra is úgy működnek, mint korábban, vagyis visszaadják az eredeti sémájukhoz igazodó erőforrásokat.
 
-Az előző példában kiterjesztése, ha a `address` mező új alárendelt mezőkbe tartalmazó minden részét képezi a cím szerkezete (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás ezen verziója lehet egy verziószámot, például a http://adventure-works.com/v2/customers/3 tartalmazó URI keresztül közzétett:
+Az előző példában kiterjesztése, ha a `address` mező új alárendelt mezőkbe tartalmazó minden részét képezi a cím szerkezete (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás ezen verziója lehet egy verziószámot, például tartalmazó URI keresztül közzétett http://adventure-works.com/v2/customers/3:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -431,22 +431,22 @@ Content-Type: application/json; charset=utf-8
 {"id":3,"name":"Contoso LLC","dateCreated":"2014-09-04T12:11:38.0376089Z","address":{"streetAddress":"1 Microsoft Way","city":"Redmond","state":"WA","zipCode":98053}}
 ```
 
-A verziókezelő mechanizmus nagyon egyszerű, de a kiszolgáló a kérés útválasztási a megfelelő végpontnak függ. Azonban, a webes API Miután kiforrottá válik, több lépés keresztül kezelése nehézkessé válhat, és a kiszolgáló rendelkezik egy különböző verziói számának támogatásához. Is, egy purist szempontjából, minden esetben az ügyfélalkalmazások számára vannak a azonos adatok beolvasása (ügyfél 3), így az URI nem valóban szabad verziójától függően eltérnek. Ez a séma HATEOAS végrehajtását is növeli az összes hivatkozás kell ahhoz, hogy a verziószám szerepeljen az URI-azonosítók szerint.
+Ez a verziókezelő mechanizmus nagyon egyszerű, de függ attól, hogy a kiszolgáló a megfelelő végpontra irányítja-e a kérést. Azonban nehézkessé válhat, ahogy a webes API egyre kiforrottabb lesz, és a kiszolgálónak különböző verziókat kell támogatnia egyidejűleg. Ha az egyszerűség felől közelítjük meg a kérdést, az ügyfélalkalmazások minden esetben ugyanazt az adatot (3-as ügyfél) kérdezik le, ezért az URI-nak sem kellene verziónként eltérőnek lennie. Ez a séma a HATEOAS implementálását is bonyolultabbá teszi, mivel az összes hivatkozásnak tartalmaznia kell a verziószámot a hozzájuk tartozó URI-kban.
 
-### <a name="query-string-versioning"></a>Lekérdezési karakterlánc versioning
-Ahelyett, hogy így több URI-k, megadhatja a verziót az erőforrás egy paraméterrel, a lekérdezési karakterláncot, mint a HTTP-kérelem fűzött belül *http://adventure-works.com/customers/3?version=2*. A version paramétert kell alapértelmezés szerint egy jelentéssel bíró értékre, például 1, ha ki van hagyva régebbi ügyfélalkalmazások.
+### <a name="query-string-versioning"></a>Lekérdezésikarakterlánc-verziókezelés
+Ahelyett, hogy így több URI-k, megadhatja a verziót az erőforrás egy paraméterrel, a lekérdezési karakterláncot, mint a HTTP-kérelem fűzött belül  *http://adventure-works.com/customers/3?version=2* . A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
 
-Ez a megközelítés azzal az szemantikai előnye, hogy ugyanaz az erőforrás mindig lekért ugyanilyen URI, de a kódot, amely kezeli a kérelmet a lekérdezési karakterlánc elemzése és a megfelelő HTTP-választ küldött függ. Ez a megközelítés is szenved az azonos komplikációk URI versioning mechanizmusként HATEOAS megvalósításához.
+Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési karakterlánc elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
 
 > [!NOTE]
-> Egyes régebbi webböngészők és a webes proxykat rendszer gyorsítótárazza a választ az URI lekérdezési karakterláncot tartalmazó kérelmeket. Ez kedvezőtlen hatással lehet webes alkalmazásokhoz, amelyek a webes API-k használják, és futtatni egy webes böngésző belül, amely teljesítmény.
+> Egyes régebbi webböngészők és webes proxyk nem gyorsítótárazzák a válaszokat olyan kérésekre, amelyek URI-jai lekérdezési karakterláncot is tartalmaznak. Ez kedvezőtlen hatással lehet az olyan webes alkalmazások teljesítményére, amelyek webes API-t használnak, illetve amelyek például egy böngészőből futnak.
 >
 >
 
-### <a name="header-versioning"></a>Fejléc versioning
-Ahelyett, hogy hozzáfűzi a lekérdezési karakterlánc paraméterként a verziószámot, egy egyéni fejlécet, amely jelzi a verziót az erőforrás sikertelen végrehajtása. Ez a módszer igényli, hogy, hogy az ügyfélalkalmazás a megfelelő fejlécet ad a kéréseit, bár a kódot az ügyfél kérelmet kezelő használhatja az alapértelmezett értéket (verzió: 1), ha meg van adva a verziófejléc. Az alábbi példák használatára egy elnevezésű egyéni fejlécet *egyéni-fejléc*. A fejléc értékének webes API verzióját adja meg.
+### <a name="header-versioning"></a>Fejléc-verziókezelés
+A verziószám lekérdezésikarakterlánc-paramétereként való feltüntetése helyett használhat egy egyéni fejlécet, amely jelzi az erőforrás verzióját. E módszerhez szükség van arra, hogy az ügyfélalkalmazás a megfelelő fejlécet adja hozzá minden kéréshez, ugyanakkor az ügyfélkérést kezelő programkód használhat alapértelmezett értéket (1-es verzió), ha a verziófejléc ki van hagyva. Az alábbi példákban a *Custom-Header* nevű egyéni fejlécet fogjuk használni. A fejléc értéke a webes API verzióját adja meg.
 
-1. verzió:
+1-es verzió:
 
 ```HTTP
 GET http://adventure-works.com/customers/3 HTTP/1.1
@@ -460,7 +460,7 @@ Content-Type: application/json; charset=utf-8
 {"id":3,"name":"Contoso LLC","address":"1 Microsoft Way Redmond WA 98053"}
 ```
 
-2. verzió:
+2-es verzió:
 
 ```HTTP
 GET http://adventure-works.com/customers/3 HTTP/1.1
@@ -474,17 +474,17 @@ Content-Type: application/json; charset=utf-8
 {"id":3,"name":"Contoso LLC","dateCreated":"2014-09-04T12:11:38.0376089Z","address":{"streetAddress":"1 Microsoft Way","city":"Redmond","state":"WA","zipCode":98053}}
 ```
 
-Vegye figyelembe, hogy az előző két megközelítés a HATEOAS végrehajtási igényel a együtt megfelelő egyéni szereplő esetleges hivatkozások.
+Vegye figyelembe, hogy akárcsak az előző két megközelítésnél, a HATEOAS implementálásához fel kell tüntetni a megfelelő egyéni fejlécet minden hivatkozásban.
 
-### <a name="media-type-versioning"></a>Az adathordozó típusa versioning
-Amikor egy ügyfél-alkalmazás egy HTTP GET kérést küld egy webkiszolgálóhoz történő azt kell kötni, is képes kezelni az Accept fejlécet, használatával, ez az útmutató korábbi szakaszaiban ismertetett tartalom formátuma. Gyakran a célja a *elfogadás* fejléc, hogy lehetővé tegyék az ügyfélalkalmazás adhatja meg, hogy a választörzs XML, JSON vagy valamilyen más általános formátumú, mely az ügyfél képes legyen-e. Azonban úgy is, amely tartalmazza az információt, amely alapján az ügyfélalkalmazás annak jelzésére, hogy melyik erőforrás verzióját is megfelelő egyéni adathordozó-típust határoznak meg. A következő példa bemutatja egy olyan kérelmet, amely meghatározza egy *elfogadás* értékű fejléc *application/vnd.adventure-works.v1+json*. A *vnd.adventure-works.v1* elem határozza meg, hogy a webkiszolgáló, hogy az visszaküldje-e az 1 verziót az erőforrás, amíg a *json* elem megadhatja, hogy az adott válasz törzsének formátuma JSON:
+### <a name="media-type-versioning"></a>Adathordozótípus-verziókezelés
+Amikor egy ügyfélalkalmazás HTTP GET-kérést küld egy webkiszolgálónak, akkor közölnie kell az általa kezelt tartalomformátumokat egy Accept fejléc használatával, ahogy ezt az útmutató korábbi szakaszaiban is ismertettük. Az *Accept* fejléc célja sokszor az, hogy lehetővé tegye az ügyfélalkalmazás számára annak meghatározását, hogy a választörzs XML, JSON vagy valamilyen más gyakori formátummal bír, amelynek elemzésére az ügyfél képes. Lehetséges azonban egyéni adathordozó-típusok meghatározása is. Ezek olyan információt tartalmaznak, amely alapján az ügyfélalkalmazás képes jelezni, melyik erőforrás-verzióra számít. A következő példa bemutat egy olyan kérést, amely megad egy *Accept* fejlécet a következő értékkel: *application/vnd.adventure-works.v1+json*. A *vnd.adventure-works.v1* elem jelzi a webkiszolgáló felé, hogy annak az erőforrás 1-es verzióját kell visszaadnia, míg a *json* elem azt határozza meg, hogy a választörzs formátumának JSON-nak kell lennie:
 
 ```HTTP
 GET http://adventure-works.com/customers/3 HTTP/1.1
 Accept: application/vnd.adventure-works.v1+json
 ```
 
-A kódot, a kérelem feldolgozása felelős a *elfogadás* fejléc és a lehető érvényesítenie azt (az ügyfélalkalmazás adhatnak meg több formátumok a *elfogadás* fejléc, ebben az esetben a webalkalmazás-kiszolgáló is válassza ki a legmegfelelőbb az adott válasz törzsének formátumát). A webkiszolgáló megerősíti, hogy a válasz törzsében szereplő adatok formátumának a Content-Type fejléc használatával:
+A kérést feldolgozó kód felelős az *Accept* fejléc feldolgozásáért, valamint annak figyelembevételéért (az ügyfélalkalmazás több formátumot is megadhat az *Accept* fejlécben, ebben az esetben a webkiszolgáló kiválaszthatja a legmegfelelőbbet a választörzshöz). A webkiszolgáló a Content-Type fejléc használatával megerősíti az adatformátumot a válasz törzsében:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -493,28 +493,28 @@ Content-Type: application/vnd.adventure-works.v1+json; charset=utf-8
 {"id":3,"name":"Contoso LLC","address":"1 Microsoft Way Redmond WA 98053"}
 ```
 
-Az Accept fejlécet bármely ismert adathordozó típusa nem határoz meg, ha a webkiszolgáló nem sikerült létrehozni egy HTTP 406 (elfogadható) válaszüzenetet vagy egy üzenetet, amelyben egy alapértelmezett az adathordozó típusát adja vissza.
+Ha az Accept fejléc nem határoz meg egy ismert adathordozó-típust sem, a webkiszolgáló létrehozhat egy HTTP 406 („Nem elfogadható”) válaszüzenetet, vagy visszaadhat egy üzenetet az alapértelmezett adathordozó-típussal.
 
-Ez a megközelítés késései referenciavegyületeknek a lehető legtisztább versioning mechanizmusok és adatmodelljeinek természetes HATEOAS, ami magában foglalhatja a kapcsolódó adatokra vonatkozó MIME-típusát a források hivatkozásait.
+E megközelítést tartják a legtisztább verziókezelési mechanizmusnak, és jól használható a HATEOAS-szal is, amely tartalmazhatja a kapcsolódó adatok MIME-típusát az erőforrás-hivatkozásokban.
 
 > [!NOTE]
-> Amikor kiválaszt egy versioning stratégia, is érdemes a gyakorolt hatása a teljesítményre, különösen gyorsítótárazása a webkiszolgálón. Az URI versioning és a lekérdezési karakterlánc versioning sémák áll a gyorsítótár-barát amennyiben ugyanazokhoz az adatokhoz minden alkalommal, amikor a azonos URI-lekérdezés-karakterlánc kombinációja hivatkozik.
+> Amikor kiválaszt egy verziókezelési stratégiát, érdemes megfontolnia a teljesítményre gyakorolt hatást is, különösen a webkiszolgáló gyorsítótárazását illetően. Az URI-verziókezelés és a lekérdezésikarakterlánc-verziókezelés sémája gyorsítótárral kompatibilis, tekintve, hogy minden alkalommal ugyanaz az URI és lekérdezési karakterlánc vonatkozik ugyanarra az adatra.
 >
-> A fejléc versioning és médiatípus versioning mechanizmusok használatához általában szükség van további logikát vizsgálja meg az értékeket az egyéni fejlécet vagy az Accept fejlécet. A nagyméretű környezetben sok ügyfél különböző verzióit egy webes API-t használ a kiszolgálóoldali gyorsítótár duplikált adatok jelentős mennyiségű eredményezhet. Lehet, hogy a probléma akut, ha egy ügyfél-alkalmazás egy webkiszolgálón, amely megvalósítja a gyorsítótárazás, és, hogy csak továbbítja a kérést a webkiszolgáló Ha azt jelenleg nem vonatkozik a kért adatok másolatát gyorsítótárában proxyn keresztül kommunikál.
+> A fejléc- és adathordozótípus-verziókezelési mechanizmus használatához általában szükség van további logikára, amely az egyéni fejlécben vagy az Accept fejlécben lévő értékeket vizsgálja meg. Nagyméretű környezetben számos ügyfél a webes API-k eltérő verzióját használja, ez pedig jelentős mennyiségű duplikált adatot eredményezhet a kiszolgálóoldali gyorsítótárban. A probléma akuttá válhat, ha az ügyfélalkalmazások gyorsítótárazást használó proxyn keresztül kommunikálnak a webkiszolgálókkal. A proxy csak akkor továbbítja a kérést a webkiszolgáló felé, ha a gyorsítótár jelenleg nem tartalmazza a kért adat másolatát.
 >
 >
 
-## <a name="open-api-initiative"></a>Nyissa meg az API kezdeményezés
-A [nyitott API kezdeményezésére](https://www.openapis.org/) egy iparági konzorcium normalizálnia REST API leírása több szállító hozta létre. A kezdeményezés részeként a Swagger 2.0-s specifikációnak volt a OpenAPI Specification (OAS) neve, és nyissa meg az API kezdeményezésére alapján.
+## <a name="open-api-initiative"></a>Open API-kezdeményezés
+Az [Open API kezdeményezést](https://www.openapis.org/) egy iparági konzorcium hozta létre annak érdekében, hogy a REST API-leírásokat az összes gyártó esetében szabványossá tegyék. A kezdeményezés részeként a Swagger 2.0-s specifikációt átnevezték OpenAPI-specifikációra (OAS), és az Open API-kezdeményezés részévé tették azt.
 
-Érdemes lehet OpenAPI elfogadják a Web API-k. Néhány megfontolandó szempontok:
+Érdemes lehet az OpenAPI-t használnia a webes API-jaihoz. Néhány megfontolandó szempont:
 
-- Az OpenAPI specifikációt tartalmaz egy opinionated iránymutatásokat meg, hogyan kell megtervezni a REST API-t. Amely a való együttműködés előnye is van, de további figyelmet igényel, az API-t a specifikációnak megfelelő tervezésekor.
-- OpenAPI elősegíti a szerződés-első megközelítés ahelyett, hogy egy megvalósítási-first-módszert is. Adategyezmény-első azt jelenti, hogy alakítson ki az API-t először szerződést (a felület), és jegyezze meg a szerződés megvalósító kódot. 
-- Eszközök, például a Swagger API-szerződések hozhat létre ügyfélkódtárai vagy dokumentációját. Lásd például: [ASP.NET API segítségével weblapok a Swagger](/aspnet/core/tutorials/web-api-help-pages-using-swagger).
+- Az OpenAPI-specifikáció véleményekkel ellátott iránymutatásokat tartalmaz a REST API-k megtervezéséről. Az együttműködési képesség terén több előnnyel rendelkezik, de nagyobb odafigyelést is igényel az API a specifikációnak megfelelő megtervezésekor.
+- Az OpenAPI elsősorban az egyezményre fókuszáló megközelítést segíti elő a megvalósításra fókuszáló megoldások ellenében. Az egyezményre fókuszáló megközelítés azt jelenti, hogy először megtervezi az API-egyezményt (a felületet), és ezt követően írja meg a kódot, amely az egyezményt implementálja. 
+- Az olyan eszközök, mint például a Swagger, képesek ügyfélkódtárakat vagy dokumentációt létrehozni API-egyezményekből. Példákért lásd [a Swaggert használó ASP.NET webes API-k súgóoldalait](/aspnet/core/tutorials/web-api-help-pages-using-swagger).
 
 ## <a name="more-information"></a>További információ
-* [Microsoft REST API-irányelvek](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md). Részletes információkat találhat a nyilvános REST API-k tervezésekor.
-* [A többi Cookbook](http://restcookbook.com/). Bevezetés a RESTful API-k létrehozása.
-* [Webes API ellenőrzőlista](https://mathieu.fenniak.net/the-api-checklist/). Megfontolandó tervezésével és megvalósításával webes API-k hasznos listáját.
-* [Nyissa meg az API kezdeményezésére](https://www.openapis.org/). Dokumentáció és megvalósítási részleteket nyílt API-t.
+* [Microsoft REST API-irányelvek](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md). Részletes javaslatok a nyilvános REST API-k tervezéséhez.
+* [Részletes REST-útmutató](http://restcookbook.com/). Bevezetés a RESTful API-k létrehozásának művészetébe.
+* [Webes API-k ellenőrzőlistája](https://mathieu.fenniak.net/the-api-checklist/). A webes API-k tervezése és implementálása során megfontolandó szempontok hasznos listája.
+* [Open API-kezdeményezés](https://www.openapis.org/). Az Open API dokumentációja és az implementálás részletei.
