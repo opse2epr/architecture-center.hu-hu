@@ -1,10 +1,10 @@
 ---
 layout: LandingPage
-ms.openlocfilehash: 00abbfdeac89a9006517195bd4bbc514d587fe74
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9bd86f1b3527f1116d4f5169baf76f8a5b9a385b
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 03/17/2018
 ---
 # <a name="azure-application-architecture-guide"></a>Útmutató az Azure alkalmazásarchitektúrájához
 
@@ -46,7 +46,7 @@ Nem módosítható infrastruktúra<br/>
 </tbody>
 </table>
 
-A jelen útmutató alkalmazásmérnökök, fejlesztők és üzemeltetési csapatok számára készült. Nem az egyes Azure-szolgáltatások használati útmutatója. Az útmutató elolvasásával megismerheti az alkalmazások Azure-felhőplatformon való létrehozásakor érvényes architektúramintákat és ajánlott eljárásokat.
+A jelen útmutató alkalmazásmérnökök, fejlesztők és üzemeltetési csapatok számára készült. Nem az egyes Azure-szolgáltatások használati útmutatója. Az útmutató elolvasásával megismerheti az alkalmazások Azure-felhőplatformon való létrehozásakor érvényes architektúramintákat és ajánlott eljárásokat. Az [útmutató e-könyv verzióját][ebook] is letöltheti.
 
 ## <a name="how-this-guide-is-structured"></a>Az útmutató felépítése
 
@@ -78,6 +78,7 @@ Az Útmutató az Azure alkalmazásarchitektúrájához több lépésből áll az
 [checklists]: ../checklist/index.md
 [compute-options]: ./technology-choices/compute-comparison.md
 [design-principles]: ./design-principles/index.md
+[ebook]: https://azure.microsoft.com/campaigns/cloud-application-architecture-guide/
 [patterns]: ../patterns/index.md?toc=/azure/architecture/guide/toc.json
 [pillars]: ./pillars.md
 [ref-archs]: ../reference-architectures/index.md

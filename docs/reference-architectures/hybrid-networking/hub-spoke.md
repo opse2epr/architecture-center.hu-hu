@@ -5,11 +5,11 @@ author: telmosampaio
 ms.date: 02/23/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: 1a2855f0d4a903fc4d7a022aef20ea73fe763e2c
-ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
+ms.openlocfilehash: ab22cdfb36eed75809054cdb7d0b8a76304ba78e
+ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/08/2018
+ms.lasthandoff: 03/17/2018
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -115,7 +115,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-
 
 Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúrát, az alábbi lépéseket kell elvégeznie.
 
-1. Klónozza, ágaztassa el vagy töltse le az [AzureCAT referenciaarchitektúrák][ref-arch-repo] GitHub-adattár zip-fájlját.
+1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
 
 2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve van a számítógépén. Információk a CLI telepítésével kapcsolatban: [Az Azure CLI 2.0 telepítése][azure-cli-2].
 
