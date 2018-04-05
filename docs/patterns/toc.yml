@@ -1,4 +1,4 @@
-- name: Azure Architecture Center
+- name: Azure-architektúraközpont
   href: /azure/architecture
 - name: Tervezési minták felhőkhöz
   href: index.md
@@ -10,13 +10,13 @@
       href: category/data-management.md
     - name: Tervezés és megvalósítás
       href: category/design-implementation.md
-    - name: Üzenetküldés
+    - name: Üzenetkezelés
       href: category/messaging.md
-    - name: Kezelés és figyelés
+    - name: Kezelés és monitorozás
       href: category/management-monitoring.md
     - name: Teljesítmény és méretezhetőség
       href: category/performance-scalability.md
-    - name: Resiliency
+    - name: Rugalmasság
       href: category/resiliency.md
     - name: Biztonság
       href: category/security.md
@@ -80,7 +80,7 @@
   href: static-content-hosting.md
 - name: Strangler
   href: strangler.md
-- name: Szabályozás
+- name: Throttling
   href: throttling.md
 - name: Valet Key
   href: valet-key.md
