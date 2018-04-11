@@ -1,6 +1,6 @@
 ---
-title: "Sérülésgátló réteg minta"
-description: "Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között."
+title: Sérülésgátló réteg minta
+description: Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között.
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: efb1f90be33c2621c7a24c42730da9fffe70dfad

@@ -1,6 +1,6 @@
 ---
-title: "Rugalmasságra vonatkozó ellenőrzőlista"
-description: "Feladatlista, amely útmutatást hibatűrési szempontok a tervezés közben."
+title: Rugalmasságra vonatkozó ellenőrzőlista
+description: Feladatlista, amely útmutatást hibatűrési szempontok a tervezés közben.
 author: petertaylor9999
 ms.date: 01/10/2018
 ms.custom: resiliency, checklist

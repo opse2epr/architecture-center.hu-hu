@@ -1,6 +1,6 @@
 ---
-title: "Az Azure Resource Manager-sablon funkciójának bővítése"
-description: "Az Azure Resource Manager-sablon funkciójának bővítésére vonatkozó tippeket és trükköket ismertet"
+title: Az Azure Resource Manager-sablon funkciójának bővítése
+description: Az Azure Resource Manager-sablon funkciójának bővítésére vonatkozó tippeket és trükköket ismertet
 author: petertay
 ms.date: 06/09/2017
 ms.openlocfilehash: 33ae6850ffa5b28108f30475804be5347859f0c3

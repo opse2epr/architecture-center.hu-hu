@@ -1,6 +1,6 @@
 ---
-title: "Explainer: Azure működése"
-description: "Azure belső működését ismerteti"
+title: 'Explainer: Azure működése'
+description: Azure belső működését ismerteti
 author: petertay
 ms.openlocfilehash: b4830fec69ac6d256d934d91ea2c295219925a9a
 ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
