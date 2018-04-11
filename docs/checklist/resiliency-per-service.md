@@ -1,6 +1,6 @@
 ---
-title: "Rugalmasság ellenőrzőlista az Azure-szolgáltatások"
-description: "Útmutató rugalmasság a különböző Azure-szolgáltatásokat nyújtó ellenőrzőlista."
+title: Rugalmasság ellenőrzőlista az Azure-szolgáltatások
+description: Útmutató rugalmasság a különböző Azure-szolgáltatásokat nyújtó ellenőrzőlista.
 author: petertaylor9999
 ms.date: 03/02/2018
 ms.custom: resiliency, checklist

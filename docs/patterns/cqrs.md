@@ -1,7 +1,7 @@
 ---
 title: CQRS
-description: "Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől."
-keywords: "tervezési minta"
+description: Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

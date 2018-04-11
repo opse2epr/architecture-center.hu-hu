@@ -1,6 +1,6 @@
 ---
-title: "Content Delivery Network útmutató"
-description: "Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltetett nagy sávszélesség-tartalom."
+title: Content Delivery Network útmutató
+description: Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltetett nagy sávszélesség-tartalom.
 author: dragon119
 ms.date: 02/02/2018
 pnp.series.title: Best Practices

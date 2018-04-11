@@ -1,6 +1,6 @@
 ---
-title: "API-tervezési segédlet"
-description: "Segédlet egy jól megtervezett webes API létrehozásához."
+title: API-tervezési segédlet
+description: Segédlet egy jól megtervezett webes API létrehozásához.
 author: dragon119
 ms.date: 01/12/2018
 pnp.series.title: Best Practices

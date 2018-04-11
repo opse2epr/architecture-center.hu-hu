@@ -1,6 +1,6 @@
 ---
-title: "Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása"
-description: "Egy meglévő Azure Service Fabric-alkalmazás refactor hogyan átemelt Azure Cloud Services csomag"
+title: Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
+description: Egy meglévő Azure Service Fabric-alkalmazás refactor hogyan átemelt Azure Cloud Services csomag
 author: petertay
 ms.date: 01/30/2018
 ms.openlocfilehash: 08ef3af68b8eaba36a5b871449f0aba764fe5a04
