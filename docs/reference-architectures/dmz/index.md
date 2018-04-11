@@ -1,6 +1,6 @@
 ---
-title: "Hálózati DMZ"
-description: "Az Azure-ban, hibrid rendszer részeként futó alkalmazásoknak és összetevőknek a jogosulatlan behatolásokkal szembeni védelmére szolgáló rendelkezésre álló különböző metódusokat ismerteti és hasonlítja össze."
+title: Hálózati DMZ
+description: Az Azure-ban, hibrid rendszer részeként futó alkalmazásoknak és összetevőknek a jogosulatlan behatolásokkal szembeni védelmére szolgáló rendelkezésre álló különböző metódusokat ismerteti és hasonlítja össze.
 layout: LandingPage
 ms.openlocfilehash: 98df0a25767c7a7282e67381c6465fe3263ce1fa
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

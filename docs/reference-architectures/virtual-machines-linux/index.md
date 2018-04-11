@@ -1,6 +1,6 @@
 ---
-title: "Számítási feladatok Linux rendszerű virtuális gépeken"
-description: "Az Azure-ban vállalati szintű alkalmazásokat üzemeltető virtuális gépek üzembe helyezéséhez ismertet néhány gyakori architektúrát."
+title: Számítási feladatok Linux rendszerű virtuális gépeken
+description: Az Azure-ban vállalati szintű alkalmazásokat üzemeltető virtuális gépek üzembe helyezéséhez ismertet néhány gyakori architektúrát.
 layout: LandingPage
 ms.openlocfilehash: ef06fb93355f4676f44954930bcfeb2c2d012d43
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

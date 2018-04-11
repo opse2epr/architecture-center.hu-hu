@@ -1,6 +1,6 @@
 ---
-title: "Key Vault segítségével alkalmazás titkos kulcsok védelme"
-description: "A Key Vault szolgáltatás használata az alkalmazás titkos kulcsok tárolására"
+title: Key Vault segítségével alkalmazás titkos kulcsok védelme
+description: A Key Vault szolgáltatás használata az alkalmazás titkos kulcsok tárolására
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications

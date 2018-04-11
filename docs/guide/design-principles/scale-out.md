@@ -1,6 +1,6 @@
 ---
-title: "Bővíteni. terv"
-description: "A horizontális skálázás úgy kell megtervezni a felhőalapú alkalmazásokhoz."
+title: Bővíteni. terv
+description: A horizontális skálázás úgy kell megtervezni a felhőalapú alkalmazásokhoz.
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 8f9b3e99a53f5941f708b0de124f37e6ff7e5ab2

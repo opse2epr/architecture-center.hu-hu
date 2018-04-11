@@ -1,6 +1,6 @@
 ---
-title: "Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével"
-description: "Hogyan használható az ügyfél helyességi feltétel az Azure AD hozzáférési jogkivonatok segítségével."
+title: Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével
+description: Hogyan használható az ügyfél helyességi feltétel az Azure AD hozzáférési jogkivonatok segítségével.
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
@@ -103,6 +103,7 @@ public class CertificateCredentialService : ICredentialService
 [configure-web-app]: /azure/app-service-web/web-sites-configure/
 [azure-management-portal]: https://portal.azure.com
 [ügyfél helyességi feltétel]: https://tools.ietf.org/html/rfc7521
+[client assertion]: https://tools.ietf.org/html/rfc7521
 [key vault]: key-vault.md
 [Setup-KeyVault]: https://github.com/mspnp/multitenant-saas-guidance/blob/master/scripts/Setup-KeyVault.ps1
 [Surveys]: tailspin.md

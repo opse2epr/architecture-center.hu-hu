@@ -1,6 +1,6 @@
 ---
-title: "Azure bevezetése: eligazodást"
-description: "Az alapkonfiguráció szintű bevezessék az Azure számára szükséges vállalati Tudásbázis"
+title: 'Azure bevezetése: eligazodást'
+description: Az alapkonfiguráció szintű bevezessék az Azure számára szükséges vállalati Tudásbázis
 author: petertay
 ms.openlocfilehash: e9421b610e4eb07a3ed37bca56e513b0689484ef
 ms.sourcegitcommit: 9ba82cf84cee06ccba398ec04c51dab0e1ca8974

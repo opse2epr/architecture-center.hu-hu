@@ -1,6 +1,6 @@
 ---
-title: "Foglalt adatbázissal kapcsolatos kizárási minták"
-description: "A feldolgozás adatbázis-kiszolgálóra való kiszervezése teljesítménybeli és skálázhatósági problémákat okozhat."
+title: Foglalt adatbázissal kapcsolatos kizárási minták
+description: A feldolgozás adatbázis-kiszolgálóra való kiszervezése teljesítménybeli és skálázhatósági problémákat okozhat.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: 9fdbde0731a1be570ef611894a9d23a1be87f4e7

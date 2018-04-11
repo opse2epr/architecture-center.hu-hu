@@ -1,6 +1,6 @@
 ---
-title: "Hitelesítés a több-bérlős alkalmazásokhoz"
-description: "Hogyan egy több-bérlős alkalmazást az Azure ad-felhasználókat hitelesítheti"
+title: Hitelesítés a több-bérlős alkalmazásokhoz
+description: Hogyan egy több-bérlős alkalmazást az Azure ad-felhasználókat hitelesítheti
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications

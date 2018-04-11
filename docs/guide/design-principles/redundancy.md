@@ -1,6 +1,6 @@
 ---
-title: "Tervezzen mindent redundánsra"
-description: "Kerülje a hibaérzékeny pontokat redundancia épület az alkalmazásba."
+title: Tervezzen mindent redundánsra
+description: Kerülje a hibaérzékeny pontokat redundancia épület az alkalmazásba.
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 05ccf78c2cfbcd4e2d26200e70463d388d54f671

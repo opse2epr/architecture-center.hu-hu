@@ -1,6 +1,6 @@
 ---
-title: "Ismételje meg az általános útmutatást"
-description: "Átmeneti hiba célból újrapróbálkozási útmutatást."
+title: Ismételje meg az általános útmutatást
+description: Átmeneti hiba célból újrapróbálkozási útmutatást.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices

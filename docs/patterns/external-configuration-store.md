@@ -1,7 +1,7 @@
 ---
-title: "Külső Beállítástárolóval"
-description: "Az alkalmazás központi telepítési csomag kívül a konfigurációs adatok áthelyezése egy központi helyen."
-keywords: "Kialakítási mintája"
+title: Külső Beállítástárolóval
+description: Az alkalmazás központi telepítési csomag kívül a konfigurációs adatok áthelyezése egy központi helyen.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

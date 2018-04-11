@@ -1,6 +1,6 @@
 ---
-title: "Automatikus javítás kialakítása"
-description: "Rugalmas alkalmazások tud helyreállni hibák után beavatkozás nélkül."
+title: Automatikus javítás kialakítása
+description: Rugalmas alkalmazások tud helyreállni hibák után beavatkozás nélkül.
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 0782b65b77615f7c006724264ab0ca2d2c7c04e2

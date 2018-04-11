@@ -1,6 +1,6 @@
 ---
 title: Strangler minta
-description: "Növekményesen áttelepítése egy korábbi rendszer fokozatosan cseréje nehezen funkció az új alkalmazásokkal és szolgáltatásokkal."
+description: Növekményesen áttelepítése egy korábbi rendszer fokozatosan cseréje nehezen funkció az új alkalmazásokkal és szolgáltatásokkal.
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: d03e8a1ef9077b6e00ea5a17423bf7e09b68111a

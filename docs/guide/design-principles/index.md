@@ -1,6 +1,6 @@
 ---
-title: "Tervezési alapelvek Azure-alkalmazásokhoz"
-description: "Tervezési alapelvek Azure-alkalmazásokhoz"
+title: Tervezési alapelvek Azure-alkalmazásokhoz
+description: Tervezési alapelvek Azure-alkalmazásokhoz
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 57b04839e14804ad97fc9c86e1f9c4fe6e0da472

@@ -1,7 +1,7 @@
 ---
 title: Azure AWS-szakembereknek
-description: "Megismerkedhet a Microsoft Azure-fiókok, -szolgáltatások és -platform alapjaival. Emellett az AWS és az Azure platform legfontosabb hasonlóságait és különbségeit is megismerheti. Hasznosítsa az AWS-sel kapcsolatos tapasztalatait az Azure-ban."
-keywords: "AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlítása, azure és aws közötti különbségek, azure és aws"
+description: Megismerkedhet a Microsoft Azure-fiókok, -szolgáltatások és -platform alapjaival. Emellett az AWS és az Azure platform legfontosabb hasonlóságait és különbségeit is megismerheti. Hasznosítsa az AWS-sel kapcsolatos tapasztalatait az Azure-ban.
+keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlítása, azure és aws közötti különbségek, azure és aws
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals

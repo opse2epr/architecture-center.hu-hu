@@ -1,6 +1,6 @@
 ---
-title: "Monolitikus adatmegőrzési kizárási minta"
-description: "Egy alkalmazás összes adatának egyetlen adattárolóba való helyezése hátrányosan befolyásolhatja a teljesítményt."
+title: Monolitikus adatmegőrzési kizárási minta
+description: Egy alkalmazás összes adatának egyetlen adattárolóba való helyezése hátrányosan befolyásolhatja a teljesítményt.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: 7f04b9f0805c281068b6b2edaf040683773e6f6e

@@ -1,7 +1,7 @@
 ---
-title: "Materializált nézet"
-description: "Az adatokat egy vagy több adattárolókhoz keresztül előfeltöltött nézetek létrehozása az adatok nem ideális formázott kötelező lekérdezési műveletek."
-keywords: "Kialakítási mintája"
+title: Materializált nézet
+description: Az adatokat egy vagy több adattárolókhoz keresztül előfeltöltött nézetek létrehozása az adatok nem ideális formázott kötelező lekérdezési műveletek.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

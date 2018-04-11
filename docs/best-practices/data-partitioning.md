@@ -1,6 +1,6 @@
 ---
-title: "Adatparticionálási útmutató"
-description: "Útmutató a szétválasztásának kezelhető és külön-külön elérhető partíciókat."
+title: Adatparticionálási útmutató
+description: Útmutató a szétválasztásának kezelhető és külön-külön elérhető partíciókat.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
@@ -548,39 +548,68 @@ ms.lasthandoff: 02/09/2018
 * <span data-ttu-id="5645c-874">A [adattípusok] a Redis-webhelyen lap ismerteti, hogy a Redis és az Azure Redis Cache adatok típusát.</span><span class="sxs-lookup"><span data-stu-id="5645c-874">The [Data types] page on the Redis website describes the data types that are available with Redis and Azure Redis Cache.</span></span>
 
 [rendelkezésre állását és az Event Hubs következetes]: /azure/event-hubs/event-hubs-availability-and-consistency
+[Availability and consistency in Event Hubs]: /azure/event-hubs/event-hubs-availability-and-consistency
 [azure-limits]: /azure/azure-subscription-service-limits
 [Azure Content Delivery Network]: /azure/cdn/cdn-overview
 [Azure Redis Cache]: http://azure.microsoft.com/services/cache/
 [Az Azure Storage méretezhetőségi és teljesítménycéloknak]: /azure/storage/storage-scalability-targets
+[Azure Storage Scalability and Performance Targets]: /azure/storage/storage-scalability-targets
 [Az Azure Storage táblázat kialakítási útmutató]: /azure/storage/storage-table-design-guide
+[Azure Storage Table Design Guide]: /azure/storage/storage-table-design-guide
 [A Polyglot megoldás létrehozása]: https://msdn.microsoft.com/library/dn313279.aspx
+[Building a Polyglot Solution]: https://msdn.microsoft.com/library/dn313279.aspx
 [cosmos-db-ru]: /azure/cosmos-db/request-units
 [A magas szinten méretezhető megoldások adatelérési: SQL, nosql-alapú és Polyglot adatmegőrzési használatával]: https://msdn.microsoft.com/library/dn271399.aspx
+[Data Access for Highly-Scalable Solutions: Using SQL, NoSQL, and Polyglot Persistence]: https://msdn.microsoft.com/library/dn271399.aspx
 [adatok konzisztencia ismertetése]: http://aka.ms/Data-Consistency-Primer
+[Data consistency primer]: http://aka.ms/Data-Consistency-Primer
 [Adatok particionálási útmutató]: https://msdn.microsoft.com/library/dn589795.aspx
+[Data Partitioning Guidance]: https://msdn.microsoft.com/library/dn589795.aspx
 [Adattípusok]: http://redis.io/topics/data-types
+[Data Types]: http://redis.io/topics/data-types
 [cosmosdb-sql-api]: /azure/cosmos-db/sql-api-introduction
 [rugalmas adatbázis-szolgáltatások áttekintése]: /azure/sql-database/sql-database-elastic-scale-introduction
+[Elastic Database features overview]: /azure/sql-database/sql-database-elastic-scale-introduction
 [event-hubs]: /azure/event-hubs
 [Federations Migration Utility]: https://code.msdn.microsoft.com/vstudio/Federations-Migration-ce61e9c1
 [irányelvek és javaslatok az Azure Service Fabric megbízható gyűjtemények]: /azure/service-fabric/service-fabric-reliable-services-reliable-collections-guidelines
+[guidelines and recommendations for reliable collections in Azure Service Fabric]: /azure/service-fabric/service-fabric-reliable-services-reliable-collections-guidelines
 [Index táblázat minta]: http://aka.ms/Index-Table-Pattern
+[Index Table Pattern]: http://aka.ms/Index-Table-Pattern
 [Materializált nézet minta]: http://aka.ms/Materialized-View-Pattern
+[Materialized View Pattern]: http://aka.ms/Materialized-View-Pattern
 [több shard lekérdezése]: /azure/sql-database/sql-database-elastic-scale-multishard-querying
+[Multi-shard querying]: /azure/sql-database/sql-database-elastic-scale-multishard-querying
 [Azure Service Fabric áttekintése]: /azure/service-fabric/service-fabric-overview
+[Overview of Azure Service Fabric]: /azure/service-fabric/service-fabric-overview
 [A Service Fabric megbízható szolgáltatások partícióazonosító]: /azure/service-fabric/service-fabric-concepts-partitioning
+[Partition Service Fabric reliable services]: /azure/service-fabric/service-fabric-concepts-partitioning
 [particionálására: hogyan adatok több Redis-példány között]: http://redis.io/topics/partitioning
+[Partitioning: how to split data among multiple Redis instances]: http://redis.io/topics/partitioning
 [Entitás csoport tranzakciók végrehajtása]: https://msdn.microsoft.com/library/azure/dd894038.aspx
+[Performing Entity Group Transactions]: https://msdn.microsoft.com/library/azure/dd894038.aspx
 [Redis-fürt oktatóanyag]: http://redis.io/topics/cluster-tutorial
+[Redis cluster tutorial]: http://redis.io/topics/cluster-tutorial
 [a CentOS Linux virtuális gép az Azure-ban futó Redis]: http://blogs.msdn.com/b/tconte/archive/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure.aspx
+[Running Redis on a CentOS Linux VM in Azure]: http://blogs.msdn.com/b/tconte/archive/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure.aspx
 [méretezés, a rugalmas adatbázis vegyes egyesítéses eszközzel]: /azure/sql-database/sql-database-elastic-scale-overview-split-and-merge
+[Scaling using the Elastic Database split-merge tool]: /azure/sql-database/sql-database-elastic-scale-overview-split-and-merge
 [használata Azure Content Delivery Network]: /azure/cdn/cdn-create-new-endpoint
+[Using Azure Content Delivery Network]: /azure/cdn/cdn-create-new-endpoint
 [Service Bus kvóták]: /azure/service-bus-messaging/service-bus-quotas
+[Service Bus quotas]: /azure/service-bus-messaging/service-bus-quotas
 [service-fabric-reliable-collections]: /azure/service-fabric/service-fabric-reliable-services-reliable-collections
 [szolgáltatási korlátait, az Azure Search]:  /azure/search/search-limits-quotas-capacity
+[Service limits in Azure Search]:  /azure/search/search-limits-quotas-capacity
 [horizontális mintát]: http://aka.ms/Sharding-Pattern
+[Sharding pattern]: http://aka.ms/Sharding-Pattern
 [Támogatott adattípusokat (az Azure Search)]:  https://msdn.microsoft.com/library/azure/dn798938.aspx
+[Supported Data Types (Azure Search)]:  https://msdn.microsoft.com/library/azure/dn798938.aspx
 [tranzakciók]: http://redis.io/topics/transactions
+[Transactions]: http://redis.io/topics/transactions
 [Mi az az Event Hubs?]: /azure/event-hubs/event-hubs-what-is-event-hubs
+[What is Event Hubs?]: /azure/event-hubs/event-hubs-what-is-event-hubs
 [Azure Search újdonságai?]: /azure/search/search-what-is-azure-search
+[What is Azure Search?]: /azure/search/search-what-is-azure-search
 [Mi az Azure SQL Database?]: /azure/sql-database/sql-database-technical-overview
+[What is Azure SQL Database?]: /azure/sql-database/sql-database-technical-overview

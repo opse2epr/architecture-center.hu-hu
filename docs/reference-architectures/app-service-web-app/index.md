@@ -1,6 +1,6 @@
 ---
-title: "App Service webalkalmazás"
-description: "A Microsoft Azure szolgáltatásban futó webalkalmazásokhoz javasolt architektúrák."
+title: App Service webalkalmazás
+description: A Microsoft Azure szolgáltatásban futó webalkalmazásokhoz javasolt architektúrák.
 layout: LandingPage
 ms.openlocfilehash: ea5ca6f0a1e2995ab35333095260d8f2c3db2600
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

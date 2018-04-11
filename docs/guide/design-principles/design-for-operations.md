@@ -1,6 +1,6 @@
 ---
-title: "Műveletek kialakítása"
-description: "Az alkalmazás tervezési úgy, hogy a műveleti csapata azokat az eszközöket"
+title: Műveletek kialakítása
+description: Az alkalmazás tervezési úgy, hogy a műveleti csapata azokat az eszközöket
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 76338cc27daf82ccb99df4e4c51c7a5ac6f26065

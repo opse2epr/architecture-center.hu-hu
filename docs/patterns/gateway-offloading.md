@@ -1,6 +1,6 @@
 ---
-title: "Átjáró Offloading minta"
-description: "Megosztott vagy speciális szolgáltatás funkcióit egy átjáró proxyként kiürítése."
+title: Átjáró Offloading minta
+description: Megosztott vagy speciális szolgáltatás funkcióit egy átjáró proxyként kiürítése.
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: 6b3e4541aae77349ca91c18c788ddb508912361d

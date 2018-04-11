@@ -1,6 +1,6 @@
 ---
-title: "Megfigyelési és diagnosztikai útmutató"
-description: "Gyakorlati tanácsok a felhőben az elosztott alkalmazások figyeléséhez."
+title: Megfigyelési és diagnosztikai útmutató
+description: Gyakorlati tanácsok a felhőben az elosztott alkalmazások figyeléséhez.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices

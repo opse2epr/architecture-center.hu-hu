@@ -1,6 +1,6 @@
 ---
-title: "Mikroszolgáltatások architektúra stílus"
-description: "Előnyeit, kihívást és mikroszolgáltatások architektúrák ajánlott eljárásai ismerteti az Azure-on"
+title: Mikroszolgáltatások architektúra stílus
+description: Előnyeit, kihívást és mikroszolgáltatások architektúrák ajánlott eljárásai ismerteti az Azure-on
 author: MikeWasson
 ms.openlocfilehash: 08fd39b6cf0b3c88af654b27e21b2d7dd9fb19b1
 ms.sourcegitcommit: 7764a804f000180c37a4f8dbab946b525f784f58

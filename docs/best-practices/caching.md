@@ -1,6 +1,6 @@
 ---
-title: "Gyorsítótárazási útmutató"
-description: "A jobb teljesítmény és méretezhetőség gyorsítótárazás útmutatást."
+title: Gyorsítótárazási útmutató
+description: A jobb teljesítmény és méretezhetőség gyorsítótárazás útmutatást.
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices

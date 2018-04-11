@@ -1,6 +1,6 @@
 ---
-title: "Egy több-bérlős alkalmazásban háttér webes API biztonságossá tétele"
-description: "A háttérrendszer webes API biztonságossá tétele"
+title: Egy több-bérlős alkalmazásban háttér webes API biztonságossá tétele
+description: A háttérrendszer webes API biztonságossá tétele
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
@@ -270,10 +270,14 @@ public void ConfigureServices(IServiceCollection services)
 [JwtBearer]: https://www.nuget.org/packages/Microsoft.AspNet.Authentication.JwtBearer
 
 [Dejójáték felmérések]: tailspin.md
+[Tailspin Surveys]: tailspin.md
 [IdentityServer3]: https://github.com/IdentityServer/IdentityServer3
 [frissíteni az alkalmazásjegyzékeknek]: ./run-the-app.md#update-the-application-manifests
+[Update the application manifests]: ./run-the-app.md#update-the-application-manifests
 [Token gyorsítótárazás]: token-cache.md
+[Token caching]: token-cache.md
 [előfizetési bérlői]: signup.md
+[tenant sign-up]: signup.md
 [claims-transformation]: claims.md#claims-transformations
 [Authorization]: authorize.md
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance

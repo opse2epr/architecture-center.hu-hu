@@ -1,6 +1,6 @@
 ---
-title: "Partíció körül korlátok"
-description: "Használjon particionálás kerülő adatbázis, hálózati, és számítási korlátok"
+title: Partíció körül korlátok
+description: Használjon particionálás kerülő adatbázis, hálózati, és számítási korlátok
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 4371490385b24230551bf17db0075052f320b574

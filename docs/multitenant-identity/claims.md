@@ -1,6 +1,6 @@
 ---
-title: "Jogcím-alapú identitásokat a több-bérlős alkalmazások használata"
-description: "Hogyan használja a jogcím-a kibocsátó érvényesítése és az engedélyezés"
+title: Jogcím-alapú identitásokat a több-bérlős alkalmazások használata
+description: Hogyan használja a jogcím-a kibocsátó érvényesítése és az engedélyezés
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
@@ -117,9 +117,13 @@ ms.lasthandoff: 11/14/2017
 <!-- Links -->
 
 [hatókör-paramétert]: http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
+[scope parameter]: http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
 [támogatott jogkivonat és jogcímtípusok]: /azure/active-directory/active-directory-token-and-claims/
+[Supported Token and Claim Types]: /azure/active-directory/active-directory-token-and-claims/
 [kibocsátó]: http://openid.net/specs/openid-connect-core-1_0.html#IDToken
+[issuer]: http://openid.net/specs/openid-connect-core-1_0.html#IDToken
 [hitelesítési események]: authenticate.md#authentication-events
+[Authentication events]: authenticate.md#authentication-events
 [signup]: signup.md
 [Claims-Based Authorization]: /aspnet/core/security/authorization/claims
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance

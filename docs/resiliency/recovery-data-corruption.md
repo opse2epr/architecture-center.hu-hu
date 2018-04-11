@@ -1,6 +1,6 @@
 ---
-title: "Adatsérülés vagy véletlen törlés helyreállítása"
-description: "A következő cikket: az adatok sérülésének adatok vagy a véletlen adattörlés és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése alapos ismerete"
+title: Adatsérülés vagy véletlen törlés helyreállítása
+description: 'A következő cikket: az adatok sérülésének adatok vagy a véletlen adattörlés és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése alapos ismerete'
 author: MikeWasson
 ms.date: 01/10/2018
 ms.openlocfilehash: 76d2f996750d5a67b67bd5dc4977580f3b8abbc3

@@ -1,6 +1,6 @@
 ---
-title: "Átjáró összesítési minta"
-description: "Segítségével egy átjáró több egyes kérelmeket az egy kérelemhez."
+title: Átjáró összesítési minta
+description: Segítségével egy átjáró több egyes kérelmeket az egy kérelemhez.
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: f59c8b8b02c6db28024d13621b782997e63a4e9e

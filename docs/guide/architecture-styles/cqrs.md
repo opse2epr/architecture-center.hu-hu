@@ -1,6 +1,6 @@
 ---
-title: "CQRS architektúra stílus"
-description: "Előnyeit, kihívást és ajánlott eljárások a CQRS architektúrák ismerteti"
+title: CQRS architektúra stílus
+description: Előnyeit, kihívást és ajánlott eljárások a CQRS architektúrák ismerteti
 author: MikeWasson
 ms.openlocfilehash: dd3da5886587159f57646ff1bfffa2094725f798
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60

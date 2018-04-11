@@ -1,6 +1,6 @@
 ---
-title: "Szinkron I/O kizárási minta"
-description: "A hívó szál blokkolása az I/O végrehajtása során teljesítménycsökkenést okozhat, és hatással lehet a vertikális méretezhetőségre."
+title: Szinkron I/O kizárási minta
+description: A hívó szál blokkolása az I/O végrehajtása során teljesítménycsökkenést okozhat, és hatással lehet a vertikális méretezhetőségre.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: d5b3635565c6b71ef7716f54ee8cccc76093c3a3

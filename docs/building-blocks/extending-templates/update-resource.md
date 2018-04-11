@@ -1,6 +1,6 @@
 ---
-title: "Frissítés Azure Resource Manager-sablonok az erőforráshoz"
-description: "Ismerteti, hogyan lehet Azure Resource Manager sablonok egy erőforrás frissítése bővítése"
+title: Frissítés Azure Resource Manager-sablonok az erőforráshoz
+description: Ismerteti, hogyan lehet Azure Resource Manager sablonok egy erőforrás frissítése bővítése
 author: petertay
 ms.date: 06/09/2017
 ms.openlocfilehash: fc2565819c66ee7695224ef5793e7276e6e552e0

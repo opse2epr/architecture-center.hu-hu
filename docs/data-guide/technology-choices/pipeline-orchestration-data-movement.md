@@ -1,6 +1,6 @@
 ---
-title: "A folyamat vezénylési technológiát kiválasztása"
-description: 
+title: A folyamat vezénylési technológiát kiválasztása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 17aeb871bc815793295ed610795e5e83de72c637

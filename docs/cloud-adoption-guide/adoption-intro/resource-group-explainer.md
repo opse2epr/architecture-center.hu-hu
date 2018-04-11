@@ -1,6 +1,6 @@
 ---
-title: "Explainer - Mi az az Azure-erőforráscsoport?"
-description: "Egy erőforráscsoportot az Azure belső funkciói"
+title: Explainer - Mi az az Azure-erőforráscsoport?
+description: Egy erőforráscsoportot az Azure belső funkciói
 author: petertay
 ms.openlocfilehash: e7c7334bd88c28f57498486bd2bed3c349565222
 ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242

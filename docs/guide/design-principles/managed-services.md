@@ -1,6 +1,6 @@
 ---
-title: "Felügyelt szolgáltatásokkal"
-description: "Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúrán szolgáltatásként (IaaS)"
+title: Felügyelt szolgáltatásokkal
+description: Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúrán szolgáltatásként (IaaS)
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 7156c073db3e047fb38e031309ddb637a9e44c02
