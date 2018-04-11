@@ -1,6 +1,6 @@
 ---
-title: "Webalkalmazás-várólista-munkavégző architektúra stílus"
-description: "Előnyeit, kihívást és ajánlott eljárások a webalkalmazás-várólista-munkavégző architektúrák ismerteti az Azure-on"
+title: Webalkalmazás-várólista-munkavégző architektúra stílus
+description: Előnyeit, kihívást és ajánlott eljárások a webalkalmazás-várólista-munkavégző architektúrák ismerteti az Azure-on
 author: MikeWasson
 ms.openlocfilehash: 545472e71ffcd43717ad24af0dc9218a221ca910
 ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60

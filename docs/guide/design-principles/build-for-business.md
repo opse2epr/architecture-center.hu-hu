@@ -1,6 +1,6 @@
 ---
-title: "Az üzleti igények összeállítása"
-description: "Minden a tervezési döntés kell igazolni üzleti követelmény"
+title: Az üzleti igények összeállítása
+description: Minden a tervezési döntés kell igazolni üzleti követelmény
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 110a441ae74334d212a717da2cb038d60b24bb1f

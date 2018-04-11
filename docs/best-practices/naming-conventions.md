@@ -1,6 +1,6 @@
 ---
-title: "Azure-erőforrások elnevezési szabályai"
-description: "Azure-erőforrások elnevezési szabályainak. Virtuális gépek neve, storage-fiókok, hálózatok, virtuális hálózatok, alhálózatok és egyéb Azure entitások"
+title: Azure-erőforrások elnevezési szabályai
+description: Azure-erőforrások elnevezési szabályainak. Virtuális gépek neve, storage-fiókok, hálózatok, virtuális hálózatok, alhálózatok és egyéb Azure entitások
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices

@@ -1,6 +1,6 @@
 ---
-title: "Összevonás az ügyfél AD FS szolgáltatásával"
-description: "Hogyan való federate az ügyfél által az AD FS egy több-bérlős alkalmazásban"
+title: Összevonás az ügyfél AD FS szolgáltatásával
+description: Hogyan való federate az ügyfél által az AD FS egy több-bérlős alkalmazásban
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications

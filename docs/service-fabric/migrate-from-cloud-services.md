@@ -1,6 +1,6 @@
 ---
-title: "Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése"
-description: "Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric."
+title: Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése
+description: Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric.
 author: MikeWasson
 ms.date: 04/27/2017
 ms.openlocfilehash: ce9c138a6b093fb7f0329c619c75bd4f4aacc2e7

@@ -1,7 +1,7 @@
 ---
-title: "Statikus tartalom üzemeltetéséhez"
-description: "Statikus tartalom központi telepítése a felhőalapú tároló szolgáltatás által biztosított közvetlenül az ügyfél számára."
-keywords: "Kialakítási mintája"
+title: Statikus tartalom üzemeltetéséhez
+description: Statikus tartalom központi telepítése a felhőalapú tároló szolgáltatás által biztosított közvetlenül az ügyfél számára.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

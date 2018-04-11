@@ -1,6 +1,6 @@
 ---
-title: "Rugalmas alkalmazások tervezése az Azure-hoz"
-description: "Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezésre álláshoz és vészhelyreállításhoz."
+title: Rugalmas alkalmazások tervezése az Azure-hoz
+description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezésre álláshoz és vészhelyreállításhoz.
 author: MikeWasson
 ms.date: 05/26/2017
 ms.custom: resiliency

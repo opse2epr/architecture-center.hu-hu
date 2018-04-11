@@ -1,6 +1,6 @@
 ---
-title: "Útmutató: Azure-előfizetés kialakítása"
-description: "Azure-előfizetés tervezési útmutató a legalapvetőbb felhő bevezetési stratégia részeként"
+title: 'Útmutató: Azure-előfizetés kialakítása'
+description: Azure-előfizetés tervezési útmutató a legalapvetőbb felhő bevezetési stratégia részeként
 author: alexbuckgit
 ms.openlocfilehash: 7134a0000ce33a786166d759cb390023a062dfda
 ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242

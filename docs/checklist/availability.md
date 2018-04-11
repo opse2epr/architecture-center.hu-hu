@@ -1,6 +1,6 @@
 ---
-title: "Rendelkezésre állási ellenőrzőlista"
-description: "Feladatlista, amely útmutatást a rendelkezésre állási aggályokat tervezés közben."
+title: Rendelkezésre állási ellenőrzőlista
+description: Feladatlista, amely útmutatást a rendelkezésre állási aggályokat tervezés közben.
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist

@@ -1,6 +1,6 @@
 ---
-title: "Nincs gyorsítótárazás – kizárási minta"
-description: "Ugyanazon adatok ismételt beolvasása csökkentheti a teljesítményt és a méretezhetőséget."
+title: Nincs gyorsítótárazás – kizárási minta
+description: Ugyanazon adatok ismételt beolvasása csökkentheti a teljesítményt és a méretezhetőséget.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: 8a2bc3b473a30536cc1bef9e1dcad87acb46c4a9

@@ -1,7 +1,7 @@
 ---
-title: "Index táblázat"
-description: "Indexek létrehozása gyakran lekérdezések által hivatkozott adattárolókhoz mezőinek keresztül."
-keywords: "Kialakítási mintája"
+title: Index táblázat
+description: Indexek létrehozása gyakran lekérdezések által hivatkozott adattárolókhoz mezőinek keresztül.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

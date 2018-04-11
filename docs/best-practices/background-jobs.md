@@ -1,6 +1,6 @@
 ---
-title: "Útmutató a háttérben futó feladatokhoz"
-description: "A feladatok rendszert futtató, függetlenül a felhasználói felület a háttér útmutatást."
+title: Útmutató a háttérben futó feladatokhoz
+description: A feladatok rendszert futtató, függetlenül a felhasználói felület a háttér útmutatást.
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices

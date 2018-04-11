@@ -1,6 +1,6 @@
 ---
-title: "Feltételesen telepítése Azure Resource Manager-sablonok az erőforráshoz"
-description: "Ismerteti, hogyan lehet a paraméter értékét egy erőforrás dependending feltételesen telepítése Azure Resource Manager sablonok bővítése"
+title: Feltételesen telepítése Azure Resource Manager-sablonok az erőforráshoz
+description: Ismerteti, hogyan lehet a paraméter értékét egy erőforrás dependending feltételesen telepítése Azure Resource Manager sablonok bővítése
 author: petertay
 ms.date: 06/09/2017
 ms.openlocfilehash: e911e7dc41b4f71ebfaf13a00f8cdbb5b4e2578b

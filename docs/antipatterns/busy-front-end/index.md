@@ -1,6 +1,6 @@
 ---
-title: "Foglalt előtér kizárási minta"
-description: "A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más, előtérben futó feladatok elől."
+title: Foglalt előtér kizárási minta
+description: A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más, előtérben futó feladatok elől.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: cedb80ddac5ceb1eb901455df3165993fd28a138

@@ -1,7 +1,7 @@
 ---
-title: "Szabályozás"
-description: "Egy alkalmazás, egy adott bérlő vagy az egész szolgáltatás egy példánya által használt erőforrások fogyasztásának szabályozzák."
-keywords: "Kialakítási mintája"
+title: Szabályozás
+description: Egy alkalmazás, egy adott bérlő vagy az egész szolgáltatás egy példánya által használt erőforrások fogyasztásának szabályozzák.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

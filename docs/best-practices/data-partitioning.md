@@ -1,6 +1,6 @@
 ---
-title: "Adatparticionálási útmutató"
-description: "Útmutató a szétválasztásának kezelhető és külön-külön elérhető partíciókat."
+title: Adatparticionálási útmutató
+description: Útmutató a szétválasztásának kezelhető és külön-külön elérhető partíciókat.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices

@@ -1,6 +1,6 @@
 ---
-title: "Feltételek kiválasztása az Azure számítási beállítás"
-description: "Az Azure compute szolgáltatások összehasonlítása több tengely mentén."
+title: Feltételek kiválasztása az Azure számítási beállítás
+description: Az Azure compute szolgáltatások összehasonlítása több tengely mentén.
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 36b57d1fb674b5a1452a0e8208de836963b2b01b

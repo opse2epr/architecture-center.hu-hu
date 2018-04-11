@@ -1,7 +1,7 @@
 ---
 title: Retry
-description: "Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével."
-keywords: "Kialakítási mintája"
+description: Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

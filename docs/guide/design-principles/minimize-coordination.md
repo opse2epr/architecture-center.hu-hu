@@ -1,6 +1,6 @@
 ---
-title: "Minimalizálja a koordinációt"
-description: "Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében"
+title: Minimalizálja a koordinációt
+description: Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 3cab05b539612234fd8e66517b140ac5257c3e70

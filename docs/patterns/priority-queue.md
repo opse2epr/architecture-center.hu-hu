@@ -1,7 +1,7 @@
 ---
-title: "Prioritású várólistára."
-description: "Priorizálhatja azokat, hogy a magasabb prioritású kérelmek fogadott, és gyorsabban dolgozza fel a kisebb prioritással rendelkező szolgáltatások küldött kérelmeket."
-keywords: "Kialakítási mintája"
+title: Prioritású várólistára.
+description: Priorizálhatja azokat, hogy a magasabb prioritású kérelmek fogadott, és gyorsabban dolgozza fel a kisebb prioritással rendelkező szolgáltatások küldött kérelmeket.
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

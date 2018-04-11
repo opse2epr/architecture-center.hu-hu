@@ -1,6 +1,6 @@
 ---
 title: Oldalkocsi minta
-description: "Egy alkalmazás elkülönítési és beágyazás egy külön folyamatban vagy a tároló összetevőinek telepítéséhez."
+description: Egy alkalmazás elkülönítési és beágyazás egy külön folyamatban vagy a tároló összetevőinek telepítéséhez.
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: ec168009aa99f412c3f1222a1c404ea4ea5cb669

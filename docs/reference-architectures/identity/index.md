@@ -1,6 +1,6 @@
 ---
-title: "Identitáskezelés"
-description: "Ismerteti és összehasonlítja a helyszíni/felhő területeket Azure-ral használó hibrid rendszerekben identitáskezelésre alkalmas különböző módszereket."
+title: Identitáskezelés
+description: Ismerteti és összehasonlítja a helyszíni/felhő területeket Azure-ral használó hibrid rendszerekben identitáskezelésre alkalmas különböző módszereket.
 layout: LandingPage
 ms.openlocfilehash: de98ee30306f5e712759ab7140bd430cb6d4cd75
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

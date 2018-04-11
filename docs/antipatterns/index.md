@@ -1,6 +1,6 @@
 ---
-title: "Teljesítményre vonatkozó kizárási minták felhőalkalmazásoknál"
-description: "Gyakori eljárások, amelyek nagy eséllyel méretezhetőségi problémákat okoznak."
+title: Teljesítményre vonatkozó kizárási minták felhőalkalmazásoknál
+description: Gyakori eljárások, amelyek nagy eséllyel méretezhetőségi problémákat okoznak.
 author: dragon119
 ms.date: 06/05/2017
 ms.openlocfilehash: 423fe6533e57268610f625f523714cd1bce89546

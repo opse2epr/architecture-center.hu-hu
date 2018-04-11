@@ -1,6 +1,6 @@
 ---
-title: "Megfelelő technológiák kiválasztása az Azure-alkalmazásokhoz"
-description: "Megfelelő technológiák kiválasztása az Azure-alkalmazásokhoz"
+title: Megfelelő technológiák kiválasztása az Azure-alkalmazásokhoz
+description: Megfelelő technológiák kiválasztása az Azure-alkalmazásokhoz
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 7681aeb7a6064d06674e781292c444dba9d410f2

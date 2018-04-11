@@ -1,6 +1,6 @@
 ---
-title: "Útmutató az automatikus méretezéshez"
-description: "Útmutatás az alkalmazáshoz szükséges erőforrásokat dinamikusan lefoglalni automatikus skálázást."
+title: Útmutató az automatikus méretezéshez
+description: Útmutatás az alkalmazáshoz szükséges erőforrásokat dinamikusan lefoglalni automatikus skálázást.
 author: dragon119
 ms.date: 05/17/2017
 pnp.series.title: Best Practices

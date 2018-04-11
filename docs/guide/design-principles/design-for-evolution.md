@@ -1,6 +1,6 @@
 ---
-title: "Terv módosítása"
-description: "Egy fokozatosan terv folyamatos innováció kulcsa."
+title: Terv módosítása
+description: Egy fokozatosan terv folyamatos innováció kulcsa.
 author: MikeWasson
 layout: LandingPage
 ms.openlocfilehash: 35e91228f3fb0a303594ec06f05b6865008e3a4f

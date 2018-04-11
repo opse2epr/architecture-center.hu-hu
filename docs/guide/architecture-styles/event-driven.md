@@ -1,6 +1,6 @@
 ---
-title: "Architektúra eseményvezérelt stílus"
-description: "Előnyeit, kihívást és ajánlott eljárásai ismerteti eseményvezérelt és Azure IoT-architektúra"
+title: Architektúra eseményvezérelt stílus
+description: Előnyeit, kihívást és ajánlott eljárásai ismerteti eseményvezérelt és Azure IoT-architektúra
 author: MikeWasson
 ms.openlocfilehash: 3289bf784b02d62e3d0c1a29b4839c9be3501134
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

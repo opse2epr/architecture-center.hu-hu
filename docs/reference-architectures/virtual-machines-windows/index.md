@@ -1,6 +1,6 @@
 ---
-title: "Windows rendszerű virtuális gépek számítási feladatai"
-description: "Az Azure-ban vállalati szintű alkalmazásokat üzemeltető virtuális gépek üzembe helyezéséhez ismertet néhány gyakori architektúrát."
+title: Windows rendszerű virtuális gépek számítási feladatai
+description: Az Azure-ban vállalati szintű alkalmazásokat üzemeltető virtuális gépek üzembe helyezéséhez ismertet néhány gyakori architektúrát.
 layout: LandingPage
 ms.openlocfilehash: 972a307c129598ecfab161d5246d0eb2abf7c7e5
 ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb

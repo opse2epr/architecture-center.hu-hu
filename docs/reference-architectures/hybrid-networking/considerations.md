@@ -1,6 +1,6 @@
 ---
-title: "Egy a helyszíni hálózathoz való kapcsolódáshoz Azure megoldás kiválasztása"
-description: "Hasonlítja össze egy a helyszíni hálózathoz való kapcsolódáshoz Azure architektúrák hivatkozik."
+title: Egy a helyszíni hálózathoz való kapcsolódáshoz Azure megoldás kiválasztása
+description: Hasonlítja össze egy a helyszíni hálózathoz való kapcsolódáshoz Azure architektúrák hivatkozik.
 author: telmosampaio
 ms.date: 04/06/2017
 ms.openlocfilehash: 274b9df1817632a7f3eaafa8bf02e965fdc3feea

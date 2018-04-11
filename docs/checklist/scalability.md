@@ -1,6 +1,6 @@
 ---
-title: "Méretezési ellenőrzőlista"
-description: "Méretezhetőség ellenőrzőlista útmutató a tervezési szempontok az Azure automatikus skálázást."
+title: Méretezési ellenőrzőlista
+description: Méretezhetőség ellenőrzőlista útmutató a tervezési szempontok az Azure automatikus skálázást.
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist

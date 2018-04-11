@@ -1,6 +1,6 @@
 ---
-title: "Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével"
-description: "Hogyan használható az ügyfél helyességi feltétel az Azure AD hozzáférési jogkivonatok segítségével."
+title: Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével
+description: Hogyan használható az ügyfél helyességi feltétel az Azure AD hozzáférési jogkivonatok segítségével.
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications

@@ -1,7 +1,7 @@
 ---
 title: Cache-Aside
-description: "Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból"
-keywords: "Kialakítási mintája"
+description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból
+keywords: Kialakítási mintája
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns

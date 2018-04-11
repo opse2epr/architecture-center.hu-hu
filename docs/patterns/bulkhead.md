@@ -1,6 +1,6 @@
 ---
-title: "Válaszfal minta"
-description: "Elemek készletekbe vonni az alkalmazások elkülönítése, hogy ha nem sikerül, a többi tovább működik"
+title: Válaszfal minta
+description: Elemek készletekbe vonni az alkalmazások elkülönítése, hogy ha nem sikerül, a többi tovább működik
 author: dragon119
 ms.date: 06/23/2017
 ms.openlocfilehash: a2c499d77fafc4bee6b74ee0e0d84e6c23b47851

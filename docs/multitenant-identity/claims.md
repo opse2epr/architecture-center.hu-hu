@@ -1,6 +1,6 @@
 ---
-title: "Jogcím-alapú identitásokat a több-bérlős alkalmazások használata"
-description: "Hogyan használja a jogcím-a kibocsátó érvényesítése és az engedélyezés"
+title: Jogcím-alapú identitásokat a több-bérlős alkalmazások használata
+description: Hogyan használja a jogcím-a kibocsátó érvényesítése és az engedélyezés
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications

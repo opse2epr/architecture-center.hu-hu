@@ -1,6 +1,6 @@
 ---
-title: "API-implementálási segédlet"
-description: "Útmutatás az API-k megvalósítása után."
+title: API-implementálási segédlet
+description: Útmutatás az API-k megvalósítása után.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices

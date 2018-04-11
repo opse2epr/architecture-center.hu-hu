@@ -1,6 +1,6 @@
 ---
-title: "Egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok"
-description: "Ismerteti, hogyan lehet egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok"
+title: Egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok
+description: Ismerteti, hogyan lehet egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok
 author: petertay
 ms.date: 06/09/2017
 ms.openlocfilehash: 893779e652b845b3d936d11936dc767ef632fa43
