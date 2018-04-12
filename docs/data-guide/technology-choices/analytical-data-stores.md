@@ -1,19 +1,19 @@
 ---
-title: "Az analitikai adatokat tároló kiválasztása"
-description: 
+title: Az analitikai adatokat tároló kiválasztása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: b2e5e63982d4b89b95cd28e596d3b882a4a2263e
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: cdc32c16e30aec5e1c0cb6959182215f99d56b56
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="choosing-an-analytical-data-store-in-azure"></a>Az analitikai adatokat tároló kiválasztása az Azure-ban
 
-Az egy [big Data típusú adatok](../concepts/big-data.md) architektúra, szükség van a gyakran az az analitikus adatok tárolására szolgál a feldolgozott adatok strukturált formátuma nem kérdezhetők le analitikai eszközeivel. Analitikai adatokat tárolja, hogy mindkét közbeni elérési támogatási lekérdezését és cold-path adatok együttesen nevezzük szolgáló réteg, vagy az adatok tárolására szolgál.
+Az egy [big Data típusú adatok](../big-data/index.md) architektúra, szükség van a gyakran az az analitikus adatok tárolására szolgál a feldolgozott adatok strukturált formátuma nem kérdezhetők le analitikai eszközeivel. Analitikai adatokat tárolja, hogy mindkét közbeni elérési támogatási lekérdezését és cold-path adatok együttesen nevezzük szolgáló réteg, vagy az adatok tárolására szolgál.
 
-A szolgáló réteg a gyakran használt adatok elérési útja és a cold elérési foglalkozik a feldolgozott adatok. Az a [lambda architektúra](../concepts/big-data.md#lambda-architecture), a szolgáló réteg oszlik egy _sebesség szolgál_ réteg esetében, amely Növekményesen feldolgozott adatokat tárolja, és egy _szolgálkötegelt_szintje, amely tartalmazza a kötegelt feldolgozásra kimenet. A szolgáló réteg erős támogatást igényel az véletlenszerű olvasási és kis késésű. Is támogatnia kell az adattárolás a sebesség réteg véletlenszerű írások, mert adatok betöltése a tárolóba kötegelt okozna nemkívánatos késést. Másrészről adattárolás a kötegelt réteg nem támogatja a véletlenszerű írások kell, de ehelyett kötegelt írási műveletek.
+A szolgáló réteg a gyakran használt adatok elérési útja és a cold elérési foglalkozik a feldolgozott adatok. Az a [lambda architektúra](../big-data/index.md#lambda-architecture), a szolgáló réteg oszlik egy _sebesség szolgál_ réteg esetében, amely Növekményesen feldolgozott adatokat tárolja, és egy _szolgálkötegelt_szintje, amely tartalmazza a kötegelt feldolgozásra kimenet. A szolgáló réteg erős támogatást igényel az véletlenszerű olvasási és kis késésű. Is támogatnia kell az adattárolás a sebesség réteg véletlenszerű írások, mert adatok betöltése a tárolóba kötegelt okozna nemkívánatos késést. Másrészről adattárolás a kötegelt réteg nem támogatja a véletlenszerű írások kell, de ehelyett kötegelt írási műveletek.
 
 Nincs egyetlen legjobb adatok felügyeleti választás az összes adat tárolási feladatok elvégzéséről van. A különböző feladatok vannak optimalizálva, különböző adatkezelési megoldásokból. A legtöbb valós felhőalapú alkalmazások és folyamatok big Data típusú adatok különböző adatok tárolási követelményekkel rendelkezik, és gyakran használt adatok tárolási megoldások kombinációja.
 
@@ -65,12 +65,12 @@ A(z) [2] Using memóriaoptimalizált táblák és a kivonatoló vagy fürtözetl
  
 ### <a name="scalability-capabilities"></a>Méretezhetőség képességek
 
-| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | A HDInsight LLAP struktúra | Azure Analysis Services | Cosmos DB |
-| --- | --- | --- | --- | --- | --- | --- |
-| A magas rendelkezésre állás érdekében redundáns területi kiszolgálók  | Igen | Igen | Igen | Nem | Nem | Igen | Igen |
-| Támogatja a lekérdezés kibővítési  | Nem | Igen | Igen | Igen | Igen | Igen |
-| Dinamikus méretezhetőség (felskálázott)  | Igen | Igen | Nem | Nem | Igen | Igen |
-| Támogatja a memórián belüli gyorsítótárazáshoz, az adatok | Igen | Igen | Nem | Igen | Igen | Nem |
+|                                                  | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | A HDInsight LLAP struktúra | Azure Analysis Services | Cosmos DB |
+|--------------------------------------------------|--------------|--------------------|----------------------------|------------------------|-------------------------|-----------|
+| A magas rendelkezésre állás érdekében redundáns területi kiszolgálók |     Igen      |        Igen         |            Igen             |           Nem           |           Nem            |    Igen    |
+|             Támogatja a lekérdezés kibővítési             |      Nem      |        Igen         |            Igen             |          Igen           |           Igen           |    Igen    |
+|          Dinamikus méretezhetőség (felskálázott)          |     Igen      |        Igen         |             Nem             |           Nem           |           Igen           |    Igen    |
+|        Támogatja a memórián belüli gyorsítótárazáshoz, az adatok        |     Igen      |        Igen         |             Nem             |          Igen           |           Igen           |    Nem     |
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
 

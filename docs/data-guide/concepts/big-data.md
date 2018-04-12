@@ -1,32 +1,32 @@
 ---
-title: "Big data-architektúrák"
-description: 
+title: Big data-architektúrák
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 2a1336faea81470b082d4eef8e2cc53a082c63c7
-ms.sourcegitcommit: 023d88e781f7fe64c62b247d876441ee40921b1b
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/28/2018
+ms.lasthandoff: 03/31/2018
 ---
 # <a name="big-data-architectures"></a>Big data-architektúrák
 
-A big data típusú architektúrák kialakításuknak köszönhetően képesek kezelni az olyan adatok bevitelét, feldolgozását és elemzését, amelyek túl nagyok vagy túl összetettek a hagyományos adatbázisrendszerek számára. A küszöbérték, amellyel a szervezetek írja be a big Data típusú adatok tartomány eltér attól függően, hogy a felhasználók és az eszközök képességeit. Az egyes azzal járhat több száz gigabájt adatok, míg mások több száz terabájt jelent. Munkavégzés big data készletek eszközök előzetes, mivel ezáltal a big Data típusú adatok jelentése. Nagyobb ez a kifejezés vonatkozik, az érték kinyerése a speciális elemzés keresztül adatkészletek ahelyett, hogy szigorúan csak az adatok mérete bár az ezekben az esetekben Igen tekintélyes lehet általában.
+A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára. A küszöbérték, amellyel a szervezetek írja be a big Data típusú adatok tartomány eltér attól függően, hogy a felhasználók és az eszközök képességeit. Az egyes azzal járhat több száz gigabájt adatok, míg mások több száz terabájt jelent. Munkavégzés big data készletek eszközök előzetes, mivel ezáltal a big Data típusú adatok jelentése. Nagyobb ez a kifejezés vonatkozik, az érték kinyerése a speciális elemzés keresztül adatkészletek ahelyett, hogy szigorúan csak az adatok mérete bár az ezekben az esetekben Igen tekintélyes lehet általában.
 
 Az évek során az adatok fekvő megváltozott. Milyen akkor teheti meg, vagy tegye, várhatóan adatokkal megváltozott. A tárolók költségét jelentősen, csökkent, amíg az összegyűjtött adatok azt jelenti, hogy növekvő tartja. Néhány adat érkezik egy gyors lépést, folyamatosan gyűjti és megfigyelt igényelnek. Egyéb adat érkezik lassabb, de a nagyon nagy méretű adattömböket, gyakran előzményadatoknak évtizedekben formájában. Előfordulhat, hogy egy speciális elemzésekre probléma, vagy egy gépi tanulás igénylő szemben. Ezek a kihívások, amely a big Data típusú adatok architektúrák pozícionálni oldja meg.
 
-Big data-megoldások általában tartalmaz, amely a következő típusú alkalmazások és szolgáltatások közül:
+A big data-megoldások általában az alábbi számításifeladat-típusok legalább egyikét tartalmazzák:
 
-* A big Data típusú adatok források aktívan kötegfeldolgozási.
-* A big data mozgó valós idejű feldolgozással.
-* A big Data típusú adatok interaktív áttekintését.
-* A prediktív elemzés és a gépi tanulás.
+* inaktív big data típusú adatforrások kötegelt feldolgozása,
+* mozgásban lévő, big data típusú adatok valós idejű feldolgozása,
+* big data típusú adatok interaktív feltárása,
+* prediktív elemzés és gépi tanulás.
 
 Vegye figyelembe a big Data típusú adatok architektúrák kell:
 
-* A hagyományos adatbázis túl nagy kötetek tároló és a folyamat adatait.
-* Az elemzési és jelentéskészítési strukturálatlan adatok átalakítása.
-* Rögzítési, a folyamat, és unbounded adatstreamek valós időben, vagy a kis késleltetésű elemzése.
+* a hagyományos adatbázisok számára túl nagy mennyiségű adat tárolása és feldolgozása,
+* strukturálatlan adatok átalakítása elemzés és jelentéskészítés céljából,
+* kötetlen adatstreamek rögzítése, feldolgozása és elemzése valós időben vagy kis késéssel,
 
 ## <a name="components-of-a-big-data-architecture"></a>A big Data típusú adatok architektúra összetevői
 
@@ -34,27 +34,27 @@ Az alábbi ábrán a logikai összetevők, amelyek felelnek meg a big Data típu
 
 ![Általános adatok folyamat diagramja](./images/big-data-pipeline.png) 
 
-A big data-architektúrák vagy azok egy részét az alábbi összetevőket tartalmazza:
+A legtöbb big data típusú architektúra tartalmazza az alábbi összetevők egy részét vagy mindegyikét:
 
 * **Adatforrások**. Első lépésként minden big data-megoldások egy vagy több adatforrást. Példák erre vonatkozóan:
 
-    * Alkalmazásadatok tárolja, például a relációs adatbázisok.
-    * Statikus fájlok, alkalmazások, például a web server naplófájlok által előállított.
-    * Valós idejű adatforrások, például az IoT-eszközök.
+    * Alkalmazások adattárai (pl. relációs adatbázisok).
+    * Az alkalmazások által létrehozott statikus fájlok (pl. webkiszolgálók naplófájljai).
+    * Valós idejű adatforrások (pl. IoT-eszközök).
 
-* **Adattárolás**. Adatok kötegelt feldolgozási műveletek általában tárolása egy elosztott fájlrendszer, amely jelentős mennyiségű különböző formátumban nagy fájlok tárolására képes. Az ilyen tároló gyakran nevezik egy *a data lake*. Ez a tároló végrehajtási lehet például az Azure Data Lake Store vagy a blob-tárolóban az Azure Storage.
+* **Adattárolás**. Adatok kötegelt feldolgozási műveletek általában tárolása egy elosztott fájlrendszer, amely jelentős mennyiségű különböző formátumban nagy fájlok tárolására képes. Az ilyen tárakat gyakran *data lake*-nek is nevezik. Az ilyen tárolók többek között az Azure Data Lake Store vagy az Azure Storage blobtárolóival valósíthatók meg.
 
-* **Kötegfeldolgozási**. Mivel nagy adatkészletek, gyakran a big Data típusú adatok megoldás adatok fájlokat a hosszan futó kötegelt feladatok szűréséhez, összesített és ellenkező esetben az adatok előkészítése az elemzés kell feldolgozni. Általában ezeket a feladatokat tartalmaz, amely forrásfájlok olvasása, őket, és a kimeneti új fájlok írása. A választható lehetőségek az Azure Data Lake Analytics U-SQL-feladatok futtatása, a Hive, Pig vagy egyéni térkép vagy csökkentse a feladatok egy HDInsight Hadoop-fürt használatával, vagy a HDInsight Spark-fürtben lévő Java, Scala vagy Python programokkal.
+* **Kötegfeldolgozási**. Mivel nagy adatkészletek, gyakran a big Data típusú adatok megoldás adatok fájlokat a hosszan futó kötegelt feladatok szűréséhez, összesített és ellenkező esetben az adatok előkészítése az elemzés kell feldolgozni. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. A lehetőségek többek között az alábbiak: U-SQL-feladatok futtatása az Azure Data Lake Analyticsben; Hive-, Pig- vagy egyéni Map/Reduce-feladatok használata egy HDInsight Hadoop-fürtben; illetve Java-, Scala- vagy Python-programok használata egy HDInsight Spark-fürtben.
 
-* **Valós idejű üzenet adatfeldolgozást**. Ha a megoldás a valós idejű eseményforrást tartalmaz, az architektúra adatfolyam feldolgozásra valós idejű üzenetek tárolásához, majd úgy tartalmaznia kell. Ez lehet egy egyszerű adattár, ahol a bejövő üzenetek eldobott datagramok feldolgozás céljából egy mappába. Sok megoldás azonban adatfeldolgozást üzenettároló puffer üzenetek, illetve kibővített feldolgozás, a megbízható és egyéb üzenet Üzenetsor-kezelés szemantikáját támogatásához szükséges. Ez a része egy adatfolyam-továbbítási architektúra gyakran nevezik adatfolyam pufferelés. A választható lehetőségek az Azure Event Hubs, Azure IoT Hub és Kafka.
+* **Valós idejű üzenet adatfeldolgozást**. Ha a megoldás a valós idejű eseményforrást tartalmaz, az architektúra adatfolyam feldolgozásra valós idejű üzenetek tárolásához, majd úgy tartalmaznia kell. Ez lehet egy egyszerű adattár, ahol a bejövő üzenetek egy mappába kerülnek feldolgozás céljából. Számos megoldás azonban egy üzenetbetöltő tárat is igényel, amely pufferként működik az üzenetek számára, és támogatja a kibővített feldolgozást, a megbízható kézbesítést, valamint más üzenetsor-kezelési szemantikákat. Ez a része egy adatfolyam-továbbítási architektúra gyakran nevezik adatfolyam pufferelés. A választható lehetőségek az Azure Event Hubs, Azure IoT Hub és Kafka.
 
-* **Az adatfolyam feldolgozása**. Valós idejű üzenetek rögzítésével, miután a megoldás kell dolgozza fel őket szűrés, összesítése és egyéb előkészítése az adatok elemzése. A feldolgozott adatfolyamok majd írni kimeneti fogadóként. Az Azure Stream Analytics felügyelt streamfeldolgozó termékbevételezésekor fut, amely unbounded adatfolyamok működik az SQL-lekérdezések szolgáltatáson biztosít. Nyílt forráskódú Apache adatfolyam hasonló technológiáknak köszönhetően a Storm és a Spark Streaming a HDInsight-fürtök is használható.
+* **Az adatfolyam feldolgozása**. Valós idejű üzenetek rögzítésével, miután a megoldás kell dolgozza fel őket szűrés, összesítése és egyéb előkészítése az adatok elemzése. A rendszer ezután egy kimeneti fogadóba írja a feldolgozott streamadatokat. Az Azure Stream Analytics egy felügyelt streamfeldolgozási szolgáltatást biztosít, amely a korlátlan streameken működő, folyamatosan futó SQL-lekérdezéseken alapul. A nyílt forráskódú Apache-streamelési technológiák (pl. Storm- és Spark-streamelés) szintén használhatók a HDInsight-fürtökben.
 
-* **Analitikai adatokat tároló**. Sok big data-megoldások adatok előkészítése analysis, és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel. Ezeket a lekérdezéseket kiszolgálásához használt analitikus adattároló Kimball stílusú relációs adatraktár, lehet, a hagyományos üzleti intelligenciával megoldások látható módon. Azt is megteheti az adatok sikerült jelenik meg a kis késleltetésű NoSQL technológia, például a HBase, vagy egy interaktív Hive-adatbázis, amely a metaadatokat absztrakciós keresztül az elosztott adattár-adatfájlok keresztül. Az SQL Data Warehouse nagyméretű, felhőalapú adatraktárra vonatkozó felügyelt szolgáltatást nyújt. HDInsight támogatja, interaktív struktúra, a HBase és a Spark SQL, amely vonatkozó adatok elemzési célú kiszolgálásához is használható.
+* **Analitikai adatokat tároló**. Sok big data-megoldások adatok előkészítése analysis, és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel. A lekérdezések kiszolgálásáért felelős analitikai adattár lehet egy Kimball-stílusú relációs adattárház, ahogy ez a legtöbb hagyományos üzletiintelligencia- (BI-) megoldásban látható. Alternatív megoldásként az adatok egy alacsony késésű NoSQL-technológián (pl. HBase) keresztül is megjeleníthetők, illetve egy interaktív Hive-adatbázisban, amely az elosztott adattárban lévő adatfájlok metaadatainak absztrakcióját tartalmazza. Az Azure SQL Data Warehouse felügyelt szolgáltatást biztosít a nagy méretű felhőalapú adattárházakhoz. A HDInsight támogatja az interaktív Hive, HBase és Spark SQL használatát, amelyekkel szintén előkészíthetők az adatok elemzésre.
 
-* **Elemzési és jelentéskészítési**. A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. Építve a felhasználók számára az adatok elemzése, az architektúra a réteg, például a többdimenziós OLAP-kocka vagy az Azure Analysis Services táblázatos adatmodell modellezési adatokat is tartalmazhat. Az önkiszolgáló üzleti Intelligencia, a Microsoft Power bi-ban vagy a Microsoft Excel modellezési és a képi megjelenítés technológiái is használható lehet. Elemzési és jelentéskészítési is számos adatok interaktív áttekintését adatszakértőkön vagy adatelemzők formájában. Ezek a forgatókönyvek számos Azure-szolgáltatások támogatási analitikai notebookok, például a Jupyter, ezeket a felhasználókat, hogy kihasználja a meglévő ismeretei r és Python engedélyezése A nagyméretű adatok feltárása, használhatja a Microsoft R Server, vagy önálló vagy Spark.
+* **Elemzési és jelentéskészítési**. A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. Ahhoz, hogy a felhasználók képesek legyenek elemezni az adatokat, az architektúra tartalmazhat egy adatmodellező réteget, mint például egy többdimenziós OLAP-kockát vagy egy táblázatos adatmodellt az Azure Analysis Servicesben. Emellett a Microsoft Power BI-ban vagy Microsoft Excelben elérhető modellezési és vizualizációs technológiákkal önkiszolgáló üzletiintelligencia-megoldásokat is támogathatnak. Az elemzés és jelentéskészítés az adatszakértők vagy adatelemzők általi végzett interaktív adatfeltárással is végrehajtható. Az ilyen forgatókönyvekhez számos Azure-szolgáltatás támogat analitikus notebookokat (pl. Jupyter), így a felhasználók felhasználják a Python vagy az R terén már megszerzett tudásukat. Nagy méretű adatfeltárás esetén használhatja a Microsoft R Servert önállóan vagy a Sparkkal együtt.
 
-* **Vezénylési**. Megoldásokat ismételt adatfeldolgozási műveletek, a munkafolyamatokban, forrásadatok átalakító, beágyazott alkotják a big Data típusú adatok közötti több források és felül, a feldolgozott adatok betöltése az analitikus adatok tárolóba, vagy az eredményeket a egyenes leküldéses áthelyezése egy jelentést és az irányítópultot. Ezek a munkafolyamatok automatizálását, használhatja az orchestration technológia ilyen Azure Data Factory vagy az Apache Oozie és a Sqoop.
+* **Vezénylési**. Megoldásokat ismételt adatfeldolgozási műveletek, a munkafolyamatokban, forrásadatok átalakító, beágyazott alkotják a big Data típusú adatok közötti több források és felül, a feldolgozott adatok betöltése az analitikus adatok tárolóba, vagy az eredményeket a egyenes leküldéses áthelyezése egy jelentést és az irányítópultot. A munkafolyamatok automatizálhatók egy vezénylési technológia (pl. Azure Data Factory vagy Apache Oozie és Sqoop) használatával.
 
 ## <a name="lambda-architecture"></a>Lambda architektúrája
 
@@ -96,35 +96,35 @@ Ha számítsa újra a teljes adatkészletet (a batch réteg funkciója lambda ki
 
 Gyakorlati szempontból az eszközök internetes hálózatát (IoT) jelöli az internethez csatlakozó bármilyen eszközről. Tartalmazzák a számítógép, mobiltelefon, intelligens figyelési, intelligens termosztát, intelligens hűtő, csatlakoztatott autó, szív figyelési sorolni az, és bármely más, csatlakozik az internethez és küld vagy fogad adatokat. A csatlakoztatott eszközök száma nő minden nap, azok gyűjtött adatok mennyisége nem. Gyakran ez folyik adatgyűjtés erősen korlátozott, egyes esetekben a nagy késleltetésű környezetekben. Más esetekben adatküldést kis késleltetésű környezetekben a több ezer vagy eszközöket, gyorsan viszi be az adatokat, és ennek megfelelően feldolgozni több millió. Ezért megfelelő tervezés szükséges ezen korlátozások és egyedi követelmények kezelésére.
 
-Eseményvezérelt architektúrák olyan központi helyet foglalnak el az IoT-megoldások. Az alábbi ábra a IoT egy lehetséges logikai architektúráját mutatja be. A diagram az esemény-adatfolyam-összetevők a architektúra emeli ki.
+Az eseményvezérelt architektúrák központi szerepet játszanak az IoT-megoldásokban. Az alábbi ábrán egy Iot-megoldás lehetséges logikai architektúrája látható. Az ábra az architektúra eseménystreamelési összetevőit hangsúlyozza ki.
 
 ![IoT-architektúra](../../guide/architecture-styles/images/iot.png)
 
-A **felhőátjáróhoz** ingests eszköz események, a felhő határt, egy megbízható, alacsony késésű rendszer üzenetküldési használatával.
+A **felhőátjáró** a felhő határán olvassa be az eszközeseményeket egy megbízható, alacsony késésű üzenetkezelési rendszert használva.
 
-Eszközök el tudja küldeni események közvetlenül az átjáró, vagy egy **mező átjáró**. A mező az átjáró az speciális eszközt vagy szoftvert, az eszközök általában közös elhelyezésű fogadó eseményeket, és továbbítja őket a felhőátjáróhoz. A mező átjáró is előfordulhat, hogy előfeldolgozása nyers eszköz események, funkciókat, például a szűrést, összesítési vagy protokoll átalakítás végrehajtásához.
+Az eszközök közvetlenül a felhőátjárónak vagy egy **helyi átjárón** keresztül küldhetik el az eseményeket. A mező az átjáró az speciális eszközt vagy szoftvert, az eszközök általában közös elhelyezésű fogadó eseményeket, és továbbítja őket a felhőátjáróhoz. A helyi átjáró a nyers eszközesemények előfeldolgozására is képes, olyan feladatok végrehajtásával, mint a szűrés, az összesítés vagy a protokollátalakítás.
 
-Bevitel, után események halad át egy vagy több **adatfolyam-processzorok** , amelyek az adatok (például, hogy a tároló) útvonalát, vagy hajtsa végre a kapcsolódó elemzések és egyéb feldolgozási.
+A beolvasást követően az események egy vagy több **streamfeldolgozón** haladnak át, amelyek továbbíthatják az adatokat (például egy tárolóba), vagy elemzést és más feldolgozási műveleteket végezhetnek.
 
-Az alábbiakban néhány gyakori hibatípusokat feldolgozása. (A lista létrehozási biztosan nem teljes.)
+Az alábbiakban a feldolgozás néhány gyakori típusát ismertetjük. (A felsorolás semmiképpen sem teljes.)
 
-- Írás a esemény cold tárhely, az archiválás vagy kötegelt elemzés.
+- Eseményadatok írása offline tárolóba archiválás vagy kötegelt elemzés céljából.
 
-- Elérési út analytics közbeni, az esemény-adatfolyam elemzésekor a (mellett) valós idejű, rendellenességek észlelését ismeri fel az minták keresztül működés közbeni idő windows vagy aktiváltak riasztásokat, ha egy adott feltétel lép fel az adatfolyam. 
+- Működő elérési út elemzése, vagyis az eseménystream (közel) valós idejű elemzése a rendellenességek észlelése, adott időtartamokra jellemző minták felismerése vagy riasztások aktiválása céljából, ha egy adott helyzet áll elő a streamben. 
 
 - Kezeli a különleges típusú eszközök, például az értesítések és riasztások nontelemetry üzeneteit. 
 
 - Gépi tanulás.
 
-A listák, amelyek az egyes elemek árnyékolt szürke összetevőket az IoT-rendszer nem közvetlenül kapcsolódó adatfolyam-esemény, de ide tartoznak a teljesség megjelenítése.
+A szürke dobozok az IoT-rendszer azon összetevőit jelölik, amelyek nem kapcsolódnak közvetlenül az eseménystreameléshez, a teljesség igénye miatt azonban az ábra részét képezik.
 
-- A **eszközbeállításjegyzékben** kiépített eszközt, beleértve az eszköz azonosítóját, és általában eszköz metaadatait, például a hely egy adatbázis.
+- Az **eszközjegyzék** az üzembe helyezett eszközök adatbázisa, amely az eszközök azonosítóját és rendszerint az eszközök metaadatait, például a helyüket tartalmazza.
 
-- A **API kiépítés** egy közös külső felület üzembe helyezési és új eszközök regisztrációja.
+- Az **üzembe helyezési API** egy általános külső felület az új eszközök üzembe helyezéséhez és regisztrálásához.
 
-- Bizonyos IoT-megoldás lehetővé teszi **parancs és a vezérlő üzenetek** eszközökre küldendő.
+- Egyes IoT-megoldások lehetővé teszik **parancs- és vezérlő üzenetek** küldését az eszközöknek.
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
 - [Azure IoT Hub](https://azure.microsoft.com/services/iot-hub/)
 - [Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/)

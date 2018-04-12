@@ -1,16 +1,16 @@
 ---
-title: "Linux virtuális gép futtatása az Azure-ban"
-description: "A Linux virtuális gépek futtatása az Azure-ban a skálázhatóságot, a rugalmasságot, a kezelhetőséget és a biztonságot is figyelembe véve."
+title: Linux virtuális gép futtatása az Azure-ban
+description: A Linux virtuális gépek futtatása az Azure-ban a skálázhatóságot, a rugalmasságot, a kezelhetőséget és a biztonságot is figyelembe véve.
 author: telmosampaio
-ms.date: 12/12/2017
+ms.date: 04/03/2018
 pnp.series.title: Linux VM workloads
 pnp.series.next: multi-vm
 pnp.series.prev: ./index
-ms.openlocfilehash: f0fa86f3f67359cf31543e9dd48b28565b53fbe3
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 50e23b00dd898c0b8e6230730ecf27323ee50d14
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="run-a-linux-vm-on-azure"></a>Linux virtuális gép futtatása az Azure-ban
 
@@ -22,31 +22,37 @@ Ez a referenciaarchitektúra a Linux virtuális gépek (VM) az Azure-ban törté
 
 ## <a name="architecture"></a>Architektúra
 
-Egy Azure-beli virtuális gép üzembe helyezése további összetevőket igényel, például számítási, hálózati és tárolási erőforrásokat.
+Egy Azure virtuális gép kiépítése néhány további összetevők mellett a virtuális gépért, beleértve a hálózati és tárolási erőforrásokat igényel.
 
-* **Erőforráscsoport.** Az [erőforráscsoport][resource-manager-overview] egy tároló, amely kapcsolódó erőforrásokat tárol. Általában érdemes az erőforrásokat az élettartamuk alapján csoportosítani, valamint az alapján, hogy ki fogja az erőforrásokat kezelni. Egyetlen virtuális gépet alkalmazó számítási feladat esetén érdemes egyetlen erőforráscsoportot létrehozni az összes erőforráshoz.
+* **Erőforráscsoport.** A [erőforráscsoport] [ resource-manager-overview] , amely tárolja a kapcsolódó Azure-erőforrások logikai tárolója. Általában csoportosíthatja az erőforrásokat az élettartamuk alapján, és fogják kezelni azokat. 
+
 * **VM**. A virtuális gépet üzembe helyezheti a közzétett rendszerképek listájáról, egy egyénileg kezelt rendszerképről, vagy egy, az Azure Blob Storage-ba feltöltött virtuálismerevlemez-fájlból (VHD). Az Azure támogatja különböző népszerű Linux-disztribúciók, például a CentOS, a Debian, a Red Hat Enterprise, az Ubuntu és a FreeBSD futtatását. További információk: [Az Azure és a Linux][azure-linux].
-* **Operációsrendszer-lemez.** Az operációsrendszer-lemez egy, az [Azure Storage-ban][azure-storage] tárolt VHD, ezért akkor is működik, amikor a gazdagép nem fut. Linux virtuális gépeknél az operációsrendszer-lemez a `/dev/sda1`.
-* **Ideiglenes lemez.** A VM egy ideiglenes lemezzel jön létre. A lemez a gazdagép egyik fizikai meghajtóján található. **Nincs** mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol. Linux virtuális gépeknél az ideiglenes lemez a `/dev/sdb1`, és a csatlakoztatásának helye `/mnt/resource` vagy `/mnt`.
-* **Adatlemezek.** Az [adatlemez][data-disk] egy állandó, az alkalmazásadatokhoz használt VHD. Az adatlemezeket (pl. az operációsrendszer-lemezt) az Azure Storage tárolja.
-* **Virtuális hálózat (VNet) és alhálózat.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve.
+
+* **Által kezelt lemezeken**. [Azure-lemezeket felügyelt] [ managed-disks] a tárterület kezelése, a Lemezkezelés egyszerűbbé. Az operációsrendszer-lemez egy, az [Azure Storage-ban][azure-storage] tárolt VHD, ezért akkor is működik, amikor a gazdagép nem fut. Linux virtuális gépeknél az operációsrendszer-lemez a `/dev/sda1`. Javasoljuk továbbá egy vagy több létrehozása [adatlemezek][data-disk], amelyeket az alkalmazásadatok használt állandó virtuális merevlemezek. 
+
+* **Ideiglenes lemez.** A VM egy ideiglenes lemezzel jön létre. A lemez a gazdagép egyik fizikai meghajtóján található. *Nincs* mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol. Linux virtuális gépeknél az ideiglenes lemez a `/dev/sdb1`, és a csatlakoztatásának helye `/mnt/resource` vagy `/mnt`.
+
+* **Virtuális hálózathoz (VNet).** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve.
+
+* **Hálózati adapter (NIC)**. A hálózati adapter teszi lehetővé a virtuális gép számára a virtuális hálózattal való kommunikációt.
+
 * **Nyilvános IP-cím.** Egy nyilvános IP-címre van szükség ahhoz, hogy a virtuális géppel kommunikálni lehessen – például SSH-n keresztül.
+
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
-* **Hálózati adapter (NIC)**. Egy hozzárendelt hálózati adapter teszi lehetővé a virtuális gép számára a virtuális hálózattal való kommunikációt.
-* **Hálózati biztonsági csoport (NSG)**. A [Hálózati biztonsági csoportok][nsg] a hálózati erőforrás felé irányuló hálózati adatforgalom engedélyezéséhez vagy letiltásához használhatók. Egy NSG-t társíthat egy különálló hálózati adapterhez vagy egy alhálózathoz. Ha egy alhálózathoz társítja, az NSG-szabályok az alhálózat összes virtuális gépére vonatkoznak.
+
+* **Hálózati biztonsági csoport (NSG)**. [Hálózati biztonsági csoportok] [ nsg] engedélyezi vagy megtagadja a hálózati forgalmat a virtuális gépekhez használt. Az NSG-k társítani, alhálózatok vagy Virtuálisgép-példányokhoz lehet.
+
 * **Diagnosztika.** A diagnosztikai naplózás létfontosságú a virtuális gép kezeléséhez és hibaelhárításához.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Ez az architektúra a Linux virtuális gépek az Azure-ban való futtatásának általános javaslatait mutatja be. Nem javasoljuk azonban, hogy egyetlen virtuális gépet használjon kritikus fontosságú számítási feladatokhoz, mert azzal kritikus meghibásodási pontot hoz létre. A magasabb rendelkezésre állás érdekében helyezzen üzembe több virtuális gépet egy [rendelkezésre állási csoportban][availability-set]. További információkért tekintse meg a [több virtuális gép Azure-on való futtatását][multi-vm] ismertető szakaszt. 
+Ez az architektúra a Linux virtuális gépek az Azure-ban való futtatásának általános javaslatait mutatja be. Nem javasoljuk azonban, hogy egyetlen virtuális gépet használjon kritikus fontosságú számítási feladatokhoz, mert azzal kritikus meghibásodási pontot hoz létre. A magas rendelkezésre állás érdekében két vagy több terheléselosztással rendelkező virtuális gépek telepítéséhez. További információkért tekintse meg a [több virtuális gép Azure-on való futtatását][multi-vm] ismertető szakaszt.
 
 ### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
 
-Az Azure számos különböző méretét kínál a virtuális gépekhez. A [Premium Storage][premium-storage] magas teljesítménye és kis késleltetése miatt ajánlott, és [bizonyos virtuálisgép-méretek támogatják][premium-storage-supported]. Válassza ezen méretek egyikét, kivéve, ha speciális számítási feladatokhoz, például nagy teljesítményű feldolgozáshoz kívánja a gépeket használni. További információt a [virtuálisgép-méretekről szóló részben][virtual-machine-sizes] talál.
+Az Azure számos különböző méretét kínál a virtuális gépekhez. További információkért lásd: [az Azure virtuális gépek méretei][virtual-machine-sizes]. Ha meglévő számítási feladatot helyez át az Azure-ba, kezdetnek azt a virtuálisgép-méretet válassza, amely a leginkább egyezik a helyszíni kiszolgálói méretével. Ezután mérje meg a valós számítási feladat teljesítményét a CPU, a memória és a lemez másodpercenkénti bemeneti/kimeneti műveletei (IOPS) figyelembe vételével, és módosítsa a méretet, ha szükséges. Ha több hálózati adapterre van szükség a virtuális géphez, vegye figyelembe, hogy a hálózati adapterek maximális száma minden [virtuálisgép-mérethez][vm-size-tables] külön van meghatározva.
 
-Ha meglévő számítási feladatot helyez át az Azure-ba, kezdetnek azt a virtuálisgép-méretet válassza, amely a leginkább egyezik a helyszíni kiszolgálói méretével. Ezután mérje meg a valós számítási feladat teljesítményét a CPU, a memória és a lemez másodpercenkénti bemeneti/kimeneti műveletei (IOPS) figyelembe vételével, és módosítsa a méretet, ha szükséges. Ha több hálózati adapterre van szükség a virtuális géphez, vegye figyelembe, hogy a hálózati adapterek maximális száma minden [virtuálisgép-mérethez][vm-size-tables] külön van meghatározva.
-
-Amikor üzembe helyezi az Azure-erőforrásokat, meg kell adnia egy régiót. A legjobb megoldás, ha a belső felhasználóihoz vagy ügyfeleihez legközelebb eső régiót választja. Azonban nem minden virtuálisgép-méret érhető el minden régióban. További információ: [Szolgáltatások régiónként][services-by-region]. Az egy adott régióban elérhető virtuálisgép-méretek listájának megtekintéséhez futtassa a következő parancsot az Azure parancssori felületéről (CLI):
+Általában válassza ki a belső felhasználók vagy az ügyfelek legközelebbi Azure-régióban. Azonban nem minden virtuálisgép-méret érhető el minden régióban. További információ: [Szolgáltatások régiónként][services-by-region]. Az egy adott régióban elérhető virtuálisgép-méretek listájának megtekintéséhez futtassa a következő parancsot az Azure parancssori felületéről (CLI):
 
 ```
 az vm list-sizes --location <location>
@@ -60,13 +66,9 @@ Engedélyezze a megfigyelést és a diagnosztikát, beleértve az alapvető áll
 
 A legjobb adatátviteli teljesítmény érdekében javasoljuk a [Premium Storage][premium-storage] tárolást, amely SSD meghajtókon tárolja az adatokat. A költség az üzembe helyezett lemez kapacitásától függően változik. AZ IOPS és az átviteli sebesség (azaz az adatátviteli sebesség) a lemezmérettől is függ, ezért lemezek üzembe helyezésekor vegye figyelembe mindhárom tényezőt (kapacitás, IOPS és átviteli sebesség). 
 
-Azt is javasoljuk, hogy [felügyelt lemezeket](/azure/storage/storage-managed-disks-overview) használjon. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a méretet és a lemez típusát, és az magas rendelkezésre állású erőforrásként lesz üzembe helyezve.
+Javasoljuk továbbá használatával [kezelt lemezek][managed-disks]. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a méretet és a lemez típusát, és az magas rendelkezésre állású erőforrásként lesz üzembe helyezve.
 
-Ha nem felügyelt lemezeket használ, hozzon létre külön Azure Storage-fiókot minden virtuális géphez a virtuális merevlemezek (VHD-k) tárolására, hogy elkerülje az [IOPS-korlátok][vm-disk-limits] elérését a tárfiókban.
-
-Adjon hozzá egy vagy több adatlemezt. A létrehozott VHD-k nincsenek formázva. A lemez formázásához jelentkezzen be a virtuális gépre. Ha nem felügyelt lemezeket használ, és nagy számú adatlemezzel rendelkezik, vegye figyelembe a tárfiók teljes I/O-korlátját. További információkért lásd a [virtuálisgép-lemez korlátaival kapcsolatos][vm-disk-limits] szakaszt.
-
-A Linux felületen az adatlemezek `/dev/sdc`, `/dev/sdd` stb. formátumban jelennek meg. Az `lsblk` futtatásával listázhatja a blokkeszközöket, beleértve a lemezeket. Adatlemez használatához hozzon létre egy partíciót és egy fájlrendszert, majd csatlakoztassa a lemezt. Példa:
+Adjon hozzá egy vagy több adatlemezt. A létrehozott VHD-k nincsenek formázva. A lemez formázásához jelentkezzen be a virtuális gépre. A Linux felületen az adatlemezek `/dev/sdc`, `/dev/sdd` stb. formátumban jelennek meg. Az `lsblk` futtatásával listázhatja a blokkeszközöket, beleértve a lemezeket. Adatlemez használatához hozzon létre egy partíciót és egy fájlrendszert, majd csatlakoztassa a lemezt. Példa:
 
 ```bat
 # Create a partition.
@@ -84,7 +86,11 @@ Adatlemez hozzáadásakor a rendszer hozzárendel egy logikaiegység-szám (LUN)
 
 Érdemes lehet módosítani az I/O-ütemezőt az SSD-k teljesítményének optimalizálására, mert a prémium szintű tárfiókkal rendelkező virtuális gépek lemezei SSD-k. Általában az NOOP-ütemezőt ajánlott használni SSD-khez, de érdemes az [iostat] vagy hasonló eszközt használni az adott számítási feladathoz tartozó lemez I/O-teljesítményének monitorozására.
 
-A legjobb teljesítmény érdekében hozzon létre egy önálló tárfiókot a diagnosztikai naplók tárolására. Egy standard helyileg redundáns tárolási (LRS) fiók elegendő a diagnosztikai naplókhoz.
+Hozzon létre egy tárfiókot, diagnosztikai naplók tárolásához. Egy standard helyileg redundáns tárolási (LRS) fiók elegendő a diagnosztikai naplókhoz.
+
+> [!NOTE]
+> Ha nem kezelt lemezek, hozzon létre külön az Azure storage-fiókok az egyes virtuális gépek a virtuális merevlemezek (VHD), ahhoz, hogy elérte-e elkerülése érdekében a [(IOPS) vonatkozó korlátok] [ vm-disk-limits] storage-fiókok. Vegye figyelembe a teljes i/o-korlátozás a tárfiók. További információkért lásd a [virtuálisgép-lemez korlátaival kapcsolatos][vm-disk-limits] szakaszt.
+
 
 ### <a name="network-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
@@ -99,15 +105,13 @@ Az SSH engedélyezéséhez adjon hozzá egy NSG-szabályt, amely engedélyezi a 
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-A virtuális gépeket a [virtuális gép méretének módosításával][vm-resize] skálázhatja. A horizontális felskálázáshoz helyezzen két vagy több virtuális gépet egy terheléselosztó mögé. További információért tekintse meg a [Több virtuális gép Azure-on való futtatása a skálázhatóság és a rendelkezésre állás érdekében][multi-vm] témakörrel foglalkozó szakaszt.
+A virtuális gépeket a [virtuális gép méretének módosításával][vm-resize] skálázhatja. A horizontális felskálázáshoz helyezzen két vagy több virtuális gépet egy terheléselosztó mögé. További információkért lásd: [futtassa a virtuális gépek elosztott terhelésű a méretezhetőség és a rendelkezésre állási][multi-vm].
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
 A magasabb rendelkezésre állás érdekében helyezzen üzembe több virtuális gépet egy rendelkezésre állási csoportban. Ez magasabb szintű [szolgáltatói szerződést (SLA-t)][vm-sla] biztosít.
 
 A virtuális gépre hatással lehet egy [tervezett karbantartás][planned-maintenance] vagy egy [nem tervezett karbantartás][manage-vm-availability]. Annak megállapításához, hogy a virtuális gép újraindítását egy tervezett karbantartás okozta-e, használja a [virtuális gépek újraindítási naplóit][reboot-logs].
-
-Az adatlemezeket az [Azure Storage][azure-storage] tárolja. Az Azure Storage a tartósság és a rendelkezésre állás érdekében replikálva van.
 
 A normál műveletek során történő véletlen (például hiba miatti) adatvesztés elleni védelem érdekében érdemes időponthoz kötött biztonsági mentéseket is megvalósítani [blob-pillanatképekkel][blob-snapshot] vagy más eszközzel.
 
@@ -117,13 +121,9 @@ A normál műveletek során történő véletlen (például hiba miatti) adatves
 
 **SSH**. Linux virtuális gép létrehozása előtt hozzon létre egy 2048 bites RSA nyilvános-titkos kulcspárt. A virtuális gép létrehozásakor használja a nyilvánoskulcs-fájlt. További információ: [SSH használata Linuxon és Macen az Azure-on][ssh-linux].
 
-**Virtuális gépek leállítása.** Az Azure különbséget tesz a „leállított” és a „felszabadított” állapot között. A leállított virtuális gépek után fizetni kell, a felszabadítottak után azonban nem.
+**Virtuális gépek leállítása.** Az Azure különbséget tesz a „leállított” és a „felszabadított” állapot között. A leállított virtuális gépek után fizetni kell, a felszabadítottak után azonban nem. Az Azure Portalon a **Leállítás** gombbal szabadítható fel a virtuális gép. Ha az operációs rendszerből állítja le, amikor be van jelentkezve, azzal a virtuális gépet leállítja, de **nem** szabadítja fel, tehát továbbra is fizetnie kell a díját.
 
-Az Azure Portalon a **Leállítás** gombbal szabadítható fel a virtuális gép. Ha az operációs rendszerből állítja le, amikor be van jelentkezve, azzal a virtuális gépet leállítja, de **nem** szabadítja fel, tehát továbbra is fizetnie kell a díját.
-
-**Virtuális gépek törlése.** Ha töröl egy virtuális gépet, a VHD-k nem törlődnek. Ez azt jelenti, hogy biztonságosan törölheti a virtuális gépet anélkül, hogy adatot vesztene. A tárolásért azonban továbbra is díjat kell fizetnie. A VHD törléséhez törölje a fájlt a [Blob Storage-ból][blob-storage].
-
-A véletlen törlés megelőzése érdekében használjon [erőforrászárat][resource-lock]. Ezzel zárolhat egy egész erőforráscsoportot, vagy egyes erőforrásokat, például egy virtuális gépet.
+**Virtuális gépek törlése.** Ha töröl egy virtuális gépet, a VHD-k nem törlődnek. Ez azt jelenti, hogy biztonságosan törölheti a virtuális gépet anélkül, hogy adatot vesztene. A tárolásért azonban továbbra is díjat kell fizetnie. A VHD törléséhez törölje a fájlt a [Blob Storage-ból][blob-storage]. A véletlen törlés megelőzése érdekében használjon [erőforrászárat][resource-lock]. Ezzel zárolhat egy egész erőforráscsoportot, vagy egyes erőforrásokat, például egy virtuális gépet.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -153,40 +153,48 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúrát, az alábbi lépéseket kell elvégeznie.
-
 1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
 
 2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve van a számítógépén. Információk a CLI telepítésével kapcsolatban: [Az Azure CLI 2.0 telepítése][azure-cli-2].
 
 3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
 
-4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
+4. Egy parancssori ablakot, bash, vagy PowerShell kérdés adja meg a következő parancs futtatásával jelentkezzen be az Azure-fiókjával.
 
-  ```bash
-  az login
-  ```
+   ```bash
+   az login
+   ```
+
+5. Hozzon létre egy SSH-kulcspárral. További információkért lásd: [létrehozása, és az SSH nyilvános és titkos kulcsból álló kulcspárt használata a Linux virtuális gépek Azure-ban](/azure/virtual-machines/linux/mac-create-ssh-keys).
 
 ### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
-A mintául szolgáló, egyetlen virtuális gépet alkalmazó számítási feladat üzembe helyezéséhez kövesse az alábbi lépéseket:
+A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
 
-1. Navigáljon az előző lépésekben letöltött adattár `virtual-machines\single-vm\parameters\linux` mappájához.
+1. Navigáljon az előző lépésekben letöltött adattár `virtual-machines/single-vm/parameters/linux` mappájához.
 
-2. Nyissa meg a `single-vm-v2.json` fájlt, és adjon meg egy felhasználónevet és egy nyilvános SSH-kulcsot az idézőjelek között az alább látható módon, majd mentse a fájlt.
+2. Nyissa meg a `single-vm-v2.json` fájlt, és írja be a felhasználónevét és a nyilvános SSH-kulcs az idézőjelek között, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "",
-  "sshPublicKey": "",
-  ```
+   ```bash
+   "adminUsername": "<your username>",
+   "sshPublicKey": "ssh-rsa AAAAB3NzaC1...",
+   ```
 
 3. Futtassa az `azbb` parancsot az alábbi módon a minta virtuális gép telepítéséhez.
 
-  ```bash
-  azbb -s <subscription_id> -g <resource_group_name> -l <location> -p single-vm-v2.json --deploy
-  ```
+   ```bash
+   azbb -s <subscription_id> -g <resource_group_name> -l <location> -p single-vm-v2.json --deploy
+   ```
 
-A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
+A telepítés ellenőrzése, hogy a következő paranccsal Azure CLI található a virtuális gép a nyilvános IP-cím:
+
+```bash
+az vm show -n ra-single-linux-vm1 -g <resource-group-name> -d -o table
+```
+
+Ha ezt a címet egy webböngészőben nyissa meg az alapértelmezett Apache2 kezdőlap kell megjelennie.
+
+A központi telepítés testreszabásával kapcsolatos további tudnivalókért keresse fel a [GitHub-tárházban][git].
 
 ## <a name="next-steps"></a>További lépések
 
@@ -214,6 +222,7 @@ A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további i
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/virtual-machines/single-vm
 [iostat]: https://en.wikipedia.org/wiki/Iostat
 [manage-vm-availability]: /azure/virtual-machines/virtual-machines-linux-manage-availability
+[managed-disks]: /azure/storage/storage-managed-disks-overview
 [multi-vm]: multi-vm.md
 [naming-conventions]: /azure/architecture/best-practices/naming-conventions.md
 [nsg]: /azure/virtual-network/virtual-networks-nsg
@@ -236,7 +245,7 @@ A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további i
 [ssh-linux]: /azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys
 [static-ip]: /azure/virtual-network/virtual-networks-reserved-public-ip
 [virtual-machine-sizes]: /azure/virtual-machines/virtual-machines-linux-sizes
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [vm-disk-limits]: /azure/azure-subscription-service-limits#virtual-machine-disk-limits
 [vm-resize]: /azure/virtual-machines/virtual-machines-linux-change-vm-size
 [vm-size-tables]: /azure/virtual-machines/virtual-machines-linux-sizes

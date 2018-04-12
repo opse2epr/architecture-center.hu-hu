@@ -1,33 +1,35 @@
 ---
-title: "Tervezési és megvalósítási minták"
-description: "Tervezési magában foglalja a konzisztencia és koherencia összetevő tervezési és telepítési, karbantartási követelmények egyszerűsítése érdekében a felügyeleti és fejlesztői és újrahasznosításának ahhoz, hogy összetevők és alrendszereket használható egyéb alkalmazások és más tényezők forgatókönyvek. A tervezési és megvalósítási fázis során hozott döntések hatalmas hatást gyakorolnak a minőségi és a teljes tulajdonosi költség, a felhőben üzemeltetett alkalmazások és szolgáltatások."
-keywords: "Kialakítási mintája"
+title: Tervezési és implementálási minták
+description: A jó tervezés olyan tényezőket is figyelembe vesz, mint a konzisztencia és a koherencia az összetevők tervezése és üzembe helyezése során, a karbantarthatóság az adminisztráció és a fejlesztés egyszerűsítéséhez, illetve az újrahasznosíthatóság, hogy az összetevők és alrendszerek más alkalmazásokban és más forgatókönyvekben is hasznosíthatók legyenek. A tervezés és az implementálás fázisában hozott döntések óriási hatással vannak a felhőalapú alkalmazások és szolgáltatások minőségére és teljes tulajdonlási költségére.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: 3d6e528b8c88c6fcc265d6425dcdae6fae5166fb
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 861445ceeca62e5b1e62fd4cb33924c35e10c0b0
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="design-and-implementation-patterns"></a>Tervezési és megvalósítási minták
+# <a name="design-and-implementation-patterns"></a>Tervezési és implementálási minták
 
-Tervezési magában foglalja a konzisztencia és koherencia összetevő tervezési és telepítési, karbantartási követelmények egyszerűsítése érdekében a felügyeleti és fejlesztői és újrahasznosításának ahhoz, hogy összetevők és alrendszereket használható egyéb alkalmazások és más tényezők forgatókönyvek. A tervezési és megvalósítási fázis során hozott döntések hatalmas hatást gyakorolnak a minőségi és a teljes tulajdonosi költség, a felhőben üzemeltetett alkalmazások és szolgáltatások.
+A jó tervezés olyan tényezőket is figyelembe vesz, mint a konzisztencia és a koherencia az összetevők tervezése és üzembe helyezése során, a karbantarthatóság az adminisztráció és a fejlesztés egyszerűsítéséhez, illetve az újrahasznosíthatóság, hogy az összetevők és alrendszerek más alkalmazásokban és más forgatókönyvekben is hasznosíthatók legyenek. A tervezés és az implementálás fázisában hozott döntések óriási hatással vannak a felhőalapú alkalmazások és szolgáltatások minőségére és teljes tulajdonlási költségére.
 
-| Minta | Összefoglalás |
-| ------- | ------- |
-| [Diplomata](../ambassador.md) | Segítő szolgáltatások által küldött kérelmek nevében fogyasztói szolgáltatás vagy alkalmazás létrehozására. |
-| [Víruskereső sérülés réteg](../anti-corruption-layer.md) | A modern alkalmazás- és egy örökölt közötti homlokzat vagy adapter rétegben megvalósításához. |
-| [Frontends a háttérkiszolgálókon](../backends-for-frontends.md) | Hozzon létre külön háttér szolgáltatások által meghatározott előtér-alkalmazások vagy felületeket. |
-| [CQRS](../cqrs.md) | Elkülönítse műveletekkel kapcsolatos adatokat olvasni az operatív adatokat frissítő külön-felületek használatával. |
-| [Számítási erőforrás összevonása](../compute-resource-consolidation.md) | Több feladatokat vagy műveleteket egyetlen számítási egységbe összesítése |
-| [Külső Beállítástárolóval](../external-configuration-store.md) | Az alkalmazás központi telepítési csomag kívül a konfigurációs adatok áthelyezése egy központi helyen. |
-| [Átjáró aggregáció](../gateway-aggregation.md) | Segítségével egy átjáró több egyes kérelmeket az egy kérelemhez. |
-| [Átjáró-Feladatkiszervezést](../gateway-offloading.md) | Megosztott vagy speciális szolgáltatás funkcióit egy átjáró proxyként kiürítése. |
-| [Átjáró-útválasztó](../gateway-routing.md) | Útvonal kérelmek több szolgáltatások használatával egy végpontot. |
-| [Vezető választás](../leader-election.md) | Koordinálja az elosztott alkalmazásban lévő együttműködés task példányokat gyűjteménye egy példánya, amely azt feltételezi, hogy a többi példány felelős a vezetőjeként megválasztását által végrehajtott műveletekről. |
-| [Adatcsatornák és a szűrők](../pipes-and-filters.md) | Egy különálló elemek, amelyek felhasználhatók egy sorozat komplex feldolgozását végző feladat lebontva. |
-| [Oldalkocsi](../sidecar.md) | Egy alkalmazás elkülönítési és beágyazás egy külön folyamatban vagy a tároló összetevőinek telepítéséhez. |
-| [Statikus tartalom üzemeltetéséhez](../static-content-hosting.md) | Statikus tartalom központi telepítése a felhőalapú tároló szolgáltatás által biztosított közvetlenül az ügyfél számára. |
-| [Strangler](../strangler.md) | Növekményesen áttelepítése egy korábbi rendszer fokozatosan cseréje nehezen funkció az új alkalmazásokkal és szolgáltatásokkal. |
+
+|                                Mintázat                                 |                                                                                                      Összegzés                                                                                                       |
+|------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                     [Ambassador](../ambassador.md)                     |                                                         Olyan segítő szolgáltatásokat hozhat létre, amelyek egy otthoni használatra szánt szolgáltatás vagy alkalmazás nevében küldenek hálózati kéréseket.                                                          |
+|          [Anti-Corruption Layer](../anti-corruption-layer.md)          |                                                               Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között.                                                                |
+|         [Backends for Frontends](../backends-for-frontends.md)         |                                                          Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre.                                                          |
+|                           [CQRS](../cqrs.md)                           |                                                         Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                                                         |
+| [Compute Resource Consolidation](../compute-resource-consolidation.md) |                                                                     Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet                                                                      |
+|   [External Configuration Store](../external-configuration-store.md)   |                                                        A konfigurációs adatokat áthelyezheti az alkalmazás üzembehelyezési csomagjából egy központi helyre.                                                         |
+|            [Gateway Aggregation](../gateway-aggregation.md)            |                                                                   Több egyéni kérést összesíthet egyetlen kérésbe egy átjáró segítségével.                                                                   |
+|             [Gateway Offloading](../gateway-offloading.md)             |                                                                      A megosztott vagy specializált szolgáltatásműködést kiszervezheti egy átjáró proxyra.                                                                       |
+|                [Gateway Routing](../gateway-routing.md)                |                                                                            Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával.                                                                            |
+|                [Leader Election](../leader-election.md)                | Koordinálhat egy elosztott alkalmazásban az együttműködő feladatpéldányokból álló gyűjtemény által végrehajtott műveleteket, ha vezetőnek választ meg egy példányt, amely vállalja a többi példány kezelésével járó felelősséget. |
+|              [Pipes and Filters](../pipes-and-filters.md)              |                                                     Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.                                                      |
+|                        [Sidecar](../sidecar.md)                        |                                                  Egy alkalmazás összetevőit külön folyamatban vagy tárolóban helyezheti üzembe, így elkülönítést és beágyazást biztosíthat.                                                  |
+|         [Static Content Hosting](../static-content-hosting.md)         |                                                        A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.                                                        |
+|                      [Strangler](../strangler.md)                      |                                         Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.                                          |
+

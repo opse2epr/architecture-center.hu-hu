@@ -1,15 +1,15 @@
 ---
-title: "Online analitikus feldolgozási (OLAP)"
-description: 
+title: Online analitikus feldolgozás (OLAP)
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: f5ceea9c9dd03812e92fff811e54316edc22b59c
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/31/2018
 ---
-# <a name="online-analytical-processing-olap"></a>Online analitikus feldolgozási (OLAP)
+# <a name="online-analytical-processing-olap"></a>Online analitikus feldolgozás (OLAP)
 
 Online analitikus feldolgozási (OLAP) egy olyan technológia, nagy üzleti adatbázisok rendezi, amely támogatja az összetett elemzést. Anélkül, hogy negatívan befolyásolná a tranzakciós rendszerek bonyolult elemzési lekérdezések végrehajtásához használható.
 
@@ -29,7 +29,7 @@ OLAP különösen fontos összesített számítások alkalmazásának keresztül
 
 [A szemantikai modellek](../concepts/semantic-modeling.md) üzleti felhasználók absztrakt kapcsolat összetett szolgáltatásokkal, és könnyebben adatok gyors elemzését.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 Az összes, az OLAP-rendszerek előnyöket biztosítanak azok néhány kihívást eredményez:
 

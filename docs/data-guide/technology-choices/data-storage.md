@@ -1,13 +1,13 @@
 ---
-title: "Olyan adatok tárolási technológia kiválasztása"
-description: 
+title: Olyan adatok tárolási technológia kiválasztása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: d8f831e758ddc8604758392644a68b56dc51cf57
-ms.sourcegitcommit: 475064f0a3c2fac23e1286ba159aaded287eec86
+ms.openlocfilehash: b14611a2dc34bcb145cf420441795d4124e7baeb
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/19/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="choosing-a-big-data-storage-technology-in-azure"></a>A big Data típusú adatok tárolási technológia kiválasztása az Azure-ban
 
@@ -27,7 +27,7 @@ Az Azure, az adatok bevitele igényeitől függően több lehetőség áll rende
 - [Azure Cosmos DB](/azure/cosmos-db/)
 - [A HDInsight HBase](http://hbase.apache.org/)
 
-## <a name="azure-storage-blobs"></a>Azure Storage blobs
+## <a name="azure-storage-blobs"></a>Az Azure Storage blobs szolgáltatásban
 
 Az Azure Storage egy magas rendelkezésre álló, biztonságos, tartós, méretezhető és redundáns egy felügyelt tároló szolgáltatás. A karbantartást és a kritikus problémák kezelését a Microsoft végzi el Önnek. Az Azure Storage-e a széles körű tárolási megoldás Azure biztosít, szolgáltatásokat és eszközöket, amelyek azt használható száma miatt.
 
@@ -102,19 +102,20 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | Engedélyezés | POSIX hozzáférés-vezérlési lista (ACL). Fájl- és szintű Azure Active Directory identitások alapuló hozzáférés-vezérlési listák állítható be. | A fiók szintű hitelesítéshez használja [Tárelérési kulcsok](/azure/storage/common/storage-create-storage-account#manage-your-storage-account). A fiók, a tároló vagy a blob engedélyezési használjon [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1). |
 | Naplózás | Érhető el.  |Elérhető |
 | Titkosítás inaktív állapotban | Átlátszó, kiszolgálóoldali | Átlátszó, kiszolgálóoldali; Ügyféloldali titkosítás |
-| Fejlesztői SDK-k | .NET, Java, Python, Node.js | .NET, Java, Python, Node.js, a C++, a Ruby |
+| Fejlesztői SDK-k | .NET, Java, Python, Node.js | .Net, Java, Python, Node.js, C++, Ruby |
 | Elemzés számítási feladat teljesítményére | Optimalizált párhuzamos analytics munkaterhelések teljesítményét, nagy mennyiségre és IOPS | Az analytics-feladatok nem optimalizált |
 | Méretkorlát | Nem határoz meg a fiókok méretének, a fájl méretét vagy a fájlok száma | Egyes korlátok dokumentált [Itt](/azure/azure-subscription-service-limits#storage-limits) |
 | Georedundancia | Helyileg redundáns (adatok többszörös lemásolását, egy Azure-régióban) | Helyileg redundáns (LRS), a globális redundáns (GRS), az írásvédett globálisan redundáns (RA-GRS). Lásd: [Itt](/azure/storage/common/storage-redundancy) további információ |
 
 ### <a name="nosql-database-capabilities"></a>NoSQL adatbázis képességek
 
-| | Azure Cosmos DB | HBase on HDInsight |
-| --- | --- | --- |
-| Elsődleges adatbázis-modell | Dokumentálja a tároló, a graph, a kulcs-érték tároló, a széles oszlop tároló | Széles oszlop tároló |
-| Másodlagos indexek | Igen | Nem |
-| SQL nyelvi támogatás | Igen | Igen (használja a [Phoenix](http://phoenix.apache.org/) JDBC-illesztőt) |
-| Konzisztencia | Az erős, kötött elavulás, munkamenet, egységes előtag, végleges | Erős |
-| Natív integráció az Azure Functions | [Igen](/azure/cosmos-db/serverless-computing-database) | Nem |
-| Automatikus globális terjesztési | [Igen](/azure/cosmos-db/distribute-data-globally) | Nem [HBase fürt replikációs konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) végleges konzisztencia régiók között |
-| Díjszabási modell | Rugalmasan méretezhető kérelemegység (RUs) másodpercenként felszámított, igény szerint rugalmasan méretezhető tárolás | Perc árképzési HDInsight-fürthöz (horizontális skálázás csomópontok), tárolás |
+|                                    |                                           Azure Cosmos DB                                           |                                                             HBase on HDInsight                                                             |
+|------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+|       Elsődleges adatbázis-modell       |                      Dokumentálja a tároló, a graph, a kulcs-érték tároló, a széles oszlop tároló                      |                                                             Széles oszlop tároló                                                              |
+|         Másodlagos indexek          |                                                 Igen                                                 |                                                                     Nem                                                                     |
+|        SQL nyelvi támogatás        |                                                 Igen                                                 |                                     Igen (használja a [Phoenix](http://phoenix.apache.org/) JDBC-illesztőt)                                      |
+|            Konzisztencia             |                   Az erős, kötött elavulás, munkamenet, egységes előtag, végleges                   |                                                                   Erős                                                                   |
+| Natív integráció az Azure Functions |                        [Igen](/azure/cosmos-db/serverless-computing-database)                        |                                                                     Nem                                                                     |
+|   Automatikus globális terjesztési    |                          [Igen](/azure/cosmos-db/distribute-data-globally)                           | Nem [HBase fürt replikációs konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) végleges konzisztencia régiók között |
+|           Díjszabási modell            | Rugalmasan méretezhető kérelemegység (RUs) másodpercenként felszámított, igény szerint rugalmasan méretezhető tárolás |                              Perc árképzési HDInsight-fürthöz (horizontális skálázás csomópontok), tárolás                               |
+

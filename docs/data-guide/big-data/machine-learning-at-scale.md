@@ -1,15 +1,15 @@
 ---
-title: "Gépi tanulási léptékű"
-description: 
+title: Gépi tanulás nagy léptékben
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: a92060008f90f43f71869bd1ad251af150b4a9db
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/03/2018
 ---
-# <a name="machine-learning-at-scale"></a>Gépi tanulási léptékű
+# <a name="machine-learning-at-scale"></a>Gépi tanulás nagy léptékben
 
 Gépi tanulás (ML) matematikai algoritmusok alapuló prediktív modellek betanítása használt módszer. Gépi tanulás elemzi az ismeretlen értékeinek adatmezők közötti kapcsolatokat.
 
@@ -41,7 +41,7 @@ Az interaktív elemzések elvégzéséhez és a modellezési fázis támogatás�
 
 Amikor egy modell telepítésre kész, egy webszolgáltatás be vannak ágyazva, és a felhőbe, a peremhálózati eszköz, vagy egy vállalati ML végrehajtási környezeten belül telepíteni. Ez a telepítési folyamat operationalization nevezzük.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 Gépi tanulási léptékű néhány kihívást hoz létre:
 

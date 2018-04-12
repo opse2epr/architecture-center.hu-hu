@@ -1,13 +1,13 @@
 ---
-title: "Szemantikai modellezés"
-description: 
+title: Szemantikai modellezés
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 343d17af0d933d515c724a062237c8d5df3a9e31
-ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/27/2018
+ms.lasthandoff: 03/31/2018
 ---
 # <a name="semantic-modeling"></a>Szemantikai modellezés
 
@@ -31,7 +31,7 @@ A szemantikai modellek két elsődleges típusa van:
 * **A táblázatos**. Relációs modellezési szerkezetek (modell, táblázatok, oszlopok) használja. Belsőleg metaadatok (kockák, dimenziókat, mértékeket) szerkezetek modellezési OLAP öröklődik. Kód és parancsfájl használata az OLAP-metaadatok.
 * **Többdimenziós**. Hagyományos OLAP modellezési szerkezetek (kockák, dimenziókat, mértékeket) használja.
 
-Megfelelő Azure szolgáltatás:
+Kapcsolódó Azure-szolgáltatás:
 - [Az Azure Analysis Services](https://azure.microsoft.com/services/analysis-services/)
 
 ## <a name="example-use-case"></a>Példa használati eset
@@ -48,13 +48,13 @@ A szemantikai modellezési és elemzésfeldolgozási általában a következő j
 | --- | --- |
 | Séma | Írás, erősen kényszerített séma|
 | Használja a tranzakciók | Nem |
-| Zárolási stratégia | Nincs |
-| Frissíthető | Nem (általában szükséges adatkocka recomputing) |
+| Zárolási stratégia | None |
+| Updateable | Nem (általában szükséges adatkocka recomputing) |
 | Appendable | Nem (általában szükséges adatkocka recomputing) |
 | Számítási feladat | Nagy mennyiségű olvasási, csak olvasható |
 | Indexelés | Többdimenziós indexelő |
 | Datum mérete | Kis, közepes méretű |
-| Modell | Multidimensional |
+| Modell | Többdimenziós |
 | Adatok alakzat:| Adatkocka vagy csillag/snowflake séma |
 | Lekérdezés rugalmasságot | Rugalmas |
 | Skála: | Nagy (10 egység-100-as egység GB) |

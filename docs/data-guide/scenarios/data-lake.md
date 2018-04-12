@@ -1,6 +1,6 @@
 # <a name="data-lakes"></a>Data lake tárolók
 
-Data lake tárháza tároló, amely nagy mennyiségű adatot tárol a natív, nyers formátumban. Data lake tárolók terabájt és adatmennyiségig skálázás vannak optimalizálva. Az adatok általában több heterogén forrásból származik, és lehet, hogy strukturált, félig strukturált vagy strukturálatlan. A data lake lényege, minden eredeti, nyomtatónak állapotában tárolásához. Ez a módszer eltér a hagyományos [adatraktár](../scenarios/data-warehousing.md), amely átalakítja, és feldolgozza azokat az adatfeldolgozást időpontjában.
+Data lake tárháza tároló, amely nagy mennyiségű adatot tárol a natív, nyers formátumban. Data lake tárolók terabájt és adatmennyiségig skálázás vannak optimalizálva. Az adatok általában több heterogén forrásból származik, és lehet, hogy strukturált, félig strukturált vagy strukturálatlan. A data lake lényege, minden eredeti, nyomtatónak állapotában tárolásához. Ez a módszer eltér a hagyományos [adatraktár](../relational-data/data-warehousing.md), amely átalakítja, és feldolgozza azokat az adatfeldolgozást időpontjában.
 
 Data lake előnyei:
 
@@ -13,9 +13,9 @@ A teljes data lake megoldás mind a tároló, mind a feldolgozási áll. Data la
 
 ## <a name="when-to-use-a-data-lake"></a>Mikor érdemes használni a data lake
 
-A data lake tipikus használati többek között [adatfeltárás](../scenarios/interactive-data-exploration.md), adatelemzés és a gépi tanulás. 
+A data lake tipikus használati többek között [adatfeltárás](./interactive-data-exploration.md), adatelemzés és a gépi tanulás. 
 
-Data lake is működhet, és az adatok az adatforráshoz. Ezt a módszert használja a nyers adatok azokat a data lake okozhatnak, és majd egy strukturált lekérdezhető formátumra alakítja át. Általában ez a transzformáció használ egy [ELT](../scenarios/etl.md#extract-load-and-transform-elt) (kivonat-betöltési-átalakítási) folyamatban, ahol az adatok okozhatnak, és át legyenek-e érvényben. Már van relációs adatforrásból közvetlenül az adatraktárba, előfordulhat, hogy nyissa meg a rendszer kihagyja a data lake ETL folyamat.
+Data lake is működhet, és az adatok az adatforráshoz. Ezt a módszert használja a nyers adatok azokat a data lake okozhatnak, és majd egy strukturált lekérdezhető formátumra alakítja át. Általában ez a transzformáció használ egy [ELT](../relational-data/etl.md#extract-load-and-transform-elt) (kivonat-betöltési-átalakítási) folyamatban, ahol az adatok okozhatnak, és át legyenek-e érvényben. Már van relációs adatforrásból közvetlenül az adatraktárba, előfordulhat, hogy nyissa meg a rendszer kihagyja a data lake ETL folyamat.
 
 Data lake tárolók gyakran használják adatfolyam-esemény vagy az IoT-forgatókönyvek esetén, mert nagy mennyiségű relációs és nonrelational adatok átalakítása vagy a séma meghatározása nélkül is megőrzik. A kis késleltetésű kis írása jelentős mennyiségű kezelésére beépített, és jelentős átviteli sebességet vannak optimalizálva.
 

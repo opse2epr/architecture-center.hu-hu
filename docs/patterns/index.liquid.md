@@ -1,33 +1,35 @@
 ---
-title: "Tervezési minták felhőkhöz"
-description: "Felhő kialakítási minta a Microsoft Azure"
+title: Tervezési minták felhőkhöz
+description: Tervezési minták felhőkhöz a Microsoft Azure-ban
 keywords: Azure
-ms.openlocfilehash: 264b8296a428f9c1b87314b782efcabc89cf010f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 4747c896fc6fc5866be782d76c5290d6b49ad451
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
 [!INCLUDE [header](../../_includes/header.md)]
 
-Ezek a kialakítási minták a felhőben megbízható, méretezhető, biztonságos alkalmazások hasznosak.
+Ezek a tervezési minták hasznosak a megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.
 
-Minden egyes minta a problémát, hogy a minta címek, a minta alkalmazásához szempontok és példa alapján a Microsoft Azure ismerteti. A minta a legtöbb mintakódok vagy kódtöredékek, amelyek bemutatják, hogyan valósítja meg a minta Azure tartalmazza. Azonban a minta a legtöbb kapcsolódik a összes elosztott rendszert, hogy az Azure-on vagy más felhőplatformokkal.
+Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásának szempontjait és egy, a Microsoft Azure-on alapuló példát. A legtöbb minta tartalmaz kódmintákat vagy kódrészleteket is, amelyek a minta Azure-on való alkalmazását mutatják be. A legtöbb minta ugyanakkor minden elosztott rendszeren alkalmazható, függetlenül attól, hogy az az Azure-on vagy más felhőplatformon üzemel-e.
 
-## <a name="problem-areas-in-the-cloud"></a>A felhőben a problémás területek
+## <a name="problem-areas-in-the-cloud"></a>Problémás területek a felhőben
 
 <ul id="categories" class="panel">
-{%-a kategóriák kategória %}
+{%- for category in categories %}
     <li>
-    {% include "minta-kategória-kártya" %}
+    {% include 'pattern-category-card' %}
     </li>
-{a(z) %-endfor %}
+{%- endfor %}
 </ul>
 
-## <a name="catalog-of-patterns"></a>Annak a katalógusban
+## <a name="catalog-of-patterns"></a>Mintakatalógus
 
-| Minta | Összefoglalás |
-| ------- | ------- |
-{a(z) %-a minta %} mintákra |} [{{pattern.title}}](./{{ pattern.file }}) |} {{pattern.description}} |} {a(z) %-endfor %}
+| Mintázat | Összegzés |
+|---------|---------|
+|         |         |
+
+{%- for pattern in patterns %} | [{{ pattern.title }}](./{{ pattern.file }}) | {{ pattern.description }} | {%- endfor %}

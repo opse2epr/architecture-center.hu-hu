@@ -1,12 +1,12 @@
 ---
-title: "Tervezési minták felhőkhöz"
-description: "Tervezési minták felhőkhöz a Microsoft Azure-ban"
+title: Tervezési minták felhőkhöz
+description: Tervezési minták felhőkhöz a Microsoft Azure-ban
 keywords: Azure
-ms.openlocfilehash: bf9fb2555f5c80cab9e4616ba52155bf1284d26f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 0b564931fe027e42b3a6db1a5d6a207e6441e536
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
@@ -77,37 +77,38 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 
 ## <a name="catalog-of-patterns"></a>Mintakatalógus
 
-| Mintázat | Összefoglalás |
-| ------- | ------- |
-| [Ambassador](./ambassador.md) | Olyan segítő szolgáltatásokat hozhat létre, amelyek egy otthoni használatra szánt szolgáltatás vagy alkalmazás nevében küldenek hálózati kéréseket. |
-| [Anti-Corruption Layer](./anti-corruption-layer.md) | Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között. |
-| [Backends for Frontends](./backends-for-frontends.md) | Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre. |
-| [Bulkhead](./bulkhead.md) | Készletekbe választja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen. |
-| [Cache-Aside](./cache-aside.md) | Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból |
-| [Circuit Breaker](./circuit-breaker.md) | Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek javítása esetleg sok időt venne igénybe. |
-| [CQRS](./cqrs.md) | Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. |
-| [Compensating Transaction](./compensating-transaction.md) | Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát. |
-| [Competing Consumers](./competing-consumers.md) | Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket. |
-| [Compute Resource Consolidation](./compute-resource-consolidation.md) | Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet |
-| [Event Sourcing](./event-sourcing.md) | Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére. |
-| [External Configuration Store](./external-configuration-store.md) | A konfigurációs adatokat áthelyezheti az alkalmazás üzembehelyezési csomagjából egy központi helyre. |
-| [Federated Identity](./federated-identity.md) | A hitelesítést delegálhatja egy külső identitásszolgáltatónak. |
-| [Gatekeeper](./gatekeeper.md) | Védheti az alkalmazásokat és szolgáltatásokat egy dedikált üzemeltető példány segítségével, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között, érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat közöttük. |
-| [Gateway Aggregation](./gateway-aggregation.md) | Több egyéni kérést összesíthet egyetlen kérésbe egy átjáró segítségével. |
-| [Gateway Offloading](./gateway-offloading.md) | A megosztott vagy specializált szolgáltatásműködést kiszervezheti egy átjáró proxyra. |
-| [Gateway Routing](./gateway-routing.md) | Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával. |
-| [Health Endpoint Monitoring](./health-endpoint-monitoring.md) | Rendszeres időközönként működés-ellenőrzéseket implementálhat egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök. |
-| [Index Table](./index-table.md) | Indexeket hozhat létre a lekérdezések által gyakran hivatkozott adattárbeli mezőkről. |
-| [Leader Election](./leader-election.md) | Koordinálhat egy elosztott alkalmazásban az együttműködő feladatpéldányokból álló gyűjtemény által végrehajtott műveleteket, ha vezetőnek választ meg egy példányt, amely vállalja a többi példány kezelésével járó felelősséget. |
-| [Materialized View](./materialized-view.md) | Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez. |
-| [Pipes and Filters](./pipes-and-filters.md) | Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává. |
-| [Priority Queue](./priority-queue.md) | Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat. |
-| [Queue-Based Load Leveling](./queue-based-load-leveling.md) | Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket. |
-| [Retry](./retry.md) | Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével. |
-| [Scheduler Agent Supervisor](./scheduler-agent-supervisor.md) | Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon. |
-| [Sharding](./sharding.md) | Egy adattárat horizontális partíció- vagy szilánkkészletté oszthat fel. |
-| [Sidecar](./sidecar.md) | Egy alkalmazás összetevőit külön folyamatban vagy tárolóban helyezheti üzembe, így elkülönítést és beágyazást biztosíthat. |
-| [Static Content Hosting](./static-content-hosting.md) | A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt. |
-| [Strangler](./strangler.md) | Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél. |
-| [Szabályozás](./throttling.md) | Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását. |
-| [Valet Key](./valet-key.md) | Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz. |
+|                                Mintázat                                |                                                                                                         Összegzés                                                                                                         |
+|-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                     [Ambassador](./ambassador.md)                     |                                                            Olyan segítő szolgáltatásokat hozhat létre, amelyek egy otthoni használatra szánt szolgáltatás vagy alkalmazás nevében küldenek hálózati kéréseket.                                                            |
+|          [Anti-Corruption Layer](./anti-corruption-layer.md)          |                                                                  Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között.                                                                  |
+|         [Backends for Frontends](./backends-for-frontends.md)         |                                                            Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre.                                                             |
+|                       [Bulkhead](./bulkhead.md)                       |                                                        Készletekbe választja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen.                                                        |
+|                    [Cache-Aside](./cache-aside.md)                    |                                                                                   Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból                                                                                    |
+|                [Circuit Breaker](./circuit-breaker.md)                |                                                     Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek javítása esetleg sok időt venne igénybe.                                                     |
+|                           [CQRS](./cqrs.md)                           |                                                           Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                                                            |
+|       [Compensating Transaction](./compensating-transaction.md)       |                                                         Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát.                                                         |
+|            [Competing Consumers](./competing-consumers.md)            |                                                            Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket.                                                             |
+| [Compute Resource Consolidation](./compute-resource-consolidation.md) |                                                                        Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet                                                                        |
+|                 [Event Sourcing](./event-sourcing.md)                 |                                                      Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére.                                                      |
+|   [External Configuration Store](./external-configuration-store.md)   |                                                           A konfigurációs adatokat áthelyezheti az alkalmazás üzembehelyezési csomagjából egy központi helyre.                                                           |
+|             [Federated Identity](./federated-identity.md)             |                                                                                A hitelesítést delegálhatja egy külső identitásszolgáltatónak.                                                                                |
+|                     [Gatekeeper](./gatekeeper.md)                     | Védheti az alkalmazásokat és szolgáltatásokat egy dedikált üzemeltető példány segítségével, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között, érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat közöttük. |
+|            [Gateway Aggregation](./gateway-aggregation.md)            |                                                                     Több egyéni kérést összesíthet egyetlen kérésbe egy átjáró segítségével.                                                                      |
+|             [Gateway Offloading](./gateway-offloading.md)             |                                                                         A megosztott vagy specializált szolgáltatásműködést kiszervezheti egy átjáró proxyra.                                                                         |
+|                [Gateway Routing](./gateway-routing.md)                |                                                                              Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával.                                                                               |
+|     [Health Endpoint Monitoring](./health-endpoint-monitoring.md)     |                                              Rendszeres időközönként működés-ellenőrzéseket implementálhat egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök.                                               |
+|                    [Index Table](./index-table.md)                    |                                                                Indexeket hozhat létre a lekérdezések által gyakran hivatkozott adattárbeli mezőkről.                                                                 |
+|                [Leader Election](./leader-election.md)                |   Koordinálhat egy elosztott alkalmazásban az együttműködő feladatpéldányokból álló gyűjtemény által végrehajtott műveleteket, ha vezetőnek választ meg egy példányt, amely vállalja a többi példány kezelésével járó felelősséget.    |
+|              [Materialized View](./materialized-view.md)              |                                        Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez.                                        |
+|              [Pipes and Filters](./pipes-and-filters.md)              |                                                        Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.                                                        |
+|                 [Priority Queue](./priority-queue.md)                 |                                 Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat.                                  |
+|      [Queue-Based Load Leveling](./queue-based-load-leveling.md)      |                                               Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket.                                               |
+|                          [Retry](./retry.md)                          |               Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.                |
+|     [Scheduler Agent Supervisor](./scheduler-agent-supervisor.md)     |                                                              Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon.                                                               |
+|                       [Sharding](./sharding.md)                       |                                                                           Egy adattárat horizontális partíció- vagy szilánkkészletté oszthat fel.                                                                            |
+|                        [Sidecar](./sidecar.md)                        |                                                    Egy alkalmazás összetevőit külön folyamatban vagy tárolóban helyezheti üzembe, így elkülönítést és beágyazást biztosíthat.                                                     |
+|         [Static Content Hosting](./static-content-hosting.md)         |                                                          A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.                                                           |
+|                      [Strangler](./strangler.md)                      |                                            Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.                                            |
+|                     [Szabályozás](./throttling.md)                     |                                                 Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását.                                                 |
+|                      [Valet Key](./valet-key.md)                      |                                                        Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.                                                        |
+

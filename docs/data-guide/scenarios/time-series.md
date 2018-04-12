@@ -1,15 +1,15 @@
 ---
-title: "Adatsorozat időadatok"
-description: 
+title: Adatsorozat időadatok
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: ceb8f34d4fd950e5270edfea05945a824c4492f0
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 80ff6c45988062afcb0eb92cc79e640d39dbb21f
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/03/2018
 ---
-# <a name="time-series-solutions"></a>Idő adatsorozat megoldások
+# <a name="time-series-solutions"></a>Idősorozattal kapcsolatos megoldások
 
 Adatsorozat időadatok olyan értékek idő szerint vannak rendezve. Idő adatsorozat közé tartoznak az érzékelő adatokat, a rendszer a díjak, kattintson a adatfolyam adatok és telemetriai. Idő adatsorozat adatok elemzése a múltbeli trendek, a valós idejű riasztásokat vagy a prediktív modellezési.
 
@@ -42,7 +42,7 @@ A time series használja az alábbi előnyökkel jár:
 
 Az IoT-eszközök által összegyűjtött adatok természetes alkalmasnak idő adatsorozat tárolási és elemzése. A bejövő adatokat beszúrni, és ritkán, ha valaha is, frissítve. Az adatok megjelölve, és szúrja be a sorrendben érkezett, és ezeket az adatokat általában a időrendben sorolja fel, hogy a felhasználók felderítéséhez a trendeket, helyszíni rendellenességek észlelését, és olvassa el a prediktív elemzési jelenik meg.
 
-További információkért lásd: [az eszközök internetes hálózatát](../concepts/big-data.md#internet-of-things-iot).
+További információkért lásd: [az eszközök internetes hálózatát](../big-data/index.md#internet-of-things-iot).
 
 ### <a name="real-time-analytics"></a>Valós idejű elemzések
 
@@ -50,14 +50,14 @@ Adatok legtöbbször a Time series idő-és nagybetűket &mdash; Ez azt jelenti,
 
 Ideális esetben kellene lennie, amely a bejövő adatok valós idejű kezelésének és az összes magas pontosság és nagy részletességű feldolgozza az adatfolyam feldolgozása réteg. Ez nem mindig lehetséges, attól függően, hogy az adatfolyam-továbbítási architektúra és az adatfolyam pufferelés és az adatfolyam feldolgozása rétegek összetevői. Szükség lehet a idő adatsorok pontossági feláldozása csökkenti azt. Feldolgozási idő windows (néhány másodpercig, például), a késleltetett ehhez a feldolgozási réteg számításokhoz időben engedélyezése. Előfordulhat, hogy felbontásának kell, és az adatok összesítő hosszabb ideig, például több hónapon keresztül összegyűjtött adatokat a megjelenítendő nagyításához megjelenítésekor.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 * Adatsorozat időadatok legtöbbször nagyon nagy mennyiségű, különösen az IoT-forgatókönyvek esetén. Tárolására, indexelő, lekérdezése, elemzése és idő adatsor megjelenítése kihívást jelenthet. 
 * Nagy sebességű tárolási megfelelő kombinációja keressenek meg és hatékony számítási műveletek kezelésére valós idejű elemzés, ugyanakkor minimalizálja a piacra és a teljes idő komoly kihívást beruházási költség.
 
 ## <a name="architecture"></a>Architektúra
 
-Számos forgatókönyvben, például az adatsorozat időadatok, IoT, például az adatok rögzített valós időben. Például egy [valós idejű feldolgozással](./real-time-processing.md) architektúrájának megfelelő. 
+Számos forgatókönyvben, például az adatsorozat időadatok, IoT, például az adatok rögzített valós időben. Például egy [valós idejű feldolgozással](../big-data/real-time-processing.md) architektúrájának megfelelő. 
 
 Egy vagy több adatforrás adatait a réteg által pufferelés adatfolyamba van okozhatnak [IoT-központ](/azure/iot-hub/), [Event Hubs](/azure/event-hubs/), vagy [hdinsight Kafka](/azure/hdinsight/kafka/apache-kafka-introduction). Ezt követően az adatok a rétegben adatfolyam feldolgozása, amelyek igény szerint is kiosztják a machine learning a prediktív elemzési szolgáltatás feldolgozott adatokat dolgoz fel. A feldolgozott adatok tárolása az analitikus adatok, például a [HBase](/azure/hdinsight/hbase/apache-hbase-overview), [Azure Cosmos DB](/azure/cosmos-db/), Azure Data Lake, vagy a Blob Storage tárolóban. Az elemzés és a reporting alkalmazást vagy szolgáltatást, mint a Power bi-ban vagy OpenTSDB (Ha a HBase-ben tárolt) segítségével elemzési idő adatsorozat adatainak megjelenítéséhez.
 

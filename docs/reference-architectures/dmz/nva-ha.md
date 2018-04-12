@@ -1,96 +1,96 @@
 ---
-title: "Egy magas rendelkezésre állású virtuális hálózati berendezések telepítése"
-description: "Ügyfélszoftverek központi telepítése a virtuális hálózati készülékek a magas rendelkezésre állású."
+title: Magas rendelkezésre állású virtuális hálózati berendezések telepítése
+description: Tudnivalók a magas rendelkezésre állású virtuális berendezések üzembe helyezéséről.
 author: telmosampaio
 ms.date: 12/06/2016
 pnp.series.title: Network DMZ
 pnp.series.prev: secure-vnet-dmz
 cardTitle: Deploy highly available network virtual appliances
-ms.openlocfilehash: 844c87f535d2a8cb415489cb2c8e840f8c585d7d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: fe279eea3f9cb024d6c6c14943013b9b9a87bc9c
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="deploy-highly-available-network-virtual-appliances"></a>Virtuális készülékek magas rendelkezésre állású hálózati telepítése
+# <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
-Ez a cikk a hálózati virtuális készülékek (NVAs) a magas rendelkezésre álláshoz az Azure-ban készlete telepítésének módját ismerteti. NVA általában használt hálózati forgalmat a szegélyhálózaton, más néven DMZ, és más hálózatok és alhálózatok üzenetáramlásának szabályozására. Az Azure-ban DMZ kapcsolatos további tudnivalókért lásd: [Microsoft cloud services és a hálózati biztonság][cloud-security]. A cikk csak érkező, kimenő csak, és a bemenő és kimenő példa architektúrához tartalmazza. 
+Ez a cikk a magas rendelkezésre állású hálózati virtuális berendezések (network virtual appliance, NVA) Azure-ban való üzembe helyezésének módját ismerteti. Az NVA-kat általában a szegélyhálózatokról, más néven DMZ-kről a más hálózatok és alhálózatok felé irányuló hálózati forgalom szabályozására használják. Az DMZ Azure-ban történő implementálásával kapcsolatos további tudnivalókért lásd a [Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-security] foglalkozó cikket. A cikk csak bejövő, csak kimenő, valamint bejövő és kimenő forgalmú példaarchitektúrákat is tartalmaz. 
 
-**Előfeltételek:** megismerheti az Azure hálózatkezelés, a jelen cikk feltételezi [Azure load Balancer terheléselosztók][lb-overview], és [felhasználó által definiált útvonalak] [ udr-overview] (Udr-EK). 
+<strong>Előfeltételek:</strong> A jelen cikk feltételezi, hogy az olvasó alapszinten érti az Azure-hálózatok, az [Azure-terheléselosztók][lb-overview] és a [felhasználó által definiált útvonalak][udr-overview] (UDR-ek) működését. 
 
 
-## <a name="architecture-diagrams"></a>Architektúra
+## <a name="architecture-diagrams"></a>Architektúra-diagramok
 
-NVA számos különböző architektúrákban DMZ telepíthetők. Például a következőképpen ábrázolható használatát egy [NVA egyetlen] [ nva-scenario] érkező számára. 
+Az NVA-k számos különböző architektúrában helyezhetők üzembe egy DMZ-n. A következő ábra például [egyetlen NVA][nva-scenario] bejövő forgalomhoz való használatát illusztrálja. 
 
 ![[0]][0]
 
-Ebben az architektúrában az NVA biztosít a biztonságos hálózati határ ellenőrzése az összes bejövő és kimenő hálózati forgalom, és csak a forgalmat, amely megfelel a hálózati biztonsági szabályok átadásakor. Azonban, hogy az összes hálózati forgalom haladnak keresztül az NVA azt jelenti, hogy az NVA a hibaérzékeny pontok kialakulását a hálózaton. Az NVA nem sikerül, ha nincs más útvonal a hálózati forgalmat, és a háttér-alhálózat nem érhetők el.
+Ebben az architektúrában az NVA biztonságos hálózati határt biztosít az összes bejövő és kimenő hálózati forgalom ellenőrzésével, és csak azt a forgalmat engedi át, amely megfelel a hálózati biztonsági szabályoknak. Az a tény azonban, hogy az összes hálózati forgalom az NVA-n halad keresztül, azt eredményezi, hogy az NVA rendszerkritikus meghibásodási pontot képez a hálózatban. Ha az NVA leáll, akkor nincs más útvonal a hálózati forgalom számára, és a háttérbeli alhálózatok nem lesznek elérhetők.
 
-NVA magas rendelkezésre állásúvá tételéhez telepítsen több NVA be egy rendelkezésre állási csoportot.    
+Az NVA magas rendelkezésre állásúvá tételéhez helyezzen üzembe több NVA-t egy rendelkezésre állási csoport részeként.    
 
-A következő architektúrák azt mutatják be, az erőforrások és a magas rendelkezésre állású NVAs szükséges konfiguráció:
+A következő architektúrák bemutatják a magas rendelkezésre állású NVA-khoz szükséges erőforrásokat és konfigurációkat:
 
 | Megoldás | Előnyök | Megfontolandó szempontok |
 | --- | --- | --- |
-| [A réteg 7 NVAs érkező][ingress-with-layer-7] |NVA csomópontjaihoz aktívak. |Állítsa le a kapcsolatok és SNAT használja NVA igényel</br> Meg kell adni egy külön NVAs, és az Azure-ból az internetről érkező forgalom </br> Csak akkor használható a kívülről Azure származó forgalmat |
-| [A réteg 7 NVAs kilépési][egress-with-layer-7] |NVA csomópontjaihoz aktívak. | Megköveteli, hogy a kapcsolatok és megvalósít forrás hálózati címfordítás (SNAT) is leáll NVA
-| [A réteg 7 NVAs érkező-kimenő][ingress-egress-with-layer-7] |Minden csomópont aktívak.<br/>Tudja kezelni a forgalmat az Azure-ban |Állítsa le a kapcsolatok és SNAT használja NVA igényel<br/>Meg kell adni egy külön NVAs, és az Azure-ból az internetről érkező forgalom |
-| [A PIP-UDR kapcsoló][pip-udr-switch] |Egyetlen halmazába NVAs összes forgalom<br/>Az összes forgalom (portszabályokat korlátozva) is kezelése |Aktív-passzív<br/>A feladatátvételi folyamat igényel |
+| [Bejövő forgalom 7-es rétegű NVA-kkal][ingress-with-layer-7] |Az összes NVA-csomópont aktív |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel</br> Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz </br> Csak az Azure-on kívülről származó forgalom kezelésére használható |
+| [Kimenő forgalom 7-es rétegű NVA-kkal][egress-with-layer-7] |Az összes NVA-csomópont aktív | Kapcsolatok leállítására és forráshálózati címfordítás (source network address translation, SNAT) implementálására képes NVA-t igényel
+| [Bejövő és kimenő forgalom 7-es rétegű NVA-kkal][ingress-egress-with-layer-7] |Az összes csomópont aktív<br/>Képes kezelni az Azure-ból eredő forgalmat |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/>Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz |
+| [PIP-UDR kapcsoló][pip-udr-switch] |Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok) |Aktív-passzív<br/>Feladatátvételi folyamatot igényel |
 
-## <a name="ingress-with-layer-7-nvas"></a>A réteg 7 NVAs érkező
+## <a name="ingress-with-layer-7-nvas"></a>Bejövő forgalom 7-es rétegű NVA-kkal
 
-Az alábbi ábrán egy magas rendelkezésre állású architektúra, amely megvalósítja az érkező DMZ egy internetre irányuló terheléselosztó mögött. Ez az architektúra arra tervezték, hogy csatlakozhasson az Azure munkaterhelések réteg 7-forgalom esetén például a HTTP vagy HTTPS:
+Az alábbi ábrán egy magas rendelkezésre állású architektúra látható, amely egy internetkapcsolattal rendelkező terheléselosztó mögötti bejövő forgalmi DMZ-t implementál. Ezt az architektúrát arra tervezték, hogy 7-es rétegű forgalmi kapcsolatot, például HTTP-t vagy HTTPS-t biztosítson Azure-beli számítási feladatokhoz:
 
 ![[1]][1]
 
-Az ebbe az architektúrába előnye, hogy minden NVAs aktív, és a terheléselosztó meghibásodásakor hálózati forgalmát átirányítja a más NVA. Irányíthatja a forgalmat a belső terheléselosztóhoz ezért mindaddig, amíg egy NVA aktív, forgalom mindkét NVAs továbbra is a. A NVAs szükséges terheléselosztónál zárja le a webes réteg virtuális gépek szánt SSL-forgalmat. Ezek NVAs nem terjeszthető ki a helyszíni-forgalom kezelésére, mert a helyszíni forgalom egy másik dedikált-készletet igényel NVAs a saját hálózati útvonalak.
+Az ilyen architektúra előnye, hogy minden NVA aktív, és ha az egyik meghibásodik, akkor a terheléselosztó átirányítja a hálózati forgalmat egy másikra. Mindkét NVA a belső terheléselosztóra irányítja a forgalmat, így mindaddig, amíg egy NVA aktív, a forgalom nem akad el. Az NVA-knak le kell zárnia a webes szintű virtuális gépek felé tartó SSL-forgalmat. Ezek az NVA-k nem használhatók a helyszíni forgalom kezelésére, mert a helyszíni forgalom egy másik, saját hálózati útvonalakkal rendelkező dedikált NVA-készletet igényel.
 
 > [!NOTE]
-> Ez az architektúra használatban van a [DMZ Azure és a helyszíni adatközpont között] [ dmz-on-prem] hivatkozhat architektúra és a [DMZ Azure és az Internet között] [ dmz-internet] architektúra hivatkozik. A referencia architektúra mindegyikének tartalmaz egy központi telepítési megoldás, amely használható. Hivatkozásokon talál további információt.
+> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-prem] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
 
-## <a name="egress-with-layer-7-nvas"></a>A réteg 7 NVAs kilépési
+## <a name="egress-with-layer-7-nvas"></a>Kimenő forgalom 7-es rétegű NVA-kkal
 
-Az előző architektúra bővíthet egy kimenő DMZ biztosít az Azure számítási származó kérelmek. A következő architektúra arra tervezték, hogy a Szegélyhálózaton lévő NVAs magas rendelkezésre állásának biztosítása a réteg 7-forgalmat, például HTTP vagy HTTPS:
+Az előző architektúra bővíthető oly módon, hogy egy kimenő forgalmi DMZ-t is biztosítson az Azure-beli számítási feladatokból származó kérelmek kezelésére. A következő architektúrát arra tervezték, hogy magas rendelkezésre állást biztosítson a DMZ-n lévő NVA-k számára 7-es rétegű forgalom (például HTTP vagy HTTPS) esetén:
 
 ![[2]][2]
 
-Ebben az architektúrában az Azure-ban származó összes forgalmat egy belső terheléselosztóhoz történik. A terheléselosztó kimenő kérelmek NVAs közötti elosztása. Ezek NVAs közvetlen forgalom az internethez, az egyes nyilvános IP-címek használatával.
+Ebben az architektúrában az Azure-ból származó összes forgalom át van irányítva egy belső terheléselosztóra. A terheléselosztó elosztja a kimenő kérelmeket egy NVA-készlet tagjai között. Ezek az NVA-k az internetre irányítják a forgalmat saját nyilvános IP-címeik használatával.
 
 > [!NOTE]
-> Ez az architektúra használatban van a [DMZ Azure és a helyszíni adatközpont között] [ dmz-on-prem] hivatkozhat architektúra és a [DMZ Azure és az Internet között] [ dmz-internet] architektúra hivatkozik. A referencia architektúra mindegyikének tartalmaz egy központi telepítési megoldás, amely használható. Hivatkozásokon talál további információt.
+> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-prem] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
 
-## <a name="ingress-egress-with-layer-7-nvas"></a>A réteg 7 NVAs érkező-kimenő
+## <a name="ingress-egress-with-layer-7-nvas"></a>Bejövő és kimenő forgalom 7-es rétegű NVA-kkal
 
-A két előző architektúrákban hiba történt a bemenő és kimenő külön DMZ. A következő architektúra bemutatja, hogyan kell létrehozni, amely egyaránt be- és kilépési réteg 7-forgalom esetén például a HTTP vagy HTTPS használható DMZ: 
+A két előző architektúrában külön DMZ tartozott a bejövő és a kimenő forgalomhoz. A következő architektúra bemutatja, hogyan kell létrehozni olyan DMZ-t, amely egyaránt használható a bejövő és kimenő 7-es rétegű forgalomhoz (például HTTP-hez vagy HTTPS-hez): 
 
 ![[4]][4]
 
-Ebben az architektúrában az NVAs feldolgozni az Alkalmazásátjáró érkező kéréseket. A NVAs is érkező a munkaterhelési virtuális gépek a háttér-készletben a terheléselosztó kimenő kérések feldolgozását. Bejövő forgalom az Alkalmazásátjáró történik, és a terheléselosztó kimenő forgalmat történik, mert a NVAs munkamenet affinitás karbantartásáért felelős. Ez azt jelenti, hogy az Alkalmazásátjáró fenntart egy táblázatot a bejövő és kimenő kérelmek, így a helyes választ az eredeti kérelmezőnek továbbíthatja. A belső terheléselosztó azonban nincs hozzáférése a alkalmazástársítások átjáró, és használja a saját logikát a NVAs válaszokat küldhet. Akkor lehet a terheléselosztó, amely nem kezdetben kapta meg a kérelmet az Alkalmazásátjáró NVA választ küldhet. Ebben az esetben a NVAs kell kommunikációhoz, és a válasz továbbít köztük, így a helyes NVA továbbíthatja az Alkalmazásátjáró válasz.
+Ebben az architektúrában az NVA-k az alkalmazásátjáróról érkező kérelmeket dolgozzák fel. Az NVA-k a terheléselosztó háttérkészletében található, számítási feladatokat végző virtuális gépek kimenő kérelmeit is feldolgozzák. Mivel a bejövő forgalmat a rendszer alkalmazásátjáróval, a kimenőt pedig terheléselosztóval irányítja, az NVA-k felelősek a munkamenet affinitásának fenntartásáért. Ez azt jelenti, hogy az alkalmazásátjáró leképezi a bejövő és a kimenő kérelmeket, így továbbíthatja a helyes választ az eredeti kérelmezőnek. Azonban a belső terheléselosztó nem fér hozzá az alkalmazásátjáró leképezéseihez, így a saját logikáját használja, amikor választ küld az NVA-knak. Előfordulhat, hogy a terheléselosztó nem annak az NVA-nak küld választ, amely eredetileg megkapta a kérelmet az alkalmazásátjáróról. Ebben az esetben az NVA-knak kommunikálniuk kell, és továbbítaniuk kell egymás között a választ, hogy a megfelelő NVA küldhesse tovább a választ az alkalmazásátjáróra.
 
 > [!NOTE]
-> A NVAs hajtsa végre a bemeneti forrás a hálózati címfordítás (SNAT) biztosításával a aszimmetrikus útválasztási probléma is megoldható. Ez az eredeti forrás IP-cím egy IP-címét használja a bejövő adatfolyam NVA azonosságát cserélje. Ez biztosítja, hogy több NVAs használhatja egyszerre útvonal szimmetriája adatainak megőrzése mellett.
+> Úgy is megoldhatja az aszimmetrikus útvonal-választási problémát, ha gondoskodik róla, hogy az NVA-k bejövő forráshálózati címfordítást (SNAT) végezzenek. Ez lecserélné a kérelmező eredeti forrás IP-címét az NVA által a bejövő adatfolyamon használt IP-címeinek egyikével. Így gondoskodni lehet róla, hogy több NVA is használható legyen egyszerre az útvonal szimmetriájának megőrzése mellett.
 
-## <a name="pip-udr-switch-with-layer-4-nvas"></a>4. rétegbeli NVAs PIP-UDR kapcsoló
+## <a name="pip-udr-switch-with-layer-4-nvas"></a>PIP-UDR kapcsoló 4-es rétegű NVA-kkal
 
-A következő architektúra egy aktív és passzív NVA egy architektúrát mutatja be. Ez az architektúra is be- és kilépési a 4. rétegbeli forgalmat kezeli: 
+Az alábbi szakasz egy aktív és egy passzív NVA-val rendelkező architektúrát mutat be. Ez az architektúra mind a bejövő, mind a kimenő 4-es rétegű forgalmat kezeli: 
 
 ![[3]][3]
 
-Ez az architektúra a cikkben szereplő első architektúra hasonlít. Az architektúra része egy egyetlen NVA fogadása és 4. rétegbeli bejövő kérelmek szűrése. Ez az architektúra ad hozzá egy második passzív NVA magas rendelkezésre állás biztosításához. Az aktív NVA nem sikerül, ha a passzív NVA aktív legyen, és a UDR és a PIP megváltoznak, az aktív NVA hálózati kártyája mutasson. A UDR és a PIP a módosítások is, vagy manuálisan kell elvégezni, vagy egy automatikus folyamat segítségével. Az automatizált folyamat általában démon vagy más Azure-beli figyelőszolgáltatás. Lekérdezi a állapotmintáihoz meg az aktív NVA, és a UDR és PIP kapcsoló hajt végre, amikor azt észleli, hogy az NVA sikertelen. 
+Ez az architektúra hasonlít a cikkben elsőként bemutatott architektúrára. Az egyetlen NVA-t tartalmazott, amely a 4-es rétegű beérkező kérelmek fogadását és szűrését végezte. Ez az architektúra mindezt egy második passzív NVA-val egészíti ki a magas rendelkezésre állás érdekében. Ha az aktív NVA meghibásodik, a passzív NVA aktiválódik, és az UDR, valamint a PIP úgy módosul, hogy az imént aktivált NVA hálózati adaptereire mutasson. Az UDR és a PIP ezen módosításai manuálisan vagy egy automatizált folyamattal is elvégezhetők. Az automatizált folyamat jellemzően egy démon, vagy egy másik Azure-beli figyelőszolgáltatás, amely végrehajtja az aktív NVA állapotvizsgálatát, majd átkapcsolja az UDR-t és a PIP-et, amikor az NVA meghibásodását észleli. 
 
-A fenti ábra mutat egy példát [ZooKeeper] [ zookeeper] egy magas rendelkezésre állású démon biztosító fürt. A ZooKeeper fürtön belül a megfelelő kvórumú csomópont egy vezető választja. A kitöltés nem sikerül, ha a többi csomópontot tartsa egy új vezető kiválasztják választást. Az ebbe az architektúrába a vezető csomópont a démon a rendszerállapot-végpont az NVA lekérdező hajtja végre. Az NVA nem válaszol a állapotmintáihoz, ha a démon a passzív NVA aktiválva lesz. A démon majd az Azure REST API-t a PIP eltávolítása a sikertelen NVA, és csatolja az újonnan aktivált NVA. A démon ezután módosítja a UDR az újonnan aktivált NVA belső IP-címre mutasson.
+A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható, amely egy magas rendelkezésre állású démont biztosít. A ZooKeeper-fürtön belül egy csomópontkvórum kiválaszt egy vezetőt. Ha a vezető meghibásodik, akkor a többi csomópont választást tart egy új vezető kinevezésére. A jelen architektúra esetében a vezető csomópont végrehajtja a démont, amely lekérdezi az NVA üzemállapoti végpontját. Ha az NVA nem válaszol az állapotvizsgálatra, akkor a démon aktiválja a passzív NVA-t. Ezt követően a démon lehívja az Azure REST API-t a PIP eltávolításához a meghibásodott NVA-ból, majd csatolja azt az újonnan aktivált NVA-hoz. A démon ezután módosítja az UDR-t, hogy az újonnan aktivált NVA belső IP-címére mutasson.
 
 > [!NOTE]
-> Ne vegyen fel a ZooKeeper csomópontok egy alhálózatot, amely csak egy olyan útvonalat, amely tartalmazza az NVA segítségével érhető el. Ellenkező esetben a ZooKeeper csomópontok nem érhetők az NVA meghibásodásakor. Amennyiben a démon nem bármilyen okból, akkor nem fogja tudni a probléma diagnosztizálása érdekében a ZooKeeper csomópontok egyikét sem használni. 
+> Ne vegyen fel ZooKeeper-csomópontokat olyan alhálózatba, amely csak olyan útvonalon keresztül érhető el, amely tartalmazza az NVA-t. Ha mégis így tesz, a ZooKeeper-csomópontok nem lesznek érhetők az NVA meghibásodásakor. Ha a démon bármilyen okból sikertelen, akkor nem fogja tudni használni a ZooKeeper-csomópontokat a probléma diagnosztizálására. 
 
 <!--### Solution Deployment-->
 
 <!-- instructions for deploying this solution here --> 
 
-## <a name="next-steps"></a>Következő lépések
-* Megtudhatja, hogyan [valósítja meg az Azure és a helyszíni adatközpont között DMZ] [ dmz-on-prem] réteg-7 NVAs használatával.
-* Megtudhatja, hogyan [valósítja meg az Azure és az Internet között DMZ] [ dmz-internet] réteg-7 NVAs használatával.
+## <a name="next-steps"></a>További lépések
+* Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-prem] 7-es rétegű NVA-k használatával.
+* Megtudhatja, hogyan [implementálhat DMZ-t az Azure és az internet között][dmz-internet] 7-es rétegű NVA-k használatával.
 
 <!-- links -->
 [cloud-security]: /azure/best-practices-network-security
@@ -106,8 +106,8 @@ A fenti ábra mutat egy példát [ZooKeeper] [ zookeeper] egy magas rendelkezés
 [zookeeper]: https://zookeeper.apache.org/
 
 <!-- images -->
-[0]: ./images/nva-ha/single-nva.png "Egyetlen NVA architektúrája"
-[1]: ./images/nva-ha/l7-ingress.png "Réteg 7 érkező"
-[2]: ./images/nva-ha/l7-ingress-egress.png "Réteg 7 kimenő forgalom"
+[0]: ./images/nva-ha/single-nva.png "Egyetlen NVA-ból álló architektúra"
+[1]: ./images/nva-ha/l7-ingress.png "7-es rétegű bejövő forgalom"
+[2]: ./images/nva-ha/l7-ingress-egress.png "7-es rétegű kimenő forgalom"
 [3]: ./images/nva-ha/active-passive.png "Aktív-passzív fürt"
 [4]: ./images/nva-ha/l7-ingress-egress-ag.png

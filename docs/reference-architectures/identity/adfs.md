@@ -1,224 +1,227 @@
 ---
-title: "Az Azure Active Directory összevonási szolgáltatások (AD FS) megvalósítása"
-description: "Hogyan megvalósításához egy biztonságos hibrid hálózati architektúra az Active Directory összevonási szolgáltatás engedélyezése az Azure-ban.\nútmutatást, vpn-átjáró, expressroute, terheléselosztó, virtuális hálózat, active Directoryval"
+title: Az Active Directory összevonási szolgáltatások (ADFS) megvalósítása az Azure-ban
+description: >-
+  Biztonságos hibrid hálózati architektúra megvalósítása az Active Directory összevonási szolgáltatás engedélyezésével az Azure-ban.
+
+  guidance,vpn-gateway,expressroute,load-balancer,virtual-network,active-directory
 author: telmosampaio
 ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: adds-forest
 cardTitle: Extend AD FS to Azure
-ms.openlocfilehash: b8c9ae0621c087c68d449dd13e60046104c01513
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 87489b7b81cf323c221466c539ee14ea90e23c14
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Azure Active Directory összevonási szolgáltatások (AD FS) kiterjesztése
+# <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
-A referencia-architektúrában valósítja meg, amely kiterjeszti a helyszíni hálózat Azure és a biztonságos hibrid hálózat [Active Directory összevonási szolgáltatások (AD FS)] [ active-directory-federation-services] végrehajtásához összevont hitelesítési és engedélyezési Azure-beli összetevőnél. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra egy olyan biztonságos hibrid hálózatot valósít meg, amely kiterjeszti a helyszíni hálózatot az Azure-ra, és az [Active Directory összevonási szolgáltatások (AD FS)][active-directory-federation-services] használatával összevont hitelesítést és engedélyezést végez az Azure-ban futó összetevők számára. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0]
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-Az AD FS lehet üzemeltethető a helyszínen, de ha az alkalmazás egy hibrid Azure végrehajtott bizonyos részei, hatékonyabb, ha az AD FS-ben a felhő replikálni lehet. 
+Az AD FS üzemeltethető a helyszínen, de ha az alkalmazás egy hibrid, amelynek egyes részei az Azure-ban futnak, az AD FS replikálása a felhőben hatékonyabb megoldás lehet. 
 
-Az ábrán látható a következő esetekben:
+A diagram a következő eseteket mutatja be:
 
-* A fiókpartner-szervezet alkalmazáskód fér hozzá egy webalkalmazást az Azure-beli virtuális hálózatán belül található.
-* Belül az Active Directory tartományi szolgáltatások (DS) tárolt hitelesítő adatokkal rendelkező egy külső, regisztrált felhasználó hozzáfér egy webalkalmazást az Azure-beli virtuális hálózatán belül található.
-* A virtuális hálózat egy jogosult eszközzel csatlakozó felhasználó végrehajtja a egy webalkalmazást az Azure-beli virtuális hálózatán belül található.
+* Egy partnerszervezettől származó alkalmazáskód hozzáfér egy, az Ön Azure-beli virtuális hálózatán futó webalkalmazáshoz.
+* Egy külső, az Active Directory Domain Servicesben (DS) tárolt hitelesítő adatokkal rendelkező regisztrált felhasználó hozzáfér az Ön Azure-beli virtuális hálózatán futó webalkalmazáshoz.
+* Egy felhasználó, aki hitelesített eszközről csatlakozik az Ön virtuális hálózatához, elindít egy webalkalmazást, amely az Ön Azure virtuális hálózatán belül fut.
 
-Ez az architektúra a jellemző használati többek között:
+Az architektúra gyakori használati módjai többek között a következők:
 
-* Hibrid alkalmazások ahol munkaterhelések Futtatás részben helyszínen és részben az Azure.
-* Összevont engedélyezési teszi közzé a webes alkalmazásokat az erőforráspartner-szervezetek használó megoldások.
-* A rendszer támogatja a hozzáférést a szervezeti tűzfalon kívül futó webböngészőknek.
-* Azok a rendszerek, amelyek lehetővé teszik a felhasználók férhetnek hozzá a webes alkalmazások által hitelesített külső eszközöket, például a távoli számítógépeken, jegyzetfüzeteket és egyéb mobileszközökön való kapcsolódás. 
+* Hibrid alkalmazások, amelyekben a számítási feladatok részben a helyszínen, részben pedig az Azure-ban futnak.
+* Megoldások, amelyek összevont engedélyezéssel tesznek elérhetővé webalkalmazásokat partnerszervezetek számára.
+* Rendszerek, amelyek támogatják a hozzáférést a vállalati tűzfalon kívül futó webböngészőknek.
+* Rendszerek, amelyek lehetővé teszik a felhasználók számára a webes alkalmazásokhoz való hozzáférést hitelesített külső eszközökkel, például távoli számítógépekkel, noteszgépekkel és egyéb mobileszközökkel. 
 
-A referencia-architektúrában összpontosít *passzív összevonási*, a következő helyen, amely az összevonási kiszolgálók mellett dönt, hogy hogyan és mikor a felhasználó hitelesítéséhez. A felhasználó megadja a bejelentkezési adatok, az alkalmazás indításakor. A mechanizmus böngészők által leggyakrabban használt, és magában foglalja a protokoll, amely a böngésző átirányítja egy helyet, ahol a felhasználó hitelesíti magát. Az AD FS is támogatja *aktív összevonási*, ha egy alkalmazás időt vesz igénybe, hogy megadja a hitelesítő adatokat, további felhasználói beavatkozás nélkül felelős az, de a forgatókönyv ebbe az architektúrába hatókörén kívül esik.
+Ez a referenciaarchitektúra a *passzív összevonásra* összpontosít, amelyben az összevonási kiszolgálók döntenek arról, hogy hogyan és mikor hitelesítsenek egy adott felhasználót. A felhasználó az alkalmazás indításakor megadja a bejelentkezési adatokat. Ezt a mechanizmust legtöbbször webböngészők használják. Egy olyan protokollt alkalmaz, amely átirányítja a felhasználót arra az oldalra, ahol elvégezheti a hitelesítést. Az AD FS az *aktív összevonást* is támogatja. Ennek során egy alkalmazás felelőssége a hitelesítő adatok biztosítása, további felhasználói interakció igénylése nélkül – erre az esetre azonban ez az architektúra nem terjed ki.
 
-További szempontokat lásd: [megoldás választása a integrálása a helyszíni Active Directoryról szinkronizálva az Azure][considerations]. 
+További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 
 
 ## <a name="architecture"></a>Architektúra
 
-Ez az architektúra kiterjeszti a leírt végrehajtása [Extending Active Directory tartományi szolgáltatások, Azure][extending-ad-to-azure]. Az alábbi összetevőket tartalmaz.
+Ez az architektúra kiterjeszti [Az AD DS kiterjesztése az Azure-ra][extending-ad-to-azure] című részben leírt megvalósítást. Az alábbi összetevőket tartalmazza.
 
-* **Az Active Directory tartományi szolgáltatások alhálózati**. Az Active Directory tartományi szolgáltatások-kiszolgálók a saját alhálózati tűzfal működött hálózati biztonsági csoport (NSG) szabályait tartalmazza.
+* **AD DS-alhálózat**. Az AD DS-kiszolgálók a saját alhálózatukban találhatók. Tűzfalként a hálózati biztonsági csoport (NSG) szabályai szolgálnak.
 
-* **AD DS-kiszolgálók**. Az Azure-ban virtuális gépeket futtató tartományvezérlők. Ezek a kiszolgálók a tartományon belüli helyi identitások hitelesítést nyújt.
+* **AD DS-kiszolgálók**. Az Azure-ban virtuális gépekként futó tartományvezérlők. Ezek a kiszolgálók végzik a helyi identitások hitelesítését a tartományon belül.
 
-* **AD FS alhálózati**. Az AD FS-kiszolgálók találhatók a saját alhálózaton belül az NSG-szabályok tűzfal működött.
+* **AD FS-alhálózat**. Az AD FS-kiszolgálók a saját alhálózatukban találhatók. Tűzfalként az NSG-szabályok szolgálnak.
 
-* **AD FS-kiszolgálók**. Az AD FS-kiszolgáló hitelesítési és engedélyezési összevont adja meg. Ebben az architektúrában akkor a következő feladatokat:
+* **AD FS-kiszolgálók**. Az AD FS-kiszolgálók összevont engedélyezést és hitelesítést biztosítanak. Ebben az architektúrában a következő feladatokat látják el:
   
-  * A fogadó biztonsági jogkivonatot tartalmazó jogcímeket egy összevonási partnerkiszolgáló tett egy partner felhasználó nevében. Az AD FS ellenőrzi, hogy a jogkivonatok érvényes előtt a webalkalmazás Azure-ban futó kérések engedélyezésére a jogcímeket. 
+  * A partner összevonási kiszolgáló által partnerfelhasználó nevében küldött jogcímeket tartalmazó biztonsági jogkivonatok fogadása. Az AD FS ellenőrzi, hogy a jogkivonatok érvényesek-e, mielőtt átadja azokat az Azure-ban futó webalkalmazásnak, amely a kérelmek engedélyezését végzi. 
   
-    Azure-ban futó webes alkalmazás a *függő entitás*. A partner összevonási kiszolgáló kell jogcímeket kiadni, amelyek a webalkalmazás értendők. A partner összevonási kiszolgálók nevezzük *fiókpartnerek*, mert elküldenék hozzáférési kérelmek hitelesített fiókok a fiókpartner-szervezet nevében. Az AD FS-kiszolgáló nevezzük *erőforrás partnerek* mert (webalkalmazás) erőforrásokhoz való hozzáférést biztosítanak.
+    Azure-ban futó webalkalmazás a *függő entitás*. A partner összevonási kiszolgálónak olyan jogcímeket kell kiadni, amelyeket a webalkalmazás értelmezni tud. A partner összevonási kiszolgálókat *fiókpartnereknek* nevezik, mert ezek küldenek hozzáférési kérelmeket a partnerszervezet hitelesített fiókjainak nevében. Az AD FS-kiszolgálókat *erőforráspartnereknek* nevezik, mert ezek biztosítanak hozzáférést az erőforrásokhoz (a webalkalmazáshoz).
 
-  * Hitelesítése és engedélyezése a bejövő kéréseket a külső felhasználók egy webböngésző vagy az Active Directory tartományi szolgáltatások használatával webes alkalmazásokhoz, a hozzáférést igénylő eszközre és a [Active Directory Eszközregisztrációs szolgáltatás] [ ADDRS].
+  * Webböngészőt vagy webalkalmazás-hozzáférést igénylő eszközt futtató külső felhasználóktól érkező kérelmek hitelesítése és engedélyezése az AD DS-sel és az [Active Directory eszközregisztrációs szolgáltatásával][ADDRS].
     
-  Az AD FS-kiszolgáló van konfigurálva az Azure terheléselosztó keresztül érhetők el a farmhoz. Ez a megvalósítás javítja rendelkezésre állását és méretezhetőségét. Az AD FS-kiszolgálók nem érhetők el közvetlenül. Minden internetes forgalomhoz a az AD FS webalkalmazás-proxy kiszolgálók és a Szegélyhálózaton (más néven a szegélyhálózaton) keresztül szűrve van.
+  Az AD FS-kiszolgálók farmként vannak konfigurálva, amely egy Azure-terheléselosztón keresztül érhető el. Ez a megvalósítás javítja a rendelkezésre állást és a méretezhetőséget. Az AD FS-kiszolgálók nem érhetők el közvetlenül az internetről. Minden internetes forgalom szűrve van AD FS webalkalmazás-proxy kiszolgálókon és egy szegélyhálózaton (DMZ) keresztül.
 
-  Active Directory összevonási szolgáltatások működésével kapcsolatos további információkért lásd: [Active Directory összevonási szolgáltatások – áttekintés][active-directory-federation-services-overview]. Emellett a cikk [AD FS üzembe helyezése az Azure-ban] [ adfs-intro] tartalmaz egy megvalósítási részletes részletes bemutatása.
+  Információk az AD FS működéséről: [Active Directory összevonási szolgáltatások – áttekintés][active-directory-federation-services-overview]. Emellett [Az AD FS üzembe helyezése az Azure-ban][adfs-intro] című cikk lépésről lépésre bemutatja a megvalósítást.
 
-* **AD FS proxy alhálózati**. Az AD FS-proxy kiszolgáló védő NSG-szabályok a saját alhálózaton belül is tartalmazza. A kiszolgálók az alhálózaton az interneten keresztül az Azure virtuális hálózat és az Internet között tűzfal biztosító hálózati virtuális készülékek érhetők el.
+* **AD FS proxyalhálózat**. Az AD FS-proxykiszolgálók lehetnek a saját alhálózatukon belül, ahol védelmüket az NSG-szabályok biztosítják. Az alhálózaton belüli kiszolgálók hálózati virtuális készülékeken keresztül kapcsolódnak az internethez. Ezek tűzfalat biztosítanak az Azure virtuális hálózat és az internet között.
 
-* **Az AD FS webalkalmazás-proxy (WAP) kiszolgálók**. A bejövő kéréseket a fiókpartner-szervezetek és a külső eszközökről AD FS-kiszolgáló működésének virtuális gépeken. A WAP-kiszolgálókkal egy szűrő, az AD FS-kiszolgáló közvetlen hozzáférés az internetről védelmi összekötőként. Csakúgy, mint az AD FS-kiszolgáló központi telepítése a WAP terheléselosztás kiszolgálófarm kiszolgálók lehetővé teszi nagyobb rendelkezésre állását és méretezhetőségét, mint központi telepítése különálló kiszolgálók gyűjteménye.
+* **AD FS webalkalmazás-proxy (WAP) kiszolgálók**. Ezek a virtuális gépek AD FS-kiszolgálókként működnek a partnerszervezetektől és a külső eszközöktől érkező kérelmek számára. A WAP-kiszolgálók szűrőként működnek, védelmet képezve az AD FS-kiszolgálók számára az internetről való közvetlen hozzáféréssel szemben. Ahogy az AD FS-kiszolgálók esetében is, a WAP-kiszolgálók farmban, terheléselosztással való üzemeltetése jobb rendelkezésre állást és méretezhetőséget biztosít, mint ha különálló kiszolgálók gyűjteményeként működtetné azokat.
   
   > [!NOTE]
-  > WAP-kiszolgálókkal telepítésével kapcsolatos részletes információkért lásd: [telepítése és a webalkalmazás-Proxy kiszolgáló konfigurálása][install_and_configure_the_web_application_proxy_server]
+  > Részletes információk a WAP-kiszolgálók telepítéséről: [A webalkalmazás-proxy kiszolgáló telepítése és konfigurálása][install_and_configure_the_web_application_proxy_server]
   > 
   > 
 
-* **Fiókpartner szervezetében dolgozó**. A fiókpartner-szervezet hozzáférést kérő webes alkalmazást futtat egy Azure-beli webalkalmazáshoz. A a fiókpartner-szervezet összevonási kiszolgáló hitelesíti a helyi kérelmekre, és elküldi a tartalmazó Azure-beli AD FS jogcímalapú biztonsági jogkivonatokat. Az Azure AD FS érvényesíti a biztonsági jogkivonatokat, és ha érvényes továbbíthatja a webalkalmazás Azure-beli engedélyezésére azokat a jogcímeket.
+* **Partnerszervezet**. Egy Azure-beli webalkalmazáshoz való hozzáférést kérő webes alkalmazást futtató partnerszervezet. A partnerszervezet összevonási kiszolgálója helyileg hitelesíti a kérelmeket, és elküldi a jogcímeket tartalmazó biztonsági jogkivonatokat az Azure-ban futó AD FS-nek. Az AD FS az Azure-ban érvényesíti a biztonsági jogkivonatokat, és az érvényeseket továbbítja az Azure-beli webalkalmazásnak engedélyezés céljából.
   
   > [!NOTE]
-  > Egy VPN-alagúton közvetlen hozzáférést biztosít az AD FS megbízható partnerek Azure átjáró használatával is konfigurálhatja. A partnerek érkező kérelmeket nem haladnak át a WAP-kiszolgálókkal.
+  > Emellett konfigurálhat egy VPN-alagutat is az Azure-átjáróval, amelyen keresztül közvetlen hozzáférést biztosíthat a megbízható partnerek számára. Az ezen partnerektől érkező kérelmek nem haladnak át a WAP-kiszolgálókon.
   > 
   > 
 
-A kijelzők a architektúra, amely nem kapcsolódik az AD FS kapcsolatos további információkért lásd a következő:
-- [A biztonságos hibrid hálózati architektúra végrehajtása az Azure-ban][implementing-a-secure-hybrid-network-architecture]
-- [A biztonságos hibrid hálózati architektúra Internet-hozzáféréssel rendelkező végrehajtása az Azure-ban][implementing-a-secure-hybrid-network-architecture-with-internet-access]
-- [Az Azure-ban egy biztonságos hibrid hálózati architektúra az Active Directory identitások megvalósítása][extending-ad-to-azure].
+További információkért az architektúra azon részeiről, amelyek nem az AD FS-hez kapcsolódnak, lásd:
+- [Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture]
+- [Biztonságos, internet-hozzáféréssel rendelkező hibrid hálózati architektúramegvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture-with-internet-access]
+- [Biztonságos, Active Directory identitásokkal rendelkező hibrid hálózati architektúra megvalósítása az Azure-ban][extending-ad-to-azure].
 
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei. 
 
 ### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
 
-Hozzon létre virtuális gépek a várt forgalom mennyiségét kezeléséhez elegendő erőforrással. Használja a meglévő AD FS a helyszíni kiindulási pontként futtató gépek méretét. Az erőforrás-használat figyelése. Méretezze át a virtuális gépeket, és csökkentheti, ha azok túl nagy.
+Olyan virtuális gépeket hozzon létre, amelyek a várt forgalom mennyiségének kezeléséhez elegendő erőforrással rendelkeznek. Kiindulási pontként használja az AD FS-t helyszínen futtató meglévő gépek méretét. Figyelje az erőforrás-használatot. Ha túl nagyok a virtuális gépek, átméretezheti és leskálázhatja azokat.
 
-Kövesse a felsorolt [a Windows virtuális gépek Azure-on futó][vm-recommendations].
+Kövesse a [Windows rendszerű virtuális gépek futtatása az Azure-on][vm-recommendations] című cikk javaslatait.
 
 ### <a name="networking-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
-Állítsa be a hálózati illesztő statikus magánhálózati IP-címekkel rendelkező AD FS- és WAP kiszolgálókat üzemeltető virtuális gépek mindegyikéhez.
+A hálózati adaptert minden, AD FS- és WAP-kiszolgálót futtató virtuális géphez statikus magánhálózati IP-címmel konfigurálja.
 
-Ne adja meg az AD FS virtuális gépek nyilvános IP-címeket. További információkért lásd: a biztonsági szempontok című szakaszban ismertetjük.
+Ne adjon nyilvános IP-címeket az AD FS-t futtató virtuális gépeknek. További információkért lásd a Biztonsági szempontok című szakaszt.
 
-Állítsa be az IP-cím, az elsődleges és másodlagos tartomány névkiszolgálók szolgáltatás (DNS) az egyes AD FS és a WAP VM hivatkozhasson rá az Active Directory Tartományi virtuális gépek hálózati adaptereihez. Az Active Directory Tartományi virtuális gépek DNS rendszerűnek kell lennie. Ez a lépés nem szükséges ahhoz, hogy egyes virtuális gépek a tartományhoz való csatlakozáshoz.
+Állítsa be az elsődleges és a másodlagos tartománynév-kiszolgálók (DNS) IP-címeit az egyes AD FS és WAP virtuális gépek hálózati adaptereihez úgy, hogy az Active Directory DS virtuális gépeire hivatkozzanak. Az Active Directory DS virtuális gépeknek DNS-t kell futtatniuk. Ez a lépés szükséges ahhoz, hogy az egyes virtuális gépek csatlakozhassanak a tartományhoz.
 
-### <a name="ad-fs-availability"></a>AD FS rendelkezésre állása 
+### <a name="ad-fs-availability"></a>Az AD FS rendelkezésre állása 
 
-Az AD FS-farm létrehozása a szolgáltatás rendelkezésre állásának növelése érdekében legalább két kiszolgálóval. A farm AD FS virtuális gépek különböző tárfiókok használata. Ez a megközelítés segít biztosítani, hogy egyetlen tárfiók hibája miatt nem teszi a teljes farm nem érhető el.
+Hozzon létre egy AD FS-farmot legalább két kiszolgálóval a szolgáltatás rendelkezésre állásának növeléséhez. Használjon különböző tárfiókokat a farm AD FS virtuális gépeihez. Ez a megközelítés segít biztosítani, hogy egyetlen tárfiók hibája miatt ne váljon elérhetetlenné a teljes farm.
 
 > [!IMPORTANT]
-> Azt javasoljuk, hogy használatát [által kezelt lemezeken](/azure/storage/storage-managed-disks-overview). Kezelt lemezeken nincs szükség a storage-fiók. Egyszerűen adja meg, méretének és típusú lemez, és azt magas rendelkezésre állású úgy van telepítve. A [architektúrák hivatkozhat](/azure/architecture/reference-architectures/) jelenleg nem telepítheti a felügyelt lemezek, de a [sablon építőelemeket](https://github.com/mspnp/template-building-blocks/wiki) központi telepítése a kezelt lemezeken 2-es verzióját frissíti.
+> Javasoljuk, hogy [felügyelt lemezeket](/azure/storage/storage-managed-disks-overview) használjon. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a lemez méretét és típusát, és az magas rendelkezésre állással lesz üzembe helyezve. [Referenciaarchitektúráink](/azure/architecture/reference-architectures/) jelenleg nem helyeznek üzembe felügyelt lemezeket, de a [sablonhoz való építőelemek](https://github.com/mspnp/template-building-blocks/wiki) hamarosan frissülnek, így a 2. verzió már képes lesz a felügyelt lemezek üzembe helyezésére.
 
-Hozzon létre külön az Azure rendelkezésre állási készletek az AD FS és WAP virtuális gépeket. Győződjön meg arról, hogy nincsenek-e legalább két virtuális gépek minden. Egyes rendelkezésre állási csoportot rendelkeznie kell legalább két frissítési tartományok és két tartalék tartományok.
+Hozzon létre külön Azure rendelkezésre állási csoportokat az AD FS és a WAP virtuális gépekhez. Ügyeljen arra, hogy legalább két virtuális gép legyen minden egyes csoportban. Az egyes rendelkezésre állási csoportoknak rendelkezniük kell legalább két frissítési tartománnyal és két tartalék tartománnyal.
 
-A terheléselosztó konfigurálására az AD FS virtuális gépek és WAP virtuális gépek az alábbiak szerint:
+Az AD FS és a WAP virtuális gépek terheléselosztóit a következőképpen konfigurálja:
 
-* Egy Azure terheléselosztó számára biztosít hozzáférést a WAP virtuális gépeket, és a osszák szét a farm AD FS-kiszolgáló belső terheléselosztót használja.
-* Port 443-as (HTTPS) az AD FS/WAP-kiszolgálókkal való szereplő forgalom csak továbbítja.
-* Adjon meg egy statikus IP-címet a terheléselosztóhoz.
-* Hozzon létre egy HTTPS helyett a TCP protokoll állapotmintáihoz. A ping paranccsal ellenőrizheti, hogy egy AD FS-kiszolgáló működik-e a 443-as portot.
+* Használjon Azure-terheléselosztót a WAP virtuális gépekhez való külső hozzáférés biztosítására, és egy belső terheléselosztót a farm AD FS-kiszolgálóira irányuló terhelés elosztására.
+* Az AD FS- és WAP-kiszolgálók felé kizárólag a 443-as porton (HTTPS) megjelenő forgalmat továbbítsa.
+* A terheléselosztónak statikus IP-címet adjon.
+* Állapotmintát a HTTPS helyett a TCP protokollal hozzon létre. Ha ellenőrizni kívánja, hogy működik-e egy adott AD FS-kiszolgáló, pingelje a 443-as portot.
   
   > [!NOTE]
-  > AD FS-kiszolgálók úgy próbál mintavételi használ a load balancer nem a HTTPS-végpontnak a kiszolgálónév jelzése (SNI) protokoll használatára.
+  > Az AD FS-kiszolgálók a Kiszolgálónév jelzése (SNI) protokollt használják, így ha egy HTTPS-végpont használatával próbál mintát venni, a terheléselosztó hibába ütközik.
   > 
   > 
-* Adja hozzá a DNS *A* rekord, a tartományhoz, az AD FS terheléselosztóhoz. Adja meg a terheléselosztó IP-címét, és adjon neki egy nevet a tartomány (például adfs.contoso.com). Ez a név az ügyfelek és az AD FS kiszolgálófarm eléréséhez használja a WAP-kiszolgálókkal.
+* Adja hozzá egy DNS *A*-rekordot az AD FS-terheléselosztó tartományához. Adja meg a terheléselosztó IP-címét, és adjon neki nevet a tartományban (például adfs.contoso.com). Ezt a nevet használják az ügyfelek és a WAP-kiszolgálók az AD FS-kiszolgálófarm eléréséhez.
 
-### <a name="ad-fs-security"></a>AD FS biztonsági 
+### <a name="ad-fs-security"></a>Az AD FS biztonsága 
 
-Közvetlen veszélyeknek való kitettség megelőzése, az AD FS-kiszolgáló az internethez. AD FS-kiszolgálók azok a számítógépek a tartományhoz, amely a biztonsági jogkivonat biztosításához teljes körű engedéllyel rendelkeznek. Ha egy kiszolgáló sérül, a rosszindulatú felhasználók kiadhatnak teljes körű hozzáférési jogkivonatot kibocsátani minden webes alkalmazáshoz és AD FS által védett összes összevonási kiszolgálóknak. Ha a rendszer megbízható partner helyekről nem csatlakoztatható külső felhasználók által érkező kérések kell kezelni, a WAP-kiszolgálókkal segítségével ezeket a kérelmeket kezeli. További információkért lásd: [összevonási kiszolgálóproxy elhelyezése][where-to-place-an-fs-proxy].
+Akadályozza meg az AD FS-kiszolgálók közvetlen elérését az internetről. Az AD FS-kiszolgálók tartományhoz kapcsolt számítógépek, amelyek teljes körű engedéllyel rendelkeznek a biztonsági jogkivonatok kiállításához. Ha egy kiszolgáló sérül, a rosszindulatú felhasználók teljes körű hozzáférési jogkivonatokat bocsáthatnak ki az AD FS által védett összes webalkalmazáshoz és összevont kiszolgálóhoz. Ha a rendszernek olyan kérelmeket is kezelnie kell, amelyek külső, nem megbízható partneroldalakról kapcsolódó felhasználóktól származnak, ezekhez a kérelmekhez használjon WAP-kiszolgálókat. További információkért lásd: [Összevonási kiszolgálóproxy elhelyezése][where-to-place-an-fs-proxy].
 
-Helyezze el az AD FS-kiszolgáló és a WAP-kiszolgálókkal rendelkező saját tűzfalak külön alhálózatokon. NSG-szabályok segítségével határozza meg a tűzfal-szabályokat. Ha átfogóbb védelmi van szüksége egy további biztonsági szegélyhálózati körül kiszolgálók egy párt alhálózatok segítségével megvalósítható, és virtuális készülékekre (NVAs), a dokumentumban leírt [biztonságos hibrid hálózat az Azure-ban Internet-hozzáféréssel rendelkező architektúra][implementing-a-secure-hybrid-network-architecture-with-internet-access]. Összes tűzfalnak engedélyezni kell az adatforgalmat a 443-as (HTTPS) porton.
+Az AD FS- és a WAP-kiszolgálókat különálló alhálózatokban helyezze el, saját tűzfallal. A tűzfalszabályok meghatározásához használhat NSG-szabályokat. Ha átfogóbb védelemre van szüksége, felállíthat egy kiegészítő biztonsági határt is a kiszolgálók köré két alhálózat és hálózati virtuális készülékek (NVA-k) használatával a [Biztonságos, internet-hozzáféréssel rendelkező hibrid hálózati architektúramegvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture-with-internet-access] című dokumentumban leírtak szerint. Az összes tűzfalnak engedélyezni kell az adatforgalmat a 443-as (HTTPS) porton.
 
-Korlátozhatja a hozzáférést a közvetlen bejelentkezés az AD FS és a WAP-kiszolgálókat. Csak a DevOps személyzet kell kapcsolódnia.
+Korlátozza a közvetlen bejelentkezést az AD FS- és a WAP-kiszolgálókra. Csak a fejlesztési és üzemeltetési csapat számára legyen lehetséges a kapcsolódás.
 
-A WAP-kiszolgálókkal nem csatlakozik a tartományhoz.
+A WAP-kiszolgálókat ne csatlakoztassa a tartományhoz.
 
-### <a name="ad-fs-installation"></a>Az AD FS-telepítés 
+### <a name="ad-fs-installation"></a>Az AD FS telepítése 
 
-A cikk [egy összevonási kiszolgálók farmja központi telepítésének] [ Deploying_a_federation_server_farm] részletes útmutatást nyújt a telepítése és konfigurálása az AD FS. A következő feladatokat a farm első AD FS-kiszolgáló konfigurálása előtt:
+Az [Összevonási kiszolgálók farmjának központi telepítése][Deploying_a_federation_server_farm] című cikkben részletes útmutatás található az AD FS telepítéséhez és konfigurálásához. A farm első AD FS-kiszolgálójának konfigurálása előtt végezze el a következő műveleteket:
 
-1. A kiszolgáló hitelesítése nyilvánosan megbízható tanúsítványok beszerzését. A *tulajdonosnévvel* tartalmaznia kell a név használni kívánt az összevonási szolgáltatás eléréséhez. Ez lehet a DNS-név, a terheléselosztóhoz, például regisztrált *adfs.contoso.com* (ne használja, mint a helyettesítő nevek **. contoso.com*, biztonsági okokból). Egy tanúsítvány használható az összes AD FS kiszolgáló virtuális gépeken. Vásárolhat egy tanúsítványt egy megbízható hitelesítésszolgáltatótól, de ha a szervezete használja az Active Directory tanúsítványszolgáltatás létrehozhat saját. 
+1. Szerezzen be egy nyilvánosan megbízható tanúsítványt a kiszolgálók hitelesítéséhez. A *tulajdonosnévnek* azt a nevet kell tartalmaznia, amelyet az ügyfelek az összevonási szolgáltatás eléréséhez használnak. Ez lehet a terheléselosztóhoz regisztrált DNS-név, például *adfs.contoso.com* (biztonsági okokból ne használjon helyettesítő karaktereket tartalmazó neveket, mint például a **.contoso.com*). Használja ugyanazt a tanúsítványt az összes AD FS-kiszolgáló virtuális gépein. Tanúsítványt megbízható hitelesítésszolgáltatótól vásárolhat, de ha a vállalata az Active Directory tanúsítványszolgáltatást használja, létrehozhatja a sajátját is. 
    
-    A *tulajdonos alternatív neve* használják az eszközregisztrációs szolgáltatást (DRS) való hozzáférés engedélyezése a külső eszközökről. Ezt a következő formában kell *: enterpriseregistration.contoso.com*.
+    A *tulajdonos alternatív nevét* az eszközregisztrációs szolgáltatás (DRS) használja a külső eszközökről való hozzáférés engedélyezéséhez. Ennek a következő formátumban kell lennie: *enterpriseregistration.contoso.com*.
    
-    További információkért lásd: [beszerzése és a Secure Sockets Layer (SSL) tanúsítvány konfigurálása az AD FS][adfs_certificates].
+    További információkért lásd: [Secure Sockets Layer (SSL-) tanúsítvány beszerzése és konfigurálása][adfs_certificates].
 
-2. A tartományvezérlőn hozzon létre egy új legfelső szintű kulcsot a kulcsszolgáltató szolgáltatás számára. A hatékony idő az aktuális idő 10 óra (Ez a konfiguráció csökkenti a késés terjesztése és a tartomány közötti kulcsok szinkronizálása előforduló) mínusz beállítása. Ez a lépés nem a csoport az AD FS szolgáltatás futtatásához használt szolgáltatásfiók létrehozása támogatásához szükséges. A következő PowerShell-parancs ennek példáját mutatja be:
+2. A tartományvezérlőn hozzon létre egy új legfelső szintű kulcsot a kulcsszolgáltató szolgáltatás számára. Az érvényesség kezdetének adja meg az aktuális időpontnál 10 órával korábbi időpontot (ez a konfiguráció csökkenti a késést, amely a kulcsok a tartományban való kiosztásakor és szinkronizálásakor léphet fel). Ez a lépés az AD FS-szolgáltatás futtatásához használt csoportos szolgáltatásfiók létrehozásának támogatásához szükséges. A következő PowerShell-parancs erre mutat példát:
    
     ```powershell
     Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
     ```
 
-3. Minden AD FS-kiszolgáló virtuális gép felvételét a tartományba.
+3. Minden AD FS-kiszolgáló virtuális gépét vegye fel a tartományba.
 
 > [!NOTE]
-> AD FS-ben az elsődleges tartományvezérlő (PDC) emulátorának rugalmas egy fő művelettel futtató tartományvezérlőt telepíti (FSMO) szerepkör, a tartomány fut és elérhető az AD FS virtuális gépek kell lennie. << RBC: van-e lehetőség legyen ez kevesebb ismétlődő? >>
+> Az AD FS telepítéséhez a tartomány elsődleges tartományvezérlő (PDC) emulátorának mozgó egyedüli főkiszolgálói (FSMO) szerepkörét futtató tartományvezérlőnek futnia kell, és elérhetőnek kell lennie az AD FS virtuális gépekről. <<RBC: Lehetséges-e csökkenteni az ismétlődések számát?>>
 > 
 > 
 
 ### <a name="ad-fs-trust"></a>AD FS-megbízhatóság 
 
-Az Active Directory összevonási szolgáltatások telepítése, és az összevonási kiszolgálók a fiókpartner-szervezetek közötti összevonási megbízhatósági kapcsolatot létesítsen. Konfigurálja a jogcímek szűrése és a leképezés szükséges. 
+Alakítson ki összevonási megbízhatóságot az üzemelő AD FS és a partnerszervezetek összevonási kiszolgálói között. Konfigurálja az összes szükséges jogcímszűrést és -leképezést. 
 
-* Minden egyes partnerszervezethez DevOps személyzet meg kell adnia egy függőentitás-megbízhatóságot az AD FS-kiszolgálókon keresztül érhető el webes alkalmazásokhoz.
-* A szervezet DevOps munkatársaival kell konfigurálnia a jogcím-szolgáltatói megbízhatóság ahhoz, hogy bízzon meg a jogcímeket, amely a fiókpartner-szervezetek, adja meg az AD FS-kiszolgáló.
-* A szervezet DevOps munkatársaival is be kell állítania az AD FS felelt meg a jogcímek továbbítása a szervezet webes alkalmazásokhoz.
+* Minden egyes partnerszervezet fejlesztési és üzemeltetési csapatának meg kell adnia egy függőentitás-megbízhatóságot az AD FS-kiszolgálókon keresztül elérhető webes alkalmazásokhoz.
+* Vállalata fejlesztési és üzemeltetési csapatának be kell állítania a jogcímszolgáltatói megbízhatóságot ahhoz, hogy lehetővé tegye az AD FS-kiszolgálók számára a partnerszervezetek által biztosított jogcímek megbízhatóként való kezelését.
+* A vállalat fejlesztési és üzemeltetési csapatának emellett azt is be kell állítania, hogy az AD FS átadja a jogcímeket a vállalat szervezetének webalkalmazásainak.
   
-További információkért lásd: [összevonási megbízhatósági létrehozó][establishing-federation-trust].
+További információkért lásd: [Összevonási megbízhatóság létrehozása][establishing-federation-trust].
 
-A vállalat webes alkalmazások közzététele, és elérhetővé teszi azokat a külső partnerekkel való használatával előhitelesítési segítségével a WAP-kiszolgálókkal. További információkért lásd: [AD FS előhitelesítést használó alkalmazások közzétételének][publish_applications_using_AD_FS_preauthentication]
+Tegye közzé vállalata webalkalmazásait, és tegye elérhetővé azokat a külső partnerek számára a WAP-kiszolgálókon keresztüli előhitelesítéssel. További információkért lásd: [Alkalmazások közzététele AD FS előhitelesítéssel][publish_applications_using_AD_FS_preauthentication]
 
-Az AD FS támogatja a token átalakítása és növelését. Az Azure Active Directory nem biztosítja ezt a szolgáltatást. Az AD FS a megbízhatósági kapcsolatok beállításakor a következőket teheti:
+Az AD FS támogatja a jogkivonatok átalakítását és kiegészítését. Az Azure Active Directory nem biztosítja ezt a funkciót. Az AD FS-sel a megbízhatósági kapcsolatok beállításakor a következőket teheti:
 
-* A jogcímek átalakításához engedélyezési szabályok konfigurálása. Például egy nem Microsoft-partner szervezet olyanra, amely az adott Active Directory Tartományi adhatják meg a szervezet által használt alakból csoport biztonsági is leképezheti.
-* Alakítsa át a jogcímeket egy adott formátumból egy másikra. Például leképezheti a SAML 2.0 SAML 1.1, ha az alkalmazás csak SAML 1.1 jogcímek támogatja.
+* Konfigurálhatja a jogcímek átalakítását az engedélyezési szabályokhoz. Például leképezheti a csoportos biztonságot egy nem Microsoft-partner által használt ábrázolásból olyan adatokká, amelyeket az Active Directory DS hitelesíteni tud az Ön vállalatában.
+* Átalakíthatja a jogcímeket másik formátumba. Például leképezést végezhet a SAML 2.0-ról a SAML 1.1-re, ha alkalmazása csak a SAML 1.1 formátumú jogcímeket támogatja.
 
-### <a name="ad-fs-monitoring"></a>Az AD FS figyelése 
+### <a name="ad-fs-monitoring"></a>AD FS-figyelés 
 
-A [Microsoft System Center felügyeleti csomag az Active Directory összevonási szolgáltatások 2012 R2] [ oms-adfs-pack] proaktív és reaktív felügyelete, az összevonási kiszolgáló az AD FS üzembe helyezése. Ez a felügyeleti csomag figyeli:
+Az [Active Directory 2012 R2 összevonási szolgáltatásokhoz készült Microsoft System Center felügyeleti csomag][oms-adfs-pack] proaktív és reaktív felügyeletet is biztosít az összevonási kiszolgálóhoz tartozó AD FS üzemelő példányához. Ez a felügyeleti csomag a következőket figyeli:
 
-* Az események, hogy az AD FS szolgáltatás az eseménynaplókban rögzíti.
-* Az AD FS teljesítményszámlálók gyűjtése a teljesítményadatokat. 
-* Általános állapotát, az AD FS rendszer és a webes alkalmazások (függő entitások), és lehetővé teszi a riasztások kritikus hibák és figyelmeztetések. 
+* AD FS szolgáltatás által az eseménynaplókban rögzített eseményeket.
+* Az AD FS teljesítményszámlálói által gyűjtött teljesítményadatokat. 
+* A AD FS rendszer és a webes alkalmazások (függő entitások) általános állapotát. Emellett riasztásokat biztosít a kritikus fontosságú problémákról és figyelmeztetésekről. 
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-A következőket kell figyelembe venni, a cikk összesített [az AD FS üzembe helyezés megtervezésében][plan-your-adfs-deployment], egyfajta kiindulópontot biztosítva az AD FS-farmok méretezési:
+AD FS-farmok méretezésének megkezdéséhez lásd [Az AD FS üzembe helyezésének megtervezése][plan-your-adfs-deployment] című cikkben összefoglalt szempontokat:
 
-* Ha kevesebb mint 1000 felhasználó, dedikált kiszolgálókat nem hoz létre, de ehelyett mindegyik az Active Directory Tartományi kiszolgálón a felhőben az AD FS telepítéséhez. Győződjön meg arról, hogy rendelkezik-e legalább két Active Directory Tartományi kiszolgálók rendelkezésre álljon. Egyetlen WAP-kiszolgáló létrehozása.
-* Ha 1000 és 15000 felhasználók között, hozzon létre két dedikált AD FS-kiszolgáló és két dedikált WAP-kiszolgálókkal.
-* Ha 15000 és 60000 felhasználók között, hozzon létre három és öt dedikált AD FS-kiszolgáló és legalább két dedikált WAP-kiszolgáló között.
+* Ha 1000-nél kevesebb felhasználóval rendelkezik, ne hozzon létre dedikált kiszolgálókat. Ehelyett telepítse az AD FS-t a felhőben található minden egyes Active Directory DS-kiszolgálóra. A rendelkezésre állás fenntartása érdekében győződjön meg arról, hogy legalább két Active Directory DS-kiszolgálóval rendelkezik. Egyetlen WAP-kiszolgálót hozzon létre.
+* Ha felhasználóinak száma 1000 és 15 000 között van, hozzon létre két dedikált AD FS-kiszolgálót és két dedikált WAP-kiszolgálót.
+* Ha felhasználóinak száma 15 000 és 60 000 között van, hozzon létre 3–5 dedikált AD FS-kiszolgálót és legalább két dedikált WAP-kiszolgálót.
 
-Ezeket a szempontokat azt feltételezik, kettős négymagos virtuális gép (szabványos D4_v2 vagy nagyobb frekvenciával) használt méretek az Azure-ban.
+Ezeket a szempontok azt feltételezik, hogy kettős négymagos virtuálisgép-méretet (szabványos D4_v2 vagy jobb) használ az Azure-ban.
 
-Használatakor a belső Windows-adatbázis AD FS konfigurációs adatainak tárolásához, azonban legfeljebb nyolc, a farm AD FS-kiszolgáló számára. Ha várhatóan, hogy szüksége lesz a jövőben további, használja az SQL Server. További információkért lásd: [az AD FS konfigurációs adatbázis szerepe][adfs-configuration-database].
+Ha a belső Windows-adatbázist használja az AD FS konfigurációs adatainak tárolásához, legfeljebb nyolc AD FS-kiszolgálót használhat a farmban. Ha várhatóan többre lesz szüksége a jövőben, az SQL Servert használja. További információkért lásd: [Az AD FS konfigurációs adatbázisának szerepe][adfs-configuration-database].
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-SQL Server vagy a belső Windows-adatbázis segítségével az AD FS konfigurációs adatainak tárolására. A belső Windows-adatbázis alapvető redundanciát biztosít. Módosításokat írja közvetlenül csak egy AD FS adatbázis az AD FS fürtben, amíg a többi kiszolgáló lekéréses replikáció segítségével hozzájuk tartozó adatbázisok naprakészen tartása. Adja meg az SQL Server használatával is teljes adatbázis-redundancia és a Feladatátvételi fürtszolgáltatás vagy tükrözés használata magas rendelkezésre állású.
+Az AD FS konfigurációs adatainak tárolására használhatja az SQL Servert vagy a belső Windows-adatbázist. A belső Windows-adatbázis alapvető redundanciát biztosít. A rendszer kizárólag az AD FS-fürt egyik AD FS-adatbázisába írja a módosításokat. A többi kiszolgáló leküldéses replikációval tartja naprakészen az adatbázisokat. Az SQL Server használata teljes adatbázis-redundanciát és magas rendelkezésre állást biztosíthat feladatátvételi fürtszolgáltatással vagy tükrözéssel.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-DevOps személyzet kell készíteni a következő feladatok végezhetők el:
+A fejlesztési és üzemeltetési csapatnak a következő feladatok elvégzésére kell felkészülnie:
 
-* Az összevonási kiszolgálók, például az AD FS-farm kezelése, az összevonási kiszolgálókon a megbízhatósági házirend kezelése és az összevonási szolgáltatás által használt tanúsítványok kezelése kezelése.
-* A WAP-kiszolgálókkal, beleértve a WAP-farmot, és a tanúsítványok kezelése kezelése.
-* Webes alkalmazások, beleértve a függő entitások számára, a hitelesítési módszerek és a jogcímek leképezések konfigurálása kezelése.
-* AD FS-összetevők biztonsági mentéséről.
+* Az összevonási kiszolgálók kezelése, beleértve az AD FS-farm, az összevonási kiszolgálókhoz tartozó megbízhatósági házirendek és az összevonási szolgáltatások által használt tanúsítványok kezelését.
+* A WAP-kiszolgálók kezelése, beleértve a WAP-farmok és a tanúsítványok kezelését.
+* A webalkalmazások kezelése, beleértve a függő entitások, a hitelesítési módszerek és a jogcímleképezések konfigurálását.
+* Az AD FS-összetevők biztonsági mentése.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Az AD FS a HTTPS protokollt használja, ezért győződjön meg arról, hogy az NSG-szabályok az alhálózat tartalmazó webes réteg virtuális gépek engedély HTTPS-kéréseket. Ezeket a kérelmeket az alhálózatok, a webes réteg, üzleti szint, adatrétegbeli, személyes DMZ, nyilvános DMZ és az AD FS-kiszolgáló tartalmazó alhálózat tartalmazó is származnak a helyszíni hálózat.
+Az AD FS a HTTPS protokollt használja, ezért győződjön meg arról, hogy a webes réteg virtuális gépeit tartalmazó alhálózatra vonatkozó NSG-szabályok engedélyezik a HTTPS-kérelmeket. Ezek a kérelmek származhatnak a helyszíni hálózatról, a webes, az üzleti vagy az adatréteget tartalmazó alhálózatokról, a privát vagy a nyilvános DMZ-ről vagy az AD FS-kiszolgálókat tartalmazó alhálózatról.
 
-Érdemes lehet virtuális hálózati berendezések csoportja, amely a virtuális hálózat széle a naplózási célokra áthaladó forgalom részletes információkat naplózza.
+Érdemes lehet virtuális hálózati készülékeket használni, amelyek naplózzák a részletes információkat a virtuális hálózat peremén átmenő forgalomról.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-cli] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az [Azure CLI][azure-cli] legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
+1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
 
-2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
+2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
 
 3. Futtassa az alábbi parancsot:
    
@@ -226,64 +229,64 @@ A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
     ```
    
-    Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
+    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
    
     A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
    
-    A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
+    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
    
-   * `Onpremise`: A helyszíni szimulált környezetben telepíti. A központi telepítés tesztelése és kísérletet, ha nem rendelkezik meglévő helyszíni hálózat, vagy ha azt szeretné, hogy a referencia-architektúrában módosítása nélkül tesztelheti a meglévő konfigurációját a helyi hálózati is használható.
-   * `Infrastructure`: a virtuális hálózat infrastruktúra és a jump be telepíti.
-   * `CreateVpn`: egy Azure virtuális hálózati átjáró telepíti, és azt a szimulált a helyszíni hálózathoz csatlakozik.
-   * `AzureADDS`: központilag telepíti az Active Directory Tartományi kiszolgálóként működnek virtuális gépek, virtuális gépeken telepíti az Active Directory, és létrehozza a tartományt az Azure-ban.
-   * `AdfsVm`: az AD FS virtuális gépeket telepít, és csatlakoztatja őket a tartományhoz az Azure-ban.
-   * `PublicDMZ`: az Azure nyilvános DMZ telepíti.
-   * `ProxyVm`: az AD FS proxy virtuális gépeket telepít, és csatlakoztatja őket a tartományhoz az Azure-ban.
-   * `Prepare`: az előző központitelepítéseinek listáját, telepíti. **Ez a lehetőség ajánlott, ha egy teljesen új központi telepítést hoz létre, és nem rendelkezik meglévő helyszíni infrastruktúra.** 
-   * `Workload`: nem kötelezően telepíti a webes, üzleti és adat réteg virtuális gépek és a támogató hálózati. Nem tartalmazza a `Prepare` telepítési módban.
-   * `PrivateDMZ`: nem kötelezően telepíti a titkos DMZ elé Azure-ban a `Workload` fent telepített virtuális gépek. Nem tartalmazza a `Prepare` telepítési módban.
+   * `Onpremise`: Egy szimulált helyszíni környezetet helyez üzembe. Ezt a környezetet használhatja tesztelésre és kísérletezésre, ha nem rendelkezik már meglévő helyszíni hálózattal, vagy akkor, ha ki szeretné próbálni ezt a referenciaarchitektúrát a meglévő helyszíni hálózata konfigurációjának módosítása nélkül.
+   * `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe.
+   * `CreateVpn`: egy Azure-beli virtuális hálózati átjárót telepít, és csatlakoztatja a szimulált helyszíni hálózathoz.
+   * `AzureADDS`: üzembe helyezi az Active Directory DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és létrehozza a tartományt az Azure-ban.
+   * `AdfsVm`: üzembe helyezi az AD FS virtuális gépeket, és csatlakoztatja azokat az Azure-beli tartományhoz.
+   * `PublicDMZ`: üzembe helyezi a nyilvános DMZ-t az Azure-ban.
+   * `ProxyVm`: üzembe helyezi az AD FS proxy-virtuálisgépeket, és csatlakoztatja azokat az Azure-beli tartományhoz.
+   * `Prepare`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha teljesen új környezetet épít, és még nincs meglévő helyszíni infrastruktúrája.** 
+   * `Workload`: választhatóan üzembe helyezi a webes, az üzleti és az adatszintű virtuális gépeket és a támogató hálózatot. A `Prepare` üzembe helyezési mód nem tartalmazza.
+   * `PrivateDMZ`: választhatóan üzembe helyezi a privát DMZ-t az Azure-ban a fent telepített `Workload` virtuális gépek elé. A `Prepare` üzembe helyezési mód nem tartalmazza.
 
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha követte a `Prepare` beállítást, a központi telepítést fogad több órát, és az üzenettel befejeződött`Preparation is completed. Please install certificate to all AD FS and proxy VMs.`
+4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `Prepare` lehetőséget választotta, telepítést több órát is igénybe vehet, és a következő üzenettel fejeződik be: `Preparation is completed. Please install certificate to all AD FS and proxy VMs.`
 
-5. Az Ugrás panel újraindítása (*ra-AD FS-mgmt-vm1* a a *ra-AD FS-security-rg* csoport) engedélyezi a DNS-beállítások érvénybe léptetéséhez.
+5. Indítsa újra a jump boxot (*ra-adfs-mgmt-vm1* a *ra-adfs-security-rg* csoportban) a DNS-beállítások érvénybe léptetéséhez.
 
-6. [Az AD FS SSL-tanúsítvány beszerzése] [ adfs_certificates] és a tanúsítvány telepítése az AD FS virtuális gépeken. Figyelje meg, hogy a kapcsolódás őket a jump mezőben keresztül. Az IP-címek *10.0.5.4* és *10.0.5.5*. Az alapértelmezett felhasználónév az *contoso\testuser* jelszóval  *AweSome@PW* .
+6. [Szerezzen be egy SSL-tanúsítványt az AD FS számára][adfs_certificates], és telepítse azt az AD FS-t futtató virtuális gépeken. Vegye figyelembe, hogy ezekhez a jump boxon keresztül is csatlakozhat. Az IP-címek <em>10.0.5.4</em> és <em>10.0.5.5</em>. Az alapértelmezett felhasználónév a <em>contoso\testuser</em> a következő jelszóval:  <em>AweSome@PW</em>.
    
    > [!NOTE]
-   > A megjegyzéseket, a telepítés-ReferenceArchitecture.ps1 parancsfájl ezen a ponton részletes útmutatást egy önaláírt teszttanúsítványt és a szolgáltató használatával hozhat létre a `makecert` parancsot. Azonban elvégzi ezeket a lépéseket, mint egy **tesztelése** csak a makecert éles környezetben által létrehozott tanúsítványok használata nélkül.
+   > A Deploy-ReferenceArchitecture.ps1 szkript megjegyzései ezen a ponton részletes útmutatót adnak egy önaláírt teszttanúsítvány és -hitelesítésszolgáltató létrehozásához a `makecert` paranccsal. Ezeket a lépéseket azonban kizárólag **tesztelésre** használja, és a makecert által létrehozott tanúsítványokat ne használja éles környezetben.
    > 
    > 
 
-7. Futtassa a következő PowerShell-parancsot az AD FS kiszolgálófarm telepítése:
+7. Futtassa a következő PowerShell-parancsot az AD FS-kiszolgálófarm telepítéséhez:
    
     ```powershell
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Adfs
     ``` 
 
-8. Ugrás a keret, tallózással `https://adfs.contoso.com/adfs/ls/idpinitiatedsignon.htm` tesztelése az AD FS telepítése (Előfordulhat, hogy kapott egy tanúsítványt, hogy figyelmen kívül hagyhatja a teszteléshez figyelmeztetés). Győződjön meg arról, hogy megjelenik-e a Contoso Corporation bejelentkezési oldal. Jelentkezzen be a *contoso\testuser* jelszóval  *AweS0me@PW* .
+8. A jump boxon lépjen a `https://adfs.contoso.com/adfs/ls/idpinitiatedsignon.htm` helyre az AD FS-telepítés teszteléséhez (előfordulhat, hogy ekkor figyelmeztetést kap a tanúsítványra vonatkozóan, amelyet ebben a tesztben figyelmen kívül hagyhat). Győződjön meg arról, hogy a Contoso Corporation bejelentkezési oldala jelenik meg. Jelentkezzen be <em>contoso\testuser</em> néven a következő jelszóval: <em>AweS0me@PW</em>.
 
-9. Az SSL-tanúsítvány telepítése az AD FS proxy virtuális gépek. Az IP-címek *10.0.6.4* és *10.0.6.5*.
+9. Telepítse az SSL-tanúsítványt az AD FS proxy-virtuálisgépeken. Az IP-címek *10.0.6.4* és *10.0.6.5*.
 
-10. Futtassa a következő PowerShell-parancsot az első AD FS-proxy kiszolgálót:
+10. Futtassa a következő PowerShell-parancsot az első AD FS-proxykiszolgáló üzembe helyezéséhez:
    
     ```powershell
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Proxy1
     ```
 
-11. Kövesse az utasításokat a parancsfájl által megjelenített első proxykiszolgáló a telepítés tesztelésére.
+11. Kövesse a szkript által megjelenített utasításokat az első proxykiszolgáló telepítésének teszteléséhez.
 
-12. Futtassa a következő PowerShell-parancsot a második proxy kiszolgálót:
+12. Futtassa a következő PowerShell-parancsot a második proxykiszolgáló üzembe helyezéséhez:
     
     ```powershell
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Proxy2
     ```
 
-13. Kövesse az utasításokat, a parancsfájl által megjelenített, a teljes proxykonfigurációt teszteléséhez.
+13. Kövesse a parancsfájl által megjelenített utasításokat a teljes proxykonfiguráció teszteléséhez.
 
 ## <a name="next-steps"></a>További lépések
 
-* További tudnivalók [az Azure Active Directory][aad].
-* További tudnivalók [az Azure Active Directory B2C][aadb2c].
+* Az [Azure Active Directory][aad] ismertetése.
+* Az [Azure Active Directory B2C][aadb2c] ismertetése.
 
 <!-- links -->
 [extending-ad-to-azure]: adds-extend-domain.md
@@ -319,5 +322,5 @@ A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia
 [github]: https://github.com/mspnp/reference-architectures/tree/master/identity/adfs
 [adfs_certificates]: https://technet.microsoft.com/library/dn781428(v=ws.11).aspx
 [considerations]: ./considerations.md
-[visio-download]: https://archcenter.azureedge.net/cdn/identity-architectures.vsdx
-[0]: ./images/adfs.png "biztonságos és az Active Directory hibrid hálózati architektúra"
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/identity-architectures.vsdx
+[0]: ./images/adfs.png "Biztonságos hibrid hálózati architektúra az Active Directoryval"

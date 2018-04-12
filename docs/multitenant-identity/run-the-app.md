@@ -1,15 +1,15 @@
 ---
-title: "A felmérések alkalmazás futtatása"
-description: "A felmérések mintaalkalmazás futtatása helyben"
+title: A Surveys alkalmazás futtatása
+description: A felmérések mintaalkalmazás futtatása helyben
 author: MikeWasson
 ms:date: 07/21/2017
-ms.openlocfilehash: d17cd939c1172edd0947b30ea13657806060b5f1
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 28d976374e5d6dbad434873eef149704f26a1f3f
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="run-the-surveys-application"></a>A felmérések alkalmazás futtatása
+# <a name="run-the-surveys-application"></a>A Surveys alkalmazás futtatása
 
 Ez a cikk ismerteti, hogyan futtathatók a [Dejójáték felmérések](./tailspin.md) helyileg, a Visual Studio alkalmazás. Ezeket a lépéseket az Azure alkalmazás nem telepít. Azonban szüksége lesz egy Azure-erőforrások létrehozásához &mdash; az Azure Active Directory (Azure AD) címtár és a Redis gyorsítótár.
 
@@ -23,7 +23,7 @@ A lépések összefoglalása itt található:
 6. Alkalmazás-szerepkörök hozzáadása a felhasználók számára.
 
 ## <a name="prerequisites"></a>Előfeltételek
--   [A Visual Studio 2017][VS2017]
+-   [Visual Studio 2017][VS2017]
 -   [A Microsoft Azure](https://azure.microsoft.com) fiók
 
 ## <a name="create-the-tailspin-tenant"></a>A Dejójáték bérlő létrehozása
@@ -52,15 +52,15 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
 
 3. Kattintson a **App regisztrációk** > **új alkalmazás regisztrációja**.
 
-4.  Az a **létrehozása** panelen adja meg a következő adatokat:
+4. Az a **létrehozása** panelen adja meg a következő adatokat:
 
-  - **Név**:`Surveys.WebAPI`
+   - **Név**: `Surveys.WebAPI`
 
-  - **Az alkalmazástípus**:`Web app / API`
+   - **Az alkalmazástípus**: `Web app / API`
 
-  - **Bejelentkezés URL-cím**:`https://localhost:44301/`
+   - **Bejelentkezés URL-cím**: `https://localhost:44301/`
    
-  ![](./images/running-the-app/register-web-api.png) 
+   ![](./images/running-the-app/register-web-api.png) 
 
 5. Kattintson a **Create** (Létrehozás) gombra.
 
@@ -78,15 +78,15 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
 
 ## <a name="register-the-surveys-web-app"></a>A felmérések webes alkalmazás regisztrálása 
 
-1.  Lépjen vissza a **App regisztrációk** panelen, majd kattintson **új alkalmazás regisztrációja**.
+1. Lépjen vissza a **App regisztrációk** panelen, majd kattintson **új alkalmazás regisztrációja**.
 
-2.  Az a **létrehozása** panelen adja meg a következő adatokat:
+2. Az a **létrehozása** panelen adja meg a következő adatokat:
 
-  - **Név**:`Surveys`
-  - **Az alkalmazástípus**:`Web app / API`
-  - **Bejelentkezés URL-cím**:`https://localhost:44300/`
+   - **Név**: `Surveys`
+   - **Az alkalmazástípus**: `Web app / API`
+   - **Bejelentkezés URL-cím**: `https://localhost:44300/`
    
-    Figyelje meg, hogy a bejelentkezési URL-cím rendelkezik-e a port számát a `Surveys.WebAPI` alkalmazást az előző lépésben.
+   Figyelje meg, hogy a bejelentkezési URL-cím rendelkezik-e a port számát a `Surveys.WebAPI` alkalmazást az előző lépésben.
 
 3. Kattintson a **Create** (Létrehozás) gombra.
  
@@ -150,36 +150,36 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
 
     ![](./images/running-the-app/manifest.png)
  
-3.  Adja hozzá a következő JSON a `appRoles` elemet. Új GUID azonosítóját készítése a `id` tulajdonságok.
+3. Adja hozzá a következő JSON a `appRoles` elemet. Új GUID azonosítóját készítése a `id` tulajdonságok.
 
-    ```json
-    {
-      "allowedMemberTypes": ["User"],
-      "description": "Creators can create surveys",
-      "displayName": "SurveyCreator",
-      "id": "<Generate a new GUID. Example: 1b4f816e-5eaf-48b9-8613-7923830595ad>",
-      "isEnabled": true,
-      "value": "SurveyCreator"
-    },
-    {
-      "allowedMemberTypes": ["User"],
-      "description": "Administrators can manage the surveys in their tenant",
-      "displayName": "SurveyAdmin",
-      "id": "<Generate a new GUID>",  
-      "isEnabled": true,
-      "value": "SurveyAdmin"
-    }
-    ```
+   ```json
+   {
+     "allowedMemberTypes": ["User"],
+     "description": "Creators can create surveys",
+     "displayName": "SurveyCreator",
+     "id": "<Generate a new GUID. Example: 1b4f816e-5eaf-48b9-8613-7923830595ad>",
+     "isEnabled": true,
+     "value": "SurveyCreator"
+   },
+   {
+     "allowedMemberTypes": ["User"],
+     "description": "Administrators can manage the surveys in their tenant",
+     "displayName": "SurveyAdmin",
+     "id": "<Generate a new GUID>",  
+     "isEnabled": true,
+     "value": "SurveyAdmin"
+   }
+   ```
 
-5.  Az a `knownClientApplications` tulajdonság, vegye fel a felmérések webes alkalmazás, amely korábban a felmérések alkalmazás regisztrálásakor kapott Alkalmazásazonosító. Példa:
+4. Az a `knownClientApplications` tulajdonság, vegye fel a felmérések webes alkalmazás, amely korábban a felmérések alkalmazás regisztrálásakor kapott Alkalmazásazonosító. Példa:
 
-  ```json
-  "knownClientApplications": ["be2cea23-aa0e-4e98-8b21-2963d494912e"],
-  ```
+   ```json
+   "knownClientApplications": ["be2cea23-aa0e-4e98-8b21-2963d494912e"],
+   ```
 
-  Ezt a beállítást a felmérések alkalmazás hozzáadása a webes API hívásához jogosult ügyfelek listáját.
+   Ezt a beállítást a felmérések alkalmazás hozzáadása a webes API hívásához jogosult ügyfelek listáját.
 
-6.  Kattintson a **Save** (Mentés) gombra.
+5. Kattintson a **Save** (Mentés) gombra.
 
 Most ismételje meg a felmérések alkalmazást ugyanezekkel a lépésekkel kivéve ne adjon hozzá egy bejegyzést a `knownClientApplications`. Használja az ugyanazon szerepkör-definíciók, de új GUID azonosítók előállításához.
 
@@ -225,8 +225,8 @@ A Redis gyorsítótár létrehozásával kapcsolatos további információkért 
 
     - `AzureAd:ClientId`: A felmérések alkalmazás az alkalmazás azonosítója.
     - `AzureAd:ClientSecret`: A kulcs az Azure ad-ben a felmérések alkalmazás regisztrálásakor létrehozott.
-    - `AzureAd:WebApiResourceId`: A App ID URI Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor megadott. Az űrlap rendelkeznie kell`https://<directory>.onmicrosoft.com/surveys.webapi`
-    - `Redis:Configuration`: Hozhat létre. Ez a karakterlánc a DNS neve alapján a Redis gyorsítótárt és az elsődleges elérési kulcsot. Például "tailspin.redis.cache.windows.net,password=2h5tBxxx,ssl=true."
+    - `AzureAd:WebApiResourceId`: A App ID URI Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor megadott. Az űrlap rendelkeznie kell `https://<directory>.onmicrosoft.com/surveys.webapi`
+    - `Redis:Configuration`: Hozhat létre. Ez a karakterlánc a DNS neve alapján a Redis gyorsítótárt és az elsődleges elérési kulcsot. For example, "tailspin.redis.cache.windows.net,password=2h5tBxxx,ssl=true".
 
 4.  Mentse a frissített secrets.json fájlt.
 
@@ -310,7 +310,7 @@ Amikor a bérlő előfizet, AD a bérlői rendszergazda felhasználók szerepkö
 
     ![Felhasználó vagy csoport kiválasztása](./images/running-the-app/select-role.png)
 
-7.  Kattintson a **hozzárendelése**.
+7.  Kattintson a **Hozzárendelés** gombra.
 
 Ismételje meg a azonos Survey.WebAPI alkalmazásához szerepköröket hozzárendelni.
 

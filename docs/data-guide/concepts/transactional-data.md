@@ -1,13 +1,13 @@
 ---
-title: "Tranzakciós adatok"
-description: 
+title: Tranzakciós adatok
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: b7fdbb403d2a438ebc59e40ef58ed8067489dddc
-ms.sourcegitcommit: 943e671a8d522cef5ddc8c6e04848134b03c2de4
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/05/2018
+ms.lasthandoff: 03/31/2018
 ---
 # <a name="transactional-data"></a>Tranzakciós adatok
 
@@ -33,7 +33,7 @@ Tranzakciós adatok általában a következő jellemzőkkel rendelkezik:
 | Integritás | Integritása magas szintű |
 | Használja a tranzakciók | Igen |
 | Zárolási stratégia | Pesszimista vagy optimista|
-| Frissíthető | Igen |
+| Updateable | Igen |
 | Appendable | Igen |
 | Számítási feladat | Nagy mennyiségű írási műveletekről, mérsékelt olvassa be |
 | Indexelés | Elsődleges és másodlagos indexek |

@@ -1,15 +1,15 @@
 ---
-title: "Természetes nyelvű feldolgozása"
-description: 
+title: Természetes nyelvek feldolgozása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: c03e2d017f9b4eb955a0e3494b5bc6c2603d1058
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 0afd8ac9a8a2e56f79ade0b2e10328630866c03c
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/03/2018
 ---
-# <a name="natural-language-processing"></a>Természetes nyelvű feldolgozása
+# <a name="natural-language-processing"></a>Természetes nyelvek feldolgozása
 
 Természetes nyelvű feldolgozás (NLP) olyan feladatokhoz, mint a céggel kapcsolatos véleményeket elemzés, témakör észlelési, nyelvi észlelési, kulcs kifejezés kivonása és dokumentum kategorizálási szolgál.
 
@@ -27,14 +27,14 @@ NLP segítségével dokumentumok, például címkézése a bizalmas dokumentumok
 
 Használata NLP információinak és kibontani szabad formátumú szöveg, a kiindulási pont esetén általában a nyers objektum storage például az Azure Storage vagy az Azure Data Lake Store-ban tárolt dokumentumokhoz. 
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 - Feldolgozására szabad formátumú szöveg dokumentumok gyűjteménye általában számításilag erőforrás-igényesek, valamint intenzív idő alatt.
 - Nélkül egy szabványos dokumentum formátuma nem nagyon nehéz feladat, szabad formátumú szöveg-feldolgozást használó adott tények kibontani a dokumentum következetesen pontos eredmények elérése érdekében. Például, gondolja át, hogy a szöveg megjelenítése számla&mdash;nehézkes hozhat létre egy folyamatot, amely helyesen kibontja a számla számát és a számla dátum számlák tetszőleges számú szállítók között lehet.
 
 ## <a name="architecture"></a>Architektúra
 
-A NLP megoldás szabad formátumú szöveg feldolgozás bekezdést tartalmazó dokumentumokon végzett történik. Általános architektúrája lehet egy [kötegfeldolgozási](./batch-processing.md) vagy [valós idejű stream feldolgozási](./real-time-processing.md) architektúra.
+A NLP megoldás szabad formátumú szöveg feldolgozás bekezdést tartalmazó dokumentumokon végzett történik. Általános architektúrája lehet egy [kötegfeldolgozási](../big-data/batch-processing.md) vagy [valós idejű stream feldolgozási](../big-data/real-time-processing.md) architektúra.
 
 Tényleges feldolgozását a kívánt eredmény függ, de a folyamat szempontjából NLP olyan kötegelt vagy a valós idejű módon lehet alkalmazni. Például véleményeket analysis használható szöveg blokkok szemben a céggel kapcsolatos véleményeket pontszám létrehozásához. Ez sikerült végezhető kötegfolyamat futtatásával az tárolójában, vagy kisebb kivonatokból üzenetküldési szolgáltatáson keresztül áramló adatok valós idejű adatok alapján.
 

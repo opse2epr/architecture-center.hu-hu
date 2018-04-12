@@ -1,16 +1,16 @@
 ---
-title: "Windows virtuális gép futtatása az Azure-ban"
-description: "A Windows virtuális gépek futtatása az Azure-ban a skálázhatóságot, a rugalmasságot, a kezelhetőséget és a biztonságot is figyelembe véve."
+title: Windows virtuális gép futtatása az Azure-ban
+description: A Windows virtuális gépek futtatása az Azure-ban a skálázhatóságot, a rugalmasságot, a kezelhetőséget és a biztonságot is figyelembe véve.
 author: telmosampaio
-ms.date: 12/12/2017
+ms.date: 04/03/2018
 pnp.series.title: Windows VM workloads
 pnp.series.next: multi-vm
 pnp.series.prev: ./index
-ms.openlocfilehash: 438192722dffec542a366fa515c19e8ec2d9a751
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 9bc0b4af56b9194fd1bec8a189c86963ad2b0c98
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="run-a-windows-vm-on-azure"></a>Windows virtuális gép futtatása az Azure-ban
 
@@ -22,31 +22,37 @@ Ez a referenciaarchitektúra a Windows virtuális gépek (VM) az Azure-ban tört
 
 ## <a name="architecture"></a>Architektúra
 
-Egy Azure-beli virtuális gép üzembe helyezése további összetevőket igényel, például számítási, hálózati és tárolási erőforrásokat.
+Egy Azure virtuális gép kiépítése néhány további összetevők mellett a virtuális gépért, beleértve a hálózati és tárolási erőforrásokat igényel.
 
-* **Erőforráscsoport.** Az [erőforráscsoport][resource-manager-overview] egy tároló, amely kapcsolódó erőforrásokat tárol. Általában érdemes az erőforrásokat az élettartamuk alapján csoportosítani, valamint az alapján, hogy ki fogja az erőforrásokat kezelni. Egyetlen virtuális gépet alkalmazó számítási feladat esetén érdemes egyetlen erőforráscsoportot létrehozni az összes erőforráshoz.
+* **Erőforráscsoport.** A [erőforráscsoport] [ resource-manager-overview] , amely tárolja a kapcsolódó Azure-erőforrások logikai tárolója. Általában csoportosíthatja az erőforrásokat az élettartamuk alapján, és fogják kezelni azokat. 
+
 * **VM**. A virtuális gépet üzembe helyezheti a közzétett rendszerképek listájáról, egy egyénileg kezelt rendszerképről, vagy egy, az Azure Blob Storage-ba feltöltött virtuálismerevlemez-fájlból (VHD).
-* **Operációsrendszer-lemez.** Az operációsrendszer-lemez egy, az [Azure Storage-ban][azure-storage] tárolt VHD, ezért akkor is működik, amikor a gazdagép nem fut.
-* **Ideiglenes lemez.** A virtuális gép egy ideiglenes lemezzel jön létre (a `D:` meghajtó a Windowsban). A lemez a gazdagép egyik fizikai meghajtóján található. **Nincs** mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol.
-* **Adatlemezek.** Az [adatlemez][data-disk] egy állandó, az alkalmazásadatokhoz használt VHD. Az adatlemezeket (pl. az operációsrendszer-lemezt) az Azure Storage tárolja.
-* **Virtuális hálózat (VNet) és alhálózat.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve.
+
+* **Által kezelt lemezeken**. [Azure-lemezeket felügyelt] [ managed-disks] a tárterület kezelése, a Lemezkezelés egyszerűbbé. Az operációsrendszer-lemez egy, az [Azure Storage-ban][azure-storage] tárolt VHD, ezért akkor is működik, amikor a gazdagép nem fut. Javasoljuk továbbá egy vagy több létrehozása [adatlemezek][data-disk], amelyeket az alkalmazásadatok használt állandó virtuális merevlemezek.
+
+* **Ideiglenes lemez.** A virtuális gép egy ideiglenes lemezzel jön létre (a `D:` meghajtó a Windowsban). A lemez a gazdagép egyik fizikai meghajtóján található. *Nincs* mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol.
+
+* **Virtuális hálózathoz (VNet).** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve.
+
+* **Hálózati adapter (NIC)**. A hálózati adapter teszi lehetővé a virtuális gép számára a virtuális hálózattal való kommunikációt.  
+
 * **Nyilvános IP-cím.** Egy nyilvános IP-címre van szükség ahhoz, hogy a virtuális géppel kommunikálni lehessen – például távoli asztali kapcsolaton (RDP) keresztül.  
-* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.  
-* **Hálózati adapter (NIC)**. Egy hozzárendelt hálózati adapter teszi lehetővé a virtuális gép számára a virtuális hálózattal való kommunikációt.  
-* **Hálózati biztonsági csoport (NSG)**. A [Hálózati biztonsági csoportok][nsg] a hálózati erőforrás felé irányuló hálózati adatforgalom engedélyezéséhez vagy letiltásához használhatók. Egy NSG-t társíthat egy különálló hálózati adapterhez vagy egy alhálózathoz. Ha egy alhálózathoz társítja, az NSG-szabályok az alhálózat összes virtuális gépére vonatkoznak.
+
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+
+* **Hálózati biztonsági csoport (NSG)**. [Hálózati biztonsági csoportok] [ nsg] engedélyezi vagy megtagadja a hálózati forgalmat a virtuális gépekhez használt. Az NSG-k társítani, alhálózatok vagy Virtuálisgép-példányokhoz lehet. 
+
 * **Diagnosztika.** A diagnosztikai naplózás létfontosságú a virtuális gép kezeléséhez és hibaelhárításához.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Ez az architektúra a Windows virtuális gépek az Azure-ban való futtatásának általános javaslatait mutatja be. Nem javasoljuk azonban, hogy egyetlen virtuális gépet használjon kritikus fontosságú számítási feladatokhoz, mert azzal kritikus meghibásodási pontot hoz létre. A magasabb rendelkezésre állás érdekében helyezzen üzembe több virtuális gépet egy [rendelkezésre állási csoportban][availability-set]. További információkért tekintse meg a [több virtuális gép Azure-on való futtatását][multi-vm] ismertető szakaszt. 
+Ez az architektúra a Windows virtuális gépek az Azure-ban való futtatásának általános javaslatait mutatja be. Nem javasoljuk azonban, hogy egyetlen virtuális gépet használjon kritikus fontosságú számítási feladatokhoz, mert azzal kritikus meghibásodási pontot hoz létre. A magas rendelkezésre állás érdekében két vagy több terheléselosztással rendelkező virtuális gépek telepítéséhez. További információkért tekintse meg a [több virtuális gép Azure-on való futtatását][multi-vm] ismertető szakaszt.
 
 ### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
 
-Az Azure számos különböző méretét kínál a virtuális gépekhez. A [Premium Storage][premium-storage] magas teljesítménye és kis késleltetése miatt ajánlott, és [bizonyos virtuálisgép-méretek támogatják][premium-storage-supported]. Válassza ezen méretek egyikét, kivéve, ha speciális számítási feladatokhoz, például nagy teljesítményű feldolgozáshoz kívánja a gépeket használni. További információt a [virtuálisgép-méretekről szóló részben][virtual-machine-sizes] talál.
+Az Azure számos különböző méretét kínál a virtuális gépekhez. További információkért lásd: [az Azure virtuális gépek méretei][virtual-machine-sizes]. Ha meglévő számítási feladatot helyez át az Azure-ba, kezdetnek azt a virtuálisgép-méretet válassza, amely a leginkább egyezik a helyszíni kiszolgálói méretével. Ezután mérje meg a valós számítási feladat teljesítményét a CPU, a memória és a lemez másodpercenkénti bemeneti/kimeneti műveletei (IOPS) figyelembe vételével, és módosítsa a méretet, ha szükséges. Ha több hálózati adapterre van szükség a virtuális géphez, vegye figyelembe, hogy a hálózati adapterek maximális száma minden [virtuálisgép-mérethez][vm-size-tables] külön van meghatározva.
 
-Ha meglévő számítási feladatot helyez át az Azure-ba, kezdetnek azt a virtuálisgép-méretet válassza, amely a leginkább egyezik a helyszíni kiszolgálói méretével. Ezután mérje meg a valós számítási feladat teljesítményét a CPU, a memória és a lemez másodpercenkénti bemeneti/kimeneti műveletei (IOPS) figyelembe vételével, és módosítsa a méretet, ha szükséges. Ha több hálózati adapterre van szükség a virtuális géphez, vegye figyelembe, hogy a hálózati adapterek maximális száma minden [virtuálisgép-mérethez][vm-size-tables] külön van meghatározva.
-
-Amikor üzembe helyezi az Azure-erőforrásokat, meg kell adnia egy régiót. A legjobb megoldás, ha a belső felhasználóihoz vagy ügyfeleihez legközelebb eső régiót választja. Azonban nem minden virtuálisgép-méret érhető el minden régióban. További információ: [Szolgáltatások régiónként][services-by-region]. Az egy adott régióban elérhető virtuálisgép-méretek listájának megtekintéséhez futtassa a következő parancsot az Azure parancssori felületéről (CLI):
+Általában válassza ki a belső felhasználók vagy az ügyfelek legközelebbi Azure-régióban. Azonban nem minden virtuálisgép-méret érhető el minden régióban. További információ: [Szolgáltatások régiónként][services-by-region]. Az egy adott régióban elérhető virtuálisgép-méretek listájának megtekintéséhez futtassa a következő parancsot az Azure parancssori felületéről (CLI):
 
 ```
 az vm list-sizes --location <location>
@@ -60,15 +66,15 @@ Engedélyezze a megfigyelést és a diagnosztikát, beleértve az alapvető áll
 
 A legjobb adatátviteli teljesítmény érdekében javasoljuk a [Premium Storage][premium-storage] tárolást, amely SSD meghajtókon tárolja az adatokat. A költség az üzembe helyezett lemez kapacitásától függően változik. AZ IOPS és az átviteli sebesség (azaz az adatátviteli sebesség) a lemezmérettől is függ, ezért lemezek üzembe helyezésekor vegye figyelembe mindhárom tényezőt (kapacitás, IOPS és átviteli sebesség). 
 
-Azt is javasoljuk, hogy [felügyelt lemezeket](/azure/storage/storage-managed-disks-overview) használjon. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a méretet és a lemez típusát, és az magas rendelkezésre állású erőforrásként lesz üzembe helyezve.
+Javasoljuk továbbá használatával [kezelt lemezek][managed-disks]. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a méretet és a lemez típusát, és az magas rendelkezésre állású erőforrásként lesz üzembe helyezve.
 
-Ha nem felügyelt lemezeket használ, hozzon létre külön Azure Storage-fiókot minden virtuális géphez a virtuális merevlemezek (VHD-k) tárolására, hogy elkerülje az [IOPS-korlátok][vm-disk-limits] elérését a tárfiókban.
+Adjon hozzá egy vagy több adatlemezt. A létrehozott VHD-k nincsenek formázva. A lemez formázásához jelentkezzen be a virtuális gépre. Ha lehetséges, az alkalmazásokat adatlemezre telepítse, ne az operációs rendszer lemezére. Előfordulhat, hogy néhány örökölt alkalmazásnak összetevőket kell telepítenie a C: meghajtóra. Ebben az esetben [az operációsrendszer-lemezt átméretezheti][resize-os-disk] a PowerShell használatával.
 
-Adjon hozzá egy vagy több adatlemezt. A létrehozott VHD-k nincsenek formázva. A lemez formázásához jelentkezzen be a virtuális gépre. Ha nem felügyelt lemezeket használ, és nagy számú adatlemezzel rendelkezik, vegye figyelembe a tárfiók teljes I/O-korlátját. További információkért lásd a [virtuálisgép-lemez korlátaival kapcsolatos][vm-disk-limits] szakaszt.
+Hozzon létre egy tárfiókot, diagnosztikai naplók tárolásához. Egy standard helyileg redundáns tárolási (LRS) fiók elegendő a diagnosztikai naplókhoz.
 
-Ha lehetséges, az alkalmazásokat adatlemezre telepítse, ne az operációs rendszer lemezére. Előfordulhat, hogy néhány örökölt alkalmazásnak összetevőket kell telepítenie a C: meghajtóra. Ebben az esetben [az operációsrendszer-lemezt átméretezheti][resize-os-disk] a PowerShell használatával.
+> [!NOTE]
+> Ha nem kezelt lemezek, hozzon létre külön az Azure storage-fiókok az egyes virtuális gépek a virtuális merevlemezek (VHD), ahhoz, hogy elérte-e elkerülése érdekében a [(IOPS) vonatkozó korlátok] [ vm-disk-limits] storage-fiókok. Vegye figyelembe a teljes i/o-korlátozás a tárfiók. További információkért lásd a [virtuálisgép-lemez korlátaival kapcsolatos][vm-disk-limits] szakaszt.
 
-A legjobb teljesítmény érdekében hozzon létre egy önálló tárfiókot a diagnosztikai naplók tárolására. Egy standard helyileg redundáns tárolási (LRS) fiók elegendő a diagnosztikai naplókhoz.
 
 ### <a name="network-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
@@ -83,7 +89,7 @@ Az RDP engedélyezéséhez adjon hozzá egy NSG-szabályt, amely engedélyezi a 
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-A virtuális gépeket a [virtuális gép méretének módosításával][vm-resize] skálázhatja. A horizontális felskálázáshoz helyezzen két vagy több virtuális gépet egy terheléselosztó mögé. További információért tekintse meg a [Több virtuális gép Azure-on való futtatása a skálázhatóság és a rendelkezésre állás érdekében][multi-vm] témakörrel foglalkozó szakaszt.
+A virtuális gépeket a [virtuális gép méretének módosításával][vm-resize] skálázhatja. A horizontális felskálázáshoz helyezzen két vagy több virtuális gépet egy terheléselosztó mögé. További információkért lásd: [futtassa a virtuális gépek elosztott terhelésű a méretezhetőség és a rendelkezésre állási][multi-vm].
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
@@ -91,21 +97,15 @@ A magasabb rendelkezésre állás érdekében helyezzen üzembe több virtuális
 
 A virtuális gépre hatással lehet egy [tervezett karbantartás][planned-maintenance] vagy egy [nem tervezett karbantartás][manage-vm-availability]. Annak megállapításához, hogy a virtuális gép újraindítását egy tervezett karbantartás okozta-e, használja a [virtuális gépek újraindítási naplóit][reboot-logs].
 
-Az adatlemezeket az [Azure Storage][azure-storage] tárolja. Az Azure Storage a tartósság és a rendelkezésre állás érdekében replikálva van.
-
 A normál műveletek során történő véletlen (például hiba miatti) adatvesztés elleni védelem érdekében érdemes időponthoz kötött biztonsági mentéseket is megvalósítani [blob-pillanatképekkel][blob-snapshot] vagy más eszközzel.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
 **Erőforráscsoportok.** A szorosan összekapcsolt, azonos életciklusú erőforrásokat helyezze egy [erőforráscsoportba][resource-manager-overview]. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat erőforrásokat, és a számlázási költségeket erőforráscsoportonként követheti. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében. Jelentéssel bíró erőforrásneveket adjon meg, hogy egyszerűbben megkereshesse és azonosíthassa az egyes erőforrásokat és azok szerepkörét. További információ: [Az Azure-erőforrások ajánlott elnevezési konvenciói][naming-conventions].
 
-**Virtuális gépek leállítása.** Az Azure különbséget tesz a „leállított” és a „felszabadított” állapot között. A leállított virtuális gépek után fizetni kell, a felszabadítottak után azonban nem.
+**Virtuális gépek leállítása.** Az Azure különbséget tesz a „leállított” és a „felszabadított” állapot között. A leállított virtuális gépek után fizetni kell, a felszabadítottak után azonban nem. Az Azure Portalon a **Leállítás** gombbal szabadítható fel a virtuális gép. Ha az operációs rendszerből állítja le, amikor be van jelentkezve, azzal a virtuális gépet leállítja, de **nem** szabadítja fel, tehát továbbra is fizetnie kell a díját.
 
-Az Azure Portalon a **Leállítás** gombbal szabadítható fel a virtuális gép. Ha az operációs rendszerből állítja le, amikor be van jelentkezve, azzal a virtuális gépet leállítja, de **nem** szabadítja fel, tehát továbbra is fizetnie kell a díját.
-
-**Virtuális gépek törlése.** Ha töröl egy virtuális gépet, a VHD-k nem törlődnek. Ez azt jelenti, hogy biztonságosan törölheti a virtuális gépet anélkül, hogy adatot vesztene. A tárolásért azonban továbbra is díjat kell fizetnie. A VHD törléséhez törölje a fájlt a [Blob Storage-ból][blob-storage].
-
-A véletlen törlés megelőzése érdekében használjon [erőforrászárat][resource-lock]. Ezzel zárolhat egy egész erőforráscsoportot, vagy egyes erőforrásokat, például egy virtuális gépet.
+**Virtuális gépek törlése.** Ha töröl egy virtuális gépet, a VHD-k nem törlődnek. Ez azt jelenti, hogy biztonságosan törölheti a virtuális gépet anélkül, hogy adatot vesztene. A tárolásért azonban továbbra is díjat kell fizetnie. A VHD törléséhez törölje a fájlt a [Blob Storage-ból][blob-storage]. A véletlen törlés megelőzése érdekében használjon [erőforrászárat][resource-lock]. Ezzel zárolhat egy egész erőforráscsoportot, vagy egyes erőforrásokat, például egy virtuális gépet.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -131,11 +131,9 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
   * Egy virtuális hálózat egyetlen alhálózattal (neve **web**), amely a virtuális gépet üzemelteti.
   * Egy két bejövő szabállyal rendelkező NSG, amely engedélyezi az RDP- és a HTTP-forgalmat a virtuális gép felé.
   * Olyan virtuális gép, amely a Windows Server 2016 Datacenter Edition legfrissebb verzióját futtatja.
-  * Egy egyéni minta szkriptbővítmény, amely formázza a két adatlemezt, és egy PowerShell DSC-szkript, amely üzembe helyezi az IIS-t.
+  * Egy minta egyéni parancsprogramok futtatására szolgáló bővítmény, amely a két adatlemezek formázza, és a PowerShell DSC-parancsfájlt, amely telepíti az Internet Information Services (IIS).
 
 ### <a name="prerequisites"></a>Előfeltételek
-
-Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúrát, az alábbi lépéseket kell elvégeznie.
 
 1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
 
@@ -143,32 +141,40 @@ Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúr�
 
 3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
 
-4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
+4. Egy parancssori ablakot, bash, vagy PowerShell kérdés adja meg a következő parancs futtatásával jelentkezzen be az Azure-fiókjával.
 
-  ```bash
-  az login
-  ```
+   ```bash
+   az login
+   ```
 
 ### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
-A mintául szolgáló, egyetlen virtuális gépet alkalmazó számítási feladat üzembe helyezéséhez kövesse az alábbi lépéseket:
+A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
 
 1. Navigáljon az előző lépésekben letöltött adattár `virtual-machines\single-vm\parameters\windows` mappájához.
 
-2. Nyissa meg a `single-vm-v2.json` fájlt, és adjon meg egy felhasználónevet és egy SSH-kulcsot az idézőjelek között az alább látható módon, majd mentse a fájlt.
+2. Nyissa meg a `single-vm-v2.json` fájlt, és adja meg a felhasználónevet és jelszót az idézőjelek között, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "",
-  "adminPassword": "",
-  ```
+   ```bash
+   "adminUsername": "",
+   "adminPassword": "",
+   ```
 
 3. Futtassa az `azbb` parancsot az alábbi módon a minta virtuális gép telepítéséhez.
 
-  ```bash
-  azbb -s <subscription_id> -g <resource_group_name> -l <location> -p single-vm-v2.json --deploy
-  ```
+   ```bash
+   azbb -s <subscription_id> -g <resource_group_name> -l <location> -p single-vm-v2.json --deploy
+   ```
 
-A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
+A telepítés ellenőrzése, hogy a következő paranccsal Azure CLI található a virtuális gép a nyilvános IP-cím:
+
+```bash
+az vm show -n ra-single-windows-vm1 -g <resource-group-name> -d -o table
+```
+
+Ha ezt a címet egy webböngészőben nyissa meg az alapértelmezett IIS-kezdőlap kell megjelennie.
+
+A központi telepítés testreszabásával kapcsolatos további tudnivalókért keresse fel a [GitHub-tárházban][git].
 
 ## <a name="next-steps"></a>További lépések
 
@@ -196,8 +202,9 @@ A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további i
 [group-policy]: https://docs.microsoft.com/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn595129(v=ws.11)
 [log-collector]: https://azure.microsoft.com/blog/simplifying-virtual-machine-troubleshooting-using-azure-log-collector/
 [manage-vm-availability]: /azure/virtual-machines/virtual-machines-windows-manage-availability
+[managed-disks]: /azure/storage/storage-managed-disks-overview
 [multi-vm]: multi-vm.md
-[naming-conventions]: /azure/architecture/best-practices/naming-conventions.md
+[naming-conventions]: ../../best-practices/naming-conventions.md
 [nsg]: /azure/virtual-network/virtual-networks-nsg
 [nsg-default-rules]: /azure/virtual-network/virtual-networks-nsg#default-rules
 [planned-maintenance]: /azure/virtual-machines/virtual-machines-windows-planned-maintenance
@@ -218,7 +225,7 @@ A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további i
 [services-by-region]: https://azure.microsoft.com/regions/#services
 [static-ip]: /azure/virtual-network/virtual-networks-reserved-public-ip
 [virtual-machine-sizes]: /azure/virtual-machines/virtual-machines-windows-sizes
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [vm-disk-limits]: /azure/azure-subscription-service-limits#virtual-machine-disk-limits
 [vm-resize]: /azure/virtual-machines/virtual-machines-linux-change-vm-size
 [vm-size-tables]: /azure/virtual-machines/virtual-machines-windows-sizes

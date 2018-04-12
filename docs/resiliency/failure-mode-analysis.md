@@ -1,15 +1,15 @@
 ---
-title: "A hibaállapot elemzése"
-description: "Útmutató az Azure-alapú megoldások mód elemzés végrehajtásához."
+title: A hibaállapot elemzése
+description: Útmutató az Azure-alapú megoldások mód elemzés végrehajtásához.
 author: MikeWasson
 ms.date: 03/24/2017
 ms.custom: resiliency
 pnp.series.title: Design for Resiliency
-ms.openlocfilehash: aca2088cb007728c5717a968969000c0a19bcd07
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: 8786c411249267e502003a90d5f2ff5e4c786803
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="failure-mode-analysis"></a>A hibaállapot elemzése
 [!INCLUDE [header](../_includes/header.md)]
@@ -122,7 +122,7 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 ### <a name="web-or-worker-roles-are-unexpectedlybeing-shut-down"></a>Webes vagy feldolgozói szerepköröket vannak váratlanul leáll.
 **Észlelési**. A [RoleEnvironment.Stopping] [ RoleEnvironment.Stopping] az esemény.
 
-**Helyreállítási**. Bírálja felül a [RoleEntryPoint.OnStop] [ RoleEntryPoint.OnStop] szabályosan karbantartása metódust. További információkért lásd: [Azure OnStop események kezelésére úgy a jobb oldali] [ onstop-events] (blogbejegyzés).
+<strong>Helyreállítási</strong>. Bírálja felül a [RoleEntryPoint.OnStop] [ RoleEntryPoint.OnStop] szabályosan karbantartása metódust. További információkért lásd: [Azure OnStop események kezelésére úgy a jobb oldali] [ onstop-events] (blogbejegyzés).
 
 ## <a name="cosmos-db"></a>Cosmos DB 
 ### <a name="reading-data-fails"></a>Adatok beolvasása sikertelen.
@@ -130,8 +130,8 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 
 **Helyreállítás**
 
-* Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Kivételek, amely kiváltja az ügyfél újrapróbálkozási házirend túl vagy nem átmeneti hibák.
-* Ha Cosmos DB azelőtt gyorsítja fel, az ügyfél, HTTP 429 hibát ad vissza. Az állapotkód: Ellenőrizze a `DocumentClientException`. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
+* Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Az ügyfél által okozott kivételek vagy túlmutatnak az újrapróbálkozási szabályzaton, vagy nem átmeneti hibák.
+* Ha a Cosmos DB korlátozza az ügyfél kísérleteit, a 429-es HTTP-hibaüzenetet adja vissza. Ellenőrizze a `DocumentClientException` állapotkódját. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
     * A MongoDB API-t használ, ha a szolgáltatás a esetén a sávszélesség-szabályozás hibakód 16500 ad vissza.
 * A Cosmos DB adatbázis két vagy több régió replikálásához. Összes replikát is olvasható. Az ügyfél SDK-k használata, adja meg a `PreferredLocations` paraméter. Ez az Azure-régiók rendezett listáját. Az összes olvasási kapnak a lista első rendelkezésre álló terület. A kérés nem teljesíthető, ha az ügyfél megpróbál a más régiókból, a listában, sorrendben. További információkért lásd: [telepítője az SQL API-val Azure Cosmos DB globális terjesztési hogyan][cosmosdb-multi-region].
 
@@ -142,8 +142,8 @@ Az alapértelmezett újrapróbálkozási házirendet használja exponenciális v
 
 **Helyreállítás**
 
-* Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Kivételek, amely kiváltja az ügyfél újrapróbálkozási házirend túl vagy nem átmeneti hibák.
-* Ha Cosmos DB azelőtt gyorsítja fel, az ügyfél, HTTP 429 hibát ad vissza. Az állapotkód: Ellenőrizze a `DocumentClientException`. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
+* Az SDK automatikusan újrapróbálkozik a sikertelen kísérletek. Az újrapróbálkozások száma és a maximális várakozási idő beállításához konfigurálása `ConnectionPolicy.RetryOptions`. Az ügyfél által okozott kivételek vagy túlmutatnak az újrapróbálkozási szabályzaton, vagy nem átmeneti hibák.
+* Ha a Cosmos DB korlátozza az ügyfél kísérleteit, a 429-es HTTP-hibaüzenetet adja vissza. Ellenőrizze a `DocumentClientException` állapotkódját. Ha a hiba 429 következetesen, fontolja meg a gyűjtemény átviteli sebesség értékének növelésével.
 * A Cosmos DB adatbázis két vagy több régió replikálásához. Ha az elsődleges régióban meghibásodik, egy másik régióban lesz előléptetve írni. A feladatátvétel manuálisan is elindítható. Az SDK automatikus felderítést és az útválasztást, végzi, az alkalmazás kódjában folytatja a működést egy feladatátvétel után. Időszakban a feladatátvétel (általában percben) az írási műveletek, az SDK megkeresi az új írási terület lesz nagyobb késleltetéssel járhat.
   További információkért lásd: [telepítője az SQL API-val Azure Cosmos DB globális terjesztési hogyan][cosmosdb-multi-region].
 * Tartalékként továbbra is fennáll a dokumentum a biztonsági mentési üzenetsorba, és a várólista később feldolgozni.

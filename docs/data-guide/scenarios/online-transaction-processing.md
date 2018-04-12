@@ -1,15 +1,15 @@
 ---
-title: "Online tranzakció-feldolgozási (OLTP)"
-description: 
+title: Online tranzakciófeldolgozás (OLTP)
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 07e7f680c8ee5e8589ff7cd2236ff95f6ee84f4c
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/31/2018
 ---
-# <a name="online-transaction-processing-oltp"></a>Online tranzakció-feldolgozási (OLTP)
+# <a name="online-transaction-processing-oltp"></a>Online tranzakciófeldolgozás (OLTP)
 
 A felügyeleti [tranzakciós adatok](../concepts/transactional-data.md) használ a számítógéprendszerek lehet hivatkozni, Online tranzakciófeldolgozási (OLTP). Az OLTP rendszerek regisztrálhatna üzleti fordulnak elő a szervezet napi működését, és támogatja az adatokba, így következtetéseket lekérdezését.
 
@@ -21,7 +21,7 @@ Ha hatékony feldolgozni, és üzleti tranzakciók tárolja, és azonnal elérhe
 
 OLTP rendszerek hatékonyan feldolgozni, és a tranzakciók, valamint a lekérdezés tranzakciós adatok tárolására készültek. A cél hatékonyan feldolgozási és tárolása az egyes tranzakciók által az OLTP rendszerek részben úgy érhető el, adatok normalizálási &mdash; Ez azt jelenti, hogy ossza az adatok kisebb csoportjai, amelyek kevesebb redundáns. Támogatja a hatékonyságát, mivel lehetővé teszi, hogy az OLTP rendszerek nagyszámú tranzakciók egymástól függetlenül feldolgozni, és elkerülhető a felesleges feldolgozási szükséges redundáns adatok mellett adatok integritásának fenntartása.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 Végrehajtási és az OLTP rendszerek használata néhány kihívást hozhat létre:
 
 - Az OLTP rendszerek megfelelőek nem mindig összesítések kezelése keresztül nagy mennyiségű adat, bár kivételek, például egy tervezett jól az SQL Server-alapú megoldás. Az adatok, támaszkodó összesített számítások az egyes tranzakciók több mint több millió, alapján Analytics nagyon erőforrás-igényes az OLTP rendszerek. Lassú hajtható végre, és lehet el egy slow-down következtében letiltásával más tranzakciók az adatbázisban.

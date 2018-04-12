@@ -1,13 +1,13 @@
 ---
-title: "Az objektum használata Azure Resource Manager-sablon egyik paraméterének"
-description: "Ismerteti, hogyan lehet Azure Resource Manager sablonok használata az objektumok paraméterekként bővítése"
+title: Az objektum használata Azure Resource Manager-sablon egyik paraméterének
+description: Ismerteti, hogyan lehet Azure Resource Manager sablonok használata az objektumok paraméterekként bővítése
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: 08ee1cf2924f78ce366c58e20e84a512785f85cc
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 76f8b9d459f4ab3147b52762b7c26552ec92c7a3
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Az objektum használata Azure Resource Manager-sablon egyik paraméterének
 
@@ -294,7 +294,6 @@ Most vessen egy pillantást a sablont. Az első nevű erőforrás `NSG1` az NSG-
   ],          
   "outputs": {}
 }
-
 ```
 
 Megtudhatja, hogy hogyan adtuk meg, hogy a tulajdonság értékek részletes bemutatása a `securityRules` gyermek-erőforrás. A tulajdonságokat hivatkozott használatával a `parameter()` függvény, majd azt a pontot operátor használata hivatkozik a `securityRules` tömb indexelik ismétléseinek aktuális értéke. Végezetül használatával egy másik pont operátor hivatkoznak az objektum neve. 
@@ -303,7 +302,7 @@ Megtudhatja, hogy hogyan adtuk meg, hogy a tulajdonság értékek részletes bem
 
 Ha azt szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket: 
 
-1.  Navigáljon az Azure portálon, válassza a  **+**  ikonra, és keresse meg a **sablon-üzembehelyezés** erőforrás írja be, és válassza ki azt.
+1.  Navigáljon az Azure portálon, válassza a **+** ikonra, és keresse meg a **sablon-üzembehelyezés** erőforrás írja be, és válassza ki azt.
 2.  Keresse meg a **sablon-üzembehelyezés** lapon jelölje be a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni telepítési** panelen.
 3.  Válassza ki a **sablon szerkesztése** gombra.
 4.  Az üres sablon törlésére. 
@@ -316,7 +315,7 @@ Ha azt szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket:
 11. Az a **egyéni telepítési** panelen jelölje ki az előfizetését, vagy létrehozhat új vagy meglévő erőforráscsoportot használni, és jelöljön ki egy helyet. Tekintse át a használati feltételeket, és válassza ki a **elfogadom** jelölőnégyzetet.
 12. Válassza ki a **beszerzési** gombra.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 * Ezek a technológiák megvalósítása után bővítheti a [tulajdonság objektum átalakító és adatgyűjtő](./collector.md). Az átalakító és adatgyűjtő technikák általános és a sablonok alapján lehet társítani.
 * Ezzel a módszerrel is implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure hivatkozás architektúrák](/azure/architecture/reference-architectures/). A sablonok milyen azt már megvalósított ezzel a módszerrel tekintheti meg.

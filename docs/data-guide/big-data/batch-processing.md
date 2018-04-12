@@ -3,11 +3,11 @@ title: Kötegelt feldolgozás
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: d3d3b92034c251586ecc9caff2785ecd0808b2a7
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: d6843bf4e20c3eb26e61cfa09300ad533e969c2e
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
@@ -19,7 +19,7 @@ Például a webkiszolgáló naplói mappába másolt előfordulhat, hogy, és ma
 
 ## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
 
-Kötegfeldolgozási lehetőségeket, egyszerű adatátalakítást jóval összetettebb ETL (extract-átalakítási-betöltés)-feldolgozási folyamat különböző használatban van. A big Data típusú adatok környezetben kötegfeldolgozási előfordulhat, hogy hatnak a nagyon nagy méretű adatkészletekhez, ahol a számítási jelentős időt vesz igénybe. (Lásd például: [Lambda architektúra](../concepts/big-data.md#lambda-architecture).) Kötegfeldolgozási általában további interaktív adatkutatási vezet, a modellezési használatra kész adatokat biztosít a gépi tanulás, vagy a adatokat ír az adattároló, amely elemzés és -megjelenítésre van optimalizálva.
+Kötegfeldolgozási lehetőségeket, egyszerű adatátalakítást jóval összetettebb ETL (extract-átalakítási-betöltés)-feldolgozási folyamat különböző használatban van. A big Data típusú adatok környezetben kötegfeldolgozási előfordulhat, hogy hatnak a nagyon nagy méretű adatkészletekhez, ahol a számítási jelentős időt vesz igénybe. (Lásd például: [Lambda architektúra](../big-data/index.md#lambda-architecture).) Kötegfeldolgozási általában további interaktív adatkutatási vezet, a modellezési használatra kész adatokat biztosít a gépi tanulás, vagy a adatokat ír az adattároló, amely elemzés és -megjelenítésre van optimalizálva.
 
 Egy példa a köteges feldolgozás van átalakítása egyszerű, félig strukturált CSV- vagy JSON-fájlok számos olyan formátumra sematizált és strukturált, amely készen áll a további lekérdezése. Általában az adatok alakul a nyers formátumok adatfeldolgozást (például a fürt megosztott kötetei szolgáltatás) használatos bináris formátum, amelyek több performant lekérdezése, mert az adat tárolása oszlopos formátumot, és gyakran biztosítanak az indexek és az adatok beágyazott statisztikája.
 

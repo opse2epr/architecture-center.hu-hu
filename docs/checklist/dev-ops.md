@@ -1,14 +1,14 @@
 ---
-title: "DevOps ellenőrzőlista"
-description: "DevOps kapcsolatos útmutatást ellenőrzőlistát."
+title: DevOps ellenőrzőlista
+description: DevOps kapcsolatos útmutatást ellenőrzőlistát.
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist
-ms.openlocfilehash: 356fef2415347ae132915695a25fd9b50779bd8b
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: 2e338d2f2e61b404223001a61f44e06e89e7f563
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="devops-checklist"></a>DevOps ellenőrzőlista
 
@@ -130,7 +130,7 @@ Megosztott dokumentáció alapvető fontosságú. Ösztönözze közre és oszth
 
 **Kövesse a legalacsonyabb jogosultsági alapelvek, amikor erőforrásokhoz való hozzáférés.** Gondosan erőforrásokhoz való hozzáférés kezelése. Hozzáférés alapértelmezés szerint nem kap, kivéve, ha a felhasználó explicit módon kap hozzáférést egy erőforráshoz. Csak hozzáférést egy felhasználó szükséges el tudják végezni feladataikat. A felhasználói engedélyek nyomon, és végezze el a rendszeres biztonsági eseményeket.
 
-**Szerepköralapú hozzáférés-vezérlés használatára.** Felhasználói fiókok és a hozzáférés hozzárendelése erőforrásokhoz nem lehet egy manuális folyamat. Használjon [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) hozzáférést alapján [Azure Active Directory] [ azure-ad] identitások és csoportok. 
+<strong>Szerepköralapú hozzáférés-vezérlés használatára.</strong> Felhasználói fiókok és a hozzáférés hozzárendelése erőforrásokhoz nem lehet egy manuális folyamat. Használjon [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) hozzáférést alapján [Azure Active Directory] [ azure-ad] identitások és csoportok. 
 
 **Nyomkövetési rendszer programhiba segítségével nyomon követheti a problémákat.** Egy jó módszer problémák nyomon követésére, nélkül is könnyen teljesíti az elemeket, munkahelyi ismétlődő vagy bevezetni a további problémák. Ne hagyatkozzon hibák állapotának nyomon követése nem hivatalos person-to-person kommunikációt. Egy eszköz követési hiba segítségével problémák kapcsolatos adatokat rögzíti, rendeljen hozzájuk erőforrásokat, és adja meg a folyamatban lévő és állapota egy naplóban. 
 

@@ -1,26 +1,28 @@
 ---
-title: "Üzenetkezelési mintát"
-description: "A felhőalapú alkalmazások elosztott jellege üzenetkezelési infrastruktúra, amely összeköti a összetevőit és szolgáltatásait, ideális méretezhetőség maximalizálása érdekében lazán összekapcsolt módon van szükség. Aszinkron üzenetkezelési széles körben használja, és számos előnnyel jár, de például üzenetek, az elhalt üzenet felügyeleti, idempotencia és több sorrendje kihívást is jelent."
-keywords: "Kialakítási mintája"
+title: Üzenetkezelési minták
+description: A felhőalapú alkalmazások elosztott jellege miatt szükség van egy üzenetkezelési rendszerre is, amely összeköti az összetevőket és szolgáltatásokat, a skálázhatóság maximalizálása érdekében általában laza kapcsolással. Széles körben elterjedt az aszinkron üzenetkezelés, amely számos előnye mellett kihívásokat is tartogat, ilyen például az üzenetek rendezése, az ártalmas üzenetek kezelése, az idempotencia stb.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: 6151f7f76fc7b3a953988122db75bdc25b49811f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 8bf37903df3a6eb23f1581e0405358a7aee61f79
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="messaging-patterns"></a>Üzenetkezelési mintát
+# <a name="messaging-patterns"></a>Üzenetkezelési minták
 
 [!INCLUDE [header](../../_includes/header.md)]
 
-A felhőalapú alkalmazások elosztott jellege üzenetkezelési infrastruktúra, amely összeköti a összetevőit és szolgáltatásait, ideális méretezhetőség maximalizálása érdekében lazán összekapcsolt módon van szükség. Aszinkron üzenetkezelési széles körben használja, és számos előnnyel jár, de például üzenetek, az elhalt üzenet felügyeleti, idempotencia és több sorrendje kihívást is jelent.
+A felhőalapú alkalmazások elosztott jellege miatt szükség van egy üzenetkezelési rendszerre is, amely összeköti az összetevőket és szolgáltatásokat, a skálázhatóság maximalizálása érdekében általában laza kapcsolással. Széles körben elterjedt az aszinkron üzenetkezelés, amely számos előnye mellett kihívásokat is tartogat, ilyen például az üzenetek rendezése, az ártalmas üzenetek kezelése, az idempotencia stb.
 
-| Minta | Összefoglalás |
-| ------- | ------- |
-| [Versengő fogyasztó számára](../competing-consumers.md) | Engedélyezze a több egyidejű fogyasztók ugyanazt a üzenetkezelési csatornát a Beérkezett üzenetek feldolgozásához. |
-| [Adatcsatornák és a szűrők](../pipes-and-filters.md) | Egy különálló elemek, amelyek felhasználhatók egy sorozat komplex feldolgozását végző feladat lebontva. |
-| [Prioritású várólistára.](../priority-queue.md) | Priorizálhatja azokat, hogy a magasabb prioritású kérelmek fogadott, és gyorsabban dolgozza fel a kisebb prioritással rendelkező szolgáltatások küldött kérelmeket. |
-| [Simítás várólista alapú betöltése](../queue-based-load-leveling.md) | Egy feladat és egy szolgáltatás, amely meghívja a érdekében időszakos nagy terhelések közötti pufferként a várólista használja. |
-| [A Feladatütemező ügynök felügyelő](../scheduler-agent-supervisor.md) | Egy készletét műveletek között elosztott készlete szolgáltatások és az egyéb távoli erőforrásokhoz. |
+
+|                            Mintázat                             |                                                                        Összegzés                                                                         |
+|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        [Competing Consumers](../competing-consumers.md)        |                            Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket.                            |
+|          [Pipes and Filters](../pipes-and-filters.md)          |                       Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.                        |
+|             [Priority Queue](../priority-queue.md)             | Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat. |
+|  [Queue-Based Load Leveling](../queue-based-load-leveling.md)  |              Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket.               |
+| [Scheduler Agent Supervisor](../scheduler-agent-supervisor.md) |                              Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon.                              |
+

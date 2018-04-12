@@ -3,17 +3,17 @@ title: A nem relációs adatokat, és a nosql-alapú
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 8dd8f2b9dfef680f99c9c6b32aacf019c13095b0
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 2c284099bd7e8bbb85f1252a24d699d9fca09eae
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="non-relational-data-and-nosql"></a>A nem relációs adatokat, és a nosql-alapú
 
 A *nem relációs adatbázis* egy adatbázis, amely nem használja a sorok és oszlopok található az adatbázis-rendszerek legtöbb hagyományos táblázatos séma. Nem relációs adatbázisok inkább a tárolási modellben, optimalizált a tárolt adatok meghatározott követelményeinek. Például tárolhatjuk az adatok egyszerű kulcs/érték párok, JSON-dokumentumokként, akár szélek és csúcsban grafikon. 
 
-Milyen minden ezen adatokhoz tárolók rendelkezik közös, hogy azok ne használjon egy [relációs modell](./relational-data.md). Ezenkívül ezek általában pontosabb támogatják-e adatokat, és hogyan lehet adatokat lekérdezni a következő típusban. Például, amikor adatsor tárolók vannak optimalizálva, lekérdezések keresztül adatokat, időalapú sorozatát graph adattárolókhoz vannak optimalizálva, entitások közötti kapcsolatok súlyozott felfedezése közben. Egyik formátum volna generalize és a tranzakciós adatok kezelése a feladatát. 
+Milyen minden ezen adatokhoz tárolók rendelkezik közös, hogy azok ne használjon egy [relációs modell](../relational-data/index.md). Ezenkívül ezek általában pontosabb támogatják-e adatokat, és hogyan lehet adatokat lekérdezni a következő típusban. Például, amikor adatsor tárolók vannak optimalizálva, lekérdezések keresztül adatokat, időalapú sorozatát graph adattárolókhoz vannak optimalizálva, entitások közötti kapcsolatok súlyozott felfedezése közben. Egyik formátum volna generalize és a tranzakciós adatok kezelése a feladatát. 
 
 A kifejezés *NoSQL* hivatkozik, amely nem használ SQL lekérdezések, és más programozási nyelveket és szerkezetek helyette használja az adatok lekérdezéséhez adattárolókhoz. A gyakorlatban "NoSQL" azt jelenti, hogy "nem relációs adatbázis," annak ellenére, hogy ezek az adatbázisok számos támogatja az SQL-kompatibilis lekérdezéseket. Az alapul szolgáló lekérdezés végrehajtási stratégia azonban általában nagyon eltérhet a hagyományos RDBMS volna az azonos SQL-lekérdezés végrehajtása.
 

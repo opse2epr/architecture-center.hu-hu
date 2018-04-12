@@ -3,11 +3,11 @@ title: Valós idejű feldolgozás
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: f1054ce5e8c2053aa4f80d8b472604125ba47187
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 8d3497c37d15dc0aa4645ddfce3bd30740217b2c
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="real-time-processing"></a>Valós idejű feldolgozás
 
@@ -49,7 +49,7 @@ További információkért lásd: [valós idejű üzenet adatfeldolgozást](../t
 
 ### <a name="data-storage"></a>Adattárolás
 
-- **Az Azure Storage-Blob tárolók** vagy **az Azure Data Lake Store**. Bejövő valós idejű adatok általában bekerül az üzenet közvetítő (lásd fent), de bizonyos esetekben érdemes lehet az új fájlok mappa megfigyelése és dolgozza fel őket, a létrehozott vagy frissített tehet. Emellett számos valós idejű feldolgozással megoldás statikus referenciaadatok, amely egy fájltároló tárolhatja a streamelési adatok egyesítése. Végezetül a file storage használható célhelyként rögzített valós idejű adatokat tartalmaznak, vagy további feldolgozás alatt álló kötegben egy [lambda architektúra](../concepts/big-data.md#lambda-architecture).
+- **Az Azure Storage-Blob tárolók** vagy **az Azure Data Lake Store**. Bejövő valós idejű adatok általában bekerül az üzenet közvetítő (lásd fent), de bizonyos esetekben érdemes lehet az új fájlok mappa megfigyelése és dolgozza fel őket, a létrehozott vagy frissített tehet. Emellett számos valós idejű feldolgozással megoldás statikus referenciaadatok, amely egy fájltároló tárolhatja a streamelési adatok egyesítése. Végezetül a file storage használható célhelyként rögzített valós idejű adatokat tartalmaznak, vagy további feldolgozás alatt álló kötegben egy [lambda architektúra](../big-data/index.md#lambda-architecture).
 
 További információkért lásd: [adattárolás](../technology-choices/data-storage.md).
 

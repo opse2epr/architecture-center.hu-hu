@@ -1,129 +1,129 @@
 ---
-title: "Több területi webalkalmazás"
-description: "Ajánlott architektúra magas rendelkezésre állással, a Microsoft Azure-ban futó webalkalmazás."
+title: Többrégiós webalkalmazás
+description: A Microsoft Azure szolgáltatásban futó magas rendelkezésre állású webalkalmazásokhoz javasolt architektúra.
 author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
-ms.openlocfilehash: 50ac9636e1e3c25bd0403c89281a3a06915d065f
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: 00309e58c163a64f6d9796bedc19d936afcd09ab
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 03/30/2018
 ---
-# <a name="run-a-web-application-in-multiple-regions"></a>Egy webalkalmazás több régióba futtatása
+# <a name="run-a-web-application-in-multiple-regions"></a>Webalkalmazás futtatása több régióban
 [!INCLUDE [header](../../_includes/header.md)]
 
-A referencia-architektúrában több régióba magas rendelkezésre állás biztosítása érdekében az Azure App Service-alkalmazás futtatását mutatja. 
+Ez a referenciaarchitektúra bemutatja, hogyan futtatható egy Azure App Service-alkalmazás több régióban a magas rendelkezésre állás elérése érdekében. 
 
-![Architektúra hivatkozni: magas rendelkezésre állású-webalkalmazás](./images/multi-region-web-app-diagram.png) 
+![Referenciaarchitektúra: Magas rendelkezésre állású webalkalmazás](./images/multi-region-web-app-diagram.png) 
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra 
 
-Ez az architektúra látható egy épít [webalkalmazás a méretezhetőség javítása][guidance-web-apps-scalability]. A fő különbségek a következők:
+Ez az architektúra [A méretezhetőség javítása webalkalmazásokban][guidance-web-apps-scalability] című cikkben bemutatott architektúrára épít. A legfontosabb különbségek a következők:
 
-* **Elsődleges és másodlagos régiók**. Ez az architektúra két régió magasabb rendelkezésre állásának eléréséhez használja. Az alkalmazás központi telepítése mindegyik régióhoz. A normál működés során a rendszer a hálózati forgalom irányítja az elsődleges régióban. Ha nem érhető el az elsődleges régióban, továbbítódik a másodlagos régióba. 
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
-* **Az Azure Traffic Manager**. [A TRAFFIC Manager] [ traffic-manager] irányítja a bejövő kéréseket az elsődleges régióban. Ha az adott régióban futó alkalmazás nem érhető el, a Traffic Manager feladatátadás a másodlagos régióba.
-* **A georeplikáció** SQL-adatbázis és a Cosmos-adatbázis. 
+* **Elsődleges és másodlagos régiók**. Ez az architektúra két régiót használ a magas rendelkezésre állás eléréséhez. A rendszer az összes régióban telepíti az alkalmazást. A normál működés során a hálózati forgalom az elsődleges régió felé irányul. Ha az elsődleges régió nem érhető el, a rendszer a másodlagos régió felé irányítja a forgalmat. 
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+* **Azure Traffic Manager**. A [Traffic Manager][traffic-manager] az elsődleges régió felé irányítja a kérelmeket. Ha az adott régiót futtató alkalmazás nem érhető el, a Traffic Manager átirányítja a forgalmat a másodlagos régió felé.
+* Az SQL Database és a Cosmos DB **georeplikációja**. 
 
-Egy több területi architektúra biztosít magas rendelkezésre állás érdekében, mint egyetlen régióban üzembe helyezni. Ha egy regionális kimaradás érinti az elsődleges régióban, [Traffic Manager] [ traffic-manager] hogy áthelyezze a feladatokat a másodlagos régióba. Ez az architektúra segíthet is, ha az alkalmazás egy egyedi alrendszer nem tud.
+A többrégiós architektúrák magasabb rendelkezésre állást biztosíthatnak, mint az egyetlen régióban történő üzembe helyezés. Ha egy régió üzemkimaradása hatással van az elsődleges régióra, a [Traffic Manager][traffic-manager] szolgáltatással feladatátvételt hajthat végre a másodlagos régióba. Ez az architektúra az alkalmazás egy adott alrendszerének meghibásodása esetén is segíthet.
 
-Magas rendelkezésre állás elérése érdekében a különböző régiókban néhány általános módszer van: 
+A régiók közötti magas rendelkezésre állás elérésének több általános megközelítése van: 
 
-* A melegtartalék aktív/passzív. Forgalom kerül egy régió tartozik, a más vár melegtartalék közben. Meleg készenléti azt jelenti, hogy a virtuális gépeket, a másodlagos régióban lefoglalt és fut mindig.
-* A meleg készenléti állapotban lévő aktív/passzív. Forgalom kerül egy régió tartozik, a más vár meleg készenléti közben. Meleg készenléti állapot azt jelenti, hogy a virtuális gépeket, a másodlagos régióban nem foglal le addig, amíg a feladatátvételi szükséges. Ez a megközelítés költségek kisebb futtatásához, de általában adott meghibásodás során online állapotba hosszabb ideig tart.
-* Aktív. Mindkét régió aktív, és kérés kerül közöttük. Ha nem érhető el egy régió tartozik, az kívül Elforgatás lesz végrehajtva. 
+* Aktív/passzív készenléti kiszolgálóval. A forgalom az egyik régióra irányul, míg a másik készenléti kiszolgálón várakozik. Készenléti kiszolgáló esetében a másodlagos régió virtuális gépei folyamatosan le vannak foglalva és futnak.
+* Aktív/passzív hidegtartalékkal. A forgalom az egyik régióra irányul, míg a másik hidegtartalékként áll készenlétben. Hidegtartalék esetében a másodlagos régió virtuális gépei nincsenek lefoglalva, amíg nem szükségessé nem válnak feladatátvétel céljából. Ezen megközelítés futtatása kevesebb költséggel jár, de a meghibásodáskor általában hosszabb időt vesz igénybe az üzembe állás.
+* Aktív/aktív. Mindkét régió aktív, és a kérelmek terheléselosztással oszlanak meg közöttük. Ha egy régió elérhetetlenné válik, kikerül a rotációból. 
 
-A referencia-architektúrában melegtartalék feladatátvételi Traffic Manager használata az aktív/passzív összpontosít. 
+Ez a referenciaarchitektúra a készenléti kiszolgálóval konfigurált aktív/passzív üzemmódra összpontosít, a Traffic Managert használva a feladatátvételhez. 
 
 
 ## <a name="recommendations"></a>Javaslatok
 
-Az Ön követelményei eltérhetnek az itt leírt architektúrától. A javaslatok használja ebben a szakaszban kiindulási pontként.
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. A jelen szakaszban leírt javaslatokat tekintse kiindulópontnak.
 
-### <a name="regional-pairing"></a>Regionális párosítás
-Minden Azure-régió, egy másik ugyanazon a földrajzi régióját párosított. Régiók általában választhat a azonos regionális pár (például USA keleti régiója 2. régiója, USA középső RÉGIÓJA). Ennek során a következő előnyöket nyújtja:
+### <a name="regional-pairing"></a>Régiónkénti párosítás
+Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi területen belül. Régiókat általában azonos regionális párokból érdemes választani (például: USA 2. keleti régiója és USA középső régiója). Ennek előnyei például a következők:
 
-* A széles körű kimaradás esetén legalább egy régió kívül minden pár helyreállítási prioritása van.
-* Tervezett Azure rendszerfrissítések egymás után, az lehetséges állásidő minimalizálása érdekében párosított régiók már megkezdődött.
-* A legtöbb esetben a regionális párok található az ugyanazon földrajzi adatok rezidens követelményeinek megfelelően.
+* Széles körű leállás esetén a helyreállításkor minden párból legalább az egyik régió előnyt élvez.
+* A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
+* A legtöbb esetben a regionális párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatás szükséges az alkalmazáshoz. Lásd: [régiói][services-by-region]. Regionális párok kapcsolatos további információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure-régiókat párosítva][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához. Lásd: [Szolgáltatások régiónként][services-by-region]. További információ a regionális párokról: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Az Azure párosított régiói][regional-pairs].
 
 ### <a name="resource-groups"></a>Erőforráscsoportok
-Vegye figyelembe az elsődleges régióban, a másodlagos régióba és a Traffic Manager elhelyezését külön [erőforráscsoportok][resource groups]. Ez lehetővé teszi minden egyes régió egyetlen gyűjteményként telepített erőforrások kezelését.
+Fontolja meg az elsődleges és másodlagos régió, valamint a Traffic Manager külön [erőforráscsoportokban][resource groups] való elhelyezését. Ez lehetővé teszi, hogy az egyes régiókban telepített erőforrásokat egyetlen gyűjteményként kezelje.
 
-### <a name="traffic-manager-configuration"></a>A TRAFFIC Manager-konfiguráció 
+### <a name="traffic-manager-configuration"></a>A Traffic Manager konfigurációja 
 
-**Útválasztás**. A TRAFFIC Manager támogatja több [útválasztási algoritmusok][tm-routing]. A jelen cikkben ismertetett esetben használjon *prioritás* útválasztási (korábbi nevén *feladatátvételi* útválasztási). Ezzel a beállítással a Traffic Manager minden kérést küld az elsődleges régióban hacsak az adott régió végpont el nem érhető el. Ezen a ponton akkor automatikusan átkerül a másodlagos régióba. Lásd: [konfigurálhatja feladatátvételi útválasztási módszer][tm-configure-failover].
+**Útválasztás**. A Traffic Manager többféle [útválasztási algoritmust][tm-routing] támogat. A cikkben leírt forgatókönyvhöz a *prioritásos* útválasztást (régebbi nevén *feladatátvétel esetén használt* útválasztás) használja. Ezzel a beállítással a Traffic Manager az összes kérelmet az elsődleges régió felé irányítja, kivéve akkor, ha az a régió elérhetetlenné válik. Ebben az esetben automatikusan átadja a feladatokat a másodlagos régiónak. Lásd: [A feladatátvétel esetén használt útválasztás konfigurálása][tm-configure-failover].
 
-**Állapotmintáihoz**. A TRAFFIC Manager egy HTTP-(vagy HTTPS) mintavételi használja a végpontok rendelkezésre állásának figyeléséhez. A mintavétel a másodlagos régióba feladatátvételét fázis/sikertelen próba adja meg a Traffic Manager. Működését tekintve a kérést küld a megadott URL-címe. A határidőn belül nem 200 választ kap, ha a mintavételi sikertelen lesz. Négy sikertelen kérelmek, miután a Traffic Manager jelöli meg a végpont állapota csökkentett teljesítményűre vált, és átadja a feladatokat a többi végpont. További információkért lásd: [Traffic Manager-végpont figyelése és a feladatátvételi][tm-monitoring].
+**Állapotminta**. A Traffic Manager HTTP- (vagy HTTPS-) mintavételt használ az egyes végpontok rendelkezésre állásának monitorozására. A mintavétel egy megfelelt/nem felelt meg teszttel határozza meg a Traffic Manager számára, hogy át kell-e adnia a feladatokat a másodlagos régiónak. Ehhez egy kérelmet küld egy meghatározott URL-címre. Ha egy bizonyos időkorláton belül nem 200-as értékű választ kap, a mintavétel meghiúsul. Négy sikertelen kérelem után a Traffic Manager csökkentett teljesítményűnek jelöli a végpontot, és átadja a feladatokat a másik végpontnak. Részletek: [Traffic Manager-végpont monitorozása és feladatátvétele][tm-monitoring].
 
-Ajánlott eljárásként hozzon létre egy egészségügyi mintavételi végpontot, amely jelent a alkalmazás általános állapotát, és használni ezt a végpontot a állapotmintáihoz. A végpont ellenőrizni kell az App Service alkalmazások, a tároló várólista és az SQL-adatbázis például kritikus fontosságú függőségek. Ellenkező esetben a mintavétel előfordulhat, hogy jelentés a kifogástalan állapotú végpontok, ha az alkalmazás kritikus részei ténylegesen nem működnek.
+Ajánlott eljárásként hozzon létre egy olyan állapotminta-végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. A végpontnak a kritikus fontosságú függőségeket kell ellenőriznie, például az App Service-alkalmazásokat, a tárolási üzenetsort és az SQL Database-t. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak.
 
-Másrészről ne használja a állapotmintáihoz alacsonyabb prioritású virtuális gép szolgáltatások kereséséhez. Például ha olyan e-mail szolgáltatás leáll az alkalmazás képes második-szolgáltatóra váltani, vagy csak később az e-mailek küldése. Ez nem egy elég magas prioritású virtuális gép a feladatátvételt az alkalmazás. További információkért lásd: [állapotfigyelő végpont figyelési mintát][health-endpoint-monitoring-pattern].
+Másrészről viszont ne használja az állapotmintát alacsonyabb prioritású szolgáltatások ellenőrzéséhez. Ha például egy e-mail-szolgáltatás áll le, az alkalmazás képes egy második szolgáltatóra váltani, vagy egyszerűen később elküldeni az e-maileket. Ez nem elég magas prioritás ahhoz, hogy az alkalmazás feladatátvételt kezdeményezzen. További információk: [Állapot végponti monitorozását végző minta][health-endpoint-monitoring-pattern].
  
 ### <a name="sql-database"></a>SQL Database
-Használjon [aktív Georeplikáció] [ sql-replication] olvasható másodlagos replika létrehozásához egy másik régióban. Legfeljebb négy olvasható másodlagos másodpéldányokra lehet. Átadja egy másodlagos adatbázist, ha az elsődleges adatbázis meghibásodik vagy offline állapotba kell. Aktív Georeplikáció a rugalmas adatbáziskészlet bármely adatbázis konfigurálható.
+Használjon [aktív georeplikációt][sql-replication] olvasható másodlagos replika létrehozásához egy másik régióban. Legfeljebb négy olvasható másodlagos replikával rendelkezhet. Alkalmazzon feladatátvételt egy másodlagos adatbázisba, ha az elsődleges adatbázis meghibásodik vagy offline állapotba kell helyezni. Az aktív georeplikáció bármilyen rugalmas adatbáziskészlet bármilyen adatbázishoz konfigurálható.
 
 ### <a name="cosmos-db"></a>Cosmos DB
-Cosmos DB georeplikáció különböző régiókban támogat. Egy régió tartozik kijelölt írható és a többi csak olvasható replika.
+A Cosmos DB támogatja a régiók közötti georeplikációt. Az egyik régió írhatóként van kijelölve, a többi pedig csak olvasható replika.
 
-Regionális kimaradás esetén is utasíthat el át egy másik régióban kell lennie a írási régió kiválasztásával. SDK automatikusan elküldi az ügyfélnek az aktuális írási terület, az írási kérelmeket szolgál, így nem kell frissíteni az ügyfél beállításait egy feladatátvétel után. További információkért lásd: [miként ossza el a globális adatok Azure Cosmos DB][cosmosdb-geo].
+Regionális kimaradás esetén a feladatátvételhez kijelölhet egy másik régiót írhatóként. Az ügyfél-SDK automatikusan az aktuális írható régióba küldi az írási kérelmeket, így feladatátvétel után nem kell frissítenie az ügyfél konfigurációját. További információ: [Globális adatterjesztés az Azure Cosmos DB-vel][cosmosdb-geo].
 
 > [!NOTE]
-> A replikák mindegyikét tartozik ugyanabban az erőforráscsoportban.
+> A replikák mindegyike ugyanabba az erőforráscsoportba tartozik.
 >
 >
 
 ### <a name="storage"></a>Tárolás
-Az Azure Storage használata [írásvédett georedundáns tárolás] [ ra-grs] (RA-GRS). Az RA-GRS tárolással rendelkező másodlagos régióba replikálja az adatok. Az adatok csak olvasási hozzáféréssel rendelkezik a másodlagos régióban külön végpontot keresztül. Ha egy regionális kimaradás vagy katasztrófa, az Azure Storage csapat dönthet, hogy a másodlagos régióba földrajzi-feladatátvétel végrehajtásához. Nincs nincs feladatátvételi szükség felhasználói beavatkozásra.
+Az Azure Storage szolgáltatáshoz [írásvédett georedundáns tárolást][ra-grs] (RA-GRS) használjon. Az RA-GRS típusú tárolással a rendszer az adatokat egy másodlagos régióba replikálja. A másodlagos régióhoz csak olvasható hozzáférése van egy különálló végponton keresztül. Regionális kimaradás vagy vészhelyzet esetén az Azure Storage csapata dönthet úgy, hogy földrajzi feladatátvételt hajt végre a másodlagos régióba. Ehhez a feladatátvételhez nincs szükség az ügyfél beavatkozására.
 
-A Queue storage a biztonsági mentési várólista létrehozása a másodlagos régióban. A feladatátvétel során az alkalmazás használhatja a biztonsági mentési várólista, míg az elsődleges régióban elérhető újra. Így az alkalmazás továbbra is az új kérelmek tud feldolgozni.
+A Queue Storage szolgáltatáshoz hozzon létre egy biztonsági várólistát a másodlagos régióban. A feladatátvétel során az alkalmazás a biztonsági várólistát használhatja, amíg az elsődleges régió újra elérhetővé nem válik. Így az alkalmazás továbbra is az új kérelmek tud feldolgozni.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
 
 ### <a name="traffic-manager"></a>Traffic Manager
 
-A TRAFFIC Manager automatikusan leállítja keresztül, ha az elsődleges régióban nem érhető el. Ha a Traffic Manager átadja, van egy adott időn belül, ha ügyfelek nem tudják elérni az alkalmazást. A duration hatással van a következő tényezőket:
+A Traffic Manager automatikusan elvégzi a feladatok átadását, ha az elsődleges régió elérhetetlenné válik. Amikor a Traffic Manager átadja a feladatokat, az alkalmazás egy ideig nem lesz elérhető a felhasználók számára. Ez az időtartam a következő tényezőktől függ:
 
-* A állapotmintáihoz észlelni kell, hogy az elsődleges adatközpont vált nem érhető el.
-* Tartományi szolgáltatási (DNS) névkiszolgálók frissítenie kell a gyorsítótárban lévő DNS-rekordok az IP-címhez, amely a DNS--élettartama (TTL) függ. Az alapértelmezett élettartam 300 másodpercen (5 percen), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
+* Az állapotmintának észlelnie kell, ha az elsődleges adatközpont elérhetetlenné válik.
+* A tartománynév-szolgáltatás (DNS) kiszolgálóinak frissíteniük kell az IP-címhez tartozó gyorsítótárazott DNS-rekordokat. Ez a DNS élettartamától (TTL) függ. Az alapértelmezett TTL 300 másodperc (5 perc), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
 
-További információkért lásd: [kapcsolatos Traffic Manager figyelési][tm-monitoring].
+Részletek: [A Traffic Manager monitorozásának ismertetése][tm-monitoring].
 
-A TRAFFIC Manager ponttá lehetséges hiba a rendszerben. Ha a szolgáltatás nem sikerül, az ügyfelek nem tudnak hozzáférni az alkalmazás a leállások során. Tekintse át a [Traffic Manager szolgáltatásiszint-szerződéssel (SLA)] [ tm-sla] és döntse el, hogy kizárólag a Traffic Manager segítségével megfelel-e az üzleti követelményeinek, a magas rendelkezésre állás érdekében. Ha nem, akkor vegyen fel egy másik forgalom felügyeleti megoldás, a feladat-visszavételre. Ha az Azure Traffic Manager szolgáltatás nem sikerül, módosítsa a kanonikus név (CNAME) rekord a DNS-ben, hogy a többi felügyeleti szolgálat mutasson. Ebben a lépésben kézzel kell elvégezni, és az alkalmazás sem lesznek elérhetők, amíg a DNS-módosításokat továbbítja.
+A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a szolgáltatás meghibásodik, az ügyfelek a leállás ideje alatt nem érhetik el az alkalmazást. Tekintse át a [Traffic Manager szolgáltatói szerződést (SLA)][tm-sla], és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, akkor a biztonság érdekében érdemes lehet hozzáadni egy másik forgalomkezelési szolgáltatást a feladat-visszavételhez. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a saját kanonikus nevének (CNAME) rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson. Ezt a lépést manuálisan kell elvégezni. Amíg a DNS-módosítások érvénybe nem lépnek, az alkalmazás nem lesz elérhető.
 
 ### <a name="sql-database"></a>SQL Database
-A helyreállítási időkorlát (RPO) és az SQL-adatbázis becsült helyreállításkor (Beszúrása) című témakörben [az Azure SQL Database üzletmenet áttekintése][sql-rpo]. 
+Az SQL Database helyreállítási időkorlátjának (RPO) és becsült helyreállítási idejének (ERT) ismertetése [Az Azure SQL Database üzletmenet-folytonossági funkcióinak áttekintése][sql-rpo] című cikkben található. 
 
 ### <a name="storage"></a>Tárolás
-RA-GRS tárolási tartós tárolására szolgál, de fontos tudni, mi történhet kimaradás során:
+Az RA-GRS tároló tartós tárolást biztosít, de fontos tudni, mi történhet egy esetleges kimaradás során:
 
-* A tárolási tervezett kimaradás esetén nem lesznek egy adott időn belül, ha nem rendelkezik írási-férhetnek hozzá az adatokhoz. Ön továbbra is olvashatók be a másodlagos végponti a szolgáltatáskimaradás elhárítása során.
-* Ha egy regionális kimaradás vagy katasztrófa hatással van az elsődleges helyre, és nem lehet helyreállítani az adatokat, az Azure Storage csapat dönthet végezzen el egy földrajzi-feladatátvételt a másodlagos régióba.
-* A másodlagos régióba replikálása aszinkron módon történik. Ezért a földrajzi feladatátvétel történik, ha adatvesztést, lehetséges, ha az adatokat nem lehet helyreállítani az elsődleges régióban.
-* Átmeneti hibák, például egy hálózati kimaradás nem indít el a tárolási feladatátvevő. Tervezze meg az alkalmazás átmeneti hibák rugalmasak lehetnek. Lehetséges megoldást:
+* A tárhely leállásakor egy ideig nem lesz írási hozzáférése az adatokhoz. Leállás során a másodlagos végponton keresztül továbbra is olvashatók az adatok.
+* Ha egy regionális kimaradás vagy vészhelyzet hatással van az elsődleges helyszínre, és az ott található adatok nem állíthatók helyre, az Azure Storage csapata dönthet úgy, hogy földrajzi feladatátvételt hajt végre a másodlagos régióba.
+* Az adatok replikálása a másodlagos régióba aszinkron módon történik. Ezért, amikor földrajzi feladatátvétel megy végbe, adatvesztés történhet, ha az adatok nem állíthatók teljesen helyre az elsődleges régióból.
+* Az átmeneti hibák – például a hálózati leállások – nem indítják meg a tároló feladatátvételét. Tervezze alkalmazását úgy, hogy ellenálló legyen az átmeneti hibákkal szemben. Lehetséges megoldások:
   
-  * A másodlagos régióba olvasni.
-  * Átmenetileg váltson egy másik tárfiókhoz új az írási műveletek (például, hogy a várólista-üzenetek).
-  * A másodlagos régióba adatainak másolása másik tárolási fiókot.
-  * Adja meg a csökkentett, amíg a rendszer visszaállítása sikertelen.
+  * Olvasás a másodlagos régióból.
+  * Ideiglenes átváltás másik tárfiókra az új írási műveletekhez (például az üzenetek üzenetsorba való helyezéséhez).
+  * Adatok átmásolása a másodlagos régióból egy másik tárfiókba.
+  * Csökkentett szolgáltatás nyújtása, amíg a rendszer végre nem hajtja a feladat-visszavételt.
 
-További információkért lásd: [Mi a teendő, ha egy Azure Storage esetleges leálláskor][storage-outage].
+További információk: [Mi a Mi a teendő az Azure Storage leállása esetén][storage-outage].
 
-## <a name="manageability-considerations"></a>A kezelhetőséggel kapcsolatos szempontok
+## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
 ### <a name="traffic-manager"></a>Traffic Manager
 
-Ha a Traffic Manager átadja, ajánlott végrehajtása manuális feladat-visszavétel, nem pedig egy automatikus feladat-visszavétel végrehajtására. Ellenkező esetben hozhat létre olyan helyzet, amelyben az alkalmazás oda-vissza régiók közötti tükrözi. Ellenőrizze, hogy minden alkalmazás alrendszer visszavétele előtt kifogástalan.
+Ha a Traffic Manager feladatátvételt hajt végre, automatikus feladat-visszavétel megvalósítása helyett a manuális feladat-visszavételt ajánlunk. Ellenkező esetben előfordulhat, hogy egyes esetekben az alkalmazás oda-vissza váltogat a régiók között. A feladat-visszavétel előtt ellenőrizze, hogy az alkalmazás minden alrendszere működik-e.
 
-Vegye figyelembe, hogy a Traffic Manager vissza alapértelmezés szerint automatikusan nem. Ennek megelőzése érdekében manuálisan a Prioritás csökkentése az elsődleges régió egy feladatátvételi esemény után. Tegyük fel például, hogy az elsődleges régióban 1 prioritású virtuális gép, és a másodlagos prioritású 2. A feladatátvétel után állítsa be az elsődleges régióban prioritás 3, hogy megakadályozza az automatikus feladatátvételi. Ha készen áll vissza, frissítse a prioritás 1.
+Vegye figyelembe, hogy a Traffic Manager alapértelmezés szerint automatikusan végrehajtja a feladat-visszavételt. Ennek megelőzéséhez manuálisan csökkentse az elsődleges régió prioritását a feladatátvétel után. Tegyük fel például, hogy az elsődleges régió 1-es prioritású, a második pedig 2-es. A feladatátvétel után az automatikus visszavétel megelőzéséhez állítsa az elsődleges régió prioritását 3-asra. A prioritást akkor állítsa 1-esre, ha már készen áll a visszaváltásra.
 
-Az alábbi parancsokat a prioritás frissítése.
+A prioritás a következő parancsokkal frissíthető.
 
 **PowerShell**
 
@@ -133,16 +133,16 @@ $endpoint.Priority = 3
 Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $endpoint
 ```
 
-További információkért lásd: [Azure Traffic Manager parancsmagok][tm-ps].
+További információk: [Az Azure Traffic Manager parancsmagjai][tm-ps].
 
-**Az Azure parancssori felület (CLI)**
+**Azure parancssori felület (CLI)**
 
 ```bat
 azure network traffic-manager endpoint set --name <endpoint> --profile-name <profile> --resource-group <resource-group> --type AzureEndpoints --priority 3
 ```    
 
 ### <a name="sql-database"></a>SQL Database
-Ha az elsődleges adatbázis, hajtsa végre a másodlagos adatbázis manuális feladatátvétele. Lásd: [egy Azure SQL Database vagy feladatátvételi visszaállításához a másodlagos][sql-failover]. A másodlagos adatbázis csak olvasható marad, amíg a rendszer átadja.
+Ha az elsődleges adatbázis meghibásodik, hajtson végre manuális feladatátvételt a másodlagos adatbázisra. Lásd: [Az Azure SQL Database visszaállítása vagy feladatátvétel a másodlagos kiszolgálóra][sql-failover]. A másodlagos adatbázis csak olvasható marad, amíg el nem végzi a feladatátvételt.
 
 
 <!-- links -->
@@ -166,4 +166,4 @@ Ha az elsődleges adatbázis, hajtsa végre a másodlagos adatbázis manuális f
 [tm-routing]: /azure/traffic-manager/traffic-manager-routing-methods
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
 [traffic-manager]: https://azure.microsoft.com/services/traffic-manager/
-[visio-download]: https://archcenter.azureedge.net/cdn/app-service-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/app-service-reference-architectures.vsdx

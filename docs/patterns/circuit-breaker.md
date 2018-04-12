@@ -1,110 +1,111 @@
 ---
-title: "Áramköri megszakító"
-description: "Kezeli olyan hárítsa el a távoli szolgáltatás vagy az erőforrás való csatlakozáskor a változó időt is igénybe vehet."
-keywords: "Kialakítási mintája"
+title: Circuit Breaker
+description: Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek javítása esetleg sok időt venne igénybe.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories: resiliency
-ms.openlocfilehash: ce110d0bbda600575d328895f2feca5aa253479d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+pnp.pattern.categories:
+- resiliency
+ms.openlocfilehash: 0f93c1ef664c8e7385895e3854835699f674ee0e
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 03/30/2018
 ---
-# <a name="circuit-breaker-pattern"></a>Áramköri megszakító minta
+# <a name="circuit-breaker-pattern"></a>Áramkör-megszakító minta
 
-Kezeli olyan helyreállítani, a változó időt is igénybe vehet a távoli szolgáltatás vagy az erőforrás történő csatlakozás során. Ez javítja a stabilitás és a rugalmasságot az alkalmazás.
+Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek helyreállítása esetleg sok időt venne igénybe. Ez javítja az alkalmazások stabilitását és rugalmasságát.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Elosztott környezetben a távoli erőforrásokhoz és szolgáltatásokhoz hívások megakadályozhatják átmeneti hibák, például lassú hálózati kapcsolatoknál, időtúllépések vagy az erőforrásokat, amelyek túljegyzett vagy átmenetileg nem érhető el. Ezek a hibák általában javítsa magukat egy rövid időn belül, és a hatékony felhő alkalmazás stratégia használatával kezelendő kell készíteni a [újrapróbálkozási mintát][retry-pattern].
+Elosztott környezetben előfordulhat, hogy a távoli erőforrások és szolgáltatások meghívása átmeneti hibák miatt meghiúsul. Ilyen probléma lehet a lassú hálózati kapcsolat vagy időtúllépés, illetve ha az erőforrások nem fedezik az igényeket, vagy átmenetileg nem érhetők el. Ezek a hibák általában rövid idő alatt kijavítják magukat, és egy stabil felhőalapú alkalmazásnak fel kell készülnie az ilyesmi kezelésére, például egy [újrapróbálkozási mintához][retry-pattern] hasonló stratégiát alkalmazva.
 
-Azonban is lehet olyan helyzetekben, ahol hibák vannak a nem várt esemény miatt, és, hogy sokkal hosszabb ideig is tarthat megoldásával kapcsolatban. Ezek a hibák között szolgáltatás teljes hiba súlyossága a egy részleges a kapcsolat megszakadása lehet. Ezekben a helyzetekben előfordulhat, hogy az alkalmazás számára, amely nem valószínű, hogy a sikeres művelet folyamatosan újra értelmetlen, és ehelyett az alkalmazás kell gyorsan fogadja el, hogy a művelet sikertelen volt, és ennek megfelelően kezeli ezt a hibát.
+Lehetnek azonban olyan helyzetek, amikor a hibákat nem várt események okozzák, amelyek helyrehozása tovább tarthat. Az ilyen hibák súlyossága a részleges kapcsolódási problémától a szolgáltatás teljes leállásáig terjedhet. Az ilyen helyzetekben lehet, hogy nincs értelme az alkalmazásnak folyamatosan újrapróbálkozni a művelettel, mert nem valószínű, hogy sikerrel járna. Ehelyett inkább az a szerencsés, ha az alkalmazás gyorsan tudomásul veszi, hogy a művelet nem sikerült, és ennek megfelelően kezeli a hibát.
 
-Emellett, ha a szolgáltatás foglalt, a rendszer egy része sikertelen vezethet kaszkádolt hibák. Például egy művelet, amely meghívja a szolgáltatást sikerült konfigurálni egy időtúllépési bevezetéséhez, és válaszadás egy hibaüzenet, ha a szolgáltatás nem válaszol az ez idő alatt. Ezt a stratégiát azonban sok egyidejű kérés művelethez az időkorlát eléréséig letiltása esetén. Ezek a blokkolt kérelmek előfordulhat, hogy tartsa a kritikus rendszer-erőforrások, például a memória, a szálak, a Helyadatbázis-kapcsolatot és a stb. Ezért ezeket az erőforrásokat sikerült válnak kimerül, más szeretné használni, ugyanazokat az erőforrásokat a rendszer valószínűleg független részeinek hibája okozza. Ebben az esetben a művelet nem sikerül azonnal, és csak meghívására történt kísérlet a szolgáltatás valószínűleg sikeres lesz esetén előnyösebb lenne. Vegye figyelembe, hogy rövidebb időkorlátnak súgó a probléma, de az időtúllépés nem lehet, hogy a művelet sikertelen lesz az esetek többségében rövid akkor is, ha a a szolgáltatásnak küldött kérelemben volna végül sikeres lehet.
+Emellett, ha egy szolgáltatás nagyon elfoglalt, a rendszer egy részén előforduló hiba egész hibasorozatot indíthat be. Egy szolgáltatást meghívó műveletet például lehet úgy konfigurálni, hogy megvalósítson egy időtúllépést, és hibaüzenettel válaszoljon, ha a szolgáltatás nem válaszol a megadott időkereten belül. Ez a stratégia azonban eredményezheti azt, hogy az ugyanehhez a művelethez küldött sok párhuzamos kérés is blokkolva lesz az időkorlát lejáratáig. Ezek a blokkolt kérelmek olyan kritikus rendszererőforrásokat akadályozhatnak, mint a memória, szálak, adatbázis-kapcsolatok stb. Ebből következik, hogy ezek az erőforrások kimerülhetnek, ez pedig hibát okozhat a rendszer esetleg nem is kapcsolódó, de azonos erőforrásokat használó részeiben. Ezekben a helyzetekben az a jó, ha a művelet azonnal meghiúsul, és csak akkor érdemes újból meghívni a szolgáltatást, ha nagy esély van arra, hogy sikerül. Vegye figyelembe, hogy rövidebb időkorlát beállításával megoldható ez a probléma, de az időkorlát ne legyen olyan rövid, hogy a művelet szinte mindig meghiúsuljon, még akkor is, ha végül a szolgáltatáskérés sikeres.
 
 ## <a name="solution"></a>Megoldás
 
-Az áramköri megszakító mintát, Michael Nygard által a könyv popularized [kiadás azt!](https://pragprog.com/book/mnee/release-it), megakadályozhatja, hogy az alkalmazás a ismételten valószínűleg hiba fog előfordulni egy művelet végrehajtása közben. Várakozás nélkül lehetővé téve a rögzített vagy általi lefoglalását CPU-ciklusok kell, amíg azt meghatározza, hogy a tartalék hosszú hiba tartó. Az áramköri megszakító mintát is lehetővé teszi a az alkalmazás észleléséhez, hogy megoldódott-e a hibát. Ha a probléma úgy tűnik, hogy a javított, az alkalmazás megpróbálja meghívni a műveletet.
+A Michael Nygard [Release it!](https://pragprog.com/book/mnee/release-it) című könyvében népszerűsített áramkör-megszakítási minta megakadályozhatja, hogy egy alkalmazás ismételten megpróbáljon végrehajtani egy nagy valószínűséggel meghiúsuló műveletet. Így lehetővé teszi a folytatást, nem kell a hiba kijavítására várni, vagy CPU-ciklusokat pazarolni arra, hogy kiderüljön, hosszan tartó hibáról van szó. Az áramkör-megszakítási minta azt is lehetővé teszi az alkalmazás számára, hogy észlelje, ha a hibát kijavították. Ha úgy tűnik, hogy a hiba megoldódott, az alkalmazás megpróbálhatja meghívni a műveletet.
 
-> Az áramköri megszakító mintát célja az újrapróbálkozási mintát eltér. Az újrapróbálkozási mintát lehetővé teszi, hogy egy alkalmazást, majd ismételje meg a várt értéket, amely akkor lesz sikeres a művelet. Az áramköri megszakító mintát megakadályozza, hogy az alkalmazás, amely valószínűleg hiba fog előfordulni művelet végrehajtása a. Egy alkalmazás ezen két minták kombinálhatja újrapróbálkozási minta meghívni egy áramköri megszakító keresztül művelet használatával. Azonban az újrapróbálkozási logika legyen az áramköri megszakító által visszaadott kivételek-és nagybetűket, és abandon újrapróbálkozások, ha az áramköri megszakító azt jelzi, hogy a hibát nem átmeneti.
+> Az áramkör-megszakító minta nem azonos az újrapróbálkozási mintával. Az újrapróbálkozási minta lehetővé teszi az alkalmazás számára, hogy újból megpróbálkozzon egy művelettel, ha arra számít, hogy sikeres lesz. Az áramkör-megszakítási minta megakadályozza, hogy egy alkalmazás olyan műveletet próbáljon többször végrehajtani, amely nagy eséllyel lesz sikertelen. Az alkalmazások kombinálhatják ezt a két mintát úgy, hogy az újrapróbálkozási mintát használják egy művelet áramkör-megszakítón keresztüli meghívására. Az azonban fontos, hogy az újrapróbálkozási minta érzékeny legyen az áramkör-megszakító által visszaadott kivételekre, és abbahagyja az újrapróbálkozási kísérleteket, ha az áramkör-megszakító azt jelzi, hogy a hiba nem átmeneti.
 
-Egy áramköri megszakító proxyként viselkedik, előfordulhat, hogy eleget nem tevő műveletekhez. A proxy kell történt, és ezen információk használatával határozza meg, hogy a művelet folytatásához engedélyezze a legújabb hibák számának figyelése, vagy egyszerűen küldött azonnal kivételt.
+Az áramkör-megszakító proxyként viselkedik az esetlegesen meghiúsuló műveleteknél. A proxynak monitoroznia kell a legutóbbi jelentkezett hibák számát, ez az információ segít eldönteni, hogy engedje-e a művelet továbbhaladását, vagy egyszerűen azonnal küldjön egy kivételt.
 
-A proxy, a következő állapotokkal egy elektromos áramköri megszakító működésére nézve, amelyek egy állapotgép valósítható meg:
+A proxy egy, az alábbi, egy elektromos áramkör-megszakító működését utánzó állapotokkal bíró állapotgépként valósítható meg:
 
-- **Lezárt**: az alkalmazás a kérelem annak biztosítására, hogy a műveletet. A proxy fenntartja a száma a legutóbbi hibákat, és ha a művelet hívása sikertelen a proxy növeli a számláló értéke. A legújabb hibák száma meghaladja a megadott küszöbértéket egy adott időtartamon belül, ha a proxy elhelyezi a **nyitott** állapota. Ezen a ponton a proxy elindul egy időtúllépési számlálót, és idő letelte után a proxy elhelyezi a **félig nyitott** állapotát.
+- **Zárt**: Az alkalmazásból érkező kérelmet a rendszer a művelethez irányítja. A proxy számlálóban követi a közelmúltbeli hibák számát, és ha a művelet meghívása nem sikeres, a proxy növeli a számláló értékét. Ha a közelmúltbeli hibák száma meghalad egy megadott küszöbértéket egy adott időtartamon belül, a proxy **Nyitott** állapotba kerül. Ezen a ponton a proxy elindít egy időtúllépési időzítőt, és annak lejártakor a proxy **Félig nyitott** állapotba kerül.
 
-    > Az időtúllépés időzítő célja próbálja megoldani a problémát, mielőtt engedélyezné az alkalmazást újra a műveletet a hibát okozó rendszer ideje.
+    > Az időtúllépési időzítő célja az, hogy időt adjon a rendszernek a hibát okozó probléma megoldására, mielőtt engedélyezné az alkalmazás számára, hogy újra megpróbálja elvégezni a műveletet.
 
-- **Nyissa meg**: A kérelmet az alkalmazás azonnal leáll, és kivételt küld vissza az alkalmazást.
+- **Nyitott**: Az alkalmazásból érkező kérelem azonnal meghiúsul, az alkalmazás kivételt kap vissza.
 
-- **Váltakozó nyitott**: az alkalmazás kérelmeinek korlátozott számú engedélyezettek továbbítja, és meghívja a műveletet. Ha ezek a kérelmek sikeres, feltételezzük, hogy a hiba, amely korábban következtében a hiba kijavítása, és az áramköri megszakító vált a **lezárva** állapota (a sikertelen kísérletek számlálója alaphelyzetbe állítása). Ha a kérelmet, sikertelen, az áramköri megszakító azt feltételezi, hogy a hiba továbbra is jelen-e, hogy a rendszer visszatér a **nyitott** állapot és az időtúllépés időzítő ahhoz, hogy megkapja a további időt állítsa helyre a hibát a rendszer újraindul.
+- **Félig nyitott**: Az alkalmazásból érkező kérelmek korlátozott számban átjuthatnak, és meghívhatják a műveletet. Ha ezek a kérelmek sikeresek, feltételezhető, hogy a korábban meghibásodást okozó hiba megszűnt, és az áramkör-megszakító átvált **Zárt** állapotra (a hibaszámláló alaphelyzetbe áll). Ha a kérelem meghiúsul, az áramkör-megszakító feltételezi, hogy a hiba továbbra is fennáll, ezért visszaáll **Nyitott** állapotba, és újraindítja az időtúllépési időzítőt, hogy további időt biztosítson a rendszernek a meghibásodásból való helyreállásra.
 
-    > A **félig nyitott** állapota akkor hasznos, ezáltal megakadályozhatja, hogy a helyreállítási szolgáltatás által érintett hirtelen túlterhelve. Szolgáltatás állítja helyre, akkor előfordulhat, hogy lehet támogatja a korlátozott mennyiségű kérést, amíg a helyreállítás, de a folyamatban lévő helyreállítás alatt a munkahelyi áramlik sok túllépi az időkorlátot a szolgáltatás, vagy végezzen ismét feladat.
+    > A **Félig nyitott** állapot azért hasznos, mert megakadályozza, hogy a helyreálló szolgáltatást hirtelen elárasszák a kérelmek. Előfordul, hogy miközben zajlik a helyreállítás, a szolgáltatás már képes korlátozott számban kiszolgálni kéréseket a teljes helyreállásig, de amíg folyamatban van a helyreállítás, a nagy mennyiségű feladattól időtúllépés fordulhat elő, vagy esetleg újra meghibásodik a szolgáltatás.
 
-![Áramköri megszakító állapotok](./_images/circuit-breaker-diagram.png)
+![Az áramkör-megszakító állapotai](./_images/circuit-breaker-diagram.png)
 
-Az ábrán a sikertelen kísérletek számlálója használják a **lezárva** állapota időpontokat. Automatikusan visszaáll a rendszeres időközönként. Ez segít megakadályozni az áramköri megszakító belépjen a **nyitott** állapot, ha azt észlel alkalmi hibák. A hiba küszöbértékét, amely utazás közben az áramköri megszakító be a **nyitott** állapot csak akkor érhető el, amikor adott számú hiba történt egy adott időszakban. A számláló által használt a **félig nyitott** állapotát rögzíti a hívási a művelet sikeres próbálkozások számát. Az áramköri megszakító visszatér a **lezárva** állapot után a megadott számú egymást követő műveletek meghívása sikeresek voltak. Bármely hívás sikertelen lesz, ha beírja-e az áramköri megszakító a **nyissa meg** azonnal állapotát, és a sikeres a számláló a következő alkalommal, akkor visszaáll a **félig nyitott** állapotát.
+Az ábrán a **Zárt** állapot által használt hibaszámláló időalapú. Rendszeres időközönként automatikusan alaphelyzetbe áll. Ez segít megakadályozni, hogy az áramkör-megszakító belépjen a **Nyitott** állapotba, ha csak alkalmanként észlel hibát. Az áramkör-megszakítót **Nyitott** állapotba léptető küszöbérték csak akkor érhető el, hogy a megadott számú hiba megadott időtartam alatt következik be. A **Félig nyitott** állapot által használt számláló a művelet meghívására tett sikeres kísérletek számát rögzít. Az áramkör-megszakító akkor tér vissza a **Zárt** állapotba, ha adott számú egymást követő műveletmeghívás sikeres volt. Ha bármely meghívás meghiúsul, az áramkör-megszakító azonnal belép a **Nyitott** állapotba, és a sikeres meghívások számlálója alaphelyzetbe áll, amikor a megszakító újra **Félig nyitott** állapotba lép.
 
-> Hogyan állítja helyre a rendszer kezeli kívülről, valószínűleg visszaállítása vagy újraindítása sikertelen összetevő vagy a hálózati kapcsolat javítása.
+> A rendszer helyreállásának kezelése kívülről történik, esetleg egy meghibásodott összetevő visszaállításával vagy újraindításával, vagy a hálózati kapcsolat megjavításával.
 
-Az áramköri megszakító mintát stabilitását biztosít, miközben a rendszer egy történt hiba után állítja helyre, és minimálisra csökkenti a teljesítményre gyakorolt hatása. Ez a Súgó gombra a rendszer a válaszidő karbantartása gyorsan visszautasítja a kérelmet, amely valószínűleg hiba fog előfordulni művelet, hanem a Várakozás a művelet időtúllépés, vagy soha nem adja vissza. Az áramköri megszakító kivált egy eseményt minden alkalommal, amikor az állapot változik, ha ezt az információt a részét a rendszer az áramköri megszakító által védett állapotának figyelésére, illetve riasztást a rendszergazda, ha egy áramköri megszakító utazás közben történő használható-e a **megnyitása** állapotát.
+Az áramkör-megszakító minta stabilitást biztosít arra az időszakra, amíg a rendszer helyreáll egy meghibásodás után, és minimálisra csökkenti a hiba teljesítményre gyakorolt hatását. A segítségével fenntartható a rendszer válaszideje, mert gyorsan visszautasítja a várhatóan sikertelen műveletekre irányuló kéréseket, nem várja meg a művelet időtúllépését, vagy azt, hogy egyáltalán ne küldjön választ. Ha az áramkör-megszakító minden állapotváltáskor létrehoz egy eseményt, ez az információ segít monitorozni a rendszer áramkör-megszakító által védett részének állapotát, vagy riasztást küldeni egy rendszergazdának, ha az áramkör-megszakító **Nyitott** állapotba kerül.
 
-A minta személyre szabható legyen, és ezeket szerint, a lehetséges hiba. Például egy növekvő időtúllépés időzítő egy áramköri megszakító alkalmazhat. Az áramköri megszakító a sikerült elhelyezni a **nyitott** néhány másodpercen belül kezdetben állapotát, és ezután Ha a hiba nem sikerült megoldani az időtúllépési néhány percet, és így tovább. Egyes esetekben nem pedig a **nyitott** állapot adatszolgáltató hiba és kivételt, ez például akkor lehet hasznos, amely elsősorban az alkalmazás az alapértelmezett értéket.
+A minta testreszabható, és a lehetséges hiba típusának megfelelően alkalmazható. Alkalmazhat például növekvő időtúllépési időzítőt egy áramkör-megszakítón. Az áramkör-megszakítót először néhány másodpercre helyezheti **Nyitott** állapotba, majd, ha a hiba nem oldódott meg, növelheti az időkorlátot néhány percre, és így tovább. Bizonyos esetekben hasznos lehet egy, az alkalmazás számára jelentéssel bíró alapértelmezett értéket visszaadni az alkalmazásnak ahelyett, hogy a **Nyitott** állapot hibát adna vissza, és kivételt hozna létre.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ez a kialakítás megvalósítása meghatározásakor a következő szempontokat kell figyelembe vennie:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-**Kivételkezelés**. Egy alkalmazás egy áramköri megszakító keresztül művelet meghívása kezelni a kivételek jelenik meg, ha a művelet nem érhető el kell készíteni. Kivételek kezelése lesz az adott alkalmazás. Például egy alkalmazás sikerült ideiglenesen csökkentheti a funkciókat, végrehajthatja ugyanezt a feladatot, vagy az beszerzése ugyanazokat az adatokat, a másik művelet meghívása vagy jelentse a kivétel a felhasználó és kérje meg, hogy később próbálja meg újból.
+**Kivételkezelés**. A műveletet áramkör-megszakítón keresztüli meghívó alkalmazást fel kell készíteni azon kivételek kezelésére, amelyek akkor jönnek létre, amikor a művelet nem érhető el. A kivételek kezelése alkalmazásspecifikus lesz. Az alkalmazás például átmenetileg csökkentheti a működési teljesítményét, meghívhat egy másik műveletet, hogy az megpróbálja végrehajtani ugyanazt a feladatot, vagy beszerezni ugyanazokat az adatokat, illetve jelentheti a kivételt a felhasználónak, és megkérheti, hogy próbálkozzon később újra.
 
-**Kivételek típusú**. A kérelem sikertelen lehet, amelyek jelezhetik a többinél szigorúbb típusú hiba számos oka. Például egy kérelem meghiúsulhat, mert a távoli szolgáltatás összeomlott és helyreállítása, néhány percet vesz igénybe, vagy mert a szolgáltatás ideiglenesen túlterhelt alatt időtúllépés miatt. Egy áramköri megszakító megvizsgálhatja a kivételeket, és állítsa be ezeket a kivételeket természetétől függően a stratégia típusú lehet. Például akkor lehet szükség időtúllépési kivételek az áramköri megszakító való trip nagyobb számú a **nyitott** állapot, a hiba oka, hogy a szolgáltatás nem volt teljesen elérhető száma képest.
+**Kivételek típusai**. Egy kérés sok okból meghiúsulhat, ezek némelyike komolyabb meghibásodást jelez, mint mások. Egy kérelem meghiúsulhat például azért, mert egy távoli szolgáltatás összeomlott, és a helyreállása eltart pár percig, vagy meghiúsulhat időtúllépés miatt, ha a szolgáltatás átmenetileg túl lett terhelve. Egy áramkör-megszakító képes lehet a felmerülő kivételek típusának vizsgálatára, és képes az adott kivételek természetéhez igazítani a stratégiáját. Előfordulhat például, hogy nagyobb számú időtúllépési kivételre lesz szüksége az áramkör-megszakító **Nyitott** állapotba váltásához ahhoz képest, mint amikor a szolgáltatás teljes leállása miatt jelentkeznek a hibák.
 
-**Naplózás**. Egy áramköri megszakító kell naplófájl összes sikertelen kérések (és valószínűleg sikeres kérelmek) ahhoz, hogy a rendszergazda a művelet állapotának figyelése.
+**Naplózás**. Az áramkör-megszakítónak minden meghiúsult kérelmet naplóznia kell (és esetleg a sikereseket is), hogy a rendszergazda monitorozni tudja a művelet állapotát.
 
-**Helyreállíthatósága**. Az áramköri megszakító az általa védett művelet valószínűleg helyreállítási szerkezet megfelelően konfigurálni kell. Például, ha az áramköri megszakító marad a **nyitott** állapot hosszú ideig felvethet kivételek akkor is, ha a hiba okát lett feloldva. Ehhez hasonlóan a áramköri megszakító ingadozik, és csökkenti az alkalmazások válaszidejét, ha vált a **nyissa meg** állapotát a **félig nyitott** túl gyorsan állapot.
+**Helyreállíthatóság**. Az áramkör-megszakítót úgy konfigurálja, hogy kövesse a védett művelet várható helyreállítási mintáját. Ha például az áramkör-megszakító hosszan **Nyitott** állapotban marad, akkor is létrehozhat kivételeket, ha a hiba oka már megszűnt. Ehhez hasonlóan az áramkör-megszakító ingadozhat és csökkentheti az alkalmazások válaszidejeit, ha túl gyorsan vált a **Nyitott** állapotból **Félig nyitott** állapotba.
 
-**Tesztelése sikertelen műveletek**. Az a **nyissa meg** állapota, nem pedig egy időzítő segítségével határozza meg, váltson át a **félig nyitott** állapotba kerül, a áramköri megszakító helyette rendszeresen ping paranccsal elérhető a távoli szolgáltatás vagy az erőforrás annak meghatározásához, hogy rendelkezik ismét elérhetővé válik. A ping művelet, amely korábban nem sikerült meghívni kísérlet formájában is beletelhet, vagy azt egy különleges műveletet a távoli kifejezetten a teszt a szolgáltatás által biztosított szerint használhat a [állapotfigyelő végpont Figyelési mintát](health-endpoint-monitoring.md).
+**Sikertelen műveletek tesztelése**. A **Nyitott** állapotban lévő áramkör-megszakító ahelyett, hogy időzítővel határozná meg, mikor váltson **Félig nyitott** állapotba, rendszeres időközönként pingelheti a távoli szolgáltatást vagy erőforrást annak megállapításához, hogy az mikor válik újra elérhetővé. Ez a pingelés történhet egy korában meghiúsult művelet meghívásának formájában, vagy lehet a távoli szolgáltatás által kifejezetten a szolgáltatás állapotának tesztelésére biztosított speciális műveletet használni, mint például az [állapot végponti monitorozását végző minta](health-endpoint-monitoring.md).
 
-**Kézi felülbírálás**. A rendszer, ha a helyreállítási a sikertelen művelet ideje rendkívül változó hogy a rendszer kézi alaphelyzetbe állítása, amely lehetővé teszi a rendszergazdának, zárja be a áramköri megszakító (és alaphelyzetbe állítja a sikertelen kísérletek számlálója) beállítás számára előnyös. Hasonlóképpen, a rendszergazda kényszerítheti egy áramköri megszakító be a **nyissa meg** állapotban (Újraindítás a időtúllépés időzítő) Ha a művelet védi az áramköri megszakító: átmenetileg nem érhető el.
+**Kézi felülbírálás**. Olyan rendszerben, ahol a meghiúsuló művelet helyreállítási ideje kifejezetten változó, érdemes manuális visszaállítási lehetőséget biztosítani, hogy a rendszergazda zárhassa az áramkör-megszakítót (és alaphelyzetbe állíthassa a hibaszámlálót). Ehhez hasonlóan a rendszergazda **Nyitott** állapotba kényszerítheti az áramkör-megszakítót (és alaphelyzetbe állíthatja az időtúllépési időzítőt), ha az áramkör-megszakító által védett művelet átmenetileg nem érhető el.
 
-**Párhuzamossági**. Az azonos áramköri megszakító nagyszámú egyidejű alkalmazáspéldányra fért hozzá. Végrehajtása ne egyidejű-kérések blokkolása, vagy adja hozzá túlzott terhelés minden olyan művelet hívására.
+**Egyidejűség**. Ugyanazt az áramkör-megszakítót számos párhuzamos alkalmazáspéldány is elérheti. Ez a megvalósítás valószínűleg nem blokkolja a párhuzamos kéréseket, és nem ad túlzott többletterhelést az egyes műveletmeghívásokhoz.
 
-**Erőforrás megkülönböztetési**. Ügyeljen arra, hogy ha egy egyetlen áramköri megszakító használ egy típusú erőforrás fennáll-e több alapul szolgáló független is. Például a tárolóban, amely több szilánkok tartalmazza, egy shard lehet teljes elérhető amíg egy másik ütközik egy ideiglenes probléma. A következő használati helyzetekben a hibaválaszok egyesítve lesznek, ha egy alkalmazás előfordulhat, hogy próbáljon meg hozzáférni bizonyos szilánkok akkor is, ha a hiba nagyon valószínű, amíg más szilánkok elérésére blokkolhatja, annak ellenére, hogy valószínűleg sikeres.
+**Erőforrás-megkülönböztetés**. Legyen óvatos, ha egy áramkör-megszakítót használ egy erőforrástípushoz, amennyiben több alapul szolgáló független szolgáltató is előfordulhat. Egy több szilánkot tartalmazó adattárban előfordulhat, hogy az egyik szilánk teljesen hozzáférhető, de egy másiknál átmenetileg probléma jelentkezik. Ha ezekben a forgatókönyvekben egyesülnek a hibaválaszok, előfordulhat, hogy egy alkalmazás akkor is megpróbál hozzáférni egy szilánkhoz, amikor nagy valószínűséggel hiba jelentkezek, miközben más szilánkokat blokkol, noha valószínűleg sikeres lenne a művelet.
 
-**Gyorsított áramkör legfrissebb**. Néha hibaválaszt út azonnal, és minimális időtartama tripped marad az áramköri megszakító elegendő információt tartalmazhat. Például egy megosztott erőforráson, amely túl van terhelve válaszát hiba oka lehet, hogy egy azonnali újrapróbálkozási nem ajánlott, és, hogy az alkalmazás kell helyette próbálkozzon újra néhány perc múlva.
+**Gyorsított áramkör-megszakítás**. Néha egy hibaválasz elég információt tartalmaz ahhoz, hogy az áramkör-megszakító azonnal váltson, és átváltva maradjon a lehető legrövidebb ideig. Egy túlterhelt megosztott erőforrástól érkező hibaüzenet például jelezheti azt, hogy az azonnali újrapróbálkozás nem ajánlott, és érdemes inkább pár perccel később újrapróbálkoznia az alkalmazásnak.
 
 > [!NOTE]
-> A szolgáltatás adhat vissza HTTP 429 (túl sok kérelem) Ha az ügyfél szabályozás, vagy a HTTP 503-as (a szolgáltatás nem érhető el), ha a szolgáltatás már nem érhető el. A válasz tartalmazhatnak további adatokat, például az a késleltetés várható időtartama.
+> A szolgáltatás adhat vissza HTTP 429-es hibát (Túl sok kérés), ha szabályozza az ügyfelet, vagy HTTP 503-as hibát (A szolgáltatás nem érhető el), ha a szolgáltatás jelenleg nem érhető el. A válasz tartalmazhat további információkat is, például a késleltetés várható időtartamát.
 
-**Visszajátszását sikertelen kérelmek**. Az a **nyitott** állapotában ahelyett, hogy egyszerűen sikertelen gyorsan, egy áramköri megszakító sikerült is jegyezze fel az egyes kérelmek naplóba részleteit, és gondoskodik ezeket a kérelmeket a rendszer kell játssza, amikor a távoli erőforrás vagy a szolgáltatás elérhetővé válik.
+**Sikertelen kérelmek visszajátszása**. Egy **Nyitott** állapotú áramkör-megszakító az egyszerű és gyors meghiúsulás helyett rögzítheti az egyes kérések adatait egy naplóba, és beállítja a kérések megismétlését, ha a távoli erőforrás vagy szolgáltatás elérhetővé válik.
 
-**Külső szolgáltatások nem megfelelő időtúllépése**. Előfordulhat, hogy egy áramköri megszakító nem teljes védelme érdekében az alkalmazások külső szolgáltatások egy hosszabb időkorlát konfigurált teljesítő műveletek. Az időtúllépési érték túl hosszú, ha a szál fut egy áramköri megszakító blokkolhatja hosszú időn keresztül a áramköri megszakító azt jelzi, hogy sikerült-e a művelet előtt. Megadott idő példányok is megpróbálja meghívni az áramköri megszakító szolgáltatásba, és szálak előtt minden jelentős számú lefoglalják számos egyéb alkalmazás sikeres lesz.
+**Külső szolgáltatások nem megfelelő időtúllépései**. Előfordulhat, hogy egy áramkör-megszakító nem képes teljesen megvédeni az alkalmazásokat a hosszú időkorláttal konfigurált külső szolgáltatásokon meghiúsuló műveletektől. Ha az időkorlát túl hosszú, egy áramkör-megszakítót futtató szál blokkolása hosszú ideig is tarthat, mielőtt az áramkör-megszakító a művelet meghiúsulását jelezné. Lehet, hogy ezen idő alatt sok más alkalmazáspéldány is megpróbálja meghívni a szolgáltatást az áramkör-megszakítón keresztül, és jelentős számú szálat lefoglalhatnak, mielőtt meghiúsulnak.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez a minta használata:
+Használja a következő mintát a következő helyzetekben:
 
-- Megakadályozhatja, hogy egy alkalmazás adott távoli szolgáltatás, vagy egy megosztott erőforrás elérésére, ha ez a művelet nagyon valószínű, sikertelen lesz.
+- Ha meg kell akadályozni, hogy egy alkalmazás meghívjon egy távoli szolgáltatást vagy hozzáférjen egy megosztott erőforráshoz, mert a művelet nagy valószínűséggel meghiúsul.
 
-Ez a minta nem ajánlott:
+Ez a minta nem ajánlott a következő helyzetekben:
 
-- Az alkalmazások, például a memória adatszerkezet helyi titkos erőforrásainak kezelése elérésére. Ebben a környezetben egy áramköri megszakító használatával volna hozzá protokollterhelés a rendszer.
-- Az alkalmazások üzleti logikát a kivételek kezelése helyett.
+- Ha helyi személyes erőforrások hozzáférését kell kezelnie egy alkalmazásban, például egy memórián belüli adatstruktúrát. Ebben a környezetben az áramkör-megszakító csak többletterhelést jelentene a rendszer számára.
+- Ha helyettesíteni szeretné a kivételkezelést az alkalmazásai üzleti logikájában.
 
 ## <a name="example"></a>Példa
 
-A webalkalmazás a lapok számos feltöltött származó adatok egy külső szolgáltatás. A rendszer megvalósítja a minimális gyorsítótárazást, ha ezeken a lapokon a legtöbb találatok miatt a szolgáltatás oda-vissza. A szolgáltatás a webes alkalmazás közötti kapcsolatok sikerült kell konfigurálni a határidőn (jellemzően 60 másodperc), és ha a szolgáltatás ennyi időn belül nem válaszol az egyes weblapon logikai feltételezik, hogy a szolgáltatás nem érhető el, és kivételt jelez.
+Egy webalkalmazásban számos oldal külső szolgáltatásból származó adatokkal van feltöltve. Ha a rendszer minimális gyorsítótárazást valósít meg, ezen oldalak legtöbb megkeresése a szolgáltatással való adatváltást eredményez. A webalkalmazás és a szolgáltatás közötti kapcsolatokat lehet egy időkorláttal (általában 60 mp) konfigurálni, és ha a szolgáltatás nem válaszol ennyi idő alatt, az egyes weboldalak logikája feltételezi, hogy a szolgáltatás nem érhető el, ezért kivételt jelez.
 
-Azonban ha a szolgáltatás leáll és a rendszer túlzottan megnő, felhasználók sikerült kényszeríthető, várjon, amíg egy kivétel előtt 60 másodperc. Végül erőforrások, például a memória, a kapcsolatok és a szálak sikerült kell kimerül, akadályozza meg, hogy más felhasználók csatlakozzanak a rendszer akkor is, ha nem érik lapok, amelyek az adatok beolvasása a szolgáltatástól.
+Ha azonban a szolgáltatás meghiúsul, és a rendszer nagyon elfoglalt, a felhasználóknak akár 60 másodpercig is várakozniuk kell a kivétel létrejötte előtt. Végül a memória, a kapcsolatok, a szálak és a hasonló erőforrások kimerülhetnek, és megakadályozhatják, hogy más felhasználók csatlakozzanak a rendszerhez, még ha azok nem is a szolgáltatástól adatokat lekérő oldalakhoz akarnának hozzáférni.
 
-A rendszer további kiszolgálók hozzáadásával és végrehajtásával, terheléselosztás előfordulhat, hogy erőforrások válnak kimerül, de azt nem megoldani a problémát, mert a felhasználói kérelmek továbbra is lefagyottnak késleltetés és a webkiszolgálók végül továbbra is futtathat a skálázás erőforrások.
+A rendszer méretezése további webkiszolgálók hozzáadásával és terhelés-kiegyenlítés megvalósításával késleltetheti az erőforrások kimerülését, de nem fogja megoldani a problémát, mert a felhasználói kérelmek továbbra sem fognak válaszolni, és a végül az összes webkiszolgáló kifogyhat az erőforrásokból.
 
-A logika, amely csatlakozik a szolgáltatáshoz, és lekéri az adatokat egy áramköri megszakító az alkalmazásburkoló segíthet a probléma megoldásához, és a szolgáltatás hibája több elegantly kezelését. Felhasználói kérelmek továbbra is sikertelen lesz, de és gyorsabban fog-e sikertelen, és az erőforrások nem tiltható le.
+Ha a szolgáltatáshoz kapcsolódó és az adatokat lekérő adatokat egy áramkör-megszakítóba burkoljuk, az segít megoldani ezt a problémát, és a szolgáltatás-meghibásodás kezelése elegánsabb lesz. A felhasználói kérések továbbra is meghiúsulnak, de gyorsabban, és az erőforrások nem lesznek blokkolva.
 
-A `CircuitBreaker` osztály egy olyan objektum, amely megvalósítja az áramköri megszakító vonatkozó állapotadatokat megőrzi a `ICircuitBreakerStateStore` felülete az alábbi kódban látható.
+A `CircuitBreaker` osztály az áramkör-megszakítók állapotinformációit egy olyan objektumban tartalmazza, amely megvalósítja az alábbi kódban látható `ICircuitBreakerStateStore` interfészt.
 
 ```csharp
 interface ICircuitBreakerStateStore
@@ -125,11 +126,11 @@ interface ICircuitBreakerStateStore
 }
 ```
 
-A `State` tulajdonság jelzi az áramköri megszakító aktuális állapotát, és akkor **nyitott**, **HalfOpen**, vagy **lezárva** a általdefiniált`CircuitBreakerStateEnum`enumerálása. A `IsClosed` tulajdonság értéke true, ha az áramköri megszakító le van zárva, de hamis, ha megnyitott vagy félig nyitva kell. A `Trip` metódus a nyitott állapotba vált, az áramköri megszakító állapotát, és rögzíti a kivételt, ami miatt a módosítás állapotú, és a dátum és időpont, amikor a kivétel történt. A `LastException` és a `LastStateChangedDateUtc` tulajdonságok ezeket az információkat adnak vissza. A `Reset` metódus bezárja az áramköri megszakító és a `HalfOpen` módszert állítja be az áramköri megszakító fele megnyitásához.
+A `State` tulajdonság jelzi az áramkör-megszakító aktuális állapotát, és **Open** (Nyitott), **HalfOpen** (Félig nyitott) vagy **Closed** (Zárt) értéket vehet fel a `CircuitBreakerStateEnum` enumerálásban megadottak szerint. Az `IsClosed` tulajdonság értéke akkor legyen true (igaz), ha az áramkör-megszakító le van zárva, és akkor false (hamis), ha a megszakító nyitva vagy félig nyitva van. A `Trip` metódus az áramköri megszakított nyitott állapotba váltja, valamint rögzíti az állapotban változást okozó kivételt a kivétel létrejöttének dátumával és időpontjával együtt. A `LastException` és a `LastStateChangedDateUtc` tulajdonságok adják vissza ezeket az információkat. A `Reset` metódus zárja az áramkör-megszakítót, a `HalfOpen` metódus pedig félig nyitott állapotba helyezi az áramkör-megszakítót.
 
-A `InMemoryCircuitBreakerStateStore` példában osztály tartalmaz egy megvalósítása a `ICircuitBreakerStateStore` felületet. A `CircuitBreaker` osztály hoz létre a megszakító állapot tárolásához az osztály egy példányát.
+A példában szereplő `InMemoryCircuitBreakerStateStore` osztály tartalmazza az `ICircuitBreakerStateStore` interfész megvalósítását. A `CircuitBreaker` osztály létrehozza ennek az osztálynak egy példányát, hogy megőrizze az áramkör-megszakító állapotát.
 
-A `ExecuteAction` metódust a `CircuitBreaker` osztály becsomagolja művelet, mint a megadott egy `Action` delegálni. Ha az áramköri megszakító le van zárva, `ExecuteAction` meghívja a `Action` delegálni. A művelet sikertelen lesz, ha meghívja-e egy kivételkezelőbe `TrackException`, amely megnyitásához áramköri megszakító állapotúra állítja. Az alábbi példakód mutatja be a folyamatot.
+A `CircuitBreaker` osztály `ExecuteAction` metódusa egy, az `Action` delegáltjaként megadott műveletet burkol be. Ha az áramkör-megszakító zárt, az `ExecuteAction` meghívja az `Action` delegáltat. Ha a művelet meghiúsul, egy kivételkezelő meghívja a `TrackException` metódust, amely az áramkör-megszakító állapotát nyitottra állítja. A folyamatot az itt következő kód mutatja be.
 
 ```csharp
 public class CircuitBreaker
@@ -182,13 +183,13 @@ public class CircuitBreaker
 }
 ```
 
-A következő példa bemutatja a (nincs megadva az előző példából) futtatott kód is, ha az áramköri megszakító nem lezárja. Először ellenőrzi, ha az áramköri megszakító van nyitva, a helyi által megadott időtartamnál hosszabb ideig `OpenToHalfOpenWaitTime` mező mellett a `CircuitBreaker` osztály. Ha ez a helyzet, a `ExecuteAction` metódus állítja be az áramköri megszakító váltakozó megnyitásához, majd megpróbálja végrehajtani a műveletet, amelyet a `Action` delegálni.
+A következő példa bemutatja azt az előző példából kihagyott kódrészt, amely akkor lesz végrehajtva, ha az áramkör-megszakító nincs zárva. Először ellenőrzi, hogy az áramkör-megszakító hosszabb ideje van-e nyitva, mint ami a helyi `OpenToHalfOpenWaitTime` mezőben van megadva a `CircuitBreaker` osztályban. Ha ez a helyzet, az `ExecuteAction` metódus félig nyitott állapotba állítja az áramkör-megszakítót, majd megpróbálja végrehajtani az `Action` delegált által meghatározott műveletet.
 
-Ha a művelet sikeres, az áramköri megszakító lezárt állapotában lesz visszaállítva. A művelet sikertelen lesz, ha vissza a nyitott állapotban) és időpontot (a kivétel történt a frissül, hogy az áramköri megszakító további időtartamra újra a művelet végrehajtása előtt megvárja a azokat kioldják.
+Ha a művelet sikeres, az áramkör-megszakító visszavált zárt állapotba. Ha a művelet meghiúsul, visszavált nyitott állapotba, és frissül a kivétel létrejöttének időpontja, így az áramkör-megszakító kivár egy újabb időtartamot, mielőtt újra megpróbálja végrehajtani a műveletet.
 
-Ha az áramköri megszakító csak van nyitva egy rövid ideig kevesebb, mint `OpenToHalfOpenWaitTime` érték, a `ExecuteAction` metódus egyszerűen jelez a `CircuitBreakerOpenException` kivétel és a hibát, ami miatt az áramköri megszakító való áttéréssel megnyitott állapotát jelzi.
+Ha az áramkör-megszakító csak egy rövid ideje van nyitva, az `OpenToHalfOpenWaitTime` értéknél nem régebben, az `ExecuteAction` metódus egyszerűen `CircuitBreakerOpenException` kivételt jelez, és visszaadja azt a hibát, amely miatt az áramkör-megszakító nyitott állapotba került.
 
-Emellett használ egy zároláshoz az áramköri megszakító megakadályozása egyidejű hívás a művelet végrehajtása, amíg félig nyitva. Egy párhuzamos próbáltak meghívni a művelet automatikusan elvégezhető, mintha az áramköri megszakító meg volt nyitva, és azt fogja sikertelen, és a kivételt, a későbbiekben olvashat.
+Ezen felül egy zár segítségével akadályozza meg, hogy az áramkör-megszakító félig nyitott állapotban megpróbáljon párhuzamos hívásokat indítani a művelethez. A művelet meghívására indított egyidejű kísérleteket a rendszer úgy kezeli, mintha az áramkör-megszakító nyitott állapotban lenne, és a kísérlet meghiúsulna a később ismertetett kivétellel.
 
 ```csharp
     ...
@@ -212,7 +213,7 @@ Emellett használ egy zároláshoz az áramköri megszakító megakadályozása 
         bool lockTaken = false;
         try
         {
-          Monitor.TryEnter(halfOpenSyncObject, ref lockTaken)
+          Monitor.TryEnter(halfOpenSyncObject, ref lockTaken);
           if (lockTaken)
           {
             // Set the circuit breaker state to HalfOpen.
@@ -253,7 +254,7 @@ Emellett használ egy zároláshoz az áramköri megszakító megakadályozása 
     ...
 ```
 
-Használatához a `CircuitBreaker` objektum védelméhez egy műveletet, az alkalmazás létrehoz egy új a `CircuitBreaker` osztályhoz, és meghívja a `ExecuteAction` metódus, a művelet lehet elvégezni, mivel a paraméter megadásával. Az alkalmazás tényleges kell készíteni a `CircuitBreakerOpenException` kivétel, ha a művelet sikertelen, mert az áramköri megszakító meg nyitva. A következő kód egy példát mutat be:
+Ha `CircuitBreaker` objektumot használ egy művelet védelmére, egy alkalmazás létrehoz egy példányt a `CircuitBreaker` osztályból, és meghívja az `ExecuteAction` metódust, amelynek paramétere a végrehajtani kívánt művelet. Az alkalmazást elő kell készíteni a `CircuitBreakerOpenException` kivétel rögzítésére arra az esetre, ha a művelet az áramkör-megszakító nyitott állapota miatt meghiúsulna. Az alábbi kód példa erre:
 
 ```csharp
 var breaker = new CircuitBreaker();
@@ -278,13 +279,13 @@ catch (Exception ex)
 }
 ```
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő minták is hasznosak lehetnek ebben a mintában végrehajtása során:
+A következő minták is hasznosak lehetnek ennek a mintának a végrehajtása során:
 
-- [Ismételje meg a minta][retry-pattern]. Ismerteti, hogyan alkalmazás is kezelni a várható ideiglenes hibák csatlakozik egy szolgáltatás vagy a hálózati erőforráshoz transzparens módon megpróbálásával korábban sikertelen műveletet.
+- [Újrapróbálkozási minta][retry-pattern]. Ismerteti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.
 
-- [Minta figyelési állapotfigyelő végpont](health-endpoint-monitoring.md). Előfordulhat, hogy egy áramköri megszakító tudja egy kérést küld a végpont által a szolgáltatás a szolgáltatás teszteléséhez. A szolgáltatás Megadja, hogy annak állapotát kell visszaadnia.
+- [Állapot végponti monitorozását végző minta](health-endpoint-monitoring.md). Egy áramkör-megszakító képes lehet egy szolgáltatás állapotának tesztelésére oly módon, hogy kérést küld egy, a szolgáltatás által közzétett végpontnak. A szolgáltatásnak az állapotát jelző adatokat kell visszaadnia.
 
 
 [retry-pattern]: ./retry.md

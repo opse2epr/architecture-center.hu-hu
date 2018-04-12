@@ -1,15 +1,16 @@
 ---
-title: "Műszaki útmutató: az Azure-ban helyi hibaelhárítás"
-description: "Szóló ismertetése és rugalmas, magas rendelkezésre állású kialakítása, hibatűrő alkalmazások, valamint az Azure helyi hibák összpontosított vészhelyreállítás tervezése."
+title: 'Műszaki útmutató: az Azure-ban helyi hibaelhárítás'
+description: Szóló ismertetése és rugalmas, magas rendelkezésre állású kialakítása, hibatűrő alkalmazások, valamint az Azure helyi hibák összpontosított vészhelyreállítás tervezése.
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: 180eb465e5f82406bb03924a29d5b06d43bbaa24
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 5fc929bd1affe3dd6616f908bae0e7d2fefb89d5
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 [!INCLUDE [header](../_includes/header.md)]
+
 # <a name="azure-resiliency-technical-guidance-recovery-from-local-failures-in-azure"></a>Az Azure rugalmasságát műszaki útmutatót: helyi hibaelhárítás az Azure-ban
 
 Számos alkalmazás rendelkezésre állásának két elsődleges fenyegetéseket.
@@ -69,7 +70,7 @@ A fenti ábrán az Internet Information Services (IIS) réteg (amely működik, 
 ### <a name="load-balancing"></a>Terheléselosztás
 A virtuális gépek elosztott ezek között forgalmat kell rendelkeznie, ha egy alkalmazás és a terhelés elosztása a virtuális gépek között egy adott TCP vagy UDP-végpontot kell csoportosítja. További információkért lásd: [terheléselosztási virtuális gépek](/azure/virtual-machines/virtual-machines-linux-load-balance/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). A virtuális gépek más forrásból (például egy üzenetsor-kezelési mechanizmust) fogadja, ha egy terhelés-kiegyenlítő nincs szükség. A load balancer egy egyszerű állapot-ellenőrzést annak meghatározásához, hogy forgalmat kell küldeni a csomópont használja. Akkor is valósítja meg az alkalmazás-specifikus állapotfigyelő metrikákat, amelyek meghatározzák, hogy a VM forgalmat kell kapnia a saját mintavételt létrehozásához.
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárolás
 Az Azure Storage egy az eredeti tartós szolgáltatás az Azure-bA. Blob, table, várólista és VM lemezegységet biztosít. Magas rendelkezésre állás egyetlen adatközponton belül replikációs és erőforrás-kezelést használ. Az Azure Storage SLA-elérhetőséget biztosítja azt, hogy legalább 99,9 %-ában:
 
 * Helytelenül formázott kérelmek hozzáadása, update, Olvasás és az adatok sikeresen és helyesen dolgozza fel a rendszer.
@@ -160,7 +161,7 @@ Az adatok Azure HDInsight társított alapértelmezett Azure Blob Storage tárol
 3. A szolgáltatási rétegben található gépek csoportosíthatja egy rendelkezésre állási csoportot.
 4. Terheléselosztás és a választható mintavételt konfigurálása.
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 1. Tekintse át a dokumentum a tárolási szakaszát.
 2. Több tárfiókot használja, ha adatokat vagy a sávszélesség meghaladja a kvóták.
 

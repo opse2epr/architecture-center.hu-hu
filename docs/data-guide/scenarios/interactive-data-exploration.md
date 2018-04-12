@@ -1,15 +1,15 @@
 ---
-title: "Adatok interaktív áttekintését"
-description: 
+title: Interaktív adatfeltárás
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: a9e72f4cf88c9082fe79f854dd79e98bfaa918f5
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 20740a8fe912a63526c847416b832941f4ac33ec
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/03/2018
 ---
-# <a name="interactive-data-exploration"></a>Adatok interaktív áttekintését
+# <a name="interactive-data-exploration"></a>Interaktív adatfeltárás
 
 A sok vállalati üzleti intelligencia (BI) megoldások, jelentések és szemantikai modellek létrehozása BI szakemberei és központilag kezelhetők. Egyre azonban a szervezetek szeretné engedélyezni az adatvezérelt döntések felhasználók. Emellett a szervezetek egyre több bérbeadása vannak *adatszakértőkön* vagy *adatelemzők*, feladatokkal, hogy adatokba interaktív módon, és alkalmazza a statisztikai modellek és analitikai technikák a trendek és mintázatok található adatokat. Adatok interaktív áttekintését szükséges eszközök, és adja meg a kis késleltetésű feldolgozása ad hoc lekérdezéseket és az adatok vizuális-platformokat.
 
@@ -25,7 +25,7 @@ Az önkiszolgáló üzleti Intelligencia egy adott üzleti révén, amelyben a f
 
 A BI önkiszolgáló megoldás üzleti felhasználók általában, és felhasználhatják az adatforrások, amely kapcsolódik az adott területre az üzleti, intuitív eszközök és az alkalmazást személyes adatok modellek és megoszthatják-jelentések a munkatársaival.
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
 - [Az Azure Data Catalog](/azure/data-catalog/data-catalog-what-is-data-catalog)
 - [Microsoft Power BI](https://powerbi.microsoft.com/)
@@ -33,14 +33,14 @@ Azure-szolgáltatásokhoz kapcsolódó:
 ## <a name="data-science-experimentation"></a>Adatok tudományos kísérletezés
 Amikor egy szervezet megköveteli a speciális elemzés és prediktív modellezési, akkor a kezdeti előkészítéséhez munkahelyi általában specialistája adatszakértőkön végzi. Egy adatok tudósok felderíti az adatokat, és alkalmazza a statisztikai analitikai módszerek található adatok közötti kapcsolatok *szolgáltatások* és a kívánt előre jelezni *címkék*. Az adatok feltárása szokás programozási nyelvek például Python vagy R statisztikai modellezési és a képi megjelenítés natív módon támogató használatával. A parancsfájlok segítségével feltérképezheti az adatokat általában speciális környezetekben, például Jupyter notebookok üzemelteti. Ezek az eszközök engedélyezése adatszakértőkön ásna az adatokban programozott módon dokumentálásáért és találnak feltárása megosztása során.
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
-- [Az Azure notebookok](https://notebooks.azure.com/)
+- [Azure Notebooks](https://notebooks.azure.com/)
 - [Az Azure Machine Learning Studióban](/azure/machine-learning/studio/what-is-ml-studio)
 - [Az Azure gépi tanulás kísérletezhet szolgáltatások](/azure/machine-learning/preview/experimentation-service-configuration)
 - [Az adatok tudományos virtuális gép](/azure/machine-learning/data-science-virtual-machine/overview)
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 - **Adatvédelmi megfelelőségi adatokat.** Személyes adatok elérhetővé tétele a felhasználók számára az önkiszolgáló elemzési és jelentéskészítési körültekintően kell. Nincsenek valószínűleg megfelelőségi szempontok miatt szervezeti házirendeket, és kapcsolatos szabályozási problémákat. 
 
@@ -52,7 +52,7 @@ Azure-szolgáltatásokhoz kapcsolódó:
 
 ## <a name="architecture"></a>Architektúra
 
-Bár ebben a forgatókönyvben az a célja, hogy interaktív adatelemzés támogatja, a tisztítás, mintavételi, és a feladatok elvégzésében adatok szerkezetének kialakítása tudományos gyakran tartalmaznia hosszú futású folyamatokat. Ennek köszönhetően a [kötegfeldolgozási](./batch-processing.md) architektúrájának megfelelő.
+Bár ebben a forgatókönyvben az a célja, hogy interaktív adatelemzés támogatja, a tisztítás, mintavételi, és a feladatok elvégzésében adatok szerkezetének kialakítása tudományos gyakran tartalmaznia hosszú futású folyamatokat. Ennek köszönhetően a [kötegfeldolgozási](../big-data/batch-processing.md) architektúrájának megfelelő.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
@@ -78,7 +78,7 @@ További információkért lásd: [kötegfeldolgozási](../technology-choices/ba
 
 További információkért lásd: [analitikai adattárolókhoz](../technology-choices/analytical-data-stores.md).
 
-### <a name="analytics-and-reporting"></a>Elemzés és jelentéskészítés
+### <a name="analytics-and-reporting"></a>Elemzések és jelentéskészítés
 
 - **Jupyter**. Jupyter notebookok webböngésző-alapú felületet biztosít például R, Python vagy Scala nyelvű kód futtatásával. R Server vagy a Spark kötegelt adatfeldolgozásra történő használata esetén, vagy ha a Spark SQL használatával definiálhat egy sémát táblák lekérdezése, Jupyter lehet az adatok lekérdezése érdemes választani. Ha Spark, a standard előidézett dataframe API vagy a Spark SQL API-t, valamint beágyazott SQL-utasítások használhatja a lekérdezést, valamint képi megjelenítéseket készíthet.
 - **Interaktív Hive ügyfelek**. Ha a lekérdezést egy interaktív Hive-fürtöt használ, a Hive nézete az Ambari fürt irányítópultot, az Beeline parancssori eszköz vagy bármely ODBC-alapú eszköz (a Hive ODBC-illesztőprogram használatával), például a Microsoft Excel alkalmazást vagy a Power BI is használhatja.

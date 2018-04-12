@@ -1,16 +1,16 @@
 ---
-title: "Elosztott terhelésű virtuális gépek üzemeltetése a méretezhetőség és a rendelkezésre állás érdekében"
-description: "Több Linux rendszerű virtuális gép futtatása az Azure-ban a méretezhetőség és a rendelkezésre állás érdekében."
+title: Elosztott terhelésű virtuális gépek üzemeltetése a méretezhetőség és a rendelkezésre állás érdekében
+description: Több Linux rendszerű virtuális gép futtatása az Azure-ban a méretezhetőség és a rendelkezésre állás érdekében.
 author: telmosampaio
 ms.date: 11/16/2017
 pnp.series.title: Linux VM workloads
 pnp.series.next: n-tier
 pnp.series.prev: single-vm
-ms.openlocfilehash: baccf610e0859358ef71d0c5a1d6228752fc1e2f
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 2c8b1310e0a76ae0cea0a52cdbd2a0e5d3205d6e
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="run-load-balanced-vms-for-scalability-and-availability"></a>Elosztott terhelésű virtuális gépek üzemeltetése a méretezhetőség és a rendelkezésre állás érdekében
 
@@ -137,9 +137,9 @@ Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúr�
 
 4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
 
-  ```bash
-  az login
-  ```
+   ```bash
+   az login
+   ```
 
 ### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
@@ -149,16 +149,16 @@ A mintául szolgáló, egyetlen virtuális gépet alkalmazó számítási felada
 
 2. Nyissa meg a `multi-vm-v2.json` fájlt, és adjon meg egy felhasználónevet és egy SSH-kulcsot az idézőjelek között az alább látható módon, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "",
-  "sshPublicKey": "",
-  ```
+   ```bash
+   "adminUsername": "",
+   "sshPublicKey": "",
+   ```
 
 3. Az `azbb` futtatásával helyezze üzembe a virtuális gépet az alább látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g <resource_group_name> -l <location> -p multi-vm-v2.json --deploy
-  ```
+   ```bash
+   azbb -s <subscription_id> -g <resource_group_name> -l <location> -p multi-vm-v2.json --deploy
+   ```
 
 A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
 
@@ -187,7 +187,7 @@ A mintául szolgáló referenciaarchitektúra üzembe helyezéséről további i
 [runbook-gallery]: /azure/automation/automation-runbook-gallery#runbooks-in-runbook-gallery
 [single-vm]: single-vm.md
 [subscription-limits]: /azure/azure-subscription-service-limits
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [vm-disk-limits]: /azure/azure-subscription-service-limits#virtual-machine-disk-limits
 [vm-scaleset]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-overview
 [vm-sizes]: https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/

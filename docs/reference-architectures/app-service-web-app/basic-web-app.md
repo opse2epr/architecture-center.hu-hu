@@ -1,14 +1,14 @@
 ---
-title: "Alapszintű webalkalmazás"
-description: "A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasolt architektúra."
+title: Alapszintű webalkalmazás
+description: A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasolt architektúra.
 author: MikeWasson
 ms.date: 12/12/2017
 cardTitle: Basic web application
-ms.openlocfilehash: 38b0739cc61d679742b610b99e92aaad8d3b394d
-ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
+ms.openlocfilehash: efd831b1f54fa0662bdfa9874318e7b314172215
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/08/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
@@ -157,7 +157,7 @@ Tippek az alkalmazás hibaelhárításához:
 
 * Az Azure Portal [hibaelhárítási paneljén][troubleshoot-blade] megoldást találhat a leggyakoribb problémákra.
 * A [naplóstreamelés][web-app-log-stream] engedélyezésével közel valós idejű naplóinformációkat tekinthet meg.
-* A [Kudu irányítópultján][kudu] számos eszközt találhat az alkalmazások monitorozásához és hibaelhárításához. További információkért tekintse meg az [Azure-webhelyek online eszközeit ismertető][kudu] blogbejegyzést. A Kudu irányítópultja az Azure Portalról érhető el. Nyissa meg az alkalmazása paneljét, és kattintson az **Eszközök**, majd a **Kudu** elemre.
+* A [Kudu irányítópultján][kudu] számos eszközt találhat az alkalmazások monitorozásához és hibaelhárításához. További információkért tekintse meg az [Azure-webhelyek online eszközeit ismertető][kudu] blogbejegyzést. A Kudu irányítópultja az Azure Portalról érhető el. Nyissa meg az alkalmazása paneljét, és kattintson az <strong>Eszközök</strong>, majd a <strong>Kudu</strong> elemre.
 * Visual Studio használata esetén olvassa el a [webalkalmazások az Azure App Service-ben a Visual Studióval végzett hibaelhárítását][troubleshoot-web-app] ismertető cikket hibakeresési és hibaelhárítási tippekért.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
@@ -252,7 +252,7 @@ További információkért lásd az [erőforrások Azure Resource Manager-sablon
 [ssl-cert]: /azure/app-service-web/web-sites-purchase-ssl-web-site
 [troubleshoot-blade]: https://azure.microsoft.com/updates/self-service-troubleshooting-for-app-service-web-apps-customers/
 [troubleshoot-web-app]: /azure/app-service-web/web-sites-dotnet-troubleshoot-visual-studio
-[visio-download]: https://archcenter.azureedge.net/cdn/app-service-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/app-service-reference-architectures.vsdx
 [vsts]: https://www.visualstudio.com/features/vso-cloud-load-testing-vs.aspx
 [web-app-autoscale]: /azure/app-service-web/web-sites-scale
 [web-app-backup]: /azure/app-service-web/web-sites-backup

@@ -1,98 +1,98 @@
 ---
-title: "Egy helyszíni hálózat csatlakozik az Azure ExpressRoute segítségével"
-description: "Hogyan egy biztonságos pont-pont hálózati architektúra, amely egy Azure virtuális hálózatra és az Azure ExpressRoute használatával csatlakoztatott helyszíni hálózat kiterjedő végrehajtásához."
+title: Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
+description: A jelen cikk azt ismerteti, hogyan lehet kiépíteni egy helyek közötti biztonságos hálózati architektúrát, amely az Azure ExpressRoute használatával összekapcsolt Azure-beli virtuális hálózatból és helyszíni hálózatból áll.
 author: telmosampaio
 ms.date: 11/28/2016
 pnp.series.title: Connect an on-premises network to Azure
 pnp.series.next: expressroute-vpn-failover
 pnp.series.prev: vpn
 cardTitle: ExpressRoute
-ms.openlocfilehash: 671be5118faaefab5ba5348de81642d8a8124b59
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: ada07f399925da6da28b24260f5c73f1e106fd7d
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 03/30/2018
 ---
-# <a name="connect-an-on-premises-network-to-azure-using-expressroute"></a>Egy helyszíni hálózat csatlakozik az Azure ExpressRoute segítségével
+# <a name="connect-an-on-premises-network-to-azure-using-expressroute"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
 
-A referencia-architektúrában bemutatja, hogyan csatlakozzon egy helyi hálózati Azure, a virtuális hálózatok használatával [Azure ExpressRoute][expressroute-introduction]. ExpressRoute-kapcsolatot egy külső kapcsolatot közvetítésével saját, dedikált kapcsolatot használja. A magánhálózati kapcsolat az Azure a helyszíni hálózat kiterjesztése. [**Ez a megoldás üzembe helyezéséhez**.](#deploy-the-solution)
+Ez a referenciaarchitektúra azt mutatja be, hogyan kapcsolható össze egy helyszíni hálózat az Azure virtuális hálózataival az [Azure ExpressRoute][expressroute-introduction] segítségével. Az ExpressRoute-kapcsolatok dedikált, privát kapcsolatot használnak egy külső kapcsolatszolgáltatón keresztül. A privát kapcsolat kiterjeszti a helyszíni hálózatot az Azure-ba. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 ![[0]][0]
 
-*Töltse le a [Visio fájl] [ visio-download] ezen architektúra.*
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
 
 ## <a name="architecture"></a>Architektúra
 
-Az architektúra a következő összetevőkből áll.
+Az architektúra a következőkben leírt összetevőkből áll.
 
-* **Helyszíni vállalati hálózat**. Helyi magánhálózat fut egy szervezeten belül.
+* **Helyszíni vállalati hálózat**. A cégen belül futó helyi magánhálózat.
 
-* **ExpressRoute-kapcsolatcsoportot**. A 2. vagy 3 rétegbeli áramkör által biztosított a kapcsolat szolgáltatójánál, hogy a peremhálózati útválasztók az Azure-ral csatlakozik a helyi hálózaton. A kapcsolatcsoport a hardver-infrastruktúrát kezeli a kapcsolat szolgáltatóját használja.
+* **ExpressRoute-kapcsolatcsoport**. A kapcsolatszolgáltató által biztosított 2. vagy 3. rétegbeli kapcsolatcsoport, amely a peremhálózati útválasztókon keresztül kapcsolja össze a helyszíni hálózatot az Azure-ral. A kapcsolatcsoport a kapcsolatszolgáltató által felügyelt hardveres infrastruktúrát használja.
 
-* **Helyi peremhálózati útválasztók**. A kapcsolatcsoport a szolgáltató által kezelt-hez a helyi hálózaton útválasztók. Attól függően, hogy a kapcsolat ki van építve szükség lehet arra, hogy az útválasztók a nyilvános IP-címeit.
-* **A Microsoft edge útválasztók**. Két útválasztók aktív-aktív magas rendelkezésre állású konfigurációban. Az útválasztókat engedélyezése a kapcsolatok közvetlen csatlakoztatása az adatközpontjában, a kapcsolat szolgáltatóját. Attól függően, hogy a kapcsolat ki van építve szükség lehet arra, hogy az útválasztók a nyilvános IP-címeit.
+* **Helyi peremhálózati útválasztók**. A helyszíni hálózatot a szolgáltató által kezelt kapcsolatcsoporttal összekapcsoló útválasztók. A kapcsolat kiépítésének módjától függően előfordulhat, hogy meg kell adnia az útválasztók által használt nyilvános IP-címeket.
+* **A Microsoft peremhálózati útválasztói**. Két útválasztó egy aktív-aktív, magas rendelkezésre állású konfigurációban. Ezek az útválasztók lehetővé teszik a kapcsolatszolgáltató számára a kapcsolatcsoportok közvetlen csatlakoztatását az adatközpontjaikhoz. A kapcsolat kiépítésének módjától függően előfordulhat, hogy meg kell adnia az útválasztók által használt nyilvános IP-címeket.
 
-* **Az Azure virtuális hálózatokról (Vnetekről)**. Minden virtuális hálózat egyetlen Azure régióban található, és több alkalmazásrétegek üzemeltethet. Alkalmazás rétegeket is szegmentált, minden egyes virtuális alhálózatok használatával.
+* **Azure-beli virtuális hálózatok**. Mindegyik virtuális hálózat egy adott Azure-régióban található, és több alkalmazásréteget is üzemeltethet. Az alkalmazásrétegek alhálózatokkal szegmentálhatók az egyes virtuális hálózatokban.
 
-* **Az Azure nyilvános szolgáltatások**. Azure-szolgáltatásokhoz használhat egy hibrid alkalmazáson belül. Ezek a szolgáltatások is elérhetőek az interneten keresztül, de elérése őket az ExpressRoute-kapcsolatcsoportot biztosít alacsony késéssel és több kiszámítható teljesítményt, mert forgalom nem halad az interneten keresztül. Kapcsolatok végrehajtása használatával történik [nyilvános társviszony][expressroute-peering], a szervezete tulajdonában lévő vagy a kapcsolat szolgáltatójánál által biztosított-címekkel.
+* **Nyilvános Azure-szolgáltatások**. A hibrid alkalmazásokban használható Azure-szolgáltatások. Ezek a szolgáltatások az interneten keresztül is elérhetők, ExpressRoute-kapcsolatcsoporttal történő használatuk azonban alacsony késést és kiszámíthatóbb teljesítményt biztosít, mert a forgalomnak nem kell áthaladnia az interneten. A kapcsolatok [nyilvános társviszony-létesítéssel][expressroute-peering] jönnek létre, és a vállalat tulajdonában álló vagy a kapcsolatszolgáltató által biztosított címeket használják.
 
-* **Az Office 365 szolgáltatások**. Az Office 365 nyilvánosan elérhető alkalmazások és a Microsoft által nyújtott szolgáltatások. Kapcsolatok végrehajtása használatával történik [Microsoft társviszony-létesítés][expressroute-peering], a szervezete tulajdonában lévő vagy a kapcsolat szolgáltatójánál által biztosított-címekkel. Keresztül is csatlakozhat közvetlenül a Microsoft CRM Online-hoz a Microsoft társviszony-létesítés.
+* **Office 365-szolgáltatások**. A Microsoft által biztosított, nyilvánosan elérhető Office 365-alkalmazások és -szolgáltatások. A kapcsolatok [Microsoft társviszony-létesítéssel][expressroute-peering] jönnek létre, és a vállalat tulajdonában álló vagy a kapcsolatszolgáltató által biztosított címeket használják. Microsoft társviszony-létesítéssel közvetlenül kapcsolódhat a Microsoft CRM Online szolgáltatáshoz is.
 
-* **Kapcsolat szolgáltatók** (nincs ábrázolva). Szolgáltató vállalatok kapcsolat segítségével réteg 2 vagy 3 rétegbeli kapcsolatot az adatközpontban, és egy Azure-adatközpontban között.
+* **Kapcsolatszolgáltatók** (nem láthatók). Olyan vállalatok, amelyek 2. vagy 3. rétegbeli kapcsolattal biztosítják az Ön adatközpontja és egy Azure-adatközpont közötti csatlakozást.
 
 ## <a name="recommendations"></a>Javaslatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei.
 
-### <a name="connectivity-providers"></a>Kapcsolat-szolgáltatók
+### <a name="connectivity-providers"></a>Kapcsolatszolgáltatók
 
-Válassza ki a megfelelő ExpressRoute kapcsolat szolgáltatójánál helyéhez. A helyen érhető el kapcsolat szolgáltatók listájának lekéréséhez használja a következő Azure PowerShell-parancsot:
+Az adott helynek megfelelő ExpressRoute-kapcsolatszolgáltatót válasszon. Az Ön helyén elérhető kapcsolatszolgáltatók listájának a lekéréséhez használja az alábbi Azure PowerShell-parancsot:
 
 ```powershell
 Get-AzureRmExpressRouteServiceProvider
 ```
 
-ExpressRoute-kapcsolat szolgáltató az Adatközpont csatlakoztatni a Microsoft az alábbi módokon:
+Az ExpressRoute-kapcsolatszolgáltatók az alábbi módokon létesítenek kapcsolatot az Ön adatközpontja és a Microsoft között:
 
-* **A felhőalapú exchange közös helyen**. Ha most közös elhelyezésű egy helyen az olyan felhőalapú exchange, rendezheti virtuális kereszt-kapcsolatok az Azure-bA a közös elhelyezés szolgáltató Ethernet exchange keresztül. Közös elhelyezés szolgáltatók kínálhat, 2. réteg kereszt-kapcsolatokat, vagy a felügyelt réteg 3 közötti kapcsolatok között a a közös elhelyezés létesítmény és az Azure-infrastruktúra.
-* **Point-to-Point protokoll Ethernet kapcsolatok**. Csatlakozhat a helyszíni adatközpontját/használt Azure Point-to-Point protokoll Ethernet-kapcsolaton keresztül. Point-to-Point protokoll Ethernet szolgáltatók kínálhat, 2. réteg kapcsolatok vagy a hely és az Azure közötti felügyelt réteg 3 kapcsolatok.
-* **Bármely elem közöttiként (IPVPN) hálózatok**. A nagy kiterjedésű hálózati (WAN) integrálható az Azure-ral. Internet protocol virtuális magánhálózati (IPVPN) (általában a többprotokollos címkék váltás VPN) szolgáltatók bármely közöttiként kapcsolat a fiókirodák és adatközpontok között. Azure csakúgy, mint bármely más fiókiroda megjelenítést a WAN össze kell kötni. Az esetek többségében WAN szolgáltatók által felügyelt 3 rétegbeli kapcsolatot.
+* **Közös elhelyezés felhőalapú adatcsere keretében**. Ha közösen van elhelyezve egy felhőalapú adatcserével rendelkező létesítményben, virtuális keresztkapcsolatokat rendelhet az Azure-hoz a közös környezet szolgáltatójának Ethernet-adatcserélőjén keresztül. A közöskörnyezet-szolgáltatók 2. rétegbeli keresztkapcsolatokat vagy felügyelt, 3. rétegbeli keresztkapcsolatokat kínálnak a közös elhelyezési létesítményben lévő infrastruktúra és az Azure között.
+* **Pontok közötti Ethernet-kapcsolatok**. A helyszíni adatközpontokat/irodákat pontok közötti Ethernet-hivatkozásokon keresztül is csatlakoztathatja az Azure-hoz. A pontok közötti Ethernet-szolgáltatók 2. rétegbeli kapcsolatokat vagy felügyelt, 3. rétegbeli kapcsolatokat kínálnak az adott hely és az Azure között.
+* **Bármely elemek közötti (IPVPN-) hálózatok**. Nagykiterjedésű hálózatát (wide area network, WAN) is integrálhatja az Azure-ral. Az IPVPN-szolgáltatók (jellemzően egy MPLS VPN) bármilyen elemek között létesíthető kapcsolatot kínálnak a fiókirodák és az adatközpontok közötti kapcsolatokhoz. Az Azure összekapcsolható a WAN hálózattal, így ugyanúgy jelenik meg, mint bármely másik fiókiroda. A WAN-szolgáltatók jellemzően 3. rétegbeli felügyelt kapcsolatokat kínálnak.
 
-Kapcsolat szolgáltatókról további információkat talál a [ExpressRoute bemutatása][expressroute-introduction].
+További információ a kapcsolatszolgáltatókról: [ExpressRoute – áttekintés][expressroute-introduction].
 
-### <a name="expressroute-circuit"></a>ExpressRoute-kapcsolatcsoportot
+### <a name="expressroute-circuit"></a>ExpressRoute-kapcsolatcsoport
 
-Győződjön meg arról, hogy a szervezet megfelelt a [ExpressRoute előfeltételként szükséges követelmények] [ expressroute-prereqs] Azure való kapcsolódáshoz.
+Gondoskodjon róla, hogy a cég megfeleljen az [ExpressRoute előfeltételeinek][expressroute-prereqs], mert ezek hiányában nem tud az Azure-hoz csatlakozni.
 
-Ha még nem tette meg, adjon hozzá egy nevű alhálózatot `GatewaySubnet` az Azure virtuális hálózat számára, és hozzon létre egy ExpressRoute virtuális hálózati átjárónak, az Azure VPN-átjáró szolgáltatás segítségével. További információ erről a folyamatról: [kiépítésével és a kapcsolatcsoport állapotok az ExpressRoute-munkafolyamatokat][ExpressRoute-provisioning].
+Ha még nem tette meg, vegyen fel egy `GatewaySubnet` nevű alhálózatot az Azure-beli virtuális hálózatba, és hozzon létre egy ExpressRoute virtuális hálózati átjárót az Azure VPN Gateway szolgáltatással. További információ a folyamattal kapcsolatban: [Az ExpressRoute kapcsolatcsoport-kiépítési munkafolyamatai és a kapcsolatcsoportok állapotai][ExpressRoute-provisioning].
 
-ExpressRoute-kapcsolatcsoportot létrehozni az alábbiak szerint:
+Hozzon létre egy ExpressRoute-kapcsolatcsoportot az alábbi lépéseket követve:
 
-1. Futtassa a következő PowerShell-parancsot:
+1. Futtassa az alábbi PowerShell-parancsot:
    
     ```powershell
     New-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>> -Location <<location>> -SkuTier <<sku-tier>> -SkuFamily <<sku-family>> -ServiceProviderName <<service-provider-name>> -PeeringLocation <<peering-location>> -BandwidthInMbps <<bandwidth-in-mbps>>
     ```
-2. Küldjön a `ServiceKey` a szolgáltatóval való új kapcsolat.
+2. Küldje el az új kapcsolatcsoport `ServiceKey` kulcsát a szolgáltatónak.
 
-3. Várja meg a szolgáltatót, amelyet a kapcsolatcsoport kiépítéséhez. A kiépítési állapot a kapcsolat ellenőrzéséhez futtassa a következő PowerShell-parancsot:
+3. Várjon, amíg a szolgáltató üzembe helyezi a kapcsolatcsoportot. A kapcsolatcsoport üzembehelyezési állapotának az ellenőrzéséhez futtassa az alábbi PowerShell-parancsot:
    
     ```powershell
     Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
     ```
 
-    A `Provisioning state` mező mellett a `Service Provider` kimenet állapotúról `NotProvisioned` való `Provisioned` amikor készen áll-e a kapcsolat.
+    A kimenet `Service Provider` szakaszának `Provisioning state` mezőjében az állapot `NotProvisioned` állapotról `Provisioned` állapotra változik, ha a kapcsolatcsoport készen áll.
 
     > [!NOTE]
-    > Ha 3 rétegbeli kapcsolatot használ, a a szolgáltató kell konfigurálása és kezelése a útválasztási meg. Megadja a szolgáltatót, amelyet a megfelelő útvonalak megvalósításához szükséges információkat.
+    > Ha 3. rétegbeli kapcsolatot használ, a szolgáltatónak kell konfigurálnia és felügyelnie az útválasztást Ön helyett. Ehhez biztosítania kell a megfelelő útválasztás megvalósításához szükséges információkat a szolgáltatónak.
     > 
     > 
 
-4. A 2. réteg kapcsolat használata:
+4. Ha 2. rétegbeli kapcsolatot használ:
 
-    1. Két foglalási/30 alhálózatok össze az egyes érvényes nyilvános IP-címek a társviszony-létesítés szeretné végrehajtani. Ezek/30 alhálózatok történik meg az IP-címeket az útválasztók a kapcsolatcsoport használatos. Ha saját, a nyilvános és a Microsoft társviszony-létesítés készül olyanokat, 6/30-as alhálózat érvényes nyilvános IP-címekkel rendelkező lesz szüksége.     
+    1. Foglaljon le két, érvényes nyilvános IP-címekből álló /30 alhálózatot a megvalósítani kívánt társviszony-létesítések minden típusa számára. Ezen /30 alhálózatok segítségével biztosíthatók az IP-címek a kapcsolatcsoporthoz használt útválasztóknak. Ha magánhálózati, nyilvános és Microsoft társviszony-létesítést valósít meg, összesen 6, érvényes nyilvános IP-címekkel rendelkező /30 alhálózatra lesz szüksége.     
 
-    2. Az ExpressRoute-kör útválasztás konfigurálása. Futtassa a következő PowerShell-parancsok az egyes társviszony-létesítés (magánfelhő, nyilvános, és a Microsoft) konfigurálni szeretné. További információkért lásd: [létrehozása és módosítása az ExpressRoute-kapcsolatcsoportot útválasztási][configure-expressroute-routing].
+    2. Konfigurálja az útválasztást az ExpressRoute-kapcsolatcsoporthoz. Futtassa az alábbi PowerShell-parancsokat a konfigurálni kívánt társviszony-létesítések mindegyik típusára (magánhálózati, nyilvános és Microsoft) vonatkozóan. További információt az [ExpressRoute-kapcsolatcsoport útválasztásának létrehozásával és módosításával][configure-expressroute-routing] foglalkozó cikkben talál.
    
         ```powershell
         Set-AzureRmExpressRouteCircuitPeeringConfig -Name <<peering-name>> -Circuit <<circuit-name>> -PeeringType <<peering-type>> -PeerASN <<peer-asn>> -PrimaryPeerAddressPrefix <<primary-peer-address-prefix>> -SecondaryPeerAddressPrefix <<secondary-peer-address-prefix>> -VlanId <<vlan-id>>
@@ -100,9 +100,9 @@ ExpressRoute-kapcsolatcsoportot létrehozni az alábbiak szerint:
         Set-AzureRmExpressRouteCircuit -ExpressRouteCircuit <<circuit-name>>
         ```
 
-    3. Foglaljon le egy másik érvényes nyilvános IP-címkészletet használandó hálózati címfordítás (NAT) a nyilvános és a Microsoft társviszony-létesítés. Javasoljuk, hogy rendelkezik, és különböző a minden társviszony-létesítéshez. Adja meg a kapcsolat szolgáltatójánál, hogy a készlet, így konfigurálhatják a border gateway protocol (BGP) hirdetmények ezeket a tartományokat.
+    3. Foglalja le az érvényes nyilvános IP-címek egy másik készletét, amelyet a nyilvános és a Microsoft társviszony-létesítés hálózati címfordításához (network address translation, NAT) fog használni. Ajánlott eltérő készleteket használni mindegyik társviszony-létesítéshez. Adja meg a készletet a kapcsolatszolgáltatónak, hogy az konfigurálhassa a Border Gateway Protocol- (BGP-) hirdetéseket az adott tartományok számára.
 
-5. Futtassa a következő PowerShell-parancsokat a személyes VNet(s) csatolása az ExpressRoute-kapcsolatcsoportot. További információkért lásd: [virtuális hálózat csatolása ExpressRoute-kapcsolatcsoportot][link-vnet-to-expressroute].
+5. Futtassa az alábbi PowerShell-parancsokat, hogy a virtuális magánhálózatot vagy -hálózatokat az ExpressRoute-kapcsolatcsoporthoz csatlakoztassa. További információért tekintése át a [virtuális hálózat ExpressRoute-kapcsolatcsoporttal történő összekapcsolásával][link-vnet-to-expressroute] foglalkozó cikket.
 
     ```powershell
     $circuit = Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
@@ -110,17 +110,17 @@ ExpressRoute-kapcsolatcsoportot létrehozni az alábbiak szerint:
     New-AzureRmVirtualNetworkGatewayConnection -Name <<connection-name>> -ResourceGroupName <<resource-group>> -Location <<location> -VirtualNetworkGateway1 $gw -PeerId $circuit.Id -ConnectionType ExpressRoute
     ```
 
-Az azonos ExpressRoute-kapcsolatcsoportot a különböző régiókban található több Vnetek is elérheti, mindaddig, amíg az összes virtuális hálózatokat és az ExpressRoute-kapcsolatcsoport geopolitikai régión belül találhatók.
+Különböző régiókban található virtuális hálózatokat is csatlakoztathat ugyanahhoz az ExpressRoute-kapcsolatcsoporthoz, feltéve, hogy az ExpressRoute-kapcsolatcsoport és a virtuális hálózatok mindegyike ugyanazon geopolitikai régióban található.
 
 ### <a name="troubleshooting"></a>Hibaelhárítás 
 
-Ha egy korábban működő ExpressRoute-kapcsolatcsoportot most nem csatlakozik, bármilyen konfigurációs módosításokat a helyszínen vagy a titkos virtuális hálózat nincs szükség lehet kapcsolódni a kapcsolat szolgáltatóját, és azokat a probléma elhárításához. A következő Powershell-parancsok segítségével győződjön meg arról, hogy az ExpressRoute-kapcsolatcsoport van kiépítve:
+Ha egy korábban működő ExpressRoute-kapcsolatcsoport többé nem kapcsolódik, és semmilyen konfigurációs módosítást nem hajtott végre a helyszíni vagy a virtuális magánhálózaton, előfordulhat, hogy a kapcsolatszolgáltatóhoz kell fordulnia, és vele együttműködve kell elhárítania a problémát. Az alábbi PowerShell-parancsokkal ellenőrizheti, hogy sor került-e az ExpressRoute-kapcsolatcsoport üzembe helyezésére:
 
 ```powershell
 Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
 ```
 
-Ez a parancs kimenetét mutatja a kapcsolatcsoport több tulajdonságainak beleértve `ProvisioningState`, `CircuitProvisioningState`, és `ServiceProviderProvisioningState` alább látható módon.
+A parancs kimenete a kapcsolatcsoport számos tulajdonságát megjeleníti, ilyen például az alább látható `ProvisioningState`, `CircuitProvisioningState` és `ServiceProviderProvisioningState`.
 
 ```
 ProvisioningState                : Succeeded
@@ -133,35 +133,35 @@ CircuitProvisioningState         : Enabled
 ServiceProviderProvisioningState : NotProvisioned
 ```
 
-Ha a `ProvisioningState` értéke nem `Succeeded` után hozzon létre egy új kapcsolat próbált, távolítsa el a kapcsolatcsoport az alábbi parancs használatával, és próbálja meg újra létrehozni.
+Ha a `ProvisioningState` értéke nem `Succeeded` lesz, miután megpróbált létrehozni egy új kapcsolatcsoportot, távolítsa el a kapcsolatcsoportot az alábbi paranccsal, és próbálkozzon újra a létrehozásával.
 
 ```powershell
 Remove-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
 ```
 
-Ha a szolgáltató már volt megadva a kapcsolatcsoport, és a `ProvisioningState` értéke `Failed`, vagy a `CircuitProvisioningState` nem `Enabled`, további segítségért forduljon a szolgáltatóhoz.
+Ha a szolgáltató már üzembe helyezte a kapcsolatcsoportot, és a `ProvisioningState` értéke `Failed`, vagy a `CircuitProvisioningState` értéke nem `Enabled`, a szolgáltatótól kérhet további segítséget.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-ExpressRoute-Kapcsolatcsoportok adja meg a nagy sávszélesség elérési hálózatok között. Általában a nagyobb sávszélességet minél nagyobb a költségeket. 
+Az ExpressRoute-kapcsolatcsoportok nagy sávszélességű útvonalat biztosítanak a hálózatok között. Általánosságban elmondható, hogy minél nagyobb a sávszélesség, annál nagyobb a költség. 
 
-ExpressRoute biztosít két [díjszabások] [ expressroute-pricing] legyenek az ügyfelek, egy mért használatú terv és egy adatforgalmi. Díjak kapcsolatcsoport sávszélessége függvényében. Rendelkezésre álló sávszélesség valószínűleg eltérőek a provider szolgáltató. Használja a `Get-AzureRmExpressRouteServiceProvider` parancsmag használatával ellenőrizheti a területi és a sávszélesség kínálnak, rendelkezésre álló szolgáltatót.
+Az ExpressRoute két [díjszabási csomagot][expressroute-pricing] kínál, amelyek közül az egyik forgalmi díjas, a másik pedig korlátlan adatforgalmú. A díjak a kapcsolatcsoport sávszélességétől függően változnak. A rendelkezésre álló sávszélesség nagy valószínűséggel szolgáltatónként eltérő lesz. A `Get-AzureRmExpressRouteServiceProvider` parancsmaggal tekintheti át az adott régióban elérhető szolgáltatókat és az általuk kínált sávszélességet.
  
-Egy ExpressRoute-kapcsolatcsoportot bizonyos számú esetében, valamint a virtuális hálózat mutató hivatkozásokat is támogatja. Lásd: [ExpressRoute korlátok](/azure/azure-subscription-service-limits) további információt.
+Egy ExpressRoute-kapcsolatcsoport adott számú társviszony-létesítés és virtuális hálózati kapcsolat támogatására képes. További információt az [ExpressRoute-ra vonatkozó korlátozásokkal](/azure/azure-subscription-service-limits) foglalkozó cikkben talál.
 
-Az ExpressRoute prémium szintű bővítmény külön díj, néhány további lehetőség biztosít:
+Felár ellenében az ExpressRoute Prémium bővítménye további képességeket biztosít:
 
-* Nagyobb útvonal korlátok a nyilvános és magánhálózati társviszony-létesítéshez. 
-* Nagyobb száma VNet egy ExpressRoute-kapcsolatcsoportot. 
+* Magasabb útvonalkorlát, amely a nyilvános és a magánhálózati társviszony-létesítésekre is vonatkozik. 
+* Több virtuális hálózati kapcsolat ExpressRoute-kapcsolatcsoportonként. 
 * Globális kapcsolódás a szolgáltatásokhoz.
 
-Lásd: [ExpressRoute árképzési] [ expressroute-pricing] részleteiről. 
+További információ: [ExpressRoute – díjszabás][expressroute-pricing]. 
 
-ExpressRoute-Kapcsolatcsoportok úgy tervezték, hogy engedélyezi az átmeneti hálózati felszakadásáig legfeljebb kétszer a sávszélességre vonatkozó korlátját, akiktől a további költség nélkül. A redundáns hivatkozások használatával érhető el. Nem minden kapcsolat szolgáltatók azonban támogatja ezt a szolgáltatást. Győződjön meg arról, hogy a kapcsolat szolgáltatójánál lehetővé teszi, hogy ez a szolgáltatás előtt attól függően, hogy azt.
+Az ExpressRoute-kapcsolatcsoportok úgy vannak kialakítva, hogy felár nélkül is lehetővé tegyék a hálózati forgalom átmeneti növelését a megvásárolt sávszélesség legfeljebb kétszereséig. Ez redundáns kapcsolatok használatával érhető el, de nem mindegyik kapcsolatszolgáltató támogatja ezt a funkciót. Ha úgy gondolja, hogy szüksége lenne rá, mindenképpen ellenőrizze, hogy a kapcsolatszolgáltató engedélyezi-e a funkció használatát.
 
-Bár egyes szolgáltatók lehetővé teszik a sávszélesség megváltoztatását, győződjön meg arról, válasszon egy kezdeti sávszélesség meghaladja az igényeknek és a hely marad. Ha a jövőben növelésére sávszélességet van szüksége, marad, két lehetőség közül választhat:
+Jóllehet egyes szolgáltatók engedélyezik a sávszélesség módosítását, mindenképpen olyan kezdeti sávszélességet válasszon, amely meghaladja az igényeit, és teret hagy a növekedésre. Ha a jövőben növelnie kell a sávszélességet, mindössze két lehetőség áll a rendelkezésére:
 
-- Növelik a sávszélességet. Ez a beállítás lehetőség szerint kerülje el, és nem minden szolgáltatók lehetővé teszik dinamikusan növelésére sávszélességet. De ha nincs szükség a sávszélesség növelését, ellenőrizze azok támogatják a változó ExpressRoute sávszélesség tulajdonságok Powershell-parancsok segítségével ellenőrizheti a szolgáltatónál. Ha így tesznek, futtassa az alábbi parancsok.
+- Növelheti a sávszélességet. Lehetőség szerint kerülje ezt a megoldást, mert nem minden szolgáltató teszi lehetővé a sávszélesség dinamikus növelését. Ha mindenképpen szüksége van a növelésre, egyeztessen a szolgáltatóval, hogy támogatja-e az ExpressRoute-sávszélesség módosítását PowerShell-parancsokkal. Ha támogatja, akkor futtassa az alábbi parancsokat.
 
     ```powershell
     $ckt = Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
@@ -169,9 +169,9 @@ Bár egyes szolgáltatók lehetővé teszik a sávszélesség megváltoztatásá
     Set-AzureRmExpressRouteCircuit -ExpressRouteCircuit $ckt
     ```
 
-    A sávszélesség, a kapcsolat megszakadása nélkül növelhető. Alacsonyabb verziójúra változtatása a sávszélességet eredményez megszűnésének a kapcsolat, mert törölnie kell a kapcsolatcsoport, majd hozza létre újra az új konfigurációval.
+    A sávszélességet a kapcsolat megszakadása nélkül növelheti. A sávszélesség csökkentése azonban a kapcsolat megszakadását eredményezi, mert törölnie kell a kapcsolatcsoportot, és újra létre kell hoznia az új konfigurációval.
 
-- Módosítsa a tarifacsomagot, és/vagy váltson prémium. Ehhez futtassa a következő parancsokat. A `Sku.Tier` tulajdonság lehet `Standard` vagy `Premium`; a `Sku.Name` tulajdonság lehet `MeteredData` vagy `UnlimitedData`.
+- Módosíthatja a díjcsomagot és/vagy Prémium csomagra válthat. Ehhez futtassa az alábbi parancsokat. Az `Sku.Tier` tulajdonság `Standard` vagy `Premium` lehet, az `Sku.Name` tulajdonság pedig `MeteredData` vagy `UnlimitedData`.
 
     ```powershell
     $ckt = Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
@@ -184,82 +184,82 @@ Bár egyes szolgáltatók lehetővé teszik a sávszélesség megváltoztatásá
     ```
 
     > [!IMPORTANT]
-    > Győződjön meg arról, hogy a `Sku.Name` tulajdonság megegyezik a `Sku.Tier` és `Sku.Family`. Ha módosítja a családja és szint, de nem a név, a kapcsolat letiltásra kerül.
+    > Az `Sku.Name` tulajdonságnak egyeznie kell az `Sku.Tier` és az `Sku.Family` tulajdonsággal. Ha módosítja a családot és a szintet, a nevet azonban nem, a rendszer letiltja a kapcsolatot.
     > 
     > 
 
-    Frissítheti a Termékváltozat megszakítása nélkül, de nem lehet átállítani a korlátlan árképzési tervből mértre. Amikor alacsonyabb verziójúra változtatása a Termékváltozat, a sávszélesség-felhasználást a standard Termékváltozat alapértelmezett keretein belül kell maradnia.
+    A termékváltozat a kapcsolat megszakadása nélkül módosítható magasabb szintűre, de a korlátlan díjcsomagot nem módosíthatja forgalmi díjas csomagra. Ha a termékváltozatot alacsonyabb szintre módosítja, a sávszélesség-használatnak a standard termékváltozat alapértelmezett korlátozásán belül kell maradnia.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-ExpressRoute nem támogatja az útválasztó redundancia protokollok-pl.: meleg készenléti útválasztási protokollt (HSRP) és virtuális útválasztó redundancia protokoll megvalósítása a magas rendelkezésre állású (VRRP). Ehelyett egy redundáns párt a BGP társviszony-létesítés munkamenetek használ. Lehetővé teszi a hálózati kapcsolatok magas rendelkezésre állású, Azure látja el, a két redundáns portokkal aktív-aktív konfigurációban két útválasztókon (a Microsoft edge része).
+Az ExpressRoute nem támogatja az útválasztó-redundancia protokollokat (amilyen például a Hot Standby Routing Protocol (HSRP) és a Virtual Router Redundancy Protocol (VRRP)) a magas rendelkezésre állás megvalósításához. Helyettük a társviszonyonként meglévő BGP-munkamenetek redundáns párját használja. A hálózattal létesített magas rendelkezésre állású kapcsolatok elősegítése érdekében az Azure két redundáns portot biztosít két útválasztón (amelyek a Microsoft-peremhálózat részei) egy aktív-aktív konfigurációban.
 
-Alapértelmezés szerint a BGP-munkamenetek használja az üresjárati időtúllépés értéke 60 másodperc. Ha a munkamenet időkorlátja lejár háromszor (teljes 180 másodperc), az útválasztó jelölése szerint nem érhető el, és minden forgalmat a rendszer átirányítja a fennmaradó útválasztó. Előfordulhat, hogy a 180 másodperces időtúllépési túl hosszú, és kulcsfontosságú alkalmazások kiszolgálására. Ha igen, módosíthatja a BGP időtúllépési beállításainak a helyi útválasztó kisebb értékre.
+Alapértelmezés szerint a BGP-munkamenetek üresjárati időkorlátja 60 másodperc. Ha egy munkamenet háromszor túllépi az időkorlátot (összesen 180 másodperc), a rendszer rendelkezésre nem állóként jelöli meg az útválasztót, és minden forgalmat a fennmaradó útválasztóra irányít át. Előfordulhat, hogy ez a 180 másodperces időkorlát túl hosszú, ha kritikus alkalmazásokról van szó. Ilyenkor módosíthatja a BGP üresjárati beállításait a helyszíni útválasztón egy kisebb értékre.
 
-Az Azure-kapcsolat a magas rendelkezésre állású használata szolgáltató típusa mellett, és az ExpressRoute-Kapcsolatcsoportok és hajlandó konfigurálása most a virtuális hálózati átjáró-kapcsolatok száma függően különböző módon állíthatja be. Az alábbiakban összefoglalást láthat a rendelkezésre állási beállítások:
+Az Azure-kapcsolat magas rendelkezésre állását különböző módokon konfigurálhatja, a használt szolgáltató típusától, valamint a konfigurálni kívánt ExpressRoute-kapcsolatcsoportok és virtuális hálózati átjárókapcsolatok számától függően. Az alábbiakban a rendelkezésre állással kapcsolatos lehetőségeket foglaljuk össze:
 
-* A 2. réteg kapcsolat használata, telepítse a helyszíni hálózat aktív-aktív konfigurációban útválasztókat. Az elsődleges kapcsolat csatlakozhatnak egy útválasztó és a többi másodlagos kör. Ez biztosítja a magas rendelkezésre állású kapcsolat, a kapcsolat mindkét végén. Ez azért szükséges, ha szüksége van a ExpressRoute szolgáltatásiszint-szerződéssel (SLA). Lásd: [Azure ExpressRoute SLA] [ sla-for-expressroute] részleteiről.
+* Ha 2. rétegbeli kapcsolatot használ, helyezzen üzembe redundáns útválasztókat a helyszíni hálózaton egy aktív-aktív konfigurációban. Csatlakoztassa az elsődleges kapcsolatcsoportot az egyik útválasztóhoz, a másodlagos kapcsolatcsoportot pedig a másikhoz. Így magas rendelkezésre állású kapcsolattal fog rendelkezni a kapcsolat mindkét végén. Erre akkor van szükség, ha ExpressRoute szolgáltatói szerződést (SLA) igényel. További információt az [Azure ExpressRoute-ra vonatkozó szolgáltatói szerződést][sla-for-expressroute] ismertető cikkben talál.
 
-    Az alábbi ábrán látható, a redundáns helyi útválasztó konfigurációja az elsődleges és másodlagos Kapcsolatcsoportok csatlakozik. A kapcsolatok kezeli a forgalmat a nyilvános társviszony-létesítés, és a magánhálózati társviszony-létesítés (/ 30-as két kijelölt minden társviszony-címtereket, az előző szakaszban leírtak szerint).
+    Az alábbi ábrán az a konfiguráció látható, amely elsődleges és a másodlagos kapcsolatcsoporthoz csatlakoztatott redundáns helyszíni útválasztókból áll. Az egyes kapcsolatcsoportok egy nyilvános és egy magánhálózati társviszony-létesítés forgalmát kezelik (mindegyik társviszony-létesítés számára ki lett jelölve egy pár /30 címtér az előző szakaszban leírtak szerint).
 
     ![[1]][1]
 
-* Ha a 3 rétegbeli kapcsolatot használ, ellenőrizze a redundáns BGP biztosítja, amelyek kezelik a rendelkezésre állási meg a munkamenetek.
+* Ha 3. rétegbeli kapcsolatot használ, ellenőrizze, hogy az biztosít-e a rendelkezésre állást Ön helyett kezelő redundáns BGP-munkameneteket.
 
-* Csatlakoztassa a virtuális hálózat több ExpressRoute-Kapcsolatcsoportok, különböző szolgáltatók által biztosított. Ezt a stratégiát további magas rendelkezésre állású és vész helyreállítási lehetőségeket kínál.
+* Csatlakoztassa a virtuális hálózatot több ExpressRoute-kapcsolatcsoporthoz, amelyet különböző szolgáltatók biztosítanak. Ez a stratégia fokozza a magas rendelkezésre állást, és vészhelyreállítási képességeket is biztosít.
 
-* A telephelyek közötti VPN elérési útnak feladatátvétel konfigurálása ExpressRoute. Ez a beállítás kapcsolatban bővebben lásd: [egy a helyszíni hálózat csatlakozik az Azure ExpressRoute segítségével a VPN-feladatátvételi][highly-available-network-architecture].
- Ez a beállítás csak érvényes magánhálózati társviszony-létesítés. Azure és az Office 365 szolgáltatáshoz az internethez az egyetlen feladatátvevő útvonal. 
+* Konfiguráljon helyek közötti VPN-t feladatátvételi útvonalként az ExpressRoute számára. Ezzel a lehetőséggel az a cikk foglalkozik bővebben, amely a [helyszíni hálózat és az Azure VPN-feladatátvételt biztosító ExpressRoute használatával történő csatlakoztatását][highly-available-network-architecture] ismerteti.
+ A lehetőség csak magánhálózati társviszony-létesítések esetén érhető el. Azure- és Office 365-szolgáltatások esetében az internet az egyedüli feladatátvételi útvonal. 
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Használhatja a [Azure kapcsolat Toolkit (AzureCT)] [ azurect] figyelheti a helyszíni adatközpontját és az Azure közötti kapcsolatot. 
+Az [Azure Connectivity Toolkit (AzureCT)][azurect] eszközzel monitorozhatja a helyszíni adatközpont és az Azure közötti kapcsolatot. 
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Biztonsági beállításokkal megadhatja az Azure-kapcsolat különböző módokon, attól függően, hogy a biztonsági problémáit és megfelelőségi igényeit. 
+Az Azure-kapcsolat biztonsági beállításait különböző módokon konfigurálhatja a biztonsági megfontolásoktól és a megfelelőségi igényektől függően. 
 
-ExpressRoute 3. rétegben működik. A hálózati biztonsági készülékek, amely korlátozza a forgalmat jogos erőforrások használatával megakadályozása az alkalmazási rétegre fenyegetések ellen. Továbbá használatával a nyilvános társviszony ExpressRoute-kapcsolatok csak kezdeményezheti a helyszíni. Ez megakadályozza, hogy egy engedélyezetlen szolgáltatás eléréséhez és az internetről a helyszíni adatok veszélyeztetése.
+Az ExpressRoute a 3. rétegben működik. Az alkalmazásréteget fenyegető kockázatok egy olyan hálózati biztonsági berendezéssel előzhetők meg, amely megbízható erőforrásokra korlátozza a forgalmat. A nyilvános társviszony-létesítést használó ExpressRoute-kapcsolatok emellett csak a helyszínről kezdeményezhetők. Ez meggátolja a rosszindulatú szolgáltatásokat abban, hogy az internetről hozzáférhessenek a helyszíni adatokhoz, és jogtalanul felhasználják azokat.
 
-Biztonság maximalizálása érdekében vegye fel a hálózati biztonsági készülékek a helyszíni hálózat és a szolgáltató peremhálózati útválasztók között. Ez segít a jogosulatlan forgalom vízátfolyás a VNet korlátozhatja, hogy:
+A biztonság maximalizálása érdekében a hálózati biztonsági berendezéseket a helyszíni hálózat és a szolgáltató peremhálózati útválasztói között helyezze üzembe. Így könnyebben korlátozható a virtuális hálózatról érkező jogosulatlan forgalom:
 
 ![[2]][2]
 
-Naplózás vagy megfelelőségi okokból lehet szükség a közvetlen hozzáférés tiltása az internethez, és alkalmazzon a Vneten belül futó összetevőkből [kényszerített bújtatás][forced-tuneling]. Ebben a helyzetben internetes forgalom vissza helyileg futó, ahol naplózható proxyn keresztül kell irányítani. A proxy beállítható úgy, hogy blokkolni, jogosulatlan forgalom továbbítására ki, és a potenciálisan kártevő bejövő forgalmat.
+Naplózási vagy megfelelőségi okokból szükség lehet a virtuális hálózaton futó összetevők közvetlen internet-hozzáférésének a letiltására, valamint a [kényszerített bújtatás][forced-tuneling] megvalósítására. Ilyen helyzetekben az internetes forgalmat át kell irányítani a helyszínen futó proxyra, ahol naplózhatóvá válik. A proxy konfigurálható a nem engedélyezett forgalom kijutásának a megakadályozására és az esetlegesen rosszindulatú bejövő forgalom szűrésére.
 
 ![[3]][3]
 
-A biztonság fokozása nem egy nyilvános IP-cím engedélyezése a virtuális géphez, és az NSG-k segítségével győződjön meg arról, hogy a virtuális gépeken nem nyilvánosan elérhető. Virtuális gépek csak a belső IP-cím elérhetőnek kell lennie. Ezeket a címeket is elérhetővé válik a ExpressRoute hálózati konfiguráció vagy karbantartás végrehajtásához a helyi DevOps személyzet engedélyezése.
+A biztonság maximalizálása érdekében ne engedélyezze nyilvános IP-címek használatát a virtuális gépek számára, és NSG-k használatával biztosítsa, hogy a virtuális gépek ne lehessenek nyilvánosan elérhetők. Gondoskodni kell arról, hogy a virtuális gépeket csak a belső IP-címekkel lehessen elérni. Ezek a címek az ExpressRoute-hálózaton keresztül tehetők elérhetővé, ami lehetővé teszi a helyszíni fejlesztési és üzemeltetési csapat számára a konfigurálást vagy a karbantartást.
 
-Ha egy külső hálózathoz, fel kell fednie felügyeleti végpontok virtuális gépekhez, az NSG-k használata, vagy hozzáférés-vezérlési listák korlátozása egy hálózatok és IP-címek engedélyezési listája látható-e ezeket a portokat.
+Ha a virtuális gépek felügyeleti végpontjait egy külső hálózaton kell közzétennie, NSG-k vagy hozzáférés-vezérlési listák használatával korlátozhatja az érintett portok láthatóságát az engedélyezett IP-címekre vagy hálózatokra.
 
 > [!NOTE]
-> Alapértelmezés szerint az Azure portálon keresztül telepített Azure virtuális gépek tartalmaznak egy nyilvános IP-címet, amely hozzáférést biztosít.  
+> Az Azure Portal használatával üzembe helyezett Azure-beli virtuális gépek alapértelmezés szerint egy nyilvános IP-címet tartalmaznak, amely lehetővé teszi a bejelentkezésen alapuló hozzáférést.  
 > 
 > 
 
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezéséhez
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-**Prequisites.** Rendelkeznie kell egy meglévő helyi infrastruktúra már be van állítva a megfelelő hálózati berendezések.
+**Előfeltételek.** Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
 
-A megoldás üzembe helyezéséhez, a következő lépésekkel.
+A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
-1. Kattintson a lenti gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-2. Várjon, amíg a hivatkozásra kattintva nyissa meg az Azure portálon, majd kövesse az alábbi lépéseket:
+1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+2. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:
    * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-hybrid-er-rg` karakterláncot.
    * Válassza ki a régiót a **Hely** legördülő listából.
    * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
    * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **beszerzési** gombra.
+   * Kattintson a **Vásárlás** gombra.
 3. Várjon, amíg az üzembe helyezés befejeződik.
-4. Kattintson a lenti gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute%2Fazuredeploy-expressRouteCircuit.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-5. Várjon, amíg a hivatkozásra kattintva nyissa meg az Azure portálon, majd kövesse az alábbi lépéseket:
-   * Válassza ki **használata meglévő** a a **erőforráscsoport** szakaszt, és adja meg `ra-hybrid-er-rg` a szövegmezőben.
+4. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute%2Fazuredeploy-expressRouteCircuit.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+5. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:
+   * Válassza az **Erőforráscsoport** szakasz **Meglévő használata** elemét, és írja be az `ra-hybrid-er-rg` karakterláncot a szövegmezőbe.
    * Válassza ki a régiót a **Hely** legördülő listából.
    * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
    * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **beszerzési** gombra.
+   * Kattintson a **Vásárlás** gombra.
 6. Várjon, amíg az üzembe helyezés befejeződik.
 
 
@@ -278,12 +278,12 @@ A megoldás üzembe helyezéséhez, a következő lépésekkel.
 [expressroute-pricing]: https://azure.microsoft.com/pricing/details/expressroute/
 [expressroute-limits]: /azure/azure-subscription-service-limits#networking-limits
 [azurect]: https://github.com/Azure/NetworkMonitoring/tree/master/AzureCT
-[visio-download]: https://archcenter.azureedge.net/cdn/hybrid-network-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-architectures.vsdx
 [er-circuit-parameters]: https://github.com/mspnp/reference-architectures/tree/master/hybrid-networking/expressroute/parameters/expressRouteCircuit.parameters.json
 [azure-powershell-download]: https://azure.microsoft.com/documentation/articles/powershell-install-configure/
 [azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/
-[0]: ./images/expressroute.png "Hibrid hálózati architektúra Azure ExpressRoute segítségével"
-[1]: ../_images/guidance-hybrid-network-expressroute/figure2.png "Az ExpressRoute-Kapcsolatcsoportok elsődleges és másodlagos útválasztókat használatával"
-[2]: ../_images/guidance-hybrid-network-expressroute/figure3.png "Biztonsági eszközök hozzáadása a helyszíni hálózat"
-[3]: ../_images/guidance-hybrid-network-expressroute/figure4.png "Használja a kényszerített bújtatás az internetre irányuló forgalomnak a naplózandó"
-[4]: ../_images/guidance-hybrid-network-expressroute/figure5.png "Az ExpressRoute-kapcsolatcsoportot ServiceKey keresése"  
+[0]: ./images/expressroute.png "Hibrid hálózati architektúra az Azure ExpressRoute használatával"
+[1]: ../_images/guidance-hybrid-network-expressroute/figure2.png "Redundáns útválasztók használata elsődleges és másodlagos ExpressRoute-kapcsolatcsoportokkal"
+[2]: ../_images/guidance-hybrid-network-expressroute/figure3.png "Biztonsági eszközök hozzáadása a helyszíni hálózathoz"
+[3]: ../_images/guidance-hybrid-network-expressroute/figure4.png "Kényszerített bújtatás használata az internetes forgalom naplózására"
+[4]: ../_images/guidance-hybrid-network-expressroute/figure5.png "ExpressRoute-kapcsolatcsoport ServiceKey kulcsának megkeresése"  

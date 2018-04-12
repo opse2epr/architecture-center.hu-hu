@@ -1,19 +1,19 @@
 ---
-title: "Windows virtuális gépek futtatása a több Azure-régiók a magas rendelkezésre állás"
-description: "Ügyfélszoftverek központi telepítése a virtuális gépek magas rendelkezésre állást és a rugalmasság Azure több régióba."
+title: Windows rendszerű virtuális gépek futtatása több Azure-régióban a magas rendelkezésre állás érdekében
+description: Virtuális gépek üzembe helyezése több régióban az Azure-on a magas rendelkezésre állás és rugalmasság érdekében.
 author: MikeWasson
 ms.date: 11/22/2016
 pnp.series.title: Windows VM workloads
 pnp.series.prev: n-tier
-ms.openlocfilehash: 9c54959da96115e55ba8a5c9e0f3c358d29ce5dd
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: 9772d57e6a11711d77032b049168565d52d919b8
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="run-windows-vms-in-multiple-regions-for-high-availability"></a>Futtassa a Windows virtuális gépek több régióba a magas rendelkezésre állás
+# <a name="run-windows-vms-in-multiple-regions-for-high-availability"></a>Windows rendszerű virtuális gépek futtatása több régióban a magas rendelkezésre állás érdekében
 
-A referencia-architektúrában futó N szintű alkalmazás több Azure-régiók, rendelkezésre állást és a hatékony vész-helyreállítási infrastruktúra elérése érdekében bevált gyakorlatok csoportja jeleníti meg. 
+Ez a referenciaarchitektúra néhány bevált eljárást mutat be egy N szintű alkalmazás több Azure-régióban való futtatásához a magas rendelkezésre állás eléréséhez és egy robusztus vészhelyreállítási infrastruktúra kiépítéséhez. 
 
 [![0]][0] 
 
@@ -21,145 +21,145 @@ A referencia-architektúrában futó N szintű alkalmazás több Azure-régiók,
 
 ## <a name="architecture"></a>Architektúra 
 
-Ez az architektúra látható egy épít [futtassa a Windows virtuális gépek N szintű alkalmazások](n-tier.md). 
+Ez az architektúra a [Windows rendszerű virtuális gépek futtatása N szintű alkalmazáshoz](n-tier.md) című cikkben bemutatott architektúrára épít. 
 
-* **Elsődleges és másodlagos régiók**. Két régió segítségével magasabb rendelkezésre állásának eléréséhez. Az elsődleges régióban egyik. A más régióban van, a feladatátvételre.
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
-* **Az Azure Traffic Manager**. [A TRAFFIC Manager] [ traffic-manager] irányítja a bejövő kéréseket a régiók egyikéhez sem. A normál működés során az elsődleges régióban irányítja a kérelmeket. Ha az adott régióban, a Traffic Manager feladatátadás a másodlagos régióba. További információkért tekintse meg a szakasz [Traffic Manager konfigurációs](#traffic-manager-configuration).
-* **Erőforráscsoportok**. Hozzon létre külön [erőforráscsoportok] [ resource groups] az elsődleges régióban, a másodlagos régióba, és a Traffic Manager. Ez lehetővé teszi a rugalmasság, minden egyes régió szerinti egyetlen gyűjtemény-erőforrások kezelésére. Például egy régió tartozik, sikerült újratelepítése nélkül a másik egy le. [Az erőforráscsoportok hivatkozás][resource-group-links], így az alkalmazás az erőforrások listájának lekérdezés futtatása.
-* **Vnetek**. Hozzon létre egy külön hálózatok mindegyik régióhoz. Ellenőrizze, hogy a címterek nem lehetnek átfedésben. 
-* **SQL Server Always On rendelkezésre állási csoport**. Ha az SQL Server rendszer használata esetén ajánlott [SQL Always On rendelkezésre állási csoportok] [ sql-always-on] a magas rendelkezésre állás érdekében. Az SQL Server-példányokat tartalmazó mindkét régiókban egyetlen rendelkezésre állási csoport létrehozása. 
+* **Elsődleges és másodlagos régiók**. Használjon két régiót a magas rendelkezésre állás eléréséhez. Az egyik ebben az esetben az elsődleges régió. A másik a feladatátvétel során használt régió.
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+* **Azure Traffic Manager**. A [Traffic Manager][traffic-manager] az egyik régió felé irányítja a beérkező kérelmeket. A normál működés során a rendszer az elsődleges régió felé irányítja a kérelmeket. Ha az adott régió nem érhető el, a Traffic Manager átadj a feladatokat a másodlagos régiónak. További információt a következő szakaszban talál: [A Traffic Manager konfigurációja](#traffic-manager-configuration).
+* **Erőforráscsoportok**. Hozzon létre külön [erőforráscsoportokat][resource groups] az elsődleges régióhoz, a másodlagos régióhoz, valamint a Traffic Managerhez. Ennek köszönhetően rugalmasan, egyetlen erőforráskészletként kezelheti az egyes régiókat, például ismételten üzembe helyezhet egy régiót a másik eltávolítása nélkül. [Kapcsolja össze az erőforráscsoportokat][resource-group-links], hogy egy lekérdezés futtatásával listázhassa az alkalmazás összes erőforrását.
+* **Virtuális hálózatok**. Hozzon létre külön virtuális hálózatot mindegyik régióhoz. Ügyeljen arra, hogy a címterek ne legyenek átfedésben. 
+* **SQL Server Always On rendelkezésre állási csoport**. Az SQL Server használata esetén az [SQL Server Always On rendelkezésre állási csoportok][sql-always-on] használata javasolt a magas rendelkezésre állás érdekében. Hozzon létre egyetlen rendelkezésre állási csoportot, amely mindkét régióban tartalmazza az SQL Server-példányokat. 
 
     > [!NOTE]
-    > Is érdemes lehet [Azure SQL Database][azure-sql-db], amely a relációs adatbázisok felhőszolgáltatásként biztosítja. Az SQL Database nem kell egy rendelkezésre állási csoport konfigurálásához, vagy feladatátvételi kezelése.  
+    > Másik lehetőségként fontolja meg az [Azure SQL Database][azure-sql-db] használatát, amely relációs adatbázist biztosít felhőszolgáltatás formájában. Az SQL Database használatával nem kell rendelkezésre állási csoportot konfigurálnia, vagy kezelnie a feladatátvételt.  
     > 
 
-* **VPN-átjárók**. Hozzon létre egy [VPN-átjáró] [ vpn-gateway] minden egyes virtuális, és konfigurálja a [VNet – VNet-kapcsolatot][vnet-to-vnet], a két Vnetek közötti hálózati forgalom engedélyezése . Ez elengedhetetlen ahhoz az SQL Always On rendelkezésre állási csoportnak.
+* **VPN-átjárók**. Hozzon létre egy [VPN-átjárót][vpn-gateway] mindkét virtuális hálózatban, és konfiguráljon egy [virtuális hálózatok közötti kapcsolatot][vnet-to-vnet], amely lehetővé teszi a hálózati forgalmat a kettő között. Ez szükséges az SQL Always On rendelkezésre állási csoport használatához.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Egy több területi architektúra biztosít magas rendelkezésre állás érdekében, mint egyetlen régióban üzembe helyezni. Ha egy regionális kimaradás érinti az elsődleges régióban, [Traffic Manager] [ traffic-manager] hogy áthelyezze a feladatokat a másodlagos régióba. Ez az architektúra segíthet is, ha az alkalmazás egy egyedi alrendszer nem tud.
+A többrégiós architektúrák magasabb rendelkezésre állást biztosíthatnak, mint az egyetlen régióban történő üzembe helyezés. Ha egy régió üzemkimaradása hatással van az elsődleges régióra, a [Traffic Manager][traffic-manager] szolgáltatással feladatátvételt hajthat végre a másodlagos régióba. Ez az architektúra az alkalmazás egy adott alrendszerének meghibásodása esetén is segíthet.
 
-Magas rendelkezésre állás elérése érdekében a különböző régiókban néhány általános módszer van: 
+A régiók közötti magas rendelkezésre állás elérésének több általános megközelítése van: 
 
-* A melegtartalék aktív/passzív. Forgalom kerül egy régió tartozik, a más vár melegtartalék közben. Meleg készenléti azt jelenti, hogy a virtuális gépeket, a másodlagos régióban lefoglalt és fut mindig.
-* A meleg készenléti állapotban lévő aktív/passzív. Forgalom kerül egy régió tartozik, a más vár meleg készenléti közben. Meleg készenléti állapot azt jelenti, hogy a virtuális gépeket, a másodlagos régióban nem foglal le addig, amíg a feladatátvételi szükséges. Ez a megközelítés költségek kisebb futtatásához, de általában adott meghibásodás során online állapotba hosszabb ideig tart.
-* Aktív. Mindkét régió aktív, és kérés kerül közöttük. Ha nem érhető el egy régió tartozik, az kívül Elforgatás lesz végrehajtva. 
+* Aktív/passzív készenléti kiszolgálóval. A forgalom az egyik régióra irányul, míg a másik készenléti kiszolgálón várakozik. Készenléti kiszolgáló esetében a másodlagos régió virtuális gépei folyamatosan le vannak foglalva és futnak.
+* Aktív/passzív hidegtartalékkal. A forgalom az egyik régióra irányul, míg a másik hidegtartalékként áll készenlétben. Hidegtartalék esetében a másodlagos régió virtuális gépei nincsenek lefoglalva, amíg nem szükségessé nem válnak feladatátvétel céljából. Ezen megközelítés futtatása kevesebb költséggel jár, de a meghibásodáskor általában hosszabb időt vesz igénybe az üzembe állás.
+* Aktív/aktív. Mindkét régió aktív, és a kérelmek terheléselosztással oszlanak meg közöttük. Ha egy régió elérhetetlenné válik, kikerül a rotációból. 
 
-A referencia-architektúrában melegtartalék feladatátvételi Traffic Manager használata az aktív/passzív összpontosít. Vegye figyelembe, hogy sikerült központi telepítése egy kis számú virtuális gépek melegtartalék és majd horizontális felskálázás igény szerint.
+Ez a referenciaarchitektúra a készenléti kiszolgálóval konfigurált aktív/passzív üzemmódra összpontosít, a Traffic Managert használva a feladatátvételhez. Vegye figyelembe, hogy ha kis számú virtuális gépet helyez üzembe készenléti kiszolgálóként, igény szerint később is elvégezheti a horizontális felskálázásukat.
 
-### <a name="regional-pairing"></a>Regionális párosítás
+### <a name="regional-pairing"></a>Régiónkénti párosítás
 
-Minden Azure-régió, egy másik ugyanazon a földrajzi régióját párosított. Régiók általában választhat a azonos regionális pár (például USA keleti régiója 2 és Velünk központi). Ennek során a következő előnyöket nyújtja:
+Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi területen belül. Régiókat általában azonos regionális párokból érdemes választani (például: USA 2. keleti régiója és USA középső régiója). Ennek előnyei például a következők:
 
-* A széles körű kimaradás esetén legalább egy régió kívül minden pár helyreállítási prioritása van.
-* Tervezett Azure rendszerfrissítések előkészítése már megkezdődött párosított régiók egymás után, az lehetséges állásidő minimalizálása érdekében.
-* Párok találhatók belül az azonos földrajzi adatok rezidens követelményeinek megfelelően. 
+* Széles körű leállás esetén a helyreállításkor minden párból legalább az egyik régió előnyt élvez.
+* A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
+* A párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak. 
 
-Győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatás szükséges az alkalmazás (lásd: [régiói][services-by-region]). Regionális párok kapcsolatos további információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure-régiókat párosítva][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Az Azure párosított régiói][regional-pairs].
 
-### <a name="traffic-manager-configuration"></a>A TRAFFIC Manager-konfiguráció
+### <a name="traffic-manager-configuration"></a>A Traffic Manager konfigurációja
 
-A Traffic Manager konfigurálásakor, vegye figyelembe a következő szempontokat:
+A Traffic Manager konfigurálásakor vegye figyelembe a következő szempontokat:
 
-* **Útválasztás**. A TRAFFIC Manager támogatja több [útválasztási algoritmusok][tm-routing]. A jelen cikkben ismertetett esetben használjon *prioritás* útválasztási (korábbi nevén *feladatátvételi* útválasztási). Ezzel a beállítással a Traffic Manager minden kérést küld az elsődleges régióban, hacsak az elsődleges régióban el nem érhető el. Ezen a ponton akkor automatikusan átkerül a másodlagos régióba. Lásd: [konfigurálhatja feladatátvételi útválasztási módszer][tm-configure-failover].
-* **Állapotmintáihoz**. HTTP (vagy HTTPS) használ a TRAFFIC Manager [mintavételi] [ tm-monitoring] minden egyes régió rendelkezésre állásának figyelésére. A mintavétel egy 200-as HTTP-választ a megadott URL-cím elérési keresi. Ajánlott eljárásként hozzon létre egy végpontot, amely jelent a alkalmazás általános állapotát, és használja ezt a végpontot a állapotmintáihoz. Ellenkező esetben a mintavétel előfordulhat, hogy jelentés a kifogástalan állapotú végpontok, ha az alkalmazás kritikus részei ténylegesen nem működnek. További információkért lásd: [állapotfigyelő végpont figyelési mintát][health-endpoint-monitoring-pattern].   
+* **Útválasztás**. A Traffic Manager többféle [útválasztási algoritmust][tm-routing] támogat. A cikkben leírt forgatókönyvhöz a *prioritásos* útválasztást (régebbi nevén *feladatátvétel esetén használt* útválasztás) használja. Ezzel a beállítással a Traffic Manager az összes kérelmet az elsődleges régió felé irányítja, kivétel akkor, ha az nem elérhető. Ebben az esetben automatikusan átadja a feladatokat a másodlagos régiónak. Lásd: [A feladatátvétel esetén használt útválasztás konfigurálása][tm-configure-failover].
+* **Állapotminta**. A Traffic Manager HTTP- (vagy HTTPS-) [mintavételt][tm-monitoring] használ az egyes régiók rendelkezésre állásának monitorozására. A mintavétel 200-as HTTP-választ vár egy megadott URL-címhez. Ajánlott eljárásként hozzon létre egy olyan végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak. További információk: [Állapot végponti monitorozását végző minta][health-endpoint-monitoring-pattern].   
 
-Amikor a Traffic Manager átadja a feladatokat a rendszer egy adott időn belül, ha ügyfelek nem tudják elérni az alkalmazást. A duration hatással van a következő tényezőket:
+Amikor a Traffic Manager átadja a feladatokat, az alkalmazás egy ideig nem lesz elérhető a felhasználók számára. Ez az időtartam a következő tényezőktől függ:
 
-* A állapotmintáihoz észlelni kell, hogy az elsődleges régióban vált nem érhető el.
-* DNS-kiszolgálók frissítenie kell a gyorsítótárban lévő DNS-rekordok az IP-címhez, amely a DNS--élettartama (TTL) függ. Az alapértelmezett élettartam 300 másodpercen (5 percen), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
+* Az állapotmintának észlelnie kell, ha az elsődleges régió elérhetetlenné válik.
+* A DNS-kiszolgálóknak frissíteniük kell az IP-címhez tartozó gyorsítótárazott DNS-rekordokat. Ez a DNS élettartamától (TTL) függ. Az alapértelmezett TTL 300 másodperc (5 perc), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
 
-További információkért lásd: [kapcsolatos Traffic Manager figyelési][tm-monitoring].
+Részletek: [A Traffic Manager monitorozásának ismertetése][tm-monitoring].
 
-Ha a Traffic Manager átadja, ajánlott végrehajtása manuális feladat-visszavétel, nem pedig egy automatikus feladat-visszavétel végrehajtására. Ellenkező esetben hozhat létre olyan helyzet, amelyben az alkalmazás oda-vissza régiók közötti tükrözi. Ellenőrizze, hogy minden alkalmazás alrendszer visszavétele előtt kifogástalan.
+Ha a Traffic Manager feladatátvételt hajt végre, automatikus feladat-visszavétel megvalósítása helyett a manuális feladat-visszavételt ajánlunk. Ellenkező esetben előfordulhat, hogy egyes esetekben az alkalmazás oda-vissza váltogat a régiók között. A feladat-visszavétel előtt ellenőrizze, hogy az alkalmazás minden alrendszere működik-e.
 
-Vegye figyelembe, hogy a Traffic Manager vissza alapértelmezés szerint automatikusan nem. Ennek megelőzése érdekében manuálisan a Prioritás csökkentése az elsődleges régió egy feladatátvételi esemény után. Tegyük fel például, hogy az elsődleges régióban 1 prioritású virtuális gép, és a másodlagos prioritású 2. A feladatátvétel után állítsa be az elsődleges régióban prioritás 3, hogy megakadályozza az automatikus feladatátvételi. Ha készen áll vissza, frissítse a prioritás 1.
+Vegye figyelembe, hogy a Traffic Manager alapértelmezés szerint automatikusan végrehajtja a feladat-visszavételt. Ennek megelőzéséhez manuálisan csökkentse az elsődleges régió prioritását a feladatátvétel után. Tegyük fel például, hogy az elsődleges régió 1-es prioritású, a második pedig 2-es. A feladatátvétel után az automatikus visszavétel megelőzéséhez állítsa az elsődleges régió prioritását 3-asra. A prioritást akkor állítsa 1-esre, ha már készen áll a visszaváltásra.
 
-A következő [Azure CLI] [ install-azure-cli] parancs frissíti a prioritás:
+A következő [Azure CLI][install-azure-cli]-parancsot frissíti a prioritást:
 
 ```bat
 azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
     --name <traffic-manager-name> --type AzureEndpoints --priority 3
 ```    
 
-Egy másik megoldás, hogy ideiglenesen letilthatja a végpont, amíg készen feladat-visszavételt:
+Másik megoldásként ideiglenesen letilthatja a végpontot, amíg készen nem áll a feladat-visszavételre:
 
 ```bat
 azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
     --name <traffic-manager-name> --type AzureEndpoints --status Disabled
 ```
 
-A feladatátvételi függően szükség lehet újratelepíteni az erőforrások régión belül. Mielőtt ismét sikertelen, egy működőképesség tesztjének elvégzéséhez. A vizsgálat ellenőrizni kell, többek között:
+A feladatátvétel okától függően előfordulhat, hogy újra üzembe kell helyeznie az erőforrásokat a régión belül. A feladat-visszavétel előtt tesztelje a működési készenlétet. A teszt többek között a következőket ellenőrzi:
 
-* Virtuális gépek helyesen vannak konfigurálva. (Az összes szükséges szoftverek telepítve van, az IIS fut, és így tovább.)
-* Alkalmazás alrendszereket is megfelelő. 
-* Funkcionális tesztelése. (Például az adatbázis-rétegből érhető el a webes réteg alapján.)
+* A virtuális gépek megfelelően vannak-e konfigurálva. (Az összes szükséges szoftver telepítve van, az IIS fut stb.)
+* Az alkalmazás alrendszerei működőképesek-e. 
+* Funkciótesztelés. (Pl. az adatbázisszint elérhető a webes szintről.)
 
-### <a name="configure-sql-server-always-on-availability-groups"></a>SQL Server mindig a rendelkezésre állási csoportok konfigurálása
+### <a name="configure-sql-server-always-on-availability-groups"></a>Az SQL Server Always On rendelkezésre állási csoportok konfigurálása
 
-Windows Server 2016 előtti SQL Server Always On rendelkezésre állási csoportok igényli tartományvezérlő, és a rendelkezésre állási csoport összes csomópontjának azonos Active Directory (AD) tartományban kell lennie. 
+A Windows Server 2016-nál régebbi kiadásokban az SQL Server Always On rendelkezésre állási csoportok tartományvezérlőt igényelnek, és a rendelkezésre állási csoport összes csomópontjának azonos Active Directory (AD) tartományban kell lennie. 
 
-A rendelkezésre állási csoport konfigurálásához:
+Az rendelkezésre állási csoport konfigurálása:
 
-* Legalább két tartományvezérlő tegyen mindegyik régióhoz.
-* Adjon meg egy statikus IP-cím minden tartományvezérlőn.
-* A Vnetek közötti kommunikáció engedélyezésére VNet – VNet kapcsolat létrehozása.
-* Minden egyes virtuális hálózat vegye fel az IP-címét a tartományvezérlők (mindkét régió) a DNS-kiszolgáló listájához. A következő parancssori parancsot használhatja. További információkért lásd: [egy virtuális hálózatot (VNet) által használt kezelése DNS-kiszolgálók][vnet-dns].
+* Legalább két tartományvezérlőt helyezzen mindegyik régióba.
+* Minden tartományvezérlőhöz rendeljen egy statikus IP-címet.
+* Hozzon létre egy virtuális hálózatok közötti kapcsolatot a virtuális hálózatok közötti kommunikációhoz.
+* Minden egyes virtuális hálózat esetében adja hozzá a tartományvezérlők IP-címeit (mindkét régióból) a DNS-kiszolgálók listájához. Ezt az alábbi CLI-paranccsal teheti meg. További információ: [Virtuális hálózat által használt DNS-kiszolgálók kezelése][vnet-dns].
 
     ```bat
     azure network vnet set --resource-group dc01-rg --name dc01-vnet --dns-servers "10.0.0.4,10.0.0.6,172.16.0.4,172.16.0.6"
     ```
 
-* Hozzon létre egy [Windows Server feladatátvételi fürtszolgáltatási] [ wsfc] (WSFC) fürt, amely tartalmazza az SQL Server-példányok mindkét régióban. 
-* Hozzon létre egy SQL Server mindig a rendelkezésre állási csoportot, amely tartalmazza az SQL Server-példányok az elsődleges és másodlagos régiókban. Lásd: [kiterjesztése mindig a rendelkezésre állási csoport távoli Azure Datacenter (PowerShell)](https://blogs.msdn.microsoft.com/sqlcat/2014/09/22/extending-alwayson-availability-group-to-remote-azure-datacenter-powershell/) lépéseit.
+* Hozzon létre egy [Windows Server feladatátvételi fürtszolgáltatást][wsfc] (WSFC) fürtöt, amely mindkét régióban tartalmazza SQL Server-példányokat. 
+* Hozzon létre egy SQL Server Always On rendelkezésre állási csoportot, amely tartalmazza az elsődleges és a másodlagos régió SQL Server-példányait. Ennek lépéseit az [Always On rendelkezésre állási csoport kiterjesztése távoli Azure adatközpontra (PowerShell)](https://blogs.msdn.microsoft.com/sqlcat/2014/09/22/extending-alwayson-availability-group-to-remote-azure-datacenter-powershell/) című cikkben találja.
 
-    * Helyezze el az elsődleges másodpéldány az elsődleges régióban.
-    * Egy vagy több másodlagos replikák helyezze el az elsődleges régióban. Konfigurálja azokat a szinkron véglegesítési használata automatikus feladatátvételre.
-    * Egy vagy több másodlagos replikák helyezze el a másodlagos régióba. Konfigurálja azokat használni a *aszinkron* véglegesítési teljesítményének javítására szolgál. (Ellenkező esetben minden T-SQL-tranzakciót kell várnia az oda-vissza a hálózaton át a másodlagos régióba.)
+  * Az elsődleges régiót helyezze az elsődleges régióba.
+  * Helyezzen egy vagy több másodlagos replikát az elsődleges régióba. Konfigurálja azokat a szinkron véglegesítés használatára, automatikus feladatátvétellel.
+  * Helyezzen egy vagy több másodlagos replikát a másodlagos régióba. Ezeket a teljesítmény érdekében *aszinkron* véglegesítés használatára konfigurálja. (Ellenkező esetben az összes T-SQL-tranzakciónak várnia kell, míg az adatok körbeérnek a hálózaton a másodlagos régióig.)
 
     > [!NOTE]
-    > Az aszinkron véglegesítésű replikák nem támogatják az automatikus feladatátvételre.
+    > Az aszinkron véglegesítésű replikák nem támogatják az automatikus feladatátvételt.
     >
     >
 
-További információkért lásd: [fut a Windows virtuális gépek az Azure-N szintű architektúra](n-tier.md).
+További információk: [Windows rendszerű virtuális gépek futtatása N szintű architektúrákon az Azure-ban](n-tier.md).
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Egy összetett N szintű alkalmazást, nem kell replikálni a másodlagos régióban a teljes alkalmazás. Ehelyett csak lehet, hogy replikálja a kritikus alrendszer, az üzletmenet folytonossága támogatásához szükséges.
+Komplex N szintű alkalmazás esetén előfordulhat, hogy nem kell replikálnia a teljes alkalmazást a másodlagos régióba. Ehelyett elég lehet replikálni egy kritikus fontosságú alrendszert, amely az üzletmenet folytonosságának fenntartásához szükséges.
 
-A TRAFFIC Manager ponttá lehetséges hiba a rendszerben. A Traffic Manager szolgáltatás nem sikerül, ha az ügyfelek nem tudnak hozzáférni az alkalmazás a leállások során. Tekintse át a [Traffic Manager SLA][tm-sla], és döntse el, hogy kizárólag a Traffic Manager segítségével megfelel-e az üzleti követelményeinek, a magas rendelkezésre állás érdekében. Ha nem, akkor vegyen fel egy másik forgalom felügyeleti megoldás, a feladat-visszavételre. Ha az Azure Traffic Manager szolgáltatás nem sikerül, módosítsa a CNAME rekordot a DNS-ben, hogy a többi felügyeleti szolgálat mutasson. (Ebben a lépésben kézzel kell elvégezni, és az alkalmazás nem lehet a DNS-módosítások továbbítódnak.)
+A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a Traffic Manager szolgáltatás meghibásodik, az ügyfelek a leállás ideje alatt nem érhetik el az alkalmazást. Tekintse át a [Traffic Manager szolgáltatói szerződését][tm-sla], és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, akkor a biztonság érdekében érdemes lehet hozzáadni egy másik forgalomkezelési szolgáltatást a feladat-visszavételhez. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a CNAME rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson. (Ezt a lépést manuálisan kell elvégezni. Amíg a DNS-módosítások érvénybe nem lépnek, az alkalmazás nem lesz elérhető.)
 
-Az SQL Server-fürt van két feladatátvételi forgatókönyvek kell figyelembe venni:
+Az SQL Server-fürt esetében két feladatátvételi forgatókönyvet kell figyelembe venni:
 
-- Az SQL Server adatbázis-replikákat az elsődleges régióban összes sikertelen. Például ez akkor fordulhat regionális kimaradás során. Ebben az esetben kézi feladatátvételt kell a rendelkezésre állási csoportból, annak ellenére, hogy a Traffic Manager automatikusan átkerül a kezelőfelületre. Kövesse a [egy SQL Server rendelkezésre állási csoport kényszerített kézi feladatátvétel végrehajtása](https://msdn.microsoft.com/library/ff877957.aspx), ismertető kényszerített feladatátvételre végrehajtani az SQL Server 2016 SQL Server Management Studio, a Transact-SQL vagy a PowerShell használatával.
+- Az összes SQL Server-adatbázisreplika meghibásodik az elsődleges régióban. Ez például regionális kimaradás során fordulhat elő. Ebben az esetben manuálisan kell elvégeznie a rendelkezésre állási csoport feladatátvételét, annak ellenére, hogy a Traffic Manager az előtérben automatikusan elvégzi a feladatátvételt. Kövesse a [Kényszerített manuális feladatátvétel elvégzése SQL Server rendelkezésre állási csoporton](https://msdn.microsoft.com/library/ff877957.aspx) című cikk lépéseit. A cikk leírja, hogyan végezhető kényszerített feladatátvétel az SQL Server Management Studio, a Transact-SQL vagy a PowerShell használatával az SQL Server 2016-ban.
 
    > [!WARNING]
-   > A kényszerített feladatátvételi fennáll az adatvesztés. Az elsődleges régióban újra online állapotba kerül, ha az adatbázis, és felhasználása [tablediff] különbségek kereséséhez.
+   > A kényszerített feladatátvétel esetében adatvesztés fordulhat elő. Amint az elsődleges régió újra elérhetővé válik, készítsen pillanatfelvételt az adatbázisról, és használja a [tablediff] parancsot a különbségek megkereséséhez.
    >
    >
-- A TRAFFIC Manager átadja a feladatokat a másodlagos régióba, de az elsődleges SQL Server adatbázis-replika továbbra is elérhető. Például az előtér-réteg sikertelen lehet, az nem befolyásolja az SQL Server virtuális gépen. Ebben az esetben internetes továbbítódik a másodlagos régióban, és adott régióban még lehet kapcsolódni az elsődleges másodpéldány. Azonban nem lesznek nagyobb késéseket, mert az SQL Serverhez való csatlakozást fog régiók között. Ebben a helyzetben végre kell hajtania a manuális feladatátvételt az alábbiak szerint:
+- A Traffic Manager átadja a feladatokat a másodlagos régiónak, de az elsődleges SQL Server-adatbázisreplika továbbra is elérhető marad. Például előfordulhat, hogy az előtérréteg meghibásodik, de ez nincs hatással az SQL Servert futtató virtuális gépekre. Ebben az esetben a rendszer átirányítja az internetes forgalmat a másodlagos régióba, és ez a régió továbbra is csatlakozhat az elsődleges replikához. Ekkor azonban nagyobb lesz a késés, mivel az SQL Server-kapcsolatoknak több régión kell áthaladniuk. Ebben a helyzetben manuálisan kell végrehajtania a feladatátvételt az alábbiak szerint:
 
-   1. Ideiglenes Váltás az SQL Server adatbázis-replikát a másodlagos régióban *szinkron* véglegesítési. Ez biztosítja, nem lesznek adatvesztés a feladatátvétel során.
-   2. Feladatok átadása a, hogy a replika.
-   3. Ha nem vissza az elsődleges régióban, a aszinkron véglegesítési beállítás visszaállításához.
+   1. Ideiglenesen állítson át egy SQL Server-adatbázisreplikát a másodlagos régióban *szinkron* véglegesítésre. Ez biztosítja, hogy ne legyen adatvesztés a feladatátvétel során.
+   2. Végezze el a feladatátvételt erre a replikára.
+   3. Miután megtörtént a feladat-visszavétel az elsődleges régióra, állítsa vissza az aszinkron véglegesítést.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Ha a telepítés frissítéséhez frissíteni egy régió tartozik csökkenti annak esélyét, a globális hibák egy helytelen konfiguráció vagy az alkalmazás hiba egyszerre.
+Amikor frissíti az üzemelő példányt, egyszerre egy régiót frissítsen. Ezzel csökkenthető a nem megfelelő konfiguráció vagy az alkalmazásban felmerülő hiba okozta globális meghibásodás esélye.
 
-Tesztelje a rugalmasság, a rendszer a hibák. Alább található néhány gyakori meghibásodási helyzet:
+Tesztelje a rendszer meghibásodásokkal szembeni rugalmasságát. Alább található néhány gyakori meghibásodási helyzet:
 
 * Állítson le virtuálisgép-példányokat.
-* Nyomás erőforrások, például CPU és memória.
-* Hálózati kapcsolat bontása/késleltetés.
+* Terhelje az erőforrásokat, például a processzort és a memóriát.
+* Bontsa/késleltesse a hálózati kapcsolatot.
 * Váltsa ki egyes folyamatok összeomlását.
 * Alkalmazzon lejárt tanúsítványokat.
-* Hardver hibák szimulálásához.
-* Állítsa le a DNS-szolgáltatás a tartományvezérlőkön.
+* Szimuláljon hardverhibákat.
+* Állítsa le a DNS-szolgáltatást a tartományvezérlőkön.
 
-A helyreállítási idő mérését, és győződjön meg arról, hogy megfelelnek-e az üzleti igényeknek. Teszt sikertelen üzemmódot, valamint kombinációi.
+Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy azok megfelelnek az üzleti követelményeinek. Több hibaállapot kombinációját is tesztelje.
 
 
 
@@ -182,10 +182,10 @@ A helyreállítási idő mérését, és győződjön meg arról, hogy megfeleln
 [tm-routing]: /azure/traffic-manager/traffic-manager-routing-methods
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
 [traffic-manager]: https://azure.microsoft.com/services/traffic-manager/
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [vnet-dns]: /azure/virtual-network/virtual-networks-manage-dns-in-vnet
 [vnet-to-vnet]: /azure/vpn-gateway/vpn-gateway-vnet-vnet-rm-ps
 [vpn-gateway]: /azure/vpn-gateway/vpn-gateway-about-vpngateways
 [wsfc]: https://msdn.microsoft.com/library/hh270278.aspx
 
-[0]: ./images/multi-region-application-diagram.png "Azure N szintű alkalmazásokhoz magas rendelkezésre állású hálózati architektúra"
+[0]: ./images/multi-region-application-diagram.png "Magas rendelkezésre állású hálózati architektúra N szintű Azure-alkalmazásokhoz"

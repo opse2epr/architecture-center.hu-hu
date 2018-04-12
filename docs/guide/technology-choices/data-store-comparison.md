@@ -1,135 +1,135 @@
 ---
-title: "Adattároló kiválasztásának szempontjai"
-description: "Az Azure compute beállítások áttekintése"
+title: Az adattár kiválasztásának kritériumai
+description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
-ms.openlocfilehash: 7fb75cd334438c5b985fa04ad8afe3236f2391f8
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9cb2f77b854a38450490bc96bf0b6a2998ceb1c7
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="criteria-for-choosing-a-data-store"></a>Adattároló kiválasztásának szempontjai
+# <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
-Azure támogatja számos különböző típusú adatok tárolási megoldások, mindegyik különböző szolgáltatásokat és képességeket biztosít. Ez a cikk ismerteti a összehasonlítási feltétel kiértékelésekor adattárat kell használnia. A cél, hogy a segítségével meghatározhatja, hogy mely adattípusok tároló megfelel a megoldás követelményei.
+Az Azure számos adattárolási megoldástípust támogat, amelyek mindegyike más funkciókat és képességeket biztosít. Ez a cikk az adattárak értékelésekor szükséges összehasonlítási kritériumokat ismerteti. A cél az, hogy segítséget nyújtson az aktuális megoldás igényeinek megfelelő adattárolási típus meghatározásában.
 
-## <a name="general-considerations"></a>Általános megfontolások
+## <a name="general-considerations"></a>Általános szempontok
 
-Az összehasonlítás elindításához gyűjtse össze a következő információkat, mint az adatokkal kapcsolatos igények megfelelően. Ez az információ segít meghatározni, mely adattípusok tárolási igényeinek.
+Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigényeire vonatkozó információkból, amennyit csak tud. Ez az információ segít annak meghatározásában, hogy melyik adattárolási típus felel meg az igényeinek.
 
-### <a name="functional-requirements"></a>Működési követelmények
+### <a name="functional-requirements"></a>Funkcionális követelmények
 
-- **Az adatformátum**. Milyen típusú adatok vannak, tárolni szándékozik? Használt típusok a következők: tranzakciós adatok, JSON objektumok, telemetriai, keresési indexek vagy egybesimított fájlokba.
-- **Adatok mérete**. Hogyan nagy kell tárolni entitások vannak? Ezeket az entitásokat kell egyetlen dokumentum fenn kell tartani, vagy azok oszthatók több dokumentumok, táblák, gyűjtemények, és így tovább?
-- **Méretezés és struktúra**. Mi az az általános tárolókapacitáson van szüksége? Hajtsa végre, amelyek várhatóan az adatok particionálása? 
-- **Adatok kapcsolatok**. Az adatok kell egy-a-többhöz vagy a több-több kapcsolat támogatásához? A kapcsolatok magukat az adatokat egyik fontos része? Szükség lesz való csatlakozásra, és ugyanahhoz az adatkészlethez belül, vagy a külső adatkészletek adatait egyébként felhasználó? 
-- **Konzisztencia-modell**. Mennyire fontos a azt egy csomópontban jelennek meg más csomópontokat, mielőtt további módosításokat hajthat végrehajtott frissítések? Fogadhat végleges konzisztencia? Szüksége van az egyes tranzakciókra vonatkozóan ACID garanciák?
-- **Séma rugalmasságát**. Milyen sémák rendszer alkalmaz az adatok? Egy rögzített sémájába, a séma módosításkor megközelítés vagy a séma-a-olvasási megközelítést fog használni?
-- **Párhuzamossági**. Milyen párhuzamossági mechanizmus kívánja használja, ha a frissítés és az adatok szinkronizálását? Az alkalmazás akkor fogja elvégezni, amely potenciálisan ütközhetnek számos frissítést. Ha igen, előfordulhat, hogy a rekord zárolás és pesszimista feldolgozási vezérlő igénylő. Másik lehetőségként támogathat egyidejű hozzáférések optimista vezérlők? Ha igen, egyszerű időbélyeg-alapú feldolgozási vezérlő elég, vagy van szüksége több verzió párhuzamossági vezérlő hozzáadott új funkció?
-- **Adatátvitel**. A megoldás kell áthelyezni az adatokat más tárolók vagy adatraktárak ETL feladatok elvégzéséhez?
-- **Adatok életciklus**. Az adatok írási van – egyszer, olvassa el a többhöz? Az mozgathatók ritkán vagy a cold storage?
-- **Egyéb támogatott szolgáltatás**. Nem kell semmilyen más szolgáltatást, például a sémaérvényesítés, összesítési, indexelő, teljes szöveges keresés, MapReduce, vagy más lekérdezési képességeket?
+- **Adatformátum**. Milyen típusú adatokat szándékozik tárolni? A gyakori típusok közé tartoznak a tranzakciós adatok, a JSON-objektumok, a telemetriaadatok, a keresési indexek és az egybesimított fájlok.
+- **Az adatok mérete**. Mekkora a tárolni kívánt entitások mérete? Ezeket az entitásokat egyetlen dokumentumként kell fenntartani, vagy azok feloszthatók több dokumentumra, táblára, gyűjteményre stb.?
+- **Skálázás és struktúra**. Milyen általános tárolókapacitásra van szüksége? Tervezi az adatok particionálását? 
+- **Adatkapcsolatok**. Az adatoknak támogatniuk kell-e az egy-a-többhöz vagy a több-a-többhöz kapcsolatokat? Maguk a kapcsolatok fontos részét képezik az adatoknak? Szükség lesz-e az adatok egyesítésére vagy egyéb típusú kombinálására ugyanazon vagy más külső adatkészletekből származó adatokkal? 
+- **Konzisztenciamodell**. Mennyire fontos, hogy az egy csomóponton végzett frissítések más csomópontokon is megjelenjenek, mielőtt további módosításokat lehetne eszközölni? Elfogadható-e a végleges konzisztencia? Szüksége van-e ACID-garanciákra az egyes tranzakciókhoz?
+- **A séma rugalmassága**. Milyen sémát fog alkalmazni az adatokon? Rögzített sémát, esetleg írási séma vagy olvasási séma megközelítést fog használni?
+- **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, lehetséges, hogy rekordzárolási és pesszimista egyidejűségi vezérlőkre lesz szüksége. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
+- **Adatáthelyezés**. A megoldásnak végre kell-e hajtania ETL-feladatokat az adatok másik tárolóba vagy adattárházba történő áthelyezéséhez?
+- **Az adatok életciklusa**. Az adatok egyszer írhatók és többször olvashatók? Áthelyezhetők-e ritkán használt vagy offline tárhelyre?
+- **Egyéb támogatott funkciók**. Szüksége van-e bármilyen más konkrét funkcióra, például sémaérvényesítésre, összesítésre, indexelésre, teljes szöveges keresésre, esetleg MapReduce-feladatra vagy egyéb lekérdezési képességekre?
 
-### <a name="non-functional-requirements"></a>A nem működési követelmények
+### <a name="non-functional-requirements"></a>Nem funkcionális követelmények
 
-- **Teljesítmény és méretezhetőség**. Mik a adatok teljesítményre vonatkozó követelmények? Konkrét követelmények adatforgalmi adatfeldolgozást díjakat és az adatok feldolgozási sebességet van? Mik a elfogadható válaszidejét kérdez le, és az adatok egyszer okozhatnak összesítése? Hogyan nagy szükség van-e az adatokat tároló méretezést kívánó? A számítási feladatok van, további műveleteket olvasási vagy írási műveleteket?
-- **Megbízhatóság**. Milyen általános SLA szüksége támogatásához? Milyen szintű hibatűrést van szüksége az adatfelhasználók számára? Milyen típusú biztonsági mentési és visszaállítási képességeket van szüksége? 
-- **Replikációs**. Több replikák és régiók közötti elosztását kell az adatokat? Milyen típusú adatok replikációs képességek szükség van-e? 
-- **Korlátok**. Egy adott adattár határain támogatja a követelmények a méretezés, a kapcsolatokat, és az átvitel száma? 
+- **Teljesítmény és skálázhatóság**. Milyen igényei vannak az adatteljesítményre vonatkozóan? Vannak-e egyedi igényei az adatok betöltése és feldolgozása szempontjából? Milyen elfogadható válaszidők vonatkoznak az adatok lekérdezésére és összesítésére a beolvasás után? Milyen mértékű vertikális felskálázásra lesz szüksége az adattárhoz? A munkaterhelések nagyrészt olvasási vagy nagyrészt írási műveltekből állnak?
+- **Megbízhatóság**. Milyen általános SLA-támogatásra van szüksége? Milyen szintű hibatűrést kíván nyújtani az adatfelhasználók számára? Milyen típusú biztonsági mentési és visszaállítási képességekre van szüksége? 
+- **Replikáció**. Szükség lesz-e az adatok több replika vagy régió közötti szétosztására? Milyen típusú adatreplikációs képességekre van szüksége? 
+- **Korlátok**. Beleférnek-e egy adott adattár korlátaiba a skálázási, a kapcsolatok számára vonatkozó, illetve az átviteli követelményei? 
 
-### <a name="management-and-cost"></a>Felügyeleti és a költséghatékonyság
+### <a name="management-and-cost"></a>Felügyelet és költségek
 
-- **A felügyelt**. Ha lehetséges, egy felügyelt adatok szolgáltatását használja, ha szüksége van, amely csak egy üzemeltetett IaaS-tárolóban található meghatározott jogosultságokat.
-- **Régiónkénti elérhetőség**. Felügyelt szolgáltatások esetén érhető el a szolgáltatás az összes Azure-régiók? Nem a megoldás kell bizonyos Azure-régiók-ban üzemeltetett?
-- **Hordozhatósága**. Az adatok kell áttelepíteni a helyszíni, külső adatközpontok vagy egyéb felhőalapú üzemeltetési környezeteket?
-- **Licencelési**. Rendelkezik egy védett OSS licenc típusa és előnyben? Vannak-e egyéb külső korlátozások licenc típusa használhatja?
-- **A teljes költség**. Mi az a teljes költség szempontjából, a szolgáltatás belül a megoldás használatával? Hány példányban kell futtatni, saját hasznos üzemidő és átviteli igényeinek támogatására? Vegye figyelembe a számítási műveletek költségét. Felügyelt szolgáltatásokat inkább akkor működési költséghatékony.
-- **Költség hatékonyságának**. Képes az adatok tárolására, hatékonyan további költség partícióazonosító? Például lehet egy drága relációs adatbázisból nagy objektumok helyez át egy objektum áruházban?
+- **Felügyelt szolgáltatás**. Ha lehetséges, használjon felügyelt adatszolgáltatást, hacsak nem kifejezetten olyan képességekre van szüksége, amelyek csak egy IaaS által üzemeltetett adattárban találhatók meg.
+- **Régiónkénti rendelkezésre állás**. Felügyelt szolgáltatások esetén a szolgáltatás elérhető-e az összes Azure-régióban? A megoldást bizonyos Azure-régiókban kell-e üzemeltetni?
+- **Hordozhatóság**. Szükség lesz-e az adatok helyszíni vagy külső adatközpontokba, esetleg egyéb felhőalapú üzemeltetési környezetekbe történő migrálására?
+- **Licencelés**. Előnyben részesíti-e a jogvédett licencet az OSS licenctípussal szemben? Vonatkozik-e egyéb külső korlátozás a használt licenc típusára vonatkozóan?
+- **A teljes költség**. Milyen mértékű a megoldásban használt szolgáltatás teljes költsége? Hány példánynak kell futnia az üzemidő- és a teljesítménybeli követelmények kiszolgálásához? Ennél a számításnál az üzemeltetés költségeit is vegye figyelembe. A felügyelt szolgáltatások használatának egyik előnye az alacsonyabb üzemeltetési költség.
+- **Költséghatékonyság**. Lehetséges-e az adatok particionálása a költséghatékonyabb tárolás érdekében? Például áthelyezhetők-e a nagy méretű objektumok egy költséges relációs adatbázisból egy objektumtárolóba?
 
 ### <a name="security"></a>Biztonság
 
-- **Biztonság**. Milyen típusú titkosítást igényelnek? Kell-e titkosítását? Milyen hitelesítési módszert szeretné használni az adatokhoz történő kapcsolódáshoz?
-- **Naplózás**. Milyen típusú naplózást szeretne létrehozni?
-- **Hálózati követelmények**. Szüksége korlátozhatja, vagy ellenkező esetben az adatok hozzáférésének más hálózati erőforrások kezelése? Nem szükséges adatokat kell csak érhetők el az Azure-környezeten belül? Nem a szükséges adatokat az adott IP-címek és alhálózatok érhető el? Nem azt kell ki alkalmazásaiban vagy az üzemeltetett szolgáltatások a helyszíni vagy más külső adatközpontokban elérhető?
+- **Biztonság**. Milyen típusú titkosításra van szüksége? Szüksége van titkosításra inaktív állapotban? Milyen hitelesítési mechanizmust szeretne használni az adatokhoz való kapcsolódáshoz?
+- **Naplózás**. Milyen típusú naplót szeretne létrehozni?
+- **Hálózati követelmények**. Szeretné-e korlátozni vagy egyéb módon kezelni a más hálózati forrásokból származó adatokat? Az adatok elérésére csak az Azure-környezeten belülről van szükség? Az adatoknak adott IP-címekről vagy alhálózatokról is elérhetőnek kell lenniük? Elérhetőnek kell-e lenniük a helyszínen üzemeltetett alkalmazások vagy szolgáltatások, esetleg egyéb külső adatközpontok számára?
 
 ### <a name="devops"></a>DevOps
 
-- **Szakértelem set**. Vannak-e bizonyos programozási nyelvek, operációs rendszerek és egyéb technológia, hogy a csoport az különösen adept? Vannak-e más, a csapat dolgozhat nehéz lenne?
-- **Ügyfelek** helyes ügyfél támogatása a fejlesztési nyelveket van?
+- **Képzettség**. Vannak-e olyan programozási nyelvek, operációs rendszerek és egyéb technológiák, amelyek használatában a csapata különösen képzett? Vannak-e olyanok, amelyekkel a csapata nehezen boldogulna?
+- **Ügyfelek**. Elérhető-e megfelelő szintű ügyféltámogatás az Ön által használt fejlesztési nyelvekhez?
 
-A következő szakaszok különböző adatokat tároló modellek munkaterhelés-profilt, az adattípusokat és példák az alkalmazási helyzetekre összehasonlítása.
+A következő szakaszokban különböző adattármodelleket hasonlítunk össze a számításifeladat-profil, az adattípusok és az alkalmazási helyzetekre vonatkozó példák alapján.
 
-## <a name="relational-database-management-systems-rdbms"></a>Relációs adatbázis-kezelő rendszerek (RDBMS)
+## <a name="relational-database-management-systems-rdbms"></a>Relációsadatbázis-kezelő rendszerek (RDBMS)
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Mindkét létrehozása új rekordok és adatok frissítése rendszeresen fordulhat elő.</li>
-            <li>Több műveletet kell egy tranzakción belül kell végrehajtani.</li>
-            <li>Az aggregátumfüggvényeket típusát végrehajtásához szükséges.</li>
-            <li>Jelentéskészítő eszközök erős integrálva szükség.</li>
-            <li>Kapcsolatok használatával adatbázis korlátozások érvényesek lesznek.</li>
-            <li>Indexek használt lekérdezési teljesítmény optimalizálása érdekében.</li>
-            <li>Lehetővé teszi, hogy az adatok meghatározott fájlcsoportokat a hozzáférést.</li>
+            <li>Mind az új rekordok létrehozása, mind a meglévő adatok frissítése rendszeresen megtörténik.</li>
+            <li>Több műveletet kell egyetlen tranzakción belül végrehajtani.</li>
+            <li>Kereszttáblák létrehozásához összesítő függvényekre van szükség.</li>
+            <li>Jól integrálhatónak kell lennie a jelentéskészítő eszközökkel.</li>
+            <li>A kapcsolatok kényszerítése az adatbázis korlátozásai révén valósul meg.</li>
+            <li>A lekérdezési teljesítmény optimalizálása indexekkel történik.</li>
+            <li>Lehetővé teszi az adatok bizonyos részhalmazainak elérését.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Adatok magas normalizált.</li>
-            <li>Adatbázis-sémák szükségesek, de lépnek érvénybe.</li>
-            <li>Az adatbázis entitások közötti kapcsolatok több-a-többhöz.</li>
-            <li>Korlátozások a sémában definiált és partíciószeletre vonatkozó adatokat az adatbázisban.</li>
-            <li>Adatok integritása magas szintű igényel. Indexek és kapcsolatok kell pontosan kell tartani.</li>
-            <li>Adatok az erős konzisztencia igényel. Tranzakciók, amely biztosítja az összes adat 100 %-os összes felhasználójához és folyamatok konzisztens módon fog működni.</li>
-            <li>Egyes bejegyzések mérete olyan kis és közepes méretű lehet.</li>
+            <li>Az adatok nagymértékben normalizáltak.</li>
+            <li>Az adatbázissémák szükségesek és kényszerítettek.</li>
+            <li>Több-a-többhöz kapcsolatok az adatbázisban szereplő adatentitások között.</li>
+            <li>A korlátozásokat a séma határozza meg, és alkalmazza az adatbázisban szereplő minden adatra.</li>
+            <li>Szükséges az adatok nagy fokú integritása. Az indexeket és kapcsolatokat pontosan karban kell tartani.</li>
+            <li>Szükséges az adatok erős konzisztenciája. A tranzakciók működésének módja biztosítja, hogy minden adat minden felhasználó és folyamat számára teljes mértékben megegyezzen.</li>
+            <li>Az egyes adatbeviteleknek kis vagy közepes méretűnek kell lenniük.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
-            <li>Üzletági (emberi beruházási felügyeletet, az Ügyfélkapcsolat-kezelés, vállalati erőforrás tervezése)</li>
-            <li>Készlet kezelése</li>
-            <li>Jelentéskészítő adatbázis</li>
+            <li>Üzletág (emberierőforrás-kezelés, ügyfélkapcsolat-kezelés, vállalati erőforrás-tervezés)</li>
+            <li>Leltárkezelés</li>
+            <li>Jelentéskészítési adatbázis</li>
             <li>Könyvelés</li>
-            <li>Eszközök kezelése</li>
-            <li>Alap kezelése</li>
-            <li>Kezelési</li>
+            <li>Eszközkezelés</li>
+            <li>Alaptőke-kezelés</li>
+            <li>Rendeléskezelés</li>
         </ul>
     </td>
 </tr>
 </table>
 
-## <a name="document-databases"></a>Dokumentum-adatbázisokat
+## <a name="document-databases"></a>Dokumentum-adatbázisok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
             <li>Általános célú.</li>
-            <li>Beszúrási és frissítési műveletek megegyeznek. Mindkét létrehozása új rekordok és adatok frissítése rendszeresen fordulhat elő.</li>
-            <li>Nincs objektum relációs impedancia nem megfelelő. Dokumentumok jobban is megegyezhet alkalmazáskód használt objektum struktúrákat.</li>
-            <li>Egyidejű hozzáférések optimista több gyakran használják.</li>
-            <li>Adatok kell módosíthatók és dolgozza fel az alkalmazás fel.</li>
-            <li>Adatok index több mező szükséges.</li>
-            <li>Egyes dokumentumok beolvasni, és egyetlen blokkot megírva.</li>
+            <li>Gyakoriak a beszúrási és frissítési műveletek. Mind az új rekordok létrehozása, mind a meglévő adatok frissítése rendszeresen megtörténik.</li>
+            <li>Nincs objektumrelációs impedanica-eltérés. A dokumentumok jobban illeszkednek az alkalmazáskódban használt objektumstruktúrákhoz.</li>
+            <li>Gyakrabban használnak optimista konkurenciát.</li>
+            <li>Az adatokat a felhasználó alkalmazásnak kell módosítania és feldolgoznia.</li>
+            <li>Az adatokhoz többmezős indexelésre van szükség.</li>
+            <li>Egyes dokumentumokat egyetlen blokként olvas be és ír a rendszer.</li>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Adatok deszerializálni normalizált módon kezelhetők.</li>
-            <li>A dokumentum egyes adatok mérete viszonylag kicsi.</li>
-            <li>Minden egyes dokumentumtípus használhatja a saját séma.</li>
-            <li>Dokumentumok választható mezők szerepelhetnek.</li>
-            <li>A dokumentum adata félig strukturált, ami azt jelenti, hogy adatokat minden mező nem feltétlenül típusait.</li>
-            <li>Adatösszesítés esetén támogatott.</li>
+            <li>Az adatok denormalizált módon is kezelhetők.</li>
+            <li>Az egyes dokumentumadatok mérete viszonylag kicsi.</li>
+            <li>Minden egyes dokumentumtípus használhatja a saját sémáját.</li>
+            <li>A dokumentumok nem kötelező mezőket is tartalmazhatnak.</li>
+            <li>A dokumentumadatok részben strukturáltak, ami azt jelenti, hogy az egyes mezők adattípusai nincsenek szigorúan meghatározva.</li>
+            <li>Az adatösszesítés támogatott.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
             <li>Termékkatalógus</li>
@@ -137,160 +137,160 @@ A következő szakaszok különböző adatokat tároló modellek munkaterhelés-
             <li>Anyagjegyzék</li>
             <li>Személyre szabás</li>
             <li>Tartalomkezelés</li>
-            <li>Operatív adatok</li>
-            <li>Készlet kezelése</li>
-            <li>Tranzakció előzményadatok</li>
-            <li>A más NoSQL-tárolókon materializált nézet. Cserél fájl/BLOB indexelő.</li>
+            <li>Műveleti adatok</li>
+            <li>Leltárkezelés</li>
+            <li>Tranzakció-előzményadatok</li>
+            <li>Más NoSQL-tárolók materializált nézete. Fájl cseréje/BLOB-indexelés.</li>
         </ul>
     </td>
 </tr>
 </table>
 
-## <a name="keyvalue-stores"></a>Kulcs-érték tárolók
+## <a name="keyvalue-stores"></a>Kulcs/érték tárolók
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Adatok azonosítja, és egy azonosító kulcs, például a dictionary használatával érhető el.</li>
-            <li>Nagymértékben méretezhető.</li>
-            <li>Nem csatlakozik, lock vagy egyesítésekhez szükség.</li>
-            <li>Nincs összesítési mechanizmusokat használják.</li>
-            <li>Másodlagos indexek általában nem használják.</li>
+            <li>Az adatokat egy szótárhoz hasonlóan azonosítja és éri el.</li>
+            <li>Nagy mértékben skálázható.</li>
+            <li>Nincs szükség illesztésre, zárolásra vagy egyesítésre.</li>
+            <li>Nem használ összesítési mechanizmusokat.</li>
+            <li>A másodlagos indexeket általában nem használja.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Adatok mérete általában nagy.</li>
-            <li>Minden kulcs társítva, amely egy nem felügyelt adatok BLOB egyetlen értéket.</li>
-            <li>Nincs séma kényszerítési van.</li>
-            <li>Nincs entitások közötti kapcsolatok.</li>
+            <li>Az adatok mérete általában nagy.</li>
+            <li>Minden kulcs egyetlen értékhez van társítva, amely egy nem felügyelt adatblob.</li>
+            <li>Nincs sémakényszerítés.</li>
+            <li>Nincsenek entitások közötti kapcsolatok.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
             <li>Adatok gyorsítótárazása</li>
             <li>Munkamenet-kezelés</li>
-            <li>Felhasználói beállítások és profilok felügyeletének</li>
-            <li>A termék javaslat és ad szolgál</li>
-            <li>szótárak</li>
+            <li>Felhasználói beállítások és profilkezelés</li>
+            <li>Termékjavaslat és reklámszolgáltatás</li>
+            <li>Szótárak</li>
         </ul>
     </td>
 </tr>
 </table>
 
-## <a name="graph-databases"></a>Graph-adatbázisok
+## <a name="graph-databases"></a>Gráfadatbázisok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Adatok elemek között kapcsolatok nagyon bonyolultak, kapcsolódó adatelemek között hány ugrást használata esetén.</li>
-            <li>Az adatok elemek közötti kapcsolat dinamikusak, és változnak az idők.</li>
-            <li>Objektumok közötti kapcsolatok első osztályú építését, anélkül, hogy a külső kulcsokat és átjárása illesztések.</li>
+            <li>Az adatelemek közötti kapcsolatok nagyon összetettek, számos ugrással a kapcsolódó adatelemek között.</li>
+            <li>Az adatelemek közötti kapcsolat dinamikus, és az idő előrehaladtával változik.</li>
+            <li>Az objektumok közötti kapcsolatok kiváló hozzáférést biztosítanak, a bejáráshoz nincs szükségük külső kulcsokra vagy illesztésekre.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Adatok csomópontok és a kapcsolatok magában foglalja.</li>
-            <li>Csomópontok a táblázat sorainak vagy JSON-dokumentumok hasonlóak.</li>
-            <li>Kapcsolatok éppen olyan fontos, mint a csomópontok, és közvetlenül a lekérdezés nyelven érhetők el.</li>
-            <li>Összetett objektumok, például egy személy, a telefonszámokat, az egyes különálló, kisebb csomópontok lehet osztani együtt traversable kapcsolatok </li>
+            <li>Az adatok csomópontokból és kapcsolatokból állnak.</li>
+            <li>A csomópontok a táblázatok soraihoz vagy a JSON-dokumentumokhoz hasonlítanak.</li>
+            <li>A kapcsolatok épp olyan fontosak, mint a csomópontok, és a lekérdezési nyelvben közvetlenül megjelennek.</li>
+            <li>Az összetett objektumokat (például egy több telefonszámmal rendelkező személy) a rendszer általában több kisebb csomópontra osztja szét, amelyeket bejárható kapcsolatok kötnek össze. </li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
             <li>Szervezeti diagramok</li>
-            <li>Közösségi diagramjait</li>
+            <li>Közösségi diagramok</li>
             <li>Csalások észlelése</li>
             <li>Elemzés</li>
-            <li>A javaslat motorok</li>
+            <li>Javaslati motorok</li>
         </ul>
     </td>
 </tr>
 </table>
 
-## <a name="column-family-databases"></a>Oszlop-család adatbázisok
+## <a name="column-family-databases"></a>Oszlopcsalád-adatbázisok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>A legtöbb oszlop-család adatbázisok rendkívül gyorsan írási műveletek végrehajtására.</li>
-            <li>Frissítse és törlési műveletek ritkák.</li>
-            <li>Célja, hogy nagyobb teljesítményt és alacsony késésű hozzáférést biztosítanak.</li>
-            <li>Támogatja az egyszerű lekérdezés hozzáférésének egy meghatározott sokkal nagyobb rekord mezőit.</li>
-            <li>Nagymértékben méretezhető.</li>
+            <li>A legtöbb oszlopcsalád-adatbázis rendkívül gyorsan hajtja végre az írási műveleteket.</li>
+            <li>A frissítési és törlési műveletek ritkák.</li>
+            <li>Nagy teljesítmény és kis késleltetésű hozzáférés biztosítására tervezték.</li>
+            <li>Támogatja egy jóval nagyobb méretű rekordon belüli adott mezőkészletre irányuló egyszerű lekérdezési hozzáféréseket.</li>
+            <li>Nagy mértékben skálázható.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Egy kulcsoszlop és egy vagy több oszlopcsaláddal táblák adatokat tárolja.</li>
-            <li>Egyes oszlopok az egyes sorok eltérőek lehetnek.</li>
-            <li>Az egyes cellák get keresztül elért, és helyezze parancsok</li>
-            <li>Több sort visszaadja a vizsgálat paranccsal.</li>
+            <li>Az adatok egy kulcsoszlopból és egy vagy több oszlopcsaládból álló táblákban tárolódnak.</li>
+            <li>Az adott oszlopok az egyes sorokban eltérőek lehetnek.</li>
+            <li>Az egyes cellák „get” és „put” parancsokkal érhetők el.</li>
+            <li>Egy vizsgálat paranccsal több sort ad vissza.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
             <li>Javaslatok</li>
             <li>Személyre szabás</li>
             <li>Érzékelői adatok</li>
             <li>Telemetria</li>
-            <li>Üzenetküldés</li>
-            <li>Közösségi médiaelemzés használatával</li>
-            <li>Webes elemzőeszközt</li>
-            <li>Figyelése</li>
-            <li>Időjárás és egyéb idősorozat adatok</li>
+            <li>Üzenetkezelés</li>
+            <li>Közösségi médiaelemzés</li>
+            <li>Webes elemzés</li>
+            <li>Tevékenység figyelése</li>
+            <li>Időjárási és egyéb idősorozat-adatok</li>
         </ul>
     </td>
 </tr>
 </table>
 
-## <a name="search-engine-databases"></a>Keresési adatbázisok
+## <a name="search-engine-databases"></a>Keresőmotor-adatbázisok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Az indexelési adatok több forrásokból és szolgáltatásokat.</li>
-            <li>Lekérdezések alkalmi és összetett feladat lehet.</li>
-            <li>Megköveteli összesítési.</li>
-            <li>Teljes szöveges keresés szükség.</li>
-            <li>Ad hoc önkiszolgáló lekérdezés megadása kötelező.</li>
-            <li>Minden mező indexével Data elemzésre szükség.</li>
+            <li>Több forrásból és szolgáltatástól származó adatok indexelése.</li>
+            <li>A lekérdezések ad-hoc jellegűek, és összetettek lehetnek.</li>
+            <li>Összesítést igényel.</li>
+            <li>Teljes szöveges keresést igényel.</li>
+            <li>Ad-hoc jellegű önkiszolgáló lekérdezéseket igényel.</li>
+            <li>Minden mező indexelésével végzett adatelemzésre van szükség.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Félig strukturált vagy strukturálatlan</li>
+            <li>Részben strukturált, vagy strukturálatlan</li>
             <li>Szöveg</li>
-            <li>Szöveg strukturált adatok alapján</li>
+            <li>Strukturált adatokra hivatkozó szöveg</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
-            <li>A termék katalógusok</li>
-            <li>Hely keresése</li>
+            <li>Termékkatalógusok</li>
+            <li>Keresés webhelyen</li>
             <li>Naplózás</li>
             <li>Elemzés</li>
-            <li>Helyek vásárlás</li>
+            <li>Vásárlási webhelyek</li>
         </ul>
     </td>
 </tr>
@@ -299,61 +299,61 @@ A következő szakaszok különböző adatokat tároló modellek munkaterhelés-
 ## <a name="data-warehouse"></a>Adattárház
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
             <li>Adatelemzés</li>
-            <li>Vállalati BI   </li>
+            <li>Enterprise BI   </li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>A különböző forrásokból származó előzményadatok.</li>
-            <li>"Csillag" vagy "snowflake" séma, amely tény-és dimenziótáblák általában denormalizált.</li>
-            <li>Általában be az új adatokkal ütemezés szerint.</li>
-            <li>Dimenziótáblák többek között általában egy entitás néven több történelmi verziója egy *lassan a dimenzió módosításával*.</li>
+            <li>Több forrásból származó előzményadatok.</li>
+            <li>Általában a denormalizált egy &quot;csillag&quot; vagy &quot;snowflake&quot; séma-, tény-és dimenziótáblák álló.</li>
+            <li>Általában ütemezés szerint töltődik fel új adatokkal.</li>
+            <li>A dimenziótáblák gyakran egy entitás több korábbi verzióját is tartalmazzák, amit <em>lassan változó dimenziónak</em> nevezünk.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
-    <td>A vállalati adatokat biztosít a elemzési modellek, jelentések és irányítópultok az adatraktár.
+<tr><td><strong>Példák</strong></td>
+    <td>Egy vállalati adattárház, amely elemzési modellek, jelentések és irányítópultok számára biztosít adatokat.
     </td>
 </tr>
 </table>
 
 
-## <a name="time-series-databases"></a>Idő adatsorozat adatbázisok
+## <a name="time-series-databases"></a>Idősorozat-adatbázisok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Egy túlnyomórészt műveletek (95-99 %) hányadát-e írási műveleteket.</li>
-            <li>Rekord idő sorrendben általában hozzáfűződik egymás után.</li>
-            <li>Frissítések ritkák.</li>
-            <li>Törlések tömeges fordul elő, és egymást követő blokkot vagy rekordok történik.</li>
-            <li>Olvasási kérések lehet nagyobb, mint a rendelkezésre álló memória.</li>
-            <li>Esetében gyakori, hogy mi történjen, párhuzamosan több olvasása.</li>
-            <li>Adatolvasás egymás után növekvő vagy csökkenő sorrendben idő.</li>
+            <li>A műveletek túlnyomó részét (95–99%) írási műveletek adják.</li>
+            <li>A rekordok hozzáfűzése általában időrend szerint történik.</li>
+            <li>A frissítések ritkák.</li>
+            <li>A törlések tömegesen fordulnak elő, céljaik általában egybefüggő blokkok vagy rekordok.</li>
+            <li>Az olvasási kérések lehetnek az elérhető memóriánál nagyobb méretűek.</li>
+            <li>Az&#39;s gyakori, hogy mi történjen, párhuzamosan több olvasása.</li>
+            <li>A rendszer az adatokat szakaszosan olvassa be időrend szerint növekvő vagy csökkenő sorrendben.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>A primary key és rendezési mechanizmust, amely időbélyegző.</li>
-            <li>A belépési vagy a bejegyzést jelöli leírását mérték.</li>
-            <li>További információt a típusát, a forrás és az egyéb információkat a bejegyzés megadása címkéket.</li>
+            <li>Az elsődleges kulcsként és rendezési mechanizmusként használt időbélyegző.</li>
+            <li>A bejegyzésből származó mérések vagy a bejegyzés által képviselt elemek leírása.</li>
+            <li>A bejegyzés típusára, eredetére és egyéb információira vonatkozó további adatokat meghatározó címkék.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
-            <li>Figyelés és az esemény telemetriai adatokat.</li>
-            <li>Érzékelő vagy egyéb IoT-adatokat.</li>
+            <li>Monitorozás és eseménytelemetria.</li>
+            <li>Érzékelő- és egyéb IoT-adatok.</li>
         </ul>
     </td>
 </tr>
@@ -362,32 +362,32 @@ A következő szakaszok különböző adatokat tároló modellek munkaterhelés-
 ## <a name="object-storage"></a>Objektumtár
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
             <li>Kulcs azonosítja.</li>
-            <li>Lehet, hogy objektumok nyilvánosan vagy egyénileg érhető el.</li>
-            <li>Tartalom van általában egy eszköz, például egy táblázat, kép vagy videofájl.</li>
-            <li>Lehet, hogy a tartalom tartós (állandó), és a külső alkalmazás réteg vagy virtuális gép.</li>
+            <li>Az objektumok nyilvánosan vagy privát módon is hozzáférhetők.</li>
+            <li>A tartalom általában egy táblázat, kép- vagy videofájl vagy hasonló adategység.</li>
+            <li>A tartalomnak tartósnak (állandónak) kell lennie, és bármely alkalmazásszinten vagy virtuális gépen külső tartalomnak kell lennie.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Adatok mérete nagy.</li>
+            <li>Az adatok mérete nagy.</li>
             <li>Blobadatok.</li>
-            <li>Értéke nem átlátszó.</li>
+            <li>Az érték nem átlátszó.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
-            <li>Képek, videók, office-dokumentumok, PDF-fájlok</li>
-            <li>CSS, parancsfájlok, CSV</li>
+            <li>Képek, videók, Office-dokumentumok, PDF-fájlok</li>
+            <li>CSS, szkriptek, CSV</li>
             <li>Statikus HTML, JSON</li>
-            <li>Napló-és naplózás</li>
+            <li>Napló- és vizsgálati fájlok</li>
             <li>Adatbázisok biztonsági mentése</li>
         </ul>
     </td>
@@ -397,27 +397,27 @@ A következő szakaszok különböző adatokat tároló modellek munkaterhelés-
 ## <a name="shared-files"></a>Megosztott fájlok
 
 <table>
-<tr><td>**Számítási feladat**</td>
+<tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Áttelepítés a meglévő alkalmazás, amely interakciót folytatni a fájlrendszerben.</li>
-            <li>SMB-kapcsolat szükséges.</li>
+            <li>Áttelepítés meglévő alkalmazásokból, amelyek kommunikálnak a fájlrendszerrel.</li>
+            <li>SMB-kapcsolatot igényel.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Adattípus**</td>
+<tr><td><strong>Adattípus</strong></td>
     <td>
         <ul>
-            <li>Fájlok, mappák hierarchikus meg.</li>
-            <li>Elérhető a szabványos i/o-könyvtárak.</li>
+            <li>Egy hierarchikus mappakészlet fájljai.</li>
+            <li>Szabványos I/O-kódtárakkal elérhető.</li>
         </ul>
     </td>
 </tr>
-<tr><td>**Példák**</td>
+<tr><td><strong>Példák</strong></td>
     <td>
         <ul>
-            <li>A hagyományos fájlok</li>
-            <li>Megosztott tartalom érhető el a virtuális gépek vagy az app-példányok száma között</li>
+            <li>Örökölt fájlok</li>
+            <li>A megosztott tartalom bizonyos számú virtuális gép vagy alkalmazáspéldány számára elérhető</li>
         </ul>
     </td>
 </tr>

@@ -1,11 +1,11 @@
 ---
-title: "Ikonok és egyéb eszközök architekturális diagramokhoz"
-description: "Ikonok, Viso sablonok, PNG-fájlok és SVG-fájlok, amelyek hasznosak a saját architektúra diagramok előállító"
-ms.openlocfilehash: 58a2046c0d463c1f331ea3f950f0c11c273ffc36
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+title: Ikonok és egyéb eszközök architekturális diagramokhoz
+description: Ikonok, Viso sablonok, PNG-fájlok és SVG-fájlok, amelyek hasznosak a saját architektúra diagramok előállító
+ms.openlocfilehash: f65a09450ba1b7154e6d43bbc7bdb65212b21828
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 03/30/2018
 ---
 # <a name="icons-and-diagrams"></a>Ikonok és diagramok
 
@@ -27,6 +27,10 @@ A Microsoft Office és az ahhoz kapcsolódó technológiák további szimbólumo
 ## <a name="reference-architectures-visio-template"></a>Hivatkozás architektúrák Visio sablon 
 
 A diagramokon szerepel egy verziója a [referencia architektúra](../reference-architectures/index.md) érhető el [Visio formátumban letöltése](https://aka.ms/arch-diagrams).
+
+## <a name="solution-architecture-diagrams"></a>Megoldás architektúrája diagramok
+
+A Microsoft tesz közzé [megoldás architektúrák és a hozzá tartozó diagramok](https://azure.microsoft.com/solutions/architecture/). Az ábrák szerepelnek SVG-formátumban letölthető. Az SVG megnyitották, és számos eszközt, beleértve a Visio és a PowerPoint majd módosítani. Ha szétbontása az ábrán, akkor seclect az egyes ikonok.   
 
 ## <a name="3d-blueprint-visio-template"></a>3D tervezetének Visio sablon
 

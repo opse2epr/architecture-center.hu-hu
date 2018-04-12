@@ -1,13 +1,13 @@
 ---
-title: "Jenkins-kiszolgáló futtatása az Azure-on"
-description: "Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on."
+title: Jenkins-kiszolgáló futtatása az Azure-on
+description: Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
 author: njray
 ms.date: 01/21/18
-ms.openlocfilehash: 724185e43ed743013f52ded04b779552dd8e48c1
-ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
+ms.openlocfilehash: c07a341bbe4d0304087e4535408967c45d36199e
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/27/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -15,7 +15,7 @@ Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, 
 
 ![Az Azure-ban futó Jenkins-kiszolgáló][0]
 
-*Töltse le az architektúra ábráját tartalmazó [Visio-fájlt](https://arch-center.azureedge.net/cdn/Jenkins-architecture.vsdx).*
+*Töltse le az architektúra ábráját tartalmazó [Visio-fájlt](https://archcenter.blob.core.windows.net/cdn/Jenkins-architecture.vsdx).*
 
 Az architektúra támogatja a vészhelyreállítást az Azure-szolgáltatásokkal, több főkiszolgálót vagy állásidő nélküli magas rendelkezésre állást (HA) megvalósító fejlettebb felskálázási forgatókönyveket azonban nem tartalmaz. A különféle Azure-összetevőkkel kapcsolatos általános információkért, többek között a CI-/CD-folyamatok az Azure-on való kiépítésének részletes leírásáért lásd: [Jenkins az Azure-on][jenkins-on-azure].
 
@@ -25,30 +25,30 @@ Ez a dokumentum a Jenkins támogatásához szükséges alapvető Azure-művelete
 
 Az architektúra az alábbi összetevőkből áll:
 
--   **Erőforráscsoport.** Az [erőforráscsoportok][rg] Azure-objektumok csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat Azure-objektumokat, a számlázási költségeket pedig erőforráscsoportonként tarthatja számon. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében.
+- **Erőforráscsoport.** Az [erőforráscsoportok][rg] Azure-objektumok csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat Azure-objektumokat, a számlázási költségeket pedig erőforráscsoportonként tarthatja számon. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében.
 
--   **Jenkins-kiszolgáló**. Egy, a [Jenkins][azure-market] automatizáló kiszolgálóként való futtatására üzembe helyezett virtuális gép, amely Jenkins-főkiszolgálóként szolgál. Ez a referenciaarchitektúra [az Azure-hoz készült Jenkins megoldássablonját][solution] használja, amely egy Linux (Ubuntu 16.04 LTS) rendszerű virtuális gépre van telepítve az Azure-ban. Az egyéb Jenkins-ajánlatok az Azure Marketplace áruházban érhetők el.
+- **Jenkins-kiszolgáló**. Egy, a [Jenkins][azure-market] automatizáló kiszolgálóként való futtatására üzembe helyezett virtuális gép, amely Jenkins-főkiszolgálóként szolgál. Ez a referenciaarchitektúra [az Azure-hoz készült Jenkins megoldássablonját][solution] használja, amely egy Linux (Ubuntu 16.04 LTS) rendszerű virtuális gépre van telepítve az Azure-ban. Az egyéb Jenkins-ajánlatok az Azure Marketplace áruházban érhetők el.
 
-    > [!NOTE]
-    > A virtuális gépre telepített Nginx fordított proxyként szolgál a Jenkinshez. A Nginx konfigurálásával engedélyezhető az SSL a Jenkins-kiszolgáló számára.
-    > 
-    > 
+  > [!NOTE]
+  > A virtuális gépre telepített Nginx fordított proxyként szolgál a Jenkinshez. A Nginx konfigurálásával engedélyezhető az SSL a Jenkins-kiszolgáló számára.
+  > 
+  > 
 
--   **Virtuális hálózat**. A [virtuális hálózatok][vnet] összekapcsolják az Azure-erőforrásokat, és biztosítják azok logikai elkülönítését. Ebben az architektúrában a Jenkins-kiszolgáló egy virtuális hálózatban fut.
+- **Virtuális hálózat**. A [virtuális hálózatok][vnet] összekapcsolják az Azure-erőforrásokat, és biztosítják azok logikai elkülönítését. Ebben az architektúrában a Jenkins-kiszolgáló egy virtuális hálózatban fut.
 
--   **Alhálózatok**. A Jenkins-kiszolgáló egy [alhálózatba][subnet] van különítve, így a hálózati forgalom könnyebben felügyelhető és elkülöníthető anélkül, hogy ez befolyásolná a teljesítményt.
+- **Alhálózatok**. A Jenkins-kiszolgáló egy [alhálózatba][subnet] van különítve, így a hálózati forgalom könnyebben felügyelhető és elkülöníthető anélkül, hogy ez befolyásolná a teljesítményt.
 
--   **NSG-k**. A [hálózati biztonsági csoportok][nsg] (NSG-k) használatával korlátozható az internetről a virtuális hálózat adott alhálózatára irányuló hálózati forgalom.
+- <strong>NSG-k</strong>. A [hálózati biztonsági csoportok][nsg] (NSG-k) használatával korlátozható az internetről a virtuális hálózat adott alhálózatára irányuló hálózati forgalom.
 
--   **Felügyelt lemezek**. A [felügyelt lemezek][managed-disk] olyan perzisztens virtuális merevlemezek (VHD), amelyek alkalmazástárolóként, valamint a Jenkins-kiszolgáló állapotának fenntartásához és vészhelyreállításhoz használhatók. Az adatlemezeket az Azure Storage tárolja. A jobb teljesítmény érdekében [Prémium szintű Storage-tárolók][premium] használata ajánlott.
+- **Felügyelt lemezek**. A [felügyelt lemezek][managed-disk] olyan perzisztens virtuális merevlemezek (VHD), amelyek alkalmazástárolóként, valamint a Jenkins-kiszolgáló állapotának fenntartásához és vészhelyreállításhoz használhatók. Az adatlemezeket az Azure Storage tárolja. A jobb teljesítmény érdekében [Prémium szintű Storage-tárolók][premium] használata ajánlott.
 
--   **Azure Blob Storage**. A [Windows Azure Storage beépülő modulja][configure-storage] az Azure Blob Storage segítségével tárolja a létrehozott és más Jenkins-buildekkel megosztott build-összetevőket.
+- **Azure Blob Storage**. A [Windows Azure Storage beépülő modulja][configure-storage] az Azure Blob Storage segítségével tárolja a létrehozott és más Jenkins-buildekkel megosztott build-összetevőket.
 
--   **Azure Active Directory (Azure AD)**. Az [Azure AD][azure-ad] támogatja a felhasználók hitelesítését, így lehetővé teszi az egyszeri bejelentkezés beállítását. Az Azure AD [szolgáltatásnevei][service-principal] [szerepköralapú hozzáférés-vezérlés][rbac] (RBAC) segítségével határozzák meg a munkafolyamat egyes szerepkör-engedélyezéseire vonatkozó szabályzatokat és engedélyeket. Mindegyik egyszerű szolgáltatás társítva van egy Jenkins-feladattal.
+- <strong>Azure Active Directory (Azure AD)</strong>. Az [Azure AD][azure-ad] támogatja a felhasználók hitelesítését, így lehetővé teszi az egyszeri bejelentkezés beállítását. Az Azure AD [szolgáltatásnevei][service-principal] [szerepköralapú hozzáférés-vezérlés][rbac] (RBAC) segítségével határozzák meg a munkafolyamat egyes szerepkör-engedélyezéseire vonatkozó szabályzatokat és engedélyeket. Mindegyik egyszerű szolgáltatás társítva van egy Jenkins-feladattal.
 
--   **Azure Key Vault.** A titkosítást igénylő Azure-erőforrások üzembe helyezéséhez használt titkok és titkosítási kulcsok kezeléséhez ez az architektúra a [Key Vault][key-vault] szolgáltatást használja. A folyamatban foglalt alkalmazással társított titkok tárolásával kapcsolatos további segítségért lásd még a Jenkinshez készült [Azure Credentials][configure-credential] beépülő modult.
+- **Azure Key Vault.** A titkosítást igénylő Azure-erőforrások üzembe helyezéséhez használt titkok és titkosítási kulcsok kezeléséhez ez az architektúra a [Key Vault][key-vault] szolgáltatást használja. A folyamatban foglalt alkalmazással társított titkok tárolásával kapcsolatos további segítségért lásd még a Jenkinshez készült [Azure Credentials][configure-credential] beépülő modult.
 
--   **Azure figyelési szolgáltatások**. Ez a szolgáltatás a Jenkinst futtató Azure-beli virtuális gépet [monitorozza][monitor]. Ez az üzemelő példány monitorozza a virtuális gép állapotát és processzorkihasználtságát, valamint riasztásokat küld ezekkel kapcsolatban.
+- **Azure figyelési szolgáltatások**. Ez a szolgáltatás a Jenkinst futtató Azure-beli virtuális gépet [monitorozza][monitor]. Ez az üzemelő példány monitorozza a virtuális gép állapotát és processzorkihasználtságát, valamint riasztásokat küld ezekkel kapcsolatban.
 
 ## <a name="recommendations"></a>Javaslatok
 

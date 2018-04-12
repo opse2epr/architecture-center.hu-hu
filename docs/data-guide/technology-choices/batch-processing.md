@@ -1,13 +1,13 @@
 ---
-title: "Egy kötegfeldolgozási technológia kiválasztása"
-description: 
+title: Egy kötegfeldolgozási technológia kiválasztása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: bfb850ee8e9d8fd41927b4ca3b612e15b5ae6b11
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 0117798af82f2caa6704dc86e88be57f09c381ea
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="choosing-a-batch-processing-technology-in-azure"></a>Egy köteg feldolgozása az Azure-ban technológia kiválasztása
 
@@ -53,8 +53,9 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | Díjszabási modell | A kötegelt száma | Fürt óránként | Fürt óránként | Fürt óránként | Fürt óránként |  
 
 [1], kézi konfigurálás és a méretezés.
- 
+
 ### <a name="integration-capabilities"></a>Integrációs funkciók
+
 | | Azure Data Lake Analytics | SQL Data Warehouse | A Spark on HDInsight | A Hive HDInsight | HDInsight Hive LLAP |
 | --- | --- | --- | --- | --- | --- |
 | Az Azure Data Lake Store elérése | Igen | Igen | Igen | Igen | Igen |
@@ -62,6 +63,7 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | Külső relációs áruházakból lekérdezése | Igen | Nem | Igen | Nem | Nem |
 
 ### <a name="scalability-capabilities"></a>Méretezhetőség képességek
+
 | | Azure Data Lake Analytics | SQL Data Warehouse | A Spark on HDInsight | A Hive HDInsight | HDInsight Hive LLAP |
 | --- | --- | --- | --- | --- | --- |
 | Kibővített granularitási  | Feladatonként | Fürtönként | Fürtönként | Fürtönként | Fürtönként |
@@ -69,6 +71,7 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | A memóriában történő gyorsítótárazás adatok | Nem | Igen | Igen | Nem | Igen | 
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
+
 | | Azure Data Lake Analytics | SQL Data Warehouse | A Spark on HDInsight | Apache Hive hdinsight | A HDInsight LLAP struktúra |
 | --- | --- | --- | --- | --- | --- |
 | Hitelesítés  | Azure Active Directory (Azure AD) | SQL / Azure AD | Nem | helyi és az Azure AD <sup>1</sup> | helyi és az Azure AD <sup>1</sup> |

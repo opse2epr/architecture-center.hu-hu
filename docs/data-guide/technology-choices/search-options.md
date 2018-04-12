@@ -1,13 +1,13 @@
 ---
-title: "A keresési tárolóban kiválasztása"
-description: 
+title: A keresési tárolóban kiválasztása
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 7fe5952c880921984beb30c71458fd1ef72ef239
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: ead07e307e96696faa5ddf48505eee378027523c
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="choosing-a-search-data-store-in-azure"></a>A keresési tárolóban kiválasztása az Azure-ban
 
@@ -42,6 +42,7 @@ Keresés használata esetén az igényeinek megfelelő keresési adattároló ki
 A következő táblázat összefoglalja a főbb változásai képességeit.
 
 ### <a name="general-capabilities"></a>Általános képességek
+
 | | Azure Search | Elasticsearch | Solr HDInsight | SQL Database | 
 | --- | --- | --- | --- | --- | 
 | Van a felügyelt | Igen | Nem | Igen | Igen |  
@@ -50,12 +51,14 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | A dokumentum indexelők közös fájltípusok (PDF, DOCX, TXT és így tovább) | Igen | Nem | Igen | Nem |
 
 ### <a name="manageability-capabilities"></a>Kezelhetőségi képességeit
+
 | | Azure Search | Elasticsearch | Solr HDInsight | SQL Database | 
 | --- | --- | --- | --- | --- |
 | Frissíthető séma | Nem | Igen | Igen | Igen |
 | Támogatja a bővített kapacitású  | Igen | Igen | Igen | Nem |
 
 ### <a name="analytic-workload-capabilities"></a>Elemzési munkaterhelés képességek
+
 | | Azure Search | Elasticsearch | Solr HDInsight | SQL Databash | 
 | --- | --- | --- | --- | --- | 
 | Támogatja a teljes szöveges keresés túl elemzés | Nem | Igen | Igen | Igen |
@@ -63,6 +66,7 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | Támogatja a szemantikai keresése | Igen (keresési hasonló csak dokumentumok) | Igen | Igen | Igen | 
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
+
 | | Azure Search | Elasticsearch | Solr HDInsight | SQL Databash | 
 | --- | --- | --- | --- | --- | 
 | Sorszintű biztonság | Részleges (az alkalmazás lekérdezés a szűréshez csoportazonosító szükséges) | Részleges (az alkalmazás lekérdezés a szűréshez csoportazonosító szükséges) | Igen | Igen | 

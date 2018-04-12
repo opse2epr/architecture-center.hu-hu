@@ -1,20 +1,20 @@
 ---
-title: "A több-bérlős alkalmazások engedélyezési"
-description: "Egy több-bérlős alkalmazásban engedélyezési végrehajtása"
+title: A több-bérlős alkalmazások engedélyezési
+description: Egy több-bérlős alkalmazásban engedélyezési végrehajtása
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: app-roles
 pnp.series.next: web-api
-ms.openlocfilehash: 86c308d21f19bb3ac2a4a2240a9a03a504de5cf4
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 03c4d5fa10c75437a7b066534619ba9a123c350c
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="role-based-and-resource-based-authorization"></a>Szerepkör- és erőforrás-alapú engedélyezési
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
 A [megvalósítása hivatkozhat] ASP.NET Core-alkalmazás. Ebben a cikkben megnézzük, engedélyezési, két általános módszer az engedélyt az ASP.NET Core megadott API-k használatával.
 
@@ -36,7 +36,7 @@ Bemutatja, hogyan határozhatja meg és kezelheti a szerepkörök tárgyalását
 
 Hogyan kezelheti a szerepkörök, függetlenül az engedélyezési kód alábbihoz hasonlóan fog megjelenni. Az ASP.NET Core rendelkezik nevű absztrakciós [engedélyezési házirendek][policies]. Ezzel a szolgáltatással engedélyezési házirendek definiálása a kódban és a tartományvezérlő műveletek majd alkalmazza azokat a házirendeket. A házirendet a rendszer leválasztja a tartományvezérlő.
 
-### <a name="create-policies"></a>Házirendek létrehozása
+### <a name="create-policies"></a>Szabályzatok létrehozása
 Adja meg a házirendet, először létre kell hoznia egy osztály, amely megvalósítja az `IAuthorizationRequirement`. A legegyszerűbb kapcsolattípusokból származhatnak, amelyek `AuthorizationHandler`. Az a `Handle` metódus, vizsgálja meg a megfelelő jogcím(ek).
 
 Íme egy példa a Dejójáték felmérések alkalmazásból:
@@ -102,7 +102,6 @@ Az ASP.NET korábbi verziójában állíthat a **szerepkörök** az attribútum 
 ```csharp
 // old way
 [Authorize(Roles = "SurveyCreator")]
-
 ```
 
 Ez az ASP.NET Core továbbra is támogatja, de azt hátrányokkal engedélyezési házirendek képest:
@@ -154,7 +153,7 @@ Mivel jelenleg adjon át egy `Survey` objektum, meghívják a hívás a `SurveyA
 Az engedélyezési kód egy jó módszer, hogy a felhasználói szerepkör- és erőforrás-alapú engedélyeket, majd ellenőrizze a kért műveletet a összesítés meg összesített összes.
 Íme egy példa a felmérések alkalmazásból. Az alkalmazás több Engedélytípusok határozza meg:
 
-* Rendszergazda
+* Adminisztratív körzet
 * Közreműködő
 * Létrehozó
 * Tulajdonos
@@ -245,7 +244,7 @@ static readonly Dictionary<OperationAuthorizationRequirement, Func<List<UserPerm
     };
 ```
 
-[**Következő**][web-api]
+[**Tovább**][web-api]
 
 <!-- Links -->
 [Tailspin]: tailspin.md

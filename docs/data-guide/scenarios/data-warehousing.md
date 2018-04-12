@@ -1,13 +1,13 @@
 ---
-title: "Az adatraktározás terén és adatpiacainak"
-description: 
+title: Az adatraktározás terén és adatpiacainak
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: eec883c68cf94637c3061814d0841c73b58d7e52
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 03/31/2018
 ---
 # <a name="data-warehousing-and-data-marts"></a>Az adatraktározás terén és adatpiacainak
 
@@ -37,7 +37,7 @@ Az adatraktárak vannak optimalizálva, olvasási hozzáférést, a jelentések 
 * Az adatraktárak megkönnyítik a biztonságos hozzáférés biztosítása jogosult felhasználókra, míg mások való hozzáférés korlátozása. Nincs szükség az üzleti felhasználónak hozzáférést biztosít a forrásadatok, ezzel kiküszöbölve egy potenciális támadási felület éles tranzakció egy vagy több rendszer ellen.
 * Az adatraktárak könnyebben üzleti intelligenciát biztosító megoldások felett az adatokat, például létrehozásához [OLAP-kockák](online-analytical-processing.md).
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
 Egy adatraktár az az üzleti igényeinek megfelelően beállítása átvihetők a következő problémákkal egy részénél:
 
@@ -53,7 +53,7 @@ Kapcsolódó szolgáltatások:
 
 * [Azure SQL Database](/azure/sql-database/)
 * [SQL Server virtuális gépen](/sql/sql-server/sql-server-technical-documentation)
-* [Az Azure Data warehouse-bA](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
+* [Azure Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
 * [Apache Hive hdinsight](/azure/hdinsight/hadoop/hdinsight-use-hive)
 * [A HDInsight (Hive LLAP) interaktív lekérdezés](/azure/hdinsight/interactive-query/apache-interactive-query-get-started)
 

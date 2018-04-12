@@ -1,131 +1,134 @@
 ---
-title: "Az Azure Active Directory tartományi szolgáltatások (AD DS) kiterjesztése"
-description: "Hogyan valósítja meg az Active Directory engedélyezési egy biztonságos hibrid hálózati architektúra az Azure-ban.\nútmutatást, vpn-átjáró, expressroute, terheléselosztó, virtuális hálózat, active Directoryval"
+title: Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
+description: >-
+  Biztonságos hibrid hálózati architektúra megvalósítása az Active Directory engedélyezésével az Azure-ban.
+
+  guidance,vpn-gateway,expressroute,load-balancer,virtual-network,active-directory
 author: telmosampaio
 ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
-ms.openlocfilehash: 216c59a0a5912d0fe90011e49ad20eb017ada6be
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 007d244f29bf11c6e2bd703c7f4f245d22c02f0f
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
+ms.lasthandoff: 03/30/2018
 ---
-# <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory tartományi szolgáltatások (AD DS) kiterjesztése
+# <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 
-A referencia-architektúrában bemutatja, hogyan terjeszthető ki az Active Directory környezet az Azure-bA elosztott hitelesítési szolgáltatásokat használó [Active Directory tartományi szolgáltatások (AD DS)][active-directory-domain-services].  [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja, hogyan terjesztheti ki az Active Directory-környezetet az Azure-ra az [Active Directory Domain Services (AD DS)][active-directory-domain-services] használatával, elosztott hitelesítési szolgáltatások biztosításához.  [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-Active Directory tartományi szolgáltatások felhasználói, számítógép, alkalmazás vagy többi egy biztonsági tartomány szereplő identitások hitelesítésére szolgál. Lehet üzemeltethető a helyszínen, de ha az alkalmazás üzemel részben a helyszíni és részben az Azure-ban Ez a funkció az Azure-ban replikálásához hatékonyabb lehet. Ez csökkentheti a várakozási okozta hitelesítési küld, és fut a helyszíni AD DS biztonsági helyi engedélyezési kérelmeket a felhőből. 
+Az AD DS egy biztonsági tartományban található felhasználó, számítógép, alkalmazás és egyéb identitások hitelesítésére használható. Az AD DS üzemeltethető a helyszínen, de ha az alkalmazás részben a helyszínen, részben pedig az Azure-ban üzemel, a funkció Azure-ban való replikálása hatékonyabb lehet. Ez csökkentheti a késést, amelyet a hitelesítési és a helyi engedélyezési kérelmek a felhőből a helyszínen futó AD DS-be való visszaküldése okoz. 
 
-Ez az architektúra gyakran használják VPN- vagy ExpressRoute kapcsolattal csatlakoztatott a helyszíni hálózat és az Azure virtuális hálózat. Ez az architektúra is támogatja a kétirányú replikációt, azaz a módosítás helyi vagy a felhőben, és mindkét források konzisztens megmarad. Ez az architektúra a gyakori felhasználási, amelyben funkciók a helyszíni és Azure-ban, és az alkalmazások és szolgáltatásokról, amelyek a hitelesítés elvégzésére Active Directory használatával közötti elosztott hibrid alkalmazások közé tartoznak.
+Ezt az architektúrát gyakran használják, ha a helyszíni hálózatot és az Azure-beli virtuális hálózatot VPN- vagy ExpressRoute-kapcsolat köti össze. Ez az architektúra a kétirányú replikációt is támogatja, ez azt jelenti, hogy a módosítások a helyszínen vagy a felhőben is elvégezhetők, és mindkét forrás egységes lesz. Az architektúra gyakori használati módjai közé tartoznak a hibrid alkalmazások, amelyekben a funkciók megoszlanak a helyszíni hely és az Azure között, valamint azok az alkalmazások és szolgáltatások, amelyek az Active Directoryval végzik el a hitelesítést.
 
-További szempontokat lásd: [megoldás választása a integrálása a helyszíni Active Directoryról szinkronizálva az Azure][considerations]. 
+További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 
 
 ## <a name="architecture"></a>Architektúra 
 
-Ez az architektúra kibővíti az architektúra látható [Azure és az Internet között DMZ][implementing-a-secure-hybrid-network-architecture-with-internet-access]. A következő összetevőket tartalmaz.
+Ez az architektúra a [Szegélyhálózat (DMZ) az Azure és az internet között][implementing-a-secure-hybrid-network-architecture-with-internet-access] című részben használt architektúrát bővíti ki. A következő összetevőket tartalmazza.
 
-* **A helyszíni hálózat**. A helyszíni hálózat helyi Active Directory-kiszolgálók által végrehajtható műveleteket hitelesítési és engedélyezési helyszíni található összetevőket tartalmazza.
-* **Active Directory-kiszolgálók**. Ezek a tartományvezérlők végrehajtási a directory services (AD DS) futtató virtuális gépek a felhőben. Ezek a kiszolgálók az Azure virtuális hálózatban futtat összetevők is hitelesítésre.
-* **Active Directory-alhálózathoz**. Az Active Directory tartományi szolgáltatások kiszolgálókon tárolt külön alhálózathoz. Hálózati biztonsági csoport (NSG) szabályok az Active Directory tartományi szolgáltatások kiszolgálók védelméhez, és adja meg a tűzfal váratlan forrásból ellen.
-* **Azure átjáró és az Active Directory-szinkronizálás**. Az Azure átjáró biztosítja a kapcsolatot a helyszíni hálózat és az Azure VNet között. Ez lehet egy [VPN-kapcsolat] [ azure-vpn-gateway] vagy [Azure ExpressRoute][azure-expressroute]. Az Active Directory-kiszolgálók, a felhőben és helyszíni közötti összes szinkronizálási kérelem továbbítása az átjárót. Felhasználó által definiált útvonalak (udr-EK) kezeli a helyszíni forgalomhoz, amely az Azure-bA útválasztást. Az Active Directory-kiszolgálók érkező vagy oda irányuló forgalom nem halad át a hálózati virtuális készülékek (NVAs) lehet használni.
+* **Helyszíni hálózat**. A helyszíni hálózat tartalmazza azokat a helyi Active Directory-kiszolgálókat, amelyek a helyszíni összetevők hitelesítését és engedélyezését végezhetik el.
+* **Active Directory-kiszolgálók**. Ezek a felhőben virtuális gépként futó tartományvezérlők, amelyek címtárszolgáltatásokat (AD DS) biztosítanak. Ezek a kiszolgálók az Azure-beli virtuális hálózaton futó összetevők hitelesítését végezhetik el.
+* **Active Directory-alhálózat**. Az AD DS-kiszolgálók külön alhálózaton üzemelnek. A hálózati biztonsági csoport (NSG) szabályai megvédik az AD DS-kiszolgálókat, és tűzfalat biztosítanak a nem várt forrásból érkező adatforgalom ellen.
+* **Azure Gateway és Active Directory szinkronizálása**. Az Azure-átjáró kapcsolatot biztosít a helyszíni hálózat és az Azure-beli virtuális hálózat között. Ez lehet [VPN-kapcsolat] [ azure-vpn-gateway] vagy [Azure ExpressRoute][azure-expressroute]. A felhőben és a helyszínen lévő Active Directory-kiszolgálók közötti minden forgalom ezen az átjárón halad keresztül. A felhasználó által megadott útvonalak (UDR-ek) kezelik az Azure-ba tartó helyszíni forgalom útválasztását. Az Active Directory-kiszolgálók bemenő és kimenő forgalma nem halad át az ebben a forgatókönyvben használt hálózati virtuális berendezéseken (NVA-kon).
 
-Udr-EK és a NVAs konfigurálásával kapcsolatos további információkért lásd: [valósít meg olyan biztonságos hibrid hálózati architektúra Azure][implementing-a-secure-hybrid-network-architecture]. 
+További információ az UDR-ek és az NVA-k konfigurálásáról: [Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture]. 
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei. 
 
 ### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
 
-Határozza meg a [Virtuálisgép-méretet] [ vm-windows-sizes] követelmények, a hitelesítési kérelmek várható mennyisége alapján. Használja a kiindulási pontként a helyszíni AD DS futtató gépek előírásainak, és egyezik meg azokat az Azure Virtuálisgép-méretek. Központi telepítésének végrehajtása után figyelni kihasználtságát és a skála felfelé vagy lefelé a tényleges betöltést a virtuális gépeken alapul. Active Directory tartományi szolgáltatások tartományvezérlő méretezéssel kapcsolatos további információkért lásd: [kapacitástervezés Active Directory tartományi szolgáltatások][capacity-planning-for-adds].
+Határozza meg a [virtuális gép méretkövetelményeit][vm-windows-sizes] a hitelesítési kérelmek várt mérete alapján. Kiindulópontként használja az AD DS-t helyszínen üzemeltető gépek specifikációit, és egyeztesse őket az Azure-beli virtuális gépek méreteivel. Telepítés után monitorozza a kihasználtságot, és a virtuális gép tényleges terhelése alapján vertikálisan skálázza fel vagy le a kapacitást. További információ az AD DS-tartományvezérlők méretezéséről: [Az Active Directory Domain Services kapacitásának tervezése][capacity-planning-for-adds].
 
-Hozzon létre egy külön virtuális adatlemez az adatbázis, a naplókat, és a SYSVOL tárolására az Active Directory. Az operációs rendszer ugyanazon a lemezen tárolja ezeket az elemeket. Vegye figyelembe, hogy alapértelmezés szerint egy virtuális géphez csatolt adatok lemezt használjon író gyorsítótárazást. Azonban az űrlap gyorsítótárazásának ütközhetnek Active Directory tartományi szolgáltatások követelményeinek. Emiatt, állítsa be a *állomás gyorsítótár beállításokat szabályozó* beállítása a adatlemez *nincs*. További információkért lásd: [a Windows Server AD DS-adatbázis és a SYSVOL helyét][adds-data-disks].
+Hozzon létre egy külön virtuális adatlemezt az Active Directoryhoz tartozó adatbázis, naplók és SYSVOL tárolásához. Ezeket ne ugyanazon a lemezen tárolja, amelyen az operációs rendszer van. Vegye figyelembe, hogy a virtuális géphez csatolt adatlemezek alapértelmezés szerint visszaírt gyorsítótárazást használnak. A gyorsítótárazás ezen formája azonban ütközhet az AD DS követelményeivel. Ezért az adatlemez *Host Cache Preference* (Gazdagép gyorsítótár-beállítása) beállítást állítsa *None* (Nincs) értékre. További információ: [A Windows Server AD DS-adatbázis és SYSVOL elhelyezése][adds-data-disks].
 
-Legalább két virtuális gépeket futtató tartományvezérlők Active Directory tartományi szolgáltatások telepítéséhez, és hozzáadhatja őket a egy [rendelkezésre állási csoport][availability-set].
+Helyezzen üzembe tartományvezérlőként legalább két, AD DS-t futtató virtuális gépet, és adja hozzá őket egy [rendelkezésre állási csoporthoz][availability-set].
 
 ### <a name="networking-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
-Konfigurálja a virtuális gép hálózati kártya (NIC) Active Directory tartományi szolgáltatások kiszolgálónként teljes tartománynevek szolgáltatási (DNS) támogatása statikus magánhálózati IP-cím. További információkért lásd: [hozzá statikus magánhálózati IP-cím beállítása az Azure portálon][set-a-static-ip-address].
+Konfigurálja minden AD DS-kiszolgáló virtuális gép hálózati adaptererét (NIC) konfigurálja egy statikus magánhálózati IP-címmel a tartománynév-szolgáltatás (DNS) teljes körű támogatása érdekében. További információ: [Statikus magánhálózati IP-cím beállítása az Azure Portalon][set-a-static-ip-address].
 
 > [!NOTE]
-> Bármely AD DS-ben a virtuális gép hálózati Adapternek nem konfigurál egy nyilvános IP-címet. Lásd: [biztonsági szempontok] [ security-considerations] további részleteket.
+> Ne konfigurálja az AD DS-kiszolgálók virtuális gép hálózati adapterét nyilvános IP-címmel. További részleteket a [Biztonsági szempontok][security-considerations] című részben talál.
 > 
 > 
 
-Az Active Directory-alhálózathoz NSG bejövő forgalom engedélyezése a helyszíni szabályok igényel. Részletes információk az Active Directory tartományi szolgáltatások által használt portokon: [Active Directory és az Active Directory Domain Services Port Requirements][ad-ds-ports]. Gondoskodjon arról is, a UDR táblák nem irányíthatja a NVAs ebben az architektúrában használt Active Directory tartományi szolgáltatások forgalmát. 
+Az Active Directory alhálózati biztonsági csoporthoz olyan szabályok szükségesek, amelyek engedélyezik a helyszínről bejövő forgalmat. Részletes információ az AD DS által használt portokról: [Az Active Directory és az Active Directory Domain Services portokra vonatkozó követelményei][ad-ds-ports]. Győződjön meg arról is, hogy az UDR-táblák nem irányítják az AD DS-forgalmat az architektúrában használt NVA-kra. 
 
 ### <a name="active-directory-site"></a>Active Directory-hely
 
-Az AD DS-ben a hely a fizikai hely, hálózati vagy eszközök jelöli. Az AD DS-helyek Active Directory tartományi szolgáltatások adatbázis-replikáció kezelésére AD DS-objektum, amely közel egy másik találhatók, és a nagy sebességű hálózati csatlakoztatott csoportosításával szolgálnak. Active Directory tartományi szolgáltatások jelölje be az AD DS adatbázis, a helyek közötti replacating legjobb stratégiája logikát tartalmaz.
+Az AD DS-ben a hely egy fizikai helyet, hálózatot vagy eszközgyűjteményt jelent. Az AD DS-helyek az AD DS adatbázis-replikációk kezelésére használhatók az egymáshoz közel elhelyezkedő és nagy sebességű hálózattal összekapcsolt AD DS-objektumok csoportosításával. Az AD DS beépített logikája képes kiválasztani az AD DS-adatbázisok helyek közötti replikációlásának legjobb stratégiáját.
 
-Azt javasoljuk, hogy hozzon létre egy AD DS-helyen, beleértve a az alkalmazás az Azure-ban meghatározott alhálózatokat. Ezt követően konfigurálja a helykapcsolatot közé a helyszíni AD DS-helyek és az Active Directory tartományi szolgáltatások automatikusan végrehajtják a lehető leghatékonyabb adatbázis-replikáció. Vegye figyelembe, hogy az adatbázis-replikáció a kezdeti konfiguráció túl kevés igényel.
+Azt javasoljuk, hogy hozzon létre egy AD DS-helyet, amely tartalmazza az Azure-ban lévő alkalmazáshoz megadott alhálózatokat. Ezután konfiguráljon egy helykapcsolatot a helyszíni AD DS-helyek között, és az AD DS automatikusan elvégzi a lehető leghatékonyabb adatbázis-replikációt. Vegye figyelembe, hogy ez az adatbázis-replikáció a kezdeti konfigurációnál nem sokkal igényel többet.
 
 ### <a name="active-directory-operations-masters"></a>Active Directory műveleti főkiszolgálók
 
-A műveleti főkiszolgáló szerepkör rendelhet az Active Directory tartományi szolgáltatások tartományvezérlő támogatja a konzisztencia-ellenőrzés az Active Directory tartományi szolgáltatások replikációs adatbázisok példányai között. Öt műveleti főkiszolgálói szerepkörök állnak rendelkezésre: séma-főkiszolgáló, a tartománynév-kiosztási főkiszolgálót, a relatív azonosítók főkiszolgálója, a elsődleges tartományvezérlő fő emulátor és a infrastruktúra-főkiszolgálóhoz. Ezek a szerepkörök kapcsolatos további információkért lásd: [Mik azok a műveleti főkiszolgálók?] [ad-ds-operations-masters].
+A műveleti főkiszolgálói szerepkör hozzárendelhető az AD DS-tartományvezérlőkhöz, így biztosítható a replikált AD DS-adatbázisok példányai közötti konzisztencia-ellenőrzés támogatása. Öt műveleti főkiszolgálói szerepkör van: sémakezelő főkiszolgáló, tartománynév-kiosztási főkiszolgáló, relatívazonosító-kezelő főkiszolgáló, elsődleges tartományvezérlő-főkiszolgáló emulátor, infrastruktúrakezelő főkiszolgáló. További információ ezekről a szerepkörökről: [Mik a műveleti főkiszolgálók?][ad-ds-operations-masters].
 
-Azt javasoljuk, hogy nem rendel műveleti főkiszolgálói szerepkörökre az Azure szolgáltatásba telepített tartományvezérlőre.
+Azt javasoljuk, hogy ne rendeljen főkiszolgálói szerepköröket az Azure-ban üzembe helyezett tartományvezérlőkhöz.
 
-### <a name="monitoring"></a>Monitorozás
+### <a name="monitoring"></a>Figyelés
 
-A tartományvezérlő virtuális gépeket, valamint az AD DS szolgáltatások erőforrások figyelése, és hozzon létre egy csomagot, hogy gyorsan javítsa az esetleges problémákat. További információkért lásd: [Active Directory figyelési][monitoring_ad]. Eszközök is telepítheti, mint [Microsoft Systems Center] [ microsoft_systems_center] a felügyeleti kiszolgálón (lásd az architektúra diagramja) segítségével a következő feladatok végrehajtására.  
+Monitorozza a tartományvezérlő virtuális gépek, valamint az AD DS Services erőforrásait, és hozzon létre egy tervet az esetleges problémák gyors javítására. További információ: [Az Active Directory monitorozása][monitoring_ad]. A feladatok megkönnyítéséhez olyan eszközöket is telepíthet a monitorozási kiszolgálóra (lásd az architektúra diagramját), mint a [Microsoft Systems Center][microsoft_systems_center].  
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Active Directory tartományi szolgáltatások célja, a méretezhetőség érdekében. Nem kell terheléselosztót vagy az Active Directory tartományi szolgáltatások tartományvezérlő kéréseiket forgalom vezérlő konfigurálása. A csak méretezhetőség szempont, hogy az Adatbetöltési követelményeinek futó Active Directory tartományi szolgáltatások a hálózat megfelelő méretűek a virtuális gép konfigurálásához, a figyelheti a virtuális gépek és a skála felfelé vagy lefelé szükség szerint terhelését.
+Az AD DS-t méretezhetőségre tervezték. Nem kell terheléselosztót vagy forgalomirányítót konfigurálnia a kérelmek AD DS-tartományvezérlőkre történő irányításához. Az egyetlen méretezhetőségi szempont az AD DS-t futtató virtuális gépek konfigurálása a hálózati terhelési követelményeinek megfelelően, a virtuális gépek terhelésének monitorozása, valamint a szükség szerinti vertikális fel- vagy leskálázás.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-A az AD DS-ben futó virtuális gépeket telepíteni egy [rendelkezésre állási csoport][availability-set]. Fontolja meg is, a szerepkör hozzárendelése [készenléti műveleti főkiszolgáló] [ standby-operations-masters] legalább egy kiszolgálót, és esetleg a követelményeitől függően több. A készenléti műveleti főkiszolgáló egy aktív másolatot készít a műveleti főkiszolgáló, amely a feladatátvétel során főkiszolgálók kiszolgáló elsődleges műveletek helyett használható.
+Az AD DS-t futtató virtuális gépeket egy [rendelkezésre állási csoportban][availability-set] helyezze üzembe. Fontolja meg azt is, hogy a [készenléti műveleti főkiszolgálói][standby-operations-masters] szerepkört legalább egy, vagy lehetőség szerint több kiszolgálóhoz is hozzárendeli, a követelményektől függően. A készenléti műveleti főkiszolgáló a műveleti főkiszolgáló egy aktív másolata, amely az elsődleges műveleti főkiszolgáló helyett használható feladatátvételkor.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Rendszeresen biztonsági másolatokat Active Directory tartományi Szolgáltatásokban. Nem egyszerűen másolása a VHD-fájlok helyett rendszeres biztonsági mentéseket a tartományvezérlők, mert az Active Directory tartományi szolgáltatások adatbázis-fájl a virtuális merevlemez nem, előfordulhat, konzisztens állapotban másolását követően lehetetlenné indítsa újra az adatbázist.
+Rendszeresen készítsen biztonsági mentést az AD DS-ről. A tartományvezérlők VHD-fájljait másolása nem elegendő a rendszeres biztonsági mentés helyett, mert előfordulhat, hogy a virtuális lemezen lévő AD DS-adatbázisfájlok nincsenek konzisztens állapotban a másoláskor, ezért az adatbázist nem lehet újraindítani.
 
-Nem állnak le egy tartományvezérlő virtuális Gépnek az Azure portál használatával. Ehelyett állítsa le és indítsa újra a vendég operációs rendszerből. A portálon keresztül kikapcsol a virtuális gép felszabadítása, amely mindkét alaphelyzetbe állítja a `VM-GenerationID` és a `invocationID` az Active Directory-tárház. Ez az Active Directory tartományi szolgáltatások relatív azonosító (RID) készlet elveti jelöli meg a SYSVOL nem mérvadó, és előfordulhat, hogy a tartományvezérlő újrakonfigurálása.
+Ne állítsa le a tartományvezérlő virtuális gépeket az Azure Portalról. Ehelyett a vendég operációs rendszerből állítsa le és indítsa újra őket. A portálon keresztüli leállítás a virtuális gép felszabadítását okozza, amely alaphelyzetbe állítja az Active Directory-adattár `VM-GenerationID` és `invocationID` beállításait. Ez elveti az AD DS relatív azonosítójának (RID) készletét, nem mérvadóként jelöli meg a SYSVOL-t, és szükségessé teheti a tartományvezérlő újrakonfigurálását.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-AD DS-kiszolgálók hitelesítési szolgáltatásokat nyújtanak, és egy vonzó célhoz támadások. A biztonságos, megelőzése közvetlen internetkapcsolattal helyezi el az Active Directory tartományi szolgáltatások kiszolgálók külön alhálózathoz van egy tűzfal működött egy NSG. Zárja be az Active Directory tartományi szolgáltatások kiszolgálók szükséges hitelesítési, engedélyezési és szinkronizálási kiszolgáló kivételével minden port. További információkért lásd: [Active Directory és az Active Directory Domain Services Port Requirements][ad-ds-ports].
+Az AD DS-kiszolgálók hitelesítési szolgáltatásokat nyújtanak, és a támadások vonzó célpontjai. A védelmük érdekében akadályozza meg a közvetlen internetkapcsolatot úgy, hogy az AD DS-kiszolgálókat egy külön alhálózatra helyezi, ahol egy hálózati biztonsági csoport tűzfalként szolgál. Zárjon be minden portot az AD DS-kiszolgálókon, kivéve a hitelesítéshez, engedélyezéshez és kiszolgálószinkronizáláshoz szükséges portokat. További információ lásd: [Az Active Directory és az Active Directory Domain Services portjainak követelményei][ad-ds-ports].
 
-Vegye fontolóra egy további biztonsági szegélyhálózati körül alhálózatokat és NVAs, két kiszolgálók leírtak [valósít meg olyan biztonságos hibrid hálózati architektúra Internet-hozzáféréssel rendelkező Azure] [ implementing-a-secure-hybrid-network-architecture-with-internet-access].
+Fontolja meg egy kiegészítő biztonsági terület létrehozását is a kiszolgálók körül két alhálózat és hálózati virtuális készülékek (NVA-k) használatával a [biztonságos, internet-hozzáféréssel rendelkező hibrid hálózati architektúra Azure-ban való megvalósítását][implementing-a-secure-hybrid-network-architecture-with-internet-access] ismertető dokumentumban leírtak szerint.
 
-A BitLocker vagy a Azure lemeztitkosítás segítségével titkosíthatja a lemezt az AD DS-adatbázis tárolásához.
+A BitLocker vagy az Azure Disk Encryption használatával titkosítsa az AD DS-adatbázist üzemeltető lemezt.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a legújabb verzióját a [Azure CLI] [ azure-powershell] futtatni a Powershell-parancsfájlt, amely a megoldás telepít. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az [Azure CLI][azure-powershell] legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
+1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
 
-2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
+2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
 
 3. Futtassa az alábbi parancsot:
     ```Powershell
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
     ```
-    Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
+    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
     A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
-    A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
-    * `Onpremise`: a helyszíni szimulált környezetben telepíti.
-    * `Infrastructure`: az Azure virtuális hálózat infrastruktúra és a jump mezőben telepíti.
-    * `CreateVpn`: az Azure virtuális hálózati átjáró telepíti, és azt a szimulált a helyszíni hálózathoz csatlakozik.
-    * `AzureADDS`: telepíti az Active Directory tartományi szolgáltatások kiszolgálóként működnek virtuális gépek, virtuális gépeken telepíti az Active Directory és az Azure-ban a tartomány telepíti.
-    * `Workload`: a nyilvános és titkos DMZ-k és a munkaterhelés szint telepíti.
-    * `All`: az előző központitelepítéseinek listáját, telepíti. **Ez a lehetőség ajánlott, ha Ha nem rendelkezik meglévő helyszíni hálózati, de a fent ismertetett tesztelési vagy a kiértékelési teljes referencia-architektúrában telepíteni szeretné.**
+    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
+    * `Onpremise`: a szimulált helyszíni környezetet helyezi üzembe.
+    * `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe az Azure-ban.
+    * `CreateVpn`: az Azure-beli virtuális hálózati átjárót telepíti, és csatlakoztatja a szimulált a helyszíni hálózathoz.
+    * `AzureADDS`: üzembe helyezi az AD DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és üzembe helyezi a tartományt az Azure-ban.
+    * `Workload`: a nyilvános és privát DMZ-ket, illetve a számítási feladatok szintjét helyezi üzembe.
+    * `All`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha nem rendelkezik meglévő helyszíni hálózattal, de telepíteni kívánja a fentebb ismertetett teljes referenciaarchitektúrát tesztelés vagy értékelés céljából.**
 
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha telepíti a `All` központi telepítését, a több óráig tart.
+4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `All` üzembe helyezést választja, a folyamat több órát vesz igénybe.
 
 ## <a name="next-steps"></a>További lépések
 
-* A gyakorlati tanácsokat [létrehozása az Active Directory tartományi szolgáltatások Erőforráserdő] [ adds-resource-forest] az Azure-ban.
-* A gyakorlati tanácsokat [egy Active Directory összevonási szolgáltatások (AD FS) infrastruktúra létrehozásának] [ adfs] az Azure-ban.
+* Az Azure-beli [AD DS-erőforráserdő létrehozására][adds-resource-forest] vonatkozó ajánlott eljárások megismerése.
+* Az Azure-alapú [Active Directory Federation Services- (AD FS-) infrastruktúra létrehozására][adfs] vonatkozó ajánlott eljárások megismerése.
 
 <!-- links -->
 [adds-resource-forest]: adds-forest.md
@@ -150,7 +153,7 @@ A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia
 [security-considerations]: #security-considerations
 [set-a-static-ip-address]: https://azure.microsoft.com/documentation/articles/virtual-networks-static-private-ip-arm-pportal/
 [standby-operations-masters]: https://technet.microsoft.com/library/cc794737(v=ws.10).aspx
-[visio-download]: https://archcenter.azureedge.net/cdn/identity-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/identity-architectures.vsdx
 [vm-windows-sizes]: /azure/virtual-machines/virtual-machines-windows-sizes
 
-[0]: ./images/adds-extend-domain.png "biztonságos és az Active Directory hibrid hálózati architektúra"
+[0]: ./images/adds-extend-domain.png "Biztonságos hibrid hálózati architektúra az Active Directoryval"

@@ -1,15 +1,16 @@
 ---
-title: "Egy Azure-régiót származó helyreállítása"
-description: "A következő cikket: ismertetése és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése"
+title: Egy Azure-régiót származó helyreállítása
+description: 'A következő cikket: ismertetése és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése'
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: 42a7d865e101b43279f3198f3dd75df1b15a8565
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: f551e8af8aece8aa30abfba2438c41c3944209bd
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 [!INCLUDE [header](../_includes/header.md)]
+
 # <a name="azure-resiliency-technical-guidance-recovery-from-a-region-wide-service-disruption"></a>Az Azure rugalmasságát műszaki útmutató: a régió kiterjedő szolgáltatás szüneteltetése helyreállítás
 Azure oszlik fizikai és logikai egységek régiók hívása. A régió közel egy vagy több adatközpontok áll. 
 
@@ -46,7 +47,7 @@ Egy szolgáltatási (IaaS) virtuális gépként (VM) infrastruktúra helyreáll�
 * **Az operációsrendszer-lemeze a adatlemez külön**. Az infrastruktúra-szolgáltatási virtuális gépek fontos szempont, hogy, hogy az operációsrendszer-lemez nem módosítható a virtuális gép újbóli létrehozása nélkül. Ez nem hiba esetén pedig a helyreállítási stratégia katasztrófa utáni újratelepíteni. Előfordulhat azonban, a probléma, ha a meleg tartalék módszer segítségével tartalékkapacitás. Ennek megfelelően alkalmazza, rendelkeznie kell a megfelelő operációsrendszer-lemez, az elsődleges és másodlagos helyekre telepített, és az alkalmazásadatok egy különálló meghajtón kell tárolni. Lehetőség szerint használja a szabványos operációs rendszer-konfigurációkat, amelyek a is megadható. Egy feladatátvétel után kell majd csatol az adatmeghajtó a meglévő infrastruktúra-szolgáltatási virtuális gépeket a másodlagos tartományvezérlő. AzCopy segítségével az adatok lemez(ek) pillanatkép-készítési egy távoli helyre másolja.
 * **Vegye figyelembe a lehetséges konzisztenciabeli problémákat több virtuális gép lemezeivel földrajzi feladatátvételt követően**. Virtuális gépek lemezei, Azure Storage blobs van megvalósítva, és az azonos georeplikáció jellemző rendelkezik. Ha [Azure Backup](https://azure.microsoft.com/services/backup/) van használva nincsenek eredő garanciát nem helyét a lemezeken, mert georeplikáció aszinkron, és egymástól függetlenül replikálja. Az egyes virtuális gépek lemezei garantáltan az összeomlás-konzisztens állapot földrajzi-feladatátvétel után, de nem konzisztens helyét a lemezeken. Ez problémákat okozhat egyes esetekben (például esetén a lemez csíkozást).
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárolás
 ### <a name="recovery-by-using-geo-redundant-storage-of-blob-table-queue-and-vm-disk-storage"></a>Helyreállítási blob, table, várólista és VM lemezegységet Georedundáns tárolás használatával
 Az Azure, blobok, táblák, üzenetsorok és virtuális gép lemezek, az összes georeplikált alapértelmezés szerint. Ez a neve, Georedundáns tárolás (GRS). Georedundáns tárolás adatait miles egymástól belül egy adott földrajzi régió egy párosított adatközpont több száz replikálja. Adja meg a további tartósságot, ha van a fő adatközpontok katasztrófa Georedundáns célja. Microsoft vezérlők feladatátvétel esetén, és a feladatátvételi korlátozódik jelentős katasztrófa, amelyben az eredeti elsődleges helyre akkor számít elértnek helyreállíthatatlan elfogadható időn belül. Bizonyos esetekben több napig is lehet. Bár a szinkronizálás időköze nem még mutatja be egy szolgáltatásiszint-szerződés adatok általában replikált néhány percen belül.
 
@@ -149,7 +150,7 @@ Konfigurációs fájlokat adja meg a leggyorsabban egy másodlagos Azure régió
 2. Hely biztonsági mentések kívül az elsődleges régióban karbantartása.
 3. Részleges kimaradás esetén megkísérli lekérni az aktuális hely FTP-vel.
 4. Tervezi a hely új vagy létező webhelyre egy másik régióban.
-5. Tervezze meg a konfigurációs módosítások az alkalmazás és a DNS CNAME-rekordot.
+5. Plan configuration changes for both application and DNS CNAME records.
 
 ## <a name="hdinsight-checklist"></a>HDInsight feladatlista
 1. Tekintse át a dokumentum a HDInsight szakaszát.

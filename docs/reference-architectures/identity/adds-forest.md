@@ -1,97 +1,100 @@
 ---
-title: "Hozzon létre egy Active Directory tartományi szolgáltatások Erőforráserdő az Azure-ban"
-description: "Hogyan hozhat létre a megbízható Active Directory-tartományban az Azure-ban.\nútmutatást, vpn-átjáró, expressroute, terheléselosztó, virtuális hálózat, active Directoryval"
+title: AD DS-erőforráserdő létrehozása az Azure-ban
+description: >-
+  Megbízható Active Directory-tartomány létrehozása az Azure-ban.
+
+  guidance,vpn-gateway,expressroute,load-balancer,virtual-network,active-directory
 author: telmosampaio
 ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: adds-extend-domain
 pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
-ms.openlocfilehash: b946afa91e8bd303c51f97e18be170c4105cc8c5
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: e32a6420821e70c84e77d2c39614f0c45efbb7e2
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Hozzon létre egy Active Directory tartományi szolgáltatások (AD DS) Erőforráserdő az Azure-ban
+# <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
-A referencia-architektúrában mutatja egy külön Active Directory-tartomány létrehozása a megbízható tartományok által a helyszíni Azure Active Directory-erdőben. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+A referenciaarchitektúra bemutatja, hogyan hozható létre egy külön Active Directory-tartomány az Azure-ban, amelyet a helyszíni AD-erdőben található tartományok megbízhatónak tekintenek. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-Active Directory tartományi szolgáltatások (AD DS) tárolja az azonosító adatok hierarchikus. A hierarchikus struktúrában a legfelső csomópontra erdő néven ismert. Erdő-tartományt tartalmaz, és a tartományok más típusú objektumokat tartalmazzák. A referencia-architektúrában az AD DS-erdő az Azure-ban egy helyszíni tartományban kimenő egyirányú megbízhatósági kapcsolatot hoz létre. Az Azure-ban az erdő, amely nem létezik a helyi tartományt tartalmaz. A megbízhatósági kapcsolat miatt bejelentkezések a helyi tartományok ellen lehet megbízható a különböző Azure-tartományban lévő erőforrások eléréséhez. 
+Az Active Directory Domain Services (AD DS) hierarchikus struktúrában tárolja az identitásadatokat. A hierarchikus struktúra legfelső szintű csomópontját erdőnek hívják. Az erdő tartományokat, a tartományok pedig egyéb típusú objektumokat tartalmaznak. Ez a referenciaarchitektúra egy AD DS-erdőt hoz létre az Azure-ban, amely egyirányú kimenő bizalmi kapcsolattal rendelkezik egy helyszíni tartománnyal. Az Azure-ban lévő erdő tartalmaz egy olyan tartományt, amely a helyszínen nem létezik. A bizalmi kapcsolat miatt a helyszíni tartományokra történő bejelentkezések megbízhatók a külön Azure-tartományban lévő erőforrások eléréséhez. 
 
-Ez az architektúra a gyakori felhasználási tartalmaznak objektumok és az identitások, a felhőben tárolt, és a helyszíni egyéni tartományok telepít át a felhő biztonsági elkülönítést karbantartása. 
+Az architektúra gyakori használati módjai például a felhőben tárolt objektumok és identitások biztonsági elkülönítésének fenntartása, illetve az egyes tartományok migrálása a helyszínről a felhőbe. 
 
-További szempontokat lásd: [megoldás választása a integrálása a helyszíni Active Directoryról szinkronizálva az Azure][considerations]. 
+További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 
 
 ## <a name="architecture"></a>Architektúra
 
-Az architektúra a következő részből áll.
+Az architektúra a következő összetevőket tartalmazza.
 
-* **A helyszíni hálózat**. A helyszíni hálózat saját Active Directory-erdő és a tartományok tartalmazza.
-* **Active Directory-kiszolgálók**. Ezek a tartományvezérlők végrehajtási tartományi szolgáltatások futtatásához használt virtuális gép a felhőben. Ezek a kiszolgálók üzemeltetésére egy erdőt tartalmazó egy vagy több tartományt, ezek a helyszínen elkülönül.
-* **Egyirányú bizalmi kapcsolat**. Az az ábrán példában egy egyirányú bizalmi kapcsolatban a tartományból az Azure-ban a helyi tartományhoz. Ez a kapcsolat lehetővé teszi, hogy a helyszíni felhasználók az Azure-ban a tartományhoz, de nem megfordítva már erőforrásaihoz. Akkor lehet kétirányú megbízhatósági kapcsolat létrehozására, ha a felhőbeli felhasználók is hozzá kell férniük a helyszíni erőforrásokhoz.
-* **Active Directory-alhálózathoz**. Az Active Directory tartományi szolgáltatások kiszolgálókon tárolt külön alhálózathoz. Hálózati biztonsági csoport (NSG) szabályok az Active Directory tartományi szolgáltatások kiszolgálók védelméhez, és adja meg a tűzfal váratlan forrásból ellen.
-* **Az Azure átjáró**. Az Azure átjáró biztosítja a kapcsolatot a helyszíni hálózat és az Azure VNet között. Ez lehet egy [VPN-kapcsolat] [ azure-vpn-gateway] vagy [Azure ExpressRoute][azure-expressroute]. További információkért lásd: [valósít meg olyan biztonságos hibrid hálózati architektúra Azure][implementing-a-secure-hybrid-network-architecture].
+* **Helyszíni hálózat**. A helyszíni hálózat a saját Active Directory-erdőjét és tartományait tartalmazza.
+* **Active Directory-kiszolgálók**. Ezek a felhőben virtuális gépként futó tartományvezérlők, amelyek tartományi szolgáltatásokat biztosítanak. Ezek a kiszolgálók egy egy vagy több tartományt tartalmazó erdőt üzemeltetnek a helyszíniektől elkülönítve.
+* **Egyirányú bizalmi kapcsolat**. Az ábrán az Azure-ban lévő tartományból a helyszíni tartományba tartó egyirányú bizalmi kapcsolatra látható egy példa. Ez a kapcsolat lehetővé teszi a helyszíni felhasználók számára, hogy elérjék az Azure-ban lévő tartomány erőforrásait, de fordított irányban ez nem lehetséges. Kétirányú megbízhatósági kapcsolat is létrehozható, ha a felhőalapú felhasználóknak is hozzáférést kell biztosítani a helyszíni erőforrásokhoz.
+* **Active Directory-alhálózat**. Az AD DS-kiszolgálók külön alhálózaton üzemelnek. A hálózati biztonsági csoport (NSG) szabályai megvédik az AD DS-kiszolgálókat, és tűzfalat biztosítanak a nem várt forrásból érkező adatforgalom ellen.
+* **Azure-átjáró**. Az Azure-átjáró kapcsolatot biztosít a helyszíni hálózat és az Azure-beli virtuális hálózat között. Ez lehet [VPN-kapcsolat] [ azure-vpn-gateway] vagy [Azure ExpressRoute][azure-expressroute]. További információ: [Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture].
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
-Az Azure Active Directory végrehajtási konkrét javaslatokért tekintse meg a következő cikkeket:
+Az Active Directory Azure-ban való megvalósítására vonatkozó konkrét ajánlásokért tekintse meg az alábbi cikkeket:
 
-- [Az Azure Active Directory tartományi szolgáltatások (AD DS) kiterjesztése][adds-extend-domain]. 
-- [Telepítési útmutatója Windows Server Active Directory Azure virtuális gépeken futó][ad-azure-guidelines].
+- [Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra][adds-extend-domain]. 
+- [Útmutató a Windows Server Active Directory szolgáltatás Azure-beli virtuális gépekre való telepítéséhez][ad-azure-guidelines].
 
-### <a name="trust"></a>Trust
+### <a name="trust"></a>Bizalmi kapcsolat
 
-A helyszíni tartományok belül egy másik erdőben a tartományok a felhőben található. Ahhoz, hogy a hitelesítés a helyszíni felhasználók a felhőben, az Azure-ban a tartományok megbízhatónak kell lennie a helyi erdő bejelentkezési tartományában. Hasonlóképpen a felhő biztosít a külső felhasználók bejelentkezési tartomány, ha szükségessé válhat a helyszíni erdő esetén, hogy bízzon meg a felhőalapú tartományt.
+A helyszíni tartományokat nem ugyanaz az erdő tartalmazza, mint a felhőben lévőket. A helyszíni felhasználók felhőbeli hitelesítésének engedélyezéséhez az Azure-ban lévő tartományoknak meg kell bízniuk a helyszíni erdőben található bejelentkezési tartományban. Hasonlóképpen, ha a felhő bejelentkezési tartományt biztosít a külső felhasználók számára, szükség lehet arra, hogy a helyszíni erdő megbízzon a felhőtartományban.
 
-Az erdő szintjén által bizalmi kapcsolatok hozhatnak létre [erdőszintű megbízhatóság létrehozása][creating-forest-trusts], vagy a tartományi szinten által [külső bizalmi kapcsolatok létrehozása][creating-external-trusts]. Egy erdő szintű megbízhatósági kapcsolatot hoz létre két erdő tartományai között. Egy külső tartományi szintű megbízhatóság csak a megadott tartományok közötti kapcsolatot hoz létre. Csak a külső tartományi szintű bizalmi kapcsolatok tartomány különböző erdőkben között kell létrehozni.
+Bizalmi kapcsolatokat létesíthet erdőszinten [erdőszintű bizalmi kapcsolatok létrehozásával][creating-forest-trusts] vagy tartományszinten [külső bizalmi kapcsolatok létrehozásával][creating-external-trusts]. Az erdőszintű bizalmi kapcsolat két erdő összes tartománya között kapcsolatot hoz létre. A külső tartományszintű bizalmi kapcsolat csak két adott tartomány között hoz létre kapcsolatot. Különböző erdőkben lévő tartományok között csak külső tartományszintű bizalmi kapcsolatot hozzon létre.
 
-Lehet, hogy egyirányú bizalmi kapcsolatok (egyirányú) vagy kétirányú (kétirányú):
+A bizalmi kapcsolatok lehetnek egyirányúak vagy kétirányúak:
 
-* Egy egyirányú bizalmi kapcsolat lehetővé teszi, hogy a felhasználók egy tartományból vagy erdőből (néven a *bejövő* tartomány vagy erdő) egy másik fenntartott erőforrások eléréséhez (a *kimenő* tartomány vagy erdő).
-* Kétirányú megbízhatósági kapcsolattal lehetővé teszi, hogy a felhasználók tartományban vagy erdőben, a másik lévő erőforrások eléréséhez.
+* Az egyirányú bizalmi kapcsolat lehetővé teszi egy tartományban vagy erdőben (*bejövő* tartomány vagy erdő) lévő felhasználóknak, hogy hozzáférjenek a másikban (*kimenő* tartomány vagy erdő) tárolt erőforrásokhoz.
+* A kétirányú bizalmi kapcsolat lehetővé teszi a tartományban vagy az erdőben lévő felhasználók számára, hogy hozzáférjenek a másikban tárolt erőforrásokhoz.
 
-A következő táblázat összefoglalja a megbízhatósági konfigurációi néhány egyszerű forgatókönyv:
+A következő táblázat összefoglalja a bizalmi kapcsolati konfigurációkat néhány egyszerű forgatókönyvhöz:
 
-| Eset | A helyszíni bizalmi kapcsolat | Felhő bizalmi kapcsolat |
+| Forgatókönyv | Helyszíni bizalmi kapcsolat | Felhőbeli bizalmi kapcsolat |
 | --- | --- | --- |
-| A helyszíni felhasználóknak szükségük van a felhőben található erőforrásokhoz való hozzáférést, de nem ez fordítva is igaz |Egyirányú bejövő |Egyirányú, kimenő |
-| Hozzáférést igényelnek a felhasználók a felhőben található erőforrásokhoz a helyszínen, de nem ez fordítva is igaz |Egyirányú, kimenő |Egyirányú bejövő |
-| A felhasználók a felhőben és helyszíni, mind a felhőben és helyszíni fenntartott erőforrások hozzáférésre van szüksége |Kétirányú, bejövő és kimenő |Kétirányú, bejövő és kimenő |
+| A helyszíni felhasználóknak hozzá kell férniük a felhőben lévő erőforrásokhoz, de fordított irányban ez nem szükséges |Egyirányú, bejövő |Egyirányú, kimenő |
+| A felhőbeli felhasználóknak hozzá kell férniük a helyszíni erőforrásokhoz, de fordított irányban ez nem szükséges |Egyirányú, kimenő |Egyirányú, bejövő |
+| A felhőben lévő és a helyszíni felhasználóknak is hozzá kell férniük a felhőben és a helyszínen tárolt erőforrásokhoz is |Kétirányú, bejövő és kimenő |Kétirányú, bejövő és kimenő |
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Az Active Directory automatikusan méretezhető tartományvezérlők tartozó ugyanabban a tartományban. Kérelmek egy tartomány összes tartományvezérlői különböző pontjain. Hozzáadhat egy másik tartományvezérlő, és automatikusan szinkronizál a tartományhoz. Ne konfiguráljon külön terheléselosztó át tudja irányítani a tartományvezérlők felé irányuló forgalom a tartományon belül. Győződjön meg arról, hogy minden tartományvezérlőre telepítve van-e elegendő memória- és tárolási erőforrások a tartomány-adatbázist. Ellenőrizze az összes tartományvezérlő virtuális gépek azonos méretűnek.
+Az Active Directory automatikusan skálázható az ugyanazon tartományba tartozó tartományvezérlők esetén. A kérelmek a tartományok összes vezérlője között oszlanak meg. Ha hozzáad egy másik tartományvezérlőt, ez automatikusan szinkronizálódik a tartománnyal. Ne konfiguráljon külön terheléselosztót arra, hogy a tartományban lévő vezérlőkre irányítsa a forgalmat. Győződjön meg arról, hogy minden tartományvezérlő elegendő memória-és tároló-erőforrással rendelkezik a tartomány-adatbázis kezeléséhez. Minden tartományvezérlő virtuális gépet ugyanakkora méretűre állítson be.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Az egyes tartományokhoz legalább két tartományvezérlő kiépítéséhez. Ez lehetővé teszi, hogy a kiszolgálók közötti replikáció automatikus. Hozzon létre egy rendelkezésre állási készletét, a virtuális gépek minden egyes tartományhoz kezelése az Active Directory-kiszolgálóként működnek. Helyezze el legalább két kiszolgáló rendelkezésre állási csoport.
+Építsen ki legalább két tartományvezérlőt minden tartományhoz. Ez lehetővé teszi a kiszolgálók közötti automatikus replikációt. Hozzon létre egy rendelkezésre állási csoportot az egyes tartományokat kezelő, Active Directory-kiszolgálóként működő virtuális gépekhez. Helyezzen el legalább két kiszolgálót ebben a rendelkezésre állási csoportban.
 
-Fontolja meg is, minden tartományban egy vagy több kiszolgáló kijelölő [készenléti műveleti főkiszolgálók] [ standby-operations-masters] abban az esetben, ha meghiúsul egy fő rugalmas művelettel (FSMO) szerepkörben működő kiszolgálóhoz való csatlakozásra.
+Vegye fontolóra, hogy minden tartományban kijelöljön egy vagy több kiszolgálót [készenléti műveleti főkiszolgálónak][standby-operations-masters], arra az esetre, ha nem sikerülne csatlakozni a mozgó egyedüli főkiszolgálói (FSMO) szerepkört betöltő kiszolgálóhoz.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-További információ a kezelési és figyelési szempontok: [az Azure Active Directory kiterjesztése][adds-extend-domain]. 
+További információ a kezelési és monitorozási szempontokról: [Az Active Directory kiterjesztése az Azure-ra][adds-extend-domain]. 
  
-További információkért lásd: [Active Directory figyelési][monitoring_ad]. Például telepítheti eszközöket [Microsoft Systems Center] [ microsoft_systems_center] ezek a feladatok végezhetők el a felügyeleti alhálózat egy felügyeleti kiszolgálón.
+További információ: [Az Active Directory monitorozása][monitoring_ad]. A feladatok megkönnyítéséhez olyan eszközöket is telepíthet a kezelési alhálózatban lévő monitorozási kiszolgálókra, mint a [Microsoft Systems Center][microsoft_systems_center].
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Erdő szintű bizalmi kapcsolat olyan tranzitív. Egy helyi erdőben és a felhőben erdő között egy erdő szintű megbízhatósági kapcsolatot hoz létre, ha a bizalmi kapcsolat más mindkét erdőben létrehozott új tartományok az időtartam. Ha arra, hogy biztonsági okokból elválasztási tartományt használ, fontolja meg, csak a tartományi szintű bizalmi kapcsolatok létrehozása. Tartományi szintű bizalmi kapcsolatok nem tranzitív.
+Az erdőszintű bizalmi kapcsolatok tranzitívak. Ha erdőszintű bizalmi kapcsolatot hoz létre egy helyszíni és egy felhőben lévő erdő között, a bizalmi kapcsolat az ezekben az erdőkben létrehozott új tartományokra is kiterjed. Ha biztonsági okokból tartományokat használ az elkülönítéshez, érdemes lehet csak tartományszintű bizalmi kapcsolatokat létrehoznia. A tartományszintű bizalmi kapcsolatok nem tranzitívak.
 
-Active Directory-specifikus biztonsági szempontokról, tekintse meg a biztonsági szempontok című [az Azure Active Directory kiterjesztése][adds-extend-domain].
+Active Directory-specifikus biztonsági szempontokért tekintse meg [Az Active Directory Azure-ra való kiterjesztését][adds-extend-domain] ismertető cikk biztonsági szempontokról szóló szakaszát.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia-architektúrában. Szüksége lesz a Powershell-parancsfájlt, amely telepíti a megoldás futtatásához az Azure parancssori felület legújabb verzióját. A referencia-architektúrában telepítéséhez kövesse az alábbi lépéseket:
+Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az Azure CLI legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
 
-1. Töltse le, vagy klónozza a megoldás mappát [GitHub] [ github] a helyi számítógépre.
+1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
 
-2. Nyissa meg az Azure parancssori felület, és keresse meg a helyi mappát.
+2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
 
 3. Futtassa az alábbi parancsot:
    
@@ -99,44 +102,44 @@ A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia
     .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
     ```
    
-    Cserélje le `<subscription id>` az Azure-előfizetés-azonosítóval.
+    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
    
     A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
    
-    A `<mode>` paraméter szabályozza a lépésköz legyen a központi telepítést, és a következő értékek egyike lehet:
+    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
    
-   * `Onpremise`: a helyszíni szimulált környezetben telepíti.
-   * `Infrastructure`: az Azure virtuális hálózat infrastruktúra és a jump mezőben telepíti.
-   * `CreateVpn`: az Azure virtuális hálózati átjáró telepíti, és azt a szimulált a helyszíni hálózathoz csatlakozik.
-   * `AzureADDS`: telepíti az Active Directory Tartományi kiszolgálóként működnek virtuális gépek, virtuális gépeken telepíti az Active Directory és az Azure-ban a tartomány telepíti.
-   * `WebTier`: telepíti a webes réteg a virtuális gépek és a belső terheléselosztót.
-   * `Prepare`: az előző központitelepítéseinek listáját, telepíti. **Ez a lehetőség ajánlott, ha Ha nem rendelkezik meglévő helyszíni hálózati, de a fent ismertetett tesztelési vagy a kiértékelési teljes referencia-architektúrában telepíteni szeretné.** 
-   * `Workload`: a üzleti telepíti és adatok réteg a virtuális gépek és terheléselosztókat. Vegye figyelembe, hogy a virtuális gépeken nem szerepelnek a `Prepare` központi telepítés.
+   * `Onpremise`: a szimulált helyszíni környezetet helyezi üzembe.
+   * `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe az Azure-ban.
+   * `CreateVpn`: az Azure-beli virtuális hálózati átjárót telepíti, és csatlakoztatja a szimulált a helyszíni hálózathoz.
+   * `AzureADDS`: üzembe helyezi az Active Directory DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és üzembe helyezi a tartományt az Azure-ban.
+   * `WebTier`: üzembe helyezi a webes szintű virtuális gépeket és a terheléselosztót.
+   * `Prepare`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha nem rendelkezik meglévő helyszíni hálózattal, de telepíteni kívánja a fentebb ismertetett teljes referenciaarchitektúrát tesztelés vagy értékelés céljából.** 
+   * `Workload`: üzembe helyezi az üzleti és adatszintű virtuális gépeket és a terheléselosztókat. Vegye figyelembe, hogy ezeket a virtuális gépeket a `Prepare` üzembe helyezés nem tartalmazza.
 
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha telepíti a `Prepare` központi telepítését, a több óráig tart.
+4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `Prepare` üzembe helyezést választja, a folyamat több órát vesz igénybe.
      
-5. A szimulált helyszíni konfiguráció használatakor konfigurálhatja a bejövő bizalmi kapcsolat:
+5. Ha szimulált helyszíni konfigurációt használ, konfigurálja a bejövő bizalmi kapcsolatot:
    
-   1. Az Ugrás mezőben csatlakozni (*ra-adtrust-mgmt-vm1* a a *ra-adtrust-security-rg* erőforráscsoport). Jelentkezzen be *tesztfelhasználó néven* jelszóval  *AweS0me@PW* .
-   2. Ugrás a keret nyissa meg az első virtuális gép RDP-munkamenetet a *contoso.com* (a helyszíni) tartománnyal. A virtuális gép rendelkezik a 192.168.0.4 IP-címét. A felhasználónév *contoso\testuser* jelszóval  *AweS0me@PW* .
-   3. Töltse le a [bejövő-trust.ps1] [ incoming-trust] parancsfájlt, és a bejövő bizalmi kapcsolat létrehozásához futtassa a *treyresearch.com* tartomány.
+   1. Csatlakozzon a jump boxhoz (<em>ra-adtrust-mgmt-vm1</em> a <em>ra-adtrust-security-rg</em> erőforráscsoportban). Jelentkezzen be <em>testuser</em> felhasználónévvel és az <em>AweS0me@PW</em> jelszóval.
+   2. A jump boxon nyisson meg egy RDP-munkamenetet a <em>contoso.com</em> tartomány (a helyszíni tartomány) első virtuális gépén. A virtuális gép IP-címe: 192.168.0.4. A felhasználónév <em>contoso\testuser</em>, a jelszó pedig <em>AweS0me@PW</em>.
+   3. A *treyresearch.com* tartományból bejövő bizalmi kapcsolat létrehozásához töltse le és futtassa az [incoming-trust.ps1][incoming-trust] szkriptet.
 
-6. A saját helyszíni infrastruktúra használata:
+6. Ha saját helyszíni infrastruktúrát használ:
    
-   1. Töltse le a [bejövő-trust.ps1] [ incoming-trust] parancsfájl.
-   2. Szerkesztheti a parancsprogramot, és cserélje le a a `$TrustedDomainName` változó a saját tartomány nevével.
+   1. Töltse le az [incoming-trust.ps1][incoming-trust] szkriptet.
+   2. Szerkessze a szkriptet, és cserélje le a `$TrustedDomainName` változó értékét a saját tartománya nevére.
    3. Futtassa a szkriptet.
 
-7. A jump-box, az első virtuális gép csatlakozni a *treyresearch.com* (a felhőben) tartománnyal. A virtuális gép az IP-cím 10.0.4.4 rendelkezik. A felhasználónév *treyresearch\testuser* jelszóval  *AweS0me@PW* .
+7. A jump boxról csatlakozzon a <em>treyresearch.com</em> tartomány (a felhőbeli lévő tartomány) első virtuális gépéhez. A virtuális gép IP-címe: 10.0.4.4. A felhasználónév <em>treyresearch\testuser</em>, a jelszó pedig <em>AweS0me@PW</em>.
 
-8. Töltse le a [kimenő trust.ps1] [ outgoing-trust] parancsfájlt, és a bejövő bizalmi kapcsolat létrehozásához futtassa a *treyresearch.com* tartomány. Ha a saját helyszíni gépeket használ, akkor először szerkesztheti a parancsprogramot. Állítsa be a `$TrustedDomainName` változót a helyszíni-tartománynak a nevét, és adja meg az IP-címeket ebben a tartományban az Active Directory Tartományi kiszolgálóinak a `$TrustedDomainDnsIpAddresses` változó.
+8. A *treyresearch.com* tartományból bejövő bizalmi kapcsolat létrehozásához töltse le és futtassa az [outgoing-trust.ps1][outgoing-trust] szkriptet. Ha a saját helyszíni gépeket használ, először szerkessze a szkriptet. A `$TrustedDomainName` változót állítsa a helyszíni tartomány nevére, és adja meg az adott tartományhoz tartozó Active Directory DS-kiszolgálók IP-címeit a `$TrustedDomainDnsIpAddresses` változóban.
 
-9. Várjon néhány percet, amíg az előző lépéseket követve végezze el, akkor csatlakozik egy helyszíni virtuális Gépre, és a cikkben ismertetett lépésekkel [megbízhatósági kapcsolat ellenőrzése] [ verify-a-trust] meghatározásához e közötti megbízhatósági kapcsolat a *contoso.com* és *treyresearch.com* tartományok megfelelően van beállítva.
+9. Várjon néhány percet, amíg az előző lépések befejeződnek, majd csatlakozzon egy helyszíni virtuális géphez, és végezze el a [bizalmi kapcsolat ellenőrzését][verify-a-trust] ismertető cikk lépéseit annak megállapításához, hogy a *contoso.com* és a *treyresearch.com* tartományok közötti bizalmi kapcsolat megfelelően van-e konfigurálva.
 
 ## <a name="next-steps"></a>További lépések
 
-* A gyakorlati tanácsokat [kiterjeszti a helyszíni Active Directory tartományi szolgáltatások tartományt az Azure-bA][adds-extend-domain]
-* A gyakorlati tanácsokat [egy AD FS-infrastruktúra létrehozásának] [ adfs] az Azure-ban.
+* A [helyszíni AD DS-tartomány Azure-ra való kiterjesztésére][adds-extend-domain] vonatkozó ajánlott eljárások megismerése
+* Az Azure-alapú [AD FS-infrastruktúra létrehozására][adfs] vonatkozó ajánlott eljárások megismerése.
 
 <!-- links -->
 [adds-extend-domain]: adds-extend-domain.md
@@ -162,5 +165,5 @@ A megoldás érhető el a [GitHub] [ github] központi telepítése a referencia
 [standby-operations-masters]: https://technet.microsoft.com/library/cc794737(v=ws.10).aspx
 [outgoing-trust]: https://raw.githubusercontent.com/mspnp/reference-architectures/master/identity/adds-forest/extensions/outgoing-trust.ps1
 [verify-a-trust]: https://technet.microsoft.com/library/cc753821.aspx
-[visio-download]: https://archcenter.azureedge.net/cdn/identity-architectures.vsdx
-[0]: ./images/adds-forest.png "biztonságos hibrid hálózati architektúra rendelkező elkülönített Active Directory-tartományok"
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/identity-architectures.vsdx
+[0]: ./images/adds-forest.png "Biztonságos hibrid hálózati architektúra külön Active Directory-tartományokkal"

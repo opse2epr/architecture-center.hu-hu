@@ -1,29 +1,31 @@
 ---
-title: "Adatok felügyeleti minták"
-description: "Adatkezelés a fő eleme a felhőalapú alkalmazásokhoz, és hogyan befolyásolja a minőségi attribútumok többségét. Adatok általában üzemeltetett különböző helyeken és a teljesítmény, méretezhetőség és a rendelkezésre állási okokból több kiszolgáló között, és ez számos kihívást jelenthet. Például adatkonzisztencia fenn kell tartani, és adatokat általában kell különböző helyek közötti szinkronizálását."
-keywords: "Kialakítási mintája"
+title: Adatkezelési minták
+description: Az adatkezelés a felhőalapú alkalmazások kulcsfontosságú eleme, és befolyásolja a legtöbb minőségi attribútumot. Az adatok általában különböző helyeken, több kiszolgálón találhatók a teljesítmény, a skálázhatóság vagy a rendelkezésre állás miatt, ez pedig különféle kihívásokat jelenthet. Fenn kell tartani például az adatok konzisztenciáját, és az adatokat jellemzően több különböző hely között kell szinkronizálni.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: a009a06268f114ab7be4544dd81710612dabd8f4
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: b80c2a127af07e1e362e9078e2a476d33a26ef7c
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="data-management-patterns"></a>Adatok felügyeleti minták
+# <a name="data-management-patterns"></a>Adatkezelési minták
 
 [!INCLUDE [header](../../_includes/header.md)]
 
-Adatkezelés a fő eleme a felhőalapú alkalmazásokhoz, és hogyan befolyásolja a minőségi attribútumok többségét. Adatok általában üzemeltetett különböző helyeken és a teljesítmény, méretezhetőség és a rendelkezésre állási okokból több kiszolgáló között, és ez számos kihívást jelenthet. Például adatkonzisztencia fenn kell tartani, és adatokat általában kell különböző helyek közötti szinkronizálását.
+Az adatkezelés a felhőalapú alkalmazások kulcsfontosságú eleme, és befolyásolja a legtöbb minőségi attribútumot. Az adatok általában különböző helyeken, több kiszolgálón találhatók a teljesítmény, a skálázhatóság vagy a rendelkezésre állás miatt, ez pedig különféle kihívásokat jelenthet. Fenn kell tartani például az adatok konzisztenciáját, és az adatokat jellemzően több különböző hely között kell szinkronizálni.
 
-| Minta | Összefoglalás |
-| ------- | ------- |
-| [Gyorsítótár-Tartalékoljon](../cache-aside.md) | Adatok betöltése az igény szerinti egy adattárból a gyorsítótárba |
-| [CQRS](../cqrs.md) | Elkülönítse műveletekkel kapcsolatos adatokat olvasni az operatív adatokat frissítő külön-felületek használatával. |
-| [Esemény forrás](../event-sourcing.md) | Egy csak append tároló segítségével rögzítheti a teljes eseménysorozatokat, amelyek egy tartományban lévő adatokon műveleteit tartalmazzák. |
-| [Index táblázat](../index-table.md) | Indexek létrehozása gyakran lekérdezések által hivatkozott adattárolókhoz mezőinek keresztül. |
-| [Materializált nézet](../materialized-view.md) | Az adatokat egy vagy több adattárolókhoz keresztül előfeltöltött nézetek létrehozása az adatok nem ideális formázott kötelező lekérdezési műveletek. |
-| [Horizontális](../sharding.md) | Adattároló felosztani vízszintes partíciók vagy szilánkok készlete. |
-| [Statikus tartalom üzemeltetéséhez](../static-content-hosting.md) | Statikus tartalom központi telepítése a felhőalapú tároló szolgáltatás által biztosított közvetlenül az ügyfél számára. |
-| [Kulcs valet](../valet-key.md) | A token vagy a kulcs, amely egy meghatározott erőforrás vagy a szolgáltatás korlátozott közvetlen hozzáférést biztosít az ügyfelek használja. |
+
+|                        Mintázat                         |                                                                  Összegzés                                                                  |
+|--------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+|            [Cache-Aside](../cache-aside.md)            |                                            Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból                                             |
+|                   [CQRS](../cqrs.md)                   |                    Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                     |
+|         [Event Sourcing](../event-sourcing.md)         |               Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére.               |
+|            [Index Table](../index-table.md)            |                         Indexeket hozhat létre a lekérdezések által gyakran hivatkozott adattárbeli mezőkről.                          |
+|      [Materialized View](../materialized-view.md)      | Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez. |
+|               [Sharding](../sharding.md)               |                                    Egy adattárat horizontális partíció- vagy szilánkkészletté oszthat fel.                                     |
+| [Static Content Hosting](../static-content-hosting.md) |                   A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.                    |
+|              [Valet Key](../valet-key.md)              |                 Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.                 |
+

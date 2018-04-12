@@ -1,7 +1,7 @@
 ---
-title: "Végpont állapotfigyelés"
-description: "Funkcionális ellenőrzések megvalósítását a külső eszközök rendszeres időközönként kitett végpontok keresztül elérhető alkalmazást."
-keywords: "Kialakítási mintája"
+title: Health Endpoint Monitoring
+description: Rendszeres időközönként működés-ellenőrzéseket implementálhat egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
@@ -9,104 +9,104 @@ pnp.pattern.categories:
 - availability
 - management-monitoring
 - resiliency
-ms.openlocfilehash: 36171d568b9b5bfbbd48ee762b16adea695cf0e9
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 3b3bce46b460148af17bfe6064cd052a5f9a6458
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="health-endpoint-monitoring-pattern"></a>Állapotfigyelő Végpontmonitoring kijelző minta
+# <a name="health-endpoint-monitoring-pattern"></a>Állapot végponti monitorozását végző minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Funkcionális ellenőrzések megvalósítását a külső eszközök rendszeres időközönként kitett végpontok keresztül elérhető alkalmazást. Ez segít annak ellenőrzése, hogy alkalmazások és szolgáltatások megfelelően.
+Rendszeres időközönként működés-ellenőrzéseket implementálhat egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök. Ennek segítségével ellenőrizheti, hogy az alkalmazások és szolgáltatások megfelelően működnek-e.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Akkor célszerű, és gyakran üzleti igény, a figyelő webes alkalmazások és a háttér-szolgáltatásaihoz, annak érdekében, hogy fontosságúak elérhető és teljesítő megfelelően. Azonban célszerű bonyolultabb, mint a helyszíni szolgáltatások megfigyelése a felhőben futó szolgáltatások figyelésére. Például nem rendelkezik teljes körű hozzáférést engedélyezzenek az üzemeltetési környezetben, és a szolgáltatások általában más platform szállítók és mások által nyújtott szolgáltatások függnek.
+A webalkalmazások és háttérszolgáltatások monitorozása bevált gyakorlat, és gyakran üzleti elvárás is. Ezzel biztosítható, hogy elérhetőek legyenek és megfelelően működjenek. A felhőben futó szolgáltatások monitorozása azonban bonyolultabb, mint a helyszíni szolgáltatásoké. Nem rendelkezik például teljes körű hozzáféréssel az üzemeltetési környezethez, emellett a szolgáltatások általában más, platformszolgáltatók és mások által biztosított szolgáltatásoktól függnek.
 
-Nincsenek számos tényező befolyásolja a felhőben üzemeltetett alkalmazások, például a hálózati késés, a teljesítmény és rendelkezésre állását, valamint a mögöttes számítási és tárolási rendszerek közötti hálózati sávszélesség. A szolgáltatás részben vagy teljesen meghiúsulhatnak ezek a tényezők miatt. Ezért ellenőrizze rendszeres időközönként, hogy a szolgáltatás megfelelően működik-e a szükséges szintű rendelkezésre állását, amelyet a szolgáltatásiszint-szerződéssel (SLA) része lehet.
+Számos tényező befolyásolja a felhőben üzemeltetett alkalmazásokat, például a hálózati késés, a mögöttes számítási és tárolórendszerek teljesítménye és rendelkezésre állása, valamint a köztük lévő hálózati sávszélesség. E tényezők miatt a szolgáltatás működése részben vagy teljesen meghiúsulhat. Ezért rendszeres időközönként ellenőriznie kell, hogy a szolgáltatás megfelelően működik-e, hogy biztosítsa a szükséges szintű rendelkezésre állást, amely része lehet a szolgáltatói szerződésnek (SLA).
 
 ## <a name="solution"></a>Megoldás
 
-Megvalósítása állapotfigyelés kérelmeket küld az alkalmazás egy végpontot. Az alkalmazás kell a szükséges ellenőrzések elvégzéséhez, és térjen vissza a utalhat, hogy annak állapotát.
+Az alkalmazás végpontjaira való kérések küldésével megvalósíthatja az állapotmonitorozást. Az alkalmazásnak el kell végeznie a szükséges ellenőrzéseket, és vissza kell adnia egy jelzést az állapotra vonatkozóan.
 
-Egy állapotfigyelési ellenőrzése általában egyesíti a két tényező:
+Az állapotmonitorozási ellenőrzés általában két tényezőt ötvöz:
 
-- (Ha van ilyen) ellenőrzi az az alkalmazás vagy szolgáltatás állapotának ellenőrzése végpontjához a irányuló kérelemre adott válasz.
-- Ellenőrizze az eszköz vagy keretrendszer, amely végrehajtja a rendszerállapot-ellenőrzés az eredmények elemzéséhez.
+- Az alkalmazás vagy szolgáltatás által, az állapot-ellenőrzési végpontra küldött kérésre válaszul végrehajtott ellenőrzések (ha van ilyen).
+- Az állapotellenőrzést végző eszköz vagy keretrendszer által végrehajtott eredményelemzés.
 
-A válaszkód azt jelzi, az alkalmazást, és szükség esetén összetevők állapotát, vagy a szolgáltatások azt használja. A késleltetés vagy válasz idő ellenőrzése történik a figyelési eszközzel vagy a keretrendszer. Az ábra áttekintést nyújt a minta.
+A válaszkód jelzi az alkalmazás és igény szerint az alkalmazás által használt bármely összetevő vagy szolgáltatás állapotát. A késleltetés vagy válaszidő ellenőrzését a monitorozó eszköz vagy keretrendszer végzi. Az ábra áttekintést nyújt a mintáról.
 
 ![A minta áttekintése](./_images/health-endpoint-monitoring-pattern.png)
 
-Más ellenőrzi, hogy előfordulhat, hogy végzi a állapotfigyelési kódot az alkalmazás belefoglalása:
-- Ellenőrzését felhőalapú tároló- és adatbázis rendelkezésre állásával és válaszidejével.
-- Más erőforrásokhoz vagy szolgáltatásokhoz ellenőrzése található az alkalmazásban vagy máshol található, de az alkalmazás által használt.
+Az egyéb ellenőrzések, amelyeket az állapotmonitorozási kód végrehajthat az alkalmazásban többek között a következők lehetnek:
+- Felhőalapú tárolók vagy adatbázisok rendelkezésre állásának és válaszidejének ellenőrzése.
+- Az alkalmazásban vagy máshol található (de az alkalmazás által használt) egyéb erőforrások vagy szolgáltatások ellenőrzése.
 
-Szolgáltatások és eszközök érhetők el, amely a webalkalmazások figyeléséhez a végpontok csoportja kérelem elküldése, és az eredmények konfigurálható szabályok készlete alapján értékelik. Már viszonylag egyszerű, amelynek egyetlen célja, hogy a rendszer néhány működési tesztek kerülnek végrehajtásra szolgáltatás-végpont létrehozása.
+Elérhetők olyan szolgáltatások és eszközök is, amelyek azáltal monitorozzák a webalkalmazásokat, hogy kérést küldenek egy konfigurálható végpontkészletre, és konfigurálható szabályok alapján kiértékelik az eredményeket. Viszonylag egyszerű olyan szolgáltatásvégpontot létrehozni, amelynek egyetlen célja az, hogy funkcióteszteket hajtson végre a rendszeren.
 
-Tipikus ellenőrzi, hogy a végzi el a felügyeleti eszközök közé tartoznak:
+A monitorozási eszközökkel elvégezhető általános ellenőrzések:
 
-- Ez a válaszkód ellenőrzése. Például egy HTTP-válasz 200-as (OK) azt jelzi, hogy az alkalmazás hiba nélkül válaszolt. A felügyeleti rendszer is megkereshet többi válaszkódnál való átfogóbb eredményt ad.
-- Észleli a hibákat válasz tartalmának ellenőrzése, akkor is, ha a 200-as (OK) állapotkód adja vissza. Ez csak a visszaadott weblapon vagy a szolgáltatás válasza szakasza érintő hibák észlelését. Például egy lap címe ellenőrzése, vagy csak adott kifejezések, amely jelzi a megfelelő lapon adott vissza.
-- Méri a válaszideje, amely megadja, hogy a hálózati késés kombinációja és az alkalmazás a kérelem végrehajtásának idejét. Az érték növelése azt jelzi, hogy az alkalmazás vagy a hálózati feltörekvő hibát.
-- Ellenőrzési erőforrásokhoz vagy szolgáltatásokhoz, az alkalmazások, például egy tartalomkézbesítési hálózat tartalmat továbbít a globális gyorsítótárak az alkalmazás által használt kívül található.
-- SSL-tanúsítvány lejáratának ellenőrzése.
-- A DNS késés és a DNS-hibák az alkalmazás URL-címének DNS-címkeresést válaszideje méri.
-- Annak biztosítása érdekében a megfelelő bejegyzéseket a DNS-címkeresés által visszaadott az URL-CÍMEK érvényesítése. Ez segít rosszindulatú kérelem átirányításához a DNS-kiszolgálón egy sikeres támogatás keresztül elkerülése érdekében.
+- A válaszkód ellenőrzése. Például a 200-as (OK) kódú HTTP-válasz azt jelzi, hogy az alkalmazás hiba nélkül válaszolt. Elképzelhető, hogy a monitorozási rendszer más válaszkódokat is ellenőriz annak érdekében, hogy átfogóbb eredményeket adjon vissza.
+- A válasz tartalmának ellenőrzése a hibák észlelése érdekébe, még akkor is, ha a rendszer 200-as (OK) állapotkódot adott vissza. Ezáltal észlelhetők olyan hibák, amelyek a weblap vagy szolgáltatás visszaadott válaszának csak egy részét érintik. Ilyen például az oldalak címének ellenőrzése, vagy adott kifejezés keresése, amely azt jelzi, hogy a megfelelő oldal lett visszaadva.
+- A válaszidő mérése, amely a hálózati késésből és az alkalmazás által, a kérés végrehajtásához felhasznált időből tevődik össze. A növekvő érték egy probléma megjelenését jelezheti az alkalmazásban vagy a hálózatban.
+- Az alkalmazáson kívüli erőforrások vagy szolgáltatások ellenőrzése, ilyen például a tartalomkézbesítési hálózat, amelyet az alkalmazás globális gyorsítótárakból származó tartalmak továbbítására használ.
+- SSL-tanúsítványok lejáratának ellenőrzése.
+- Az alkalmazás URL-címére irányuló DNS-címkeresés válaszidejének mérése, amellyel a DNS-késés és DNS-hibák mérhetők.
+- A DNS-címkeresés által visszaadott URL-cím ellenőrzése, amellyel biztosítható, hogy a bejegyzések helyesek. Ezzel elkerülhető a DNS-kiszolgáló elleni sikeres támadással indított rosszindulatú kérelemátirányítás.
 
-Azt is hasznos, ha lehetséges, ezek futtatásához ellenőrzi a különböző helyszíni vagy üzemeltetett helyek mérni, és hasonlítsa össze a válaszidők. Ideális esetben célszerű figyelemmel kísérni az ügyfelek az egyes helyeken egy pontos képet a teljesítmény eléréséhez a hamarosan helyekről alkalmazások. Csupán egy sokkal hatékonyabban ellenőrzési mechanizmus, az eredmények segíthetnek eldönteni, az alkalmazás központi telepítési helyéről&mdash;és a telepítés több adatközpont-e.
+Emellett ahol lehetséges, hasznos lehet lefuttatni ezeket az ellenőrzéseket különböző helyszíni vagy üzemeltetési helyeken a válaszidők mérésének és összehasonlításának érdekében. Ha lehetséges, olyan helyekről monitorozza az alkalmazásokat, amelyek az ügyfelek közelében találhatók, hogy pontos képet kapjon az egyes helyek teljesítményéről. Amellett, hogy ez hatékonyabb ellenőrzési mechanizmust biztosít, az eredmények alapján dönthet az alkalmazás üzembehelyezési helyéről, és arról, hogy telepíti-e egynél több adatközpontban.
 
-Tesztek is futtatni kell a szolgáltatás példányainak használó ügyfelek annak érdekében, hogy az alkalmazás megfelelően működjön az összes ügyfél számára. Például ha ügyfél tárolási egynél több tárfiókot van elosztva, a megfigyelési folyamat ellenőrizze mindegyik.
+Érdemes teszteket futtatni az ügyfelek által használt összes szolgáltatáspéldányon, hogy meggyőződjön róla, az alkalmazás minden ügyfél esetében megfelelően működik. Ha például az ügyfél tárfiókja több mint egy tárfiókra kiterjed, a monitorozási folyamatnak az összeset ellenőriznie kell.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Hogyan lehet érvényesíteni a választ. Például az ellenőrzése, hogy az alkalmazás megfelelően működik-e elegendő csupán egyetlen 200 (OK) állapotkódot? A legalapvetőbb mértéke rendelkezésre állását biztosítja, és ebben a mintában a minimális általi implementációja, a műveletek, a trendek és a lehetséges jövőbeli problémák az alkalmazásban kevés információt biztosít.
+A válasz érvényesítésének módja. Például elég csupán egyetlen 200-as (OK) állapotkód annak ellenőrzésére, hogy megfelelően működik-e az alkalmazás? Habár ez az alkalmazás rendelkezésre állásának legegyszerűbb mérési módja, illetve a minta legalapvetőbb implementációja, kevés információt biztosít a műveletekről, trendekről és az alkalmazásban lehetségesen felmerülő hibákról.
 
-   >  Győződjön meg arról, hogy az alkalmazás megfelelően adja vissza egy 200 (OK) csak akkor, ha a cél erőforráson található, és feldolgozni. Bizonyos esetekben például ha mesterlapra segítségével tárolhatja a célként megadott weblapot, a kiszolgáló visszaküld egy 200 (OK) állapotkód helyett a 404-es (nem található) kód, még akkor is, ha a cél lap tartalom nem található.
+   >  Győződjön meg arról, hogy az alkalmazás csak akkor ad vissza 200 (OK) állapotkódot, amikor a rendszer megtalálta és feldolgozta a célerőforrást. Egyes forgatókönyvekben, például akkor, amikor mesteroldalt használ a célweboldal üzemeltetéséhez, a kiszolgáló a 404-es (Nem található) kód helyett a 200-as (OK) állapotkódot küldi vissza, még akkor is, ha a céltartalomoldal nem található.
 
-A végpontok teszi közzé az alkalmazás száma. Egy megoldás, az alkalmazás által használt alapvető szolgáltatások legalább egy végpontot, és egy másik alacsonyabb prioritású virtuális gép szolgáltatások, így minden figyelési eredmény hozzárendelését fontosságú teszi közzé. Is érdemes lehet további végpontok, például minden alapvető szolgáltatásához tartozó további figyelési granularitási teszi ki. Például egy állapotának ellenőrzése az adatbázis, tárolási és egy külső geokódolás szolgáltatás, amely egy alkalmazást használ, a különböző szintű üzemidő és válasz ideje igénylő ellenőrizze. Az alkalmazás továbbra is lesz kifogástalan, ha a geokódolás szolgáltatás, vagy egy másik háttérfeladat nem érhető el néhány percig.
+Az alkalmazás számára elérhető végpontok száma. Az egyik lehetőség elérhetővé tenni legalább egy végpontot az alkalmazás által használt alapszolgáltatások számára, és egy másikat az alacsonyabb prioritású szolgáltatások számára, hogy különböző fontossági szintek legyenek hozzárendelve az egyes monitorozási eredményekhez. Emellett érdemes lehet elérhetővé tenni több végpontot, például egyet minden alapszolgáltatás számára, hogy a monitorozás még részletesebb legyen. Az állapotellenőrzések például ellenőrizhetik az adatbázist, a tárolót és az alkalmazás által használt külső geokódolási szolgáltatásokat, amelyek mindegyike különböző szintű üzemidőt és válaszidőt igényel. Az alkalmazás akkor is megfelelő állapotban lehet, ha a geokódolási szolgáltatás vagy valamely másik háttérfeladat nem érhető el néhány percig.
 
-Használjon-e az azonos végpont figyelés általános hozzáféréshez használt, de egy adott helyre tervezett állapotának ellenőrzése, például /HealthCheck/ {GUID} / az általános hozzáférési végponton. Ez lehetővé teszi, hogy néhány működési teszt a Hálózatfigyelő eszközök, például a hozzáadása egy új felhasználói regisztráció, bejelentkezés és helyezi el egy teszt sorrendben is annak ellenőrzésekor, hogy rendelkezésre áll-e az általános hozzáférési végpont által futtatandó az alkalmazásban.
+Használható-e az általános hozzáférésre használt végpont monitorozásra, de az állapot-ellenőrzésekre tervezett egyedi elérési úton, például /HealthCheck/{GUID}/ az általános hozzáférési végponton? Ez lehetővé teszi, hogy a monitorozási eszközök lefuttassanak néhány funkciótesztet az alkalmazásban (ilyen például az új felhasználói regisztrációk hozzáadása, a bejelentkezés és a tesztmegrendelés felvétele), miközben ellenőrzik, hogy az általános hozzáférési végpont elérhető-e.
 
-Milyen típusú információk gyűjtéséhez válaszul figyelési kéréseket, és hogyan adott vissza az adatokat a szolgáltatásban. A legtöbb meglévő eszközöket és keretrendszerek tekintse meg csak a HTTP-állapotkód, amely a végpont adja vissza. Térjen vissza, és további adatok érvényesítéséhez, lehetséges, hogy egy egyéni felügyeleti segédprogram, illetve a szolgáltatás létrehozásához.
+A szolgáltatásban a monitorozási kérésekre válaszul gyűjtendő információk típusa, és ezek visszaadásának módja. A legtöbb meglévő eszköz és keretrendszer csak a végpont által visszaadott HTTP-állapotkódot figyeli. További információk visszaadásához és érvényesítéséhez elképzelhető, hogy létre kell hoznia egy egyéni monitorozási segédprogramot vagy szolgáltatást.
 
-Mennyi adat összegyűjtése. Túlzott feldolgozása során az ellenőrzés végrehajtása az alkalmazás túlterhelés, és hatással lehet más felhasználók. Szükséges idő meghaladhatja az időtúllépés a figyelési rendszer, így azt jelöli, hogy az alkalmazás nem érhető el. A legtöbb alkalmazás instrumentation közé tartoznak például hibakezelők és a teljesítmény és a hibával kapcsolatos részletes információk naplózása teljesítményszámlálókat, ez is elegendő lehet további információt visszatérése ellenőrzési állapotellenőrzése helyett.
+A gyűjtendő információ mennyisége. Ha a rendszer túlzott mértékű feldolgozást végez az ellenőrzés alatt, az túlterhelheti az alkalmazást, és hatással lehet más felhasználókra. A szükséges idő meghaladhatja a monitorozási rendszer időkorlátját, így az nem elérhetőnek jelzi az alkalmazást. A legtöbb alkalmazásban találhatók például hibakezelők és teljesítményszámlálók, amelyek naplózzák a teljesítményt és a hibákkal kapcsolatos részletes információkat. Ez is elegendő lehet az állapotellenőrzésre vonatkozó bővebb információk visszaadása helyett.
 
-A végpont állapota gyorsítótárazását. Lehet, olcsóbbá teszi az állapot-ellenőrzés futtatása túl gyakran. Az állapot ellenőrzése egy irányítópulton keresztül történő készként, például szeretné az irányítópulton való állapotellenőrzése kérelmek. Ehelyett rendszeres időközönként ellenőrizze a rendszerállapot és a gyorsítótár állapotát. A gyorsítótárazott állapotát visszaadó végpont tenni.
+A végpont állapotának gyorsítótárazása. Az állapot-ellenőrzés túl gyakori futtatása költséges lehet. Ha például az állapotjelentés egy irányítópulton keresztül történik, nem szeretnénk, hogy az irányítópultból érkező minden kérés állapot-ellenőrzést indítson el. Helyette azt szeretnénk, hogy időszakosan ellenőrizze a rendszer állapotát és gyorsítótárazza azt. Tegyen elérhetővé egy végpontot, amely visszaadja a gyorsítótárazott állapotot.
 
-Nyilvános hozzáférés, amelyek esetleg felfedi a rosszindulatú támadások az alkalmazást, elleni védelem érdekében a figyelési végpontok biztonságának konfigurálása kockáztatja a bizalmas adatok veszélyeztetettségének, vagy vonzerőt szolgáltatásmegtagadási (DoS-) támadásokat. Általában ezt a az alkalmazás konfigurációját, hogy könnyen lehet frissíteni az alkalmazás újraindítása nélkül. Vegye figyelembe a következő módszerek közül:
+Hogyan konfiguráljuk a monitorozási végpontok biztonságát annak érdekében, hogy védve legyenek a nyilvános hozzáféréstől, amely rosszindulatú támadásoknak teheti ki az alkalmazást, bizalmas információkat szivárogtathat ki vagy szolgáltatásmegtagadási (DoS-) támadásokat vonzhat be. Ezt általában az alkalmazás konfigurációjában kell megadni, hogy könnyen frissíthető legyen az alkalmazás újraindítása nélkül. Fontolja meg az alábbi módszerek alkalmazását:
 
-- A végpont biztonságos hitelesítési kérésével. Ehhez a kérelem fejlécében hitelesítési biztonsági kulcs használata vagy a kérelem sikeres hitelesítési adatok feltéve, hogy a felügyeleti szolgáltatás, vagy az eszköz támogatja a hitelesítést.
+- Tegye biztonságossá a végpontot azáltal, hogy kötelezővé teszi a hitelesítést. Ezt egy hitelesítési biztonsági kulcs a kérés fejlécében való megadásával teheti meg, vagy úgy, hogy hitelesítő adatokat továbbít a kérelemmel együtt, feltéve, hogy a monitorozási szolgáltatás vagy az eszköz támogatja a hitelesítést.
 
- - Homályos vagy rejtett végpont használja. Például teszi közzé az-végpont egy másik IP-címet, az alapértelmezett alkalmazás URL-Címének használatával, konfigurálja a végpontot egy nem szabványos HTTP-portot, és/vagy egy összetett elérési útját a tesztlap használja. Általában további végpont címek és portok adja meg az alkalmazás konfigurációját, majd adja hozzá ezeket a végpontokat bejegyzést a DNS-kiszolgáló, ha ne kelljen közvetlenül adja meg az IP-cím szükséges.
+  - Használjon rejtett végpontot. Például tegye elérhetővé a végpontot egy másik, az alapértelmezett alkalmazás URL-címétől eltérő IP-címen, konfigurálja a végpontot egy nem szabványos HTTP-porton, és/vagy használjon a tesztoldalra mutató összetett elérési utat. Általában megadhat további végpontcímeket és -portokat az alkalmazás konfigurációjában, és hozzáadhatja e végpontok bejegyzéseit a DNS-kiszolgálóhoz, ha nem kívánja közvetlenül megadni az IP-címet.
 
- - A metódus, amely egy paraméter, például a kulcs értéke vagy egy művelet mód értékét fogadja a végpont tenni. Attól függően, hogy ennek a paraméternek adott érték egy kérelem fogadásakor. a kódot is egy adott vizsgálat vagy a teszt végrehajtása, vagy a 404-es (nem található) hibaüzenetet adja vissza, ha a paraméter értéke nem ismerhető fel. Az alkalmazás konfigurációjának sikerült beállítani a felismert paraméterértékeket.
+  - Tegyen elérhetővé olyan metódusokat a végpontokon, amelyek olyan paramétereket fogadnak el, mint a kulcsértékek vagy a működési mód értékei. A paraméterhez megadott értéktől függően a kérés fogadásakor a kód elvégezhet egy adott tesztet vagy több tesztet, vagy ha a paraméter nem ismerhető fel, visszaadhatja a 404-es (Nem található) kódot. A felismert paraméterek értékei beállíthatók az alkalmazás konfigurációjában.
 
-     >  Szolgáltatásmegtagadási támadások várhatóan kisebb mértékű befolyásolása mellett egy külön végponton, amely az alapvető működési teszteket hajt végre a műveletet, az alkalmazás veszélyeztetése nélkül. Ideális esetben ne egy tesztet, amely esetleg felfedi a bizalmas adatokat. Ha egy támadó hasznos információk kell visszaadnia, vegye figyelembe, hogyan fogja védeni a végpont és az adatok a jogosulatlan hozzáférés. Ebben az esetben csak hagyatkoznia információelrejtési módszer nem elegendőek. Azt is figyelembe kell venni HTTPS-kapcsolaton keresztül, és a bizalmas adatok titkosítása bár ez a kiszolgáló terhelését növeli.
+     >  A DoS-támadások valószínűleg kisebb hatással lesznek egy különálló végpontra, amely anélkül végez alapszintű funkcióteszteket, hogy akadályozná az alkalmazás működését. Ha lehetséges, ne használjon olyan teszteket, amelyek kiszivárogtathatnak bizalmas információkat. Ha olyan információt kell visszaadnia, amely hasznos lehet egy támadónak, gondolja át, hogyan fogja megvédeni a végpontot és az adatot a jogosulatlan hozzáféréstől. Ebben az esetben nem elég pusztán az elrejtésre támaszkodni. Emellett érdemes lehet HTTPS-kapcsolatot alkalmazni, és titkosítani minden bizalmas adatot, bár ez meg fogja növelni a kiszolgáló terheltségét.
 
-- Hogyan érhetők el olyan végponttal, amely hitelesítés használatával lett biztonságossá téve. Nem minden eszközök és keretrendszerek beállítható úgy, hogy a rendszerállapot-ellenőrző kérést hitelesítő adatokat tartalmazza. Például Microsoft Azure beépített állapotfigyelő ellenőrzési funkciók nem adhatók meg a hitelesítő adatok. Egyes külső alternatív megoldások [Pingdom](https://www.pingdom.com/), [Panopta](http://www.panopta.com/), [NewRelic](https://newrelic.com/), és [Statuscake](https://www.statuscake.com/).
+- Hogyan érhetők el az olyan végpontok, amelyek hitelesítés által védettek? Nem minden eszköz és keretrendszer konfigurálható arra, hogy az állapot-ellenőrzési kérésbe belefoglalja a hitelesítő adatokat. A Microsoft Azure beépített állapot-ellenőrzési funkciói például nem képesek hitelesítő adatokat biztosítani. Néhány alternatív, külső megoldás: [Pingdom](https://www.pingdom.com/), [Panopta](http://www.panopta.com/), [NewRelic](https://newrelic.com/) és [Statuscake](https://www.statuscake.com/).
 
-- Győződjön meg arról, hogy megfelelően működik-e a figyelési ügynök módjáról. Egyik módszer – ezek általában olyan végponttal, amely egyszerűen értéket ad vissza, az alkalmazás vagy egy véletlenszerű értéket, az ügynök teszteléséhez használható.
+- Hogyan ellenőrizhető, hogy a figyelőügynök megfelelően működik-e? Az egyik lehetőség elérhetővé tenni egy végpontot, amely egyszerűen visszaad egy értéket az alkalmazás konfigurációjából, vagy egy véletlenszerű értéket, amellyel tesztelhető az ügynök.
 
-   >  Bizonyosodjon meg arról, hogy a felügyeleti rendszer ellenőrzi, például egy önálló tesztelése és beépített teszt azt kiadó téves pozitív eredmények elkerülése érdekében.
+   >  Emellett bizonyosodjon meg arról, hogy a monitorozási rendszer önmagát is ellenőrzi (például önteszttel és beépített teszttel) annak érdekében, nehogy téves eredményeket adjon.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ebben a mintában a következőkhöz hasznos:
-- Figyelési webhelyek és webalkalmazások rendelkezésre állásának ellenőrzése.
-- Figyelés megfelelő működéséhez ellenőrizni webhelyekhez és webes alkalmazásokhoz.
-- Észleli és kiszűri a jelzett, amely zavart okozhat a többi alkalmazás középső rétegbeli vagy a megosztott szolgáltatások figyelése.
-- Hozzájárul az alkalmazásban, például a teljesítményszámlálók és hibakezelők meglévő instrumentation. Állapotának ellenőrzése ellenőrzése nem cserélje le a naplózást, és az alkalmazás naplózási követelmény. Instrumentation egy meglévő keretrendszer értékes információkat nyújtanak a figyelők számlálók és a hibák vagy más olyan problémák észlelése hibanaplókat. Azonban ez nem információkkal, ha az alkalmazás nem érhető el.
+Ez a minta az alábbi esetekben hasznos:
+- Webhelyek és webalkalmazások monitorozása a rendelkezésre állás ellenőrzése érdekében.
+- Webhelyek és webalkalmazások monitorozása a megfelelő működés ellenőrzése érdekében.
+- Középső rétegű vagy megosztott szolgáltatások monitorozása azon hibák észlelése és elkülönítése érdekében, amelyek megzavarhatják a többi alkalmazást.
+- A meglévő alkalmazás kiegészítése például teljesítményszámlálókkal és hibakezelőkkel. Az állapot-ellenőrzés nem helyettesíti a naplózást az alkalmazásban. A rendszerállapot-megfigyelés értékes információkkal szolgálhat egy meglévő keretrendszerre vonatkozóan, amely monitorozza a számlálókat és a hibanaplókat a hibák vagy más problémák észlelése érdekében. Ha azonban az alkalmazás nem érhető el, nem tud információkkal szolgálni.
 
 ## <a name="example"></a>Példa
 
-A következő kódot példák venni a `HealthCheckController` osztály (minta bemutatja, ebben a mintában érhető el a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring)), azt mutatja be, az ilyen számos különböző Állapotellenőrzések végrehajtásához a végpont.
+Az alábbi példakódok a `HealthCheckController` osztályból származnak (egy, ezt a mintát bemutató mintakód elérhető a [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring)), és azt mutatják be, hogyan lehet elérhetővé tenni a végpontokat különböző állapot-ellenőrzések elvégzéséhez.
 
-A `CoreServices` metódus, a C#, az alább látható végez több ellenőrzést az alkalmazásban használt szolgáltatások. Összes vizsgálat futtatása hiba nélkül, ha a metódus egy 200 (OK) állapotkód adja vissza. Kivétel vizsgálat riasztást, ha a módszer (belső hiba) 500 állapotkódot adja vissza. A metódus opcionálisan visszaadhatja további információt során hiba lép fel, ha a felügyeleti eszköz vagy keretrendszer tenni, hogy azt használja.
+A `CoreServices` metódus, amely lent, C# nyelven látható, egy sor ellenőrzést hajt végre az alkalmazás által használt szolgáltatásokon. Ha mindegyik teszt hiba nélkül lefut, a metódus 200-as (OK) állapotkódot ad vissza. Ha bármelyik teszt kivételt jelez, a metódus 500-as (Belső hiba) állapotkódot ad vissza. Ha hiba történik, a metódus igény szerint további információkat adhat vissza, ha a monitorozási eszköz vagy keretrendszer használni tudja azokat.
 
 ```csharp
 public ActionResult CoreServices()
@@ -133,7 +133,7 @@ public ActionResult CoreServices()
   return new HttpStatusCodeResult((int)HttpStatusCode.OK);
 }
 ```
-A `ObscurePath` módszer bemutatja, hogyan olvasni egy elérési utat az alkalmazás konfigurációját, és a tesztek használni a végpont. Ebben a példában a C# is bemutatja, hogyan is fogadja el paraméterként Azonosítóval és segítségével keressen érvényes kérelmeket.
+Az `ObscurePath` metódus azt mutatja be, hogyan olvashatók az elérési útvonalak az alkalmazás konfigurációjából, és hogyan használhatók végpontként a tesztekhez. Ez a C# nyelven írt példa azt is bemutatja, hogyan fogadhatók el az azonosítók paraméterként és használhatók a kérések érvényességének ellenőrzésére.
 
 ```csharp
 public ActionResult ObscurePath(string id)
@@ -158,7 +158,7 @@ public ActionResult ObscurePath(string id)
 }
 ```
 
-A `TestResponseFromConfig` módszer bemutatja, hogyan fedhet olyan végponttal, amely ellenőrzi a megadott konfigurációs beállítás értéke.
+A `TestResponseFromConfig` metódus azt mutatja be, hogyan tehet elérhetővé olyan végpontot, amely egy adott konfigurációs beállítás értékét ellenőrzi.
 
 ```csharp
 public ActionResult TestResponseFromConfig()
@@ -177,35 +177,35 @@ public ActionResult TestResponseFromConfig()
   return new HttpStatusCodeResult(returnStatusCode);
 }
 ```
-## <a name="monitoring-endpoints-in-azure-hosted-applications"></a>Alkalmazások figyelése az Azure-végpontok üzemeltetett
+## <a name="monitoring-endpoints-in-azure-hosted-applications"></a>Végpontok monitorozása az Azure által üzemeltetett alkalmazásokban
 
-Végpontok Azure-alkalmazások figyelése az egyes lehetőségek közül választhat:
+Néhány lehetőség a végpontok monitorozására az Azure-alkalmazásokban:
 
-- Az Azure beépített figyelési funkcióit használja.
+- Használja az Azure beépített monitorozási funkcióit.
 
-- Egy külső szolgáltatás vagy a Microsoft System Center Operations Manager keretrendszer használja.
+- Használjon külső szolgáltatást vagy keretrendszert, például a Microsoft System Center Operations Managert.
 
-- Hozzon létre egy egyéni segédprogram vagy szolgáltatás, amely alapján saját vagy egy központigyorsítótár-kiszolgálón.
+- Hozzon létre egyéni segédprogramot vagy szolgáltatást, amely saját vagy üzemeltetett kiszolgálón fut.
 
-   >  Annak ellenére, hogy az Azure biztosít ésszerűen átfogó figyelési lehetőségek, további szolgáltatások és eszközök segítségével vonatkozó további információ. Az Azure szolgáltatások lehetővé teszi a beépített figyelési riasztási szabályok. A riasztások szakaszban az Azure portálon, a felügyeleti szolgáltatások lap lehetővé teszi a szolgáltatások előfizetésenként legfeljebb tíz riasztási szabályok konfigurálása. Ezek a szabályok egy feltételt és egy szolgáltatás, például a CPU-terhelést, vagy a kéréseket, és a hibák másodpercenkénti száma a küszöbérték megadása, és a szolgáltatás automatikusan küldhetnek értesítő e-mailek adhat meg az egyes szabályokban található.
+   >  Bár az Azure viszonylag átfogó monitorozási lehetőségeket kínál, részletes információkért további szolgáltatásokat és eszközöket is használhat. Az Azure Management Services egy beépített monitorozási mechanizmust biztosít a riasztási szabályokhoz. Az Azure Portal felügyeleti szolgáltatási oldalának Riasztások szakasza előfizetésenként akár tíz riasztási szabály konfigurálását is lehetővé teszi a szolgáltatásokhoz. Ezek a szabályok egy feltételt és egy küszöbértéket adnak meg az olyan szolgáltatásoknak, mint például a processzorhasználat, vagy meghatározzák a másodpercenkénti kérések vagy hibák számát, ezenkívül a szolgáltatás automatikusan e-mailes értesítéseket küldhet a szabályban megadott címekre.
 
-A figyelheti feltételek eltérők lehetnek, attól függően, hogy a üzemeltetési módszert választja, az alkalmazás (például a webhelyek, a Cloud Services, a virtuális gépek vagy a Mobile Services), de ezek mindegyikének megadhatják a által használt egy webes végpont riasztási szabályt létrehozni, Adja meg a szolgáltatás beállításait. Ezt a végpontot kell kellő időben válaszolni, úgy, hogy a riasztási rendszer észleli, hogy az alkalmazás megfelelően működik-e.
+A monitorozható feltételek az alkalmazáshoz választott üzemeltetési mechanizmustól függően eltérőek lehetnek (például Web Sites, Cloud Services, Virtual Machines vagy Mobile Services), de ezek mindegyike képes riasztási szabályokat létrehozni, amelyek a szolgáltatás beállításaiban megadott webes végpontokat használják. Ennek a végpontnak időben kell válaszolnia, hogy a riasztási rendszer észlelhesse, hogy az alkalmazás megfelelően működik.
 
->  További információt olvashat [riasztási értesítések létrehozása][portal-alerts].
+>  További információ a [riasztási értesítések létrehozásáról][portal-alerts].
 
-Ha az alkalmazás Azure Cloud Services webes és feldolgozói szerepkörök vagy virtuális gépek működteti, kihasználhatja az egy beépített szolgáltatás az Azure hívott Traffic Manager. A TRAFFIC Manager útválasztási és a terheléselosztás szolgáltatás, amely a kérelmeket az üzemeltetett felhőalapú szolgáltatások alkalmazás alapján a szabályok és beállítások adott példányához történő elosztását.
+Ha az Azure Cloud Services webes és feldolgozói szerepkörökben vagy Virtual Machines-környezetben üzemelteti az alkalmazást, kihasználhatja az egyik beépített Azure-szolgáltatás, a Traffic Manager előnyeit. A Traffic Manager egy útválasztó- és terheléselosztási szolgáltatás, amely képes kéréseket szétosztani a Cloud Services által üzemeltetett alkalmazás adott példányai között különböző szabályok és beállítások alapján.
 
-Útválasztási kérelmek mellett a Traffic Manager pingeli egy URL-cím, egy portszám és egy relatív elérési utat, amely rendszeresen annak meghatározására, hogy melyik példányát szabályzatban meghatározott aktív adja meg, és kérésekre válaszol. Ha azt észleli, hogy egy állapotkód 200 (OK), az alkalmazás rendelkezésre jelöli meg. Bármely más állapotkód Traffic Manager segítségével jelölje meg az alkalmazás kapcsolat nélküli okoz. Az állapot megtekintése a Traffic Manager-konzolon, és konfigurálja a szabályt, hogy az alkalmazás más példányát válaszoló kérelmek átirányítása.
+Az útválasztási kérelmek mellett a Traffic Manager pingel egy URL-címet, egy portot és egy relatív elérési útvonalat, amelyeket rendszeres időközönként megadhat, hogy megállapítsa, az alkalmazás mely, a szabályokban megadott példányai aktívak és válaszolnak a kérésekre. Ha a 200-as (OK) állapotkódot észleli, elérhetőnek jelöli az alkalmazást. A Traffic Manager minden más állapotkód esetén offline állapotúként jelöli az alkalmazást. A Traffic Manager konzolján megtekintheti az állapotot, és konfigurálhatja a szabályt, hogy átirányítsa a kéréseket az alkalmazás más példányaira, amelyek válaszolnak.
 
-Traffic Manager azonban csak Várjon 10 másodpercet válasz fogadása a figyelési URL-címet. Emiatt biztosítania kell, hogy végrehajtja-e a állapotát ellenőrző kód ebbe az időszakba lehetővé teszi a hálózati késés a oda-vissza a Traffic Manager az alkalmazás és vissza újra.
+A Traffic Manager azonban csak tíz másodpercig vár a monitorozó URL-cím válaszára. Éppen ezért győződjön meg róla, hogy a rendszer az időkorláton belül futtatja az állapot-ellenőrzési kódot, ezzel lehetővé téve a hálózaton belüli adatváltási késést a Traffic Managerből az alkalmazásba, majd pedig vissza.
 
->  További információt szeretne használatával [Traffic Manager segítségével figyelheti az alkalmazások](https://azure.microsoft.com/documentation/services/traffic-manager/). A TRAFFIC Manager is ismertet [több adatközpont üzembe helyezési útmutatót](https://msdn.microsoft.com/library/dn589779.aspx).
+>  További információ a [Traffic Manager alkalmazások monitorozására való használatáról](https://azure.microsoft.com/documentation/services/traffic-manager/). A Traffic Managerről a [több adatközpont üzembe helyezéséről szóló útmutatóban](https://msdn.microsoft.com/library/dn589779.aspx) is olvashat.
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-Az alábbi útmutatót az ebben a mintában végrehajtása során lehet hasznos:
-- [Telemetria útmutató és Instrumentation](https://msdn.microsoft.com/library/dn589775.aspx). Szolgáltatások és az összetevők állapotának ellenőrzése általában végezhető el probing, de az is, hogy az alkalmazások teljesítményének figyelésére és észleli, hogy a futási időben bekövetkező események hasznos információkat. Vissza az eszközök "figyelés" További információk a állapotfigyelés továbbítani lehet ezeket az adatokat. Telemetria útmutató és Instrumentation felderíti a instrumentation alkalmazások által gyűjtött távoli diagnosztikai adatainak összegyűjtése.
-- [Riasztási értesítések fogadásának][portal-alerts].
-- Ebben a mintában tartalmaz egy letölthető [mintaalkalmazás](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring).
+Az alábbi útmutató hasznos lehet ennek a mintának az implementálása során:
+- [Rendszerállapot és telemetria – útmutató](https://msdn.microsoft.com/library/dn589775.aspx). A szolgáltatások és összetevők állapotának ellenőrzése általában mintavétel útján történik, de emellett hasznos lehet érvényes információkkal rendelkezni az alkalmazásteljesítmény monitorozásához és a futtatás során bekövetkező események észleléséhez. Ezeket az adatokat az állapotfigyeléssel kapcsolatos tovább információkként vissza lehet küldeni a monitorozási eszközökbe. A rendszerállapotra és telemetriára vonatkozó útmutató bemutatja, hogyan lehet távolról az alkalmazások rendszerállapot-figyelése által gyűjtött diagnosztikai adatokat gyűjteni.
+- [Riasztási értesítések fogadása][portal-alerts].
+- Ez a minta egy letölthető [mintaalkalmazást](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring) tartalmaz.
 
 [portal-alerts]: https://azure.microsoft.com/documentation/articles/insights-receive-alert-notifications/

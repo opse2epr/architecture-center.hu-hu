@@ -3,11 +3,11 @@ title: Fürt megosztott kötetei szolgáltatás és a JSON-fájlok feldolgozása
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 6b888ff230afefbd74249aa913e5bab66d47d7e2
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 02e684d562cfe555f9e3596ad0a2f1a00d05c7a7
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="working-with-csv-and-json-files-for-data-solutions"></a>A data-megoldások a fürt megosztott kötetei szolgáltatás és a JSON fájlok használata
 
@@ -44,7 +44,7 @@ Fürt megosztott kötetei szolgáltatás és a JSON fájlformátumok mindkettő 
 
 Azure számos megoldást nyújt a fürt megosztott kötetei szolgáltatás és a JSON-fájlok igényeitől függően használata. Elsődleges követően a fájlok helye vagy az Azure Storage, vagy az Azure Data Lake Store. A legtöbb Azure ezekkel munka szolgáltatását, és valamelyik objektum tárolási szolgáltatás integrálása más szöveges fájlokat. Bizonyos esetekben azonban úgy is dönthet, hogy közvetlenül az adatok importálása Azure SQL- vagy más adattárolóbeli tárolására. Natív támogatás tárolásához és használata JSON-dokumentumokat, ami megkönnyíti az SQL Server rendelkezik [importálja, és dolgozza fel ilyen típusú fájlok](/sql/relational-databases/json/import-json-documents-into-sql-server). A segédprogram például SQL tömeges importálásához könnyen használható [importálása CSV-fájlok](/sql/relational-databases/json/import-json-documents-into-sql-server).
 
-A forgatókönyvtől függően előfordulhat, hogy végre [kötegfeldolgozási](../scenarios/batch-processing.md) vagy [valós idejű feldolgozással](../scenarios/real-time-processing.md) az adatok.
+A forgatókönyvtől függően előfordulhat, hogy végre [kötegfeldolgozási](../big-data/batch-processing.md) vagy [valós idejű feldolgozással](../big-data/real-time-processing.md) az adatok.
 
 ## <a name="challenges"></a>Problémák
 

@@ -3,11 +3,11 @@ title: Kinyerés, átalakítás és betöltés (ETL)
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: a980c1f8aef99fc263083e5e496b1340204f7dac
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 1879b649fa3dfdf5c00f8ee30e53b83f7139fbf0
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="extract-transform-and-load-etl"></a>Kinyerés, átalakítás és betöltés (ETL)
 
@@ -21,7 +21,7 @@ Kinyerési, átalakítási és betöltési (ETL) egy adatok feldolgozási folyam
 
 Az adatok átalakítása, általában akkor történik, magában foglalja a különböző műveletek, például a szűrési, rendezési, összesítése, adatok csatlakoztatása, adattisztításon, deduplikálása és az adatok.
 
-![Kivonat-átalakítási-betöltési (ETL) folyamat](./images/etl.png)
+![Kivonat-átalakítási-betöltési (ETL) folyamat](../images/etl.png)
 
 ETL folyamat három szakaszból gyakran, időt takaríthat párhuzamosan futnak. Például adatok kibontása folyamatban van, amíg egy átalakítási folyamat is működik-e a már fogadott adatok és előkészíthető a betöltése, és egy betöltése folyamat elkezdheti az előkészített adatok a ahelyett, hogy a teljes kinyerési folyamat befejezésére történő várakozáskor végezze el.
 
@@ -35,7 +35,7 @@ Más eszközök:
 
 Kinyerési, betöltés és átalakítás (ELT) eltér az ETL kizárólag a ahol az átalakítás történik. Az átalakítás a ELT sorban, a cél adattár következik be. Egy külön átalakító motor helyett a feldolgozási képességek a cél adattár segítségével adatok. Ez leegyszerűsíti a architektúra az átalakító motor eltávolításával a láncból. Ezt a módszert használja egy másik előnye az, hogy a cél adattár skálázás is méretezze át a ELT csővezeték teljesítmény. Azonban ELT csak akkor működik jól esetén elég erős hatékonyan átalakíthatja az adatokat a célrendszeren.
 
-![Kivonat-betöltési-átalakítás (ELT) folyamat](./images/elt.png)
+![Kivonat-betöltési-átalakítás (ELT) folyamat](../images/elt.png)
 
 A big Data típusú adatok tartomány ELT a tipikus használati esetek tartoznak. Például előfordulhat, hogy megkezdéséhez valamennyi egybesimított fájlokba, a Hadoop elosztott fájlrendszer (HDFS) például méretezhető tárolás a forrásadatok és az Azure Data Lake Store kinyeréséhez. Technológiák, például a Spark, a Hive és a PolyBase használható az adatok lekérdezésére. A kulcs ELT pontra az, hogy az átalakítás végrehajtásához használt adattár a ugyanazt az adattárat, ahol végső soron használt adatok. Az adattároló közvetlenül a méretezhető tárolás, az adatok betöltése a saját védett tároló helyett olvassa be. Ez a megközelítés kihagyja az adatok másolása lépés ETL, szerepel, amely lehet egy nagy méretű adatkészletekhez időigényes művelet.
 
@@ -62,7 +62,7 @@ Adatok folyamatok keretében a folyamatábrán feladatokhoz rendezett feldolgoz�
 
 Vezérlő adatfolyamok adatfolyamok feladatként hajtható végre. Az adatfolyam-feladathoz adatok kibontani a forrás, át legyenek-e, vagy töltse be a tárolóban. Egy adatfolyam-feladat kimenete a következő adatfolyam-feladat bemeneti, és adatok flowss párhuzamosan futtatható. Eltérően vezérlő adatfolyamok nem adhat hozzá korlátozásokat az adatfolyam a tevékenységek között. Hozzáadhat azonban egy adatokat megjelenítő, és figyelje meg az adatokat, minden feladat feldolgozása.
 
-![Adatfolyam-az belül vezérlő egymást követő feladatok végrehajtása zajlik](./images/control-flow-data-flow.png)
+![Adatfolyam-az belül vezérlő egymást követő feladatok végrehajtása zajlik](../images/control-flow-data-flow.png)
 
 A fenti ábrán vannak a folyamatábrán, melyek egyike adatfolyam-feladathoz belül több feladatot. A feladatok közül van beágyazva egy tárolót. Tárolók segítségével feladatok, így munkaegység alapot biztosítanak. Ilyen például az ismétlődő elemeket, például egy mappa vagy adatbázis utasításokban fájlokat egy gyűjteményen belül van.
 
@@ -74,7 +74,7 @@ Más eszközök:
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-- [Online tranzakciófeldolgozási (OLTP) adattároló](../technology-choices/oltp-data-stores.md)
-- [Online analitikus feldolgozási (OLAP) adattároló](../technology-choices/olap-data-stores.md)
-- [Az adatraktárak](../technology-choices/data-warehouses.md)
+- [Online tranzakciófeldolgozási (OLTP) adattároló](./online-transaction-processing.md#oltp-in-azure)
+- [Online analitikus feldolgozási (OLAP) adattároló](./online-analytical-processing.md#olap-in-azure)
+- [Az adatraktárak](./data-warehousing.md)
 - [Vezénylési folyamat](../technology-choices/pipeline-orchestration-data-movement.md)

@@ -1,16 +1,16 @@
 ---
-title: "Windows rendszerű virtuális gépek futtatása N szintű architektúrákon"
-description: "Többszintű architektúrák megvalósítása az Azure-ban, különös tekintettel a rendelkezésre állásra, a biztonságra, a méretezhetőségre és a kezelhetőségre."
+title: Windows rendszerű virtuális gépek futtatása N szintű architektúrákon
+description: Többszintű architektúrák megvalósítása az Azure-ban, különös tekintettel a rendelkezésre állásra, a biztonságra, a méretezhetőségre és a kezelhetőségre.
 author: MikeWasson
 ms.date: 11/22/2016
 pnp.series.title: Windows VM workloads
 pnp.series.next: multi-region-application
 pnp.series.prev: multi-vm
-ms.openlocfilehash: 257f402e41fc7517425b4465a2a5fc6f94d99138
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 5ed94eb9ab8203d35d9597336e367d54e03944d7
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="run-windows-vms-for-an-n-tier-application"></a>Windows rendszerű virtuális gépek futtatása N szintű alkalmazáshoz
 
@@ -29,7 +29,7 @@ Egy N szintű architektúra számos módon implementálható. Az ábrán egy tip
 * **Terheléselosztók**. Használjon egy [internetkapcsolattal rendelkező terheléselosztót][load-balancer-external] a bejövő internetes forgalom webes szinten történő elosztására, és egy [belső terheléselosztót][load-balancer-internal] a webes szintről az üzleti szintre irányuló hálózati forgalom elosztására.
 * **Jumpbox.** Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-nek engedélyeznie kell a távoli asztali (RDP) forgalmat.
 * **Monitorozás.** A figyelőszoftverek, mint a [Nagios], a [Zabbix] vagy az [Icinga], információval szolgálhatnak a válaszidőről, a virtuális gép hasznos üzemidejéről és a rendszer általános állapotáról. Olyan virtuális gépre telepítse a figyelőszoftvert, amely egy különálló felügyeleti alhálózaton található.
-* **NSG-k**. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható 3 szintű architektúrában például az adatbázisszint csak az üzleti szintről és a felügyeleti alhálózatról érkező forgalmat fogadja, a webes kezelőfelület felől érkező forgalmat nem.
+* <strong>NSG-k</strong>. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható 3 szintű architektúrában például az adatbázisszint csak az üzleti szintről és a felügyeleti alhálózatról érkező forgalmat fogadja, a webes kezelőfelület felől érkező forgalmat nem.
 * **SQL Server Always On rendelkezésre állási csoport.** Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével.
 * **(AD DS) Active Directory Domain Services-kiszolgálók** A Windows Server 2016 előtti verziók esetén az SQL Server Always On rendelkezésre állási csoportjait tartományhoz kell csatlakoztatni. Ennek az az oka, hogy a rendelkezésre állási csoportok a Windows Server feladatátvételi fürt (WSFC) technológián alapulnak. A Windows Server 2016-os verziójában a feladatátvételi fürtök már az Active Directory nélkül is létrehozhatók, amely esetben az architektúrához nincs szükség az AD DS-kiszolgálókra. További információ: [A Windows Server 2016 feladatátvételi fürtszolgáltatásával kapcsolatos újdonságok][wsfc-whats-new].
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
@@ -82,10 +82,10 @@ A SQL Server Always On rendelkezésre állási csoportot az alábbiak szerint ko
 3. Hozzon létre egy figyelőt a rendelkezésre állási csoporthoz, és rendelje hozzá a figyelő DNS-nevét a belső terheléselosztó IP-címéhez. 
 4. Hozzon létre egy terheléselosztó szabályt az SQL Server figyelőportjához (alapértelmezés szerint az 1433-as TCP-port). A terheléselosztó szabálynak engedélyeznie kell a *nem fix IP-címek* használatát, más néven a közvetlen kiszolgálói választ. Ezáltal a virtuális gép közvetlenül válaszol az ügyfélnek, és közvetlen kapcsolatot hozható létre az elsődleges replikával.
   
-  > [!NOTE]
-  > Ha a nem fix IP engedélyezve van, az előtérbeli portszámnak egyeznie kell a terheléselosztó szabály háttérbeli portszámával.
-  > 
-  > 
+   > [!NOTE]
+   > Ha a nem fix IP engedélyezve van, az előtérbeli portszámnak egyeznie kell a terheléselosztó szabály háttérbeli portszámával.
+   > 
+   > 
 
 Ha egy SQL-ügyfél csatlakozni próbál, a terheléselosztó továbbítja az elsődleges replikának a kapcsolódási kérelmet. Ha feladatátvitel történik egy másik replikára, akkor a terheléselosztó automatikusan egy új elsődleges replikához továbbítja a további kéréseket. További információ: [ILB-figyelő konfigurálása SQL Server Always On rendelkezésre állási csoportokhoz][sql-alwayson-ilb].
 
@@ -141,15 +141,15 @@ Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúr�
 
 3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
 
-  ```bash
-  npm install -g @mspnp/azure-building-blocks
-  ```
+   ```bash
+   npm install -g @mspnp/azure-building-blocks
+   ```
 
 4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
 
-  ```bash
-  az login
-  ```
+   ```bash
+   az login
+   ```
 
 ### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
@@ -159,18 +159,18 @@ Ha Windows rendszerű virtuális gépeket szeretne üzembe helyezni egy N szint�
 
 2. A paraméterfájl egy alapértelmezett rendszergazdai felhasználónevet és jelszót határoz meg az üzemelő példány minden egyes virtuális gépéhez. Ezeket módosítania kell, mielőtt üzembe helyezné a referenciaarchitektúrát. Nyissa meg az `n-tier-windows.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mezők tartalmát az új beállításokra.
   
-  > [!NOTE]
-  > Az üzembe helyezés alatt több szkript is fut a **VirtualMachineExtension** objektumokban és egyes **VirtualMachine** objektumok **extensions** beállításaiban. Ezen szkriptek némelyike az imént módosított rendszergazdai felhasználónevet és jelszót kéri. Javasoljuk, hogy tekintse át ezeket a szkripteket, és győződjön meg arról, hogy megfelelő hitelesítő adatokat adott meg. A telepítés sikertelen lehet, ha a megfelelő hitelesítő adatokat használt.
-  > 
-  > 
+   > [!NOTE]
+   > Az üzembe helyezés alatt több szkript is fut a **VirtualMachineExtension** objektumokban és egyes **VirtualMachine** objektumok **extensions** beállításaiban. Ezen szkriptek némelyike az imént módosított rendszergazdai felhasználónevet és jelszót kéri. Javasoljuk, hogy tekintse át ezeket a szkripteket, és győződjön meg arról, hogy megfelelő hitelesítő adatokat adott meg. A telepítés sikertelen lehet, ha a megfelelő hitelesítő adatokat használt.
+   > 
+   > 
 
 Mentse a fájlt.
 
 3. Helyezze üzembe a referenciaarchitektúrát az **azbb** parancssori eszköz használatával az alább látható módon.
 
-  ```bash
-  azbb -s <your subscription_id> -g <your resource_group_name> -l <azure region> -p n-tier-windows.json --deploy
-  ```
+   ```bash
+   azbb -s <your subscription_id> -g <your resource_group_name> -l <azure region> -p n-tier-windows.json --deploy
+   ```
 
 A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
 
@@ -216,5 +216,5 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [Nagios]: https://www.nagios.org/
 [Zabbix]: http://www.zabbix.com/
 [Icinga]: http://www.icinga.org/
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [0]: ./images/n-tier-diagram.png "N szintű architektúra a Microsoft Azure használatával"

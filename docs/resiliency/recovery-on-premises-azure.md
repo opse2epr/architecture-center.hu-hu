@@ -1,15 +1,16 @@
 ---
-title: "Műszaki útmutató: az Azure-bA helyszíni helyreállítási"
-description: "A következő cikket: ismertetése és helyreállítási designing Azure-bA helyszíni infrastruktúra rendszerek"
+title: 'Műszaki útmutató: az Azure-bA helyszíni helyreállítási'
+description: 'A következő cikket: ismertetése és helyreállítási designing Azure-bA helyszíni infrastruktúra rendszerek'
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: f5ce86dbd605fa7dc74e6a7cc97f0d6c6acd79e5
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 6992e27d148074b3d60c282318741f45974d1afd
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 [!INCLUDE [header](../_includes/header.md)]
+
 # <a name="azure-resiliency-technical-guidance-recovery-from-on-premises-to-azure"></a>Az Azure rugalmasságát műszaki útmutató: az Azure-bA helyszíni helyreállítási
 Azure-szolgáltatását egy helyszíni adatközpontot az Azure-ba, a bővítmény engedélyezése a magas rendelkezésre állási és vészhelyreállítási helyreállítási célokra széles választékát nyújtja:
 
@@ -27,7 +28,7 @@ Ha helyszíni Hyper-V használ, akkor "növekedési és az eltolás mértékét 
 ## <a name="azure-site-recovery"></a>Azure Site Recovery
 Ha katasztrófa utáni helyreállítás szolgáltatásként (DRaaS), az Azure biztosít [Azure Site Recovery](https://azure.microsoft.com/services/site-recovery/). Az Azure Site Recovery VMware, Hyper-V és fizikai kiszolgálók átfogó védelmet nyújt. Az Azure Site Recovery használhatja más helyszíni kiszolgálón vagy az Azure helyreállítási helyként. Az Azure Site Recovery további információkért lásd: a [Azure Site Recovery dokumentáció](https://azure.microsoft.com/documentation/services/site-recovery/).
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárolás
 Többféle módon is a helyszíni adatok az Azure biztonsági mentési helyeként.
 
 ### <a name="storsimple"></a>StorSimple
@@ -70,7 +71,7 @@ További információkért lásd: [magas rendelkezésre állás és katasztrófa
 1. Tekintse át a dokumentum a számítási szakaszát.
 2. Helyezze át a virtuális gépek a Hyper-V és az Azure között.
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárolás
 1. Tekintse át a dokumentum a tárolási szakaszát.
 2. A felhőalapú tároló-StorSimple szolgáltatások előnyeit.
 3. Az Azure Backup szolgáltatás segítségével.

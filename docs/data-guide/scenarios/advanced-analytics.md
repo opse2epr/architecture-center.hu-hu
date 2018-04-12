@@ -1,13 +1,13 @@
 ---
-title: "Bővített analitika"
-description: 
+title: Bővített analitika
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 31ba357fe37b1de35a6eea324d2d1d6766e172e5
-ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/27/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="advanced-analytics"></a>Bővített analitika
 
@@ -48,7 +48,7 @@ Gépi tanulás széles két kategóriába sorolhatók:
 
 * **Felügyelt tanítást**. Az felügyeletlen tanulási modell a tanítási adatokat nem tartalmaz ismert címkeértéket. Ehelyett az algoritmus lehetővé teszi az előrejelzés első kitéve a adatok alapján. Az általános űrlap felügyeletlen tanulás *Fürtszolgáltatás*, ahol az algoritmus meghatározza, hogy a legjobb módszer az adatok felosztása a szolgáltatások statisztikai Hasonlóságok alapján egy megadott számát. A fürtszolgáltatás, előre jelzett eredménye a fürt számát, amely a bemeneti szolgáltatások tartoznak. Amíg néha felhasználásuk hasznos előrejelzéseket, például egy adatbázis több ügyfelek, a felhasználók azonosítására a Fürtszolgáltatás segítségével közvetlenül létrehozásához felügyeletlen tanulási megközelítések gyakrabban azonosítására szolgálnak mely adatokra leghasznosabb, ha szeretne biztosítani egy a modell betanítása a felügyelt tanulási algoritmus.
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
 - [Azure Machine Learning](/azure/machine-learning/)
 - [Számítógép-kiszolgáló (K) a HDInsight tanulási](/azure/hdinsight/r-server/r-server-overview)
@@ -59,7 +59,7 @@ Matematikai módszerek, például a lineáris vagy logisztikai regresszió alapu
 
 A speciális elemzésekre architektúra tervezésekor érdemes mély tanulási modellek nagyméretű feldolgozásához szükséges. Ezek a keresztül elosztott feldolgozási platformokon, például az Apache Spark és a legújabb generációját, virtuális gépek, amelyek tartalmazzák a GPU-hardveres eléréséhez megadható.
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
 - [A részletes tanulási virtuális gép](/azure/machine-learning/data-science-virtual-machine/deep-learning-dsvm-overview)
 - [Az Apache Spark on hdinsight](/azure/hdinsight/spark/apache-spark-overview)
@@ -72,7 +72,7 @@ Mesterséges intelligencia (AI) forgatókönyvekben, ahol a gép utánozza ember
 
 A prediktív AI alkalmazásokat támogató szolgáltatások egyéni machine learning modellek vagy off-the-shelf kognitív szolgáltatások pretrained modellek elérését lehetővé tevő előfordulhat, hogy kihasználja. Egyéni modellek éles környezetben üzembe helyezésének folyamata az úgynevezett operationalization, ahol az azonos AI modellek betanítása és a feldolgozási környezetben tesztelt szerializált és érhetik el a külső alkalmazások és szolgáltatások köteg vagy önkiszolgáló előrejelzéseket. A modell prediktív funkció azt deszerializálni van, és segítségével a machine learning tár, amely tartalmazza a modell betanításához az elsőként használt algoritmust. Ezt a szalagtárat prediktív funkciókat biztosít (gyakran nevezik pontszám vagy előrejelzése), amely a modell és szolgáltatások bemeneti adatként, és térjen vissza az előrejelzés. A működési elvet ezt követően az alkalmazás közvetlenül meghívhatja, vagy egy webszolgáltatás elérhetővé tehető függvényből. 
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
 - [Azure Machine Learning](/azure/machine-learning/)
 - [Számítógép-kiszolgáló (K) a HDInsight tanulási](/azure/hdinsight/r-server/r-server-overview)

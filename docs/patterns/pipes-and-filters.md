@@ -1,101 +1,101 @@
 ---
-title: "Adatcsatornák és a szűrők"
-description: "Egy különálló elemek, amelyek felhasználhatók egy sorozat komplex feldolgozását végző feladat lebontva."
-keywords: "Kialakítási mintája"
+title: Pipes and Filters
+description: Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
 - messaging
-ms.openlocfilehash: b41f3e46ad5982a3a4ec6635918481cb440c5e02
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 2c17504f594843c10fcfe221f0087f1087a73fb8
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="pipes-and-filters-pattern"></a>Adatcsatornák és a szűrők minta
+# <a name="pipes-and-filters-pattern"></a>Csövek és szűrők mintája
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Felbontani egy különálló elemek, amelyek felhasználhatók egy sorozat komplex feldolgozását végző feladat. Ez javíthatja a teljesítmény, méretezhetőség és újrahasznosításának telepítve, és egymástól függetlenül méretezi feldolgozását végző feladat elemek tételével.
+Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává. Ezzel javítható a teljesítmény, a skálázhatóság és az újrahasznosíthatóság, mivel lehetővé teszi a feldolgozást végső feladatelemek független üzembe helyezését és skálázását.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Egy alkalmazás, amely feldolgozza az adatokat a különböző, eltérően összetett különböző feladatok elvégzéséhez szükséges. Egy egyszerű, de rugalmatlan megközelítése egy alkalmazást a feldolgozási egységes modulként végrehajtásához. Azonban ez a megközelítés valószínű, hogy csökkentse a lehetőségek a kód újrabontása, optimalizálása, vagy ha azonos feldolgozása részei szükség az alkalmazáson belül máshol újbóli felhasználása.
+Az alkalmazásnak több, változó összetettségű feladatot kell végrehajtania a feldolgozandó adatokon. Egy egyszerű, de rugalmatlan megközelítés az alkalmazások megvalósításához, ha ezt a feldolgozást egy monolitikus modulként hajtatjuk végre. Ez a megközelítés azonban valószínűleg csökkenti a kód átdolgozásának, optimalizálásának vagy ismételt felhasználásának lehetőségét, amennyiben ugyanilyen feldolgozás máshol is szükséges lenne az alkalmazásban.
 
-Az ábra azt mutatja be, milyen probléma lépett fel a egységes megközelítéssel adatok feldolgozása. Az alkalmazás fogad, és két forrásból származó adatokat dolgozza fel. Minden egyes forrásból származó adatokat dolgozza fel ezeket az adatokat, az eredmény az üzleti logika, az alkalmazás való továbbítása előtt átalakítására feladatok sorozatát végző külön modul.
+Az ábra az adatfeldolgozással kapcsolatos problémákat szemlélteti a monolitikus megközelítés alkalmazásakor. Az alkalmazások két forrásból fogadnak és dolgoznak fel adatokat. Az egyes forrásokból származó adatok feldolgozása egy-egy különálló modul feladata, amely elvégzi az adatok átalakításához szükséges feladatokat, majd az eredményt az alkalmazás üzleti logikája számára továbbítja.
 
-![1. ábra – egységes modulok készletével megvalósított megoldás](./_images/pipes-and-filters-modules.png)
+![1. ábra: Monolitikus modulok használatával implementált megoldás](./_images/pipes-and-filters-modules.png)
 
-Az egységes modulok végre feladatokat funkcionálisan nagyon hasonló, de a modulok elkülönítetten készített. A kódot, amely a feladatok szorosan alapján kialakulhat egy modulban, és az újbóli vagy a méretezhetőség kevéssé vagy egyáltalán ne gondolat identitáskezelési.
+A monolitikus modulok által elvégzett feladatok egy része funkcionálisan nagyon hasonló, de az egyes modulok megtervezése külön-külön történt. A feladatokat implementáló kód szorosan össze van kapcsolva a modulokban, és annak kifejlesztése során kevésbé vagy egyáltalán nem vették figyelembe az újrafelhasználhatóságot vagy a skálázhatóságot.
 
-A modulokhoz, vagy a telepítési követelményeket az egyes tevékenységek által végrehajtott feladatokat sikerült azonban módosítható, mert a üzleti követelményeinek megfelelően frissülnek. Egyes feladatok intenzív számítási előfordulhat, hogy és hatékony hardver, futó, míg más előfordulhat, hogy nincs ilyen költséges erőforrások hasznosak. Is a jövőben további feldolgozás lehet szükség, vagy módosíthatja a, amelyben a feladatokat végzi el a feldolgozási sorrendben. A megoldás szükség, hogy ezeket a problémákat, és növeli a kód újbóli lehetőségeit.
+Az egyes modulok által végrehajtott feldolgozási feladatok, illetve az egyes feladatok üzembe helyezési követelményei azonban megváltozhatnak az üzleti követelmények változásával. Egyes feladatok nagy számításigényűek lehetnek, így nagy teljesítményű hardveren futtathatók hatékonyan, míg mások nem igényelnek ennyire költséges erőforrásokat. A jövőben azonban további feldolgozásra is szükség lehet, vagy módosulhat a feladatok feldolgozási sorrendje. Olyan megoldásra van szükség, amellyel megoldhatók ezek a problémák, és nő a kód újrafelhasználhatóságának lehetősége.
 
 ## <a name="solution"></a>Megoldás
 
-A feldolgozás le szükséges az egyes adatfolyamokkal külön összetevők (vagy a szűrők), be egy feladat végrehajtása. Minden egyes összetevő fogad és küld adatok formátuma szabványosításával ezek a szűrők is egyesíthet bele a folyamatba. A kód duplikálását elkerülje használatával, és megkönnyíti, hogy távolítsa el, cseréje vagy integrálható a további összetevők, ha az ügyféloldali bővítmények feldolgozási követelményeivel módosítása. Az alábbi ábrán egy pipe-ok és a szűrők használatával megvalósított megoldást mutat.
+Ossza fel az egyes streamekhez tartozó feldolgozási folyamatot olyan különálló összetevőkre (vagy szűrőkre), amelyek mindegyike egyetlen feladatot végez. Az egyes összetevők által küldött és fogadott adatok formátumának szabványosításával ezek a szűrők egy folyamattá kombinálhatóak. Ezzel elkerülhető a kód ismétlődése, illetve megkönnyíti további összetevők eltávolítását, cseréjét vagy integrálását, ha a feldolgozási követelmények változnak. A következő ábra egy csövek és szűrők használatával implementált megoldást mutat be.
 
-![2. ábra - pipe-ok és a szűrők használatával megvalósított megoldás](./_images/pipes-and-filters-solution.png)
+![2. ábra – Csövek és szűrők használatával implementált megoldás](./_images/pipes-and-filters-solution.png)
 
 
-Egyetlen kérelem feldolgozásához szükséges idő a leglassabb szűrő a feldolgozási sebességétől függ. Egy vagy több szűrőben lehet szűk keresztmetszet, különösen akkor, ha nagyszámú kérelmek egy adott adatforrásból származó adatfolyam jelennek meg. A kulcs az adatcsatorna struktúra előnye teret hagynak a futó párhuzamos példányait lassú szűrők engedélyezésével a rendszer egyenletes terhelését, valamint javítja a teljesítményt biztosít.
+Az egy kérelem feldolgozásához szükséges idő a folyamat leglassabb szűrőjének sebességétől függ. Egy vagy több szűrő szűk keresztmetszetté válhat, különösen akkor, ha nagy számú kérelem található egy adott adatforrástól érkező streamben. A folyamatstruktúra legfontosabb előnye, hogy lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését.
 
-A szűrők adatcsatorna alkotó futtathatja eltérő gépeken, engedélyezése, hogy egymástól függetlenül lehet méretezni, és sok felhőkörnyezetekben adja meg, hogy a rugalmasság előnyeinek kihasználása. Egy szűrő, amely számításilag intenzív nagy teljesítményű hardverre, futtathatja, miközben más kevesebb, mint a szűrők igényelnek az alábbiakon tárolható olcsóbb a hagyományos hardvereken. A szűrők nem is kell ugyanabban az adatközpontban vagy földrajzi hely, amely lehetővé teszi, hogy az egyes elemei a folyamat futtatásához olyan környezetben, amelynek mérete megközelítőleg az erőforrásokat igényel.  Az alábbi ábrán látható forrás 1 az adatokat a folyamatot alkalmazza.
+A folyamatot alkotó szűrők különböző gépeken futhatnak, így egymástól függetlenül skálázhatóak, és kihasználhatják a számos felhőkörnyezet által nyújtott rugalmasságot. A nagy számítási igényű szűrők nagy teljesítményű hardveren futhatnak, míg más, kevésbé erőforrás-igényes szűrők üzemeltethetők kevésbé költséges, hagyományos hardveren is. A szűrőknek még csak nem is kell azonos adatközpontban vagy földrajzi helyen lenniük, ami lehetővé teszi, hogy az egyes folyamatelemek olyan környezetben futhassanak, amely közel van a számukra szükséges erőforrásokhoz.  A következő ábrán látható példa az 1. forrásból származó adatokhoz tartozó folyamatra van alkalmazva.
 
-![3. ábrán látható egy példa a feldolgozási sor az adatok alkalmazott forrás 1](./_images/pipes-and-filters-load-balancing.png)
+![A 3. ábrán látható példa az 1. forrásból származó adatokhoz tartozó folyamatra van alkalmazva](./_images/pipes-and-filters-load-balancing.png)
 
-Ha a bemeneti és kimeneti egy szűrő felépítése adatfolyamként, akkor lehet minden szűrőhöz párhuzamos feldolgozása végrehajtásához. Az adatcsatorna első szűrő indítsa el a tevékenységeket és a kimeneti az eredményeket, amely átadott közvetlenül be a következő szűrő sorrendben az első szűrő teendőit befejezése előtt.
+Ha a szűrők be- és kimenete streamként van felépítve, akkor lehetséges az egyes szűrők általi egyidejű feldolgozás is. A folyamat első szűrője elkezd működni, és létrehozza a kimenetét, amelyet a rendszer még az előtt a soron következő szűrőnek továbbít, hogy az első szűrő végrehajtaná a feladatát.
 
-További előny, a rugalmasságot biztosít. ezt a modellt. Szűrő meghibásodik, vagy a futtató gép már nem érhető el, ha a feldolgozási sor ütemezze újra a szűrő teljesített munkáját, és közvetlen a munka az összetevő egy másik példánya. Sikertelen volt-e egyetlen szűrőt, nem feltétlenül ezért nem a teljes folyamat.
+További előnyt jelent a modell által biztosított rugalmasság. Ha egy szűrő meghibásodik vagy ha az azt futtató gép már nem érhető el, akkor a folyamat képes átütemezni a szűrő által végrehajtott feladatot és az összetevő másik példányára átirányítani. Egyetlen szűrő meghibásodása nem feltétlenül eredményezi a teljes folyamat meghibásodását.
 
-A pipe-ok és a szűrők minta használatával együtt a [Compensating tranzakció mintát](compensating-transaction.md) van egy másik módjáról az elosztott tranzakciók végrehajtására. Elosztott tranzakció bonthatók be különálló, compensable feladatokat, amelyek a tranzakció Compensating mintát megvalósító szűrő használatával valósítható. A szűrők egy folyamaton belül, az adatokat, amelyek megőriznek hamarosan futó külön futtatott feladatok valósítható meg.
+A Csövek és szűrők minta és a [Kompenzáló tranzakció minta](compensating-transaction.md) együttes alkalmazása is egy lehetséges alternatív módszer az elosztott tranzakciók implementálására. Az elosztott tranzakciók különálló, kompenzálható feladatokra bonthatók le, amelyek egy olyan szűrővel implementálhatók, amely a Kompenzáló tranzakció mintát is implementálja. A folyamatban lévő szűrők olyan önállóan üzemeltetett feladatokként is implementálhatók, amelyeket a rendszer az általuk karbantartott adatok közelében futtat.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ez a kialakítás megvalósítása meghatározásakor a következő szempontokat kell figyelembe vennie:
-- **Összetettsége**. A nagyobb rugalmasság, amely ebben a mintában is vezethet összetettségét, különösen akkor, ha egy folyamaton belül szűrők elosztott különböző kiszolgálókon.
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
+- **Összetettség**. A minta által biztosított megnövelt rugalmasság összetettséget is eredményezhet, különösen akkor, ha a folyamat szűrői különböző kiszolgálókon vannak elosztva.
 
-- **Megbízhatóság**. Használjon olyan infrastruktúra, amely biztosítja, hogy egy folyamat szűrő áramló adatokat nem lesz elveszett.
+- **Megbízhatóság**. Olyan infrastruktúrát használjon, amely biztosítja, hogy ne legyen adatvesztés a folyamat szűrői közötti adatátvitel során.
 
-- **Idempotencia**. Ha egy szűrőt a folyamat meghiúsul, miután üzenet és a munka átütemezése a szűrő másik példányára, része a munka lehet, hogy rendelkezik már befejeződött. Ha ez a munkahelyi néhány szempontja, hogy a globális állapota (például egy adatbázisában tárolt információit) frissíti, a sikerült ismétlődő ugyanazt a frissítést. Probléma akkor fordulhat elő, szűrő meghibásodásakor könyvelési az eredményeket a következő szűrő, az adatcsatorna, még mielőtt elvégezte teendőit sikeresen jelző után. Ebben az esetben ugyanaz a munkahelyi sikerült meg kell ismételni a szűrőt, hogy a program kétszer ugyanazt az eredményt, amely egy másik példánya. Ez a feldolgozási sorban lévő ugyanazokat az adatokat kétszer a későbbi szűrőket vezethet. Ezért a folyamat a szűrőket úgy kell megtervezni, kell lennie az idempotent. További információ: [idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában.
+- **Idempotencia**. Ha egy üzenet fogadását követően a folyamatban lévő szűrő meghibásodik, és a rendszer a feladatot a szűrő egy másik példányára ütemezi át, akkor lehetséges, hogy a feladat egy része már végre lett hajtva. Ha ez a feladat frissíti a globális állapot egyes aspektusait (például az adatbázisban tárolt információkat), akkor meg lehet ismételni ugyanezt a frissítést. Hasonló probléma fordulhat elő akkor, ha egy szűrő azután hibásodik meg, miután közzétette az eredményeit a folyamat következő szűrőjének, de még nem jelezte, hogy a feladatot sikeresen elvégezte. Ezekben az esetekben lehetséges, hogy ugyanazt a feladatot a szűrő egy másik példánya is elvégzi, így ugyanazok az eredmények kétszer lesznek közzétéve. Ez azt eredményezheti, hogy a folyamat soron következő szűrői ugyanazokat az adatokat kétszer fogják feldolgozni. Ezért a folyamatok szűrőinek idempotensnek kell lenniük. További információ: [Idempotens minták](http://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).
 
-- **Ismétlődő üzenetek**. Ha egy folyamaton belül szűrő meghiúsul, miután egy üzenetet, amely a feldolgozási folyamat következő szakasza könyvelés, a szűrő egy másik példánya lehet, hogy futtatható, és azt fogja elküldeni ugyanazt az üzenetet, a folyamat egy példányát. Ez ugyanaz az üzenet a következő szűrő átadandó két példánya okozhat. Ennek elkerülése érdekében a feldolgozási sorban lévő kell észlelése és kiküszöbölheti a duplikált üzenetek.
+- **Ismétlődő üzenetek**. Ha egy folyamat szűrője azután hibásodik meg, hogy közzétett egy üzenetet a folyamat következő szakaszában, akkor a rendszer futtathatja a szűrő másik példányát, és az ugyanennek az üzenetnek a másolatát fogja közzétenni a folyamatban. Ez azt eredményezheti, hogy ugyanazon üzenet két példánya lesz elküldve a következő szűrő számára. Ennek elkerülése érdekében a folyamatnak észlelnie kell és el kell távolítania az ismétlődő üzeneteket.
 
-    >  Üzenetsorok (például a Microsoft Azure Service Bus-üzenetsorok) használatával megvalósításához a folyamatot, ha az üzenet üzenetsor-kezelési infrastruktúra nyújthatnak automatikus duplikált üzenetek észlelésének és eltávolítása.
+    >  Ha az adott folyamatot üzenetsorok (például Microsoft Azure Service Bus-üzenetsorok) használatával implementálja, az üzenetsor-kezelési infrastruktúra az ismétlődő üzenetek automatikus felismerését és eltávolítását biztosíthatja.
 
-- **És az állapot**. Egy sorban a minden szűrő lényegében elkülönítési fut, és ne ellenőrizze a bármely feltételezéseket hogyan lett meghívva. Ez azt jelenti, hogy minden szűrő a munkájuk elvégzéséhez elegendő kontextusú kell megadni. Ebben a környezetben állapotadatokat nagy mennyiségű tartalmazhatnak.
+- **Kontextus és állapot**. A folyamatokban a szűrők gyakorlatilag elkülönítve futnak, és nem tudják feltételezni azok aktiválásuk módját. Ez azt jelenti, hogy mindegyik szűrő számára a feladatának elvégzéséhez megfelelő kontextust kell biztosítani. A kontextus nagy mennyiségű állapotinformációt is tartalmazhat.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez mintát, mikor használja:
-- Az alkalmazás által igényelt feldolgozását is könnyen oszlanak független ismertetett lépések.
+Használja ezt a mintát, ha:
+- Az alkalmazások számára szükséges feldolgozási folyamat egyszerűen lebontható független lépések sorozatára.
 
-- A feldolgozási lépéseket végzi el az alkalmazás különböző méretezhetőség követelményekkel rendelkezik.
+- Az alkalmazások által végrehajtott feldolgozási lépések különböző skálázhatósági követelményekkel rendelkeznek.
 
-    >  Lehetőség biztonságicsoport-szűrőkkel kell méretezni együtt ugyanabban a folyamatban. További információkért lásd: a [számítási erőforrás-összevonási mintát](compute-resource-consolidation.md).
+    >  Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkért lásd a [számításierőforrás-konszolidálási mintát](compute-resource-consolidation.md).
 
-- Rugalmasság szükséges rendelje újra a feldolgozási lépéseket végzi el egy alkalmazást vagy a funkció hozzáadása és eltávolítása a lépéseket a engedélyezéséhez.
+- Rugalmas kialakítás szükséges ahhoz, hogy lehetővé váljon az alkalmazás által végrehajtott feldolgozási lépések sorrendjének módosítása, illetve lépések hozzáadása és eltávolítása.
 
-- A rendszer vonatkozhat a lépéseket a feldolgozási terjesztése a különféle kiszolgálók között.
+- A rendszer számára előnyös lehet, ha az egyes lépésekhez tartozó feldolgozási folyamatok különböző kiszolgálókra vannak elosztva.
 
-- A megbízható megoldás szükség, amely minimálisra csökkenti egy lépésben sikertelensége által okozott hatások, amíg az adatok feldolgozása folyamatban van.
+- Olyan megbízható megoldásra van szükség, amely minimálisra csökkenti egy adott lépés meghibásodásának hatását az adatok feldolgozása során.
 
-Ebben a mintában előfordulhat, hogy nem lehet hasznos:
-- A feldolgozási lépéseket végzi el az alkalmazás nem független, és/vagy együtt ugyanabban a tranzakcióban részeként végrehajtását.
+Nem érdemes ezt a mintát használni, ha:
+- Az alkalmazások által végrehajtott feldolgozási lépések nem függetlenek egymástól, illetve azokat egy adott tranzakció részeként, együtt kell végrehajtani.
 
-- A lépés szükséges környezet vagy az állapot adatmennyiség nem elég hatékony teszi ezt a módszert használja. Ehelyett megőrizni az adatait az adatbázis esetleg, de nem használja ezt a stratégiát, ha az adatbázis további terhelése túl sok versengés hatására.
+- Az egyes lépések végrehajtásához szükséges kontextus- vagy állapotinformációk mennyisége csökkenti ennek a módszernek a hatékonyságát. Az állapotinformációkat továbbra is lehet inkább adatbázisban megőrizni, de ne használja ezt a stratégiát, ha az adatbázis további terhelése túlzott mértékű versenyt okozna.
 
 ## <a name="example"></a>Példa
 
-Üzenet-várólistákból sorozatát segítségével biztosítja a folyamat végrehajtásához szükséges infrastruktúrát. Az első üzenet-várólista feldolgozatlan üzeneteket fogad. Egy szűrő tevékenységként megvalósított összetevő figyeli az ennél a várakozási üzenet, a tevékenységeket hajt végre, és majd küldi az átalakított üzenet a következő várólistára sorrendben. Egy másik szűrő feladat az ennél a várakozási üzeneteket, dolgozza fel őket, és így tovább utáni a eredményeket egy másik várólistához, amíg a teljes átalakított adatok megjelennek-e a várólista utolsó üzenetébe. Az alábbi ábrán láthatja a végrehajtási folyamat üzenetsorok használatával.
+A folyamat implementálásához szükséges infrastruktúra biztosításához üzenetsorok sorozatát is használhatja. A kezdő üzenetsor feldolgozatlan üzeneteket kap. A szűrési feladatként megvalósított összetevő figyeli az adott üzenetsor üzeneteit, elvégzi a feladatát, majd közzéteszi az átalakított üzenetet a sorban következő üzenetsornak. Egy másik szűrési feladat figyelheti ennek az üzenetsornak az üzeneteit, feldolgozhatja azokat, majd elküldheti az eredményeket egy másik üzenetsornak, és így tovább, amíg a teljes körűen átalakított adatok meg nem jelennek az üzenetsor végső üzenetében. A következő ábrán egy üzenetsorok használatával megvalósított folyamat látható.
 
-![4. ábra - üzenetsorok használatával folyamat végrehajtása](./_images/pipes-and-filters-message-queues.png)
+![4. ábra – Üzenetsorok használatával megvalósított folyamat](./_images/pipes-and-filters-message-queues.png)
 
 
-Ha van olyan megoldást épülő Azure Service Bus-üzenetsorok használatával egy olyan mechanizmust, megbízható és méretezhető Üzenetsor-kezelés. A `ServiceBusPipeFilter` osztály a C# alább látható bemutatja, hogyan implementálható, amely megkapja a bemeneti üzenetet az üzenetsorból, ezek az üzenetek folyamatokat, és egy másik várólistához eredmények visszaküldés szűrőt.
+Ha a megoldást az Azure-ban hozza létre, a Service Bus-üzenetsorok megbízható és skálázható üzenetsor-kezelési mechanizmust biztosítanak. Az alábbi, C# nyelven írt `ServiceBusPipeFilter` osztály példáján egy olyan szűrő implementálását mutatjuk be, amely a bemeneti üzeneteket egy üzenetsorból kapja, feldolgozza azokat, majd az eredményeket egy másik üzenetsorban teszi közzé.
 
->  A `ServiceBusPipeFilter` osztály definiálva van a PipesAndFilters.Shared projekt eléréséhez [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters).
+>  A `ServiceBusPipeFilter` osztály a PipesAndFilters.Shared projektben van meghatározva, amely a [GitHubról](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters) érhető el.
 
 ```csharp
 public class ServiceBusPipeFilter
@@ -178,11 +178,11 @@ public class ServiceBusPipeFilter
 }
 ```
 
-A `Start` metódust a `ServiceBusPipeFilter` osztály csatlakozik a két bemeneti és kimeneti várólisták, és a `Close` metódus bontja a kapcsolatot a bemeneti várólistát. A `OnPipeFilterMessageAsync` metódus hajtja végre a tényleges feldolgozását az üzeneteket, a `asyncFilterTask` ezt a módszert paraméter határozza meg a feldolgozás végezhető el. A `OnPipeFilterMessageAsync` a bemeneti várólistára, a bejövő üzenetek metódust vár a megadott kód futtatása a `asyncFilterTask` paraméter keresztül minden üzenetet, mert megérkeznek, és az eredményeket a kimeneti várólista küldi. A várólisták magukat a gyártó által meg van adva.
+A `ServiceBusPipeFilter` osztály `Start` metódusa be- és kimeneti üzenetsorpárhoz csatlakozik, a `Close` metódus pedig lecsatlakozik a bemeneti üzenetsorról. Az `OnPipeFilterMessageAsync` metódus végzi el az üzenetek tényleges feldolgozását, a metódus `asyncFilterTask` paramétere pedig meghatározza a végrehajtandó feldolgozást. Az `OnPipeFilterMessageAsync` metódus a bemeneti üzenetsor bejövő üzeneteire vár, azok beérkezési sorrendjében futtatja az `asyncFilterTask` paraméter által megadott kódot az üzeneteken, végül a kimeneti üzenetsoron teszi közzé az eredményeket. Magukat az üzenetsorokat a konstruktor adja meg.
 
-A minta megoldás szűrők feldolgozói szerepkörök meg valósítja meg. Egymástól függetlenül, minden egyes feldolgozói szerepkör is méretezhető, amely elvégzi az üzleti feldolgozása vagy a feldolgozáshoz szükséges erőforrások összetettségétől függően. Emellett minden egyes feldolgozói szerepkör több példánya is futtatható párhuzamos átviteli sebesség növelése érdekében.
+A mintául szolgáló megoldás szűrőket implementál feldolgozói szerepkörökben. Az egyes feldolgozói szerepkörök egymástól függetlenül skálázhatók az általuk végzett üzleti feldolgozás összetettségétől vagy a feldolgozáshoz szükséges erőforrásoktól függően. Ezenkívül az egyes feldolgozói szerepkörök több példánya párhuzamosan is futtatható a teljesítmény növelése érdekében.
 
-A következő kód bemutatja egy Azure feldolgozói szerepkörnek nevű `PipeFilterARoleEntry`az PipeFilterA projekt, a megoldást a definiált.
+Az alábbi kód egy `PipeFilterARoleEntry` nevű Azure-beli feldolgozói szerepkörre mutat példát, amelynek meghatározása a mintamegoldás PipeFilterA projektjében történt.
 
 ```csharp
 public class PipeFilterARoleEntry : RoleEntryPoint
@@ -228,13 +228,13 @@ public class PipeFilterARoleEntry : RoleEntryPoint
 }
 ```
 
-Ez a szerepkör tartalmazza a `ServiceBusPipeFilter` objektum. A `OnStart` metódus a szerepkör a fogadással bemeneti és kimeneti üzenetek közzététele a várólisták csatlakozik (határozzák meg a várólista nevét a `Constants` osztály). A `Run` metódus meghívja a `OnPipeFilterMessagesAsync` egyes feldolgozási végre minden üzenetet kapott metódus (ebben a példában a feldolgozási szimulálják várakozással rövid idő alatt). Ha feldolgozása befejeződött, egy új üzenet összeállított az eredményeket tartalmazó (a bemeneti üzenet van ebben az esetben a hozzáadott egyéni tulajdonság is), és ezt az üzenetet a rendszer visszaküldi a kimeneti várólistában.
+Ez a szerepkör tartalmaz egy `ServiceBusPipeFilter` objektumot. A szerepkör `OnStart` metódusa a bemeneti üzenetek fogadásához és a kimeneti üzenetek közzétételéhez csatlakozik az üzenetsorokhoz (az üzenetsorok nevei a `Constants` osztályban vannak meghatározva). A `Run` metódus meghívja az `OnPipeFilterMessagesAsync` metódust a fogadott üzenetek bizonyos mértékű feldolgozására (ebben a példában a feldolgozást rövid idejű várakozással szimuláljuk). Amikor a feldolgozás befejeződött, a rendszer egy új üzenetet állít össze, amely tartalmazza az eredményeket (ebben az esetben a bemeneti üzenet egy hozzáadott egyéni tulajdonsággal rendelkezik) és a kimeneti üzenetsorban lesz közzétéve.
 
-A mintakód tartalmaz egy másik feldolgozói szerepkör nevű `PipeFilterBRoleEntry` a PipeFilterB projektben. Ez a szerepkör hasonlít `PipeFilterARoleEntry` azzal a különbséggel, hogy a különböző feldolgozó segítségével végzi a `Run` metódust. A példa a megoldásban ez a két szerepkör kombinált egy folyamatot, a kimeneti várólista összeállítani a `PipeFilterARoleEntry` szerepköre a bemeneti várólista a `PipeFilterBRoleEntry` szerepkör.
+A mintakód egy másik, `PipeFilterBRoleEntry` nevű feldolgozói szerepkört is tartalmaz a PipeFilterB projektben. Ez a szerepkör hasonlít a `PipeFilterARoleEntry` szerepkörhöz azzal a különbséggel, hogy eltérő feldolgozási műveletet hajt végre a `Run` metódusban. A példában szereplő megoldásban ennek a két szerepkörnek a kombinálásával hozunk létre egy folyamatot, ahol a `PipeFilterARoleEntry` szerepkör kimeneti üzenetsora lesz a `PipeFilterBRoleEntry` szerepkör bemeneti üzenetsora.
 
-A minta megoldás is biztosít két további szerepkörök nevű `InitialSenderRoleEntry` (a projektben InitialSender) és `FinalReceiverRoleEntry` (a projektben FinalReceiver). A `InitialSenderRoleEntry` szerepkör szolgáltatás a kezdeti üzenetet jelenít meg a folyamat. A `OnStart` módszer egy adott sorba csatlakozik, és a `Run` metódus által a várólistának metódus. A várólista által használt bemeneti várólista a `PipeFilterARoleEntry` szerepkör, ezért fogad és dolgoz fel üzenetet egy üzenet azt eredményezi a `PipeFilterARoleEntry` szerepkör. A feldolgozott üzenet majd haladnak keresztül az `PipeFilterBRoleEntry` szerepkör.
+A mintamegoldás két további szerepkört is biztosít: `InitialSenderRoleEntry` (az InitialSender projektben) és `FinalReceiverRoleEntry` (a FinalReceiver projektben). A folyamat kezdő üzenetét az `InitialSenderRoleEntry` szerepkör biztosítja. Az `OnStart` metódus egyetlen üzenetsorhoz kapcsolódik, és ezen az üzenetsoron a `Run` metódus közzétesz egy metódust. Ezt az üzenetsort használja a `PipeFilterARoleEntry` szerepkör bemeneti üzenetsorként, így az itt közzétett üzenetek fogadását és feldolgozását a `PipeFilterARoleEntry` szerepkör végzi. A feldolgozott üzenet ezt követően a `PipeFilterBRoleEntry` szerepkörön halad át.
 
-A bemeneti várólista a `FinalReceiveRoleEntry` szerepköre a kimeneti várólista a `PipeFilterBRoleEntry` szerepkör. A `Run` metódust a `FinalReceiveRoleEntry` szerepkör az alábbi megkapja az üzenetet, és néhány végső feldolgozásra. Ezután ír a követés eredményét a szűrők a folyamat által hozzáadott egyéni tulajdonságok értékeit.
+A `FinalReceiveRoleEntry` szerepkör bemeneti üzenetsora a `PipeFilterBRoleEntry` szerepkör kimeneti üzenetsora. Az üzenetet a `FinalReceiveRoleEntry` szerepkör `Run` metódusa fogadja (lásd alább), és hajtja végre rajta a végső feldolgozási műveleteket. Ezt követően a metódus a folyamat szűrői által hozzáadott egyéni tulajdonságokat a nyomkövetési kimenetbe írja.
 
 ```csharp
 public class FinalReceiverRoleEntry : RoleEntryPoint
@@ -274,11 +274,11 @@ public class FinalReceiverRoleEntry : RoleEntryPoint
 }
 ```
 
-##<a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
-- Minta bemutatja, ebben a mintában érhető el a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters).
-- [Versengő fogyasztók mintát](competing-consumers.md). Egy folyamat egy vagy több szűrő több példányát is tartalmazhat. Ez a megközelítés futó párhuzamos példányait lassú szűrők engedélyezésével a rendszer egyenletes terhelését, valamint javítja a teljesítményt. Szűrő minden példánya a rendszer "versenyeznek" az bemeneti a más osztályt, szűrő két példánya nem fogja tudni feldolgozni ugyanazokat az adatokat. Ez a megközelítés magyarázattal szolgál.
-- [Számítási erőforrás-összevonási mintát](compute-resource-consolidation.md). Biztonságicsoport-szűrőkkel, amelyek ugyanabba a folyamatba együtt kell méretezni is lehet. További információt az előnyöket és a stratégia kompromisszumot nyújt.
-- [Kompenzációs tranzakció mintát](compensating-transaction.md). Egy szűrő, amely visszafordítható, illetve egy kompenzációs művelet, amely visszaállítja az állapotát egy korábbi verzióját meghibásodása lett műveletként valósítható meg. Ismerteti, hogyan ez valósítható karbantartása, vagy a végleges konzisztencia elérése.
-- [Idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában.
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
+- A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters) talál egy, a minta bemutatására szolgáló példát.
+- [Versengő felhasználókat ismertető minta](competing-consumers.md). A folyamatok adott szűrők több példányát is tartalmazhatják. Ezen megközelítés lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését. A szűrőpéldányok versenyezni fognak egymással a bemeneti adatokért, egy adott szűrő két példánya nem dolgozhatja fel ugyanazokat az adatokat. Megmagyarázza ezt a megközelítést.
+- [Számításierőforrás-konszolidálási minta](compute-resource-consolidation.md). Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkat biztosít ezen stratégia előnyeiről és hátrányairól.
+- [Kompenzáló tranzakció mintája](compensating-transaction.md). A szűrők implementálhatóak visszavonható műveletként is, vagy olyan kompenzáló műveletként, amely hiba esetén visszaállít egy korábbi verzió szerinti állapotot. Ismerteti, hogy ez a módszer hogyan implementálható a végső konzisztencia fenntartásához vagy eléréséhez.
+- [Idempotens minták](http://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).

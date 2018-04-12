@@ -1,15 +1,16 @@
 ---
-title: "Magas rendelkezésre állás a Azure-alkalmazások"
-description: "A műszaki áttekintés és és a magas rendelkezésre állású alkalmazások támaszkodva a Microsoft Azure ad részletes tájékoztatást."
+title: Magas rendelkezésre állás a Azure-alkalmazások
+description: A műszaki áttekintés és és a magas rendelkezésre állású alkalmazások támaszkodva a Microsoft Azure ad részletes tájékoztatást.
 author: adamglick
 ms.date: 05/31/2017
-ms.openlocfilehash: 46b7b802326a8de03546528aaeb1a1c6419d41db
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: f116b9e64f1722b5141ae90239d5c8a8b4a89487
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
 [!INCLUDE [header](../_includes/header.md)]
+
 # <a name="high-availability-for-applications-built-on-microsoft-azure"></a>Magas rendelkezésre állás a Microsoft Azure épülő alkalmazások
 A magas rendelkezésre állású alkalmazások elnyeli a rendelkezésre állási, a betöltés és a függő szolgáltatások, valamint a hardver ideiglenes hibák ingadozását. Az alkalmazás továbbra is fennáll, üzleti követelmények vagy alkalmazás szolgáltatásiszint-szerződések (SLA) által megadott akadálytalanul végrehajtásához.
 
@@ -110,6 +111,6 @@ Az előző ábrán látható, a tranzakciós adatok leválasztott megközelíté
 ### <a name="scalability-patterns"></a>Méretezhetőség minták
 Fontos megjegyezni, hogy a méretezhetőség egy felhőalapú szolgáltatás rendelkezésre állási közvetlen hatással van. Ha a megnövekedett terhelés miatt a szolgáltatás lefagyottnak, a felhasználói egyensúlyozhatom, hogy az alkalmazás nem működik. Kövesse a bevált gyakorlatokat méretezhetőségre, a várt alkalmazásterhelés és a későbbi verziójával kapcsolatos elvárások alapján. Sok szempontok, például egy vagy több tárfiókot, több adatbázis közötti megosztás, és a gyorsítótár stratégiák méretezési maximalizálva magában foglalja. Ezek a minták kapcsolatos részletes információkért lásd: [ajánlott eljárások a Microsoft Azure felügyeleti teendők központjaként szolgáltatások tervezéséhez](https://azure.microsoft.com/blog/best-practices-for-designing-large-scale-services-on-windows-azure/).
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 Az adatsorozat dokumentumok vész-helyreállítási és magas rendelkezésre állás a Microsoft Azure épülő alkalmazások tartalmazza. A következő cikk az adatsorozat [Microsoft Azure épülő alkalmazások vész-helyreállítási](disaster-recovery-azure-applications.md).
 

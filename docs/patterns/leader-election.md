@@ -1,80 +1,80 @@
 ---
-title: "Vezető választás"
-description: "Koordinálja az elosztott alkalmazásban lévő együttműködés task példányokat gyűjteménye egy példánya, amely azt feltételezi, hogy a többi példány felelős a vezetőjeként megválasztását által végrehajtott műveletekről."
-keywords: "Kialakítási mintája"
+title: Leader Election
+description: Koordinálhat egy elosztott alkalmazásban az együttműködő feladatpéldányokból álló gyűjtemény által végrehajtott műveleteket, ha vezetőnek választ meg egy példányt, amely vállalja a többi példány kezelésével járó felelősséget.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
 - resiliency
-ms.openlocfilehash: ddb61097ed3229ed0ed517b94c280d3ef892c999
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 3e7d47f70f660f2507f0619e1c41bf9a32a25be4
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/06/2018
 ---
-# <a name="leader-election-pattern"></a>Vezető választás minta
+# <a name="leader-election-pattern"></a>Vezetőválasztási minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Koordinálja megválasztását egy példánya, amely a többi kezelése felelősséget a vezetőjeként a gyűjtemény egy elosztottalkalmazás-együttműködés példánya által végrehajtott műveletekről. Ez segít annak érdekében, hogy példányok nem ütköznek egymással, a versengés a megosztott erőforrások miatt, vagy véletlenül zavarja a munkát, amely a többi példány hajtja végre.
+Az elosztott alkalmazásokban az együttműködő példányok gyűjteményei által végrehajtott műveletek koordinálhatók, ha megválaszt egy példányt vezetőnek, amely így felelős lesz a többi példány kezeléséért. Ez segít annak biztosításában, hogy a példányok nem ütköznek egymással, nem versengenek a megosztott erőforrásokért, és véletlenül sem zavarják meg a többi példány működését.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Egy tipikus felhő alkalmazásnak összehangolt módon viselkedő számos feladatot. Ezeket a feladatokat az összes lehet kódot futtató és az erőforrásokhoz hozzáférést igénylő példányok, vagy azok működik együtt egy bonyolult számításhoz egyes részeire végre párhuzamosan.
+Egy tipikus felhőalkalmazásban több, koordinált módon működő feladat található. Ezek a feladatok lehetnek ugyanazt a kódot futtató és ugyanahhoz az erőforráshoz hozzáférést igénylő példányok, vagy előfordulhat, hogy egy összetett számítás egyes részeit végzik párhuzamosan.
 
-A task példányokat lehet, hogy külön futtatja az az idő nagy, de is szükség lehet a műveleteket, győződjön meg arról, hogy nem ütköznek, a versengés a megosztott erőforrások miatt, vagy véletlenül zavarja a munkát, hogy a feladat minden egyes példányának koordinálására példányok hajt végre.
+A feladatpéldányok az idő legnagyobb részében külön futhatnak, de szükség lehet az egyes példányok műveleteinek koordinálására, hogy a példányok ne ütközzenek, ne versengjenek a megosztott erőforrásokért, és véletlenül se zavarják meg a többi példány működését.
 
 Példa:
 
-- Egy felhőalapú rendszer, amely megvalósítja a horizontális skálázás ugyanezt a feladatot több példánya sikerült fut egyszerre, ha minden példánya egy másik felhasználót szolgál. Ha ezek a példányok írni egy megosztott erőforráson, fontos együttműködéséből feltünteti a mások által végrehajtott módosítások felülírják megelőzése érdekében.
-- A feladatok egyes elemeit, egy bonyolult számításhoz párhuzamosan hajtja végre, ha az eredmények kell lennie összesítését, amikor az összes művelet befejeződik.
+- A horizontális skálázást alkalmazó felhőalapú rendszerekben egy feladat több példánya is futhat egyszerre úgy, hogy mindegyik példány egy különböző felhasználót szolgál ki. Ha ezek a példányok egy megosztott erőforrásba írnak, össze kell hangolni a műveleteiket, nehogy az egyik példány felülírja egy másik példány által elvégzett módosításokat.
+- Ha a feladatok egy összetett számítás egyes elemeit párhuzamosan végzik, a feladatok befejezése után összesíteni kell az eredményeket.
 
-A task példányokat összes társak, így egy természetes vezető, amely működhet, és a koordinátor vagy a gyűjtő nem áll rendelkezésre.
+A feladatpéldányok társviszonyban állnak, ezért nincs koordinátorként vagy összesítőként működő, vezető példány.
 
 ## <a name="solution"></a>Megoldás
 
-Egy adott feladat példány választják vezetője nevében járhasson el, és ezt a példányt kell koordinálja a többi alárendelt task példányokat a műveleteket. Minden a task példányokat futtassa ugyanazt a kódot, ha egyes képes a vezetőjeként működő. Ezért a választási folyamat felügyelni gondosan két vagy több példány egyszerre a vezető szerepkör tart megelőzése érdekében.
+Ki kell választani egy feladatpéldányt, amely vezetőként működik, és ez a példány fogja koordinálni a többi, alárendelt feladatpéldány műveleteit. Ha az összes feladatpéldány ugyanazt a kódot futtatja, akkor bármelyik működhet vezetőként. Ezért a választás során ügyelnie kell arra, nehogy két vagy több példány egyszerre vegye át a vezetői szerepkört.
 
-A rendszer meg kell adnia egy robusztus mechanizmus vezetője kijelöléséhez. Ez a módszer a folyamatosan esemény, például a hálózati kimaradások vagy folyamathibák rendelkezik. A sok megoldások az alsóbb szintű task példányokat figyelése valamilyen szívverés metódus, vagy lekérdezési keresztül vezetője. Ha a kijelölt vezető leáll váratlanul, vagy egy hálózati hiba miatt elérhetetlenné vezetője az alárendelt tevékenység példányokhoz, fontos egy új vezető dönthetnek úgy, hogy.
+A rendszernek robusztus mechanizmust kell biztosítania a vezető kiválasztásához. Ennek a módszernek tudnia kell kezelni az olyan eseményeket, mint például a hálózati kimaradások vagy a folyamathibák. Számos megoldásban az alárendelt folyamatpéldányok valamilyen szívveréses módszerrel vagy lekérdezéssel monitorozzák a vezetőt. Ha a kijelölt vezető váratlanul leáll, vagy az alárendelt feladatpéldányok hálózatkimaradás miatt nem tudják elérni, új vezetőt kell választani nekik.
 
-Nincsenek több stratégiák megválasztását között elosztott környezetben feladatokat egy vezető például:
-- A feladat példány kiválasztja a legalacsonyabb rangsorolva példányt, vagy a folyamat azonosítója.
-- Racing megosztott, elosztott mutex megszerzésére. Az első feladat, amely szerez be a mutex példány vezetője. A rendszer azonban biztosítja, hogy a vezető megszakítja, vagy megszakítja a kapcsolatot a rendszer a többi, ha a mutex átadott lehetővé válik a vezető egy másik feladat példány.
-- Például a végrehajtási egyik közös vezető választás algoritmus a [Bully algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) vagy a [Ring algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html). Ezek az algoritmusok azt feltételezik, hogy minden jelölt a választás egy egyedi Azonosítóval rendelkezik-e, és, hogy képes legyen kommunikálni az egyéb jelöltek megbízhatóan.
+Többféle módon is kiválasztható egy vezető egy elosztott környezet feladatainak készletéből, például:
+- A legalacsonyabb besorolású példány- vagy folyamatazonosítóval rendelkező feladatpéldány kiválasztása.
+- Verseny a közös, elosztott mutex beszerzéséért. Az a feladatpéldány lesz a vezető, amelyik elsőként szerzi be a mutexet. Azonban a rendszernek biztosítania kell a mutex felszabadítását, ha a vezető leáll vagy megszakad a kapcsolata a rendszer többi részével, hogy egy másik feladatpéldány vehesse át a vezető szerepet.
+- Egyik széles körben használt vezetőválasztási algoritmus (például a [Bully algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) vagy a [Ring algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html)) megvalósítása. Ezek az algoritmusok azt feltételezik, hogy a választásban részt vevő minden jelölt egyedi azonosítóval rendelkezik, és megbízhatóan kommunikál a többi jelölttel.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
-- Egy vezető megválasztását folyamata rugalmas ideiglenes és állandó hibák kell lennie.
-- Észlelés, ha a sikertelen vagy más módon elérhetetlenné vált elemezhetőnek kell lennie (például egy kommunikációs hiba miatt). Milyen gyorsan észlelési van szükség a rendszer függő. Egyes rendszerek lehet egy vezető, amely során egy átmeneti hiba előfordulhat, hogy rögzített nélkül rövid ideig működik. Más esetekben szükség lehet vezető hiba azonnali észlelésére, és indul el, egy új választás.
-- A vízszintes automatikus skálázás megvalósító rendszer vezetője sikerült megszakítása, ha a rendszer méretezi vissza, és leállítja a számítási erőforrások.
-- A külső szolgáltatás, amely a mutex függ a megosztott, elosztott mutex használatával vezet be. A szolgáltatás jelent a hibaérzékeny pontok kialakulását. Ha az elérhetetlenné válik a bármilyen okból, a rendszer nem lehet egy vezető kiválasztják.
-- Egyetlen dedikált folyamat a vezetőjeként használata egyszerű megközelítése. Azonban ha a sikertelen lehetnek jelentős késés az újraindítás közben. Az eredményül kapott késés hatással lehet a teljesítmény és a válasz időpont más folyamatok, ha azok egy művelet. koordinálására vezetője eredménykészletre várakozik.
-- Manuálisan végrehajtási egyik vezető választás algoritmus beállítás, és optimalizálja a kódot a legnagyobb rugalmasságot biztosít.
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
+- A vezetőválasztási folyamatnak ellenállónak kell lennie az átmeneti és állandó hibákkal szemben.
+- Észlelnie kell, ha a vezető leáll vagy bármely más okból elérhetetlenné válik (például egy kommunikációs hiba miatt). Az észlelés szükséges sebessége a rendszertől függ. Egyes rendszerek rövid ideig vezető nélkül is működőképesek lehetnek, és ez alatt az idő alatt az átmeneti hiba kijavítható. Más esetekben előfordulhat, hogy azonnal észlelni kell a vezető leállását, és új választást kell indítani.
+- Az automatikus horizontális skálázást megvalósító rendszereknél a vezető eltávolítható, ha a rendszer leskálázza a számítási erőforrásokat, vagy néhányat leállít közülük.
+- Közös, elosztott mutex használata esetén függőségi kapcsolat áll fenn a mutexet biztosító külső szolgáltatással. Ez a szolgáltatás kritikus hibapont lehet. Ha ez bármilyen okból elérhetetlenné válik, a rendszer nem fog tudni vezetőt választani.
+- Egyetlen dedikált folyamat egyszerűen használható vezetőként. Ha azonban a folyamat leáll, jelentős késés léphet fel az újraindulásáig. Ez a késés hatással lehet a többi folyamat teljesítményére és válaszidejére, ha arra várnak, hogy a vezető koordináljon egy műveletet.
+- Az egyik vezetőválasztási algoritmus manuális megvalósítása biztosítja a legnagyobb rugalmasságot a kód finomhangolásához és optimalizáláshoz.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ezt a mintát használja, ha az elosztott alkalmazásokban, például a felhőben üzemeltetett megoldás, a feladatok óvatos koordinációs kell, és nem természetes vezető.
+Akkor használja ezt a mintát, ha egy elosztott alkalmazásban található feladathoz (például egy felhőben üzemeltetett megoldáshoz) gondos koordináció szükséges, és nincs természetes vezető.
 
->  Elkerüli a vezető szűk keresztmetszet a rendszerben. A vezetője célja, hogy összehangolják a munkát az alsóbb szintű feladatokat, és nem feltétlenül kell részt vesz a munkát saját magát a&mdash;bár erre, ha a feladat nem döntött a vezetőjeként képesnek kell lennie.
+>  Kerülje el, hogy a vezető szűk keresztmetszet legyen a rendszerben. A vezető célja az alárendelt feladatok munkájának összehangolása. Magának a vezetőnek nem feltétlenül kell részt vennie a munkában, de képesnek kell lennie rá, mert előfordulhat, hogy nem ezt a feladatot választják meg vezetőnek.
 
-Ez a minta nem lehet hasznos, ha:
-- Legyen egy természetes vezető vagy dedikált folyamat, amely mindig működhet-e a vezetőjeként. Például előfordulhat, hogy legyen egy egypéldányos folyamat, amely koordinálja a task példányokat valósíthat meg. Ez a folyamat sikertelen lesz, vagy akkor kerül sérült állapotba, ha a rendszer leállítják a webhelyet, és indítsa újra.
-- A feladatok összehangolását több egyszerűsített módszerrel lehet elérni. Például ha több task példányokat egyszerűen egy megosztott erőforráson koordinált hozzáférésre van szükségük, jobb megoldás, hogy használja a optimista vagy pesszimista zárolás való hozzáférés.
-- Egy harmadik féltől származó megoldás több alkalmas. Például a Microsoft Azure HDInsight szolgáltatáson (Apache Hadoop) Apache Zookeeper által nyújtott szolgáltatások koordinálja a térkép és feladatokat, melyek begyűjtik és adatainak összefoglalója használja.
+Nem érdemes ezt a mintát használni, ha:
+- Van természetes vezető vagy dedikált folyamat, amely mindig vezetőként működhet. Például lehetséges, hogy meg lehet valósítani egyetlen olyan folyamatot, amely a feladatpéldányokat koordinálja. Ha ez a folyamat meghibásodik, a rendszer le tudja állítani, és újra tudja indítani.
+- A feladatok egy kisebb terhelést jelentő módszerrel is összehangolhatók. Ha például egyszerűen több feladatpéldánynak kell koordinált hozzáférést biztosítani egy közös erőforráshoz, akkor célszerűbb optimista vagy pesszimista zárolással vezérelni a hozzáférést.
+- Egy külső megoldás megfelelőbb. Például az Apache Hadoopon alapuló Microsoft Azure HDInsight szolgáltatás az Apache Zookeeper szolgáltatásaival koordinálja a leképezési és csökkentési feladatokat, amelyek begyűjtik és összefoglalják az adatokat.
 
 ## <a name="example"></a>Példa
 
-A LeaderElection DistributedMutex projektje (minta bemutatja, ebben a mintában érhető el a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/leader-election)) bemutatja, hogyan lehet egy Azure Storage-blob a címbérlet segítségével végrehajtási egy megosztott egy olyan mechanizmus biztosítása elosztott mutex. A mutex segítségével választ egy vezető Azure-felhőszolgáltatás szerepkörpéldányt csoportja között. A bérleti jogot szerezni az első szerepkörpéldányt vezetője kijelölt, és a vezető marad, amíg kiadja a címbérlet, vagy nem tudja a címbérlet megújítása. Többi szerepkörpéldányon továbbra is figyelheti a blob bérleti abban az esetben, ha a vezető már nem érhető el.
+A LeaderElection megoldás DistributedMutex projektje (a mintát bemutató mintakód elérhető a [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/leader-election)) bemutatja, hogyan használható egy Azure Storage-blobbérlet egy közös, elosztott mutex megvalósításához szükséges mechanizmus biztosítására. Ezzel a mutexszel kiválasztható a vezető egy Azure-felhőszolgáltatásban lévő szerepkörpéldányok csoportjából. A bérletet elsőként megszerző szerepkörpéldány lesz megválasztva vezetőnek, és addig az is marad, amíg fel nem szabadítja a bérletet, vagy nem tudja megújítani. A többi szerepkörpéldány folytathatja a blobbérlet monitorozását, ha a vezető nem érhető el.
 
->  A blob címbérlet egy kizárólagos írási zárolás blob felett. Egy blob idő lehet bármely pontján csak egy címbérlet tárgyát. A szerepkör példánya a címbérlet kérheti a megadott blob keresztül, és azt fogja adható a címbérlet Ha nincs más szerepkörpéldányt tárolja a címbérlet azonos blob keresztül. A kérelem egyébként kivételt jelez.
+>  A blobbérlet egy blob exkluzív írási zárolása. Egy blob mindig csak egy bérlet tárgya lehet. Egy szerepkörpéldány kérelmezheti egy adott blob bérletét, és meg is kapja, ha egyetlen másik szerepkörpéldány sem rendelkezik ugyanennek a blobnak a bérletével. Egyéb esetben a kérelem kivételt ad vissza.
+> 
+> Ha el szeretné kerülni, hogy a hibás szerepkörpéldány határozatlan időre szerezze be a bérletet, adja meg a bérlet élettartamát. Amikor ez lejár, a bérlet elérhetővé válik. Azonban amíg egy szerepkörpéldány rendelkezik a bérlettel, kérelmezheti a megújítását, és hosszabb időre megkaphatja a bérletet. A szerepkörpéldány rendszeresen megismételheti ezt a folyamatot, ha meg kívánja őrizni a bérletet.
+> További információ a blobbérletekről: [Blobbérlet (REST API)](https://msdn.microsoft.com/library/azure/ee691972.aspx).
 
-> A hibás szerepkör példánya határozatlan ideig megtartja a címbérlet elkerülése érdekében adja meg a címbérlet-élettartamot. Amikor lejár, a címbérlet elérhetővé válik. Azonban amíg egy szerepkörpéldányt, amely tárolja a címbérlet kérheti, hogy a címbérlet megújulásakor, és azt fogja nyújtani a címbérlet további időn belül. A szerepkör példánya is folyamatosan ismételje ezt az eljárást, ha azt szeretné megőrizni a címbérlet.
-Blob címbérlet kapcsolatos további információkért lásd: [bérleti Blob (REST API-t)](https://msdn.microsoft.com/library/azure/ee691972.aspx).
-
-A `BlobDistributedMutex` osztály a C# az alábbi példa tartalmazza a `RunTaskWhenMutexAquired` módszer, amely lehetővé teszi, hogy egy sikertelen bejelentkezési kísérletet bérletet szerezni a megadott blob keresztül szerepkörpéldányt. A konstruktornak átadott a blobot (a neve, a tároló és a tárolási fiók) részleteit egy `BlobSettings` objektum amikor a `BlobDistributedMutex` objektum létrehozása (Ez az objektum, amely megtalálható a mintakódot egyszerű struktúra). A konstruktornak is fogad el egy `Task` , amely a kódot, amely a szerepkör példánya futhat, ha sikeresen szerez be a címbérlet a blob keresztül, és kijelölt vezetője hivatkozik. Vegye figyelembe, hogy a kódot, amely kezeli a kevésbé fontos részletek az beszerzése a címbérlet vezettek be egy külön segítőosztály nevű `BlobLeaseManager`.
+Az alábbi C#-példában látható `BlobDistributedMutex` osztály tartalmazza a `RunTaskWhenMutexAquired` metódust, amely lehetővé teszi egy szerepkörpéldány számára, hogy megpróbálja beszerezni egy adott blob bérletét. A rendszer egy `BlobSettings` objektumban adja át a blob adatait (név, tároló és tárfiók) a konstruktornak a `BlobDistributedMutex` objektum létrehozásakor (ez az objektum egy egyszerű struktúra, amelyet a mintakód is tartalmaz). A konstruktor egy `Task` elemet is fogad, amely arra a kódra hivatkozik, amelyet a szerepkörpéldánynak futtatnia kell, ha sikeresen beszerzi a blobbérletet, és megválasztják vezetőnek. Vegye figyelembe, hogy a bérlet beszerzésének kevésbé fontos részleteit kezelő kód egy különálló, `BlobLeaseManager` nevű segítőosztályban szerepel.
 
 ```csharp
 public class BlobDistributedMutex
@@ -99,7 +99,7 @@ public class BlobDistributedMutex
   ...
 ```
 
-A `RunTaskWhenMutexAquired` a fenti kódminta metódus meghívja a `RunTaskWhenBlobLeaseAcquired` mintában látható módon a következő kód ténylegesen bérleti jogot szerezni a metódust. A `RunTaskWhenBlobLeaseAcquired` metódus aszinkron módon futtatja. A bérlet sikeresen szerezte be, ha a szerepkör példánya úgy lett döntött, hogy a vezető. A célja a `taskToRunWhenLeaseAcquired` delegált, amely a többi szerepkörpéldányon koordinálja a munkájuk elvégzéséhez. A bérlet nem szerezte be, ha egy másik szerepkör példánya lett döntött a vezetőjeként, és az aktuális példányon beosztottja marad. Vegye figyelembe, hogy a `TryAcquireLeaseOrWait` metódus által használt egy segédmetódust a `BlobLeaseManager` objektum a bérleti jogot szerezni.
+A fenti kódmintában szereplő `RunTaskWhenMutexAquired` metódus meghívja a következő kódmintában látható `RunTaskWhenBlobLeaseAcquired` metódust a bérlet beszerzéséhez. A `RunTaskWhenBlobLeaseAcquired` metódus aszinkron módon fut. Ha sikeresen beszerezte a bérletet, a szerepkörpéldány lesz megválasztva vezetőnek. A `taskToRunWhenLeaseAcquired` delegált feladata a többi szerepkörpéldányt koordináló munka elvégzése. Ha nem sikerül beszereznie a bérletet, egy másik szerepkörpéldány lesz megválasztva vezetőnek, és az aktuális szerepkörpéldány alárendelt marad. Vegye figyelembe, hogy a `TryAcquireLeaseOrWait` metódus egy olyan segédmetódus, amely a `BlobLeaseManager` objektumot használja a bérlet beszerzéséhez.
 
 ```csharp
   private async Task RunTaskWhenBlobLeaseAcquired(
@@ -129,9 +129,9 @@ A `RunTaskWhenMutexAquired` a fenti kódminta metódus meghívja a `RunTaskWhenB
   }
 ```
 
-A feladat elindult vezetője is aszinkron módon futtatja. Ez a feladat futása közben a `RunTaskWhenBlobLeaseAquired` metódus mintában látható módon a következő kód rendszeres időközönként megpróbálja a címbérlet megújítása. Ezzel biztosíthatja, hogy a szerepkör példánya továbbra is a vezető. A minta a megoldásban a közötti megújítási kérelmeket késleltetési idő legyen kisebb, mint a címbérlet időtartama leállítja, nehogy egy másik szerepkör példánya választanak vezetője megadott idő. A megújítás bármilyen okból nem sikerül, ha a feladat megszakadt.
+A vezető által elindított feladat szintén aszinkron módon fut. Amíg ez a feladat fut, az alábbi kódmintában látható `RunTaskWhenBlobLeaseAquired` metódus időnként megkísérli a bérlet megújítását. Ezzel biztosítható, hogy ez a szerepkörpéldány marad a vezető. A mintamegoldásban a megújítási kérelmek közötti késés kevesebb, mint a bérlethez beállított időtartam, hogy ne lehessen egy másik szerepkörpéldányt megválasztani vezetőnek. Ha a megújítás bármilyen okból nem sikerül, a feladat megszakad.
 
-Ha a címbérlet megújítását sikertelen, vagy megszakadt a feladat (valószínűleg miatt a szerepkörpéldányt leállítása), a címbérlet szabadul fel. Ez vagy egy másik szerepkör példánya ezen a ponton a vezetőjeként kell választani. A kód alatt mutat ez a folyamat során.
+Ha a bérlet megújítása nem sikerül vagy a feladat megszakad (például a szerepkörpéldány leállása miatt), felszabadul a bérlet. Ekkor ez vagy egy másik szerepkörpéldány is megválasztható vezetőként. Az alábbi kódkivonat a folyamat ezen részét mutatja.
 
 ```csharp
   private async Task RunTaskWhenBlobLeaseAcquired(
@@ -162,12 +162,12 @@ Ha a címbérlet megújítását sikertelen, vagy megszakadt a feladat (valósz�
 }
 ```
 
-A `KeepRenewingLease` metódus egy másik segítő módszerrel, amely a `BlobLeaseManager` a címbérlet megújítása objektum. A `CancelAllWhenAnyCompletes` metódus visszavonja a feladatokat az első két paraméterként megadva. A következő diagram azt ábrázolja, használja a `BlobDistributedMutex` osztályt választ egy vezető műveleteket koordináló feladat futtatása.
+A `KeepRenewingLease` metódus egy másik olyan segédmetódus, amely a `BlobLeaseManager` objektumot használja a bérlet megújításához. A `CancelAllWhenAnyCompletes` metódus megszakítja az első két paraméterként megadott feladatokat. A következő diagram azt mutatja be, hogyan választható egy vezető és futtatható egy műveleteket koordináló feladat a `BlobDistributedMutex` osztály használatával.
 
-![1. ábra szemlélteti a funkciók BlobDistributedMutex osztály](./_images/leader-election-diagram.png)
+![Az 1. ábra a BlobDistributedMutex osztály funkcióit szemlélteti](./_images/leader-election-diagram.png)
 
 
-Az alábbi példakód bemutatja, hogyan használható a `BlobDistributedMutex` osztály a feldolgozói szerepkörök. Ez a kód címbérletet keresztül nevű blob `MyLeaderCoordinatorTask` a címbérlet tárolóban fejlesztési tárolóban, és megadja, hogy a kód definiálva a `MyLeaderCoordinatorTask` metódus kell futtatni, ha a szerepkör példánya kijelölt vezetője.
+Az alábbi példakód bemutatja, hogyan használható a `BlobDistributedMutex` osztály feldolgozói szerepkörben. Ez a kód beszerzi a fejlesztési tárterület bérlettárolójában lévő `MyLeaderCoordinatorTask` blob bérletét, és megadja, hogy a `MyLeaderCoordinatorTask` metódusban meghatározott kódnak akkor kell futnia, ha a szerepkörpéldányt megválasztják vezetőnek.
 
 ```csharp
 var settings = new BlobSettings(CloudStorageAccount.DevelopmentStorageAccount,
@@ -184,21 +184,21 @@ private static async Task MyLeaderCoordinatorTask(CancellationToken token)
 }
 ```
 
-Megjegyzés: a minta-megoldás a következő szempontokat:
-- A blob nem lehetséges hibaérzékeny pontok kialakulását. A blob szolgáltatás nem érhető el, vagy nem érhető el, ha a kitöltés nem fog tudni a címbérlet megújítása, és nincs más szerepkörpéldányt tudják a bérleti jogot szerezni. Ebben az esetben nem szerepkörpéldányt tudnak vezetője nevében járhasson el. Azonban a blob szolgáltatás tervezték rugalmas, így teljesen meghibásodik, a blob szolgáltatás nagyon valószínű tekinthető.
-- A feladat vezetője által végzett lefagy, ha a vezető előfordulhat, hogy továbbra is a címbérlet megújítása akadályozza meg, hogy más szerepkör példánya a címbérlet beszerzése és a vezető szerepkör feladatok koordinálására tovább tart. A valós életben vezetője állapotát ellenőrizni kell, rendszeres időközönként.
-- A választási folyamat nem determinált. Nem hajtható végre semmilyen feltételezéseket szerepkörtől példányt fog szerezni a blob-címbérlet és vezetője válnak.
-- A blob bérleti céljaként használt blob semmilyen más célra nem használható. Ha a szerepkör példánya megkísérli az adatok tárolása a blob, ezek az adatok nem érhető el kivéve, ha a szerepkör példánya vezetője, valamint a blob bérleti.
+Vegye figyelembe a következő szempontokat a mintaként szolgáló megoldásról:
+- A blob egy potenciálisan hibaérzékeny pont. Ha a blobszolgáltatás nem áll rendelkezésre vagy nem érhető el, a vezető nem tudja megújítani a bérletet, és a többi szerepkörpéldány sem fogja tudni beszerezni a bérletet. Ebben az esetben egyik szerepkörpéldány sem tud vezetőként működni. Azonban a blobszolgáltatást úgy tervezték, hogy rugalmas legyen, ezért a blobszolgáltatás teljes leállása nagyon valószínűtlen.
+- Ha a vezető által elvégzett feladat megáll, a vezető folytathatja a bérlet megújítását, így a többi szerepkörpéldány nem tudja beszerezni a bérletet és átvenni a vezetői szerepkört a feladatok koordinálása érdekében. A való világban a vezető állapotát gyakori időközönként ellenőrizni kell.
+- A választási folyamat nem determinált. Nem jósolható meg, hogy melyik szerepkörpéldány fogja beszerezni a blobbérletet és válik ezáltal vezetővé.
+- A blobbérlet céljaként használt blobot ne használja más célra. Ha egy szerepkörpéldány megpróbál adatokat tárolni ebben a blobban, ezek az adatok csak akkor lesznek elérhetők, ha a szerepkörpéldány a vezető, és rendelkezik a blobbérlettel.
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő útmutatást is lehet megfelelő, ebben a mintában végrehajtása során:
-- Ez a minta van egy letölthető [mintaalkalmazás](https://github.com/mspnp/cloud-design-patterns/tree/master/leader-election).
-- [Automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx). Akkor lehet indítása és leállítása a feladat gazdagépek példányai, mivel változik a terhelés, az alkalmazás. Automatikus skálázás segítségével átviteli sebesség és a maximális feldolgozási idők során.
-- [Útmutatás particionálás számítási](https://msdn.microsoft.com/library/dn589773.aspx). Ez az útmutató ismerteti a feladatok lefoglalása egy felhőalapú szolgáltatás, ezáltal segít a méretezhetőséget, teljesítményt, rendelkezésre állási és a szolgáltatás biztonsági megőrzésével futó költségek minimalizálása érdekében a gazdagépek számára.
-- A [feladatalapú aszinkron mintát](https://msdn.microsoft.com/library/hh873175.aspx).
-- Egy példa ábrázoló a [Bully algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html).
-- Egy példa ábrázoló a [Ring algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html).
-- A cikk [Apache Zookeeper a Microsoft Azure](https://msopentech.com/opentech-projects/apache-zookeeper-on-windows-azure-2/) a Microsoft Open Technologies webhelyen.
-- [Apache gondnoka](http://curator.apache.org/) egy ügyfélkönyvtárat az Apache ZooKeeper.
-- A cikk [bérleti Blob (REST API-t)](https://msdn.microsoft.com/library/azure/ee691972.aspx) az MSDN Webhelyén.
+Az alábbi útmutatók segíthetnek a minta megvalósításakor:
+- Ez a minta egy letölthető [mintaalkalmazást](https://github.com/mspnp/cloud-design-patterns/tree/master/leader-election) tartalmaz.
+- [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). A feladatot futtató gazdagépek példányai az alkalmazások terhelésének változásainak megfelelően elindíthatók vagy leállíthatók. Az automatikus skálázás segítségével a teljesítmény és az átviteli sebesség szinten tartható a feldolgozási csúcsidőszakban.
+- [Compute-particionálási útmutató](https://msdn.microsoft.com/library/dn589773.aspx) Ez az útmutató ismerteti, hogyan rendelhet feladatokat a gazdagépekhez egy felhőszolgáltatásban olyan módon, hogy az segítsen minimalizálni a futtatási költségeket a szolgáltatás skálázhatóságának, teljesítményének, rendelkezésre állásának és biztonságának megőrzése mellett.
+- [Feladatalapú aszinkron minta](https://msdn.microsoft.com/library/hh873175.aspx).
+- A [Bully algoritmust](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) ábrázoló példa.
+- A [Ring algoritmust](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html) ábrázoló példa.
+- Az [Apache Zookeeper Microsoft Azure-ban való használatát](https://msopentech.com/opentech-projects/apache-zookeeper-on-windows-azure-2/) ismertető cikk a Microsoft Open Technologies webhelyén.
+- Az [Apache Curator](http://curator.apache.org/), amely az Apache ZooKeeper ügyfélkódtára.
+- Az MSDN [blobbérleteket (REST API)](https://msdn.microsoft.com/library/azure/ee691972.aspx) ismertető cikke.

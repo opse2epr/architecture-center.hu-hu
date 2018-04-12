@@ -1,19 +1,19 @@
 ---
-title: "Linux virtuális gépek futtatása a több Azure-régiók a magas rendelkezésre állás"
-description: "Ügyfélszoftverek központi telepítése a virtuális gépek magas rendelkezésre állást és a rugalmasság Azure több régióba."
+title: Linux rendszerű virtuális gépek futtatása több Azure-régióban a magas rendelkezésre állás érdekében
+description: Virtuális gépek üzembe helyezése több régióban az Azure-on a magas rendelkezésre állás és rugalmasság érdekében.
 author: MikeWasson
 ms.date: 11/22/2016
 pnp.series.title: Linux VM workloads
 pnp.series.prev: n-tier
-ms.openlocfilehash: 7d720a004d21edbffc0ddeba54e291aa817550e0
-ms.sourcegitcommit: c9e6d8edb069b8c513de748ce8114c879bad5f49
+ms.openlocfilehash: 07ccf44f28203e6d5001475b47adce01437e9600
+ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 03/30/2018
 ---
-# <a name="run-linux-vms-in-multiple-regions-for-high-availability"></a>Linux virtuális gépek futtatása a magas rendelkezésre állású több régióba
+# <a name="run-linux-vms-in-multiple-regions-for-high-availability"></a>Linux rendszerű virtuális gépek futtatása több régióban a magas rendelkezésre állás érdekében
 
-A referencia-architektúrában futó N szintű alkalmazás több Azure-régiók, rendelkezésre állást és a hatékony vész-helyreállítási infrastruktúra elérése érdekében bevált gyakorlatok csoportja jeleníti meg. 
+Ez a referenciaarchitektúra néhány bevált eljárást mutat be egy N szintű alkalmazás több Azure-régióban való futtatásához a magas rendelkezésre állás eléréséhez és egy robusztus vészhelyreállítási infrastruktúra kiépítéséhez. 
 
 ![[0]][0]
 
@@ -21,110 +21,110 @@ A referencia-architektúrában futó N szintű alkalmazás több Azure-régiók,
 
 ## <a name="architecture"></a>Architektúra 
 
-Ez az architektúra látható egy épít [futtatása a Linux virtuális gépek N szintű alkalmazások](n-tier.md). 
+Ez az architektúra a [Linux rendszerű virtuális gépek futtatása N szintű alkalmazáshoz](n-tier.md) című cikkben bemutatott architektúrára épít. 
 
-* **Elsődleges és másodlagos régiók**. Két régió segítségével magasabb rendelkezésre állásának eléréséhez. Az elsődleges régióban egyik. A más régióban van, a feladatátvételre.
-* **Az Azure DNS**. [Az Azure DNS] [ azure-dns] üzemeltetési szolgáltatás DNS-tartományok biztosítani a névfeloldást a Microsoft Azure-infrastruktúra használatával. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
-* **Az Azure Traffic Manager**. [A TRAFFIC Manager] [ traffic-manager] irányítja a bejövő kéréseket a régiók egyikéhez sem. A normál működés során az elsődleges régióban irányítja a kérelmeket. Ha az adott régióban, a Traffic Manager feladatátadás a másodlagos régióba. További információkért tekintse meg a szakasz [Traffic Manager konfigurációs](#traffic-manager-configuration).
-* **Erőforráscsoportok**. Hozzon létre külön [erőforráscsoportok] [ resource groups] az elsődleges régióban, a másodlagos régióba, és a Traffic Manager. Ez lehetővé teszi a rugalmasság, minden egyes régió szerinti egyetlen gyűjtemény-erőforrások kezelésére. Például egy régió tartozik, sikerült újratelepítése nélkül a másik egy le. [Az erőforráscsoportok hivatkozás][resource-group-links], így az alkalmazás az erőforrások listájának lekérdezés futtatása.
-* **Vnetek**. Hozzon létre egy külön hálózatok mindegyik régióhoz. Ellenőrizze, hogy a címterek nem lehetnek átfedésben.
-* **Apache Cassandra**. Adatközpontokban Cassandra telepíteni a magas rendelkezésre állású Azure-régiók között. Minden régióban a csomópontok a hibája állvány-kompatibilis módban van konfigurálva, és frissítési tartományt, a rugalmasságot belül a régió.
+* **Elsődleges és másodlagos régiók**. Használjon két régiót a magas rendelkezésre állás eléréséhez. Az egyik ebben az esetben az elsődleges régió, a másik pedig a feladatátvétel során használt régió.
+* **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+* **Azure Traffic Manager**. A [Traffic Manager][traffic-manager] az egyik régió felé irányítja a beérkező kérelmeket. A normál működés során a rendszer az elsődleges régió felé irányítja a kérelmeket. Ha az adott régió nem érhető el, a Traffic Manager átadj a feladatokat a másodlagos régiónak. További információt a következő szakaszban talál: [A Traffic Manager konfigurációja](#traffic-manager-configuration).
+* **Erőforráscsoportok**. Hozzon létre külön [erőforráscsoportokat][resource groups] az elsődleges régióhoz, a másodlagos régióhoz, valamint a Traffic Managerhez. Ennek köszönhetően rugalmasan, egyetlen erőforráskészletként kezelheti az egyes régiókat, például ismételten üzembe helyezhet egy régiót a másik eltávolítása nélkül. [Kapcsolja össze az erőforráscsoportokat][resource-group-links], hogy egy lekérdezés futtatásával listázhassa az alkalmazás összes erőforrását.
+* **Virtuális hálózatok**. Hozzon létre külön virtuális hálózatot mindegyik régióhoz. Ügyeljen arra, hogy a címterek ne legyenek átfedésben.
+* **Apache Cassandra**. A Cassandra üzembe helyezése több Azure-régió adatközpontjaiban a magas rendelkezésre állás elérésének érdekében. A csomópontok minden régióban állvány-kompatibilis üzemmódban vannak konfigurálva tartalék és frissítési tartományokkal a régión belüli rugalmasság érdekében.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Egy több területi architektúra biztosít magas rendelkezésre állás érdekében, mint egyetlen régióban üzembe helyezni. Ha egy regionális kimaradás érinti az elsődleges régióban, [Traffic Manager] [ traffic-manager] hogy áthelyezze a feladatokat a másodlagos régióba. Ez az architektúra segíthet is, ha az alkalmazás egy egyedi alrendszer nem tud.
+A többrégiós architektúrák magasabb rendelkezésre állást biztosíthatnak, mint az egyetlen régióban történő üzembe helyezés. Ha egy régió üzemkimaradása hatással van az elsődleges régióra, a [Traffic Manager][traffic-manager] szolgáltatással feladatátvételt hajthat végre a másodlagos régióba. Ez az architektúra az alkalmazás egy adott alrendszerének meghibásodása esetén is segíthet.
 
-Magas rendelkezésre állás elérése érdekében a különböző régiókban néhány általános módszer van:   
+A régiók közötti magas rendelkezésre állás elérésének több általános megközelítése van:   
 
-* A melegtartalék aktív/passzív. Forgalom kerül egy régió tartozik, a más vár melegtartalék közben. Meleg készenléti azt jelenti, hogy a virtuális gépeket, a másodlagos régióban lefoglalt és fut mindig.
-* A meleg készenléti állapotban lévő aktív/passzív. Forgalom kerül egy régió tartozik, a más vár meleg készenléti közben. Meleg készenléti állapot azt jelenti, hogy a virtuális gépeket, a másodlagos régióban nem foglal le addig, amíg a feladatátvételi szükséges. Ez a megközelítés költségek kisebb futtatásához, de általában adott meghibásodás során online állapotba hosszabb ideig tart.
-* Aktív. Mindkét régió aktív, és kérés kerül közöttük. Ha nem érhető el egy régió tartozik, az kívül Elforgatás lesz végrehajtva. 
+* Aktív/passzív készenléti kiszolgálóval. A forgalom az egyik régióra irányul, míg a másik készenléti kiszolgálón várakozik. Készenléti kiszolgáló esetében a másodlagos régió virtuális gépei folyamatosan le vannak foglalva és futnak.
+* Aktív/passzív hidegtartalékkal. A forgalom az egyik régióra irányul, míg a másik hidegtartalékként áll készenlétben. Hidegtartalék esetében a másodlagos régió virtuális gépei nincsenek lefoglalva, amíg nem szükségessé nem válnak feladatátvétel céljából. Ezen megközelítés futtatása kevesebb költséggel jár, de a meghibásodáskor általában hosszabb időt vesz igénybe az üzembe állás.
+* Aktív/aktív. Mindkét régió aktív, és a kérelmek terheléselosztással oszlanak meg közöttük. Ha egy régió elérhetetlenné válik, kikerül a rotációból. 
 
-Ez az architektúra melegtartalék feladatátvételi Traffic Manager használata az aktív/passzív összpontosít. Vegye figyelembe, hogy sikerült központi telepítése egy kis számú virtuális gépek melegtartalék és majd horizontális felskálázás igény szerint.
+Ez az architektúra a készenléti kiszolgálóval konfigurált aktív/passzív üzemmódra összpontosít, a Traffic Managert használva a feladatátvételhez. Vegye figyelembe, hogy ha kis számú virtuális gépet helyez üzembe készenléti kiszolgálóként, igény szerint később is elvégezheti a horizontális felskálázásukat.
 
 
-### <a name="regional-pairing"></a>Regionális párosítás
+### <a name="regional-pairing"></a>Régiónkénti párosítás
 
-Minden Azure-régió, egy másik ugyanazon a földrajzi régióját párosított. Régiók általában választhat a azonos regionális pár (például USA keleti régiója 2 és Velünk központi). Ennek során a következő előnyöket nyújtja:
+Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi területen belül. Régiókat általában azonos regionális párokból érdemes választani (például: USA 2. keleti régiója és USA középső régiója). Ennek előnyei például a következők:
 
-* A széles körű kimaradás esetén legalább egy régió kívül minden pár helyreállítási prioritása van.
-* Tervezett Azure rendszerfrissítések előkészítése már megkezdődött párosított régiók egymás után, az lehetséges állásidő minimalizálása érdekében.
-* Párok találhatók belül az azonos földrajzi adatok rezidens követelményeinek megfelelően.
+* Széles körű leállás esetén a helyreállításkor minden párból legalább az egyik régió előnyt élvez.
+* A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
+* A párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatás szükséges az alkalmazás (lásd: [régiói][services-by-region]). Regionális párok kapcsolatos további információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure-régiókat párosítva][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Az Azure párosított régiói][regional-pairs].
 
-### <a name="traffic-manager-configuration"></a>A TRAFFIC Manager-konfiguráció
+### <a name="traffic-manager-configuration"></a>A Traffic Manager konfigurációja
 
-A Traffic Manager konfigurálásakor, vegye figyelembe a következő szempontokat:
+A Traffic Manager konfigurálásakor vegye figyelembe a következő szempontokat:
 
-* **Útválasztás**. A TRAFFIC Manager támogatja több [útválasztási algoritmusok][tm-routing]. A jelen cikkben ismertetett esetben használjon *prioritás* útválasztási (korábbi nevén *feladatátvételi* útválasztási). Ezzel a beállítással a Traffic Manager minden kérést küld az elsődleges régióban, hacsak az elsődleges régióban el nem érhető el. Ezen a ponton akkor automatikusan átkerül a másodlagos régióba. Lásd: [konfigurálhatja feladatátvételi útválasztási módszer][tm-configure-failover].
-* **Állapotmintáihoz**. HTTP (vagy HTTPS) használ a TRAFFIC Manager [mintavételi] [ tm-monitoring] minden egyes régió rendelkezésre állásának figyelésére. A mintavétel egy 200-as HTTP-választ a megadott URL-cím elérési keresi. Ajánlott eljárásként hozzon létre egy végpontot, amely jelent a alkalmazás általános állapotát, és használja ezt a végpontot a állapotmintáihoz. Ellenkező esetben a mintavétel előfordulhat, hogy jelentés a kifogástalan állapotú végpontok, ha az alkalmazás kritikus részei ténylegesen nem működnek. További információkért lásd: [állapotfigyelő végpont figyelési mintát][health-endpoint-monitoring-pattern].
+* **Útválasztás**. A Traffic Manager többféle [útválasztási algoritmust][tm-routing] támogat. A cikkben leírt forgatókönyvhöz a *prioritásos* útválasztást (régebbi nevén *feladatátvétel esetén használt* útválasztás) használja. Ezzel a beállítással a Traffic Manager az összes kérelmet az elsődleges régió felé irányítja, kivétel akkor, ha az nem elérhető. Ebben az esetben automatikusan átadja a feladatokat a másodlagos régiónak. Lásd: [A feladatátvétel esetén használt útválasztás konfigurálása][tm-configure-failover].
+* **Állapotminta**. A Traffic Manager HTTP- (vagy HTTPS-) [mintavételt][tm-monitoring] használ az egyes régiók rendelkezésre állásának monitorozására. A mintavétel 200-as HTTP-választ vár egy megadott URL-címhez. Ajánlott eljárásként hozzon létre egy olyan végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak. További információk: [Állapot végponti monitorozását végző minta][health-endpoint-monitoring-pattern].
 
-Amikor a Traffic Manager átadja a feladatokat a rendszer egy adott időn belül, ha ügyfelek nem tudják elérni az alkalmazást. A duration hatással van a következő tényezőket:
+Amikor a Traffic Manager átadja a feladatokat, az alkalmazás egy ideig nem lesz elérhető a felhasználók számára. Ez az időtartam a következő tényezőktől függ:
 
-* A állapotmintáihoz észlelni kell, hogy az elsődleges régióban vált nem érhető el.
-* DNS-kiszolgálók frissítenie kell a gyorsítótárban lévő DNS-rekordok az IP-címhez, amely a DNS--élettartama (TTL) függ. Az alapértelmezett élettartam 300 másodpercen (5 percen), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
+* Az állapotmintának észlelnie kell, ha az elsődleges régió elérhetetlenné válik.
+* A DNS-kiszolgálóknak frissíteniük kell az IP-címhez tartozó gyorsítótárazott DNS-rekordokat. Ez a DNS élettartamától (TTL) függ. Az alapértelmezett TTL 300 másodperc (5 perc), de ezt az értéket a Traffic Manager-profil létrehozásakor konfigurálhatja.
 
-További információkért lásd: [kapcsolatos Traffic Manager figyelési][tm-monitoring].
+Részletek: [A Traffic Manager monitorozásának ismertetése][tm-monitoring].
 
-Ha a Traffic Manager átadja, ajánlott végrehajtása manuális feladat-visszavétel, nem pedig egy automatikus feladat-visszavétel végrehajtására. Ellenkező esetben hozhat létre olyan helyzet, amelyben az alkalmazás oda-vissza régiók közötti tükrözi. Ellenőrizze, hogy minden alkalmazás alrendszer visszavétele előtt kifogástalan.
+Ha a Traffic Manager feladatátvételt hajt végre, automatikus feladat-visszavétel megvalósítása helyett a manuális feladat-visszavételt ajánlunk. Ellenkező esetben előfordulhat, hogy egyes esetekben az alkalmazás oda-vissza váltogat a régiók között. A feladat-visszavétel előtt ellenőrizze, hogy az alkalmazás minden alrendszere működik-e.
 
-Vegye figyelembe, hogy a Traffic Manager vissza alapértelmezés szerint automatikusan nem. Ennek megelőzése érdekében manuálisan a Prioritás csökkentése az elsődleges régió egy feladatátvételi esemény után. Tegyük fel például, hogy az elsődleges régióban 1 prioritású virtuális gép, és a másodlagos prioritású 2. A feladatátvétel után állítsa be az elsődleges régióban prioritás 3, hogy megakadályozza az automatikus feladatátvételi. Ha készen áll vissza, frissítse a prioritás 1.
+Vegye figyelembe, hogy a Traffic Manager alapértelmezés szerint automatikusan végrehajtja a feladat-visszavételt. Ennek megelőzéséhez manuálisan csökkentse az elsődleges régió prioritását a feladatátvétel után. Tegyük fel például, hogy az elsődleges régió 1-es prioritású, a második pedig 2-es. A feladatátvétel után az automatikus visszavétel megelőzéséhez állítsa az elsődleges régió prioritását 3-asra. A prioritást akkor állítsa 1-esre, ha már készen áll a visszaváltásra.
 
-A következő [Azure CLI] [ install-azure-cli] parancs frissíti a prioritás:
+A következő [Azure CLI][install-azure-cli]-parancsot frissíti a prioritást:
 
 ```bat
 azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
     --name <traffic-manager-name> --type AzureEndpoints --priority 3
 ```    
 
-Egy másik megoldás, hogy ideiglenesen letilthatja a végpont, amíg készen feladat-visszavételt:
+Másik megoldásként ideiglenesen letilthatja a végpontot, amíg készen nem áll a feladat-visszavételre:
 
 ```bat
 azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
     --name <traffic-manager-name> --type AzureEndpoints --status Disabled
 ```    
 
-A feladatátvételi függően szükség lehet újratelepíteni az erőforrások régión belül. Mielőtt ismét sikertelen, egy működőképesség tesztjének elvégzéséhez. A vizsgálat ellenőrizni kell, többek között:
+A feladatátvétel okától függően előfordulhat, hogy újra üzembe kell helyeznie az erőforrásokat a régión belül. A feladat-visszavétel előtt tesztelje a működési készenlétet. A teszt többek között a következőket ellenőrzi:
 
-* Virtuális gépek helyesen vannak konfigurálva. (Az összes szükséges szoftverek telepítve van, az IIS fut, és így tovább.)
-* Alkalmazás alrendszereket is megfelelő.
-* Funkcionális tesztelése. (Például az adatbázis-rétegből érhető el a webes réteg alapján.)
+* A virtuális gépek megfelelően vannak-e konfigurálva. (Az összes szükséges szoftver telepítve van, az IIS fut stb.)
+* Az alkalmazás alrendszerei működőképesek-e.
+* Funkciótesztelés. (Pl. az adatbázisszint elérhető a webes szintről.)
 
-### <a name="cassandra-deployment-across-multiple-regions"></a>Különféle régiókban Cassandra telepítése
+### <a name="cassandra-deployment-across-multiple-regions"></a>A Cassandra üzembe helyezése több régióban
 
-Cassandra adatközpontok a replikáció és a munkaterhelések elkülönítése a fürtön belül együtt konfigurált kapcsolódó adatok csomópontok csoportja.
+A Cassandra-adatközpontok egymáshoz kapcsolódó adatcsomópontok csoportjai, amelyek együtt vannak konfigurálva egy fürtön belül a replikációhoz és a feladatok elkülönítéséhez.
 
-Ajánlott [alapszintű DataStax vállalati] [ datastax] éles használja. Az Azure-beli alapszintű DataStax további információkért lásd: [alapszintű DataStax vállalati üzembe helyezési útmutató az Azure][cassandra-in-azure]. Az alábbi általános javaslatokat bármely Cassandra edition vonatkoznak: 
+Éles környezetben ajánlott a [DataStax Enterprise][datastax] használata. További információk a DataStax futtatásáról az Azure-ban: [A DataStax Enterprise üzembehelyezési útmutatója az Azure-hoz][cassandra-in-azure]. A következő általános javaslatok bármely Cassandra-kiadás esetében érvényesek: 
 
-* A nyilvános IP-cím hozzárendelése minden csomóponton. Ez lehetővé teszi a fürtök Azure gerincét infrastruktúrája, alacsony költséggel nagyobb teljesítményt nyújtó régiók kommunikálhassanak.
-* Biztonságos-csomópontokat használja a megfelelő tűzfal és a hálózati biztonsági csoport (NSG) beállítások, így forgalmat csak ismert gazdagépek, köztük az ügyfelek és a többi fürtcsomóponton. Vegye figyelembe, hogy a Cassandra más portokat használ a kommunikációs, OpsCenter, Spark-, és így tovább. Cassandra portokkal, lásd: [tűzfalhozzáférés port konfigurálása][cassandra-ports].
-* SSL-titkosítást használni az összes [ügyfél-csomópont] [ ssl-client-node] és [csomópontok] [ ssl-node-node] kommunikáció.
-* A régión belül útmutatását [Cassandra javaslatok](n-tier.md#cassandra).
+* Rendeljen nyilvános IP-címet minden egyes csomóponthoz. Ez lehetővé teszi, hogy a fürtök az Azure gerincinfrastruktúráját használva kommunikáljanak egymással a régiókon át, ezzel magas teljesítményt biztosítva alacsony költségek mellett.
+* Védje a csomópontokat a megfelelő tűzfal- és hálózati biztonsági csoport (NSG-) konfigurációval, amely kizárólag az ismert forrásokból – például ügyfelektől és más csomópontfürtöktől – érkező, valamint az azok felé irányuló forgalmat engedi át. Vegye figyelembe, hogy a Cassandra eltérő portokat használ a kommunikációhoz, az OpsCenterhez, a Sparkhoz és egyebekhez. További információk a Cassandra porthasználatáról: [Tűzfalak porthozzáférésének konfigurálása][cassandra-ports].
+* Használjon SSL-titkosítást az összes [ügyfél és csomópont][ssl-client-node], valamint [csomópont és csomópont közötti][ssl-node-node] kommunikációhoz.
+* Egy adott régión belül kövesse a [Cassandra – javaslatok](n-tier.md#cassandra) című cikk útmutatását.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Egy összetett N szintű alkalmazást, nem kell replikálni a másodlagos régióban a teljes alkalmazás. Ehelyett csak lehet, hogy replikálja a kritikus alrendszer, az üzletmenet folytonossága támogatásához szükséges.
+Komplex N szintű alkalmazás esetén előfordulhat, hogy nem kell replikálnia a teljes alkalmazást a másodlagos régióba. Ehelyett elég lehet replikálni egy kritikus fontosságú alrendszert, amely az üzletmenet folytonosságának fenntartásához szükséges.
 
-A TRAFFIC Manager ponttá lehetséges hiba a rendszerben. A Traffic Manager szolgáltatás nem sikerül, ha az ügyfelek nem tudnak hozzáférni az alkalmazás a leállások során. Tekintse át a [Traffic Manager SLA][tm-sla], és döntse el, hogy kizárólag a Traffic Manager segítségével megfelel-e az üzleti követelményeinek, a magas rendelkezésre állás érdekében. Ha nem, akkor vegyen fel egy másik forgalom felügyeleti megoldás, a feladat-visszavételre. Ha az Azure Traffic Manager szolgáltatás nem sikerül, módosítsa a CNAME rekordot a DNS-ben, hogy a többi felügyeleti szolgálat mutasson. (Ebben a lépésben kézzel kell elvégezni, és az alkalmazás nem lehet a DNS-módosítások továbbítódnak.)
+A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a Traffic Manager szolgáltatás meghibásodik, az ügyfelek a leállás ideje alatt nem érhetik el az alkalmazást. Tekintse át a [Traffic Manager szolgáltatói szerződését][tm-sla], és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, akkor a biztonság érdekében érdemes lehet hozzáadni egy másik forgalomkezelési szolgáltatást a feladat-visszavételhez. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a CNAME rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson. (Ezt a lépést manuálisan kell elvégezni. Amíg a DNS-módosítások érvénybe nem lépnek, az alkalmazás nem lesz elérhető.)
 
-Figyelembe kell venni a feladatátvételi forgatókönyvek Cassandra fürt használják az alkalmazást, valamint a használt replikák száma konzisztenciaszintek függ. Konzisztenciaszintek és Cassandra használata: [konfigurálása az adatok konzisztenciájának] [ cassandra-consistency] és [Cassandra: hány csomópontok vannak volt szó, a kvórummal?][cassandra-consistency-usage] Az alkalmazás és a replikációs eljárás által használt konzisztenciaszint Cassandra az adatok rendelkezésre állását határozza meg. Az Cassandra replikáció, lásd: [a NoSQL-adatbázisok alapján adatreplikáció][cassandra-replication].
+A Cassandra-fürt esetében a megfontolandó feladatátvételi forgatókönyvek az alkalmazás által használt konzisztenciaszintektől és a használt replikák számától függenek. További információk a konzisztenciaszintekről és azok használatáról a Cassandrában: [Adatkonzisztencia konfigurálása][cassandra-consistency] és [Cassandra: Hány csomóponttal folyik kommunikáció a Quorum esetében?][cassandra-consistency-usage] Az adatok elérhetősége a Cassandrában az alkalmazás által használt konzisztenciaszinttől és a replikációs mechanizmustól függ. További információ a replikációról a Cassandrában: [Adatok replikációja a NoSQL-adatbázisokban – Ismertetés][cassandra-replication].
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Ha a telepítés frissítéséhez frissíteni egy régió tartozik csökkenti annak esélyét, a globális hibák egy helytelen konfiguráció vagy az alkalmazás hiba egyszerre.
+Amikor frissíti az üzemelő példányt, egyszerre egy régiót frissítsen. Ezzel csökkenthető a nem megfelelő konfiguráció vagy az alkalmazásban felmerülő hiba okozta globális meghibásodás esélye.
 
-Tesztelje a rugalmasság, a rendszer a hibák. Alább található néhány gyakori meghibásodási helyzet:
+Tesztelje a rendszer meghibásodásokkal szembeni rugalmasságát. Alább található néhány gyakori meghibásodási helyzet:
 
 * Állítson le virtuálisgép-példányokat.
-* Nyomás erőforrások, például CPU és memória.
-* Hálózati kapcsolat bontása/késleltetés.
+* Terhelje az erőforrásokat, például a processzort és a memóriát.
+* Bontsa/késleltesse a hálózati kapcsolatot.
 * Váltsa ki egyes folyamatok összeomlását.
 * Alkalmazzon lejárt tanúsítványokat.
-* Hardver hibák szimulálásához.
-* Állítsa le a DNS-szolgáltatás a tartományvezérlőkön.
+* Szimuláljon hardverhibákat.
+* Állítsa le a DNS-szolgáltatást a tartományvezérlőkön.
 
-A helyreállítási idő mérését, és győződjön meg arról, hogy megfelelnek-e az üzleti igényeknek. Teszt sikertelen üzemmódot, valamint kombinációi.
+Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy azok megfelelnek az üzleti követelményeinek. Több hibaállapot kombinációját is tesztelje.
 
 
 <!-- Links -->
@@ -150,6 +150,6 @@ A helyreállítási idő mérését, és győződjön meg arról, hogy megfeleln
 [tm-routing]: /azure/traffic-manager/traffic-manager-routing-methods
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
 [traffic-manager]: https://azure.microsoft.com/services/traffic-manager/
-[visio-download]: https://archcenter.azureedge.net/cdn/vm-reference-architectures.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [wsfc]: https://msdn.microsoft.com/library/hh270278.aspx
-[0]: ./images/multi-region-application-diagram.png "Magas rendelkezésre állású hálózati architektúra Azure N szintű alkalmazásokhoz"
+[0]: ./images/multi-region-application-diagram.png "Magas rendelkezésre állású hálózati architektúra N szintű Azure-alkalmazásokhoz"
