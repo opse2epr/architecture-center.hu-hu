@@ -1,15 +1,15 @@
 ---
-title: "Küllős hálózati topológia implementálása az Azure-ban"
-description: "Küllős hálózati topológia implementálása az Azure-ban."
+title: Küllős hálózati topológia implementálása az Azure-ban
+description: Küllős hálózati topológia implementálása az Azure-ban.
 author: telmosampaio
 ms.date: 02/23/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: ab22cdfb36eed75809054cdb7d0b8a76304ba78e
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 243ad026c7c9703d9659cbef6815131fcdaa8a11
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -123,9 +123,9 @@ Mielőtt üzembe helyezhetné saját előfizetésében a referenciaarchitektúr�
 
 4. Egy parancs parancssori futtatásával, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével bash, és kövesse az utasításokat.
 
-  ```bash
-  az login
-  ```
+   ```bash
+   az login
+   ```
 
 ### <a name="deploy-the-simulated-on-premises-datacenter-using-azbb"></a>A szimulált olyan helyszíni adatközpontban azbb használatával telepítése
 
@@ -135,20 +135,20 @@ A szimulált olyan helyszíni adatközpontban egy Azure virtuális hálózatot, 
 
 2. Nyissa meg a `onprem.json` fájlt, és adjon meg egy felhasználónevet és jelszót között a mezőkben szereplő idézőjeleket sor 36 37, alább látható módon, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "XXX",
-  "adminPassword": "YYY",
-  ```
+   ```bash
+   "adminUsername": "XXX",
+   "adminPassword": "YYY",
+   ```
 
 3. A sor 38, a `osType`, típus `Windows` vagy `Linux` Windows Server 2016 Datacenter, vagy Ubuntu 16.04 a jumpbox az operációs rendszer telepítéséhez.
 
 4. Futtatás `azbb` a szimulált helyi üzemeltetésű környezet telepítése a lent látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g onprem-vnet-rg - l <location> -p onoprem.json --deploy
-  ```
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `onprem-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   ```bash
+   azbb -s <subscription_id> -g onprem-vnet-rg - l <location> -p onoprem.json --deploy
+   ```
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `onprem-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
 5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítés létrehoz egy virtuális hálózathoz, a virtuális gép és a VPN-átjáró. Egy VPN-átjáró létrehozása 40 percnél is tovább tarthat.
 
@@ -158,26 +158,26 @@ Az agyi virtuális hálózat üzembe helyezéséhez és a korábban létrehozott
 
 1. Nyissa meg a `hub-vnet.json` fájlt, és adjon meg egy felhasználónevet és jelszót a mezőkben szereplő idézőjeleket sor 39 és 40 közötti alább látható módon.
 
-  ```bash
-  "adminUsername": "XXX",
-  "adminPassword": "YYY",
-  ```
+   ```bash
+   "adminUsername": "XXX",
+   "adminPassword": "YYY",
+   ```
 
 2. A sor a 41-es, `osType`, típus `Windows` vagy `Linux` Windows Server 2016 Datacenter, vagy Ubuntu 16.04 a jumpbox az operációs rendszer telepítéséhez.
 
 3. Adjon meg egy megosztott kulcsot sorban 72, az idézőjelek között alább látható módon, majd mentse a fájlt.
 
-  ```bash
-  "sharedKey": "",
-  ```
+   ```bash
+   "sharedKey": "",
+   ```
 
 4. Futtatás `azbb` a szimulált helyi üzemeltetésű környezet telepítése a lent látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g hub-vnet-rg - l <location> -p hub-vnet.json --deploy
-  ```
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   ```bash
+   azbb -s <subscription_id> -g hub-vnet-rg - l <location> -p hub-vnet.json --deploy
+   ```
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
 5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítéshez létrehoz egy virtuális hálózatot, virtuális gép, VPN-átjáró és az átjáró, az előző szakaszban létrehozott kapcsolat. Egy VPN-átjáró létrehozása 40 percnél is tovább tarthat.
 
@@ -187,15 +187,15 @@ A szimulált a helyszíni környezetből szeretne az elosztóhoz használata a W
 
 1. Azure-portálról, navigáljon a `onprem-jb-rg` erőforráscsoportot, majd kattintson a a `jb-vm1` virtuálisgép-erőforrást.
 
-2.  A virtuális gép panelről a portál felső bal oldali sarokban, kattintson a `Connect`, és kövesse az utasításokat a távoli asztal segítségével csatlakoztassa a virtuális Gépet. Győződjön meg arról, hogy a megadott felhasználónévnek és jelszónak meg 36 és 37 a sorokban használandó a `onprem.json` fájlt.
+2. A virtuális gép panelről a portál felső bal oldali sarokban, kattintson a `Connect`, és kövesse az utasításokat a távoli asztal segítségével csatlakoztassa a virtuális Gépet. Győződjön meg arról, hogy a megadott felhasználónévnek és jelszónak meg 36 és 37 a sorokban használandó a `onprem.json` fájlt.
 
 3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag segítségével győződjön meg arról, hogy képes csatlakozni a központ jumpbox VM alább látható módon.
 
-  ```powershell
-  Test-NetConnection 10.0.0.68 -CommonTCPPort RDP
-  ```
-  > [!NOTE]
-  > Alapértelmezés szerint a Windows Server virtuális gépen nem teszik lehetővé az ICMP-válaszokat az Azure-ban. Ha a használni kívánt `ping` kapcsolat tesztelése, az egyes virtuális gépek ICMP-forgalmat a Windows speciális tűzfalon engedélyezni kell.
+   ```powershell
+   Test-NetConnection 10.0.0.68 -CommonTCPPort RDP
+   ```
+   > [!NOTE]
+   > Alapértelmezés szerint a Windows Server virtuális gépen nem teszik lehetővé az ICMP-válaszokat az Azure-ban. Ha a használni kívánt `ping` kapcsolat tesztelése, az egyes virtuális gépek ICMP-forgalmat a Windows speciális tűzfalon engedélyezni kell.
 
 A szimulált a helyszíni környezetből szeretne az elosztóhoz használata a Linux virtuális gépek virtuális hálózat kapcsolat, hajtsa végre az alábbi lépéseket:
 
@@ -205,17 +205,17 @@ A szimulált a helyszíni környezetből szeretne az elosztóhoz használata a L
 
 3. A Linux parancssorból futtassa `ssh` való kapcsolódáshoz a helyszíni szimulált környezetben jumpbox witht a fenti 2. lépésben másolt információt alább látható módon.
 
-  ```bash
-  ssh <your_user>@<public_ip_address>
-  ```
+   ```bash
+   ssh <your_user>@<public_ip_address>
+   ```
 
 4. 37 sort a megadott jelszó használata a `onprem.json` fájl a virtuális Géphez való csatlakozáshoz.
 
 5. Használja a `ping` parancs hub jumpbox a kapcsolat tesztelése a lent látható módon.
 
-  ```bash
-  ping 10.0.0.68
-  ```
+   ```bash
+   ping 10.0.0.68
+   ```
 
 ### <a name="azure-spoke-vnets"></a>Azure küllő virtuális hálózatok
 
@@ -223,31 +223,31 @@ A Vnetek küllős telepítéséhez hajtsa végre az alábbi lépéseket.
 
 1. Nyissa meg a `spoke1.json` fájlt, és adjon meg egy felhasználónevet és jelszót között a mezőkben szereplő idézőjeleket sorok 47 és 48, alább látható módon, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "XXX",
-  "adminPassword": "YYY",
-  ```
+   ```bash
+   "adminUsername": "XXX",
+   "adminPassword": "YYY",
+   ```
 
 2. A sor 49, a `osType`, típus `Windows` vagy `Linux` Windows Server 2016 Datacenter, vagy Ubuntu 16.04 a jumpbox az operációs rendszer telepítéséhez.
 
 3. Futtatás `azbb` központi telepítése az első küllős VNet környezet alább látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g spoke1-vnet-rg - l <location> -p spoke1.json --deploy
-  ```
+   ```bash
+   azbb -s <subscription_id> -g spoke1-vnet-rg - l <location> -p spoke1.json --deploy
+   ```
   
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `spoke1-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `spoke1-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
-3. Ismételje meg az 1-fájl `spoke2.json`.
+4. Ismételje meg az 1-fájl `spoke2.json`.
 
-4. Futtatás `azbb` központi telepítése a második küllős VNet környezet alább látható módon.
+5. Futtatás `azbb` központi telepítése a második küllős VNet környezet alább látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g spoke2-vnet-rg - l <location> -p spoke2.json --deploy
-  ```
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `spoke2-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   ```bash
+   azbb -s <subscription_id> -g spoke2-vnet-rg - l <location> -p spoke2.json --deploy
+   ```
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `spoke2-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
 ### <a name="azure-hub-vnet-peering-to-spoke-vnets"></a>Azure agyi virtuális társhálózatok létesítése küllő virtuális hálózatokhoz
 
@@ -257,12 +257,12 @@ A központ virtuális hálózat számára a Vnetek küllős társviszony-létes�
 
 2. Futtatás `azbb` központi telepítése az első küllős VNet környezet alább látható módon.
 
-  ```bash
-  azbb -s <subscription_id> -g hub-vnet-rg - l <location> -p hub-vnet-peering.json --deploy
-  ```
+   ```bash
+   azbb -s <subscription_id> -g hub-vnet-rg - l <location> -p hub-vnet-peering.json --deploy
+   ```
 
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-vnet-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
 ### <a name="test-connectivity"></a>Kapcsolat tesztelése
 
@@ -270,14 +270,14 @@ A szimulált a helyszíni környezetből a küllős Vnetek Windows virtuális g�
 
 1. Azure-portálról, navigáljon a `onprem-jb-rg` erőforráscsoportot, majd kattintson a a `jb-vm1` virtuálisgép-erőforrást.
 
-2.  A virtuális gép panelről a portál felső bal oldali sarokban, kattintson a `Connect`, és kövesse az utasításokat a távoli asztal segítségével csatlakoztassa a virtuális Gépet. Győződjön meg arról, hogy a megadott felhasználónévnek és jelszónak meg 36 és 37 a sorokban használandó a `onprem.json` fájlt.
+2. A virtuális gép panelről a portál felső bal oldali sarokban, kattintson a `Connect`, és kövesse az utasításokat a távoli asztal segítségével csatlakoztassa a virtuális Gépet. Győződjön meg arról, hogy a megadott felhasználónévnek és jelszónak meg 36 és 37 a sorokban használandó a `onprem.json` fájlt.
 
 3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag segítségével győződjön meg arról, hogy képes csatlakozni a központ jumpbox VM alább látható módon.
 
-  ```powershell
-  Test-NetConnection 10.1.0.68 -CommonTCPPort RDP
-  Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
-  ```
+   ```powershell
+   Test-NetConnection 10.1.0.68 -CommonTCPPort RDP
+   Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
+   ```
 
 A szimulált a helyszíni környezetből a küllős Vnetek Linux virtuális gépek használata a kapcsolat, hajtsa végre az alábbi lépéseket:
 
@@ -287,18 +287,18 @@ A szimulált a helyszíni környezetből a küllős Vnetek Linux virtuális gép
 
 3. A Linux parancssorból futtassa `ssh` való kapcsolódáshoz a helyszíni szimulált környezetben jumpbox witht a fenti 2. lépésben másolt információt alább látható módon.
 
-  ```bash
-  ssh <your_user>@<public_ip_address>
-  ```
+   ```bash
+   ssh <your_user>@<public_ip_address>
+   ```
 
-5. 37 sort a megadott jelszó használata a `onprem.json` fájl a virtuális Géphez való csatlakozáshoz.
+4. 37 sort a megadott jelszó használata a `onprem.json` fájl a virtuális Géphez való csatlakozáshoz.
 
-6. Használja a `ping` parancsot a virtuális gépek jumpbox kapcsolat teszteléséhez minden küllős, az alább látható módon.
+5. Használja a `ping` parancsot a virtuális gépek jumpbox kapcsolat teszteléséhez minden küllős, az alább látható módon.
 
-  ```bash
-  ping 10.1.0.68
-  ping 10.2.0.68
-  ```
+   ```bash
+   ping 10.1.0.68
+   ping 10.2.0.68
+   ```
 
 ### <a name="add-connectivity-between-spokes"></a>Kapcsolat hozzáadása küllők között
 
@@ -306,17 +306,17 @@ Ha szeretné engedélyezni a küllők csatlakozni egymáshoz, szeretné egy newt
 
 1. Nyissa meg a `hub-nva.json` fájlt, és adjon meg egy felhasználónevet és jelszót az 14., 13 sorok idézőjelek között alább látható módon, majd mentse a fájlt.
 
-  ```bash
-  "adminUsername": "XXX",
-  "adminPassword": "YYY",
-  ```
+   ```bash
+   "adminUsername": "XXX",
+   "adminPassword": "YYY",
+   ```
 2. Futtatás `azbb` központi telepítése az NVA virtuális gép és a felhasználó által megadott útvonalak.
 
-  ```bash
-  azbb -s <subscription_id> -g hub-nva-rg - l <location> -p hub-nva.json --deploy
-  ```
-  > [!NOTE]
-  > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-nva-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
+   ```bash
+   azbb -s <subscription_id> -g hub-nva-rg - l <location> -p hub-nva.json --deploy
+   ```
+   > [!NOTE]
+   > Ha úgy dönt, más erőforráscsoport-nevet használ (az `hub-nva-rg` névtől eltérőt), győződjön meg róla, hogy minden, ezt a nevet viselő paraméterfájlt megkeres és szerkeszti őket, hogy a saját erőforráscsoport-nevét használják.
 
 <!-- links -->
 
@@ -336,7 +336,7 @@ Ha szeretné engedélyezni a küllők csatlakozni egymáshoz, szeretné egy newt
 [vpn-appliance]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [windows-vm-ra]: ../virtual-machines-windows/index.md
 
-[visio-download]: https://archcenter.azureedge.net/cdn/hybrid-network-hub-spoke.vsdx
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-hub-spoke.vsdx
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [0]: ./images/hub-spoke.png "Küllős topológia az Azure-ban"
 [1]: ./images/hub-spoke-gateway-routing.svg "Küllős topológia az Azure-ban tranzitív útválasztással"
