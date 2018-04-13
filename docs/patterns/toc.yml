@@ -14,7 +14,7 @@
       href: category/messaging.md
     - name: Kezelés és monitorozás
       href: category/management-monitoring.md
-    - name: Teljesítmény és méretezhetőség
+    - name: Teljesítmény és skálázhatóság
       href: category/performance-scalability.md
     - name: Rugalmasság
       href: category/resiliency.md
