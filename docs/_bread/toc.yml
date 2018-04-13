@@ -38,13 +38,9 @@
         - name: Útmutató az adatarchitektúrához
           tocHref: /azure/architecture/data-guide
           topicHref: /azure/architecture/data-guide
+        - name: Tervezési mikroszolgáltatások
+          tocHref: /azure/architecture/microservices
+          topicHref: /azure/architecture/microservices
         - name: Teljesítménnyel kapcsolatos kizárási minták
           tocHref: /azure/architecture/antipatterns
           topicHref: /azure/architecture/
-        - name: Megfelelőség
-          tocHref: /azure/architecture/compliance
-          topicHref: /azure/architecture/compliance
-          items:
-            - name: PCI-DSS
-              tocHref: /azure/architecture/compliance/pci-dss
-              topicHref: /azure/architecture/compliance/pci-dss

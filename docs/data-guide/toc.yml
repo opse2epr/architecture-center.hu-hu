@@ -3,56 +3,36 @@
 - name: Útmutató az adatarchitektúrához
   href: index.md
   items:
-    - name: Hagyományos RDBMS
+    - name: Hagyományos RDBMS számítási feladatok
       items:
-        - name: Alapelvek
-          items:
-            - name: Relációs adatok
-              href: concepts/relational-data.md
-            - name: Tranzakciós adatok
-              href: concepts/transactional-data.md
-            - name: Szemantikai modellezés
-              href: concepts/semantic-modeling.md
+        - name: Áttekintés
+          href: relational-data/index.md
+        - name: Online tranzakciófeldolgozás (OLTP)
+          href: relational-data/online-transaction-processing.md
+        - name: Adatraktározás
+          href: relational-data/data-warehousing.md
+        - name: Online analitikus feldolgozás (OLAP)
+          href: relational-data/online-analytical-processing.md
+        - name: 'Kinyerés, átalakítás és betöltés (ETL)'
+          href: relational-data/etl.md
+    - name: Big data-architektúrák
+      items:
+        - name: Áttekintés
+          href: big-data/index.md
+        - name: Kötegelt feldolgozás
+          href: big-data/batch-processing.md
+        - name: Valós idejű feldolgozás
+          href: big-data/real-time-processing.md
+        - name: Gépi tanulás nagy léptékben
+          href: big-data/machine-learning-at-scale.md
+        - name: Nem relációs adattárak
+          href: big-data/non-relational-data.md
         - name: Forgatókönyvek
           items:
-            - name: Online tranzakciófeldolgozás (OLTP)
-              href: scenarios/online-transaction-processing.md
-            - name: Online analitikus feldolgozás (OLAP)
-              href: scenarios/online-analytical-processing.md
-            - name: Adatraktározás
-              href: scenarios/data-warehousing.md
-            - name: 'Kinyerés, átalakítás és betöltés (ETL)'
-              href: scenarios/etl.md
-        - name: Technológiai lehetőségek
-          items:
-            - name: Adattárházak
-              href: technology-choices/data-warehouses.md
-            - name: Online analitikus feldolgozás (OLAP)
-              href: technology-choices/olap-data-stores.md
-            - name: Online tranzakciófeldolgozás (OLTP)
-              href: technology-choices/oltp-data-stores.md
-    - name: Big Data és NoSQL
-      items:
-        - name: Alapelvek
-          items:
-            - name: Nem relációs adattárak
-              href: concepts/non-relational-data.md
-            - name: CSV- és JSON-fájlok használata
-              href: concepts/csv-and-json.md
-            - name: Data lake tárolók
-              href: concepts/data-lake.md
-            - name: Big data-architektúrák
-              href: concepts/big-data.md
             - name: Bővített analitika
-              href: concepts/advanced-analytics.md
-            - name: Gépi tanulás nagy léptékben
-              href: concepts/machine-learning-at-scale.md
-        - name: Forgatókönyvek
-          items:
-            - name: Kötegelt feldolgozás
-              href: scenarios/batch-processing.md
-            - name: Valós idejű feldolgozás
-              href: scenarios/real-time-processing.md
+              href: scenarios/advanced-analytics.md
+            - name: Data lake tárolók
+              href: scenarios/data-lake.md
             - name: Szabad formátumú szöveges keresés
               href: scenarios/search.md
             - name: Interaktív adatfeltárás
@@ -61,6 +41,8 @@
               href: scenarios/natural-language-processing.md
             - name: Idősorozattal kapcsolatos megoldások
               href: scenarios/time-series.md
+            - name: CSV- és JSON-fájlok használata
+              href: scenarios/csv-and-json.md
         - name: Technológiai lehetőségek
           items:
             - name: Analitikus adattárak
