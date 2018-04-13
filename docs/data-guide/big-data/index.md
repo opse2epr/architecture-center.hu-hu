@@ -4,16 +4,16 @@ description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 2a1336faea81470b082d4eef8e2cc53a082c63c7
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
-ms.translationtype: MT
+ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/31/2018
+ms.lasthandoff: 04/03/2018
 ---
 # <a name="big-data-architectures"></a>Big data-architektúrák
 
-A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára. A küszöbérték, amellyel a szervezetek írja be a big Data típusú adatok tartomány eltér attól függően, hogy a felhasználók és az eszközök képességeit. Az egyes azzal járhat több száz gigabájt adatok, míg mások több száz terabájt jelent. Munkavégzés big data készletek eszközök előzetes, mivel ezáltal a big Data típusú adatok jelentése. Nagyobb ez a kifejezés vonatkozik, az érték kinyerése a speciális elemzés keresztül adatkészletek ahelyett, hogy szigorúan csak az adatok mérete bár az ezekben az esetekben Igen tekintélyes lehet általában.
+A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára. Minden cégnél eltér, hogy milyen adatmennyiségnél kezdik el a big data használatát. Ez függ a felhasználók képességeitől és a rendelkezésre álló eszközöktől is. Egyeseknél már több száz gigabájt, másoknál csak több száz terabájt esetén van rá szükség. A big data kezelésére szolgáló eszközök folyamatosan fejlődnek, de változik az is, hogy mit értünk big data alatt. A kifejezés egyre inkább a nyers adathalmazokból fejlett elemzési módszerekkel kinyerhető értéket jelenti, és nem egyszerűen sok adatot, bár az elemzést többnyire nagy adathalmazokon szokták végezni.
 
-Az évek során az adatok fekvő megváltozott. Milyen akkor teheti meg, vagy tegye, várhatóan adatokkal megváltozott. A tárolók költségét jelentősen, csökkent, amíg az összegyűjtött adatok azt jelenti, hogy növekvő tartja. Néhány adat érkezik egy gyors lépést, folyamatosan gyűjti és megfigyelt igényelnek. Egyéb adat érkezik lassabb, de a nagyon nagy méretű adattömböket, gyakran előzményadatoknak évtizedekben formájában. Előfordulhat, hogy egy speciális elemzésekre probléma, vagy egy gépi tanulás igénylő szemben. Ezek a kihívások, amely a big Data típusú adatok architektúrák pozícionálni oldja meg.
+Az évek során megváltozott az adatkörnyezet. Az adatok felhasználási lehetőségei és az ezekkel kapcsolatos elvárások is megváltoztak. Az adattárolás költsége jelentősen csökkent, ezért rohamosan növekszik a tárolt adatok mennyisége. Bizonyos adattípusok gyorsan gyűlnek, és állandó begyűjtést és megfigyelést igényelnek. Más adatok lassan, de hatalmas tömbökben érkeznek, gyakran több évtized előzményadatai formájában. Előfordulnak összetett elemzési problémák, vagy olyanok, amelyek megoldásához gépi tanulás szükséges. A big data-architektúrák az ilyen kihívások megoldására szolgálnak.
 
 A big data-megoldások általában az alábbi számításifeladat-típusok legalább egyikét tartalmazzák:
 
@@ -22,79 +22,79 @@ A big data-megoldások általában az alábbi számításifeladat-típusok legal
 * big data típusú adatok interaktív feltárása,
 * prediktív elemzés és gépi tanulás.
 
-Vegye figyelembe a big Data típusú adatok architektúrák kell:
+Fontolja meg a big data-architektúrák használatát a következő esetekben:
 
 * a hagyományos adatbázisok számára túl nagy mennyiségű adat tárolása és feldolgozása,
 * strukturálatlan adatok átalakítása elemzés és jelentéskészítés céljából,
 * kötetlen adatstreamek rögzítése, feldolgozása és elemzése valós időben vagy kis késéssel,
 
-## <a name="components-of-a-big-data-architecture"></a>A big Data típusú adatok architektúra összetevői
+## <a name="components-of-a-big-data-architecture"></a>A big data-architektúrák összetevői
 
-Az alábbi ábrán a logikai összetevők, amelyek felelnek meg a big Data típusú adatok architektúra. Egyes megoldások nem tartalmazhat minden elem ezen a diagramon.
+A következő ábrán áttekintheti a big data-architektúrák logikai összetevőit. Lehetséges, hogy az egyes megoldások nem tartalmazzák az ábra összes elemét.
 
-![Általános adatok folyamat diagramja](./images/big-data-pipeline.png) 
+![A teljes adatfolyamat ábrája](./images/big-data-pipeline.png) 
 
 A legtöbb big data típusú architektúra tartalmazza az alábbi összetevők egy részét vagy mindegyikét:
 
-* **Adatforrások**. Első lépésként minden big data-megoldások egy vagy több adatforrást. Példák erre vonatkozóan:
+* **Adatforrások**. Minden big data-megoldás egy vagy több adatforrással kezdődik. Példák erre vonatkozóan:
 
     * Alkalmazások adattárai (pl. relációs adatbázisok).
     * Az alkalmazások által létrehozott statikus fájlok (pl. webkiszolgálók naplófájljai).
     * Valós idejű adatforrások (pl. IoT-eszközök).
 
-* **Adattárolás**. Adatok kötegelt feldolgozási műveletek általában tárolása egy elosztott fájlrendszer, amely jelentős mennyiségű különböző formátumban nagy fájlok tárolására képes. Az ilyen tárakat gyakran *data lake*-nek is nevezik. Az ilyen tárolók többek között az Azure Data Lake Store vagy az Azure Storage blobtárolóival valósíthatók meg.
+* **Adattárolás**. A kötegelt feldolgozási műveletekhez használatos adatokat általában egy elosztott fájltároló tartalmazza, amely számos formátumú és nagy mennyiségű nagy méretű adatot képes tárolni. Az ilyen tárakat gyakran *data lake*-nek is nevezik. Az ilyen tárolók többek között az Azure Data Lake Store vagy az Azure Storage blobtárolóival valósíthatók meg.
 
-* **Kötegfeldolgozási**. Mivel nagy adatkészletek, gyakran a big Data típusú adatok megoldás adatok fájlokat a hosszan futó kötegelt feladatok szűréséhez, összesített és ellenkező esetben az adatok előkészítése az elemzés kell feldolgozni. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. A lehetőségek többek között az alábbiak: U-SQL-feladatok futtatása az Azure Data Lake Analyticsben; Hive-, Pig- vagy egyéni Map/Reduce-feladatok használata egy HDInsight Hadoop-fürtben; illetve Java-, Scala- vagy Python-programok használata egy HDInsight Spark-fürtben.
+* **Kötegelt feldolgozás**. Mivel az adatkészletek rendkívül nagy méretűek, a big data-megoldásoknak gyakran hosszan futó kötegelt feladatok használatával kell feldolgozniuk az adatfájlokat az adatok szűréséhez, összesítéséhez és az elemzésre való egyéb módon történő előkészítéséhez. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. A lehetőségek többek között az alábbiak: U-SQL-feladatok futtatása az Azure Data Lake Analyticsben; Hive-, Pig- vagy egyéni Map/Reduce-feladatok használata egy HDInsight Hadoop-fürtben; illetve Java-, Scala- vagy Python-programok használata egy HDInsight Spark-fürtben.
 
-* **Valós idejű üzenet adatfeldolgozást**. Ha a megoldás a valós idejű eseményforrást tartalmaz, az architektúra adatfolyam feldolgozásra valós idejű üzenetek tárolásához, majd úgy tartalmaznia kell. Ez lehet egy egyszerű adattár, ahol a bejövő üzenetek egy mappába kerülnek feldolgozás céljából. Számos megoldás azonban egy üzenetbetöltő tárat is igényel, amely pufferként működik az üzenetek számára, és támogatja a kibővített feldolgozást, a megbízható kézbesítést, valamint más üzenetsor-kezelési szemantikákat. Ez a része egy adatfolyam-továbbítási architektúra gyakran nevezik adatfolyam pufferelés. A választható lehetőségek az Azure Event Hubs, Azure IoT Hub és Kafka.
+* **Valós idejű üzenetbetöltés**. Ha a megoldás tartalmaz valós idejű forrásokat, az architektúrának lehetővé kell tennie a valós idejű üzenetek rögzítését és tárolását a streamfeldolgozáshoz. Ez lehet egy egyszerű adattár, ahol a bejövő üzenetek egy mappába kerülnek feldolgozás céljából. Számos megoldás azonban egy üzenetbetöltő tárat is igényel, amely pufferként működik az üzenetek számára, és támogatja a kibővített feldolgozást, a megbízható kézbesítést, valamint más üzenetsor-kezelési szemantikákat. A streamelési architektúra ezen részét gyakran streampufferelésnek nevezik. A lehetőségek többek között a következők: Azure Event Hubs, Azure IoT Hub és a Kafka.
 
-* **Az adatfolyam feldolgozása**. Valós idejű üzenetek rögzítésével, miután a megoldás kell dolgozza fel őket szűrés, összesítése és egyéb előkészítése az adatok elemzése. A rendszer ezután egy kimeneti fogadóba írja a feldolgozott streamadatokat. Az Azure Stream Analytics egy felügyelt streamfeldolgozási szolgáltatást biztosít, amely a korlátlan streameken működő, folyamatosan futó SQL-lekérdezéseken alapul. A nyílt forráskódú Apache-streamelési technológiák (pl. Storm- és Spark-streamelés) szintén használhatók a HDInsight-fürtökben.
+* **Streamfeldolgozás**. A valós idejű üzenetek rögzítése után a megoldásnak fel kell dolgoznia, azaz szűrnie, összesítenie és egyéb módon elő kell készítenie az adatokat az elemzéshez. A rendszer ezután egy kimeneti fogadóba írja a feldolgozott streamadatokat. Az Azure Stream Analytics egy felügyelt streamfeldolgozási szolgáltatást biztosít, amely a korlátlan streameken működő, folyamatosan futó SQL-lekérdezéseken alapul. A nyílt forráskódú Apache-streamelési technológiák (pl. Storm- és Spark-streamelés) szintén használhatók a HDInsight-fürtökben.
 
-* **Analitikai adatokat tároló**. Sok big data-megoldások adatok előkészítése analysis, és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel. A lekérdezések kiszolgálásáért felelős analitikai adattár lehet egy Kimball-stílusú relációs adattárház, ahogy ez a legtöbb hagyományos üzletiintelligencia- (BI-) megoldásban látható. Alternatív megoldásként az adatok egy alacsony késésű NoSQL-technológián (pl. HBase) keresztül is megjeleníthetők, illetve egy interaktív Hive-adatbázisban, amely az elosztott adattárban lévő adatfájlok metaadatainak absztrakcióját tartalmazza. Az Azure SQL Data Warehouse felügyelt szolgáltatást biztosít a nagy méretű felhőalapú adattárházakhoz. A HDInsight támogatja az interaktív Hive, HBase és Spark SQL használatát, amelyekkel szintén előkészíthetők az adatok elemzésre.
+* **Analitikus adattár**. Számos big data-megoldás előkészíti az adatokat az elemzésre, majd strukturált formátumban rendelkezésre bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel. A lekérdezések kiszolgálásáért felelős analitikai adattár lehet egy Kimball-stílusú relációs adattárház, ahogy ez a legtöbb hagyományos üzletiintelligencia- (BI-) megoldásban látható. Alternatív megoldásként az adatok egy alacsony késésű NoSQL-technológián (pl. HBase) keresztül is megjeleníthetők, illetve egy interaktív Hive-adatbázisban, amely az elosztott adattárban lévő adatfájlok metaadatainak absztrakcióját tartalmazza. Az Azure SQL Data Warehouse felügyelt szolgáltatást biztosít a nagy méretű felhőalapú adattárházakhoz. A HDInsight támogatja az interaktív Hive, HBase és Spark SQL használatát, amelyekkel szintén előkészíthetők az adatok elemzésre.
 
-* **Elemzési és jelentéskészítési**. A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. Ahhoz, hogy a felhasználók képesek legyenek elemezni az adatokat, az architektúra tartalmazhat egy adatmodellező réteget, mint például egy többdimenziós OLAP-kockát vagy egy táblázatos adatmodellt az Azure Analysis Servicesben. Emellett a Microsoft Power BI-ban vagy Microsoft Excelben elérhető modellezési és vizualizációs technológiákkal önkiszolgáló üzletiintelligencia-megoldásokat is támogathatnak. Az elemzés és jelentéskészítés az adatszakértők vagy adatelemzők általi végzett interaktív adatfeltárással is végrehajtható. Az ilyen forgatókönyvekhez számos Azure-szolgáltatás támogat analitikus notebookokat (pl. Jupyter), így a felhasználók felhasználják a Python vagy az R terén már megszerzett tudásukat. Nagy méretű adatfeltárás esetén használhatja a Microsoft R Servert önállóan vagy a Sparkkal együtt.
+* **Elemzés és jelentéskészítés**. A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. Ahhoz, hogy a felhasználók képesek legyenek elemezni az adatokat, az architektúra tartalmazhat egy adatmodellező réteget, mint például egy többdimenziós OLAP-kockát vagy egy táblázatos adatmodellt az Azure Analysis Servicesben. Emellett a Microsoft Power BI-ban vagy Microsoft Excelben elérhető modellezési és vizualizációs technológiákkal önkiszolgáló üzletiintelligencia-megoldásokat is támogathatnak. Az elemzés és jelentéskészítés az adatszakértők vagy adatelemzők általi végzett interaktív adatfeltárással is végrehajtható. Az ilyen forgatókönyvekhez számos Azure-szolgáltatás támogat analitikus notebookokat (pl. Jupyter), így a felhasználók felhasználják a Python vagy az R terén már megszerzett tudásukat. Nagy méretű adatfeltárás esetén használhatja a Microsoft R Servert önállóan vagy a Sparkkal együtt.
 
-* **Vezénylési**. Megoldásokat ismételt adatfeldolgozási műveletek, a munkafolyamatokban, forrásadatok átalakító, beágyazott alkotják a big Data típusú adatok közötti több források és felül, a feldolgozott adatok betöltése az analitikus adatok tárolóba, vagy az eredményeket a egyenes leküldéses áthelyezése egy jelentést és az irányítópultot. A munkafolyamatok automatizálhatók egy vezénylési technológia (pl. Azure Data Factory vagy Apache Oozie és Sqoop) használatával.
+* **Vezénylés**. A legtöbb big data-megoldás munkafolyamatokba foglalt, ismétlődő adatfeldolgozási műveletekből áll, amelyek átalakítják a forrásadatokat, adatokat helyeznek át több forrás és fogadó között, betöltik a feldolgozott adatokat egy analitikus adattárba, vagy továbbítják az eredményeket egyenesen egy jelentésbe vagy irányítópultba. A munkafolyamatok automatizálhatók egy vezénylési technológia (pl. Azure Data Factory vagy Apache Oozie és Sqoop) használatával.
 
-## <a name="lambda-architecture"></a>Lambda architektúrája
+## <a name="lambda-architecture"></a>Lambda architektúra
 
-Ha nagyon nagy adatkészletekkel dolgozik, a rendezés ügyfelek igénylő lekérdezések futtatása hosszú időt is igénybe vehet. Ezeket a lekérdezéseket valós időben nem hajtható végre, és gyakran igényelnek, mint az algoritmusok [MapReduce](https://en.wikipedia.org/wiki/MapReduce) párhuzamosan működik, amelyek között a teljes adatkészletet. Az eredmények majd elkülöníti a nyers adatok és használható a lekérdezésre.
+Nagy adathalmazok használata esetén hosszú időbe telhet az ügyfél által igényelt lekérdezések futtatása. Ezek a lekérdezések nem futtathatók valós időben, és gyakran olyan algoritmusok használatát igénylik, mint a [MapReduce](https://en.wikipedia.org/wiki/MapReduce), amely párhuzamosan fut a teljes adathalmazon. A rendszer a nyers adatoktól elkülönítve tárolja, az eredményeket, és lekérdezésekhez használja fel őket.
 
-Egyik ezt a megközelítést hátránya, hogy késés okozna &mdash; feldolgozási néhány órát vesz igénybe, ha egy lekérdezést lehet, hogy adja vissza az eredményeket, amelyek több órával korábbi. Ideális esetben egyes eredményt valós idejű (lehet, hogy adatvesztés pontosság), és ezekkel az eredményekkel, a kötegelt elemzés eredményeinek egyesíteni szeretné.
+A módszer egyik hátránya, hogy késést eredményez – ha a feldolgozás órákat vesz igénybe, akkor a lekérdezés több órás adatokat ad eredményül. Az ideális megoldás a valós idejű, talán kissé pontatlanabb eredmények beszerzése, amelyeket aztán a kötegelt elemzés eredményeivel együtt lehet használni.
 
-A **lambda architektúra**, először Nathan Marz által javasolt, hozzon létre két elérési útnak adatfolyamok kezeli ezt a problémát. A rendszerbe érkező összes adat végighalad két elérési utak:
+Az először Nathan Marz által kidolgozott **lambda architektúra** két adatfolyam létrehozásával kínál megoldást az ilyen problémákra. A rendszerbe érkező összes adat ezen a két útvonalon halad végig:
 
-* A **kötegelt réteg** (cold elérési utat) a nyers formátumban tárolja az összes bejövő adat és kötegfeldolgozási végez az adatokat. Az eredmény a feldolgozási tárolja egy **nézet kötegelt**.
+* A **kötegelt réteg** (ritka elérésű útvonal) nyers formában tárolja az összes beérkező adatot, és kötegelt feldolgozást végez rajta. Ennek eredményét **kötegelt nézetben** tárolja a rendszer.
 
-* A **sebesség réteg** (gyakran használt adatok elérési útja) elemzi az adatokat valós időben. Ez a réteg végzi a kis késéssel, csökkenti a pontossága.
+* A **gyors réteg** (gyakori elérésű útvonal) valós időben elemzi az adatokat. A réteg késése minimális, ám az eredmények kevésbé pontosak.
 
-A kötegelt réteg hírcsatornák be egy **szolgáló réteg** , amely indexeli a kötegelt nézet hatékony lekérdezése. A sebesség réteg frissíti a szolgáló réteg növekményes frissítések legutóbbi adatokon alapulnak.
+A kötegelt réteg a **kiszolgálórétegbe** továbbítja az eredményeket, amely indexeli a kötegelt nézetet a hatékonyabb lekérdezés érdekében. A gyors réteg növekményes frissítésekkel frissíti a kiszolgálóréteget a legújabb adatok alapján.
 
-![Lambda architektúra diagramja](./images/lambda.png)
+![Lambda architektúra ábrája](./images/lambda.png)
 
-Adatok bemenetként szolgál a gyakran használt adatok elérési útja korlátozza a sebesség réteg által meghatározott késésre vonatkozó követelmény, hogy a lehető leggyorsabban dolgozható. Gyakran ehhez a kompromisszummal jár, helyett adatok, amelyek a lehető leggyorsabban készen áll a pontossági szint. Vegye figyelembe például az IoT-forgatókönyveknél, ahol nagyszámú hőmérséklet-érzékelő telemetriai adatokat küldenek. A sebesség réteg mozgó időkerete pedig a bejövő adatok feldolgozásához használható. 
+A gyakori elérésű útvonalon keresztül érkező adatfolyamot korlátozzák a gyors réteg késési követelményei, hogy a lehető leggyorsabban fel lehessen dolgozni. Ez azt jelenti, hogy az adatok a lehető leggyorsabban készen állnak, azonban kevésbé pontosak. Vegyünk például egy IoT-forgatókönyvet, amelyben sok hőmérséklet-érzékelő küld telemetriai adatokat. A gyors réteg egy változó időablakban beérkező adatokat dolgoz fel. 
 
-A cold elérési összekapcsolását, másrészt nincs ugyanazok a kis késleltetésű vonatkoznak. Ez lehetővé teszi pontosságot számításhoz nagy méretű adatkészletekhez, amelyek akkor nagyon időigényes. 
+A ritka elérésű útvonalon végighaladó adatoknak azonban nem kell megfelelniük ugyanazoknak az alacsony késésre vonatkozó követelményeknek. Ez nagy pontosságú számítást biztosít nagy adathalmazokon, ami nagyon időigényes lehet. 
 
-Végül a és meleg elérési utak: az elemzés ügyfélalkalmazás összevonva. Ha az ügyfelet valós időben jeleníti meg az időben, de a potenciálisan kevésbé pontos adatokat, akkor az eredmény a gyakran használt adatok elérési fogják beszerezni. Ellenkező esetben kiválaszt eredmények a cold elérési kevesebb időben, de még pontosabb adatok megjelenítéséhez. Más szóval a gyakran használt adatok rendelkezik egy viszonylag kis ablakban időt, amely után az eredményeket a cold elérési pontosabb adataival frissítésre vonatkozó adatokat.
+A gyakori és a ritka elérésű útvonalak idővel az analitikai ügyfélalkalmazásban találkoznak. Ha az ügyfélnek aktuális, de potenciálisan kevésbé pontos adatokat kell megjelenítenie, a gyakori elérésű útvonal eredményeit kéri le. Ellenkező esetben a ritka elérésű útvonalról érkező eredményeket választja, amelyek kevésbé aktuálisak, de pontosabbak. Másként fogalmazva a gyakori elérésű útvonal viszonylag kis időtartam adataival rendelkezik, de ezek az eredmények később frissíthetők a ritka elérésű útvonal pontosabb adataival.
 
-A nyers adatok a kötegelt rétegben tárolt nem módosítható. A meglévő adatok mindig fűz hozzá a bejövő adatok, és a korábbi adatok soha nem felülírja a rendszer. Egy adott datum értékének módosításait, egy új időbélyegzővel eseményrekord tárolódnak. Ez lehetővé teszi bármely pontján recomputation időben gyűjtött adatokat az előzmények között. Számítsa újra az eredeti nyers adatok a kötegelt nézet olyan fontos, mert a rendszer fejlődésének létrehozni új nézetek lehetővé teszi. 
+A kötegelt rétegben tárolt nyers adatok nem módosíthatók. A rendszer a beérkező adatokat hozzáfűzi a meglévő adatokhoz, és sosem írja felül a korábbi adatokat. Egy adott adat értékének változása új, időbélyeggel ellátott eseményrekordként jelenik meg. Ez lehetővé teszi az újraszámítást a begyűjtött adatok bármelyik időpontban aktuális értékével. Nagyon fontos, hogy a kötegelt nézet újraszámítható legyen a nyers adatokból, mert így hozhatók létre új nézetek, ahogy fejlődik a rendszer. 
 
-## <a name="kappa-architecture"></a>Kappa architektúrája
+## <a name="kappa-architecture"></a>Kappa architektúra
 
-A lambda architektúrájának hátránya, hogy összetettsége. Két különböző helyen számításokat megjelenik &mdash; a cold és működés közbeni útvonalak &mdash; különböző keretrendszerek használatával. Ennek eredménye duplikálja számítási programot, és mindkét elérési utak architektúrája kezelése összetettsége.
+A lambda architektúra hátránya az összetettség. A feldolgozó logika két helyen jelenik meg &mdash; a ritka és a gyakori elérésű útvonalon&mdash;, és különböző keretrendszereket használ. Ez a számítási logika megkétszerezését jelenti, és a két útvonal architektúrájának összetett kezelését igényli.
 
-A **kappa architektúra** ahelyett, hogy a lambda architektúra által Jay Kreps volt javasolt. A lambda architektúrája megegyezik, azonban fontos különbség van a ugyanazon alapvető célok: a streamfeldolgozó rendszerek használatával egyetlen elérési összes adatfolyamok. 
+A **kappa architektúrát** Jay Kreps dolgozta ki a lambda architektúra alternatívájaként. Az alapvető céljai ugyanazok, mint a lambda architektúrának, de van egy fontos különbség: minden adat egyetlen útvonalon fut végig egy streamfeldolgozó rendszer használatával. 
 
-![Kappa architektúra diagramja](./images/kappa.png)
+![Kappa architektúra ábrája](./images/kappa.png)
 
-A lambda architektúra kötegelt réteghez, néhány Hasonlóságok van, hogy az eseményadatok nem módosítható, és az összes összegyűjtött helyett egy részét. Az adatok az elosztott az események streamjét és hibatűrő egyesített hibanapló van okozhatnak. Ezek az események rendezett, és az esemény aktuális állapotát módosítja a csak fűzött alatt álló új esemény. Egy lambda architektúra sebesség réteg hasonló, minden esemény feldolgozása a bemeneti adatfolyam végre és valós idejű nézetként maradnak. 
+Némileg hasonlít a lambda architektúra kötegelt rétegéhez, mivel az eseményadatok nem módosíthatók, és a rendszer minden adatot begyűjt, nem csak egy részüket. Az adatok eseménystreamként töltődnek be egy elosztott és hibatűrő, egységes naplóba. A rendszer sorba rendezi az eseményeket, és csak új esemény hozzáfűzésekor módosítja az aktuális állapotukat. A lambda architektúra gyors rétegéhez hasonlóan az események feldolgozása a bemeneti streamben, a megőrzés pedig valós idejű nézetként történik. 
 
-Ha számítsa újra a teljes adatkészletet (a batch réteg funkciója lambda kifejezésben egyenértékű) van szüksége, akkor egyszerűen visszajátszásos az adatfolyam használata jellemzően párhuzamossági időben számítási befejezéséhez.
+Ha a teljes adathalmazon kell újraszámítást végezni (ami a lambda architektúra kötegelt rétegének felel meg), csak újra le kell játszani a streamet, általában párhuzamos módon, hogy a számítás időben elkészüljön.
 
 ## <a name="internet-of-things-iot"></a>Eszközök internetes hálózata (IoT)
 
-Gyakorlati szempontból az eszközök internetes hálózatát (IoT) jelöli az internethez csatlakozó bármilyen eszközről. Tartalmazzák a számítógép, mobiltelefon, intelligens figyelési, intelligens termosztát, intelligens hűtő, csatlakoztatott autó, szív figyelési sorolni az, és bármely más, csatlakozik az internethez és küld vagy fogad adatokat. A csatlakoztatott eszközök száma nő minden nap, azok gyűjtött adatok mennyisége nem. Gyakran ez folyik adatgyűjtés erősen korlátozott, egyes esetekben a nagy késleltetésű környezetekben. Más esetekben adatküldést kis késleltetésű környezetekben a több ezer vagy eszközöket, gyorsan viszi be az adatokat, és ennek megfelelően feldolgozni több millió. Ezért megfelelő tervezés szükséges ezen korlátozások és egyedi követelmények kezelésére.
+Az eszközök internetes hálózata (IoT) gyakorlatilag minden eszközt magában foglal, amely rendelkezik internetkapcsolattal. Ebbe beletartoznak a számítógépek, az okostelefonok, az okosórák, az intelligens termosztátok, hűtőszekrények, az internetkapcsolattal rendelkező gépkocsik, a szívritmust ellenőrző implantátumok és minden más, ami internetkapcsolattal rendelkezik, és adatokat fogad vagy küld. Az ilyen kapcsolattal rendelkező eszközök száma és az általuk gyűjtött adatok mennyisége napról napra növekszik. Ezek az adatok gyakran rendkívül korlátozott, néha nagy késésű környezetekből származnak. Más esetekben az adatokat alacsony késésű környezetből küldi több ezer vagy több millió eszköz, ami gyors adatbetöltést és -feldolgozást igényel. Ezen korlátozások és egyedi követelmények kezelése megfelelő tervezést tesz szükségessé.
 
 Az eseményvezérelt architektúrák központi szerepet játszanak az IoT-megoldásokban. Az alábbi ábrán egy Iot-megoldás lehetséges logikai architektúrája látható. Az ábra az architektúra eseménystreamelési összetevőit hangsúlyozza ki.
 
@@ -102,7 +102,7 @@ Az eseményvezérelt architektúrák központi szerepet játszanak az IoT-megold
 
 A **felhőátjáró** a felhő határán olvassa be az eszközeseményeket egy megbízható, alacsony késésű üzenetkezelési rendszert használva.
 
-Az eszközök közvetlenül a felhőátjárónak vagy egy **helyi átjárón** keresztül küldhetik el az eseményeket. A mező az átjáró az speciális eszközt vagy szoftvert, az eszközök általában közös elhelyezésű fogadó eseményeket, és továbbítja őket a felhőátjáróhoz. A helyi átjáró a nyers eszközesemények előfeldolgozására is képes, olyan feladatok végrehajtásával, mint a szűrés, az összesítés vagy a protokollátalakítás.
+Az eszközök közvetlenül a felhőátjárónak vagy egy **helyi átjárón** keresztül küldhetik el az eseményeket. A helyi átjáró egy speciális, általában az eszközökkel egy helyen található eszköz vagy szoftver, amely fogadja az eseményeket, majd továbbítja őket a felhőátjárónak. A helyi átjáró a nyers eszközesemények előfeldolgozására is képes, olyan feladatok végrehajtásával, mint a szűrés, az összesítés vagy a protokollátalakítás.
 
 A beolvasást követően az események egy vagy több **streamfeldolgozón** haladnak át, amelyek továbbíthatják az adatokat (például egy tárolóba), vagy elemzést és más feldolgozási műveleteket végezhetnek.
 
@@ -112,7 +112,7 @@ Az alábbiakban a feldolgozás néhány gyakori típusát ismertetjük. (A felso
 
 - Működő elérési út elemzése, vagyis az eseménystream (közel) valós idejű elemzése a rendellenességek észlelése, adott időtartamokra jellemző minták felismerése vagy riasztások aktiválása céljából, ha egy adott helyzet áll elő a streamben. 
 
-- Kezeli a különleges típusú eszközök, például az értesítések és riasztások nontelemetry üzeneteit. 
+- Az eszközöktől származó nem telemetriaüzenetek különleges típusainak, például az értesítéseknek és a riasztásoknak a kezelése. 
 
 - Gépi tanulás.
 
@@ -130,6 +130,6 @@ Kapcsolódó Azure-szolgáltatások:
 - [Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/)
 - [Azure Stream Analytics](https://azure.microsoft.com/services/stream-analytics/)  
 
-További tudnivalók az Azure IoT ehhez beolvassa a [Azure IoT-referenciaarchitektúra](https://azure.microsoft.com/updates/microsoft-azure-iot-reference-architecture-available/).
+További információ az IoT Azure-ban történő használatáról: [Azure IoT-referenciaarchitektúra](https://azure.microsoft.com/updates/microsoft-azure-iot-reference-architecture-available/).
 
 

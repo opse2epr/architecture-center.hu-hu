@@ -1,14 +1,15 @@
 ---
-title: "Útmutató az Azure-adatarchitektúrához"
-description: 
+title: Útmutató az Azure-adatarchitektúrához
+description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
 layout: LandingPage
-ms.openlocfilehash: 848601f27faf56ea069852d8983e4d10fbad9d77
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.topic: landing-page
+ms.openlocfilehash: 9ffbe74bc55f4731369e938848cc5bbf9f7775f4
+ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 04/06/2018
 ---
 # <a name="azure-data-architecture-guide"></a>Útmutató az Azure-adatarchitektúrához
 
@@ -20,58 +21,16 @@ A felhő megváltoztatja az alkalmazások tervezésének módját, beleértve az
 
 ## <a name="how-this-guide-is-structured"></a>Az útmutató felépítése
 
-Ez az útmutató egy alapvető különbözőségre, a *relációs* adatok és *nem relációs* adatok megkülönböztetésére épít. 
+Ez az útmutató az adatkezelő megoldások két általános kategóriája, a *hagyományos RDMBS számítási feladatok* és a *big data-megoldások* köré épül fel. 
 
-![](./images/guide-steps.svg)
+**[Hagyományos RDBMS számítási feladatok](./relational-data/index.md)**. Ilyen számítási feladat például az online tranzakciófeldolgozás (OLTP) és az online analitikus feldolgozás (OLAP). Az OLTP-rendszerekben általában relációs adatokkal lehet találkozni, amelyek előre definiált sémával és a hivatkozási integritás megőrzését szolgáló megkötésekkel rendelkeznek. Gyakran a cégen belüli különböző forrásokból egy adattárházba gyűjtik az adatokat, és egy ETL-folyamattal helyezik át és konvertálják a forrásadatokat.
 
-A relációs adatok általában egy hagyományos RDBMS-ben vagy adattárházban tárolódnak. Előre definiált sémával („íráskor meghatározott séma”) rendelkeznek, amelyre megkötések vonatkoznak a hivatkozási integritás megőrzése érdekében. A legtöbb relációs adatbázis Structured Query Language-t (SQL) használ a lekérdezéshez. A relációs adatbázisokat használó megoldások közé tartozik az online tranzakciófeldolgozás (OLTP) és az online analitikus feldolgozás (OLAP).
+![](./images/guide-rdbms.svg)
 
-Nem relációs adat bármely olyan adat, amely nem használja a hagyományos RDBMS-rendszerekben található [relációs modellt](https://en.wikipedia.org/wiki/Relational_model). Ide tartozhatnak kulcsértékadatok, JSON-adatok, grafikonadatok, idősorozat-adatok és más adattípusok. A *NoSQL* kifejezés olyan adatbázisokat jelöl, amelyek különféle típusú nem relációs adatok tárolására szolgálnak. A kifejezés azonban nem teljesen pontos, mivel számos nem relációs adattár támogat SQL-kompatibilis lekérdezéseket. A nem relációs adatok és a NoSQL-adatbázisok gyakran előtérbe kerülnek a *big data*-megoldásokkal kapcsolatban. A big data típusú architektúrák kialakításuknak köszönhetően képesek kezelni az olyan adatok bevitelét, feldolgozását és elemzését, amelyek túl nagyok vagy túl összetettek a hagyományos adatbázisrendszerek számára. 
+**[Big data-megoldások](./big-data/index.md)**. A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára. Az adatok feldolgozása történhet kötegelve vagy valós időben. A big data-megoldások általában nagy mennyiségű nem relációs adat feldolgozását végzik (például kulcs-érték típusú adatok, JSON-dokumentumok vagy idősorozat-adatok). A hagyományos RDBMS-rendszerek általában nem alkalmasak ilyen típusú adatok tárolására. A *NoSQL* kifejezés olyan adatbázis-típusokat jelöl, amelyek nem relációs adatok tárolására szolgálnak. (A kifejezés nem teljesen pontos, mivel számos nem relációs adattár támogat SQL-kompatibilis lekérdezéseket.)
 
-E két fő kategórián belül az adatarchitektúra útmutatója az alábbi szakaszokat tartalmazza:
+![](./images/guide-big-data.svg)
 
-- **Alapelvek.** Áttekintő cikkek, amelyek bemutatják az ilyen típusú adatokkal folytatott munkához szükséges főbb fogalmakat.
-- **Forgatókönyvek.** Adatforgatókönyvek reprezentatív gyűjteménye, amely a kapcsolódó Azure-szolgáltatásokat és az adott forgatókönyvnek megfelelő architektúrát is tárgyalja.
-- **Technológiai lehetőségek.** Az Azure-on elérhető különféle adattechnológiák részletes összehasonlítása, ideértve a nyílt forráskódú lehetőségeket is. Az egyes kategóriákon belül egy képességmátrix, valamint a választáshoz szükséges fontosabb kritériumok találhatók, amelyek segítségével kiválaszthatja az adott forgatókönyvnek megfelelő technológiát.
+A két kategória nem zárja ki egymást kölcsönösen, és van közöttük némi átfedés, mégis úgy gondoljuk, hogy alkalmas keretet biztosítanak a téma bemutatásához. Az útmutató bemutatja az egyes kategóriák **gyakori forgatókönyveit**, valamint a kapcsolódó Azure-szolgáltatásokat és az adott forgatókönyvnek megfelelő architektúrát. Az útmutató ezenkívül összehasonlítja az Azure-beli adatkezelő megoldásokhoz rendelkezésre álló **technológiai lehetőségeket**, beleértve a nyílt forráskódú lehetőségeket is. Az egyes kategóriákon belül egy képességmátrix, valamint a választáshoz szükséges fontosabb kritériumok találhatók, amelyek segítségével kiválaszthatja az adott forgatókönyvnek megfelelő technológiát. 
 
 Ennek az útmutatónak nem célja az adatelemzés vagy az adatbázis-elmélet oktatása – e témákban számos tankönyv érhető el. A célja ehelyett, hogy segítse Önt az adott forgatókönyvnek megfelelő adatarchitektúra vagy adatfolyamat kiválasztásában, valamint ezután az igényeinek leginkább megfelelő Azure-szolgáltatások és -technológiák kiválasztásában. Ha már eldöntötte, milyen architektúrát szeretne használni, továbbléphet a technológiai lehetőségekhez.
-
-## <a name="traditional-rdbms"></a>Hagyományos RDBMS
-
-### <a name="concepts"></a>Alapelvek
-
-- [Relációs adatok](./concepts/relational-data.md) 
-- [Tranzakciós adatok](./concepts/transactional-data.md) 
-- [Szemantikai modellezés](./concepts/semantic-modeling.md) 
-
-### <a name="scenarios"></a>Forgatókönyvek
-
-- [Online analitikus feldolgozás (OLAP)](./scenarios/online-analytical-processing.md)
-- [Online tranzakciófeldolgozás (OLTP)](./scenarios/online-transaction-processing.md) 
-- [Adattárházak és adatpiacok](./scenarios/data-warehousing.md)
-- [ETL](./scenarios/etl.md) 
-
-## <a name="big-data-and-nosql"></a>Big Data és NoSQL
-
-### <a name="concepts"></a>Alapelvek
-
-- [Nem relációs adattárak](./concepts/non-relational-data.md)
-- [CSV- és JSON-fájlok használata](./concepts/csv-and-json.md)
-- [Big data-architektúrák](./concepts/big-data.md)
-- [Bővített analitika](./concepts/advanced-analytics.md) 
-- [Gépi tanulás nagy léptékben](./concepts/machine-learning-at-scale.md)
-
-### <a name="scenarios"></a>Forgatókönyvek
-
-- [Kötegelt feldolgozás](./scenarios/batch-processing.md)
-- [Valós idejű feldolgozás](./scenarios/real-time-processing.md)
-- [Szabad formátumú szöveges keresés](./scenarios/search.md)
-- [Interaktív adatfeltárás](./scenarios/interactive-data-exploration.md)
-- [Természetes nyelvek feldolgozása](./scenarios/natural-language-processing.md)
-- [Idősorozattal kapcsolatos megoldások](./scenarios/time-series.md)
-
-## <a name="cross-cutting-concerns"></a>Általános megfontolások
-
-- [Adatátvitel](./scenarios/data-transfer.md) 
-- [Helyszíni adatmegoldások kiterjesztése a felhőre](./scenarios/hybrid-on-premises-and-cloud.md) 
-- [Adatmegoldások védelme](./scenarios/securing-data-solutions.md) 
