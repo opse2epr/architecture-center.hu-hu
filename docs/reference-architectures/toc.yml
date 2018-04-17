@@ -12,6 +12,10 @@
           href: app-service-web-app/scalable-web-app.md
         - name: Többrégiós üzembe helyezés
           href: app-service-web-app/multi-region.md
+    - name: Adatarchitektúrák
+      items:
+        - name: Enterprise BI és SQL Data Warehouse
+          href: data/enterprise-bi-sqldw.md
     - name: Hibrid hálózatok
       href: hybrid-networking/index.md
       items:

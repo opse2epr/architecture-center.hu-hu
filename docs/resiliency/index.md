@@ -5,11 +5,11 @@ author: MikeWasson
 ms.date: 05/26/2017
 ms.custom: resiliency
 pnp.series.title: Design for Resiliency
-ms.openlocfilehash: 0cbcf0a8af1a8e20f2a1c024f5146a37176c5d1e
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 9a6bd1332ea59923b32379018060403024b15e10
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -153,7 +153,7 @@ Az Azure számos funkciót kínál, amellyel az alkalmazások számára biztosí
 
 **Rendelkezésre állási csoportok**. A helyi hardverhibák, például lemezek vagy hálózati kapcsolók meghibásodása elleni védelem érdekében helyezzen üzembe két vagy több virtuális gépet egy rendelkezésre állási csoportban. Egy rendelkezésre állási csoport két vagy több *tartalék tartományból* áll, amelyek közös áramforrással és hálózati kapcsolóval rendelkeznek. A rendelkezésre állási csoportban található virtuális gépek el vannak osztva a tartalék tartományok között, ezért ha hardverhiba merül fel az egyik tartalék tartományban, a hálózati forgalom átirányítható a többi tartalék tartományban található virtuális gépekre. További információt a rendelkezésre állási csoportokról [a Windows rendszerű virtuális gépek rendelkezésre állásának az Azure-ban történő kezelését](/azure/virtual-machines/windows/manage-availability) ismertető cikkben talál.
 
-**Rendelkezésre állási zónák (előzetes verzió)**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
+**Rendelkezésre állási zónák**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
 
 **Párosított régiók**. Annak érdekében, hogy védelmet nyújtson egy alkalmazás számára regionális kimaradás esetén, helyezze üzembe az alkalmazást egyszerre több régióban, és az Azure Traffic Manager használatával ossza el az internetes forgalmat a különböző régiók között. Minden egyes Azure-régió párban áll egy másikkal. Ezek együtt egy [régiópárt](/azure/best-practices-availability-paired-regions) alkotnak. Dél-Brazília kivételével a régiópárok azonos földrajzi helyen találhatók, hogy adóügyi és törvényi szempontból megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
@@ -164,7 +164,7 @@ Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók k
 | Hiba hatóköre | Kiszolgálószekrény | Adatközpont | Régió |
 | Kérések útválasztása | Load Balancer | Zónák közötti terheléselosztó | Traffic Manager |
 | Hálózati késleltetés | Nagyon alacsony | Alacsony | Közepes vagy magas |
-| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony (előzetes verzió) |
+| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony |
 
 ## <a name="designing-for-resiliency"></a>Rugalmasságot szem előtt tartó tervezés
 A tervezési fázis során javasolt hibaállapot-elemzést (FMA) végezni. Az FMA célja a lehetséges meghibásodási pontok megtalálása, és annak definiálása, hogyan reagáljon az alkalmazás ezekre a hibákra.
@@ -181,7 +181,7 @@ Az FMA eljárásra vonatkozó további információkért – a kifejezetten az A
 | Hibaállapot | Észlelési stratégia |
 | --- | --- |
 | A szolgáltatás nem érhető el |HTTP 5xx |
-| Szabályozás |HTTP 429 (Túl sok kérelem) |
+| Throttling |HTTP 429 (Túl sok kérelem) |
 | Hitelesítés |HTTP 401 (Jogosulatlan) |
 | Lassú válasz |A kérés túllépi az időkorlátot |
 

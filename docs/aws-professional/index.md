@@ -5,11 +5,11 @@ keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít�
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: b8698675efa42bb3fae73cefe7b078942549b412
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: 0af0890d383d22db0ed9d3b445cdd5b561b498ae
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -118,7 +118,7 @@ Az alábbi táblázat bemutatja ezek mindegyikét.
 | Hiba hatóköre | Kiszolgálószekrény | Adatközpont | Régió |
 | Kérések útválasztása | Load Balancer | Zónák közötti terheléselosztó | Traffic Manager |
 | Hálózati késleltetés | Nagyon alacsony | Alacsony | Közepes vagy magas |
-| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony (előzetes verzió) |
+| Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony |
 
 ### <a name="availability-sets"></a>Rendelkezésre állási csoportok 
 
@@ -130,7 +130,7 @@ A rendelkezésre állási csoportokat a példány az alkalmazásban betöltött 
 
 ![Azure-beli rendelkezésre állási csoportok az egyes alkalmazás-szerepkörökhöz](./images/three-tier-example.png "Rendelkezésre állási csoportok az egyes alkalmazás-szerepkörökhöz")
 
-### <a name="availability-zones-preview"></a>Rendelkezésre állási zónák (előzetes verzió)
+### <a name="availability-zones"></a>Rendelkezésre állási zónák
 
 A [rendelkezésre állási zónák](/azure/availability-zones/az-overview) egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
 
@@ -415,7 +415,7 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 
 -   [Leküldéses értesítések küldése az Azure Notification Hubs használatával](https://azure.microsoft.com/documentation/articles/notification-hubs-android-push-notification-google-fcm-get-started/)
 
-### <a name="management-and-monitoring"></a>Kezelés és figyelés
+### <a name="management-and-monitoring"></a>Kezelés és monitorozás
 
 #### <a name="see-also"></a>Lásd még
 -   [Megfigyelési és diagnosztikai útmutató](https://azure.microsoft.com/documentation/articles/best-practices-monitoring/)
