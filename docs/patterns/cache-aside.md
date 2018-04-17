@@ -1,75 +1,75 @@
 ---
 title: Cache-Aside
 description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból
-keywords: Kialakítási mintája
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: 1536a33884c9c9faa1e3702c951067249e691bf8
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: d4d7c9dcd612c780e3e494509a57b6b4a0144423
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 04/16/2018
 ---
-# <a name="cache-aside-pattern"></a>Gyorsítótár-Tartalékoljon minta
+# <a name="cache-aside-pattern"></a>Gyorsítótár-feltöltési minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Az igény szerinti adatok betöltése a gyorsítótárba egy adattárból. Ez javíthatja a teljesítményt, és biztosítja az egységességet a gyorsítótárat, és az adatok az alapul szolgáló adattár-ban tárolt adatok között is segíti.
+Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból. Ez javíthatja a teljesítményt, illetve segít a gyorsítótárban és a mögöttes adattárban tárolt adatok konzisztenciájának fenntartásában.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Alkalmazások használják a gyorsítótárat ismételt érhető el a tárolóban tárolt információ javítása érdekében. Azt azonban nem kivitelezhető várható, hogy mindig lesz teljes mértékben egységes az adatokat az adattár a gyorsítótárazott adatokat. Alkalmazások kell végrehajtása, amelyek segítségével győződjön meg arról, hogy a gyorsítótárban lévő adatok legfrissebb, lehetséges, de is észlelni és kezelésére, amikor merülhetnek fel, ha a gyorsítótárban lévő adatok elavult vált.
+Az alkalmazások gyorsítótár használatával javítják az adattárakban tárolt információkhoz való ismételt hozzáférést. Azt azonban nem célszerű feltételezni, hogy a gyorsítótárazott adatok mindig teljes mértékben konzisztensek az adattárban található adatokkal. Az alkalmazásokban olyan stratégiát érdemes megvalósítani, amely segít a lehető legnaprakészebb állapotban tartani a gyorsítótár adatait, de az olyan helyzeteket is tudja észlelni és kezelni, amikor a gyorsítótár adatai elavulttá váltak.
 
 ## <a name="solution"></a>Megoldás
 
-Számos kereskedelmi gyorsítótárazási rendszer read-through és írási-keresztül/késleltetve visszaírt műveletek biztosítanak. Ezek a rendszerek, az alkalmazás lekéri az adatokat a gyorsítótár Vezérlőpultjának. Ha az adatok nem a gyorsítótárban, az adatok tárolójából beolvasni, és a gyorsítótárba. A gyorsítótárban tárolt adatok módosításai automatikusan kerüljenek vissza az adattárban.
+Számos kereskedelmi gyorsítótárazási rendszer kínál visszaolvasási és visszaírási/háttérírási műveleteket. Ezekben a rendszerekben az alkalmazás a gyorsítótárra való hivatkozással kéri le az adatokat. Ha nincsenek a gyorsítótárban, az alkalmazás lekéri az adatokat az adattárból, majd hozzáadja őket a gyorsítótárhoz. A gyorsítótárban tárolt adatok módosításait a rendszer azonnal visszaírja az adattárba is.
 
-Az gyorsítótár, amely nem ad meg ezt a funkciót, a feladata az adatok a gyorsítótárat használó alkalmazások.
+Az olyan gyorsítótárak esetében, amelyek nem biztosítják ezt a funkciót, a gyorsítótárat használó alkalmazásoknak kell karbantartaniuk az adatokat.
 
-Az alkalmazás képes emulálják a read-through gyorsítótárazásához azáltal, hogy a gyorsítótár-tartalékoljon stratégia megvalósításához. Ezt a stratégiát adatokat tölt az igény szerinti a gyorsítótárba. Az ábra azt mutatja be, a gyorsítótár-Tartalékoljon minta használatával az adatok tárolásához a gyorsítótárban.
+Az alkalmazások a gyorsítótár-feltöltő stratégiával emulálni tudják a visszaolvasási gyorsítótárazás funkciót. Ez a stratégia igény szerint tölti be az adatokat a gyorsítótárba. Az ábrán látható, hogyan tárolhatók adatok a gyorsítótárban a gyorsítótár-feltöltési minta használatával.
 
-![A gyorsítótár-Tartalékoljon minta használatával az adatok tárolásához a gyorsítótárban](./_images/cache-aside-diagram.png)
+![Adatok tárolása a gyorsítótárban a gyorsítótár-feltöltési minta használatával](./_images/cache-aside-diagram.png)
 
 
-Ha egy alkalmazás frissíti az adatokat, az azáltal, hogy a módosítás az adattárolóhoz, és a megfelelő elem a gyorsítótárban érvénytelenítése kövesse az író stratégia.
+Ha egy alkalmazás adatokat frissít, úgy követheti a visszaírási stratégiát, ha végrehajthatja a módosítást az adattárban, és érvényteleníti a megfelelő elemet a gyorsítótárban.
 
-Ha az elem melletti szükség, a gyorsítótár-tartalékoljon stratégia használata miatt a frissített adatokat lehet beolvasni az adattár és vissza a gyorsítótárba.
+Amikor az elemre legközelebb szükség van, a gyorsítótár-feltöltő stratégia használatának köszönhetően az alkalmazás az adattárból kéri le a frissített adatokat, és újra hozzáadja őket a gyorsítótárhoz.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat: 
+A minta megvalósítása során az alábbi pontokat vegye figyelembe: 
 
-**A gyorsítótárazott adatokat élettartama**. Sok gyorsítótárak egy elévülési szabályzattal, amely érvénytelenné válik az adatokat, és eltávolítja a gyorsítótárból, ha nem érhető el egy megadott ideig valósítja meg. A gyorsítótár-tartalékoljon hatékony legyen meg kell egyeznie a minta az access, az adatokat használó alkalmazások esetén a lejárati házirendet. A túl rövid lejárati időt nem végre, mert okozhatnak, folyamatosan adatainak lekérése a tárolót, és adja hozzá a gyorsítótár-alkalmazások. Ehhez hasonlóan ne ellenőrizze a lejárati időszak túl sokáig, hogy a gyorsítótárazott adatok várhatóan elavult. Ne feledje, hogy gyorsítótárazás leghatékonyabb viszonylag statikus vagy gyakran beolvasott adatok számára.
+**A gyorsítótárazott adatok élettartama**. Számos gyorsítótár használ elévülési szabályzatot, amely érvényteleníti és eltávolítja az adatokat a gyorsítótárból, ha adott ideig nem történik hozzáférés. A hatékony gyorsítótár-felöltés érdekében győződjön meg arról, hogy az elévülési szabályzat megfelel az adatokat használó alkalmazások hozzáférési mintájának. Ne szabja túl rövidre az elévülési időt, mert ez azt okozhatja, hogy az alkalmazások folyamatosan lekérik az adatokat az adattárból, és hozzáadják őket a gyorsítótárhoz. Az elévülési idő ne legyen olyan hosszú sem, hogy a gyorsítótárazott adatok elavuljanak. Vegye figyelembe, hogy a gyorsítótárazás a viszonylag statikus vagy gyakran beolvasott adatok esetében a leghatékonyabb.
 
-**Adatok kizárásának**. A legtöbb gyorsítótárak rendelkezik egy korlátozott méretét, az adatok áruház, ahonnan az adatok származnak, és szükség esetén ezek lesz kizárása adatok képest. A legtöbb gyorsítótárak elfogadják a legkevésbé legutóbb használt házirendet kizárása elemek kijelölése, de ez lehet testre szabható. A globális lejárati tulajdonság és egyéb tulajdonságai, a gyorsítótár és a lejárati tulajdonság minden gyorsítótárazott elem annak biztosításához, hogy a gyorsítótár költséghatékony konfigurálása. Nem mindig megfelelő globális kiürítés házirend alkalmazása a gyorsítótár elemével. Például ha egy gyorsítótárazott elem beolvasni az adattár nagyon költséges, akkor érdemes lehet megtartja ezt az elemet a gyorsítótár rovására több gyakran használt, de kevésbé költséges elemet.
+**Adatok kizárása**. A legtöbb gyorsítótár mérete korlátozott azokhoz az adattárakhoz képest, ahonnan az adatok származnak, és szükség esetén kizárják az adatokat. A legtöbb gyorsítótár a legrégebbi használat alapján választja ki a kizárandó elemeket, ez azonban testre szabható lehet. Konfigurálja a globális lejárati tulajdonságot, a gyorsítótár egyéb tulajdonságait és az összes gyorsítótárazott elem lejáratát tulajdonságát úgy, hogy a gyorsítótár a lehető legköltséghatékonyabb legyen. Nem mindig jó megoldás, ha globális kizárási szabályzatot alkalmaz a gyorsítótár összes elemére. Ha egy elemnek például rendkívül költséges az adattárból való lekérése, akkor előnyös lehet az elemet a gyorsítótárban tartani még a gyakrabban használt, de kevésbé költséges elemek rovására is.
 
-**A gyorsítótár előkészítési**. Sok megoldás az adatok, amelyek az alkalmazás valószínű, hogy az indítási feldolgozási részeként kell gyorsítótár előre. A gyorsítótár-Tartalékoljon mintát továbbra is lehet hasznos, ha az adatok egy részét lejár, vagy ki van zárva.
+**A gyorsítótár előkészítése**. Számos megoldás előre feltölti a gyorsítótárat olyan adatokkal, amelyekre az alkalmazásnak valószínűleg szüksége lesz az első feldolgozás részeként. A gyorsítótár-feltöltési minta az adatok egy részének elavulása vagy kizárása esetén is hasznos lehet.
 
-**Konzisztencia**. A gyorsítótár-Tartalékoljon mintát megvalósító nem biztosítja a tárolót, és a gyorsítótár közötti konzisztenciát. Egy elem szerepel az adattárban módosíthatja bármikor külső folyamat, és ez a változás esetleg nem tükröződnek a gyorsítótárban mindaddig, amíg megint az elem be van töltve. A rendszerben, amely adattárolók között replikálja az adatokat a probléma is súlyossá válhat, ha szinkronizálási gyakran előfordul.
+**Konzisztencia**. A gyorsítótár-feltöltési minta megvalósítása nem garantálja az adattár és a gyorsítótár közötti konzisztenciát. A külső folyamatok bármikor módosíthatják az adattár elemeit, és előfordulhat, hogy a gyorsítótár nem tükrözi ezeket a változásokat az elem következő betöltéséig. Olyan rendszer esetében, amely több adattárba replikál adatokat, ez komoly problémát jelenthet gyakori szinkronizálás esetén.
 
-**(A memóriában) helyi gyorsítótárazás**. Lehet, hogy helyi egy alkalmazáspéldányt, és a memóriában tárolt gyorsítótár. Gyorsítótár-tartalékoljon ebben a környezetben hasznos lehet, ha egy alkalmazás ismételten ugyanazokhoz az adatokhoz fér hozzá. Azonban a helyi gyorsítótárba személyes, és így különböző alkalmazáspéldányok sikerült mindegyik rendelkezik-e másolatával azonos gyorsítótárazott adatokat. Ezek az adatok gyorsan válhat,-gyorsítótárak közötti inkonzisztens titkos gyorsítótárban tárolt adatok lejárnak, és frissítse az gyakrabban szükség lehet így. A következő használati helyzetekben vizsgálja meg a megosztott vagy elosztott gyorsítótárazást.
+**Helyi (memóriában történő) gyorsítótárazás**. Az alkalmazáspéldányok helyi gyorsítótárral is rendelkezhetnek, amelyet a memória tárol. A gyorsítótár-feltöltés hasznos lehet az ilyen környezetben, ha az alkalmazás gyakran fér hozzá ugyanazon adatokhoz. A helyi gyorsítótárak azonban magánjellegűek, ezért előfordulhat, hogy a különböző alkalmazáspéldányok mind rendelkeznek ugyanazon gyorsítótárazott adatok példányaival. Ezek az adatok gyorsan inkonzisztenssé válhatnak a gyorsítótárak között, ezért szükség lehet a magánjellegű gyorsítótárak adatainak gyakoribb elévülésére és frissítésére. Ezekben az esetekben érdemes megfontolni egy megosztott vagy elosztott gyorsítótárazási mechanizmus használatát.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez mintát, mikor használja:
+Használja ezt a mintát, ha:
 
-- A gyorsítótár nem biztosít natív read-through és író művelet.
-- Erőforrás igény szerint előre nem látható. Ez a minta segítségével az alkalmazások az igény szerinti adatok betöltése. Így nincs mely adatokra vonatkozó kérelmet kell előzetesen feltételezéseket.
+- A gyorsítótár nem biztosít natív visszaolvasási és visszaírási műveleteket.
+- Az erőforrásigény nem kiszámítható. Ez a minta lehetővé teszi az alkalmazások számára az adatok igény szerinti betöltését. A minta nem feltételezi előzetesen, hogy az alkalmazásoknak milyen adatokra lesz szükségük.
 
-Ez a minta nem feltétlenül alkalmas:
+Nem érdemes ezt a mintát használni, ha:
 
-- Ha a gyorsítótárazott adatkészlet statikus. Ha az adatokat a rendelkezésre álló gyorsítótár-terület elfér, a gyorsítótárban levő adatokkal indítási rendszerlemez, és alkalmazzon, amely megakadályozza az adatok lejárjanak házirendet.
-- A munkamenet állapotinformációja webfarm egy webalkalmazást a gyorsítótárazáshoz. Ebben a környezetben ne ügyfél-kiszolgáló affinitás alapján függőségek bemutatása.
+- a gyorsítótárazott adatkészlet statikus. Ha az adatok elférnek a rendelkezésre álló gyorsítótártérben, töltse fel a gyorsítótárat az adatokkal indításkor, és alkalmazzon egy szabályzatot, amely megakadályozza az adatok elévülését.
+- egy webfarmon üzemeltetett webalkalmazásban kíván munkamenet-állapotinformációkat gyorsítótárazni. Ebben a környezetben érdemes elkerülnie az ügyfél–kiszolgáló affinitáson alapuló függőségek bevezetését.
 
 ## <a name="example"></a>Példa
 
-A Microsoft Azure-ban Azure Redis Cache segítségével hozzon létre egy elosztott gyorsítótár, amely egy alkalmazás több példánya megoszthatók. 
+A Microsoft Azure-ban az Azure Redis Cache használatával létrehozhat elosztott gyorsítótárakat, amelyek megoszthatók egy alkalmazás több példánya között. 
 
-Csatlakozás az Azure Redis Cache példányt, hívja meg a statikus `Connect` metódus és pass a kapcsolati karakterláncban. A metódus visszaadja a `ConnectionMultiplexer` , amely kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés biztosítja az szálbiztos csak egyetlen csatlakoztatott példány inicializálása.
+Egy Azure Redis Cache-példányhoz való csatlakozáshoz hívja meg a `Connect` statikus metódust, és adja meg a kapcsolati karakterláncot. A metódus egy `ConnectionMultiplexer` értéket ad vissza, amely a kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés egy szálbiztos módszert biztosít egyetlen csatlakoztatott példány inicializálásához.
 
 ```csharp
 private static ConnectionMultiplexer Connection;
@@ -84,9 +84,9 @@ private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionM
 public static ConnectionMultiplexer Connection => lazyConnection.Value;
 ```
 
-A `GetMyEntityAsync` metódus a következő kódrészlet példa a megvalósítást a gyorsítótár-Tartalékoljon minta Azure Redis Cache alapján jeleníti meg. Ez a módszer egy objektum a Ha megközelítéssel a gyorsítótárból kéri le.
+A következő példakódban szereplő `GetMyEntityAsync` metódus az Azure Redis Cache-en alapuló gyorsítótár-feltöltési minta egy megvalósítását mutatja be. Ez a módszer egy objektum a read-through megközelítéssel a gyorsítótárból kéri le.
 
-Az objektum azonosít egy egész azonosítójával kulcsként. A `GetMyEntityAsync` metódus megkísérli lekérni egy elemet az ezt a kulcsot a gyorsítótárból. Ha egy egyező elem található, az adott vissza. Ha nem szerepel a gyorsítótárban a `GetMyEntityAsync` módszer lekéri az objektum egy adattárból, hozzáadja a gyorsítótárhoz, és majd visszaadja. A kódot, amely ténylegesen az adatokat olvas az adattár nem itt jelenik meg, mert az adattár függ. Vegye figyelembe, hogy a gyorsítótárazott elem van-e konfigurálva, nehogy azt a elévültek, ha frissítette máshol lejár.
+A metódus egy egész számból álló azonosítót használ kulcsként az objektumok azonosításához. A `GetMyEntityAsync` metódus megkísérel lekérdezni egy elemet a gyorsítótárból ezzel a kulccsal. Ha a metódus talál egyező elemet, akkor visszaadja. Ha nincs egyezés a gyorsítótárban, a `GetMyEntityAsync` metódus lekérdezi az objektumot az adattárból, hozzáadja a gyorsítótárhoz, majd visszaadja. Az adatokat az adattárból ténylegesen beolvasó kód itt nem látható, mert az az adattártól függően változhat. Figyelje meg, hogy a gyorsítótárazott elem úgy van konfigurálva, hogy elévüljön, és ne váljon elavulttá, ha máshol frissítik.
 
 
 ```csharp
@@ -125,9 +125,9 @@ public async Task<MyEntity> GetMyEntityAsync(int id)
 }
 ```
 
->  A példák a tárolóhoz, és információt lekérni a gyorsítótár az Azure Redis Cache API segítségével. További információkért lásd: [használatával a Microsoft Azure Redis Cache](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Redis Cache-webalkalmazás létrehozása](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
+>  A példák az Azure Redis Cache API használatával férnek hozzá a tárolóhoz és kérdeznek le adatokat a gyorsítótárból. További információ: [A Microsoft Azure Redis Cache használata](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Webalkalmazás létrehozása a Redis Cache használatával](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
 
-A `UpdateEntityAsync` alább látható módszer bemutatja, hogyan kell érvénytelenné válnak a gyorsítótár objektumára, az alkalmazás által az érték megváltozásakor. A kód frissíti az eredeti adattárolóban, és majd eltávolítja a gyorsítótárazott elem a gyorsítótárból.
+Az alább látható `UpdateEntityAsync` metódus azt mutatja be, hogyan érvényteleníthető egy objektum a gyorsítótárban, ha egy alkalmazás módosítja az értékét. A kód frissíti az eredeti adattárat, majd eltávolítja a gyorsítótárazott elemet a gyorsítótárból.
 
 ```csharp
 public async Task UpdateEntityAsync(MyEntity entity)
@@ -144,13 +144,13 @@ public async Task UpdateEntityAsync(MyEntity entity)
 ```
 
 > [!NOTE]
-> Fontos, a lépések sorrendjét. Az adattár frissítése *előtt* elem eltávolítása a gyorsítótárból. Ha először távolítsa el a gyorsítótárazott elem, akkor egy kis ablakban idő, amikor egy ügyfél előfordulhat, hogy beolvasni az elem az adattár frissítése előtt. Vezethet a gyorsítótár-tévesztései (mivel az elem el lett távolítva a gyorsítótárból), a korábbi verziót az adattárból beolvasását elem okozza, és vissza a gyorsítótár fel. A gyorsítótár elavult adatokat lesz.
+> A lépések sorrendje rendkívül fontos. Frissítse az adattárat, *mielőtt* eltávolítaná az elemet a gyorsítótárból. Ha először eltávolítja a gyorsítótárazott elemet, akkor az ügyfélnek csak rövid ideje lesz az elem lekérésére az adattár frissítése előtt. Emiatt a gyorsítótárból nem lesz találat (mivel az elemet eltávolították a gyorsítótárból), így a rendszer az elem egy korábbi változatát kéri le az adattárból és adja hozzá újra a gyorsítótárhoz. Ez pedig elavult gyorsítótár-adatokat eredményez.
 
 
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók 
 
-A következő információkat lehet megfelelő, ebben a mintában végrehajtása során:
+Az alábbi információk segíthetnek a minta megvalósításakor:
 
-- [Útmutatás gyorsítótárazás](https://docs.microsoft.com/azure/architecture/best-practices/caching). További tájékoztatást nyújt hogyan egy felhőalapú megoldáson, és a problémák is figyelembe kell vennie a gyorsítótár bevezetésekor adatokat képes gyorsítótárazni.
+- [Gyorsítótárazási útmutató](https://docs.microsoft.com/azure/architecture/best-practices/caching). További információkat biztosít arról, hogyan gyorsítótárazhat adatokat a felhőalapú megoldásokban, valamint a gyorsítótárak kialakítása előtt megfontolandó szempontokról.
 
-- [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). A felhőalapú alkalmazásokhoz általában használja megjelenített adattárolókhoz. Kezelése, és biztosítja az adatok konzisztenciáját ebben a környezetben az egyik fontos szempontja, hogy a rendszer, különösen a feldolgozási mód és a rendelkezésre állási kapcsolatban felmerülő hibákat. A kezdés konzisztencia kapcsolatos problémákat ismerteti elosztott adatokon keresztül, és összefoglalja, hogyan alkalmazás rendelkezésre állásának adatok végleges konzisztencia is létrehozható.
+- [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A felhőalapú alkalmazások általában több adattárból származó adatokat használnak. Az adatkonzisztencia felügyelete és fenntartása ebben a környezetben a rendszer kritikus fontosságú tényezője, különösen az egyidejűségi és rendelkezésre állási problémák miatt. Ez az ismertető az elosztott adatok esetében felmerülő konzisztenciaproblémákat mutatja be, és összefoglalja, hogyan biztosíthatják az alkalmazások az adatok rendelkezésre állását a végleges konzisztencia megvalósításával.

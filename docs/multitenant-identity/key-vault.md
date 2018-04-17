@@ -5,25 +5,25 @@ author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
-ms.openlocfilehash: 45d1564c255f2450f68c5e92ebe0d7de0c40ae31
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: d49129a38d0413f6006095f03b817885e1ce6c92
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="use-azure-key-vault-to-protect-application-secrets"></a>Az Azure Key Vault segítségével alkalmazás titkos kulcsok védelme
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
 Esetében gyakori, hogy bizalmas és védeni kell, például alkalmazás beállításait:
 
-* Adatbázis-kapcsolati karakterláncok
+* Adatbázisok kapcsolati karakterláncai
 * Jelszavak
 * Titkosítási kulcsok
 
 Biztonsági szempontból ajánlott a verziókövetési rendszerrel ezeknek a kulcsoknak soha nem tárolja. Annak érdekében, hogy nyilvánosságra kerüljenek túl könnyű &mdash; akkor is, ha a forráskódraktárban személyes. És azt nem szinte megakadályozza a titkos kulcsok a főkönyvi nyilvános. A nagyobb projektek mely fejlesztők korlátozni lehet, hogy szeretné, és operátorok férhetnek hozzá a termelési titkos kulcsok. (A teszt- vagy környezetekben található beállítások eltérnek.)
 
-A titkos adatok tárolására egy biztonságosabb beállítás [Azure Key Vault][KeyVault]. Key Vault egy a felhőben üzemeltetett szolgáltatás kriptográfiai kulcsokat és más titkos kulcsok kezeléséhez. Ez a cikk bemutatja, hogyan tárolni a konfigurációs beállításokat az alkalmazást a Key Vault használatával.
+A titkos adatok tárolására egy biztonságosabb beállítás [Azure Key Vault][KeyVault]. Key Vault egy a felhőben üzemeltetett szolgáltatás kriptográfiai kulcsokat és más titkos kulcsok kezeléséhez. Ez a cikk bemutatja, hogyan Key Vault használatával tárolja az alkalmazás konfigurációs beállításokat.
 
 Az a [Dejójáték felmérések] [ Surveys] alkalmazás, a következő beállítások érhetők titkos:
 
@@ -87,7 +87,7 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
 
 2. Válassza ki az előfizetést, amelyet a rendszergazda eléréséhez.
 3. Az előfizetés panelen válassza ki a **hozzáférés-vezérlés (IAM)**.
-4. Kattintson az **Add** (Hozzáadás) parancsra.
+4. Kattintson a **Hozzáadás** parancsra.
 4. A **szerepkör**, jelölje be **tulajdonos**.
 5. Írja be a felhasználó hozzá szeretne adni a tulajdonos e-mail címe.
 6. Válassza ki a felhasználót, és kattintson a **mentése**.
@@ -173,7 +173,7 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
    * DNS-név redis = a Redis cache példány DNS-neve.
    * Redis hozzáférési kulcsot a hozzáférési kulcsot a Redis cache példány =.
      
-2. Ezen a ponton akkor érdemes annak megállapítására, hogy sikeresen tárolta a titkos kulcsok számára kulcstároló. Futtassa a következő PowerShell-parancsot:
+2. Ezen a ponton akkor érdemes annak megállapítására, hogy sikeresen tárolta a titkos kulcsok számára kulcstároló. Futtassa az alábbi PowerShell-parancsot:
    
     ```
     Get-AzureKeyVaultSecret <<key vault name>> Redis--Configuration | Select-Object *
@@ -249,7 +249,7 @@ A bejegyzések [szögletes zárójelbe] cserélje le a megfelelő értékeket.
 * `KeyVault:Name`: A kulcstartót a neve.
 
 > [!NOTE]
-> `Asymmetric:ValidationRequired`hamis, mert a korábban létrehozott tanúsítvány nem volt által aláírt egy legfelső szintű hitelesítésszolgáltatót (CA). Éles, állítsa be, és a legfelső szintű hitelesítésszolgáltató által aláírt tanúsítványt használjon `ValidationRequired` igaz értékre.
+> `Asymmetric:ValidationRequired` hamis, mert a korábban létrehozott tanúsítvány nem volt által aláírt egy legfelső szintű hitelesítésszolgáltatót (CA). Éles, állítsa be, és a legfelső szintű hitelesítésszolgáltató által aláírt tanúsítványt használjon `ValidationRequired` igaz értékre.
 > 
 > 
 
@@ -282,7 +282,7 @@ Cserélje le a [szögletes zárójelbe] bejegyzések, és mentse a secrets.json 
 > 
 > 
 
-[**Következő**][adfs]
+[**Tovább**][adfs]
 
 <!-- Links -->
 [adfs]: ./adfs.md

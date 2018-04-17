@@ -3,11 +3,11 @@ title: Adatsérülés vagy véletlen törlés helyreállítása
 description: 'A következő cikket: az adatok sérülésének adatok vagy a véletlen adattörlés és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése alapos ismerete'
 author: MikeWasson
 ms.date: 01/10/2018
-ms.openlocfilehash: 76d2f996750d5a67b67bd5dc4977580f3b8abbc3
-ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
+ms.openlocfilehash: b0716de39fe69d607b9a63e51356d28bbcdbfeae
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/11/2018
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="recover-from-data-corruption-or-accidental-deletion"></a>Adatsérülés vagy véletlen törlés helyreállítása 
 
@@ -23,7 +23,7 @@ Az Azure Storage automatikus replikák keresztül adatrugalmasság biztosít. Az
 
 - **Blokkblobokat**. Hozzon létre minden egyes blokkblob pont időponthoz kötött pillanatképet. További információkért lásd: [egy pillanatképet készíteni egy Blob](/rest/api/storageservices/creating-a-snapshot-of-a-blob). Minden egyes pillanatkép van csak szó, a szükséges a különbségek belül a blob tárolására, mert az utolsó pillanatkép-állapot tárolásához. A pillanatképek függnek a létezik-e az eredeti blob, alapulnak, ezért egy másik blob vagy akár egy másik tárfiókhoz a másolási műveletek használata javasolt. Ez biztosítja, hogy a biztonsági mentési adatok megfelelően védett véletlen törlése ellen. Használhat [AzCopy](/azure/storage/common/storage-use-azcopy) vagy [Azure PowerShell](/azure/storage/common/storage-powershell-guide-full) a BLOB másolása másik tárolási fiókot.
 
-- **Fájlok**. Használjon [megosztása pillanatképeket (előzetes verzió)](/azure/storage/files/storage-how-to-use-files-snapshots), vagy másolja a fájlokat egy másik tárfiókhoz AzCopy vagy a PowerShell segítségével.
+- **Fájlok**. Használjon [pillanatképek megosztása](/azure/storage/files/storage-snapshots-files), vagy másolja a fájlokat egy másik tárfiókhoz AzCopy vagy a PowerShell segítségével.
 
 - **Táblák**. AzCopy segítségével a tábla adatainak exportálása egy másik régióban másik tárolási fiókot.
 
@@ -51,5 +51,5 @@ Ha Azure-adatbázis MySQL vagy az Azure-adatbázishoz a PostreSQL, az adatbázis
 
 - [Készítsen biztonsági másolatot, és egy kiszolgálóhoz az Azure-adatbázis visszaállítása a MySQL az Azure portál használatával](/azure/mysql/howto-restore-server-portal)
 
-- [Biztonsági mentése és visszaállítása egy kiszolgálóhoz az Azure-adatbázis az Azure portál használatával PostgreSQL](/azure/postgresql/howto-restore-server-portal)
+- [Egy Azure Database for PostgreSQL-kiszolgáló biztonsági mentése és visszaállítása az Azure Portal használatával](/azure/postgresql/howto-restore-server-portal)
 

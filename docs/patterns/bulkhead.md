@@ -1,75 +1,75 @@
 ---
 title: Válaszfal minta
-description: Elemek készletekbe vonni az alkalmazások elkülönítése, hogy ha nem sikerül, a többi tovább működik
+description: Készletekbe választhatja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: a2c499d77fafc4bee6b74ee0e0d84e6c23b47851
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 9917870e1dcbed87aaa41e051f1622ad4950456a
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="bulkhead-pattern"></a>Válaszfal minta
 
-Különítse el a készletekbe kérelem elemei, hogy ha nem sikerül, a többi tovább működik.
+Készletekbe választja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen.
 
-Ebben a mintában nevű *válaszfal* , mert azt egy szállítási rendelkező üzenetpanelt partíciója hasonlít. Ha az egy szállítási rendelkező biztonsága sérül, csak a sérült szakasz beírja vízjel, amely megakadályozza a szállítási elhelyezés. 
+Ezt a mintát *Válaszfal* mintának nevezik, mert egy hajótest felosztott részeire emlékeztet. Ha a hajótest megsérül, csak a sérült szakasz telik meg vízzel, így a hajó nem süllyed el. 
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-A felhő alapú alkalmazás tartalmazhat több szolgáltatás minden egyes szolgáltatással, hogy egy vagy több fogyasztó számára. Túlterhelés vagy hiba történt a szolgáltatás hatással van-e a szolgáltatás összes ügyfelet.
+Egy felhőalapú alkalmazás több szolgáltatást is tartalmazhat, és minden szolgáltatás egy vagy több fogyasztóval is rendelkezhet. Ha egy szolgáltatás túl van terhelve vagy meghibásodik, az minden fogyasztót érint.
 
-Ezenkívül egy végfelhasználói előfordulhat, hogy kérelmet küldeni több szolgáltatás egyidejűleg, erőforrások használatával az egyes kérelmek. Az ügyfél elküldi a kérelmet egy szolgáltatás, amely helytelenül van konfigurálva, vagy nem válaszol, amikor az ügyfél kérelem által használt erőforrások előfordulhat, hogy nem szabadul fel időben. A szolgáltatás tovább kérelmeket, mert ezeket az erőforrásokat is kimerül. Például az ügyfél kapcsolatot is lehet kimerült. Ezen a ponton kérelmek más szolgáltatások a fogyasztó által érintett. Végül a fogyasztó nem kéréseket küldhetnek más szolgáltatásokkal, nem csak az eredeti nem válaszoló szolgáltatás.
+Továbbá egy fogyasztó egyszerre több szolgáltatáshoz is küldhet kéréseket, és minden kéréshez erőforrásokat használ fel. Ha egy fogyasztó kérést küld egy rosszul konfigurált vagy nem válaszoló szolgáltatásnak, előfordulhat, hogy az ügyfél kérése által felhasznált erőforrások hogy nem szabadulnak fel megfelelő időn belül. Ahogy újabb kérések érkeznek a szolgáltatáshoz, ezek az erőforrások kimerülhetnek. Kimerülhet például az ügyfél kapcsolatkészlete. Ez már a fogyasztó más szolgáltatásokhoz küldött kéréseire is kihat. Végül a fogyasztó már más szolgáltatásoknak sem fog tudni kéréseket küldeni, nem csak az eredeti nem válaszoló szolgáltatásnak.
 
-Az erőforrás-fogyási ugyanazon probléma azokat a szolgáltatásokat, több felhasználóból. Egyik ügyféltől származó kérelmek nagy számú is lefoglalhat a szolgáltatásban elérhető erőforrások. Más felhasználói nem tudnak a szolgáltatás felhasználásához effektus a kaszkádolt hibája okozza.
+Ugyanez az erőforrásfogyás a több fogyasztóval rendelkező szolgáltatásokat is érinti. Az egy ügyféltől nagy számban érkező kérések kimeríthetik a szolgáltatás elérhető erőforrásait. Így a többi fogyasztó tudja igénybe venni a szolgáltatást, ez pedig lépcsőzetesen terjedő hibákhoz vezet.
 
 ## <a name="solution"></a>Megoldás
 
-A szolgáltatáspéldány partíció különböző csoportok fogyasztói terhelés és a rendelkezésre állási követelmények alapján. Ez a kialakítás segít elkülöníteni a hibákat, és lehetővé teszi szolgáltatási szolgáltatások fenntartása az egyes fogyasztók hiba esetén.
+Particionálja a szolgáltatáspéldányokat különböző csoportokba a fogyasztók mennyisége és a rendelkezésre állási követelmények alapján. Ez a tervezés segít a hibák elkülönítésében, és meghibásodás esetén is biztosítja, hogy a szolgáltatás bizonyos fogyasztók számára elérhető legyen.
 
-A fogyasztó is képes partícióazonosító erőforrásokat, győződjön meg arról, hogy egy szolgáltatás meghívásához használt erőforrásokat egy másik szolgáltatás hívásához használt erőforrások nem befolyásolják. Például, amely behívja több szolgáltatás ügyféllel rendelt minden egyes szolgáltatás kapcsolatkészlet. Ha egy szolgáltatás megkezdi az sikertelen lesz, csak az adott szolgáltatáshoz, lehetővé téve az ügyfélnek továbbra is használja a többi szolgáltatáshoz hozzárendelt kapcsolatkészlet hatással van.
+A fogyasztók szintén particionálhatják az erőforrásokat, így az egyik szolgáltatás hívásához használt erőforrások nem befolyásolják a másik szolgáltatás hívásához használtakat. Például egy több szolgáltatást is hívó fogyasztóhoz szolgáltatásonként külön kapcsolatkészlet rendelhető hozzá. Ha egy szolgáltatás kezd meghibásodni, ez csak az adott szolgáltatáshoz hozzárendelt kapcsolatkészletet érinti, így a fogyasztó tovább használhatja a többi szolgáltatást.
 
-Ez a minta a következő előnyöket nyújtja:
+A minta használata többek között a következő előnyökkel jár:
 
-- Elkülöníti a fogyasztók és szolgáltatások az egymásra épülő hibák. Lehet, hogy egy felhasználó vagy a szolgáltatást érintő probléma elkülönített belül a saját válaszfal, akadályozza meg, hogy a teljes megoldás is megfelelően működjenek.
-- Lehetővé teszi bizonyos funkciók szolgáltatás meghibásodása megőrzése érdekében. Szolgáltatások és funkciók az alkalmazás továbbra is működnek majd.
-- Szolgáltatások telepítését, amelyek a felhasználó alkalmazásokban különböző szolgáltatásminőség lehetővé teszi lehetővé. Egy magas prioritású fogyasztói készlet beállítható úgy, hogy fontos szolgáltatások használatára. 
+- Elkülöníti a fogyasztókat és szolgáltatásokat a lépcsőzetesen terjedő hibáktól. A fogyasztókat vagy szolgáltatásokat érintő hibák elkülöníthetők a saját válaszfalukon belül, így megakadályozható a teljes megoldás meghibásodása.
+- Lehetővé teszi a működésképesség bizonyos szintű fenntartását a szolgáltatás meghibásodása esetén is. Az alkalmazás többi szolgáltatása és funkciója továbbra is működhet.
+- Lehetővé teszi olyan szolgáltatások üzembe helyezését, amelyek eltérő minőségű szolgáltatást biztosítanak a felhasználó alkalmazások számára. Beállítható egy magas prioritású fogyasztókészlet a magas prioritású szolgáltatások használatához. 
 
-Az alábbi ábrán látható kapcsolatkészletek hívó egyes szolgáltatások köré strukturált válaszfalak. Ha a szolgáltatás A nem sikerül, vagy valamilyen egyéb miatt nem probléma, a kapcsolatot a kapcsolatkészletből, elkülönített, ezért a szolgáltatáshoz rendelt szálkészlet csak munkaterhelés egy befolyásolja. Szolgáltatás B és C használó munkaterhelések nem érinti, és folytathatja megszakítás nélkül.
+Az alábbi ábra a különálló szolgáltatásokat hívó kapcsolatkészletek köré strukturált válaszfalakat ábrázol. Ha az A szolgáltatás meghibásodik vagy egyéb hibát okoz, a kapcsolatkészlet elkülönítése miatt a hiba csak azokat a számítási feladatokat érinti, amelyek az A szolgáltatáshoz hozzárendelt szálkészletet használják. A B és C szolgáltatásokat használó számítási feladatokat ez nem befolyásolja, és megszakítás nélkül működhetnek tovább.
 
 ![](./_images/bulkhead-1.png) 
 
-A következő ábrán egy egyetlen szolgáltatást több ügyfél. Minden egyes ügyfélnek külön szolgáltatáspéldány van hozzárendelve. Ügyfél 1 túl sok kérelmet és a példány túlterhelik. Minden szolgáltatáspéldány el különítve a többi, mert az ügyfelek továbbra is hívások.
+A következő diagram több ügyfelet ábrázol, amelyek ugyanazt a szolgáltatást hívják. Minden ügyfélhez különálló szolgáltatáspéldány van hozzárendelve. Az 1. ügyfél túl sok kérést küldött, és túlterhelte a példányát. Mivel minden szolgáltatáspéldány külön van választva a többitől, a többi ügyfél továbbra is küldhet hívásokat.
 
 ![](./_images/bulkhead-2.png)
      
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-- Definiáljon partíciókat a üzleti és műszaki követelményeit, az alkalmazás körül.
-- Particionálás és fogyasztók válaszfalak be, vegye figyelembe a technológiai, valamint a terhelés költségének, teljesítményének és kezelhetőség szempontjából által kínált elkülönítési szintjét.
-- Vegye figyelembe a válaszfalak kombinálásával ismételt próbálkozás után, az áramköri megszakító, és a szabályozás minták kifinomultabb tartalék kezelési biztosításához.
-- Válaszfalak a fogyasztók particionálásakor érdemes folyamatok, a szál készletek és a szemaforok. Például a projektek [Netflix Hystrix] [ hystrix] és [Polly] [ polly] keretrendszere, amely fogyasztói válaszfalak létrehozása kínálnak.
-- Szolgáltatások a válaszfalak particionálásakor fontolja meg olyan önálló virtuális gépek, a tárolók és a folyamatok üzembe őket. Tárolók rövid egyensúlyt erőforrás-elkülönítést, viszonylag alacsony terhelés mellett.
-- Aszinkron üzenetek használatával kommunikáló szolgáltatások el lehet különíteni a várólisták más-más részhalmazához. Minden várólista rendelkezhet egy dedikált példánya a várólista, vagy egy különálló csoportot olyan algoritmussal created és feldolgozási mennyi példányok üzenetek feldolgozása.
-- Meghatározza a válaszfalak részletességgel szintjét. Például ha azt szeretné, partíciók bérlők szét, akkor sikerült helyezze mindegyik bérlő külön partíción, put több bérlő több partícióra.
-- Mindegyik partíció teljesítmény- és SLA figyelése.
+- Határozza meg a partíciókat az alkalmazás üzleti és műszaki követelményei alapján.
+- Amikor válaszfalakkal particionálja a szolgáltatásokat vagy fogyasztókat, vegye figyelembe a technológia által nyújtott elkülönítési szinteket és a terhelést (költségek, teljesítmény és kezelhetőség) is.
+- Vegye fontolóra a válaszfalak újrapróbálkozási, áramkör-megszakító és szabályozási mintákkal történő kombinálását a kifinomultabb hibakezelés biztosítása érdekében.
+- A fogyasztók válaszfalakkal történő particionálása esetén érdemes megfontolni a folyamatok, szálkészletek és szemaforok használatát. A [Netflix Hystrix][hystrix] és [Polly][polly], illetve hasonló projektek biztosítják a keretrendszert a fogyasztói válaszfalak létrehozásához.
+- A szolgáltatások válaszfalakkal történő particionálása esetén érdemes megfontolni a különálló virtuális gépeken, tárolókban vagy folyamatokban történő üzembe helyezést. A tárolók viszonylag csekély többletterhelés mellett biztosítják az erőforrások elkülönítését.
+- Az aszinkron üzenetekkel kommunikáló szolgáltatások különböző üzenetsor-készletekkel különíthetők el. Minden üzenetsor rendelkezhet egy dedikált példánykészlettel, amely feldolgozza az üzenetsorban található üzeneteket, vagy egyetlen példánycsoporttal, amely egy algoritmussal eltávolítja az üzeneteket a sorból, és kiosztja őket feldolgozásra.
+- Határozza meg a választófalak részletességi szintjét. Például ha azt szeretné, partíciók bérlők szét, akkor nem helyezzen el mindegyik bérlő külön partíción, vagy több bérlő üzembe egy partíciót.
+- Monitorozza az egyes partíciók teljesítményét és SLA-ját.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-A minta használata:
+Ez a minta a következőkre használható:
 
-- Különítse el a használt háttér szolgáltatások felhasználásához, különösen akkor, ha az alkalmazás biztosíthat bizonyos fokú funkciót, akkor is, ha egy szolgáltatás nem válaszol.
-- Különítse el a fogyasztói kritikus fogyasztók.
-- Az alkalmazás a kaszkádolt meghibásodásával szembeni védelemhez.
+- háttérszolgáltatások készletét fogyasztó erőforrások elkülönítése, különösen, ha az alkalmazás akkor is működőképes marad valamilyen szinten, ha az egyik szolgáltatás nem válaszol;
+- kritikus fontosságú fogyasztók különválasztása a standard fogyasztóktól;
+- az alkalmazás védelme a lépcsőzetesen terjedő hibákkal szemben.
 
-Ez a minta nem alkalmasak lehetnek esetén:
+Nem érdemes ezt a mintát használni, ha:
 
-- Erőforrások kevésbé hatékony használatát nem lehet a projekt elfogadható.
-- Nincs szükség a hozzáadott összetettsége
+- az erőforrások kevésbé hatékony felhasználása nem elfogadható a projektben;
+- a hozzáadott összetettség nem szükséges.
 
 ## <a name="example"></a>Példa
 
-A következő Kubernetes konfigurációs fájl létrehoz egy elszigetelt tárolót, hogy egyetlen szolgáltatás, futtassa a saját CPU és memória-erőforrásokat és a határértékeket.
+Az alábbi Kubernetes konfigurációs fájl egy egyetlen szolgáltatást futtató elkülönített tárolót hoz létre, amely saját processzor- és memória-erőforrásokkal, valamint korlátokkal rendelkezik.
 
 ```yml
 apiVersion: v1
@@ -89,12 +89,12 @@ spec:
         cpu: "1"
 ```
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Áramköri megszakító minta](./circuit-breaker.md)
+- [Áramkör-megszakító minta](./circuit-breaker.md)
 - [Rugalmas alkalmazások tervezése az Azure számára](../resiliency/index.md)
-- [Ismételje meg a minta](./retry.md)
-- [Sávszélesség-szabályozási minta](./throttling.md)
+- [Újrapróbálkozási minta](./retry.md)
+- [Szabályozási minta](./throttling.md)
 
 
 <!-- links -->

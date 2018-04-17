@@ -3,11 +3,11 @@ title: Sérülésgátló réteg minta
 description: Egy előtér- vagy adapterréteget implementálhat egy korszerű alkalmazás és egy korábbi rendszer között.
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: efb1f90be33c2621c7a24c42730da9fffe70dfad
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: ac898519c9aa0a0aa2301da9f48756db0eb2af7c
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="anti-corruption-layer-pattern"></a>Sérülésgátló réteg minta
 
@@ -21,7 +21,7 @@ A régebbi rendszerekben gyakoriak a minőségbeli hibák (pl. szövevényes ada
 
 Az új és a régebbi rendszer közötti hozzáférés fenntartása érdekében előfordulhat, hogy az új rendszernek alkalmazkodnia kell néhányhoz a korábbi rendszer API-jai vagy más szemantikái közül. Ha ezek a régebbi funkciók hibásak, támogatásukkal „megsérül” a máskülönben letisztult tervezésű korszerű alkalmazás. 
 
-Bármely külső rendszer szabályozó developmenmt csapata nem, csak a régebbi rendszerekre hasonló problémák merülhetnek fel. 
+Bármely külső rendszer szabályozó a fejlesztői csapat nem, csak a régebbi rendszerekre hasonló problémák merülhetnek fel. 
 
 ## <a name="solution"></a>Megoldás
 

@@ -3,11 +3,11 @@ title: Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése
 description: Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric.
 author: MikeWasson
 ms.date: 04/27/2017
-ms.openlocfilehash: ce9c138a6b093fb7f0329c619c75bd4f4aacc2e7
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: b9ecbc88ae74da99a0ff3bb8814a9cb3422f79d5
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése 
 
@@ -46,10 +46,10 @@ Egy részletes ismertető a mikroszolgáltatások nem ez a cikk terjed, de itt D
 
 - **Alkalmazásfrissítések**. Szolgáltatások egymástól függetlenül, telepíthető, így egy alkalmazás frissítése egy növekményes módszert is igénybe vehet.
 - **Rugalmasság és a hibatűrés elkülönítési**. Ha nem sikerül egy szolgáltatás, más szolgáltatásokkal tovább futnak.
-- **Méretezhetőség**. Szolgáltatások egymástól függetlenül lehet méretezni.
+- **Méretezhetőség**. A szolgáltatások egymástól függetlenül skálázhatók.
 - **Rugalmasság**. Üzleti forgatókönyvek, nem egy technológia csomagokat, így könnyebben szolgáltatások áttelepítése új technológiákat, a keretrendszer vagy tárolók körül szolgáltatást tervezték.
 - **Gyors fejlesztési**. Egyes szolgáltatások kevesebb mint egy egységes alkalmazás kódot, a kód alap könnyebb megismerkedett, okát, és teszteléséhez.
-- **Kisméretű, célzott csoportok**. Az alkalmazás számos kis szolgáltatás bontani, mert minden egyes szolgáltatás épül fel egy kis célzott csoportnak.
+- **Kis méretű, célzott csapatok**. Az alkalmazás számos kis szolgáltatás bontani, mert minden egyes szolgáltatás épül fel egy kis célzott csoportnak.
 
 ## <a name="why-service-fabric"></a>Miért Service Fabric?
       
@@ -57,7 +57,7 @@ A Service Fabric remekül beválik, ha egy mikroszolgáltatások architektúráj
 
 - **Felügyeleti fürt**. A Service Fabric automatikusan kezeli a csomópontok feladatátvételét hiba, állapotfigyelést és egyéb fürt felügyeleti funkciót.
 - **Horizontális skálázás**. Amikor csomópontot ad hozzá a Service Fabric-fürt, az alkalmazás automatikusan arányosan, ahogy a szolgáltatásokat az új csomópontok különböző pontjain.
-- **A szolgáltatásészlelés**. A Service Fabric egy tudja oldani az elnevezett szolgáltatás felderítési szolgáltatást biztosít.
+- **A szolgáltatásészlelés**. A Service Fabric egy olyan felderítési szolgáltatást nyújt, amellyel feloldható egy elnevezett szolgáltatás végpontja.
 - **Állapot nélküli és állapotalapú szolgáltatással**. Állapotalapú szolgáltatások használata [megbízható gyűjtemények][sf-reliable-collections], amely egy gyorsítótár-vagy várólista végrehajthatók, és lehet particionálni.
 - **Alkalmazás-életciklus kezelésének**. Szolgáltatások frissítése egymástól függetlenül és az alkalmazás leállítása nélkül.
 - **Vezénylési szolgáltatás** gépet fürtön belül.
@@ -71,15 +71,15 @@ A következő táblázat összefoglalja néhány fontos Cloud Services és a Ser
 
 |        | Cloud Services | Service Fabric |
 |--------|---------------|----------------|
-| Alkalmazás összeállítás | Szerepkörök| Szolgáltatások |
-| Sűrűség |Egy szerepkör példánya virtuális gépenként | Az egyetlen csomópont több szolgáltatás |
+| Alkalmazás összeállítása | Szerepkörök| Szolgáltatások |
+| Sűrűség |Egy szerepkörpéldány virtuális gépenként | Az egyetlen csomópont több szolgáltatás |
 | Csomópontok minimális száma | 2 / szerepkör | az üzemi környezetek fürtönként 5 |
 | Állapotkezelés | Állapot nélküli | Stateless vagy állapotalapú alkalmazások és szolgáltatások |
 | Hosting | Azure | Felhőalapú vagy helyszíni |
-| Webtároláshoz | IIS** | Self-hosting |
+| Webes üzemeltetés | IIS** | Self-hosting |
 | Üzemi modell | [Klasszikus telepítési modell][azure-deployment-models] | [Erőforrás-kezelő][azure-deployment-models]  |
 | Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szervizcsomagok |
-| Alkalmazás frissítése | Virtuális IP-címcsere vagy a működés közbeni frissítés | Működés közbeni frissítés |
+| Alkalmazás frissítése | Virtuális IP-címek felcserélése vagy működés közbeni frissítés | Működés közbeni frissítés |
 | Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Automatikus Virtuálisgép-méretezési készlet horizontális felskálázása |
 | Hibakeresés | Helyi emulátor | Helyi fürt |
 
@@ -141,9 +141,9 @@ Az eredeti felmérések alkalmazást ASP.NET MVC használja. ASP.NET MVC a Servi
 
 - A webes szerepkörök az ASP.NET Core, amely lehet önálló központi portot.
 - A webhely átalakítása egy egyoldalas alkalmazás (SPA), amely meghívja a webes API-k megvalósított ASP.NET Web API használatával. Ez igényelt volna az előtér-webkiszolgáló teljes újratervezése.
-- Tartsa a meglévő ASP.NET MVC-kódot, és telepítheti a Windows Server tárolóban lévő IIS Service Fabric. Ez a megközelítés igényelnének kevéssé vagy egyáltalán ne kód módosítása. Azonban [tároló támogatási] [ sf-containers] a Service Fabric jelenleg még előzetes verzió.
+- Tartsa a meglévő ASP.NET MVC-kódot, és telepítheti a Windows Server tárolóban lévő IIS Service Fabric. Ez a megközelítés igényelnének kevéssé vagy egyáltalán ne kód módosítása. 
 
-E szempontok alapján, azt első használatát választotta, az ASP.NET Core eljárás. Ehhez a leírt lépések azt követni [áttelepítése az ASP.NET MVC az ASP.NET Core MVC][aspnet-migration]. 
+Az első lehetőség, az ASP.NET Core eljárás engedélyezett, hogy az ASP.NET Core a legújabb funkciók előnyeit. Az átalakítás végrehajtásához igazolnia követni leírt lépések [áttelepítése az ASP.NET MVC az ASP.NET Core MVC][aspnet-migration]. 
 
 > [!NOTE]
 > Ha az ASP.NET Core használ vércse, helyezze elé, biztonsági okokból az internetről érkező forgalmat fog kezelni vércse fordított proxykiszolgálójaként. További információkért lásd: [vércse web server ASP.NET Core implementációjában][kestrel]. A szakasz [az alkalmazás telepítése](#deploying-the-application) ajánlott az Azure-telepítés ismerteti.
@@ -178,7 +178,7 @@ Egy szolgáltatás, explicit módon létre kell hoznia figyelői végpontok. A h
 
 | Fájl | Leírás |
 |------|-------------|
-| Service definition (.csdef) | A felhőszolgáltatás konfigurálása az Azure-ban használt beállításokat. Határozza meg a szerepköröket, végpontok, indítási feladatok és a konfigurációs beállítások neveit. |
+| Szolgáltatás definíciós (.csdef) | A felhőszolgáltatás konfigurálása az Azure-ban használt beállításokat. Határozza meg a szerepköröket, végpontok, indítási feladatok és a konfigurációs beállítások neveit. |
 | Szolgáltatás konfigurációs (.cscfg) | Egy központi telepítési beállításokat, beleértve a szerepkörpéldányok számát, a végpont portszámok és a konfigurációs beállítások értékeit. 
 | Szolgáltatás csomagba (.cspkg) | Tartalmazza az alkalmazás kódjában és konfigurációk és a szolgáltatásdefiníciós fájlban.  |
 

@@ -1,23 +1,20 @@
 ---
 title: Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
-description: >-
-  Biztonságos hibrid hálózati architektúra megvalósítása az Active Directory engedélyezésével az Azure-ban.
-
-  guidance,vpn-gateway,expressroute,load-balancer,virtual-network,active-directory
+description: A helyszíni Active Directory-tartomány kiterjesztése az Azure-bA
 author: telmosampaio
-ms.date: 11/28/2016
+ms.date: 04/13/2018
 pnp.series.title: Identity management
 pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
-ms.openlocfilehash: 007d244f29bf11c6e2bd703c7f4f245d22c02f0f
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: bcd1e2b1b925a5d64665c5651c24589a77e39ec9
+ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/30/2018
+ms.lasthandoff: 04/16/2018
 ---
 # <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 
-Ez a referenciaarchitektúra bemutatja, hogyan terjesztheti ki az Active Directory-környezetet az Azure-ra az [Active Directory Domain Services (AD DS)][active-directory-domain-services] használatával, elosztott hitelesítési szolgáltatások biztosításához.  [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+A referencia-architektúrában bemutatja, hogyan terjeszthető ki az Active Directory-környezet az Azure Active Directory tartományi szolgáltatások (AD DS) használatával elosztott hitelesítési szolgáltatások biztosításához. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
@@ -103,27 +100,113 @@ A BitLocker vagy az Azure Disk Encryption használatával titkosítsa az AD DS-a
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az [Azure CLI][azure-powershell] legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github]. Vegye figyelembe, hogy a teljes telepítési órát is igénybe vehet legfeljebb két, mely tartalmazza a VPN gateway létrehozása, és futtatja a parancsfájlokat, amelyek az AD DS konfigurálása.
 
-1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
+### <a name="prerequisites"></a>Előfeltételek
 
-2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
+1. Klónozás, elágazás vagy a [hivatkozás architektúrák] [ref-architektúrája-tárház] GitHub tárház zip-fájl letöltése.
 
-3. Futtassa az alábbi parancsot:
-    ```Powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
+2. Telepítés [Azure CLI 2.0][azure-cli-2].
+
+3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
+
+4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
+
+   ```bash
+   az login
+   ```
+
+### <a name="deploy-the-simulated-on-premises-datacenter"></a>A szimulált helyszíni adatközpont üzembe helyezése
+
+1. Keresse meg a `identity/adds-extend-domain` mappába a referencia architektúra tárház.
+
+2. Nyissa meg az `onprem.json` fájlt. Keresse meg `adminPassword` , és adjon értékeket a jelszót. A fájl három példányok szerepelnek.
+
+    ```bash
+    "adminUsername": "testuser",
+    "adminPassword": "<password>",
     ```
-    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
-    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
-    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
-    * `Onpremise`: a szimulált helyszíni környezetet helyezi üzembe.
-    * `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe az Azure-ban.
-    * `CreateVpn`: az Azure-beli virtuális hálózati átjárót telepíti, és csatlakoztatja a szimulált a helyszíni hálózathoz.
-    * `AzureADDS`: üzembe helyezi az AD DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és üzembe helyezi a tartományt az Azure-ban.
-    * `Workload`: a nyilvános és privát DMZ-ket, illetve a számítási feladatok szintjét helyezi üzembe.
-    * `All`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha nem rendelkezik meglévő helyszíni hálózattal, de telepíteni kívánja a fentebb ismertetett teljes referenciaarchitektúrát tesztelés vagy értékelés céljából.**
 
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `All` üzembe helyezést választja, a folyamat több órát vesz igénybe.
+3. A ugyanazt a fájlt, keresse meg a `protectedSettings` , és adjon értékeket a jelszót. Két példánya van `protectedSettings`, egy AD-kiszolgálónként.
+
+    ```bash
+    "protectedSettings": {
+      "configurationArguments": {
+        ...
+        "AdminCreds": {
+          "UserName": "testadminuser",
+          "Password": "<password>"
+        },
+        "SafeModeAdminCreds": {
+          "UserName": "testsafeadminuser",
+          "Password": "<password>"
+        }
+      }
+    }
+    ```
+
+4. A következő parancsot, és várja meg, a telepítés befejezéséhez:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p onprem.json --deploy
+    ```
+
+### <a name="deploy-the-azure-vnet"></a>Az Azure virtuális hálózat telepítése
+
+1. Nyissa meg az `azure.json` fájlt.  Keresse meg `adminPassword` , és adjon értékeket a jelszót. A fájl három példányok szerepelnek.
+
+    ```bash
+    "adminUsername": "testuser",
+    "adminPassword": "<password>",
+    ```
+
+2. A ugyanazt a fájlt, keresse meg a `protectedSettings` , és adjon értékeket a jelszót. Két példánya van `protectedSettings`, egy AD-kiszolgálónként.
+
+    ```bash
+    "protectedSettings": {
+      "configurationArguments": {
+        ...
+        "AdminCreds": {
+          "UserName": "testadminuser",
+          "Password": "<password>"
+        },
+        "SafeModeAdminCreds": {
+          "UserName": "testsafeadminuser",
+          "Password": "<password>"
+        }
+      }
+    }
+    ```
+
+3. A `sharedKey`, adjon meg egy megosztott kulcsot, a VPN-kapcsolathoz. Két példánya van `sharedKey` a paraméter fájlban.
+
+    ```bash
+    "sharedKey": "",
+    ```
+
+4. A következő parancsot, és várja meg, a telepítés befejezéséhez.
+
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p onoprem.json --deploy
+    ```
+
+   Központi telepítése, a helyszíni virtuális hálózat ugyanabban az erőforráscsoportban.
+
+### <a name="test-connectivity-with-the-azure-vnet"></a>Az Azure virtuális hálózaton használt kapcsolatok tesztelése
+
+Afterr telepítés befejeződött, a szimulált a helyszíni környezetből az Azure VNet való kapcsolat teszteléséhez.
+
+1. Az Azure portál segítségével nevű virtuális gép található `ra-onpremise-mgmt-vm1`.
+
+2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `onprem.json` paraméterfájl.
+
+3. Az belül a távoli asztali munkamenetet, nyissa meg a másik távoli asztali munkamenetet 10.0.4.4, amely az IP-cím nevű VM `adds-vm1`. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `azure.json` paraméterfájl.
+
+4. A belül a távoli asztali munkamenet `adds-vm1`, és **Kiszolgálókezelő** kattintson **kezelendő kiszolgálók hozzáadása.** 
+
+5. Az a **Active Directory** lapra, majd **Keresés most**. Az AD listáját kell megjelennie az AD DS és a webes virtuális gépeket.
+
+   ![](./images/add-servers-dialog.png)
 
 ## <a name="next-steps"></a>További lépések
 
@@ -131,27 +214,27 @@ Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy mego
 * Az Azure-alapú [Active Directory Federation Services- (AD FS-) infrastruktúra létrehozására][adfs] vonatkozó ajánlott eljárások megismerése.
 
 <!-- links -->
+
 [adds-resource-forest]: adds-forest.md
 [adfs]: adfs.md
-
+[azure-cli-2]: /azure/install-azure-cli
+[azbb]: https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks
 [implementing-a-secure-hybrid-network-architecture]: ../dmz/secure-vnet-hybrid.md
 [implementing-a-secure-hybrid-network-architecture-with-internet-access]: ../dmz/secure-vnet-dmz.md
 
-[active-directory-domain-services]: https://technet.microsoft.com/library/dd448614.aspx
 [adds-data-disks]: https://msdn.microsoft.com/library/azure/jj156090.aspx#BKMK_PlaceDB
 [ad-ds-operations-masters]: https://technet.microsoft.com/library/cc779716(v=ws.10).aspx
 [ad-ds-ports]: https://technet.microsoft.com/library/dd772723(v=ws.11).aspx
 [availability-set]: /azure/virtual-machines/virtual-machines-windows-create-availability-set
-[azure-expressroute]: https://azure.microsoft.com/documentation/articles/expressroute-introduction/
-[azure-powershell]: /powershell/azureps-cmdlets-docs
-[azure-vpn-gateway]: https://azure.microsoft.com/documentation/articles/vpn-gateway-about-vpngateways/
+[azure-expressroute]: /azure/expressroute/expressroute-introduction
+[azure-vpn-gateway]: /azure/vpn-gateway/vpn-gateway-about-vpngateways
 [capacity-planning-for-adds]: http://social.technet.microsoft.com/wiki/contents/articles/14355.capacity-planning-for-active-directory-domain-services.aspx
 [considerations]: ./considerations.md
 [GitHub]: https://github.com/mspnp/reference-architectures/tree/master/identity/adds-extend-domain
 [microsoft_systems_center]: https://www.microsoft.com/server-cloud/products/system-center-2016/
 [monitoring_ad]: https://msdn.microsoft.com/library/bb727046.aspx
 [security-considerations]: #security-considerations
-[set-a-static-ip-address]: https://azure.microsoft.com/documentation/articles/virtual-networks-static-private-ip-arm-pportal/
+[set-a-static-ip-address]: /azure/virtual-network/virtual-networks-static-private-ip-arm-pportal
 [standby-operations-masters]: https://technet.microsoft.com/library/cc794737(v=ws.10).aspx
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/identity-architectures.vsdx
 [vm-windows-sizes]: /azure/virtual-machines/virtual-machines-windows-sizes
