@@ -7,11 +7,11 @@ ms.date: 11/28/2016
 pnp.series.next: adds-extend-domain
 pnp.series.prev: ./index
 cardTitle: Integrate on-premises AD with Azure AD
-ms.openlocfilehash: 431de4b2e08c79f70cc9830fda8315e07bf22c64
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 9475d669b2cb8888a7ceabed7e36317fe63681fd
+ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/30/2018
+ms.lasthandoff: 04/23/2018
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -119,9 +119,9 @@ További információk ezekről a topológiákról: [Azure AD Connect-topológi�
 
 ### <a name="user-authentication"></a>Felhasználóhitelesítés
 
-Alapértelmezés szerint az Azure AD Connect szinkronizálási kiszolgáló a jelszó-szinkronizálást a helyszíni tartomány és az Azure AD között állítja be, és az Azure AD szolgáltatás feltételezi, hogy a felhasználók a hitelesítéshez a helyszíni környezetben használt jelszavukat használják. A legtöbb vállalat számára ez megfelelő, de érdemes figyelembe venni a vállalat meglévő szabályzatait és infrastruktúráját. Példa:
+Alapértelmezés szerint az Azure AD Connect szinkronizálási kiszolgáló konfigurálása a Jelszókivonat-szinkronizálást a helyszíni tartományi és az Azure AD között, és az Azure AD szolgáltatás azt feltételezi, hogy a felhasználók hitelesítéséhez azáltal, hogy ugyanazt a jelszót, hogy a helyszíni használnak. A legtöbb vállalat számára ez megfelelő, de érdemes figyelembe venni a vállalat meglévő szabályzatait és infrastruktúráját. Példa:
 
-* Előfordulhat, hogy a vállalat biztonsági szabályzata tiltja a jelszókivonatok felhőbe való szinkronizálását.
+* A szervezete biztonsági házirendjével megtilthatja szinkronizálása a felhőbe azok kivonatai. Ebben az esetben érdemes megfontolni a szervezet [átmenő hitelesítés](/azure/active-directory/connect/active-directory-aadconnect-pass-through-authentication).
 * Esetleg az lehet az elvárás, hogy a felhasználók a felhőerőforrásokat a vállalati hálózaton lévő, tartományra csatlakozott gépekről zökkenőmentes egyszeri bejelentkezéssel (SSO) érhessék el.
 * A vállalatban esetleg már be vannak vezetve az Active Directory összevonási szolgáltatások (AD FS) vagy valamely más, harmadik féltől származó összevonási szolgáltató. Az Azure AD megfelelő konfigurálásával ez az infrastruktúra beállítható a felhőben tárolt jelszóadatok helyett a hitelesítés és az egyszeri bejelentkezés használatára.
 
