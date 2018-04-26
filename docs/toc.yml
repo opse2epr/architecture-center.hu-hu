@@ -10,9 +10,10 @@
   items:
     - name: Architektúrastílusok
       href: guide/architecture-styles/index.md
-    - name: Technológiai lehetőségek
-      href: guide/technology-choices/index.md
-      items: null
+    - name: Számítási szolgáltatás kiválasztása
+      href: guide/technology-choices/compute-overview.md
+    - name: Adattár kiválasztása
+      href: guide/technology-choices/data-store-overview.md
     - name: Tervezési alapelvek
       href: guide/design-principles/index.md
     - name: A szoftverminőség alappillérei

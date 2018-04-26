@@ -1,15 +1,17 @@
 ---
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 530844a0d3b1256cec807e7bad509a40dca304f6
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 80cb7fde0694257a5c413b702505e27f18aed8d3
+ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 04/23/2018
 ---
 # <a name="azure-application-architecture-guide"></a>Útmutató az Azure alkalmazásarchitektúrájához
 
 Ez az útmutató egy strukturált megközelítést mutat be az Azure-on futó skálázható, rugalmas, magas rendelkezésre állású alkalmazások tervezéséhez. Az útmutatót az ügyfélesetekből származó tapasztalatok és az ajánlott eljárások alapján állítottunk össze.
+
+<br/>
 
 <img src="./images/guide-steps.svg" style="max-width:800px;"/>
 
@@ -53,25 +55,49 @@ A jelen útmutató alkalmazásmérnökök, fejlesztők és üzemeltetési csapat
 
 Az Útmutató az Azure alkalmazásarchitektúrájához több lépésből áll az architektúrától és tervezéstől az implementálásig. Minden lépés mellé támogató útmutatást is nyújtunk, amely segítséget nyújt az alkalmazásarchitektúra megtervezésében.
 
-**[Architektúrastílusok][arch-styles]**. A legelső döntés a legfontosabb. Milyen típusú architektúrát szeretnénk használni? Lehet mikroszolgáltatási architektúra, hagyományosabb N rétegű alkalmazás, vagy big data-megoldás is. Hét különböző architektúrastílust határoztunk meg. Mindegyiknek megvannak a maga előnyei és kihívásai.
+### <a name="architecture-styles"></a>Architektúrastílusok
 
-> &#10148; Az [Azure-referenciaarchitektúrák][ref-archs] bemutatják az Azure-beli ajánlott telepítéseket, valamint a skálázhatóságra, a rendelkezésre állásra, a kezelhetőségre és a biztonságra vonatkozó megfontolandó szempontokat. A legtöbb esetben üzembe helyezhető Resource Manager-sablonokat is tartalmaznak.
+A legelső döntés a legfontosabb. Milyen típusú architektúrát szeretnénk használni? Lehet mikroszolgáltatási architektúra, hagyományosabb N rétegű alkalmazás, vagy big data-megoldás is. Számos különféle architektúrastílust határoztunk meg. Mindegyiknek megvannak a maga előnyei és kihívásai.
 
-**[Technológiai lehetőségek][technology-choices]**. Két technológiai döntést már a legelején meg kell hozni, mivel ezek a teljes architektúrára hatással vannak. Ez a két döntés pedig nem más, mint a számítási és az adattárolási technológiák kiválasztása. A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. A tárolási technológiák közé tartoznak az adatbázisok, valamint az üzenetsorokhoz, a gyorsítótárakhoz, az IoT-adatokhoz, a strukturálatlan naplóadatokhoz, és az alkalmazás által megőrizni kívánt bármely egyéb adathoz használt adattárak is. 
+További információ:
 
-> &#10148; A [Számítási lehetőségek][compute-options] és a [Tárolási lehetőségek][storage-options] szakasz részletes összehasonlításokat tartalmaz a számítási és tárolási szolgáltatások kiválasztásához.
+- [Architektúrastílusok][arch-styles]
+- [Azure-referenciaarchitektúrák][ref-archs]
 
-**[Tervezési alapelvek][design-principles]**. A tervezés folyamata során a következő tíz magas szintű tervezési alapelvet kell betartani. 
+### <a name="technology-choices"></a>Technológiai lehetőségek
 
-> &#10148; Az [Ajánlott eljárások][best-practices] cikkek specifikus útmutatást nyújtanak többek között olyan területeken, mint az automatikus skálázás, a gyorsítótárazás, az adatparticionálás vagy az API-tervezés.   
+Két technológiai döntést már a legelején meg kell hozni, mivel ezek a teljes architektúrára hatással vannak. Ez a két döntés pedig nem más, mint a számítási szolgáltatás és az adattárak kiválasztása. A *számítás* azon számítási erőforrások üzemeltetési modelljére utal, amelyeken az alkalmazások futnak. Az *adattárak* közé tartoznak az adatbázisok, valamint az üzenetsorokhoz, a gyorsítótárakhoz, a naplókhoz és az alkalmazás által megőrizni kívánt bármely egyéb adathoz használt tárolók is. 
 
-**[Pillérek][pillars]**. Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság. 
+További információ:
 
-> &#10148; A [Tervezés-áttekintési ellenőrzőlisták][checklists] segítségével ellenőrizheti, hogy a terve megfelel-e ezeknek a minőségi alappilléreknek. 
+- [Számítási szolgáltatás kiválasztása](./technology-choices/compute-overview.md)
+- [Adattár kiválasztása](./technology-choices/data-store-overview.md)
 
-**[Tervezési minták felhőkhöz][patterns]**. Ezek a tervezési minták hasznosak megbízható, skálázható és biztonságos Azure-beli alkalmazások létrehozásához. Minden minta egy problémát, egy problémáról szóló mintát és egy Azure-alapú példát ismertet.
+### <a name="design-principles"></a>Tervezési alapelvek
 
-> &#10148; Tekintse át a [felhőkhöz készült tervezési minták teljes katalógusát](../patterns/index.md).
+Meghatároztunk tíz magas szintű tervezési alapelvet, amelyeket követve skálázhatóbbá, rugalmasabbá és felügyelhetőbbé teheti alkalmazását. Ezek a tervezési alapelvek minden architektúrastílusra érvényesek. A tervezés folyamata során a következő tíz magas szintű tervezési alapelvet kell betartani. Ezután vegye figyelembe az ajánlott eljárásokat az architektúra különféle területeivel kapcsolatban, többek között például az automatikus skálázással, a gyorsítótárazással, az adatparticionálással és az API-tervezéssel.
+
+További információ:
+
+- [Tervezési alapelvek Azure-alkalmazásokhoz][design-principles]
+- [Ajánlott eljárások felhőalkalmazások készítésekor][best-practices]
+
+### <a name="quality-pillars"></a>A minőség alappillérei
+
+Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság. Tervezés-áttekintési ellenőrzőlistáink segítségével ellenőrizheti, hogy az architektúra megfelel-e ezeknek a minőségi alappilléreknek.
+
+További információ:
+
+- [A szoftverminőség alappillérei][pillars]
+- [Tervezésáttekintési ellenőrzőlisták][checklists] 
+
+### <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
+
+A tervezési minták általános megoldást nyújtanak a gyakori szoftvertervezési problémákra. Összeállítottunk néhány tervezési mintát, amelyek különösen hasznosak elosztott felhőalkalmazások tervezésekor.
+
+További információ:
+
+- [Felhőalkalmazások tervezési mintáinak katalógusa](../patterns/index.md)
 
 
 [arch-styles]: ./architecture-styles/index.md
