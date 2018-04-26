@@ -20,14 +20,17 @@
           href: architecture-styles/big-data.md
         - name: Big Compute
           href: architecture-styles/big-compute.md
-    - name: Technológiai lehetőségek
-      href: technology-choices/index.md
+    - name: Számítási szolgáltatás kiválasztása
       items:
-        - name: Számítási lehetőségek áttekintése
+        - name: Áttekintés
           href: technology-choices/compute-overview.md
+        - name: Döntési fa
+          href: technology-choices/compute-decision-tree.md
         - name: Számítási lehetőségek összehasonlítása
           href: technology-choices/compute-comparison.md
-        - name: Adattárak áttekintése
+    - name: Adattár kiválasztása
+      items:
+        - name: Áttekintés
           href: technology-choices/data-store-overview.md
         - name: Adattárak összehasonlítása
           href: technology-choices/data-store-comparison.md
