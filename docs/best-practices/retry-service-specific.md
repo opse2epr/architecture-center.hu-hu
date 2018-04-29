@@ -4,11 +4,11 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 332f96e73def360926b6a934bbb1361b2254ec41
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: c80a4aa232cca1283d84368a36dd7341cab8a314
+ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 04/29/2018
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -28,9 +28,9 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 | **[Azure Redis Cache](#azure-redis-cache-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
 | **[Cosmos DB](#cosmos-db-retry-guidelines)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
 | **[Azure Search](#azure-storage-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
-| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |Nincs |
+| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
 | **[Service Fabric](#service-fabric-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None | 
-| **[Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |Nincs |
+| **[Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
 
 > [!NOTE]
 > Az Azure beépített újrapróbálkozási mechanizmusainak többsége jelenleg – az újrapróbálkozási szabályzatban foglalt funkciókon túl – nem teszi lehetővé eltérő újrapróbálkozási szabályzatok hozzárendelését a különböző típusú hibákhoz vagy kivételekhez. Ezért e sorok írásakor az a legcélszerűbb eljárás, ha a lehető legjobb általános teljesítményt és rendelkezésre állást biztosító szabályzatot konfigurálja. A szabályzat finomhangolásához elemezze a naplófájlokat, hogy megállapítsa, milyen típusú átmeneti hibák szoktak történni. Amennyiben például a hibák nagy része kapcsolódik hálózati kapcsolati hibákhoz, érdemes azonnali újrapróbálkozást beállítani, és nem kell hosszú ideig várakozni az első újrapróbálkozásig.
@@ -924,7 +924,7 @@ Az Azure Active Directory beépített újrapróbálkozási mechanizmussal rendel
 Ügyeljen a következőkre az Azure Active Directory használata során:
 
 * Amikor csak lehetséges, az ADAL-kódtárat és az újrapróbálkozások beépített támogatását használja.
-* Amennyiben a REST API-t használja az Azure Active Directory mellett, csak akkor érdemes engedélyezni az újrapróbálkozást a műveletek számára, ha az eredmény az 5xx-es tartományba esik (például: 500 Belső kiszolgálóhiba; 502 Hibás átjáró; 503 A szolgáltatás nem érhető el; és 504 Időtúllépés az átjárón). Más hibák esetében ne engedélyezze az újrapróbálkozást.
+* Ha a REST API-t használ az Azure Active Directory, a eredménykódja 429 (túl sok kérelem) vagy a 5xx tartomány hiba esetén próbálja megismételni a műveletet. Más hibák esetében ne engedélyezze az újrapróbálkozást.
 * Az exponenciális visszatartási szabályzat használatát az Azure Active Directory Batch-forgatókönyvei esetében javasoljuk.
 
 A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
@@ -989,6 +989,7 @@ Vegye figyelembe a következőket, amikor az Azure-t vagy külső szolgáltatás
 * Az átmeneti hibák észlelési logikája a REST-hívások végrehajtására ténylegesen használt ügyfél-API-tól függ. Egyes ügyfelek, például az újabb **HttpClient** osztály, nem váltanak ki kivételeket, ha a kérés befejeződik, de nem sikert jelző HTTP-állapotkódot ad vissza. Ez növeli a teljesítményt, de megakadályozza az átmenetihiba-kezelési alkalmazásblokk használatát. Ebben az esetben a hívást olyan kóddal kell beburkolni a REST API számára, amely kivételeket vált ki a nem sikert jelző HTTP-állapotkódok esetén, amelyet aztán feldolgozhat a blokk. Ezenkívül használhat egy másik mechanizmust is az újrapróbálkozások kezelésére.
 * A szolgáltatás által visszaadott HTTP-állapotkód segíthet megállapítani, hogy a hiba átmeneti jellegű-e. Lehet, hogy az állapotkód vagy az azzal egyenértékű kivételtípus megismeréséhez meg kell vizsgálnia az ügyfél vagy az újrapróbálkozási keretrendszer által előállított kivételeket. A következő HTTP-kódok általában azt jelzik, hogy érdemes újrapróbálkozni:
   * 408 Kérés időtúllépése
+  * 429 túl sok kérelem
   * 500 Belső kiszolgálóhiba
   * 502 Hibás átjáró
   * 503 A szolgáltatás nem érhető el

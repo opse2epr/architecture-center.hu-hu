@@ -3,17 +3,17 @@ title: Az Azure számítási lehetőségeinek áttekintése
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
 ms.date: 04/21/2018
-ms.openlocfilehash: 6781e1f1f6e239e3853920cb544092538cccfc62
-ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
+ms.openlocfilehash: 8ee508aaa07d87ac77ef484e20d572fdf2b9fb40
+ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/23/2018
+ms.lasthandoff: 04/29/2018
 ---
 # <a name="overview-of-azure-compute-options"></a>Az Azure számítási lehetőségeinek áttekintése
 
 A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. 
 
-A spektrum egyik végén található az **IaaS** (szolgáltatásként nyújtott infrastruktúra). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.  
+Egy végén a **infrastruktúra,--szolgáltatás** (IaaS). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.  
 
 A **PaaS** (szolgáltatásként nyújtott platform) egy olyan felügyelt üzemeltetési környezetet biztosít, amelyben az alkalmazásait virtuális gépek vagy hálózati erőforrások kezelése nélkül helyezheti üzembe. Például különálló virtuális gépek létrehozása helyett megadhat egy példányszámot, majd a szolgáltatás kiosztja, konfigurálja és kezeli a szükséges erőforrásokat. Az Azure App Service például egy PaaS-szolgáltatás.
 
