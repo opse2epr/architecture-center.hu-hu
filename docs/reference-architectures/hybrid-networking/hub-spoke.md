@@ -5,11 +5,11 @@ author: telmosampaio
 ms.date: 04/09/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: f04af90f328a0434d44ca7ea90309f3209a3b69d
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: 3b19526a9ed77c1605325a9eec101ffbee7c8401
+ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
+ms.lasthandoff: 04/29/2018
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -194,7 +194,7 @@ A szimulált a helyszíni környezetből szeretne az elosztóhoz VNet kapcsolat 
 
 1. Az Azure portál segítségével nevű virtuális gép található `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
 
-2. Kattintson a `Connect` való egy távolítsa el a virtuális asztal munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
+2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
 
 3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag futtatásával ellenőrizze, hogy tud-e csatlakozni a virtuális gép jumpbox VNet központban.
 
@@ -270,7 +270,7 @@ A szimulált a helyszíni környezetből a Vnetek küllős való kapcsolat teszt
 
 1. Az Azure portál segítségével nevű virtuális gép található `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
 
-2. Kattintson a `Connect` való egy távolítsa el a virtuális asztal munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
+2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
 
 3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag futtatásával ellenőrizze, hogy tud-e csatlakozni a virtuális gép jumpbox VNet központban.
 
