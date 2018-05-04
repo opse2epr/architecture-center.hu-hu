@@ -3,11 +3,11 @@ title: Jenkins-kiszolgáló futtatása az Azure-on
 description: Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
 author: njray
 ms.date: 01/21/18
-ms.openlocfilehash: c07a341bbe4d0304087e4535408967c45d36199e
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 5f9c54e71a8750e88de1ae633ccc1316f8375d3a
+ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 05/03/2018
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -58,7 +58,7 @@ Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a
 
 Az Azure-előfizetés [Azure AD][azure-ad]-bérlője segítségével engedélyezhető az egyszeri bejelentkezés a Jenkins-felhasználók számára, valamint telepíthetők az [egyszerű szolgáltatások][service-principal], amelyek biztosítják a Jenkins-feladatok hozzáférését az Azure-erőforrásokhoz.
 
-Az egyszeri bejelentkezés hitelesítését és engedélyezését a Jenkins-kiszolgálón telepített Azure AD beépülő modul teszi lehetővé. Az egyszeri bejelentkezés használatával a felhasználók az Azure AD-ből származó vállalati hitelesítő adataikkal hitelesítők a Jenkins-kiszolgálóra való bejelentkezéskor. Az Azure AD beépülő modul konfigurálásakor megadhatja, hogy az egyes felhasználók milyen szinten férhessenek hozzá a Jenkin-kiszolgálóhoz.
+Az egyszeri bejelentkezés hitelesítését és engedélyezését a Jenkins-kiszolgálón telepített Azure AD beépülő modul teszi lehetővé. Az egyszeri bejelentkezés használatával a felhasználók az Azure AD-ből származó vállalati hitelesítő adataikkal hitelesítők a Jenkins-kiszolgálóra való bejelentkezéskor. Az Azure AD beépülő modul konfigurálásakor megadhatja, hogy az egyes felhasználók milyen szintű hozzáféréssel rendelkezzenek a Jenkins-kiszolgálóhoz.
 
 A Jenkins-feladatok az Azure-erőforrásokhoz való hozzáférésének biztosításához az Azure AD-rendszergazdák egyszerű szolgáltatásokat hozhatnak létre. Ezek [hitelesített és engedélyezett hozzáférést][ad-sp] biztosítanak az alkalmazások – esetünkben a Jenkins-feladatok – számára az Azure-erőforrásokhoz.
 
@@ -74,7 +74,7 @@ Az Azure-hoz készült Jenkins megoldássablon több Azure beépülő modult tel
 
 -   Az [Azure AD beépülő modul][configure-azure-ad] használatával a Jenkins-kiszolgáló támogatja a felhasználók egyszeri bejelentkeztetését az Azure AD alapján.
 
--   Az [Azure VM Agents][configure-agent] beépülő modul egy Azure Resource Manager (ARM) sablon használatával Jenkins-ügynököket hoz létre Azure-beli virtuális gépeken.
+-   Az [Azure VM Agents][configure-agent] beépülő modul egy Azure Resource Manager-sablon használatával Jenkins-ügynököket hoz létre Azure-beli virtuális gépeken.
 
 -   Az [Azure Credentials][configure-credential] beépülő modul segítségével tárolhatók az egyszerű Azure-szolgáltatások a Jenkinsben használt hitelesítő adatai.
 
@@ -113,13 +113,13 @@ A megfelelő kiszolgálóméret a számítási feladatok várható méretétől 
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Mérje fel a munkafolyamat a rendelkezésre állásra vonatkozó követelményeit, valamint a Jenkins állapotának helyreállítási lehetőségeit, amennyiben a Jenkin-kiszolgáló leállna. A rendelkezésre állásra vonatkozó követelmények felméréséhez két általános mérőszámot érdemes figyelembe vennie:
+A Jenkins-kiszolgálók esetében a rendelkezésre állás azt jelenti, hogy képesek helyreállítani a munkafolyamattal kapcsolatos állapotinformációkat, például a teszteredményekét, valamint a felhasználói kódtárakat vagy egyéb összetevőket. A kritikus munkafolyamat-állapotokat vagy -összetevőket karban kell tartani, hogy a Jenkins-kiszolgáló leállása esetén helyre lehessen állítani a munkafolyamatot. A rendelkezésre állásra vonatkozó követelmények felméréséhez két általános mérőszámot érdemes figyelembe vennie:
 
 -   A Helyreállítási időre vonatkozó célkitűzés (RTO) adja meg, hogy mennyi ideig üzemelhet a rendszer a Jenkins nélkül.
 
 -   A Helyreállítási pont-célkitűzés (RPO) határozza meg az elfogadható adatveszteség mértékét, ha a szolgáltatás leállása érinti a Jenkinst.
 
-A gyakorlatban az RTO és az RPO a redundanciát és a biztonsági mentést jelölik. A rendelkezésre állás nem hardveres helyreállítás kérdése, az ugyanis az Azure részét képezi, hanem a Jenkins-kiszolgáló állapota fenntartásának biztosítását jelenti. Ez a referenciaarchitektúra az [Azure szolgáltatói szerződést][sla] (SLA) alkalmazza, amely 99,9 százalékos üzemidőt garantál az egyes virtuális gépekre vonatkozóan. Amennyiben ez az SLA nem felel meg az üzemidővel kapcsolatos elvárásainak, mindenképp gondoskodjon egy vészhelyreállítási tervről, vagy vegye fontolóra egy [több főkiszolgálós Jenkins-kiszolgáló][multi-master] üzembe helyezését (a jelen dokumentum erre nem tér ki).
+A gyakorlatban az RTO és az RPO a redundanciát és a biztonsági mentést jelölik. A rendelkezésre állás nem hardveres helyreállítás kérdése, az ugyanis az Azure részét képezi, hanem a Jenkins-kiszolgáló állapota fenntartásának biztosítását jelenti. A Microsoft [szolgáltatói szerződést][sla] (SLA) kínál az egyes virtuálisgép-példányokhoz. Amennyiben ez az SLA nem felel meg az üzemidővel kapcsolatos elvárásainak, mindenképp gondoskodjon egy vészhelyreállítási tervről, vagy vegye fontolóra egy [több főkiszolgálós Jenkins-kiszolgáló][multi-master] üzembe helyezését (a jelen dokumentum erre nem tér ki).
 
 Vegye fontolóra vészhelyreállítási [szkriptek][disaster] alkalmazását az üzembe helyezés 7. lépésében, amelyek segítségével egy Azure Storage-fiók hozható létre felügyelt meghajtókkal a Jenkins-kiszolgáló állapotának tárolásához. Ha a Jenkins leáll, visszaállítható az ezen a külön tárfiókon tárolt állapotára.
 
@@ -127,7 +127,7 @@ Vegye fontolóra vészhelyreállítási [szkriptek][disaster] alkalmazását az 
 
 Az alábbi eljárások segítenek növelni a Jenkins-kiszolgáló biztonságát, mivel alapállapotában nem biztonságos.
 
--   Konfiguráljon valamilyen megoldást a Jenkins-kiszolgálóra való biztonságos bejelentkezéshez. A HTTP alapértelmezés szerint nem biztonságos. Ez az architektúra a HTTP protokollt alkalmazza, és egy nyilvános IP-címmel rendelkezik. Vegye fontolóra a [HTTPS beállítását a biztonságos bejelentkezéshez használt Nginx-kiszolgálón][nginx].
+-   Konfiguráljon egy biztonságos megoldást a Jenkins-kiszolgálóra való bejelentkezéshez. Ez az architektúra HTTP-t és nyilvános IP-címet használ, de a HTTP alapértelmezés szerint nem biztonságos. Vegye fontolóra a [HTTPS beállítását a biztonságos bejelentkezéshez használt Nginx-kiszolgálón][nginx].
 
     > [!NOTE]
     > Ha SSL-t ad a kiszolgálóhoz, hozzon létre egy NSG-szabályt a Jenkins-alhálózaton a 443-as port megnyitásához. További információért olvassa el [a portok a virtuális gépek számára az Azure Portallal való megnyitását][port443] ismertető cikket.
@@ -185,7 +185,7 @@ Részletes utasításokért lásd [a Jenkins-kiszolgáló Azure-beli linuxos vir
 
 Ezt a lépést a Jenkins-rendszergazda futtatja, akinek rendelkeznie kell egy felhasználói fiókkal az előfizetés Azure AD könyvtárában, továbbá a Közreműködői szerepkörrel is.
 
-Használja az [Azure AD beépülő modult][configure-azure-ad] a Jenkins frissítési központjából a Jenkins-kiszolgálón, és kövesse az utasításokat az egyszeri bejelentkezés konfigurálásához.
+Használja a Jenkins-kiszolgálón, a Jenkins frissítési központjába található [Azure AD beépülő modult][configure-azure-ad], és kövesse az utasításokat az egyszeri bejelentkezés konfigurálásához.
 
 ### <a name="step-3-provision-jenkins-server-with-azure-vm-agent-plugin"></a>3. lépés: A Jenkins-kiszolgáló konfigurálása az Azure VM Agent beépülő modullal
 
