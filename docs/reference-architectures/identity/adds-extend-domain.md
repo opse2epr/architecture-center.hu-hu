@@ -2,15 +2,15 @@
 title: Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 description: A helyszíni Active Directory-tartomány kiterjesztése az Azure-bA
 author: telmosampaio
-ms.date: 04/13/2018
+ms.date: 05/02/2018
 pnp.series.title: Identity management
 pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
-ms.openlocfilehash: bcd1e2b1b925a5d64665c5651c24589a77e39ec9
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: 763fffd321a1b50a562ef462dab59aafae717908
+ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
+ms.lasthandoff: 05/03/2018
 ---
 # <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 
@@ -104,7 +104,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozás, elágazás vagy a [hivatkozás architektúrák] [ref-architektúrája-tárház] GitHub tárház zip-fájl letöltése.
+1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ github] GitHub-tárházban.
 
 2. Telepítés [Azure CLI 2.0][azure-cli-2].
 
@@ -118,34 +118,11 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 ### <a name="deploy-the-simulated-on-premises-datacenter"></a>A szimulált helyszíni adatközpont üzembe helyezése
 
-1. Keresse meg a `identity/adds-extend-domain` mappába a referencia architektúra tárház.
+1. Keresse meg a `identity/adds-extend-domain` mappában található a GitHub-tárházban.
 
-2. Nyissa meg az `onprem.json` fájlt. Keresse meg `adminPassword` , és adjon értékeket a jelszót. A fájl három példányok szerepelnek.
+2. Nyissa meg az `onprem.json` fájlt. Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak.
 
-    ```bash
-    "adminUsername": "testuser",
-    "adminPassword": "<password>",
-    ```
-
-3. A ugyanazt a fájlt, keresse meg a `protectedSettings` , és adjon értékeket a jelszót. Két példánya van `protectedSettings`, egy AD-kiszolgálónként.
-
-    ```bash
-    "protectedSettings": {
-      "configurationArguments": {
-        ...
-        "AdminCreds": {
-          "UserName": "testadminuser",
-          "Password": "<password>"
-        },
-        "SafeModeAdminCreds": {
-          "UserName": "testsafeadminuser",
-          "Password": "<password>"
-        }
-      }
-    }
-    ```
-
-4. A következő parancsot, és várja meg, a telepítés befejezéséhez:
+3. A következő parancsot, és várja meg, a telepítés befejezéséhez:
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p onprem.json --deploy
@@ -153,38 +130,15 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 ### <a name="deploy-the-azure-vnet"></a>Az Azure virtuális hálózat telepítése
 
-1. Nyissa meg az `azure.json` fájlt.  Keresse meg `adminPassword` , és adjon értékeket a jelszót. A fájl három példányok szerepelnek.
+1. Nyissa meg az `azure.json` fájlt.  Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak. 
 
-    ```bash
-    "adminUsername": "testuser",
-    "adminPassword": "<password>",
-    ```
-
-2. A ugyanazt a fájlt, keresse meg a `protectedSettings` , és adjon értékeket a jelszót. Két példánya van `protectedSettings`, egy AD-kiszolgálónként.
-
-    ```bash
-    "protectedSettings": {
-      "configurationArguments": {
-        ...
-        "AdminCreds": {
-          "UserName": "testadminuser",
-          "Password": "<password>"
-        },
-        "SafeModeAdminCreds": {
-          "UserName": "testsafeadminuser",
-          "Password": "<password>"
-        }
-      }
-    }
-    ```
-
-3. A `sharedKey`, adjon meg egy megosztott kulcsot, a VPN-kapcsolathoz. Két példánya van `sharedKey` a paraméter fájlban.
+2. Ugyanabban a fájlban keresse meg a példányok `sharedKey` , és írja be a megosztott kulcsok a VPN-kapcsolathoz. 
 
     ```bash
     "sharedKey": "",
     ```
 
-4. A következő parancsot, és várja meg, a telepítés befejezéséhez.
+3. A következő parancsot, és várja meg, a telepítés befejezéséhez.
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p onoprem.json --deploy
@@ -194,17 +148,19 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 ### <a name="test-connectivity-with-the-azure-vnet"></a>Az Azure virtuális hálózaton használt kapcsolatok tesztelése
 
-Afterr telepítés befejeződött, a szimulált a helyszíni környezetből az Azure VNet való kapcsolat teszteléséhez.
+Központi telepítés befejezése után tesztelheti a szimulált a helyszíni környezetből kapcsolat az Azure virtuális hálózatba.
 
-1. Az Azure portál segítségével nevű virtuális gép található `ra-onpremise-mgmt-vm1`.
+1. Az Azure-portálon, keresse meg a létrehozott erőforráscsoportot.
 
-2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `onprem.json` paraméterfájl.
+2. Nevű virtuális gép található `ra-onpremise-mgmt-vm1`.
 
-3. Az belül a távoli asztali munkamenetet, nyissa meg a másik távoli asztali munkamenetet 10.0.4.4, amely az IP-cím nevű VM `adds-vm1`. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `azure.json` paraméterfájl.
+3. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `onprem.json` paraméterfájl.
 
-4. A belül a távoli asztali munkamenet `adds-vm1`, és **Kiszolgálókezelő** kattintson **kezelendő kiszolgálók hozzáadása.** 
+4. Az belül a távoli asztali munkamenetet, nyissa meg a másik távoli asztali munkamenetet 10.0.4.4, amely az IP-cím nevű VM `adds-vm1`. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `azure.json` paraméterfájl.
 
-5. Az a **Active Directory** lapra, majd **Keresés most**. Az AD listáját kell megjelennie az AD DS és a webes virtuális gépeket.
+5. A belül a távoli asztali munkamenet `adds-vm1`, és **Kiszolgálókezelő** kattintson **kezelendő kiszolgálók hozzáadása.** 
+
+6. Az a **Active Directory** lapra, majd **Keresés most**. Az AD listáját kell megjelennie az AD DS és a webes virtuális gépeket.
 
    ![](./images/add-servers-dialog.png)
 

@@ -4,11 +4,11 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: f3f010ceb3c810caafa53523de63aa787d392aa1
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: b4f40c427fc91c6b00d934c9a5dacdca91a55690
+ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
+ms.lasthandoff: 05/03/2018
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -65,7 +65,7 @@ Az elő- és utótagok az adott erőforrások különböző aspektusaira utalhat
 | Termék vagy szolgáltatás |szolgáltatás |Az erőforrás által támogatott terméket, alkalmazást vagy szolgáltatást jelöli |
 | Szerepkör |sql, web, messaging (sql, web, üzenetkezelés) |A társított erőforrás szerepét jelöli |
 
-Ha saját elnevezési konvenciókat állít össze vállalata vagy projektjei számára, fontos a megfelelő elő- és toldalékok készletének és elhelyezésének (elő- vagy utótag) megválasztása.
+A vállalat vagy a projektek adott elnevezési fejlesztésekor fontos válasszon olyan közös elő-/ utótagok és pozíciójuk (utótag vagy előtag).
 
 ## <a name="naming-rules-and-restrictions"></a>Elnevezési szabályok és korlátozások
 

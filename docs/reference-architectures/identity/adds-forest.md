@@ -5,16 +5,16 @@ description: >-
 
   guidance,vpn-gateway,expressroute,load-balancer,virtual-network,active-directory
 author: telmosampaio
-ms.date: 11/28/2016
+ms.date: 05/02/2018
 pnp.series.title: Identity management
 pnp.series.prev: adds-extend-domain
 pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
-ms.openlocfilehash: e32a6420821e70c84e77d2c39614f0c45efbb7e2
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 047ecea41ba30ce4cccf17b8c4964a37ae60150f
+ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 05/03/2018
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
@@ -90,51 +90,71 @@ Active Directory-specifikus biztonsági szempontokért tekintse meg [Az Active D
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az Azure CLI legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github]. Vegye figyelembe, hogy a teljes telepítési órát is igénybe vehet legfeljebb két, mely tartalmazza a VPN gateway létrehozása, és futtatja a parancsfájlokat, amelyek az AD DS konfigurálása.
 
-1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
+### <a name="prerequisites"></a>Előfeltételek
 
-2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
+1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ github] GitHub-tárházban.
 
-3. Futtassa az alábbi parancsot:
-   
-    ```Powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
+2. Telepítés [Azure CLI 2.0][azure-cli-2].
+
+3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
+
+4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
+
+   ```bash
+   az login
+   ```
+
+### <a name="deploy-the-simulated-on-premises-datacenter"></a>A szimulált helyszíni adatközpont üzembe helyezése
+
+1. Keresse meg a `identity/adds-forest` mappában található a GitHub-tárházban.
+
+2. Nyissa meg az `onprem.json` fájlt. Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak.
+
+3. A következő parancsot, és várja meg, a telepítés befejezéséhez:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p onprem.json --deploy
     ```
-   
-    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
-   
-    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
-   
-    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
-   
-   * `Onpremise`: a szimulált helyszíni környezetet helyezi üzembe.
-   * `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe az Azure-ban.
-   * `CreateVpn`: az Azure-beli virtuális hálózati átjárót telepíti, és csatlakoztatja a szimulált a helyszíni hálózathoz.
-   * `AzureADDS`: üzembe helyezi az Active Directory DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és üzembe helyezi a tartományt az Azure-ban.
-   * `WebTier`: üzembe helyezi a webes szintű virtuális gépeket és a terheléselosztót.
-   * `Prepare`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha nem rendelkezik meglévő helyszíni hálózattal, de telepíteni kívánja a fentebb ismertetett teljes referenciaarchitektúrát tesztelés vagy értékelés céljából.** 
-   * `Workload`: üzembe helyezi az üzleti és adatszintű virtuális gépeket és a terheléselosztókat. Vegye figyelembe, hogy ezeket a virtuális gépeket a `Prepare` üzembe helyezés nem tartalmazza.
 
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `Prepare` üzembe helyezést választja, a folyamat több órát vesz igénybe.
-     
-5. Ha szimulált helyszíni konfigurációt használ, konfigurálja a bejövő bizalmi kapcsolatot:
-   
-   1. Csatlakozzon a jump boxhoz (<em>ra-adtrust-mgmt-vm1</em> a <em>ra-adtrust-security-rg</em> erőforráscsoportban). Jelentkezzen be <em>testuser</em> felhasználónévvel és az <em>AweS0me@PW</em> jelszóval.
-   2. A jump boxon nyisson meg egy RDP-munkamenetet a <em>contoso.com</em> tartomány (a helyszíni tartomány) első virtuális gépén. A virtuális gép IP-címe: 192.168.0.4. A felhasználónév <em>contoso\testuser</em>, a jelszó pedig <em>AweS0me@PW</em>.
-   3. A *treyresearch.com* tartományból bejövő bizalmi kapcsolat létrehozásához töltse le és futtassa az [incoming-trust.ps1][incoming-trust] szkriptet.
+### <a name="deploy-the-azure-vnet"></a>Az Azure virtuális hálózat telepítése
 
-6. Ha saját helyszíni infrastruktúrát használ:
-   
-   1. Töltse le az [incoming-trust.ps1][incoming-trust] szkriptet.
-   2. Szerkessze a szkriptet, és cserélje le a `$TrustedDomainName` változó értékét a saját tartománya nevére.
-   3. Futtassa a szkriptet.
+1. Nyissa meg az `azure.json` fájlt. Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak.
 
-7. A jump boxról csatlakozzon a <em>treyresearch.com</em> tartomány (a felhőbeli lévő tartomány) első virtuális gépéhez. A virtuális gép IP-címe: 10.0.4.4. A felhasználónév <em>treyresearch\testuser</em>, a jelszó pedig <em>AweS0me@PW</em>.
+2. Ugyanabban a fájlban keresse meg a példányok `sharedKey` , és írja be a megosztott kulcsok a VPN-kapcsolathoz. 
 
-8. A *treyresearch.com* tartományból bejövő bizalmi kapcsolat létrehozásához töltse le és futtassa az [outgoing-trust.ps1][outgoing-trust] szkriptet. Ha a saját helyszíni gépeket használ, először szerkessze a szkriptet. A `$TrustedDomainName` változót állítsa a helyszíni tartomány nevére, és adja meg az adott tartományhoz tartozó Active Directory DS-kiszolgálók IP-címeit a `$TrustedDomainDnsIpAddresses` változóban.
+    ```bash
+    "sharedKey": "",
+    ```
 
-9. Várjon néhány percet, amíg az előző lépések befejeződnek, majd csatlakozzon egy helyszíni virtuális géphez, és végezze el a [bizalmi kapcsolat ellenőrzését][verify-a-trust] ismertető cikk lépéseit annak megállapításához, hogy a *contoso.com* és a *treyresearch.com* tartományok közötti bizalmi kapcsolat megfelelően van-e konfigurálva.
+3. A következő parancsot, és várja meg, a telepítés befejezéséhez.
+
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p onoprem.json --deploy
+    ```
+
+   Központi telepítése, a helyszíni virtuális hálózat ugyanabban az erőforráscsoportban.
+
+
+### <a name="test-the-ad-trust-relation"></a>Az AD megbízhatósági kapcsolat tesztelése
+
+1. Az Azure-portálon, keresse meg a létrehozott erőforráscsoportot.
+
+2. Az Azure portál segítségével nevű virtuális gép található `ra-adt-mgmt-vm1`.
+
+2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `onprem.json` paraméterfájl.
+
+3. Az belül a távoli asztali munkamenetet, nyissa meg a másik távoli asztali munkamenetet 192.168.0.4, amely az IP-cím nevű VM `ra-adtrust-onpremise-ad-vm1`. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `azure.json` paraméterfájl.
+
+4. A belül a távoli asztali munkamenet `ra-adtrust-onpremise-ad-vm1`, és **Kiszolgálókezelő** kattintson **eszközök** > **Active Directory – tartományok és megbízhatósági kapcsolatok**. 
+
+5. A bal oldali ablaktáblán kattintson a jobb gombbal a contoso.com, és válassza ki a **tulajdonságok**.
+
+6. Kattintson a **Megbízhatóságok** fülre. Egy bejövő bizalmi kapcsolat tulajdonosaként treyresearch.net kell megjelennie.
+
+![](./images/ad-forest-trust.png)
+
 
 ## <a name="next-steps"></a>További lépések
 
@@ -144,6 +164,8 @@ Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy mego
 <!-- links -->
 [adds-extend-domain]: adds-extend-domain.md
 [adfs]: adfs.md
+[azure-cli-2]: /azure/install-azure-cli
+[azbb]: https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks
 
 [implementing-a-secure-hybrid-network-architecture]: ../dmz/secure-vnet-hybrid.md
 [implementing-a-secure-hybrid-network-architecture-with-internet-access]: ../dmz/secure-vnet-dmz.md
