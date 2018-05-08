@@ -4,11 +4,11 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: c80a4aa232cca1283d84368a36dd7341cab8a314
-ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
+ms.openlocfilehash: d03cc9dd1af92a91bbfab1ebc8c438e6312eeb49
+ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/29/2018
+ms.lasthandoff: 05/07/2018
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -20,24 +20,777 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 
 | **Szolgáltatás** | **Újrapróbálkozási képességek** | **Szabályzatkonfiguráció** | **Hatókör** | **Telemetriafunkciók** |
 | --- | --- | --- | --- | --- |
-| **[Azure Storage](#azure-storage-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél- és különálló műveletek |TraceSource |
-| **[SQL Database with Entity Framework](#sql-database-using-entity-framework-6-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
-| **[SQL Database with Entity Framework Core](#sql-database-using-entity-framework-core-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
-| **[SQL Database with ADO.NET](#sql-database-using-adonet-retry-guidelines)** |[Polly](#transient-fault-handling-with-polly) |Deklaratív és szoftveres |Önálló utasítások vagy kódblokkok |Egyéni |
-| **[Service Bus](#service-bus-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Névtérkezelő, üzenetkezelési előállító vagy ügyfél |ETW |
-| **[Azure Redis Cache](#azure-redis-cache-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
-| **[Cosmos DB](#cosmos-db-retry-guidelines)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
-| **[Azure Search](#azure-storage-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
-| **[Azure Active Directory](#azure-active-directory-retry-guidelines)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
-| **[Service Fabric](#service-fabric-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None | 
-| **[Azure Event Hubs](#azure-event-hubs-retry-guidelines)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
+| **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
+| **[Cosmos DB](#cosmos-db)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
+| **[Az Event Hubs](#azure-event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
+| **[Redis gyorsítótár](#azure-redis-cache)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
+| **[Keresés](#azure-search)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
+| **[Service Bus](#service-bus)** |Natív, az ügyfél része |Szoftveres |Névtérkezelő, üzenetkezelési előállító vagy ügyfél |ETW |
+| **[Service Fabric](#service-fabric)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None | 
+| **[SQL Database with ADO.NET](#sql-database-using-adonet)** |[Polly](#transient-fault-handling-with-polly) |Deklaratív és szoftveres |Önálló utasítások vagy kódblokkok |Egyéni |
+| **[SQL Database with Entity Framework](#sql-database-using-entity-framework-6)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
+| **[SQL Database with Entity Framework Core](#sql-database-using-entity-framework-core)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
+| **[Tárolás](#azure-storage)** |Natív, az ügyfél része |Szoftveres |Ügyfél- és különálló műveletek |TraceSource |
 
 > [!NOTE]
-> Az Azure beépített újrapróbálkozási mechanizmusainak többsége jelenleg – az újrapróbálkozási szabályzatban foglalt funkciókon túl – nem teszi lehetővé eltérő újrapróbálkozási szabályzatok hozzárendelését a különböző típusú hibákhoz vagy kivételekhez. Ezért e sorok írásakor az a legcélszerűbb eljárás, ha a lehető legjobb általános teljesítményt és rendelkezésre állást biztosító szabályzatot konfigurálja. A szabályzat finomhangolásához elemezze a naplófájlokat, hogy megállapítsa, milyen típusú átmeneti hibák szoktak történni. Amennyiben például a hibák nagy része kapcsolódik hálózati kapcsolati hibákhoz, érdemes azonnali újrapróbálkozást beállítani, és nem kell hosszú ideig várakozni az első újrapróbálkozásig.
+> Az Azure beépített része, majd ismételje meg mechanizmusok, nincs jelenleg nem tudja alkalmazni a különböző típusú hiba vagy kivétel különböző újrapróbálkozási házirendje. Konfigurálnia kell egy házirendet, amely az optimális átlagos teljesítményt és rendelkezésre állást biztosít. A szabályzat finomhangolásához elemezze a naplófájlokat, hogy megállapítsa, milyen típusú átmeneti hibák szoktak történni. 
+
+## <a name="azure-active-directory"></a>Azure Active Directory
+Az Azure Active Directory egy átfogó, felhőalapú identitás- és hozzáférés-kezelő megoldás, amely ötvözi az alapvető címtárszolgáltatásokat, a fejlett identitáskezelést, a biztonsági szolgáltatásokat és az alkalmazáshozzáférés-felügyeletet. Az Azure AD ezenkívül identitáskezelő platformot kínál a fejlesztőknek, hogy központi szabályzatokon és szabályokon alapuló hozzáférés-vezérléssel bővíthessék az alkalmazásaikat.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az Azure Active Directory beépített újrapróbálkozási mechanizmussal rendelkezik az Active Directory Authentication Library (ADAL) részeként. A váratlan zárolások elkerülése érdekében azt javasoljuk, hogy külső kódtárak és alkalmazáskódok **ne** próbálkozhassanak újra sikertelen kapcsolódás esetén, és ezek újrapróbálkozásait az ADAL kezelje. 
+
+### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
+Ügyeljen a következőkre az Azure Active Directory használata során:
+
+* Amikor csak lehetséges, az ADAL-kódtárat és az újrapróbálkozások beépített támogatását használja.
+* Ha a REST API-t használ az Azure Active Directory, a eredménykódja 429 (túl sok kérelem) vagy a 5xx tartomány hiba esetén próbálja megismételni a műveletet. Más hibák esetében ne engedélyezze az újrapróbálkozást.
+* Az exponenciális visszatartási szabályzat használatát az Azure Active Directory Batch-forgatókönyvei esetében javasoljuk.
+
+A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
+
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
+| --- | --- | --- | --- | --- | --- |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+
+### <a name="more-information"></a>További információ
+* [Az Azure Active Directory hitelesítési kódtárai][adal]
+
+## <a name="cosmos-db"></a>Cosmos DB
+
+A Cosmos DB egy teljes körűen felügyelt, többmodelles adatbázis-szolgáltatás, amely támogatja a séma nélküli JSON-adatok használatát. Teljesítménye konfigurálható és megbízható, natív JavaScript-tranzakciófeldolgozást kínál, és mivel felhőbeli felhasználásra készült, rugalmasan méretezhető.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+A `DocumentClient` osztály automatikusan újrapróbálkozik a sikertelen kísérletekkel. Az újrapróbálkozások számának és a maximális várakozási idő beállításához a [ConnectionPolicy.RetryOptions] konfigurálása szükséges. Az ügyfél által okozott kivételek vagy túlmutatnak az újrapróbálkozási szabályzaton, vagy nem átmeneti hibák.
+
+Ha a Cosmos DB korlátozza az ügyfél kísérleteit, a 429-es HTTP-hibaüzenetet adja vissza. Ellenőrizze a `DocumentClientException` állapotkódját.
+
+### <a name="policy-configuration"></a>Szabályzatkonfiguráció
+A következő táblázatban a `RetryOptions` osztály alapértelmezett beállításait tekintheti meg.
+
+| Beállítás | Alapértelmezett érték | Leírás |
+| --- | --- | --- |
+| MaxRetryAttemptsOnThrottledRequests |9 |Az újrapróbálkozások maximális száma abban az esetben, ha a Cosmos DB az ügyfélre alkalmazott korlátozása miatt sikertelen a kísérlet. |
+| MaxRetryWaitTimeInSeconds |30 |A maximális újrapróbálkozási idő másodpercben. |
+
+### <a name="example"></a>Példa
+```csharp
+DocumentClient client = new DocumentClient(new Uri(endpoint), authKey); ;
+var options = client.ConnectionPolicy.RetryOptions;
+options.MaxRetryAttemptsOnThrottledRequests = 5;
+options.MaxRetryWaitTimeInSeconds = 15;
+```
+
+### <a name="telemetry"></a>Telemetria
+Az újrapróbálkozási kísérletek strukturálatlan nyomkövetési üzenetekként lesznek naplózva a .NET **TraceSource** használatával. Az események rögzítéséhez és megfelelő célnaplóba való írásához egy **TraceListener** osztályt kell konfigurálnia.
+
+Amennyiben például a következőt adja hozzá az App.config fájlhoz, a szövegfájlban a végrehajtható fájllal megegyező helyen jönnek létre a nyomkövetési adatok:
+
+```xml
+<configuration>
+  <system.diagnostics>
+    <switches>
+      <add name="SourceSwitch" value="Verbose"/>
+    </switches>
+    <sources>
+      <source name="DocDBTrace" switchName="SourceSwitch" switchType="System.Diagnostics.SourceSwitch" >
+        <listeners>
+          <add name="MyTextListener" type="System.Diagnostics.TextWriterTraceListener" traceOutputOptions="DateTime,ProcessId,ThreadId" initializeData="CosmosDBTrace.txt"></add>
+        </listeners>
+      </source>
+    </sources>
+  </system.diagnostics>
+</configuration>
+```
+
+## <a name="event-hubs"></a>Event Hubs
+
+Az Azure Event Hubs egy rendkívül nagy kapacitású, telemetriai adatokat betöltő szolgáltatás, amely események millióinak adatait képes összegyűjteni, átalakítani és tárolni.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az Azure Event Hubs Client Library újrapróbálkozási viselkedését az `EventHubClient` osztály `RetryPolicy` tulajdonsága vezérli. Az alapértelmezett szabályzat exponenciális visszatartással végzi el az újrapróbálkozást, ha az Azure Event Hub egy átmeneti `EventHubsException` vagy egy `OperationCanceledException` választ ad.
+
+### <a name="example"></a>Példa
+```csharp
+EventHubClient client = EventHubClient.CreateFromConnectionString("[event_hub_connection_string]");
+client.RetryPolicy = RetryPolicy.Default;
+```
+
+### <a name="more-information"></a>További információ
+[.NET standard ügyféloldali kódtár az Azure Event Hubshoz](https://github.com/Azure/azure-event-hubs-dotnet)
+
+## <a name="azure-redis-cache"></a>Azure Redis Cache
+Az Azure Redis Cache gyors adathozzáférést és alacsony késést kínáló gyorsítótár-szolgáltatás, amely a népszerű, nyílt forráskódú Redis Cache-re épül. Biztonságos, a Microsoft felügyeli, és az Azure bármelyik alkalmazásából elérhető.
+
+Ebben az útmutatóban azt feltételezzük, hogy a StackExchange.Redis ügyfelet használja a gyorsítótár eléréséhez. A további alkalmas ügyfelek listája a [Redis webhelyén](http://redis.io/clients) tekinthető meg, ám ezeknek eltérő újrapróbálkozási mechanizmusai lehetnek.
+
+Vegye figyelembe, hogy a StackExchange.Redis ügyfél egyetlen kapcsolaton keresztül végez multiplexálást. A javasolt felhasználás az, ha létrehozza az ügyfél egy példányát az alkalmazás indításakor, és ezt a példányt használja a gyorsítótár elérését célzó összes művelethez. Így a gyorsítótárral való kapcsolat csak egyszer jön létre, ezért az ebben a szakaszban leírt összes útmutatás ezen első kapcsolat újrapróbálkozási szabályzatára vonatkozik, nem pedig a gyorsítótárhoz hozzáférő egyes műveletekre.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+A StackExchange.Redis ügyfél egy számos beállítással konfigurált kapcsolatkezelő osztályt használ. Néhány példa ezekre a beállításokra:
+
+- **ConnectRetry**. Ennyi alkalommal próbálkozik újra a gyorsítótárhoz való sikertelen kapcsolódás esetén.
+- **ReconnectRetryPolicy**. A használt újrapróbálkozási stratégia.
+- **ConnectTimeout**. A maximális várakozási idő milliszekundumban.
+
+### <a name="policy-configuration"></a>Szabályzatkonfiguráció
+Az újrapróbálkozási szabályzat konfigurálása szoftveresen történik. Az ügyfél beállításait a gyorsítótárhoz való kapcsolódás előtt kell megadni. Ehhez létre kell hozni a **ConfigurationOptions** osztály egy példányát, feltölteni adatokkal a tulajdonságait, majd továbbítani azt a **Connect** metódusnak.
+
+A beépített osztályok támogatják a lineáris (állandó) késleltetést, illetve az exponenciális visszatartást véletlenszerű újrapróbálkozási időközökkel. Ezenkívül létrehozhat egyéni újrapróbálkozási szabályzatot az **IReconnectRetryPolicy** felület implementálásával.
+
+A következő példa exponenciális visszatartással konfigurálja az újrapróbálkozási stratégiát.
+
+```csharp
+var deltaBackOffInMilliseconds = TimeSpan.FromSeconds(5).Milliseconds;
+var maxDeltaBackOffInMilliseconds = TimeSpan.FromSeconds(20).Milliseconds;
+var options = new ConfigurationOptions
+{
+    EndPoints = {"localhost"},
+    ConnectRetry = 3,
+    ReconnectRetryPolicy = new ExponentialRetry(deltaBackOffInMilliseconds, maxDeltaBackOffInMilliseconds),
+    ConnectTimeout = 2000
+};
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
+```
+
+Egy másik lehetőség, hogy a beállításokat karakterláncként adja meg és továbbítja a **Connect** metódusnak. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonság nem állítható be ezen a módon, csak a programkódon keresztül.
+
+```csharp
+var options = "localhost,connectRetry=3,connectTimeout=2000";
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
+```
+
+Amikor a gyorsítótárhoz csatlakozik, közvetlenül is megadhat beállításokat.
+
+```csharp
+var conn = ConnectionMultiplexer.Connect("redis0:6380,redis1:6380,connectRetry=3");
+```
+
+További információért tekintse meg [a Stack Exchange Redis konfigurálását](https://stackexchange.github.io/StackExchange.Redis/Configuration) a StackExchange.Redis dokumentációjában.
+
+A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók.
+
+| **Környezet** | **Beállítás** | **Alapértelmezett érték**<br />(v 1.2.2) | **Jelentés** |
+| --- | --- | --- | --- |
+| ConfigurationOptions |ConnectRetry<br /><br />ConnectTimeout<br /><br />SyncTimeout<br /><br />ReconnectRetryPolicy |3<br /><br />Legfeljebb 5000 ms, plusz SyncTimeout<br />1000<br /><br />LinearRetry 5000 ms |Ennyi alkalommal kell megismételni a csatlakozási kísérletet az első csatlakozási művelet során.<br />A csatlakozási műveletek időtúllépési értéke (ms). Nem az újrapróbálkozás kísérletek közötti késleltetést jelzi.<br />A szinkron műveletek számára biztosított idő (ms).<br /><br />Újrapróbálkozás 5000 ms időközönként.|
+
+> [!NOTE]
+> A szinkron műveletek esetében a `SyncTimeout` hozzájárulhat a végpontok közötti késéshez, de a túl alacsony érték gyakori időtúllépéseket eredményezhet. További információért lásd [az Azure Redis Cache hibaelhárítását][redis-cache-troubleshoot]. Általában kerülje a szinkron műveletek használatát, és alkalmazzon inkább aszinkron műveleteket. További információért lásd a [folyamatokat és a multiplexereket](http://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/PipelinesMultiplexers.md).
 >
 >
 
-## <a name="azure-storage-retry-guidelines"></a>Az Azure Storage újrapróbálkozási irányelvei
+### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
+Ügyeljen a következőkre az Azure Redis Cache használata során:
+
+* A StackExchange Redis ügyfél kezeli a saját újrapróbálkozásait, de csak amikor az alkalmazás első indításakor próbál kapcsolódni a gyorsítótárhoz. Meghatározhatja a kapcsolati időtúllépés értékét, az újrapróbálkozási kísérletek számát, valamint a kapcsolat létrehozására tett ismételt próbálkozások között eltelt időt, de az újrapróbálkozási szabályzat nem vonatkozik a gyorsítótárra irányuló műveletekre.
+* Nagy számú újrapróbálkozási kísérlet helyett érdemes lehet inkább az eredeti adatforráshoz csatlakozni.
+
+### <a name="telemetry"></a>Telemetria
+**TextWriter** használatával adatokat gyűjthet a kapcsolatokról (más műveletekről azonban nem).
+
+```csharp
+var writer = new StringWriter();
+ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
+```
+
+Az alábbi példa azt mutatja be, hogy ez milyen kimenetet eredményez.
+
+```text
+localhost:6379,connectTimeout=2000,connectRetry=3
+1 unique nodes specified
+Requesting tie-break from localhost:6379 > __Booksleeve_TieBreak...
+Allowing endpoints 00:00:02 to respond...
+localhost:6379 faulted: SocketFailure on PING
+localhost:6379 failed to nominate (Faulted)
+> UnableToResolvePhysicalConnection on GET
+No masters detected
+localhost:6379: Standalone v2.0.0, master; keep-alive: 00:01:00; int: Connecting; sub: Connecting; not in use: DidNotRespond
+localhost:6379: int ops=0, qu=0, qs=0, qc=1, wr=0, sync=1, socks=2; sub ops=0, qu=0, qs=0, qc=0, wr=0, socks=2
+Circular op-count snapshot; int: 0 (0.00 ops/s; spans 10s); sub: 0 (0.00 ops/s; spans 10s)
+Sync timeouts: 0; fire and forget: 0; last heartbeat: -1s ago
+resetting failing connections to retry...
+retrying; attempts left: 2...
+...
+```
+
+### <a name="examples"></a>Példák
+A következő mintakód állandó (lineáris) késleltetést állít be az újrapróbálkozások között a StackExchange.Redis ügyfél inicializálásakor. Ez a példa azt mutatja be, hogyan állítható be a konfiguráció egy **ConfigurationOptions**-példánnyal.
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using StackExchange.Redis;
+
+namespace RetryCodeSamples
+{
+    class CacheRedisCodeSamples
+    {
+        public async static Task Samples()
+        {
+            var writer = new StringWriter();
+            {
+                try
+                {
+                    var retryTimeInMilliseconds = TimeSpan.FromSeconds(4).Milliseconds; // delay between retries
+
+                    // Using object-based configuration.
+                    var options = new ConfigurationOptions
+                                        {
+                                            EndPoints = { "localhost" },
+                                            ConnectRetry = 3,
+                                            ReconnectRetryPolicy = new LinearRetry(retryTimeInMilliseconds)
+                                        };
+                    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
+
+                    // Store a reference to the multiplexer for use in the application.
+                }
+                catch
+                {
+                    Console.WriteLine(writer.ToString());
+                    throw;
+                }
+            }
+        }
+    }
+}
+```
+
+A következő példa karakterláncként adja meg a beállításokat, és így határozza meg a konfigurációt. A kapcsolat időtúllépése a leghosszabb idő, amennyit a kapcsolat a gyorsítótárra várhat, nem pedig az újrapróbálkozási kísérletek közötti időköz. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonságot csak a programkódon keresztül lehet beállítani.
+
+```csharp
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using StackExchange.Redis;
+
+namespace RetryCodeSamples
+{
+    class CacheRedisCodeSamples
+    {
+        public async static Task Samples()
+        {
+            var writer = new StringWriter();
+            {
+                try
+                {
+                    // Using string-based configuration.
+                    var options = "localhost,connectRetry=3,connectTimeout=2000";
+                    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
+
+                    // Store a reference to the multiplexer for use in the application.
+                }
+                catch
+                {
+                    Console.WriteLine(writer.ToString());
+                    throw;
+                }
+            }
+        }
+    }
+}
+```
+
+További példákért tekintse meg a projekt webhelyének a [konfigurációval](http://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Configuration.md#configuration) foglalkozó szakaszát.
+
+### <a name="more-information"></a>További információ
+* [Redis-webhely](http://redis.io/)
+
+## <a name="azure-search"></a>Azure Search
+Az Azure Search hatékony és kifinomult keresési lehetőségekkel egészíthet ki egy webhelyet vagy alkalmazást, gyorsan és könnyen pontosítja a keresési eredményeket, továbbá részletes és finomhangolt rangsorolási modelleket képes létrehozni.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az Azure Search SDK újrapróbálkozási viselkedését a [SearchServiceClient] és a [SearchIndexClient] osztály `SetRetryPolicy` metódusa vezérli. Az alapértelmezett szabályzat exponenciális visszatartással végzi el az újrapróbálkozást, ha az Azure Search 5xx-es vagy 408-as (Kérés időtúllépése) választ ad vissza.
+
+### <a name="telemetry"></a>Telemetria
+Nyomkövetés ETW-vel vagy egyéni nyomkövetési szolgáltató regisztrálásával. További információt az [AutoRest dokumentációjában][autorest] találhat.
+
+## <a name="service-bus"></a>Service Bus
+A Service Bus egy felhőalapú üzenetkezelési platform, amely skálázható és rugalmas módon biztosít lazán kapcsolódó üzenetváltásokat az alkalmazások összetevői számára, legyen szó felhőalapú vagy helyszíni megoldásról.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+A Service Bus a [RetryPolicy](http://msdn.microsoft.com/library/microsoft.servicebus.retrypolicy.aspx) alaposztály implementációi alapján implementálja az újrapróbálkozásokat. Az összes Service Bus-ügyfél elérhetővé tesz egy **RetryPolicy** tulajdonságot, amely beállítható a **RetryPolicy** alaposztály egyik implementációjaként. A beépített implementációk a következők:
+
+* A [RetryExponential osztály](http://msdn.microsoft.com/library/microsoft.servicebus.retryexponential.aspx). Ez elérhetővé teszi azokat a tulajdonságokat, amelyek a visszatartási időközöket, az újrapróbálkozások számát és a **TerminationTimeBuffer** tulajdonságot szabályozzák, amely korlátozza, hogy a művelet hányszor hajtható végre.
+* A [NoRetry osztály](http://msdn.microsoft.com/library/microsoft.servicebus.noretry.aspx). Ezt akkor szokták használni, ha nincs szükség újrapróbálkozásra a Service Bus API-szintjén, például ha az újrapróbálkozásokat egy másik folyamat kezeli egy kötegelt vagy többlépéses művelet részeként.
+
+A Service Bus-műveletek számos kivételt adhatnak vissza. Ezek listáját [az üzenetkezelési kivételek függelékében](http://msdn.microsoft.com/library/hh418082.aspx) találja. A lista azt is ismerteti, hogy ezek közül melyik utal arra, hogy a művelet újrapróbálható. Például a [ServerBusyException](http://msdn.microsoft.com/library/microsoft.servicebus.messaging.serverbusyexception.aspx) azt jelzi, hogy az ügyfélnek várnia kell egy ideig, majd ismét megpróbálkozni a művelettel. A **ServerBusyException** jelentkezésekor a Service Bus eltérő módba vált, amelyben további 10 másodperc adódik a kiszámított újrapróbálkozási késleltetéshez. Ebből a módból rövid időn belül automatikusan kilép.
+
+A Service Bus által visszaadott kivételek elérhetővé teszik az **IsTransient** tulajdonságot, amely jelzi, hogy az ügyfélnek érdemes-e újrapróbálkoznia a művelettel. A beépített **RetryExponential** szabályzat a **MessagingException** osztály (az összes Service Bus-kivétel alaposztálya) **IsTransient** tulajdonságára hagyatkozik. A **RetryPolicy** alaposztály egyéni implementációi esetében a kivételtípus és az **IsTransient** tulajdonság közös használatával pontosabban szabályozhatja az újrapróbálkozási műveleteket. Például észlelhet egy **QuotaExceededException**-kivételt, és utasítást adhat, hogy csak az üzenetsor kiürítése után próbálkozzon újra az üzenetküldéssel.
+
+### <a name="policy-configuration"></a>Szabályzatkonfiguráció
+Az újrapróbálkozási szabályzatok beállítása szoftveresen történik, és beállítható alapértelmezett szabályzatként a **NamespaceManager** és a **MessagingFactory** számára, vagy egyenként, az egyes üzenetkezelési ügyfelek számára. Az üzenetkezelési munkamenet alapértelmezett újrapróbálkozási szabályzatát a **NamespaceManager** **RetryPolicy** tulajdonságában állíthatja be.
+
+```csharp
+namespaceManager.Settings.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
+                                                                maxBackoff: TimeSpan.FromSeconds(30),
+                                                                maxRetryCount: 3);
+```
+
+Az üzenetkezelési előállítóból létrehozott ügyelek alapértelmezett újrapróbálkozási szabályzatát a **MessagingFactory** **RetryPolicy** tulajdonságában állíthatja be.
+
+```csharp
+messagingFactory.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
+                                                    maxBackoff: TimeSpan.FromSeconds(30),
+                                                    maxRetryCount: 3);
+```
+
+Az üzenetkezelési ügyfél alapértelmezett újrapróbálkozási szabályzatának beállításához, illetve az alapértelmezett szabályzat felülbírálásához a szükséges szabályzatosztály példányának **RetryPolicy** tulajdonságát kell megadnia:
+
+```csharp
+client.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
+                                            maxBackoff: TimeSpan.FromSeconds(30),
+                                            maxRetryCount: 3);
+```
+
+Az újrapróbálkozási szabályzat nem állítható be az egyes műveletek szintjén. Az az üzenetkezelési ügyfél összes műveletére érvényes lesz.
+A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók.
+
+| Beállítás | Alapértelmezett érték | Jelentés |
+|---------|---------------|---------|
+| Szabályzat | Exponenciális | Exponenciális visszatartás. |
+| MinimalBackoff | 0 | Minimális visszatartási időköz. Ez hozzáadódik a deltaBackoff alapján kiszámított újrapróbálkozási időközhöz. |
+| MaximumBackoff | 30 másodperc | Maximális visszatartási időköz. A MaximumBackoff akkor lép működésbe, ha a kiszámított újrapróbálkozási időköz nagyobb, mint a MaxBackoff értéke. |
+| DeltaBackoff | 3 másodperc | Az újrapróbálkozások közötti visszatartási időköz. Az ezt követő újrapróbálkozási kísérletek esetében az időtartomány többszörösét fogja használni a rendszer. |
+| TimeBuffer | 5 másodperc | Az újrapróbálkozáshoz tartozó leállítási időpuffer. A rendszer felhagy az újrapróbálkozással, ha a TimeBuffer értékben megadottnál kevesebb idő van hátra. |
+| MaxRetryCount | 10 | Az újrapróbálkozások maximális száma. |
+| ServerBusyBaseSleepTime | 10 másodperc | Ha az utolsó kivétel a **ServerBusyException** volt, ez az érték hozzáadódik a kiszámított újrapróbálkozási időközhöz. Ez az érték nem módosítható. |
+
+### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
+Ügyeljen a következőkre a Service Bus használata során:
+
+* A beépített **RetryExponential** implementáció használatakor nincs szükség tartalékműveletek megvalósítására, mivel a szabályzat a „foglalt kiszolgáló” kivételekre reagálva automatikusan átvált a megfelelő újrapróbálkozási módra.
+* A Service Bus támogatja a Párosított névterek nevű funkciót, amely automatikus feladatátvételt implementál, és az elsődleges névtér üzenetsorának hibájakor egy másik névtér tartalék üzenetsorára vált. A másodlagos üzenetsor üzenetei továbbküldhetők az elsődleges üzenetsornak, miután az helyreállt. Ez a funkció az átmeneti hibák kezelésére szolgál. További információért lásd [az aszinkron üzenetkezelési minták és a magas rendelkezésre állás](http://msdn.microsoft.com/library/azure/dn292562.aspx) ismertetését.
+
+A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
+
+| Környezet | Példa a maximális késésre | Újrapróbálkozási szabályzat | Beállítások | Működés |
+|---------|---------|---------|---------|---------|
+| Interaktív, felhasználói felület vagy előtér | 2 másodperc*  | Exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 300 ms <br/> TimeBuffer = 300 ms <br/> MaxRetryCount = 2 | 1. kísérlet: 0 mp. késleltetés <br/> 2. kísérlet: kb. 300 ms késleltetés <br/> 3. kísérlet: kb. 900 ms késleltetés |
+| Háttér vagy kötegelt | 30 másodperc | Exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 1,75 mp. <br/> TimeBuffer = 5 mp. <br/> MaxRetryCount = 3 | 1. kísérlet: kb. 1 mp. késleltetés <br/> 2. kísérlet: kb. 3 mp. késleltetés <br/> 3. kísérlet: kb. 6 ms késleltetés <br/> 4. kísérlet: kb. 13 ms késleltetés |
+
+\* Nem tartalmazza a további késleltetést, amely a „foglalt kiszolgáló” válasz esetén adódik az értékhez.
+
+### <a name="telemetry"></a>Telemetria
+A Service Bus ETW-eseményként naplózza az újrapróbálkozásokat egy **EventSource** használatával. Egy **EventListener** az eseményforráshoz csatolása szükséges, ha rögzíteni kívánja az eseményeket, és meg kívánja tekinteni azokat a Teljesítménynaplóban, vagy ha egy megfelelő célnaplóba írná azokat. Ehhez a [szemantikus naplózási alkalmazásblokk](http://msdn.microsoft.com/library/dn775006.aspx) használatát javasoljuk. Az újrapróbálkozási események formátuma a következő:
+
+```text
+Microsoft-ServiceBus-Client/RetryPolicyIteration
+ThreadID="14,500"
+FormattedMessage="[TrackingId:] RetryExponential: Operation Get:https://retry-tests.servicebus.windows.net/TestQueue/?api-version=2014-05 at iteration 0 is retrying after 00:00:00.1000000 sleep because of Microsoft.ServiceBus.Messaging.MessagingCommunicationException: The remote name could not be resolved: 'retry-tests.servicebus.windows.net'.TrackingId:6a26f99c-dc6d-422e-8565-f89fdd0d4fe3, TimeStamp:9/5/2014 10:00:13 PM."
+trackingId=""
+policyType="RetryExponential"
+operation="Get:https://retry-tests.servicebus.windows.net/TestQueue/?api-version=2014-05"
+iteration="0"
+iterationSleep="00:00:00.1000000"
+lastExceptionType="Microsoft.ServiceBus.Messaging.MessagingCommunicationException"
+exceptionMessage="The remote name could not be resolved: 'retry-tests.servicebus.windows.net'.TrackingId:6a26f99c-dc6d-422e-8565-f89fdd0d4fe3,TimeStamp:9/5/2014 10:00:13 PM"
+```
+
+### <a name="examples"></a>Példák
+A következő mintakód bemutatja, hogyan állíthatja be az újrapróbálkozási szabályzatot a következőkhöz:
+
+* Egy névtérkezelő. A szabályzat a kezelő összes műveletére vonatkozik, és nem bírálható felül az egyes műveletek esetében.
+* Egy üzenetkezelési előállító. A szabályzat az előállítóból létrehozott összes ügyfélre vonatkozik, és nem bírálható felül az egyes ügyfelek létrehozásakor.
+* Egy különálló üzenetkezelési ügyfél. Az ügyfél létrehozása után beállíthatja annak újrapróbálkozási szabályzatát. A szabályzat az ügyfél összes műveletére vonatkozik.
+
+```csharp
+using System;
+using System.Threading.Tasks;
+using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
+
+namespace RetryCodeSamples
+{
+    class ServiceBusCodeSamples
+    {
+        private const string connectionString =
+            @"Endpoint=sb://[my-namespace].servicebus.windows.net/;
+                SharedAccessKeyName=RootManageSharedAccessKey;
+                SharedAccessKey=C99..........Mk=";
+
+        public async static Task Samples()
+        {
+            const string QueueName = "TestQueue";
+
+            ServiceBusEnvironment.SystemConnectivity.Mode = ConnectivityMode.Http;
+
+            var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
+
+            // The namespace manager will have a default exponential policy with 10 retry attempts
+            // and a 3 second delay delta.
+            // Retry delays will be approximately 0 sec, 3 sec, 9 sec, 25 sec and the fixed 30 sec,
+            // with an extra 10 sec added when receiving a ServiceBusyException.
+
+            {
+                // Set different values for the retry policy, used for all operations on the namespace manager.
+                namespaceManager.Settings.RetryPolicy =
+                    new RetryExponential(
+                        minBackoff: TimeSpan.FromSeconds(0),
+                        maxBackoff: TimeSpan.FromSeconds(30),
+                        maxRetryCount: 3);
+
+                // Policies cannot be specified on a per-operation basis.
+                if (!await namespaceManager.QueueExistsAsync(QueueName))
+                {
+                    await namespaceManager.CreateQueueAsync(QueueName);
+                }
+            }
+
+            var messagingFactory = MessagingFactory.Create(
+                namespaceManager.Address, namespaceManager.Settings.TokenProvider);
+            // The messaging factory will have a default exponential policy with 10 retry attempts
+            // and a 3 second delay delta.
+            // Retry delays will be approximately 0 sec, 3 sec, 9 sec, 25 sec and the fixed 30 sec,
+            // with an extra 10 sec added when receiving a ServiceBusyException.
+
+            {
+                // Set different values for the retry policy, used for clients created from it.
+                messagingFactory.RetryPolicy =
+                    new RetryExponential(
+                        minBackoff: TimeSpan.FromSeconds(1),
+                        maxBackoff: TimeSpan.FromSeconds(30),
+                        maxRetryCount: 3);
+
+
+                // Policies cannot be specified on a per-operation basis.
+                var session = await messagingFactory.AcceptMessageSessionAsync();
+            }
+
+            {
+                var client = messagingFactory.CreateQueueClient(QueueName);
+                // The client inherits the policy from the factory that created it.
+
+
+                // Set different values for the retry policy on the client.
+                client.RetryPolicy =
+                    new RetryExponential(
+                        minBackoff: TimeSpan.FromSeconds(0.1),
+                        maxBackoff: TimeSpan.FromSeconds(30),
+                        maxRetryCount: 3);
+
+                // Policies cannot be specified on a per-operation basis.
+                var session = await client.AcceptMessageSessionAsync();
+            }
+        }
+    }
+}
+```
+
+### <a name="more-information"></a>További információ
+* [Aszinkron üzenetkezelési minták és magas rendelkezésre állás](http://msdn.microsoft.com/library/azure/dn292562.aspx)
+
+## <a name="service-fabric"></a>Service Fabric
+
+A megbízható szolgáltatások Service Fabric-fürtön belüli elosztásával a cikkben tárgyalt legtöbb átmeneti hiba elkerülhető. Azonban így is előfordulhatnak átmeneti hibák. Előfordulhat például, hogy a kérés érkezésekor az elnevezési szolgáltatás egy útválasztási változtatást végez, ami kivételt eredményez. Ugyanez a kérés 100 milliszekundummal később talán sikeres lett volna.
+
+A Service Fabric az ehhez hasonló átmeneti hibák belső kezelését elvégzi. A szolgáltatás beállítása közben konfigurálhat egyes beállításokat az `OperationRetrySettings` osztállyal.  Az alábbi kód erre mutat egy példát. A legtöbb esetben ez nem szükséges, és az alapértelmezett beállítások tökéletesen megfelelnek.
+
+```csharp
+FabricTransportRemotingSettings transportSettings = new FabricTransportRemotingSettings
+{
+    OperationTimeout = TimeSpan.FromSeconds(30)
+};
+
+var retrySettings = new OperationRetrySettings(TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(1), 5);
+
+var clientFactory = new FabricTransportServiceRemotingClientFactory(transportSettings);
+
+var serviceProxyFactory = new ServiceProxyFactory((c) => clientFactory, retrySettings);
+
+var client = serviceProxyFactory.CreateServiceProxy<ISomeService>(
+    new Uri("fabric:/SomeApp/SomeStatefulReliableService"),
+    new ServicePartitionKey(0));
+```
+
+### <a name="more-information"></a>További információ
+
+* [Távoli kivételkezelés](https://github.com/Microsoft/azure-docs/blob/master/articles/service-fabric/service-fabric-reliable-services-communication-remoting.md#remoting-exception-handling)
+
+## <a name="sql-database-using-adonet"></a>Az ADO.NET használatával SQL-adatbázis
+Az SQL Database egy üzemeltetett SQL-adatbázis, amely különböző méretekben, normál (megosztott) és prémium (nem megosztott) szolgáltatásként is elérhető.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az SQL Database nem tartalmaz beépített támogatást az újrapróbálkozásokhoz, ha az ADO.NET használatával érik el. Ugyanakkor a kérések válaszkódjából megállapítható, hogy a kérés miért hiúsult meg. További információt az SQL Database szabályozásáról [az Azure SQL Database erőforrás-korlátait](/azure/sql-database/sql-database-resource-limits) ismertető szakaszban talál. A kapcsolódó hibakódok listáját [az SQL Database ügyfélalkalmazásaiban felmerülő SQL-hibakódokat](/azure/sql-database/sql-database-develop-error-messages) ismertető szakaszban találja.
+
+A Polly kódtárt alkalmazva implementálhatja az újrapróbálkozást az SQL Database-ben. További információt az [átmeneti hibák a Polly használatával történő kezelését](#transient-fault-handling-with-polly) ismertető szakaszban talál.
+
+### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
+Ügyeljen a következőkre, amikor az ADO.NET használatával éri el az SQL Database-t:
+
+* Válassza a megfelelő szolgáltatástípust (megosztott vagy prémium). A megosztott példány esetében a szokottnál hosszabb csatlakozási késések fordulhatnak elő, valamint a kérések számának korlátozására lehet szükség, mivel a megosztott kiszolgálót más bérlők is használják. Ha kiszámíthatóbb teljesítményre és megbízhatóan alacsony késésű műveletekre van szükség, mindenképpen a prémium szolgáltatást érdemes választani.
+* Gondoskodjon arról, hogy az újrapróbálkozás a megfelelő szinten vagy hatókörrel legyen végrehajtva, amivel elkerülheti, hogy a nem idempotens műveletek miatt inkonzisztencia keletkezzen az adatokban. Ideális esetben minden műveletnek idempotensnek kellene lennie, hogy inkonzisztencia veszélye nélkül lehessen ismételni azokat. Ellenkező esetben az újrapróbálkozást olyan szinten vagy hatókörrel kell végrehajtani, hogy az összes kapcsolódó változtatást vissza lehessen vonni egy művelet meghiúsulásakor – például egy tranzakciós hatókörben. További információt a [Cloud Service Fundamentals adatelérési réteg átmeneti hibák kezelésével](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx#Idempotent_Guarantee) foglalkozó részében talál.
+* Az Azure SQL Database esetében nem javasoljuk rögzített időközű stratégiák alkalmazását. Az interaktív forgatókönyvek kivételt képeznek, mivel csak néhány újrapróbálkozás történik nagyon rövid időközökkel. Ehelyett a legtöbb esetben exponenciális visszatartási stratégia használata javasolt.
+* A kapcsolatok definiálásakor válasszon megfelelő értéket a kapcsolatok és a parancsok időtúllépéséhez. A túl alacsony időtúllépési érték miatt a kapcsolatok idő előtt szakadhatnak meg, ha az adatbázis leterhelt. A túl magas időtúllépési érték akadályozhatja az újrapróbálkozási logika megfelelő működését, mivel túl sokáig fog várni, mielőtt észlelné a sikertelen csatlakozást. Az időtúllépés értéke a végpontok közötti késés egyik összetevője. Gyakorlatilag hozzáadódik az újrapróbálkozási szabályzatban megadott újrapróbálkozási késleltetéshez minden egyes újrapróbálkozási kísérlet esetén.
+* Megszakítja a kapcsolatot adott számú újrapróbálkozás után, akár egy exponenciális visszatartási újrapróbálkozási logika használata esetén is, és egy új kapcsolatot létesítve próbálja meg újra végrehajtani a műveletet. Ha ugyanazzal a művelettel többször próbálkozik újra ugyanazon a kapcsolaton keresztül, az önmagában is csatlakozási problémákat okozhat. Erre a technikára egy példát a [Cloud Service Fundamentals adatelérési réteg átmeneti hibák kezelésével](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx) foglalkozó részében találhat.
+* Ha kapcsolatkészletezést alkalmaz (ez az alapértelmezett beállítás), akkor előfordulhat, hogy a készletből ismét ugyanazt a kapcsolatot választja a rendszer, akár a kapcsolat lezárása és ismételt megnyitása után is. Ebben az esetben az **SqlConnection** osztályból kell meghívni a **ClearPool** metódust, és jelezni, hogy a kapcsolat nem újrahasználható. Ezt azonban csak abban az esetben javasoljuk, ha számos csatlakozási kísérlet meghiúsult, és csak akkor, ha az átmeneti hibák, például SQL-időtúllépések (-2-es hibakód) adott osztálya hibás kapcsolatokhoz kötődik.
+* Amennyiben az adatelérési kód **TransactionScope**-példányként kezdeményezett tranzakciókat alkalmaz, az újrapróbálkozási logikának újra meg kell nyitnia a kapcsolatot, és új tranzakció-hatókört kell kezdeményeznie. Ezért az újrapróbálható kódblokknak a tranzakció teljes hatókörét le kell fedne.
+
+A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
+
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
+| --- | --- | --- | --- | --- | --- |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+
+> [!NOTE]
+> A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.
+>
+>
+
+### <a name="examples"></a>Példák
+Ebben a szakaszban azt mutatjuk be, hogy miként használhatja a Pollyt az Azure SQL Database elérésére a `Policy` osztályban konfigurált újrapróbálkozási szabályzatok segítségével.
+
+A következő programkód bemutatja, hogyan bővítheti az `SqlCommand` osztályt, ha az exponenciális visszatartással hívja meg az `ExecuteAsync` metódust.
+
+```csharp
+public async static Task<SqlDataReader> ExecuteReaderWithRetryAsync(this SqlCommand command)
+{
+    GuardConnectionIsNotNull(command);
+
+    var policy = Policy.Handle<Exception>().WaitAndRetryAsync(
+        retryCount: 3, // Retry 3 times
+        sleepDurationProvider: attempt => TimeSpan.FromMilliseconds(200 * Math.Pow(2, attempt - 1)), // Exponential backoff based on an initial 200ms delay.
+        onRetry: (exception, attempt) => 
+        {
+            // Capture some info for logging/telemetry.  
+            logger.LogWarn($"ExecuteReaderWithRetryAsync: Retry {attempt} due to {exception}.");
+        });
+
+    // Retry the following call according to the policy.
+    await policy.ExecuteAsync<SqlDataReader>(async token =>
+    {
+        // This code is executed within the Policy 
+
+        if (conn.State != System.Data.ConnectionState.Open) await conn.OpenAsync(token);
+        return await command.ExecuteReaderAsync(System.Data.CommandBehavior.Default, token);
+
+    }, cancellationToken);
+}
+```
+
+Ezt az aszinkron bővítési metódust a következőképpen lehet használni.
+
+```csharp
+var sqlCommand = sqlConnection.CreateCommand();
+sqlCommand.CommandText = "[some query]";
+
+using (var reader = await sqlCommand.ExecuteReaderWithRetryAsync())
+{
+    // Do something with the values
+}
+```
+
+### <a name="more-information"></a>További információ
+* [Cloud Service Fundamentals adatelérési réteg – átmeneti hibák kezelése](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx)
+
+Ha további útmutatásra van szüksége az SQL Database minél jobb kihasználásához, olvassa el [az Azure SQL Database szolgáltatás teljesítményének és rugalmasságának útmutatóját](http://social.technet.microsoft.com/wiki/contents/articles/3507.windows-azure-sql-database-performance-and-elasticity-guide.aspx).
+
+## <a name="sql-database-using-entity-framework-6"></a>SQL-adatbázis használata az Entity Framework 6
+Az SQL Database egy üzemeltetett SQL-adatbázis, amely különböző méretekben, normál (megosztott) és prémium (nem megosztott) szolgáltatásként is elérhető. Az Entity Framework egy objektumrelációs leképező .NET-fejlesztők számára, amellyel tartományspecifikus objektumokat használva lehet relációs adatokkal dolgozni. Szükségtelenné teszi az adatelérési kód használatát, amelyet egyébként a fejlesztőknek kell megírniuk.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework 6.0-s vagy újabb verziójával érik el, a [kapcsolat rugalmassága/újrapróbálkozási logika](http://msdn.microsoft.com/data/dn456835.aspx) mechanizmus segítségével. Az újrapróbálkozási mechanizmus fő funkciói a következők:
+
+* Az elsődleges absztrakció az **IDbExecutionStrategy** felület. Ez a felület:
+  * Definiálja a szinkron és aszinkron **feldolgozási*** metódusokat.
+  * Definiálja azokat az osztályokat, amelyek felhasználhatók közvetlenül, illetve konfigurálhatók alapértelmezett stratégiaként egy adatbázis-környezetben, leképezhetők egy szolgáltatónévre, vagy pedig leképezhetők egy szolgáltatónévre vagy kiszolgálónévre. Ha egy környezethez konfigurálják, az újrapróbálkozások az egyes adatbázis-műveletek szintjén történnek, amelyekből több is lehet egy adott környezeti művelet esetében.
+  * Definiálja, hogy a sikertelen csatlakozást mikor kövesse újrapróbálkozás, és hogyan.
+* Az **IDbExecutionStrategy** felület számos beépített implementálását tartalmazza:
+  * Alapértelmezett – nincs újrapróbálkozás.
+  * Az SQL Database alapértelmezett beállítása (automatikus) – nincs újrapróbálkozás, de megvizsgálja a kivételeket, és beburkolja azokat, az SQL Database stratégia használatát javasolva.
+  * Az SQL Database alapértelmezett beállítása – exponenciális (az alaposztálytól örökölt), plusz az SQL Database észlelési logikája.
+* Véletlenszerűsítést tartalmazó exponenciális visszatartási stratégiát implementál.
+* A beépített újrapróbálkozási osztályok állapotalapúak, és nem alkalmasak a többszálú futtatásra. Ugyanakkor az aktuális művelet befejezése után újra felhasználhatók.
+* Amennyiben az újrapróbálkozások száma meghaladja a megadott értéket, a szolgáltatás új kivételbe burkolja az eredményeket. Nem rendezi buborékba az aktuális kivételt.
+
+### <a name="policy-configuration"></a>Szabályzatkonfiguráció
+Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework 6.0-s vagy újabb verziójával érik el. Az újrapróbálkozási szabályzatok konfigurálása szoftveresen történik. A konfiguráció nem módosítható az egyes műveletek szintjén.
+
+Ha egy környezetfüggő stratégiát tesz alapértelmezetté, megad egy függvényt, amely igény szerint hoz létre egy új stratégiát. A következő kód azt mutatja be, hogyan hozható létre egy újrapróbálkozási konfigurációs osztályt, amely kibővíti a **DbConfiguration** alaposztályt.
+
+```csharp
+public class BloggingContextConfiguration : DbConfiguration
+{
+  public BlogConfiguration()
+  {
+    // Set up the execution strategy for SQL Database (exponential) with 5 retries and 4 sec delay
+    this.SetExecutionStrategy(
+         "System.Data.SqlClient", () => new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(4)));
+  }
+}
+```
+
+Az alkalmazás indításakor, a **DbConfiguration**-példány **SetConfiguration** metódusával teheti az alapértelmezett újrapróbálkozási stratégiává minden művelet számára. Alapértelmezés szerint az EF automatikusan észleli és használatba veszi a konfigurációs osztályt.
+
+```csharp
+DbConfiguration.SetConfiguration(new BloggingContextConfiguration());
+```
+
+Ha meg kíván adni egy újrapróbálkozási konfigurációs osztályt a környezethez, lássa el a környezeti osztályt egy **DbConfigurationType** attribútummal. Amennyiben csak egy konfigurációs osztálya van, az EF azt fogja használni, nem szükséges külön jeleznie ezt.
+
+```csharp
+[DbConfigurationType(typeof(BloggingContextConfiguration))]
+public class BloggingContext : DbContext
+```
+
+Ha eltérő újrapróbálkozási stratégiára van szüksége adott műveletek esetében, vagy le kívánja tiltani az újrapróbálkozásokat egyes műveleteknél, létrehozhat egy konfigurációs osztályt, amely lehetővé teszi stratégiák felfüggesztését vagy cseréjét egy jelző a **CallContext** osztályban történő elhelyezésével. A konfigurációs osztály ezt a jelzőt használva vált stratégiát vagy tiltja le a felhasználó által megadott stratégiát, majd az alapértelmezett stratégiát használja. További információt a végrehajtási stratégiák újrapróbálkozásainak korlátozásait ismertető oldal [végrehajtási stratégia felfüggesztését](http://msdn.microsoft.com/dn307226#transactions_workarounds) ismertető szakaszában talál (EF6-os vagy újabb verzió).
+
+Bizonyos műveletek esetében egy másik lehetőség adott újrapróbálkozási stratégia használatára, ha létrehozza a kívánt stratégiaosztály egy példányát, és paramétereket használva ellátja a kívánt beállításokkal. Ezután meghívja annak **ExecuteAsync** metódusát.
+
+```csharp
+var executionStrategy = new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(4));
+var blogs = await executionStrategy.ExecuteAsync(
+    async () =>
+    {
+        using (var db = new BloggingContext("Blogs"))
+        {
+            // Acquire some values asynchronously and return them
+        }
+    },
+    new CancellationToken()
+);
+```
+
+A **DbConfiguration** osztály használatának legegyszerűbb módja, ha megkeresi ugyanazt a szerelvényt, amely a **DbContext** osztályban szerepel. Ez azonban nem alkalmazható, ha különböző forgatókönyvekben van szükség ugyanarra a környezetre, például a különböző interaktív és háttérbeli újrapróbálkozási stratégiák esetében. Ha a különböző környezetek különálló alkalmazástartományokban futnak, igénybe veheti a konfigurációs osztályok a konfigurációs fájlban történő megadásának beépített lehetőségét, illetve beállíthatja azt közvetlenül is a kódban. Ha a különböző környezeteknek ugyanabban az alkalmazástartományban kell futniuk, egyéni megoldásra lesz szükség.
+
+További információt a [kódalapú konfigurálást (EF6-os vagy újabb verzió)](http://msdn.microsoft.com/data/jj680699.aspx) ismertető szakaszban találhat.
+
+A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók az EF6 használatakor.
+
+| Beállítás | Alapértelmezett érték | Jelentés |
+|---------|---------------|---------|
+| Szabályzat | Exponenciális | Exponenciális visszatartás. |
+| MaxRetryCount | 5 | Az újrapróbálkozások maximális száma. |
+| MaxDelay | 30 másodperc | Az újrapróbálkozások közötti maximális késleltetés. Az érték nem befolyásolja az egymást követő késleltetések kiszámítását. Csak a felső határt adja meg. |
+| DefaultCoefficient | 1 másodperc | Az exponenciális visszatartás számításának együtthatója. Ez az érték nem módosítható. |
+| DefaultRandomFactor | 1.1 | A véletlenszerű késleltetés bejegyzésekhez való hozzáadására szolgáló szorzó. Ez az érték nem módosítható. |
+| DefaultExponentialBase | 2 | A következő késleltetés kiszámítására szolgáló szorzó. Ez az érték nem módosítható. |
+
+### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
+Ügyeljen a következőkre, amikor az EF6 használatával éri el az SQL Database-t:
+
+* Válassza a megfelelő szolgáltatástípust (megosztott vagy prémium). A megosztott példány esetében a szokottnál hosszabb csatlakozási késések fordulhatnak elő, valamint a kérések számának korlátozására lehet szükség, mivel a megosztott kiszolgálót más bérlők is használják. Ha kiszámítható teljesítményre és megbízhatóan alacsony késésű műveletekre van szükség, mindenképpen a prémium szolgáltatást érdemes választani.
+* Az Azure SQL Database esetében nem javasoljuk rögzített időközű stratégiák alkalmazását. Használjon inkább egy exponenciális visszatartási stratégiát, mivel a szolgáltatás túlterhelődhet, és a hosszabb késleltetés több időt ad a helyreállításra.
+* A kapcsolatok definiálásakor válasszon megfelelő értéket a kapcsolatok és a parancsok időtúllépéséhez. Az időtúllépés ideális értékét saját üzleti logikájának felépítése és tesztek alapján állapíthatja meg. A későbbiekben szükség lehet az érték módosítására, ahogy változik az adatmennyiség, vagy változnak az üzleti folyamatok. A túl alacsony időtúllépési érték miatt a kapcsolatok idő előtt szakadhatnak meg, ha az adatbázis leterhelt. A túl magas időtúllépési érték akadályozhatja az újrapróbálkozási logika megfelelő működését, mivel túl sokáig fog várni, mielőtt észlelné a sikertelen csatlakozást. Az időtúllépés értéke a végpontok közötti késés egyik összetevője. Bár nehéz előre megállapítani, hogy hány parancsot kell végrehajtani a környezet mentésekor. Az alapértelmezett időtúllépést a **DbContext** példány **CommandTimeout** tulajdonságában adhatja meg.
+* Az Entity Framework támogatja a konfigurációs fájlokban definiált újrapróbálkozási konfigurációk használatát. Ugyanakkor a minél nagyobb rugalmasság érdekében azt javasoljuk, hogy a konfigurációt szoftveresen hozza létre az alkalmazásban. Az újrapróbálkozási szabályzatok konkrét paraméterei – például az újrapróbálkozások száma és az újrapróbálkozási időközök – a szolgáltatás konfigurációs fájljában tárolhatók, és a futtatás során felhasználhatók a megfelelő szabályzatok létrehozására. Így a beállítások az alkalmazás újraindítása nélkül módosíthatók.
+
+A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Az újrapróbálkozási kísérletek közötti késleltetés nem adható meg (rögzített, és egy exponenciális sorozat részeként jön létre). Ha nem hoz létre egyéni újrapróbálkozási stratégiát, csak a maximális értékeket adhatja meg, az itt látható módon. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
+
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működési elv** |
+| --- | --- | --- | --- | --- | --- |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |3<br />750 ms |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 750 ms késleltetés<br />3. kísérlet – 750 ms késleltetés |
+| Háttér<br /> vagy kötegelt |30 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |5<br />12 másodperc |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 1 mp. késleltetés<br />3. kísérlet – kb. 3 mp. késleltetés<br />4. kísérlet – kb. 7 mp. késleltetés<br />5. kísérlet – 12 mp. késleltetés |
+
+> [!NOTE]
+> A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.
+>
+>
+
+### <a name="examples"></a>Példák
+A következő mintakód egy egyszerű adatelérési megoldást definiál, amely az Entity Frameworköt használja. Egy adott újrapróbálkozási stratégiát állít be a **BlogConfiguration** osztály egy példányának definiálásával, amely a **DbConfiguration** osztályt bővíti ki.
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.SqlServer;
+using System.Threading.Tasks;
+
+namespace RetryCodeSamples
+{
+    public class BlogConfiguration : DbConfiguration
+    {
+        public BlogConfiguration()
+        {
+            // Set up the execution strategy for SQL Database (exponential) with 5 retries and 12 sec delay.
+            // These values could be loaded from configuration rather than being hard-coded.
+            this.SetExecutionStrategy(
+                    "System.Data.SqlClient", () => new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(12)));
+        }
+    }
+
+    // Specify the configuration type if more than one has been defined.
+    // [DbConfigurationType(typeof(BlogConfiguration))]
+    public class BloggingContext : DbContext
+    {
+        // Definition of content goes here.
+    }
+
+    class EF6CodeSamples
+    {
+        public async static Task Samples()
+        {
+            // Execution strategy configured by DbConfiguration subclass, discovered automatically or
+            // or explicitly indicated through configuration or with an attribute. Default is no retries.
+            using (var db = new BloggingContext("Blogs"))
+            {
+                // Add, edit, delete blog items here, then:
+                await db.SaveChangesAsync();
+            }
+        }
+    }
+}
+```
+
+A [kapcsolat rugalmassága/újrapróbálkozási logika](http://msdn.microsoft.com/data/dn456835.aspx) mechanizmussal foglalkozó témakörben további példákat talál az Entity Framework újrapróbálkozási mechanizmusának használatára.
+
+### <a name="more-information"></a>További információ
+* [Az Azure SQL Database szolgáltatás teljesítményének és rugalmasságának útmutatója](http://social.technet.microsoft.com/wiki/contents/articles/3507.windows-azure-sql-database-performance-and-elasticity-guide.aspx)
+
+## <a name="sql-database-using-entity-framework-core"></a>SQL-adatbázis használata az Entity Framework Core
+Az [Entity Framework Core](/ef/core/) egy objektumrelációs leképező .NET Core-fejlesztők számára, amellyel tartományspecifikus objektumokat használva lehet adatokkal dolgozni. Szükségtelenné teszi az adatelérési kód használatát, amelyet egyébként a fejlesztőknek kell megírniuk. Az Entity Framework e verzióját az alapoktól építettük újra, ezért nem örökli meg automatikusan az EF6.x összes funkcióját.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework Core-ral érik el, a [kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency) mechanizmus segítségével. A kapcsolat rugalmassága először az EF Core 1.1.0-ban vált elérhetővé.
+
+Az elsődleges absztrakció az `IExecutionStrategy` felület. Az SQL Server, és így az SQL Azure végrehajtási stratégiája felismeri a kivételtípusokat, amelyeknél elérhető az újrapróbálkozás, és észszerű alapértelmezett értékek vannak beállítva többek között az újrapróbálkozások maximális számánál és az újrapróbálkozások közötti késleltetésnél.
+
+### <a name="examples"></a>Példák
+
+A következő kód lehetővé teszi az automatikus újrapróbálkozást a DbContext objektum konfigurálásakor, ami egy munkamenetet jelöl az adatbázisban. 
+
+```csharp
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder
+        .UseSqlServer(
+            @"Server=(localdb)\mssqllocaldb;Database=EFMiscellanous.ConnectionResiliency;Trusted_Connection=True;",
+            options => options.EnableRetryOnFailure());
+}
+```
+
+A következő kód bemutatja, egy végrehajtási stratégia alkalmazásával hogyan hajtható végre egy tranzakció automatikus újrapróbálkozással. A tranzakciót egy delegált definiálja. Átmeneti hiba előfordulásakor a végrehajtási stratégia ismét meghívja a delegáltat.
+
+```csharp
+using (var db = new BloggingContext())
+{
+    var strategy = db.Database.CreateExecutionStrategy();
+
+    strategy.Execute(() =>
+    {
+        using (var transaction = db.Database.BeginTransaction())
+        {
+            db.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/dotnet" });
+            db.SaveChanges();
+
+            db.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/visualstudio" });
+            db.SaveChanges();
+
+            transaction.Commit();
+        }
+    });
+}
+```
+
+## <a name="azure-storage"></a>Azure Storage
 Az Azure Storage szolgáltatásai közé tartoznak a tábla- és blobtárolók, a fájl- és tárolási üzenetsorok.
 
 ### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
@@ -79,18 +832,20 @@ var stats = await client.GetServiceStatsAsync(interactiveRequestOption, operatio
 
 Az **OperationContext** példányban határozhatja meg, hogy milyen kódot kell végrehajtani újrapróbálkozás esetén, illetve ha befejeződik a művelet. Ez a kód gyűjti össze a művelettel kapcsolatos adatokat, amelyek bekerülnek a naplókba és a telemetriába.
 
-    // Set up notifications for an operation
-    var context = new OperationContext();
-    context.ClientRequestID = "some request id";
-    context.Retrying += (sender, args) =>
-    {
-      /* Collect retry information */
-    };
-    context.RequestCompleted += (sender, args) =>
-    {
-      /* Collect operation completion information */
-    };
-    var stats = await client.GetServiceStatsAsync(null, context);
+```csharp
+// Set up notifications for an operation
+var context = new OperationContext();
+context.ClientRequestID = "some request id";
+context.Retrying += (sender, args) =>
+{
+    /* Collect retry information */
+};
+context.RequestCompleted += (sender, args) =>
+{
+    /* Collect operation completion information */
+};
+var stats = await client.GetServiceStatsAsync(null, context);
+```
 
 A kiterjesztett újrapróbálkozási szabályzatok jelzik, hogy egy adott hiba után szükség van-e újrapróbálkozásra, ezenkívül egy **RetryContext** objektumot adnak vissza, amely megmutatja az újrapróbálkozások számát, a legutóbbi kérés eredményét, illetve hogy a következő újrapróbálkozás az elsődleges vagy a másodlagos helyen fog történni (a részleteket lásd az alábbi táblázatban). A **RetryContext** objektummal lehet meghatározni, hogy történjen-e újrapróbálkozás, és ha igen, mikor. További információért lásd az [IExtendedRetryPolicy.Evaluate metódus](http://msdn.microsoft.com/library/microsoft.windowsazure.storage.retrypolicies.iextendedretrypolicy.evaluate.aspx) ismertetését.
 
@@ -222,765 +977,6 @@ namespace RetryCodeSamples
 * [Az Azure Storage ügyféloldali kódtárhoz javasolt újrapróbálkozási szabályzatok](https://azure.microsoft.com/blog/2014/05/22/azure-storage-client-library-retry-policy-recommendations/)
 * [Storage ügyféloldali kódtár 2.0 – újrapróbálkozási szabályzatok implementálása](http://gauravmantri.com/2012/12/30/storage-client-library-2-0-implementing-retry-policies/)
 
-## <a name="sql-database-using-entity-framework-6-retry-guidelines"></a>Az Entity Framework 6-ot használó SQL Database újrapróbálkozási irányelvei
-Az SQL Database egy üzemeltetett SQL-adatbázis, amely különböző méretekben, normál (megosztott) és prémium (nem megosztott) szolgáltatásként is elérhető. Az Entity Framework egy objektumrelációs leképező .NET-fejlesztők számára, amellyel tartományspecifikus objektumokat használva lehet relációs adatokkal dolgozni. Szükségtelenné teszi az adatelérési kód használatát, amelyet egyébként a fejlesztőknek kell megírniuk.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework 6.0-s vagy újabb verziójával érik el, a [kapcsolat rugalmassága/újrapróbálkozási logika](http://msdn.microsoft.com/data/dn456835.aspx) mechanizmus segítségével. Az újrapróbálkozási mechanizmus fő funkciói a következők:
-
-* Az elsődleges absztrakció az **IDbExecutionStrategy** felület. Ez a felület:
-  * Definiálja a szinkron és aszinkron **feldolgozási*** metódusokat.
-  * Definiálja azokat az osztályokat, amelyek felhasználhatók közvetlenül, illetve konfigurálhatók alapértelmezett stratégiaként egy adatbázis-környezetben, leképezhetők egy szolgáltatónévre, vagy pedig leképezhetők egy szolgáltatónévre vagy kiszolgálónévre. Ha egy környezethez konfigurálják, az újrapróbálkozások az egyes adatbázis-műveletek szintjén történnek, amelyekből több is lehet egy adott környezeti művelet esetében.
-  * Definiálja, hogy a sikertelen csatlakozást mikor kövesse újrapróbálkozás, és hogyan.
-* Az **IDbExecutionStrategy** felület számos beépített implementálását tartalmazza:
-  * Alapértelmezett – nincs újrapróbálkozás.
-  * Az SQL Database alapértelmezett beállítása (automatikus) – nincs újrapróbálkozás, de megvizsgálja a kivételeket, és beburkolja azokat, az SQL Database stratégia használatát javasolva.
-  * Az SQL Database alapértelmezett beállítása – exponenciális (az alaposztálytól örökölt), plusz az SQL Database észlelési logikája.
-* Véletlenszerűsítést tartalmazó exponenciális visszatartási stratégiát implementál.
-* A beépített újrapróbálkozási osztályok állapotalapúak, és nem alkalmasak a többszálú futtatásra. Ugyanakkor az aktuális művelet befejezése után újra felhasználhatók.
-* Amennyiben az újrapróbálkozások száma meghaladja a megadott értéket, a szolgáltatás új kivételbe burkolja az eredményeket. Nem rendezi buborékba az aktuális kivételt.
-
-### <a name="policy-configuration"></a>Szabályzatkonfiguráció
-Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework 6.0-s vagy újabb verziójával érik el. Az újrapróbálkozási szabályzatok konfigurálása szoftveresen történik. A konfiguráció nem módosítható az egyes műveletek szintjén.
-
-Ha egy környezetfüggő stratégiát tesz alapértelmezetté, megad egy függvényt, amely igény szerint hoz létre egy új stratégiát. A következő kód azt mutatja be, hogyan hozható létre egy újrapróbálkozási konfigurációs osztályt, amely kibővíti a **DbConfiguration** alaposztályt.
-
-```csharp
-public class BloggingContextConfiguration : DbConfiguration
-{
-  public BlogConfiguration()
-  {
-    // Set up the execution strategy for SQL Database (exponential) with 5 retries and 4 sec delay
-    this.SetExecutionStrategy(
-         "System.Data.SqlClient", () => new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(4)));
-  }
-}
-```
-
-Az alkalmazás indításakor, a **DbConfiguration**-példány **SetConfiguration** metódusával teheti az alapértelmezett újrapróbálkozási stratégiává minden művelet számára. Alapértelmezés szerint az EF automatikusan észleli és használatba veszi a konfigurációs osztályt.
-
-    DbConfiguration.SetConfiguration(new BloggingContextConfiguration());
-
-Ha meg kíván adni egy újrapróbálkozási konfigurációs osztályt a környezethez, lássa el a környezeti osztályt egy **DbConfigurationType** attribútummal. Amennyiben csak egy konfigurációs osztálya van, az EF azt fogja használni, nem szükséges külön jeleznie ezt.
-
-    [DbConfigurationType(typeof(BloggingContextConfiguration))]
-    public class BloggingContext : DbContext
-    { ...
-
-Ha eltérő újrapróbálkozási stratégiára van szüksége adott műveletek esetében, vagy le kívánja tiltani az újrapróbálkozásokat egyes műveleteknél, létrehozhat egy konfigurációs osztályt, amely lehetővé teszi stratégiák felfüggesztését vagy cseréjét egy jelző a **CallContext** osztályban történő elhelyezésével. A konfigurációs osztály ezt a jelzőt használva vált stratégiát vagy tiltja le a felhasználó által megadott stratégiát, majd az alapértelmezett stratégiát használja. További információt a végrehajtási stratégiák újrapróbálkozásainak korlátozásait ismertető oldal [végrehajtási stratégia felfüggesztését](http://msdn.microsoft.com/dn307226#transactions_workarounds) ismertető szakaszában talál (EF6-os vagy újabb verzió).
-
-Bizonyos műveletek esetében egy másik lehetőség adott újrapróbálkozási stratégia használatára, ha létrehozza a kívánt stratégiaosztály egy példányát, és paramétereket használva ellátja a kívánt beállításokkal. Ezután meghívja annak **ExecuteAsync** metódusát.
-
-    var executionStrategy = new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(4));
-    var blogs = await executionStrategy.ExecuteAsync(
-        async () =>
-        {
-            using (var db = new BloggingContext("Blogs"))
-            {
-                // Acquire some values asynchronously and return them
-            }
-        },
-        new CancellationToken()
-    );
-
-A **DbConfiguration** osztály használatának legegyszerűbb módja, ha megkeresi ugyanazt a szerelvényt, amely a **DbContext** osztályban szerepel. Ez azonban nem alkalmazható, ha különböző forgatókönyvekben van szükség ugyanarra a környezetre, például a különböző interaktív és háttérbeli újrapróbálkozási stratégiák esetében. Ha a különböző környezetek különálló alkalmazástartományokban futnak, igénybe veheti a konfigurációs osztályok a konfigurációs fájlban történő megadásának beépített lehetőségét, illetve beállíthatja azt közvetlenül is a kódban. Ha a különböző környezeteknek ugyanabban az alkalmazástartományban kell futniuk, egyéni megoldásra lesz szükség.
-
-További információt a [kódalapú konfigurálást (EF6-os vagy újabb verzió)](http://msdn.microsoft.com/data/jj680699.aspx) ismertető szakaszban találhat.
-
-A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók az EF6 használatakor.
-
-| Beállítás | Alapértelmezett érték | Jelentés |
-|---------|---------------|---------|
-| Szabályzat | Exponenciális | Exponenciális visszatartás. |
-| MaxRetryCount | 5 | Az újrapróbálkozások maximális száma. |
-| MaxDelay | 30 másodperc | Az újrapróbálkozások közötti maximális késleltetés. Az érték nem befolyásolja az egymást követő késleltetések kiszámítását. Csak a felső határt adja meg. |
-| DefaultCoefficient | 1 másodperc | Az exponenciális visszatartás számításának együtthatója. Ez az érték nem módosítható. |
-| DefaultRandomFactor | 1.1 | A véletlenszerű késleltetés bejegyzésekhez való hozzáadására szolgáló szorzó. Ez az érték nem módosítható. |
-| DefaultExponentialBase | 2 | A következő késleltetés kiszámítására szolgáló szorzó. Ez az érték nem módosítható. |
-
-### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
-Ügyeljen a következőkre, amikor az EF6 használatával éri el az SQL Database-t:
-
-* Válassza a megfelelő szolgáltatástípust (megosztott vagy prémium). A megosztott példány esetében a szokottnál hosszabb csatlakozási késések fordulhatnak elő, valamint a kérések számának korlátozására lehet szükség, mivel a megosztott kiszolgálót más bérlők is használják. Ha kiszámítható teljesítményre és megbízhatóan alacsony késésű műveletekre van szükség, mindenképpen a prémium szolgáltatást érdemes választani.
-* Az Azure SQL Database esetében nem javasoljuk rögzített időközű stratégiák alkalmazását. Használjon inkább egy exponenciális visszatartási stratégiát, mivel a szolgáltatás túlterhelődhet, és a hosszabb késleltetés több időt ad a helyreállításra.
-* A kapcsolatok definiálásakor válasszon megfelelő értéket a kapcsolatok és a parancsok időtúllépéséhez. Az időtúllépés ideális értékét saját üzleti logikájának felépítése és tesztek alapján állapíthatja meg. A későbbiekben szükség lehet az érték módosítására, ahogy változik az adatmennyiség, vagy változnak az üzleti folyamatok. A túl alacsony időtúllépési érték miatt a kapcsolatok idő előtt szakadhatnak meg, ha az adatbázis leterhelt. A túl magas időtúllépési érték akadályozhatja az újrapróbálkozási logika megfelelő működését, mivel túl sokáig fog várni, mielőtt észlelné a sikertelen csatlakozást. Az időtúllépés értéke a végpontok közötti késés egyik összetevője. Bár nehéz előre megállapítani, hogy hány parancsot kell végrehajtani a környezet mentésekor. Az alapértelmezett időtúllépést a **DbContext** példány **CommandTimeout** tulajdonságában adhatja meg.
-* Az Entity Framework támogatja a konfigurációs fájlokban definiált újrapróbálkozási konfigurációk használatát. Ugyanakkor a minél nagyobb rugalmasság érdekében azt javasoljuk, hogy a konfigurációt szoftveresen hozza létre az alkalmazásban. Az újrapróbálkozási szabályzatok konkrét paraméterei – például az újrapróbálkozások száma és az újrapróbálkozási időközök – a szolgáltatás konfigurációs fájljában tárolhatók, és a futtatás során felhasználhatók a megfelelő szabályzatok létrehozására. Így a beállítások az alkalmazás újraindítása nélkül módosíthatók.
-
-A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Az újrapróbálkozási kísérletek közötti késleltetés nem adható meg (rögzített, és egy exponenciális sorozat részeként jön létre). Ha nem hoz létre egyéni újrapróbálkozási stratégiát, csak a maximális értékeket adhatja meg, az itt látható módon. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
-
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működési elv** |
-| --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |3<br />750 ms |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 750 ms késleltetés<br />3. kísérlet – 750 ms késleltetés |
-| Háttér<br /> vagy kötegelt |30 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |5<br />12 másodperc |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 1 mp. késleltetés<br />3. kísérlet – kb. 3 mp. késleltetés<br />4. kísérlet – kb. 7 mp. késleltetés<br />5. kísérlet – 12 mp. késleltetés |
-
-> [!NOTE]
-> A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.
->
->
-
-### <a name="examples"></a>Példák
-A következő mintakód egy egyszerű adatelérési megoldást definiál, amely az Entity Frameworköt használja. Egy adott újrapróbálkozási stratégiát állít be a **BlogConfiguration** osztály egy példányának definiálásával, amely a **DbConfiguration** osztályt bővíti ki.
-
-```csharp
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
-using System.Threading.Tasks;
-
-namespace RetryCodeSamples
-{
-    public class BlogConfiguration : DbConfiguration
-    {
-        public BlogConfiguration()
-        {
-            // Set up the execution strategy for SQL Database (exponential) with 5 retries and 12 sec delay.
-            // These values could be loaded from configuration rather than being hard-coded.
-            this.SetExecutionStrategy(
-                    "System.Data.SqlClient", () => new SqlAzureExecutionStrategy(5, TimeSpan.FromSeconds(12)));
-        }
-    }
-
-    // Specify the configuration type if more than one has been defined.
-    // [DbConfigurationType(typeof(BlogConfiguration))]
-    public class BloggingContext : DbContext
-    {
-        // Definition of content goes here.
-    }
-
-    class EF6CodeSamples
-    {
-        public async static Task Samples()
-        {
-            // Execution strategy configured by DbConfiguration subclass, discovered automatically or
-            // or explicitly indicated through configuration or with an attribute. Default is no retries.
-            using (var db = new BloggingContext("Blogs"))
-            {
-                // Add, edit, delete blog items here, then:
-                await db.SaveChangesAsync();
-            }
-        }
-    }
-}
-```
-
-A [kapcsolat rugalmassága/újrapróbálkozási logika](http://msdn.microsoft.com/data/dn456835.aspx) mechanizmussal foglalkozó témakörben további példákat talál az Entity Framework újrapróbálkozási mechanizmusának használatára.
-
-### <a name="more-information"></a>További információ
-* [Az Azure SQL Database szolgáltatás teljesítményének és rugalmasságának útmutatója](http://social.technet.microsoft.com/wiki/contents/articles/3507.windows-azure-sql-database-performance-and-elasticity-guide.aspx)
-
-## <a name="sql-database-using-entity-framework-core-retry-guidelines"></a>Az Entity Framework Core-t használó SQL Database újrapróbálkozási irányelvei
-Az [Entity Framework Core](/ef/core/) egy objektumrelációs leképező .NET Core-fejlesztők számára, amellyel tartományspecifikus objektumokat használva lehet adatokkal dolgozni. Szükségtelenné teszi az adatelérési kód használatát, amelyet egyébként a fejlesztőknek kell megírniuk. Az Entity Framework e verzióját az alapoktól építettük újra, ezért nem örökli meg automatikusan az EF6.x összes funkcióját.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az újrapróbálkozás akkor támogatott, ha az SQL Database-t az Entity Framework Core-ral érik el, a [kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency) mechanizmus segítségével. A kapcsolat rugalmassága először az EF Core 1.1.0-ban vált elérhetővé.
-
-Az elsődleges absztrakció az `IExecutionStrategy` felület. Az SQL Server, és így az SQL Azure végrehajtási stratégiája felismeri a kivételtípusokat, amelyeknél elérhető az újrapróbálkozás, és észszerű alapértelmezett értékek vannak beállítva többek között az újrapróbálkozások maximális számánál és az újrapróbálkozások közötti késleltetésnél.
-
-### <a name="examples"></a>Példák
-
-A következő kód lehetővé teszi az automatikus újrapróbálkozást a DbContext objektum konfigurálásakor, ami egy munkamenetet jelöl az adatbázisban. 
-
-```csharp
-protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-{
-    optionsBuilder
-        .UseSqlServer(
-            @"Server=(localdb)\mssqllocaldb;Database=EFMiscellanous.ConnectionResiliency;Trusted_Connection=True;",
-            options => options.EnableRetryOnFailure());
-}
-```
-
-A következő kód bemutatja, egy végrehajtási stratégia alkalmazásával hogyan hajtható végre egy tranzakció automatikus újrapróbálkozással. A tranzakciót egy delegált definiálja. Átmeneti hiba előfordulásakor a végrehajtási stratégia ismét meghívja a delegáltat.
-
-```csharp
-using (var db = new BloggingContext())
-{
-    var strategy = db.Database.CreateExecutionStrategy();
-
-    strategy.Execute(() =>
-    {
-        using (var transaction = db.Database.BeginTransaction())
-        {
-            db.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/dotnet" });
-            db.SaveChanges();
-
-            db.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/visualstudio" });
-            db.SaveChanges();
-
-            transaction.Commit();
-        }
-    });
-}
-```
-
-### <a name="more-information"></a>További információ
-* [Kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency)
-* [Adatpontok – EF Core 1.1](https://msdn.microsoft.com/magazine/mt745093.aspx)
-
-## <a name="sql-database-using-adonet-retry-guidelines"></a>Az ADO.NET-et használó SQL Database újrapróbálkozási irányelvei
-Az SQL Database egy üzemeltetett SQL-adatbázis, amely különböző méretekben, normál (megosztott) és prémium (nem megosztott) szolgáltatásként is elérhető.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az SQL Database nem tartalmaz beépített támogatást az újrapróbálkozásokhoz, ha az ADO.NET használatával érik el. Ugyanakkor a kérések válaszkódjából megállapítható, hogy a kérés miért hiúsult meg. További információt az SQL Database szabályozásáról [az Azure SQL Database erőforrás-korlátait](/azure/sql-database/sql-database-resource-limits) ismertető szakaszban talál. A kapcsolódó hibakódok listáját [az SQL Database ügyfélalkalmazásaiban felmerülő SQL-hibakódokat](/azure/sql-database/sql-database-develop-error-messages) ismertető szakaszban találja.
-
-A Polly kódtárt alkalmazva implementálhatja az újrapróbálkozást az SQL Database-ben. További információt az [átmeneti hibák a Polly használatával történő kezelését](#transient-fault-handling-with-polly) ismertető szakaszban talál.
-
-### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
-Ügyeljen a következőkre, amikor az ADO.NET használatával éri el az SQL Database-t:
-
-* Válassza a megfelelő szolgáltatástípust (megosztott vagy prémium). A megosztott példány esetében a szokottnál hosszabb csatlakozási késések fordulhatnak elő, valamint a kérések számának korlátozására lehet szükség, mivel a megosztott kiszolgálót más bérlők is használják. Ha kiszámíthatóbb teljesítményre és megbízhatóan alacsony késésű műveletekre van szükség, mindenképpen a prémium szolgáltatást érdemes választani.
-* Gondoskodjon arról, hogy az újrapróbálkozás a megfelelő szinten vagy hatókörrel legyen végrehajtva, amivel elkerülheti, hogy a nem idempotens műveletek miatt inkonzisztencia keletkezzen az adatokban. Ideális esetben minden műveletnek idempotensnek kellene lennie, hogy inkonzisztencia veszélye nélkül lehessen ismételni azokat. Ellenkező esetben az újrapróbálkozást olyan szinten vagy hatókörrel kell végrehajtani, hogy az összes kapcsolódó változtatást vissza lehessen vonni egy művelet meghiúsulásakor – például egy tranzakciós hatókörben. További információt a [Cloud Service Fundamentals adatelérési réteg átmeneti hibák kezelésével](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx#Idempotent_Guarantee) foglalkozó részében talál.
-* Az Azure SQL Database esetében nem javasoljuk rögzített időközű stratégiák alkalmazását. Az interaktív forgatókönyvek kivételt képeznek, mivel csak néhány újrapróbálkozás történik nagyon rövid időközökkel. Ehelyett a legtöbb esetben exponenciális visszatartási stratégia használata javasolt.
-* A kapcsolatok definiálásakor válasszon megfelelő értéket a kapcsolatok és a parancsok időtúllépéséhez. A túl alacsony időtúllépési érték miatt a kapcsolatok idő előtt szakadhatnak meg, ha az adatbázis leterhelt. A túl magas időtúllépési érték akadályozhatja az újrapróbálkozási logika megfelelő működését, mivel túl sokáig fog várni, mielőtt észlelné a sikertelen csatlakozást. Az időtúllépés értéke a végpontok közötti késés egyik összetevője. Gyakorlatilag hozzáadódik az újrapróbálkozási szabályzatban megadott újrapróbálkozási késleltetéshez minden egyes újrapróbálkozási kísérlet esetén.
-* Megszakítja a kapcsolatot adott számú újrapróbálkozás után, akár egy exponenciális visszatartási újrapróbálkozási logika használata esetén is, és egy új kapcsolatot létesítve próbálja meg újra végrehajtani a műveletet. Ha ugyanazzal a művelettel többször próbálkozik újra ugyanazon a kapcsolaton keresztül, az önmagában is csatlakozási problémákat okozhat. Erre a technikára egy példát a [Cloud Service Fundamentals adatelérési réteg átmeneti hibák kezelésével](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx) foglalkozó részében találhat.
-* Ha kapcsolatkészletezést alkalmaz (ez az alapértelmezett beállítás), akkor előfordulhat, hogy a készletből ismét ugyanazt a kapcsolatot választja a rendszer, akár a kapcsolat lezárása és ismételt megnyitása után is. Ebben az esetben az **SqlConnection** osztályból kell meghívni a **ClearPool** metódust, és jelezni, hogy a kapcsolat nem újrahasználható. Ezt azonban csak abban az esetben javasoljuk, ha számos csatlakozási kísérlet meghiúsult, és csak akkor, ha az átmeneti hibák, például SQL-időtúllépések (-2-es hibakód) adott osztálya hibás kapcsolatokhoz kötődik.
-* Amennyiben az adatelérési kód **TransactionScope**-példányként kezdeményezett tranzakciókat alkalmaz, az újrapróbálkozási logikának újra meg kell nyitnia a kapcsolatot, és új tranzakció-hatókört kell kezdeményeznie. Ezért az újrapróbálható kódblokknak a tranzakció teljes hatókörét le kell fedne.
-
-A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
-
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
-| --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
-
-> [!NOTE]
-> A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.
->
->
-
-### <a name="examples"></a>Példák
-Ebben a szakaszban azt mutatjuk be, hogy miként használhatja a Pollyt az Azure SQL Database elérésére a `Policy` osztályban konfigurált újrapróbálkozási szabályzatok segítségével.
-
-A következő programkód bemutatja, hogyan bővítheti az `SqlCommand` osztályt, ha az exponenciális visszatartással hívja meg az `ExecuteAsync` metódust.
-
-```csharp
-public async static Task<SqlDataReader> ExecuteReaderWithRetryAsync(this SqlCommand command)
-{
-    GuardConnectionIsNotNull(command);
-
-    var policy = Policy.Handle<Exception>().WaitAndRetryAsync(
-        retryCount: 3, // Retry 3 times
-        sleepDurationProvider: attempt => TimeSpan.FromMilliseconds(200 * Math.Pow(2, attempt - 1)), // Exponential backoff based on an initial 200ms delay.
-        onRetry: (exception, attempt) => 
-        {
-            // Capture some info for logging/telemetry.  
-            logger.LogWarn($"ExecuteReaderWithRetryAsync: Retry {attempt} due to {exception}.");
-        });
-
-    // Retry the following call according to the policy.
-    await policy.ExecuteAsync<SqlDataReader>(async token =>
-    {
-        // This code is executed within the Policy 
-
-        if (conn.State != System.Data.ConnectionState.Open) await conn.OpenAsync(token);
-        return await command.ExecuteReaderAsync(System.Data.CommandBehavior.Default, token);
-
-    }, cancellationToken);
-}
-```
-
-Ezt az aszinkron bővítési metódust a következőképpen lehet használni.
-
-```csharp
-var sqlCommand = sqlConnection.CreateCommand();
-sqlCommand.CommandText = "[some query]";
-
-using (var reader = await sqlCommand.ExecuteReaderWithRetryAsync())
-{
-    // Do something with the values
-}
-```
-
-### <a name="more-information"></a>További információ
-* [Cloud Service Fundamentals adatelérési réteg – átmeneti hibák kezelése](http://social.technet.microsoft.com/wiki/contents/articles/18665.cloud-service-fundamentals-data-access-layer-transient-fault-handling.aspx)
-
-Ha további útmutatásra van szüksége az SQL Database minél jobb kihasználásához, olvassa el [az Azure SQL Database szolgáltatás teljesítményének és rugalmasságának útmutatóját](http://social.technet.microsoft.com/wiki/contents/articles/3507.windows-azure-sql-database-performance-and-elasticity-guide.aspx).
-
-
-## <a name="service-bus-retry-guidelines"></a>A Service Bus újrapróbálkozási irányelvei
-A Service Bus egy felhőalapú üzenetkezelési platform, amely skálázható és rugalmas módon biztosít lazán kapcsolódó üzenetváltásokat az alkalmazások összetevői számára, legyen szó felhőalapú vagy helyszíni megoldásról.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-A Service Bus a [RetryPolicy](http://msdn.microsoft.com/library/microsoft.servicebus.retrypolicy.aspx) alaposztály implementációi alapján implementálja az újrapróbálkozásokat. Az összes Service Bus-ügyfél elérhetővé tesz egy **RetryPolicy** tulajdonságot, amely beállítható a **RetryPolicy** alaposztály egyik implementációjaként. A beépített implementációk a következők:
-
-* A [RetryExponential osztály](http://msdn.microsoft.com/library/microsoft.servicebus.retryexponential.aspx). Ez elérhetővé teszi azokat a tulajdonságokat, amelyek a visszatartási időközöket, az újrapróbálkozások számát és a **TerminationTimeBuffer** tulajdonságot szabályozzák, amely korlátozza, hogy a művelet hányszor hajtható végre.
-* A [NoRetry osztály](http://msdn.microsoft.com/library/microsoft.servicebus.noretry.aspx). Ezt akkor szokták használni, ha nincs szükség újrapróbálkozásra a Service Bus API-szintjén, például ha az újrapróbálkozásokat egy másik folyamat kezeli egy kötegelt vagy többlépéses művelet részeként.
-
-A Service Bus-műveletek számos kivételt adhatnak vissza. Ezek listáját [az üzenetkezelési kivételek függelékében](http://msdn.microsoft.com/library/hh418082.aspx) találja. A lista azt is ismerteti, hogy ezek közül melyik utal arra, hogy a művelet újrapróbálható. Például a [ServerBusyException](http://msdn.microsoft.com/library/microsoft.servicebus.messaging.serverbusyexception.aspx) azt jelzi, hogy az ügyfélnek várnia kell egy ideig, majd ismét megpróbálkozni a művelettel. A **ServerBusyException** jelentkezésekor a Service Bus eltérő módba vált, amelyben további 10 másodperc adódik a kiszámított újrapróbálkozási késleltetéshez. Ebből a módból rövid időn belül automatikusan kilép.
-
-A Service Bus által visszaadott kivételek elérhetővé teszik az **IsTransient** tulajdonságot, amely jelzi, hogy az ügyfélnek érdemes-e újrapróbálkoznia a művelettel. A beépített **RetryExponential** szabályzat a **MessagingException** osztály (az összes Service Bus-kivétel alaposztálya) **IsTransient** tulajdonságára hagyatkozik. A **RetryPolicy** alaposztály egyéni implementációi esetében a kivételtípus és az **IsTransient** tulajdonság közös használatával pontosabban szabályozhatja az újrapróbálkozási műveleteket. Például észlelhet egy **QuotaExceededException**-kivételt, és utasítást adhat, hogy csak az üzenetsor kiürítése után próbálkozzon újra az üzenetküldéssel.
-
-### <a name="policy-configuration"></a>Szabályzatkonfiguráció
-Az újrapróbálkozási szabályzatok beállítása szoftveresen történik, és beállítható alapértelmezett szabályzatként a **NamespaceManager** és a **MessagingFactory** számára, vagy egyenként, az egyes üzenetkezelési ügyfelek számára. Az üzenetkezelési munkamenet alapértelmezett újrapróbálkozási szabályzatát a **NamespaceManager** **RetryPolicy** tulajdonságában állíthatja be.
-
-    namespaceManager.Settings.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
-                                                                 maxBackoff: TimeSpan.FromSeconds(30),
-                                                                 maxRetryCount: 3);
-
-Az üzenetkezelési előállítóból létrehozott ügyelek alapértelmezett újrapróbálkozási szabályzatát a **MessagingFactory** **RetryPolicy** tulajdonságában állíthatja be.
-
-    messagingFactory.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
-                                                        maxBackoff: TimeSpan.FromSeconds(30),
-                                                        maxRetryCount: 3);
-
-Az üzenetkezelési ügyfél alapértelmezett újrapróbálkozási szabályzatának beállításához, illetve az alapértelmezett szabályzat felülbírálásához a szükséges szabályzatosztály példányának **RetryPolicy** tulajdonságát kell megadnia:
-
-```csharp
-client.RetryPolicy = new RetryExponential(minBackoff: TimeSpan.FromSeconds(0.1),
-                                            maxBackoff: TimeSpan.FromSeconds(30),
-                                            maxRetryCount: 3);
-```
-
-Az újrapróbálkozási szabályzat nem állítható be az egyes műveletek szintjén. Az az üzenetkezelési ügyfél összes műveletére érvényes lesz.
-A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók.
-
-| Beállítás | Alapértelmezett érték | Jelentés |
-|---------|---------------|---------|
-| Szabályzat | Exponenciális | Exponenciális visszatartás. |
-| MinimalBackoff | 0 | Minimális visszatartási időköz. Ez hozzáadódik a deltaBackoff alapján kiszámított újrapróbálkozási időközhöz. |
-| MaximumBackoff | 30 másodperc | Maximális visszatartási időköz. A MaximumBackoff akkor lép működésbe, ha a kiszámított újrapróbálkozási időköz nagyobb, mint a MaxBackoff értéke. |
-| DeltaBackoff | 3 másodperc | Az újrapróbálkozások közötti visszatartási időköz. Az ezt követő újrapróbálkozási kísérletek esetében az időtartomány többszörösét fogja használni a rendszer. |
-| TimeBuffer | 5 másodperc | Az újrapróbálkozáshoz tartozó leállítási időpuffer. A rendszer felhagy az újrapróbálkozással, ha a TimeBuffer értékben megadottnál kevesebb idő van hátra. |
-| MaxRetryCount | 10 | Az újrapróbálkozások maximális száma. |
-| ServerBusyBaseSleepTime | 10 másodperc | Ha az utolsó kivétel a **ServerBusyException** volt, ez az érték hozzáadódik a kiszámított újrapróbálkozási időközhöz. Ez az érték nem módosítható. |
-
-### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
-Ügyeljen a következőkre a Service Bus használata során:
-
-* A beépített **RetryExponential** implementáció használatakor nincs szükség tartalékműveletek megvalósítására, mivel a szabályzat a „foglalt kiszolgáló” kivételekre reagálva automatikusan átvált a megfelelő újrapróbálkozási módra.
-* A Service Bus támogatja a Párosított névterek nevű funkciót, amely automatikus feladatátvételt implementál, és az elsődleges névtér üzenetsorának hibájakor egy másik névtér tartalék üzenetsorára vált. A másodlagos üzenetsor üzenetei továbbküldhetők az elsődleges üzenetsornak, miután az helyreállt. Ez a funkció az átmeneti hibák kezelésére szolgál. További információért lásd [az aszinkron üzenetkezelési minták és a magas rendelkezésre állás](http://msdn.microsoft.com/library/azure/dn292562.aspx) ismertetését.
-
-A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
-
-| Környezet | Példa a maximális késésre | Újrapróbálkozási szabályzat | Beállítások | Működés |
-|---------|---------|---------|---------|---------|
-| Interaktív, felhasználói felület vagy előtér | 2 másodperc*  | Exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 300 ms <br/> TimeBuffer = 300 ms <br/> MaxRetryCount = 2 | 1. kísérlet: 0 mp. késleltetés <br/> 2. kísérlet: kb. 300 ms késleltetés <br/> 3. kísérlet: kb. 900 ms késleltetés |
-| Háttér vagy kötegelt | 30 másodperc | Exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 1,75 mp. <br/> TimeBuffer = 5 mp. <br/> MaxRetryCount = 3 | 1. kísérlet: kb. 1 mp. késleltetés <br/> 2. kísérlet: kb. 3 mp. késleltetés <br/> 3. kísérlet: kb. 6 ms késleltetés <br/> 4. kísérlet: kb. 13 ms késleltetés |
-
-\* Nem tartalmazza a további késleltetést, amely a „foglalt kiszolgáló” válasz esetén adódik az értékhez.
-
-### <a name="telemetry"></a>Telemetria
-A Service Bus ETW-eseményként naplózza az újrapróbálkozásokat egy **EventSource** használatával. Egy **EventListener** az eseményforráshoz csatolása szükséges, ha rögzíteni kívánja az eseményeket, és meg kívánja tekinteni azokat a Teljesítménynaplóban, vagy ha egy megfelelő célnaplóba írná azokat. Ehhez a [szemantikus naplózási alkalmazásblokk](http://msdn.microsoft.com/library/dn775006.aspx) használatát javasoljuk. Az újrapróbálkozási események formátuma a következő:
-
-```text
-Microsoft-ServiceBus-Client/RetryPolicyIteration
-ThreadID="14,500"
-FormattedMessage="[TrackingId:] RetryExponential: Operation Get:https://retry-tests.servicebus.windows.net/TestQueue/?api-version=2014-05 at iteration 0 is retrying after 00:00:00.1000000 sleep because of Microsoft.ServiceBus.Messaging.MessagingCommunicationException: The remote name could not be resolved: 'retry-tests.servicebus.windows.net'.TrackingId:6a26f99c-dc6d-422e-8565-f89fdd0d4fe3, TimeStamp:9/5/2014 10:00:13 PM."
-trackingId=""
-policyType="RetryExponential"
-operation="Get:https://retry-tests.servicebus.windows.net/TestQueue/?api-version=2014-05"
-iteration="0"
-iterationSleep="00:00:00.1000000"
-lastExceptionType="Microsoft.ServiceBus.Messaging.MessagingCommunicationException"
-exceptionMessage="The remote name could not be resolved: 'retry-tests.servicebus.windows.net'.TrackingId:6a26f99c-dc6d-422e-8565-f89fdd0d4fe3,TimeStamp:9/5/2014 10:00:13 PM"
-```
-
-### <a name="examples"></a>Példák
-A következő mintakód bemutatja, hogyan állíthatja be az újrapróbálkozási szabályzatot a következőkhöz:
-
-* Egy névtérkezelő. A szabályzat a kezelő összes műveletére vonatkozik, és nem bírálható felül az egyes műveletek esetében.
-* Egy üzenetkezelési előállító. A szabályzat az előállítóból létrehozott összes ügyfélre vonatkozik, és nem bírálható felül az egyes ügyfelek létrehozásakor.
-* Egy különálló üzenetkezelési ügyfél. Az ügyfél létrehozása után beállíthatja annak újrapróbálkozási szabályzatát. A szabályzat az ügyfél összes műveletére vonatkozik.
-
-```csharp
-using System;
-using System.Threading.Tasks;
-using Microsoft.ServiceBus;
-using Microsoft.ServiceBus.Messaging;
-
-namespace RetryCodeSamples
-{
-    class ServiceBusCodeSamples
-    {
-        private const string connectionString =
-            @"Endpoint=sb://[my-namespace].servicebus.windows.net/;
-                SharedAccessKeyName=RootManageSharedAccessKey;
-                SharedAccessKey=C99..........Mk=";
-
-        public async static Task Samples()
-        {
-            const string QueueName = "TestQueue";
-
-            ServiceBusEnvironment.SystemConnectivity.Mode = ConnectivityMode.Http;
-
-            var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
-
-            // The namespace manager will have a default exponential policy with 10 retry attempts
-            // and a 3 second delay delta.
-            // Retry delays will be approximately 0 sec, 3 sec, 9 sec, 25 sec and the fixed 30 sec,
-            // with an extra 10 sec added when receiving a ServiceBusyException.
-
-            {
-                // Set different values for the retry policy, used for all operations on the namespace manager.
-                namespaceManager.Settings.RetryPolicy =
-                    new RetryExponential(
-                        minBackoff: TimeSpan.FromSeconds(0),
-                        maxBackoff: TimeSpan.FromSeconds(30),
-                        maxRetryCount: 3);
-
-                // Policies cannot be specified on a per-operation basis.
-                if (!await namespaceManager.QueueExistsAsync(QueueName))
-                {
-                    await namespaceManager.CreateQueueAsync(QueueName);
-                }
-            }
-
-
-            var messagingFactory = MessagingFactory.Create(
-                namespaceManager.Address, namespaceManager.Settings.TokenProvider);
-            // The messaging factory will have a default exponential policy with 10 retry attempts
-            // and a 3 second delay delta.
-            // Retry delays will be approximately 0 sec, 3 sec, 9 sec, 25 sec and the fixed 30 sec,
-            // with an extra 10 sec added when receiving a ServiceBusyException.
-
-            {
-                // Set different values for the retry policy, used for clients created from it.
-                messagingFactory.RetryPolicy =
-                    new RetryExponential(
-                        minBackoff: TimeSpan.FromSeconds(1),
-                        maxBackoff: TimeSpan.FromSeconds(30),
-                        maxRetryCount: 3);
-
-
-                // Policies cannot be specified on a per-operation basis.
-                var session = await messagingFactory.AcceptMessageSessionAsync();
-            }
-
-
-            {
-                var client = messagingFactory.CreateQueueClient(QueueName);
-                // The client inherits the policy from the factory that created it.
-
-
-                // Set different values for the retry policy on the client.
-                client.RetryPolicy =
-                    new RetryExponential(
-                        minBackoff: TimeSpan.FromSeconds(0.1),
-                        maxBackoff: TimeSpan.FromSeconds(30),
-                        maxRetryCount: 3);
-
-
-                // Policies cannot be specified on a per-operation basis.
-                var session = await client.AcceptMessageSessionAsync();
-            }
-        }
-    }
-}
-```
-
-### <a name="more-information"></a>További információ
-* [Aszinkron üzenetkezelési minták és magas rendelkezésre állás](http://msdn.microsoft.com/library/azure/dn292562.aspx)
-
-## <a name="azure-redis-cache-retry-guidelines"></a>Az Azure Redis Cache újrapróbálkozási irányelvei
-Az Azure Redis Cache gyors adathozzáférést és alacsony késést kínáló gyorsítótár-szolgáltatás, amely a népszerű, nyílt forráskódú Redis Cache-re épül. Biztonságos, a Microsoft felügyeli, és az Azure bármelyik alkalmazásából elérhető.
-
-Ebben az útmutatóban azt feltételezzük, hogy a StackExchange.Redis ügyfelet használja a gyorsítótár eléréséhez. A további alkalmas ügyfelek listája a [Redis webhelyén](http://redis.io/clients) tekinthető meg, ám ezeknek eltérő újrapróbálkozási mechanizmusai lehetnek.
-
-Vegye figyelembe, hogy a StackExchange.Redis ügyfél egyetlen kapcsolaton keresztül végez multiplexálást. A javasolt felhasználás az, ha létrehozza az ügyfél egy példányát az alkalmazás indításakor, és ezt a példányt használja a gyorsítótár elérését célzó összes művelethez. Így a gyorsítótárral való kapcsolat csak egyszer jön létre, ezért az ebben a szakaszban leírt összes útmutatás ezen első kapcsolat újrapróbálkozási szabályzatára vonatkozik, nem pedig a gyorsítótárhoz hozzáférő egyes műveletekre.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-A StackExchange.Redis ügyfél egy számos beállítással konfigurált kapcsolatkezelő osztályt használ. Néhány példa ezekre a beállításokra:
-
-- **ConnectRetry**. Ennyi alkalommal próbálkozik újra a gyorsítótárhoz való sikertelen kapcsolódás esetén.
-- **ReconnectRetryPolicy**. A használt újrapróbálkozási stratégia.
-- **ConnectTimeout**. A maximális várakozási idő milliszekundumban.
-
-### <a name="policy-configuration"></a>Szabályzatkonfiguráció
-Az újrapróbálkozási szabályzat konfigurálása szoftveresen történik. Az ügyfél beállításait a gyorsítótárhoz való kapcsolódás előtt kell megadni. Ehhez létre kell hozni a **ConfigurationOptions** osztály egy példányát, feltölteni adatokkal a tulajdonságait, majd továbbítani azt a **Connect** metódusnak.
-
-A beépített osztályok támogatják a lineáris (állandó) késleltetést, illetve az exponenciális visszatartást véletlenszerű újrapróbálkozási időközökkel. Ezenkívül létrehozhat egyéni újrapróbálkozási szabályzatot az **IReconnectRetryPolicy** felület implementálásával.
-
-A következő példa exponenciális visszatartással konfigurálja az újrapróbálkozási stratégiát.
-
-```csharp
-var deltaBackOffInMilliseconds = TimeSpan.FromSeconds(5).Milliseconds;
-var maxDeltaBackOffInMilliseconds = TimeSpan.FromSeconds(20).Milliseconds;
-var options = new ConfigurationOptions
-{
-    EndPoints = {"localhost"},
-    ConnectRetry = 3,
-    ReconnectRetryPolicy = new ExponentialRetry(deltaBackOffInMilliseconds, maxDeltaBackOffInMilliseconds),
-    ConnectTimeout = 2000
-};
-ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
-```
-
-Egy másik lehetőség, hogy a beállításokat karakterláncként adja meg és továbbítja a **Connect** metódusnak. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonság nem állítható be ezen a módon, csak a programkódon keresztül.
-
-```csharp
-    var options = "localhost,connectRetry=3,connectTimeout=2000";
-    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
-```
-
-Amikor a gyorsítótárhoz csatlakozik, közvetlenül is megadhat beállításokat.
-
-```csharp
-var conn = ConnectionMultiplexer.Connect("redis0:6380,redis1:6380,connectRetry=3");
-```
-
-További információért tekintse meg [a Stack Exchange Redis konfigurálását](https://stackexchange.github.io/StackExchange.Redis/Configuration) a StackExchange.Redis dokumentációjában.
-
-A következő táblázatban a beépített újrapróbálkozási szabályzat alapértelmezett beállításai láthatók.
-
-| **Környezet** | **Beállítás** | **Alapértelmezett érték**<br />(v 1.2.2) | **Jelentés** |
-| --- | --- | --- | --- |
-| ConfigurationOptions |ConnectRetry<br /><br />ConnectTimeout<br /><br />SyncTimeout<br /><br />ReconnectRetryPolicy |3<br /><br />Legfeljebb 5000 ms, plusz SyncTimeout<br />1000<br /><br />LinearRetry 5000 ms |Ennyi alkalommal kell megismételni a csatlakozási kísérletet az első csatlakozási művelet során.<br />A csatlakozási műveletek időtúllépési értéke (ms). Nem az újrapróbálkozás kísérletek közötti késleltetést jelzi.<br />A szinkron műveletek számára biztosított idő (ms).<br /><br />Újrapróbálkozás 5000 ms időközönként.|
-
-> [!NOTE]
-> A szinkron műveletek esetében a `SyncTimeout` hozzájárulhat a végpontok közötti késéshez, de a túl alacsony érték gyakori időtúllépéseket eredményezhet. További információért lásd [az Azure Redis Cache hibaelhárítását][redis-cache-troubleshoot]. Általában kerülje a szinkron műveletek használatát, és alkalmazzon inkább aszinkron műveleteket. További információért lásd a [folyamatokat és a multiplexereket](http://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/PipelinesMultiplexers.md).
->
->
-
-### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
-Ügyeljen a következőkre az Azure Redis Cache használata során:
-
-* A StackExchange Redis ügyfél kezeli a saját újrapróbálkozásait, de csak amikor az alkalmazás első indításakor próbál kapcsolódni a gyorsítótárhoz. Meghatározhatja a kapcsolati időtúllépés értékét, az újrapróbálkozási kísérletek számát, valamint a kapcsolat létrehozására tett ismételt próbálkozások között eltelt időt, de az újrapróbálkozási szabályzat nem vonatkozik a gyorsítótárra irányuló műveletekre.
-* Nagy számú újrapróbálkozási kísérlet helyett érdemes lehet inkább az eredeti adatforráshoz csatlakozni.
-
-### <a name="telemetry"></a>Telemetria
-**TextWriter** használatával adatokat gyűjthet a kapcsolatokról (más műveletekről azonban nem).
-
-```csharp
-var writer = new StringWriter();
-...
-ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
-```
-
-Az alábbi példa azt mutatja be, hogy ez milyen kimenetet eredményez.
-
-```text
-localhost:6379,connectTimeout=2000,connectRetry=3
-1 unique nodes specified
-Requesting tie-break from localhost:6379 > __Booksleeve_TieBreak...
-Allowing endpoints 00:00:02 to respond...
-localhost:6379 faulted: SocketFailure on PING
-localhost:6379 failed to nominate (Faulted)
-> UnableToResolvePhysicalConnection on GET
-No masters detected
-localhost:6379: Standalone v2.0.0, master; keep-alive: 00:01:00; int: Connecting; sub: Connecting; not in use: DidNotRespond
-localhost:6379: int ops=0, qu=0, qs=0, qc=1, wr=0, sync=1, socks=2; sub ops=0, qu=0, qs=0, qc=0, wr=0, socks=2
-Circular op-count snapshot; int: 0 (0.00 ops/s; spans 10s); sub: 0 (0.00 ops/s; spans 10s)
-Sync timeouts: 0; fire and forget: 0; last heartbeat: -1s ago
-resetting failing connections to retry...
-retrying; attempts left: 2...
-...
-```
-
-### <a name="examples"></a>Példák
-A következő mintakód állandó (lineáris) késleltetést állít be az újrapróbálkozások között a StackExchange.Redis ügyfél inicializálásakor. Ez a példa azt mutatja be, hogyan állítható be a konfiguráció egy **ConfigurationOptions**-példánnyal.
-
-```csharp
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StackExchange.Redis;
-
-namespace RetryCodeSamples
-{
-    class CacheRedisCodeSamples
-    {
-        public async static Task Samples()
-        {
-            var writer = new StringWriter();
-
-            {
-                try
-                {
-                    var retryTimeInMilliseconds = TimeSpan.FromSeconds(4).Milliseconds; // delay between retries
-
-                    // Using object-based configuration.
-                    var options = new ConfigurationOptions
-                                        {
-                                            EndPoints = { "localhost" },
-                                            ConnectRetry = 3,
-                                            ReconnectRetryPolicy = new LinearRetry(retryTimeInMilliseconds)
-                                        };
-                    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
-
-                    // Store a reference to the multiplexer for use in the application.
-                }
-                catch
-                {
-                    Console.WriteLine(writer.ToString());
-                    throw;
-                }
-            }
-        }
-    }
-}
-```
-
-A következő példa karakterláncként adja meg a beállításokat, és így határozza meg a konfigurációt. A kapcsolat időtúllépése a leghosszabb idő, amennyit a kapcsolat a gyorsítótárra várhat, nem pedig az újrapróbálkozási kísérletek közötti időköz. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonságot csak a programkódon keresztül lehet beállítani.
-
-```csharp
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StackExchange.Redis;
-
-namespace RetryCodeSamples
-{
-    class CacheRedisCodeSamples
-    {
-        public async static Task Samples()
-        {
-            var writer = new StringWriter();
-
-            {
-                try
-                {
-                    // Using string-based configuration.
-                    var options = "localhost,connectRetry=3,connectTimeout=2000";
-                    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
-
-                    // Store a reference to the multiplexer for use in the application.
-                }
-                catch
-                {
-                    Console.WriteLine(writer.ToString());
-                    throw;
-                }
-            }
-        }
-    }
-}
-```
-
-További példákért tekintse meg a projekt webhelyének a [konfigurációval](http://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Configuration.md#configuration) foglalkozó szakaszát.
-
-### <a name="more-information"></a>További információ
-* [Redis-webhely](http://redis.io/)
-
-## <a name="cosmos-db-retry-guidelines"></a>A Cosmos DB újrapróbálkozási irányelvei
-
-A Cosmos DB egy teljes körűen felügyelt, többmodelles adatbázis-szolgáltatás, amely támogatja a séma nélküli JSON-adatok használatát. Teljesítménye konfigurálható és megbízható, natív JavaScript-tranzakciófeldolgozást kínál, és mivel felhőbeli felhasználásra készült, rugalmasan méretezhető.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-A `DocumentClient` osztály automatikusan újrapróbálkozik a sikertelen kísérletekkel. Az újrapróbálkozások számának és a maximális várakozási idő beállításához a [ConnectionPolicy.RetryOptions] konfigurálása szükséges. Az ügyfél által okozott kivételek vagy túlmutatnak az újrapróbálkozási szabályzaton, vagy nem átmeneti hibák.
-
-Ha a Cosmos DB korlátozza az ügyfél kísérleteit, a 429-es HTTP-hibaüzenetet adja vissza. Ellenőrizze a `DocumentClientException` állapotkódját.
-
-### <a name="policy-configuration"></a>Szabályzatkonfiguráció
-A következő táblázatban a `RetryOptions` osztály alapértelmezett beállításait tekintheti meg.
-
-| Beállítás | Alapértelmezett érték | Leírás |
-| --- | --- | --- |
-| MaxRetryAttemptsOnThrottledRequests |9 |Az újrapróbálkozások maximális száma abban az esetben, ha a Cosmos DB az ügyfélre alkalmazott korlátozása miatt sikertelen a kísérlet. |
-| MaxRetryWaitTimeInSeconds |30 |A maximális újrapróbálkozási idő másodpercben. |
-
-### <a name="example"></a>Példa
-```csharp
-DocumentClient client = new DocumentClient(new Uri(endpoint), authKey); ;
-var options = client.ConnectionPolicy.RetryOptions;
-options.MaxRetryAttemptsOnThrottledRequests = 5;
-options.MaxRetryWaitTimeInSeconds = 15;
-```
-
-### <a name="telemetry"></a>Telemetria
-Az újrapróbálkozási kísérletek strukturálatlan nyomkövetési üzenetekként lesznek naplózva a .NET **TraceSource** használatával. Az események rögzítéséhez és megfelelő célnaplóba való írásához egy **TraceListener** osztályt kell konfigurálnia.
-
-Amennyiben például a következőt adja hozzá az App.config fájlhoz, a szövegfájlban a végrehajtható fájllal megegyező helyen jönnek létre a nyomkövetési adatok:
-
-```
-<configuration>
-  <system.diagnostics>
-    <switches>
-      <add name="SourceSwitch" value="Verbose"/>
-    </switches>
-    <sources>
-      <source name="DocDBTrace" switchName="SourceSwitch" switchType="System.Diagnostics.SourceSwitch" >
-        <listeners>
-          <add name="MyTextListener" type="System.Diagnostics.TextWriterTraceListener" traceOutputOptions="DateTime,ProcessId,ThreadId" initializeData="CosmosDBTrace.txt"></add>
-        </listeners>
-      </source>
-    </sources>
-  </system.diagnostics>
-</configuration>
-```
-
-
-## <a name="azure-search-retry-guidelines"></a>Az Azure Search újrapróbálkozási irányelvei
-Az Azure Search hatékony és kifinomult keresési lehetőségekkel egészíthet ki egy webhelyet vagy alkalmazást, gyorsan és könnyen pontosítja a keresési eredményeket, továbbá részletes és finomhangolt rangsorolási modelleket képes létrehozni.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az Azure Search SDK újrapróbálkozási viselkedését a [SearchServiceClient] és a [SearchIndexClient] osztály `SetRetryPolicy` metódusa vezérli. Az alapértelmezett szabályzat exponenciális visszatartással végzi el az újrapróbálkozást, ha az Azure Search 5xx-es vagy 408-as (Kérés időtúllépése) választ ad vissza.
-
-### <a name="telemetry"></a>Telemetria
-Nyomkövetés ETW-vel vagy egyéni nyomkövetési szolgáltató regisztrálásával. További információt az [AutoRest dokumentációjában][autorest] találhat.
-
-## <a name="azure-active-directory-retry-guidelines"></a>Az Azure Active Directory újrapróbálkozási irányelvei
-Az Azure Active Directory egy átfogó, felhőalapú identitás- és hozzáférés-kezelő megoldás, amely ötvözi az alapvető címtárszolgáltatásokat, a fejlett identitáskezelést, a biztonsági szolgáltatásokat és az alkalmazáshozzáférés-felügyeletet. Az Azure AD ezenkívül identitáskezelő platformot kínál a fejlesztőknek, hogy központi szabályzatokon és szabályokon alapuló hozzáférés-vezérléssel bővíthessék az alkalmazásaikat.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az Azure Active Directory beépített újrapróbálkozási mechanizmussal rendelkezik az Active Directory Authentication Library (ADAL) részeként. A váratlan zárolások elkerülése érdekében azt javasoljuk, hogy külső kódtárak és alkalmazáskódok **ne** próbálkozhassanak újra sikertelen kapcsolódás esetén, és ezek újrapróbálkozásait az ADAL kezelje. 
-
-### <a name="retry-usage-guidance"></a>Újrapróbálkozásokra vonatkozó útmutató
-Ügyeljen a következőkre az Azure Active Directory használata során:
-
-* Amikor csak lehetséges, az ADAL-kódtárat és az újrapróbálkozások beépített támogatását használja.
-* Ha a REST API-t használ az Azure Active Directory, a eredménykódja 429 (túl sok kérelem) vagy a 5xx tartomány hiba esetén próbálja megismételni a műveletet. Más hibák esetében ne engedélyezze az újrapróbálkozást.
-* Az exponenciális visszatartási szabályzat használatát az Azure Active Directory Batch-forgatókönyvei esetében javasoljuk.
-
-A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
-
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
-| --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
-
-### <a name="more-information"></a>További információ
-* [Az Azure Active Directory hitelesítési kódtárai][adal]
-
-## <a name="service-fabric-retry-guidelines"></a>A Service Fabric újrapróbálkozási irányelvei
-
-A megbízható szolgáltatások Service Fabric-fürtön belüli elosztásával a cikkben tárgyalt legtöbb átmeneti hiba elkerülhető. Azonban így is előfordulhatnak átmeneti hibák. Előfordulhat például, hogy a kérés érkezésekor az elnevezési szolgáltatás egy útválasztási változtatást végez, ami kivételt eredményez. Ugyanez a kérés 100 milliszekundummal később talán sikeres lett volna.
-
-A Service Fabric az ehhez hasonló átmeneti hibák belső kezelését elvégzi. A szolgáltatás beállítása közben konfigurálhat egyes beállításokat az `OperationRetrySettings` osztállyal.  Az alábbi kód erre mutat egy példát. A legtöbb esetben ez nem szükséges, és az alapértelmezett beállítások tökéletesen megfelelnek.
-
-```csharp
-    FabricTransportRemotingSettings transportSettings = new FabricTransportRemotingSettings
-    {
-        OperationTimeout = TimeSpan.FromSeconds(30)
-    };
-
-    var retrySettings = new OperationRetrySettings(TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(1), 5);
-
-    var clientFactory = new FabricTransportServiceRemotingClientFactory(transportSettings);
-
-    var serviceProxyFactory = new ServiceProxyFactory((c) => clientFactory, retrySettings);
-
-    var client = serviceProxyFactory.CreateServiceProxy<ISomeService>(
-        new Uri("fabric:/SomeApp/SomeStatefulReliableService"),
-        new ServicePartitionKey(0));
-```
-
-## <a name="more-information"></a>További információ
-
-* [Távoli kivételkezelés](https://github.com/Microsoft/azure-docs/blob/master/articles/service-fabric/service-fabric-reliable-services-communication-remoting.md#remoting-exception-handling)
-
-
-## <a name="azure-event-hubs-retry-guidelines"></a>Az Azure Event Hubs újrapróbálkozási irányelvei
-
-Az Azure Event Hubs egy rendkívül nagy kapacitású, telemetriai adatokat betöltő szolgáltatás, amely események millióinak adatait képes összegyűjteni, átalakítani és tárolni.
-
-### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-Az Azure Event Hubs Client Library újrapróbálkozási viselkedését az `EventHubClient` osztály `RetryPolicy` tulajdonsága vezérli. Az alapértelmezett szabályzat exponenciális visszatartással végzi el az újrapróbálkozást, ha az Azure Event Hub egy átmeneti `EventHubsException` vagy egy `OperationCanceledException` választ ad.
-
-### <a name="example"></a>Példa
-```csharp
-EventHubClient client = EventHubClient.CreateFromConnectionString("[event_hub_connection_string]");
-client.RetryPolicy = RetryPolicy.Default;
-```
-
-### <a name="more-information"></a>További információ
-[.NET standard ügyféloldali kódtár az Azure Event Hubshoz](https://github.com/Azure/azure-event-hubs-dotnet)
-
 ## <a name="general-rest-and-retry-guidelines"></a>Általános REST- és újrapróbálkozási irányelvek
 Vegye figyelembe a következőket, amikor az Azure-t vagy külső szolgáltatást próbál elérni:
 
@@ -1006,29 +1002,35 @@ Vegye figyelembe a következőket, amikor az Azure-t vagy külső szolgáltatás
 ### <a name="retry-strategies"></a>Újrapróbálkozási stratégiák
 A következők az újrapróbálkozási stratégiák időközeinek jellemző típusai:
 
-* **Exponenciális**: Ez az újrapróbálkozási szabályzat véletlenszerű exponenciális visszatartási megközelítéssel hajt végre adott számú újrapróbálkozást, hogy megállapítsa az újrapróbálkozások között eltelt időt. Példa:
+* **Az exponenciális**. A megadott számú ki megközelítés véletlenszerű exponenciális biztonsági használatával az intervallum újrapróbálkozások között, az újrapróbálkozásokat végző újrapróbálkozási házirendje. Példa:
 
-        var random = new Random();
+    ```csharp
+    var random = new Random();
 
-        var delta = (int)((Math.Pow(2.0, currentRetryCount) - 1.0) *
-                    random.Next((int)(this.deltaBackoff.TotalMilliseconds * 0.8),
-                    (int)(this.deltaBackoff.TotalMilliseconds * 1.2)));
-        var interval = (int)Math.Min(checked(this.minBackoff.TotalMilliseconds + delta),
-                       this.maxBackoff.TotalMilliseconds);
-        retryInterval = TimeSpan.FromMilliseconds(interval);
-* **Növekményes**: Ez az újrapróbálkozási stratégia adott számú újrapróbálkozási kísérletet engedélyez, és fokozatosan növeli a két újrapróbálkozás között eltelt időt. Példa:
+    var delta = (int)((Math.Pow(2.0, currentRetryCount) - 1.0) *
+                random.Next((int)(this.deltaBackoff.TotalMilliseconds * 0.8),
+                (int)(this.deltaBackoff.TotalMilliseconds * 1.2)));
+    var interval = (int)Math.Min(checked(this.minBackoff.TotalMilliseconds + delta),
+                    this.maxBackoff.TotalMilliseconds);
+    retryInterval = TimeSpan.FromMilliseconds(interval);
+    ```
 
-        retryInterval = TimeSpan.FromMilliseconds(this.initialInterval.TotalMilliseconds +
-                       (this.increment.TotalMilliseconds * currentRetryCount));
-* **Lineáris**: Ez az újrapróbálkozási szabályzat adott számú újrapróbálkozást hajt végre, és az egyes újrapróbálkozások között eltelt idő előre rögzítve van. Példa:
+* **Növekményes**. A megadott számú újrapróbálkozások és a próbálkozások növekményes időközét újrapróbálkozási stratégiát. Példa:
 
-        retryInterval = this.deltaBackoff;
+    ```csharp
+    retryInterval = TimeSpan.FromMilliseconds(this.initialInterval.TotalMilliseconds +
+                    (this.increment.TotalMilliseconds * currentRetryCount));
+    ```
 
-### <a name="more-information"></a>További információ
-* [Áramköri-megszakító stratégiák](http://msdn.microsoft.com/library/dn589784.aspx)
+* **LinearRetry**. Egy megadott időpontban időköze újrapróbálkozások között, az újrapróbálkozásokat megadott számú végző újrapróbálkozási házirendje. Példa:
 
-## <a name="transient-fault-handling-with-polly"></a>Átmeneti hibák kezelése a Polly használatával
-A [Polly](http://www.thepollyproject.org) kódtár lehetővé teszi az újrapróbálkozások és az [áramköri-megszakító][circuit-breaker] stratégiák szoftveres kezelését. A Polly projekt a [.NET Foundation][dotnet-foundation] keretében érhető el. A Polly olyan szolgáltatások számára kínál alternatívát, amelyekben az ügyfél nem támogatja natív módon az újrapróbálkozásokat. Megszünteti az olyan egyéni újrapróbálkozási kódok írásának szükségét, amelyeket egyébként nehéz lenne megfelelően implementálni. A Polly ezenkívül módot ad a hibák nyomon követésére, így naplózhatóvá teszi az újrapróbálkozásokat.
+    ```csharp
+    retryInterval = this.deltaBackoff;
+    ```
+
+### <a name="transient-fault-handling-with-polly"></a>Átmeneti hibák kezelése a Polly használatával
+[Polly] [ polly] egy függvénytár programozottan kezelni az újrapróbálkozások és [áramköri megszakító] [ circuit-breaker] stratégiák. A Polly projekt a [.NET Foundation][dotnet-foundation] keretében érhető el. A Polly olyan szolgáltatások számára kínál alternatívát, amelyekben az ügyfél nem támogatja natív módon az újrapróbálkozásokat. Megszünteti az olyan egyéni újrapróbálkozási kódok írásának szükségét, amelyeket egyébként nehéz lenne megfelelően implementálni. A Polly ezenkívül módot ad a hibák nyomon követésére, így naplózhatóvá teszi az újrapróbálkozásokat.
+
 
 <!-- links -->
 
@@ -1041,3 +1043,10 @@ A [Polly](http://www.thepollyproject.org) kódtár lehetővé teszi az újrapró
 [redis-cache-troubleshoot]: /azure/redis-cache/cache-how-to-troubleshoot
 [SearchIndexClient]: https://msdn.microsoft.com/library/azure/microsoft.azure.search.searchindexclient.aspx
 [SearchServiceClient]: https://msdn.microsoft.com/library/microsoft.azure.search.searchserviceclient.aspx
+
+
+### <a name="more-information"></a>További információ
+* [Kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency)
+* [Adatpontok – EF Core 1.1](https://msdn.microsoft.com/magazine/mt745093.aspx)
+
+

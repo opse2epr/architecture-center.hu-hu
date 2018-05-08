@@ -9,17 +9,17 @@ pnp.pattern.categories:
 - data-management
 - design-implementation
 - performance-scalability
-ms.openlocfilehash: ce8d20ae82ae7d5ba00b4bc264a5c4d90fc383bd
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: c2832aa806909c6f0aab8b6345ffb8162eb59903
+ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 05/07/2018
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Command and Query Responsibility Segregation (CQRS) minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. Ezzel maximalizálhatja a teljesítményt, a méretezhetőséget és a biztonságot. A nagyfokú rugalmassága révén támogatja a rendszer fejlődését, és megakadályozza, hogy a frissítési parancsok egyesítési ütközéseket okozzanak a tartományi szinten.
+Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. Ezzel maximalizálhatja a teljesítményt, a méretezhetőséget és a biztonságot. Támogatja a rendszer fejlődéséhez időbeli keresztül nagyobb rugalmasságot biztosít, és megakadályozza, hogy a frissítési parancsok, amely a tartományi szinten egyesítési ütközések.
 
 ## <a name="context-and-problem"></a>Kontextus és probléma
 

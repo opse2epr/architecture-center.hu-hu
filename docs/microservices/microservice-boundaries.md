@@ -1,13 +1,13 @@
 ---
-title: Mikroszolgáltatási határok azonosítása
-description: Mikroszolgáltatási határok azonosítása
+title: Mikroszolgáltatások határainak azonosítása
+description: Mikroszolgáltatások határainak azonosítása
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: e4f11da9f970724c55ad99824f808a10c4558971
-ms.sourcegitcommit: 744ad1381e01bbda6a1a7eff4b25e1a337385553
+ms.openlocfilehash: d35b92ffd97c4fda5d6599340925ce3dfea7f15b
+ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2018
+ms.lasthandoff: 05/06/2018
 ---
 # <a name="designing-microservices-identifying-microservice-boundaries"></a>Mikroszolgáltatások tervezése: mikroszolgáltatási határok azonosítása
 
@@ -25,7 +25,7 @@ Most még készen áll a modell az alkalmazás tervét. Íme egy megközelítés
 
 2. Ezután nézze meg a tartomány modell összesíti. Aggregátumok gyakran esetén használható jól mikroszolgáltatások létrehozására. Egy jól megtervezett összesítést mutat egy tetszetős mikroszolgáltatási jellemzői számos, mint:
 
-    - Az aggregátumok üzleti követelmények, nem pedig például az adatok elérése vagy az üzenetkezelési technikai problémákat származik.  
+    - Összesítő üzleti követelmények, nem pedig például az adatok elérése vagy az üzenetkezelési technikai problémákat származik.  
     - Összesítő magas működési Kohéziós kell rendelkeznie.
     - Egy összesítésnek az adatmegőrzési szegélyére.
     - Aggregátumok lazán kell lennie. 
@@ -73,7 +73,7 @@ Az alábbi ábrán a Tervező ezen a ponton:
 
 ## <a name="choosing-a-compute-option"></a>A számítási lehetőség kiválasztása
 
-A kifejezés *számítási* a számítási erőforrásokért, az alkalmazást futtató üzemeltetési modell hivatkozik. Egy mikroszolgáltatások architektúra két megközelítés különösen népszerű:
+A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. Egy mikroszolgáltatások architektúra két megközelítés különösen népszerű:
 
 - A szolgáltatás az orchestrator dedikált csomópontok (VM) szolgáltatás kezeli.
 - Egy kiszolgáló nélküli architektúra függvények használatával szolgáltatásként (FaaS). 
@@ -90,11 +90,11 @@ Az orchestrator telepítésére és kezelésére a szolgáltatások kapcsolódó
 
 - [A Service Fabric](/azure/service-fabric/) egy elosztott rendszerek platformja csomagolása, üzembe helyezése és kezelése mikroszolgáltatások létrehozására. Mikroszolgáltatások létrehozására is telepíthető a Service Fabric, tárolók, bináris végrehajtható fájlok, vagy mint [Reliable Services](/azure/service-fabric/service-fabric-reliable-services-introduction). A Reliable Services programozási modell használatával szolgáltatások használhatja közvetlenül a Service Fabric programozási API-kat a rendszer, a jelentés állapotának lekérdezése, konfigurációs és a kód módosítására értesítések fogadása és egyéb szolgáltatások felderítése. A Service Fabric legfontosabb különbséget a használatával állapot-nyilvántartó szolgáltatások erős összpontosít [megbízható gyűjtemények](/azure/service-fabric/service-fabric-reliable-services-reliable-collections).
 
-### <a name="containers"></a>Tárolók
+### <a name="containers"></a>Containers
 
 Egyes esetekben személyek szolgáltatással kapcsolatban tárolók és mikroszolgáltatások létrehozására az ugyanaz, mintha. Amíg, amely nem igaz értékű &mdash; nem szükséges tárolók mikroszolgáltatások létrehozására &mdash; tárolók rendelkezik néhány előnyről szempontjából különösen mikroszolgáltatások, például:
 
-- **Hordozhatósága**. A tároló lemezkép csomag egy különálló futtató anélkül, hogy telepítse a szalagtárak vagy más függőségek. Amely megkönnyíti az központi telepítéséhez. Tárolók megkezdődött, és így akkor is léptetési mentése új példányok további terhelés kezelése érdekében vagy csomóponthibák helyreállítása gyorsan, leállt. 
+- **Hordozhatóság**. A tároló lemezkép csomag egy különálló futtató anélkül, hogy telepítse a szalagtárak vagy más függőségek. Amely megkönnyíti az központi telepítéséhez. Tárolók megkezdődött, és így akkor is léptetési mentése új példányok további terhelés kezelése érdekében vagy csomóponthibák helyreállítása gyorsan, leállt. 
 
 - **Sűrűség**. Tárolók olyan egyszerűsített képest a futó virtuális gépek esetén, mert ugyanazt az operációs rendszer-erőforrások. Amely lehetővé teszi a csomag több tároló alakzatot egy egycsomópontos, amely akkor különösen akkor hasznos, ha az alkalmazás számos kis szolgáltatásból áll.
 
@@ -114,7 +114,7 @@ Az alábbiakban néhány tényezők választás az orchestrator megközelítés 
 
 **Rugalmasság és a Vezérlés**. Egy orchestrator lehetővé teszi az ellenőrzése alatt tartja a konfigurálása és kezelése, a szolgáltatások és a fürt nagy mennyiségű. Mi a fontosabb nagyobb fokú összetettségével. Egy kiszolgáló nélküli architektúrával akkor feladták vezérlő bizonyos fokú mivel ezek az adatok azért.
 
-**Hordozhatósága**. Az itt felsorolt orchestrators (Kubernetes, a DC/OS, Docker Swarm és a Service Fabric) összes futtatható helyi vagy több nyilvános felhőkben. 
+**Hordozhatóság**. Az itt felsorolt orchestrators (Kubernetes, a DC/OS, Docker Swarm és a Service Fabric) összes futtatható helyi vagy több nyilvános felhőkben. 
 
 **Alkalmazások integrálása**. Ez hozható létre olyan összetett alkalmazás használatával egy kiszolgáló nélküli architektúra kihívást jelenthet. Az Azure-ban egy lehetőség [Azure Logic Apps](/azure/logic-apps/) Azure Functions készletét. Ez a megközelítés példáért lásd: [hozzon létre egy függvényt, amely az Azure Logic Apps](/azure/azure-functions/functions-twitter-email).
 

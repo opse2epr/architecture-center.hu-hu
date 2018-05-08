@@ -2,11 +2,11 @@
 title: Architektúrastílusok
 description: Gyakori architektúrastílusok felhőalkalmazásokhoz
 layout: LandingPage
-ms.openlocfilehash: 15a316f9ebf7cfe4e72a6992f264a68abb904819
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: e647d1a0f3305e7754859e5ab8a9a3b46c3d4fb6
+ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 05/07/2018
 ---
 # <a name="architecture-styles"></a>Architektúrastílusok
 
@@ -65,6 +65,7 @@ Az **[Eseményvezérelt architektúrák](./event-driven.md)** egy közzétételi
 Az eseményvezérelt architektúra használata olyan alkalmazások esetében javasolt, amelyek nagy mennyiségű adatot olvasnak be és dolgoznak fel nagyon alacsony késleltetéssel. Ilyenek például az IoT-megoldások. Ez az architektúrastílus akkor is hasznos, ha különböző alrendszereknek különböző típusú feldolgozási feladatokat kell elvégeznie ugyanazokon az eseményadatokon.
 
 <br />
+
 ### <a name="big-data-big-compute"></a>Big Data, Big Compute
 
 A **[Big Data](./big-data.md)** és a **[Big Compute](./big-compute.md)** olyan specializált architektúrastílusok, amelyek bizonyos egyedi profilokhoz illeszkednek. A Big Data architektúra egy nagyon nagy adatkészletet adattömbökké darabol, és a teljes készletet párhuzamosan dolgozza fel elemzési és jelentéskészítési célból. A Big Compute vagy más néven nagy teljesítményű feldolgozás (high-performance computing, HPC) párhuzamosan végez egyidejű számításokat nagyon nagy számú (több ezer) magon. Az alkalmazási tartomány lehet szimuláció, modellezés és 3D renderelés.
