@@ -3,7 +3,7 @@
 - name: Referenciaarchitektúrák
   href: index.md
   items:
-    - name: App Service-webalkalmazások
+    - name: App Service webalkalmazás
       href: app-service-web-app/index.md
       items:
         - name: Alapszintű webalkalmazás
@@ -44,6 +44,19 @@
           href: identity/adds-forest.md
         - name: Az AD FS kiterjesztése az Azure-ra
           href: identity/adfs.md
+    - name: N szintű alkalmazás
+      href: n-tier/index.md
+      items:
+        - name: SQL Servert használó N szintű alkalmazás
+          href: n-tier/n-tier-sql-server.md
+        - name: Többrégiós N szintű alkalmazás
+          href: n-tier/multi-region-sql-server.md
+        - name: Cassandrát használó N szintű alkalmazás
+          href: n-tier/n-tier-cassandra.md
+        - name: Linux rendszerű virtuális gép üzembe helyezése
+          href: n-tier/linux-vm.md
+        - name: Windows rendszerű virtuális gép üzembe helyezése
+          href: n-tier/windows-vm.md
     - name: Hálózati DMZ
       href: dmz/index.md
       items:
@@ -53,28 +66,6 @@
           href: dmz/secure-vnet-dmz.md
         - name: Magas rendelkezésre állású virtuális hálózati készülékek
           href: dmz/nva-ha.md
-    - name: Virtuális gépek munkaterhelése (Linux)
-      href: virtual-machines-linux/index.md
-      items:
-        - name: Egyetlen virtuális gép
-          href: virtual-machines-linux/single-vm.md
-        - name: Elosztott terhelésű virtuális gépek
-          href: virtual-machines-linux/multi-vm.md
-        - name: N szintű alkalmazás
-          href: virtual-machines-linux/n-tier.md
-        - name: Többrégiós alkalmazás
-          href: virtual-machines-linux/multi-region-application.md
-    - name: Virtuális gépek munkaterhelése (Windows)
-      href: virtual-machines-windows/index.md
-      items:
-        - name: Egyetlen virtuális gép
-          href: virtual-machines-windows/single-vm.md
-        - name: Elosztott terhelésű virtuális gépek
-          href: virtual-machines-windows/multi-vm.md
-        - name: N szintű alkalmazás
-          href: virtual-machines-windows/n-tier.md
-        - name: Többrégiós alkalmazás
-          href: virtual-machines-windows/multi-region-application.md
     - name: Jenkins server
       href: jenkins/index.md
     - name: SAP NetWeaver és SAP HANA
