@@ -3,11 +3,11 @@ title: Gépi tanulás nagy léptékben
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: a92060008f90f43f71869bd1ad251af150b4a9db
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.openlocfilehash: 4e584da18893ac7405fa00863fe034e45b2e3903
+ms.sourcegitcommit: 7ced70ebc11aa0df0dc0104092d3cc6ad5c28bd6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
+ms.lasthandoff: 05/11/2018
 ---
 # <a name="machine-learning-at-scale"></a>Gépi tanulás nagy léptékben
 
@@ -18,7 +18,7 @@ A következő iteratív folyamat létrehozása és telepítése a gépi tanulás
 * Adatszakértőkön adatokba a forrás közötti kapcsolatok meghatározásához *szolgáltatások* és előre jelzett *címkék*.
 * Az adatelemzők betanítása, és keresse meg az optimális előrejelzés megfelelő algoritmusokat alapuló modellek ellenőrzése.
 * Az optimális modell éles környezetben, a rendszer egy webes szolgáltatás, vagy valamilyen egyéb beágyazott függvény.
-* Új adatokat kell összegyűjteni, mert a modell rendszeresen retrained javítására van hatékonyságát.
+* Új adatokat kell összegyűjteni, mert a rendszer rendszeres időközönként retrained a modell hatékonyságának növelése érdekében.
 
 Gépi tanulás léptékű címek két különböző méretezhetőség vonatkozik. Az első van betanítása a modell tanítását kell még betanítani a fürt kibővített képességeit igényelnek nagy méretű adatkészletekhez. A második központok operationalizating oly módon, hogy méretezhető, az azt használó alkalmazások követelményeinek megismert modell. Általában ez érhető el, a prediktív képességeit, majd kiterjeszthető webszolgáltatásként üzembe helyezésével.
 

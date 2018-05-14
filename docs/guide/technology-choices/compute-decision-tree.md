@@ -3,17 +3,17 @@ title: Az Azure compute szolgáltatások döntési fája
 description: A számítási szolgáltatás kiválasztásának folyamatábrája
 author: MikeWasson
 ms.date: 04/21/2018
-ms.openlocfilehash: e601dcb653ed1809ea3f9bbda8db8b40efb460a5
-ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
+ms.openlocfilehash: 3dcfbd156d4fced863a56bcc8bb74483aa665f9f
+ms.sourcegitcommit: 7ced70ebc11aa0df0dc0104092d3cc6ad5c28bd6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/29/2018
+ms.lasthandoff: 05/11/2018
 ---
 # <a name="decision-tree-for-azure-compute-services"></a>Az Azure compute szolgáltatások döntési fája
 
 Az Azure számos módon az alkalmazás kódjában üzemeltetésére kínál. A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. A következő folyamatábra segítséget az alkalmazás számítási szolgáltatás kiválasztása. A folyamatábra végigvezeti azokon a fő döntési feltételcsoport ajánlást eléréséhez. 
 
-**Ez a folyamatábra kezelni azzal pontként.** Minden alkalmazás rendelkezik egyedi követelmények, így használja a javaslat kiindulási pontként. Végezze el a részletes próbaverzióra, például megtekint szempontok:
+**Ez a folyamatábra kezelni kiindulási pontként.** Minden alkalmazás rendelkezik egyedi követelmények, így használja a javaslat kiindulási pontként. Végezze el a részletes próbaverzióra, például megtekint szempontok:
  
 - Szolgáltatáskészlete
 - [Szolgáltatási korlátozások](/azure/azure-subscription-service-limits)
