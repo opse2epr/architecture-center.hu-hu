@@ -5,6 +5,7 @@ author: zoinerTejada
 ms:date: 02/12/2018
 ms.openlocfilehash: 4e584da18893ac7405fa00863fe034e45b2e3903
 ms.sourcegitcommit: 7ced70ebc11aa0df0dc0104092d3cc6ad5c28bd6
+ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/11/2018
 ---
