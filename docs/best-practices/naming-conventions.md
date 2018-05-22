@@ -4,11 +4,11 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: b4f40c427fc91c6b00d934c9a5dacdca91a55690
-ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
+ms.openlocfilehash: df536a4b34a29b93edc4e03fa1142e20fe84a6a7
+ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/03/2018
+ms.lasthandoff: 05/21/2018
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -81,17 +81,17 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 |Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek |`"key" : "value"` |`"department" : "Central IT"` |
 
-### <a name="compute"></a>Számítás
+### <a name="compute"></a>Compute
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Virtuális gép |Erőforráscsoport |1–15 (Windows), 1–64 (Linux) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<name>-<role>-vm<number>` |`profx-sql-vm1` |
+|Virtuális gép |Erőforráscsoport |1–15 (Windows), 1–64 (Linux) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<name>-<role>-vm<number>` |`profx-sql-vm1` |
 |Függvényalkalmazás | Globális |1–60 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<name>-func` |`calcprofit-func` |
 
 > [!NOTE]
 > Az Azure-ban a virtuális gépek két különböző névvel rendelkeznek: egy virtuálisgép-névvel és egy gazdagépnévvel. Amikor létrehoz egy virtuális gépet a portálon, ugyanaz a név lesz a gazdagépnév és a virtuális gép erőforrásneve is. A fenti korlátozások a gazdagépnévre vonatkoznak. A tényleges erőforrásnév legfeljebb 64 karakterből állhat.
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |

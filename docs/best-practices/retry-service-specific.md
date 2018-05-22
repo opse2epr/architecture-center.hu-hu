@@ -4,11 +4,11 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: d03cc9dd1af92a91bbfab1ebc8c438e6312eeb49
-ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
+ms.openlocfilehash: 65206c5f39a74d228c7eaa0fea0c5b1b0710b22f
+ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/07/2018
+ms.lasthandoff: 05/21/2018
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -855,7 +855,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzatok ala
 
 | **Beállítás** | **Alapértelmezett érték** | **Jelentés** |
 | --- | --- | --- |
-| MaximumExecutionTime | 120 másodperc | A kérés maximális végrehajtási ideje az esetleges újrapróbálkozási kísérletekkel együtt. |
+| MaximumExecutionTime | None | A kérés maximális végrehajtási ideje az esetleges újrapróbálkozási kísérletekkel együtt. Ha nincs megadva, az, hogy mennyi ideig a kérelem megengedett nincs korlátozva. Más szóval a kérelem előfordulhat, hogy lefagy. |
 | ServerTimeout | None | Kérés időtúllépési kerete a kiszolgálón (egész másodpercre kerekített érték). Ha nincs megadva, a kiszolgálóhoz érkező összes kérés esetében az alapértelmezett értéket fogja használni. Általában érdemes üresen hagyni ezt az értéket, hogy a kiszolgáló az alapértelmezett beállítást használja. | 
 | LocationMode | None | Ha a tárfiókot az írásvédett georedundáns tároló (RA-GRS) replikációs beállítással hozza létre, a hely módja határozza meg, hogy melyik hely kapja meg a kérést. A **PrimaryThenSecondary** érték esetében például a kérések először mindig az elsődleges helyre érkeznek. Ha a kérés sikertelen, ezután a másodlagos hely kapja meg azt. |
 | RetryPolicy | ExponentialPolicy | Az egyes beállítások részleteit az alábbiakban tekintheti meg. |

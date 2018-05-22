@@ -3,11 +3,11 @@ title: A valós idejű üzenet adatfeldolgozást technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 2e6578b779950b5ef11bda7b8ba1fb2e45e09f4e
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.openlocfilehash: 5eaac023e28fc502e5a4e6ebc17e32832f7557c0
+ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
+ms.lasthandoff: 05/21/2018
 ---
 # <a name="choosing-a-real-time-message-ingestion-technology-in-azure"></a>Az Azure-ban a valós idejű üzenet adatfeldolgozást technológia kiválasztása
 
@@ -17,7 +17,7 @@ Valós idejű feldolgozására, amelyek rögzítve lesznek a valós idejű és a
 
 - [Azure Event Hubs](/azure/event-hubs/)
 - [Azure IoT Hub](/azure/iot-hub/)
-- [Kafka on HDInsight](/azure/hdinsight/kafka/apache-kafka-get-started)
+- [A HDInsight Kafka](/azure/hdinsight/kafka/apache-kafka-get-started)
 
 ## <a name="azure-event-hubs"></a>Azure Event Hubs
 
@@ -32,7 +32,7 @@ Az IoT-központ szolgáltatás a következők:
 * Több beállítások eszközről a felhőbe és felhő eszközre kommunikációhoz. A lehetőségek közé tartozik az egyirányú üzenetküldés, a fájlátvitel és a kérés-válasz módszerek.
 * Egyéb Azure-szolgáltatásokhoz való üzenettovábbítás.
 * Queryable eszköz metaadatait tárolja, és szinkronizálja az állapotadatokat.
-* Scure kommunikációs és hozzáférés-vezérlés eszközönkénti biztonsági kulcsok vagy X.509-tanúsítványokat használ.
+* A biztonságos kommunikáció, és hozzáférés-vezérlés eszközönkénti biztonsági kulcsok vagy X.509-tanúsítványokat használ.
 * Eszköz kapcsolatot, valamint az eszköz identity management események megfigyelése.
 
 Üzenet adatfeldolgozást tekintetében az IoT-központ hasonlít az Event Hubs. Azonban kifejezetten készült IoT-eszköz kapcsolat, nem csak üzenet adatfeldolgozást kezeléséhez. További információkért lásd: [összehasonlítása az Azure IoT-központ és az Azure Event Hubs](/azure/iot-hub/iot-hub-compare-event-hubs). 
@@ -43,7 +43,7 @@ Az IoT-központ szolgáltatás a következők:
 
 Néhány gyakori alkalmazási esetei Kafka a következők:
 
-* **Üzenetküldési**. Mivel az támogatja-e a közzététel-előfizetés üzenet mintát, egy üzenet broker gyakran használt Kafka.
+* **Üzenetkezelés**. Mivel az támogatja-e a közzététel-előfizetés üzenet mintát, egy üzenet broker gyakran használt Kafka.
 * **Követés tevékenység**. Mivel a Kafka sorrendben naplózási bejegyzések, használat nyomon követését, és hozza létre a tevékenységek, például egy webhelyen a felhasználói műveleteket.
 * **Összesítési**. Használja a streamfeldolgozási, kombinálhatja és központosíthatja az adatokat az operatív adatok be különböző adatfolyamokba adatait is összevonhatja.
 * **Átalakítás**. Adatfolyam-feldolgozást használó egyesítheti, és funkciógazdagabbá teheti az adatokat több bemeneti témakör egy vagy több kimeneti témaköröket.
