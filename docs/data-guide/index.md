@@ -5,11 +5,11 @@ author: zoinerTejada
 ms:date: 02/12/2018
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 0975d056aa971c627ca91c9fc05c4e16e07b6fc0
-ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
+ms.openlocfilehash: 63c1cca45fe9d99b5d0679360ef487c3a42da956
+ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/07/2018
+ms.lasthandoff: 05/21/2018
 ---
 # <a name="azure-data-architecture-guide"></a>Útmutató az Azure-adatarchitektúrához
 
@@ -21,7 +21,7 @@ A felhő megváltoztatja az alkalmazások tervezésének módját, beleértve az
 
 ## <a name="how-this-guide-is-structured"></a>Az útmutató felépítése
 
-Ez az útmutató az adatkezelő megoldások két általános kategóriája, a *hagyományos RDMBS számítási feladatok* és a *big data-megoldások* köré épül fel. 
+Ez az útmutató az adatkezelő megoldások két általános kategóriája, a *hagyományos RDBMS számítási feladatok* és a *big data-megoldások* köré épül fel. 
 
 **[Hagyományos RDBMS számítási feladatok](./relational-data/index.md)**. Ilyen számítási feladat például az online tranzakciófeldolgozás (OLTP) és az online analitikus feldolgozás (OLAP). Az OLTP-rendszerekben általában relációs adatokkal lehet találkozni, amelyek előre definiált sémával és a hivatkozási integritás megőrzését szolgáló megkötésekkel rendelkeznek. Gyakran a cégen belüli különböző forrásokból egy adattárházba gyűjtik az adatokat, és egy ETL-folyamattal helyezik át és konvertálják a forrásadatokat.
 
