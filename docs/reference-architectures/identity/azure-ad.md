@@ -7,11 +7,12 @@ ms.date: 11/28/2016
 pnp.series.next: adds-extend-domain
 pnp.series.prev: ./index
 cardTitle: Integrate on-premises AD with Azure AD
-ms.openlocfilehash: 9475d669b2cb8888a7ceabed7e36317fe63681fd
-ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
+ms.openlocfilehash: ade79f8ebffc15b423ef6ebfb9b19611c9500cd8
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/23/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252992"
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -32,7 +33,7 @@ A referenciaarchitektúra tipikus alkalmazásai lehetnek:
 * Olyan architektúrák, amelyekben a helyszíni hálózat és az alkalmazás Azure virtuális hálózata nem VPN-alagúton vagy ExpressRoute-kapcsolatcsoportoton keresztül kapcsolódik.
 
 > [!NOTE]
-> Az Azure AD jelenleg csak a felhasználók hitelesítését támogatja. Egyes alkalmazások és szolgáltatások, például az SQL Server esetében szükség lehet a számítógép hitelesítésére is, ebben az esetben ez a megoldás nem megfelelő.
+> Az Azure AD képes hitelesíteni az identitás a felhasználók és az alkalmazásokat, amelyek a szervezetek könyvtárában. Egyes alkalmazások és szolgáltatások, például az SQL Server esetében szükség lehet a számítógép hitelesítésére is, ebben az esetben ez a megoldás nem megfelelő.
 > 
 
 További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 

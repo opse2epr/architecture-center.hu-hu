@@ -4,11 +4,12 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: df536a4b34a29b93edc4e03fa1142e20fe84a6a7
-ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
+ms.openlocfilehash: 42d91da3eacdcda66b82dff82ba444170c11d7d1
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/21/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35253060"
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -121,7 +122,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 
-Az Azure Resource Manager támogatja a tetszőleges szöveges karakterláncok használatát az entitások címkézésekor a környezet azonosítása és az automatizálás megkönnyítése érdekében.  Például az `"sqlVersion: "sql2014ee"` címke azonosíthatja az SQL Server 2014 Enterprise Editiont futtató környezetekben működő virtuális gépeket egy automatizált szkript futtatásához.  A címkék a választott elnevezési konvenciókkal együtt kiegészíthetik és pontosíthatják a környezeti információkat.
+Az Azure Resource Manager támogatja a tetszőleges szöveges sztringek használatát az entitások címkézésekor a környezet azonosítása és az automatizálás megkönnyítése érdekében.  Például az `"sqlVersion: "sql2014ee"` címke azonosíthatja az SQL Server 2014 Enterprise Editiont futtató környezetekben működő virtuális gépeket egy automatizált szkript futtatásához.  A címkék a választott elnevezési konvenciókkal együtt kiegészíthetik és pontosíthatják a környezeti információkat.
 
 > [!TIP]
 > A címkék használatának másik előnye, hogy több erőforráscsoportra is érvényesek, ezáltal lehetővé teszik az eltérő környezetekben lévő entitások összekötését.
@@ -166,7 +167,7 @@ A tárfiókokra két elsődleges használati eset vonatkozik: virtuális gépek 
 > [!TIP]
 > A tárfiókoknak (akár adatokat, akár lemezeket tárolnak) olyan elnevezési konvenciót kell követniük, amely lehetővé teszi több tárfiók használatát (vagyis mindig numerikus utótagot kell használniuk).
 
-Konfigurálhat például egy egyedi tartománynevet az Azure Storage-fiókjában tárolt blobadatokhoz való hozzáféréshez. A blobszolgáltatás alapértelmezett végpontja: https://<name>.blob.core.windows.net.
+Konfigurálhat például egy egyedi tartománynevet az Azure Storage-fiókjában tárolt blobadatokhoz való hozzáféréshez. A Blob szolgáltatás az alapértelmezett végpont az https://\<neve\>. blob.core.windows.net.
 
 Ha azonban egyéni tartományt (például www.contoso.com) rendel hozzá a tárfiók blobvégpontjához, akkor a tárfiókban lévő blobadatokat az említett tartomány használatával is elérheti. Egyéni tartománynév használatával például a `http://mystorage.blob.core.windows.net/mycontainer/myblob` a `http://www.contoso.com/mycontainer/myblob` címen is elérhető.
 

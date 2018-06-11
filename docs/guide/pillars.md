@@ -1,165 +1,166 @@
 ---
 title: A szoftverminőség alappillérei
-description: A software quality, a méretezhetőség, a rendelkezésre állási, a rugalmasság, a felügyeleti és a biztonsági öt oszlopok ismerteti.
+description: A cikk a szoftverminőség öt alappillérét ismerteti, melyek a skálázhatóság, a rendelkezésre állás, a rugalmasság, a felügyelet és a biztonság.
 author: MikeWasson
-ms.openlocfilehash: 1d5e30602cafa0d39f92de3101974e77ae258595
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: 117706046ca1a9b7f3203a99737347809d0c323f
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252787"
 ---
 # <a name="pillars-of-software-quality"></a>A szoftverminőség alappillérei 
 
 Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
 
-| Oszlop | Leírás |
+| Pillér | Leírás |
 |--------|-------------|
-| Méretezhetőség | A rendszer azon képessége, megnövekedett terhelés kezelése érdekében. |
-| Rendelkezésre állás | Az idő a rendszer működési, és üzemel arányát. |
-| Resiliency | Azon képessége, a rendszer helyreállni hibák után, és továbbra is működik. |
-| Kezelés | Operatív folyamatokat, amelyek operációs rendszert futtató üzemben hagyja. |
-| Biztonság | Alkalmazások és adatok védelme a érintő fenyegetésekkel szemben. |
+| Méretezhetőség | A rendszer megnövekedett terhelés kezelésére vonatkozó képessége. |
+| Rendelkezésre állás | Az az időarány, amíg a rendszer működik és üzemel. |
+| Rugalmasság | A rendszer azon képessége, hogy helyreálljon a hibák után, és folytassa a működést. |
+| Kezelés | A rendszert termelési állapotban tartó működési folyamatok. |
+| Biztonság | Az alkalmazások és adatok védelme a fenyegetésekkel szemben. |
 
 ## <a name="scalability"></a>Méretezhetőség
 
-Méretezhetőség azt a képességet, a rendszer a megnövekedett terhelés kezelése érdekében. Két fő módszer, amely egy alkalmazás is van. Függőleges méretezés (skálázás *mentése*) azt jelenti, hogy a kapacitás erőforrás, például növelése nagyobb Virtuálisgép-méret használatával. Horizontális skálázás (skálázás *kimenő*) erőforrás, például a virtuális gépek vagy adatbázis-replikák új példányok hozzáadásával. 
+A méretezhetőség a rendszernek a megnövekedett terhelés kezelésére vonatkozó képessége. Az alkalmazásokat két fő módszerrel lehet skálázni. A vertikális skálázás (*felskálázás*) az erőforrások kapacitásának növelését jelenti, például egy nagyobb méretű virtuális gép használatával. A horizontális skálázás (*bővítés*) új erőforráspéldányok hozzáadását jelenti, például virtuális gépeket vagy adatbázis-replikákat. 
 
-Horizontális skálázás rendelkezik keresztül függőleges skálázás jelentős előnyökkel jár:
+A horizontális skálázásnak jelentős előnyei vannak a vertikális skálázással szemben:
 
-- Igaz felhőbeli skálázással. Alkalmazások futtatását több száz vagy akár több ezer csomópontokat, amelyek nem lehetséges egycsomópontos méretezik elérése tervezhető.
-- Horizontális skálázhatóságot rugalmas. Ha több példány is hozzáadhat a terhelés növekedésével, vagy távolítsa el őket csendesebb időszakokban.
-- Méretezési out után is hozzáadhatja automatikusan, ütemezés szerint vagy a terhelés változásai. 
-- Meg lehet, vertikális felskálázásával olcsóbbak. Több kis virtuális gépeken futó költség lehet kisebb, mint egyetlen nagy virtuális gép. 
-- Horizontális skálázás is tovább fejlesztheti rugalmasságot redundancia hozzáadásával. Ha egy példány leáll, az alkalmazás folyamatosan működik.
+- Valódi felhőbeli skálázás. Az alkalmazások megtervezhetők úgy, hogy több száz vagy akár több ezer csomóponton fussanak, olyan léptéket elérve, amely egyetlen csomóponton nem lehetséges.
+- A horizontális skálázás rugalmas. Hozzáadhat több példányt, ha növekszik a terhelés, a csendesebb időszakokban pedig eltávolíthatja azokat.
+- A horizontális skálázás aktiválható automatikusan, ütemezés szerint vagy a terhelés változásaira reagálva. 
+- A horizontális skálázás olcsóbb is lehet, mint a vertikális. Több kis méretű virtuális gép futtatása kevesebb költséggel jár, mint egy nagy méretűé. 
+- A horizontális skálázás a rugalmasságot is javíthatja a redundancia révén. Ha egy példány leáll, az alkalmazás továbbra is működik.
 
-Függőleges skálázás előnye, hogy ezt megteheti az alkalmazás változtatás nélkül. De egy bizonyos ponton korlátozni, ahol nem méretezhető esetleges további fel lesz találati. Ezen a ponton minden további skálázás kell vízszintes. 
+A vertikális skálázás előnye, hogy elvégezhető az alkalmazás módosítása nélkül is. Egy bizonyos ponton azonban el fog érni egy korlátot, ahonnan már nem lehetséges a további felskálázás. Ezen a ponton a további skálázás csak horizontális lehet. 
 
-Horizontális skálázhatóságot úgy kell megtervezni a rendszerbe. Például lehet horizontálisan virtuális gépek által egy terheléselosztó mögött helyezi őket. Azonban minden a készlet képesnek kell lennie minden ügyfél kérelem kezelésére, ezért az alkalmazás kell lennie az állapot nélküli vagy -állapot tárolása külsőleg (például, egy elosztott gyorsítótárban). Kezeli a szolgáltatások gyakran rendelkezik horizontális skálázás, és az automatikus skálázást beépített PaaS. Az egyszerű skálázás ezeket a szolgáltatásokat az egyik legnagyobb előnye PaaS services használatával.
+A horizontális skálázást bele kell tervezni a rendszerbe. A virtuális gépek horizontális skálázásához például a virtuális gépek egy terheléselosztó mögé helyezhetők. A készlet mindegyik virtuális gépének képesnek kell lennie azonban arra, hogy bármilyen ügyfélkérést kezeljen, ezért az alkalmazásnak állapot nélkülinek kell lennie, vagy külsőleg kell tárolnia az állapotokat (például egy elosztott gyorsítótárban). A felügyelt PaaS-szolgáltatások gyakran rendelkeznek beépített horizontális skálázással és automatikus skálázással. A szolgáltatások egyszerű skálázhatósága a PaaS-szolgáltatások használatának egyik jelentős előnye.
 
-Több példány hozzáadásánál többről nem jelenti azt, az alkalmazás lehessen méretezni, azonban. Akkor lehet, hogy egyszerűen leküldéses valahol máshol szűk. Például ha egy webes előtér-több ügyfélkérelmet kezelni, előfordulhat, hogy vált zárolási contentions az adatbázisban. Ezután fontolja meg a további intézkedések, például az egyidejű hozzáférések optimista vagy particionálás, ahhoz, hogy az adatbázis további átviteli adatok kellene.
+Egyszerűen több példány hozzáadása azonban nem jelenti azonban azt, hogy az alkalmazás skálázható lesz. Előfordulhat, hogy egyszerűen csak máshol alakul ki a szűk keresztmetszet. Ha például egy webes előteret több ügyfélkérés kezelésére skálázik, az zárolási versenyt válthat ki az adatbázisban. Ezután mérlegelni kell olyan további intézkedések megtételét, mint az optimista egyidejűség vagy az adatparticionálás, nagyobb átviteli sebesség biztosítása érdekében az adatbázis felé.
 
-Mindig tartson teljesítményét, és terheléses tesztelés a potenciális szűk keresztmetszetek kereséséhez. A rendszer, például adatbázisok, állapot-nyilvántartó részei a leggyakoribb szűk keresztmetszetek okozza, és horizontálisan méretezhető gondos tervezés szükséges. Egy szűk feloldása felfedheti máshol más szűk keresztmetszeteket.
+A potenciális szűk keresztmetszetek kiszűréséhez mindig végezzen teljesítmény- és terheléstesztelést. A szűk keresztmetszeteket leggyakrabban a rendszer állapottal rendelkező összetevői, például az adatbázisok okozzák, ezért gondosan meg kell tervezni a horizontális skálázásukat. Egy szűk keresztmetszet elhárítása további szűk keresztmetszeteket tárhat fel máshol.
 
-Használja a [méretezhetőség ellenőrzőlista] [ scalability-checklist] áttekintheti a méretezhetőség szempontból kialakítását.
+A [skálázhatósági ellenőrzőlista][scalability-checklist] alapján áttekintheti a terveit skálázhatósági szempontból.
 
-### <a name="scalability-guidance"></a>Méretezhetőség útmutató
+### <a name="scalability-guidance"></a>Skálázhatósági útmutató
 
-- [A kialakítási minták a méretezhetőség és teljesítmény][scalability-patterns]
-- Gyakorlati tanácsok: [automatikus skálázás][autoscale], [feladatok háttérben][background-jobs], [gyorsítótárazását] [ caching], [CDN][cdn], [adatparticionálás][data-partitioning]
+- [Tervezési minták a megfelelő skálázhatósághoz és teljesítményhez][scalability-patterns]
+- Ajánlott eljárások: [Automatikus skálázás][autoscale], [háttérfeladatok][background-jobs], [gyorsítótárazás][caching], [CDN][cdn], [adatparticionálás][data-partitioning].
 
 ## <a name="availability"></a>Rendelkezésre állás
 
-Rendelkezésre állási ideje, hogy a rendszer működési, és üzemel arányának. Általában a hasznos üzemidő százalékaként értendő. Az alkalmazáshibák infrastrukturális problémák megoldását és rendszerterhelés összes csökkentheti rendelkezésre állása. 
+A rendelkezésre állás az az időarány, amíg a rendszer működik és üzemel. Általában az üzemidő százalékaként értendő. Az alkalmazáshibák, infrastruktúraproblémák és a rendszerterhelés egyaránt csökkenthetik a rendelkezésre állást. 
 
-A felhőalapú alkalmazások szolgáltatásiszint-célkitűzés (SLO), amely egyértelműen határozza meg a várt rendelkezésre állását, és hogyan kell mérni a rendelkezésre állási kell rendelkeznie. Rendelkezésre állási meghatározásakor keresse meg a kritikus elérési úton. Lehet, hogy az előtér-webkiszolgáló képes kiszolgálni az ügyfélkéréseket, de minden tranzakció sikertelen, mert nem tud kapcsolódni az adatbázishoz, ha az alkalmazás nem érhető el a felhasználók számára. 
+A felhőalapú alkalmazásoknak rendelkezniük kell szolgáltatásiszint-célkitűzéssel (service level objective, SLO), amely egyértelműen meghatározza az elvárt rendelkezésre állást és annak mérését. A rendelkezésre állás meghatározásakor a kritikus útvonalat kell figyelembe venni. Lehet, hogy a webes előtér képes kiszolgálni az ügyfélkéréseket, ha azonban minden tranzakció sikertelen, mert az előtér nem tud kapcsolódni az adatbázishoz, akkor az alkalmazás nem áll a felhasználók rendelkezésére. 
 
-Rendelkezésre állási gyakran leírt tekintetében "9s" &mdash; például a "négy 9s" azt jelenti, hogy 99,99 % hasznos üzemideje. Az alábbi táblázat a lehetséges összesített állásidő másik rendelkezésre állási szinten.
+A rendelkezésre állást gyakran „kilencesekkel” írják le, például a „négy 9-es” 99,99%-os üzemidőt jelent. Az alábbi táblázat a különböző rendelkezésre állási szintek lehetséges halmozott állásidejét mutatja be.
 
-| % Hasznos üzemidő | Állásidő hetente | Állásidő havonta | Állásidő évente |
+| Üzemidő %-ban | Állásidő hetente | Állásidő havonta | Állásidő évente |
 |----------|-------------------|--------------------|-------------------|
 | 99% | 1,68 óra | 7,2 óra | 3,65 nap |
 | 99.9% | 10 perc | 43,2 perc | 8,76 óra |
 | 99.95% | 5 perc | 21,6 perc | 4,38 óra |
 | 99.99% | 1 perc | 4,32 perc | 52,56 perc |
-| 99.999% | 6 másodperc | 26 másodpercben | 5,26 perc |
+| 99.999% | 6 másodperc | 26 másodperc | 5,26 perc |
 
-Figyelje meg, hogy 99 %-os hasznos üzemidő hetente szinte 2 óra szolgáltatás kimaradás lehetett lefordítani. Számos alkalmazás, különösen a felhasználók felé néző alkalmazások, amelyek nem elfogadható slo-t. Másrészről, öt 9s (99.999 %) azt jelenti, hogy az állásidő legfeljebb 5 perc egy *év*. Nehéz elég csak kimaradás, amely gyorsan észlelésére, hát alone a probléma megoldását. Nagyon magas rendelkezésre állás eléréséhez (99,99 % vagy magasabb), nem elegendő a helyreállni hibák után manuális beavatkozásra. Az alkalmazás legyen önálló diagnosztizálni és önjavítás, amely, ahol rugalmassági kritikus fontosságú válik.
+Vegye figyelembe, hogy a 99%-os üzemidő hetente majdnem 2 óra szolgáltatáskimaradást jelenthet. Számos alkalmazás, különösen a felhasználók felé néző alkalmazások esetén ez az SLO nem fogadható el. Másrészről öt 9-es (99,999 %) legfeljebb 5 perc állásidőt jelent *évente*. Egy kimaradást ilyen gyorsan észlelni is kihívást jelent, nemhogy meg is oldani a problémát. A nagyon magas (99,99% vagy nagyobb) rendelkezésre állás eléréséhez nem támaszkodhat manuális beavatkozásra a hibákból való helyreállításhoz. Az alkalmazásnak képesnek kell lennie az öndiagnózisra és az önjavításra. Ekkor válok kritikus fontosságúvá a rugalmasság.
 
-Az Azure a szolgáltatási szint szerződés (SLA) hasznos üzemidő és a kapcsolat a Microsoft felé vállalt kötelezettségeinket ismerteti. Ha az SLA-t egy adott szolgáltatáshoz 99,95 %, akkor kell látnia a szolgáltatás 99,95 %-ában elérhető legyen.
+Az Azure-ban a szolgáltatási szerződés (SLA) ismerteti a Microsoftnak az üzemidővel és hálózati elérhetőséggel kapcsolatos vállalásait. Ha egy adott szolgáltatás SLA-ja 99,95%-os, az azt jelenti, hogy a szolgáltatás várhatóan az idő 99,95%-ában rendelkezésre áll.
 
-Alkalmazások általában több szolgáltatás függenek. Állásidő vagy szolgáltatást valószínűségét általában független. Tegyük fel, hogy az alkalmazás két 99,9 %-os SLA-t a szolgáltatás függ. Mindkét szolgáltatás esetében a összetett szolgáltatásiszint-szerződést 99,9 %-os &times; 99,9 %-os &asymp; 99.8 % vagy egy önálló valamivel kisebb, mint minden szolgáltatást. 
+Az alkalmazások általában több szolgáltatástól is függenek. Az egyes szolgáltatások leállásának valószínűsége általában egymástól független. Tegyük fel például, hogy egy alkalmazás két olyan szolgáltatástól függ, amelyek SLA-ja egyaránt 99,9 %. A két szolgáltatás összesített SLA-ja 99,9% &times; 99,9% &asymp; 99,8%, vagyis valamivel kisebb, mint az egyes szolgáltatások saját SLA-ja. 
 
-Használja a [rendelkezésre állási ellenőrzőlista] [ availability-checklist] áttekintheti a Tervező egy rendelkezésre állási tükrözik.
+A [rendelkezésre állási ellenőrzőlista][availability-checklist] alapján áttekintheti a terveit rendelkezésre állási szempontból.
 
 ### <a name="availability-guidance"></a>Rendelkezésre állási útmutató
 
-- [Kialakítási minta a rendelkezésre állás érdekében][availability-patterns]
-- Gyakorlati tanácsok: [automatikus skálázás][autoscale], [háttér-feladatok][background-jobs]
+- [Tervezési minták a rendelkezésre álláshoz][availability-patterns]
+- Ajánlott eljárások: [Automatikus skálázás][autoscale], [háttérfeladatok][background-jobs].
 
-## <a name="resiliency"></a>Resiliency
+## <a name="resiliency"></a>Rugalmasság
 
-Rugalmasság azt a képességet, a rendszer helyreállni hibák után, és továbbra is működik. A rugalmasság célja térjen vissza az alkalmazás teljesen működőképes állapotba, miután hiba lép fel. Rugalmasság szorosan kapcsolódnak a rendelkezésre állási.
+A rugalmasság a rendszer azon képessége, hogy helyreálljon a hibák után, és folytassa a működést. A rugalmasság célja, hogy az alkalmazás egy hibát követően teljesen működőképes állapotba térjen vissza. A rugalmasság szorosan kapcsolódik a rendelkezésre álláshoz.
 
-A hagyományos alkalmazásfejlesztés történt, így a fókusz a hibák (MTBF) közötti idő csökkentése. Elérhető telt megakadályozhatja, hogy a rendszer a megfelelő működése közben. A felhőalapú informatika meghatározására egy másik alaposan szükség, több tényezők miatt:
+A hagyományos alkalmazásfejlesztés során a hangsúly a hibák közötti átlagos idő csökkentésén volt. Az erőfeszítések arra irányultak, hogy a rendszer ne hibásodjon meg. A felhőalapú informatika másik megközelítést igényel több tényező miatt:
 
-- Elosztott rendszerek bonyolult, és egy pontján hiba potenciálisan kaszkádolt is a rendszerben.
-- Felhőalapú környezetek költségek mindig alacsony révén a hagyományos hardvereken, eseti hardverhibák kell számítani. 
-- Alkalmazások általában külső szolgáltatásokat, amelyek esetleg átmenetileg elérhetetlenné válik, vagy nagy mennyiségű felhasználók szabályozás függenek. 
-- Az aktuális felhasználó várt az alkalmazás elérhető 24/7 nélkül bármikor offline állapotra vált.
+- Az elosztott rendszerek összetettek, és egy adott ponton bekövetkező hiba az egész rendszerre kihathat.
+- A felhőalapú környezetek költségei közös hardverek használatával alacsonyan tarthatók, így számítani lehet a hardverek időnkénti meghibásodására. 
+- Az alkalmazások általában külső szolgáltatásoktól is függenek, amelyek ideiglenesen elérhetetlenné válhatnak, vagy nagy forgalmú felhasználókat szabályozhatnak. 
+- Napjainkban a felhasználók elvárják, hogy az alkalmazások a nap 24 órájában elérhetők legyenek és soha ne legyenek offline.
 
-Ezek a tényezők jelenti, hogy a felhőalapú alkalmazások mindegyikét kell megtervezni, várt alkalmi hibák, és hárítsa el azokat. Azure a platform beépített számos rugalmassági lehetőséggel rendelkezik. Például: 
+Mindezen tényezők miatt a felhőalapú alkalmazásokat úgy kell megtervezni, hogy számítsanak az időnként előforduló hibákra, és azokból helyre tudjanak állni. Az Azure számos beépített rugalmassági funkcióval rendelkezik. Például: 
 
-- Az Azure Storage, SQL-adatbázis és a Cosmos DB összes biztosít beépített replikációs, mind a régión belül, és régiók között.
-- Azure-lemezeket felügyelt automatikusan kerülnek különböző tárolási méretezési egységeit, a hardver meghibásodása hatásait korlátozni.
-- Virtuális gépek rendelkezésre állási csoportba több tartalék tartományok vannak elosztva. A tartalék tartomány olyan virtuális gépek, amelyek egy közös power forrás- és a hálózati kapcsolóhoz. Virtuális gépek terjednek tartalék tartományokban korlátozza a fizikai hardver meghibásodása, a hálózati kimaradások vagy a power megszakításokat hatását.
+- Az Azure Storage, az SQL Database és a Cosmos DB egyaránt biztosítanak beépített adatreplikációt, egy adott régión belül és régiók között is.
+- Az Azure Managed Disks felügyelt lemezi automatikusan különböző tárolóskálázási egységekbe kerülnek a hardverhibák hatásának csökkentése érdekében.
+- Az egyes rendelkezésre állási csoportokhoz tartozó virtuális gépek több tartalék tartományon vannak elosztva. A tartalék tartományok az azonos tápforrással és hálózati kapcsolóval rendelkező virtuális gépek csoportjai. A virtuális gépek több tartalék tartományon való elosztása korlátozza a hardvermeghibásodások, hálózatkimaradások vagy a tápellátás megszakadásának hatását.
 
-Említett, továbbra is szeretné rugalmassági építenie az alkalmazást. Rugalmasság stratégiák a architektúra minden szinten alkalmazható. Néhány azok mérséklési több más ajánlások taktikai jellegűek &mdash; például egy átmeneti hálózati hiba után újból próbálkozik a távoli hívásban. Egyéb megoldást több stratégiai, például a teljes alkalmazás másodlagos régióba feladatátvételét. Taktikai megoldást teheti a nagy különbség. Habár ritkán fordul elő, egy teljes régió egy problémákat tapasztalhat, átmeneti problémákat, például hálózati torlódás gyakori &mdash; így cél először ezeket. A megfelelő figyelési és diagnosztika az is fontos, mind hibák észlelés, ha akkor fordulhat elő, és keresi okait.
+Említett, továbbra is szeretné rugalmassági build az alkalmazásba. Rugalmassági stratégiák az architektúra minden szintjén alkalmazhatók. Bizonyos megoldások inkább taktikai jellegűek – például egy távoli hívás újrapróbálása egy átmeneti hálózati hiba után. Más megoldások inkább stratégiai jellegűek, például egy teljes alkalmazás feladatátvétele egy másodlagos régióba. A taktikai megoldások nagy hatással járhatnak. Jóllehet ritkán fordul elő, hogy egy teljes régió kimaradást tapasztaljon, az átmeneti problémák, például a hálózati torlódás azonban gyakoribbak, így először ezekre kell felkészülni. Fontos a megfelelő monitorozás és diagnosztika megléte is a bekövetkező hibák észlelése és a kiváltó okok felderítése érdekében.
 
-Az alkalmazás rugalmas tervezésekor ismernie kell a rendelkezésre állási követelményeinek. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez?
+Amikor egy alkalmazást rugalmasnak tervez meg, ismernie kell a rendelkezésreállási követelményeket. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez?
 
-Használja a [rugalmassági ellenőrzőlista] [ resiliency-checklist] rugalmassági szempontból a kialakítás áttekintése.
+A [rugalmassági ellenőrzőlista][resiliency-checklist] alapján áttekintheti a terveit rugalmassági szempontból.
 
 ### <a name="resiliency-guidance"></a>A rugalmasságra vonatkozó útmutatás
 
-- [Az Azure-rugalmas alkalmazások tervezése][resiliency]
-- [Rugalmasság tervminták][resiliency-patterns]
-- Gyakorlati tanácsok: [átmeneti hiba kezelési][transient-fault-handling], [ismételje meg az adott szolgáltatások útmutató][retry-service-specific]
+- [Rugalmas alkalmazások tervezése az Azure-hoz][resiliency]
+- [Tervezési minták a rugalmassághoz][resiliency-patterns]
+- Ajánlott eljárások: [Átmeneti hibák kezelése][transient-fault-handling], [újrapróbálkozási útmutatás adott szolgáltatásoknál][retry-service-specific].
 
-## <a name="management-and-devops"></a>Felügyeleti és Devopok
+## <a name="management-and-devops"></a>Felügyelet és fejlesztés és üzemeltetés
 
-Ez az oszlop megtartása éles környezetben futó alkalmazáshoz műveletek folyamatait ismerteti.
+Ez a pillér azokat a működési folyamatokat takarja, amelyek biztosítják egy alkalmazás futását az éles környezetben.
 
-Központi telepítések megbízható és kiszámítható kell lennie. Akkor érdemes automatizálni, csökkenti annak esélyét keletkező emberi hibákat. Gyors és szokásos folyamat, így azok nem lelassíthatja az új szolgáltatásokat vagy hibajavítások kell. Egyaránt fontos, meg kell tudni gyorsan állíthatja vissza, illetve ha egy frissítés problémák vannak az előregörgetéseket.
+Az üzemelő példányoknak megbízhatónak és kiszámíthatónak kell lenniük. Automatizálni kell őket az emberi hibák esélyének csökkentése érdekében. Gyors és rutinszerű folyamatoknak kell lenniük, amelyek nem lassulnak le az új funkciók vagy hibajavítások megjelenésekor. Hasonlóan fontos, hogy ha egy frissítéssel problémák adódnak, a rendszer képes legyen gyorsan visszaállni vagy továbblépni.
 
-Megfigyelési és diagnosztikai fontosságúak. Felhőalapú alkalmazások futtatása egy távoli adatközpontban Ha nem rendelkezik teljes körű vezérlés az infrastruktúra vagy bizonyos esetekben az operációs rendszer. A nagyméretű alkalmazások nincs gyakorlati problémákat vagy naplófájlok keletkezik virtuális gépek bejelentkezni. PaaS-szolgáltatásokkal akkor valószínűleg egy dedikált virtuális Gépet, hogy be tudjon jelentkezni. Megfigyelési és diagnosztikai biztosítják a rendszer betekintést megállapításához, hogy mikor és hol történt hiba. Minden rendszer megfigyelhető kell legyen. Egy általános és következetes naplózási séma, amely lehetővé teszi az események összefüggéseket rendszeren használható.
+A monitorozás és a diagnosztika létfontosságú. A felhőalapú alkalmazások egy távoli adatközpontban futnak, ahol nem lehetséges teljesen uralni az infrastruktúrát, vagy bizonyos esetekben, az operációs rendszert. A nagyméretű alkalmazások esetén nem célszerű minden egyes virtuális gépre bejelentkezni egy hiba elhárítása vagy a naplófájlok áttekintése céljából. A PaaS-szolgáltatások esetén az is előfordulhat, hogy nincs is olyan dedikált virtuális gép, amelyre be lehetne jelentkezni. A monitorozás és diagnosztika a rendszerrel kapcsolatos adatokat biztosítanak, amelyekből megállapítható, hogy a hibák mikor és hol történnek. Minden rendszernek megfigyelhetőnek kell lennie. Használjon egy általános és következetes naplózási sémát, amely lehetővé teszi az események összevetését a rendszerek tekintetében.
 
-A figyelés és diagnosztika folyamat több különböző fázisa van:
+A monitorozás és diagnosztika folyamata több különálló fázisból áll:
 
-- Instrumentation. A nyers adatok generálása az alkalmazásnaplókat, webkiszolgáló naplózza, az Azure platformon, és a más forrásokból épített diagnosztika.
-- Adatgyűjtési és -tárolás. Egyesítse az adatok egy helyen.
-- Elemzés és elemzés céljából. Problémák elhárításához, és tekintse meg az általános állapotát.
-- A képi megjelenítés és riasztásokat. Telemetriai adatok segítségével tendenciákat, vagy a műveleti csapata riasztást.
+- Rendszerállapot. A nyers adatok létrehozása az alkalmazásnaplókból, webkiszolgálói naplókból, az Azure platform beépített diagnosztikai eszközeiből és egyéb forrásokból.
+- Gyűjtés és tárolás. Az adatok konszolidálása egy helyen.
+- Elemzés és diagnosztika. A problémák elhárításához és a rendszer általános állapotának áttekintéséhez.
+- Vizualizáció és riasztások. A telemetriaadatok használata a tendenciák kimutatásához és az üzemeltetési csapatok riasztásához.
 
-Használja a [DevOps ellenőrzőlista] [ devops-checklist] áttekintheti a Tervező egy felügyeleti, a DevOps tükrözik.
+A [fejlesztési és üzemeltetési ellenőrzőlista][devops-checklist] alapján áttekintheti a terveit a felügyelet és a fejlesztés és üzemeltetés szempontjából.
 
-### <a name="management-and-devops-guidance"></a>Útmutató felügyeleti és Devopok
+### <a name="management-and-devops-guidance"></a>Felügyeleti és fejlesztési és üzemeltetési útmutató
 
-- [Kezelési és figyelési tervminták][management-patterns]
-- Gyakorlati tanácsok: [megfigyelési és diagnosztikai][monitoring]
+- [Tervezési minták a felügyelethez és monitorozáshoz][management-patterns]
+- Ajánlott eljárások: [Monitorozás és diagnosztika][monitoring].
 
 ## <a name="security"></a>Biztonság
 
-Az alkalmazás, a tervezési és megvalósítási történő központi telepítése és üzemeltetése teljes életciklusát biztonságért át kell gondolni. Az Azure platform különböző fenyegetések, például hálózati behatolás és DDoS-támadások elleni védelmet biztosít. Azonban továbbra is készítéséhez szükséges biztonsági az alkalmazásba, és a DevOps folyamatokba.
+A biztonsági megoldásokat alaposan át kell gondolni az alkalmazás teljes életciklusára vonatkozóan, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig. Az Azure platform védelmet nyújt különböző fenyegetések, például hálózati behatolások és DDoS-támadások ellen. Az alkalmazásokba és a fejlesztési és üzemeltetési folyamatokba azonban így is be kell építeni biztonsági megoldásokat.
 
-Az alábbiakban néhány átfogó biztonsági kérdést kell figyelembe venni. 
+Az alábbiak néhány tágabb, megfontolásra érdemes biztonsági területről olvashat. 
 
 ### <a name="identity-management"></a>Identitáskezelés
 
-Fontolja meg az Azure Active Directory (Azure AD) segítségével a felhasználók hitelesítéséhez és engedélyezéséhez. Az Azure AD egy olyan teljes körűen felügyelt identitások és hozzáférések felügyeleti szolgáltatás. Tartományok, amelyek csak az Azure-on létezik, vagy integrálható a helyszíni Active Directory identitások létrehozására használható. Az Azure AD is jól integrálható az Office365, a Dynamics CRM Online-hoz és a sok külső SaaS-alkalmazásokhoz. Felhasználók felé néző alkalmazásokhoz Azure Active Directory B2C segítségével a felhasználók azokkal a meglévő közösségi fiókok (például a Facebook, Google vagy LinkedIn), vagy hozzon létre egy új felhasználói fiókot az Azure AD által felügyelt.
+Fontolja meg az Azure Active Directory (Azure AD) használatát a felhasználók hitelesítéséhez és engedélyezéséhez. Az Azure AD egy teljes körűen felügyelt identitás- és hozzáférés-felügyeleti szolgáltatás. A használatával létrehozhatók tartományok, amelyek csak az Azure-on léteznek, vagy integrálhatók a helyszíni Active Directory-identitásokkal. Az Azure AD emellett integrálható az Office365 és a Dynamics CRM Online szolgáltatással, valamint számos külső SaaS-alkalmazással is. A felhasználók felé néző alkalmazások esetén az Azure Active Directory B2C lehetővé teszi a felhasználók számára, hogy a hitelesítéshez a meglévő közösségi fiókjaikat használják (például Facebook, Google vagy LinkedIn), vagy létrehozzanak egy új, az Azure AD által felügyelt fiókot.
 
-Ha azt szeretné, a helyszíni Active Directory-környezeten integrálása az Azure-hálózatot, több módon is, a követelményeitől függően. További információkért lásd: a [Identity Management] [ identity-ref-arch] architektúrák hivatkozik.
+Ha integrálni szeretné a helyszíni Active Directory-környezetet egy Azure-hálózattal, számos megközelítés lehetséges a követelményei alapján. További információért tekintse meg az [identitáskezelési][identity-ref-arch] referenciaarchitektúrákat.
 
 ### <a name="protecting-your-infrastructure"></a>Az infrastruktúra védelme 
 
-Az üzembe helyezett Azure erőforrásokhoz való hozzáférés szabályozása. Minden Azure-előfizetéssel rendelkezik egy [megbízhatósági kapcsolat] [ ad-subscriptions] az Azure AD-bérlő. Használjon [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) adja meg a szervezeten belüli felhasználók Azure-erőforrások a megfelelő engedélyeket. Adjon hozzáférést RBAC szerepkört rendel felhasználókat és csoportokat egy adott hatókörben. A hatókör lehet előfizetés, egy erőforráscsoport vagy egy erőforrást. [Naplózási] [ resource-manager-auditing] infrastruktúra összes módosítását. 
+Szabályozza az üzembe helyezett Azure-erőforrásokhoz való hozzáférést. Minden Azure-előfizetés [bizalmi kapcsolattal][ad-subscriptions] rendelkezik egy Azure AD-bérlővel. A [szerepköralapú hozzáférés-vezérléssel][rbac] (Role-Based Access Control, RBAC) szabályozható a vállalat felhasználóinak hozzáférése az üzembe helyezett Azure-erőforrásokhoz. A hozzáférés biztosításához RBAC-szerepköröket rendelhet felhasználókhoz, csoportokhoz és alkalmazásokhoz egy bizonyos hatókörben. A hatókör előfizetés, erőforráscsoport vagy egyetlen erőforrás lehet. [Naplózza][resource-manager-auditing] az infrastruktúra összes módosítását. 
 
 ### <a name="application-security"></a>Alkalmazások biztonsága
 
-Alkalmazásfejlesztési ajánlott biztonsági eljárások általánosságban továbbra is érvényesek a felhőben. Ezek közé tartozik többek között az SSL tetszőleges helyszínről, CSRF, és lehetővé támadások elleni védelem megakadályozza az SQL injektálási támadásokat, és így tovább. 
+Általánosságban véve a biztonsághoz kapcsolódó ajánlott eljárások a felhőbeli alkalmazásfejlesztésre is érvényesek. Ezek közé tartozik többek között az SSL használata mindenhol, a védekezés CSRF- és XSS-támadások ellen, az SQL-injektálási támadások megelőzése stb. 
 
-Felhőalapú alkalmazások gyakran használnak a hívóbetűket felügyelt szolgáltatásokat. Soha ne ellenőrizze a verziókövetési rendszerrel be ezeket. Érdemes tárolni alkalmazás titkos kulcsok Azure Key Vault.
+A felhőalkalmazások gyakran használnak hozzáférési kulcsokkal rendelkező felügyelt szolgáltatásokat. Soha ne tárolja ezeket a hozzáférési kulcsokat a forráskezelőben. Vegye fontolóra az alkalmazások titkos kulcsainak az Azure Key Vaultban történő tárolását.
 
-### <a name="data-sovereignty-and-encryption"></a>Adatok közös joghatóság alá és titkosítás
+### <a name="data-sovereignty-and-encryption"></a>Az adatok elkülönítése és titkosítása
 
-Győződjön meg arról, hogy az adatok továbbra is a megfelelő geopolitikai zónában amikor Azure használatával a magas rendelkezésre állású. Azure georeplikált tárolási fogalmát alkalmazza a [párosított régió] [ paired-region] geopolitikai ugyanabban a régióban. 
+Ügyeljen arra, hogy az adatai a megfelelő geopolitikai zónában maradjanak az Azure magas rendelkezésre állású szolgáltatásainak használatakor. Az Azure georeplikált tárolása a [párosított régió][paired-region] koncepcióját használja az ugyanazon geopolitikai régión belül. 
 
-Key Vault segítségével megakadályozhatja a titkosítási kulcsok és titkos kulcsok. Key Vault használatával titkosíthatja kulcsok és titkos hardveres biztonsági modulokkal (HSM) védett kulcsokkal. Sok Azure storage és DB services támogatja az adatok titkosítását, beleértve a [Azure Storage][storage-encryption], [Azure SQL Database][sql-db-encryption], [ Azure SQL Data Warehouse][data-warehouse-encryption], és [Cosmos DB][cosmosdb-encryption].
+A Key Vault használatával védje a titkosítási kulcsokat és a titkos kulcsokat. A Key Vault lehetővé teszi, hogy hardveres biztonsági modulokkal (HSM) védett kulcsokkal titkosítsa a kulcsokat és a titkos kulcsokat. A tárolt adatok titkosítását számos Azure-beli tároló és adatbázis-szolgáltatás támogatja, köztük az [Azure Storage][storage-encryption], az [Azure SQL Database][sql-db-encryption], az [ Azure SQL Data Warehouse][data-warehouse-encryption] és a [Cosmos DB][cosmosdb-encryption].
 
-### <a name="security-resources"></a>Biztonsági erőforrások
+### <a name="security-resources"></a>Biztonsággal kapcsolatos információforrások
 
-- [Az Azure Security Center] [ security-center] biztosít integrált biztonsági monitorozást és az Azure-előfizetések. 
-- [Az Azure biztonsági dokumentációja][security-documentation]
-- [A Microsoft biztonsági és adatkezelési központ][trust-center]
+- Az [Azure Security Center][security-center] az ügyfelek összes Azure-előfizetésére kiterjedő, integrált biztonsági monitorozást és szabályzatkezelést biztosít. 
+- [Az Azure Security dokumentációja][security-documentation]
+- [Microsoft adatvédelmi központ][trust-center]
 
 
 

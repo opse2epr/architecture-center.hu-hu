@@ -3,11 +3,12 @@ title: Egy adatátviteli technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: bb0732b0f771a4c9e1a4e565875576c08484490a
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.openlocfilehash: 53dcf8a69ad8ae100dbdbb230a9280efd419342a
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252753"
 ---
 # <a name="transferring-data-to-and-from-azure"></a>Azure érkező vagy oda irányuló adatátvitel
 
@@ -68,7 +69,7 @@ Adatok átvitel forgatókönyvek esetén válassza ki az igényeinek megfelelő 
 
 - Szeretné parancsfájl-az átviteli feladatok, így az újrafelhasználható? Ha igen, válassza ki a parancssori kapcsolók és az Azure Data Factory.
 
-- Nagyon nagy mennyiségű adat átvitele a hálózaton keresztül kell? Ha igen, kijelölés beállítási módját, amely big Data típusú adatok van optimalizálva.
+- Nagyon nagy mennyiségű adat átvitele a hálózaton keresztül kell? Ha igen, válasszon olyan beállítást, amely a big Data típusú adatok van optimalizálva.
 
 - Szüksége átadhat adatokat vagy egy relációs adatbázisban a? Ha igen, válassza ki, amely egy vagy több rendszerű relációs adatbázisokat támogatja. Vegye figyelembe, hogy mindegyik lehetőség is szükséges Hadoop-fürthöz.
 
@@ -101,11 +102,11 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | Data Lake Store-bA másolása | Igen | Igen | Igen |
 | Másolja a Data Lake Store-ból | Igen | Igen | Nem |
 
-**Other**
+**Más**
 
 | | Azure CLI | AzCopy | PowerShell | AdlCopy | PolyBase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kompatibilis platformokon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | SQL Server, Azure SQL Data Warehouse | 
+| Kompatibilis platformokon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | SQL Server, az Azure SQL-adatraktár | 
 | A big Data típusú adatok optimalizált | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>2</sup> |
 | Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen | 
 | Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen | 

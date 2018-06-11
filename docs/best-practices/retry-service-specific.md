@@ -4,11 +4,12 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 65206c5f39a74d228c7eaa0fea0c5b1b0710b22f
-ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
+ms.openlocfilehash: f02843f179671da04bc2f09326b58075b432ba95
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/21/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35253077"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -37,6 +38,9 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 
 ## <a name="azure-active-directory"></a>Azure Active Directory
 Az Azure Active Directory egy átfogó, felhőalapú identitás- és hozzáférés-kezelő megoldás, amely ötvözi az alapvető címtárszolgáltatásokat, a fejlett identitáskezelést, a biztonsági szolgáltatásokat és az alkalmazáshozzáférés-felügyeletet. Az Azure AD ezenkívül identitáskezelő platformot kínál a fejlesztőknek, hogy központi szabályzatokon és szabályokon alapuló hozzáférés-vezérléssel bővíthessék az alkalmazásaikat.
+
+> [!NOTE]
+> Felügyelt Szolgáltatásidentitás végpontokon újrapróbálkozási útmutatóért lásd: [egy Azure virtuális gép felügyelt szolgáltatás Identity (MSI) használata a token beszerzési](/azure/active-directory/managed-service-identity/how-to-use-vm-token#error-handling).
 
 ### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
 Az Azure Active Directory beépített újrapróbálkozási mechanizmussal rendelkezik az Active Directory Authentication Library (ADAL) részeként. A váratlan zárolások elkerülése érdekében azt javasoljuk, hogy külső kódtárak és alkalmazáskódok **ne** próbálkozhassanak újra sikertelen kapcsolódás esetén, és ezek újrapróbálkozásait az ADAL kezelje. 
@@ -155,7 +159,7 @@ var options = new ConfigurationOptions
 ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(options, writer);
 ```
 
-Egy másik lehetőség, hogy a beállításokat karakterláncként adja meg és továbbítja a **Connect** metódusnak. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonság nem állítható be ezen a módon, csak a programkódon keresztül.
+Egy másik lehetőség, hogy a beállításokat sztringként adja meg és továbbítja a **Connect** metódusnak. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonság nem állítható be ezen a módon, csak a programkódon keresztül.
 
 ```csharp
 var options = "localhost,connectRetry=3,connectTimeout=2000";
@@ -261,7 +265,7 @@ namespace RetryCodeSamples
 }
 ```
 
-A következő példa karakterláncként adja meg a beállításokat, és így határozza meg a konfigurációt. A kapcsolat időtúllépése a leghosszabb idő, amennyit a kapcsolat a gyorsítótárra várhat, nem pedig az újrapróbálkozási kísérletek közötti időköz. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonságot csak a programkódon keresztül lehet beállítani.
+A következő példa sztringként adja meg a beállításokat, és így határozza meg a konfigurációt. A kapcsolat időtúllépése a leghosszabb idő, amennyit a kapcsolat a gyorsítótárra várhat, nem pedig az újrapróbálkozási kísérletek közötti időköz. Vegye figyelembe, hogy a **ReconnectRetryPolicy** tulajdonságot csak a programkódon keresztül lehet beállítani.
 
 ```csharp
 using System.Collections.Generic;

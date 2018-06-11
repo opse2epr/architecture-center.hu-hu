@@ -3,11 +3,12 @@ title: Az adatraktározás terén és adatpiacainak
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 552cdfad2d571c93f83bc1e4ff0d09ac12d0b6a4
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 9b90d77ce1a81cd4a7532f5d4230ada8b4991d13
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252805"
 ---
 # <a name="data-warehousing-and-data-marts"></a>Az adatraktározás terén és adatpiacainak
 
@@ -58,7 +59,7 @@ Adatraktár megvalósításának Azure igényeitől függően több lehetőség 
 
 MPP:
 
-- [Azure Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
+- [Az Azure Data warehouse-bA](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
 - [Apache Hive hdinsight](/azure/hdinsight/hadoop/hdinsight-use-hive)
 - [A HDInsight (Hive LLAP) interaktív lekérdezés](/azure/hdinsight/interactive-query/apache-interactive-query-get-started)
 
@@ -142,10 +143,10 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 | --- | --- | --- | --- | --- | --- | -- |
 | A magas rendelkezésre állás érdekében redundáns területi kiszolgálók  | Igen | Igen | Igen | Nem | Nem |
 | Támogatja a lekérdezés kibővítési (elosztott lekérdezések)  | Nem | Nem | Igen | Igen | Igen |
-| Dinamikus méretezhetőség (felskálázott)  | Igen | Nem | Igen <sup>1</sup> | Nem | Nem |
+| Dinamikus méretezhetőség | Igen | Nem | Igen <sup>1</sup> | Nem | Nem |
 | Támogatja a memórián belüli gyorsítótárazáshoz, az adatok | Igen |  Igen | Nem | Igen | Igen |
 
-[1] az SQL Data Warehouse lehetővé válik, hogy méretezést kívánó doanw módosításával adattárházegységek (dwu-k) száma. Lásd: [kezelése számítási teljesítményt az Azure SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-manage-compute-overview).
+[1] az SQL Data Warehouse lehetővé teszi felfelé vagy lefelé méretezési továbbítania az adattárházegységek (dwu-k) száma. Lásd: [kezelése számítási teljesítményt az Azure SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-manage-compute-overview).
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
 

@@ -1,115 +1,116 @@
 ---
-title: Számítási erőforrás összevonása
-description: Több feladatokat vagy műveleteket egyetlen számítási egységbe összesítése
-keywords: Kialakítási mintája
+title: Compute Resource Consolidation
+description: Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
-ms.openlocfilehash: 85191fc630549559f8a1395e5a8622a7a6140a2d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 6e05a30245fbf5183a4e50a54650505f5a5f2aa8
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252924"
 ---
-# <a name="compute-resource-consolidation-pattern"></a>Számítási erőforrás-összevonási minta
+# <a name="compute-resource-consolidation-pattern"></a>Számításierőforrás-konszolidálási minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Több feladatokat vagy műveleteket egyetlen számítási egységbe egyesíteni. Ez növeli a számítási erőforrások kihasználtságát, és csökkentik a költségeket és a felügyeleti terhelést hajt végre a felhőben üzemeltetett alkalmazások feldolgozás alatt álló számítási társított.
+Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet. Ez megnövelheti a számítási erőforrások kihasználtságát, valamint csökkentheti a felhőben üzemeltetett alkalmazásokban végzett számítási feldolgozások végrehajtásához kapcsolódó költségeket és munkaterhelést.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-A felhőalapú alkalmazások gyakran valósítja meg a különféle műveletek. Néhány érdemes aggályokat elkülönítésének tervezési elvét kezdetben kövesse, és ossza meg ezeket a műveleteket az üzemeltetett és külön-külön (például külön App Service web apps – külön, telepített külön számítási egység Virtuális gépek, vagy külön Felhőszolgáltatási szerepkörök). Azonban ezt a stratégiát megkönnyítheti a logikai a megoldás kialakításának, bár telepítése számos számítási egység ugyanahhoz az alkalmazáshoz részeként is üzemeltetési költségek futásidejű növelése és győződjön a rendszer felügyeleti összetettebb.
+A felhőalkalmazások gyakran számos különböző műveletet végeznek. Néhány megoldásban eleinte érdemes a kockázatok elkülönítésének tervezési alapelvét követni, és felosztani ezeket a műveleteket különálló számítási egységekre, amelyek üzembe helyezése és üzemeltetése egymástól független (például különálló App Service webalkalmazások, különálló virtuális gépek vagy különálló Cloud Service szerepkörök). Bár ez a stratégia segíthet leegyszerűsíteni a megoldás logikai kialakítását, ha több számítási egységet helyez üzembe ugyanannak az alkalmazásnak a részeként, az megnövelheti a futtatókörnyezet üzemeltetési költségeit, illetve a rendszer kezelését bonyolultabbá teheti.
 
-Tegyük fel az ábrán látható az egyszerűsített struktúra a felhőben üzemeltetett megoldás, amely több számítási egység segítségével van megvalósítva. Minden számítási egység a saját virtuális környezetben futtatja. Minden egyes függvény van megvalósítva (– a feladat-E a tevékenység neve) külön feladatként futtatja a saját számítási egység.
+Például az ábrán egy olyan, felhőben üzemeltetett megoldás egyszerűsített struktúrája látható, amely több mint egy számítási egység használatával lett megvalósítva. Mindegyik számítási egység a saját virtuális környezetét futtatja. Mindegyik funkció külön feladatként lett megvalósítva (A–E feladat), amely a saját számítási egységét futtatja.
 
-![Az éppen futó feladatok egy felhőalapú környezetben használatával dedikált számítási egység](./_images/compute-resource-consolidation-diagram.png)
+![Feladatok futtatása egy felhőkörnyezetben dedikált számítási egységek készletének használatával](./_images/compute-resource-consolidation-diagram.png)
 
 
-Minden számítási egység terhelhető erőforrásokat használ fel, akkor is, amikor az üresjárati vagy enyhén használt. Ezért ezt nem mindig a leginkább költséghatékony megoldás.
+Mindegyik számítási egység felszámítható erőforrásokat használ, akkor is, ha tétlen vagy kisebb terhelésű. Ezért ez nem mindig a legköltséghatékonyabb megoldás.
 
-Ezen probléma Azure, a egy felhőalapú szolgáltatás, az App Service szolgáltatások és virtuális gépek szerepkörök vonatkozik. Ezeket az elemeket a saját virtuális környezetben futtatja. Külön szerepköröket, a webhelyek vagy a virtuális gépek, amelyek jól meghatározott műveletkészlet végrehajtásához, de a, amelyeknek szükségük van a kommunikációhoz, és egyetlen megoldás részeként együttműködnek gyűjteménye fut, lehet, hogy az erőforrások hatékony használatát.
+Az Azure-ban ez a probléma a Cloud Service, az App Services és a Virtual Machines szerepköreire vonatkozik. Ezek az elemek a saját virtuális környezetükben futnak. Ha olyan különálló szerepkörök, webhelyek vagy virtuális gépek összességét futtatja, amelyek jól körülírt műveletek egy készletének végrehajtására lettek tervezve, azonban egy megoldás részeiként kell kommunikálniuk és együttműködniük, lehetséges, hogy erőforrásait nem hatékonyan használja fel.
 
 ## <a name="solution"></a>Megoldás
 
-Segítségével csökkentheti a költségeket, növelje a kihasználtsági, kommunikációs sebesség növelése és csökkentse a felügyeleti rendszer több feladatokat vagy műveleteket egyetlen számítási egységbe vonják össze.
+A költségek csökkentése, a kihasználtság optimalizálása, a kommunikációs sebesség javítása és a kezelési szükségletek csökkentése érdekében egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet.
 
-Feladatok a környezet által nyújtott szolgáltatásokat, és ezek a funkciók kapcsolódó költségeket alapján feltételek szerint csoportosíthatók. Egy közös megoldás, amelyet meg kíván keresni egy hasonló profilhoz, a méretezhetőséget, a élettartamát és az ügyféloldali bővítmények feldolgozási követelményeivel kapcsolatos feladatok. Csoportosítás ezen együtt lehetővé teszi a méretezési egységet. A sok felhőkörnyezetekben által biztosított rugalmassága lehetővé teszi, hogy egy számítási egység indítása és leállítása a munkaterhelés szerint további példányait. Például az Azure biztosít automatikus skálázás alkalmazható a szerepkörökhöz a egy felhőalapú szolgáltatás, az App Service szolgáltatások és virtuális gépek. További információkért lásd: [automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx).
+A feladatokat a környezet által biztosított funkciók és a funkciókhoz kapcsolódó költségek szerint megállapított kritériumok alapján csoportosíthatja. Általánosan használt megközelítés olyan feladatok keresése, amelyek hasonló profillal rendelkeznek a skálázhatóságuk, élettartamuk és feldolgozási követelményeik szempontjából. A csoportosításukkal egy egységként skálázhatja őket. A több felhőkörnyezet által nyújtott rugalmasság lehetővé teszi, hogy a számítási feladattól függően egy számítási egység további példányait indítsa el vagy állítsa le. Például az Azure használatával automatikusan skálázhatja a Cloud Service, az App Services vagy a Virtual Machines szerepköreit. További információért lásd az [automatikus skálázás útmutatóját](https://msdn.microsoft.com/library/dn589774.aspx).
 
-Egy számláló példaként hogyan méretezhetőség segítségével határozza meg, mely műveletek nem csoportosított megjelenítendő vegye figyelembe az alábbi két feladatot:
+Az alábbi két feladat segítségével ellenpéldaként bemutatjuk, hogyan állapítható meg a skálázhatósággal, hogy mely műveleteket nem érdemes csoportosítanunk:
 
-- 1. feladat annak a várólistára küldött alkalomszerű, idő-és nagybetűk megkülönböztetése nélkül üzenet kérdezi le.
-- 2. feladat nagy mennyiségű felszakadásáig hálózati forgalmat kezeli.
+- Az 1. feladat az üzenetsorba küldött ritka, nem időérzékeny üzeneteket kérdezi le.
+- A 2. feladat a hálózati forgalom csúcsterheléseit kezeli.
 
-A második feladathoz, amely magába foglaló indítása és leállítása a nagy mennyiségű példánnyal a számítási egység rugalmasság. Az azonos méretezés alkalmazása az első lépése egyszerűen eredményeznének további feladatok a ugyanazon a várólistán alkalomszerű üzeneteket figyeli, és a pazarlás erőforrások.
+A második feladathoz rugalmasság szükséges, amelyhez hozzátartozik a számítási egység számos példányának elindítása és leállítása is. Amennyiben ugyanezt a skálázást alkalmazná az első feladatra, az egyszerűen azt eredményezné, hogy több feladat figyelne ritka üzenetekre ugyanabban az üzenetsorban, így feleslegesen használna erőforrásokat.
 
-Sok felhőalapú környezetben is lehet egy számítási egységhez CPU mag, memória, lemezterület, és így tovább számára elérhető erőforrások megadására. Általában a megadott, további erőforrások minél nagyobb a költségeket. Kevesebbet költeni, fontos egy drága számítási egység hajt végre, és azt válnak inaktívvá hosszú időn keresztül a munkahelyi maximalizálása érdekében.
+Számos felhőkörnyezetben a számítási egységek számára elérhető erőforrások meghatározhatók a processzormagok számával, a memória és a lemezterület méretével, illetve egyéb értékekkel. Általában minél több erőforrás van meghatározva, annál nagyobb a költség is. Pénz megtakarításához fontos maximalizálni a költséges számítási egységek által végrehajtott munkát, illetve biztosítani, hogy ne legyen hosszabb időre inaktív.
 
-Ha vannak, amelyek szükségesek a jelentős mértékben a CPU power rövid felszakadásáig, fontolja meg, ezek a szükséges teljesítményt biztosító egyetlen számítási egységbe konszolidálása. Fontos azonban drága erőforrások foglalt szemben a versengés, amely fordulhat elő, ha azok vannak keresztül hangsúlyozni tartása igénynek elosztása. Hosszan futó, a számítás-igényes feladatok például az azonos számítási egység nem szabad megosztani.
+Ha előfordulnak olyan feladatok, amelyeknek jelentős processzorteljesítményre van szükségük rövidebb időintervallumokban, fontolja meg ezek konszolidálását egy számítási egységbe, amely biztosítja a szükséges teljesítményt. Fontos azonban megtalálni az egyensúlyt a költséges erőforrások folyamatos működtetése és a túlterhelés által előidézett versengés között. A hosszan futó, nagy számítási igényű feladatok például ne osztozzanak ugyanazon a számítási egységen.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában végrehajtásakor, vegye figyelembe a következő szempontokat:
+Vegye figyelembe az alábbi pontokat a minta megvalósításakor:
 
-**Méretezhetőség és a rugalmasság**. Sok felhőalapú megoldás megvalósíthatja méretezhetőség és a rugalmasság a számítási egység szintjén indítása és leállítása egységek példányai. Kerülje a csoportosítási feladatok, amelyek azonos számítási egységben ütköző méretezhetőségi követelményeinek.
+**Méretezhetőség és rugalmasság**. Számos felhőalapú megoldás a számítási egység szintjén a skálázhatóságot és a rugalmasságot az egységek példányainak elindításával és leállításával valósítja meg. Ne csoportosítsa azokat a feladatokat egy számítási egységbe, amelyek skálázási követelményei ütköznek.
 
-**Élettartam**. A felhőalapú infrastruktúra rendszeres időközönként újraindul egy számítási egység üzemeltető virtuális környezetben. Ha sok hosszan futó feladatokat egy számítási egység belül, ezáltal megakadályozhatja, hogy újra lesznek hasznosítva, amíg a feladatok befejezése egység konfigurálása szükség lehet. Azt is megteheti tervezze meg a feladatok a jelölőnégyzet mutató megközelítés, amely lehetővé teszi, hogy nem szabályszerűen, és azokat a számítási egység újraindításakor program megszakította a pontnál folytatják használatával.
+**Élettartam**. A felhőalapú infrastruktúra rendszeres időközönként újraindítja a számítási egységeket üzemeltető virtuális környezeteket. Ha számos hosszú lefutású feladat található egy számítási egységben, szükséges lehet úgy konfigurálni az egységet, hogy megakadályozza az újraindítását, míg ezek a feladatok be nem fejeződnek. Másik megoldásként a feladatokat ellenőrzőpontos megközelítéssel is megtervezheti, amely lehetővé teszi, hogy megfelelően leálljanak, majd arról a pontról folytatódjanak, ahol az adott folyamat megszakadt a számítási egység újraindításakor.
 
-**Kiadás ütemben történik**. Ha a végrehajtása vagy a feladat konfigurációját változik gyakran, állítsa le a frissített kódot futtató számítási egység, konfigurálja újra, és telepítse újra az egység, és indítsa újra szükség lehet. Ez a folyamat is szükséges, hogy az azonos számítási egység minden más feladat leállt, újratelepíteni, és újraindításra kerülnek.
+**Kiadási ütem**. Ha egy feladat megvalósítása vagy konfigurációja gyakran változik, szükséges lehet a frissített kódot üzemeltető számítási egység leállítása, az egység újrakonfigurálása és újbóli üzembe helyezése, majd újraindítása. Ehhez a folyamathoz a számítási egységben futtatott összes egyéb feladatot is le kell állítani, újból üzembe kell helyezni, majd újra kell indítani.
 
-**Biztonság**. Az azonos számítási egység feladatokat előfordulhat, hogy ossza meg ugyanazt a biztonsági környezetet, majd fogja tudni elérni a ugyanazokat az erőforrásokat. A feladatok, és abban, hogy közötti megbízhatósági kapcsolat magas fokú kell lennie, hogy egy tevékenység nem sérült, vagy egy másik kedvezőtlen hatással lesz. Emellett egy számítási egységben futó feladatok számának növelése növeli a támadási felületet a egység. Minden feladat csak olyan biztonságos, mint amelyen a legtöbb biztonsági rések.
+**Biztonság**. Az azonos számítási egységekben futtatott feladatok közös biztonsági környezettel rendelkezhetnek, illetve ugyanazokhoz az erőforrásokhoz férhetnek hozzá. A feladatoknak magas szintű megbízhatósági kapcsolatban kell lenniük, valamint meg kell bizonyosodniuk arról, hogy az egyik feladat nem fogja károsítani vagy negatívan befolyásolni a másikat. Emellett egy adott számítási egységben futtatott feladatok számának emelése megnöveli az egység támadható felületét. Ha egy feladat nem biztonságos, az a többi feladat biztonságát is rontja.
 
-**Hibatűrés**. Számítási egység egy feladat sikertelen lesz, vagy rendkívül viselkedik-e, ha ez befolyásolhatja a más, ugyanazon egységen belül futó feladatok. Például ha egy feladat nem indítható okozhat a számítási egység sikertelen lesz a teljes ügyfélindítási logikája, és más feladatok azonos egységben tiltsa le a futását.
+**Hibatűrés**. Ha egy feladat a számítási egységben meghibásodik vagy rendellenesen viselkedik, az befolyásolhatja az azonos egységen futtatott egyéb feladatokat is. Ha például egy feladat képtelen megfelelően elindulni, az a számítási egység teljes indítási logikájának meghibásodásához vezethet, megakadályozva az egységen a többi feladat futtatását is.
 
-**A versengés**. Kerülje a feladatokat, amelyek "versenyeznek" az számítási egységen belüli erőforrások közötti versengés bemutatása. Ideális esetben az azonos számítási egység tevékenységeket kell mutatnak a különböző Erőforrás kihasználtsága. Például két számítási-igényes feladatok valószínűleg nem találhatók a azonos számítási egység, és nem kell a két feladatot, amely nagy mennyiségű memóriát használ. Azonban jelentős mennyiségű memóriát igénylő számítási intenzív tevékenység keverése nem alkalmazható kombinációját.
+**Versengés**. Ne idézzen elő versengést olyan feladatok létrehozásával, amelyek egy adott számítási egységben osztoznak az erőforrásokon. Ideális esetben az egy számítási egységben futtatott feladatok különböző erőforrás-felhasználási jellemzőkkel rendelkeznek. Ne futtasson például két nagy számítási igényű feladatot ugyanabban a számítási egységben, valamint két sok memóriát felhasználó feladatot se. Azonban egy nagy számítási igényű feladat és egy sok memóriát igénylő feladat közös üzemeltetése működőképes kombináció.
 
 > [!NOTE]
->  Vegye figyelembe a számítási erőforrásokat csak egy rendszer számára, hogy az operátorok és a fejlesztők a figyelheti a rendszer, és hozzon létre egy adott időn belül az éles környezetben ennyi ideig konszolidálása egy _hőtérkép_ , amely azonosítja, hogyan használja minden feladat eltérő erőforrások. Ez a térkép határozza meg, milyen feladatokat a számítási erőforrások megosztása esetén használható jól használható.
+>  Próbálja csak olyan rendszerek számítási erőforrásait konszolidálni, amelyek már egy ideje éles környezetben üzemelnek, hogy a kezelők és fejlesztők a rendszer monitorozásával létrehozhassanak egy _intenzitástérképet_, amely azonosítja, hogy az egyes feladatok hogyan használják a különböző erőforrásokat. A térkép segítségével megállapíthatja, hogy mely feladatok között érdemes megosztani a számítási egységeket.
 
-**Összetettsége**. Több feladat egyetlen számítási egységbe egyesítése összetettségét hozzáadja a kódot a egységben, valószínűleg megnehezíti tesztelése, hibakeresését és karbantartása.
+**Összetettség**. Amennyiben több feladatot kombinál egy számítási egységben, az megnöveli a kód összetettségét, ami esetleg megnehezítheti a tesztelést, a hibakeresést és a karbantartást.
 
-**Logikai architektúra stabil**. A tervezést, és minden feladat valósítja meg a kódot, így azt nem kell módosítania, még akkor is, ha a feladat fut a fizikai környezet módosítása.
+**Stabil logikai architektúra**. A kódot úgy tervezze és valósítsa meg az egyes feladatokban, hogy akkor se kelljen módosítani, ha a feladatot futtató fizikai környezet megváltozik.
 
-**Más stratégiák**. Számítási erőforrások konszolidálása csak egy módja több feladat egyidejű futtatásával kapcsolatos költségek csökkentése érdekében. Körültekintően megtervezve és figyelés győződjön meg arról, hogy marad egy hatékony módszert igényel. Előfordulhat, hogy más stratégiák pontosabb, attól függően, hogy a munkahelyi és hol találhatók a felhasználók, a feladatok futnak. A munkaterhelés például működési felbontás ellen (szerint a [particionálás útmutatást számítási](https://msdn.microsoft.com/library/dn589773.aspx)) lehet, hogy jobb megoldás.
+**Egyéb stratégiák**. A számítási erőforrások konszolidálása csak egy módja a több feladat egyidejű futtatásával járó költségek csökkentésének. Csak gondos tervezéssel és monitorozással biztosítható, hogy hatékony megközelítés maradjon. A munka természetétől és a feladatokat futtató felhasználók tartózkodási helyétől függően egyéb stratégiák megfelelőbbek lehetnek. A számítási feladatok funkcionális felbontása (a [Compute-particionálási útmutatónak](https://msdn.microsoft.com/library/dn589773.aspx) megfelelően) például jobb megoldás lehet.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ebben a mintában nincsenek költséghatékony, ha futtatja a saját számítási egység feladatokhoz használhatja. Ha egy feladat nagy részét az üresjárati időt tölt, költséges lehet ez a feladat fut egy dedikált egységben.
+Ezt a mintát olyan feladatok esetében alkalmazza, amelyek nem költséghatékonyak, ha a saját számítási egységeikben futnak. Ha egy feladat az idő nagy részében tétlen, a feladat futtatása egy dedikált egységen költséges lehet.
 
-Előfordulhat, hogy ez a minta nem megfelelő-e a feladatokat, kritikus hibatűrő műveleteket, illetve a feladatokat, amelyek rendkívül bizalmas vagy személyes adatok feldolgozása és a saját biztonsági környezet szükséges. Ezeket a feladatokat egy külön számítási egység a saját elkülönített környezetben fusson.
+Ez a minta lehet, hogy nem megfelelő olyan feladatokhoz, amelyek kritikus hibatűrő műveleteket hajtanak végre, illetve rendkívül bizalmas vagy személyes adatokat dolgoznak fel, és saját biztonsági környezetre van szükségük. Ezeket a feladatokat a saját elkülönített környezetükben érdemes futtatni, különálló számítási egységben.
 
 ## <a name="example"></a>Példa
 
-Azure cloud Service szolgáltatásra fejlesztéskor is lehet összevonása akkor történjen meg több feladatok, irányítson át egyetlen szerepkör feldolgozását. Ez általában egy feldolgozói szerepkört, amely a háttér vagy aszinkron feladatokat hajt végre.
+Amikor felhőszolgáltatást fejleszt az Azure-ban, a több feladat által végzett feldolgozást egyetlen szerepkörbe konszolidálhatja. Általában ez egy feldolgozói szerepkör, amely háttérben történő vagy aszinkron feldolgozási feladatokat végez.
 
-> Néhány esetben lehetőség a háttér vagy aszinkron feldolgozási feladatok a webes szerepkör. Ez a módszer segítségével csökkentheti a költségeket és egyszerűbbé telepítését, bár ez hatással lehet a méretezhetőség és a nyilvánosan elérhető felülete, a webes szerepkör válaszképességét. A cikk [egyesítésével több Azure feldolgozói szerepkörök be egy Azure webes szerepkör](http://www.31a2ba2a-b718-11dc-8314-0800200c9a66.com/2012/02/combining-multiple-azure-worker-roles.html) háttér vagy aszinkron feldolgozási feladatainak valósít meg a webes szerepkör részletes leírását tartalmazza.
+> Néhány esetben a háttérben történő vagy aszinkron feldolgozási feladatokat belefoglalhatja a webes szerepkörbe. Ezzel a módszerrel csökkentheti a költségeket és egyszerűsítheti az üzembe helyezést, azonban ez befolyásolhatja a webes szerepkör által biztosított nyilvános felület skálázhatóságát és válaszképességét. A [több Azure feldolgozói szerepkör egy Azure webes szerepkörben való kombinálásával](http://www.31a2ba2a-b718-11dc-8314-0800200c9a66.com/2012/02/combining-multiple-azure-worker-roles.html) foglalkozó cikkben részletes leírást talál a webes szerepkörben futtatott háttérben történő vagy aszinkron feldolgozási feladatokról.
 
-A szerepkör indítása és leállítása a feladatok felelős. Egy szerepkört az Azure fabric controller betöltésekor, a riasztást a `Start` esemény a szerepkörhöz. Felülírhatja a `OnStart` metódusában a `WebRole` vagy `WorkerRole` osztály kezelni ezt az eseményt, lehet, hogy inicializálni az adatokat és más erőforrások függenek a feladatokat az ezzel a módszerrel.
+Ez a szerepkör felelős a feladatok indításáért és leállításáért. Amikor az Azure Fabric Controller betölt egy szerepkört, kiváltja a szerepkör `Start` eseményét. Felülírhatja a `WebRole` vagy `WorkerRole` osztály `OnStart` metódusát, hogy kezelje az eseményt, például azoknak az adatoknak és egyéb erőforrásoknak az inicializálásával, amelyektől a metódus feladatai függnek.
 
-Ha a `OnStart `metódus befejeződött, a szerepkör elindíthatja válaszol a kérelmekre. További információt és útmutatást segítségével megtalálhatja a `OnStart` és `Run` módszerek a szerepkörnek a [alkalmazás indítási folyamat](https://msdn.microsoft.com/library/ff803371.aspx#sec16) a minták és gyakorlatok guide című [alkalmazások áthelyezése a felhőbe](https://msdn.microsoft.com/library/ff728592.aspx).
+Ha a `OnStart` metódus befejeződött, a szerepkör elindíthatja válaszol a kérelmekre. Az `OnStart` és a `Run` metódus szerepkörben történő használatáról további információkat és útmutatást az [alkalmazások felhőbe való áthelyezését tárgyaló](https://msdn.microsoft.com/library/ff728592.aspx) minta- és gyakorlati útmutató [alkalmazásindítási folyamatokról szóló](https://msdn.microsoft.com/library/ff803371.aspx#sec16) szakaszában talál.
 
-> A kód tartsa a `OnStart` , pontos sikerkritériumokkal biztosíthatja a lehető metódust. Azure nem ugyanazok a metódus végrehajtásához szükséges idő a bármely korlátozását, de a szerepkör nem indítható el, amíg befejeződik ez a módszer küldött hálózati kérésekre válaszol.
+> Az `OnStart` metódus kódja legyen a lehető legtömörebb. Az Azure nem határoz meg küszöbértéket a metódus befejezésére engedélyezett időtartamnak, azonban a szerepkör nem kezdi megválaszolni az elküldött hálózati kéréseket, amíg a metódus be nem fejeződik.
 
-Ha a `OnStart` metódus befejeződött, a szerepkör végrehajtja a `Run` metódust. Ezen a ponton a fabric controller elindíthatja kérelmek küldése a szerepkört.
+Ha az `OnStart` metódus befejeződött, a szerepkör végrehajtja a `Run` metódust. Ekkor a hálóvezérlő megkezdi a kérések küldését a szerepkörnek.
 
-A kódot, amely ténylegesen hoz létre a feladatokat a `Run` metódust. Vegye figyelembe, hogy a `Run` metódus a szerepkörpéldányt élettartamát határozza meg. Ez a módszer befejezését követően a fabric controller szervez le kell állítani a szerepkörhöz.
+Helyezze a feladatokat ténylegesen létrehozó kódot a `Run` metódusba. Vegye figyelembe, hogy a `Run` metódus határozza meg a szerepkörpéldány élettartamát. A metódus befejezésekor a hálóvezérlő kezdeményezi a szerepkör leállítását.
 
-Szerepkör leáll vagy újrahasznosítása esetén a fabric controller megakadályozza, hogy a terheléselosztó és vált ki fogadott több bejövő kérelmek a `Stop` esemény. Ez az esemény felülbírálásával rögzítheti a `OnStop` metódus a szerepkör, és végezze el minden tidying előtt megszakítja a szerepkör szükséges.
+Amikor egy szerepkör leáll vagy újraindul, a hálóvezérlő megakadályozza, hogy további bejövő kérések érkezzenek a terheléselosztóból, és kiváltja a `Stop` eseményt. Ezt az eseményt a szerepkör `OnStop` metódusának felülbírálásával rögzítheti, majd hajtsa végre a szükséges tisztítási műveleteket a szerepkör leállítása előtt.
 
-> Semmilyen műveletet végez a `OnStop` metódus öt perc (vagy 30 másodperces használata az Azure emulátorban a helyi számítógép) belül el kell végezni. Ellenkező esetben az Azure fabric controller feltételezi, hogy a szerepkör leállását észlelte, és arra kényszeríti, hogy állítsa le.
+> Az `OnStop` metódusban végrehajtott összes műveletet öt percen belül be kell fejezni (vagy 30 másodpercen belül, ha Azure emulátort használt helyi számítógépen). Ellenkező esetben az Azure Fabric Controller azt feltételezi, hogy a szerepkör elakadt, és leállásra kényszeríti.
 
-A feladatok által elindított a `Run` módszer, amely a feladatok befejezésére vár. A feladatok valósítja meg az üzleti logika, a felhőalapú szolgáltatás, és képes válaszolni a szerepkört az Azure load balancer keresztül küldött üzeneteket. Az ábrán láthatók az életciklus feladatok és erőforrások olyan szerepkörben, az Azure-felhőszolgáltatás.
+A feladatokat a `Run` metódus indítja el, amely megvárja a feladatok befejezését. A feladatok megvalósítják a felhőszolgáltatás üzleti logikáját, és a szerepkörnek küldött üzeneteket az Azure Load Balanceren keresztül válaszolják meg. Az ábrán egy Azure-felhőszolgáltatás szerepköréhez tartozó feladatok és erőforrások életciklusa látható.
 
-![Az életciklus feladatok és erőforrások olyan szerepkörben, az Azure-felhőszolgáltatás](./_images/compute-resource-consolidation-lifecycle.png)
+![Egy Azure-felhőszolgáltatás szerepköréhez tartozó feladatok és erőforrások életciklusa](./_images/compute-resource-consolidation-lifecycle.png)
 
 
-A _WorkerRole.cs_ fájlt a _ComputeResourceConsolidation.Worker_ projekt szemlélteti, hogyan lehet, hogy implementálja ebben a mintában az Azure-felhőszolgáltatás.
+A _WorkerRole.cs_ fájl a _ComputeResourceConsolidation.Worker_ projektben arra mutat be egy példát, hogyan valósíthatja meg ezt a mintát egy Azure felhőszolgáltatásban.
 
-> A _ComputeResourceConsolidation.Worker_ projekt része a _ComputeResourceConsolidation_ letölthető megoldás [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/compute-resource-consolidation).
+> A _ComputeResourceConsolidation.Worker_ projekt a _ComputeResourceConsolidation_ megoldás része, amely letölthető a [GitHubról](https://github.com/mspnp/cloud-design-patterns/tree/master/compute-resource-consolidation).
 
-A `MyWorkerTask1` és a `MyWorkerTask2` módszerek bemutatják, hogyan lehet belül az azonos feldolgozói szerepkör különböző feladatok végrehajtására. A következő kódot tartalmazza `MyWorkerTask1`. Ez egy egyszerű feladat 30 másodpercig alvó állapotba kerül, majd exportálja a nyomkövetési üzenet. Ez a folyamat ismétlődik, amíg a feladat meg lett szakítva. A kód `MyWorkerTask2` hasonló.
+A `MyWorkerTask1` és a `MyWorkerTask2` metódus bemutatja, hogyan hajthat végre különböző feladatokat ugyanabban a feldolgozói szerepkörben. Az alábbi kódban a `MyWorkerTask1` látható. Ez egy egyszerű feladat, amely 30 másodpercig alvó állapotba lép, majd elküld egy nyomkövetési üzenetet. Ez a folyamat a feladat megszakításáig ismétlődik. A `MyWorkerTask2` kódja hasonló.
 
 ```csharp
 // A sample worker role task.
@@ -144,9 +145,9 @@ private static async Task MyWorkerTask1(CancellationToken ct)
 }
 ```
 
-> A mintakód bemutatja egy közös végrehajtása háttérfolyamatként. Egy valós alkalmazás követésével Ez ugyanaz a struktúra, azzal a különbséggel, hogy a saját feldolgozó logika helyezze a hurok, amely megvárja a megszakítási kérés törzsében.
+> A mintakód a háttérfolyamatok egy gyakori megvalósítását mutatja be. Egy valós alkalmazásban követheti ugyanezt a struktúrát, azonban helyezze a saját feldolgozási logikáját a megszakítási kérelemre váró hurok törzsébe.
 
-A feldolgozói szerepkör inicializálta a által használt erőforrások után a `Run` metódus elindítja a két feladatot egyszerre, ahogy az itt látható.
+Miután a feldolgozói szerepkör inicializálta a felhasználni kívánt erőforrásokat, a `Run` metódus egyszerre elindítja a két feladatot az itt látható módon.
 
 ```csharp
 /// <summary>
@@ -200,11 +201,11 @@ public override void Run()
 ...
 ```
 
-Ebben a példában a `Run` metódus megvárja-e a feladatot végrehajtani. Ha a feladat meg lett szakítva, a `Run` metódus feltételezi, hogy a szerepkör leállítása folyamatban van, és megvárja-e a befejezése előtt megszakítandó feladataiban (megvárja, legfeljebb öt perc megszakítása előtt). Ha egy feladat nem várt kivétel miatt a `Run` metódus megszakítja a feladatot.
+Ebben a példában a `Run` metódus a feladatok befejezésére vár. Ha a feladat meg lett szakítva, a `Run` metódus azt feltételezi, hogy a szerepkör leáll, és megvárja a hátralévő feladatok megszakítását a befejezés előtt (legfeljebb öt percet vár a leállításra). Ha a feladat egy várt kivétel miatt hiúsul meg, a `Run` metódus megszakítja a feladatot.
 
-> Szélesebb körű figyelési és stratégiák a kivételkezelő sikerült megvalósítása a `Run` módszer például a sikertelen feladatok újraindítása, vagy beleértve a kódot, amely lehetővé teszi a szerepkör leállítása és elindítása az egyes feladatok.
+> Olyan átfogóbb monitorozási és kivételkezelési stratégiákat is megvalósíthat a `Run` metódusban, mint például a meghiúsult feladatok újraindítása, illetve olyan kód beillesztése, amely engedélyezi a szerepkör számára egyes feladatok leállítását és elindítását.
 
-A `Stop` az alábbi kódban látható metódus lehívásra kerül, amikor a szerepkör példánya leáll a háló vezérlő (a meghívták a `OnStop` metódus). A kód minden feladat szabályosan leállítja törli azt. Ha a feladat több mint öt percet is igénybe vehet, feldolgozás alatt álló ezzel a `Stop` metódus várakozási megszűnik, és a szerepkör a rendszer megszakítja.
+A következő kódban látható `Stop` metódust a rendszer akkor hívja meg, amikor a hálóvezérlő leállítja a szerepkörpéldányt (az `OnStop` metódusból indítva). A kód minden feladatot szabályosan állít le azok megszakításával. Ha a feladat befejezése több mint öt percet vesz igénybe, a `Stop` metódus megszakítási feldolgozása nem vár tovább, és a szerepkört leállítja.
 
 ```csharp
 // Stop running tasks and wait for tasks to complete before returning
@@ -235,12 +236,12 @@ private void Stop(TimeSpan timeout)
 }
 ```
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-- [Automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx). Automatikus skálázás indítása és leállítása a számítási erőforrásokat, attól függően, hogy a várható igény szerinti feldolgozásra üzemeltetési szolgáltatás példányának használható.
+- [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). Az automatikus skálázás használatával szolgáltatásokat üzemeltető számítási erőforrásokat indíthat el vagy állíthat le a várható feldolgozási igényektől függően.
 
-- [Útmutatás particionálás számítási](https://msdn.microsoft.com/library/dn589773.aspx). Ismerteti, hogyan lehet a szolgáltatások és összetevők a felhőalapú szolgáltatás, ezáltal segít a méretezhetőséget, teljesítményt, rendelkezésre állási és a szolgáltatás biztonsági megőrzésével futó költségek minimalizálása érdekében a lefoglalni.
+- [Compute-particionálási útmutató](https://msdn.microsoft.com/library/dn589773.aspx) Bemutatja, hogyan foglalhat le szolgáltatásokat és összetevőket egy felhőszolgáltatásban olyan módon, hogy az segítsen minimalizálni a futtatási költségeket a szolgáltatás skálázhatóságának, teljesítményének, rendelkezésre állásának és biztonságának megőrzése mellett.
 
-- Ebben a mintában tartalmaz egy letölthető [mintaalkalmazás](https://github.com/mspnp/cloud-design-patterns/tree/master/compute-resource-consolidation).
+- Ez a minta egy letölthető [mintaalkalmazást](https://github.com/mspnp/cloud-design-patterns/tree/master/compute-resource-consolidation) tartalmaz.

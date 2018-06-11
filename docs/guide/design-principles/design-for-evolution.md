@@ -1,40 +1,41 @@
 ---
-title: Terv módosítása
-description: Egy fokozatosan terv folyamatos innováció kulcsa.
+title: Tervezés a változás szolgálatában
+description: A fejlődést szem előtt tartó tervezés kulcsfontosságú a folyamatos innováció szempontjából.
 author: MikeWasson
 layout: LandingPage
-ms.openlocfilehash: 35e91228f3fb0a303594ec06f05b6865008e3a4f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: d05c1813dbc49f3ed8378cac4ea0c584ebdd9ff7
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252890"
 ---
-# <a name="design-for-evolution"></a>Alakulása kialakítása
+# <a name="design-for-evolution"></a>Tervezzen a fejlődést szem előtt tartva
 
-## <a name="an-evolutionary-design-is-key-for-continuous-innovation"></a>Egy fokozatosan kialakítása esetén folyamatos innováció kulcsa
+## <a name="an-evolutionary-design-is-key-for-continuous-innovation"></a>A fejlődést szem előtt tartó tervezés kulcsfontosságú a folyamatos innováció szempontjából
 
-Minden sikeres alkalmazások módosítása keresztül arra, hogy javítsa ki a hibákat, új szolgáltatásokkal, új technológiák állapotba kerüljön-e vagy hogy a meglévő rendszerek jobban méretezhető és rugalmas. Ha az alkalmazás minden részén szorosan összekapcsolt válik nagyon nehéz bevezetéséhez a módosításokat a rendszer. Az alkalmazás egy részét a módosítják a törés egy másik, vagy következtében a módosítások a teljes codebase keresztül ripple.
+Idővel minden sikeres alkalmazás változásokon esik át, aminek például hibajavítás, funkcióbővítés, új technológiák bevezetése vagy a meglévő rendszerek méretezhetőbbé és rugalmasabbá tétele lehet az oka. Ha egy alkalmazás minden része szoros kapcsolatban áll egymással, az nagyon nehézzé teszi a rendszer módosítását. Az alkalmazás egyik részének a módosítása működésképtelenné tehet egy másik részt, vagy a teljes kódbázist érintő változásokkal járhat.
 
-Ez a probléma az egységes alkalmazások nem korlátozódik. Az alkalmazás kell bontja fel a rendszer az szolgáltatásaiba, de még megfigyelhető, hogy a rendszer kemény és rideg szoros kapcsoló rendezést. Azonban ha szolgáltatást tervezték, hogy fejlődnek, csoportok innovációját annak, és folyamatosan a új szolgáltatások biztosításához. 
+Ez a probléma nem korlátozódik a monolitikus alkalmazásokra. Egy alkalmazás, hiába választható szét különböző szolgáltatásokra, továbbra is mutathatja azt a fajta szoros összekapcsolódást, ami merevvé és törékennyé teszi a rendszert. Ha azonban a szolgáltatásokat a fejlődés szem előtt tartásával tervezik, a csapatok előállhatnak innovatív megoldásokkal, és folyamatosan gondoskodhatnak az új funkciók bevezetéséről. 
 
-Mikroszolgáltatások egy evolutonary terv eléréséhez népszerű úgy egyre, mivel azok cím, az itt felsorolt szempontok számos.
+A mikroszolgáltatások a fejlődésközpontú tervezés megvalósításának egyre népszerűbb módjává válnak, mert választ nyújtanak az itt említett problémák többségére.
 
 ## <a name="recommendations"></a>Javaslatok
 
-**Magas Kohéziós és elveszíteni kapcsoló**. A "szolgáltatás" *javul* Ha tartozó logikailag egymáshoz funkciókat biztosít. Szolgáltatások *lazán összekapcsolt* Ha egy szolgáltatás módosíthatja a másik módosítása nélkül. Magas Kohéziós általában azt jelenti, hogy egy függvény változásai szükséges-e más kapcsolódó funkciók változásait. Ha talál meg, hogy a szolgáltatás frissítése igényel koordinált más szolgáltatások frissítéseket, lehet a jele, hogy a szolgáltatások nincsenek-e javul. A kitűzött célokat, tartomány-központú kialakítás (nnn) egyik identitás ezeken a határokon belül.
+**Törekvés a nagyfokú kohézióra és a laza kapcsolódásokra**. A szolgáltatás akkor jellemezhető *kohézióval*, ha logikailag összetartozó funkciókat biztosít. A szolgáltatások akkor *kapcsolódnak lazán*, ha az egyik szolgáltatás módosítása nem jár együtt egy másik módosításával. A nagyfokú kohézió általában azt eredményezi, hogy egy funkció változtatásai a többi kapcsolódó funkció módosítását is szükségessé teszik. Ha úgy látja, hogy egy szolgáltatás frissítése a többi szolgáltatás összehangolt frissítését kívánja meg, az annak a jele lehet, hogy nincs kohézió a szolgáltatások között. A kitűzött célokat, tartomány-központú kialakítás (nnn) egyik azonosíthatja ezeket a határokat.
 
-**Tartomány Tudásbázis beágyazására**. Amikor egy ügyfél a szolgáltatás használ fel, a tartomány az üzleti szabályok érvényesítési felelősséget nem tartozik az ügyfélen. Ehelyett a szolgáltatás kell foglalják magukban a tartomány Tudásbázis saját felelősségére eső összes. Ellenkező esetben minden ügyfélnek van alkalmazva az üzleti szabály, és végül az alkalmazás különböző részei elosztva tartomány ismeretekkel. 
+**Környezettel kapcsolatos ismeretek beépítése**. Amikor egy ügyfél egy szolgáltatást használ, az adott környezetre (tartományra, területre) vonatkozó üzleti szabályok érvényesítésének felelőssége nem hárulhat az ügyfélre. Ehelyett a szolgáltatásnak kell magában foglalnia a környezettel kapcsolatos mindazon ismereteket, amelyek a felelősségi körébe tartoznak. Ennek hiányában minden egyes ügyfélnek érvényesítenie kell az üzleti szabályokat, aminek az lesz az eredménye, hogy a környezettel kapcsolatos ismeretek szétoszlanak az alkalmazás különböző részei között. 
 
-**Használja a aszinkron üzenetkezelési**. Aszinkron üzenetkezelési módja a használata leválasztja az üzenet létrehozója az ügyféltől. A küldőnek nem függ a fogyasztó válaszol az üzenethez, vagy bármely adott műveletek. A közzétételi/sub architektúra a gyártó előfordulhat, hogy nem fogják tudni ki van fel az üzenetet. Új szolgáltatások könnyen felhasználhat az üzenetek a termelő módosítás nélkül.
+**Aszinkron üzenetkezelés használata**. Az aszinkron üzenetkezelés lehetővé teszi az üzenet előállítójának elkülönítését az üzenet feldolgozójától. Az előállító nem függ az üzenetre válaszoló vagy adott műveletet végrehajtó feldolgozótól. Közzétevői/előfizetői architektúra esetén az előállító adott esetben azt sem fogja tudni, hogy ki az üzenet felhasználója. Az új szolgáltatások egyszerűen használhatják fel az üzeneteket, az előállító bármiféle módosítása nélkül.
 
-**Az átjáró tartomány Tudásbázis nem build**. Átjárók mikroszolgáltatások architektúra, többek között a kérés útválasztási, protokollfordításhoz, terheléselosztást vagy hitelesítési számára hasznos lehet. Azonban az átjáró kell lennie az ilyen infrastructure funkciót. Bármely tartomány Tudásbázis nehéz függőség váljon elkerülése érdekében érdemes valósítja meg.
+**A környezettel kapcsolatos ismeretek átjáróba való beépítésének mellőzése**. Az átjárók hasznosak lehetnek a mikroszolgáltatásokra épülő architektúrában, ha útválasztásról, protokollfordításról, terheléselosztásról vagy hitelesítésről van szó. Az átjárókat azonban korlátozni kell az ilyen jellegű infrastrukturális funkciók ellátására. Nem foglalhatnak magukban a környezettel kapcsolatos ismereteket, ha el szeretnénk kerülni a túlzott függőséget.
 
-**Megnyitás felületek elérhetővé**. Ne hozzon létre egyéni fordítási rétegek, amelyek a szolgáltatások között elhelyezkedő. Ehelyett egy szolgáltatást egy API-t egy jól meghatározott API-szerződés kell tenni. Az API-t kell látható el verzióadatokkal, úgy, hogy az előző verziókkal való kompatibilitás megőrzése is fejleszteni a az API-t. Ily módon frissítheti a szolgáltatás az összes fölérendelt tőle függő szolgáltatások frissítéseket koordináló nélkül. Nyilvános irányuló szolgáltatások elérhetővé kell tenni egy RESTful API HTTP Protokollon keresztül. Háttér-szolgáltatások használhatja egy RPC-style üzenetküldési protokoll jobb teljesítmény érdekében. 
+**Nyílt felületek közzététele**. Kerülje a szolgáltatások között található egyéni fordítási rétegek létrehozását. A szolgáltatásoknak ehelyett egy jól meghatározott API-egyezménnyel rendelkező API-t kell közzétenniük. Az API-nak rendelkeznie kell verziószámmal, hogy tovább lehessen fejleszteni a visszamenőleges kompatibilitás megtartása mellett. Így a szolgáltatásokat a tőlük függő felsőbb szintű szolgáltatások összehangolt frissítése nélkül frissítheti. A nyilvános szolgáltatásoknak egy RESTful API-t kell közzétenniük HTTP-n keresztül. Teljesítménybeli megfontolásokból a háttérszolgáltatások használhatnak RPC stílusú üzenetkezelési protokollt. 
 
-**Tervezési és a szolgáltatási szerződések vizsgálatot**. Szolgáltatások elérhetővé tenni a jól meghatározott API-k, amikor is létrehozhat és második megvizsgál ezen API-k. Ily módon is létrehozhat és tesztelése egy forgó függő szolgáltatásai mentése nélkül szolgáltatás. (Természetesen volna továbbra is hajtsa végre az integráció és betöltése, szemben a valódi szolgáltatások tesztelése.)
+**Tervezés és tesztelés szolgáltatási szerződések alapján**. Ha a szolgáltatások jól meghatározott API-kat tesznek közzé, azok a fejlesztés és tesztelés alapjául szolgálhatnak. Így egy adott szolgáltatás fejlesztéséhez és teszteléséhez a tőle függő szolgáltatásokat nem kell felpörgetnie. (Az integrálást és a terheléstesztelést természetesen továbbra is a tényleges szolgáltatásokon kell végrehajtani.)
 
-**Absztrakt infrastruktúra tartomány programot innen máshová**. Nem lehetővé teszik az beszerzése keverve infrastruktúrával kapcsolatos funkciókat, például üzenetküldési és az adatmegőrzési tartomány logika. Ellenkező esetben a tartományi logika fog módosításához frissítések az infrastruktúra rétegekhez, és ez fordítva is igaz. 
+**Infrastruktúra elválasztása az üzleti logikától**. Nem ajánlott keverni az üzleti logikát az infrastruktúrához kapcsolódó funkciókkal, például az üzenetkezeléssel vagy az adatmegőrzéssel. Ha ezeket nem különíti el, az üzleti logika módosításai az infrastruktúrarétegek frissítését is szükségessé teszik, és fordítva. 
 
-**Több területet aggályokat egy külön szolgáltatásra kiszervezése**. Például ha számos szolgáltatás-kérelmek hitelesítéséhez szükséges, mozgathatja ezt a funkciót a saját szolgáltatásba. Ezután a hitelesítési szolgáltatás sikerült fejlődnek &mdash; például egy új hitelesítési folyamat hozzáadásával &mdash; , az azt használó szolgáltatások bármelyike érintése nélkül.
+**Azonos szerepet betöltő funkciók külön szolgáltatásba foglalása**. Ha például több szolgáltatásnak is kell kéréseket hitelesítenie, ezt a funkciót egy külön szolgáltatásba helyezheti át. A hitelesítési szolgáltatást ezután az azt használó többi szolgáltatás módosítása nélkül is fejlesztheti, például új hitelesítési folyamat hozzáadásával.
 
-**Szolgáltatások telepítése függetlenül**. Ha a DevOps team is függetlenül egyéb szolgáltatásokat az alkalmazásban egy szolgáltatás telepítéséhez frissítések gyorsan és biztonságosan akkor fordulhat elő. Hibajavításokat tartalmaz, és új funkciók is állítható, a több rendszeres ütemben történik. Az alkalmazás és a a kiadási folyamat támogatására független frissítések megtervezése.
+**A szolgáltatások egymástól független üzembe helyezése**. Ha a fejlesztési és üzemeltetési csapat az alkalmazás többi szolgáltatásától függetlenül helyezhet üzembe egy adott szolgáltatást, a frissítéseket gyorsabban és biztonságosabban lehet végrehajtani. A hibajavításokra és az új funkciók bevezetésére gyorsabb ütemben kerülhet sor. Tervezéskor ügyeljen arra, hogy az alkalmazás és a kibocsátási folyamat egyaránt támogassa a független frissítéseket.

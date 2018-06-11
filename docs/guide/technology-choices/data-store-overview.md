@@ -1,140 +1,141 @@
 ---
-title: Válassza ki a megfelelő tárolót
-description: Adattároló kiválasztása az Azure-ban – áttekintés
+title: A megfelelő adattároló kiválasztása
+description: Az Azure-beli adattárak kiválasztása – áttekintés
 author: MikeWasson
-ms.openlocfilehash: 3a5780c4a2dbd8a41e9c7bfa7f68d8a7916a7374
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 4836ae1997f86d35d8ab8aa66bbc63b4ef826d23
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252634"
 ---
-# <a name="choose-the-right-data-store"></a>Válassza ki a megfelelő tárolót
+# <a name="choose-the-right-data-store"></a>A megfelelő adattároló kiválasztása
 
-A modern üzleti rendszerek kezelése egyre nagy mennyiségű adatot. Adatok előfordulhat, hogy külső szolgáltatásokból okozhatnak, a rendszer által létrehozott vagy felhasználók által létrehozott. Előfordulhat, hogy ezek az adathalmazok nagyon eltérőek jellemzőit és ügyféloldali bővítmények feldolgozási követelményeivel. Vállalatok adatok segítségével felmérheti a trendeket, indítás, üzleti folyamatok, a műveletek naplózási, elemzése a felhasználói viselkedés, és számos egyéb elemet. 
+A modern üzleti rendszerek egyre nagyobb adatmennyiségeket kezelnek. Az adatok külső szolgáltatásokból olvashatók be, vagy maga a rendszer, esetleg a felhasználók is létrehozhatják azokat. Ezek az adatkészletek rendkívül változatos jellemzőkkel és feldolgozási követelményekkel rendelkeznek. A vállalatok az adatok segítségével értékelik a tendenciákat, aktiválják az üzleti folyamatokat, naplózzák az elvégzett műveleteket, elemzik a vásárlói magatartást, stb. 
 
-Ez sokfélesége azt jelenti, hogy egyetlen adattárolóban általában nem ajánlott megközelítés. Ehelyett érdemes gyakran különböző típusú adatok tárolhatók különböző adattárolókhoz, minden egyes arra irányul, hogy egy adott munkaterhelés vagy használati minta felé. A kifejezés *polyglot adatmegőrzési* vegyesen adatok tárolási technológiákat használó megoldásokkal leírására használatos.
+Ez a sokféleség azt jelenti, hogy egyetlen adattár használata a legtöbb esetben nem megfelelő megoldás. Ehelyett gyakran célszerűbb a különféle adattípusokat különböző adattárakban tárolni, amelyek mindegyike az adott számítási feladathoz vagy használati mintázathoz van igazítva. A *többnyelvű perzisztencia* kifejezés az adattárolási technológiákat vegyesen használó megoldások leírására használatos.
 
-A tervezési döntés a megfelelő tárolót a követelmények teljesítéséhez kiválasztása. Nincsenek szó százait megvalósítások SQL és a NoSQL-adatbázisok közül választhat. Adattároló gyakran szerint vannak kategóriába által hogyan azok szerkezeti adatokhoz és milyen műveleteket támogatják-e. Ez a cikk ismerteti a leggyakoribb tárolási modellek számos. Vegye figyelembe, hogy egy adott adattároló technológia támogathatja több tároló modellek. Például egy relációs adatbázis-kezelő rendszerek (RDBMS) is rendelkezhetnek kulcs/érték vagy a diagramon. Valójában nincs általános trendje úgynevezett *multimodel* támogatása, ha egy önálló adatbázis rendszer támogatja-e több modellt. De továbbra is hasznos lehet tudni, hogy a különböző modell magas szinten. 
+Az igényeinek megfelelő adattároló kiválasztása a tervezés egyik kulcsfontosságú döntése. Az SQL- és NoSQL-adatbázisok esetén több száz megvalósítási mód lehetséges. Az adattárakat általában az alapján kategorizáljuk, hogyan strukturálják az adatokat, illetve milyen műveleteket támogatnak. Ebben a cikkben a leggyakoribb tárolási modellek közül többet is ismertetünk. Vegye figyelembe, hogy egy adott adattároló technológia több tárolómodellt is támogathat. Például egy relációsadatbázis-kezelő rendszer (RDBMS) a kulcs/érték vagy a gráf típusú tárolókat is támogathatja. Általánosan megfigyelhető tendencia a *többmodelles* támogatás, amely esetben egy adatbázisrendszer egyszerre több modellt is támogat. Ennek ellenére hasznos a különböző modellek magas szintű működésének megismerése. 
 
-Egy adott kategória nem minden adattárolókhoz adja meg az azonos szolgáltatáskészlet. A legtöbb adattárolókhoz ellátni a kiszolgálóoldali adatok lekérdezés és a folyamat. Egyes esetekben ez a funkció van beépítve az adatok tárolási összetevőt. Más esetekben az tárolás és feldolgozás képességek elkülönül egymástól, és előfordulhat, hogy számos lehetőség közül választhat, feldolgozása és elemzése. Adatok tárolók is támogatják a különböző programozott és felügyeleti felületek. 
+Egy adott kategóriában nem minden adattár biztosítja ugyanazt a szolgáltatáskészletet. A legtöbb adattár kiszolgálóoldali funkciókat nyújt az adatok lekérdezéséhez és feldolgozásához. Egyes esetekben ez a funkció be van építve az adattár motorjába. Más esetekben az adattárolási és feldolgozási képességek elkülönülnek egymástól, és a feldolgozás és elemzés terén számos lehetőség közül választhat. Az adattárak különböző programozási és felügyeleti felületet is támogatnak. 
 
-Általában, először meg kell válaszolnia figyelembe véve, amelyre a tárolási modell bizonyul a legalkalmasabbnak igényeinek. Fontolja meg egy adott adattár adott kategóriába, például szolgáltatáskészlet, a költség, és a könnyű kezelés tényezők alapján.
+Általánosan érvényes szabály, hogy elsőként azt kell eldöntenie, melyik tárolási modell felel meg legjobban az igényeinek. Ezután az adott kategórián belül válasszon ki egy adattárat a szolgáltatáskészlet, a költségek és az egyszerű kezelhetőséghez hasonló szempontok alapján.
 
-## <a name="relational-database-management-systems"></a>Relációs adatbázis-kezelő rendszerek
+## <a name="relational-database-management-systems"></a>Relációsadatbázis-kezelő rendszerek
 
-Relációs adatbázisok adatok rendezése kétdimenziós táblákon, amelyekhez a sorok és oszlopok sorozataként. Minden tábla saját oszlopot tartalmaz, és egy tábla minden sorára be van állítva a azonos az oszlopok. Ez a modell matematikailag alapul, és a legtöbb szállító nyújt a Structured Query Language (SQL) nyelvjárást beolvasása és adatok kezelése. Egy RDBMS általában bevezet egy tranzakciós úton konzisztens mechanizmus, amely megfelel a sav (atomi, Consistent, elkülönítés, tartós) modelljét adatainak frissítésére. 
+A relációs adatbázisok kétdimenziós, sorokat és oszlopokat tartalmazó táblák sorozataként rendszerezik az adatokat. Minden tábla saját oszlopokat tartalmaz, és egy tábla minden sora ugyanazon oszlopkészletből áll. Ez a modell matematikai alapú, és a legtöbb szállító a Structured Query Language (SQL – Strukturált lekérdező nyelv) egyik dialektusát használja az adatok lekérdezéséhez és kezeléséhez. Egy RDBMS általában egy egységes tranzakciójú mechanizmust használ, amely az információfrissítés szempontjából megfelel az ACID-modellnek (Atomic, Consistent, Isolated, Durable – atomitás, konzisztencia, izoláció, tartósság). 
 
-Egy RDBMS általában egy séma módosításkor modell, ahol a adatszerkezet időben van definiálva, és minden írási vagy olvasási műveletek kell használnia a séma támogatja. Ellentétben a legtöbb NoSQL-adattároló, különösen kulcs/érték típusok, ahol a séma-a-olvasási modell feltételezi, hogy az ügyfél a adatbázisból származó adatokat a saját interpretive séma előíró lesz, és független írt adatok formátuma.
+Egy RDBMS általában egy írásiséma-modellt támogat, amelyben az adatok struktúrája előre meghatározott, és minden olvasási vagy írási műveletnek a sémát kell használnia. Ezzel ellentétes a legtöbb NoSQL-adattár működése, különösen a kulcs/érték típusúaké, amelyek esetén az írásiséma-modell feltételezi, hogy az ügyfél saját értelmező sémáját fogja használni az adatbázisból érkező adatokon, és független az éppen írt adatok formátumától.
 
-Egy RDBMS akkor nagyon hasznos, ha az erős konzisztencia biztosítja fontos &mdash; ha összes módosítás atomi, és tranzakciók mindig hagyja meg az adatokat konzisztens állapotú. Azonban az alapul szolgáló struktúrák nem alkalmasak az tárolási terjesztése és keresztül gépek kiterjesztése. Emellett egy RDBMS tárolt információ kell állítani relációs struktúrába a normalizálási folyamatot követve. Amíg ez a folyamat magától értetődő, akkor előfordulhat, hogy a hatékonyság, hiánya miatt nem fejtheti vissza a logikai entitások sorokba külön táblázatban, hogy szükség van, és majd később az adatok, lekérdezések futtatásakor. 
+Egy RDBMS akkor igazán hasznos, ha fontos a garantáltan erős konzisztencia, ahol minden módosítás atomi jellegű, a tranzakciók pedig mindig konzisztens állapotban tartják az adatokat. Az alapul szolgáló struktúrák horizontális felskálázása azonban a tárterület felosztásával és a több gépen végzett feldolgozással nem lehetséges. Emellett az RDBMS-ben tárolt információkat relációs struktúrába kell rendezni az alábbi normalizálási folyamat lépéseit követve. Bár a folyamat jól ismert, mégis a hatékonyság csökkenéséhez vezethet, mivel a logikai entitásokat először külön táblákban szereplő sorokra kell szétbontani, majd a lekérdezések futtatásakor az adatokat újból össze kell állítani. 
 
-Megfelelő Azure szolgáltatás: 
+Kapcsolódó Azure-szolgáltatás: 
 
 - [Azure SQL Database][sql-db]
-- [Azure MySQL-adatbázis][mysql]
-- [Azure PostgreSQL-adatbázishoz][postgres]
+- [Azure Database for MySQL][mysql]
+- [Azure Database for PostgreSQL][postgres]
 
-## <a name="keyvalue-stores"></a>Kulcs-érték tárolók
+## <a name="keyvalue-stores"></a>Kulcs/érték tárolók
 
-A kulcs/érték tároló lényegében egy nagy kivonattábla. Minden egyes adatérték társítandó egyedi kulcs, és a kulcs-érték tároló ezt a kulcsot használja az adatok tárolásához egy megfelelő kivonatoló függvénnyel. A kivonatoló funkció így biztosít az még akkor is, terjesztési kivonatolt kulcsok adatok tárolására van kiválasztva. 
+A kulcs/érték tároló lényegében egy nagy kivonattábla. Minden egyes adatértékhez egy egyedi kulcs társul, a kulcs/érték tároló pedig ezt a kulcsot használja az adatok egy megfelelő kivonatoló függvénnyel való tárolásához. A kivonatoló algoritmus a kivonatolt kulcsok az adattárban való egyenletes elosztására van kiválasztva. 
 
-Legtöbb kulcs/érték csak támogatási egyszerű lekérdezés tárolja, beszúrási és törlési műveletek. Egy érték módosítása (részben vagy teljesen), az alkalmazás felül kell írnia a meglévő adatok a teljes érték. A legtöbb implementációkban olvasása vagy írása egyetlen értéket egy atomi művelet. Ha az érték túl nagy, írás hosszabb időt vehet igénybe. 
+A legtöbb kulcs/érték tároló csak az egyszerű lekérdezési, beszúrási és törlési műveleteket támogatja. Egy érték (akár részleges, akár teljes) módosításához az alkalmazásnak a teljes értékre vonatkozóan felül kell írnia a meglévő adatokat. A legtöbb megvalósításban egyetlen érték olvasása vagy írása atomi műveletnek számít. Ha az érték túl nagy, az írás hosszabb időt is igénybe vehet. 
 
-Egy alkalmazás tetszőleges adatait tárolhatja értékek csoportjaként, bár egyes kulcs-érték tárolók ugyanazok a korlátozások értékek maximális mérete. A tárolt értékei nem átlátszó, a tárolási rendszer szoftverre. A sémaadatok megadott legyen, és az alkalmazás értelmezi. Alapvetően értékei a blobok és a kulcs-érték tároló egyszerűen kéri le vagy a kulcs értékét tárolja. 
+Az alkalmazás tetszőleges adatokat tárolhat egy értékekből álló készletként, bár egyes kulcs/érték tárolók korlátozzák az értékek maximális méretét. A tárolt értékek a tárolórendszer szoftvere számára nem átlátszók. A sémaadatok biztosítása és értelmezése az alkalmazás feladata. Az értékek alapvetően blobok, a kulcs/érték tároló pedig egyszerűen kulcsonként olvassa be vagy tárolja az értéket. 
 
 ![](./images/key-value.png)
 
-Kulcs-érték tárolók nagyon egyszerű keresések alkalmazások vannak optimalizálva, de különböző kulcs-érték tárolók között lekérdezni adatokat igénylő rendszerek kevésbé alkalmasak. Kulcs-érték tárolók is nem optimalizált forgatókönyvek, ahol értékkel lekérdezése fontos, hanem végrehajtott keresési műveletek végrehajtása csak kulcsok alapján. Például egy relációs adatbázisban, WHERE záradék használatával is található a rekord, de kulcs/érték tárolók általában nem rendelkezik ilyen típusú értékeket az keresési funkciójának könnyebb működése.
+A kulcs/érték tárolók kifejezetten az egyszerű kereséseket végző alkalmazásokhoz vannak optimalizálva, azonban kevésbé megfelelőek az olyan rendszerek számára, amelyek az adatokat különböző kulcs/érték tárolókból kérik le. A kulcs/érték tárolók emellett nincsenek optimalizálva olyan forgatókönyvekre, amelyekben az értékenkénti lekérdezés a fontos, nem pedig a kizárólag kulcsokon alapuló keresések végrehajtása. Például egy relációs adatbázisban a WHERE záradék használatával megtalálhat egy rekordot, a kulcs/érték tárolók azonban nem rendelkeznek ilyen típusú, értékekre vonatkozó keresési képességekkel.
 
-Egy-egy kulcs-érték tároló rendkívül méretezhető, lehet, mert az adattár is könnyen szét adatok több csomópontok külön számítógépeken. 
+Egyetlen kulcs/érték tároló lehet rendkívüli mértékben skálázható, mivel az adattár könnyedén feloszthatja az adatokat több, külön gépeken található csomópont között. 
 
-Azure-szolgáltatásokhoz kapcsolódó: 
+Kapcsolódó Azure-szolgáltatások: 
 
-- [A cosmos DB][cosmosdb]
-- [Azure Redis gyorsítótár][redis-cache]
+- [Cosmos DB][cosmosdb]
+- [Azure Redis Cache][redis-cache]
 
-## <a name="document-databases"></a>Dokumentum-adatbázisokat
+## <a name="document-databases"></a>Dokumentum-adatbázisok
 
-A dokumentum-adatbázis egy kulcs-érték tároló fogalmilag hasonló, azzal a különbséggel, hogy gyűjteménye tárolja elnevezett mezőkből és adatok (más néven dokumentumok), amelyek mindegyike skaláris elemek egyszerű vagy összetett elemek, mint például a listák és a gyermekgyűjteményeknél. Az egy dokumentum mezők kódolható az sokféleképpen, XML, YAM, JSON, BSON együtt, vagy akár egyszerű szövegként tárolt. Kulcs-érték tárolók, ellentétben a dokumentumokban lévő mezők érhetők el a felügyelet tárolórendszer, lekérdezés és a szűrő adatait az alkalmazás engedélyezése a mezők az értékek használatával. 
+A dokumentum-adatbázisok koncepciója a kulcs/érték tárolókéhoz hasonló azzal a kivétellel, hogy egy nevesített mezőkből és adatokból (azaz dokumentumokból) álló egy gyűjteményt tárolnak, amelynek mindegyike lehet egyszerű skaláris elem vagy összetett elem, például lista vagy gyermek gyűjtemény. Egy dokumentum mezőiben szereplő adatok többféle módon is kódolhatók, például XML, YAML, JSON, BSON, de tárolásuk akár egyszerű szövegként is történhet. A kulcs/érték tárolókkal ellentétben a dokumentumokban szereplő mezők elérhetők a tárhelykezelő rendszer számára, ezáltal az alkalmazások a mezőkben szereplő értékek segítségével lekérdezhetik és szűrhetik az adatokat. 
 
-Általában a dokumentum egy entitás a teljes adatokat tartalmaz. Milyen elemek képeznek egy entitás az adott alkalmazás. Például egy entitás tartalmazhatnak mindkettőt, vagy az ügyfél, a megrendelést részleteit. Egyetlen dokumentum lenne egy RDBMS több relációs táblák kell elosztva információkat is tartalmaznak. 
+Általában egy dokumentum egy entitás összes adatát tartalmazza. Az entitást alkotó elemek az alkalmazástól függenek. Például egy entitás tartalmazhatja egy ügyfél vagy egy rendelés adatait, vagy akár a kettő kombinációját is. Egyetlen dokumentum olyan információkat is tartalmazhat, amely RDBMS esetén több relációs tábla között lenne elosztva. 
 
-A dokumentum store nem igényli, hogy az összes dokumentum hasonló struktúrával rendelkezik. Ez a megközelítés szabadkézi nagyfokú rugalmasságot biztosít. Alkalmazások, üzleti követelmények módosítása különböző adatot tárolhat dokumentumokat.
+A dokumentumtároló nem igényli, hogy minden dokumentum ugyanazzal a struktúrával rendelkezzen. Ez a szabad formátumú megközelítés nagy fokú rugalmasságot biztosít. Az alkalmazások az üzleti igények változása alapján különböző adatokat tárolhatnak a dokumentumokban.
 
 ![](./images/document.png)
 
-Az alkalmazás dokumentumok lekérheti a dokumentum kulcs használatával. Ez a dokumentum, amely a gyakran kivonatolt, adatok egyenletes elosztása érdekében egyedi azonosítója. Néhány dokumentum-adatbázis automatikusan hozza létre a dokumentum kulcsot. Mások számára lehetővé teszik a dokumentum kívánja használni, mint a key attribútum adja meg. Az alkalmazás egy vagy több mező értéke alapján dokumentumokat is lekérdezheti. Néhány dokumentum-adatbázisokat támogatja, lehetővé teszi egy vagy több indexelt mezők alapján dokumentumok gyors keresési indexelő. 
+Az alkalmazás a dokumentumkulcs segítségével kérhet le dokumentumokat. Ez a dokumentum egyedi azonosítója, amely az adatok egyenletes elosztása érdekében gyakran kivonatolt. Néhány dokumentum-adatbázis automatikusan létrehozza a dokumentumkulcsot. Mások lehetővé teszik, hogy a dokumentum egyik attribútumát adja meg kulcsként. Az alkalmazás emellett dokumentumokat is lekérdezhet egy vagy több mező alapján. Néhány dokumentum-adatbázis támogatja az indexelést a dokumentumok egy vagy több indexelt mező alapján történő gyors keresése érdekében. 
 
-Sok dokumentum-adatbázis helyi frissítések, egy alkalmazás egy dokumentumot a megadott mező értékének módosítása nélkül írja át a teljes dokumentum engedélyezése támogatja. Olvasási és írási műveletek keresztül egy dokumentumban több mező esetében általában atomi.
+Számos dokumentum-adatbázis támogatja a helyi frissítést, amely révén az alkalmazások a teljes dokumentum átírása nélkül módosíthatják az adott mezők értékeit egy dokumentumban. Az egy dokumentum több mezőjén végrehajtott olvasási és írási műveletek általában atomi jellegűek.
 
-Megfelelő Azure-szolgáltatások: [Cosmos DB][cosmosdb]
+Kapcsolódó Azure-szolgáltatás: [Cosmos DB][cosmosdb]
 
-## <a name="graph-databases"></a>Graph-adatbázisok
+## <a name="graph-databases"></a>Gráfadatbázisok
 
-Egy grafikonon adatbázis tárolja a kétféle típusú adatokat, a csomópontok és a szélén. Az eltolásokat tekintheti csomópontok entitásként. Adja meg a csomópontok közötti kapcsolatokat, amelyek szélén. Csomópontok és a szélek rendelkezhet, amelyek információval szolgálnak, hogy a csomópont vagy a táblázatban levő oszlopkészleteket hasonló biztonsági tulajdonságai. Szegélyek is lehet a kapcsolat jellege irányt.
+A gráfadatbázisok kétféle típusú információt tárolnak: csomópontokat és éleket. A csomópontok entitásokként is felfoghatók. Az élek a csomópontok közötti kapcsolatokat határozzák meg. Mind a csomópontok, mind az élek rendelkezhetnek olyan tulajdonságokkal, amelyek a táblák oszlopaihoz hasonlóan információt nyújtanak az adott csomópontról vagy élről. A szegélyeknek is lehet iránya, amely a kapcsolat természetét jelöli.
 
-Egy grafikonon adatbázis az a célja, hogy lehetővé tegye egy alkalmazást, a hálózati csomópont és szélek áthaladó lekérdezések hatékonyan végrehajtásához, és elemezheti az entitások közötti kapcsolatok. A szervezetek személyzeti adatbázis strukturált, mint egy grafikonon kövesse ábrán látható. Az entitások az alkalmazottak és szervezeti egységek, és széleinek jelzik, hogy jelentéskészítési kapcsolatokat és a részleg, mely az alkalmazottak munka. Az ehhez a diagramhoz a a szélén nyilak a kapcsolat irányát.
+A gráfadatbázisok célja az, hogy az alkalmazások számára lehetővé tegyék a csomópontok és élek hálózatát bejáró lekérdezések végrehajtását, illetve hogy elemezzék az entitások közötti kapcsolatokat. Az alábbi ábrán látható, hogy a szervezetek személyzeti adatbázis strukturált, mint egy grafikonon. Az entitások az alkalmazottak és a részlegek, az élek pedig a jelentéskészítési kapcsolatokat jelzik, valamint azt, hogy melyik alkalmazott melyik részlegen dolgozik. Ezen a gráfon az éleken látható nyilak a kapcsolatok irányát jelzik.
  
 ![](./images/graph.png)
 
-Ez egyszerű végrehajtásához lekéri például struktúra teszi "található összes beosztottak közvetlenül vagy közvetve Sarah" vagy "Ki működik John részleghez?" Az entitások és kapcsolatok sok nagy diagramok nagyon gyorsan végezhet nagyon összetett elemzések. Sok diagram adatbázis lekérdezésnyelvet, amely hatékonyan haladnak át a hálózati kapcsolatok segítségével adja meg. 
+Ezzel a struktúrával egyértelműen hajthatók végre a következőkhöz hasonló lekérdezések: „Minden alkalmazott megkeresése, aki közvetlenül vagy közvetetten Sárának jelent” vagy „Ki dolgozik Jánossal egy részlegen?” A számos entitást és kapcsolatot tartalmazó, nagy méretű gráfok esetén nagyon gyorsan hajthat végre rendkívül összetett elemzéseket. Sok gráfadatbázis használ olyan lekérdezési nyelvet, amellyel egy kapcsolatokból álló hálózat hatékonyan bejárható. 
 
-Megfelelő Azure-szolgáltatások: [Cosmos DB][cosmosdb]
+Kapcsolódó Azure-szolgáltatás: [Cosmos DB][cosmosdb]
 
-## <a name="column-family-databases"></a>Oszlop-család adatbázisok
+## <a name="column-family-databases"></a>Oszlopcsalád-adatbázisok
 
-Egy oszlop-család adatbázis adatok sorok és oszlopok rendezi. Legegyszerűbb formájukban oszlop-család adatbázis jelenhet meg nagyon hasonlít egy relációs adatbázisban, legalább hasonlóak. A valós oszlop-család adatbázis rugalmasságuknak köszönhetően a denormalizált megközelítéssel szerkezetének kialakítása ritka adatokat is. 
+Az oszlopcsalád-adatbázisok sorokba és oszlopokba rendezik az adatokat. Legegyszerűbb formájában az oszlopcsalád-adatbázis a relációs adatbázishoz nagyon hasonlónak tűnhet, legalábbis a koncepciót tekintve. Az oszlopcsalád-adatbázisok igazi előnye a ritka adatok strukturálásának denormalizált megközelítésében rejlik. 
 
-Az eltolásokat tekintheti oszlop-család adatbázis sorok és oszlopok táblázatos adatokat, de az oszlopok néven csoportra oszlanak *oszlopcsaláddal*. Minden oszlop termékcsalád oszlopkészleteket, amelyek logikailag egymáshoz kapcsolódó és általában beolvasni vagy egységként választéka tartalmazza. Külön-külön egyéb adatokhoz külön oszlopcsaláddal is tárolható. Egy oszlop családba tartozó új oszlopok is hozzáadhatók dinamikusan, és lehet, hogy a sorok ritka (Ez azt jelenti, hogy a sor nem kell minden oszlop értéke).
+Az oszlopcsalád-adatbázisok felfoghatók úgy, mintha a sorokat és oszlopokat tartalmazó táblázatba foglalt adatokról lenne szó, azonban az oszlopok *oszlopcsaládoknak* nevezett csoportokra vannak felosztva. Minden oszlopcsalád olyan oszlopokból álló készletet tartalmaz, amelyek logikailag kapcsolódnak egymáshoz, és beolvasásuk vagy módosításuk általában egy egységként történik. Az egyéb, külön elérhető adatok külön oszlopcsaládokban tárolhatók. Egy oszlopcsaládon belül az új oszlopok dinamikusan hozzáadhatók, a sorok pedig ritkák is lehetnek (ez azt jelenti, hogy a soroknak nem kell minden oszlophoz értéket tartalmazniuk).
 
-Az alábbi ábrán látható egy példa két oszlopcsaláddal `Identity` és `Contact Info`. Egyetlen entitás az adatok minden oszlop termékcsalád sor ugyanazzal a kulccsal rendelkezik. Ez a struktúra, ahol dinamikusan változhat a sorok összes adott objektum egy oszlop családba tartozó, egy fontos előnye, hogy az oszlop-család módszert használja, így ezt az űrlapot magas olyan alkalmas strukturált, "volatile" adattárolás adattár.
+Az alábbi ábrán látható példában két oszlopcsalád szerepel: `Identity` és `Contact Info`. Az egyetlen entitás adatai minden egyes oszlopcsaládban ugyanazt a sorkulcsot tartalmazzák. Ez a struktúra, amelyben az oszlopcsaládban szereplő egyes objektumokhoz tartozó sorok dinamikusan változhatnak, az oszlopcsalád-megközelítés egyik fontos előnye. Ezáltal ez az adattárolási forma kifejezetten alkalmas a strukturált, ideiglenes adatok tárolására.
 
 ![](./images/column-family.png) 
 
-Egy kulcs-érték tárolóban és a dokumentum-adatbázis legtöbb oszlop-család adatbázis tárolja adatait kulcs sorrendben, nem úgy kivonatát. Számos implementáció eleve indexek létrehozása az oszlop-család adott oszlopok keresztül teszi lehetővé. Indexek lehetővé teszik, hogy az oszlopok érték, hanem a sorkulcsa adatainak beolvasása.
+A kulcs/érték tárolókkal vagy a dokumentum-adatbázisokkal ellentétben a legtöbb oszlopcsalád-adatbázis kulcs szerinti sorrendben tárolja az adatokat, nem pedig kivonatok számítása alapján. Számos megvalósítás esetén létrehozhat indexeket egy oszlopcsalád adott oszlopain. Az indexek révén az oszlop értéke szerint kérheti le az adatokat a sorkulcs helyett.
 
-Egy sor olvasási és írási műveletek esetében általában atomic csak egy oszlop-címcsaládot, a, bár egyes megvalósítások atomicity biztosít a teljes sort, több oszlopcsaláddal átfedés.
+Az egy soron végrehajtott olvasási és írási műveletek általában atomi jellegűek egyetlen oszlopcsalád esetén, azonban egyes megvalósítások az egész, több oszlopcsaládon átívelő sorban biztosítják az atomitást.
 
-Megfelelő Azure-szolgáltatások: [HBase a hdinsight eszközben][hbase]
+Kapcsolódó Azure-szolgáltatás: [HBase a HDInsightban][hbase]
 
 ## <a name="data-analytics"></a>Adatelemzés
 
-Adattároló analytics nagymértékben párhuzamos megoldásokat választásával dolgozhat fel, tárolására és elemzéséhez. Ezek az adatok van osztva a megosztás-nothing architektúra segítségével maximalizálhatja a méretezhetőség és a függőségek minimalizálása érdekében több kiszolgáló között. Az adatok nem valószínű, hogy statikus, lehet, ezért ezekkel az áruházakkal tudja kezelni a nagy mennyiségű információ többféle formátumúak érkező több adatfolyam, miközben továbbra is új lekérdezések feldolgozásához meg kell adni. 
+Az adatelemzési tárolók nagymértékben párhuzamos megoldásokat biztosítanak az adatok betöltéséhez, tárolásához és elemzéséhez. Ezek az adatok egy megosztást mellőző architektúra használatával több kiszolgáló között vannak szétosztva, a maximális skálázhatóság és a függőségek minimalizálása érdekében. Az adatok nagy valószínűséggel nem statikusak, így ezeknek az adattáraknak képesnek kell lenniük nagy mennyiségű információk kezelésére, amelyek számos különböző formátumban érkeznek több streamből, miközben az új lekérdezések feldolgozása továbbra is folyik. 
 
-Azure-szolgáltatásokhoz kapcsolódó:
+Kapcsolódó Azure-szolgáltatások:
 
-- [Az SQL Data Warehouse][sql-dw]
+- [SQL Data Warehouse][sql-dw]
 - [Azure Data Lake][data-lake]
 
-## <a name="search-engine-databases"></a>Keresési adatbázisok  
+## <a name="search-engine-databases"></a>Keresőmotor-adatbázisok  
 
-A keresési vezérlő adatbázisának támogatja a keresse meg a külső adatokat tárolja és szolgáltatásokban tárolt adatokat. A keresési vezérlő adatbázisának használható index nagy mennyiségű adatot, és közel valós idejű ezen indexek hozzáférést nyújtanak. Keresési adatbázisok vannak gyakran-re, hogy azonos a webes, bár sok nagy méretű rendszerekhez őket biztosításához használja strukturált és alkalmi keresse a saját adatbázis-képességeket.
+A keresőmotor-adatbázisok támogatják a külső adattárakban és szolgáltatásokban tárolt adatok keresését. A keresőmotor-adatbázisok nagy méretű adatkötetek indexeléséhez használhatók, valamint közel valós idejű hozzáférést biztosítanak az indexekhez. Bár a keresőmotor-adatbázisokra gyakran a web szinonimájaként gondolnak, számos nagy méretű rendszer használja azokat saját adatbázisain is a strukturált, ad-hoc jellegű keresési képességek miatt.
 
-A keresési motor adatbázis kulcsfontosságú mutatókat tárolására és nagyon gyorsan index információkat, és a search kérelemmel gyors válaszidők biztosítása. Indexek többdimenziós és szabad szöveges keresés támogathatja a nagy mennyiségű adatot a szöveg között. Indexelő lekéréses modell, a keresési motor adatbázis által kiváltott, vagy egy leküldéses modellel, az külső alkalmazáskód által kezdeményezett segítségével hajtható végre. 
+A keresőmotor-adatbázisok alapvető jellemzője az információk gyors tárolásának és indexelésének képessége, valamint hogy rövid válaszidővel végzik a keresési kéréseket. Az indexek lehetnek többdimenziósak, és támogathatják a szabad szöveges keresést a nagy kötegekből álló szöveges adatok esetén. Az indexelés elvégezhető egy lekérési modell használatával, amelyet a keresőmotor-adatbázis aktivál, vagy egy leküldéses modell használatával, amely külső alkalmazáskóddal indítható. 
 
-A keresés pontos vagy zavaros lehet. Egy intelligens egyeztetésű keresési feltételek egyeznek-dokumentumok talál, és kiszámítja az egyezés. Néhány a keresőmotorok is támogatja, amelyek alapján szinonimák, genre bővítések visszatérési megegyezik a nyelvi analysis (például megfelelő `dogs` a `pets`), és amelynek (egyező szavak megegyező legfelső szinttel). 
+A keresés lehet pontos vagy intelligens. Az intelligens keresés olyan dokumentumokat keres, amelyek megfelelnek egy adott feltételkészletnek, és az egyezés mértékét is kiszámítja. Néhány keresőmotor támogatja az olyan nyelvi elemzéseket is, amelyek szinonimák, kategóriakiterjesztések (például `dogs` megfeleltetése `pets`-nek), szótővizsgálat (azonos szótővel rendelkező szavak megfeleltetése) alapján adnak vissza találatokat. 
 
-Megfelelő Azure-szolgáltatások: [Azure Search][search]
+Kapcsolódó Azure-szolgáltatás: [Azure Search][search]
 
-## <a name="time-series-databases"></a>Idő adatsorozat adatbázisok
+## <a name="time-series-databases"></a>Idősorozat-adatbázisok
 
-Adatsorozat időadatok értékek idő szerint vannak rendezve, idő adatsorozat adatbázis pedig egy adatbázist, amely ehhez az adattípushoz van optimalizálva. Idő adatsorozat adatbázisok nagyon nagy mennyiségű írást, támogatnia kell, általában nagy mennyiségű adat valós idejű gyűjtött számos forrásból származó. Frissítések ritkán fordul elő, és tömeges műveletek gyakran végzett törli. Annak ellenére, hogy a rekordok egy idősorozat adatbázisba írt általában kicsi, gyakran vannak a rekordok nagy száma, illetve teljes adatméret rohamosan.
+Az idősorozat-adatok időpont alapján rendszerezett értékekből álló készletek, az idősorozat-adatbázisok pedig ehhez az adattípushoz vannak optimalizálva. Az idősorozat-adatbázisok nagyon nagy számú írást támogatnak, mivel általában nagy mennyiségű adatokat gyűjtenek sok forrásból és valós időben. A frissítések ritkák, a törlések pedig a legtöbbször tömeges műveletként történnek. Annak ellenére, hogy az idősorozat-adatbázisokba írt rekordok mérete általában kicsi, gyakran előfordulnak nagy méretű rekordok, valamint az adatok összmérete is gyors ütemben növekedhet.
 
-Idő adatsorozat adatbázisok megfelelőek telemetriai adatainak tárolásához. Forgatókönyvek például a IoT érzékelők vagy alkalmazás/rendszer számlálói.
+Az idősorozat-adatbázisok kiválóan alkalmasak telemetriaadatok tárolására. A forgatókönyvek IoT-érzékelőket vagy alkalmazás-/rendszerszámlálókat is tartalmaznak.
 
-Megfelelő Azure-szolgáltatások: [idő adatsorozat Insights][time-series]
+Kapcsolódó Azure-szolgáltatás: [Time Series Insights][time-series]
 
 ## <a name="object-storage"></a>Objektumtár  
 
-Objektum-tárolási tárolja és beolvassa a nagyméretű bináris objektumok (képek, fájlok, video- és folyókat, nagy alkalmazásobjektumok adatok és dokumentumok, a virtuálisgép-lemezképeket) van optimalizálva. Ezen típusok álló a tárolt adatok, bizonyos metaadatait és egyedi Azonosítót az objektum eléréséhez tároló objektumok. Objektum tárolja a rendkívül nagy mennyiségű strukturálatlan adatok kezelését teszi lehetővé.  
+Az objektumtároló nagy méretű bináris objektumok (képek, fájlok, video- és audiostreamek, nagy méretű alkalmazás-adatobjektumok és dokumentumok, virtuális gépek lemezképei) tárolására van optimalizálva. Az ezen tárolótípusokban szereplő objektumokat a tárolt adatok, metaadatok és az objektum eléréséhez szükséges egyedi azonosítók alkotják. Az objektum lehetővé teszi a strukturálatlan adatok rendkívüli mennyiségeinek kezelését.  
 
-Megfelelő Azure-szolgáltatások: [Blob-tároló][blob]
+Kapcsolódó Azure-szolgáltatás: [Blob Storage][blob]
 
 ## <a name="shared-files"></a>Megosztott fájlok   
 
-Egyes esetekben egyszerű egybesimított fájlok használata a leghatékonyabb eszköze lehet tárolja, és az információk beolvasása. Fájlmegosztások használata lehetővé teszi, hogy a fájlok hálózaton keresztül érhető el. Adott a megfelelő biztonsági és egyidejű hozzáférés-vezérlési mechanizmusok, ezzel a módszerrel adatok megosztása engedélyezheti a kiválóan méretezhető hozzáférést alapvető, alacsony szintű műveleteket, például az egyszerű olvasási és írási kérelmek elosztott szolgáltatásokat.
+Időnként az egyszerű, egybesimított fájlok használata az információk tárolásának és lekérésének leghatékonyabb módja. A fájlmegosztások használatával a fájlok egy egész hálózaton elérhetők. A megfelelő biztonsági és egyidejű hozzáférési vezérlőmechanizmusok jelenlétében az adatok ilyen módon történő megosztása révén a megosztott szolgáltatások nagymértékben skálázható adathozzáférést biztosíthatnak az alapvető, alacsony szintű műveletek (például egyszerű olvasási és írási kérések) végrehajtásához.
 
-Megfelelő Azure-szolgáltatások: [File Storage][file-storage]
+Kapcsolódó Azure-szolgáltatás: [File Storage][file-storage]
 
 <!-- links -->
 

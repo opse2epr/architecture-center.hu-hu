@@ -1,54 +1,55 @@
 ---
-title: Átjáró útválasztás minta
-description: Útvonal kérelmek több szolgáltatások használatával egy végpontot.
+title: Átjáró-útválasztási minta
+description: Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával.
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: 53239b23cfd98fad1edc38ca37c2274d5a9d7a0f
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: ea0bc4d31b745043a7ac3afb277dfc46d87ff109
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252600"
 ---
-# <a name="gateway-routing-pattern"></a>Átjáró útválasztás minta
+# <a name="gateway-routing-pattern"></a>Átjáró-útválasztási minta
 
-Útvonal kérelmek több szolgáltatások használatával egy végpontot. Ebben a mintában akkor hasznos, ha egy végpontot, és az útvonalat a megfelelő szolgáltatásra, a kérés alapján több szolgáltatásokat nyújtó kíván.
+Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával. Ez a minta akkor lehet hasznos, ha több szolgáltatást kíván elérhetővé tenni egyetlen végponton, és a kérés alapján szeretné elvégezni az átirányítást a megfelelő szolgáltatáshoz.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Ha egy ügyfél több szolgáltatásait, egy külön végpont minden egyes szolgáltatás beállítását, valamint hogy az ügyfél-végpontok kezelése kihívást jelenthet. Például egy e-kereskedelmi alkalmazás előfordulhat, hogy nevünkben szolgáltatásokat például keresés, értékelést, bevásárlókocsiból, vegye ki és rendelési előzményeit. Minden szolgáltatás van egy másik API, az ügyfél együtt kell működnie, és az ügyfél kell tudnia végpontok a szolgáltatásokhoz való csatlakozás érdekében. Ha módosítja egy API-t, az ügyfél is frissíteni kell. Ha két vagy több különálló szolgáltatás refactor, egy szolgáltatás, a kód a szolgáltatás és az ügyfél is módosítania kell.
+Ha az ügyfél több szolgáltatást is használ, az ügyfél számára nehéz feladat külön végpontot létrehozni minden szolgáltatás számára, és felügyelni azokat. Egy e-kereskedelmi alkalmazás például olyan szolgáltatásokat biztosíthat, mint a keresés, az értékelések, a kosár, a fizetés és a rendelési előzmények. Mindegyik szolgáltatáshoz külön API tartozik. Az ügyfél ezeken keresztül éri el a szolgáltatásokat, és ismernie kell minden egyes végpontot ahhoz, hogy csatlakozhasson a szolgáltatásokhoz. Ha egy API megváltozik, az ügyfelet is frissíteni kell. Ha újrabont egy szolgáltatást két vagy három önálló szolgáltatásra, a szolgáltatás és az ügyfél kódját is módosítani kell.
 
 ## <a name="solution"></a>Megoldás
 
-Egy átjáró alkalmazások, szolgáltatások vagy a központi telepítések elé helyezze el. Alkalmazás réteg 7 útválasztás használatával továbbítja a kérelmet a megfelelő példányt.
+Helyezzen egy átjárót az alkalmazások, szolgáltatások vagy telepítések csoportja elé. Az alkalmazás 7. rétegbeli útválasztását használva irányítsa át a kérést a megfelelő példányokhoz.
 
-Az ebben a mintában az ügyfélalkalmazás csak kell tudni kommunikálni egy végpontot. A szolgáltatás konszolidált vagy kiválasztott, az ügyfél nem feltétlenül igényel frissítése. Az átjáró, és csak a útválasztási kérelmet benyújtó továbbra is azt.
+Ezzel a mintával az ügyfélalkalmazásnak csupán egyetlen végpontot kell ismernie, és azzal kell kommunikálnia. Szolgáltatások egyesítése vagy szétbontása után az ügyfelet nem feltétlenül kell frissíteni. Az továbbra is küldhet kéréseket az átjárónak, csak az útválasztás változik.
 
-Átjáró emellett lehetővé teszi a háttér-szolgáltatást, az ügyfelek így ügyfélhívásokat egyszerű tarthatja engedélyezze a háttér-szolgáltatások, az átjáró mögötti változásainak absztrakt. Ügyfél hívások átirányítható bármilyen szolgáltatást vagy a szolgáltatások kell kezelni a várható ügyfél viselkedését, így hozzáadásához ossza fel, és az átjáró mögötti szolgáltatások biztosítására átrendezéséhez az ügyfél módosítása nélkül.
+Az átjáró ezenkívül lehetővé teszi a háttérszolgáltatások elkülönítését az ügyfelektől, így az ügyfél hívásai egyszerűek maradnak, de az átjáró mögötti háttérszolgáltatások módosíthatók lesznek. Az ügyfél hívásai átirányíthatók a szolgáltatáshoz vagy szolgáltatásokhoz, amely(ek)nek kezelnie kell a várt ügyfélviselkedést. Ez lehetővé teszi szolgáltatások hozzáadását, felosztását és átszervezését az átjáró mögött az ügyfél módosítása nélkül.
 
 ![](./_images/gateway-routing.png)
  
-Ebben a mintában az üzembe helyezéssel is hozzájárulhat a azáltal, hogy hogyan frissítések már megkezdődött a felhasználók kezeléséhez. Ha a szolgáltatás egy új verziója van telepítve, azt a meglévő verziót párhuzamosan is telepíthető. Útválasztás segítségével szabályozhatja, hogy melyik verzió a szolgáltatás nem jelenik meg az ügyfelek, felkínálva a rugalmasságot különböző kiadás stratégiák használata növekményes, hogy párhuzamosan, vagy végezze el a frissítések végrehajtása. Probléma merül fel az új szolgáltatás telepítése után felderített gyorsan beállításai állíthatók vissza azáltal, hogy olyan konfigurációs módosítást az átjárón, az ügyfelek befolyásolása nélkül.
+Ez a minta segíthet a telepítés során is, mivel lehetővé teszi a frissítések bevezetésének kezelését. A szolgáltatás újabb verziójának telepítésekor az az aktuális verzióval egyidejűleg telepíthető. Útválasztás lehetővé teszi szabályozhatja, hogy melyik verzió a szolgáltatás nem jelenik meg az ügyfelek, felkínálva a rugalmasságot különböző kiadás stratégiák használata növekményes, hogy párhuzamosan, vagy a frissítések végrehajtása befejeződik. Az új szolgáltatás telepítése után felfedezett hibák gyorsan visszavonhatók az átjáró konfigurációjának módosításával, ami nem befolyásolja az ügyfeleket.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-- Az átjárószolgáltatás vezethet be a hibaérzékeny pontok kialakulását. Győződjön meg arról, a rendelkezésre állási követelményeinek megfelelően tervezték. Érdemes lehet rugalmasság és a hibatűrés tolerancia képességek végrehajtása során.
-- Az átjárószolgáltatás vezethet be a szűk keresztmetszetek. Győződjön meg arról, az átjáró rendelkezik a megfelelő teljesítmény terhelés kezelésére, és könnyedén méretezhető az növekedési igényeinek megfelelően.
-- Hajtsa végre a terhelés tesztelése az átjárón nem vezetnek be kaszkádolt probléma van a szolgáltatások biztosításához.
-- 7. szint átjáró útválasztási. Ez alapulhat a IP-, port, fejléc vagy URL-CÍMÉT.
+- Az átjárószolgáltatás kritikus meghibásodási pont lehet a rendszeren belül. Győződjön meg arról, hogy az átjáró konfigurációja megfelelően ki tudja szolgálni a rendelkezésre állási követelményeket. Az implementálás során tartsa szem előtt a rugalmassági és hibatűrési képességeket.
+- Az átjárószolgáltatás szűk keresztmetszetté válhat. Győződjön meg arról, hogy az átjáró megfelelő teljesítménnyel bír a várható terhelés kezelésére, és skálázható a várható későbbi növekedésnek megfelelően.
+- Végezzen terhelésteszteket az átjárón annak ellenőrzéséhez, hogy az nem indít-e el hibasorozatokat a szolgáltatásokban.
+- Az átjáró útválasztása 7. szintű. Az útválasztás történhet IP-cím, port, fejléc vagy URL-cím alapján.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez mintát, mikor használja:
+Használja ezt a mintát, ha:
 
-- Egy ügyfél hozzáfér egy átjáró mögötti több szolgáltatásait kell.
-- Egyszerűbbé teheti az ügyfélalkalmazások egyetlen végpont használatával kívánja.
-- Belső virtuális végpontok, például a fürt virtuális IP-címek egy virtuális gép portját az ilyen külsőleg megcímezhető végpontok érkező kéréseket továbbítani kell.
+- Az ügyfélnek több szolgáltatást kell használnia, amelyek egy átjáró mögött érhetőek el.
+- Egyetlen végpont használatával kívánja egyszerűsíteni az ügyfélalkalmazásokat.
+- A kérést kívülről címezhető végpontokról belső virtuális végpontokra kell átirányítani (például egy virtuális gép portjainak elérhetővé tétele virtuális IP-címek fürtözéséhez).
 
-Ez a minta nem lehet megfelelő, ha csak egy vagy két szolgáltatást használó egyszerű alkalmazással.
+Nem érdemes ezt a mintát használni olyan egyszerű alkalmazásokhoz, amelyek csupán egy vagy két szolgáltatást használnak.
 
 ## <a name="example"></a>Példa
 
-Az útválasztó Nginx használ, a következő: egy egyszerű példa konfigurációs fájlt a kiszolgáló, amely az alkalmazások különböző virtuális könyvtárak különböző gépek hátsó végén levő kérelmek
+Az Nginxet útválasztóként használva létrehozhatja ezt az egyszerű konfigurációs fájt, amely a különböző virtuális könyvtárakban található alkalmazások kéréseit a háttérrendszer különböző gépeire irányíthatja át.
 
 ```
 server {
@@ -69,11 +70,11 @@ server {
 }
 ```
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Háttérkiszolgálókon Frontends minta](./backends-for-frontends.md)
-- [Átjáró összesítési minta](./gateway-aggregation.md)
-- [Átjáró Offloading minta](./gateway-offloading.md)
+- [Háttérrendszerek és előtérrendszerek minta](./backends-for-frontends.md)
+- [Átjáróösszesítés minta](./gateway-aggregation.md)
+- [Átjárókiürítés minta](./gateway-offloading.md)
 
 
 

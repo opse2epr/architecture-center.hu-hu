@@ -3,11 +3,12 @@ title: Az Azure számítási lehetőségeinek áttekintése
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
 ms.date: 04/21/2018
-ms.openlocfilehash: 8ee508aaa07d87ac77ef484e20d572fdf2b9fb40
-ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
+ms.openlocfilehash: fbfe574b2f437ec0c02416387a246095fe117253
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/29/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252941"
 ---
 # <a name="overview-of-azure-compute-options"></a>Az Azure számítási lehetőségeinek áttekintése
 
@@ -29,6 +30,7 @@ Az Azure-ban jelenleg a következő fő számítási lehetőségek érhetők el:
 - Az [App Service](/azure/app-service/app-service-value-prop-what-is) egy felügyelt szolgáltatás, amelynek segítségével webalkalmazásokat, mobilalkalmazások háttérkomponenseit, RESTful API-kat vagy automatizált üzleti folyamatokat üzemeltethet.
 - A [Service Fabric](/azure/service-fabric/service-fabric-overview) egy elosztott rendszerplatform, amely számos környezetben futtatható, például az Azure-ban vagy a helyszínen. A Service Fabric mikroszolgáltatásokat vezényel számítógépfürtökön. 
 - Az [Azure Container Service](/azure/container-service/container-service-intro) segítségével tárolóalapú alkalmazások futtatására konfigurált virtuális gépek fürtjeit hozhatja létre, konfigurálhatja és kezelheti.
+- [Az Azure tároló példányok](/azure/container-instances/container-instances-overview) kínálnak a leggyorsabb és legegyszerűbb módja a tároló Azure rendszerben való futtatásra, anélkül, hogy a virtuális gépeket, és anélkül, hogy egy magasabb szintű szolgáltatást elfogadására.
 - Az [Azure Functions](/azure/azure-functions/functions-overview) egy felügyelt FaaS-szolgáltatás.
 - Az [Azure Batch](/azure/batch/batch-technical-overview) egy felügyelt szolgáltatás, amellyel nagy méretű párhuzamos és nagy teljesítményű feldolgozási (HPC) alkalmazásokat futtathat.
 - A [Cloud Services](/azure/cloud-services/cloud-services-choose-me) egy felügyelt szolgáltatás, amellyel felhőalkalmazásokat futtathat. PaaS futtatási modellt használ. 

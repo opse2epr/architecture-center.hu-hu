@@ -9,11 +9,12 @@ ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: adds-forest
 cardTitle: Extend AD FS to Azure
-ms.openlocfilehash: 87489b7b81cf323c221466c539ee14ea90e23c14
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 37edae209334da96aa9c121b1ac68c5e1d363323
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252729"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -118,7 +119,7 @@ Az AD FS és a WAP virtuális gépek terheléselosztóit a következőképpen ko
 * Használjon Azure-terheléselosztót a WAP virtuális gépekhez való külső hozzáférés biztosítására, és egy belső terheléselosztót a farm AD FS-kiszolgálóira irányuló terhelés elosztására.
 * Az AD FS- és WAP-kiszolgálók felé kizárólag a 443-as porton (HTTPS) megjelenő forgalmat továbbítsa.
 * A terheléselosztónak statikus IP-címet adjon.
-* Állapotmintát a HTTPS helyett a TCP protokollal hozzon létre. Ha ellenőrizni kívánja, hogy működik-e egy adott AD FS-kiszolgáló, pingelje a 443-as portot.
+* Hozzon létre egy elleni HTTP protokollal állapotmintáihoz `/adfs/probe`. További információkért lásd: [hardver terhelés terheléselosztó állapotát ellenőrzi, és a webalkalmazás-Proxy / AD FS 2012 R2](https://blogs.technet.microsoft.com/applicationproxyblog/2014/10/17/hardware-load-balancer-health-checks-and-web-application-proxy-ad-fs-2012-r2/).
   
   > [!NOTE]
   > Az AD FS-kiszolgálók a Kiszolgálónév jelzése (SNI) protokollt használják, így ha egy HTTPS-végpont használatával próbál mintát venni, a terheléselosztó hibába ütközik.

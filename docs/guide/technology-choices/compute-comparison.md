@@ -4,11 +4,12 @@ description: Az Azure compute szolgáltatások összehasonlítása több tengely
 author: MikeWasson
 layout: LandingPage
 ms.date: 04/21/2018
-ms.openlocfilehash: ff90ec41c56ae0ecb81bc82128f02fd06d02cb32
-ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
+ms.openlocfilehash: 0042a00a19dd93c5b3253353809b063f201dc1e4
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/23/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252617"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Feltételek kiválasztása az Azure számítási szolgáltatás
 
@@ -56,7 +57,7 @@ Megjegyzések
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | Automatikus méretezés | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Nem támogatott | Nem támogatott | – |
 | Terheléselosztó | Azure Load Balancer | Integrált | Azure Load Balancer | Integrált | Azure Load Balancer |  Nincs beépített támogatás | Azure Load Balancer |
-| Méretkorlát | Platformlemezkép: 1000 csomópont virtuálisgép-méretezési csoportonként, Egyéni lemezkép: 100 csomópont virtuálisgép-méretezési csoportonként | 20 példány, 50 App Service Environmenttel | 100 csomópont virtuálisgép-méretezési csoportonként | Végtelen <a href="#note1c"><sup>1</sup></a> | 100 |előfizetésenként 20 tárolócsoportok <a href="#note2c"> <sup>2</sup></a> | Alapértelmezés szerint 20 magos korlát. Az értékek növeléséhez forduljon az ügyfélszolgálathoz. |
+| Méretkorlát | Platformlemezkép: 1000 csomópont virtuálisgép-méretezési csoportonként, Egyéni lemezkép: 100 csomópont virtuálisgép-méretezési csoportonként | 20 példány, 50 App Service Environmenttel | 100 csomópont virtuálisgép-méretezési csoportonként | Végtelen <a href="#note1c"><sup>1</sup></a> | 100 |Alapértelmezés szerint előfizetésenként 20 tárolócsoportok. Az értékek növeléséhez forduljon az ügyfélszolgálathoz. <a href="#note2c"><sup>2. régiója</sup></a> | Alapértelmezés szerint 20 magos korlát. Az értékek növeléséhez forduljon az ügyfélszolgálathoz. |
 
 Megjegyzések
 
@@ -75,7 +76,7 @@ Megjegyzések
 
 | Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Container Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
-| SSL | Virtuális gépen konfigurált | Támogatott | Támogatott  | Támogatott | Virtuális gépen konfigurált | Nem támogatott | Támogatott |
+| SSL | Virtuális gépen konfigurált | Támogatott | Támogatott  | Támogatott | Virtuális gépen konfigurált | Támogatott oldalkocsi tárolóval | Támogatott |
 | Költségek | [Windows][cost-windows-vm], [Linux][cost-linux-vm] | [Az App Service árképzése][cost-app-service] | [A Service Fabric árképzése][cost-service-fabric] | [Az Azure Functions árképzése][cost-functions] | [Az Azure Container Service árképzése][cost-acs] | [Tároló példányok díjszabása](https://azure.microsoft.com/pricing/details/container-instances/) | [Az Azure Batch árképzése][cost-batch]
 | Megfelelő architektúrastílusok | N szintű, Big Compute (HPC) | Webüzenetsor-feldolgozó | Mikroszolgáltatások, eseményvezérelt architektúra (EDA) | Mikroszolgáltatások | Mikroszolgáltatások | Feladatok automatizálása, kötegelt feladatok mikroszolgáltatások létrehozására  | Big Compute |
 

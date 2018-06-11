@@ -2,11 +2,12 @@
 title: Az adattár kiválasztásának kritériumai
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
-ms.openlocfilehash: 9cb2f77b854a38450490bc96bf0b6a2998ceb1c7
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 70f746f80c29623004620d83eb38747777df7f84
+ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35252873"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -24,7 +25,7 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 - **Adatkapcsolatok**. Az adatoknak támogatniuk kell-e az egy-a-többhöz vagy a több-a-többhöz kapcsolatokat? Maguk a kapcsolatok fontos részét képezik az adatoknak? Szükség lesz-e az adatok egyesítésére vagy egyéb típusú kombinálására ugyanazon vagy más külső adatkészletekből származó adatokkal? 
 - **Konzisztenciamodell**. Mennyire fontos, hogy az egy csomóponton végzett frissítések más csomópontokon is megjelenjenek, mielőtt további módosításokat lehetne eszközölni? Elfogadható-e a végleges konzisztencia? Szüksége van-e ACID-garanciákra az egyes tranzakciókhoz?
 - **A séma rugalmassága**. Milyen sémát fog alkalmazni az adatokon? Rögzített sémát, esetleg írási séma vagy olvasási séma megközelítést fog használni?
-- **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, lehetséges, hogy rekordzárolási és pesszimista egyidejűségi vezérlőkre lesz szüksége. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
+- **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, a rekordok zárolására és pesszimista feldolgozási vezérlő lehet szükség. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
 - **Adatáthelyezés**. A megoldásnak végre kell-e hajtania ETL-feladatokat az adatok másik tárolóba vagy adattárházba történő áthelyezéséhez?
 - **Az adatok életciklusa**. Az adatok egyszer írhatók és többször olvashatók? Áthelyezhetők-e ritkán használt vagy offline tárhelyre?
 - **Egyéb támogatott funkciók**. Szüksége van-e bármilyen más konkrét funkcióra, például sémaérvényesítésre, összesítésre, indexelésre, teljes szöveges keresésre, esetleg MapReduce-feladatra vagy egyéb lekérdezési képességekre?
@@ -330,7 +331,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
 <tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>A műveletek túlnyomó részét (95–99%) írási műveletek adják.</li>
+            <li>Műveletek (95-99 %) egy túlságosan hányadát írási műveletek.</li>
             <li>A rekordok hozzáfűzése általában időrend szerint történik.</li>
             <li>A frissítések ritkák.</li>
             <li>A törlések tömegesen fordulnak elő, céljaik általában egybefüggő blokkok vagy rekordok.</li>
