@@ -2,11 +2,12 @@
 title: 'Explainer: Azure működése'
 description: Azure belső működését ismerteti
 author: petertay
-ms.openlocfilehash: b4830fec69ac6d256d934d91ea2c295219925a9a
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 1cebcc001b8d2ae93d8b0271c48d54617281c7c2
+ms.sourcegitcommit: b3d74d8a89b2224fc796ce0e89cea447af43a0d4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 06/11/2018
+ms.locfileid: "35290509"
 ---
 # <a name="explainer-how-does-azure-work"></a>Explainer: Azure működése
 
@@ -28,7 +29,7 @@ Igen nagyon egyszerűen Azure gyűjteménye túl nagy a kiszolgálók és a hál
 
 ## <a name="next-steps"></a>További lépések
 
-* Most, hogy megismerte az Azure belső működésére, első lépése a bevezetése az Azure-hoz [megismerése az Azure-ban digitális identitásokat](tenant-explainer.md). Készen áll majd [az első felhasználó létrehozása az Azure AD][docs-add-users-to-aad].
+* Most, hogy megismerte az Azure belső működésére, megismerése [erőforrás hozzáférés-irányítási](governance-explainer.md). Majd lépjen az első Azure, ami történő elfogadásával [megismerése az Azure-ban digitális identitásokat](tenant-explainer.md). A lépés befejezése után készen áll [az első felhasználó létrehozása az Azure AD][docs-add-users-to-aad].
 
 <!-- Links -->
 
