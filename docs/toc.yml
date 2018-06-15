@@ -127,12 +127,16 @@
   items:
     - name: Azure AWS-szakembereknek
       href: aws-professional/index.md
+    - name: Mikroszolgáltatások létrehozása az Azure-ban
+      href: ./microservices/index.md
     - name: Identitáskezelés több-bérlős alkalmazásokban
       href: multitenant-identity/index.md
-    - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
-      href: service-fabric/migrate-from-cloud-services.md
-    - name: Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
-      href: service-fabric/refactor-migrated-app.md
+    - name: Migráció a Cloud Servicesből a Service Fabricbe
+      items:
+        - name: Cloud Services-alkalmazás migrálása a Service Fabricbe
+          href: service-fabric/migrate-from-cloud-services.md
+        - name: Service Fabric-alkalmazás újrabontása
+          href: service-fabric/refactor-migrated-app.md
     - name: Az Azure Resource Manager-sablon funkciójának bővítése
       href: building-blocks/extending-templates/index.md
 - name: További források
