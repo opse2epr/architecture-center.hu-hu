@@ -17,11 +17,13 @@
             - name: 'Ismertető: Mi az Azure Active Directory-bérlő?'
               href: adoption-intro/tenant-explainer.md
             - name: 'Bemutató: Azure Active Directory-bérlő beszerzése'
-              href: /azure/active-directory/develop/active-directory-howto-tenant?toc=/azure/architecture/cloud-adoption-guide/toc.json
+              href: /azure/active-directory/develop/active-directory-howto-tenant
+              maintainContext: true
             - name: 'Útmutató: Az Azure Active Directory-bérlő kialakítása'
               href: adoption-intro/tenant.md
             - name: 'Bemutató: Felhasználó hozzáadása az Azure Active Directory-bérlőhöz'
-              href: /azure/active-directory/add-users-azure-active-directory?toc=/azure/architecture/cloud-adoption-guide/toc.json
+              href: /azure/active-directory/add-users-azure-active-directory
+              maintainContext: true
         - name: Azure-előfizetések ismertetése
           items:
             - name: 'Ismertető: Mi az Azure-előfizetés?'
@@ -35,35 +37,46 @@
             - name: 'Ismertető: Mi az Azure-erőforráscsoport?'
               href: adoption-intro/resource-group-explainer.md
             - name: 'Ismertető: Az Azure erőforrás-hozzáférésének megismerése'
-              href: /azure/active-directory/active-directory-understanding-resource-access?toc=/azure/architecture/cloud-adoption-guide/toc.json
+              href: /azure/active-directory/active-directory-understanding-resource-access
+              maintainContext: true
             - name: 'Bemutató: Erőforráscsoport létrehozása a portál használatával'
-              href: /azure/azure-resource-manager/resource-group-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json
+              href: /azure/azure-resource-manager/resource-group-portal
+              maintainContext: true
             - name: 'Útmutató: Az erőforráscsoportok kialakítása'
               href: adoption-intro/resource-group.md
             - name: 'Útmutató: Az Azure-erőforrások elnevezési konvenciói'
-              href: /azure/architecture/best-practices/naming-conventions?toc=/azure/architecture/cloud-adoption-guide/toc.json
+              href: /azure/architecture/best-practices/naming-conventions
+              maintainContext: true
         - name: Alapszintű architektúrák üzembe helyezése az Azure-ban
           items:
             - name: Szolgáltatásként nyújtott platformra (PaaS) épülő architektúra
               items:
                 - name: 'Bemutató: Alapszintű webalkalmazás üzembe helyezése az Azure-ban'
-                  href: /azure/app-service?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/app-service
+                  maintainContext: true
                 - name: 'Útmutató: Ajánlott eljárások a webes alkalmazásokhoz az Azure-ban'
-                  href: /azure/architecture/reference-architectures/app-service-web-app/basic-web-app?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/architecture/reference-architectures/app-service-web-app/basic-web-app
+                  maintainContext: true
             - name: Szolgáltatott infrastruktúra (IaaS)
               items:
                 - name: 'Ismertető: Mi az Azure virtuális hálózat?'
-                  href: /azure/virtual-network/virtual-networks-overview?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/virtual-network/virtual-networks-overview
+                  maintainContext: true
                 - name: 'Bemutató: Virtuális hálózat üzembe helyezése az Azure-ban'
-                  href: /azure/virtual-network/virtual-networks-create-vnet-arm-pportal?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/virtual-network/virtual-networks-create-vnet-arm-pportal
+                  maintainContext: true
                 - name: 'Bemutató: Egyetlen Windows rendszerű virtuális gép IaaS típusú munkaterhelésének telepítése az Azure-ba'
-                  href: /azure/virtual-machines/windows/quick-create-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/virtual-machines/windows/quick-create-portal
+                  maintainContext: true
                 - name: 'Útmutató: Windows rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai'
-                  href: /azure/architecture/reference-architectures/virtual-machines-windows/single-vm?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/architecture/reference-architectures/virtual-machines-windows/single-vm
+                  maintainContext: true
                 - name: 'Útmutató: Egyetlen Linux rendszerű virtuális gép IaaS típusú számítási feladatainak üzembe helyezése az Azure-ban'
-                  href: /azure/virtual-machines/linux/quick-create-portal?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/virtual-machines/linux/quick-create-portal
+                  maintainContext: true
                 - name: 'Útmutató: Linux rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai'
-                  href: /azure/architecture/reference-architectures/virtual-machines-linux/single-vm?toc=/azure/architecture/cloud-adoption-guide/toc.json
+                  href: /azure/architecture/reference-architectures/virtual-machines-linux/single-vm
+                  maintainContext: true
     - name: Köztes Azure-bevezetés
       href: intermediate-stage/overview.md
       items:
