@@ -4,11 +4,12 @@ description: Segédlet egy jól megtervezett webes API létrehozásához.
 author: dragon119
 ms.date: 01/12/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: a8c4a81835ebd3ebdba2fd2cec624a9a9d5646f5
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: db9784f454e0b52b335d6dff3a054c2c59124c9f
+ms.sourcegitcommit: f7418f8bdabc8f5ec33ae3551e3fbb466782caa5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36209610"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -104,7 +105,7 @@ Egy másik tényező, hogy minden webes kérés terheli a webkiszolgálót. Min�
 
 Kerülje a webes API-k és az alapul szolgáló adatforrások közötti függőségek bevezetését. Például ha az adatok egy relációs adatbázisban vannak tárolva, akkor nem szükséges a webes API-nak minden táblát erőforrások gyűjteményeként elérhetővé tennie. Valójában az egy rossz kialakítás volna. Tekintsen inkább a webes API-kra az adatbázis absztrakciójaként. Ha szükséges, vezessen be egy leképezési réteget az adatbázis és a webes API között. E módon az ügyfélalkalmazások függetlenítve lesznek az alapul szolgáló adatbázisséma módosításaitól.
 
-Végül pedig előfordulhat az is, hogy nem lehetséges minden olyan művelet leképezése, amelyet egy webes API implementál egy meghatározott erőforráson. Az ilyen *nem erőforrás* típusú forgatókönyveket kezelheti HTTP-kéréseken keresztül, amelyek meghívnak egy függvényt, az eredményeket pedig HTTP-válaszüzenetként adják vissza. Például egy webes API, amely egyszerű számológépes műveleteket valósít meg – pl. a hozzáadást és a kivonást –, megadhat olyan URI-kat, amelyek ezeket a műveleteket pszeudo-erőforrásként teszik közzé, és lekérdezési karakterláncot használhat a szükséges paraméterek meghatározására. Például egy, az URI-hoz beérkező GET-kérés (*/add?operand1=99&operand2=1*) olyan válaszüzenetet adna vissza, amelynek a törzse a 100-as értéket tartalmazza. Azonban csak módjával használja az ilyen típusú URI-kat.
+Végül pedig előfordulhat az is, hogy nem lehetséges minden olyan művelet leképezése, amelyet egy webes API implementál egy meghatározott erőforráson. Az ilyen *nem erőforrás* típusú forgatókönyveket kezelheti HTTP-kéréseken keresztül, amelyek meghívnak egy függvényt, az eredményeket pedig HTTP-válaszüzenetként adják vissza. Például egy webes API, amely egyszerű számológépes műveleteket valósít meg – pl. a hozzáadást és a kivonást –, megadhat olyan URI-kat, amelyek ezeket a műveleteket pszeudo-erőforrásként teszik közzé, és lekérdezési sztringet használhat a szükséges paraméterek meghatározására. Például egy, az URI-hoz beérkező GET-kérés (*/add?operand1=99&operand2=1*) olyan válaszüzenetet adna vissza, amelynek a törzse a 100-as értéket tartalmazza. Azonban csak módjával használja az ilyen típusú URI-kat.
 
 ## <a name="define-operations-in-terms-of-http-methods"></a>Műveletek meghatározása HTTP-metódusok keretében
 
@@ -247,7 +248,7 @@ Content-Type: application/json
 
 {
     "status":"In progress",
-    "link": { "rel":"cancel", "method":"delete", "href":"/api/status/12345"
+    "link": { "rel":"cancel", "method":"delete", "href":"/api/status/12345" }
 }
 ```
 
@@ -264,9 +265,9 @@ További információkért lásd az [aszinkron műveletek végrehajtását a RES
 
 Az erőforrások gyűjteménye egyetlen URI-val való közzététele ahhoz vezethet, hogy az alkalmazások hatalmas mennyiségű adatokat kérnek le olyankor is, amikor az információnak csak egy részletére van szükség. Tegyük fel például, hogy az ügyfélalkalmazásnak meg kell keresnie az összes olyan rendelést, amelynek a költsége meghalad egy bizonyos értéket. Ilyenkor előfordulhat, hogy minden rendelést lekér az */orders* URI-ból, majd az ügyféloldalon szűri a találatokat. Egyértelmű, hogy ez a folyamat nem túl hatékony. A hálózati sávszélesség és a webes API-t üzemeltető kiszolgáló feldolgozási teljesítménye szempontjából nagyon pazarló megoldás.
 
-Ehelyett az API engedélyezheti egy szűrő megadását az URI lekérdezési karakterláncában. Például: */orders?minCost=n*. Ezt követően a webes API felelős a lekérdezési karakterláncban szereplő `minCost` paraméter elemzéséért és kezeléséért, valamint a kiszolgálóoldali szűrt eredmények visszaadásáért. 
+Ehelyett az API engedélyezheti egy szűrő megadását az URI lekérdezési sztringjében. Például: */orders?minCost=n*. Ezt követően a webes API felelős a lekérdezési sztringben szereplő `minCost` paraméter elemzéséért és kezeléséért, valamint a kiszolgálóoldali szűrt eredmények visszaadásáért. 
 
-A GET-kérések gyűjtemény-erőforrások esetében nagy számú elemet is visszaadhatnak. Tervezzen olyan webes API-t, amely korlátozza az egyetlen kérés által visszaadott adatok mennyiségét. Fontolja meg olyan lekérdezési karakterláncok támogatását, amelyek megadják a beolvasható elemek maximális számát és egy, a gyűjteményre vonatkozó kezdőértéket (ofszetet). Példa:
+A GET-kérések gyűjtemény-erőforrások esetében nagy számú elemet is visszaadhatnak. Tervezzen olyan webes API-t, amely korlátozza az egyetlen kérés által visszaadott adatok mennyiségét. Fontolja meg olyan lekérdezési sztringek támogatását, amelyek megadják a beolvasható elemek maximális számát és egy, a gyűjteményre vonatkozó kezdőértéket (ofszetet). Példa:
 
 ```
 /orders?limit=25&offset=50
@@ -274,11 +275,11 @@ A GET-kérések gyűjtemény-erőforrások esetében nagy számú elemet is viss
 
 Szintén megfontolandó egy felső határérték meghatározása a visszaadott elemek számára vonatkozóan, így megakadályozhatja a szolgáltatásmegtagadásos (DoS-) támadásokat. Segítheti az ügyfélalkalmazások működését, ha azon GET-kérések, amelyek többoldalas adatokat adnak vissza, szintén tartalmazzák a metaadatokat valamilyen formában, amelyek jelzik az adott gyűjteményben lévő elérhető erőforrások teljes számát. Emellett érdemes megfontolnia egyéb intelligens oldalakrabontási stratégiák használatát is. További információért lásd az [API-tervezéssel kapcsolatos, az intelligens oldalakra bontásra vonatkozó megjegyzéseket](http://bizcoder.com/api-design-notes-smart-paging)
 
-Hasonló stratégiát alkalmazhat az adatok szűrésére azok lekérésekor, ha egy olyan rendezési paraméterrel szolgál, amely a mezők nevét veszi fel értékként. Például: */orders?sort=ProductID*. Ez a megközelítés azonban negatív hatással lehet a gyorsítótárazásra, mert a lekérdezési karakterlánc paraméterei szerepelnek az erőforrás-azonosítóban, amelyet számos gyorsítótárazási implementáció kulcsként használ a gyorsítótárazott adatokhoz történő hozzáféréshez.
+Hasonló stratégiát alkalmazhat az adatok szűrésére azok lekérésekor, ha egy olyan rendezési paraméterrel szolgál, amely a mezők nevét veszi fel értékként. Például: */orders?sort=ProductID*. Ez a megközelítés azonban negatív hatással lehet a gyorsítótárazásra, mert a lekérdezési sztring paraméterei szerepelnek az erőforrás-azonosítóban, amelyet számos gyorsítótárazási implementáció kulcsként használ a gyorsítótárazott adatokhoz történő hozzáféréshez.
 
-Bővítheti ezt a módszert úgy, hogy korlátozza az elemenként visszaadott mezők számát, ha az egyes elemek nagy mennyiségű adatot tartalmaznak. Például használhat egy olyan lekérdezésikarakterlánc-paramétert, amely vesszővel elválasztott mezőket fogad. Például: */orders?fields=ProductID,Quantity*. 
+Bővítheti ezt a módszert úgy, hogy korlátozza az elemenként visszaadott mezők számát, ha az egyes elemek nagy mennyiségű adatot tartalmaznak. Például használhat egy olyan lekérdezésisztring-paramétert, amely vesszővel elválasztott mezőket fogad. Például: */orders?fields=ProductID,Quantity*. 
 
-A lekérdezési karakterláncokban minden választható paraméternek adjon közérthető alapértelmezett értékeket. Például állítsa a `limit` paramétert 10-es értékre, az `offset` paramétert pedig 0-ra, ha oldalakra bontást szeretne megvalósítani. Állítsa a rendezési paramétert az erőforrás kulcsának megfelelőre, ha szeretne rendezést megvalósítani. Végül adja meg a `fields` paramétert az erőforrás összes mezőjénél, ha támogatja a leképezéseket.
+A lekérdezési sztringekban minden választható paraméternek adjon közérthető alapértelmezett értékeket. Például állítsa a `limit` paramétert 10-es értékre, az `offset` paramétert pedig 0-ra, ha oldalakra bontást szeretne megvalósítani. Állítsa a rendezési paramétert az erőforrás kulcsának megfelelőre, ha szeretne rendezést megvalósítani. Végül adja meg a `fields` paramétert az erőforrás összes mezőjénél, ha támogatja a leképezéseket.
 
 ## <a name="support-partial-responses-for-large-binary-resources"></a>Részleges válaszok támogatása nagyméretű bináris erőforrásokhoz
 
@@ -394,7 +395,7 @@ A verziókezelés lehetővé teszi a webes API-k számára, hogy jelezzék az el
 ### <a name="no-versioning"></a>Nincs verziókezelés
 Ez a legegyszerűbb megközelítés, és egyes belső API-k esetében elfogadható. A nagy változások megjeleníthetők új erőforrásokként vagy hivatkozásokként.  A tartalom meglévő erőforrásokhoz való hozzáadása nem biztos, hogy alapvető változást jelent, mivel az ügyfélalkalmazások, amelyek nem számítanak erre a tartalomra, egyszerűen figyelmen kívül hagyják azt.
 
-Például az URI kérelem  *http://adventure-works.com/customers/3*  visszaadja-e részletes adatait tartalmazó egyetlen ügyfél `id`, `name`, és `address` az ügyfélalkalmazás által várt mezők:
+Például az URI kérelem *http://adventure-works.com/customers/3* visszaadja-e részletes adatait tartalmazó egyetlen ügyfél `id`, `name`, és `address` az ügyfélalkalmazás által várt mezők:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -433,18 +434,18 @@ Content-Type: application/json; charset=utf-8
 
 Ez a verziókezelő mechanizmus nagyon egyszerű, de függ attól, hogy a kiszolgáló a megfelelő végpontra irányítja-e a kérést. Azonban nehézkessé válhat, ahogy a webes API egyre kiforrottabb lesz, és a kiszolgálónak különböző verziókat kell támogatnia egyidejűleg. Ha az egyszerűség felől közelítjük meg a kérdést, az ügyfélalkalmazások minden esetben ugyanazt az adatot (3-as ügyfél) kérdezik le, ezért az URI-nak sem kellene verziónként eltérőnek lennie. Ez a séma a HATEOAS implementálását is bonyolultabbá teszi, mivel az összes hivatkozásnak tartalmaznia kell a verziószámot a hozzájuk tartozó URI-kban.
 
-### <a name="query-string-versioning"></a>Lekérdezésikarakterlánc-verziókezelés
-Ahelyett, hogy így több URI-k, megadhatja a verziót az erőforrás egy paraméterrel, a lekérdezési karakterláncot, mint a HTTP-kérelem fűzött belül  *http://adventure-works.com/customers/3?version=2* . A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
+### <a name="query-string-versioning"></a>Lekérdezésisztring-verziókezelés
+Ahelyett, hogy így több URI-k, megadhatja a verziót az erőforrás egy paraméterrel, a lekérdezési karakterláncot, mint a HTTP-kérelem fűzött belül *http://adventure-works.com/customers/3?version=2*. A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
 
-Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési karakterlánc elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
+Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési sztring elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
 
 > [!NOTE]
-> Egyes régebbi webböngészők és webes proxyk nem gyorsítótárazzák a válaszokat olyan kérésekre, amelyek URI-jai lekérdezési karakterláncot is tartalmaznak. Ez kedvezőtlen hatással lehet az olyan webes alkalmazások teljesítményére, amelyek webes API-t használnak, illetve amelyek például egy böngészőből futnak.
+> Egyes régebbi webböngészők és webes proxyk nem gyorsítótárazzák a válaszokat olyan kérésekre, amelyek URI-jai lekérdezési sztringet is tartalmaznak. Ez kedvezőtlen hatással lehet az olyan webes alkalmazások teljesítményére, amelyek webes API-t használnak, illetve amelyek például egy böngészőből futnak.
 >
 >
 
 ### <a name="header-versioning"></a>Fejléc-verziókezelés
-A verziószám lekérdezésikarakterlánc-paramétereként való feltüntetése helyett használhat egy egyéni fejlécet, amely jelzi az erőforrás verzióját. E módszerhez szükség van arra, hogy az ügyfélalkalmazás a megfelelő fejlécet adja hozzá minden kéréshez, ugyanakkor az ügyfélkérést kezelő programkód használhat alapértelmezett értéket (1-es verzió), ha a verziófejléc ki van hagyva. Az alábbi példákban a *Custom-Header* nevű egyéni fejlécet fogjuk használni. A fejléc értéke a webes API verzióját adja meg.
+A verziószám lekérdezésisztring-paramétereként való feltüntetése helyett használhat egy egyéni fejlécet, amely jelzi az erőforrás verzióját. E módszerhez szükség van arra, hogy az ügyfélalkalmazás a megfelelő fejlécet adja hozzá minden kéréshez, ugyanakkor az ügyfélkérést kezelő programkód használhat alapértelmezett értéket (1-es verzió), ha a verziófejléc ki van hagyva. Az alábbi példákban a *Custom-Header* nevű egyéni fejlécet fogjuk használni. A fejléc értéke a webes API verzióját adja meg.
 
 1-es verzió:
 
@@ -498,7 +499,7 @@ Ha az Accept fejléc nem határoz meg egy ismert adathordozó-típust sem, a web
 E megközelítést tartják a legtisztább verziókezelési mechanizmusnak, és jól használható a HATEOAS-szal is, amely tartalmazhatja a kapcsolódó adatok MIME-típusát az erőforrás-hivatkozásokban.
 
 > [!NOTE]
-> Amikor kiválaszt egy verziókezelési stratégiát, érdemes megfontolnia a teljesítményre gyakorolt hatást is, különösen a webkiszolgáló gyorsítótárazását illetően. Az URI-verziókezelés és a lekérdezésikarakterlánc-verziókezelés sémája gyorsítótárral kompatibilis, tekintve, hogy minden alkalommal ugyanaz az URI és lekérdezési karakterlánc vonatkozik ugyanarra az adatra.
+> Amikor kiválaszt egy verziókezelési stratégiát, érdemes megfontolnia a teljesítményre gyakorolt hatást is, különösen a webkiszolgáló gyorsítótárazását illetően. Az URI-verziókezelés és a lekérdezésisztring-verziókezelés sémája gyorsítótárral kompatibilis, tekintve, hogy minden alkalommal ugyanaz az URI és lekérdezési sztring vonatkozik ugyanarra az adatra.
 >
 > A fejléc- és adathordozótípus-verziókezelési mechanizmus használatához általában szükség van további logikára, amely az egyéni fejlécben vagy az Accept fejlécben lévő értékeket vizsgálja meg. Nagyméretű környezetben számos ügyfél a webes API-k eltérő verzióját használja, ez pedig jelentős mennyiségű duplikált adatot eredményezhet a kiszolgálóoldali gyorsítótárban. A probléma akuttá válhat, ha az ügyfélalkalmazások gyorsítótárazást használó proxyn keresztül kommunikálnak a webkiszolgálókkal. A proxy csak akkor továbbítja a kérést a webkiszolgáló felé, ha a gyorsítótár jelenleg nem tartalmazza a kért adat másolatát.
 >
