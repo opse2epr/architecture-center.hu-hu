@@ -5,11 +5,12 @@ author: telmosampaio
 ms.date: 04/09/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: 3b19526a9ed77c1605325a9eec101ffbee7c8401
-ms.sourcegitcommit: 3846a0ab2b2b2552202a3c9c21af0097a145ffc6
+ms.openlocfilehash: 4ebb0d4df3e1907662537516cae1f077e68e47b4
+ms.sourcegitcommit: f7418f8bdabc8f5ec33ae3551e3fbb466782caa5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/29/2018
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36209576"
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -56,7 +57,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 > [!NOTE]
 > Ez a cikk csak a [Resource Manager](/azure/azure-resource-manager/resource-group-overview) üzemelő példányokat mutatja be, de ugyanabban az előfizetésben klasszikus virtuális hálózatot is csatlakoztathat Resource Manager virtuális hálózathoz. Így a küllők tárolhatnak klasszikus üzemelő példányokat, mégis profitálhatnak az agyban megosztott szolgáltatásokból.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei.
 
@@ -77,7 +78,7 @@ A magasabb rendelkezésre álláshoz használhat ExpressRoute-ot és egy VPN-t f
 
 Küllős topológiát használhat átjáró nélkül is, ha nincs szükség a helyszíni hálózattal való kapcsolatra. 
 
-### <a name="vnet-peering"></a>Társviszony létesítése virtuális hálózatok között
+### <a name="vnet-peering"></a>Társviszony-létesítés virtuális hálózatok között
 
 A virtuális társhálózatok létesítése nem tranzitív kapcsolat két virtuális hálózat között. Ha két küllőt szeretne egymáshoz csatlakoztatni, vegye fontolóra egy külön társviszonykapcsolat hozzáadását az adott küllők között.
 
@@ -272,7 +273,7 @@ A szimulált a helyszíni környezetből a Vnetek küllős való kapcsolat teszt
 
 2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
 
-3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag futtatásával ellenőrizze, hogy tud-e csatlakozni a virtuális gép jumpbox VNet központban.
+3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag segítségével győződjön meg arról, hogy a virtuális gépek jumpbox a Vnetek küllős a csatlakozhat.
 
    ```powershell
    Test-NetConnection 10.1.0.68 -CommonTCPPort RDP
