@@ -5,9 +5,11 @@
     - name: Rugalmas alkalmazások tervezése
       href: index.md
     - name: Rugalmasságra vonatkozó ellenőrzőlista (általános)
-      href: ../checklist/resiliency.md?toc=/azure/architecture/resiliency/toc.json
+      href: ../checklist/resiliency.md
+      maintainContext: true
     - name: Rugalmasságra vonatkozó ellenőrzőlista (Azure-szolgáltatások)
-      href: ../checklist/resiliency-per-service.md?toc=/azure/architecture/resiliency/toc.json
+      href: ../checklist/resiliency-per-service.md
+      maintainContext: true
     - name: A hibaállapot elemzése
       href: failure-mode-analysis.md
     - name: További útmutatás

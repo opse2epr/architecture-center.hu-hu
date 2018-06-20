@@ -1,32 +1,32 @@
 ---
-title: Felügyelt szolgáltatásokkal
-description: Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúrán szolgáltatásként (IaaS)
+title: Használjon felügyelt szolgáltatásokat
+description: Amikor lehetséges, a szolgáltatásként nyújtott infrastruktúra (IaaS) helyett használjon szolgáltatásként nyújtott platformot (PaaS)
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 7156c073db3e047fb38e031309ddb637a9e44c02
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 6d3cfb2e97b5a9b25bb1afd72059e981ef45c0d8
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206939"
 ---
-# <a name="use-managed-services"></a>Felügyelt szolgáltatásokkal
+# <a name="use-managed-services"></a><span data-ttu-id="af992-103">Használjon felügyelt szolgáltatásokat</span><span class="sxs-lookup"><span data-stu-id="af992-103">Use managed services</span></span>
 
-## <a name="when-possible-use-platform-as-a-service-paas-rather-than-infrastructure-as-a-service-iaas"></a>Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúra helyett szolgáltatásként (IaaS)
+## <a name="when-possible-use-platform-as-a-service-paas-rather-than-infrastructure-as-a-service-iaas"></a><span data-ttu-id="af992-104">Amikor lehetséges, a szolgáltatásként nyújtott infrastruktúra (IaaS) helyett használjon szolgáltatásként nyújtott platformot (PaaS)</span><span class="sxs-lookup"><span data-stu-id="af992-104">When possible, use platform as a service (PaaS) rather than infrastructure as a service (IaaS)</span></span>
 
-Infrastruktúra-szolgáltatási működik, mintha a kijelzők egy mezőt. Bármi hozhat létre, de saját kezűleg össze van. Felügyelt szolgáltatásainak használata könnyebben konfigurálásához és felügyeletéhez. Nem kell virtuális gépek kiépítése, a Vnetek beállítása, a javítások és frissítések, és az összes társított egy virtuális gépen futó szoftvereket a más terhelés kezelésére.
+<span data-ttu-id="af992-105">Az IaaS olyan, mintha egy doboznyi alkatrész lenne.</span><span class="sxs-lookup"><span data-stu-id="af992-105">IaaS is like having a box of parts.</span></span> <span data-ttu-id="af992-106">Bármit létrehozhat, de saját magának kell összeállítania.</span><span class="sxs-lookup"><span data-stu-id="af992-106">You can build anything, but you have to assemble it yourself.</span></span> <span data-ttu-id="af992-107">A felügyelt szolgáltatások konfigurálása és felügyelete egyszerűbb.</span><span class="sxs-lookup"><span data-stu-id="af992-107">Managed services are easier to configure and administer.</span></span> <span data-ttu-id="af992-108">Nem kell virtuális gépeket üzembe helyeznie, virtuális hálózatokat beállítania, javításokat és frissítéseket kezelnie, illetve egyéb olyan feladatokat elvégeznie, amelyek a szoftverek virtuális gépen való futtatásához kapcsolódnak.</span><span class="sxs-lookup"><span data-stu-id="af992-108">You don't need to provision VMs, set up VNets, manage patches and updates, and all of the other overhead associated with running software on a VM.</span></span>
 
-Tegyük fel, hogy az alkalmazás az üzenet-várólista kell. Beállíthat úgy a virtuális gép, a saját üzenetküldési szolgáltatás RabbitMQ hasonlót használatával. De Azure Service Bus már biztosít szolgáltatásként, megbízható üzenetküldés, és egyszerűbb beállítása. Hozzon létre egy Service Bus-névtér (amely a telepítési parancsfájl részeként végezhető), majd hívja Service Bus az ügyfél SDK használatával. 
+<span data-ttu-id="af992-109">Tegyük fel, hogy az alkalmazásnak üzenetsorra van szüksége.</span><span class="sxs-lookup"><span data-stu-id="af992-109">For example, suppose your application needs a message queue.</span></span> <span data-ttu-id="af992-110">Beállíthat saját üzenetküldési szolgáltatást egy virtuális gépen a RabbitMQ vagy hasonló szolgáltatás segítségével.</span><span class="sxs-lookup"><span data-stu-id="af992-110">You could set up your own messaging service on a VM, using something like RabbitMQ.</span></span> <span data-ttu-id="af992-111">Az Azure Service Bus azonban már biztosít egy megbízható üzenetküldési szolgáltatást, és a beállítása is egyszerűbb.</span><span class="sxs-lookup"><span data-stu-id="af992-111">But Azure Service Bus already provides reliable messaging as service, and it's simpler to set up.</span></span> <span data-ttu-id="af992-112">Egyszerűen hozzon létre egy Service Bus-névteret (ez az üzembehelyezési szkripttel is elvégezhető), majd hívja meg a Service Bust az ügyfél SDK használatával.</span><span class="sxs-lookup"><span data-stu-id="af992-112">Just create a Service Bus namespace (which can be done as part of a deployment script) and then call Service Bus using the client SDK.</span></span> 
 
-Természetesen az alkalmazás konkrét követelmények, amelyek egy IaaS-módszert is megfelelő lehet, hogy rendelkezik. Azonban akkor is, ha az alkalmazás IaaS alapul, keressen helyen, ahol lehet természetes átfogó felügyelt szolgáltatásokat. Ezek közé tartozik a gyorsítótár, a sorokhoz és az adatok tárolására.
+<span data-ttu-id="af992-113">Természetesen az alkalmazásnak lehetnek konkrét követelményei, amelyek miatt az IaaS módszer megfelelőbb lehet.</span><span class="sxs-lookup"><span data-stu-id="af992-113">Of course, your application may have specific requirements that make an IaaS approach more suitable.</span></span> <span data-ttu-id="af992-114">Azonban még az IaaS-alapú alkalmazások esetén is érdemes olyan helyeket keresnie, ahol természetes lehet a felügyelt szolgáltatások használata.</span><span class="sxs-lookup"><span data-stu-id="af992-114">However, even if your application is based on IaaS, look for places where it may be natural to incorporate managed services.</span></span> <span data-ttu-id="af992-115">Ezek közé tartoznak az üzenetsorok, a gyorsítótár és az adattárolás.</span><span class="sxs-lookup"><span data-stu-id="af992-115">These include cache, queues, and data storage.</span></span>
 
-| Futtatása helyett... | Érdemes lehet... |
+| <span data-ttu-id="af992-116">Az alábbiak futtatása helyett...</span><span class="sxs-lookup"><span data-stu-id="af992-116">Instead of running...</span></span> | <span data-ttu-id="af992-117">Fontolja meg a következőket...</span><span class="sxs-lookup"><span data-stu-id="af992-117">Consider using...</span></span> |
 |-----------------------|-------------|
-| Active Directory | Azure Active Directory tartományi szolgáltatások |
-| Elasticsearch | Azure Search |
-| Hadoop | HDInsight |
-| IIS | App Service |
-| MongoDB | Cosmos DB |
-| Redis | Azure Redis Cache |
-| SQL Server | Azure SQL Database |
+| <span data-ttu-id="af992-118">Active Directory</span><span class="sxs-lookup"><span data-stu-id="af992-118">Active Directory</span></span> | <span data-ttu-id="af992-119">Active Directory Domain Services</span><span class="sxs-lookup"><span data-stu-id="af992-119">Azure Active Directory Domain Services</span></span> |
+| <span data-ttu-id="af992-120">Elasticsearch</span><span class="sxs-lookup"><span data-stu-id="af992-120">Elasticsearch</span></span> | <span data-ttu-id="af992-121">Azure Search</span><span class="sxs-lookup"><span data-stu-id="af992-121">Azure Search</span></span> |
+| <span data-ttu-id="af992-122">Hadoop</span><span class="sxs-lookup"><span data-stu-id="af992-122">Hadoop</span></span> | <span data-ttu-id="af992-123">HDInsight</span><span class="sxs-lookup"><span data-stu-id="af992-123">HDInsight</span></span> |
+| <span data-ttu-id="af992-124">IIS</span><span class="sxs-lookup"><span data-stu-id="af992-124">IIS</span></span> | <span data-ttu-id="af992-125">App Service</span><span class="sxs-lookup"><span data-stu-id="af992-125">App Service</span></span> |
+| <span data-ttu-id="af992-126">MongoDB</span><span class="sxs-lookup"><span data-stu-id="af992-126">MongoDB</span></span> | <span data-ttu-id="af992-127">Cosmos DB</span><span class="sxs-lookup"><span data-stu-id="af992-127">Cosmos DB</span></span> |
+| <span data-ttu-id="af992-128">Redis</span><span class="sxs-lookup"><span data-stu-id="af992-128">Redis</span></span> | <span data-ttu-id="af992-129">Azure Redis gyorsítótár</span><span class="sxs-lookup"><span data-stu-id="af992-129">Azure Redis Cache</span></span> |
+| <span data-ttu-id="af992-130">SQL Server</span><span class="sxs-lookup"><span data-stu-id="af992-130">SQL Server</span></span> | <span data-ttu-id="af992-131">Azure SQL Database</span><span class="sxs-lookup"><span data-stu-id="af992-131">Azure SQL Database</span></span> |
 
 
