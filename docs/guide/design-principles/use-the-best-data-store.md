@@ -1,44 +1,44 @@
 ---
-title: A feladat a legjobb adattár használata
-description: Válassza ki a tárolási technológia, amely a legjobb térkihasználás érdekében az adatokat, és hogyan fogja használni
+title: Használja a feladathoz legmegfelelőbb adattárat
+description: Válassza az adataihoz és azok felhasználásához leginkább megfelelő tárolótechnológiát
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: ef9439f7a3766d13b498eac915e0f5afd23de4e2
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: c3619012e8c199d154e4ac432ce03b2a9295c26f
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206897"
 ---
-# <a name="use-the-best-data-store-for-the-job"></a>A feladat a legjobb adattár használata
+# <a name="use-the-best-data-store-for-the-job"></a>Használja a feladathoz legmegfelelőbb adattárat
 
-## <a name="pick-the-storage-technology-that-is-the-best-fit-for-your-data-and-how-it-will-be-used"></a>Válassza ki a tárolási technológia, amely a legjobb térkihasználás érdekében az adatokat, és hogyan fogja használni
+## <a name="pick-the-storage-technology-that-is-the-best-fit-for-your-data-and-how-it-will-be-used"></a>Válassza az adataihoz és azok felhasználásához leginkább megfelelő tárolótechnológiát
 
-A nap, ha meg szeretné csak odatapadjon az összes adat egy nagy relációs SQL adatbázisba már meg van. Relációs adatbázisok a következők: Ezek nagyon jó &mdash; sav biztosító biztosítja, hogy az egyes tranzakciókra vonatkozóan relációs adatok. Azonban néhány költséggel származnak:
+Manapság már nem tennénk fel az összes adatunkat egy hatalmas relációs SQL-adatbázisba. A relációs adatbázisok jól végzik a dolgukat – garantálják az ACID (atomitás, konzisztencia, izoláció, tartósság) megvalósulását a relációs adatokkal használt tranzakciókhoz. Ezek azonban költségekkel járnak:
 
-- Lekérdezések költséges illesztések lehet szükség.
-- Adatok normalizálni kell, és egy előre meghatározott schema (séma írás) felel meg.
-- Zárolási versenyt hatással lehet a teljesítményre.
+- A lekérdezésekhez költséges összekapcsolásokra lehet szükség.
+- Az adatokat normalizálni kell, és illeszkedniük kell egy előre meghatározott sémához (íráskor meghatározott séma).
+- A zárolási verseny hatással lehet a teljesítményre.
 
-Nagy megoldás valószínű, hogy a tároló egyetlen technológiát nem töltse ki az igényeinek. Relációs adatbázisok alternatívák például kulcs-érték tárolók, dokumentum-adatbázisokat, keresési adatbázisok, idő adatsorozat adatbázisok, oszlop családba tartozó adatbázisok, és graph adatbázisok. Minden egyes vannak előnyei és hátrányai, és különböző típusú adatok sorolhatók hatnak egy vagy egy másikra. 
+Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek. A relációs adatbázisok alternatívái lehetnek például a kulcs/értéktárak, a dokumentum-adatbázisok, a keresőmotor-adatbázisok, az idősorozat-adatbázisok, az oszlopcsalád-adatbázisok, és a gráfadatbázisok. Mindnek vannak előnyei és hátrányai, és a különféle típusú adatok jobban illeszthetők az egyik vagy a másik fajtához. 
 
-Például egy dokumentum-adatbázisban, például Cosmos DB, ami lehetővé teszi a rugalmas séma termékkatalógus előfordulhat, hogy tárolják. Ebben az esetben minden egyes termék leírása egy önálló-dokumentumot. A lekérdezések teljes keresztül előfordulhat, hogy a katalógus index, és tárolja az index az Azure Search. Termék mehet az SQL-adatbázisba, mert adatok szükséges ACID garanciát.
+Például egy termékkatalógust tárolhat egy dokumentum-adatbázisban, (például Cosmos DB), amely rugalmas sémát tesz lehetővé. Ebben az esetben minden egyes termékleírás egy önálló dokumentumot képez. A teljes katalógusra kiterjedő lekérdezések esetében indexelheti a katalógust, az indexet pedig az Azure Search-ben tárolhatja. A termékleltár kerülhet egy SQL adatbázisba, mivel ezeknek az adatoknak ACID-garanciára van szüksége.
 
-Ne feledje, hogy nem csak a megőrzött alkalmazásadatok szerepel. Alkalmazásnaplók, az események, az üzenetek és a gyorsítótárak is tartalmaz.
+Ne feledje, hogy adat alatt nem csak a megőrzött alkalmazásadatokat értjük. Ide tartoznak az alkalmazásnaplók, események, üzenetek és a gyorsítótárak is.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-**Ne használjon egy relációs adatbázisban minden**. Fontolja meg az egyéb adattárakhoz, amikor szükséges. Lásd: [válassza ki a megfelelő tárolót][data-store-overview].
+**Ne relációs adatbázissal oldjon meg mindent**. Ha szükséges, gondolkozzon más adattárakban is. Lásd: [A megfelelő adattároló kiválasztása][data-store-overview].
 
-**Polyglot adatmegőrzési kihasználásának**. Nagy megoldás valószínű, hogy a tároló egyetlen technológiát nem töltse ki az igényeinek. 
+**Vezesse be a többnyelvű adatmegőrzést**. Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek. 
 
-**Vegye figyelembe az adatok**. Például helyezték SQL, helyezze a JSON-dokumentumok egy dokumentum adatbázisba, telemetriai adatokat helyezett adatok kiinduló, alkalmazásnaplók be Elasticsearch, és hogy a BLOB az Azure Blob Storage idősor tranzakciós adatok.
+**Vegye figyelembe az adatok típusát**. Például helyezze a tranzakciós adatokat SQL-be, a JSON-dokumentumokat egy dokumentum-adatbázisba, a telemetriai adatokat egy idősorozat-adatbázisba, az alkalmazásnaplókat az Elasticsearch-be, a blobokat pedig az Azure Blob Storage-ba.
 
-**Rendelkezésre állási inkább keresztül (erős) konzisztencia**. A Tengelysapka tétel azt jelenti, hogy egy elosztott rendszer rendelkezésre állás és a konzisztencia közötti kompromisszumot kell hoznia. (Hálózati partíciók, a többi szakasza CAP tétel soha nem teljesen elkerülhető.) Gyakran, érhető el magas rendelkezésre állás érdekében elfogadásával egy *végleges konzisztencia* modell. 
+**Részesítse előnyben a rendelkezésre állást az (erős) konzisztenciával szemben**. A CAP-tétel szerint az elosztott rendszerek esetén mindenképpen kompromisszumot kell kötni a rendelkezésre állás és a konzisztencia között. (A CAP-tétel másik alapját képező hálózati partíciókat soha nem lehet teljes mértékben elkerülni.) Sok esetben nagyobb rendelkezésre állás érhető el egy *végleges konzisztencia* modell bevezetésével. 
 
-**Vegye figyelembe a fejlesztői csapat szakértelem készlete**. Polyglot adatmegőrzési használatának előnye van, de lehetséges a Visszalépés visszanyerésében. Egy új tárolási technológiát bevezetése meg kell adni egy új képességek. A fejlesztői csapat tisztában kell a technológiát minél hatékonyabb működtetését. Ismerniük kell a megfelelő használati szokásokról, optimalizálása lekérdezi, a teljesítmény hangolására és így tovább. Figyelembe ezt a annak eldöntéséhez, hogy a tárolási technológiákat. 
+**Vegye figyelembe a fejlesztői csapat szaktudását**. Habár a többnyelvű adatmegőrzés használata előnyökkel jár, túlzásokba lehet esni. Egy új adattárolási technológia bevezetéséhez új szaktudásra van szükség. A fejlesztői csapatnak értenie kell a technológia minél hatékonyabb működtetéséhez. Ismerniük kell a megfelelő használati mintákat, tudniuk kell optimalizálni a lekérdezéseket, nagy teljesítményre hangolni a rendszert stb. Vegye ezt is figyelembe, amikor tárolási technológiát választ. 
 
-**Tranzakciók compensating használata**. Egyik mellékhatása polyglot adatmegőrzési, hogy egy tranzakció lehet adatokat írni több üzletben. Ha valami nem sikerül, használja a kompenzációs tranzakciók visszavonása minden lépést, amely már befejeződött.
+**Kompenzáló tranzakciók használata**. A többnyelvű adatmegőrzés egyik mellékhatásaként egy tranzakció több tárolóba is írhat adatot. Ha hiba lép fel, kompenzáló tranzakciók használatával vonhatja vissza a már végrehajtott lépéseket.
 
-**Nézze meg a kötött környezetek**. *A kötött környezetben* van egy kifejezés tervezési folyamat tartományból. A kötött környezetben egy explicit határ tartománymodell körül, és határozza meg, a tartomány mely részei a modell vonatkozik. Ideális esetben a vállalati tartomány altartomány kötött kontextusban rendeli hozzá. A rendszer a kötött környezetek kell figyelembe venni polyglot adatmegőrzési természetes helyen. Például "termékek" jelenhetnek meg a termékkatalógus altartomány és a termék altartomány is, de nagyon valószínű, hogy a két altartományok tárolás, frissítése és termékek lekérdezése különböző követelményekkel rendelkezik-e.
+**Keresse meg a körülhatárolt kontextusokat**. A *körülhatárolt kontextus* a szakterület-vezérelt tervezés egyik fogalma. A körülhatárolt kontextus egy szakterületi modell körüli explicit határ, amely megadja, hogy a modell a szakterület mely részeire vonatkozik. A körülhatárolt kontextus ideális esetben az üzleti szakterület egy részterületét képezi le. A rendszerben található körülhatárolt kontextusok tökéletes helyek arra, hogy bevezesse a többnyelvű adatmegőrzést. Például a „termékek” megjelenhetnek egyszerre a termékkatalógus és a termékleltár részterületen, viszont a két részterületen a termékek esetén jó eséllyel más-más tárolási, frissítési és lekérdezési igények merülnek fel.
 
 [data-store-overview]: ../technology-choices/data-store-overview.md

@@ -1,40 +1,40 @@
 ---
-title: Bővíteni. terv
-description: A horizontális skálázás úgy kell megtervezni a felhőalapú alkalmazásokhoz.
+title: Tervezzen horizontális felskálázásra
+description: A felhőalapú alkalmazásokat a horizontális skálázást szem előtt tartva kell megtervezni.
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 8f9b3e99a53f5941f708b0de124f37e6ff7e5ab2
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 8207f322d4312f6a30a8b0db7328b272c1d82de0
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206943"
 ---
-# <a name="design-to-scale-out"></a>Bővíteni. terv
+# <a name="design-to-scale-out"></a>Tervezzen horizontális felskálázásra
 
-## <a name="design-your-application-so-that-it-can-scale-horizontally"></a>Az alkalmazás, hogy azt horizontálisan méretezhető. terv
+## <a name="design-your-application-so-that-it-can-scale-horizontally"></a>Tervezze úgy az alkalmazását, hogy az horizontálisan skálázható legyen
 
-Egy elsődleges felhő előnye a rugalmas méretezést &mdash; mértékű kapacitás szükség szerint, a betöltés növekedése kiterjesztése, és ha a plusz kapacitást nincs szükség a méretezés használhatja. Az alkalmazás tervezze meg, hogy azt horizontálisan méretezhető, hozzáadásával vagy eltávolításával új példányok, igény szerint van szüksége.
+A felhő egyik legfőbb előnye a rugalmas méretezés &mdash; ez a kapacitás igény szerinti kihasználását, vagyis a terhelés mértéke szerinti horizontális fel- illetve leskálázást jelenti. Tervezze úgy az alkalmazását, hogy az skálázható legyen horizontálisan, igény szerint hozzá lehessen adni vagy el lehessen távolítani új példányokat.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-**Példány tölcsérútvonalak elkerülése**. Tölcsérútvonalak, vagy *munkamenet affinitás*, ha ugyanazt az ügyfelet érkező kérelmeket a rendszer mindig irányítja át ugyanazon a kiszolgálón. Tölcsérútvonalak korlátozza az alkalmazás képes kiterjesztése. Például a nagy mennyiségű felhasználó érkező forgalom nem lesz elérhető példányok között. Tölcsérútvonalak okai a munkamenet-állapot tárolása a memóriában, és a számítógép-specifikus kulcsok használatát a titkosításhoz. Győződjön meg arról, hogy bármely példányok kezelik a kérelmet. 
+**Példány tartós használatának elkerülése**. A tartós használat vagy *munkamenet-affinitás* azt a gyakorlatot jelenti, amikor az ugyanazon ügyféltől érkező kérelmeket a rendszer mindig ugyanarra a kiszolgálóra irányítja. A tartós használat korlátozza az alkalmazás horizontális felskálázási képességét. Például a nagy forgalmú felhasználóktól érkező terhelés nem lesz elosztva a példányok között. A tartós használat oka lehet a memóriában tárolt munkamenet-állapot vagy a számítógép-specifikus titkosítási kulcsok használata. Gondoskodjon arról, hogy a példányok bármilyen kérelmet képesek legyenek kezelni. 
 
-**Szűk keresztmetszetek azonosítása**. Minden teljesítményprobléma magic javítása kiterjesztése nem található. Például a szűk keresztmetszetek háttérbeli adatbázis esetén nem segítséget webkiszolgálókat hozzáadni. Azonosítani és megoldani a szűk keresztmetszetek a rendszer először előtt több példány volt, a problémát. A rendszer állapot-nyilvántartó részei ennek legvalószínűbb oka szűk keresztmetszetek. 
+**Szűk keresztmetszetek azonosítása**. A horizontális felskálázással nem lehet varázsütésre megoldani az összes teljesítménybeli problémát. Ha például a háttéradatbázis a szűk keresztmetszet, a további webkiszolgálók hozzáadása nem sokat segít. Még több példány bevetése helyett a szűk keresztmetszetek azonosításával és feloldásával kell kezdeni a probléma megoldását. A szűk keresztmetszeteket általában a rendszer állapottal rendelkező összetevői okozzák. 
 
-**Munkaterhelések felbontani által méretezhetőségi követelményeinek.**  Alkalmazások gyakran több munkaterhelés méretezéshez eltérő követelmények állnak. Egy alkalmazás Előfordulhat például, egy nyilvánosan elérhető és egy különálló felügyeleti hely. A nyilvános webhely problémákat tapasztalhat a forgalmat, hirtelen emelkedéseit, míg a felügyeleti webhely kisebb, kiszámíthatóbb terhelést. 
+**Számítási feladatok lebontása a méretezhetőségi követelmények szerint.**  Az alkalmazások gyakran több számítási feladatból állnak, amelyek eltérő méretezési követelményekkel rendelkeznek. Például egy alkalmazásnak lehet egy nyilvános helye, valamint egy különálló felügyeleti helye. A nyilvános hely esetében előfordulhat hirtelen forgalomnövekedés, míg a felügyeleti hely kisebb, kiszámíthatóbb terheléssel dolgozik. 
 
-**Erőforrás-igényes feladatok kiszervezése.** Nagy mennyiségű Processzor- vagy i/o-erőforrások igénylő feladatokat kell áthelyezni [feladatok háttérben] [ background-jobs] Ha lehetséges, a terhelés, amely kezeli a felhasználói kérelmek kezelőfelületre minimalizálása érdekében.
+**Erőforrás-igényes feladatok kiszervezése.** Ha lehetséges, a nagy processzorteljesítményt vagy I/O-erőforrásokat igénylő feladatokat át kell helyezni [a háttérfeladatokhoz][background-jobs], hogy a felhasználói kérelmek kezelését végző előtérrendszer terhelése minimalizálható legyen.
 
-**Beépített automatikus skálázás használatát**. Sok Azure számítási szolgáltatás kell beépített az automatikus skálázást. Ha az alkalmazás egy előre jelezhető, rendszeres munkaterhelés, horizontális felskálázás ütemezés szerint. Például kibővítési munkaidőben. Ellenkező esetben ha a munkaterhelés nem előre jelezhető, akkor teljesítménymutatók, például a Processzor- vagy kérelem várólistájának hossza való automatikus skálázást. Ajánlott eljárások automatikus skálázást, lásd: [automatikus skálázás][autoscaling].
+**Beépített automatikus skálázási szolgáltatások használata**. Sok Azure számítási szolgáltatás tartalmaz beépített támogatást az automatikus skálázásra vonatkozóan. Ha az alkalmazás kiszámítható és rendszeres számítási feladatokat lát el, a horizontális felskálázás történhet ütemezés szerint. Például a horizontális felskálázás végrehajtható munkaidőben. Ha azonban a számítási feladatok nem jelezhetők előre, akkor teljesítménymutatókat, például a processzor vagy a kérelem üzenetsorának hosszát érdemes alkalmazni az automatikus skálázás aktiválásához. A automatikus skálázáshoz kapcsolódó ajánlott eljárásokat lásd: [Automatikus skálázás][autoscaling].
 
-**Fontolja meg a kritikus munkaterhelésekhez agresszív automatikus skálázás**. A kritikus fontosságú munkaterhelésekhez meg szeretné tartani az igény szerinti előre. Érdemes gyorsan számára a további forgalom kezelésére, és fokozatosan méretezését vissza túl nagy terhelés alatt új példányok felvételéhez.
+**A kritikus számítási feladatok esetében érdemes megfontolni az agresszív automatikus skálázást**. A kritikus számítási feladatok esetében jobb egy lépéssel az igények előtt járni. Érdemesebb a nagy terhelés alatt gyorsan új példányokat hozzáadni a megnövekedett forgalom kezelésére, majd fokozatosan csökkenteni az erőforrások számát.
 
-**Terv a skála**.  Ne feledje, hogy a rugalmasan méretezhető, az alkalmazás időszakok skála, amikor példányok beolvasása törölni kell. Az alkalmazás kell kezelésére eltávolítani kívánt példányokat. Az alábbiakban néhány scalein kezelésének módját:
+**Tervezzen a horizontális leskálázást szem előtt tartva**.  Nem szabad elfelejteni, hogy a rugalmas skálázás mellett az alkalmazás esetében időnként sor fog kerülni a horizontális leskálázásra, amikor a példányok törlődnek. Az alkalmazásnak megfelelően kell kezelnie a példányok eltávolítását. Íme néhány példa a horizontális leskálázás kezelésére:
 
-- Figyelés a leállítási események (ha elérhető) és a leállítási áramtalanították. 
-- Ügyfelek, fogyasztók szolgáltatás kell kezelni átmeneti hiba, és próbálkozzon újra. 
-- Hosszan futó feladatokat, fontolja meg a munkahelyi, az ellenőrzőpontok használatával összeállításának vagy a [Kiszolgálókészletéhez, és a szűrők] [ pipes-filters-pattern] mintát. 
-- Elhelyezése munkaelemek várólistát, hogy egy másik példánya is onnan folytathatja az adatgyűjtést a munkahelyi példány közepén feldolgozási eltávolításakor. 
+- Figyelje a leállítási eseményeket (ha ez elérhető), és biztosítsa, hogy a leállítás szabályszerűen történjen. 
+- Egy szolgáltatás ügyfeleinek/felhasználóinak támogatniuk kell az átmeneti hibák kezelését és az újrapróbálkozást. 
+- Hosszan futó feladatok esetében érdemes felosztani a munkát, ellenőrzőpontok vagy a [Csövek és szűrők][pipes-filters-pattern] mintájának használatával. 
+- Helyezze a munkaelemeket egy üzenetsorba, így ha egy példány a feldolgozás közepén kiesik, egy másik folytathatja a munkát. 
 
 
 <!-- links -->

@@ -2,12 +2,13 @@
 title: Az Azure compute szolgáltatások döntési fája
 description: A számítási szolgáltatás kiválasztásának folyamatábrája
 author: MikeWasson
-ms.date: 04/21/2018
-ms.openlocfilehash: 3dcfbd156d4fced863a56bcc8bb74483aa665f9f
-ms.sourcegitcommit: 7ced70ebc11aa0df0dc0104092d3cc6ad5c28bd6
+ms.date: 06/13/2018
+ms.openlocfilehash: 60bb84d4bf210888d3d43498db043b6e452f6a80
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/11/2018
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206940"
 ---
 # <a name="decision-tree-for-azure-compute-services"></a>Az Azure compute szolgáltatások döntési fája
 
@@ -25,5 +26,20 @@ Az Azure számos módon az alkalmazás kódjában üzemeltetésére kínál. A *
 
 Ha az alkalmazás több munkaterhelés, külön-külön értékelje ki minden munkaterhelés. A teljes megoldás tartalmazhatják a két vagy több számítási szolgáltatások.
 
+## <a name="flowchart"></a>Folyamatábra
+
 ![](../images/compute-decision-tree.svg)
 
+## <a name="definitions"></a>Definíciók
+
+- **Greenfield** teljesen új, és teljesen új beépített szoftver projektet ismerteti. Nem tartalmazza a hagyományos kódot. 
+
+- **Brownfield** ismerteti a szoftver projekt, amely egy meglévő alkalmazást épül. Azt is öröklik örökölt kód vagy keretrendszert.
+
+- **Emelje fel, és az eltolás mértékét megadó** stratégiát a munkaterhelések áttelepítését a felhőbe újratervezése az alkalmazás vagy a kód módosítása nélkül is. Más néven *áthelyezését*. További információkért lásd: [Azure áttelepítési center](https://azure.microsoft.com/migration/).
+
+- **Optimalizált felhő** újrabontása felhő eredeti funkciók és képességek előnyeit alkalmazás által a felhőbe történő stratégiát is.
+
+## <a name="next-steps"></a>További lépések
+
+Szempontokat kell figyelembe venni, lásd: [feltételek kiválasztása az Azure számítási szolgáltatás](./compute-comparison.md).

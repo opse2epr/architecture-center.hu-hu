@@ -1,43 +1,43 @@
 ---
-title: Műveletek kialakítása
-description: Az alkalmazás tervezési úgy, hogy a műveleti csapata azokat az eszközöket
+title: Tervezzen műveletekhez
+description: Tervezze úgy az alkalmazásait, hogy az üzemeltetési csapat rendelkezésére álljanak a szükséges eszközök
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 76338cc27daf82ccb99df4e4c51c7a5ac6f26065
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 5b9f76c27656e5154fb039ca41976f7209395cd8
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206855"
 ---
-# <a name="design-for-operations"></a>Műveletek kialakítása
+# <a name="design-for-operations"></a>Tervezzen műveletekhez
 
-## <a name="design-an-application-so-that-the-operations-team-has-the-tools-they-need"></a>Az alkalmazás tervezési úgy, hogy a műveleti csapata azokat az eszközöket
+## <a name="design-an-application-so-that-the-operations-team-has-the-tools-they-need"></a>Tervezze úgy az alkalmazásait, hogy az üzemeltetési csapat rendelkezésére álljanak a szükséges eszközök
 
-A felhő jelentősen megváltozott a műveleti csapata szerepe. Már nem azok a hardver és az alkalmazást futtató infrastruktúra felelős.  Említett, műveletek része továbbra is kritikus sikeres felhő alkalmazást futtat. A műveleti csapata, fontos funkciók a következők:
+A felhő drámai mértékben megváltoztatta az üzemeltetési csapat szerepét. Többé már nem felelősek a hardverek és az alkalmazásokat futtató infrastruktúra felügyeletéért.  Ezzel együtt az üzemeltetés továbbra is kritikus részét képezi egy sikeres felhőalkalmazás futtatásának. Az üzemeltetési csapat fontos feladatai közé az alábbiak tartoznak:
 
-- Környezet
-- Figyelés
-- Eszkalációs
+- Üzembe helyezés
+- Monitoring
+- Eszkalálás
 - Incidensmegoldás
-- A biztonsági naplózás
+- Biztonsági naplózás
 
-Robusztus naplózás és nyomkövetés különösen fontos az olyan felhőalapú alkalmazásokhoz. Tartalmaz, amely a műveletek csoporthoz tervezése és kialakítása, az alkalmazás biztosítja azokat az adatokat, és betekintést thay kell ahhoz, hogy sikeresen biztosításához.  <!-- to do: Link to DevOps checklist -->
+A hatékony naplózás és nyomkövetés különösen fontos a felhőalkalmazásokban. Az üzemeltetési csapat tervezésbe és előkészítésbe történő bevonásával gondoskodhat róla, hogy az alkalmazás biztosítsa számukra a sikerhez szükséges adatokat és elemzések alapjául szolgáló betekintéseket.  <!-- to do: Link to DevOps checklist -->
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-**Ellenőrizze az összes dolgot megfigyelhető**. Ha a megoldás központilag telepítve és fut, naplófájlok és nyomkövetési a rendszer az elsődleges betekintést. *Nyomkövetés* rögzíti a rendszer egy elérési úttal, és hasznos a szűk keresztmetszetek, a teljesítményproblémák és a hiba pontok beazonosításában. *Naplózás* például az alkalmazás állapotának megváltozásakor, hibákat és kivételeket az egyes eseményeket rögzíti. Jelentkezzen be az üzemi, ellenkező esetben ha esetleg szükség lenne rá a legtöbb nagyon időpontokban insight elvesznek.
+**Tervezzen mindent megfigyelhetőnek**. Miután az üzembe helyezésére sor került és a megoldás fut, a naplók és nyomkövetések biztosítják az elsődleges betekintést a rendszerbe. A *nyomkövetés* egy útvonalat rögzít a rendszeren keresztül, és képes kimutatni a szűk keresztmetszeteket, teljesítményproblémákat, illetve az esetleges hibák előfordulásának a helyét. A *naplózás* adott eseményeket rögzít, például az alkalmazások állapotváltozásait, hibáit és kivételeit. A naplózást éles környezetben végezze, különben pont akkor nem fognak rendelkezésére állni a kellő információk, amikor a leginkább szüksége lenne rájuk.
 
-**Figyelés eszköz**. Figyelési milyen jól (vagy nem megfelelően) az alkalmazás működik-e, rendelkezésre állási, a teljesítmény és a rendszer állapotának tekintetében betekintést biztosít. Például figyelés megtudhatja, hogy vannak teljesíti az SLA-t. Figyelési történik, a rendszer a normál működés során. Kell időhöz lehetséges, hogy a műveleti személyzet reagálhasson problémák gyorsan. Ideális esetben figyelési segít elhárítani problémák ahhoz, azok kritikus hibát okozhat. További információkért lásd: [megfigyelési és diagnosztikai][monitoring].
+**Tegye lehetővé a monitorozást**. A monitorozás betekintést enged abba, hogy mennyire jól (vagy gyengén) teljesít egy alkalmazás a rendelkezésre állás, teljesítmény és rendszerállapot terén. A monitorozás például kiderítheti, hogy megfelel-e a szolgáltató szerződés előírásainak. A monitorozás a rendszer normál működését figyeli meg. Olyannyira valós idejűnek kell lennie, amennyire csak lehetséges, hogy az üzemeltetési csapat gyorsan reagálhasson a problémákra. A monitorozás ideális esetben elháríthatja a problémákat, mielőtt azok valamilyen kritikus hibát eredményeznének. További információ: [Monitorozás és diagnosztika][monitoring].
 
-**Eszköz kiváltó okának elemzése**. Legfelső szintű okát az a folyamat, hogy a rendszer az alapul szolgáló hibák okait. Már elvégzett hiba után következik be. 
+**Tegye lehetővé a kiváltó okok elemzését**. A kiváltó okok elemzése a hibák alapvető okának a megkeresésére szolgáló folyamat. A hiba bekövetkezése után kerül rá sor. 
 
-**Használjon elosztott nyomkövetési**. Ezzel egy elosztott nyomkövetési rendszer párhuzamossági asynchrony és felhőbeli skálázással. Nyomok tartalmaznia kell egy szolgáltatás határain túlnyúló forgalomáramlás korrelációs azonosító. Egy művelettel több alkalmazás szolgáltatáshoz intézett hívások járhat. Ha egy művelet meghiúsul, a korrelációs azonosító segít a rögzítési ponthoz a hiba oka. 
+**Használjon elosztott nyomkövetést**. Használjon olyan felhőszintű elosztott nyomkövetési rendszert, amelyet egyidejűség és aszinkronitás jellemez. A nyomkövetéseknek magukban kell foglalniuk egy, a szolgáltatáshatárokon átnyúló korrelációs azonosítót. Egyetlen művelet több alkalmazásszolgáltatás meghívásával is járhat. Ha egy művelet sikertelen, a korrelációs azonosító segítségével határozható meg a hiba oka. 
 
-**Naplók és a metrikák szabványosítása**. A műveleti csapata származó összesített naplók kell között a különböző szolgáltatásokhoz a megoldásban. Minden szolgáltatás a saját naplózási formátumot használja, ha válik nehéz vagy lehetetlen hasznos információk lekérése. Adja meg a közös séma, például a korrelációs azonosító, az esemény nevét, IP-címet a feladó mezőket tartalmazó, és így tovább. Egyes szolgáltatások származtatni a alap séma öröklő egyéni sémák, és további mezőket tartalmaz.
+**Szabványosítsa a naplókat és mérőszámokat**. Az üzemeltetési csapatnak a megoldás különféle szolgáltatásaiból származó naplókat kell összesítenie. Ha minden szolgáltatás saját naplózási formátumot használ, nagyon nehézzé vagy egyenesen lehetetlenné válik a hasznos információk kinyerése. Határozzon meg egy általános sémát, amely olyan mezőket tartalmaz, mint például a korrelációs azonosító, az eseménynév, a küldő IP-címe és így tovább. Az egyes szolgáltatások az alapvető sémán alapuló egyéni sémákat hozhatnak létre, amelyek további mezőket tartalmaznak.
 
-**Felügyeleti feladatok automatizálására**, beleértve a kiépítés, telepítési és figyelési. A feladatok automatizálása révén megismételhető és kevesebb a hibalehetőség emberi. 
+**Automatizálja a felügyeleti feladatokat**, beleértve a kiépítést, az üzembe helyezést és a monitorozást. Az automatizálás megismételhetővé teszi a feladatokat, amelyek nem lesznek annyira kitéve az emberi mulasztásoknak. 
 
-**Konfigurációs tekinti kód**. Ellenőrizze egy verziókezelő rendszer, a konfigurációs fájlok, így nyomon követheti és verzió a módosításokat, és állítsa vissza, ha szükséges. 
+**A konfigurációt kezelje kódként**. A konfigurációs fájlokat vezesse fel egy verziókövetési rendszerbe, így nyomon követheti és verzióval láthatja el a módosításokat, és szükség esetén visszaállítást is végezhet. 
 
 
 <!-- links -->

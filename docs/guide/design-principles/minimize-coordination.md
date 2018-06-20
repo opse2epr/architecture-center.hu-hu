@@ -1,59 +1,59 @@
 ---
 title: Minimalizálja a koordinációt
-description: Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében
+description: A skálázhatóság érdekében minimalizálja a koordinációt az alkalmazásszolgáltatások között.
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 3cab05b539612234fd8e66517b140ac5257c3e70
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: f26222148db2b48743c52293011ea0a5a58ebe07
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206856"
 ---
 # <a name="minimize-coordination"></a>Minimalizálja a koordinációt 
 
-## <a name="minimize-coordination-between-application-services-to-achieve-scalability"></a>Méretezhetőség eléréséhez alkalmazásszolgáltatások összehangolását minimalizálása érdekében
+## <a name="minimize-coordination-between-application-services-to-achieve-scalability"></a>A skálázhatóság érdekében minimalizálja a koordinációt az alkalmazásszolgáltatások között.
 
-Felhőalapú alkalmazások többségéhez áll több alkalmazásszolgáltatások &mdash; webes előtér-webkiszolgálóinak, adatbázisok, üzleti folyamatok, jelentéskészítés és elemzés, és így tovább. Eléréséhez skálázhatóságát és megbízhatóságát, ezek a szolgáltatások szabad futnia több példánya. 
+A legtöbb felhőalapú alkalmazás több alkalmazásszolgáltatásból áll, úgymint webes kezelőfelületek, adatbázisok, üzleti folyamatok, jelentés és elemzés. A skálázhatóság és megbízhatóság biztosításához mindegyik szolgáltatásnak több példányon kell futnia. 
 
-Mi történik, amikor két példányt próbál egyidejű műveleteket, amelyek hatással vannak az egyes közös állapotot? Bizonyos esetekben kell koordinációs ACID garanciák megőrzése érdekében például a csomópontok között. Ezen a diagramon `Node2` arra vár, hogy `Node1` egy adatbázis-zárolás feloldására:
+Mi történik, ha két példány néhány megosztott állapotot érintő egyidejű műveletet próbál végrehajtani? Ilyen esetekben koordináció szükséges a csomópontok között, például az ACID megvalósulásának fenntartása érdekében. Ezen az ábrán látható, hogy a `Node2` a `Node1` csomópontra vár, hogy az feloldja az adatbázis-zárolást:
 
 ![](./images/database-lock.svg)
 
-Koordinációs korlátozza a horizontális skálázhatóságot előnyeit, és létrehozza a szűk keresztmetszeteket. Ebben a példában az alkalmazás horizontális, és adja hozzá a további példányokat, látni fogja, nagyobb zárolási versenyt. A legrosszabb esetben az előtér-példányok legmagasabbak lesz a ideig vár a zárolás.
+A koordináció korlátozza a horizontális skálázás előnyeit, és szűk keresztmetszetet hoz létre. Ebben a példában az alkalmazás horizontális felskálázása és további példányok hozzáadása közben megnövekedett zárolási versenyt fog tapasztalni. A legrosszabb esetben az előtérbeli példányok a legtöbb idejüket a zárolásra várva fogják tölteni.
 
-"Pontosan egyszeri" szemantikáját egy másik gyakori forrás az egyeztetés. Például egy megrendelés pontosan egyszer kell feldolgozni. Két munkavállalók új rendelések figyelő. `Worker1`szerzi be egy feldolgozási sorrendet. Az alkalmazás biztosítania kell, hogy `Worker2` nem ugyanezt a munkát, de még ha `Worker1` összeomlik, sorrendje nem dobva.
+A „pontosan egyszer” szemantika a koordináció egy másik gyakori forrása. Egy megrendelést például pontosan egyszer szabad feldolgozni. Két feldolgozó új megrendelésekre vár. A `Worker1` felveszi a feldolgozási kérést. Az alkalmazásnak biztosítania kell, hogy a `Worker2` nem ismétli meg a munkát, de ha a `Worker1` összeomlik, a megrendelést nem dobja el a rendszer.
 
 ![](./images/coordination.svg)
 
-Például használhatja mintaként [Feladatütemező ügynök felügyelő] [ sas-pattern] koordinálhatja a munkavállalók között, de ebben az esetben jobb megközelítés lehet, a munkahelyi particionálásához. Minden egyes worker bizonyos számos rendelések (például, számlázási régiónként) van hozzárendelve. Ha egy munkavégző összeomlik, egy új példány felveszi ahol abbahagyta az előző alkalmazáspéldányt, de több példánya nem vitában.
+A feldolgozók közötti koordinációhoz olyan mintákat is használhat, mint például a [Feladatütemező ügynök felügyeleti mintája][sas-pattern], de ebben az esetben a munka particionálása jobb módszer lehet. Minden egyes feldolgozóhoz megrendelések bizonyos tartománya van hozzárendelve (például számlázási régiónként). Ha egy feldolgozó összeomlik, egy új példány ott folytatja a feladatot, ahol az előző abbahagyta, de a példányok nem versenyeznek egymással.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-**Vezessék be a végleges konzisztencia**. Amikor adatokat, az erős konzisztencia biztosítja kényszerítéséhez koordinációs vesz igénybe. Tegyük fel például, egy művelet frissítések két adatbázis. Helyett üzembe azt egy egyetlen tranzakció hatókörében, azt jobb, ha a rendszer lehetővé teszi végleges konzisztencia, lehet, hogy a a [Compensating tranzakció] [ compensating-transaction] mintát logikailag visszavonása esetén.
+**Végső konzisztencia támogatása**. Az adatok elosztásakor koordinációra van szükség az erős konzisztencia megvalósulásának kikényszerítésére. Tegyük fel például, hogy egy művelet két adatbázist frissít. Ahelyett, hogy egy tranzakciós hatókörbe helyezné, jobb, ha a rendszer képes végső konzisztenciát használni, például a [Kompenzáló tranzakció][compensating-transaction] minta használatával, a hiba utáni logikai visszavonáshoz.
 
-**Tartomány eseményeknek a segítségével állapot szinkronizálása**. A [tartomány esemény] [ domain-event] egy eseményt, amely rögzíti, amikor esemény történik, amely jelentőséggel bír, a tartományon belül. Érintett szolgáltatások az esemény, nem pedig egy globális tranzakcióba segítségével több szolgáltatásban koordinálja a figyelheti. Ez a módszer használata esetén a rendszer a végleges konzisztencia kell működését (lásd az előző elem). 
+**Tartományi események használata az állapot szinkronizálásához**. A [tartományi esemény][domain-event] egy olyan esemény, amely rögzíti, ha valami fontos történik a tartományban. Az érintett szolgáltatások figyelhetik az eseményt ahelyett, hogy globális tranzakciót használnának az erőforrások közötti koordinációhoz. Ennek a módszernek a használatakor a rendszernek tolerálnia kell a végső konzisztenciát (lásd az előző elemet). 
 
-**Vegye figyelembe például CQRS és az esemény forrás minták**. Ezek két minták között olvasási munkaterhelések versengés csökkentéséhez és a munkaterhelések írási segítségével. 
+**Fontolja meg a CQRS, az Események forráskezelése és hasonló minták használatát**. Ez a két minta segíthet a versengés csökkentésében az olvasási és az írási számítási feladatok között. 
 
-- A [CQRS mintát] [ cqrs-pattern] elkülönítésére szolgál olvasási műveleteket az írási műveletek. Az egyes megvalósítások a beolvasott adat fizikailag elkülönített az adatok írása az. 
+- A [CQRS minta][cqrs-pattern] elkülöníti az olvasási műveleteket az írási műveletektől. Néhány megvalósítás esetében az adatok olvasása fizikailag is el van különítve az adatok írásától. 
 
-- Az a [esemény forrás mintát][event-sourcing], állapotváltozások csak append adattárolóihoz események sorozataként fájl rögzíti. Egy esemény hozzáfűzi a stream egy atomi művelet, minimális zárolását igénylő. 
+- Az [Események forráskezelése mintában][event-sourcing] az állapotmódosításokat eseménysorozatként rögzíti a rendszer egy csak hozzáfűzéssel bővíthető adattárban. Egy esemény hozzáfőzése a streamhez atomi művelet, amelyhez minimális zárolásra van szükség. 
 
-Ezek két minták egészítik ki egymást. Ha a csak írható tárban CQRS esemény forrás, a csak olvasható tároló figyelheti az azonos események olvasható pillanatképet az aktuális állapot, a lekérdezések optimalizálva. Mielőtt CQRS vagy forrás eseményt, azonban figyelembe ezt a módszert kihívásai. További információkért lásd: [CQRS architektúra stílus][cqrs-style].
+Ez a két minta kiegészíti egymást. Ha a CQRS-ben található, csak írási engedéllyel rendelkező adattár az Események forráskezelése mintát használja, a csak olvasható adattár figyelheti ugyanazokat az eseményeket egy lekérdezésekhez optimalizált, az aktuális állapotot tartalmazó, olvasható pillanatkép létrehozásához. A CQRS vagy az Események forráskezelése minta alkalmazása előtt vegye figyelembe a módszer kihívást jelentő jellemzőit. További információ: [CQRS architektúrastílus][cqrs-style].
 
-**Adatok particionálása**.  Ne üzembe az összes adat, amelyet egy adatkulcsokat számos alkalmazás szolgáltatásban. Egy mikroszolgáltatások architektúra azáltal, hogy minden egyes szolgáltatás felelős a saját adattár érvénybe lépteti a elvet. Belül egy önálló adatbázis szilánkok be az adatok particionálása javíthatja a feldolgozási, mert egy shard írása szolgáltatás nincs hatással a szolgáltatás egy másik shard írásakor.
+**Adatok particionálása**.  Ne helyezze minden adatát egyetlen, számos alkalmazásszolgáltatás között megosztott adatsémába. A mikroszolgáltatási architektúra úgy kényszeríti ki ezt az alapelvet, hogy minden szolgáltatást a saját adattáráért tesz felelőssé. Egy önálló adatbázison belül az adatok szilánkokba történő particionálása javíthatja az egyidejűséget, mivel az egyik adatszilánkba író szolgáltatás nem befolyásolja a másik adatszilánkba író szolgáltatást.
 
-**Az idempotent műveleti terv**. Ha lehetséges, műveletek idempotent tervezése. Így azok kezelhetők: legalább egyszeri szemantika használatával. Például a munkaelemek helyezheti várólistát. Ha egy munkavégző összeomlik éppen olyan műveletet, egy másik feldolgozónak egyszerűen felveszi a munkaelemet.
+**Tervezzen idempotens műveleteket**. Amikor lehetséges, az alkalmazásokat úgy tervezze meg, hogy idempotensek legyenek. Így azok legalább egy szemantikával kezelhetők. Például üzenetsorba helyezheti a munkaelemeket. Ha egy feldolgozó a művelet közepén összeomlik, egy másik feldolgozó egyszerűen folytatja a munkaelemet.
 
-**Használja az aszinkron párhuzamos feldolgozás**. Ha egy művelet aszinkron módon történik (például távoli hívások) végrehajtott több lépést igényel, valószínűleg létre tudja azokat párhuzamosan, és majd az eredmények összesítése. Ezt a módszert használja azt feltételezi, hogy az egyes lépések nem függ az előző lépés.   
+**Használjon aszinkron párhuzamos feldolgozást**. Ha egy művelethez több, aszinkron módon elvégzett lépésre van szükség (például távoli szolgáltatások meghívása), lehetséges, hogy párhuzamosan hívja meg őket, és összesíti az eredményeket. Ez a módszer azt feltételezi, hogy a lépések nem függnek az előző lépés eredményétől.   
 
-**Használja a hozzáférések optimista, amikor lehetséges**. Pesszimista feldolgozási használ adatbázis zárolások ütközések elkerülése érdekében. Ez teljesítményproblémákat okozhat, és csökkentheti a rendelkezésre állási. Az egyidejű hozzáférések optimista vezérlését minden tranzakció módosítja, a másolási vagy az adatok pillanatképe. Ha a tranzakció véglegesítése, az adatbázismotor érvényesíti a tranzakció, és hatással lenne az adatbázis-konzisztencia tranzakciók elutasítja. 
+**Használjon optimista egyidejűséget, ha lehetséges**. A pesszimista egyidejűség-vezérlés adatbázis-zárolást használ az ütközések megelőzése érdekében. Ez gyenge teljesítményt okozhat és csökkentheti a rendelkezésre állást. Az optimista egyidejűség-vezérléssel minden tranzakció az adat egy pillanatfelvételének másolatát módosítja. A tranzakció véglegesítése után az adatbázismotor érvényesíti a tranzakciót, és visszautasítja az adatbázis konzisztenciáját befolyásoló tranzakciókat. 
 
-Az Azure SQL Database és SQL Server támogatja az egyidejű hozzáférések optimista keresztül [pillanatkép-elkülönítés][sql-snapshot-isolation]. Bizonyos Azure storage szolgáltatások támogatja az egyidejű hozzáférések optimista révén ETag-EK, beleértve a [Azure Cosmos DB] [ cosmosdb-faq] és [Azure Storage] [ storage-concurrency].
+Az Azure SQL Database és SQL Server [pillanatkép-elkülönítéssel][sql-snapshot-isolation] támogatja az optimista egyidejűséget. Bizonyos Azure Storage-szolgáltatások (például az [Azure Cosmos DB][cosmosdb-faq] és az [Azure Storage][storage-concurrency]) az ETagek használatán keresztül támogatják az optimista egyidejűséget.
 
-**Távolítsa el a MapReduce vagy más párhuzamos, elosztott algoritmusok**. Attól függően, hogy az adatok és végzett munka típusú előfordulhat független feladatokat, amelyek párhuzamosan több csomópontok végzi el a munkahelyi leíró. Lásd: [nagy számítási architektúra stílus][big-compute].
+**Fontolja meg a MapReduce vagy egyéb párhuzamos, elosztott algoritmus használatát**. Az adatoktól és az elvégzendő munka típusától függően feloszthatja a munkát független feladatokra, amelyeket párhuzamosan működő csomópontok végezhetnek el. Lásd: [Big Compute architektúrastílus][big-compute].
 
-**Vezető választás használata koordinációs**. Olyan esetben, ahol kell műveletek koordinálására győződjön meg arról, a koordinátor nem válik a hibaérzékeny pontok kialakulását az alkalmazásban. Használatával a [vezető választás mintát][leader-election], egy példány vezetője tetszőleges időpontban, és a koordinátor funkcionál. A kitöltés nem sikerül, ha egy új példány kijelölt vezetője kell. 
+**Használja a vezetőválasztást a koordinációhoz**. Olyan esetben, ahol műveleteket kell koordinálnia, győződjön meg arról, hogy a koordinátor ne váljon kritikus meghibásodási ponttá az alkalmazásban. A [Vezetőválasztási minta][leader-election] használatával egy példány bármikor vezető lehet, és koordinátorként működhet. Ha a vezető összeomlik, a rendszer egy új példányt választ vezetőnek. 
  
 
 <!-- links -->

@@ -2,16 +2,18 @@
 title: 'Explainer: Azure működése'
 description: Azure belső működését ismerteti
 author: petertay
-ms.openlocfilehash: 1cebcc001b8d2ae93d8b0271c48d54617281c7c2
-ms.sourcegitcommit: b3d74d8a89b2224fc796ce0e89cea447af43a0d4
+ms.openlocfilehash: 88514ba01efabe38a1b92d135321c2e44cef004e
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35290509"
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206463"
 ---
 # <a name="explainer-how-does-azure-work"></a>Explainer: Azure működése
 
 Azure a Microsoft nyilvános felhő platformja. Az Azure kínál, többek közt a platform (PaaS), infrastruktúrák (IaaS), egy szolgáltatás, és számos más adatbázis szolgáltatás nagy gyűjteménye. De mi pontosan Azure, és hogyan működik?
+
+> [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2ixGo] 
 
 Azure, például más felhőplatformokkal támaszkodik a technológiát néven **virtualizálási**. A legtöbb számítógép hardvere emulálni a szoftvert, mert a legtöbb számítógép hardvere olyan egyszerűen véglegesen vagy pontosvesszővel véglegesen kódolt szilícium utasításokat. Az emuláció réteg, amely leképezhető szoftver utasításokat hardver utasítások használatával, virtualizált hardverrel is végre lehet hajtani szoftver, mintha a tényleges hardver.
 

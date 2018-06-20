@@ -1,47 +1,47 @@
 ---
-title: Partíció körül korlátok
-description: Használjon particionálás kerülő adatbázis, hálózati, és számítási korlátok
+title: Particionáljon a korlátok kiküszöböléséhez
+description: Particionálás használata az adatbázis-, hálózati és számítási korlátok megkerüléséhez
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 4371490385b24230551bf17db0075052f320b574
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 86306c6c33ea7a93c4c1f868d820cc522095a8b7
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206903"
 ---
-# <a name="partition-around-limits"></a>Partíció körül korlátok
+# <a name="partition-around-limits"></a>Particionáljon a korlátok kiküszöböléséhez
 
-## <a name="use-partitioning-to-work-around-database-network-and-compute-limits"></a>Használjon particionálás kerülő adatbázis, hálózati, és számítási korlátok
+## <a name="use-partitioning-to-work-around-database-network-and-compute-limits"></a>Particionálás használata az adatbázis-, hálózati és számítási korlátok megkerüléséhez
 
-A felhőben a összes services lehetőségeit növelheti a korlátokkal rendelkeznek. Az Azure szolgáltatásra vonatkozó korlátozások vannak dokumentálva [Azure-előfizetés és szolgáltatási korlátok, kvóták és megkötések][azure-limits]. Korlátok közé tartozik a magok, az adatbázis mérete, a lekérdezés átviteli sebesség és a hálózati teljesítményt száma. Ha a rendszer növekedésének megfelelően nagy, határaiba legalább egy, a működés felső korlátjának. Particionálás kerülő használja ezeket a határértékeket.
+A felhőben minden szolgáltatás vertikális felskálázhatósága korlátozott. Az Azure-szolgáltatások korlátait [Az Azure-előfizetések és -szolgáltatások korlátozásai, kvótái és megkötései][azure-limits] című cikk ismerteti. A korlátok a magok számára, az adatbázisméretre, a lekérdezések átviteli sebességére és a hálózati átviteli sebességre vonatkoznak. Ha egy rendszer elér egy bizonyos méretet, beleütközhet egy vagy több ilyen korlátba. A korlátok megkerüléséhez particionálást használhat.
 
-A rendszer, például a particionálásához számos módja van:
+A rendszer számos módon particionálható, például:
 
-- Partícióazonosító adatbázis adatbázis mérete, a adatok i/o vagy a munkamenetek számát vonatkozó korlátozások elkerülése érdekében.
+- Adatbázis particionálása az adatbázis méretére, az adatokhoz kapcsolódó I/O-műveletekre vagy az egyszerre futó munkamenetek számára vonatkozó korlátok elkerüléséhez.
 
-- A partíció egy várólista vagy üzenet busz létesített egyidejű kapcsolatok számát vagy a kérések száma vonatkozó korlátozások elkerülése érdekében.
+- Üzenetsor vagy üzenetbusz particionálása a kérések vagy az egyidejű kapcsolatok számára vonatkozó korlátok elkerüléséhez.
 
-- A partíció egy App Service webalkalmazás az App Service-csomagot /-példányok száma vonatkozó korlátozások elkerülése érdekében. 
+- App Service-webalkalmazás particionálása az App Service-csomagonkénti példányok számára vonatkozó korlátok elkerüléséhez. 
 
-Egy adatbázis lehet particionálni *vízszintesen*, *függőleges*, vagy *funkcionálisan*.
+Egy adatbázis particionálható *horizontálisan*, *vertikálisan* vagy *funkcionálisan*.
 
-- A vízszintes particionálás, más néven a horizontális, mindegyik partíció egy részét a teljes adatkészlet adatokat tároló. A partíciók ugyanazon adatok séma megosztani. Például az ügyfelek A kezdődő&ndash;M belép egy partíciót, N&ndash;Z másik partícióra.
+- Horizontális particionálás (más néven horizontális skálázás) esetén mindegyik partíció a teljes adathalmaz egy részhalmazának adatait tartalmazza. A partíciók adatsémája megegyezik. Például az A&ndash;M betűvel kezdődő ügyfelek egy partícióra kerülnek, az N&ndash;Z közöttiek pedig egy másikra.
 
-- A vertikális particionálás, mindegyik partíció rendelkezik az elemeknek a mezők az adattárban. Például helyezze a gyakran használt mezőket, egy partíciót, és kevesebb mint egy másik gyakran használt mezőket.
+- Vertikális particionáláskor mindegyik partíció az adattárban található elemekre vonatkozó mezőket egy részhalmazát tartalmazza. Az egyik partícióba például a gyakran használt mezőket helyezheti, egy másikba pedig a ritkábban használtakat.
 
-- Funkcionális particionálás, az adatok particionálása megfelelően felhasználásukról minden kötött környezet által a rendszerben. Például tárolja egy partíció és a termék leltáradatok egy másik számla adatait. A sémákban egymástól függetlenül működnek.
+- Funkcionális particionáláskor az adatok particionálása az alapján történik, hogy a rendszer egyes kapcsolódó kontextusai hogyan használják őket. Az egyik partícióban tárolhatja például a számlázási adatokat, egy másikban pedig a termékleltárral kapcsolatos adatokat. A sémák egymástól függetlenek.
 
-Részletes útmutatást, lásd: [adatparticionálás][data-partitioning-guidance].
+Részletesebb útmutatásért tekintse meg az [adatparticionálással][data-partitioning-guidance] foglalkozó témakört.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
-**Az alkalmazás különböző részei partícióazonosító**. Adatbázisok egy nyilvánvaló jelölt particionálás, de is vegye figyelembe a tárolás, a gyorsítótár, a várólisták, majd példányok számítási.
+**Particionálja az alkalmazás különböző részeit**. Az adatbázisok kézenfekvő jelöltek a particionálásra, érdemes lehet azonban megfontolni a tárterület, a gyorsítótár, az üzenetsorok és a számítási példányok particionálását is.
 
-**A partíciós kulcs interaktív területek elkerülése érdekében tervezése**. Ha Ön egy adatbázis partícióazonosító, de egy shard továbbra is lekérdezi a legtöbb, a kérelmeket, majd, még nem lehet megoldani a problémát. Ideális esetben terhelés lekérdezi egyenletesen elosztott összes partíciójára. Például ügyfél-azonosító szerint kivonatoló és nem első betűjének a felhasználói név, mivel bizonyos betűk további gyakran használják. Ugyanaz az elv érvényes particionálásakor az üzenet-várólista. Válassza ki, hogy az üzenetek még akkor is, terjesztési a várólisták szétosztva partíciós kulcs. További információkért lásd: [horizontális][sharding].
+**Tervezze meg a partíciókulcsot a túlzott terhelés elkerülése érdekében**. Ha egy adatbázis particionálása után továbbra is egyetlen partíció kapja a kérések többségét, akkor még nem oldotta meg a problémát. Ideális esetben a terhelés egyenletesen oszlik el a partíciók között. A kivonatolást például ügyfélazonosító szerint végezze, ne pedig az ügyfél nevének első betűje alapján, mivel bizonyos betűk gyakoribbak. Ugyanaz az elv érvényes az üzenetsorok particionálására is. Olyan partíciókulcsot válasszon, amely egyenletesen osztja el az üzeneteket az üzenetsorok között. További információt a [horizontális skálázást][sharding] ismertető témakörben tekinthet meg.
 
-**Azure-előfizetés és a szolgáltatásra vonatkozó korlátozások partíció**. Az egyes összetevőkkel és szolgáltatásokkal korlátokkal rendelkeznek, de is korlátai előfizetésekhez és erőforráscsoportokhoz. Nagyon nagy alkalmazások esetén szükség lehet partíció körül ezeket a határértékeket.  
+**Az Azure-előfizetések és a -szolgáltatások korlátaihoz igazodva végezze a particionálást**. Az egyes összetevők és szolgáltatások mellett korlátozások vonatkoznak az előfizetésekre és erőforráscsoportokra is. A nagyon nagy alkalmazások esetén előfordulhat, hogy ezek korlátai szerint kell végeznie a particionálást.  
 
-**Különböző szinteken partíció**. Fontolja meg a virtuális gép telepített adatbázis-kiszolgálót. A virtuális gép Azure Storage által támogatott virtuális merevlemez rendelkezik. A tárfiók Azure-előfizetéshez tartozik. Figyelje meg, hogy rendelkezik-e a hierarchiában lévő egyes lépések korlátok. Az adatbázis-kiszolgáló lehet egy kapcsolat szálkészletkorlátjánál. Virtuális gépek Processzor rendelkezik, és a hálózati korlátok. Tárolási IOPS-korlátok vonatkoznak rendelkezik. Az előfizetés korlátok rendelkezzen a virtuális gép magok száma. Általában célszerű a hierarchia alacsonyabb szintjén levő partíció könnyebben. Az előfizetés szintjén partíció csak nagy alkalmazások kell. 
+**Különböző szinteken végezze a particionálást**. Tegyük fel, hogy egy virtuális gépen helyez üzembe egy adatbázis-kiszolgálót. A virtuális gép egy virtuális merevlemezzel rendelkezik, amelyet az Azure Storage támogat. A tárfiók egy Azure-előfizetéshez tartozik. Vegye figyelembe, hogy a hierarchia mindegyik lépésére korlátok vonatkoznak. Az adatbázis-kiszolgálóra a kapcsolatkészletre vonatkozó korlát lehet érvényes. A virtuális gépre processzor- és hálózati korlátok vonatkoznak. A tárolóra IOPS-korlátok érvényesek. Az előfizetésben korlátozott a virtuális gép magjainak a száma. Általában egyszerűbb a hierarchia alacsonyabb szintjén particionálni. Az előfizetés szintjén végzett particionálás csak nagy alkalmazások esetén szükséges. 
 
 <!-- links -->
 

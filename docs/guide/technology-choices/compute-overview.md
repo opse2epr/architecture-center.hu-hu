@@ -2,17 +2,19 @@
 title: Az Azure számítási lehetőségeinek áttekintése
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
-ms.date: 04/21/2018
-ms.openlocfilehash: fbfe574b2f437ec0c02416387a246095fe117253
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.date: 06/13/2018
+ms.openlocfilehash: ceb70f8eeff42e6cadb8a63c2f36986f26322201
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252941"
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206891"
 ---
 # <a name="overview-of-azure-compute-options"></a>Az Azure számítási lehetőségeinek áttekintése
 
 A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. 
+
+## <a name="overview"></a>Áttekintés
 
 Egy végén a **infrastruktúra,--szolgáltatás** (IaaS). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.  
 
@@ -24,10 +26,12 @@ A **FaaS** (szolgáltatásként nyújtott funkciók) egy lépéssel továbbmegy,
 
 Az IaaS nyújtja a legnagyobb irányítást, rugalmasságot és hordozhatóságot. A FaaS egyszerűséget, rugalmas skálázhatóságot és potenciális költségcsökkentést kínál, mivel csak annyi időért kell fizetnie, amennyit a kódja fut. A PaaS valahol a kettő közé esik. Általában minél nagyobb rugalmasságot biztosít egy szolgáltatás, annál inkább felelős Ön az erőforrások konfigurálásáért és kezeléséért. A FaaS-szolgáltatások automatikusan kezelik az alkalmazások futtatásának szinte minden aspektusát, míg az IaaS-megoldásokhoz Önnek kell kiosztania, konfigurálnia és kezelnie a létrehozott virtuális gépeket és hálózati összetevőket.
 
+## <a name="azure-compute-options"></a>Az Azure számításüzemeltetési lehetőségei
+
 Az Azure-ban jelenleg a következő fő számítási lehetőségek érhetők el:
 
 - A [Virtual Machines](/azure/virtual-machines/) egy IaaS-szolgáltatás, amellyel virtuális gépeket helyezhet üzembe és kezelhet egy virtuális hálózaton (VNet).
-- Az [App Service](/azure/app-service/app-service-value-prop-what-is) egy felügyelt szolgáltatás, amelynek segítségével webalkalmazásokat, mobilalkalmazások háttérkomponenseit, RESTful API-kat vagy automatizált üzleti folyamatokat üzemeltethet.
+- [App Service](/azure/app-service/app-service-value-prop-what-is) felügyelt PaaS kínál webalkalmazások, mobilalkalmazásokból, RESTful API-k vagy automatizált üzleti folyamatok üzemeltetéséhez.
 - A [Service Fabric](/azure/service-fabric/service-fabric-overview) egy elosztott rendszerplatform, amely számos környezetben futtatható, például az Azure-ban vagy a helyszínen. A Service Fabric mikroszolgáltatásokat vezényel számítógépfürtökön. 
 - Az [Azure Container Service](/azure/container-service/container-service-intro) segítségével tárolóalapú alkalmazások futtatására konfigurált virtuális gépek fürtjeit hozhatja létre, konfigurálhatja és kezelheti.
 - [Az Azure tároló példányok](/azure/container-instances/container-instances-overview) kínálnak a leggyorsabb és legegyszerűbb módja a tároló Azure rendszerben való futtatásra, anélkül, hogy a virtuális gépeket, és anélkül, hogy egy magasabb szintű szolgáltatást elfogadására.
@@ -44,6 +48,8 @@ A számítási lehetőség kiválasztásakor a következő tényezőket érdemes
 - Költségek. A szolgáltatás költsége mellett vegye figyelembe a szolgáltatásra épülő megoldás felügyeletének üzemeltetési költségét is. Az IaaS-megoldások például magasabb üzemeltetési költségekkel járhatnak.
 - Mik az egyes szolgáltatások általános korlátozásai? 
 - Milyen jellegű alkalmazási architektúrák megfelelők a szolgáltatáshoz? 
+
+## <a name="next-steps"></a>További lépések
 
 Válassza ki az alkalmazás számítási szolgáltatás érdekében használjon a [Azure számítási szolgáltatások döntési fája](./compute-decision-tree.md)
 

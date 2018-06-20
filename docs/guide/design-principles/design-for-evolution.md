@@ -2,13 +2,12 @@
 title: Tervezés a változás szolgálatában
 description: A fejlődést szem előtt tartó tervezés kulcsfontosságú a folyamatos innováció szempontjából.
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: d05c1813dbc49f3ed8378cac4ea0c584ebdd9ff7
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.openlocfilehash: 9873d5c4e19d738a77a222e1f9a878ac5f5d125f
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252890"
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206894"
 ---
 # <a name="design-for-evolution"></a>Tervezzen a fejlődést szem előtt tartva
 
@@ -20,7 +19,7 @@ Ez a probléma nem korlátozódik a monolitikus alkalmazásokra. Egy alkalmazás
 
 A mikroszolgáltatások a fejlődésközpontú tervezés megvalósításának egyre népszerűbb módjává válnak, mert választ nyújtanak az itt említett problémák többségére.
 
-## <a name="recommendations"></a>Javaslatok
+## <a name="recommendations"></a>Ajánlatok
 
 **Törekvés a nagyfokú kohézióra és a laza kapcsolódásokra**. A szolgáltatás akkor jellemezhető *kohézióval*, ha logikailag összetartozó funkciókat biztosít. A szolgáltatások akkor *kapcsolódnak lazán*, ha az egyik szolgáltatás módosítása nem jár együtt egy másik módosításával. A nagyfokú kohézió általában azt eredményezi, hogy egy funkció változtatásai a többi kapcsolódó funkció módosítását is szükségessé teszik. Ha úgy látja, hogy egy szolgáltatás frissítése a többi szolgáltatás összehangolt frissítését kívánja meg, az annak a jele lehet, hogy nincs kohézió a szolgáltatások között. A kitűzött célokat, tartomány-központú kialakítás (nnn) egyik azonosíthatja ezeket a határokat.
 

@@ -1,32 +1,32 @@
 ---
-title: Felügyelt szolgáltatásokkal
-description: Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúrán szolgáltatásként (IaaS)
+title: Használjon felügyelt szolgáltatásokat
+description: Amikor lehetséges, a szolgáltatásként nyújtott infrastruktúra (IaaS) helyett használjon szolgáltatásként nyújtott platformot (PaaS)
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 7156c073db3e047fb38e031309ddb637a9e44c02
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 6d3cfb2e97b5a9b25bb1afd72059e981ef45c0d8
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206939"
 ---
-# <a name="use-managed-services"></a>Felügyelt szolgáltatásokkal
+# <a name="use-managed-services"></a>Használjon felügyelt szolgáltatásokat
 
-## <a name="when-possible-use-platform-as-a-service-paas-rather-than-infrastructure-as-a-service-iaas"></a>Ha lehetséges, használja a platform (PaaS) szolgáltatás infrastruktúra helyett szolgáltatásként (IaaS)
+## <a name="when-possible-use-platform-as-a-service-paas-rather-than-infrastructure-as-a-service-iaas"></a>Amikor lehetséges, a szolgáltatásként nyújtott infrastruktúra (IaaS) helyett használjon szolgáltatásként nyújtott platformot (PaaS)
 
-Infrastruktúra-szolgáltatási működik, mintha a kijelzők egy mezőt. Bármi hozhat létre, de saját kezűleg össze van. Felügyelt szolgáltatásainak használata könnyebben konfigurálásához és felügyeletéhez. Nem kell virtuális gépek kiépítése, a Vnetek beállítása, a javítások és frissítések, és az összes társított egy virtuális gépen futó szoftvereket a más terhelés kezelésére.
+Az IaaS olyan, mintha egy doboznyi alkatrész lenne. Bármit létrehozhat, de saját magának kell összeállítania. A felügyelt szolgáltatások konfigurálása és felügyelete egyszerűbb. Nem kell virtuális gépeket üzembe helyeznie, virtuális hálózatokat beállítania, javításokat és frissítéseket kezelnie, illetve egyéb olyan feladatokat elvégeznie, amelyek a szoftverek virtuális gépen való futtatásához kapcsolódnak.
 
-Tegyük fel, hogy az alkalmazás az üzenet-várólista kell. Beállíthat úgy a virtuális gép, a saját üzenetküldési szolgáltatás RabbitMQ hasonlót használatával. De Azure Service Bus már biztosít szolgáltatásként, megbízható üzenetküldés, és egyszerűbb beállítása. Hozzon létre egy Service Bus-névtér (amely a telepítési parancsfájl részeként végezhető), majd hívja Service Bus az ügyfél SDK használatával. 
+Tegyük fel, hogy az alkalmazásnak üzenetsorra van szüksége. Beállíthat saját üzenetküldési szolgáltatást egy virtuális gépen a RabbitMQ vagy hasonló szolgáltatás segítségével. Az Azure Service Bus azonban már biztosít egy megbízható üzenetküldési szolgáltatást, és a beállítása is egyszerűbb. Egyszerűen hozzon létre egy Service Bus-névteret (ez az üzembehelyezési szkripttel is elvégezhető), majd hívja meg a Service Bust az ügyfél SDK használatával. 
 
-Természetesen az alkalmazás konkrét követelmények, amelyek egy IaaS-módszert is megfelelő lehet, hogy rendelkezik. Azonban akkor is, ha az alkalmazás IaaS alapul, keressen helyen, ahol lehet természetes átfogó felügyelt szolgáltatásokat. Ezek közé tartozik a gyorsítótár, a sorokhoz és az adatok tárolására.
+Természetesen az alkalmazásnak lehetnek konkrét követelményei, amelyek miatt az IaaS módszer megfelelőbb lehet. Azonban még az IaaS-alapú alkalmazások esetén is érdemes olyan helyeket keresnie, ahol természetes lehet a felügyelt szolgáltatások használata. Ezek közé tartoznak az üzenetsorok, a gyorsítótár és az adattárolás.
 
-| Futtatása helyett... | Érdemes lehet... |
+| Az alábbiak futtatása helyett... | Fontolja meg a következőket... |
 |-----------------------|-------------|
-| Active Directory | Azure Active Directory tartományi szolgáltatások |
+| Active Directory | Active Directory Domain Services |
 | Elasticsearch | Azure Search |
 | Hadoop | HDInsight |
 | IIS | App Service |
 | MongoDB | Cosmos DB |
-| Redis | Azure Redis Cache |
+| Redis | Azure Redis gyorsítótár |
 | SQL Server | Azure SQL Database |
 
 

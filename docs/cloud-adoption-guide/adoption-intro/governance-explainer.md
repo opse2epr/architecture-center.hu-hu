@@ -2,12 +2,12 @@
 title: 'Explainer: Mi az a felhő irányítás?'
 description: Az erőforrás-irányítás fogalmát ismerteti az Azure és a felhő
 author: petertay
-ms.openlocfilehash: 63b04089aad5fc736641f8aaa6ff5247ea8ba13e
-ms.sourcegitcommit: b3d74d8a89b2224fc796ce0e89cea447af43a0d4
+ms.openlocfilehash: 3404beaa719177ee7638feed8a8442b5c3b455c6
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35290697"
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206480"
 ---
 # <a name="explainer-what-is-cloud-resource-governance"></a>Explainer: Mi az a felhő erőforrás irányítás?
 
@@ -16,6 +16,8 @@ Az a [hogyan Azure működik](azure-explainer.md) explainer, megtudta, hogy Azur
 Azonban amíg korlátozás jogosultságot ad erőforrások elérése a fejlesztők számára biztosíthat nagyon nagy, nem kívánt költség következményekre is vezethet. Például a fejlesztői csapat előfordulhat, hogy jóvá kell hagyni tesztelési erőforráscsoport telepíteni, de elfelejti törli őket, ha a tesztelés. Ezek az erőforrások továbbra is keletkeznek költségek, annak ellenére, hogy azok használata már nem jóváhagyott vagy szükséges. 
 
 Ez a probléma megoldása az erőforrás-hozzáférés **cégirányítási**. Cégirányítási kezelését, megfigyelését és naplózás céljai az Azure-erőforrások használatát és a szervezet folyamatban hivatkozik. 
+
+> [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2ii94] 
 
 Következő célokat és követelményeket egyediek minden szervezet számára, hogy nem létezik univerzális megközelítése irányítás szerepelhet. Ehelyett Azure megvalósítja a két elsődleges irányítás eszközök **erőforrás-alapú hozzáférés-vezérlést (RBAC)**, és **erőforrás-házirend**, és a használatuk irányítás modell tervezéséhez minden szervezet számára.
 

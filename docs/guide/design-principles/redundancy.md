@@ -1,43 +1,43 @@
 ---
 title: Tervezzen mindent redundánsra
-description: Kerülje a hibaérzékeny pontokat redundancia épület az alkalmazásba.
+description: Redundanciát építve az alkalmazásba elkerülheti a kritikus meghibásodási pontokat.
 author: MikeWasson
-layout: LandingPage
-ms.openlocfilehash: 05ccf78c2cfbcd4e2d26200e70463d388d54f671
-ms.sourcegitcommit: a7aae13569e165d4e768ce0aaaac154ba612934f
+ms.openlocfilehash: 4f6e3404b2aaf9c28dfd6812975c2709d8cc8c85
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/30/2018
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206904"
 ---
 # <a name="make-all-things-redundant"></a>Tervezzen mindent redundánsra
 
-## <a name="build-redundancy-into-your-application-to-avoid-having-single-points-of-failure"></a>Az alkalmazásba, hogy kerülje az egyetlen ponton felmerülő hibákat redundancia összeállítása
+## <a name="build-redundancy-into-your-application-to-avoid-having-single-points-of-failure"></a>Redundanciát építve az alkalmazásba elkerülheti a kritikus meghibásodási pontokat
 
-Egy rugalmas alkalmazás útvonalak hibát körül. A kritikus elérési utak azonosítását az alkalmazásban. Nincs redundancia az elérési út minden ponton? Ha egy alrendszer nem sikerül, az alkalmazás meghiúsul keresztül valamilyen más?
+A rugalmas alkalmazások átirányítással megkerülik a hibákat. Azonosítsa a kritikus útvonalakat az alkalmazásban. Van redundancia az útvonal minden pontján? Ha egy alrendszer meghiúsul, akkor az alkalmazás feladatainak átvétele megoldott?
 
-## <a name="recommendations"></a>Javaslatok 
+## <a name="recommendations"></a>Ajánlatok 
 
-**Fontolja meg az üzleti követelmények**. Egy az rendszerbe épített redundanciájának hatással lehet, költségeket és bonyodalmakat is. Az architektúra tájékoztatni kell által az üzleti követelményeinek, például a helyreállítási idő célkitűzése (RTO). Például egy több területi drágább, mint egyetlen területi központi telepítések, és bonyolultabb kezeléséhez. Szüksége lesz a feladatátvételi és a feladat-visszavétel üzemeltetési eljárásokat. A további költségek és az egyes üzleti forgatókönyvek és mások számára nem indokolt lehet.
+**Vegye figyelembe az üzleti követelményeket**. A rendszerbe épített redundancia mennyisége befolyásolhatja a költségeket és az összetettséget. Az architektúrának az üzleti követelményeken kell alapulnia, például a helyreállítási időre vonatkozó célkitűzésen (RTO). Egy több régióban történő üzembe helyezés például drágább, mint az egyrégiós üzembe helyezések, és bonyolultabb a kezelése. Műveleti eljárásokra lesz szükség a feladatátvétel és a feladat-visszavétel kezeléséhez. A nagyobb költségek és összetettség egyes üzleti forgatókönyvek esetében indokolt, mások esetében azonban nem.
 
-**Helyi virtuális gép egy terheléselosztó mögött**. Egyetlen virtuális gép ne használjon a kritikus fontosságú munkaterhelésekhez. Ehelyett a több virtuális gép egy terheléselosztó mögött elhelyezni. Ha a virtuális gép nem érhető el, a terheléselosztó osztja el a forgalmat a fennmaradó kifogástalan állapotú virtuális gépek. Ez a konfiguráció központi telepítéséről további tudnivalókért lásd: [több virtuális géphez, amely méretezhetőséget és a rendelkezésre állási][multi-vm-blueprint].
+**Helyezzen virtuális gépeket egy terheléselosztó mögé**. Ne használjon önálló virtuális gépeket a kritikus fontosságú számítási feladatokhoz. Ehelyett helyezzen több virtuális gépet egy terheléselosztó mögé. Ha valamelyik virtuális gép elérhetetlenné válik, a terheléselosztó a többi megfelelő állapotú virtuális gépre osztja el a forgalmat. A konfiguráció üzembe helyezésével kapcsolatos tudnivalókért tekintse meg [a skálázhatóságot és a rendelkezésre állást több virtuális géppel megvalósító rendszer ismertetését][multi-vm-blueprint].
 
 ![](./images/load-balancing.svg)
 
-**Adatbázisok replikálása**. Az Azure SQL Database és Cosmos DB automatikusan replikálja az adatokat a régión belül, és engedélyezheti a georeplikáció régiók között. Ha egy infrastruktúra-szolgáltatási adatbázis megoldást használ, válasszon egyet, amely támogatja a replikációt és feladatátvételt, például a [SQL Server Always On rendelkezésre állási csoportok][sql-always-on]. 
+**Replikáljon adatbázisokat**. Az Azure SQL Database és a Cosmos DB automatikusan replikálja az adatokat a régión belül, és engedélyezheti a georeplikációt a régiók között. Ha IaaS adatbázis-megoldást használ, válasszon olyat, amely támogatja a replikációt és a feladatátvételt, például az [SQL Server Always On rendelkezésre állási csoportokat][sql-always-on]. 
 
-**A georeplikáció engedélyezéséhez**. A georeplikáció [Azure SQL Database] [ sql-geo-replication] és [Cosmos DB] [ cosmosdb-geo-replication] hozza létre, egy vagy több másodlagos olvasható replika adatait másodlagos régióban. Nem tervezett kimaradás esetén az adatbázis átveheti a másodlagos régióba az írásokhoz.
+**Engedélyezze a georeplikációt**. Az [Azure SQL Database][sql-geo-replication] és a [Cosmos DB][cosmosdb-geo-replication] georeplikációja az adatok másodlagos olvasható replikáját hozza létre egy vagy több másodlagos régióban. Leállás esetén az adatbázis feladatátvételt hajt végre a másodlagos régióba írásra.
 
-**A rendelkezésre állás érdekében partíció**. Adatbázis particionálási gyakran használják a méretezhetőség javítása érdekében, de azt is tovább fejlesztheti rendelkezésre állását. Ha egy shard leáll, a más szilánkok továbbra is elérhetők. Egy shard hibája miatt csak megszakítja majd a teljes tranzakció egy részét. 
+**Partíciók rendelkezésre álláshoz**. Gyakran használnak adatbázis-particionálást a jobb skálázhatóság érdekében, de ez a módszer a rendelkezésre állást is javíthatja. Ha egy szegmens leáll, a többi szegmens továbbra is elérhető. Az egyik szegmens hibája csak a tranzakciók egy részét zavarja meg. 
 
-**Egynél több régióban telepítendő**. A legnagyobb rendelkezésre állást, az csak egy régió az alkalmazást telepíti. Ily módon a ritka eset, amikor probléma hatással van egy teljes terület, az alkalmazás átveheti egy másik régióban. Az alábbi ábrán egy több területi alkalmazás Azure Traffic Manager feladatátvételi kezelésére.
+**Végezzen üzembe helyezést több régióban**. A legnagyobb rendelkezésre állás érdekében egy vagy több régióban helyezze üzembe az alkalmazást. Így azon ritka esetekben, amikor egy probléma egy teljes régióra hatással van, az alkalmazás feladatátvételt végezhet egy másik régióra. Az alábbi ábrán egy több régiót használó alkalmazás látható, amely az Azure Traffic Managerrel kezeli a feladatátvételt.
 
 ![](images/failover.svg)
 
-**Előtér / háttér feladatátvételi szinkronizálása**. Azure Traffic Manager használatával az előtér feladatátvételt. Ha egyetlen előtér nem érhető el, a Traffic Manager átirányítja az új kérelmek a másodlagos régióba. Az adatbázis-megoldásától függően szükség lehet koordinálja az adatbázis feladatátvétele. 
+**Szinkronizálja az előtérbeli és a háttérbeli feladatátvételt**. Az Azure Traffic Managerrel végezhet feladatátvételt az előtérben. Ha az előtérrendszer az egyik régióban elérhetetlenné válik, a Traffic Manager a másodlagos régióba irányítja át az új kéréseket. Az adatbázis-megoldástól függően előfordulhat, hogy koordinálnia kell az adatbázis feladatátvételét. 
 
-**Használja az Automatikus feladatátvétel, de manuális feladat-visszavétel**. Automatikus feladatátvétel, de nem automatikus feladat-visszavétel a Traffic Manager használata. Automatikus feladat-visszavétel hordoz magában, ha fennáll a kockázata, akkor előfordulhat, hogy váltson át az elsődleges régióban, mielőtt a régióban teljesen kifogástalan. Ehelyett ellenőrizze, hogy minden alkalmazás alrendszer kifogástalan előtt manuálisan visszavétele. Is attól függően, hogy az adatbázis szükség lehet Adatkonzisztencia ellenőrzése előtt vissza sikertelenek lesznek.
+**Használjon automatikus feladatátvételt, de manuális feladat-visszavételt**. A Traffic Managert használja az automatikus feladatátvételhez, az automatikus feladat-visszavételhez azonban ne. Az automatikus feladat-visszavétellel kockáztatja, hogy az elsődleges régióra vált még az előtt, hogy a régió megfelelő állapotú lenne. Ehelyett a manuális feladat-visszavétel előtt ellenőrizze, hogy az alkalmazás minden alrendszere megfelelő állapotú-e. Ezenkívül az adatbázistól függően lehet, hogy ellenőriznie kell az adatkonzisztenciát a feladat-visszavétel előtt.
 
-**A Traffic Manager közé tartozik a redundancia**. A TRAFFIC Manager ponttá lehetséges hiba. Tekintse át a Traffic Manager SLA-t, és határozza meg, hogy kizárólag a Traffic Manager segítségével megfelel-e az üzleti követelményeinek, a magas rendelkezésre állás érdekében. Ha nem, akkor vegyen fel egy másik forgalom felügyeleti megoldás, a feladat-visszavételre. Ha az Azure Traffic Manager szolgáltatás nem sikerül, módosítsa a CNAME rekordot a DNS-ben, hogy a többi felügyeleti szolgálat mutasson.
+**Legyen a rendszerben redundancia a Traffic Managerhez**. A Traffic Manager egy lehetséges meghibásodási pont. Tekintse át a Traffic Manager szolgáltatói szerződését, és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, akkor a biztonság érdekében érdemes lehet hozzáadni egy másik forgalomkezelési szolgáltatást a feladat-visszavételhez. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a CNAME rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson.
 
 
 

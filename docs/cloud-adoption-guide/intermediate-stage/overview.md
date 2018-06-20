@@ -2,12 +2,12 @@
 title: 'Azure bevezetése: köztes'
 description: A közbenső szintű Tudásbázis, hogy a vállalati szüksége van Azure elfogadása
 author: petertay
-ms.openlocfilehash: 39b98595dd615ba1aa36921e48a0b23797bebaa0
-ms.sourcegitcommit: b3d74d8a89b2224fc796ce0e89cea447af43a0d4
+ms.openlocfilehash: 227d9558647ed8076b2832d95e192f2f0c43b9db
+ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35290718"
+ms.lasthandoff: 06/19/2018
+ms.locfileid: "36206361"
 ---
 # <a name="azure-cloud-adoption-guide-intermediate-overview"></a>Azure-felhőbe bevezetési útmutató: Köztes áttekintése
 
@@ -53,31 +53,31 @@ A szervezete cloud irányítás modell Azure resource access felügyeleti eszkö
 Kövesse az alábbi lépéseket:
 
 1. Hozzon létre egy [Azure-fiók](/azure/active-directory/sign-up-organization) Ha a szervezet nem rendelkezik. A személy, aki az Azure-fiókot regisztrál az Azure-fiók rendszergazdája lesz, és a szervezet vezetőségének munkáját segítik ki kell választania egy adott számára, hogy ezt a szerepkört. Ez a személy felelős:
-  * Előfizetések létrehozása és
-  * létrehozása és felügyelete [Azure Active Directory (AD)](/azure/active-directory/active-directory-whatis) bérlői, felhasználói identitást előfizetésekben tárolja.    
+    * Előfizetések létrehozása és
+    * létrehozása és felügyelete [Azure Active Directory (AD)](/azure/active-directory/active-directory-whatis) bérlői, felhasználói identitást előfizetésekben tárolja.    
 2. A szervezet egyik vezetőségi tagja úgy dönt, hogy mely személyek felelősek.
-  * Felhasználói azonosító; kezelése egy [Azure AD-bérlő](/azure/active-directory/develop/active-directory-howto-tenant) alapértelmezés szerint jön létre, ha a szervezet Azure-fiók létrehozása, és a fiókadminisztrátor meg van adva a [Azure AD globális rendszergazda](/azure/active-directory/active-directory-assign-admin-roles-azure-portal#details-about-the-global-administrator-role) alapértelmezés szerint. A szervezet választhat egy másik felhasználó által a felhasználói identitás kezelése [az Azure AD globális rendszergazdai szerepkör hozzárendelése, hogy a felhasználó](/azure/active-directory/active-directory-users-assign-role-azure-portal). 
-  * Előfizetések, ami azt jelenti, hogy ezek a felhasználók:
-    * erőforrás-használat, hogy az előfizetéshez kapcsolódó költségeket kezelése
-    * bevezetéséhez és karbantartásához legkevesebb engedélyt modell az erőforrások eléréséhez, és
-    * nyomon követjük, szolgáltatásra vonatkozó korlátozások.
-  * Megosztott infrastruktúra-szolgáltatásokat (Ha a szervezet úgy dönt, hogy ez a modell), ami azt jelenti, a felhasználónak kell megőrizni:
-    * a helyszíni Azure hálózati kapcsolatot, és 
-    * a hálózati kapcsolat az Azure virtuális hálózati társviszony-létesítés keresztül tulajdonjogát.
-  * Munkaterhelések tulajdonosai. 
+    * Felhasználói azonosító; kezelése egy [Azure AD-bérlő](/azure/active-directory/develop/active-directory-howto-tenant) alapértelmezés szerint jön létre, ha a szervezet Azure-fiók létrehozása, és a fiókadminisztrátor meg van adva a [Azure AD globális rendszergazda](/azure/active-directory/active-directory-assign-admin-roles-azure-portal#details-about-the-global-administrator-role) alapértelmezés szerint. A szervezet választhat egy másik felhasználó által a felhasználói identitás kezelése [az Azure AD globális rendszergazdai szerepkör hozzárendelése, hogy a felhasználó](/azure/active-directory/active-directory-users-assign-role-azure-portal). 
+    * Előfizetések, ami azt jelenti, hogy ezek a felhasználók:
+        * erőforrás-használat, hogy az előfizetéshez kapcsolódó költségeket kezelése
+        * bevezetéséhez és karbantartásához legkevesebb engedélyt modell az erőforrások eléréséhez, és
+        * nyomon követjük, szolgáltatásra vonatkozó korlátozások.
+    * Megosztott infrastruktúra-szolgáltatásokat (Ha a szervezet úgy dönt, hogy ez a modell), ami azt jelenti, a felhasználónak kell megőrizni:
+        * a helyszíni Azure hálózati kapcsolatot, és 
+        * a hálózati kapcsolat az Azure virtuális hálózati társviszony-létesítés keresztül tulajdonjogát.
+    * Munkaterhelések tulajdonosai. 
 3. Az Azure AD globális rendszergazda [hoz létre az új felhasználói fiókok](/azure/active-directory/add-users-azure-active-directory) esetében:
-  * a személy, aki a **előfizetés tulajdonosa** minden egyes környezet előfizetéshez. Vegye figyelembe, hogy ez csak akkor, ha az előfizetés **szolgáltatás-rendszergazda** való előfizetés/környezetben erőforrás-hozzáférés kezeléséhez nem lehet szolgáltatásait.
-  * a személy, aki a **hálózati műveletek felhasználói**, és
-  * a személyek **munkaterhelés tulajdonos(ok)**.
+    * a személy, aki a **előfizetés tulajdonosa** minden egyes környezet előfizetéshez. Vegye figyelembe, hogy ez csak akkor, ha az előfizetés **szolgáltatás-rendszergazda** való előfizetés/környezetben erőforrás-hozzáférés kezeléséhez nem lehet szolgáltatásait.
+    * a személy, aki a **hálózati műveletek felhasználói**, és
+    * a személyek **munkaterhelés tulajdonos(ok)**.
 4. Az Azure-fiók rendszergazda hoz létre a következő három előfizetések használata a [Azure-fiók portálon](https://account.azure.com):
-  * az előfizetés a **megosztott infrastruktúra** környezetben
-  * az előfizetés a **éles** környezetben, és 
-  * az előfizetés a **fejlesztési** környezetben. 
+    * az előfizetés a **megosztott infrastruktúra** környezetben
+    * az előfizetés a **éles** környezetben, és 
+    * az előfizetés a **fejlesztési** környezetben. 
 5. Az Azure-fiók rendszergazdai [az előfizetés szolgáltatás tulajdonosa hozzá minden egyes előfizetés](/azure/billing/billing-add-change-azure-subscription-administrator#add-an-rbac-owner-admin-for-a-subscription-in-azure-portal).
-6. Hozzon létre a jóváhagyási folyamatot **munkaterhelések tulajdonosai** lekérni az erőforrás-csoportok létrehozását. A jóváhagyási folyamatot valósítható számos szempont, például keresztül e-mailek, vagy beállíthatja, hogy egy folyamat felügyeleti eszköz használatával, mint a [Sharepoint munkafolyamatok](https://support.office.com/article/introduction-to-sharepoint-workflow-07982276-54e8-4e17-8699-5056eff4d9e3). A jóváhagyási folyamatot is kövesse az alábbi lépéseket:
-  1. A **számítási feladatok felelőse** egyaránt szükség Azure-erőforrások az anyagjegyzék előkészíti a **fejlesztési** környezetben **éles** környezet, illetve mindkettőt, és elküldi a úgy, hogy a **előfizetés tulajdonosa**.
-  2. A **előfizetés tulajdonosa** ellenőrzi, hogy az anyagjegyzék, és érvényesíti a kért erőforrások, és győződjön meg arról, hogy a kért erőforrások a tervezett használhatók az - például ellenőrzését, amely a kért [ Virtuálisgép-méretek](/azure/virtual-machines/windows/sizes) helyes-e.
-  3. A kérelem nem engedélyezett, ha a **számítási feladatok felelőse** értesítést kap. Ha a kérelem jóváhagyták, a **előfizetés tulajdonosa** [a kért erőforrás csoportot hoz létre](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups) a szervezet a következő [elnevezési konvenciói](/azure/architecture/best-practices/naming-conventions), [ hozzáadja a **számítási feladatok felelőse** ](/azure/role-based-access-control/role-assignments-portal#add-access) rendelkező a [ **közreműködő** szerepkör](/azure/role-based-access-control/built-in-roles#contributor) és értesítést küld a **számítási feladatok felelőse** az erőforráscsoport lett létrehozva.
+6. Hozzon létre a jóváhagyási folyamatot **munkaterhelések tulajdonosai** lekérni az erőforrás-csoportok létrehozását. A jóváhagyási folyamatot valósítható számos szempont, például keresztül e-mailek, vagy beállíthatja, hogy egy folyamat felügyeleti eszköz használatával, mint a [Sharepoint munkafolyamatok](https://support.office.com/article/introduction-to-sharepoint-workflow-07982276-54e8-4e17-8699-5056eff4d9e3). A jóváhagyási folyamatot is kövesse az alábbi lépéseket:  
+    * A **számítási feladatok felelőse** egyaránt szükség Azure-erőforrások az anyagjegyzék előkészíti a **fejlesztési** környezetben **éles** környezet, illetve mindkettőt, és elküldi a úgy, hogy a **előfizetés tulajdonosa**.
+    * A **előfizetés tulajdonosa** ellenőrzi, hogy az anyagjegyzék, és érvényesíti a kért erőforrások, és győződjön meg arról, hogy a kért erőforrások a tervezett használhatók az - például ellenőrzését, amely a kért [ Virtuálisgép-méretek](/azure/virtual-machines/windows/sizes) helyes-e.
+    * A kérelem nem engedélyezett, ha a **számítási feladatok felelőse** értesítést kap. Ha a kérelem jóváhagyták, a **előfizetés tulajdonosa** [a kért erőforrás csoportot hoz létre](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups) a szervezet a következő [elnevezési konvenciói](/azure/architecture/best-practices/naming-conventions), [ hozzáadja a **számítási feladatok felelőse** ](/azure/role-based-access-control/role-assignments-portal#add-access) rendelkező a [ **közreműködő** szerepkör](/azure/role-based-access-control/built-in-roles#contributor) és értesítést küld a **számítási feladatok felelőse** az erőforráscsoport lett létrehozva.
 7. A munkaterhelések tulajdonosai kérjen egy virtuális hálózati kapcsolat a megosztott infrastruktúra tulajdonos társviszony jóváhagyási folyamatot létrehozni. Csakúgy, mint az előző lépésben a jóváhagyási folyamat implementálhatók e-mail vagy egy folyamat felügyeleti eszköz használatával.
 
 Most, hogy a cégirányítási modell bevezetése a megosztott infrastruktúra-szolgáltatásokat is telepíthet.
