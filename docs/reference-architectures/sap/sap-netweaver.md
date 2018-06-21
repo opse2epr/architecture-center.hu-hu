@@ -8,6 +8,7 @@ ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/21/2018
+ms.locfileid: "34423142"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>Az Azure virtuális gépeken AnyDB telepítése SAP NetWeaver (Windows)
 

@@ -12,6 +12,7 @@ ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/30/2018
+ms.locfileid: "30270404"
 ---
 # <a name="dmz-between-azure-and-the-internet"></a>Szegélyhálózat (DMZ) az Azure és az internet között
 

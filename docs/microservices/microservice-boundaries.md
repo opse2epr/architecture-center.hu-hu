@@ -8,6 +8,7 @@ ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/06/2018
+ms.locfileid: "33673402"
 ---
 # <a name="designing-microservices-identifying-microservice-boundaries"></a>Mikroszolgáltatások tervezése: mikroszolgáltatási határok azonosítása
 

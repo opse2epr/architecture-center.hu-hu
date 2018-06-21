@@ -19,6 +19,7 @@ ms.sourcegitcommit: 4ec010846b9b5545c843a32e08293f906e512302
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/17/2018
+ms.locfileid: "34299972"
 ---
 # <a name="examples-of-implementing-azure-enterprise-scaffold"></a>Az Azure enterprise scaffold implementációi
 Ez a cikk alapján vállalati hogyan valósíthatja meg a javaslatok példákat tartalmaz egy [Azure enterprise scaffold](subscription-governance.md). Gyakori helyzetek ajánlott eljárásai bemutatják egy kitalált, Contoso nevű vállalat használ.

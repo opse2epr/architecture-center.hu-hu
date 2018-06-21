@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30301113"
 ---
 # <a name="extract-transform-and-load-etl"></a>Kinyerés, átalakítás és betöltés (ETL)
 

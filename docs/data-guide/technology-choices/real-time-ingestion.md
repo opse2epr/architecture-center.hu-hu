@@ -8,6 +8,7 @@ ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/21/2018
+ms.locfileid: "34422983"
 ---
 # <a name="choosing-a-real-time-message-ingestion-technology-in-azure"></a>Az Azure-ban a valós idejű üzenet adatfeldolgozást technológia kiválasztása
 

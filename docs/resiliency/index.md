@@ -10,6 +10,7 @@ ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/16/2018
+ms.locfileid: "31012637"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 

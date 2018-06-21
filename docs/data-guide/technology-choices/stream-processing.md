@@ -8,6 +8,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30848648"
 ---
 # <a name="choosing-a-stream-processing-technology-in-azure"></a>A streamfeldolgozási az Azure-ban technológia kiválasztása
 

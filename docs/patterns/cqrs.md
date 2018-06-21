@@ -14,6 +14,7 @@ ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/07/2018
+ms.locfileid: "33811049"
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Command and Query Responsibility Segregation (CQRS) minta
 
