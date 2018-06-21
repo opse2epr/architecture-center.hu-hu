@@ -8,6 +8,7 @@ ms.sourcegitcommit: 786bafefc731245414c3c1510fc21027afe303dc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/12/2017
+ms.locfileid: "26653198"
 ---
 # <a name="designing-microservices-api-design"></a><span data-ttu-id="42aa7-103">Mikroszolgáltatások tervezése: API-Tervező</span><span class="sxs-lookup"><span data-stu-id="42aa7-103">Designing microservices: API design</span></span>
 

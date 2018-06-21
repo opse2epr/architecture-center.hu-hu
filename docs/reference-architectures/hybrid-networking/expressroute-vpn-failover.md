@@ -11,6 +11,7 @@ ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/30/2018
+ms.locfileid: "30270438"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute-with-vpn-failover"></a><span data-ttu-id="e0cd0-103">Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával</span><span class="sxs-lookup"><span data-stu-id="e0cd0-103">Connect an on-premises network to Azure using ExpressRoute with VPN failover</span></span>
 

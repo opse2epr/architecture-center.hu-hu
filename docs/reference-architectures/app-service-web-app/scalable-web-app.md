@@ -12,6 +12,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30846508"
 ---
 # <a name="improve-scalability-in-a-web-application"></a><span data-ttu-id="bc9de-103">Méretezhetőség javítása egy webalkalmazásban</span><span class="sxs-lookup"><span data-stu-id="bc9de-103">Improve scalability in a web application</span></span>
 

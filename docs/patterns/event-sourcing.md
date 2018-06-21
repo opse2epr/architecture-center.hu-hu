@@ -13,6 +13,7 @@ ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/17/2018
+ms.locfileid: "29963210"
 ---
 # <a name="event-sourcing-pattern"></a><span data-ttu-id="710f4-104">Események forráskezelése minta</span><span class="sxs-lookup"><span data-stu-id="710f4-104">Event Sourcing pattern</span></span>
 

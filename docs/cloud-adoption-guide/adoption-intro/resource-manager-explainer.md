@@ -7,6 +7,7 @@ ms.sourcegitcommit: 2e8b06e9c07875d65b91d5431bfd4bc465a7a242
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/09/2018
+ms.locfileid: "29060792"
 ---
 # <a name="explainer-what-is-azure-resource-manager"></a><span data-ttu-id="aa2b6-103">Explainer: Mi az Azure Resource Manager?</span><span class="sxs-lookup"><span data-stu-id="aa2b6-103">Explainer: what is Azure Resource Manager?</span></span>
 

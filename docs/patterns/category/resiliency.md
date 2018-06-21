@@ -10,6 +10,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30847192"
 ---
 # <a name="resiliency-patterns"></a><span data-ttu-id="2cf44-106">Rugalmassági minták</span><span class="sxs-lookup"><span data-stu-id="2cf44-106">Resiliency patterns</span></span>
 

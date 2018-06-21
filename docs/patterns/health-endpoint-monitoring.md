@@ -14,6 +14,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30847849"
 ---
 # <a name="health-endpoint-monitoring-pattern"></a><span data-ttu-id="c75a7-104">Állapot végponti monitorozását végző minta</span><span class="sxs-lookup"><span data-stu-id="c75a7-104">Health Endpoint Monitoring pattern</span></span>
 

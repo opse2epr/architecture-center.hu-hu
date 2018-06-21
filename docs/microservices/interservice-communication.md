@@ -8,6 +8,7 @@ ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/29/2017
+ms.locfileid: "27549127"
 ---
 # <a name="designing-microservices-interservice-communication"></a><span data-ttu-id="42bc1-103">Mikroszolgáltatások tervezése: Interservice kommunikáció</span><span class="sxs-lookup"><span data-stu-id="42bc1-103">Designing microservices: Interservice communication</span></span>
 

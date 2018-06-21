@@ -10,6 +10,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30846790"
 ---
 # <a name="management-and-monitoring-patterns"></a><span data-ttu-id="428b7-106">Kezelési és figyelési minták</span><span class="sxs-lookup"><span data-stu-id="428b7-106">Management and Monitoring patterns</span></span>
 

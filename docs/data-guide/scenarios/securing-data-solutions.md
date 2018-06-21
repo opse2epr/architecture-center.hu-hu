@@ -8,6 +8,7 @@ ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/14/2018
+ms.locfileid: "29291956"
 ---
 # <a name="securing-data-solutions"></a><span data-ttu-id="cc125-102">Data-megoldások biztonságossá tétele</span><span class="sxs-lookup"><span data-stu-id="cc125-102">Securing data solutions</span></span>
 

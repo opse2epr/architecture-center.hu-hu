@@ -12,6 +12,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30849654"
 ---
 # <a name="dmz-between-azure-and-your-on-premises-datacenter"></a><span data-ttu-id="0c9c2-103">DMZ az Azure és a helyszíni adatközpont között</span><span class="sxs-lookup"><span data-stu-id="0c9c2-103">DMZ between Azure and your on-premises datacenter</span></span>
 

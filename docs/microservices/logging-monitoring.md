@@ -8,6 +8,7 @@ ms.sourcegitcommit: 786bafefc731245414c3c1510fc21027afe303dc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/12/2017
+ms.locfileid: "26652994"
 ---
 # <a name="designing-microservices-logging-and-monitoring"></a><span data-ttu-id="dad4d-103">Mikroszolgáltatások tervezése: naplózás és figyelés</span><span class="sxs-lookup"><span data-stu-id="dad4d-103">Designing microservices: Logging and monitoring</span></span>
 

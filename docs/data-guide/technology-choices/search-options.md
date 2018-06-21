@@ -8,6 +8,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30848614"
 ---
 # <a name="choosing-a-search-data-store-in-azure"></a><span data-ttu-id="1e9b2-102">A keresési tárolóban kiválasztása az Azure-ban</span><span class="sxs-lookup"><span data-stu-id="1e9b2-102">Choosing a search data store in Azure</span></span>
 

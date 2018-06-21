@@ -11,6 +11,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24541913"
 ---
 # <a name="work-with-claims-based-identities"></a><span data-ttu-id="a06e2-103">Jogcímalapú identitás használata</span><span class="sxs-lookup"><span data-stu-id="a06e2-103">Work with claims-based identities</span></span>
 

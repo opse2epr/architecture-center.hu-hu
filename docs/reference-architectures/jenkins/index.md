@@ -8,6 +8,7 @@ ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/03/2018
+ms.locfileid: "32323924"
 ---
 # <a name="run-a-jenkins-server-on-azure"></a><span data-ttu-id="2ea7d-103">Jenkins-kiszolgáló futtatása az Azure-on</span><span class="sxs-lookup"><span data-stu-id="2ea7d-103">Run a Jenkins server on Azure</span></span>
 

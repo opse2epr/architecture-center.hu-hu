@@ -10,6 +10,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24541673"
 ---
 # <a name="manage-identity-in-multitenant-applications"></a><span data-ttu-id="9b717-103">Identitáskezelés több-bérlős alkalmazásokban</span><span class="sxs-lookup"><span data-stu-id="9b717-103">Manage Identity in Multitenant Applications</span></span>
 

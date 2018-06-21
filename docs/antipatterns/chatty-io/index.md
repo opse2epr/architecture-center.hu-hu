@@ -7,6 +7,7 @@ ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/23/2018
+ms.locfileid: "29477740"
 ---
 # <a name="chatty-io-antipattern"></a><span data-ttu-id="00fe9-103">Forgalmas I/O kizárási minta</span><span class="sxs-lookup"><span data-stu-id="00fe9-103">Chatty I/O antipattern</span></span>
 

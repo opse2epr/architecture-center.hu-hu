@@ -11,6 +11,7 @@ ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/08/2017
+ms.locfileid: "26359255"
 ---
 # <a name="authenticate-using-azure-ad-and-openid-connect"></a><span data-ttu-id="d075e-103">Hitelesítés az Azure AD használatával és az OpenID Connect</span><span class="sxs-lookup"><span data-stu-id="d075e-103">Authenticate using Azure AD and OpenID Connect</span></span>
 

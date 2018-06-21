@@ -7,6 +7,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24539785"
 ---
 # <a name="big-compute-architecture-style"></a><span data-ttu-id="09424-103">Nagy számítási architektúra stílus</span><span class="sxs-lookup"><span data-stu-id="09424-103">Big compute architecture style</span></span>
 

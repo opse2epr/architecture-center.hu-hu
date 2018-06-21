@@ -11,6 +11,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24540281"
 ---
 # <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a><span data-ttu-id="4944d-103">Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével</span><span class="sxs-lookup"><span data-stu-id="4944d-103">Use client assertion to get access tokens from Azure AD</span></span>
 

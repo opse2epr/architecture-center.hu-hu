@@ -8,6 +8,7 @@ ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 01/11/2018
+ms.locfileid: "27765986"
 ---
 # <a name="designing-microservices-domain-analysis"></a><span data-ttu-id="cff3d-103">Mikroszolgáltatások tervezése: tartomány elemzés</span><span class="sxs-lookup"><span data-stu-id="cff3d-103">Designing microservices: Domain analysis</span></span> 
 

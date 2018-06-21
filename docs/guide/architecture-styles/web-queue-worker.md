@@ -7,6 +7,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24539801"
 ---
 # <a name="web-queue-worker-architecture-style"></a><span data-ttu-id="f9f59-103">Webalkalmazás-várólista-munkavégző architektúra stílus</span><span class="sxs-lookup"><span data-stu-id="f9f59-103">Web-Queue-Worker architecture style</span></span>
 
