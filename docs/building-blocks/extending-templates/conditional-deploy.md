@@ -8,6 +8,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24538393"
 ---
 # <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Feltételesen telepítése Azure Resource Manager-sablonok az erőforráshoz
 

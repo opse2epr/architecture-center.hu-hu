@@ -9,6 +9,7 @@ ms.sourcegitcommit: 441185360db49cfb3cf39527b68f318d17d4cb3d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 01/19/2018
+ms.locfileid: "27973110"
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlista
 

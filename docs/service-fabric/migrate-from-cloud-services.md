@@ -8,6 +8,7 @@ ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/16/2018
+ms.locfileid: "31012688"
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése 
 

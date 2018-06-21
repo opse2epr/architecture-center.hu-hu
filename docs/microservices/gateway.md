@@ -8,6 +8,7 @@ ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/29/2017
+ms.locfileid: "27549178"
 ---
 # <a name="designing-microservices-api-gateways"></a>Mikroszolgáltatások tervezése: API átjárók
 

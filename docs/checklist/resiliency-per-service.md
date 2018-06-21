@@ -9,6 +9,7 @@ ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/08/2018
+ms.locfileid: "29782670"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasság ellenőrzőlista az adott Azure-szolgáltatások
 

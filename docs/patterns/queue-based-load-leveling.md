@@ -15,6 +15,7 @@ ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/08/2017
+ms.locfileid: "26359319"
 ---
 # <a name="queue-based-load-leveling-pattern"></a>Betöltési simítás mintát várólista-alapú
 

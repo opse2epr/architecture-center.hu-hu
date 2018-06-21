@@ -9,6 +9,7 @@ ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/30/2018
+ms.locfileid: "30270288"
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Webalkalmazás futtatása több régióban
 [!INCLUDE [header](../../_includes/header.md)]

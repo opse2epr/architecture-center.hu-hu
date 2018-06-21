@@ -11,6 +11,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30847747"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 

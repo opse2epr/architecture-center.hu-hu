@@ -8,6 +8,7 @@ ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 01/05/2018
+ms.locfileid: "27595985"
 ---
 # <a name="no-caching-antipattern"></a>Nincs gyorsítótárazás – kizárási minta
 
