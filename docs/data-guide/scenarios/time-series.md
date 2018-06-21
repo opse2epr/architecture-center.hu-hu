@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30298107"
 ---
 # <a name="time-series-solutions"></a><span data-ttu-id="3f7bb-102">Idősorozattal kapcsolatos megoldások</span><span class="sxs-lookup"><span data-stu-id="3f7bb-102">Time series solutions</span></span>
 

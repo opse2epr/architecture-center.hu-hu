@@ -8,6 +8,7 @@ ms.sourcegitcommit: 786bafefc731245414c3c1510fc21027afe303dc
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 12/12/2017
+ms.locfileid: "26653062"
 ---
 # <a name="designing-microservices-continuous-integration"></a><span data-ttu-id="f8034-103">Mikroszolgáltatások tervezése: folyamatos integrációt</span><span class="sxs-lookup"><span data-stu-id="f8034-103">Designing microservices: Continuous integration</span></span>
 

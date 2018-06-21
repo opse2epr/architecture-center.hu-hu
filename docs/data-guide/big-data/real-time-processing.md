@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30301099"
 ---
 # <a name="real-time-processing"></a><span data-ttu-id="8efd5-102">Valós idejű feldolgozás</span><span class="sxs-lookup"><span data-stu-id="8efd5-102">Real time processing</span></span>
 

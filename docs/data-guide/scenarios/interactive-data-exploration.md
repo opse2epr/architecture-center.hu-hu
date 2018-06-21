@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30297956"
 ---
 # <a name="interactive-data-exploration"></a><span data-ttu-id="1300e-102">Interaktív adatfeltárás</span><span class="sxs-lookup"><span data-stu-id="1300e-102">Interactive data exploration</span></span>
 

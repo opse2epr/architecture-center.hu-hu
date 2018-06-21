@@ -8,6 +8,7 @@ ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/14/2018
+ms.locfileid: "29291963"
 ---
 # <a name="choosing-a-machine-learning-technology-in-azure"></a><span data-ttu-id="e059e-102">A gépi tanulási technológiával az Azure-ban kiválasztása</span><span class="sxs-lookup"><span data-stu-id="e059e-102">Choosing a machine learning technology in Azure</span></span>
 

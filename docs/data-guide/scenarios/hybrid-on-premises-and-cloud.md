@@ -8,6 +8,7 @@ ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/14/2018
+ms.locfileid: "29291942"
 ---
 # <a name="extending-on-premises-data-solutions-to-the-cloud"></a><span data-ttu-id="38581-102">Kiterjesztése a helyszíni data-megoldásokat a felhőben</span><span class="sxs-lookup"><span data-stu-id="38581-102">Extending on-premises data solutions to the cloud</span></span>
 

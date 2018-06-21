@@ -8,6 +8,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30848682"
 ---
 # <a name="run-the-surveys-application"></a><span data-ttu-id="9b04d-103">A Surveys alkalmazás futtatása</span><span class="sxs-lookup"><span data-stu-id="9b04d-103">Run the Surveys application</span></span>
 

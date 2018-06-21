@@ -8,6 +8,7 @@ ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/21/2018
+ms.locfileid: "34423141"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a><span data-ttu-id="d5c9a-103">Azure-példányokon nagy SAP HANA futtatása</span><span class="sxs-lookup"><span data-stu-id="d5c9a-103">Run SAP HANA on Azure Large Instances</span></span>
 

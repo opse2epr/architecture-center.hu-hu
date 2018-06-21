@@ -7,6 +7,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30848257"
 ---
 # <a name="cloud-design-patterns"></a><span data-ttu-id="bbd43-104">Tervezési minták felhőkhöz</span><span class="sxs-lookup"><span data-stu-id="bbd43-104">Cloud Design Patterns</span></span>
 

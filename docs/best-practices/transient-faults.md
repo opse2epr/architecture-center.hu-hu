@@ -9,6 +9,7 @@ ms.sourcegitcommit: c53adf50d3a787956fc4ebc951b163a10eeb5d20
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/23/2017
+ms.locfileid: "25545978"
 ---
 # <a name="transient-fault-handling"></a><span data-ttu-id="2cf8a-103">Átmeneti hiba kezelése</span><span class="sxs-lookup"><span data-stu-id="2cf8a-103">Transient fault handling</span></span>
 

@@ -13,6 +13,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30847107"
 ---
 # <a name="pipes-and-filters-pattern"></a><span data-ttu-id="d9002-104">Csövek és szűrők mintája</span><span class="sxs-lookup"><span data-stu-id="d9002-104">Pipes and Filters pattern</span></span>
 

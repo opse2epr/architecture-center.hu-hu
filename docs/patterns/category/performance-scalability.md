@@ -10,6 +10,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30848529"
 ---
 # <a name="performance-and-scalability-patterns"></a><span data-ttu-id="e83a5-108">Teljesítménnyel kapcsolatos és skálázhatósági minták</span><span class="sxs-lookup"><span data-stu-id="e83a5-108">Performance and Scalability patterns</span></span>
 

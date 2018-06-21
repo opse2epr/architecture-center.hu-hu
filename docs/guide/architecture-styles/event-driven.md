@@ -7,6 +7,7 @@ ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/23/2018
+ms.locfileid: "29478323"
 ---
 # <a name="event-driven-architecture-style"></a><span data-ttu-id="e60b0-103">Architektúra eseményvezérelt stílus</span><span class="sxs-lookup"><span data-stu-id="e60b0-103">Event-driven architecture style</span></span>
 

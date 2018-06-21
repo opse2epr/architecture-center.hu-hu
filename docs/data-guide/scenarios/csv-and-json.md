@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30301078"
 ---
 # <a name="working-with-csv-and-json-files-for-data-solutions"></a><span data-ttu-id="e8a27-102">A data-megoldások a fürt megosztott kötetei szolgáltatás és a JSON fájlok használata</span><span class="sxs-lookup"><span data-stu-id="e8a27-102">Working with CSV and JSON files for data solutions</span></span>
 

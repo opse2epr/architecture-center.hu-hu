@@ -12,6 +12,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24541321"
 ---
 # <a name="gatekeeper-pattern"></a><span data-ttu-id="3bd9a-104">Forgalomirányító minta</span><span class="sxs-lookup"><span data-stu-id="3bd9a-104">Gatekeeper pattern</span></span>
 

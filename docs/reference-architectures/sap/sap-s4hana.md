@@ -8,6 +8,7 @@ ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/21/2018
+ms.locfileid: "34423143"
 ---
 # <a name="sap-s4hana-for-linux-virtual-machines-on-azure"></a><span data-ttu-id="86e9e-103">SAP S/4HANA Azure Linux virtuális gépekhez</span><span class="sxs-lookup"><span data-stu-id="86e9e-103">SAP S/4HANA for Linux Virtual Machines on Azure</span></span>
 

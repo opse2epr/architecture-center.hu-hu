@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30301141"
 ---
 # <a name="batch-processing"></a><span data-ttu-id="af306-102">Kötegelt feldolgozás</span><span class="sxs-lookup"><span data-stu-id="af306-102">Batch processing</span></span>
 

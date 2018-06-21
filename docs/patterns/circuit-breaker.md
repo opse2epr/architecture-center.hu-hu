@@ -12,6 +12,7 @@ ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 03/30/2018
+ms.locfileid: "30270472"
 ---
 # <a name="circuit-breaker-pattern"></a><span data-ttu-id="b4523-104">Áramkör-megszakító minta</span><span class="sxs-lookup"><span data-stu-id="b4523-104">Circuit Breaker pattern</span></span>
 

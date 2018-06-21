@@ -9,6 +9,7 @@ ms.sourcegitcommit: 441185360db49cfb3cf39527b68f318d17d4cb3d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 01/19/2018
+ms.locfileid: "27973144"
 ---
 # <a name="caching"></a><span data-ttu-id="c230d-103">Gyorsítótárazás</span><span class="sxs-lookup"><span data-stu-id="c230d-103">Caching</span></span>
 

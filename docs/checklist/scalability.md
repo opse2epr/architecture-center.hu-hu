@@ -9,6 +9,7 @@ ms.sourcegitcommit: 3d6dba524cc7661740bdbaf43870de7728d60a01
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 01/11/2018
+ms.locfileid: "27766105"
 ---
 # <a name="scalability-checklist"></a><span data-ttu-id="1e3b4-103">Méretezési ellenőrzőlista</span><span class="sxs-lookup"><span data-stu-id="1e3b4-103">Scalability checklist</span></span>
 

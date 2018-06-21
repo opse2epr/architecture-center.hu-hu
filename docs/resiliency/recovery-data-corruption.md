@@ -8,6 +8,7 @@ ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/16/2018
+ms.locfileid: "31012426"
 ---
 # <a name="recover-from-data-corruption-or-accidental-deletion"></a><span data-ttu-id="99c6a-103">Adatsérülés vagy véletlen törlés helyreállítása</span><span class="sxs-lookup"><span data-stu-id="99c6a-103">Recover from data corruption or accidental deletion</span></span> 
 

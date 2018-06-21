@@ -12,6 +12,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24542633"
 ---
 # <a name="federated-identity-pattern"></a><span data-ttu-id="c99bf-104">Összevont identitás-minta</span><span class="sxs-lookup"><span data-stu-id="c99bf-104">Federated Identity pattern</span></span>
 

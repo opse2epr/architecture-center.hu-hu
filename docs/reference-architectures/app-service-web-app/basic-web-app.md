@@ -9,6 +9,7 @@ ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/06/2018
+ms.locfileid: "30846403"
 ---
 # <a name="basic-web-application"></a><span data-ttu-id="fde79-103">Alapszintű webalkalmazás</span><span class="sxs-lookup"><span data-stu-id="fde79-103">Basic web application</span></span>
 [!INCLUDE [header](../../_includes/header.md)]

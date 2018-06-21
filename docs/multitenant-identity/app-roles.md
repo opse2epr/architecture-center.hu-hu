@@ -11,6 +11,7 @@ ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/21/2018
+ms.locfileid: "34422966"
 ---
 # <a name="application-roles"></a><span data-ttu-id="c9faf-103">Alkalmazás-szerepkörök</span><span class="sxs-lookup"><span data-stu-id="c9faf-103">Application roles</span></span>
 

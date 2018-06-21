@@ -11,6 +11,7 @@ ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/23/2018
+ms.locfileid: "29477444"
 ---
 # <a name="federate-with-a-customers-ad-fs"></a><span data-ttu-id="da9df-103">Összevonás az ügyfél AD FS szolgáltatásával</span><span class="sxs-lookup"><span data-stu-id="da9df-103">Federate with a customer's AD FS</span></span>
 

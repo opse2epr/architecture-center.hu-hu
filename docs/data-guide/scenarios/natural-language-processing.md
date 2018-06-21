@@ -8,6 +8,7 @@ ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 04/03/2018
+ms.locfileid: "30297971"
 ---
 # <a name="natural-language-processing"></a><span data-ttu-id="26fea-102">Természetes nyelvek feldolgozása</span><span class="sxs-lookup"><span data-stu-id="26fea-102">Natural language processing</span></span>
 

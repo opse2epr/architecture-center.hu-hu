@@ -11,6 +11,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24541465"
 ---
 # <a name="secure-a-backend-web-api"></a><span data-ttu-id="4c402-103">A háttérrendszer webes API biztonságossá tétele</span><span class="sxs-lookup"><span data-stu-id="4c402-103">Secure a backend web API</span></span>
 

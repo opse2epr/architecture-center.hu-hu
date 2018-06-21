@@ -14,6 +14,7 @@ ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/14/2017
+ms.locfileid: "24541689"
 ---
 # <a name="static-content-hosting-pattern"></a><span data-ttu-id="cc556-104">Statikus tartalom üzemeltető minta</span><span class="sxs-lookup"><span data-stu-id="cc556-104">Static Content Hosting pattern</span></span>
 

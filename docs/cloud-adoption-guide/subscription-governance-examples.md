@@ -19,6 +19,7 @@ ms.sourcegitcommit: 4ec010846b9b5545c843a32e08293f906e512302
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/17/2018
+ms.locfileid: "34299972"
 ---
 # <a name="examples-of-implementing-azure-enterprise-scaffold"></a><span data-ttu-id="d9674-103">Az Azure enterprise scaffold implementációi</span><span class="sxs-lookup"><span data-stu-id="d9674-103">Examples of implementing Azure enterprise scaffold</span></span>
 <span data-ttu-id="d9674-104">Ez a cikk alapján vállalati hogyan valósíthatja meg a javaslatok példákat tartalmaz egy [Azure enterprise scaffold](subscription-governance.md).</span><span class="sxs-lookup"><span data-stu-id="d9674-104">This article provides examples of how an enterprise can implement the recommendations for an [Azure enterprise scaffold](subscription-governance.md).</span></span> <span data-ttu-id="d9674-105">Gyakori helyzetek ajánlott eljárásai bemutatják egy kitalált, Contoso nevű vállalat használ.</span><span class="sxs-lookup"><span data-stu-id="d9674-105">It uses a fictional company named Contoso to illustrate best practices for common scenarios.</span></span>

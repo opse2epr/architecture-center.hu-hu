@@ -19,6 +19,7 @@ ms.sourcegitcommit: 4ec010846b9b5545c843a32e08293f906e512302
 ms.translationtype: MT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 05/17/2018
+ms.locfileid: "34299976"
 ---
 # <a name="azure-enterprise-scaffold---prescriptive-subscription-governance"></a><span data-ttu-id="80d87-103">Az Azure enterprise scaffold - részletes utasításokkal megadott előfizetés-irányítás</span><span class="sxs-lookup"><span data-stu-id="80d87-103">Azure enterprise scaffold - prescriptive subscription governance</span></span>
 <span data-ttu-id="80d87-104">A vállalatok egyre vannak bevezetése a nyilvános felhőben az agilitást és a rugalmasságot.</span><span class="sxs-lookup"><span data-stu-id="80d87-104">Enterprises are increasingly adopting the public cloud for its agility and flexibility.</span></span> <span data-ttu-id="80d87-105">A felhő szintjeiről bevételt, vagy a vállalati erőforrások optimalizálására azok vannak használatával.</span><span class="sxs-lookup"><span data-stu-id="80d87-105">They are utilizing the cloud's strengths to generate revenue or optimize resources for the business.</span></span> <span data-ttu-id="80d87-106">A Microsoft Azure kínál számos, hogy a vállalatok például építőelemeket munkaterheléseket és alkalmazásokat az széles köréről megoldására összeállíthat.</span><span class="sxs-lookup"><span data-stu-id="80d87-106">Microsoft Azure provides a multitude of services that enterprises can assemble like building blocks to address a wide array of workloads and applications.</span></span> 
