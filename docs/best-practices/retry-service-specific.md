@@ -4,12 +4,12 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: f02843f179671da04bc2f09326b58075b432ba95
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.openlocfilehash: 77cf5d90373da2118d34301bd5c790080d3cf63f
+ms.sourcegitcommit: 9a2d56ac7927f0a2bbfee07198d43d9c5cb85755
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35253077"
+ms.lasthandoff: 06/22/2018
+ms.locfileid: "36327687"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -325,7 +325,7 @@ A Service Bus a [RetryPolicy](http://msdn.microsoft.com/library/microsoft.servic
 * A [RetryExponential osztály](http://msdn.microsoft.com/library/microsoft.servicebus.retryexponential.aspx). Ez elérhetővé teszi azokat a tulajdonságokat, amelyek a visszatartási időközöket, az újrapróbálkozások számát és a **TerminationTimeBuffer** tulajdonságot szabályozzák, amely korlátozza, hogy a művelet hányszor hajtható végre.
 * A [NoRetry osztály](http://msdn.microsoft.com/library/microsoft.servicebus.noretry.aspx). Ezt akkor szokták használni, ha nincs szükség újrapróbálkozásra a Service Bus API-szintjén, például ha az újrapróbálkozásokat egy másik folyamat kezeli egy kötegelt vagy többlépéses művelet részeként.
 
-A Service Bus-műveletek számos kivételt adhatnak vissza. Ezek listáját [az üzenetkezelési kivételek függelékében](http://msdn.microsoft.com/library/hh418082.aspx) találja. A lista azt is ismerteti, hogy ezek közül melyik utal arra, hogy a művelet újrapróbálható. Például a [ServerBusyException](http://msdn.microsoft.com/library/microsoft.servicebus.messaging.serverbusyexception.aspx) azt jelzi, hogy az ügyfélnek várnia kell egy ideig, majd ismét megpróbálkozni a művelettel. A **ServerBusyException** jelentkezésekor a Service Bus eltérő módba vált, amelyben további 10 másodperc adódik a kiszámított újrapróbálkozási késleltetéshez. Ebből a módból rövid időn belül automatikusan kilép.
+A Service Bus műveletek visszatérhet a kivételek, számos, a [Service Bus üzenetküldési kivételek](/azure/service-bus-messaging/service-bus-messaging-exceptions). A lista azt is ismerteti, hogy ezek közül melyik utal arra, hogy a művelet újrapróbálható. Például a **ServerBusyException** azt jelzi, hogy az ügyfélnek várnia kell egy ideig, majd ismét megpróbálkozni a művelettel. A **ServerBusyException** jelentkezésekor a Service Bus eltérő módba vált, amelyben további 10 másodperc adódik a kiszámított újrapróbálkozási késleltetéshez. Ebből a módból rövid időn belül automatikusan kilép.
 
 A Service Bus által visszaadott kivételek elérhetővé teszik az **IsTransient** tulajdonságot, amely jelzi, hogy az ügyfélnek érdemes-e újrapróbálkoznia a művelettel. A beépített **RetryExponential** szabályzat a **MessagingException** osztály (az összes Service Bus-kivétel alaposztálya) **IsTransient** tulajdonságára hagyatkozik. A **RetryPolicy** alaposztály egyéni implementációi esetében a kivételtípus és az **IsTransient** tulajdonság közös használatával pontosabban szabályozhatja az újrapróbálkozási műveleteket. Például észlelhet egy **QuotaExceededException**-kivételt, és utasítást adhat, hogy csak az üzenetsor kiürítése után próbálkozzon újra az üzenetküldéssel.
 
