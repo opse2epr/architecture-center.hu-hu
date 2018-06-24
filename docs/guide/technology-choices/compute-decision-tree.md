@@ -3,12 +3,12 @@ title: Az Azure compute szolgáltatások döntési fája
 description: A számítási szolgáltatás kiválasztásának folyamatábrája
 author: MikeWasson
 ms.date: 06/13/2018
-ms.openlocfilehash: 60bb84d4bf210888d3d43498db043b6e452f6a80
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.openlocfilehash: 689ec3f265e563273a75ad98268d03624a7b4536
+ms.sourcegitcommit: ce2fa8ac2d310f7078317cade12f1b89db1ffe06
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206940"
+ms.lasthandoff: 06/23/2018
+ms.locfileid: "36338183"
 ---
 # <a name="decision-tree-for-azure-compute-services"></a>Az Azure compute szolgáltatások döntési fája
 
@@ -26,11 +26,13 @@ Az Azure számos módon az alkalmazás kódjában üzemeltetésére kínál. A *
 
 Ha az alkalmazás több munkaterhelés, külön-külön értékelje ki minden munkaterhelés. A teljes megoldás tartalmazhatják a két vagy több számítási szolgáltatások.
 
+Az Azure-ban tárolók üzemeltetéséhez a beállításokkal kapcsolatos további információkért lásd: https://azure.microsoft.com/overview/containers/.
+
 ## <a name="flowchart"></a>Folyamatábra
 
 ![](../images/compute-decision-tree.svg)
 
-## <a name="definitions"></a>Definíciók
+## <a name="definitions"></a>Meghatározások
 
 - **Greenfield** teljesen új, és teljesen új beépített szoftver projektet ismerteti. Nem tartalmazza a hagyományos kódot. 
 
