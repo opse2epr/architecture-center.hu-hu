@@ -6,18 +6,18 @@ ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: app-roles
 pnp.series.next: web-api
-ms.openlocfilehash: 03c4d5fa10c75437a7b066534619ba9a123c350c
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 321dc52a3e6f803a032288c2341e490cdba8c20a
+ms.sourcegitcommit: 9a2d56ac7927f0a2bbfee07198d43d9c5cb85755
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30849671"
+ms.lasthandoff: 06/22/2018
+ms.locfileid: "36327653"
 ---
 # <a name="role-based-and-resource-based-authorization"></a>Szerepkör- és erőforrás-alapú engedélyezési
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
-A [megvalósítása hivatkozhat] ASP.NET Core-alkalmazás. Ebben a cikkben megnézzük, engedélyezési, két általános módszer az engedélyt az ASP.NET Core megadott API-k használatával.
+A [Útmutató végrehajtása] ASP.NET Core-alkalmazás. Ebben a cikkben megnézzük, engedélyezési, két általános módszer az engedélyt az ASP.NET Core megadott API-k használatával.
 
 * **Szerepkör-alapú engedélyezési**. A felhasználóhoz rendelt szerepkörök alapján műveletet engedélyezése. Például bizonyos műveleteket kell egy rendszergazdai szerepkört.
 * **Erőforrás-alapú engedélyezési**. Egy adott erőforrás alapján művelet engedélyezése. Például minden erőforrás van tulajdonosa. A tulajdonos törlése az erőforrás; más felhasználók nem.
@@ -33,7 +33,7 @@ A [Dejójáték felmérések] [ Tailspin] alkalmazás határozza meg a következ
 
 Szerepkörök alkalmazása *felhasználók* az alkalmazás. Egy felhasználó felmérések alkalmazás, egy rendszergazda, a létrehozó vagy az olvasó.
 
-Bemutatja, hogyan határozhatja meg és kezelheti a szerepkörök tárgyalását lásd: [alkalmazási szerepköröknek].
+Bemutatja, hogyan határozhatja meg és kezelheti a szerepkörök tárgyalását lásd: [Alkalmazási szerepkörök].
 
 Hogyan kezelheti a szerepkörök, függetlenül az engedélyezési kód alábbihoz hasonlóan fog megjelenni. Az ASP.NET Core rendelkezik nevű absztrakciós [engedélyezési házirendek][policies]. Ezzel a szolgáltatással engedélyezési házirendek definiálása a kódban és a tartományvezérlő műveletek majd alkalmazza azokat a házirendeket. A házirendet a rendszer leválasztja a tartományvezérlő.
 
@@ -84,7 +84,7 @@ services.AddAuthorization(options =>
 });
 ```
 
-Ezt a kódot is meghatározza a hitelesítési séma, amely közli az ASP.NET mely hitelesítési köztes kell futtatnia, ha a hitelesítés sikertelen. Ebben az esetben azt adjon meg a cookie-k hitelesítési köztes, mert a cookie-k hitelesítési köztes is átirányítja a felhasználót egy "Tiltott" lapon. A tiltott lap helyének megadása a `AccessDeniedPath` választás, a cookie-k köztes; lásd: [konfigurálása a hitelesítési köztes].
+Ezt a kódot is meghatározza a hitelesítési séma, amely közli az ASP.NET mely hitelesítési köztes kell futtatnia, ha a hitelesítés sikertelen. Ebben az esetben azt adjon meg a cookie-k hitelesítési köztes, mert a cookie-k hitelesítési köztes is átirányítja a felhasználót egy "Tiltott" lapon. A tiltott lap helyének megadása a `AccessDeniedPath` választás, a cookie-k köztes; lásd: [A hitelesítési köztes konfigurálása].
 
 ### <a name="authorize-controller-actions"></a>A tartományvezérlő műveletek engedélyezése
 Végül egy műveletet az MVC-vezérlőhöz engedélyezéséhez, állítsa be ezt a házirendet a `Authorize` attribútum:
@@ -218,7 +218,7 @@ public class SurveyAuthorizationHandler : AuthorizationHandler<OperationAuthoriz
 }
 ```
 
-Egy több-bérlős alkalmazásban gondoskodnia kell arról, hogy engedélyek nem "nyilvánosságra kerüljenek" más bérlőket adatokat. A felmérések alkalmazás közreműködői engedély lehetővé teszi a keresztül bérlők &mdash; valaki más bérlőhöz, egy contriubutor rendelhet. A más Engedélytípusok korlátozódnak, a felhasználó bérlői erőforrásokhoz. Ezt a követelményt kényszerítéséhez a kód ellenőrzi a bérlő azonosítója az engedély megadása előtt. (A `TenantId` rendeli, a felmérést létrehozásakor mezőben.)
+Egy több-bérlős alkalmazásban gondoskodnia kell arról, hogy engedélyek nem "nyilvánosságra kerüljenek" más bérlőket adatokat. A felmérések alkalmazás közreműködői engedély lehetővé teszi a keresztül bérlők &mdash; valaki más bérlőhöz közreműködőként rendelhet. A más Engedélytípusok korlátozódnak, a felhasználó bérlői erőforrásokhoz. Ezt a követelményt kényszerítéséhez a kód ellenőrzi a bérlő azonosítója az engedély megadása előtt. (A `TenantId` rendeli, a felmérést létrehozásakor mezőben.)
 
 A következő lépés, hogy ellenőrizze a műveletet (olvasás, frissítés, törlés, stb.) a engedélyekkel szemben. A felmérések alkalmazás megvalósítja a ebben a lépésben egy keresési tábla funkciók használatával:
 
@@ -250,9 +250,9 @@ static readonly Dictionary<OperationAuthorizationRequirement, Func<List<UserPerm
 <!-- Links -->
 [Tailspin]: tailspin.md
 
-[alkalmazási szerepköröknek]: app-roles.md
+[Alkalmazási szerepkörök]: app-roles.md
 [policies]: /aspnet/core/security/authorization/policies
-[megvalósítása hivatkozhat]: tailspin.md
-[konfigurálása a hitelesítési köztes]: authenticate.md#configure-the-auth-middleware
+[Útmutató végrehajtása]: tailspin.md
+[A hitelesítési köztes konfigurálása]: authenticate.md#configure-the-auth-middleware
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance
 [web-api]: web-api.md

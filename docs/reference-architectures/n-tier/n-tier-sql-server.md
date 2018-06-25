@@ -1,19 +1,16 @@
 ---
-title: Az SQL Server N szintű alkalmazás
+title: SQL Servert használó N szintű alkalmazás
 description: Hogyan kell beállítani egy többrétegű architektúra Azure, a rendelkezésre állási, a biztonság, a méretezhetőség és kezelhetőség.
 author: MikeWasson
-ms.date: 05/03/2018
-pnp.series.title: Windows VM workloads
-pnp.series.next: multi-region-application
-pnp.series.prev: multi-vm
-ms.openlocfilehash: 0f170f2fbcbbfeace53db199cb5d3949415b5546
-ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
+ms.date: 06/23/2018
+ms.openlocfilehash: 050ea9b3104a2dc9af4cdaad3b4540cd75434e9d
+ms.sourcegitcommit: 767c8570d7ab85551c2686c095b39a56d813664b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/06/2018
-ms.locfileid: "33673724"
+ms.lasthandoff: 06/24/2018
+ms.locfileid: "36746672"
 ---
-# <a name="n-tier-application-with-sql-server"></a>Az SQL Server N szintű alkalmazás
+# <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
 A referencia-architektúrában bemutatja, hogyan telepítheti a virtuális gépek és az N szintű alkalmazáshoz, SQL Server használata Windows rendszeren az adatréteg egy virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
 
@@ -43,9 +40,11 @@ Az architektúra a következő összetevőkből áll:
 
 * **Jumpbox.** Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-nek engedélyeznie kell a távoli asztali (RDP) forgalmat.
 
-* **SQL Server Always On rendelkezésre állási csoport.** Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével.
+* **SQL Server Always On rendelkezésre állási csoport.** Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével. Feladatátvétel a Windows Server feladatátvételi fürt (WSFC) technológiát használ.
 
-* **(AD DS) Active Directory Domain Services-kiszolgálók** Az SQL Server Always On rendelkezésre állási csoportok csatlakoznak a tartományhoz, ahhoz, hogy a Windows Server feladatátvételi fürt (WSFC) technológiát a feladatátvételre. 
+* **(AD DS) Active Directory Domain Services-kiszolgálók** A feladatátvevő fürt és a kapcsolódó fürtözött szerepkörök számítógép-objektumokat az Active Directory tartományi szolgáltatások (AD DS) jönnek létre.
+
+* **A felhő tanúsító**. A feladatátvevő fürt csomópontjainak futnia kell, hogy kvórum néven ismert több mint fele szükséges. Ha a fürt csak két csomóponttal rendelkezik, a hálózati partíció okozhat minden csomópont gondolja, hogy a fő csomópont. Ebben az esetben van szüksége egy *tanúsító* bontsa ki, és létrehozza a kvórum. Tanúsító egy olyan erőforrás, például olyan megosztott lemezzel, amelyet a működhet, és egy holtversenyben levő kvórum létrehozásához. Felhő tanúsító tanúsító által használt Azure Blob Storage típusú. A kvórum fogalmát kapcsolatos további információkért lásd: [ismertetése fürt és a készlet kvórum](/windows-server/storage/storage-spaces/understand-quorum). Felhő tanúsító kapcsolatos további információkért lásd: [felhő tanúsító feladatátvevő fürt telepítése](/windows-server/failover-clustering/deploy-cloud-witness). 
 
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 
@@ -109,7 +108,7 @@ Ha az alkalmazás olvasási műveleteinek száma lényegesen több, mint az ír�
 
 Az alkalmazás számítási feladatait futtató virtuális gépek nyilvános internetről való RDP-hozzáférését ne engedélyezze. Az ilyen virtuális gépek RDP-hozzáférésének ehelyett a jumpboxon keresztül kell történnie. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox engedélyezi az internetről érkező RDP-forgalmat, de csak az ismert, biztonságos IP-címekről.
 
-A jumpbox minimális teljesítmény követelményekkel rendelkezik, ezért válassza ki a kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-címet] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
+A jumpbox minimális teljesítmény követelményekkel rendelkezik, ezért válassza ki a kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
 
 A jumpbox védelme érdekében vegyen fel egy NSG-t, amely lehetővé teszi az RDP-kapcsolatok csak egy készletből biztonságos nyilvános IP-címek. Állítsa be az NSG-t a többi alhálózathoz is úgy, hogy engedélyezzék a felügyeleti alhálózatból érkező RDP-forgalmat.
 
@@ -157,13 +156,13 @@ Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. 
+Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. Vegye figyelembe, hogy a teljes telepítési órát is igénybe vehet legfeljebb két, mely tartalmazza az Active Directory tartományi szolgáltatások, a Windows Server feladatátvevő fürt és az SQL Server rendelkezésre állási csoport konfigurálásához a parancsfájlokat futtasson.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
 1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
 
-2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve van a számítógépén. A CLI telepítéséhez kövesse az [Azure CLI 2.0 telepítése][azure-cli-2] című szakaszban leírt utasításokat.
+2. Telepítés [Azure CLI 2.0][azure-cli-2].
 
 3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
 
@@ -171,32 +170,80 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
    npm install -g @mspnp/azure-building-blocks
    ```
 
-4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
+4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
 
    ```bash
    az login
    ```
 
-### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
+### <a name="deploy-the-solution"></a>A megoldás üzembe helyezése 
 
-Ha Windows rendszerű virtuális gépeket szeretne üzembe helyezni egy N szintű alkalmazás referenciaarchitektúrájához, kövesse az alábbi lépéseket:
+1. Futtassa a következő parancs futtatásával hozzon létre egy erőforráscsoportot.
 
-1. Navigáljon a fenti előfeltételek 1. lépése során klónozott adattár `virtual-machines\n-tier-windows` mappájához.
+    ```bash
+    az group create --location <location> --name <resource-group-name>
+    ```
 
-2. A paraméterfájl egy alapértelmezett rendszergazdai felhasználónevet és jelszót határoz meg az üzemelő példány minden egyes virtuális gépéhez. Ezeket módosítania kell, mielőtt üzembe helyezné a referenciaarchitektúrát. Nyissa meg az `n-tier-windows.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mezők tartalmát az új beállításokra.
-  
-   > [!NOTE]
-   > Az üzembe helyezés alatt több szkript is fut a **VirtualMachineExtension** objektumokban és egyes **VirtualMachine** objektumok **extensions** beállításaiban. Ezen szkriptek némelyike az imént módosított rendszergazdai felhasználónevet és jelszót kéri. Javasoljuk, hogy tekintse át ezeket a szkripteket, és győződjön meg arról, hogy megfelelő hitelesítő adatokat adott meg. A telepítés sikertelen lehet, ha a megfelelő hitelesítő adatokat használt.
-   > 
-   > 
+2. A következő parancsot a felhő tanúsító hozzon létre egy tárfiókot.
 
-Mentse a fájlt.
+    ```bash
+    az storage account create --location <location> \
+      --name <storage-account-name> \
+      --resource-group <resource-group-name> \
+      --sku Standard_LRS
+    ```
 
-3. Helyezze üzembe a referenciaarchitektúrát az **azbb** parancssori eszköz használatával az alább látható módon.
+3. Keresse meg a `virtual-machines\n-tier-windows` mappába a referencia architektúra GitHub tárház.
 
-   ```bash
-   azbb -s <your subscription_id> -g <your resource_group_name> -l <azure region> -p n-tier-windows.json --deploy
-   ```
+4. Nyissa meg az `n-tier-windows.json` fájlt. 
+
+5. Keresse meg a "witnessStorageBlobEndPoint" az összes példányát, és cserélje le a helyőrzőket a 2. lépésben a tárfiók nevét.
+
+    ```json
+    "witnessStorageBlobEndPoint": "https://[replace-with-storageaccountname].blob.core.windows.net",
+    ```
+
+6. Futtassa a következő paranccsal listát készíthet a tárfiók kulcsait.
+
+    ```bash
+    az storage account keys list \
+      --account-name <storage-account-name> \
+      --resource-group <resource-group-name>
+    ```
+
+    A kimenet a következő hasonlóan kell kinéznie. Másolja a `key1` értékét.
+
+    ```json
+    [
+    {
+        "keyName": "key1",
+        "permissions": "Full",
+        "value": "..."
+    },
+    {
+        "keyName": "key2",
+        "permissions": "Full",
+        "value": "..."
+    }
+    ]
+    ```
+
+7. Az a `n-tier-windows.json` fájlt, keresse meg az "witnessStorageAccountKey" összes példányát, és illessze be a fiókkulcs.
+
+    ```json
+    "witnessStorageAccountKey": "[replace-with-storagekey]"
+    ```
+
+8. Az a `n-tier-windows.json` fájlt, keresse meg az összes példányt `testPassw0rd!23`, `test$!Passw0rd111`, és `AweS0me@SQLServicePW`. Cserélje le azokat a saját jelszavát, és mentse a fájlt.
+
+    > [!NOTE]
+    > Ha módosítja a adminsztrátori felhasználónév, frissíteni kell a `extensions` blokkolja a JSON-fájlban. 
+
+9. A következő parancsot architektúra telepítéséhez.
+
+    ```bash
+    azbb -s <your subscription_id> -g <resource_group_name> -l <location> -p n-tier-windows.json --deploy
+    ```
 
 A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
 
@@ -225,7 +272,7 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [operations-management-suite]: https://www.microsoft.com/server-cloud/operations-management-suite/overview.aspx
 [plan-network]: /azure/virtual-network/virtual-network-vnet-plan-design-arm
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-[nyilvános IP-címet]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
+[nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [sql-alwayson]: https://msdn.microsoft.com/library/hh510230.aspx
