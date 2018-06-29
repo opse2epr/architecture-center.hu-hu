@@ -3,12 +3,12 @@ title: Valós idejű feldolgozás
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 8d3497c37d15dc0aa4645ddfce3bd30740217b2c
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.openlocfilehash: 4abb159924f902b5babe0673cc021e80b00c8529
+ms.sourcegitcommit: e9d9e214529edd0dc78df5bda29615b8fafd0e56
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
-ms.locfileid: "30301099"
+ms.lasthandoff: 06/28/2018
+ms.locfileid: "37090985"
 ---
 # <a name="real-time-processing"></a>Valós idejű feldolgozás
 
@@ -30,11 +30,11 @@ A valós idejű feldolgozással architektúra a következő logikai részből á
 
 - **Valós idejű üzenet adatfeldolgozást.** Az architektúra tartalmaznia kell egy adatfolyam feldolgozása végfelhasználói által valós idejű üzenetek tárolásához, majd úgy. Egyszerű esetben ez a szolgáltatás egy mappa letétbe új üzenetek egyszerű adattárként találhatja. De gyakran a megoldás igényel üzenet közvetítő, például az Azure Event Hubs, amely az üzenetek pufferként. Az üzenet broker támogatnia kell a kibővített feldolgozási és megbízható kézbesítését.
 
-- **Az adatfolyam feldolgozása.** Valós idejű üzenetek rögzítésével, miután a megoldás kell dolgozza fel őket szűrés, összesítése és egyéb előkészítése az adatok elemzése.
+- **Az adatfolyam feldolgozása.** A valós idejű üzenetek rögzítése után a megoldásnak fel kell dolgoznia, azaz szűrnie, összesítenie és egyéb módon elő kell készítenie az adatokat az elemzéshez.
 
 - **Analitikai adatokat tároló.** Adatok előkészítése az elemzési és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel sok big data-megoldások tervezték. 
 
-- **Elemzési és jelentéskészítési.** A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. 
+- **Elemzési és jelentéskészítési.** A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. 
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
@@ -56,7 +56,7 @@ További információkért lásd: [adattárolás](../technology-choices/data-sto
 
 ### <a name="stream-processing"></a>Stream-feldolgozás
 
-- **Azure Stream Analytics**. Az Azure Stream Analytics egy unbounded adatfolyamba való is örökös lekérdezéseinek futtatásához. Ezeket a lekérdezéseket adatstreamek tároló- és üzenet brókerek, szűrő és az adatok historikus windows-alapú, és az eredmények írási, mosdók például a tárolási, adatbázisok, vagy közvetlenül a Power BI jelentéseket összesítést használ.
+- **Azure Stream Analytics**. Az Azure Stream Analytics egy unbounded adatfolyamba való is örökös lekérdezéseinek futtatásához. Ezeket a lekérdezéseket adatstreamek tároló- és üzenet brókerek, szűrő és az adatok historikus windows-alapú, és az eredmények írási, mosdók például a tárolási, adatbázisok, vagy közvetlenül a Power BI jelentéseket összesítést használ. A Stream Analytics használ SQL-alapú lekérdezésnyelvet, amely támogatja a historikus és földrajzi hoz létre, és a JavaScript használatával bővíthető.
 - **A Storm**. Apache Storm egy nyílt forráskódú keretrendszer, amely használja a spoutokkal kapcsolatban-topológia adatfolyam feldolgozásra és felhasználását, boltokhoz feldolgozásához, és az eredményeket a valós idejű streamelési adatforrásokból. Az Azure HDInsight-fürtök Storm kiépítéséhez és valósítsanak meg topológiákat Java vagy C#.
 - **Spark Streaming**. Apache Spark egy nyílt forráskódú általános adatfeldolgozás elosztott platform. Spark biztosít a Spark Streamelési API-t, amelyben a kód bármilyen nyelven támogatott Spark, többek között a Java, Scala és Python írhat. Spark 2.0 rendszerben jelent meg a Spark strukturált Streaming API, ami egy egyszerűbb, egységesebb és programozási modellt biztosít. Spark 2.0 Azure HDInsight-fürtök érhető el.
 

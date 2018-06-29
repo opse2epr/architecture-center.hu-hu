@@ -4,12 +4,12 @@ description: A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasol
 author: MikeWasson
 ms.date: 12/12/2017
 cardTitle: Basic web application
-ms.openlocfilehash: efd831b1f54fa0662bdfa9874318e7b314172215
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: bc8cf9b5c66fc451d097cbc992ecb9a249645dce
+ms.sourcegitcommit: e9d9e214529edd0dc78df5bda29615b8fafd0e56
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30846403"
+ms.lasthandoff: 06/28/2018
+ms.locfileid: "37091121"
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
@@ -108,7 +108,7 @@ Adatvesztés esetén az SQL Database időponthoz kötött visszaállítást és 
 
 További információkért tekintse meg [a felhőalapú üzletmenet-folytonossággal és az SQL Database-zel végzett adatbázis-vészhelyreállítással][sql-backup] kapcsolatos cikket.
 
-Az App Service [biztonsági mentési és visszaállítási][web-app-backup] funkciót biztosít az alkalmazásfájlokhoz. Azonban ügyeljen arra, hogy a biztonságimásolat-fájlok egyszerű szövegként tartalmazzák az alkalmazásbeállításokat, amelyek titkos adatokat is tartalmazhatnak, például kapcsolati karakterláncokat. Kerülje az App Service biztonsági mentési funkciójának használatát az SQL-adatbázisok biztonsági mentéséhez, mert a funkció exportálja az adatbázist egy SQL .bacpac fájlba, és ezzel [DTU-kat][sql-dtu] fogyaszt. Ehelyett használja az SQL Database fentebb leírt, időponthoz kötött visszaállítását.
+Az App Service [biztonsági mentési és visszaállítási][web-app-backup] funkciót biztosít az alkalmazásfájlokhoz. Azonban ügyeljen arra, hogy a biztonságimásolat-fájlok egyszerű szövegként tartalmazzák az alkalmazásbeállításokat, amelyek titkos adatokat is tartalmazhatnak, például kapcsolati sztringekat. Kerülje az App Service biztonsági mentési funkciójának használatát az SQL-adatbázisok biztonsági mentéséhez, mert a funkció exportálja az adatbázist egy SQL .bacpac fájlba, és ezzel [DTU-kat][sql-dtu] fogyaszt. Ehelyett használja az SQL Database fentebb leírt, időponthoz kötött visszaállítását.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 Termelési környezetben, fejlesztési, külön erőforráscsoportokat létrehozni, és tesztelési környezetben. Ez megkönnyíti az üzemelő példányok felügyeletét, a tesztkörnyezetek törlését és a hozzáférési jogok kiosztását.
@@ -124,7 +124,7 @@ További információk: [Azure Resource Manager overview](/azure/azure-resource-
 ### <a name="deployment"></a>Környezet
 Az üzembe helyezés két lépésből áll:
 
-1. Az Azure-erőforrások kiépítése. Javasoljuk, hogy ehhez a lépéshez használjon [Azure Resoure Manager-sablonokat][arm-template]. A sablonok megkönnyítik az üzembe helyezések automatizálását a PowerShell vagy az Azure CLI használatával.
+1. Az Azure-erőforrások kiépítése. Azt javasoljuk, hogy használjon [Azure Resource Manager-sablonok] [ arm-template] ehhez a lépéshez. A sablonok megkönnyítik az üzembe helyezések automatizálását a PowerShell vagy az Azure CLI használatával.
 2. Az alkalmazás (a kód, a bináris fájlok és a tartalomfájlok) üzembe helyezése. Több lehetőség közül választhat, például üzembe helyezést végezhet a helyi Git-adattárból, használhatja a Visual Studiót, vagy folyamatos üzembe helyezést végezhet egy felhőalapú forrásvezérlőből. További információkat az [alkalmazások az Azure App Service szolgáltatásban való üzembe helyezését][deploy] ismertető cikkben olvashat.  
 
 Az App Service-alkalmazások mindig rendelkeznek egy `production` nevű üzembehelyezési ponttal, amely az éles helyet jelöli. Javasoljuk, hogy a frissítések telepítéséhez hozzon létre egy előkészítési pontot. Az előkészítési pont használatának előnyei a következők:
@@ -143,7 +143,7 @@ Ne használja az éles környezet pontjait tesztelésre, mivel az egy adott App 
 ### <a name="configuration"></a>Konfiguráció
 Tárolja a konfigurációs beállításokat [alkalmazásbeállításokként][app-settings]. Adja meg az alkalmazás beállításait Resource Manager-sablonokkal, vagy a PowerShell-lel. Futtatáskor az alkalmazásbeállítások környezeti változókként elérhetők az alkalmazás számára.
 
-Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati karakterláncokat a forrásvezérlőben. Ehelyett adja át ezeket az adatokat paraméterként egy üzembehelyezési szkriptnek, amely alkalmazásbeállításokként tárolja ezeket az értékeket.
+Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati sztringekat a forrásvezérlőben. Ehelyett adja át ezeket az adatokat paraméterként egy üzembehelyezési szkriptnek, amely alkalmazásbeállításokként tárolja ezeket az értékeket.
 
 Az üzembehelyezési pontok közötti váltáskor a rendszer alapértelmezés szerint vált az alkalmazásbeállítások között is. Ha különböző beállítások szükségesek az éles és az előkészítési környezethez, létrehozhat olyan alkalmazásbeállításokat, amelyek adott ponthoz vannak rögzítve, és nem változnak.
 
@@ -198,7 +198,7 @@ Az App Service-hitelesítés néhány korlátja:
 * Több-bérlős forgatókönyvek esetén az alkalmazásnak kell implementálnia a tokenkiállító ellenőrzését végző logikát.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
-Az architektúrához elérhető egy Resoure Manager-példasablon [a GitHubon][paas-basic-arm-template].
+Ez az architektúra Resource Manager sablon egy példa [elérhető a Githubon][paas-basic-arm-template].
 
 A sablon PowerShell-lel történő üzembe helyezéséhez futtassa a következő parancsokat:
 
