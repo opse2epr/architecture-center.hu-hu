@@ -1,34 +1,40 @@
 ---
-title: Vállalati BI, az SQL Data Warehouse szolgáltatással
+title: Enterprise BI és SQL Data Warehouse
 description: A relációs adatok üzleti dcu használata Azure tárolt helyszíni
-author: alexbuckgit
-ms.date: 04/13/2018
-ms.openlocfilehash: b5e5aa32fc9cc8c7b8b5a42c9a4fc3e0216b2f72
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
-ms.translationtype: MT
+author: MikeWasson
+ms.date: 07/01/2018
+ms.openlocfilehash: 084028ca2e7ce130ac2699f1416414cfa55766fc
+ms.sourcegitcommit: d5db5b8ed7429f056130096d0ef4b249b564599a
+ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31019107"
+ms.lasthandoff: 07/01/2018
+ms.locfileid: "37141367"
 ---
-# <a name="enterprise-bi-with-sql-data-warehouse"></a>Vállalati BI, az SQL Data Warehouse szolgáltatással
- 
+# <a name="enterprise-bi-with-sql-data-warehouse"></a>Enterprise BI és SQL Data Warehouse
+
 A referencia-architektúrában megvalósítja az [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kivonat-betöltési-átalakítási) folyamatot, amely adatokat a helyszíni SQL Server-adatbázist az SQL Data Warehouse pedig átalakítja a vonatkozó adatok elemzési célú. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 ![](./images/enterprise-bi-sqldw.png)
 
 **A forgatókönyv**: egy szervezet rendelkezik a nagy OLTP adatkészletet, a helyszíni SQL Server adatbázis tárolja. A szervezet szeretné használni az SQL Data Warehouse elemzésére a Power BI használatával. 
 
-A referencia-architektúrában egyszeri vagy igény szerinti feladatok tervezték. Ha az adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, azt javasoljuk, Azure Data Factory egy automatizált munkafolyamat meghatározásához.
+A referencia-architektúrában egyszeri vagy igény szerinti feladatok tervezték. Ha az adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, azt javasoljuk, Azure Data Factory egy automatizált munkafolyamat meghatározásához. A referencia-architektúrában, amely használja a Data Factory, lásd: [vállalati BI Azure Data Factory és az SQL Data Warehouse automatikus](./enterprise-bi-adf.md).
 
 ## <a name="architecture"></a>Architektúra
 
 Az architektúra a következőkben leírt összetevőkből áll.
 
-**Egy SQL Server**. Az adatok a helyszíni SQL Server-adatbázisban található. A helyszíni környezetben, az az architektúra biztosítása a telepített SQL Server Azure virtuális gép üzembe helyezési parancsfájlok szimulálásához. 
+### <a name="data-source"></a>Adatforrás
+
+**Egy SQL Server**. Az adatok a helyszíni SQL Server-adatbázisban található. Szimulálása a helyszíni környezetben, az üzembe helyezési parancsfájlok a architektúra kiépítése a telepített SQL Server Azure virtuális gép. A [Wide World Importers OLTP mintaadatbázis] [ wwi] a forrásadatok használatos.
+
+### <a name="ingestion-and-data-storage"></a>Adatfeldolgozást és adattárolási
 
 **BLOB Storage**. A BLOB storage segítségével egy átmeneti területre, másolja az adatokat, az SQL Data Warehouse betöltése előtt.
 
 **Azure SQL Data Warehouse**. [Az SQL Data Warehouse](/azure/sql-data-warehouse/) egy elosztott rendszer készült elemzés végrehajtásához, nagy. Támogatja a jelentős olyan párhuzamos feldolgozási (MPP), épp ezért kiválóan alkalmas a nagy teljesítményű analytics futtatásához. 
+
+### <a name="analysis-and-reporting"></a>Elemzési és jelentéskészítési
 
 **Az Azure Analysis Services**. [Analysis Services](/azure/analysis-services/) egy teljes körűen felügyelt szolgáltatás, amely a modellezési képességekkel adatokat biztosít. Analysis Services segítségével hozzon létre egy, a felhasználók lekérdezheti a szemantikai modellben. Analysis Services különösen fontos olyan BI-irányítópult forgatókönyvekben. Ebben az architektúrában Analysis Services olvassa be az adatokat az adatraktárban a szemantikai modell feldolgozásához, és hatékonyan működik az irányítópult lekérdezések. Rugalmas párhuzamossági gyorsabb a lekérdezés feldolgozása a replikák kiterjesztése által is támogatja.
 
@@ -36,9 +42,11 @@ Jelenleg Azure Analysis Services rendszerbeli táblázatos modellek, de nem töb
 
 **Power BI**. A Power BI eszközcsomagot jelent üzleti analytics üzleti elemzések készítése adatok elemzésére. Ebben az architektúrában lekéri az Analysis Servicesben tárolt a szemantikai modellben.
 
+### <a name="authentication"></a>Hitelesítés
+
 **Az Azure Active Directory** (az Azure AD) hitelesíti a Power BI Analysis Services-kiszolgálóhoz csatlakozó felhasználók számára.
 
-## <a name="data-pipeline"></a>Data Pipeline
+## <a name="data-pipeline"></a>Adatfolyamat
  
 A referencia-architektúrában használja a [WorldWideImporters](/sql/sample/world-wide-importers/wide-world-importers-oltp-database) mintaadatbázis adatforrásként. Az adatok csővezeték rendelkezik a következő szakaszt:
 
@@ -131,7 +139,7 @@ Mivel a mintaadatbázis nem nagyon nagy, nem partíciókkal rendelkező létreho
 
 ### <a name="load-the-semantic-model"></a>A szemantikai modell betöltése
 
-Adatok betöltése az Azure Analysis Services táblázatos modell. Ebben a lépésben hoz létre egy szemantikai adatmodell SQL Server Data Tools (SSDT). A modell a Power BI Desktop-fájlból való importálásával is létrehozhat. Az SQL Data Warehouse nem támogatja a külső kulcsokat, hozzá kell adnia a kapcsolat a szemantikai modell, hogy a táblák között kapcsolhatja össze.
+Adatok betöltése az Azure Analysis Services táblázatos modell. Ebben a lépésben hoz létre egy szemantikai adatmodell SQL Server Data Tools (SSDT). A referencia-architektúrában kapcsolatos további információkért látogasson el a GitHub-tárházban. További tudnivalók a Azure építőelemeket.
 
 ### <a name="use-power-bi-to-visualize-the-data"></a>Az adatok megjelenítése a Power BI használatával
 
@@ -148,7 +156,7 @@ Küszöbölhető BI irányítópult lekérdezések közvetlenül az adatraktáro
 
 Az Azure Analysis Services egy BI-irányítópult lekérdezés követelményeinek kezelésére, ezért az ajánlott eljárás lekérdezés Analysis Services a Power BI-ból terveztek.
 
-## <a name="scalability-considerations"></a>Méretezhetőségi kérdései
+## <a name="scalability-considerations"></a>Méretezési szempontok
 
 ### <a name="sql-data-warehouse"></a>SQL Data Warehouse
 
@@ -158,7 +166,7 @@ Az SQL Data Warehouse ki lehet terjeszteni a számítási erőforrásokat szüks
 
 A termelési számítási feladatokhoz ajánlott Standard csomagra Azure Analysis Services, mert támogatja a particionálás és a DirectQuery. A réteg belül példány határozza meg a memória és a feldolgozási kapacitást. Feldolgozási kapacitása révén a lekérdezés feldolgozása egységek (QPUs) mérik. A QPU megfigyeléséhez válassza ki a megfelelő méretű. További információkért lásd: [server metrikát](/azure/analysis-services/analysis-services-monitor).
 
-Nagy terhelés teljesítmény-küszöbérték is válnak romlik a lekérdezés párhuzamosság miatt. Ki lehet terjeszteni Analysis Services a lekérdezések feldolgozásához replikák készletét létrehozásával, így további lekérdezések egyidejűleg végrehajtható. Az adatmodell mindig feldolgozási munka az elsődleges kiszolgálón történik. Alapértelmezés szerint az elsődleges kiszolgáló lekérdezéseket is kezeli. Szükség esetén is kijelölhet feldolgozás kizárólag, az elsődleges kiszolgálót, hogy a lekérdezés készlet az összes lekérdezés kezeli. Ha nagy feldolgozási követelményeket, a lekérdezés készletből feldolgozási kell egymástól. Ha magas lekérdezésekkel, és viszonylag könnyű feldolgozása, az elsődleges kiszolgálón is felvehet a lekérdezés-készlet. További információkért lásd: [Azure Analysis Services kibővített](/azure/analysis-services/analysis-services-scale-out). 
+Nagy terhelés teljesítmény-küszöbérték is válnak romlik a lekérdezés párhuzamosság miatt. További tudnivalók a Azure építőelemeket. Az adatmodell mindig feldolgozási munka az elsődleges kiszolgálón történik. Alapértelmezés szerint az elsődleges kiszolgáló lekérdezéseket is kezeli. Szükség esetén is kijelölhet feldolgozás kizárólag, az elsődleges kiszolgálót, hogy a lekérdezés készlet az összes lekérdezés kezeli. Ha nagy feldolgozási követelményeket, a lekérdezés készletből feldolgozási kell egymástól. Ha magas lekérdezésekkel, és viszonylag könnyű feldolgozása, az elsődleges kiszolgálón is felvehet a lekérdezés-készlet. További információkért lásd: [Azure Analysis Services kibővített](/azure/analysis-services/analysis-services-scale-out). 
 
 Rövidítse le a felesleges feldolgozási, fontolja meg a partíciók használatával a táblázatos modell olyan részekre való felosztásához logikai. Mindegyik partíció külön-külön lehet feldolgozni. További információkért lásd: [partíciók](/sql/analysis-services/tabular-models/partitions-ssas-tabular).
 
@@ -192,17 +200,17 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
 
 2. Telepítse a [Azure építőelemeket] [ azbb-wiki] (azbb).
 
-3. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs használatával, és az utasításokat követve.
+3. A Power BI Desktop kapcsolatos további információkért lásd: első lépések a Power BI Desktop.
 
-  ```bash
-  az login  
-  ```
+    ```bash
+    az login  
+    ```
 
-### <a name="deploy-the-simulated-on-premises-server"></a>A szimulált helyszíni kiszolgáló központi telepítése
+### <a name="deploy-the-simulated-on-premises-server"></a>A referencia-architektúrában kapcsolatos további információkért látogasson el a GitHub-tárházban.
 
-Először teheti elérhetővé a virtuális gépek szimulált a helyszíni kiszolgálónak, ide tartozik az SQL Server 2017 és a kapcsolódó eszközök. Ez a lépés is betölti a minta [Wide World Importers OLTP adatbázis](/sql/sample/world-wide-importers/wide-world-importers-oltp-database) az SQL-kiszolgálóra.
+További tudnivalók a Azure építőelemeket. Ez a lépés is betölti a [Wide World Importers OLTP adatbázis] [ wwi] az SQL-kiszolgálóra.
 
-1. Keresse meg a `data\enterprise-bi-sqldw\onprem\templates` a fenti előfeltételek letöltött tárház mappát.
+1. Keresse meg a `data\enterprise_bi_sqldw\onprem\templates` a tárház mappát.
 
 2. Az a `onprem.parameters.json` fájlt, cserélje le a értékeinek `adminUsername` és `adminPassword`. Szereplő értékeket is módosíthatja a `SqlUserCredentials` szakasz felel meg a felhasználónevet és jelszót. Megjegyzés: a `.\\` a userName tulajdonság-előtagot.
     
@@ -216,32 +224,43 @@ Először teheti elérhetővé a virtuális gépek szimulált a helyszíni kiszo
 3. Futtatás `azbb` a helyszíni kiszolgáló telepítésének alább látható módon.
 
     ```bash
-    azbb -s <subscription_id> -g <resource_group_name> -l <location> -p onprem.parameters.json --deploy
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.parameters.json --deploy
     ```
+
+    Adja meg, amely támogatja az SQL-adatraktár és az Azure Analysis Services egy régiót. Lásd: [régiónként Azure termékek](https://azure.microsoft.com/global-infrastructure/services/)
 
 4. A központi telepítés eltarthat 20-30 percet, mely tartalmazza, hogy fut a [DSC](/powershell/dsc/overview) parancsprogramot, az eszközök telepítése, majd állítsa vissza az adatbázist. A központi telepítést, az Azure portálon ellenőrizze az erőforrások az erőforráscsoportban megtekintésével. Megjelenik a `sql-vm1` virtuális gép és a kapcsolódó erőforrások.
 
 ### <a name="deploy-the-azure-resources"></a>Az Azure-erőforrások telepítése
 
-Ebben a lépésben kiépítését Azure SQL Data warehouse-bA és az Azure Analysis Services, és a Storage-fiók. Ha azt szeretné, ebben a lépésben az előző lépés párhuzamosan is futtathatja.
+Ebben a lépésben látja el az SQL Data Warehouse és az Azure Analysis Services, és a Storage-fiók. Ha azt szeretné, ebben a lépésben az előző lépés párhuzamosan is futtathatja.
 
-1. Keresse meg a `data\enterprise-bi-sqldw\azure\templates` a fenti előfeltételek letöltött tárház mappát.
+1. Keresse meg a `data\enterprise_bi_sqldw\azure\templates` a tárház mappát.
 
-2. A következő parancsot az Azure parancssori felület futtatásával hozzon létre egy erőforráscsoportot, cseréje a zárójeles paraméterek vannak megadva. Vegye figyelembe, hogy telepítene egy másik erőforráscsoportban található, mint a helyszíni kiszolgáló, az előző lépésben használt. 
-
-    ```bash
-    az group create --name <resource_group_name> --location <location>  
-    ```
-
-3. A következő parancsot az Azure parancssori felület telepítése az Azure-erőforrások, a mag cseréje a zárójeles paraméterek vannak megadva. A `storageAccountName` paraméter kell követnie a [elnevezési szabályait](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) Storage-fiókok. Az a `analysisServerAdmin` paraméter, használja az Azure Active Directory egyszerű felhasználónév (UPN).
+2. A következő parancsot az Azure parancssori felület futtatásával hozzon létre egy erőforráscsoportot. Egy másik erőforráscsoportban található, mint az előző lépésben telepíteni, de válassza ki az ugyanabban a régióban. 
 
     ```bash
-    az group deployment create --resource-group <resource_group_name> --template-file azure-resources-deploy.json --parameters "dwServerName"="<server_name>" "dwAdminLogin"="<admin_username>" "dwAdminPassword"="<password>" "storageAccountName"="<storage_account_name>" "analysisServerName"="<analysis_server_name>" "analysisServerAdmin"="user@contoso.com"
+    az group create --name <resource_group_name> --location <region>  
     ```
+
+3. A következő parancsot az Azure parancssori felület telepítése az Azure-erőforrások. Cserélje le a paraméterértékeket csúcsos zárójelek látható. 
+
+    ```bash
+    az group deployment create --resource-group <resource_group_name> \
+     --template-file azure-resources-deploy.json \
+     --parameters "dwServerName"="<server_name>" \
+     "dwAdminLogin"="<admin_username>" "dwAdminPassword"="<password>" \ 
+     "storageAccountName"="<storage_account_name>" \
+     "analysisServerName"="<analysis_server_name>" \
+     "analysisServerAdmin"="user@contoso.com"
+    ```
+
+    - A `storageAccountName` paraméter kell követnie a [elnevezési szabályait](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) Storage-fiókok.
+    - Az a `analysisServerAdmin` paraméter, használja az Azure Active Directory egyszerű felhasználónév (UPN).
 
 4. A központi telepítést, az Azure portálon ellenőrizze az erőforrások az erőforráscsoportban megtekintésével. Meg kell jelennie egy tárfiókot, Azure SQL Data Warehouse-példányokhoz és Analysis Services-példányon.
 
-5. Az Azure portál segítségével a tárfiók elérési kulcsának lekérése. A megnyitáshoz válassza ki a tárfiókot. A **Beállítások** területen válassza a **Hozzáférési kulcsok** elemet. Másolja az elsődleges kulcs értéke. A következő lépésben még szüksége lesz rájuk.
+5. Az Azure portál segítségével a tárfiók elérési kulcsának lekérése. A megnyitáshoz válassza ki a tárfiókot. A **Beállítások** területen válassza a **Hozzáférési kulcsok** elemet. További tudnivalók a Azure építőelemeket. A következő lépésben még szüksége lesz rájuk.
 
 ### <a name="export-the-source-data-to-azure-blob-storage"></a>Az adatok exportálása az Azure Blob storage 
 
@@ -261,7 +280,7 @@ Ebben a lépésben futtatja egy PowerShell-parancsfájlt, amely a bcp segítség
 
 3. Az Azure portálon győződjön meg arról, hogy az adatok másolja a Blob storage lépjen a tárfiókhoz, a Blob szolgáltatás kiválasztásával, és az megnyitása a `wwi` tároló. Végrehajtásával kerüli meg a táblák listáját kell megjelennie `WorldWideImporters_Application_*`.
 
-### <a name="execute-the-data-warehouse-scripts"></a>A data warehouse parancsfájlok végrehajtása
+### <a name="run-the-data-warehouse-scripts"></a>A data warehouse parancsfájlok futtatása
 
 1. A távoli asztali munkamenetből indítsa el az SQL Server Management Studio (SSMS). 
 
@@ -298,7 +317,7 @@ A SMSS, megjelenik egy `prd.*` a táblázatot a `wwi` adatbázis. A következő 
 SELECT TOP 10 * FROM prd.CityDimensions
 ```
 
-### <a name="build-the-azure-analysis-services-model"></a>Az Azure Analysis Services-modell létrehozása
+## <a name="build-the-analysis-services-model"></a>Az Analysis Services-modell létrehozása
 
 Ebben a lépésben létrehoz egy táblázatos modell, amellyel különféle adatok, az adatraktárból. A modell telepíti majd Azure Analysis Services.
 
@@ -347,7 +366,7 @@ Ebben a lépésben létrehoz egy táblázatos modell, amellyel különféle adat
 
     ![](./images/analysis-services-models.png)
 
-### <a name="analyze-the-data-in-power-bi-desktop"></a>A Power BI Desktop adatok elemzése
+## <a name="analyze-the-data-in-power-bi-desktop"></a>A Power BI Desktop adatok elemzése
 
 Ebben a lépésben szüksége lesz az Power BI-jelentés létrehozása az Analysis Services az adatokból.
 
@@ -367,11 +386,11 @@ Ebben a lépésben szüksége lesz az Power BI-jelentés létrehozása az Analys
 
 6. Az a **mezők** ablaktáblában bontsa ki a **prd. CityDimensions**.
 
-7. A csomóponthúzási **prd. CityDimensions** > **WWI város azonosító** számára a **tengely well**.
+7. A csomóponthúzási **prd. CityDimensions** > **WWI város azonosító** számára a **tengely** is.
 
 8. A csomóponthúzási **prd. CityDimensions** > **Város** számára a **jelmagyarázat** is.
 
-9. A mezők ablaktáblában bontsa ki a **prd. SalesFact**.
+9. Az a **mezők** ablaktáblában bontsa ki a **prd. SalesFact**.
 
 10. A csomóponthúzási **prd. SalesFact** > **kivételével adó** számára a **érték** is.
 
@@ -404,4 +423,4 @@ A Power BI Desktop kapcsolatos további információkért lásd: [első lépése
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [ref-arch-repo-folder]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw
-
+[wwi]: /sql/sample/world-wide-importers/wide-world-importers-oltp-database
