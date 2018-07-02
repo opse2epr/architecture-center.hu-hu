@@ -14,8 +14,10 @@
           href: app-service-web-app/multi-region.md
     - name: Adatarchitektúrák
       items:
-        - name: Enterprise BI és SQL Data Warehouse
+        - name: Nagyvállalati BI SQL Data Warehouse-zal
           href: data/enterprise-bi-sqldw.md
+        - name: Automatizált nagyvállalati BI SQL Data Warehouse-zal és Data Factoryval
+          href: data/enterprise-bi-adf.md
     - name: Hibrid hálózatok
       href: hybrid-networking/index.md
       items:
