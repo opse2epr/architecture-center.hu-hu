@@ -7,12 +7,12 @@ ms.date: 11/28/2016
 pnp.series.next: adds-extend-domain
 pnp.series.prev: ./index
 cardTitle: Integrate on-premises AD with Azure AD
-ms.openlocfilehash: ade79f8ebffc15b423ef6ebfb9b19611c9500cd8
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.openlocfilehash: 21a6474db94d34e23f79d1ba0e35943c0cb52966
+ms.sourcegitcommit: d5db5b8ed7429f056130096d0ef4b249b564599a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252992"
+ms.lasthandoff: 07/01/2018
+ms.locfileid: "37141384"
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -216,7 +216,7 @@ További információkért lásd: [Azure Active Directory feltételes hozzáfér
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a GitHubon. A referenciaarchitektúra egy szimulált helyszíni hálózatot helyez üzembe az Azure-ban, amelyet használhat teszteléshez és kísérletezéshez. A referenciaarchitektúra Windows vagy Linux rendszerű virtuális gépeken helyezhető üzembe az alábbi utasításokat követve: 
+Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a GitHubon. A referencia-architektúrában telepíti egy szimulált helyszíni hálózati teszteléséhez és kísérletezhet használható az Azure-ban. A referenciaarchitektúra Windows vagy Linux rendszerű virtuális gépeken helyezhető üzembe az alábbi utasításokat követve: 
 
 1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fidentity%2Fazure-ad%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 2. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét: 
