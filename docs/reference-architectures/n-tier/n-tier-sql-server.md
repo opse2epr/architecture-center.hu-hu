@@ -1,18 +1,18 @@
 ---
 title: SQL Servert használó N szintű alkalmazás
-description: Hogyan kell beállítani egy többrétegű architektúra Azure, a rendelkezésre állási, a biztonság, a méretezhetőség és kezelhetőség.
+description: Egy többrétegű architektúra megvalósítása az Azure-ban, a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel módja.
 author: MikeWasson
 ms.date: 06/23/2018
-ms.openlocfilehash: 050ea9b3104a2dc9af4cdaad3b4540cd75434e9d
-ms.sourcegitcommit: 767c8570d7ab85551c2686c095b39a56d813664b
+ms.openlocfilehash: 7c8184d25cf6b3bd358adc2728329fd3bd08503a
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/24/2018
-ms.locfileid: "36746672"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142301"
 ---
 # <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
-A referencia-architektúrában bemutatja, hogyan telepítheti a virtuális gépek és az N szintű alkalmazáshoz, SQL Server használata Windows rendszeren az adatréteg egy virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek és a egy N szintű alkalmazáshoz, a Windows SQL Server használata az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
 
 ![[0]][0]
 
@@ -24,27 +24,27 @@ Az architektúra a következő összetevőkből áll:
 
 * **Erőforráscsoport.** Az [erőforráscsoportok][resource-manager-overview] az erőforrások csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők.
 
-* **Virtuális hálózathoz (VNet) és alhálózatok.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez. 
+* **Virtuális hálózat (VNet) és alhálózatok.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez. 
 
 * **NSG-k**. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható 3 szintű architektúrában például az adatbázisszint csak az üzleti szintről és a felügyeleti alhálózatról érkező forgalmat fogadja, a webes kezelőfelület felől érkező forgalmat nem.
 
-* **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [futtassa egy Windows virtuális gép Azure](./windows-vm.md) és [a Azure Linux virtuális Gépet futtató](./linux-vm.md).
+* **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [Windows virtuális gépek futtatása az Azure-beli](./windows-vm.md) és [Linux rendszerű virtuális gép futtatása az Azure-ban](./linux-vm.md).
 
 * **Rendelkezésre állási csoportok.** Hozzon létre egy [rendelkezésre állási csoportot][azure-availability-sets] minden szinthez, majd minden szinten építsen ki legalább két virtuális gépet. Így a virtuális gépek magasabb szintű [szolgáltatói szerződésre (SLA-ra)][vm-sla] jogosultak. 
 
-* **Virtuálisgép-méretezési készlet** (nincs ábrázolva). A [Virtuálisgép-méretezési készlet] [ vmss] van a rendelkezésre állási csoportok használata helyett. A skálázási készletekben teszi megkönnyítik a réteg a virtuális gépek bővíteni, vagy manuálisan vagy automatikusan előre meghatározott szabályok alapján.
+* **Virtuálisgép-méretezési csoportot** (nem látható). A [Virtuálisgép-méretezési csoportot] [ vmss] van egy rendelkezésre állási csoport használata helyett. A méretezési csoportok teszi egyszerűvé a horizontális felskálázás az egy szinten lévő virtuális gépek, vagy manuálisan vagy automatikusan előre meghatározott szabályok alapján.
 
-* **Az Azure Load Balancer terheléselosztók.** A [terheléselosztók] [ load-balancer] terjesztése a Virtuálisgép-példányok bejövő Internet kéréseket. Használja a [nyilvános terheléselosztó] [ load-balancer-external] bejövő internetes forgalmat a webes réteg terjesztése és egy [belső terheléselosztó] [ load-balancer-internal] való az üzleti szint a webes réteg érkező hálózati forgalom terjesztése.
+* **Az Azure Load Balancer terheléselosztók.** A [terheléselosztók] [ load-balancer] beérkező internetes kérelmeket a Virtuálisgép-példányok elosztása. Használja a [nyilvános load balancer] [ load-balancer-external] terjeszteni a bejövő internetes forgalom webes szinten és a egy [belső load balancer] [ load-balancer-internal] , elosztja a hálózati forgalmat a webes szintről az üzleti szint.
 
-* **Nyilvános IP-cím**. Nyilvános IP-címnek a nyilvános terheléselosztót internetes forgalom fogadására van szükség.
+* **Nyilvános IP-cím**. A nyilvános load balancer az internetes forgalmat fogadó nyilvános IP-cím szükséges.
 
 * **Jumpbox.** Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-nek engedélyeznie kell a távoli asztali (RDP) forgalmat.
 
-* **SQL Server Always On rendelkezésre állási csoport.** Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével. Feladatátvétel a Windows Server feladatátvételi fürt (WSFC) technológiát használ.
+* **SQL Server Always On rendelkezésre állási csoport.** Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével. Windows Server feladatátvételi fürt (WSFC) technológiát használ a feladatátvételhez.
 
-* **(AD DS) Active Directory Domain Services-kiszolgálók** A feladatátvevő fürt és a kapcsolódó fürtözött szerepkörök számítógép-objektumokat az Active Directory tartományi szolgáltatások (AD DS) jönnek létre.
+* **(AD DS) Active Directory Domain Services-kiszolgálók** A feladatátvevő fürt és a kapcsolódó fürtözött szerepkörök számítógép-objektumai jönnek létre az Active Directory Domain Servicesben (AD DS).
 
-* **A felhő tanúsító**. A feladatátvevő fürt csomópontjainak futnia kell, hogy kvórum néven ismert több mint fele szükséges. Ha a fürt csak két csomóponttal rendelkezik, a hálózati partíció okozhat minden csomópont gondolja, hogy a fő csomópont. Ebben az esetben van szüksége egy *tanúsító* bontsa ki, és létrehozza a kvórum. Tanúsító egy olyan erőforrás, például olyan megosztott lemezzel, amelyet a működhet, és egy holtversenyben levő kvórum létrehozásához. Felhő tanúsító tanúsító által használt Azure Blob Storage típusú. A kvórum fogalmát kapcsolatos további információkért lásd: [ismertetése fürt és a készlet kvórum](/windows-server/storage/storage-spaces/understand-quorum). Felhő tanúsító kapcsolatos további információkért lásd: [felhő tanúsító feladatátvevő fürt telepítése](/windows-server/failover-clustering/deploy-cloud-witness). 
+* **Felhőbeli tanúsító**. A feladatátvevő fürtök csomópontjainak futnia kell, amelyről ismert, hogy a kvórum több mint felét van szükség. Ha a fürt csak két csomópontot tartalmaz, egy hálózati partíció okozhat, minden csomóponthoz gondolja, hogy a fő csomóponttal. Ebben az esetben van szüksége egy *tanúsító* ties felosztása és kvórumot hozzon létre. Tanúsító például a megosztott lemezzel működő, egy tie megszakító kvórumot hozzon létre egy erőforrást. Felhőbeli tanúsító egy olyan típusú, amelyet az Azure Blob Storage. A kvórum fogalmát kapcsolatos további információkért lásd: [ismertetése fürt és a készlet kvórum](/windows-server/storage/storage-spaces/understand-quorum). További információ a Felhőbeli tanúsító: [Felhőbeli tanúsító telepítése feladatátvevő fürt](/windows-server/failover-clustering/deploy-cloud-witness). 
 
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 
@@ -62,7 +62,7 @@ Az alhálózatokat a funkciók és a biztonsági követelmények szem előtt tar
 
 ### <a name="load-balancers"></a>Terheléselosztók
 
-Ne engedélyezze a virtuális gépek elérését közvetlenül az internetről – ehelyett adjon mindegyiknek privát IP-címet. Az IP-cím nyilvános terheléselosztó használatával az ügyfelek kapcsolódnak.
+Ne engedélyezze a virtuális gépek elérését közvetlenül az internetről – ehelyett adjon mindegyiknek privát IP-címet. Az IP-cím a nyilvános load Balancer használatával az ügyfelek csatlakoznak.
 
 Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen hálózati forgalomra vonatkozó szabályait. Például a HTTP-forgalom engedélyezéséhez hozzon létre egy szabályt, amely hozzárendeli a 80-as portot az előtérbeli konfigurációból a háttércímkészletben található 80-as porthoz. Amikor egy ügyfél HTTP-kérelmet küld a 80-as port felé, a terheléselosztó kiválaszt egy háttérbeli IP-címet egy [kivonatoló algoritmus][load-balancer-hashing] használatával, amely tartalmazza a forrás IP-címét. Így a kérelmek megoszlanak az összes virtuális gép között.
 
@@ -70,12 +70,12 @@ Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen há
 
 A szintek közötti forgalmat NSG-szabályokkal korlátozhatja. A fenti 3 szintes architektúra esetén például a webes szint nem kommunikál közvetlenül az adatbázisszinttel. Ennek kényszerítése érdekében az adatbázisszintnek blokkolnia kell a webes szint alhálózatáról érkező bejövő forgalmat.  
 
-1. A virtuális hálózat megtagadása az összes bejövő forgalmat. (A szabályban használja a `VIRTUAL_NETWORK` címkét.) 
-2. Az üzleti szint alhálózatból bejövő forgalom engedélyezése.  
-3. Maga az adatbázis réteg alhálózat érkező bejövő forgalom engedélyezése. Ez a szabály lehetővé teszi, hogy az adatbázis virtuális gépeket, szükség van az adatbázis-replikációt és feladatátvételt közötti kommunikációt.
-4. A jumpbox alhálózatból (3389-es port) RDP-forgalmát engedélyezi. Ez lehetővé teszi, hogy a rendszergazdák csatlakozni tudjanak az adatbázisszinthez a jumpboxból.
+1. Megtagadási az összes bejövő forgalmat a virtuális hálózatról. (A szabályban használja a `VIRTUAL_NETWORK` címkét.) 
+2. Az üzleti szint alhálózatáról érkező forgalom engedélyezéséhez.  
+3. Az adatbázisszint alhálózatán érkező forgalom engedélyezéséhez. Ez a szabály lehetővé teszi, hogy szükség van az adatbázis-replikáció és feladatátvételi adatbázis-beli virtuális gépek közötti kommunikációt.
+4. Engedélyezze az RDP-forgalom (3389-es port) a jumpbox alhálózatáról származó. Ez lehetővé teszi, hogy a rendszergazdák csatlakozni tudjanak az adatbázisszinthez a jumpboxból.
 
-Létrehozhat szabályokat 2 &ndash; magasabb prioritású, mint az első szabály, akkor bírálja felül, a 4.
+2-szabályok létrehozása &ndash; magasabb prioritású, mint az első szabály, így azt felülbírálják a 4.
 
 
 ### <a name="sql-server-always-on-availability-groups"></a>SQL Server Always On rendelkezésre állási csoportok
@@ -108,13 +108,13 @@ Ha az alkalmazás olvasási műveleteinek száma lényegesen több, mint az ír�
 
 Az alkalmazás számítási feladatait futtató virtuális gépek nyilvános internetről való RDP-hozzáférését ne engedélyezze. Az ilyen virtuális gépek RDP-hozzáférésének ehelyett a jumpboxon keresztül kell történnie. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox engedélyezi az internetről érkező RDP-forgalmat, de csak az ismert, biztonságos IP-címekről.
 
-A jumpbox minimális teljesítmény követelményekkel rendelkezik, ezért válassza ki a kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
+A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
 
-A jumpbox védelme érdekében vegyen fel egy NSG-t, amely lehetővé teszi az RDP-kapcsolatok csak egy készletből biztonságos nyilvános IP-címek. Állítsa be az NSG-t a többi alhálózathoz is úgy, hogy engedélyezzék a felügyeleti alhálózatból érkező RDP-forgalmat.
+A jumpbox védelmére, adja hozzá egy NSG-szabályt, amely RDP-kapcsolatok kizárólag a nyilvános IP-címkészletekről engedélyezi. Állítsa be az NSG-t a többi alhálózathoz is úgy, hogy engedélyezzék a felügyeleti alhálózatból érkező RDP-forgalmat.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-[Virtuálisgép-méretezési készlet] [ vmss] szeretné telepíteni, és az azonos virtuális gépek kezelésére. A méretezési csoportok támogatják a teljesítménymetrikák alapján történő automatikus skálázást. Ahogy a terhelés növekszik a virtuális gépeken, a rendszer további virtuális gépeket ad a terheléselosztóhoz. Fontolja meg a méretezési csoportok használatát, ha virtuális gépek gyors horizontális felskálázására vagy automatikus méretezésre van szüksége.
+[Virtuálisgép-méretezési csoportok] [ vmss] üzembe helyezése és kezelése, amelyek azonos virtuális gépek segítségével. A méretezési csoportok támogatják a teljesítménymetrikák alapján történő automatikus skálázást. Ahogy a terhelés növekszik a virtuális gépeken, a rendszer további virtuális gépeket ad a terheléselosztóhoz. Fontolja meg a méretezési csoportok használatát, ha virtuális gépek gyors horizontális felskálázására vagy automatikus méretezésre van szüksége.
 
 A méretezési csoportokban üzembe helyezett virtuális gépek konfigurálásának két alapvető módja van:
 
@@ -131,7 +131,7 @@ Minden Azure-előfizetésre alapértelmezett korlátozások vonatkoznak. Ilyen p
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Ha nem használ Virtuálisgép-méretezési készlet azonos tartozó virtuális gépek üzembe egy rendelkezésre állási csoportot. Hozzon létre legalább két virtuális gépet a rendelkezésre állási csoportban az [Azure-beli virtuális gépekre vonatkozó rendelkezésre állási SLA][vm-sla] támogatásához. További információk: [Virtuális gépek rendelkezésre állásának kezelése][availability-set]. 
+Ha nem használ a Virtuálisgép-méretezési csoportok virtuális gépek rendelkezésre állási csoport azonos szinten üzembe. Hozzon létre legalább két virtuális gépet a rendelkezésre állási csoportban az [Azure-beli virtuális gépekre vonatkozó rendelkezésre állási SLA][vm-sla] támogatásához. További információk: [Virtuális gépek rendelkezésre állásának kezelése][availability-set]. 
 
 A terheléselosztó [állapotmintákat][health-probes] használ a virtuálisgép-példányok rendelkezésre állásának monitorozásához. Ha a mintavétel nem ér el egy példányt egy bizonyos időkorláton belül, a terheléselosztó nem irányít több forgalmat az adott virtuális gép felé. A terheléselosztó ezután is folytatja a mintavételezést, és amint a virtuális gép újra elérhetővé válik, a terheléselosztó ismét elkezd forgalmat irányítani felé.
 
@@ -142,7 +142,7 @@ Az alábbiakban néhány javaslat olvasható a terheléselosztó állapot-mintav
 * A mintavétel [ismert IP-címről érkezik:][health-probe-ip] 168.63.129.16. Győződjön meg arról, hogy nem tiltja a bejövő és kimenő forgalmat erről az IP-címről valamelyik tűzfalszabályzatban vagy NSG-szabályban.
 * Az állapotminták állapotának megtekintéséhez használjon [állapotminta-naplókat][health-probe-log]. Engedélyezze a naplózást az Azure Portalon minden egyes terheléselosztóra vonatkozóan. A naplókat a rendszer az Azure Blob Storage-ba írja. A naplók megmutatják, hány háttérbeli virtuális gép nem fogad hálózati forgalmat a meghiúsult mintavételi válaszok miatt.
 
-Ha magas rendelkezésre állás érdekében, mint a [Azure SLA-t a virtuális gépek] [ vm-sla] biztosít, érdemes replikációs az alkalmazás két régióban Azure Traffic Manager feladatátvételhez. További információkért lásd: [több területi N szintű alkalmazás a magas rendelkezésre állású][multi-dc].  
+Ha van szüksége, mint a magasabb rendelkezésre állás a [Azure SLA-beli virtuális gépek] [ vm-sla] biztosít, fontolja meg replikációs az alkalmazást két régióban, az Azure Traffic Managerrel a feladatátvételhez. További információkért lásd: [többrégiós N szintű alkalmazás magas rendelkezésre állású][multi-dc].  
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -152,39 +152,25 @@ A bejövő internetes forgalom esetében a terheléselosztó szabályai határoz
 
 Érdemes lehet hozzáadnia egy hálózati virtuális berendezést (network virtual appliance, NVA), hogy DMZ-t lehessen létrehozni az internet és az Azure-beli virtuális hálózat között. Az NVA egy általános kifejezés egy olyan virtuális berendezésre, amely hálózatokhoz kapcsolódó feladatokat lát el, például gondoskodik a tűzfalról, a csomagvizsgálatról, a naplózásról és az egyéni útválasztásról. További információkért lásd a [DMZ az Azure és az internet közötti implementálásával][dmz] foglalkozó témakört.
 
-Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. További információkért lásd: [konfigurálása Azure Key Vault-integráció az SQL Server Azure virtuális gépeken][sql-keyvault]. Alkalmazás titkos adatait, például adatbázis-kapcsolati karakterláncok tárolni a Key Vault is javasoljuk.
+Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. További információkért lásd: [konfigurálása az Azure Key Vault-integráció az SQL Server Azure virtuális gépeken][sql-keyvault]. Emellett ajánlott alkalmazások titkos adatait, például az adatbázis kapcsolati karakterláncainak tárolása a Key Vaultban.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. Vegye figyelembe, hogy a teljes telepítési órát is igénybe vehet legfeljebb két, mely tartalmazza az Active Directory tartományi szolgáltatások, a Windows Server feladatátvevő fürt és az SQL Server rendelkezésre állási csoport konfigurálásához a parancsfájlokat futtasson.
+Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. Vegye figyelembe, hogy a teljes üzembe helyezés eltarthat akár két órát, amely tartalmazza az Active Directory tartományi szolgáltatások, a Windows Server feladatátvevő fürt és az SQL Server rendelkezésre állási csoport konfigurálása a szkriptek futtatására.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
-2. Telepítés [Azure CLI 2.0][azure-cli-2].
+### <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
-
-   ```bash
-   npm install -g @mspnp/azure-building-blocks
-   ```
-
-4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
-
-   ```bash
-   az login
-   ```
-
-### <a name="deploy-the-solution"></a>A megoldás üzembe helyezése 
-
-1. Futtassa a következő parancs futtatásával hozzon létre egy erőforráscsoportot.
+1. A következő paranccsal hozzon létre egy erőforráscsoportot.
 
     ```bash
     az group create --location <location> --name <resource-group-name>
     ```
 
-2. A következő parancsot a felhő tanúsító hozzon létre egy tárfiókot.
+2. A következő parancsot a Felhőbeli tanúsító a Storage-fiók létrehozása.
 
     ```bash
     az storage account create --location <location> \
@@ -193,17 +179,17 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
       --sku Standard_LRS
     ```
 
-3. Keresse meg a `virtual-machines\n-tier-windows` mappába a referencia architektúra GitHub tárház.
+3. Keresse meg a `virtual-machines\n-tier-windows` referencia architektúrák GitHub-adattár mappát.
 
 4. Nyissa meg az `n-tier-windows.json` fájlt. 
 
-5. Keresse meg a "witnessStorageBlobEndPoint" az összes példányát, és cserélje le a helyőrzőket a 2. lépésben a tárfiók nevét.
+5. Keresse meg az "witnessStorageBlobEndPoint" összes példányát, és cserélje le a helyőrző szöveg a 2. lépés a tárfiók nevére.
 
     ```json
     "witnessStorageBlobEndPoint": "https://[replace-with-storageaccountname].blob.core.windows.net",
     ```
 
-6. Futtassa a következő paranccsal listát készíthet a tárfiók kulcsait.
+6. A következő parancsot a tárfiók fiók kulcsainak listázása.
 
     ```bash
     az storage account keys list \
@@ -211,7 +197,7 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
       --resource-group <resource-group-name>
     ```
 
-    A kimenet a következő hasonlóan kell kinéznie. Másolja a `key1` értékét.
+    A kimenet a következőhöz hasonlóan kell kinéznie. Másolja a `key1` értékét.
 
     ```json
     [
@@ -228,18 +214,18 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
     ]
     ```
 
-7. Az a `n-tier-windows.json` fájlt, keresse meg az "witnessStorageAccountKey" összes példányát, és illessze be a fiókkulcs.
+7. Az a `n-tier-windows.json` fájlt, keressen a "witnessStorageAccountKey", és illessze be a fiókkulcsot.
 
     ```json
     "witnessStorageAccountKey": "[replace-with-storagekey]"
     ```
 
-8. Az a `n-tier-windows.json` fájlt, keresse meg az összes példányt `testPassw0rd!23`, `test$!Passw0rd111`, és `AweS0me@SQLServicePW`. Cserélje le azokat a saját jelszavát, és mentse a fájlt.
+8. Az a `n-tier-windows.json` fájlt, a Keresés az összes példány `testPassw0rd!23`, `test$!Passw0rd111`, és `AweS0me@SQLServicePW`. Le kell cserélni a saját jelszavát, és mentse a fájlt.
 
     > [!NOTE]
-    > Ha módosítja a adminsztrátori felhasználónév, frissíteni kell a `extensions` blokkolja a JSON-fájlban. 
+    > Ha módosítja a rendszergazdai felhasználónevet, frissíteni kell a `extensions` letiltja a JSON-fájlban. 
 
-9. A következő parancsot architektúra telepítéséhez.
+9. Futtassa a következő parancsot az architektúra üzembe helyezéséhez.
 
     ```bash
     azbb -s <your subscription_id> -g <resource_group_name> -l <location> -p n-tier-windows.json --deploy
@@ -252,11 +238,9 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [dmz]: ../dmz/secure-vnet-dmz.md
 [multi-dc]: multi-region-sql-server.md
 [n-tier]: n-tier.md
-[azbb]: https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks
 [azure-administration]: /azure/automation/automation-intro
 [azure-availability-sets]: /azure/virtual-machines/virtual-machines-windows-manage-availability#configure-each-application-tier-into-separate-availability-sets
 [azure-cli]: /azure/virtual-machines-command-line-tools
-[azure-cli-2]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [azure-dns]: /azure/dns/dns-overview
 [azure-key-vault]: https://azure.microsoft.com/services/key-vault
 [bástyagazdagép]: https://en.wikipedia.org/wiki/Bastion_host
@@ -274,7 +258,6 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
 [nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
-[ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [sql-alwayson]: https://msdn.microsoft.com/library/hh510230.aspx
 [sql-alwayson-force-failover]: https://msdn.microsoft.com/library/ff877957.aspx
 [sql-alwayson-getting-started]: https://msdn.microsoft.com/library/gg509118.aspx

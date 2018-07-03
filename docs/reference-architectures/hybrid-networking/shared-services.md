@@ -1,26 +1,26 @@
 ---
-title: A megosztott szolgáltatások hub-küllős hálózati topológia végrehajtása az Azure-ban
-description: Hogyan megvalósításához a hub-küllős hálózati topológia megosztott szolgáltatással az Azure-ban.
+title: Egy küllős hálózati topológia közös szolgáltatásokkal megvalósítása az Azure-ban
+description: Hogyan lehet közös szolgáltatásokkal küllős hálózati topológia implementálása az Azure-ban.
 author: telmosampaio
 ms.date: 06/19/2018
 pnp.series.title: Implement a hub-spoke network topology with shared services in Azure
 pnp.series.prev: hub-spoke
-ms.openlocfilehash: 5e5029dd7de78c6953229364f9e8ae2789c2b348
-ms.sourcegitcommit: f7418f8bdabc8f5ec33ae3551e3fbb466782caa5
+ms.openlocfilehash: 555d08e5d3792f8699875c6d6aa8a1a42eadd477
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36209559"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142352"
 ---
-# <a name="implement-a-hub-spoke-network-topology-with-shared-services-in-azure"></a>A megosztott szolgáltatások hub-küllős hálózati topológia végrehajtása az Azure-ban
+# <a name="implement-a-hub-spoke-network-topology-with-shared-services-in-azure"></a>Közös szolgáltatásokkal küllős hálózati topológia implementálása az Azure-ban
 
-A referencia-architektúrában épít, a [hub-küllős] [ guidance-hub-spoke] architektúrával, amelyek közé tartozik a megosztott szolgáltatások összes küllők által felhasználható központban hivatkozik. Első lépésként a datacenter áttelepítése a felhőbe, és felépítése felé egy [virtuális datacenter], az első szolgáltatásokat kell megosztania identitás- és biztonsági. A referencia-architektúrában bemutatja, hogyan terjeszthető ki az Active Directory-szolgáltatások a helyszíni adatközpontját a Azure-ba, és hozzáadása a hálózati virtuális készülék (NVA), amely működhet, és a tűzfalon, hub-küllős topológiában.  [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+Ez a referenciaarchitektúra épül, amely a [küllős] [ guidance-hub-spoke] referenciaarchitektúra, amely minden küllő tudják használni az agyban megosztott szolgáltatások tartalmazza. A felhőbe való migrálás egy adatközpontban, és létrehozását az első lépés egy [virtuális adatközpont], meg kell osztania az első szolgáltatások az identitások és a biztonság. Ez a referenciaarchitektúra bemutatja, hogyan terjeszthető ki az Active Directory-szolgáltatások a helyi adatközpontból az Azure, és hogyan adhat hozzá egy hálózati virtuális készüléket (NVA) működő, a tűzfal egy küllős topológiában.  [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![[0]][0]
 
 *Töltse le az ][visio-download]architektúra [Visio-fájlját*
 
-Ez a topológia a következő előnyöket nyújtja:
+Ez a topológia előnyei a következők:
 
 * **Költségmegtakarítás** a szolgáltatások központosításával, amelyeket több számítási feladat között, egyetlen helyen lehet elosztani, például a hálózati virtuális berendezések (NVA-k) és DNS-kiszolgálók.
 * **Az előfizetési korlátok leküzdése** a különböző előfizetésekből virtuális társhálózatok létesítésével a központi agyhoz.
@@ -51,7 +51,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 * **Megosztott szolgáltatások alhálózata**. Az agyi virtuális hálózat egyik alhálózata, amely olyan szolgáltatások tárolására szolgál, amelyek megoszthatóak minden küllő között, mint például a DNS vagy az AD DS.
 
-* **DMZ alhálózati**. A központban alhálózat virtuális hálózat, amely működhet, és biztonsági készülékek, például a tűzfalaknak NVAs tárolására szolgálnak.
+* **DMZ-alhálózat**. Az agyi virtuális hálózat a gazdagép nva-kkal működő, biztonsági eszközökkel, például a tűzfalak használt alhálózat.
 
 * **Küllő virtuális hálózatok**. Egy vagy több Azure virtuális hálózat, amelyek küllőként használatosak a küllős topológiában. A küllőkkel elszigetelhetőek a számítási feladatok saját virtuális hálózataikban, így más küllőktől elkülönülten kezelhetőek. Minden számítási feladat több szintet tartalmazhat, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
 
@@ -60,26 +60,26 @@ Az architektúra a következőkben leírt összetevőkből áll.
 > [!NOTE]
 > Ez a cikk csak a [Resource Manager](/azure/azure-resource-manager/resource-group-overview) üzemelő példányokat mutatja be, de ugyanabban az előfizetésben klasszikus virtuális hálózatot is csatlakoztathat Resource Manager virtuális hálózathoz. Így a küllők tárolhatnak klasszikus üzemelő példányokat, mégis profitálhatnak az agyban megosztott szolgáltatásokból.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
-Kapcsolatos ajánlások a [hub-küllős] [ guidance-hub-spoke] referencia-architektúrában is alkalmazhat a megosztott szolgáltatások referencia-architektúrában. 
+Az összes javaslatot a [küllős] [ guidance-hub-spoke] referenciaarchitektúra is alkalmazni kell a megosztott szolgáltatások referenciaarchitektúra. 
 
-Az alábbi javaslatokat is, a legtöbb esetben a megosztott szolgáltatások alkalmazni. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei.
+Emellett az alábbi javaslatok a a megosztott szolgáltatások legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei.
 
-### <a name="identity"></a>Identitáskezelés
+### <a name="identity"></a>Identitás
 
-A legtöbb vállalati szervezet egy Active Directory Directory Services (ADDS) környezettel rendelkezik, azok a helyszíni adatközpontban. Lehetővé teszi a felügyeleti eszközök áthelyezése az Azure a helyszíni hálózatból ADDS függő, javasoljuk, hogy állomás ADDS tartományvezérlők az Azure-ban.
+A legtöbb vállalati szervezetek Active Directory Directory Services (ADDS) környezet rendelkezik a helyszíni adatközpontját. Felügyeleti eszközök a helyszíni hálózatból az Azure-bA áthelyezni, ettől az ADDS elősegítése érdekében ajánlott gazdagép ADDS-tartományvezérlőkhöz az Azure-ban.
 
-Ha a csoportházirend-objektumokat, külön-külön szabályozhatja az Azure és a helyszíni környezetben szeretné használni a különböző AD helyet használja minden Azure-régiót. A tartományvezérlők tegyen függő munkaterhelések hozzáférő központi VNet (hub).
+Ha használja a csoportházirend-objektumok, külön-külön szabályozhatja az Azure és a helyszíni környezetben, a kívánt használja egy másik Active Directory-hely az egyes Azure-régióban. Helyezze a tartományvezérlők egy központi virtuális hálózatban (hub) függő számítási feladatokhoz férhet hozzá.
 
 ### <a name="security"></a>Biztonság
 
-Amikor munkaterhelések a helyszíni környezetből Azure-ba, az ilyen terhelések némelyike el kell futhat virtuális gépeken. Megfelelőségi okokból szükség lehet kényszeríteni azokat a munkaterheléseket áthaladó forgalom korlátozásait. 
+Helyváltoztatáskor számítási feladatokat a helyszíni környezetből az Azure-ba, néhány ilyen számítási feladat kell virtuális gépeken üzemeltetni. Megfelelőségi okokból szükség lehet kikényszerítheti forgalomról azokat a munkaterheléseket. 
 
-Az Azure szolgáltatásban az állomás különböző biztonsági és teljesítménynövelő szolgáltatások hálózati virtuális készülékek (NVAs) is használhatja. Ha ismeri a helyszíni készülékek adott halmazát ma, javasoljuk, hogy az azonos virtuális készülékek használata Azure adott esetben.
+Az Azure biztonságát és teljesítményét szolgáltatások különböző típusú gazdagép-hálózati virtuális berendezések (nva-k) is használhatja. Ha ismeri a helyszíni berendezések adott halmazát még ma, ajánlott az azonos virtuális berendezések használata az Azure-ban, ha vannak ilyenek.
 
 > [!NOTE]
-> Az üzembe helyezési parancsfájlok a referenciaarchitektúra Ubuntu virtuális gép IP-továbbítás engedélyezve van, hogy a hálózati virtuális készülék utánozzák használja.
+> Ez a referenciaarchitektúra üzembe helyezési szkriptjei egy Ubuntu virtuális gép IP-továbbítás engedélyezve van egy hálózati virtuális berendezésen utánzására használja.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -93,57 +93,47 @@ Ezenkívül vegye figyelembe, mely szolgáltatások vannak megosztva az agyban. 
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo]. A központi telepítés az előfizetésében hoz létre a következő erőforrás-csoportok:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo]. Az üzembe helyezés az előfizetésben hoz létre a következő erőforrás-csoportok:
 
-- hub hozzáadása rg
-- hub-nva-rg
-- hub-vnet-rg
-- a helyi üzemeltetésű-vnet-rg
+- eseményközpont-ad-rg
+- eseményközpont-nva-rg
+- eseményközpont-vnet-rg
+- rendszert-vnet-rg
 - spoke1-vnet-rg
-- spoke2-nyílás-rg
+- spoke2-művele-rg
 
-A sablonfájlokat paraméter tekintse meg ezeket a neveket, így módosítja őket, ha a paraméter fájlok frissítése az egyeztetéshez.
+A sablon alkalmazásparaméter-fájlok tekintse meg ezeket a neveket, így módosítja őket, ha a paraméter fájlok frissítése az egyeztetéshez.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
-2. Telepítés [Azure CLI 2.0][azure-cli-2].
+### <a name="deploy-the-simulated-on-premises-datacenter-using-azbb"></a>Üzembe helyezése az azbb használatával szimulált helyszíni adatközpont
 
-3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
+Ez a lépés telepíti a szimulált helyszíni adatközpont Azure virtuális hálózatként.
 
-4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
-
-   ```bash
-   az login
-   ```
-
-### <a name="deploy-the-simulated-on-premises-datacenter-using-azbb"></a>A szimulált olyan helyszíni adatközpontban azbb használatával telepítése
-
-Ez a lépés a szimulált helyszíni adatközpontját telepíti, egy Azure virtuális hálózatot.
-
-1. Keresse meg a `hybrid-networking\shared-services-stack\` mappában található a GitHub-tárházban.
+1. Keresse meg a `hybrid-networking\shared-services-stack\` mappájában, a GitHub-adattárban.
 
 2. Nyissa meg az `onprem.json` fájlt. 
 
-3. Keresse meg az összes példányát `Password` és `adminPassword`. Adja meg a felhasználónevet és jelszót a paraméterek értékeit, és mentse a fájlt. 
+3. Keresse meg az összes példányát `Password` és `adminPassword`. Adja meg az értékeket a felhasználónevet és jelszót a paraméterek, és mentse a fájlt. 
 
 4. Futtassa az alábbi parancsot:
 
    ```bash
    azbb -s <subscription_id> -g onprem-vnet-rg -l <location> -p onprem.json --deploy
    ```
-5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítés létrehoz egy virtuális hálózatot, Windows és a VPN-átjáró egy olyan virtuális géphez. Egy VPN-átjáró létrehozása 40 percnél is tovább tarthat.
+5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítéshez létrehoz egy virtuális hálózatot, a Windows és a egy VPN-átjárót futtató virtuális gépet. Egy VPN-átjáró létrehozása 40 percnél is tovább tarthat.
 
-### <a name="deploy-the-hub-vnet"></a>A virtuális hálózat központi telepítése
+### <a name="deploy-the-hub-vnet"></a>Az agyi virtuális hálózat üzembe helyezése
 
-Ez a lépés a hub VNet telepíti, és csatlakozik a a szimulált helyszíni virtuális hálózat.
+Ebben a lépésben helyez üzembe az agyi virtuális hálózat, és csatlakoztatja a szimulált helyszíni virtuális hálózathoz.
 
 1. Nyissa meg az `hub-vnet.json` fájlt. 
 
-2. Keresse meg `adminPassword` , és írja be egy felhasználónevet és jelszót a paraméterek. 
+2. Keresse meg `adminPassword` , és adja meg egy felhasználónevet és jelszót a paraméterek. 
 
-3. Keresse meg az összes példányát `sharedKey` és egy megosztott kulcsot adjon meg egy értéket. Mentse a fájlt.
+3. Keresse meg az összes példányát `sharedKey` és a egy megosztott kulcsot adjon meg egy értéket. Mentse a fájlt.
 
    ```bash
    "sharedKey": "abc123",
@@ -155,15 +145,15 @@ Ez a lépés a hub VNet telepíti, és csatlakozik a a szimulált helyszíni vir
    azbb -s <subscription_id> -g hub-vnet-rg -l <location> -p hub-vnet.json --deploy
    ```
 
-5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítéshez létrehoz egy virtuális hálózatot, virtuális gép, VPN-átjáró és az átjáró, az előző szakaszban létrehozott kapcsolat. A VPN-átjáró legfeljebb 40 percet is igénybe vehet.
+5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítés egy virtuális hálózatot, egy virtuális gépet, a VPN-átjáró és az előző szakaszban létrehozott átjáróhoz való kapcsolatot hoz létre. A VPN-átjáró több mint 40 percet is igénybe vehet.
 
-### <a name="deploy-ad-ds-in-azure"></a>Az Azure Active Directory tartományi szolgáltatások telepítése
+### <a name="deploy-ad-ds-in-azure"></a>Az Azure AD DS üzembe helyezése
 
-Ez a lépés telepíti az Azure Active Directory tartományi szolgáltatások tartományvezérlő.
+Ebben a lépésben üzembe helyezi az AD DS-tartományvezérlők az Azure-ban.
 
 1. Nyissa meg az `hub-adds.json` fájlt.
 
-2. Keresse meg az összes példányát `Password` és `adminPassword`. Adja meg a felhasználónevet és jelszót a paraméterek értékeit, és mentse a fájlt. 
+2. Keresse meg az összes példányát `Password` és `adminPassword`. Adja meg az értékeket a felhasználónevet és jelszót a paraméterek, és mentse a fájlt. 
 
 3. Futtassa az alábbi parancsot:
 
@@ -171,15 +161,15 @@ Ez a lépés telepíti az Azure Active Directory tartományi szolgáltatások ta
    azbb -s <subscription_id> -g hub-adds-rg -l <location> -p hub-adds.json --deploy
    ```
   
-A központi telepítési lépés eltarthat néhány percig, mert ez a két virtuális gép csatlakozik a tartományhoz, a szimulált helyszíni adatközpontban futtatott, és telepíti az Active Directory tartományi szolgáltatások rajtuk.
+Ebben a lépésben üzembe helyezés eltarthat néhány percig, mert a két virtuális gép csatlakoztatja a szimulált helyszíni adatközpont tartományhoz, és telepíti őket az AD DS.
 
-### <a name="deploy-the-spoke-vnets"></a>A Vnetek küllős telepítése
+### <a name="deploy-the-spoke-vnets"></a>A küllő virtuális hálózatok üzembe helyezése
 
-Ez a lépés telepíti a Vnetek küllős.
+Ebben a lépésben üzembe helyezi a küllő virtuális hálózatokhoz.
 
 1. Nyissa meg az `spoke1.json` fájlt.
 
-2. Keresse meg `adminPassword` , és írja be egy felhasználónevet és jelszót a paraméterek. 
+2. Keresse meg `adminPassword` , és adja meg egy felhasználónevet és jelszót a paraméterek. 
 
 3. Futtassa az alábbi parancsot:
 
@@ -195,21 +185,21 @@ Ez a lépés telepíti a Vnetek küllős.
    azbb -s <subscription_id> -g spoke2-vnet-rg -l <location> -p spoke2.json --deploy
    ```
 
-### <a name="peer-the-hub-vnet-to-the-spoke-vnets"></a>A virtuális hálózat hubot a Vnetek küllős partnert
+### <a name="peer-the-hub-vnet-to-the-spoke-vnets"></a>A küllő virtuális hálózatokhoz az agyi virtuális hálózat társviszonyba állítása
 
-Társviszony-létesítési kapcsolatot létesíthet a virtuális hálózat központi és a Vnetek küllős, futtassa a következő parancsot:
+Az agyi virtuális hálózat közötti társviszony-létesítési kapcsolat létrehozásához a küllő virtuális hálózatokhoz, futtassa a következő parancsot:
 
 ```bash
 azbb -s <subscription_id> -g hub-vnet-rg -l <location> -p hub-vnet-peering.json --deploy
 ```
 
-### <a name="deploy-the-nva"></a>Az NVA telepítése
+### <a name="deploy-the-nva"></a>Az nva-t üzembe helyezése
 
-Ez a lépés telepíti az NVA a `dmz` alhálózati.
+Ebben a lépésben üzembe helyezi az NVA a `dmz` alhálózat.
 
 1. Nyissa meg az `hub-nva.json` fájlt.
 
-2. Keresse meg `adminPassword` , és írja be egy felhasználónevet és jelszót a paraméterek. 
+2. Keresse meg `adminPassword` , és adja meg egy felhasználónevet és jelszót a paraméterek. 
 
 3. Futtassa az alábbi parancsot:
 
@@ -219,18 +209,18 @@ Ez a lépés telepíti az NVA a `dmz` alhálózati.
 
 ### <a name="test-connectivity"></a>Kapcsolat tesztelése 
 
-A szimulált a helyszíni környezetből szeretne az elosztóhoz VNet kapcsolat tesztelése.
+Az agyi virtuális hálózat, a szimulált helyszíni környezetből conectivity teszteléséhez.
 
-1. Az Azure portál segítségével nevű virtuális gép található `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
 
-2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A megadott jelszó használata a `onprem.json` paraméterfájl.
+2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
 
-3. Nyissa meg a PowerShell-konzolban a virtuális Gépet, és használja a `Test-NetConnection` parancsmag futtatásával ellenőrizze, hogy tud-e csatlakozni a virtuális gép jumpbox VNet központban.
+3. Nyisson meg egy PowerShell-konzolt a virtuális gépen, és a `Test-NetConnection` parancsmaggal győződjön meg arról, hogy képes-e csatlakozni a jumpbox virtuális Géphez az agyi virtuális hálózat.
 
    ```powershell
    Test-NetConnection 10.0.0.68 -CommonTCPPort RDP
    ```
-A kimenet az alábbihoz hasonló kell kinéznie:
+A kimenet az alábbihoz hasonlóan kell kinéznie:
 
 ```powershell
 ComputerName     : 10.0.0.68
@@ -242,9 +232,9 @@ TcpTestSucceeded : True
 ```
 
 > [!NOTE]
-> Alapértelmezés szerint a Windows Server virtuális gépen nem teszik lehetővé az ICMP-válaszokat az Azure-ban. Ha a használni kívánt `ping` kapcsolat tesztelése, az egyes virtuális gépek ICMP-forgalmat a Windows speciális tűzfalon engedélyezni kell.
+> Alapértelmezés szerint Windows Serveres virtuális gépek nem teszik lehetővé az ICMP-válaszok az Azure-ban. Ha a használni kívánt `ping` kapcsolat teszteléséhez, engedélyeznie kell a fokozott biztonságú Windows tűzfal az ICMP-forgalmat az egyes virtuális Gépekhez.
 
-Ismételje meg a sames a Vnetek küllős kapcsolat teszteléséhez:
+Ismételje meg a sames a küllő virtuális hálózatokhoz csatlakozni:
 
 ```powershell
 Test-NetConnection 10.1.0.68 -CommonTCPPort RDP
@@ -266,7 +256,7 @@ Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
 [hybrid-ha]: ./expressroute-vpn-failover.md
 [naming conventions]: /azure/guidance/guidance-naming-conventions
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
-[virtuális datacenter]: https://aka.ms/vdc
+[virtuális adatközpont]: https://aka.ms/vdc
 [vnet-peering]: /azure/virtual-network/virtual-network-peering-overview
 [vnet-peering-limit]: /azure/azure-subscription-service-limits#networking-limits
 [vpn-appliance]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
@@ -274,6 +264,6 @@ Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
 
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-hub-spoke.vsdx
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
-[0]: ./images/shared-services.png "A megosztott szolgáltatások topológia az Azure-ban"
+[0]: ./images/shared-services.png "Megosztott szolgáltatások topológia az Azure-ban"
 [3]: ./images/hub-spokehub-spoke.svg "Küllős-küllős topológia az Azure-ban"
 [ARM-Templates]: https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates/

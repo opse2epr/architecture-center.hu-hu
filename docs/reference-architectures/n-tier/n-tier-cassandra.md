@@ -1,18 +1,18 @@
 ---
-title: Az Apache Cassandra N szintű alkalmazás
+title: Az Apache Cassandra használatával N szintű alkalmazás
 description: Annak az ismertetése, hogyan kell Linux rendszerű virtuális gépeket futtatni N szintű architektúrához a Microsoft Azure-ban.
 author: MikeWasson
 ms.date: 05/03/2018
-ms.openlocfilehash: 46e9a821a33dd3ea3ae9129ab5ad69172bfcd667
-ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
+ms.openlocfilehash: 7ee14088a2fae3cfc5c1119daf717236c75ecc6a
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/06/2018
-ms.locfileid: "33673738"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142233"
 ---
-# <a name="n-tier-application-with-apache-cassandra"></a>Az Apache Cassandra N szintű alkalmazás
+# <a name="n-tier-application-with-apache-cassandra"></a>Az Apache Cassandra használatával N szintű alkalmazás
 
-A referencia-architektúrában bemutatja, hogyan telepítheti a virtuális gépek és az N szintű alkalmazáshoz, Apache Cassandra használata Linux rendszeren az adatréteg egy virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek és a egy N szintű alkalmazáshoz, az Apache Cassandra használatával Linux rendszeren az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
 
 ![[0]][0]
 
@@ -24,19 +24,19 @@ Az architektúra a következő összetevőkből áll:
 
 * **Erőforráscsoport.** Az [erőforráscsoportok][resource-manager-overview] az erőforrások csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők.
 
-* **Virtuális hálózathoz (VNet) és alhálózatok.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez. 
+* **Virtuális hálózat (VNet) és alhálózatok.** Az Azure-ban minden virtuális gép egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez. 
 
 * **NSG-k**. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható 3 szintű architektúrában például az adatbázisszint csak az üzleti szintről és a felügyeleti alhálózatról érkező forgalmat fogadja, a webes kezelőfelület felől érkező forgalmat nem.
 
-* **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [futtassa egy Windows virtuális gép Azure](./windows-vm.md) és [a Azure Linux virtuális Gépet futtató](./linux-vm.md).
+* **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [Windows virtuális gépek futtatása az Azure-beli](./windows-vm.md) és [Linux rendszerű virtuális gép futtatása az Azure-ban](./linux-vm.md).
 
 * **Rendelkezésre állási csoportok.** Hozzon létre egy [rendelkezésre állási csoportot][azure-availability-sets] minden szinthez, majd minden szinten építsen ki legalább két virtuális gépet. Így a virtuális gépek magasabb szintű [szolgáltatói szerződésre (SLA-ra)][vm-sla] jogosultak. 
 
-* **Virtuálisgép-méretezési készlet** (nincs ábrázolva). A [Virtuálisgép-méretezési készlet] [ vmss] van a rendelkezésre állási csoportok használata helyett. A skálázási készletekben teszi megkönnyítik a réteg a virtuális gépek bővíteni, vagy manuálisan vagy automatikusan előre meghatározott szabályok alapján.
+* **Virtuálisgép-méretezési csoportot** (nem látható). A [Virtuálisgép-méretezési csoportot] [ vmss] van egy rendelkezésre állási csoport használata helyett. A méretezési csoportok teszi egyszerűvé a horizontális felskálázás az egy szinten lévő virtuális gépek, vagy manuálisan vagy automatikusan előre meghatározott szabályok alapján.
 
-* **Az Azure Load Balancer terheléselosztók.** A [terheléselosztók] [ load-balancer] terjesztése a Virtuálisgép-példányok bejövő Internet kéréseket. Használja a [nyilvános terheléselosztó] [ load-balancer-external] bejövő internetes forgalmat a webes réteg terjesztése és egy [belső terheléselosztó] [ load-balancer-internal] való az üzleti szint a webes réteg érkező hálózati forgalom terjesztése.
+* **Az Azure Load Balancer terheléselosztók.** A [terheléselosztók] [ load-balancer] beérkező internetes kérelmeket a Virtuálisgép-példányok elosztása. Használja a [nyilvános load balancer] [ load-balancer-external] terjeszteni a bejövő internetes forgalom webes szinten és a egy [belső load balancer] [ load-balancer-internal] , elosztja a hálózati forgalmat a webes szintről az üzleti szint.
 
-* **Nyilvános IP-cím**. Nyilvános IP-címnek a nyilvános terheléselosztót internetes forgalom fogadására van szükség.
+* **Nyilvános IP-cím**. A nyilvános load balancer az internetes forgalmat fogadó nyilvános IP-cím szükséges.
 
 * **Jumpbox.** Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-t kell engedélyezniük ssh-forgalmat.
 
@@ -58,7 +58,7 @@ Az alhálózatokat a funkciók és a biztonsági követelmények szem előtt tar
 
 ### <a name="load-balancers"></a>Terheléselosztók
 
-Ne engedélyezze a virtuális gépek elérését közvetlenül az internetről – ehelyett adjon mindegyiknek privát IP-címet. Az IP-cím nyilvános terheléselosztó használatával az ügyfelek kapcsolódnak.
+Ne engedélyezze a virtuális gépek elérését közvetlenül az internetről – ehelyett adjon mindegyiknek privát IP-címet. Az IP-cím a nyilvános load Balancer használatával az ügyfelek csatlakoznak.
 
 Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen hálózati forgalomra vonatkozó szabályait. Például a HTTP-forgalom engedélyezéséhez hozzon létre egy szabályt, amely hozzárendeli a 80-as portot az előtérbeli konfigurációból a háttércímkészletben található 80-as porthoz. Amikor egy ügyfél HTTP-kérelmet küld a 80-as port felé, a terheléselosztó kiválaszt egy háttérbeli IP-címet egy [kivonatoló algoritmus][load-balancer-hashing] használatával, amely tartalmazza a forrás IP-címét. Így a kérelmek megoszlanak az összes virtuális gép között.
 
@@ -66,12 +66,12 @@ Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen há
 
 A szintek közötti forgalmat NSG-szabályokkal korlátozhatja. A fenti 3 szintes architektúra esetén például a webes szint nem kommunikál közvetlenül az adatbázisszinttel. Ennek kényszerítése érdekében az adatbázisszintnek blokkolnia kell a webes szint alhálózatáról érkező bejövő forgalmat.  
 
-1. A virtuális hálózat megtagadása az összes bejövő forgalmat. (A szabályban használja a `VIRTUAL_NETWORK` címkét.) 
-2. Az üzleti szint alhálózatból bejövő forgalom engedélyezése.  
-3. Maga az adatbázis réteg alhálózat érkező bejövő forgalom engedélyezése. Ez a szabály lehetővé teszi, hogy az adatbázis virtuális gépeket, szükség van az adatbázis-replikációt és feladatátvételt közötti kommunikációt.
-4. Ssh forgalom engedélyezése (22-es portot) a jumpbox alhálózatból. Ez lehetővé teszi, hogy a rendszergazdák csatlakozni tudjanak az adatbázisszinthez a jumpboxból.
+1. Megtagadási az összes bejövő forgalmat a virtuális hálózatról. (A szabályban használja a `VIRTUAL_NETWORK` címkét.) 
+2. Az üzleti szint alhálózatáról érkező forgalom engedélyezéséhez.  
+3. Az adatbázisszint alhálózatán érkező forgalom engedélyezéséhez. Ez a szabály lehetővé teszi, hogy szükség van az adatbázis-replikáció és feladatátvételi adatbázis-beli virtuális gépek közötti kommunikációt.
+4. Forgalom ssh (22-es port) a jumpbox alhálózatáról származó. Ez lehetővé teszi, hogy a rendszergazdák csatlakozni tudjanak az adatbázisszinthez a jumpboxból.
 
-Létrehozhat szabályokat 2 &ndash; magasabb prioritású, mint az első szabály, akkor bírálja felül, a 4.
+2-szabályok létrehozása &ndash; magasabb prioritású, mint az első szabály, így azt felülbírálják a 4.
 
 ### <a name="cassandra"></a>Cassandra
 
@@ -85,20 +85,20 @@ Konfigurálja a csomópontokat állvány-kompatibilis üzemmódban. Képezze le 
 
 A fürt előtt nincs szükség terheléselosztóra. Az ügyfél közvetlenül csatlakozik a fürt egyik csomópontjához.
 
-A magas rendelkezésre állás érdekében telepítse Cassandra egynél több Azure-régióban. A csomópontok minden régióban állvány-kompatibilis üzemmódban vannak konfigurálva tartalék és frissítési tartományokkal a régión belüli rugalmasság érdekében.
+A magas rendelkezésre állás érdekében a több Azure-régióban a Cassandra üzembe helyezése. A csomópontok minden régióban állvány-kompatibilis üzemmódban vannak konfigurálva tartalék és frissítési tartományokkal a régión belüli rugalmasság érdekében.
 
 
 ### <a name="jumpbox"></a>Jumpbox
 
-Nincs engedélyezve a ssh hozzáférés a nyilvános interneten keresztül a virtuális gépek, amelyek az alkalmazás alkalmazások és szolgáltatások futnak. Ehelyett minden ssh hozzáférési a virtuális gépeken a jumpbox keresztül kell származniuk. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox ssh-forgalmát engedélyezi az internetről, de csak az ismert, biztonságos IP-címeket.
+Ssh hozzáférés a nyilvános internetről való engedélyezze az alkalmazás számítási feladatait futtató virtuális gépek. Ehelyett minden ssh hozzáférési ezeken a virtuális gépeken a jumpboxon keresztül kell származnia. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox engedélyezi ssh-forgalmat az internetről, de csak az ismert, biztonságos IP-címeket.
 
-A jumpbox minimális teljesítmény követelményekkel rendelkezik, ezért válassza ki a kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-címet] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
+A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
 
-A jumpbox védelme érdekében vegyen fel egy NSG-t, amely lehetővé teszi, hogy ssh kapcsolatok csak egy készletből biztonságos nyilvános IP-címek. Az NSG-ket más alhálózatok ssh-kezelési forgalom engedélyezése a kezelési alhálózatból konfigurálása.
+A jumpbox védelmére, adja hozzá egy NSG-szabályt, amely engedélyezi az ssh-kapcsolatokat csak a nyilvános IP-címkészletekről. Konfigurálja az ssh forgalom engedélyezésére a felügyeleti alhálózatról a többi alhálózathoz NSG-t.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-[Virtuálisgép-méretezési készlet] [ vmss] szeretné telepíteni, és az azonos virtuális gépek kezelésére. A méretezési csoportok támogatják a teljesítménymetrikák alapján történő automatikus skálázást. Ahogy a terhelés növekszik a virtuális gépeken, a rendszer további virtuális gépeket ad a terheléselosztóhoz. Fontolja meg a méretezési csoportok használatát, ha virtuális gépek gyors horizontális felskálázására vagy automatikus méretezésre van szüksége.
+[Virtuálisgép-méretezési csoportok] [ vmss] üzembe helyezése és kezelése, amelyek azonos virtuális gépek segítségével. A méretezési csoportok támogatják a teljesítménymetrikák alapján történő automatikus skálázást. Ahogy a terhelés növekszik a virtuális gépeken, a rendszer további virtuális gépeket ad a terheléselosztóhoz. Fontolja meg a méretezési csoportok használatát, ha virtuális gépek gyors horizontális felskálázására vagy automatikus méretezésre van szüksége.
 
 A méretezési csoportokban üzembe helyezett virtuális gépek konfigurálásának két alapvető módja van:
 
@@ -115,7 +115,7 @@ Minden Azure-előfizetésre alapértelmezett korlátozások vonatkoznak. Ilyen p
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Ha nem használ Virtuálisgép-méretezési készlet azonos tartozó virtuális gépek üzembe egy rendelkezésre állási csoportot. Hozzon létre legalább két virtuális gépet a rendelkezésre állási csoportban az [Azure-beli virtuális gépekre vonatkozó rendelkezésre állási SLA][vm-sla] támogatásához. További információk: [Virtuális gépek rendelkezésre állásának kezelése][availability-set]. 
+Ha nem használ a Virtuálisgép-méretezési csoportok virtuális gépek rendelkezésre állási csoport azonos szinten üzembe. Hozzon létre legalább két virtuális gépet a rendelkezésre állási csoportban az [Azure-beli virtuális gépekre vonatkozó rendelkezésre állási SLA][vm-sla] támogatásához. További információk: [Virtuális gépek rendelkezésre állásának kezelése][availability-set]. 
 
 A terheléselosztó [állapotmintákat][health-probes] használ a virtuálisgép-példányok rendelkezésre állásának monitorozásához. Ha a mintavétel nem ér el egy példányt egy bizonyos időkorláton belül, a terheléselosztó nem irányít több forgalmat az adott virtuális gép felé. A terheléselosztó ezután is folytatja a mintavételezést, és amint a virtuális gép újra elérhetővé válik, a terheléselosztó ismét elkezd forgalmat irányítani felé.
 
@@ -136,7 +136,7 @@ A bejövő internetes forgalom esetében a terheléselosztó szabályai határoz
 
 Érdemes lehet hozzáadnia egy hálózati virtuális berendezést (network virtual appliance, NVA), hogy DMZ-t lehessen létrehozni az internet és az Azure-beli virtuális hálózat között. Az NVA egy általános kifejezés egy olyan virtuális berendezésre, amely hálózatokhoz kapcsolódó feladatokat lát el, például gondoskodik a tűzfalról, a csomagvizsgálatról, a naplózásról és az egyéni útválasztásról. További információkért lásd a [DMZ az Azure és az internet közötti implementálásával][dmz] foglalkozó témakört.
 
-Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. Alkalmazás titkos adatait, például adatbázis-kapcsolati karakterláncok tárolni a Key Vault is javasoljuk.
+Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. Emellett ajánlott alkalmazások titkos adatait, például az adatbázis kapcsolati karakterláncainak tárolása a Key Vaultban.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
@@ -144,21 +144,7 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ ref-arch-repo] GitHub-tárházban.
-
-2. Győződjön meg arról, hogy az Azure CLI 2.0 telepítve van a számítógépén. A CLI telepítéséhez kövesse az [Azure CLI 2.0 telepítése][azure-cli-2] című szakaszban leírt utasításokat.
-
-3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
-
-   ```bash
-   npm install -g @mspnp/azure-building-blocks
-   ```
-
-4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból az alábbi parancsok egyikével, és kövesse az utasításokat.
-
-   ```bash
-   az login
-   ```
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
 ### <a name="deploy-the-solution-using-azbb"></a>A megoldás üzembe helyezése az azbb használatával
 
@@ -207,7 +193,7 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [operations-management-suite]: https://www.microsoft.com/server-cloud/operations-management-suite/overview.aspx
 [plan-network]: /azure/virtual-network/virtual-network-vnet-plan-design-arm
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-[nyilvános IP-címet]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
+[nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [vm-sla]: https://azure.microsoft.com/support/legal/sla/virtual-machines
