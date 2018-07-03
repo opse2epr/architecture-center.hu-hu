@@ -10,12 +10,12 @@ pnp.series.title: Identity management
 pnp.series.prev: adds-extend-domain
 pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
-ms.openlocfilehash: 047ecea41ba30ce4cccf17b8c4964a37ae60150f
-ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
+ms.openlocfilehash: 105ffc4b329331522529161731b1947f99e02280
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/03/2018
-ms.locfileid: "32323907"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142199"
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
@@ -91,68 +91,58 @@ Active Directory-specifikus biztonsági szempontokért tekintse meg [Az Active D
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github]. Vegye figyelembe, hogy a teljes telepítési órát is igénybe vehet legfeljebb két, mely tartalmazza a VPN gateway létrehozása, és futtatja a parancsfájlokat, amelyek az AD DS konfigurálása.
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github]. Vegye figyelembe, hogy a teljes üzembe helyezés eltarthat akár két órát, amely tartalmazza a VPN gateway létrehozása, és futtatja a parancsfájlokat, amelyek az AD DS konfigurálása.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy a zip-fájl letöltése a [architektúrák hivatkozhat] [ github] GitHub-tárházban.
-
-2. Telepítés [Azure CLI 2.0][azure-cli-2].
-
-3. Telepítse [az Azure építőelemei][azbb] npm-csomagot.
-
-4. A parancssorból bash, vagy PowerShell kérdés, jelentkezzen be az Azure-fiókjával az alábbi parancs segítségével.
-
-   ```bash
-   az login
-   ```
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
 ### <a name="deploy-the-simulated-on-premises-datacenter"></a>A szimulált helyszíni adatközpont üzembe helyezése
 
-1. Keresse meg a `identity/adds-forest` mappában található a GitHub-tárházban.
+1. Keresse meg a `identity/adds-forest` mappájában, a GitHub-adattárban.
 
-2. Nyissa meg az `onprem.json` fájlt. Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak.
+2. Nyissa meg az `onprem.json` fájlt. Keresse meg példányait `adminPassword` és `Password` és adja meg a jelszavak adatait.
 
-3. A következő parancsot, és várja meg, a telepítés befejezéséhez:
+3. Futtassa a következő parancsot, és várjon, amíg a telepítés befejezéséhez:
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p onprem.json --deploy
     ```
 
-### <a name="deploy-the-azure-vnet"></a>Az Azure virtuális hálózat telepítése
+### <a name="deploy-the-azure-vnet"></a>Az Azure virtuális hálózat üzembe helyezése
 
-1. Nyissa meg az `azure.json` fájlt. Keresse meg a példányok `adminPassword` és `Password` , és adjon értékeket a jelszavak.
+1. Nyissa meg az `azure.json` fájlt. Keresse meg példányait `adminPassword` és `Password` és adja meg a jelszavak adatait.
 
-2. Ugyanabban a fájlban keresse meg a példányok `sharedKey` , és írja be a megosztott kulcsok a VPN-kapcsolathoz. 
+2. Ugyanebben a fájlban keresse meg a példányok `sharedKey` , és adja meg a VPN-kapcsolat megosztott kulcsok. 
 
     ```bash
     "sharedKey": "",
     ```
 
-3. A következő parancsot, és várja meg, a telepítés befejezéséhez.
+3. Futtassa a következő parancsot, és várjon, amíg az üzembe helyezés befejeződik.
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p onoprem.json --deploy
     ```
 
-   Központi telepítése, a helyszíni virtuális hálózat ugyanabban az erőforráscsoportban.
+   Telepítse a helyszíni virtuális hálózatnak ugyanabban az erőforráscsoportban.
 
 
 ### <a name="test-the-ad-trust-relation"></a>Az AD megbízhatósági kapcsolat tesztelése
 
-1. Az Azure-portálon, keresse meg a létrehozott erőforráscsoportot.
+1. Az Azure Portallal, keresse meg a létrehozott erőforráscsoportot.
 
-2. Az Azure portál segítségével nevű virtuális gép található `ra-adt-mgmt-vm1`.
+2. Az Azure portal használatával keresse meg a virtuális gép nevű `ra-adt-mgmt-vm1`.
 
-2. Kattintson a `Connect` számára a virtuális gép távoli asztali munkamenetet nyit meg. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `onprem.json` paraméterfájl.
+2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A felhasználónév `contoso\testuser`, és a jelszó pedig a megadott a `onprem.json` alkalmazásparaméter-fájlt.
 
-3. Az belül a távoli asztali munkamenetet, nyissa meg a másik távoli asztali munkamenetet 192.168.0.4, amely az IP-cím nevű VM `ra-adtrust-onpremise-ad-vm1`. A felhasználónév `contoso\testuser`, és a jelszó, amelyet a megadott a `azure.json` paraméterfájl.
+3. A belül a távoli asztali munkamenetet, nyissa meg egy másik távoli asztali munkamenetet 192.168.0.4, amely az IP-címet a virtuális gép nevű `ra-adtrust-onpremise-ad-vm1`. A felhasználónév `contoso\testuser`, és a jelszó pedig a megadott a `azure.json` alkalmazásparaméter-fájlt.
 
-4. A belül a távoli asztali munkamenet `ra-adtrust-onpremise-ad-vm1`, és **Kiszolgálókezelő** kattintson **eszközök** > **Active Directory – tartományok és megbízhatósági kapcsolatok**. 
+4. A belül a távoli asztali munkamenetet `ra-adtrust-onpremise-ad-vm1`, lépjen a **Kiszolgálókezelő** kattintson **eszközök** > **Active Directory-tartományok és megbízhatósági kapcsolatok**. 
 
-5. A bal oldali ablaktáblán kattintson a jobb gombbal a contoso.com, és válassza ki a **tulajdonságok**.
+5. A bal oldali ablaktáblán kattintson a jobb gombbal a contoso.com, és válassza **tulajdonságok**.
 
-6. Kattintson a **Megbízhatóságok** fülre. Egy bejövő bizalmi kapcsolat tulajdonosaként treyresearch.net kell megjelennie.
+6. Kattintson a **megbízik** fülre. Egy bejövő bizalmi kapcsolat állapottal treyresearch.net kell megjelennie.
 
 ![](./images/ad-forest-trust.png)
 

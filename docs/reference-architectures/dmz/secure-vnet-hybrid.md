@@ -2,21 +2,21 @@
 title: Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban
 description: Tudnivalók biztonságos hibrid hálózati architektúra megvalósításáról az Azure-ban.
 author: telmosampaio
-ms.date: 11/23/2016
+ms.date: 07/01/2018
 pnp.series.title: Network DMZ
 pnp.series.prev: ./index
 pnp.series.next: secure-vnet-dmz
 cardTitle: DMZ between Azure and on-premises
-ms.openlocfilehash: 81dea2e4439d5a01ebb88ab86dc0a59609bb7bc3
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 9ebebb2eece14aed07e3d9cd7ae4b8d6846ed4bd
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30849654"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142369"
 ---
 # <a name="dmz-between-azure-and-your-on-premises-datacenter"></a>DMZ az Azure és a helyszíni adatközpont között
 
-Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba. Az architektúra egy *szegélyhálózatot* (DMZ-t) implementál a helyszíni hálózat és egy Azure Virtual Network (VNet) között. A DMZ hálózati virtuális berendezéseket (network virtual appliance, NVA) tartalmaz, amelyek különböző biztonsági funkciókat implementálnak, például tűzfalakat és csomagvizsgálatot. A VNet kimenő forgalma kényszerített bújtatással jut el az internetre a helyszíni hálózaton keresztül, így ellenőrizhető marad.
+Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba. Az architektúra egy *szegélyhálózatot* (DMZ-t) implementál a helyszíni hálózat és egy Azure Virtual Network (VNet) között. A DMZ hálózati virtuális berendezéseket (network virtual appliance, NVA) tartalmaz, amelyek különböző biztonsági funkciókat implementálnak, például tűzfalakat és csomagvizsgálatot. A VNet kimenő forgalma kényszerített bújtatással jut el az internetre a helyszíni hálózaton keresztül, így ellenőrizhető marad. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
@@ -159,19 +159,55 @@ A rétegek közötti forgalom NSG-k használatával korlátozható. Az üzleti r
 ### <a name="devops-access"></a>Fejlesztési és üzemeltetési hozzáférés
 A fejlesztési és üzemeltetési csapat által az egyes rétegekben végrehajtható műveletek az [RBAC][rbac] használatával korlátozhatók. Engedélyek megadása esetén alkalmazza a [legalacsonyabb jogosultsági szint elvét][security-principle-of-least-privilege]. Naplózzon minden felügyeleti műveletet, és rendszeresen végezzen ellenőrzést. Így meggyőződhet arról, hogy minden konfigurációmódosítás tervezett volt.
 
-## <a name="solution-deployment"></a>A megoldás üzembe helyezése
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a [GitHubon][github-folder]. A referenciaarchitektúra az alábbi utasításokat követve helyezhető üzembe:
+Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a [GitHubon][github-folder]. 
 
-1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fdmz%2Fsecure-vnet-hybrid%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-2. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét:   
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-private-dmz-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-3. Várjon, amíg az üzembe helyezés befejeződik.
-4. A paraméterfájlokban szerepel egy nem módosítható rendszergazdai felhasználónév és jelszó minden virtuális gép számára. Erősen ajánlott mindkettőt azonnal lecserélni. Az üzemelő példány minden virtuális gépe esetében válassza ki a gépet az Azure Portalon, majd a **Támogatás + hibaelhárítás** panelen kattintson a **Jelszó alaphelyzetbe állítása** lehetőségre. A **Mód** legördülő listában válassza a **Jelszó alaphelyzetbe állítása** lehetőséget, majd adjon meg új értéket a **Felhasználónév** és a **Jelszó** mezőben. Kattintson a **Frissítés** gombra a mentéshez.
+### <a name="preequisites"></a>Preequisites
+
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
+
+### <a name="deploy-resources"></a>Erőforrások üzembe helyezése
+
+1. Keresse meg a `/dmz/secure-vnet-hybrid` referencia architektúrák GitHub-adattár mappát.
+
+2. Futtassa az alábbi parancsot:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.json --deploy
+    ```
+
+3. Futtassa az alábbi parancsot:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p secure-vnet-hybrid.json --deploy
+    ```
+
+### <a name="connect-the-on-premises-and-azure-gateways"></a>A helyszíni és az Azure-átjárók csatlakoztatása
+
+Ebben a lépésben két helyi hálózati átjáró csatlakozik.
+
+1. Az Azure Portalon keresse meg a létrehozott erőforráscsoportot. 
+
+2. Keresse meg az erőforrást nevű `ra-vpn-vgw-pip` , és másolja az IP-cím látható a **áttekintése** panelen.
+
+3. Keresse meg az erőforrást nevű `onprem-vpn-lgw`.
+
+4. Kattintson a **konfigurációs** panelen. A **IP-cím**, illessze be a 2. lépésben felírt IP-címet.
+
+    ![](./images/local-net-gw.png)
+
+5. Kattintson a **mentése** és várjon, amíg a művelet befejeződik. Körülbelül 5 percet is igénybe vehet.
+
+6. Keresse meg az erőforrást nevű `onprem-vpn-gateway1-pip`. Másolja ki az IP-cím látható a **áttekintése** panelen.
+
+7. Keresse meg az erőforrást nevű `ra-vpn-lgw`. 
+
+8. Kattintson a **konfigurációs** panelen. A **IP-cím**, illessze be a 6. lépésben felírt IP-címet.
+
+9. Kattintson a **mentése** és várjon, amíg a művelet befejeződik.
+
+10. A kapcsolat ellenőrzéséhez nyissa meg a **kapcsolatok** minden átjáró paneljét. A állapotúnak kell lennie **csatlakoztatva**.
 
 ## <a name="next-steps"></a>További lépések
 

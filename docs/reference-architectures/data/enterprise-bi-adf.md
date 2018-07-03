@@ -1,27 +1,27 @@
 ---
-title: Az SQL-adatraktár és az Azure Data Factory automatizált vállalati BI
-description: Egy Azure ELT munkafolyamat automatizálhatják az Azure Data Factory használatával
+title: Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
+description: Az Azure-ban egy ELT munkafolyamat automatizálása az Azure Data Factory használatával
 author: MikeWasson
 ms.date: 07/01/2018
-ms.openlocfilehash: 36239ce88fa2a80a865a8883e2729d9b7b094268
-ms.sourcegitcommit: d5db5b8ed7429f056130096d0ef4b249b564599a
+ms.openlocfilehash: ffd75ba8c57a9afbc6abad61f21f738c644c9bc8
+ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/01/2018
-ms.locfileid: "37141613"
+ms.lasthandoff: 07/02/2018
+ms.locfileid: "37142281"
 ---
-# <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL-adatraktár és az Azure Data Factory automatizált vállalati BI
+# <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
 
-A referencia-architektúrában bemutatja, hogyan hajthat végre a növekményes betöltése egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kivonat-betöltési-átalakítási) folyamat. Az Azure Data Factory segítségével automatizálhatja a ELT folyamat. A feldolgozási sor Növekményesen helyez a legújabb OLTP adatokat a helyszíni SQL Server-adatbázist az SQL Data Warehouse. Tranzakciós adatok alakul egy táblázatos modell elemzés céljából. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja, hogyan hajthat végre a növekményes betöltése egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kinyerési, betöltési, átalakítási) folyamatot. Azure Data Factory használatával az ELT folyamatok automatizálásához. A folyamat növekményes helyezi át a legújabb OLTP adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-bA. Tranzakciós adatok átalakításának egy táblázatos modell elemzés céljából. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 ![](./images/enterprise-bi-sqldw-adf.png)
 
-Ez az architektúra látható egy épít [az SQL Data Warehouse szolgáltatással vállalati BI](./enterprise-bi-sqldw.md), néhány fontos vállalati adatraktározási forgatókönyvekben szolgáltatásokkal bővíti, de.
+Ez az architektúra épít látható [Enterprise BI és az SQL Data Warehouse](./enterprise-bi-sqldw.md), de bizonyos funkciók, fontos vállalati adatraktározási forgatókönyvekben.
 
--   A Data Factory használatával folyamatának Automation.
--   Növekményes betöltése.
--   Több adatforrást integrálásával.
--   Bináris adatok, például a földrajzi adatok és a képek betöltését.
+-   Automation használatával a Data Factory-folyamatot.
+-   Növekményes betöltés.
+-   Több adatforrás integrálásával.
+-   Bináris adatot, például térinformatikai adatok és lemezképek betöltése.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -29,68 +29,68 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 ### <a name="data-sources"></a>Adatforrások
 
-**Helyszíni SQL Server**. Az adatok a helyszíni SQL Server-adatbázisban található. A helyszíni környezetben, az az architektúra biztosítása a telepített SQL Server Azure virtuális gép üzembe helyezési parancsfájlok szimulálásához. [Wide World Importers OLTP-mintaadatbázist] [wwi] szolgál a forrás-adatbázisként.
+**A helyszíni SQL Server**. Az adatok helyszíni SQL Server-adatbázis található. A helyszíni környezetben, az architektúra üzembe helyezése az Azure-ban telepített SQL Server virtuális gép üzembe helyezési szkriptjei szimulálásához. [Wide World Importers OLTP-mintaadatbázist] [wwi] a forrásadatbázis szolgál.
 
-**Külső adatok**. Az adatraktárak egy általános forgatókönyv integrálásához több adatforrás. A referencia-architektúrában betölt egy külső adathalmaz évente város feltöltések tartalmazza, amely integrálható a az OLTP adatbázis adatait. Használhatja ezeket az adatokat, mint az elemzések: "Nem minden régióban értékesítési növekedés nagyobb vagy populáció növekedésének?"
+**Külső adatok**. Adattárházak gyakran előfordul, hogy több adatforrás integrálhatja. Ez a referenciaarchitektúra egy külső adatkészlet, amely tartalmazza a város feltöltések évek szerint, és integrálja az OLTP adatbázis adataival tölti be. Használhatja ezeket az adatokat például az elemzésekhez: "Nem minden régióban eladások növekedési nagyobb vagy népességnövekedés?"
 
-### <a name="ingestion-and-data-storage"></a>Adatfeldolgozást és adattárolási
+### <a name="ingestion-and-data-storage"></a>Adatfeldolgozási és az adatok tárolása
 
-**BLOB Storage**. A BLOB storage szolgál egy átmeneti területre a forrásadatok azt az SQL Data Warehouse betöltése előtt.
+**A BLOB Storage-**. A BLOB storage lesz egy átmeneti területre a forrásadatok mielőtt betöltené azokat az SQL Data Warehouse-bA.
 
-**Azure SQL Data Warehouse**. [Az SQL Data Warehouse](/azure/sql-data-warehouse/) egy elosztott rendszer készült elemzés végrehajtásához, nagy. Támogatja a jelentős olyan párhuzamos feldolgozási (MPP), épp ezért kiválóan alkalmas a nagy teljesítményű analytics futtatásához. 
+**Azure SQL Data Warehouse**. [Az SQL Data Warehouse](/azure/sql-data-warehouse/) egy elosztott rendszer analytics végre, a nagy mennyiségű adat. Támogatja a nagy olyan párhuzamos feldolgozási (MPP), épp ezért kiválóan alkalmas nagy teljesítményű elemzési futtatásához. 
 
-**Az Azure Data Factory**. [Adat-előállító] [adf] koordinálja és automatizálja az adatmozgás és adatok átalakítása felügyelt szolgáltatás. Ebben az architektúrában koordinálja a ELT folyamat különböző szakaszaiban.
+**Az Azure Data Factory**. [A data Factory] [adf] egy felügyelt szolgáltatás, amellyel előkészíthető és automatizálható az adatok áthelyezését és átalakítását. Ebben az architektúrában koordinálja a ELT folyamat különböző szakaszaiban.
 
-### <a name="analysis-and-reporting"></a>Elemzési és jelentéskészítési
+### <a name="analysis-and-reporting"></a>Elemzés és jelentéskészítés
 
-**Az Azure Analysis Services**. [Analysis Services](/azure/analysis-services/) egy teljes körűen felügyelt szolgáltatás, amely a modellezési képességekkel adatokat biztosít. A szemantikai modell Analysis Services-bA betöltött.
+**Az Azure Analysis Services**. [Analysis Services](/azure/analysis-services/) egy teljes körűen felügyelt szolgáltatás, amely adatmodellezési képességekkel. A szemantikai modell betöltött Analysis Services.
 
-**Power BI**. A Power BI eszközcsomagot jelent üzleti analytics üzleti elemzések készítése adatok elemzésére. Ebben az architektúrában lekéri az Analysis Servicesben tárolt a szemantikai modellben.
+**Power BI**. A Power BI egy üzleti elemzési eszközök az üzleti elemzések készítése adatelemzéshez együttese. Ebben az architektúrában a szemantikai modell az Analysis Servicesben tárolt kérdezi le.
 
 ### <a name="authentication"></a>Hitelesítés
 
-**Az Azure Active Directory** (az Azure AD) hitelesíti a Power BI Analysis Services-kiszolgálóhoz csatlakozó felhasználók számára.
+**Az Azure Active Directory** (Azure AD) hitelesíti a felhasználók, akik a Power bi-ban az Analysis Services-kiszolgálóhoz csatlakozhat.
 
-Adat-előállító segítségével is használja az Azure AD az SQL Data Warehouse egy egyszerű vagy egy felügyelt szolgáltatás identitásának (MSI) használatával hitelesíteni. Az egyszerűség kedvéért központi telepítésre példát a SQL Server-hitelesítést használ.
+A Data Factory használatával is az Azure AD hitelesítése az SQL Data Warehouse, egy szolgáltatásnév vagy a Felügyeltszolgáltatás-identitás (MSI). Az egyszerűség kedvéért a központi telepítésre példát az SQL Server-hitelesítést használ.
 
 ## <a name="data-pipeline"></a>Adatfolyamat
 
-[Azure Data Factory] [adf], a folyamat feladat koordinálja tevékenységek logikai csoportosítása &mdash; ebben az esetben be- és az SQL Data Warehouse-adatok átalakítása. 
+Az [Azure Data Factoryban] [adf], egy folyamatot a feladat koordinálja a tevékenységek logikus csoportosításai egy &mdash; ebben az esetben be- és az adatok átalakítása az SQL Data Warehouse-bA. 
 
-A referencia-architektúrában definiál egy fő folyamat, amely gyermek folyamatok sorozatát futtatja. Minden gyermek csővezeték adatokat tölt be egy vagy több data warehouse tábláiba.
+Ez a referenciaarchitektúra egy fő folyamatot, amely gyermek folyamatok sorozatát futtatja határozza meg. Minden egyes gyermek folyamat adatokat tölt be egy vagy több adattárház táblái.
 
 ![](./images/adf-pipeline.png)
 
-## <a name="incremental-loading"></a>Növekményes betöltése
+## <a name="incremental-loading"></a>Növekményes betöltés
 
-Egy automatikus ETL vagy ELT folyamat futtatásakor csak a megváltozott, mióta az előző futtatása adatok betöltésére. Ez a lehetőség egy *növekményes terhelés*, és nem a betölti az összes adat egy teljes terhelése. Hajtsa végre egy növekményes terhelés, kell azonosítani tudja, melyik adatok változásairól. A leggyakrabban használt módszer az, hogy használja a *magas vízjel alapján* érték, amely azt jelenti, hogy a legutóbbi értékét a forrástáblában, dátum és idő oszlop vagy egy egyedi egészszám-oszloppal néhány oszlop nyomon követése. 
+Automatikus ETL vagy ELT folyamat futtatásakor a leghatékonyabb csak, mivel az előző futtatása az adatok betöltéséhez. Ezt nevezzük egy *növekményes betöltés*, és ne pedig a teljes terhelés, az adatok betöltésekor. Egy növekményes betöltési végrehajtásához kell azonosítani tudja, mely adatok módosultak. A leggyakrabban használt módszer az, hogy használjon egy *magas vízjelbe beleszámított* érték, ami azt jelenti, hogy nyomon követése a legújabb értékeket néhány oszlop a forrástábla, vagy egy dátum-idő oszlop, vagy egy egyedi egész számokat tartalmazó oszlopot. 
 
-SQL Server 2016-os verziótól kezdődően használhatja [ideiglenes táblák](/sql/relational-databases/tables/temporal-tables). Ezek a rendszerverzióval ellátott táblákon, amely az adatmódosítások teljes megőrzése. Az adatbázis-kezelő automatikusan egy külön tábla minden változás előzményadatait rögzíti. A korábbi adatok lekérheti a lekérdezés egy FOR SYSTEM_TIME záradék hozzáadásával. Belsőleg az adatbázismotor lekérdezi a előzménytábla, ez azonban átlátható az alkalmazás. 
+Az SQL Server 2016 kezdve használhatja [időbeli verziózású táblák](/sql/relational-databases/tables/temporal-tables). Ezek a rendszerverzióval ellátott táblákon, hogy az adatok teljes előzményeit. Az adatbázismotor automatikusan rögzíti a külön előzménytábla minden módosítási előzményeit. Az előzményadatok lekérdezheti, ha egy FOR SYSTEM_TIME záradékot ad hozzá egy lekérdezést. Belsőleg az adatbázismotor lekérdezi az előzménytáblában, de ez átlátható az alkalmazás. 
 
 > [!NOTE]
-> Az SQL Server korábbi verzióit használhatja [adatváltozás-rögzítés](/sql/relational-databases/track-changes/about-change-data-capture-sql-server) (CDC). Ezt a módszert nem ideiglenes táblák, mint kisebb kényelmes, mert van egy különálló módosítási táblából, és kötetblokkok változásait időbélyeg helyett olyan naplósorszámot. 
+> Az SQL Server korábbi verzióit használhatja [adatváltozás-rögzítési](/sql/relational-databases/track-changes/about-change-data-capture-sql-server) (CDC). Ez a megközelítés akkor időbeli verziózású táblák,-nál kevesebb kényelmes, mert rendelkezik egy különálló módosítási táblából, és kötetblokkok változásait a napló sorszáma, nem pedig egy időbélyeg. 
 
-A historikus táblák hasznosak dimenzió adatokat, amelyek idővel megváltozhat. A ténytáblák általában egy módosítható tranzakció, például egy pénztári, ebben az esetben megőrzi a rendszer verziójának előzményei értelmetlen jelölik. Ehelyett tranzakciók általában kell egy olyan oszlopot, amely a tranzakció dátuma, amely a vízjel értékként használható jelöli. Például a Wide World Importers OLTP adatbázismodell a Sales.Invoices és Sales.InvoiceLines kell egy `LastEditedWhen` mező, amely alapértelmezés szerint az `sysdatetime()`. 
+Historikus táblák dimenzió az adatokat, amelyek idővel hasznosak. A ténytáblák általában egy nem módosítható tranzakció, például egy rendelést a táblagépükről, ebben az esetben a rendszer verziójának előzményei tartja értelmetlen képviseli. Ehelyett a tranzakciók általában rendelkeznek egy oszlopot, amely a tranzakció dátuma, amelyek használhatók a küszöbértékek jelöli. Például a Wide World Importers OLTP adatbázis a Sales.Invoices és Sales.InvoiceLines tábla rendelkezik egy `LastEditedWhen` mező, amely alapértelmezés szerint a `sysdatetime()`. 
 
-Az általános folyamat a ELT adatcsatorna itt található:
+Itt látható az általános folyamat az ELT folyamatok:
 
-1. Minden táblához adatbázisában, amikor a legutóbbi ELT feladat futtatta levágási idejének nyomon követésére. Az adatraktárban tárolja az adatait. (A kezdeti beállítás mindig lesz állítva "1-1-1900".)
+1. A forrásadatbázis minden táblához nyomon követheti a megszakítási idő, amikor az utolsó ELT feladat futott. Ez az információ Store az adatraktárban. (A kezdeti beállítás, minden esetben vannak beállítva: 1-1-1900-hoz ".)
 
-2. Során az adatok exportálása a lépést, a megadott idő objektumnak átadott paraméterként adatbázisában tárolt eljárások. A tárolt eljárások lekérdezés megváltozott vagy a megadott idő után létrehozott bejegyzésekhez. Az értékesítési ténytábla a `LastEditedWhen` oszlopot használja. A dimenzió adatok rendszerverzióval ellátott historikus táblákon szolgálnak.
+2. Során az adatok exportálása a lépést, a megszakítási idő tárolt eljárások a forrásadatbázis átadott paraméterként. Ezek tárolt eljárások lekérdezést, amelyet a megszakítási idő után létrehozott vagy megváltozott rekordokat. A Sales (tény) tábla a `LastEditedWhen` oszlopot használja. A dimenzió adatok rendszerverzióval ellátott historikus táblákon szolgálnak.
 
-3. Az adatáttelepítés végeztével frissítse a tábla tárolja a megadott időpontban.
+3. Ha az adatok migrálása befejeződött, frissítse a tábla tárolja a megszakítási idő.
 
-Is célszerű jegyezze fel a *Leszármaztatás* az egyes ELT futtatásához. Egy adott rekord a Leszármaztatás társítja a rekord, futtassa a ELT előállított adatokat. Minden táblának megjelenítő kezdő és záró betöltési idők minden egyes ETL futtatásához egy új Leszármaztatás rekord jön létre. A rekordokban Leszármaztatás kulcsokat a dimenzió és a ténytáblákat táblákban tárolódnak.
+Emellett akkor is hasznos, jegyezze fel a *leszármaztatási* esetében minden egyes Futtatás ELT. Egy adott rekord a leszármaztatási társítja, amely az adatok előállított rekordot a ELT, futtassa a. Az egyes ETL futtatások mindegyik táblához, megjeleníti a kezdési és befejezési lapbetöltési idők leszármaztatási új rekord jön létre. A leszármaztatási kulcsok minden egyes rekord a dimenzió és a ténytáblákat táblákban tárolódnak.
 
 ![](./images/city-dimension-table.png)
 
-Az adatraktár egy új köteg adatok tölti be, miután frissítése az Analysis Services táblázatos modell. Lásd: [aszinkron frissítse a REST API-val](/azure/analysis-services/analysis-services-async-refresh).
+Után az adatok egy új batch tölti be az adatraktár, frissítse az Analysis Services táblázatos modellt. Lásd: [aszinkron frissítése a REST API-val](/azure/analysis-services/analysis-services-async-refresh).
 
-## <a name="data-cleansing"></a>Adatok tisztítása
+## <a name="data-cleansing"></a>Adattisztító
 
-Adatok tisztítására a ELT folyamat részének kell lennie. A referencia-architektúrában egy hibás adat forrása a város feltöltési táblában, ahol egyes városokat rendelkeznek nulla feltöltési esetleg mert adatot nem volt elérhető. A feldolgozás során az a ELT-feldolgozási folyamat ezen városokat eltávolítja a város feltöltési táblából. Az előkészítési táblák, nem pedig külső táblák tisztításokat végezhet.
+Adattisztítás ELT folyamatának részeként kell lennie. Ez a referenciaarchitektúra egy hibás adatforrás a város population táblában, ahol egyes városoknak rendelkezik nulla population például mert nincs adat nem volt elérhető. A feldolgozás során az ELT folyamatok eltávolítja a kiválasztott városok az városa population tábla. Hajtsa végre az előkészítési táblák ahelyett, hogy a külső táblák adattisztító.
 
-Ez a tárolt eljárás, amely nulla feltöltési rendelkező városokat eltávolítja a város feltöltési táblából. (A forrásfájl található [Itt](https://github.com/mspnp/reference-architectures/blob/master/data/enterprise_bi_sqldw_advanced/azure/sqldw_scripts/citypopulation/%5BIntegration%5D.%5BMigrateExternalCityPopulationData%5D.sql).) 
+Íme a tárolt eljárást, amely a várost, a nulla population eltávolítja az városa Population táblából. (A forrásfájl annak [Itt](https://github.com/mspnp/reference-architectures/blob/master/data/enterprise_bi_sqldw_advanced/azure/sqldw_scripts/citypopulation/%5BIntegration%5D.%5BMigrateExternalCityPopulationData%5D.sql).) 
 
 ```sql
 DELETE FROM [Integration].[CityPopulation_Staging]
@@ -103,43 +103,43 @@ HAVING COUNT(RowNumber) = 4)
 
 ## <a name="external-data-sources"></a>Külső adatforrások
 
-Az adatraktárak gyakran több forrásból származó adatok összesítése. A referencia-architektúrában betölti demográfiai adatait tartalmazó külső adatforráshoz. Ez az adatkészlet érhető el az Azure blob storage részeként a [WorldWideImportersDW](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/wide-world-importers/sample-scripts/polybase) minta.
+Adattárházak gyakran több forrásból származó adatok egyesíthetők. Ez a referenciaarchitektúra egy külső adatforrás, amely tartalmazza a demográfiai adatokat tölt be. Ez az adatkészlet érhető el az Azure blob storage-ban részeként a [WorldWideImportersDW](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/wide-world-importers/sample-scripts/polybase) minta.
 
-Az Azure Data Factory közvetlenül átmásolhatja blob storage használata a [blob-tároló összekötő](/azure/data-factory/connector-azure-blob-storage). Azonban az összekötő számára szükséges kapcsolati karakterláncot vagy a közös hozzáférésű jogosultságkód, ezért nem használható nyilvános olvasási hozzáférés a blob másolása. Megoldás a PolyBase használatával létrehoz egy külső táblát a Blob storage keresztül, és másolja a külső táblákhoz az SQL Data Warehouse. 
+Az Azure Data Factory másolhatja, közvetlenül a blob storage használatával a [blob storage-összekötő](/azure/data-factory/connector-azure-blob-storage). Azonban az összekötő számára szükséges kapcsolati karakterlánc vagy közös hozzáférésű jogosultságkódot, így nem használható nyilvános olvasási hozzáférés a blob másolásához. Áthidaló megoldásként használhatja a PolyBase külső tábla létrehozása tárt a Blob storage, és másolja a külső táblák az SQL Data Warehouse-bA. 
 
-## <a name="handling-large-binary-data"></a>Nagy bináris adatok kezelése 
+## <a name="handling-large-binary-data"></a>Nagy méretű bináris adatok kezelése 
 
-A forrásadatbázis városokat táblához birtokló hely oszlop egy [geográfiai](/sql/t-sql/spatial-geography/spatial-types-geography) térbeli adatok típusa. Az SQL Data Warehouse nem támogatja a **geográfiai** írja be a natív módon, így ez a mező alakítja át a **varbinary** típus betöltése során. (Lásd: [nem támogatott adattípusú megoldásai](/azure/sql-data-warehouse/sql-data-warehouse-tables-data-types#unsupported-data-types).)
+A forrás-adatbázisban, a városok táblának van egy hely oszlopot tartalmazó egy [földrajzi](/sql/t-sql/spatial-geography/spatial-types-geography) térbeli adatok típusa. Az SQL Data Warehouse nem támogatja a **földrajzi** írja be a natív módon, így ez a mező alakítja át egy **varbinary** típus betöltése során. (Lásd: [nem támogatott adattípusok megoldásai](/azure/sql-data-warehouse/sql-data-warehouse-tables-data-types#unsupported-data-types).)
 
-Ugyanakkor támogatja a PolyBase az oszlop maximális méretet `varbinary(8000)`, ami azt jelenti, hogy néhány adat csonkolódik. A megoldás a probléma, hogy feloszthatja az adatok adattömbökbe exportálás során, és majd állítják vissza a adattömböket, az alábbiak szerint:
+Azonban a PolyBase támogatja egy oszlop maximális mérete `varbinary(8000)`, ami azt jelenti, hogy néhány adat csonkolódik. A probléma áthidaló felosztása a adatokat adattömbökre exportálás során, és ezután szétbontani módon az adattömböket:
 
-1. A hely oszlopban egy ideiglenes előkészítési tábla létrehozása.
+1. Hozzon létre egy átmeneti előkészítési táblába, az a hely oszlopban.
 
-2. Mindegyik városhoz ossza fel a helyadatok 8000 bájtos adattömböket, ami azt eredményezi, 1 &ndash; mindegyik városhoz N sorát.
+2. Mindegyik városhoz ossza fel a helyadatok 8000 bájtos adattömböket, ami 1 &ndash; mindegyik városhoz N sorát.
 
-3. Az adattömbök elhelyezkedését, használja a T-SQL [PIVOT](/sql/t-sql/queries/from-using-pivot-and-unpivot) sorok átalakítás oszlopokba, és ezután az egyes város oszlopértékeit összefűzésére operátor.
+3. Az adattömbök szétbontani, használja a T-SQL [PIVOT](/sql/t-sql/queries/from-using-pivot-and-unpivot) operátor sorok átalakítása oszlopokat, és majd összefűzi a minden Város oszlop értékeit.
 
-A probléma az, hogy minden egyes város felosztása sorok, a földrajzi adatok méretétől függően különböző számú. A PIVOT operátorban működjön minden város azonos számú sort kell rendelkeznie. -Re, a T-SQL-lekérdezések (amelyet meg lehet tekinteni [here][MergeLocation]) létezik néhány ütés üres értékeket tartalmazó sorok ismételt kitöltésére úgy, hogy minden város azonos számú oszlopot a PowerPivot után. Az eredményül kapott lekérdezés elemről kiderül, hogy sokkal gyorsabb, mint a sorokat egy ismétlése egyszerre kell.
+A kihívás abban áll, hogy minden egyes az városa felosztása egy eltérő mennyiségű sor, a földrajzi adatok méretétől függően. A PIVOT operátorban működjön minden az városa ugyanannyi sort kell rendelkeznie. Működnek, a T-SQL-lekérdezés (amelyet meg lehet tekinteni [here][MergeLocation]) hajtja végre bizonyos trükköket üres értékeket tartalmazó sorok ismételt kitöltésére, hogy minden városhoz azonos számú oszlopot a pivot után. Az eredményül kapott lekérdezés elemről kiderül, hogy sokkal gyorsabb, mint a sorokat egy ismétlése egyszerre kell.
 
-Ugyanezt a megközelítést képadatok szolgál.
+Ugyanezzel a módszerrel képadatok szolgál.
 
-## <a name="slowly-changing-dimensions"></a>Lassú a dimenziók módosítása
+## <a name="slowly-changing-dimensions"></a>Lassan változó dimenzió
 
-Dimenzió adatok viszonylag statikus, de ez módosítható. A termék például egy másik termékkel kategóriához beolvasása rendelik. Nincsenek lassan módosítása a dimenziók kezelésével több megközelítés közül. Egy közös technika, úgynevezett [típus 2](https://wikipedia.org/wiki/Slowly_changing_dimension#Type_2:_add_new_row), adjon hozzá egy új rekordot, amikor egy dimenzió módosítások-hoz. 
+Dimenzió adatok viszonylag statikusak, de módosíthatja azt. Termék például egy másik termékkel kategóriához első hozzárendelni. Nincsenek a lassan változó dimenzió kezelése több megközelítés közül. Egy közös leképezésnek hívott technika [Type 2](https://wikipedia.org/wiki/Slowly_changing_dimension#Type_2:_add_new_row), adjon hozzá egy új rekordot, amikor egy dimenzió módosítások. 
 
-Ahhoz, hogy a típus 2 megközelítés implementálása a dimenziótáblák kell további oszlopokat, amelyek egy adott rekord érvényes dátumtartományt. Is a forrásadatbázisból elsődleges kulcsok fog lehet duplikálni, így a dimenziótáblában egy mesterséges elsődleges kulccsal kell rendelkeznie.
+A Type 2 megközelítés megvalósításához dimenziótáblák kell további oszlopokat, amelyek egy adott rekord érvényes dátumtartományt. Is a forrásadatbázisból elsődleges kulcsok többszörözni, így a táblát egy mesterséges elsődleges kulccsal kell rendelkeznie.
 
-A következő kép bemutatja a Dimension.City tábla. A `WWI City ID` oszlop az elsődleges kulcsot a forrás-adatbázisból. A `City Key` oszlop, mint egy mesterséges kulcs az ETL-folyamat során. Is figyelje meg, hogy a tábla tartalmaz `Valid From` és `Valid To` oszlop, adja meg a tartomány minden egyes sorára volt érvényes. Aktuális értékei egy `Valid To` egyenlő "9999-12-31'.
+Az alábbi képen látható a Dimension.City tábla. A `WWI City ID` oszlop az elsődleges kulcsot a forrásadatbázisból. A `City Key` oszlop egy az ETL-folyamat során létrehozott mesterséges kulcsot. Figyelje meg, hogy a tábla rendelkezik `Valid From` és `Valid To` oszlopot, így tartományának megadása, ha minden sor volt érvényes. Aktuális értékek rendelkezik egy `Valid To` egyenlő "9999-12-31'.
 
 ![](./images/city-dimension-table.png)
 
-Ez a megközelítés előnye megőrzi az előzményadatok, amely elemzés igen hasznos lehet. Azonban azt is jelenti a ugyanaz az entitás több sort lesz. Például az alábbiakban a megfelelő rekordok `WWI City ID` = 28561:
+Ez a megközelítés az az előnye, megőrzi az előzményadatok, amely elemzéshez hasznos lehet. Azonban azt is jelenti az ugyanazon entitás több sor lesz. Például az alábbiakban a megfelelő rekordok `WWI City ID` = 28561:
 
 ![](./images/city-dimension-table-2.png)
 
-Minden egyes forgalmi tény szeretné, hogy a tény társítandó város dimenzió tábla, egy sorban a számla dátumnak megfelelő. Az ETL-folyamat részeként egy további oszlop létrehozása, amely 
+Az egyes értékesítési egyedkapcsolat szeretné a tény társítása az városa dimenziótábla, egyetlen sor invoice Date megfelelő. Az ETL-folyamat részeként egy további oszlop létrehozása, amely 
 
-A következő T-SQL-lekérdezés ideiglenes táblát hoz létre minden egyes számla társítja a megfelelő város kulcsot a város dimenzió táblából.
+A következő T-SQL-lekérdezést hoz létre egy ideiglenes táblát, amely összekapcsolja minden számlán a megfelelő várost kulcsot az városa dimenzió táblából.
 
 ```sql
 CREATE TABLE CityHolder
@@ -159,80 +159,72 @@ SELECT DISTINCT s1.[WWI Invoice ID] AS [WWI Invoice ID],
 
 ```
 
-Ez a táblázat az értékesítési ténytábla oszlopát feltölti a következőkre használható:
+Ez a táblázat egy oszlopot a értékesítés ténytáblában feltöltésére szolgál:
 
 ```sql
 UPDATE [Integration].[Sale_Staging]
 SET [Integration].[Sale_Staging].[WWI Customer ID] =  CustomerHolder.[WWI Customer ID]
 ```
 
-Ez az oszlop lehetővé teszi, hogy a Power BI-lekérdezést a helyes város bejegyzés egy adott értékesítési számla.
+Ez az oszlop lehetővé teszi, hogy a Power BI lekérdezés keresse meg a megfelelő várost rekordot egy megadott értékesítési számla.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Használhatja a fokozott biztonság érdekében [virtuális hálózati Szolgáltatásvégpontok](/azure/virtual-network/virtual-network-service-endpoints-overview) csak a virtuális hálózat az Azure-szolgáltatások erőforrások biztonságossá tételére. Teljes távolítja el ezeket az erőforrásokat, átengedi a forgalmat a virtuális hálózat csak a nyilvános Internet-hozzáférést.
+A fokozott biztonság érdekében használhat [virtuális hálózati Szolgáltatásvégpontok](/azure/virtual-network/virtual-network-service-endpoints-overview) biztonságossá tétele Azure-szolgáltatási erőforrások a virtuális hálózaton. Ezzel eltávolítja ezeket az erőforrásokat, így csak a virtuális hálózatból érkező forgalom nyilvános internetkapcsolaton keresztüli hozzáférés teljes mértékben.
 
-Ezt a módszert használja hozzon létre egy Vnetet az Azure-ban, és létrehozhat saját Szolgáltatásvégpontok az Azure-szolgáltatásokhoz. Ezek a szolgáltatások majd az adott virtuális hálózati forgalom korlátozódik. Is elérhető azokat a helyi hálózatról átjárón keresztül.
+Ezzel a módszerrel hozhat létre egy Vnetet az Azure-ban, és hozzon létre saját Szolgáltatásvégpontok az Azure-szolgáltatásokhoz. Ezeket a szolgáltatásokat majd korlátozva vannak a forgalom a virtuális hálózatról. Is elérheti azokat a helyszíni hálózatból egy átjárón keresztül.
 
 Vegye figyelembe a következő korlátozások vonatkoznak:
 
-- Időben a referencia-architektúrában jött létre, Szolgáltatásvégpontok támogatott Azure tárolási és az Azure SQL Data Warehouse, de nem Azure Analysis Service VNet. A legfrissebb állapotának [Itt](https://azure.microsoft.com/updates/?product=virtual-network). 
+- A időben Ez a referenciaarchitektúra lett létrehozva, a virtuális hálózati Szolgáltatásvégpontok Azure Storage és Azure SQL Data warehouse-ba, de az Azure Analysis Service a nem támogatott. A legfrissebb állapotának [Itt](https://azure.microsoft.com/updates/?product=virtual-network). 
 
-- Ha Szolgáltatásvégpontok engedélyezve vannak az Azure Storage, a PolyBase az SQL Data Warehouse nem lehet másolni adatok a tároló. A megoldás a probléma van. További információkért lásd: [VNet Szolgáltatásvégpontok használata az Azure storage hatását](/azure/sql-database/sql-database-vnet-service-endpoint-rule-overview?toc=%2fazure%2fvirtual-network%2ftoc.json#impact-of-using-vnet-service-endpoints-with-azure-storage). 
+- Ha a Szolgáltatásvégpontok engedélyezve vannak az Azure Storage, a PolyBase nem adatmásolás Storage-ból az SQL Data Warehouse-bA. Nincs egy megoldás erre a problémára. További információkért lásd: [hatását a virtuális hálózati Szolgáltatásvégpontok használatával és az Azure storage](/azure/sql-database/sql-database-vnet-service-endpoint-rule-overview?toc=%2fazure%2fvirtual-network%2ftoc.json#impact-of-using-vnet-service-endpoints-with-azure-storage). 
 
-- Az Azure Storage helyez át adatokat a helyszíni, akkor nyilvános IP-címek engedélyezési listája a helyszíni vagy ExpressRoute. További információkért lásd: [virtuális hálózatok védelmét biztosító Azure-szolgáltatások](/azure/virtual-network/virtual-network-service-endpoints-overview#securing-azure-services-to-virtual-networks).
+- Adatok áthelyezése a helyszínről az Azure Storage-ba, szüksége lesz a nyilvános IP-címeket a helyszíni vagy ExpressRoute. További információkért lásd: [virtuális hálózatok biztonságossá tétele Azure-szolgáltatások](/azure/virtual-network/virtual-network-service-endpoints-overview#securing-azure-services-to-virtual-networks).
 
-- Ahhoz, hogy az Analysis Services adatokat olvasni az SQL Data Warehouse, telepítse a Windows virtuális Gépet a virtuális hálózat, amely tartalmazza az SQL Data Warehouse szolgáltatásvégpontot. Telepítés [Azure a helyszíni adatátjáró](/azure/analysis-services/analysis-services-gateway) a virtuális Gépet. Az Azure Analysis service majd csatlakozni a data gateway.
+- Ahhoz, hogy az Analysis Services adatokat olvasni az SQL Data Warehouse, Windows virtuális gép üzembe helyezése a virtuális hálózathoz, amely tartalmazza az SQL Data Warehouse szolgáltatásvégpontot. Telepítés [Azure a helyszíni adatátjáró](/azure/analysis-services/analysis-services-gateway) a virtuális gépen. Kapcsolódjon az Azure elemzési szolgáltatás az átjárót.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A központi telepítés a referenciaarchitektúra [GitHub] [ref-architektúrája-tárház-mappa] érhető el. A következőket helyezi üzembe:
+Ez a referenciaarchitektúra egy üzemelő példánya [GitHub] [ref-arch-adattár-mappa] érhető el. A következőket helyezi üzembe:
 
-  * Windows virtuális gép egy helyi adatbázis-kiszolgáló szimulálásához. SQL Server 2017 és a kapcsolódó eszközök, valamint Power BI Desktop tartalmaz.
-  * Egy Azure storage-fiók, amely Blob-tároló az SQL Server adatbázisból exportált adatok tárolásához.
+  * Windows virtuális gép egy helyszíni adatbázis-kiszolgáló szimulálásához. Ez magában foglalja az SQL Server 2017-ben és a kapcsolódó eszközök, Power BI Desktop együtt.
+  * Azure storage-fiókkal, amely biztosít a Blob storage, az SQL Server-adatbázisból exportált adatok tárolásához.
   * Egy Azure SQL Data Warehouse-példányhoz.
-  * Egy Azure Analysis Services-példányon.
-  * Az Azure Data Factory és a Data Factory-folyamathoz, ELT feladat.
+  * Az Azure Analysis Services-példányt.
+  * Az Azure Data Factory és a Data Factory-folyamatot a ELT-feladathoz.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozás, elágazás vagy az [Azure hivatkozás architektúrák] [ref-architektúrája-tárház] GitHub tárház zip-fájl letöltése.
-
-2. Telepítse az [Azure építőelemeket] [azbb-wiki] (azbb).
-
-3. A Power BI Desktop kapcsolatos további információkért lásd: első lépések a Power BI Desktop.
-
-    ```bash
-    az login  
-    ```
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
 ### <a name="variables"></a>Változók
 
-A következő lépések bizonyos felhasználói változók tartalmazzák. Szüksége lesz az Ön által meghatározott értékeket cseréli le.
+A következő lépések tartalmazzák a felhasználó által definiált változókat. Cserélje le ezeket az Ön által meghatározott értékeket kell.
 
-- `<data_factory_name>`. Adat-előállító neve.
+- `<data_factory_name>`. Adat-előállító nevét.
 - `<analysis_server_name>`. Analysis Services-kiszolgáló neve.
 - `<active_directory_upn>`. Az Azure Active Directory egyszerű felhasználónév (UPN). Például: `user@contoso.com`.
 - `<data_warehouse_server_name>`. Az SQL Data Warehouse-kiszolgáló neve.
-- `<data_warehouse_password>`. Az SQL Data Warehouse rendszergazdai jelszót.
+- `<data_warehouse_password>`. Az SQL Data Warehouse-rendszergazdai jelszót.
 - `<resource_group_name>`. Az erőforráscsoport neve.
-- `<region>`. Az Azure-régió, hova szeretné telepíteni az erőforrásokat.
-- `<storage_account_name>`. Tárfiók neve. Hajtsa végre a [elnevezési szabályait](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) Storage-fiókok.
-- `<sql-db-password>`. SQL Server bejelentkezési jelszót.
+- `<region>`. A Azure régióban, ahol az erőforrások üzembe helyezve.
+- `<storage_account_name>`. Tárfiók neve. Hajtsa végre a [elnevezési szabályok](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) tárfiókok esetében.
+- `<sql-db-password>`. Az SQL Server bejelentkezési jelszót.
 
-### <a name="deploy-azure-data-factory"></a>Az Azure Data Factory telepítése
+### <a name="deploy-azure-data-factory"></a>Az Azure Data Factory üzembe helyezése
 
-1. Keresse meg a `data\enterprise_bi_sqldw_advanced\azure\templates` mappa [GitHub-tárház] [ref-architektúrája-tárház].
+1. Keresse meg a `data\enterprise_bi_sqldw_advanced\azure\templates` mappa [GitHub-adattár] [ref-arch-tárház].
 
-2. A következő parancsot az Azure parancssori felület futtatásával hozzon létre egy erőforráscsoportot.  
+2. Futtassa a következő Azure CLI-paranccsal hozzon létre egy erőforráscsoportot.  
 
     ```bash
     az group create --name <resource_group_name> --location <region>  
     ```
 
-    Adja meg, amely támogatja az SQL Data Warehouse, az Azure Analysis Services és a Data Factory v2 egy régiót. Lásd: [régiónként Azure termékek](https://azure.microsoft.com/global-infrastructure/services/)
+    Adja meg, amely támogatja az SQL Data Warehouse, az Azure Analysis Services és a Data Factory v2 egy régiót. Lásd: [az Azure-termékek régiók szerint](https://azure.microsoft.com/global-infrastructure/services/)
 
-3. A következő parancsot
+3. A következő parancs futtatásával
 
     ```
     az group deployment create --resource-group <resource_group_name> \
@@ -240,38 +232,38 @@ A következő lépések bizonyos felhasználói változók tartalmazzák. Szüks
         --parameters factoryName=<data_factory_name> location=<location>
     ```
 
-Ezt követően az Azure portál használatával a hitelesítési kulcs lekérése az Azure Data Factory [integrációs futásidejű](/azure/data-factory/concepts-integration-runtime), az alábbiak szerint:
+Ezután az Azure Portal használatával a hitelesítési kulcs lekérése az Azure Data Factory [integrációs modul](/azure/data-factory/concepts-integration-runtime), az alábbiak szerint:
 
-1. Az a [Azure Portal](https://portal.azure.com/), keresse meg a Data Factory-példány.
+1. Az a [az Azure Portal](https://portal.azure.com/), keresse meg a Data Factory-példányt.
 
-2. A Data Factory paneljén kattintson **Szerző & figyelő**. Az Azure Data Factory portálon ekkor megnyílik egy másik böngészőablakban.
+2. A Data Factory panelen kattintson a **létrehozás és Monitorozás**. Ekkor megnyílik az Azure Data Factory portálon egy másik böngészőablakban.
 
     ![](./images/adf-blade.png)
 
-3. Az Azure Data Factory-portálon válassza ki a ceruza ikonra ("Szerző"). 
+3. Az Azure Data Factory-portálon válassza a ceruza ikonra ("Szerző"). 
 
-4. Kattintson a **kapcsolatok**, majd válassza ki **integrációs futtatókörnyezetek**.
+4. Kattintson a **kapcsolatok**, majd válassza ki **integrációs modulok**.
 
-5. A **sourceIntegrationRuntime**, kattintson a ceruza ikonra ("Edit").
+5. A **sourceIntegrationRuntime**, kattintson a ceruza ikonra ("Szerkesztés").
 
     > [!NOTE]
-    > A portálon jelennek meg a "nem érhető el" állapotának. Ez egy várható üzenet, amíg a helyszíni kiszolgáló központi telepítése.
+    > A portálon az jelenik meg a "nem" állapot. Ez várható, amíg a helyszíni kiszolgálón telepít.
 
-6. Található **Key1** , és másolja a hitelesítési kulcs értékét.
+6. Keresés **Key1** , és másolja a hitelesítési kulcs értékét.
 
 Szüksége lesz a hitelesítési kulcs a következő lépéssel.
 
-### <a name="deploy-the-simulated-on-premises-server"></a>A referencia-architektúrában kapcsolatos további információkért látogasson el a GitHub-tárházban.
+### <a name="deploy-the-simulated-on-premises-server"></a>A szimulált helyszíni kiszolgáló üzembe helyezése
 
-Ebben a lépésben egy virtuális Gépet, amely tartalmazza az SQL Server 2017 és a kapcsolódó eszközök szimulált helyszíni kiszolgálóként központilag telepíti. Azt is betölti a [Wide World Importers OLTP adatbázis] [wwi] az SQL-kiszolgálóra.
+Ebben a lépésben egy szimulált helyszíni kiszolgálóként, amely tartalmazza az SQL Server 2017-ben és a kapcsolódó eszközök üzembe helyez egy virtuális Gépet. Emellett betölti a [Wide World Importers OLTP adatbázis] [wwi] SQL-kiszolgálóra.
 
-1. Keresse meg a `data\enterprise_bi_sqldw_advanced\onprem\templates` a tárház mappát.
+1. Keresse meg a `data\enterprise_bi_sqldw_advanced\onprem\templates` mappában található az adattárban.
 
-2. Az a `onprem.parameters.json` fájlt, keresse meg `adminPassword`. Ez az a jelszót az SQL Server Virtuálisgép jelentkezni. Cserélje le az érték egy másik jelszót.
+2. Az a `onprem.parameters.json` fájlt, keressen rá a `adminPassword`. Ez az a jelszó az SQL Server VM-ba való bejelentkezéshez. Cserélje le az értéket egy másik jelszót.
 
-3. A ugyanazt a fájlt, keresse meg a `SqlUserCredentials`. Ez a tulajdonság határozza meg az SQL Server fiók hitelesítő adatait. A jelszó cseréje egy másik értéket.
+3. Ugyanebben a fájlban lévő keresése `SqlUserCredentials`. Ez a tulajdonság határozza meg az SQL Server fiók hitelesítő adatait. Cserélje le a jelszót egy másik értéket.
 
-4. Ugyanebben a fájlban, illessze be azokat az integrációs futásidejű hitelesítési kulcs a `IntegrationRuntimeGatewayKey` paraméter, a lent látható módon:
+4. Ugyanebben a fájlban illessze be az Integration Runtime hitelesítési kulcsot a `IntegrationRuntimeGatewayKey` paramétert, a lent látható módon:
 
     ```json
     "protectedSettings": {
@@ -284,21 +276,21 @@ Ebben a lépésben egy virtuális Gépet, amely tartalmazza az SQL Server 2017 �
         }
     ```
 
-5. A következő parancsot.
+5. Futtassa a következő parancsot.
 
     ```bash
     azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.parameters.json --deploy
     ```
 
-Ez a lépés a 20-30 percet is igénybe vehet. Ez magában foglalja a fut egy [DSC](/powershell/dsc/overview) parancsprogramot, az eszközök telepítése, majd állítsa vissza az adatbázist. 
+Ebben a lépésben 20 – 30 percet is igénybe vehet. Ez magában foglalja a futó egy [DSC](/powershell/dsc/overview) szkriptet az eszközök telepítésére, és állítsa vissza az adatbázist. 
 
-### <a name="deploy-azure-resources"></a>Azure-erőforrások telepítése
+### <a name="deploy-azure-resources"></a>Az Azure-erőforrások üzembe helyezése
 
-Ez a lépés látja el az SQL Data Warehouse, az Azure Analysis Services és a Data Factory.
+Ebben a lépésben az SQL Data warehouse-ba, az Azure Analysis Services és a Data Factory látja el.
 
-1. Keresse meg a `data\enterprise_bi_sqldw_advanced\azure\templates` mappa [GitHub-tárház] [ref-architektúrája-tárház].
+1. Keresse meg a `data\enterprise_bi_sqldw_advanced\azure\templates` mappa [GitHub-adattár] [ref-arch-tárház].
 
-2. A következő Azure CLI parancsot. Cserélje le a paraméterértékeket csúcsos zárójelek látható.
+2. Futtassa a következő Azure CLI-parancsot. Cserélje le a csúcsos zárójelben látható paraméter értékét.
 
     ```bash
     az group deployment create --resource-group <resource_group_name> \
@@ -310,16 +302,16 @@ Ez a lépés látja el az SQL Data Warehouse, az Azure Analysis Services és a D
      "analysisServerAdmin"="<user@contoso.com>"
     ```
 
-    - A `storageAccountName` paraméter kell követnie a [elnevezési szabályait](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) Storage-fiókok. 
-    - Az a `analysisServerAdmin` paraméter, használja az Azure Active Directory egyszerű felhasználónév (UPN).
+    - A `storageAccountName` paraméter kell követnie a [elnevezési szabályok](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) tárfiókok esetében. 
+    - Az a `analysisServerAdmin` paramétert, használja az Azure Active Directory egyszerű felhasználónév (UPN).
 
-3. A következő parancsot az Azure parancssori felület a hozzáférési kulcsot a tárfiók eléréséhez. Ezt a kulcsot a következő lépésben fogja használni.
+3. Futtassa a következő Azure CLI-parancsot a tárfiók a tárelérési kulcs lekérésével. Ezt a kulcsot a következő lépésben fogja használni.
 
     ```bash
     az storage account keys list -n <storage_account_name> -g <resource_group_name> --query [0].value
     ```
 
-4. A következő Azure CLI parancsot. Cserélje le a paraméterértékeket csúcsos zárójelek látható. 
+4. Futtassa a következő Azure CLI-parancsot. Cserélje le a csúcsos zárójelben látható paraméter értékét. 
 
     ```bash
     az group deployment create --resource-group <resource_group_name> \
@@ -330,15 +322,15 @@ Ez a lépés látja el az SQL Data Warehouse, az Azure Analysis Services és a D
     "sourceDBConnectionString"="Server=sql1;Database=WideWorldImporters;User Id=adminuser;Password=<sql-db-password>;Trusted_Connection=True;"
     ```
 
-    A kapcsolati karakterláncokkal rendelkezik karakterláncrészletek szög zárójelbe kell cserélni. A `<storage_account_key>`, a kulcs, amely az előző lépésben kapott. A `<sql-db-password>`, a megadott SQL Server-fiókja jelszavát használja a `onprem.parameters.json` korábban fájlt.
+    A kapcsolati karakterláncok rendelkezik oszt fel kell helyettesíteni csúcsos zárójelben látható. A `<storage_account_key>`, használja az előző lépésben kapott kulcsot. A `<sql-db-password>`, a megadott SQL Server-fiókja jelszavát használja a `onprem.parameters.json` korábban már fájlba.
 
 ### <a name="run-the-data-warehouse-scripts"></a>A data warehouse parancsfájlok futtatása
 
-1. Az a [Azure Portal](https://portal.azure.com/), a helyszíni virtuális Gépet, amelynek neve található `sql-vm1`. A felhasználónév és jelszó a virtuális gép számára meg van adva a `onprem.parameters.json` fájlt.
+1. Az a [az Azure Portal](https://portal.azure.com/), keresse meg a helyszíni virtuális gép, amelynek neve `sql-vm1`. A felhasználónév és jelszó a virtuális gép meg van adva a `onprem.parameters.json` fájlt.
 
-2. Kattintson a **Connect** és a távoli asztal használatával csatlakoztassa a virtuális Gépet.
+2. Kattintson a **Connect** és a távoli asztal használata a virtuális Géphez való csatlakozáshoz.
 
-3. A távoli asztali munkamenetből nyisson meg egy parancssort, és keresse meg a virtuális Gépen a következő mappát:
+3. A távoli asztali munkamenetből nyisson meg egy parancssort, és keresse meg a virtuális gépen a következő mappában:
 
     ```
     cd C:\SampleDataFiles\reference-architectures\data\enterprise_bi_sqldw_advanced\azure\sqldw_scripts
@@ -350,15 +342,15 @@ Ez a lépés látja el az SQL Data Warehouse, az Azure Analysis Services és a D
     deploy_database.cmd -S <data_warehouse_server_name>.database.windows.net -d wwi -U adminuser -P <data_warehouse_password> -N -I
     ```
 
-    A `<data_warehouse_server_name>` és `<data_warehouse_password>`, az adatraktár-kiszolgáló nevét és a korábbi jelszó használata.
+    A `<data_warehouse_server_name>` és `<data_warehouse_password>`, adatraktár-kiszolgáló nevét és a korábbi jelszót használja.
 
-Ebben a lépésben ellenőrzéséhez használhatja az SQL Server Management Studio (SSMS) az SQL Data Warehouse-adatbázishoz való kapcsolódáshoz. Az adatbázis táblasémákat kell megjelennie.
+Ebben a lépésben ellenőrzéséhez használhatja az SQL Server Management Studio (SSMS) az SQL Data Warehouse-adatbázishoz való csatlakozáshoz. Az adatbázis táblasémákat kell megjelennie.
 
-### <a name="run-the-data-factory-pipeline"></a>Futtassa a Data Factory-folyamat
+### <a name="run-the-data-factory-pipeline"></a>A Data Factory-folyamat futtatása
 
-1. A azonos a távoli asztal munkamenetet nyissa meg egy PowerShell-ablakot.
+1. Az azonos távoli asztali munkamenetet nyissa meg egy PowerShell-ablakot.
 
-2. Futtassa az alábbi PowerShell-parancsot. Válasszon **Igen** megjelenésekor.
+2. Futtassa az alábbi PowerShell-parancsot. Válasszon **Igen** amikor a rendszer kéri.
 
     ```powershell
     Install-Module -Name AzureRM -AllowClobber
@@ -370,7 +362,7 @@ Ebben a lépésben ellenőrzéséhez használhatja az SQL Server Management Stud
     Connect-AzureRmAccount 
     ```
 
-4. Futtassa a következő PowerShell-parancsokat. Cserélje le a csúcsos zárójelek értékeket.
+4. Futtassa a következő PowerShell-parancsokat. Cserélje le a csúcsos zárójeleket értékeit.
 
     ```powershell
     Set-AzureRmContext -SubscriptionId <subscription id>
@@ -436,7 +428,7 @@ In this step, you will create a tabular model that imports data from the data wa
 3. In the formula bar, enter the following and press ENTER:
 
     ```
-    Összes értékesítés: = SUM ('Tény értékesítés' [összes, beleértve a adó])
+    Értékesítési összeg: összeg = ("Tény eladás" [adóval együtt összesen])
     ```
 
 4. Repeat these steps to create the following measures:
@@ -444,11 +436,11 @@ In this step, you will create a tabular model that imports data from the data wa
     ```
     Évek száma: (MAX('Fact CityPopulation'[YearNumber])-MIN('Fact CityPopulation'[YearNumber])) + 1 =
     
-    Feltöltési megkezdése: = CALCULATE (SUM ("Tény CityPopulation" [feltöltési]), szűrő ("Tény CityPopulation", "Tény CityPopulation" [YearNumber] = MIN('Fact CityPopulation'[YearNumber])))
+    Nyitó feltöltése: = CALCULATE (SUM ("Tény CityPopulation" [Population]), szűrő ('Tény CityPopulation', 'Tény CityPopulation' [YearNumber] = MIN('Fact CityPopulation'[YearNumber])))
     
-    Befejezési feltöltési: = CALCULATE (SUM ("Tény CityPopulation" [feltöltési]), szűrő ("Tény CityPopulation", "Tény CityPopulation" [YearNumber] = MAX('Fact CityPopulation'[YearNumber])))
+    Befejezési népesség: = CALCULATE (SUM ("Tény CityPopulation" [Population]), szűrő ('Tény CityPopulation', "Tény CityPopulation" [YearNumber] = MAX('Fact CityPopulation'[YearNumber])))
     
-    CAGR: = IFERROR ((([a feltöltési befejező] / [kezdő feltöltési]) ^ (1 / [évek száma]))-1,0)
+    CAGR: = IFERROR ((([befejező Population] / [kezdő Population]) ^ (1 / [évek száma])) – 1,0)
     ```
 
     ![](./images/analysis-services-measures.png)
