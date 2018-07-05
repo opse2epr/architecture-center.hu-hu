@@ -7,12 +7,12 @@ pnp.series.title: Network DMZ
 pnp.series.prev: ./index
 pnp.series.next: secure-vnet-dmz
 cardTitle: DMZ between Azure and on-premises
-ms.openlocfilehash: 9ebebb2eece14aed07e3d9cd7ae4b8d6846ed4bd
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.openlocfilehash: 45583473ef297b2c7a5b0c4baff52485286dd051
+ms.sourcegitcommit: 9b459f75254d97617e16eddd0d411d1f80b7fe90
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142369"
+ms.lasthandoff: 07/03/2018
+ms.locfileid: "37403164"
 ---
 # <a name="dmz-between-azure-and-your-on-premises-datacenter"></a>DMZ az Azure és a helyszíni adatközpont között
 
@@ -163,7 +163,7 @@ A fejlesztési és üzemeltetési csapat által az egyes rétegekben végrehajth
 
 Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a [GitHubon][github-folder]. 
 
-### <a name="preequisites"></a>Preequisites
+### <a name="prerequisites"></a>Előfeltételek
 
 [!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
@@ -208,6 +208,16 @@ Ebben a lépésben két helyi hálózati átjáró csatlakozik.
 9. Kattintson a **mentése** és várjon, amíg a művelet befejeződik.
 
 10. A kapcsolat ellenőrzéséhez nyissa meg a **kapcsolatok** minden átjáró paneljét. A állapotúnak kell lennie **csatlakoztatva**.
+
+### <a name="verify-that-network-traffic-reaches-the-web-tier"></a>Győződjön meg arról, hogy a hálózati forgalom eléri a webes szint
+
+1. Az Azure Portalon keresse meg a létrehozott erőforráscsoportot. 
+
+2. Keresse meg az erőforrást nevű `int-dmz-lb`, azaz előtti terheléselosztó tartománynévcímkéje a privát DMZ-t. Másolja a magánhálózati IP-címet a **áttekintése** panelen.
+
+3. Keresse meg a virtuális gép nevű `jb-vm1`. Kattintson a **Connect** és a távoli asztal használata a virtuális Géphez való csatlakozáshoz. A felhasználónév és jelszó a onprem.json fájlban vannak megadva.
+
+4. A távoli asztali munkamenetet a nyisson meg egy webböngészőt, és keresse meg az IP-cím 2. lépés. Megtekintheti az Apache2 kiszolgáló alapértelmezett kezdőlapját.
 
 ## <a name="next-steps"></a>További lépések
 

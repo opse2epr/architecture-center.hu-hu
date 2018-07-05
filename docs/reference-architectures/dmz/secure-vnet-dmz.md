@@ -2,21 +2,21 @@
 title: DMZ implementálása az Azure és az internet között
 description: Interneteléréssel rendelkező, biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban.
 author: telmosampaio
-ms.date: 11/23/2016
+ms.date: 07/02/2018
 pnp.series.title: Network DMZ
 pnp.series.next: nva-ha
 pnp.series.prev: secure-vnet-hybrid
 cardTitle: DMZ between Azure and the Internet
-ms.openlocfilehash: c88545b1fcae49b413e7e2b6ac5bd92d3fd3456d
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 7a062d2394ae8b3bd1b17c19cbdf512327f9a766
+ms.sourcegitcommit: 9b459f75254d97617e16eddd0d411d1f80b7fe90
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/30/2018
-ms.locfileid: "30270404"
+ms.lasthandoff: 07/03/2018
+ms.locfileid: "37403147"
 ---
 # <a name="dmz-between-azure-and-the-internet"></a>Szegélyhálózat (DMZ) az Azure és az internet között
 
-Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba, és internetes forgalmat is fogad. 
+Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba, és internetes forgalmat is fogad. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
 [![0]][0] 
 
@@ -65,7 +65,7 @@ Az internetkapcsolattal rendelkező terheléselosztó megköveteli, hogy a nyilv
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Az összes figyelési és -felügyelet a nyilvános Szegélyhálózaton lévő NVAs által a felügyeleti alhálózat jumpbox hajtható végre. A [DMZ az Azure és a helyszíni adatközpont közötti implementálásával kapcsolatos][implementing-a-secure-hybrid-network-architecture] cikkben ismertetett módon definiáljon egyetlen hálózati útvonalat a helyszíni hálózattól az átjárón keresztül a jumpboxig a hozzáférés korlátozása érdekében.
+Monitorozása és felügyelete az nva-k a nyilvános DMZ-ben a a felügyeleti alhálózaton található jumpbox kell elvégeznie. A [DMZ az Azure és a helyszíni adatközpont közötti implementálásával kapcsolatos][implementing-a-secure-hybrid-network-architecture] cikkben ismertetett módon definiáljon egyetlen hálózati útvonalat a helyszíni hálózattól az átjárón keresztül a jumpboxig a hozzáférés korlátozása érdekében.
 
 Ha a helyszíni hálózat és az Azure közötti átjárókapcsolat nem érhető el, a jumpboxot elérheti egy nyilvános IP-cím üzembe helyezésével és a jumpboxhoz való hozzáadásával, majd az internetről való bejelentkezéssel.
 
@@ -79,37 +79,70 @@ Ez a referenciaarchitektúra többszintű biztonságot valósít meg:
 
 Érdemes az összes porton érkező bejövő kérésekről naplót készíteni. Rendszeresen ellenőrizze a naplókat, és fordítson különös figyelmet a várt paramétereken kívül eső kérésekre, mert ezek behatolási kísérleteket jelezhetnek.
 
-## <a name="solution-deployment"></a>A megoldás üzembe helyezése
 
-Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a [GitHubon][github-folder]. A referenciaarchitektúra Windows vagy Linux rendszerű virtuális gépeken helyezhető üzembe az alábbi utasításokat követve:
+## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fdmz%2Fsecure-vnet-dmz%2FvirtualNetwork.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-2. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét:
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-public-dmz-network-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Válassza ki az **operációs rendszer típusát** a legördülő listából: **Windows** vagy **Linux**.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-3. Várjon, amíg az üzembe helyezés befejeződik.
-4. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fdmz%2Fsecure-vnet-dmz%2Fworkload.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-5. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét:
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-public-dmz-wl-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-6. Várjon, amíg az üzembe helyezés befejeződik.
-7. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fdmz%2Fsecure-vnet-dmz%2Fsecurity.azuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-8. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét:
-   * Az **erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza a **Meglévő használata** lehetőséget, és a szövegmezőbe írja be az `ra-public-dmz-network-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
-9. Várjon, amíg az üzembe helyezés befejeződik.
-10. A paraméterfájlokban szerepel egy nem módosítható rendszergazdai felhasználónév és jelszó minden virtuális gép számára. Erősen ajánlott mindkettőt azonnal lecserélni. Az üzemelő példány minden virtuális gépe esetében válassza ki a gépet az Azure Portalon, majd a **Támogatás + hibaelhárítás** panelen kattintson a **Jelszó alaphelyzetbe állítása** lehetőségre. A **Mód** legördülő listában válassza a **Jelszó alaphelyzetbe állítása** lehetőséget, majd adjon meg új értéket a **Felhasználónév** és a **Jelszó** mezőben. Kattintson a **Frissítés** gombra a mentéshez.
+Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a [GitHubon][github-folder]. 
 
+### <a name="prerequisites"></a>Előfeltételek
+
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
+
+### <a name="deploy-resources"></a>Erőforrások üzembe helyezése
+
+1. Keresse meg a `/dmz/secure-vnet-hybrid` referencia architektúrák GitHub-adattár mappát.
+
+2. Futtassa az alábbi parancsot:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.json --deploy
+    ```
+
+3. Futtassa az alábbi parancsot:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p secure-vnet-hybrid.json --deploy
+    ```
+
+### <a name="connect-the-on-premises-and-azure-gateways"></a>A helyszíni és az Azure-átjárók csatlakoztatása
+
+Ebben a lépésben két helyi hálózati átjáró csatlakozik.
+
+1. Az Azure Portalon keresse meg a létrehozott erőforráscsoportot. 
+
+2. Keresse meg az erőforrást nevű `ra-vpn-vgw-pip` , és másolja az IP-cím látható a **áttekintése** panelen.
+
+3. Keresse meg az erőforrást nevű `onprem-vpn-lgw`.
+
+4. Kattintson a **konfigurációs** panelen. A **IP-cím**, illessze be a 2. lépésben felírt IP-címet.
+
+    ![](./images/local-net-gw.png)
+
+5. Kattintson a **mentése** és várjon, amíg a művelet befejeződik. Körülbelül 5 percet is igénybe vehet.
+
+6. Keresse meg az erőforrást nevű `onprem-vpn-gateway1-pip`. Másolja ki az IP-cím látható a **áttekintése** panelen.
+
+7. Keresse meg az erőforrást nevű `ra-vpn-lgw`. 
+
+8. Kattintson a **konfigurációs** panelen. A **IP-cím**, illessze be a 6. lépésben felírt IP-címet.
+
+9. Kattintson a **mentése** és várjon, amíg a művelet befejeződik.
+
+10. A kapcsolat ellenőrzéséhez nyissa meg a **kapcsolatok** minden átjáró paneljét. A állapotúnak kell lennie **csatlakoztatva**.
+
+### <a name="verify-that-network-traffic-reaches-the-web-tier"></a>Győződjön meg arról, hogy a hálózati forgalom eléri a webes szint
+
+1. Az Azure Portalon keresse meg a létrehozott erőforráscsoportot. 
+
+2. Keresse meg az erőforrást nevű `pub-dmz-lb`, amely a terheléselosztó a nyilvános DMZ előtt. 
+
+3. Másolja a nyilvános IP-addess származó a **áttekintése** panelen, és nyissa meg ezt a címet egy webböngészőben. Megtekintheti az Apache2 kiszolgáló alapértelmezett kezdőlapját.
+
+4. Keresse meg az erőforrást nevű `int-dmz-lb`, azaz előtti terheléselosztó tartománynévcímkéje a privát DMZ-t. Másolja a magánhálózati IP-címet a **áttekintése** panelen.
+
+5. Keresse meg a virtuális gép nevű `jb-vm1`. Kattintson a **Connect** és a távoli asztal használata a virtuális Géphez való csatlakozáshoz. A felhasználónév és jelszó a onprem.json fájlban vannak megadva.
+
+6. A távoli asztali munkamenetet a nyisson meg egy webböngészőt, és keresse meg az IP-címet a 4. lépéssel. Megtekintheti az Apache2 kiszolgáló alapértelmezett kezdőlapját.
 
 [availability-set]: /azure/virtual-machines/virtual-machines-windows-manage-availability
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/dmz/secure-vnet-dmz
