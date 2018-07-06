@@ -5,12 +5,12 @@ author: telmosampaio
 ms.date: 04/09/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: 925e0f47cf6b9aa1ad48ffae2c9561a2393bf601
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.openlocfilehash: 9105748f434e5d655b09b1fe0775417f33a912b0
+ms.sourcegitcommit: f7fa67e3bdbc57d368edb67bac0e1fdec63695d2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142250"
+ms.lasthandoff: 07/05/2018
+ms.locfileid: "37843592"
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -163,7 +163,7 @@ Az agyi virtuális hálózat üzembe helyezéséhez hajtsa végre az alábbi lé
 
 2. (Nem kötelező) Állítsa be a Linux-telepítéshez `osType` való `Linux`.
 
-3. A `sharedKey`, adjon meg egy megosztott kulcsot a VPN-kapcsolat. 
+3. Keresse meg a mindkét példányát `sharedKey` , és adjon meg egy megosztott kulcsot a VPN-kapcsolat. Az értékeknek meg kell egyezniük.
 
     ```bash
     "sharedKey": "",
