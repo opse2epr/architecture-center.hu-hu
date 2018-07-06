@@ -1,176 +1,179 @@
 ---
-title: Az Azure virtuális gépeken AnyDB telepítése SAP NetWeaver (Windows)
-description: Eljárások az SAP S/4HANA környezetben futó Linux Azure magas rendelkezésre állású bizonyítása.
+title: SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
+description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendszerű Azure-ban magas rendelkezésre állású.
 author: lbrader
 ms.date: 05/11/2018
-ms.openlocfilehash: 0efe3e78d9e1809fdab52044b75e432742786b79
-ms.sourcegitcommit: bb348bd3a8a4e27ef61e8eee74b54b07b65dbf98
+ms.openlocfilehash: 90334e4872bdd15d59aa16286a031d07f3d1bb2f
+ms.sourcegitcommit: 86d86d71e392550fd65c4f76320d7ecf0b72e1f6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/21/2018
-ms.locfileid: "34423142"
+ms.lasthandoff: 07/06/2018
+ms.locfileid: "37864538"
 ---
-# <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>Az Azure virtuális gépeken AnyDB telepítése SAP NetWeaver (Windows)
+# <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
-A referencia-architektúrában az SAP NetWeaver környezetben futó Windows Azure magas rendelkezésre állású bevált gyakorlatok csoportja jeleníti meg. Az adatbázis AnyDB, bármely támogatott adatbázis-kezelő SAP HANA mellett az SAP kifejezés. Ez az architektúra van szükség az adott virtuális gép (VM), amelyek módosíthatók a szervezet igényeinek megfelelően van telepítve.
+Ez a referenciaarchitektúra bevált eljárásokat SAP NetWeaver környezetben futó Windows Azure-ban magas rendelkezésre állású mutat be. Az adatbázis AnyDB, a bármely támogatott adatbázis-kezelő mellett az SAP HANA SAP kifejezés. Ez az architektúra, amely a szervezet igényeinek megfelelően módosíthatja adott virtuális gép (VM) méretek van telepítve.
 
-![](./images/sap-s4hana.png)
- 
+![](./images/sap-netweaver.png)
+
+*Töltse le az architektúra [Visio-fájlját][visio-download].*
+
 > [!NOTE] 
-> A referencia-architektúrában megfelelően SAP termékek alkalmazástelepítéshez szükséges megfelelő licencelési SAP-termékek és más nem Microsoft-technológiák.
+> A referenciaarchitektúra üzembe helyezéséhez SAP-termékek és más, nem a Microsoft által gyártott termékek megfelelő licence szükséges.
 
 ## <a name="architecture"></a>Architektúra
 Az architektúra a következő infrastruktúra és a kulcs szoftver összetevőkből áll.
 
-**Virtuális hálózat**. Az Azure Virtual Network szolgáltatás Azure-erőforrások biztonságosan csatlakozik egymáshoz. Ebben a rendszerben a virtuális hálózat csatlakozik egy helyszíni környezetben keresztül VPN-átjáró telepítése a központban egy [hub-küllős](../hybrid-networking/hub-spoke.md). A küllős a virtuális hálózat az SAP-alkalmazások és adatbázis-rétegből használt.
+**Virtuális hálózat**. Az Azure Virtual Network szolgáltatás Azure-erőforrások biztonságosan csatlakozik egymáshoz. Ebben az architektúrában a virtuális hálózat egy helyszíni környezetben, az agyban telepített VPN-átjárón keresztül csatlakozik egy [küllős](../hybrid-networking/hub-spoke.md). A küllő a virtuális hálózat, a SAP-alkalmazások és az Adatbázisréteg.
 
-**Alhálózatok**. A virtuális hálózat különálló alhálózatokat az egyes rétegekhez oszlik: alkalmazás (SAP NetWeaver), a adatbázis, a megosztott szolgáltatások (a jumpbox) és az Active Directory.
+**Alhálózatok**. A virtuális hálózat minden szint külön alhálózatra van felosztva: alkalmazáshoz (SAP NetWeaver), adatbázis, a megosztott szolgáltatások (jumpbox) és az Active Directory.
     
-**Virtuális gépek**. Ez az architektúra virtuális gépek használ az alkalmazás réteg és adatbázis-rétegből, az alábbiak szerint csoportosítva:
+**Virtuális gépek**. Ez az architektúra virtuális gépeket használ az alkalmazásrétegek és adatbázisszinten, az alábbiak szerint csoportosítva:
 
-- **SAP NetWeaver**. Az alkalmazás használja a Windows virtuális gépek és központi SAP-szolgáltatások és az SAP alkalmazáskiszolgálók futtat. A virtuális gépeket, hogy futási központi szolgáltatás magas rendelkezésre állás érdekében SIOS DataKeeper fürt kiadása támogatja a Windows Server feladatátvevő fürtként van-e konfigurálva.
-- **AnyDB**. Az adatbázis-rétegből AnyDB a forrásadatbázis, például a Microsoft SQL Server, Oracle vagy IBM DB2 futtatja.
-- **Jumpbox**. Más néven bástyagazdagép. Ez a biztonságos virtuális gép, amely a rendszergazdák használhatják a virtuális számítógépekhez kapcsolódni a hálózaton.
-- **Windows Server Active Directory-tartományvezérlők**. A tartományvezérlők használ az összes virtuális gépek és a tartomány felhasználóinak.
+- **SAP NetWeaver**. Az alkalmazásrétegek Windows virtuális gépeket használ, és futtatja az SAP Central Services és SAP-alkalmazáskiszolgálókhoz. A virtuális gépeket, hogy futási központi szolgáltatások magas rendelkezésre állás érdekében az SIOS DataKeeper Cluster Edition által támogatott Windows Server feladatátvevő fürtként vannak konfigurálva.
+- **AnyDB**. Az adatbázisszint AnyDB futtatja a forrásadatbázis, például a Microsoft SQL Server, Oracle vagy IBM DB2-höz.
+- **Jumpbox**. Más néven bástyagazdagép. Ez a biztonságos virtuális gép a hálózat, amely a rendszergazdák használhatják a más virtuális gépekhez való csatlakozáshoz.
+- **A Windows Server Active Directory-tartományvezérlők**. A tartományvezérlők minden olyan virtuális gépek és a tartomány felhasználói szolgálnak.
 
-**Terheléselosztók**. Mindkét SAP beépített terheléselosztók és [Azure terheléselosztó](/azure/load-balancer/load-balancer-overview) magas rendelkezésre ÁLLÁSÚ eléréséhez használt. Az Azure Load Balancer példányok az alkalmazás réteg alhálózatban lévő virtuális gépek felé irányuló forgalom terjesztésére szolgálnak.
+**Terheléselosztók**. Mindkét SAP beépített terheléselosztók és [Azure Load Balancer](/azure/load-balancer/load-balancer-overview) segítségével magas rendelkezésre ÁLLÁS elérése érdekében. Az Azure Load Balancer-példányok segítségével osztja el a forgalmat az alkalmazás szinten alhálózatot a virtuális gépek.
 
-**Rendelkezésre állási csoportok**. Virtuális gépek a SAP webes kézbesítő, SAP alkalmazáskiszolgáló és (A) SCS, szerepköröket külön vannak csoportosítva [rendelkezésre állási készletek](/azure/virtual-machines/windows/tutorial-availability-sets), és legalább két virtuális gép szerepkör / törlődnek. Ez lehetővé teszi a virtuális gépeket abban az esetben jogosult a magasabb [szolgáltatói szerződést](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA).
+**Rendelkezésre állási csoportok**. Az SAP Web Dispatcher, SAP-alkalmazáskiszolgáló és (A) SCS virtuális gépek, a szerepkörök külön vannak csoportosítva [rendelkezésre állási csoportok](/azure/virtual-machines/windows/tutorial-availability-sets), és a felhasznált szerepkörönként legalább két virtuális gépet. Ez lehetővé teszi a virtuális gépek magasabb szintű támogatásra jogosult [szolgáltatói szerződést](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA).
 
-**Hálózati adapter**. [A hálózati kártyák](/azure/virtual-network/virtual-network-network-interface) (NIC) a virtuális hálózat virtuális gépei az összes kommunikáció engedélyezése.
+**Hálózati adapterek**. [Hálózati adapterek](/azure/virtual-network/virtual-network-network-interface) (NIC) a virtuális hálózaton található virtuális gépek minden kommunikáció engedélyezésére.
 
-**Hálózati biztonsági csoportok**. Bejövő korlátozásához kimenő, és az alhálózatok közötti helyen belüli forgalmat a virtuális hálózat hozhat létre [hálózati biztonsági csoportok](/azure/virtual-network/virtual-networks-nsg) (NSG-k).
+**Hálózati biztonsági csoportok**. Korlátozza a bejövő, kimenő, és belüli alhálózatok közötti adatforgalom a virtuális hálózatban, létrehozhat [hálózati biztonsági csoportok](/azure/virtual-network/virtual-networks-nsg) (NSG-k).
 
-**Átjáró**. Átjáró kiterjeszti a helyszíni hálózat az Azure virtuális hálózat. [ExpressRoute](/azure/architecture/reference-architectures/hybrid-networking/expressroute) az ajánlott Azure szolgáltatás, amely ne lépje át a nyilvános internethez magánhálózati kapcsolatok létrehozására, de egy [pont-pont](/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-portal) kapcsolat is.
+**Átjáró**. Az átjáró kiterjeszti a helyszíni hálózat az Azure virtual Networkhöz. [Az ExpressRoute](/azure/architecture/reference-architectures/hybrid-networking/expressroute) az ajánlott Azure-szolgáltatás, amely nem a nyilvános interneten haladnak át, magánhálózati kapcsolatokat hozhat létre, de egy [Site-to-Site](/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-portal) kapcsolat is használható.
 
-**Azure Storage**. A virtuális gép virtuális merevlemez (VHD), állandó tárolást [Azure Storage](/azure/storage/storage-standard-storage) szükséges. Azt is használják [felhő tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy feladatátvételi fürt művelet végrehajtásához. 
+**Azure Storage**. Tartós tároláshoz a virtuális gépek virtuális merevlemez (VHD), amelyekkel [Azure Storage](/azure/storage/storage-standard-storage) megadása kötelező. Azt is használja [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy feladatátvételi fürt művelet végrehajtásához. 
 
 ## <a name="recommendations"></a>Javaslatok
 Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak.
 
-### <a name="sap-web-dispatcher-pool"></a>SAP webes kézbesítő készlet
+### <a name="sap-web-dispatcher-pool"></a>Az SAP Web Dispatcher-készlet
 
-A webes kézbesítő összetevő SAP forgalom között az SAP alkalmazáskiszolgálók terheléselosztó használható. A webes kézbesítő összetevő magas rendelkezésre állásának eléréséhez, az Azure Load Balancer a párhuzamos webes kézbesítő telepítés végrehajtásához használatos. Webes kézbesítő ciklikus multiplexelés konfigurációban használ HTTP (S)-forgalom elosztását a rendelkezésre álló webes elosztás a terheléselosztó-készlet.
+A Web Dispatcher összetevő terheléselosztóként szolgál az SAP-forgalmat az SAP-alkalmazáskiszolgálók között. Magas rendelkezésre állás a Web Dispatcher-összetevő, Azure Load Balancer segítségével a párhuzamos Web Dispatcher-beállítások megvalósításához. Web Dispatcher Ciklikus időszeleteléses konfigurációban HTTP (S)-forgalom elosztását az elérhető webes elosztás a terheléselosztók készlet használ.
 
-Az Azure virtuális gépeken SAP NetWeaver futtatásával kapcsolatos részletekért lásd: [Azure virtuális gépek tervezési és megvalósítási az SAP NetWeaver](/azure/virtual-machines/workloads/sap/planning-guide).
+Azure virtuális gépeken futó SAP NetWeaver kapcsolatos részletekért lásd: [Azure Virtual Machines tervezési és megvalósítási az SAP NetWeaver számára](/azure/virtual-machines/workloads/sap/planning-guide).
 
 ### <a name="application-servers-pool"></a>Alkalmazáskészlet-kiszolgálók
 
-Bejelentkezési csoportok ABAP alkalmazáskiszolgálók kezeléséhez, a SMLG tranzakció szolgál. A terheléselosztási függvény központi szolgáltatások üzenet-kiszolgálón belül használja SAPGUIs és RFC oszthatja meg a munkaterhelést SAP alkalmazáskészlet-kiszolgálók közötti forgalmat. Az alkalmazás server kapcsolat a magas rendelkezésre állású központi szolgáltatások nem keresztül a fürt virtuális hálózat neve.
+Bejelentkezési csoportokat ABAP alkalmazáskiszolgálók kezeléséhez, az SMLG tranzakció szolgál. A terheléselosztási függvényt az üzenet-kiszolgálón, a központi szolgáltatások használatával oszthatja meg a munkaterhelést SAP alkalmazáskészlet-kiszolgálók között SAPGUIs és RFC forgalmat. A magas rendelkezésre állású Central Services alkalmazás kiszolgáló kapcsolódni a fürt virtuális hálózatnevét keresztül történik.
 
-### <a name="sap-central-services-cluster"></a>SAP szolgáltatásokhoz központi fürtre
+### <a name="sap-central-services-cluster"></a>Az SAP Central Services fürt
 
-A referencia-architektúrában központi szolgáltatások virtuális gépeken futtatja az alkalmazáshoz tartozó. A központi szolgáltatások egy potenciális hibaérzékeny pontot (SPOF) egy virtuális központi telepítési – tipikus telepítése esetén magas rendelkezésre állás nem követelmény. Egy magas rendelkezésre állású megoldás bevezetésére, vagy egy megosztott lemezfürt, vagy egy fájlkiszolgáló-megosztás fürt használható.
+Ez a referenciaarchitektúra a virtuális gépek központi szolgáltatást futtat az alkalmazás szinten. A központi szolgáltatások egy potenciálisan hibaérzékeny pont (SPOF), egyetlen virtuális gép telepítésekor – szokásos telepítése, ha magas rendelkezésre állás nem követelmény. Egy magas rendelkezésre állású megoldás bevezetésére, vagy egy megosztott lemezfürtök, vagy egy fájlkiszolgáló-megosztás fürt használható.
 
-Virtuális gépek megosztott lemezfürt konfigurálásához használja [Windows Server feladatátvevő fürt](https://blogs.sap.com/2018/01/25/how-to-create-sap-resources-in-windows-failover-cluster/). [A felhő tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy kvórum tanúsító ajánlott. A feladatátvevő fürt környezet támogatásához [SIOS DataKeeper Cluster Edition](https://azuremarketplace.microsoft.com/marketplace/apps/sios_datakeeper.sios-datakeeper-8) által a fürtcsomópontok által birtokolt független lemezek replikálásához a fürt megosztott kötet funkciót hajt végre. Azure natív módon nem támogatja a megosztott lemezeket, és ezért a SIOS által biztosított megoldások szükségesek.
+Virtuális gépek megosztott lemezfürt konfigurálásához használja [Windows Server feladatátvételi fürt](https://blogs.sap.com/2018/01/25/how-to-create-sap-resources-in-windows-failover-cluster/). [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy kvórum tanúsító ajánlott. A feladatátvételi fürtkörnyezetnek támogatásához [az SIOS DataKeeper Cluster Edition](https://azuremarketplace.microsoft.com/marketplace/apps/sios_datakeeper.sios-datakeeper-8) hajtja végre a fürt megosztott kötet függvény szerepét a fürtcsomópontok független lemezeinek replikálásával. Az Azure nem natív módon támogatja a megosztott lemezeket, és ezért az SIOS által biztosított megoldások igényel.
 
-További információkért lásd: "3. Fontos frissítést az SAP ügyfelek futtató ASC Azure SIOS a" [SAP futó alkalmazások a Microsoft platformon](https://blogs.msdn.microsoft.com/saponsqlserver/2017/05/04/sap-on-azure-general-update-for-customers-partners-april-2017/).
+További információkért lásd: "3. Fontos frissítés SAP ügyfelek futó ASCS SIOS az Azure-ban a"következő [SAP alkalmazások futtatása Microsoft platformon](https://blogs.msdn.microsoft.com/saponsqlserver/2017/05/04/sap-on-azure-general-update-for-customers-partners-april-2017/).
 
-Fürtszolgáltatás kezelésére úgy, hogy a fájl megosztási fürt Windows Server feladatátvevő fürt alkalmazza. [SAP](https://blogs.sap.com/2018/03/19/migration-from-a-shared-disk-cluster-to-a-file-share-cluster/) nemrég módosította a szolgáltatásokhoz központi telepítési minta a /sapmnt globális könyvtárak keresztül UNC elérési út elérésére. Ez a változás [nincs szükség](https://blogs.msdn.microsoft.com/saponsqlserver/2017/08/10/high-available-ascs-for-windows-on-file-share-shared-disk-no-longer-required/) SIOS vagy más megosztott lemez megoldások a központi szolgáltatások virtuális gépeken. Győződjön meg arról, hogy van-e a /sapmnt UNC-megosztásnevet továbbra is ajánlott [magas rendelkezésre állású](https://blogs.sap.com/2017/07/21/how-to-create-a-high-available-sapmnt-share/). Ehhez a központi Services-példány által a Windows Server feladatátvevő fürt használatával [kibővített fájlkiszolgáló](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS) és a [közvetlen tárolóhelyek](https://blogs.sap.com/2018/03/07/your-sap-on-azure-part-5-ascs-high-availability-with-storage-spaces-direct/) (S2D) funkció a Windows Server 2016. 
+Kezelje a fürtszolgáltatás egy másik úgy, hogy egy fájl megosztási fürtöt a Windows Server feladatátvevő fürt megvalósítását. [SAP](https://blogs.sap.com/2018/03/19/migration-from-a-shared-disk-cluster-to-a-file-share-cluster/) nemrég módosította a szolgáltatások központi telepítési minta a /sapmnt globális könyvtárak keresztül UNC elérési út elérésére. Ez a változás [nincs szükség](https://blogs.msdn.microsoft.com/saponsqlserver/2017/08/10/high-available-ascs-for-windows-on-file-share-shared-disk-no-longer-required/) SIOS vagy más megosztott lemez megoldások központi szolgáltatások virtuális gépeken. Győződjön meg arról, hogy a /sapmnt UNC megosztást továbbra is ajánlott [magas rendelkezésre állású](https://blogs.sap.com/2017/07/21/how-to-create-a-high-available-sapmnt-share/). Ehhez a központi Services-példánytól függ használatával Windows Server feladatátvevő fürt az [kibővíthető fájlkiszolgáló](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS) és a [a közvetlen tárolóhelyek](https://blogs.sap.com/2018/03/07/your-sap-on-azure-part-5-ascs-high-availability-with-storage-spaces-direct/) (S2D) szolgáltatást a Windows Server 2016-ban. 
 
 ### <a name="availability-sets"></a>Rendelkezésre állási csoportok
 
-Rendelkezésre állási készletek terjesztése a kiszolgálókat különböző fizikai infrastruktúra és a frissítési csoport szolgáltatás rendelkezésre állásának javítása érdekében. Helyezze olyan virtuális gépek, amelyek ugyanarra a szerepkörre végre a rendelkezésre állási beállítja a megfelelő és segítenek védelmet biztosítanak a Azure-infrastruktúra karbantartás miatt [SLA-k](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA). Ajánlott legalább két virtuális gép rendelkezésre állási csoportban.
+A rendelkezésre állási csoportok terjesztése kiszolgálók eltérő fizikai infrastruktúra és a frissítési csoportok számára szolgáltatás rendelkezésre állásának javítása. A PUT virtuális gépek ugyanazon szerepben be egy rendelkezésre állási beállítja hardvermeghibásodásokkal szemben az Azure infrastruktúra-karbantartás által okozott állásidő és kielégítése érdekében [SLA-k](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA). Két vagy több virtuális gépet egy rendelkezésre állási csoport használata javasolt.
 
-Csoportban lévő összes virtuális gépet ugyanarra a szerepkörre kell végrehajtania. Ne keverje a kiszolgálókat különböző szerepkörök az azonos rendelkezésre állási készlet. Például nem helyezhető el egy központi szolgáltatások csomópont azonos rendelkezésre állási csoportban, az alkalmazás-kiszolgálóval.
+Egy készletben lévő összes virtuális gépet ugyanarra a szerepkörre kell elvégeznie. Ne keverje a kiszolgálókat különböző szerepkörök ugyanabban a rendelkezésre állási csoportban. Például ne tegyen egy központi szolgáltatások csomópont az azonos rendelkezésre állási csoportot az a kiszolgáló.
 
 ### <a name="nics"></a>Hálózati adapterek (NIC-k)
 
-Hagyományos helyszíni SAP központi telepítések több hálózati adapterek (NIC) elkülönítse a felügyeleti forgalom és a business forgalom gépenként valósítja meg. Az Azure a virtuális hálózat a szoftver által meghatározott hálózati által küldött összes forgalom az azonos hálózati háló keresztül. Ezért a több hálózati adapter használata szükségtelen. Azonban ha a szervezetének korlátoznia kell áthaladó forgalmat leválasszanak, telepítheti több hálózati adapter virtuális gépenként, minden egyes hálózati adapter csatlakoztatása egy másik alhálózatot, és az NSG-k segítségével különböző hozzáférés-vezérlési házirendek kényszerítése.
+A hagyományos helyszíni SAP-környezetekhez áthaladó üzleti forgalom a felügyeleti forgalmat leválasszanak gépenként több hálózati adapterrel (NIC) megvalósítása. Az Azure a virtuális hálózat, a szoftveresen definiált hálózati által küldött összes forgalom az azonos hálózati háló keresztül. A több hálózati adapter használatát, ezért nem szükséges. Azonban ha a szervezet igényeinek áthaladó forgalmat leválasszanak, telepítheti virtuális gépenként több hálózati adapterrel, minden egyes hálózati adapter csatlakoztatása egy másik alhálózathoz, és NSG-k segítségével különböző hozzáférés-vezérlési házirendeket kényszerítése.
 
-### <a name="subnets-and-nsgs"></a>Alhálózatokat és az NSG-k
+### <a name="subnets-and-nsgs"></a>Alhálózat és NSG-kkel
 
-Ez az architektúra a virtuális hálózat címtere alterületét alhálózatokra. A referencia-architektúrában elsősorban az alkalmazás réteg alhálózat összpontosít. Az egyes alhálózatokon társítható egy NSG-t, amely meghatározza a hozzáférési házirendek az alhálózat. Alkalmazáskiszolgálók helyezze külön alhálózathoz, biztonságát azokat könnyebben alhálózati biztonsági házirendeket, nem az egyes kiszolgálók kezeléséhez.
+Ez az architektúra a virtuális hálózat címtere alterületét alhálózatra. Ez a referenciaarchitektúra elsősorban az alkalmazás szint alhálózatáról összpontosít. Minden egyes alhálózathoz is társítható egy NSG-t, amely meghatározza a hozzáférési szabályzatok az alhálózat. Helyezze el alkalmazáskiszolgálók egy külön alhálózatot védelmére azokat könnyebben, mivel kezeli az alhálózat biztonsági házirendek, nem az egyes kiszolgálókon.
 
-Amikor egy NSG-t hozzárendelnek egy alhálózathoz, akkor az alhálózaton belüli megadott kiszolgálókra vonatkoznak. A minden részletre kiterjedő szabályozhatják a kiszolgálók az alhálózat NSG-k használatával kapcsolatos további információkért lásd: [hálózati forgalmat hálózati biztonsági csoportokkal](https://azure.microsoft.com/en-us/blog/multiple-vm-nics-and-network-virtual-appliances-in-azure/).
+Amikor egy NSG-t hozzárendelik egy alhálózathoz, az alhálózaton belüli összes kiszolgálóra vonatkozik. A kiszolgálók egy alhálózat részletesen szabályozhatja az NSG-k használatával kapcsolatos további információkért lásd: [hálózati biztonsági csoportokkal a hálózati forgalom szűrése](https://azure.microsoft.com/en-us/blog/multiple-vm-nics-and-network-virtual-appliances-in-azure/).
 
 ### <a name="load-balancers"></a>Terheléselosztók
 
-[SAP webes kézbesítő](https://help.sap.com/doc/saphelp_nw73ehp1/7.31.19/en-US/48/8fe37933114e6fe10000000a421937/frameset.htm) leírók terheléselosztása HTTP (S) forgalmat egy SAP alkalmazáskiszolgálók készletéhez.
+[Az SAP Web Dispatcher](https://help.sap.com/doc/saphelp_nw73ehp1/7.31.19/en-US/48/8fe37933114e6fe10000000a421937/frameset.htm) kezeli a egy kiszolgálókészlethez, SAP-alkalmazáskiszolgálókhoz HTTP (S)-forgalom terheléselosztásához.
 
-A Diagnosztika protokollt vagy a távoli függvény hívások (RFC) keresztül egy SAP-kiszolgálóhoz csatlakozó SAP GUI-ügyfelektől érkező forgalom, a központi szolgáltatások üzenet kiszolgáló osztja szét SAP alkalmazás kiszolgálón keresztül [csoportok bejelentkezési](https://wiki.scn.sap.com/wiki/display/SI/ABAP+Logon+Group+based+Load+Balancing), ezért nem extra terhelést terheléselosztó van szükség.
+Egy SAP-kiszolgálóhoz DIAG protokoll vagy függvény hívások (RFC) csatlakozó ügyfeleken az SAP grafikus felhasználói Felülettel irányuló forgalom továbbítására, a központi szolgáltatások üzenetkiszolgáló SAP-alkalmazáskiszolgáló révén a terhelés elosztja [csoportok bejelentkezési](https://wiki.scn.sap.com/wiki/display/SI/ABAP+Logon+Group+based+Load+Balancing), ezért nem további terhelést a terheléselosztó van szükség.
 
 ### <a name="azure-storage"></a>Azure Storage
 
-Az összes adatbázis kiszolgáló virtuális gép azt javasoljuk, prémium szintű Azure Storage következetes olvasás/írás késésének. Prémium szintű Storage használata az összes operációs rendszer lemez és adatlemezek egypéldányos virtuális gépi, lásd: [SLA-t a virtuális gépek](https://azure.microsoft.com/support/legal/sla/virtual-machines). Emellett éles rendszerek esetén SAP, azt javasoljuk, prémium szintű [Azure felügyelt lemezek](/azure/storage/storage-managed-disks-overview) minden esetben. A megbízhatóság kezelt lemezek segítségével kezelheti a VHD-fájlokat, a lemezek. Kezelt lemezek biztosítsa, hogy a kötet a virtuális gépek rendelkezésre állási csoportok belül elkülönített elkerülése érdekében a hibaérzékeny pontokat.
+Minden adatbázis kiszolgáló virtuális gép javasoljuk, Azure Premium Storage használatát az egyenletes olvasási/írási késés érdekében. Minden egypéldányos virtuális gép Premium Storage tárolást használ minden operációsrendszer-lemez és adatlemezek esetén lásd: [virtuális gépekre vonatkozó SLA](https://azure.microsoft.com/support/legal/sla/virtual-machines). Ezenkívül az SAP-rendszereit, azt javasoljuk, prémium szintű [Azure Managed Disks](/azure/storage/storage-managed-disks-overview) minden esetben. Megbízhatóság, a Managed Disks kezelésére használhatók a VHD-fájlokat a lemezeket. A felügyelt lemezek győződjön meg arról, hogy a lemezek, virtuális gépek rendelkezésre állási csoporton belül elkülönített kritikus hibapontok elkerülése érdekében.
 
-Az SAP alkalmazáskiszolgálók, többek között a központi szolgáltatások virtuális gépeket a Azure standard szintű tárolást segítségével csökkenthető a költség, mert alkalmazásfuttatás történik, memória és a lemezek használt csak naplózás. Azonban ekkor, Standard szintű tárolót csak minősítéssel nem felügyelt tárolási. Alkalmazáskiszolgálók tárol adatokat, mert is használhatják a kisebb P4 és P6 prémium szintű Storage lemezeket költségek csökkentése érdekében.
+Az SAP-alkalmazáskiszolgálókhoz, beleértve a szolgáltatások központi virtuális gépeket a standard szintű Azure Storage használatával költségcsökkentés, mert az alkalmazás végrehajtása a memóriában történik, és a lemezek csak naplózás használnak. Azonban jelenleg standard szintű Storage csak minősítéssel nem felügyelt tárfiók. Mivel az alkalmazáskiszolgálókat üzemeltet adatokat, költségek minimálisra csökkentése érdekében használhatja a kisebb P4 és a P6 prémium szintű Storage-lemezeket.
 
-Az Azure Storage is használják [felhő tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) kvórum fenntartása az eszközök a távoli Azure-régió, az elsődleges régióban, amelyben a fürtben található másik lapra.
+Az Azure Storage is használják [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) kvórum fenntartásához egy eszközzel, az elsődleges régióban, ahol a fürtben található forrásadatok egy távoli Azure-régióban.
 
-A biztonsági mentési tárolót, ajánljuk Azure [coolaccess réteg](/azure/storage/storage-blob-storage-tiers) és [hozzáférési réteg archivált](/azure/storage/storage-blob-storage-tiers). A tárolási rétegek költséghatékony módon hosszú élettartamú, amelyek ritkán használt adatok tárolására.
+Az adattár biztonsági mentéséhez javasoljuk az Azure- [coolaccess szint](/azure/storage/storage-blob-storage-tiers) és [archív hozzáférési szint tárolási](/azure/storage/storage-blob-storage-tiers). Tárolási szintek költséghatékony módon a ritkán elért hosszú élettartamú adatok tárolására.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
-Az adatbázis-kiszolgálók állandó kommunikációjához SAP alkalmazáskiszolgálók végzi. A teljesítmény szempontjából kulcsfontosságú alkalmazásokkal futó minden adatbázis-platformokon, beleértve az SAP HANA-érdemes engedélyezni [írási gyorsító](/azure/virtual-machines/linux/how-to-enable-write-accelerator) napló írási késése javítása érdekében. A helyek közötti kiszolgálói kommunikáció optimalizálása érdekében használja a [az elérését gyorsítja fel hálózati](https://azure.microsoft.com/blog/linux-and-windows-networking-performance-enhancements-accelerated-networking/). Ne feledje, hogy ezek a gyorsbillentyűk csak bizonyos Virtuálisgép-sorozat érhető el.
+SAP-alkalmazáskiszolgálókhoz állandó kommunikációt, az adatbázis-kiszolgálók végzi. A teljesítmény kritikus fontosságú alkalmazásokat futtató bármilyen adatbázis platformokon, beleértve az SAP HANA, érdemes lehet engedélyezni az [Írásgyorsító](/azure/virtual-machines/linux/how-to-enable-write-accelerator) napló írási késése javítása érdekében. Kiszolgálóközi kommunikáció optimalizálása érdekében használja a [gyorsított hálózati](https://azure.microsoft.com/blog/linux-and-windows-networking-performance-enhancements-accelerated-networking/). Vegye figyelembe, hogy a gyorsítók csak bizonyos Virtuálisgép-sorozatok érhető el.
 
-A gyakori eljárásokat magas iops-érték és a lemez sávszélesség átviteli sebesség eléréséhez a tárolókötetet [teljesítményoptimalizálás](/azure/virtual-machines/windows/premium-storage-performance) Azure tárolási elrendezés vonatkozik. Például több lemezek csoportosításával csíkozott kötet létrehozása kombinálásával növeli IO teljesítményét. A tárolóban található ritkán változó tartalmak olvasási gyorsítótárazásának engedélyezésével növelhető az adatelérés sebessége.
+Magas IOPS és átviteli sebessége érhető el, az általános tárolási köteten található eljárásokat [teljesítményoptimalizálás](/azure/virtual-machines/windows/premium-storage-performance) Azure tárolási elrendezést a alkalmazni. Például egy csíkozott lemez kötet létrehozása több lemez összevonása növeli a i/o-teljesítményt. A tárolóban található ritkán változó tartalmak olvasási gyorsítótárazásának engedélyezésével növelhető az adatelérés sebessége.
 
-Az SAP SQL a [felső 10 kulcs szempontjai SAP-alkalmazások központi telepítése az Azure-on](https://blogs.msdn.microsoft.com/saponsqlserver/2015/05/25/top-10-key-considerations-for-deploying-sap-applications-on-azure/) blog kiváló tanácsokat az SAP-munkaterhelések SQL-kiszolgálón az Azure storage optimalizálásához.
+Az SQL, az SAP a [Top 10 kulcs szempontjai SAP-alkalmazások üzembe helyezése az Azure-ban](https://blogs.msdn.microsoft.com/saponsqlserver/2015/05/25/top-10-key-considerations-for-deploying-sap-applications-on-azure/) blog kiváló tanácsokat az SAP számítási feladatok SQL Server az Azure storage optimalizálásához.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Az SAP-alkalmazás rétegben az Azure számos különböző vertikális felskálázásával és kiterjesztése a virtuálisgép-méretek kínál. A két szélsőértéket beleértve listája, [SAP Megjegyzés 1928533](https://launchpad.support.sap.com/#/notes/1928533) -Azure SAP-alkalmazásokból: támogatott termékek és Azure Virtuálisgép-típusokon. (SAP szolgáltatás piactér fiók-hozzáférés szükséges.) SAP alkalmazás-kiszolgálókat és a központi szolgáltatások fürtök méretezheti fel/le vagy terjessze ki több példány hozzáadásával. A AnyDB adatbázis méretezheti fel/le, de nem kiterjesztése. Az SAP adatbázis tárolója AnyDB nem támogatja a horizontális.
+Az SAP-alkalmazási rétegben az Azure számos különféle virtuálisgép-méretek vertikális és horizontális felskálázás kínál. A teljes listát lásd: [SAP-jegyzetnek 1928533](https://launchpad.support.sap.com/#/notes/1928533) – SAP alkalmazások az Azure-on: támogatott termékek és Azure-beli Virtuálisgép-típusok. (SAP Service Marketplace-fiók szükséges az eléréshez). SAP-alkalmazáskiszolgálókhoz, és a központi szolgáltatások fürtök méretezhetők felfelé és lefelé vagy horizontálisan felskálázhat további példányok hozzáadása révén. A AnyDB adatbázis felfelé és lefelé méretezését is, de nem horizontális felskálázás. Az SAP adatbázis AnyDB tárolója nem támogatja a horizontális skálázás.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
-Erőforrás redundanciát a magas rendelkezésre állású infrastruktúramegoldásainak általános téma. A vállalatok számára, amelyek kevésbé szigorú SLA-t egypéldányos Azure virtuális gépek nyújtanak hasznos üzemidőt SLA-t. További információkért lásd: [Azure szolgáltatásiszint-megállapodás](https://azure.microsoft.com/support/legal/sla/).
+Erőforrás-redundanciát a magas rendelkezésre állású infrastruktúra-megoldások az általános témát. Az olyan vállalatok, amelyek kevésbé szigorú garantált szolgáltatási szint egypéldányos Azure virtuális gépek kínálnak hasznos üzemidővel SLA-t. További információkért lásd: [Azure szolgáltatásiszint-szerződés](https://azure.microsoft.com/support/legal/sla/).
 
-Ez az SAP-alkalmazás elosztott telepítés, a alaptelepítésének replikálódik, magas rendelkezésre állás biztosítása érdekében. Az egyes rétegekhez a architektúra a magas rendelkezésre állású kialakítása függően változik.
+A SAP alkalmazás elosztott telepítése a rendszer replikálja az alapul szolgáló telepítés magas rendelkezésre állás. Az architektúra minden rétegében a magas rendelkezésre állás kialakítása változik.
 
-### <a name="application-tier"></a>Alkalmazás réteg
+### <a name="application-tier"></a>Alkalmazásrétegek
 
-Magas rendelkezésre állás a SAP webes kézbesítő redundáns osztályt érhető el. Lásd: [SAP webes kézbesítő](https://help.sap.com/doc/saphelp_nw70ehp2/7.02.16/en-us/48/8fe37933114e6fe10000000a421937/frameset.htm) az SAP-dokumentációban.
+Magas rendelkezésre állás az SAP Web Dispatcher redundáns példányokkal érhető el. Lásd: [SAP Web Dispatcher](https://help.sap.com/doc/saphelp_nw70ehp2/7.02.16/en-us/48/8fe37933114e6fe10000000a421937/frameset.htm) az SAP dokumentációjában.
 
-Magas rendelkezésre állású a központi szolgáltatásokat a Windows Server feladatátvevő fürt segítségével valósul meg. Az Azure-on történő telepítésekor a fürttároló, a feladatátvevő fürt használatával konfigurálható két megközelítés: vagy a fürtözött megosztott kötet vagy egy fájlmegosztáson.
+A központi szolgáltatások magas rendelkezésre állású Windows Server feladatátvevő fürt segítségével valósul meg. Üzembe helyezett Azure-ban, a feladatátvevő fürt a fürttároló konfigurálható két módszerekkel: vagy fürtözött megosztott kötet vagy egy fájlmegosztás.
 
-Mivel a megosztott lemezeket nem lehetséges az Azure-on, SIOS Datakeeper a tartalom a fürtcsomópontokhoz kapcsolt független lemezek replikálásához használt, és a meghajtók absztrakt fürtként megosztott kötet a fürt kezelő. Megvalósítás részletei: [SAP ASC fürtszolgáltatás Azure](https://blogs.msdn.microsoft.com/saponsqlserver/2015/05/20/clustering-sap-ascs-instance-using-windows-server-failover-cluster-on-microsoft-azure-with-sios-datakeeper-and-azure-internal-load-balancer/).
+Mivel a megosztott lemezeket nem lehetséges az Azure-ban, az SIOS Datakeeper van a tartalom a fürt csomópontjaihoz csatolt független lemezek replikálásához használt, és a meghajtók absztrakt fürtként megosztott fürtkötet a kezelő számára. A megvalósítás részleteit lásd: [futó SAP ASCS fürtözése az Azure-ban](https://blogs.msdn.microsoft.com/saponsqlserver/2015/05/20/clustering-sap-ascs-instance-using-windows-server-failover-cluster-on-microsoft-azure-with-sios-datakeeper-and-azure-internal-load-balancer/).
 
-Egy másik lehetőség egy által kiszolgált egy fájlmegosztást a [Scale-Out fájlkiszolgáló](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS). Kibővíthető Fájlkiszolgáló ajánlatokat a refs fájlrendszer megosztások is használhatja a fürt megosztott kötetéhez a Windows-fürt. A kibővíthető Fájlkiszolgáló fürt több központi szolgáltatások csomópontok között megosztható legyen. Től írásának pillanatában kibővíthető Fájlkiszolgáló használata csak a magas rendelkezésre állású kialakítása, a kibővíthető Fájlkiszolgáló fürt nem bővíti ki a vész-helyreállítási támogatás biztosítható régiók között.
+Egy másik lehetőség az, hogy által kiszolgált fájlmegosztást a [méretezési ki Fileserver](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS). SOFS-ajánlatok a refs megosztások fürtként is használhat megosztott fürtkötet a Windows-fürt számára. Egy SOFS-fürt központi szolgáltatásokat több csomóponton között is megosztható. Jelen cikk írásakor az SOFS szolgál csak magas rendelkezésre állás kialakítása, mert az SOFS-fürthöz nem terjed ki a vész-helyreállítási támogatás biztosításához a régióban.
 
-Magas rendelkezésre állásúvá tenni a SAP alkalmazáskiszolgálók terheléselosztási forgalmat alkalmazáskiszolgálók készletét belül az érhető el.
-Lásd: [SAP tanúsítványokról és a Microsoft Azure-on futó konfigurációk](/azure/virtual-machines/workloads/sap/sap-certifications).
+Magas rendelkezésre állás az SAP-alkalmazáskiszolgálók a forgalmat az alkalmazáskiszolgálók a készletben lévő terheléselosztási használatával érhető el.
+Lásd: [SAP-tanúsítványok és a Microsoft Azure-on futó konfigurációk](/azure/virtual-machines/workloads/sap/sap-certifications).
 
-### <a name="database-tier"></a>Adatbázis-rétegből
+### <a name="database-tier"></a>Adatbázis-szint
 
-A referencia-architektúrában azt feltételezi, hogy a forráshely adatbázisára AnyDB futó – Ez azt jelenti, hogy egy adatbázis-kezelő például az SQL Server, SAP ASE, IBM DB2 vagy Oracle. Az adatbázis-rétegből natív replikációs szolgáltatása replikált csomópontok közötti kézi vagy automatikus feladatátvételt.
+Ez a referenciaarchitektúra azt feltételezi, hogy a forrásadatbázis on AnyDB fut – például az SQL Server, SAP ASE, IBM DB2-höz vagy az Oracle, a DBMS. Az adatbázisszint natív replikációs funkciót biztosít a replikált csomópontok közötti manuális vagy automatikus feladatátvételt.
 
-Megvalósítás részletei adott adatbázis-rendszerekkel kapcsolatban, lásd: [SAP NetWeaver Azure virtuális gépek DBMS telepítésének](/azure/virtual-machines/workloads/sap/dbms-guide).
+Meghatározott adatbázis-rendszerek megvalósítási kapcsolatban lásd: [SAP NetWeaver az Azure Virtual Machines DBMS üzembe](/azure/virtual-machines/workloads/sap/dbms-guide).
 
 ## <a name="disaster-recovery-considerations"></a>Vészhelyreállítási szempontok
 
-A vészhelyreállítás (DR) egy másodlagos régióba történő feladatátvételt képesnek kell lennie. Minden egyes réteg más stratégiával biztosít vészhelyreállítási (DR) védelmet.
+A vészhelyreállítás (DR) meg kell tudni átadja a feladatokat egy másodlagos régióba. Minden egyes réteg más stratégiával biztosít vészhelyreállítási (DR) védelmet.
 
-- **Alkalmazás-kiszolgálók réteg**. SAP alkalmazáskiszolgálók nem tartalmaz üzleti adatokat. A Azure-ban egy egyszerű vész-Helyreállítási stratégia, ha a SAP alkalmazáskiszolgálók másodlagos régióban, állítsa le. Bármilyen konfigurációs módosításokat vagy az elsődleges alkalmazáskiszolgálón kernel frissítések esetén módosítások kell másolni a virtuális gépek szerepelnek a másodlagos régióba. Például a kernel végrehajtható fájlokat másolni a vész-Helyreállítási virtuális gépek. Automatikus replikációja egy másodlagos régióban alkalmazáskiszolgálók, [Azure Site Recovery](/azure/site-recovery/site-recovery-overview) a javasolt megoldás.
+- **Kiszolgálók alkalmazásrétegek**. SAP-alkalmazáskiszolgálók nem tartalmaznak üzleti adatokat. Az Azure-ban, egy egyszerű Vészhelyreállítási stratégia lehet SAP-alkalmazáskiszolgálókhoz létrehozni a másodlagos régióba, majd leállíthatja őket. Bármilyen konfigurációmódosítás vagy kernelfrissítés az elsődleges alkalmazáskiszolgálón, hogy a módosításokat át kell másolni a virtuális gépek a másodlagos régióban. Például a kernel végrehajtható másolja a Vészhelyreállítási virtuális gépekhez. Az automatikus replikálását egy másodlagos régióba alkalmazáskiszolgálók [Azure Site Recovery](/azure/site-recovery/site-recovery-overview) az ajánlott megoldás.
 
-- **Központi szolgáltatások**. Ez az összetevő a SAP alkalmazás verem is nem maradnak üzleti adatok. Létrehozhat egy virtuális Gépet a vész-helyreállítási régióban a központi szolgáltatások szerepkör futtatásához. Csak a tartalmi szinkronizálni az elsődleges központi szolgáltatások csomópontból-e a /sapmnt megosztást. Is ha a konfigurációs módosítások és a kernel frissítéseket az elsődleges kiszolgálón központi szolgáltatások történik, azok meg kell ismételni a virtuális gép központi szolgáltatásokat futtató vész-helyreállítási régióban. A két kiszolgáló szinkronizálásához, vagy Azure Site Recovery segítségével replikálni a fürtcsomópontokon, vagy egyszerűen csak egy rendszeres, ütemezett feladat segítségével /sapmnt másolja a vész-helyreállítási régió. Ez egyszerű módszert build, a másolási és a teszt feladatátvételi folyamat, a letöltés vonatkozó további információért [SAP NetWeaver: egy Hyper-V és a Microsoft Azure-alapú vész-helyreállítási megoldást felépítése](http://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és tekintse meg a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
+- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A vészhelyreállítási régióban lévő virtuális gép futtatása a központi szolgáltatások szerepkört hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, azokat meg kell ismételni a közép-szolgáltatásokat futtató a vészhelyreállítási régióban lévő virtuális Gépen. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery replikálja a fürtcsomópontok, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal /sapmnt átmásolása a vészhelyreállítási régióban használhatja. Letöltéséhez egyszerű replikációs mód létrehozási, másolási és tesztelési feladatátvételi folyamatok részleteiért [SAP NetWeaver: Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás létrehozása](http://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és hivatkozzon a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
 
-- **Adatbázis-rétegből**. DR legjobban az adatbázis saját integrált replikációs technológiával hajtanak végre. SQL Server esetén például azt javasoljuk, AlwaysOn rendelkezésre állási csoport létrehozni egy távoli régióban replika kézi feladatátvételre tranzakciót aszinkron módon replikál. Aszinkron replikáció elkerülhető az hatással lehet a teljesítmény interaktív munkaterhelések az elsődleges helyen. Kézi feladatátvételre lehetővé teszi, hogy az a személy vész-Helyreállítási hatásának vizsgálatában, és döntse el, ha a vész-Helyreállítási helyről működő indokolt.
+- **Adatbázisréteg**. DR leginkább az adatbázis a saját integrált replikációs technológiával van megvalósítva. Esetén az SQL Server például azt javasoljuk, AlwaysOn rendelkezésre állási csoport létesíteni egy távoli régióba, a replika kézi feladatátvételre tranzakció aszinkron módon replikál. Aszinkron replikáció elkerülhető az elsődleges helyen interaktív számítási feladatai teljesítményével lehet. Manuális feladatátvétel személy elemezheti a DR hatását, és döntse el, ha a DR helyről működő indokolt lehetőséget kínál.
 
-Azure Site Recovery segítségével automatikusan készítse el egy teljes mértékben replikált munkakörnyezeti helyet az eredeti, futtatnia kell testre szabott [üzembe helyezési parancsfájlok](/azure/site-recovery/site-recovery-runbook-automation). A Site Recovery először telepíti a virtuális gépek rendelkezésre állási csoportok, majd futtat parancsfájlokat, mint az erőforrások hozzáadása a terheléselosztók.
+Az Azure Site Recovery segítségével automatikusan hozhatja létre az eredeti egy teljes körűen replikált éles webhelyhez, futtatnia kell a testre szabott [üzembehelyezési szkriptek](/azure/site-recovery/site-recovery-runbook-automation). A Site Recovery először üzembe helyezi a virtuális gépek rendelkezésre állási csoportokban, majd a futtatások parancsfájlok erőforrások hozzáadásához például a terheléselosztók.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
-Azure biztosít több függvények [figyelése és diagnosztikai](/azure/architecture/best-practices/monitoring) az általános infrastruktúra. Emellett az Azure virtuális gépek fokozott ellenőrzés kezeli Azure Operations Management Suite (OMS).
+Az Azure különféle funkciót nyújt [monitorozási és diagnosztikai](/azure/architecture/best-practices/monitoring) infrastruktúra átfogó. Ezenkívül fejlett monitorozását az Azure-beli virtuális gépek kezelése az Azure Operations Management Suite (OMS).
 
-SAP alapú felügyelete, erőforrások és a szolgáltatás teljesítménye az SAP infrastruktúra biztosításához a [Azure SAP fokozott ellenőrzésére](/azure/virtual-machines/workloads/sap/deployment-guide#detailed-tasks-for-sap-software-deployment) kiterjesztését. Ez a bővítmény betölti az Azure monitorozási statisztikáit az SAP alkalmazásba az operációs rendszer monitorozása és a DBA Cockpit funkcióinak használata céljából.
+Az erőforrások és az SAP-infrastruktúra szolgáltatási teljesítményéhez SAP-alapú figyelést biztosít a [Azure SAP Enhanced Monitoring](/azure/virtual-machines/workloads/sap/deployment-guide#detailed-tasks-for-sap-software-deployment) bővítmény használatával kerül sor. Ez a bővítmény betölti az Azure monitorozási statisztikáit az SAP alkalmazásba az operációs rendszer monitorozása és a DBA Cockpit funkcióinak használata céljából.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [SAP NetWeaver alkalmazáskiszolgáló ABAP biztonsági útmutató](https://help.sap.com/doc/7b932ef4728810148a4b1a83b0e91070/1610 001/en-US/frameset.htm?4dde53b3e9142e51e10000000a42189c.html) és [SAP NetWeaver Server Java biztonsági útmutatója](https://help.sap.com/doc/saphelp_snc_uiaddon_10/1.0/en-US/57/d8bfcf38f66f48b95ce1f52b3f5184/frameset.htm).
+Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [biztonsági útmutató ABAP SAP NetWeaver alkalmazáskiszolgáló](https://help.sap.com/doc/7b932ef4728810148a4b1a83b0e91070/1610 001/en-US/frameset.htm?4dde53b3e9142e51e10000000a42189c.html) és [SAP NetWeaver alkalmazás Server Java biztonsági útmutató](https://help.sap.com/doc/saphelp_snc_uiaddon_10/1.0/en-US/57/d8bfcf38f66f48b95ce1f52b3f5184/frameset.htm).
 
-A további hálózati biztonság érdekében vegye fontolóra egy [DMZ hálózati](../dmz/secure-vnet-hybrid.md), a hálózati virtuális készülék használó webes kézbesítő a tűzfal elé az alhálózat létrehozásához.
+A további hálózati biztonság érdekében vegye fontolóra egy [hálózati DMZ](../dmz/secure-vnet-hybrid.md), amely egy hálózati virtuális berendezésen használatával az alhálózat elé tűzfal létrehozása az Web Dispatcher.
 
-Biztonsági infrastruktúra az adatok titkosítása az átvitel során, és inaktív. A "Biztonsági szempontok" szakaszában a [SAP NetWeaver az Azure virtuális gépek (VM) – tervezési és megvalósítási útmutató](/azure/virtual-machines/workloads/sap/planning-guide) történő címet hálózati biztonsági kezdődik. Ez az útmutató adja meg azt is, hogy a tűzfalakon mely portokat kell megnyitni az alkalmazás kommunikációjának lehetővé tételéhez.
+Az infrastruktúra biztonsága és adatokat is titkosítja az átvitt inaktív. A "Biztonsági szempontok" szakasza a [SAP NetWeaver az Azure virtuális gépeken (VM) – tervezési és megvalósítási útmutató](/azure/virtual-machines/workloads/sap/planning-guide) hálózati biztonság témájával kezdődik. Ez az útmutató adja meg azt is, hogy a tűzfalakon mely portokat kell megnyitni az alkalmazás kommunikációjának lehetővé tételéhez.
 
-Windows virtuális gépek lemezeit titkosításához, használhatja a [Azure Disk Encryption](/azure/security/azure-security-disk-encryption). A BitLocker Windows-szolgáltatás segítségével kötettitkosítást biztosít az operációs rendszer és az adatlemezek. A megoldás is használható az Azure Key Vault segítségével szabályozhatja, és a lemez-titkosítási kulcsok és titkos kulcsainak kulcstároló-előfizetése kezeléséhez. A virtuális gépek lemezein található, inaktív adatok az Azure Storage-ban titkosítva vannak.
+Windows virtuális gépek lemezeinek titkosításához, használhatja a [az Azure Disk Encryption](/azure/security/azure-security-disk-encryption). A Windows BitLocker funkcióját kötettitkosítást biztosít az operációs rendszer és az adatlemezeket használ. A megoldás az Azure Key Vault segítségével vezérelheti és felügyelheti a lemeztitkosítási kulcsokat és titkos kulcsokat a key vault-előfizetés is használható. A virtuális gépek lemezein található, inaktív adatok az Azure Storage-ban titkosítva vannak.
 
 ## <a name="communities"></a>Közösségek
 
 A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a sikeres üzembe helyezésben. A következőket ajánljuk figyelmébe:
 
-- [A Microsoft Platform blog futó SAP-alkalmazásokból](https://blogs.msdn.microsoft.com/saponsqlserver/2017/05/04/sap-on-azure-general-update-for-customers-partners-april-2017/)
-- [Az Azure közösségi támogatás](https://azure.microsoft.com/support/community/)
-- [SAP-Közösség](https://www.sap.com/community.html)
+- [A Microsoft Platform Blog futó SAP-alkalmazások](https://blogs.msdn.microsoft.com/saponsqlserver/2017/05/04/sap-on-azure-general-update-for-customers-partners-april-2017/)
+- [Azure közösségi támogatás](https://azure.microsoft.com/support/community/)
+- [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
 
+[visio-download]: https://archcenter.blob.core.windows.net/cdn/sap-reference-architectures.vsdx
