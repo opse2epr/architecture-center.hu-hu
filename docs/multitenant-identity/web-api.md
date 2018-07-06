@@ -1,23 +1,23 @@
 ---
-title: Egy több-bérlős alkalmazásban háttér webes API biztonságossá tétele
-description: A háttérrendszer webes API biztonságossá tétele
+title: Egy több-bérlős alkalmazásban a háttéralkalmazás webes API biztonságossá tétele
+description: Egy háttéralkalmazás webes API biztonságossá tétele
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authorize
 pnp.series.next: token-cache
-ms.openlocfilehash: 65529280c5849e36ed7ff23de08a0b485034d0d8
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 2d02ff7be04c6ebec888039453fe1ac7e957b301
+ms.sourcegitcommit: f7fa67e3bdbc57d368edb67bac0e1fdec63695d2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24541465"
+ms.lasthandoff: 07/05/2018
+ms.locfileid: "37843674"
 ---
-# <a name="secure-a-backend-web-api"></a>A háttérrendszer webes API biztonságossá tétele
+# <a name="secure-a-backend-web-api"></a>Egy háttéralkalmazás webes API biztonságossá tétele
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
-A [Dejójáték felmérések] alkalmazás CRUD-műveleteknek a felmérések kezelésére egy háttér webes API-t használ. Például ha a felhasználó a "Saját felmérések" kattint, a webalkalmazás egy HTTP-kérést küld a webes API-hoz:
+A [Tailspin Surveys] alkalmazás felmérések CRUD-műveletek kezelésére egy háttéralkalmazás webes API-t használ. Például ha egy felhasználó a "Saját felmérések" kattint, a webes alkalmazás HTTP-kérelmet küld a webes API-hoz:
 
 ```
 GET /users/{userId}/surveys
@@ -36,59 +36,59 @@ A webes API-t egy JSON-objektumot ad vissza:
 }
 ```
 
-A webes API-k nem engedélyezi a névtelen kéréseknél, a web app hitelesítenie kell magát OAuth 2 tulajdonosi jogkivonatok használatával.
+A webes API nem engedélyezi a névtelen kérésekkel, így a web app hitelesítenie kell magát az OAuth 2 tulajdonosi jogkivonatok segítségével.
 
 > [!NOTE]
-> Ez egy webfarmos kiszolgálók. Az alkalmazás nem tesz, bármely AJAX-hívások az API a böngésző ügyfélről.
+> Ez a forgatókönyv kiszolgálók. Az alkalmazás nem derül összes AJAX hívás a böngésző ügyfélről az API-hoz.
 > 
 > 
 
 Nincsenek két fő megközelítés közül választhat:
 
-* Delegált felhasználói azonosító. A webes alkalmazás hitelesíti a felhasználó identitását.
-* Alkalmazás azonosítója. A webalkalmazás az ügyfél-azonosító, OAuth2 ügyfél hitelesítő adatok folyamata segítségével végzi a hitelesítést.
+* Felhasználói identitás delegált. A webes alkalmazás hitelesíti a felhasználó identitását.
+* Identita aplikace. A webalkalmazás az ügyfél-azonosító, ügyfél-hitelesítő adatok folyamata OAuth2 használatával végzi a hitelesítést.
 
-A Dejójáték alkalmazás megvalósítja a felhasználó delegált identitása. A fő különbség itt is:
+A Tailspin alkalmazás megvalósítja a felhasználó delegált identitása. Az alábbiakban a fő különbség:
 
-**A felhasználó delegált identitása**
+**Delegált felhasználói identitás**
 
-* A tulajdonosi jogkivonattal, a webes API-t küldeni a felhasználói identitás tartalmazza.
+* A webes API-nak küldött tulajdonosi jogkivonat tartalmazza a felhasználó identitását.
 * A webes API lehetővé teszi a felhasználó identitása alapján felhasználását engedélyezési döntésekhez.
-* A webalkalmazásnak kell kezelni a 403-as (tiltott) hibákat a webes API-t, ha a felhasználó nem jogosult a művelet végrehajtásához.
-* Általában a webes alkalmazás továbbra is lehetővé teszi bizonyos felhasználását engedélyezési döntésekhez, amelyek hatással vannak a felhasználói felület, például a Megjelenítés vagy elrejtés a felhasználói felületi elemei).
-* A webes API potenciálisan nem megbízható ügyfelek, például JavaScript-alkalmazását vagy egy natív ügyfélalkalmazás által használható.
+* A webalkalmazás 403-as (tiltott) hibáinak kezelése a webes API-t, ha a felhasználó nem jogosult a művelet végrehajtásához szükséges.
+* Általában a webalkalmazás továbbra is lehetővé teszi bizonyos felhasználását engedélyezési döntésekhez, amelyek befolyásolják a felhasználói felület, például a Megjelenítés vagy elrejtés a felhasználói felületi elemeket).
+* A webes API potenciálisan nem megbízható ügyfelek, például egy JavaScript-alkalmazását vagy egy natív ügyfélalkalmazás által használható.
 
-**Alkalmazásazonosító**
+**Identita aplikace**
 
 * A webes API-k nem kap a felhasználó adatait.
-* A webes API-k bármilyen engedély a felhasználó identitása alapján nem végezhető el. Az összes engedélyezési döntéseket a webes alkalmazás.  
-* A webes API nem használható egy nem megbízható ügyfelet (JavaScript vagy natív ügyfélalkalmazás).
-* Ez a megközelítés lehet, hogy némileg egyszerűbb alkalmazásához nem engedélyezési logika van a Web API.
+* A webes API-k nem hajtható végre a felhasználó identitása alapján engedélyezés. Az összes engedélyezési döntéseket a webes alkalmazás.  
+* A webes API egy nem megbízható ügyfél (JavaScript- vagy natív ügyfélalkalmazás) nem használható.
+* Ez a megközelítés implementálásához némileg egyszerűbb lehet, mert nincs engedélyezési logikai szerepel a webes API-t.
 
 Mindkét megközelítés a webalkalmazás be kell szereznie egy hozzáférési jogkivonatot, amely a webes API-k meghívásához szükséges hitelesítő adatait.
 
-* A delegált felhasználói azonosítót a jogkivonat van, a kiállító terjesztési hely, amely képes a felhasználó nevében jogkivonatok kiállítása származnia.
-* Az ügyfél hitelesítő adatait az alkalmazás lehet, hogy a jogkivonat beszerzése az IDP vagy a saját token gazdakiszolgálón. (De nem teljesen új írni egy token kiszolgálót; például a tesztelt keretrendszerével [IdentityServer3].) Ha az Azure AD a hitelesítést, azt rendelkezik erősen ajánlott a hozzáférési jogkivonat beszerzése az Azure AD, akkor az ügyfél-hitelesítő adatok folyamata.
+* Delegált felhasználói identitás a jogkivonat kell meghatároznia az Identitásszolgáltató, amely a felhasználó nevében jogkivonatok kiállítása is rendelkezik.
+* Az ügyfél-hitelesítő adatok egy alkalmazás előfordulhat, hogy a jogkivonat beszerzése az identitásszolgáltató vagy saját jogkivonat-kiszolgálót. (De nem teljesen új jogkivonat kiszolgálói írása; például egy tesztelt keretrendszert használ [IdentityServer4].) Ha az Azure AD-hitelesítést, Határozottan javasoljuk, hogy a hozzáférési jogkivonat beszerzése az Azure AD, még akkor is az ügyfél-hitelesítő adat folyamatát.
 
-Ez a cikk többi azt feltételezi, hogy az alkalmazás az Azure AD hitelesíti magát.
+Ez a cikk többi része feltételezi, hogy az Azure AD hitelesíti magát az alkalmazást.
 
 ![A hozzáférési jogkivonat beolvasása](./images/access-token.png)
 
-## <a name="register-the-web-api-in-azure-ad"></a>A webes API-k regisztrálni Azure AD-ben
-Ahhoz, hogy Azure AD-be, hogy kiállítson egy tulajdonosi jogkivonatot a webes API néhány dolog, az Azure AD konfigurálása szüksége.
+## <a name="register-the-web-api-in-azure-ad"></a>A webes API regisztrálása az Azure ad-ben
+Ahhoz, hogy a webes API tulajdonosi jogkivonatok kiállítása az Azure AD, a konfigurálása az Azure ad-ben a következőkre kell.
 
-1. Regisztrálja a webes API-t az Azure ad-ben.
+1. A webes API regisztrálása az Azure ad-ben.
 
-2. A webalkalmazás az ügyfél-azonosító hozzáadása a webes API-alkalmazás jegyzékfájlja a a `knownClientApplications` tulajdonság. Lásd: [frissíteni az alkalmazásjegyzékeknek].
+2. A webalkalmazás az ügyfél-azonosító hozzáadása a webes API-k alkalmazásjegyzékhez a a `knownClientApplications` tulajdonság. Lásd: [Frissítse az alkalmazásjegyzékeket].
 
-3. Engedélyt a webes alkalmazás a webes API hívásához. Az Azure felügyeleti portálon, beállíthatja az engedélyek két típusú: "alkalmazás" alkalmazásidentitás (ügyfél-hitelesítő adatok folyamata), vagy engedélyeinek "Delegált engedélyek" delegált felhasználói identitás.
+3. Engedélyezheti a webes alkalmazás számára a webes API hívása. Az Azure felügyeleti portálján, beállíthatja az engedélyek két típusú: "Alkalmazásengedélyek" identita aplikace (ügyfél-hitelesítő adatok folyamata) vagy a "Delegált engedélyek" meghatalmazott felhasználói identitás.
    
    ![Delegált engedélyek](./images/delegated-permissions.png)
 
-## <a name="getting-an-access-token"></a>Egy hozzáférési jogkivonat beolvasása
-Előtt hívja meg a webes API-t, a webes alkalmazás lekérdezi egy hozzáférési jogkivonat az Azure AD. A .NET-alkalmazásokat, használja a [az Azure AD Authentication Library (ADAL) .NET-keretrendszerhez készült][ADAL].
+## <a name="getting-an-access-token"></a>Hozzáférési jogkivonat beolvasása
+Előtt hívja meg a webes API-t, a webes alkalmazás lekérése hozzáférési token Azure ad-ben. A .NET-alkalmazás, használja a [az Azure AD Authentication Library (ADAL) for .NET][ADAL].
 
-Az OAuth 2 hitelesítésikód-folyamata, a az alkalmazás egy engedélyezési kódot, a hozzáférési token adatcseréihez használható. Az alábbi kód adal-t használ a hozzáférési jogkivonat beszerzése. Ez a kód neve alatt a `AuthorizationCodeReceived` esemény.
+Az OAuth 2 engedélyezési kód folyamata az alkalmazás hozzáférési jogkivonat egy engedélyezési kódjának adatcseréihez használható. A következő kódot használ adal-t beszerezni a hozzáférési jogkivonatot. Ez a kód nevezzük során a `AuthorizationCodeReceived` esemény.
 
 ```csharp
 // The OpenID Connect middleware sends this event when it gets the authorization code.   
@@ -107,33 +107,33 @@ public override async Task AuthorizationCodeReceived(AuthorizationCodeReceivedCo
 }
 ```
 
-Az alábbiakban a különböző paraméterek szükséges:
+Az alábbiakban a különböző paraméterek szükségesek:
 
-* `authority`. A bejelentkezett felhasználó nevében Bérlőazonosító származik. (Nem a bérlő azonosítója a Szolgáltatottszoftver-szolgáltató)  
-* `authorizationCode`. vissza kapott az IDP hitelesítési kódot.
+* `authority`. A bejelentkezett felhasználó Bérlőazonosítója származik. (Nem a bérlő Azonosítóját az SaaS-szolgáltató)  
+* `authorizationCode`. a hitelesítési kódot, amely az identitásszolgáltató vissza lett.
 * `clientId`. A webes alkalmazás ügyfél-azonosítót.
-* `clientSecret`. A webes alkalmazás titkos ügyfélkulcsot.
-* `redirectUri`. Az átirányítási URI, amely az OpenID connect. Ez azért, amelyben a kiállító terjesztési hely visszahívja a tokenhez.
-* `resourceID`. Az App ID URI a Web API, amely akkor jön létre, amikor a webes API-t az Azure ad-ben regisztrált
-* `tokenCache`. Egy objektum, amely gyorsítótárazza a hozzáférési jogkivonatok. Lásd: [Token gyorsítótárazás].
+* `clientSecret`. A webes alkalmazás titkos ügyfélkódja.
+* `redirectUri`. Az átirányítási URI-t, amelyet beállított OpenID connect. Ez a, amelyben az Identitásszolgáltató visszahívja a jogkivonattal.
+* `resourceID`. Az Alkalmazásazonosító URI a webes API-t, a webes API Azure AD-ben való regisztrálásakor létrehozott
+* `tokenCache`. Gyorsítótárazza a hozzáférési jogkivonatok objektum. Lásd: [Token-gyorsítótárazási].
 
-Ha `AcquireTokenByAuthorizationCodeAsync` sikeres, ADAL gyorsítótárazza a jogkivonatot. Később kaphat a jogkivonatot a gyorsítótárból AcquireTokenSilentAsync hívása:
+Ha `AcquireTokenByAuthorizationCodeAsync` sikeres, az adal-t gyorsítótárazza a jogkivonat. Később kérheti a jogkivonatot a gyorsítótárból AcquireTokenSilentAsync meghívásával:
 
 ```csharp
 AuthenticationContext authContext = new AuthenticationContext(authority, tokenCache);
 var result = await authContext.AcquireTokenSilentAsync(resourceID, credential, new UserIdentifier(userId, UserIdentifierType.UniqueId));
 ```
 
-Ha `userId` a felhasználó objektum azonosítója, amelyet az a `http://schemas.microsoft.com/identity/claims/objectidentifier` jogcímek.
+ahol `userId` van a felhasználói objektum azonosítója, amely megtalálható a `http://schemas.microsoft.com/identity/claims/objectidentifier` jogcím.
 
-## <a name="using-the-access-token-to-call-the-web-api"></a>A webes API hívásához a hozzáférési jogkivonat segítségével
-Miután a jogkivonatot, elküldheti a HTTP-kérelmek engedélyezési fejlécében a webes API-k.
+## <a name="using-the-access-token-to-call-the-web-api"></a>A hozzáférési token használatával a webes API meghívásához
+Miután a jogkivonatot, küldje el a HTTP-kérések az engedélyezési fejléc a webes API-hoz.
 
 ```
 Authorization: Bearer xxxxxxxxxx
 ```
 
-A következő kiterjesztésmetódus felmérések alkalmazása HTTP hitelesítési fejlécéhez beállítása kérni, használja a **HttpClient** osztály.
+A következő metódust a Surveys alkalmazás állítja be az engedélyeztetési fejléc egy HTTP-kérelem használatával a **HttpClient** osztály.
 
 ```csharp
 public static async Task<HttpResponseMessage> SendRequestWithBearerTokenAsync(this HttpClient httpClient, HttpMethod method, string path, object requestBody, string accessToken, CancellationToken ct)
@@ -154,10 +154,10 @@ public static async Task<HttpResponseMessage> SendRequestWithBearerTokenAsync(th
 }
 ```
 
-## <a name="authenticating-in-the-web-api"></a>A webes API-t a hitelesítéshez
-A webes API-t a tulajdonosi jogkivonat hitelesítésére rendelkezik. Az ASP.NET Core, használhatja a [Microsoft.AspNet.Authentication.JwtBearer] [ JwtBearer] csomag. Ez a csomag biztosít alkalmazott szoftver, amely lehetővé teszi az alkalmazások OpenID Connect tulajdonosi jogkivonatokat fogadni.
+## <a name="authenticating-in-the-web-api"></a>A webes API hitelesítése
+A webes API rendelkezik tulajdonosi jogkivonat hitelesítéséhez. Az ASP.NET Core, használhat a [Microsoft.AspNet.Authentication.JwtBearer] [ JwtBearer] csomagot. Ez a csomag biztosít közbenső szoftvert, amely lehetővé teszi az alkalmazás OpenID Connect tulajdonosi jogkivonatokat fogadni.
 
-A köztes regisztrálja a webes API `Startup` osztály.
+A webes API regisztrálása a közbenső szoftver `Startup` osztály.
 
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext dbContext, ILoggerFactory loggerFactory)
@@ -177,15 +177,15 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, Applicat
 }
 ```
 
-* **A célközönség**. Állítsa be ezt App ID URL-címet a webes API, amely a webes API-t az Azure ad-vel való regisztrálásakor létrehozott.
-* **Szolgáltató**. Egy több-bérlős alkalmazáshoz állítsa ezt a beállítást `https://login.microsoftonline.com/common/`.
-* **TokenValidationParameters**. Egy több-bérlős alkalmazás beállítása **ValidateIssuer** false értékre. Ez azt jelenti, hogy az alkalmazás ellenőrzi a kibocsátó.
-* **Események** abból származó osztály **JwtBearerEvents**.
+* **Célközönség**. Állítsa be ezt az azonosító URL-címét a webes API-t, a webes API-t az Azure AD-regisztrációja során létrehozott.
+* **Szolgáltató**. Több-bérlős alkalmazás esetében állítsa ezt a beállítást `https://login.microsoftonline.com/common/`.
+* **TokenValidationParameters**. Egy több-bérlős alkalmazás beállítása **ValidateIssuer** hamis értékre. Ez azt jelenti, hogy az alkalmazás ellenőrzi a kibocsátó.
+* **Események** egy osztály, amely származó **JwtBearerEvents**.
 
 ### <a name="issuer-validation"></a>Kibocsátó érvényesítése
-A token kibocsátó érvényesítése a **JwtBearerEvents.TokenValidated** esemény. A kibocsátó a "iss" jogcímek küldése.
+Az a tokenkiállító ellenőrzését a **JwtBearerEvents.TokenValidated** esemény. A kiállító a "iss" jogcímek zajlik.
 
-A felmérések alkalmazásban, a webes API-k nem kezeli az [előfizetési bérlői]. Ezért azt csak ellenőrzi, hogy a kibocsátó már az alkalmazás-adatbázisban. Ha nem, akkor kivételt jelez, amely azt eredményezi, a hitelesítés sikertelen lesz.
+A Surveys alkalmazás, az a webes API-k nem kezeli az [bérlői feliratkozás]. Ezért azt csak ellenőrzi, hogy a kibocsátó már az alkalmazás-adatbázis. Ha nem, akkor kivételt jelez, amely-hitelesítés sikertelen.
 
 ```csharp
 public override async Task TokenValidated(TokenValidatedContext context)
@@ -218,26 +218,26 @@ public override async Task TokenValidated(TokenValidatedContext context)
 }
 ```
 
-Mivel ez a példa bemutatja, használhatja a **TokenValidated** esemény módosításához a rendszer a jogcímeket. Ne feledje, hogy a jogcímek közvetlenül az Azure AD származnak. Ha a webes alkalmazás módosítja a jogcímeket kap, ezeket a módosításokat nem jelenik meg a tulajdonosi jogkivonatot, amely megkapja a webes API-t. További információkért lásd: [jogcím-átalakítással][claims-transformation].
+Mivel ez a példa bemutatja, is használhatja a **TokenValidated** eseményhez, és módosíthatja a jogcímeket. Ne feledje, hogy a jogcímek származnak, közvetlenül az Azure ad-ből. A webes alkalmazás módosítja a jogcímeket kap, ha ezek a módosítások nem jelennek meg a tulajdonosi jogkivonat, amely megkapja a webes API-t. További információkért lásd: [jogcím-átalakítást][claims-transformation].
 
 ## <a name="authorization"></a>Engedélyezés
-Általános vitafórum engedély, lásd: [szerepkör- és erőforrás-alapú engedélyezési][Authorization]. 
+Általános engedélyezési, lásd: [szerepkör- és erőforrás-alapú hitelesítés][Authorization]. 
 
-A JwtBearer köztes kezeli az engedélyezési válaszokat. Például korlátozhatja a vezérlő művelet a hitelesített felhasználók számára, használja a **[engedélyezés]** atrribute, és adja meg **JwtBearerDefaults.AuthenticationScheme** hitelesítési sémát:
+A JwtBearer közbenső kezeli a hitelesítési válaszokat. Például korlátozhatja egy vezérlő művelet a hitelesített felhasználók számára, használja a **[engedélyezés]** atrribute, és adja meg **JwtBearerDefaults.AuthenticationScheme** hitelesítési sémát:
 
 ```csharp
 [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 ```
 
-Ez visszaadja a 401-es állapotkód, ha a felhasználó nincs hitelesítve.
+401-es állapotkódot Ez ad vissza, ha a felhasználó nincs hitelesítve.
 
-A tartományvezérlő műveleti authorizaton házirend korlátozásához adja meg a házirend nevére a a **[engedélyezés]** attribútum:
+Korlátozza a tartományvezérlő műveleti authorizaton házirend, adja meg a házirend nevére a **[engedélyezés]** attribútum:
 
 ```csharp
 [Authorize(Policy = PolicyNames.RequireSurveyCreator)]
 ```
 
-Ez adja vissza a 401-es állapotkód: Ha a felhasználó nincs hitelesítve, és a 403-as, ha a felhasználó hitelesítése, de nem engedélyezett. A házirend indítása regisztrálása:
+Ez adja vissza, ha a felhasználó hitelesítése nem 401-es állapotkódot, és a 403-as, ha a felhasználó hitelesítése, de nem jogosult. A szabályzat indításkor regisztrálása:
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -264,17 +264,17 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-[**Következő**][token cache]
+[**Tovább**][token cache]
 
 <!-- links -->
 [ADAL]: https://msdn.microsoft.com/library/azure/jj573266.aspx
 [JwtBearer]: https://www.nuget.org/packages/Microsoft.AspNet.Authentication.JwtBearer
 
-[Dejójáték felmérések]: tailspin.md
-[IdentityServer3]: https://github.com/IdentityServer/IdentityServer3
-[frissíteni az alkalmazásjegyzékeknek]: ./run-the-app.md#update-the-application-manifests
-[Token gyorsítótárazás]: token-cache.md
-[előfizetési bérlői]: signup.md
+[Tailspin Surveys]: tailspin.md
+[IdentityServer4]: https://github.com/IdentityServer/IdentityServer4
+[Frissítse az alkalmazásjegyzékeket]: ./run-the-app.md#update-the-application-manifests
+[Token-gyorsítótárazási]: token-cache.md
+[bérlői feliratkozás]: signup.md
 [claims-transformation]: claims.md#claims-transformations
 [Authorization]: authorize.md
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance
