@@ -127,6 +127,8 @@
       maintainContext: true
     - name: A hibaállapot elemzése
       href: resiliency/failure-mode-analysis.md
+- name: Példaforgatókönyvek
+  href: example-scenario/index.md
 - name: Forgatókönyvekre vonatkozó útmutatók
   items:
     - name: Azure AWS-szakembereknek
