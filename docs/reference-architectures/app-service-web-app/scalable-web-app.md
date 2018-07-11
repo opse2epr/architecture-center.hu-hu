@@ -8,11 +8,11 @@ pnp.series.next: multi-region-web-app
 ms.date: 11/23/2016
 cardTitle: Improve scalability
 ms.openlocfilehash: 6459acebfa25491332e2118b9e8fe51d5fc79ff3
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30846508"
+ms.lasthandoff: 07/10/2018
+ms.locfileid: "37958806"
 ---
 # <a name="improve-scalability-in-a-web-application"></a>Méretezhetőség javítása egy webalkalmazásban
 
@@ -75,7 +75,7 @@ Ha az alkalmazás főként statikus oldalakat tartalmaz, érdemes lehet [a CDN-t
 
 A részletes útmutatásért lásd: [Content Delivery Network (CDN) útmutató][cdn-guidance].
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 A modern alkalmazások gyakran nagy mennyiségű adatot dolgoznak fel. A felhőnek megfelelő méretezés érdekében fontos a megfelelő tárolótípus kiválasztása. Íme néhány alapvető javaslat. 
 
 | Amit tárolni szeretne | Példa | Ajánlott tároló |

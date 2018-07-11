@@ -5,11 +5,11 @@ author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
 ms.openlocfilehash: 00309e58c163a64f6d9796bedc19d936afcd09ab
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/30/2018
-ms.locfileid: "30270288"
+ms.lasthandoff: 07/10/2018
+ms.locfileid: "37958823"
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Webalkalmazás futtatása több régióban
 [!INCLUDE [header](../../_includes/header.md)]
@@ -79,10 +79,10 @@ Regionális kimaradás esetén a feladatátvételhez kijelölhet egy másik rég
 >
 >
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 Az Azure Storage szolgáltatáshoz [írásvédett georedundáns tárolást][ra-grs] (RA-GRS) használjon. Az RA-GRS típusú tárolással a rendszer az adatokat egy másodlagos régióba replikálja. A másodlagos régióhoz csak olvasható hozzáférése van egy különálló végponton keresztül. Regionális kimaradás vagy vészhelyzet esetén az Azure Storage csapata dönthet úgy, hogy földrajzi feladatátvételt hajt végre a másodlagos régióba. Ehhez a feladatátvételhez nincs szükség az ügyfél beavatkozására.
 
-A Queue Storage szolgáltatáshoz hozzon létre egy biztonsági várólistát a másodlagos régióban. A feladatátvétel során az alkalmazás a biztonsági várólistát használhatja, amíg az elsődleges régió újra elérhetővé nem válik. Így az alkalmazás továbbra is az új kérelmek tud feldolgozni.
+A Queue Storage szolgáltatáshoz hozzon létre egy biztonsági várólistát a másodlagos régióban. A feladatátvétel során az alkalmazás a biztonsági várólistát használhatja, amíg az elsődleges régió újra elérhetővé nem válik. Ezzel a módszerrel az alkalmazás továbbra is az új kérelmek tud feldolgozni.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
@@ -101,7 +101,7 @@ A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a szol
 ### <a name="sql-database"></a>SQL Database
 Az SQL Database helyreállítási időkorlátjának (RPO) és becsült helyreállítási idejének (ERT) ismertetése [Az Azure SQL Database üzletmenet-folytonossági funkcióinak áttekintése][sql-rpo] című cikkben található. 
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 Az RA-GRS tároló tartós tárolást biztosít, de fontos tudni, mi történhet egy esetleges kimaradás során:
 
 * A tárhely leállásakor egy ideig nem lesz írási hozzáférése az adatokhoz. Leállás során a másodlagos végponton keresztül továbbra is olvashatók az adatok.

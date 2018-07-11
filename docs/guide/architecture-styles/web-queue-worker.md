@@ -1,94 +1,94 @@
 ---
-title: Webalkalmazás-várólista-munkavégző architektúra stílus
-description: Előnyeit, kihívást és ajánlott eljárások a webalkalmazás-várólista-munkavégző architektúrák ismerteti az Azure-on
+title: Webüzenetsor-feldolgozó architektúrastílus
+description: Az Azure webüzenetsor-feldolgozó architektúráinak előnyeit, kihívásait és ajánlott eljárásait ismerteti
 author: MikeWasson
 ms.openlocfilehash: 545472e71ffcd43717ad24af0dc9218a221ca910
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24539801"
+ms.lasthandoff: 07/10/2018
+ms.locfileid: "37958789"
 ---
-# <a name="web-queue-worker-architecture-style"></a>Webalkalmazás-várólista-munkavégző architektúra stílus
+# <a name="web-queue-worker-architecture-style"></a>Webüzenetsor-feldolgozó architektúrastílus
 
-Ebbe az architektúrába alapvető összetevői vannak egy **előtér-webkiszolgáló** ügyfélkérelmek, szolgál, és egy **munkavégző** , erőforrás-igényes feladatok, hosszan futó munkafolyamatok vagy kötegelt feladatot hajt végre.  A dolgozó keresztül kommunikál a előtér egy **üzenet-várólista**.  
+Az ilyen architektúrák alapelemei: egy **webes előtér**, amely kiszolgálja az ügyfélkérelmeket, és egy **feldolgozó**, amely erőforrás-igényes munkákat, hosszan futó munkafolyamatokat vagy kötegelt feladatokat hajt végre.  A webes előtér egy **üzenetsor** segítségével kommunikál a feldolgozóval.  
 
 ![](./images/web-queue-worker-logical.svg)
 
-Más összetevők, amelyek gyakran vannak építve az architektúra a következők:
+Az ebbe az architektúrába gyakran beillesztett más összetevők:
 
-- Egy vagy több adatbázist. 
-- A gyorsítótár az adatbázisból tárolásához a gyors olvasása.
-- Statikus tartalom szolgáltatásához CDN
-- Távoli szolgáltatások, például az e-mailben vagy SMS-szolgáltatás. Gyakran ezek által biztosított harmadik felek számára.
-- Identitásszolgáltató-hitelesítéshez.
+- Egy vagy több adatbázis. 
+- Egy gyorsítótár az adatbázis adatainak tárolására a gyors olvasás érdekében.
+- CDN a statikus tartalom kiszolgálásához
+- Távoli szolgáltatások, például e-mail- vagy SMS-szolgáltatás. Ezeket gyakran egy külső fél biztosítja.
+- Identitásszolgáltató a hitelesítéshez.
 
-A webes és feldolgozói olyan állapot nélküli is. A munkamenet-állapot egy elosztott gyorsítótár is tárolható. Hosszan futó munka a dolgozó aszinkron módon végezhető el. A munkavégző üzenetek várakozási által kiváltott, vagy kötegelt feldolgozásra ütemezhető. A dolgozó választható összetevőként. Ha hosszú ideig futó művelet, a munkavégző elhagyható.  
+A web és a feldolgozó is állapot nélküli. A munkamenet-állapot tárolható egy megosztott gyorsítótárban. A hosszan futó munkákat a feldolgozó aszinkron módon végzi el. A feldolgozó aktiválható üzenetekkel az üzenetsoron, vagy futhat egy ütemezésben a kötegelt feldolgozáshoz. A feldolgozó egy választható összetevő. Ha nincs hosszan futó művelet, a feldolgozó elhagyható.  
 
-Az előtérbeli webes API-k állhat. Ügyféloldali a webes API képes használni egy egyoldalas alkalmazás, amely lehetővé teszi az AJAX-hívások, illetve egy webalkalmazást.
+Az előtér állhat egy webes API-ból. Ügyféloldalon a webes API-t használhatja egy AJAX-hívásokat indító egyoldalas alkalmazás vagy egy natív ügyfélalkalmazás.
 
-## <a name="when-to-use-this-architecture"></a>Mikor érdemes használni, ez az architektúra
+## <a name="when-to-use-this-architecture"></a>Mikor érdemes ezt az architektúrát használni?
 
-A webalkalmazás-várólista-munkavégző architektúra általában felügyelt számítási szolgáltatás, vagy az Azure App Service szolgáltatásban, vagy az Azure Cloud Services segítségével van megvalósítva. 
+A webüzenetsor-feldolgozó architektúra implementálása általában felügyelt számítási szolgáltatások használatával történik, vagy az Azure App Service vagy az Azure Cloud Services segítségével. 
 
-Vegye figyelembe a architektúra stílus:
+Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz:
 
-- Viszonylag egyszerű tartománnyal rendelkező alkalmazások.
-- Az alkalmazásoknak néhány hosszan futó munkafolyamatok vagy kötegelt műveleteket.
-- Ha használni kívánt felügyelt szolgáltatásokat, nem pedig infrastruktúra (IaaS) szolgáltatás.
+- Alkalmazások viszonylag egyszerű tartománnyal.
+- Alkalmazások néhány hosszan futó munkafolyamattal vagy kötegelt műveletekkel.
+- Ha felügyelt szolgáltatásokat szeretne használni szolgáltatott infrastruktúra (IaaS) helyett.
 
 ## <a name="benefits"></a>Előnyök
 
-- Viszonylag egyszerű architektúra, amely könnyen értelmezhető.
-- Könnyű telepítése és kezelése.
-- Egyértelmű elkülönítése vonatkozik.
-- Az előtér a rendszer leválasztja a dolgozó aszinkron üzenetküldéshez használ.
-- Az előtér- és a feldolgozói is méretezhető egymástól függetlenül.
+- Viszonylag egyszerű és könnyen érthető architektúra.
+- Könnyen telepíthető és felügyelhető.
+- A kockázatok egyértelmű elkülönítése.
+- Az előteret a rendszer aszinkron üzenetküldés segítségével választja le a feldolgozóról.
+- Az előtér és a feldolgozó egymástól függetlenül skálázható.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-- Gondos tervezés nélkül az előtér- és a feldolgozói válhat nagy, egységes összetevők, amelyek a nehezen karbantartása és frissítése.
-- Nem lehet rejtett függőségei, ha az előtér- és munkavégző adatok sémák vagy kódmodulok megosztása. 
+- Gondos tervezés nélkül az előtér és a feldolgozó hatalmas, monolitikus, végül nehezen karbantartható és frissíthető összetevővé válhat.
+- Lehetnek rejtett függőségek, ha az előtér és a feldolgozó közös sémákat vagy kódmodulokat használ. 
 
 ## <a name="best-practices"></a>Ajánlott eljárások
 
-- Az ügyfél egy tetszetős API tenni. Lásd: [API ajánlott tervezési eljárásokat][api-design].
-- Automatikus skálázás módosítások a terhelés kezelésére. Lásd: [automatikus skálázás gyakorlati tanácsok][autoscaling].
-- Gyorsítótár félig statikus adatok. Lásd: [gyakorlati tanácsok gyorsítótárazás][caching].
-- A CDN és a gazdagép statikus tartalmat használja. Lásd: [CDN gyakorlati tanácsok][cdn].
-- Adott esetben polyglot adatmegőrzési használja. Lásd: [használjon a legjobb adatok tárolásához a feladat][polyglot].
-- Partíció adatot, ezzel növelve a méretezhetőséget, versengés csökkentése és a teljesítmény optimalizálása. Lásd: [gyakorlati tanácsok particionálás adatok][data-partition].
+- Jól megtervezett API közzététele az ügyfelek számára. Tekintse meg az [API-tervezés – Ajánlott eljárások][api-design] szakaszt.
+- Automatikus skálázás a terhelés változásának kezelésére. Lásd az [automatikus skálázással kapcsolatos ajánlott eljárásokat][autoscaling].
+- Gyorsítótárazza a félig statikus adatokat. Lásd a [gyorsítótárazás ajánlott eljárásait][caching].
+- CDN használata a statikus tartalom üzemeltetéséhez. Tekintse meg az [Ajánlott tanácsok az Azure CDN-nel kapcsolatban][cdn] szakaszt.
+- Többnyelvű adatmegőrzés használata, ha szükséges. Tekintse meg a [Használja a feladathoz legmegfelelőbb adattárat][polyglot] szakaszt.
+- Adatok particionálása a méretezhetőség növeléséhez, a versengés kiküszöböléséhez és a teljesítmény optimalizálásához. Tekintse meg az [Ajánlott adatparticionálási eljárások][data-partition] szakaszt.
 
 
-## <a name="web-queue-worker-on-azure-app-service"></a>Az Azure App Service Web-várólista-Worker
+## <a name="web-queue-worker-on-azure-app-service"></a>A webüzenetsor-feldolgozó az Azure App Service-en
 
-Ez a szakasz ismerteti a ajánlott webes-várólista-munkavégző architektúra, amely használja az Azure App Service. 
+Ez a szakasz ismertet egy ajánlott, az Azure App Service-t használó webüzenetsor-feldolgozót. 
 
 ![](./images/web-queue-worker-physical.png)
 
-Az előtér egy Azure App Service webalkalmazásba, lett megvalósítva, és a dolgozó, webjobs-feladat lett megvalósítva. A web app és a webjobs-feladat az App Service-csomag, amely a Virtuálisgép-példányok társított. 
+Az előtér egy ismert Azure App Service webalkalmazásként, a feldolgozó pedig WebJob-feladatként van implementálva. A webalkalmazás és a WebJob is társítva van egy App Service-csomaghoz, amely biztosítja a virtuálisgép-példányokat. 
 
-Az üzenet-várólista vagy az Azure Service Bus, vagy az Azure Storage várólisták használható. (Az ábrán látható az Azure Storage üzenetsorába.)
+Az üzenetsorhoz használhat Azure Service Bus- vagy Azure Storage-üzenetsort is. (Az ábrán egy Azure Storage-üzenetsor látható.)
 
-Azure Redis Cache munkamenet-állapot és az egyéb kis késésű hozzáférést igénylő adatokat tárolja.
+Az Azure Redis Cache tárolja a munkamenet állapotát, és más, alacsony késésű elérést igénylő adatokat.
 
-Az Azure CDN használatával például képek, CSS vagy HTML statikus tartalom gyorsítótárazása.
+Az Azure CDN használatával gyorsítótárazható statikus tartalom, például képek, CSS vagy HTML.
 
-A tároláshoz válassza ki a tárolási technológiákat, az alkalmazás igényeinek leginkább illő. Használhat több tárolási technológiákat (polyglot adatmegőrzési). Az ábrán látható, az Azure SQL Database és Azure Cosmos DB ezt az elképzelést mutatja be.  
+A tároláshoz válassza ki az alkalmazás igényeinek legmegfelelőbb tárolási technológiákat. Használhat több tárolási technológiát (többnyelvű adatmegőrzés). Az elképzelés ábrázolására az ábra bemutatja az Azure SQL Database-t és az Azure Cosmos DB-t.  
 
-További részletekért lásd: [App Service web alkalmazás referencia-architektúrában][scalable-web-app].
+További részletek: [App Service-webalkalmazás referenciaarchitektúrája][scalable-web-app].
 
 ### <a name="additional-considerations"></a>Néhány fontos megjegyzés
 
-- Nem minden tranzakcióban halad át a várólista és a feldolgozói tárhelyre. Az előtér-webkiszolgáló közvetlenül egyszerű olvasási/írási műveleteket hajthat végre. Erőforrás-igényes feladatok vagy hosszan futó munkafolyamatok munkavállalók készültek. Bizonyos esetekben előfordulhat, nem kell egy munkavégző egyáltalán.
+- Nem minden tranzakciónak kell áthaladnia az üzenetsoron és a feldolgozón a tároló felé. A webes előtér közvetlenül hajthat végre egyszerű olvasási/írási műveleteket. A feldolgozók erőforrás-igényes feladatokhoz vagy hosszan futó munkafolyamatokhoz lettek kialakítva. Bizonyos esetekben előfordulhat, hogy nincs is szükség feldolgozóra.
 
-- A beépített automatikus skálázási funkciót, az App Service segítségével terjessze ki a Virtuálisgép-példányok száma. Ha az alkalmazás terhelésének előre jelezhető mintákat követi, használja az ütemezés alapján automatikus skálázási. Ha a terhelést előre nem látható, a metrikák-alapú automatikus skálázás szabályok használata.      
+- Az App Service beépített automatikus skálázási szolgáltatásával horizontálisan felskálázhatja a virtuálisgép-példányok számát. Ha az alkalmazás terhelése előre megjósolható mintákat követ, használjon ütemezésalapú automatikus skálázást. Ha a terhelés nem jósolható meg előre, használjon mérőszám-alapú automatikus méretezési szabályokat.      
 
-- Érdemes a webalkalmazást és a webjobs-feladat üzembe külön App Service-csomagokról. Ily módon, ezeket külön Virtuálisgép-példányok üzemelnek, és egymástól függetlenül is méretezhető. 
+- Érdemes lehet a webalkalmazást és a WebJob-feladatot külön App Service-csomagba helyezni. Ily módon üzemeltethetők külön virtuálisgép-példányokon, és skálázhatók egymástól függetlenül. 
 
-- Használjon külön App Service-csomagokról éles és tesztelését. Ellenkező esetben termelésre használatakor a csomagot, akkor a tesztet futtatja a virtuális gépek éles.
+- Az éles üzemhez és a teszteléshez használjon külön App Service-csomagot. Ha ugyanis ugyanazt a csomagot használja az éles üzemhez és a teszteléshez, akkor a tesztek élesben működő virtuális gépeken futnak.
 
-- Üzembe helyezési segítségével központi telepítések felügyeletéhez szükséges. Ez lehetővé teszi egy átmeneti helyet frissített verzióját telepítse, majd az új verzióra keresztül felcserélése. Ezenkívül lehetővé teszi vissza az előző verzió a felcserélése, ha a frissítés probléma merült fel.
+- Az üzembe helyezések kezeléséhez használjon üzembehelyezési pontokat. Ez lehetővé teszi, hogy telepítsen egy frissített verziót egy átmeneti helyen, majd átváltson az új verzióra. Így arra is lehetősége van, hogy visszaváltson a korábbi verzióra, ha probléma adódna a frissítéssel.
 
 <!-- links -->
 

@@ -5,11 +5,11 @@ author: MikeWasson
 ms.date: 12/12/2017
 cardTitle: Basic web application
 ms.openlocfilehash: bc8cf9b5c66fc451d097cbc992ecb9a249645dce
-ms.sourcegitcommit: e9d9e214529edd0dc78df5bda29615b8fafd0e56
+ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/28/2018
-ms.locfileid: "37091121"
+ms.lasthandoff: 07/10/2018
+ms.locfileid: "37958840"
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
@@ -41,7 +41,7 @@ Az architektúra a következő összetevőkből áll:
 
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti. Egyéni tartománynév (például `contoso.com`) használatához hozzon létre DNS-rekordokat, amelyek leképezik az egyéni tartománynevet az IP-címre. További információkat az [egyéni tartománynevek az Azure App Service-ben való konfigurálásával][custom-domain-name] kapcsolatos cikkben olvashat.  
 
-* **Azure SQL Database** Az [SQL Database][sql-db] egy felhőben futó, szolgáltatásként nyújtott relációs adatbázis. SQL-adatbázis a Microsoft SQL Server adatbázis-kezelő a kódbázis osztanak meg. Az alkalmazás követelményeitől függően használhatja [MySQL az Azure-adatbázis](/azure/mysql) vagy [PostgreSQL az Azure-adatbázis](/azure/postgresql). Ezek a teljes körűen felügyelt adatbázis-szolgáltatások, a nyílt forráskódú MySQL-kiszolgáló és Postgres adatbázis-kezelők, illetve alapján.
+* **Azure SQL Database** Az [SQL Database][sql-db] egy felhőben futó, szolgáltatásként nyújtott relációs adatbázis. Az SQL Database kódbázisa a Microsoft SQL Server adatbázismotorral. Az alkalmazás követelményeitől függően is használhatja [, Azure Database for MySQL](/azure/mysql) vagy [, Azure Database for PostgreSQL](/azure/postgresql). Ezek a teljes körűen felügyelt adatbázis-szolgáltatások, a nyílt forráskódú MySQL-kiszolgáló és a Postgres adatbázismotorokat, illetve alapján.
 
 * **Logikai kiszolgáló**. Az Azure SQL Database-ben egy logikai kiszolgáló üzemelteti az adatbázisokat. Logikai kiszolgálónként több adatbázis is létrehozható.
 
@@ -111,7 +111,7 @@ További információkért tekintse meg [a felhőalapú üzletmenet-folytonossá
 Az App Service [biztonsági mentési és visszaállítási][web-app-backup] funkciót biztosít az alkalmazásfájlokhoz. Azonban ügyeljen arra, hogy a biztonságimásolat-fájlok egyszerű szövegként tartalmazzák az alkalmazásbeállításokat, amelyek titkos adatokat is tartalmazhatnak, például kapcsolati sztringekat. Kerülje az App Service biztonsági mentési funkciójának használatát az SQL-adatbázisok biztonsági mentéséhez, mert a funkció exportálja az adatbázist egy SQL .bacpac fájlba, és ezzel [DTU-kat][sql-dtu] fogyaszt. Ehelyett használja az SQL Database fentebb leírt, időponthoz kötött visszaállítását.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
-Termelési környezetben, fejlesztési, külön erőforráscsoportokat létrehozni, és tesztelési környezetben. Ez megkönnyíti az üzemelő példányok felügyeletét, a tesztkörnyezetek törlését és a hozzáférési jogok kiosztását.
+Hozzon létre külön erőforráscsoportok éles környezetben, fejlesztési, és tesztelési környezetek. Ez megkönnyíti az üzemelő példányok felügyeletét, a tesztkörnyezetek törlését és a hozzáférési jogok kiosztását.
 
 Amikor erőforrásokat rendel az erőforráscsoportokhoz, vegye figyelembe a következőket:
 
@@ -124,13 +124,13 @@ További információk: [Azure Resource Manager overview](/azure/azure-resource-
 ### <a name="deployment"></a>Környezet
 Az üzembe helyezés két lépésből áll:
 
-1. Az Azure-erőforrások kiépítése. Azt javasoljuk, hogy használjon [Azure Resource Manager-sablonok] [ arm-template] ehhez a lépéshez. A sablonok megkönnyítik az üzembe helyezések automatizálását a PowerShell vagy az Azure CLI használatával.
+1. Az Azure-erőforrások kiépítése. Javasoljuk, hogy használjon [Azure Resource Manager-sablonok] [ arm-template] ehhez a lépéshez. A sablonok megkönnyítik az üzembe helyezések automatizálását a PowerShell vagy az Azure CLI használatával.
 2. Az alkalmazás (a kód, a bináris fájlok és a tartalomfájlok) üzembe helyezése. Több lehetőség közül választhat, például üzembe helyezést végezhet a helyi Git-adattárból, használhatja a Visual Studiót, vagy folyamatos üzembe helyezést végezhet egy felhőalapú forrásvezérlőből. További információkat az [alkalmazások az Azure App Service szolgáltatásban való üzembe helyezését][deploy] ismertető cikkben olvashat.  
 
 Az App Service-alkalmazások mindig rendelkeznek egy `production` nevű üzembehelyezési ponttal, amely az éles helyet jelöli. Javasoljuk, hogy a frissítések telepítéséhez hozzon létre egy előkészítési pontot. Az előkészítési pont használatának előnyei a következők:
 
 * Ellenőrizhető az üzembe helyezés sikeressége az éles környezetbe váltás előtt.
-* Az előkészítési pontra való üzembe helyezéssel biztosítható, hogy minden példány üzemkészen kerüljön az éles környezetbe. Számos alkalmazás jelentős melegítési és cold-a kezdési idő rendelkeznek.
+* Az előkészítési pontra való üzembe helyezéssel biztosítható, hogy minden példány üzemkészen kerüljön az éles környezetbe. Számos alkalmazás jelentős melegítési és hidegindítási idő van.
 
 Javasoljuk továbbá egy harmadik pont létrehozását a legutóbbi megfelelően működő üzemelő példány tárolásához. Az előkészítési és az üzembehelyezési pontok közötti váltáskor a korábbi éles környezetet (amely most az előkészítési ponton található) helyezze át a legutóbbi megfelelően működő példányt tároló pontra. Így ha később probléma merül fel, gyorsan vissza lehet váltani a legutóbbi megfelelően működő verzióra.
 
@@ -138,7 +138,7 @@ Javasoljuk továbbá egy harmadik pont létrehozását a legutóbbi megfelelően
 
 Korábbi verzióra való visszaváltáskor győződjön meg arról, hogy az adatbázisok sémamódosításai visszamenőlegesen kompatibilisek.
 
-Ne használja az éles környezet pontjait tesztelésre, mivel az egy adott App Service-csomagban található alkalmazások ugyanazokat a virtuálisgép-példányokat használják. Például terhelés tesztek csökkentheti a élő munkakörnyezeti helyet. Ehelyett hozzon létre külön App Service-csomagot az éles és a tesztelési környezethez. Tegyen próbatelepítést egy külön tervbe, hogy ezeket elszigeteli éles verzióját.
+Ne használja az éles környezet pontjait tesztelésre, mivel az egy adott App Service-csomagban található alkalmazások ugyanazokat a virtuálisgép-példányokat használják. Ha például terheléstesztek csökkentheti az éles helyet. Ehelyett hozzon létre külön App Service-csomagot az éles és a tesztelési környezethez. Egy külön tervbe tesztkörnyezetek helyezésével, elkülönítse azokat a változatát tartalmazza.
 
 ### <a name="configuration"></a>Konfiguráció
 Tárolja a konfigurációs beállításokat [alkalmazásbeállításokként][app-settings]. Adja meg az alkalmazás beállításait Resource Manager-sablonokkal, vagy a PowerShell-lel. Futtatáskor az alkalmazásbeállítások környezeti változókként elérhetők az alkalmazás számára.
@@ -148,7 +148,7 @@ Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati sztringek
 Az üzembehelyezési pontok közötti váltáskor a rendszer alapértelmezés szerint vált az alkalmazásbeállítások között is. Ha különböző beállítások szükségesek az éles és az előkészítési környezethez, létrehozhat olyan alkalmazásbeállításokat, amelyek adott ponthoz vannak rögzítve, és nem változnak.
 
 ### <a name="diagnostics-and-monitoring"></a>Diagnosztika és figyelés
-Engedélyezze a [diagnosztikai naplózást][diagnostic-logs], beleértve az alkalmazásnaplózást és a webkiszolgáló-naplózást. Konfigurálja a naplózást a Blob Storage használatára. A jobb teljesítmény érdekében hozzon létre egy önálló tárfiókot a diagnosztikai naplók számára. Ne használja ugyanazt a tárfiókot naplókat és az alkalmazásadatokat. A naplózással kapcsolatos részletesebb útmutatásért tekintse meg a [monitorozási és diagnosztikai útmutatót][monitoring-guidance].
+Engedélyezze a [diagnosztikai naplózást][diagnostic-logs], beleértve az alkalmazásnaplózást és a webkiszolgáló-naplózást. Konfigurálja a naplózást a Blob Storage használatára. A jobb teljesítmény érdekében hozzon létre egy önálló tárfiókot a diagnosztikai naplók számára. Ne használja ugyanazt a tárfiókot a naplók és alkalmazásadatok. A naplózással kapcsolatos részletesebb útmutatásért tekintse meg a [monitorozási és diagnosztikai útmutatót][monitoring-guidance].
 
 Az alkalmazások terhelés alatti teljesítményének és viselkedésének monitorozásához használjon olyan szolgáltatásokat, mint a [New Relic][new-relic] vagy az [Application Insights][app-insights]. Vegye figyelembe az Application Insights [adatátviteli sebességre vonatkozó korlátozásait][app-insights-data-rate].
 
@@ -198,7 +198,7 @@ Az App Service-hitelesítés néhány korlátja:
 * Több-bérlős forgatókönyvek esetén az alkalmazásnak kell implementálnia a tokenkiállító ellenőrzését végző logikát.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
-Ez az architektúra Resource Manager sablon egy példa [elérhető a Githubon][paas-basic-arm-template].
+Az architektúra egy példa Resource Manager-sablon [elérhető a Githubon][paas-basic-arm-template].
 
 A sablon PowerShell-lel történő üzembe helyezéséhez futtassa a következő parancsokat:
 
