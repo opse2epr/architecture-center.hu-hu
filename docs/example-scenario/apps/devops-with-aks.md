@@ -3,12 +3,12 @@ title: A DevOps és a Jenkins és az Azure Kubernetes Service
 description: Már bizonyított megoldást kínál a Node.js-webalkalmazás, amely használja a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana fejlesztési és üzemeltetési folyamat felépítésével bajlódnia.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 9dbd1cb335f1c03c54ea342466594048e907d040
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: 775480b711f5457866ea8537fb354cebb6cf6720
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37891520"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987607"
 ---
 # <a name="deploy-a-container-based-devops-pipeline-for-modern-application-development-with-jenkins-and-azure-kubernetes-service"></a>Telepítsen egy probléma a modern alkalmazások fejlesztése a Jenkins és az Azure Kubernetes Service-ben tároló-alapú fejlesztési és üzemeltetési folyamatot
 
@@ -65,7 +65,7 @@ Az alkalmazásteljesítmény monitorozásához és a jelentés a problémák, ez
 
 Az Azure Kubernetes Service-fürt részeként a terheléselosztó elosztja a forgalmat alkalmazás egy vagy több tárolók (podok) az alkalmazást futtató között. Ez a megközelítés a tárolóalapú alkalmazások Kubernetes-ben futó magas rendelkezésre állású infrastruktúrát biztosít az ügyfelek számára.
 
-Méretezhetőség témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] az architektúra-központ érhető el.
+Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] az architektúra-központ érhető el.
 
 ### <a name="scalability"></a>Méretezhetőség
 

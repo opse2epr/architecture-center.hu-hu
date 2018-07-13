@@ -3,12 +3,12 @@ title: Azure Virtual Datacenter
 description: A Microsoft Azure Virtual Datacenter lehetséges erőforrásai
 keywords: Azure
 layout: LandingPage
-ms.openlocfilehash: 4aa858a78dab44f34d7155a40554cf0a136aa360
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.openlocfilehash: e37ac347247b2960b85832a20a2b57eec18f65a7
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
-ms.locfileid: "30298838"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987512"
 ---
 # <a name="azure-virtual-datacenter-and-the-enterprise-control-plane"></a>Az Azure Virtual Datacenter és a vállalati vezérlősík
 
@@ -26,7 +26,7 @@ Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az
 <tr>
     <td style="width: 64px; vertical-align: middle;"><a href="/azure/networking/networking-virtual-datacenter"><img src="./images/vdc-network.png" alt="Network Perspective" /></a></td>
     <td>
-        <h3><a href="https://docs.microsoft.com/en-us/azure/networking/networking-virtual-datacenter">Azure Virtual Datacenter: A hálózati nézőpont</a></h3>
+        <h3><a href="/azure/networking/networking-virtual-datacenter">Azure Virtual Datacenter: A hálózati nézőpont</a></h3>
         <p>Ez az online cikk áttekintést nyújt a hálózati mintákról és kialakításokról, amelyekkel megoldhatók az architektúra-méretezéssel, teljesítménnyel és biztonsággal kapcsolatos, a felhőbe való tömeges áthelyezés során felmerülő problémák.</p>
     </td>
 </tr>

@@ -3,12 +3,12 @@ title: Természetes nyelvi Azure csevegőrobot szállodai foglalások számára
 description: Bevált megoldást, amellyel a természetes nyelvi csevegőrobot kereskedelmi alkalmazások az Azure Bot Service, a Cognitive Services és a LUIS, Azure SQL Database és az Application Insights.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 85bdc3194961bbbd8d89db34e5c56e4baa8d8599
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: 4b1c0061b7faa7c2d83d6aaf04ac69dc3fae3929
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37891516"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987641"
 ---
 # <a name="conversational-azure-chatbot-for-hotel-reservations"></a>Természetes nyelvi Azure csevegőrobot szállodai foglalások számára
 
@@ -60,7 +60,7 @@ Ez a megoldás, amely úgy működik, mint a számára egy Szálloda recepciósz
 
 Ez a megoldás az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna redundáns adatbázisainak, feladatátvételi csoportok és georeplikáció. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
 
-Méretezhetőség témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
+Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 

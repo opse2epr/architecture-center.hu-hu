@@ -4,12 +4,12 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: b9833654f63dc81ff6d05b9c49897e0c58de2683
-ms.sourcegitcommit: 86d86d71e392550fd65c4f76320d7ecf0b72e1f6
+ms.openlocfilehash: 09bcfa3c0a0c46605f0025adad06f8049f109f1b
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37864555"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987733"
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -78,7 +78,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel, zárójel, kötőjel és pont (kivéve utolsó karakterként) |`<service short name>-<environment>-rg` |`profx-prod-rg` |
+|Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket |`<service short name>-<environment>-rg` |`profx-prod-rg` |
 |Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek |`"key" : "value"` |`"department" : "Central IT"` |
 
