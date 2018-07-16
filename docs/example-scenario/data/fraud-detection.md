@@ -1,14 +1,14 @@
 ---
-title: Speciális elemzési &mdash; valós idejű csalásészlelés
-description: Valós idejű észlelése a rosszindulatú tevékenység jól bevált megoldást az Azure Event Hubs és a Stream Analytics használatával.
+title: Valós idejű csalásészlelés az Azure-ban
+description: Rosszindulatú tevékenység észlelésére valós idejű bevált forgatókönyv az Azure Event Hubs és a Stream Analytics használatával.
 author: alexbuckgit
 ms.date: 07/05/2018
-ms.openlocfilehash: cf375445b38b0ff7d6fbc400902d5e97b34b4fed
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: e22322133adf40d033ac5af98069cb00765d14ca
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37891515"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060812"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Valós idejű csalásészlelés az Azure-ban
 
@@ -19,10 +19,10 @@ Lehetséges-alkalmazások tartalmaznak rosszindulatú hitelkártya tevékenység
 Például az Event Hubs és a Stream Analytics teljes körűen felügyelt Azure-szolgáltatások használatával a vállalatok szükségtelenné teszi a az egyes kiszolgálók felügyelete során költségeit, és a Microsoft szakértői az adatok gyűjtése a felhőben és a valós idejű elemzések felhasználásával. Ebben a forgatókönyvben kifejezetten címeket a rosszindulatú tevékenységek felismerése. Ha más igények data Analytics, a rendelkezésre álló lista tekintse át [Azure elemzési szolgáltatások][product-category].
 
 Ez a minta egy része, egy szélesebb körű adatok feldolgozási architektúra és stratégia jelöli. A cikk későbbi részében egy általános architektúrát ezt egyéb lehetőségeket ismertetése.
- 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
 
-Fontolja meg a megoldást a következő esetekben használja:
+## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
+
+Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 * Észleli a csaló mobiltelefon meghívja a távközlési forgatókönyvekben.
 * Rosszindulatú hitelkártya-tranzakciók a banki intézmények azonosítása.
@@ -30,9 +30,9 @@ Fontolja meg a megoldást a következő esetekben használja:
 
 ## <a name="architecture"></a>Architektúra
 
-![Az Azure-összetevőket csalások valós idejű észlelése megoldások architektúrájának áttekintése][architecture-diagram]
+![Az Azure-összetevőket a csalások valós idejű észlelése forgatókönyv architektúrájának áttekintése][architecture-diagram]
 
-Ez a megoldás a valós idejű elemzési folyamatok háttér-összetevőinek ismerteti. Áramlanak keresztül az adatok a megoldás a következő:
+Ebben a forgatókönyvben egy valós idejű elemzési folyamatok háttér-összetevőinek ismerteti. Áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. Mobiltelefon hívása metaadatainak egy Azure Event Hubs-példány is küld a forrásrendszerben. 
 2. Stream Analytics-feladat elindult, amelyeket a hub-eseményforrás keresztül adatokat fogad.
@@ -41,9 +41,9 @@ Ez a megoldás a valós idejű elemzési folyamatok háttér-összetevőinek ism
 
 ### <a name="components"></a>Összetevők
 
-* [Az Azure Event Hubs] [ docs-event-hubs] egy valós idejű streamelési platform és Eseményfeldolgozási szolgáltatás, amely fogadására és feldolgozására másodpercenként több millió van. Az Event Hubs képes az elosztott szoftverek és eszközök által generált események, adatok vagy telemetria feldolgozására és tárolására. Ebben a megoldásban az Event Hubs kap a rosszindulatú tevékenység elemezni az összes telefonhívás metaadatait.
-* [Az Azure Stream Analytics] [ docs-stream-analytics] olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ezek a minták más alárendelt műveletek is indíthat. Ebben a megoldásban a Stream Analytics azonosíthatja a csaló hívások Event hubs szolgáltatástól érkező bemeneti stream alakítja át.
-* [A BLOB storage-] [ docs-blob-storage] ebben a megoldásban a Stream Analytics-feladat eredményeinek tárolására szolgál.
+* [Az Azure Event Hubs] [ docs-event-hubs] egy valós idejű streamelési platform és Eseményfeldolgozási szolgáltatás, amely fogadására és feldolgozására másodpercenként több millió van. Az Event Hubs képes az elosztott szoftverek és eszközök által generált események, adatok vagy telemetria feldolgozására és tárolására. Ebben a forgatókönyvben az Event Hubs kap a rosszindulatú tevékenység elemezni az összes telefonhívás metaadatait.
+* [Az Azure Stream Analytics] [ docs-stream-analytics] olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ezek a minták más alárendelt műveletek is indíthat. Ebben a forgatókönyvben a Stream Analytics azonosíthatja a csaló hívások Event hubs szolgáltatástól érkező bemeneti stream alakítja át.
+* [A BLOB storage-] [ docs-blob-storage] ebben a forgatókönyvben a Stream Analytics-feladat eredményeinek tárolására szolgál.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -61,9 +61,9 @@ Más rendelkezésre állási lehetőségekért lásd: a [rendelkezésre állási
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Ez a megoldás összetevői kapacitású adatfeldolgozást és nagy mértékben párhuzamosított valós idejű elemzési lettek kialakítva. Azure Event hubs szolgáltatás rugalmasan méretezhető, fogadására és feldolgozására másodpercenként több millió alacsony késleltetéssel képes.  Az Event Hubs képes [automatikus vertikális felskálázás](/azure/event-hubs/event-hubs-auto-inflate) használati igényeknek átviteli egységek számát. Az Azure Stream Analytics képes a streamelési adatok több forrásból származó nagy mennyiségű elemzéséhez. Szerint növelje meg a Stream Analytics vertikálisan felskálázhatja [folyamatos átviteli egységek](/azure/stream-analytics/stream-analytics-streaming-unit-consumption) lefoglalva a folyamatos átviteli feladatok végrehajtásához.
+Ez a forgatókönyv összetevőinek kapacitású adatfeldolgozást és nagy mértékben párhuzamosított valós idejű elemzési lettek kialakítva. Azure Event hubs szolgáltatás rugalmasan méretezhető, fogadására és feldolgozására másodpercenként több millió alacsony késleltetéssel képes.  Az Event Hubs képes [automatikus vertikális felskálázás](/azure/event-hubs/event-hubs-auto-inflate) használati igényeknek átviteli egységek számát. Az Azure Stream Analytics képes a streamelési adatok több forrásból származó nagy mennyiségű elemzéséhez. Szerint növelje meg a Stream Analytics vertikálisan felskálázhatja [folyamatos átviteli egységek](/azure/stream-analytics/stream-analytics-streaming-unit-consumption) lefoglalva a folyamatos átviteli feladatok végrehajtásához.
 
-Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
+Általános tervezési méretezhető forgatókönyvet, tekintse át a [méretezési ellenőrzőlista] [ scalability] az Azure Architecture Centert a.
 
 ### <a name="security"></a>Biztonság
 
@@ -75,13 +75,13 @@ Az Azure Event Hubs védi az adatokat egy [hitelesítési és biztonsági modell
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-Ez a megoldás üzembe helyezéséhez kövesse ezt [részletes oktatóanyag] [ tutorial] manuális központi telepítése az egyes összetevői által a megoldás bemutatására. Ebben az oktatóanyagban egy .NET-ügyfélalkalmazás készítése a minta telefonhívás metaadatokat, és adatokat küld az event hubs-példánnyal is biztosít. 
+Ez a forgatókönyv üzembe helyezéséhez kövesse ezt [részletes oktatóanyag] [ tutorial] manuális központi telepítése az egyes összetevők forgatókönyv bemutatására. Ebben az oktatóanyagban egy .NET-ügyfélalkalmazás készítése a minta telefonhívás metaadatokat, és adatokat küld az event hubs-példánnyal is biztosít.
 
 ## <a name="pricing"></a>Díjszabás
 
-Ez a megoldás költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változók várható adatmennyiség megfelelően.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változók várható adatmennyiség megfelelően.
 
 Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költség profilt:
 
@@ -91,7 +91,7 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is kihasználhatják. Machine Learning-kiszolgáló összeállított megoldásokhoz, lásd: [Machine Learning-kiszolgáló használatával csalásészlelés][r-server-fraud-detection]. Más megoldássablonokkal, Machine Learning-kiszolgáló használatával, lásd: [Data science forgatókönyvek és megoldássablonok][docs-r-server-sample-solutions]. Az Azure Data Lake Analytics használatával például megoldást talál [Using Azure Data Lake- és R csalások felderítéséhez][technet-fraud-detection].  
+Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is kihasználhatják. Machine Learning-kiszolgáló használatával létrehozott forgatókönyvek, lásd: [Machine Learning-kiszolgáló használatával csalásészlelés][r-server-fraud-detection]. Más megoldássablonokkal, Machine Learning-kiszolgáló használatával, lásd: [Data science forgatókönyvek és megoldássablonok][docs-r-server-sample-solutions]. Az Azure Data Lake Analytics használatával például megoldást talál [Using Azure Data Lake- és R csalások felderítéséhez][technet-fraud-detection].  
 
 <!-- links -->
 [product-category]: https://azure.microsoft.com/product-categories/analytics/

@@ -2,14 +2,13 @@
 title: Számítási szolgáltatás Azure-beli kritériumai
 description: Az Azure számítási szolgáltatások összehasonlítása több szempontból között
 author: MikeWasson
-layout: LandingPage
 ms.date: 06/13/2018
-ms.openlocfilehash: c913d5a5e5b19f33d2e368153ae1053d4d42fc1e
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: cc1ee00d768f46094a2115282aac80316d2ce273
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37891240"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060778"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Számítási szolgáltatás Azure-beli kritériumai
 

@@ -1,26 +1,26 @@
 ---
-title: Természetes nyelvi Azure csevegőrobot szállodai foglalások számára
-description: Bevált megoldást, amellyel a természetes nyelvi csevegőrobot kereskedelmi alkalmazások az Azure Bot Service, a Cognitive Services és a LUIS, Azure SQL Database és az Application Insights.
+title: Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
+description: A forgatókönyv létrehozásához a természetes nyelvi csevegőrobot kereskedelmi alkalmazások az Azure Bot Service, a Cognitive Services és a LUIS, Azure SQL Database és az Application Insights már bizonyított.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 4b1c0061b7faa7c2d83d6aaf04ac69dc3fae3929
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.openlocfilehash: b664faf20d806824c2581346aaa592b0d74207da
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987641"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060863"
 ---
-# <a name="conversational-azure-chatbot-for-hotel-reservations"></a>Természetes nyelvi Azure csevegőrobot szállodai foglalások számára
+# <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
 
-Ebben a példaforgatókönyvben olyan vállalatok, amelyek a természetes nyelvi csevegőrobot kell integrálható alkalmazásokat alkalmazható. Ebben a megoldásban a C# csevegőrobot egy Szálloda láncot, amely lehetővé teszi az ügyfelek számára, hogy ellenőrizze a rendelkezésre állás és a egy webes vagy mobilalkalmazás segítségével könyv vendéglátóipar szolgál.
+Ebben a példaforgatókönyvben olyan vállalatok, amelyek a természetes nyelvi csevegőrobot kell integrálható alkalmazásokat alkalmazható. Ebben a forgatókönyvben egy C# csevegőrobot egy Szálloda láncot, amely lehetővé teszi az ügyfelek számára, hogy ellenőrizze a rendelkezésre állás és a egy webes vagy mobilalkalmazás segítségével könyv vendéglátóipar szolgál.
 
 Példaforgatókönyvek közé tartozik, így az ügyfelek számára Szálloda rendelkezésre állás és a könyv termek megtekintése egy étterem elvihető menü tekintse át és helyezze el egy food sorrendben, vagy keresse meg és fényképek nyomatok. Hagyományosan vállalkozások hire kész, és ezek ügyfél-kérésekre való válaszolás ügyfél szolgáltatási ügynökök kell, és a felhasználónak kell várja meg, hogy egy munkatárs elérhető segítséget nyújt.
 
 Azure-szolgáltatások például a Bot Service és Language Understanding vagy Speech API szolgáltatás segítségével, a vállalatok végrehajtásában, ügyfelek és feldolgozzák a megrendeléseket vagy automatizált és méretezhető robotokat rendelkező foglalásokat.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
 
-Fontolja meg a megoldást a következő esetekben használja:
+Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 * Éttermek elvihető menüben, és a sorrend food megtekintése
 * Szálloda elérhetőségének ellenőrzése és szobát
@@ -30,7 +30,7 @@ Fontolja meg a megoldást a következő esetekben használja:
 
 ![Az Azure-összetevőket a természetes nyelvi csevegőrobot részt architektúrájának áttekintése][architecture]
 
-Ez a megoldás, amely úgy működik, mint a számára egy Szálloda recepciószolgálata természetes nyelvi robotprogramok ismerteti. Az adatok a következőképpen folyamatok a megoldáson keresztül:
+Ebben a forgatókönyvben a természetes nyelvi robot, amely úgy működik, mint a számára egy Szálloda recepciószolgálata ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. Az ügyfél és a egy mobile csevegőrobot, vagy a web app fér hozzá.
 2. Az Azure Active Directory B2C (üzleti 2 ügyfél), a felhasználó hitelesítését.
@@ -58,19 +58,19 @@ Ez a megoldás, amely úgy működik, mint a számára egy Szálloda recepciósz
 
 ### <a name="availability"></a>Rendelkezésre állás
 
-Ez a megoldás az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna redundáns adatbázisainak, feladatátvételi csoportok és georeplikáció. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
+Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna redundáns adatbázisainak, feladatátvételi csoportok és georeplikáció. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
 
 Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 
-A megoldás az Azure App Service-ben. Az App Service automatikusan skálázhatja a robot futtató példányok száma. Ez a funkció lehetővé teszi a webalkalmazás és csevegőrobot kereslet kielégítésére. Az automatikus méretezésben további információkért lásd: [automatikus méretezés ajánlott eljárásai] [ autoscaling] architektúra közepén.
+Ebben a példában az Azure App Service-ben. Az App Service automatikusan skálázhatja a robot futtató példányok száma. Ez a funkció lehetővé teszi a webalkalmazás és csevegőrobot kereslet kielégítésére. Az automatikus méretezésben további információkért lásd: [automatikus méretezés ajánlott eljárásai] [ autoscaling] architektúra közepén.
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
-Ez a megoldás Azure Active Directory B2C-t használ felhasználók hitelesítésére (üzleti 2 fogyasztói). Az AAD B2C-vel a csevegőrobot bármely ügyfél bizalmas fiókadatok vagy a hitelesítő adatok nem tárolja. További információkért lásd: [Azure Active Directory B2C – áttekintés][aadb2c-docs].
+Ez a forgatókönyv Azure Active Directory B2C-t használ felhasználók hitelesítésére (üzleti 2 fogyasztói). Az AAD B2C-vel a csevegőrobot bármely ügyfél bizalmas fiókadatok vagy a hitelesítő adatok nem tárolja. További információkért lásd: [Azure Active Directory B2C – áttekintés][aadb2c-docs].
 
 Az Azure SQL Database-ben tárolt adatok titkosítása transzparens adattitkosítás (TDE). SQL-adatbázis is kínál, amely titkosítja az adatok lekérdezése és feldolgozása során mindig titkosítja. További információ az SQL Database biztonsági: [Azure SQL Database biztonsági és megfelelőségi][sqlsecurity-docs].
 
@@ -78,15 +78,15 @@ Az Azure SQL Database-ben tárolt adatok titkosítása transzparens adattitkosí
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Ez a megoldás az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna zónaredundáns adatbázisok, a feladatátvételi csoportok, a georeplikáció és az automatikus biztonsági mentést. Ezek a funkciók lehetővé teszik az alkalmazás egy karbantartási esemény vagy szolgáltatáskimaradás esetén is működőképes marad. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
+Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna zónaredundáns adatbázisok, a feladatátvételi csoportok, a georeplikáció és az automatikus biztonsági mentést. Ezek a funkciók lehetővé teszik az alkalmazás egy karbantartási esemény vagy szolgáltatáskimaradás esetén is működőképes marad. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
 
-Az alkalmazás állapotának figyeléséhez, ez a megoldás az Application Insights. Az Application Insights riasztást, és reagálni, amely hatással lenne, a felhasználói élmény és a csevegőrobot rendelkezésre állása teljesítménybeli problémák. További információkért lásd: [Mi az Application Insights?][appinsights-docs]
+Az alkalmazás állapotának figyelése, az ebben a forgatókönyvben az Application Insights. Az Application Insights riasztást, és reagálni, amely hatással lenne, a felhasználói élmény és a csevegőrobot rendelkezésre állása teljesítménybeli problémák. További információkért lásd: [Mi az Application Insights?][appinsights-docs]
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-Ez a megoldás segítségével megismerheti a legtöbb összpontosított területek három összetevőből áll:
+Ez a forgatókönyv segítségével megismerheti a legtöbb összpontosított területek három összetevőből áll:
 
 * [Infrastruktúra-összetevőket](#deploy-infrastructure-components). Egy Azure Resource Manager-sablon használatával helyezhet üzembe egy App Service, webalkalmazás, az Application Insights, tárfiók, és az SQL Server és adatbázis alapvető infrastruktúra összetevők.
 * [Webes alkalmazás Csevegőrobot](#deploy-web-app-chatbot). A robot a Bot Service és Language Understanding és Intelligent Services (LUIS) alkalmazás üzembe helyezéséhez az Azure CLI használatával.
@@ -135,11 +135,11 @@ A minta C#-alkalmazás a Githubon érhető el:
 
 * [Kereskedelmi Bot C#-minta](https://github.com/Microsoft/AzureBotServices-scenarios/tree/master/CSharp/Commerce/src)
 
-A mintaalkalmazás az Azure Active Directory authentication összetevői és a Language Understanding és Intelligent Services (LUIS) összetevő integráció a Cognitive Services. Az alkalmazás létrehozása és a megoldás üzembe helyezése a Visual Studio használatához. További tájékoztatást az AAD B2C-vel és a LUIS-alkalmazás konfigurálása a GitHub-tárház dokumentációjában található.
+A mintaalkalmazás az Azure Active Directory authentication összetevői és a Language Understanding és Intelligent Services (LUIS) összetevő integráció a Cognitive Services. Az alkalmazás létrehozása és üzembe helyezése a forgatókönyvet a Visual Studio használatához. További tájékoztatást az AAD B2C-vel és a LUIS-alkalmazás konfigurálása a GitHub-tárház dokumentációjában található.
 
 ## <a name="pricing"></a>Díjszabás
 
-Ez a megoldás költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
 Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt üzenetek mennyisége alapján:
 

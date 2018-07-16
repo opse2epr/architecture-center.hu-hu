@@ -1,16 +1,16 @@
 ---
-title: Intelligens alkalmazások – képfeldolgozó az Azure-ban
-description: Bevált megoldást képfeldolgozás, az Azure-alkalmazások készítéséhez.
+title: Képek besorolása a biztosítási kárigényekben, az Azure-ban
+description: Bevált forgatókönyv képfeldolgozás, az Azure-alkalmazások készítéséhez.
 author: david-stanford
 ms.date: 07/05/2018
-ms.openlocfilehash: c5bfb9a929ddddda4336e1cbc8665a0b4d3bbe2c
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: 361a88234fd9ed918ab7664893f86666b4328b8c
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37891519"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060829"
 ---
-# <a name="insurance-claim-image-classification-on-azure"></a>Az Azure-ban a biztosítási jogcím képek besorolása
+# <a name="image-classification-for-insurance-claims-on-azure"></a>Képek besorolása a biztosítási kárigényekben, az Azure-ban
 
 Ebben a példaforgatókönyvben akkor számára ideális, dolgozhassa fel.
 
@@ -18,19 +18,18 @@ Lehetséges alkalmazások közé tartozik a divat webhelyekhez képek besorolás
 
 Azure-szolgáltatások például a Computer Vision API és az Azure Functions használatával a vállalatok szükségtelenné teszi a az egyes kiszolgálók felügyelete során költségeit, és azzal a szakértelemmel, amelyeket a Microsoft már körül feldolgozási rendszerképek kihasználva A cognitive services. Ebben a forgatókönyvben kifejezetten címek egy kép feldolgozási forgatókönyvet. Ha eltérő AI igényeit, fontolja meg a teljes körű [Cognitive Services][cognitive-docs].
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
 
-Fontolja meg a megoldást a következő esetekben használja:
+Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 * Divat webhely-rendszerképek besorolása.
-* A biztosítási követeléseket képek besorolása
 * Játékok pillanatképeiért küldött telemetriai adatok besorolását.
 
 ## <a name="architecture"></a>Architektúra
 
 ![Intelligens alkalmazások architektúra - számítógépes látástechnológia][architecture-computer-vision]
 
-Ez a megoldás egy webes vagy mobilalkalmazásaiba háttér-összetevőinek ismerteti. Áramlanak keresztül az adatok a megoldás a következő:
+Ebben a forgatókönyvben egy webes vagy mobilalkalmazásaiba háttér-összetevőinek ismerteti. Áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. Az Azure Functions az API-réteget funkcionál. Ezen API-k engedélyezése az alkalmazás-rendszerképek feltöltése és a Cosmos DB-adatokat lekérni.
 
@@ -64,7 +63,7 @@ Ez a megoldás egy webes vagy mobilalkalmazásaiba háttér-összetevőinek isme
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Az esetek többségében ez a megoldás összetevői összes felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezen felüli van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
+Az esetek többségében ez a forgatókönyv összetevőinek összes felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezen felüli van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
 
 A cosmos DB nem automatikus skálázás kiosztott kérelemegységek (RU) tekintetében.  A követelmények becsléséhez tekintse át [kérelemegységek] [ request-units] dokumentációban. A teljes mértékben kihasználhatja a Cosmos DB méretezése meg kell is vessen egy pillantást [kulcsok particionálása][partition-key].
 
@@ -80,13 +79,13 @@ NoSQL-adatbázisok gyakran kereskedelmi rendelkezésre állását, méretezhető
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Ebben a megoldásban a összetevőket felügyeli, így egy regionális szinten az összes rugalmas automatikusan. 
+Ebben a forgatókönyvben a összetevőket felügyeli, így egy regionális szinten az összes rugalmas automatikusan.
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
 ## <a name="pricing"></a>Díjszabás
 
-Ez a megoldás költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
 Három példa költség-profilok forgalom mennyisége alapján biztosítunk (feltételezzük összes rendszerképekkel 100kb méretű):
 
@@ -96,7 +95,7 @@ Három példa költség-profilok forgalom mennyisége alapján biztosítunk (fel
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 
-A képzési a megoldás, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].  
+A képzési ebben a forgatókönyvben, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].  
 
 Mielőtt ez éles környezetben, tekintse át az Azure Functions [ajánlott eljárások][functions-best-practices].
 

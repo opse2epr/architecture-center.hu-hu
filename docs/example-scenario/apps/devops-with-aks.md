@@ -1,26 +1,26 @@
 ---
-title: A DevOps és a Jenkins és az Azure Kubernetes Service
-description: Már bizonyított megoldást kínál a Node.js-webalkalmazás, amely használja a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana fejlesztési és üzemeltetési folyamat felépítésével bajlódnia.
+title: CI/CD-folyamat a tárolóalapú számítási feladatokhoz
+description: Bevált forgatókönyv egy DevOps-folyamattal a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használó Node.js-webalkalmazások készítéséhez.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 775480b711f5457866ea8537fb354cebb6cf6720
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.openlocfilehash: d9f6571234a0c3e67a233cfda1a37f6fb32929a3
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987607"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060761"
 ---
-# <a name="deploy-a-container-based-devops-pipeline-for-modern-application-development-with-jenkins-and-azure-kubernetes-service"></a>Telepítsen egy probléma a modern alkalmazások fejlesztése a Jenkins és az Azure Kubernetes Service-ben tároló-alapú fejlesztési és üzemeltetési folyamatot
+# <a name="cicd-pipeline-for-container-based-workloads"></a>CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 
-Ebben a példaforgatókönyvben olyan vállalatok, amelyek fejlesztése korszerűsítheti a tárolók és a DevOps-munkafolyamatokba használatával szeretne alkalmazható. Ebben a megoldásban a Node.js-webalkalmazás összeállítása és a Jenkins által üzembe helyezett egy Azure Container Registry és Azure Kubernetes Service-ben. Globálisan elosztott adatbázis-rétegből, az Azure Cosmos DB-hez használható. Figyelheti, és az alkalmazás teljesítményproblémáinak elhárítása, az Azure Monitor integrálható a Grafana példány és az irányítópult.
+Ebben a példaforgatókönyvben olyan vállalatok, amelyek fejlesztése korszerűsítheti a tárolók és a DevOps-munkafolyamatokba használatával szeretne alkalmazható. Ebben a forgatókönyvben egy Node.js-webalkalmazás összeállítása és a Jenkins által üzembe helyezett egy Azure Container Registry és Azure Kubernetes Service-ben. Globálisan elosztott adatbázis-rétegből, az Azure Cosmos DB-hez használható. Figyelheti, és az alkalmazás teljesítményproblémáinak elhárítása, az Azure Monitor integrálható a Grafana példány és az irányítópult.
 
 Példaforgatókönyvek alkalmazás például egy automatizált fejlesztési környezetet biztosít, új kódot véglegesítéseket ellenőrzése és hogyan lehet továbbítani rá új üzembe helyezésekhez, átmeneti és éles környezetekbe. Hagyományosan vállalkozások kellett manuálisan hozhat létre és fordítsa le az alkalmazásokat és frissítéseket, és egy nagy, monolitikus kódot alap kezelhet. A folyamatos integrációs (CI) és a folyamatos készregyártás (CD) használó alkalmazások fejlesztését modern megközelítését gyorsabban hozhat létre programot, teszteléséhez, és a szolgáltatások üzembe helyezéséhez. Ez a modern módszer lehetővé teszi, hogy kiadási alkalmazásokat és frissítéseket az ügyfelekhez a gyorsabb és hatékonyabb módon üzleti változásaihoz.
 
 Azure-szolgáltatások, például az Azure Kubernetes Service, Container Registry és Cosmos DB használatával vállalatok használhatja a legújabb, az alkalmazás fejlesztési technikákkal és eszközök segítségével egyszerűsítheti azok végrehajtási magas rendelkezésre állású.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
 
-Fontolja meg a megoldást a következő esetekben használja:
+Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 * Modernizálhatja alkalmazás fejlesztési eljárásaikat mikroszolgáltatásokon és tárolókon alapuló megközelítést.
 * Felgyorsítható az alkalmazások fejlesztése és üzembe helyezési életciklusának.
@@ -28,9 +28,9 @@ Fontolja meg a megoldást a következő esetekben használja:
 
 ## <a name="architecture"></a>Architektúra
 
-![Részt vesz egy fejlesztési és üzemeltetési megoldást a Jenkins az Azure Container Registry és Azure Kubernetes Service használatával az Azure-összetevőket architektúrájának áttekintése][architecture]
+![Az Azure-összetevőket részt vesz egy fejlesztési és üzemeltetési környezetek a Jenkins az Azure Container Registry és Azure Kubernetes Service-architektúra áttekintése][architecture]
 
-Ez a megoldás egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejlesztési és üzemeltetési folyamatot ismerteti. Az adatok a következőképpen folyamatok a megoldáson keresztül:
+Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejlesztési és üzemeltetési folyamatot ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. A fejlesztők a Node.js webes alkalmazás forráskódjának módosítást hajt végre.
 2. A kód módosítása számára fontos, hogy a forrás vezérlő adattár, például a GitHub.
@@ -43,7 +43,7 @@ Ez a megoldás egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejles
 
 ### <a name="components"></a>Összetevők
 
-* [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a megoldásban a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
+* [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a forgatókönyvben a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
 * [Azure-beli Linux rendszerű virtuális gépek] [ azurevm-docs] a Jenkins és a Grafana példányok futtatásához használt.
 * [Az Azure Container Registry] [ azureacr-docs] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és más régiókban is replikálja az Azure platform üzembe helyezéshez szükséges idő felgyorsítása érdekében.
 * [Az Azure Kubernetes Service] [ azureaks-docs] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
@@ -61,7 +61,7 @@ Ez a megoldás egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejles
 
 ### <a name="availability"></a>Rendelkezésre állás
 
-Az alkalmazásteljesítmény monitorozásához és a jelentés a problémák, ez a megoldás egyesíti a Grafana az Azure Monitor-vizuális irányítópultokkal. Ezek az eszközök teszik figyelheti, és előfordulhat, hogy az összes ezután központilag telepítheti a CI/CD-folyamat kódfrissítéseket igénylő teljesítménnyel kapcsolatos problémáinak elhárítása.
+Az alkalmazásteljesítmény monitorozásához és a jelentés a problémák, ebben a forgatókönyvben egyesíti a Grafana az Azure Monitor-vizuális irányítópultokkal. Ezek az eszközök teszik figyelheti, és előfordulhat, hogy az összes ezután központilag telepítheti a CI/CD-folyamat kódfrissítéseket igénylő teljesítménnyel kapcsolatos problémáinak elhárítása.
 
 Az Azure Kubernetes Service-fürt részeként a terheléselosztó elosztja a forgalmat alkalmazás egy vagy több tárolók (podok) az alkalmazást futtató között. Ez a megközelítés a tárolóalapú alkalmazások Kubernetes-ben futó magas rendelkezésre állású infrastruktúrát biztosít az ügyfelek számára.
 
@@ -77,19 +77,19 @@ Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scal
 
 ### <a name="security"></a>Biztonság
 
-A támadások bekövetkeztének minimalizálása érdekében a megoldás nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
+A támadások bekövetkeztének minimalizálása érdekében ez a forgatókönyv nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
 
-Ez a megoldás hitelesítő adataival és engedélyeivel szétválasztása használja az Azure Active Directory (AD) egyszerű dedikált szolgáltatás. Az egyszerű szolgáltatás hitelesítő adatai, egy biztonságos hitelesítő objektumot a Jenkins tárolódnak, így, hogy ne legyenek közvetlenül elérhetővé tett és szkriptek vagy a buildelési folyamat látható.
+Ebben a forgatókönyvben hitelesítő adataival és engedélyeivel szétválasztása, használja az Azure Active Directory (AD) dedikált szolgáltatásnév. Az egyszerű szolgáltatás hitelesítő adatai, egy biztonságos hitelesítő objektumot a Jenkins tárolódnak, így, hogy ne legyenek közvetlenül elérhetővé tett és szkriptek vagy a buildelési folyamat látható.
 
 Általános megoldások biztonságos, tekintse át a [Azure Security dokumentációja][security].
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Ez a megoldás Azure Kubernetes Service-ben az alkalmazás használ. Kubernetes épített összetevői rugalmasság figyelő, és ha a probléma, indítsa újra a tárolókat (podok). Kombinálva több Kubernetes-csomópontokon fut, az alkalmazás működését egy pod vagy a csomópont nem érhető el.
+Ebben a forgatókönyvben az alkalmazás az Azure Kubernetes Service használja. Kubernetes épített összetevői rugalmasság figyelő, és ha a probléma, indítsa újra a tárolókat (podok). Kombinálva több Kubernetes-csomópontokon fut, az alkalmazás működését egy pod vagy a csomópont nem érhető el.
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
 **Előfeltételek.**
 
@@ -98,16 +98,16 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 * A hitelesítési szolgáltatás és az erőforrások egy Azure Active Directory (AD) egyszerű szolgáltatást kell rendelkeznie. Szükség esetén is létrehoz egy szolgáltatást, az egyszerű [az ad sp create-for-rbac][createsp]
 
     ```azurecli-interactive
-    az ad sp create-for-rbac --name myDevOpsSolution
+    az ad sp create-for-rbac --name myDevOpsScenario
     ```
 
-    Jegyezze fel a *appId* és *jelszó* Ez a parancs kimenetében. A megoldás üzembe helyezésekor ezeket az értékeket a sablonhoz adnia.
+    Jegyezze fel a *appId* és *jelszó* Ez a parancs kimenetében. A forgatókönyv telepítésekor ezeket az értékeket a sablonhoz adnia.
 
-Ez a megoldás egy Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
+Ebben a forgatókönyvben egy Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
 1. Kattintson a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fdevops-with-aks%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
-   * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myAKSDevOpsSolution* a szövegmezőben.
+   * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myAKSDevOpsScenario* a szövegmezőben.
    * Válassza ki a régiót, a **hely** legördülő listából.
    * A szolgáltatás egyszerű alkalmazás Azonosítóját és jelszavát adja meg a `az ad sp create-for-rbac` parancsot.
    * Adjon meg egy felhasználónevet és a biztonságos jelszó a Jenkins-példány és a Grafana konzol.
@@ -119,7 +119,7 @@ Az üzembe helyezés befejeződik 15 – 20 percet is igénybe vehet.
 
 ## <a name="pricing"></a>Díjszabás
 
-Ez a megoldás költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz. egyezik a várt forgalomhoz.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz. egyezik a várt forgalomhoz.
 
 Adtunk három példa költség profilok tárolólemezképek tárolására és az alkalmazások futtatása a Kubernetes-csomópontok száma alapján.
 
@@ -129,7 +129,7 @@ Adtunk három példa költség profilok tárolólemezképek tárolására és az
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 
-Ez a megoldás az Azure Container Registry és az Azure Kubernetes Service tárolására és használható a tárolóalapú alkalmazások futtatására. Az Azure Container Instances a tárolóalapú alkalmazások futtatása bármely vezénylési összetevők üzembe helyezése nélkül is használható. További információkért lásd: [Azure Container Instances áttekintésében][azureaci-docs].
+Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernetes Service-ben tárolja, és a tárolóalapú alkalmazások futtatására. Az Azure Container Instances a tárolóalapú alkalmazások futtatása bármely vezénylési összetevők üzembe helyezése nélkül is használható. További információkért lásd: [Azure Container Instances áttekintésében][azureaci-docs].
 
 <!-- links -->
 [architecture]: ./media/devops-with-aks/architecture-devops-with-aks.png

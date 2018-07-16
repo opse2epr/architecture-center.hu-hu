@@ -3,12 +3,12 @@ title: Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az 
 description: Bevált módszerek a magas rendelkezésre állású SharePoint Server 2016-farm létrehozására az Azure-ban.
 author: njray
 ms.date: 08/01/2017
-ms.openlocfilehash: d1e3f0b73c94844ac649bf2abb6917809202fdb7
-ms.sourcegitcommit: c441fd165e6bebbbbbc19854ec6f3676be9c3b25
+ms.openlocfilehash: 9fe4fc09cf3babdf3ec8e8f27049f90e0047e9f0
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/30/2018
-ms.locfileid: "30270122"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987709"
 ---
 # <a name="run-a-high-availability-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 
@@ -38,7 +38,9 @@ Az architektúra az alábbi összetevőkből áll:
 
 - **Átjáró**. Az átjáró kapcsolatot biztosít a helyszíni hálózat és az Azure-beli virtuális hálózat között. A kapcsolat ExpressRoute- vagy helyek közötti VPN-átjárót használhat. További információ: [Helyszíni hálózat csatlakoztatása az Azure-hoz][hybrid-ra].
 
-- **Windows Server Active Directory- (AD) tartományvezérlők**. A SharePoint Server 2016 nem támogatja az Azure Active Directory Domain Services használatát, ezért Windows Server AD-tartományvezérlőket kell telepítenie. Ezek a tartományvezérlők az Azure-beli virtuális hálózaton futnak, és megbízhatósági viszonyban vannak a helyszíni Windows Server AD-erdővel. Az ügyfelek SharePoint-farmokon lévő erőforrásokkal kapcsolatos webes kéréseit a rendszer a virtuális hálózaton hitelesíti ahelyett, hogy továbbítaná a hitelesítési forgalmat az átjárókapcsolaton keresztül a helyszíni hálózatra. A DNS-ben intranet A vagy CNAME-rekordok jönnek létre, hogy az intranetes felhasználók fel tudják oldani a SharePoint-farm nevét a belső terheléselosztó magánhálózati IP-címére.
+- **Windows Server Active Directory- (AD) tartományvezérlők**. Ez a referenciaarchitektúra Windows Server Active Directory- (AD-) tartományvezérlőket helyez üzembe. Ezek a tartományvezérlők az Azure-beli virtuális hálózaton futnak, és megbízhatósági viszonyban vannak a helyszíni Windows Server AD-erdővel. Az ügyfelek SharePoint-farmokon lévő erőforrásokkal kapcsolatos webes kéréseit a rendszer a virtuális hálózaton hitelesíti ahelyett, hogy továbbítaná a hitelesítési forgalmat az átjárókapcsolaton keresztül a helyszíni hálózatra. A DNS-ben intranet A vagy CNAME-rekordok jönnek létre, hogy az intranetes felhasználók fel tudják oldani a SharePoint-farm nevét a belső terheléselosztó magánhálózati IP-címére.
+
+  A SharePoint Server 2016 támogatja az [Azure Active Directory Domain Services](/azure/active-directory-domain-services/) használatát is. Az Azure AD Domain Services felügyelt tartományi szolgáltatásokat biztosít, hogy az Azure-ban ne legyen szükség tartományvezérlők üzembe helyezésére és felügyeletére.
 
 - **SQL Server Always On rendelkezésre állási csoport**. Az SQL Server-adatbázisok magas rendelkezésre állása érdekében javasoljuk a [SQL Server Always On rendelkezésre állási csoportok][sql-always-on] használatát. A rendszer két virtuális gépet használ az SQL Serverhez. Az egyik az elsődleges adatbázis-replikát tartalmazza, a másik pedig a másodlagos replikát. 
 

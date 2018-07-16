@@ -3,12 +3,12 @@ title: Azure Architecture Center
 description: Az Azure Architecture Center a Microsoft Azure-alapú megoldások létrehozásával kapcsolatos útmutatások, tervek, minták és ajánlott eljárások hivatalos gyűjteménye, amelyet a Microsoft mintákkal és gyakorlatokkal foglalkozó csoportja állít össze.
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 0ac5dd79f765fe9b649cc2ca83c0213b4ba28544
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 544196faa7156c5636b03d3f402bc48dcc63975f
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847730"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987590"
 ---
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
@@ -79,7 +79,7 @@ ms.locfileid: "30847730"
                         </div>
                         <div class="cardText">
                             <h3>Mikroszolgáltatások létrehozása az Azure-ban</h3>
-                            <p>Ez a többrészes sorozat végigvezeti egy Azure-alapú mikroszolgáltatási architektúra tervezésének és létrehozásának folyamatán. Mellékeltünk egy referenciaimplementációt is.</p>
+                            <p>Ez a tervezési útmutató végigvezeti egy Azure-alapú mikroszolgáltatási architektúra tervezésének és létrehozásának folyamatán. Mellékeltünk egy referenciaimplementációt is.</p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ ms.locfileid: "30847730"
                             </div>
                         </div>
                         <div class="cardText">
-                            <h3>A felhőalapú alkalmazások ajánlott eljárásai</h3>
+                            <h3>Ajánlott eljárások – felhőalapú alkalmazások</h3>
                             <p>A felhőalapú alkalmazásokhoz ajánlott eljárások, amelyek többek között olyan témákkal foglalkoznak, mint az automatikus méretezés, a gyorsítótárazás, az adatparticionálás és az API-tervezés.</p>
                         </div>
                     </div>
@@ -246,46 +246,6 @@ ms.locfileid: "30847730"
             </div>
         </a>
     </li>
-    <!-- Sharepoint -->
-    <li>
-        <a href="/azure/architecture/reference-architectures/sharepoint">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="/azure/architecture/reference-architectures/sharepoint/images/sharepoint.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>A SharePoint Server 2016 futtatása az Azure-ban</h3>
-                            <p>Magas rendelkezésre állású SharePoint Server 2016-farm üzembe helyezése és futtatása az Azure-ban.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- SAP -->
-    <li>
-        <a href="/azure/architecture/reference-architectures/sap">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="/azure/architecture/reference-architectures/sap/images/sap.svg" width="100%" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>A SAP HANA futtatása az Azure-ban</h3>
-                            <p>A SAP NetWeaver és SAP HANA üzembe helyezése és futtatás magas rendelkezésre állású környezetben az Azure-ban.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
     <!-- Multitenant identity -->
     <li>
         <a href="/azure/architecture/multitenant-identity">
@@ -300,46 +260,6 @@ ms.locfileid: "30847730"
                         <div class="cardText">
                             <h3>Identitáskezelés a több-bérlős alkalmazásokban</h3>
                             <p>Ajánlott eljárások a több-bérlős módhoz az Azure AD identitáskezelésre való használata esetén.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- AzureCAT blog -->
-    <li>
-        <a href="https://blogs.msdn.microsoft.com/azurecat/">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/azurecat.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Az Azure ügyféltanácsadói csapata (AzureCAT)</h3>
-                            <p>Az AzureCAT csapatának blogja</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- SQL CAT blog -->
-    <li>
-        <a href="https://blogs.msdn.microsoft.com/sqlcat/">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/sqlcat.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Az SQL Server ügyféltanácsadói csapata (SQLCAT)</h3>
-                            <p>Az SQLCAT csapatának blogja</p>
                         </div>
                     </div>
                 </div>
