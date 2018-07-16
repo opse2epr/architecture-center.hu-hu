@@ -1,126 +1,87 @@
 ---
-title: Helyszíni hálózat csatlakoztatása az Azure-hoz
-description: Ajánlott architektúrák a helyszíni hálózatok és az Azure közötti biztonságos, robusztus hálózati kapcsolatokhoz.
-layout: LandingPage
-ms.openlocfilehash: 372efb8ecf69245a5895c51e3da156a348bd665e
-ms.sourcegitcommit: 2123c25b1a0b5501ff1887f98030787191cf6994
+title: Válasszon egy megoldást a helyszíni hálózat Azure-hoz való csatlakoztatásához
+description: Referenciaarchitektúrákat hasonlít össze egy helyszíni hálózat az Azure-hoz való csatlakoztatásához.
+author: telmosampaio
+ms.date: 07/02/2018
+ms.openlocfilehash: 0cc07d3b7d45accf9f99ce32914b0ef065d62f32
+ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/08/2018
-ms.locfileid: "29782327"
+ms.lasthandoff: 07/12/2018
+ms.locfileid: "38987478"
 ---
-<!-- This file is generated! -->
-<!-- See the templates in ./build/reference-architectures  -->
-<!-- See data in index.json -->
+# <a name="connect-an-on-premises-network-to-azure"></a><span data-ttu-id="87ec0-103">Helyszíni hálózat csatlakoztatása az Azure-hoz</span><span class="sxs-lookup"><span data-stu-id="87ec0-103">Connect an on-premises network to Azure</span></span>
 
-# <a name="connect-an-on-premises-network-to-azure"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz
+<span data-ttu-id="87ec0-104">Ez a cikk a helyszíni hálózat egy Azure-beli virtuális hálózathoz (VNethez) történő csatlakoztatásának lehetőségeit hasonlítja össze.</span><span class="sxs-lookup"><span data-stu-id="87ec0-104">This article compares options for connecting an on-premises network to an Azure Virtual Network (VNet).</span></span> <span data-ttu-id="87ec0-105">Mindegyik lehetőséghez elérhető egy referenciaarchitektúra.</span><span class="sxs-lookup"><span data-stu-id="87ec0-105">For each option, a more detailed reference architecture is available.</span></span>
 
-Ezek a referenciaarchitektúrák a helyszíni hálózat és az Azure közötti robusztus hálózati kapcsolat létrehozásához mutatnak bevált gyakorlatokat. [Melyiket válasszam?](./considerations.md)
+## <a name="vpn-connection"></a><span data-ttu-id="87ec0-106">VPN-kapcsolat</span><span class="sxs-lookup"><span data-stu-id="87ec0-106">VPN connection</span></span>
 
-<section class="series">
-    <ul class="panelContent">
-    <!-- VPN -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./vpn.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="./images/vpn.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>VPN</h3>
-                        <p>A helyszíni hálózatot kiterjesztheti az Azure-ra helyek közötti virtuális magánhálózat (VPN) használatával.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-    <!-- ExpressRoute -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./expressroute.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="./images/expressroute.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>ExpressRoute</h3>
-                        <p>Helyszíni hálózat kiterjesztése az Azure-ra az Azure ExpressRoute segítségével.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-    <!-- ExpressRoute with VPN failover -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./expressroute-vpn-failover.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="./images/expressroute-vpn-failover.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>ExpressRoute VPN-alapú feladatátvétellel</h3>
-                        <p>Helyszíni hálózat kiterjesztése az Azure-ra az Azure ExpressRoute segítségével, VPN-nel feladatátvételi kapcsolatként.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-    <!-- Hub-spoke topology -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./hub-spoke.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="./images/hub-spoke.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Küllős topológia</h3>
-                        <p>Az agy a helyszíni hálózathoz való csatlakozási lehetőségek központi helye. A küllők az agyhoz kapcsolódó virtuális hálózatok, és a számítási feladatok elkülönítésére használhatók.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-    <!-- Hub-spoke topology with shared services -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./shared-services.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="./images/shared-services.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Küllős topológia közös szolgáltatásokkal</h3>
-                        <p>Közös szolgáltatásokat, például Active Directory-szolgáltatásokat és hálózati virtuális berendezést (NVA) tartalmazó küllős topológia üzembe helyezése. A közös szolgáltatásokat mindegyik küllő felhasználhatja.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-    </ul>
-</section>
+<span data-ttu-id="87ec0-107">A [VPN-átjáró](/azure/vpn-gateway/vpn-gateway-about-vpngateways) a virtuális hálózati átjárók egyik típusa, amely titkosított adatforgalmat továbbít egy Azure-beli virtuális hálózat és egy helyszíni hely között.</span><span class="sxs-lookup"><span data-stu-id="87ec0-107">A [VPN gateway](/azure/vpn-gateway/vpn-gateway-about-vpngateways) is a type of virtual network gateway that sends encrypted traffic between an Azure virtual network and an on-premises location.</span></span> <span data-ttu-id="87ec0-108">A titkosított adatforgalom a nyilvános interneten halad át.</span><span class="sxs-lookup"><span data-stu-id="87ec0-108">The encrypted traffic goes over the public Internet.</span></span>
 
-<ul class="panelContent cardsI">
-</ul>
+<span data-ttu-id="87ec0-109">Ez az architektúra olyan hibrid alkalmazások esetében megfelelő, ahol a helyszíni hardver és a felhő közötti forgalom várhatóan alacsony, illetve ha a felhő nyújtotta rugalmasságért és feldolgozási kapacitásért cserébe elfogadhatónak tart némileg nagyobb késést.</span><span class="sxs-lookup"><span data-stu-id="87ec0-109">This architecture is suitable for hybrid applications where the traffic between on-premises hardware and the cloud is likely to be light, or you are willing to trade slightly extended latency for the flexibility and processing power of the cloud.</span></span>
+
+<span data-ttu-id="87ec0-110">**Előnyök**</span><span class="sxs-lookup"><span data-stu-id="87ec0-110">**Benefits**</span></span>
+
+- <span data-ttu-id="87ec0-111">Egyszerűen konfigurálható.</span><span class="sxs-lookup"><span data-stu-id="87ec0-111">Simple to configure.</span></span>
+
+<span data-ttu-id="87ec0-112">**Problémák**</span><span class="sxs-lookup"><span data-stu-id="87ec0-112">**Challenges**</span></span>
+
+- <span data-ttu-id="87ec0-113">Helyszíni VPN-eszközt igényel.</span><span class="sxs-lookup"><span data-stu-id="87ec0-113">Requires an on-premises VPN device.</span></span>
+- <span data-ttu-id="87ec0-114">Bár a Microsoft 99,9%-os rendelkezésre állást biztosít minden VPN-átjáróhoz, az [SLA](https://azure.microsoft.com/support/legal/sla/vpn-gateway/) csak a VPN-átjáróra vonatkozik, az átjáróval létesített hálózati kapcsolatra nem.</span><span class="sxs-lookup"><span data-stu-id="87ec0-114">Although Microsoft guarantees 99.9% availability for each VPN Gateway, this [SLA](https://azure.microsoft.com/support/legal/sla/vpn-gateway/) only covers the VPN gateway, and not your network connection to the gateway.</span></span>
+- <span data-ttu-id="87ec0-115">Azure VPN Gateway-en keresztül létesített VPN-kapcsolat jelenleg legfeljebb 200 Mbps sávszélességet támogat.</span><span class="sxs-lookup"><span data-stu-id="87ec0-115">A VPN connection over Azure VPN Gateway currently supports a maximum of 200 Mbps bandwidth.</span></span> <span data-ttu-id="87ec0-116">Előfordulhat, hogy az Azure virtuális hálózatot particionálnia kell több VPN-kapcsolat között, ha várhatóan át fogja lépni ezt az átviteli sebességet.</span><span class="sxs-lookup"><span data-stu-id="87ec0-116">You may need to partition your Azure virtual network across multiple VPN connections if you expect to exceed this throughput.</span></span>
+
+<span data-ttu-id="87ec0-117">**Referenciaarchitektúra**</span><span class="sxs-lookup"><span data-stu-id="87ec0-117">**Reference architecture**</span></span>
+
+- [<span data-ttu-id="87ec0-118">Hibrid hálózat VPN-átjáróval</span><span class="sxs-lookup"><span data-stu-id="87ec0-118">Hybrid network with VPN gateway</span></span>](./vpn.md)
+
+## <a name="azure-expressroute-connection"></a><span data-ttu-id="87ec0-119">Azure ExpressRoute-kapcsolat</span><span class="sxs-lookup"><span data-stu-id="87ec0-119">Azure ExpressRoute connection</span></span>
+
+<span data-ttu-id="87ec0-120">Az [ExpressRoute](/azure/expressroute/)-kapcsolatok dedikált, privát kapcsolatot használnak egy külső kapcsolatszolgáltatón keresztül.</span><span class="sxs-lookup"><span data-stu-id="87ec0-120">[ExpressRoute](/azure/expressroute/) connections use a private, dedicated connection through a third-party connectivity provider.</span></span> <span data-ttu-id="87ec0-121">A privát kapcsolat kiterjeszti a helyszíni hálózatot az Azure-ba.</span><span class="sxs-lookup"><span data-stu-id="87ec0-121">The private connection extends your on-premises network into Azure.</span></span> 
+
+<span data-ttu-id="87ec0-122">Ez az architektúra megfelelő az olyan nagy méretű, kritikus fontosságú számítási feladatokat futtató hibrid alkalmazásokhoz, amelyek nagyfokú méretezhetőséget igényelnek.</span><span class="sxs-lookup"><span data-stu-id="87ec0-122">This architecture is suitable for hybrid applications running large-scale, mission-critical workloads that require a high degree of scalability.</span></span> 
+
+<span data-ttu-id="87ec0-123">**Előnyök**</span><span class="sxs-lookup"><span data-stu-id="87ec0-123">**Benefits**</span></span>
+
+- <span data-ttu-id="87ec0-124">Sokkal nagyobb sávszélesség áll rendelkezésre; a kapcsolatszolgáltatótól függően legfeljebb 10 Gbps.</span><span class="sxs-lookup"><span data-stu-id="87ec0-124">Much higher bandwidth available; up to 10 Gbps depending on the connectivity provider.</span></span>
+- <span data-ttu-id="87ec0-125">Támogatja a dinamikus sávszélesség-méretezést, amellyel alacsony igénybevétel esetén csökkenthetők a költségek.</span><span class="sxs-lookup"><span data-stu-id="87ec0-125">Supports dynamic scaling of bandwidth to help reduce costs during periods of lower demand.</span></span> <span data-ttu-id="87ec0-126">Ezt a lehetőséget azonban nem minden kapcsolatszolgáltató támogatja.</span><span class="sxs-lookup"><span data-stu-id="87ec0-126">However, not all connectivity providers have this option.</span></span>
+- <span data-ttu-id="87ec0-127">A kapcsolat szolgáltatójától függően lehetővé teheti a vállalat számára az országos felhőkhöz való hozzáférést.</span><span class="sxs-lookup"><span data-stu-id="87ec0-127">May allow your organization direct access to national clouds, depending on the connectivity provider.</span></span>
+- <span data-ttu-id="87ec0-128">99,9%-os rendelkezésre állási SLA a teljes kapcsolatra vonatkozóan.</span><span class="sxs-lookup"><span data-stu-id="87ec0-128">99.9% availability SLA across the entire connection.</span></span>
+
+<span data-ttu-id="87ec0-129">**Problémák**</span><span class="sxs-lookup"><span data-stu-id="87ec0-129">**Challenges**</span></span>
+
+- <span data-ttu-id="87ec0-130">Beállítása bonyolult lehet.</span><span class="sxs-lookup"><span data-stu-id="87ec0-130">Can be complex to set up.</span></span> <span data-ttu-id="87ec0-131">ExpressRoute-kapcsolat létrehozásához külső kapcsolatszolgáltatóra van szükség.</span><span class="sxs-lookup"><span data-stu-id="87ec0-131">Creating an ExpressRoute connection requires working with a third-party connectivity provider.</span></span> <span data-ttu-id="87ec0-132">A hálózati kapcsolat kiépítése a szolgáltató feladata.</span><span class="sxs-lookup"><span data-stu-id="87ec0-132">The provider is responsible for provisioning the network connection.</span></span>
+- <span data-ttu-id="87ec0-133">Nagy sebességű helyszíni útválasztókat igényel.</span><span class="sxs-lookup"><span data-stu-id="87ec0-133">Requires high-bandwidth routers on-premises.</span></span>
+
+<span data-ttu-id="87ec0-134">**Referenciaarchitektúra**</span><span class="sxs-lookup"><span data-stu-id="87ec0-134">**Reference architecture**</span></span>
+
+- [<span data-ttu-id="87ec0-135">Hibrid hálózat ExpressRoute-tal</span><span class="sxs-lookup"><span data-stu-id="87ec0-135">Hybrid network with ExpressRoute</span></span>](./expressroute.md)
+
+## <a name="expressroute-with-vpn-failover"></a><span data-ttu-id="87ec0-136">ExpressRoute VPN-alapú feladatátvétellel</span><span class="sxs-lookup"><span data-stu-id="87ec0-136">ExpressRoute with VPN failover</span></span>
+
+<span data-ttu-id="87ec0-137">Ez a lehetőség lényegében az előző kettő kombinációja. Normál körülmények között ExpressRoute-ot használ, ha azonban az ExpressRoute-kapcsolatcsoportban megszakad a kapcsolat, akkor egy VPN-kapcsolat veszi át a feladatokat.</span><span class="sxs-lookup"><span data-stu-id="87ec0-137">This options combines the previous two, using ExpressRoute in normal conditions, but failing over to a VPN connection if there is a loss of connectivity in the ExpressRoute circuit.</span></span>
+
+<span data-ttu-id="87ec0-138">Ez az architektúra olyan hibrid alkalmazásokhoz megfelelő, amelyek az ExpressRoute által nyújtott nagyobb sávszélességet és a magas rendelkezésre állású hálózati kapcsolatot is igénylik.</span><span class="sxs-lookup"><span data-stu-id="87ec0-138">This architecture is suitable for hybrid applications that need the higher bandwidth of ExpressRoute, and also require highly available network connectivity.</span></span> 
+
+<span data-ttu-id="87ec0-139">**Előnyök**</span><span class="sxs-lookup"><span data-stu-id="87ec0-139">**Benefits**</span></span>
+
+- <span data-ttu-id="87ec0-140">Magas rendelkezésre állás az ExpressRoute-kapcsolatcsoport meghibásodása esetén, azonban a tartalék kapcsolat egy alacsonyabb sávszélességű hálózaton fut.</span><span class="sxs-lookup"><span data-stu-id="87ec0-140">High availability if the ExpressRoute circuit fails, although the fallback connection is on a lower bandwidth network.</span></span>
+
+<span data-ttu-id="87ec0-141">**Problémák**</span><span class="sxs-lookup"><span data-stu-id="87ec0-141">**Challenges**</span></span>
+
+- <span data-ttu-id="87ec0-142">Konfigurálása bonyolult.</span><span class="sxs-lookup"><span data-stu-id="87ec0-142">Complex to configure.</span></span> <span data-ttu-id="87ec0-143">Egy VPN-kapcsolatot és egy ExpressRoute-kapcsolatcsoportot is be kell állítania.</span><span class="sxs-lookup"><span data-stu-id="87ec0-143">You need to set up both a VPN connection and an ExpressRoute circuit.</span></span>
+- <span data-ttu-id="87ec0-144">Redundáns hardvert (VPN-berendezéseket) igényel, valamint redundáns Azure VPN Gateway-kapcsolatot is, amelynek külön díja van.</span><span class="sxs-lookup"><span data-stu-id="87ec0-144">Requires redundant hardware (VPN appliances), and a redundant Azure VPN Gateway connection for which you pay charges.</span></span>
+
+<span data-ttu-id="87ec0-145">**Referenciaarchitektúra**</span><span class="sxs-lookup"><span data-stu-id="87ec0-145">**Reference architecture**</span></span>
+
+- [<span data-ttu-id="87ec0-146">Hibrid hálózat ExpressRoute-tal és VPN-feladatátvétellel</span><span class="sxs-lookup"><span data-stu-id="87ec0-146">Hybrid network with ExpressRoute and VPN failover</span></span>](./expressroute-vpn-failover.md)
+
+
+## <a name="hub-spoke-network-topology"></a><span data-ttu-id="87ec0-147">Küllős hálózati topológia</span><span class="sxs-lookup"><span data-stu-id="87ec0-147">Hub-spoke network topology</span></span>
+
+<span data-ttu-id="87ec0-148">A küllős hálózati topológiával elkülöníthetők a számítási feladatok, ugyanakkor megoszthatók az olyan szolgáltatások, mint az identitáskezelés és a biztonság.</span><span class="sxs-lookup"><span data-stu-id="87ec0-148">A hub-spoke network topology is a way to isolate workloads while sharing services such as identity and security.</span></span> <span data-ttu-id="87ec0-149">Az agy egy virtuális hálózat (VNet) az Azure-ban, amely központi kapcsolódási pontként szolgál a helyszíni hálózathoz.</span><span class="sxs-lookup"><span data-stu-id="87ec0-149">The hub is a virtual network (VNet) in Azure that acts as a central point of connectivity to your on-premises network.</span></span> <span data-ttu-id="87ec0-150">A küllők az agyhoz kapcsolódó virtuális hálózatok.</span><span class="sxs-lookup"><span data-stu-id="87ec0-150">The spokes are VNets that peer with the hub.</span></span> <span data-ttu-id="87ec0-151">A közös szolgáltatások üzembe helyezése az agyon történik, az egyes számítási feladatokat a küllőkön vannak.</span><span class="sxs-lookup"><span data-stu-id="87ec0-151">Shared services are deployed in the hub, while individual workloads are deployed as spokes.</span></span>
+
+
+<span data-ttu-id="87ec0-152">**Referenciaarchitektúrák**</span><span class="sxs-lookup"><span data-stu-id="87ec0-152">**Reference architectures**</span></span>
+
+- [<span data-ttu-id="87ec0-153">Küllős topológia</span><span class="sxs-lookup"><span data-stu-id="87ec0-153">Hub-spoke topology</span></span>](./hub-spoke.md)
+- [<span data-ttu-id="87ec0-154">Küllős topológia közös szolgáltatásokkal</span><span class="sxs-lookup"><span data-stu-id="87ec0-154">Hub-spoke with shared services</span></span>](./shared-services.md)
