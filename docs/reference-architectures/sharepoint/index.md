@@ -2,13 +2,13 @@
 title: Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 description: Bevált módszerek a magas rendelkezésre állású SharePoint Server 2016-farm létrehozására az Azure-ban.
 author: njray
-ms.date: 08/01/2017
-ms.openlocfilehash: 9fe4fc09cf3babdf3ec8e8f27049f90e0047e9f0
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.date: 07/14/2018
+ms.openlocfilehash: ff690300cb5f4af301bcfac58ac10b9b3c47f96d
+ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987709"
+ms.lasthandoff: 07/14/2018
+ms.locfileid: "39060897"
 ---
 # <a name="run-a-high-availability-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 
@@ -172,78 +172,104 @@ Emellett mindig célszerű előre megtervezni a biztonság megerősítését. Eg
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A referenciaarchitektúra üzembehelyezési szkriptjei elérhetők a [GitHubon][github]. 
+Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github]. A teljes üzembe helyezés akár több órát is igénybe vehet.
 
-Az architektúra növekményesen vagy egyszerre is telepíthető. Első alkalommal a növekményes üzembe helyezést javasoljuk, hogy megismerhesse, melyik üzembehelyezési lépés mire való. A növekmény az alábbi *mód* paraméterek egyikével határozható meg.
+Az üzembe helyezés a következő erőforráscsoportokat hozza létre az előfizetésben:
 
-| Mód           | Művelet                                                                                                            |
-|----------------|-------------------------------------------------------------------------------------------------------------------------|
-| onprem         | (Nem kötelező) Üzembe helyez egy szimulált helyszíni hálózati környezetet tesztelési és értékelési célokra. Ez a lépés nem csatlakozik tényleges helyszíni hálózathoz. |
-| infrastruktúra | Üzembe helyezi a SharePoint 2016 hálózati infrastruktúrát és a jumpboxot az Azure-ban.                                                |
-| createvpn      | Üzembe helyez egy-egy virtuális hálózati átjárót a SharePoint- és a helyszíni hálózaton, és csatlakoztatja őket. Ezt a lépést csak akkor futtassa, ha futtatta az `onprem` lépést.                |
-| számítási feladat       | Üzembe helyezi a SharePoint-kiszolgálókat a SharePoint-hálózaton.                                                               |
-| biztonság       | Üzembe helyezi a hálózati biztonsági csoportot a SharePoint-hálózaton.                                                           |
-| összes            | Üzembe helyezi az összes fenti környezetet.                            
+- ra-onprem-sp2016-rg
+- ra-sp2016-network-rg
 
+A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse. 
 
-Az architektúra szimulált helyszíni hálózati környezettel történő növekményes üzembe helyezéséhez futtassa az alábbi lépéseket ebben a sorrendben:
-
-1. onprem
-2. infrastruktúra
-3. createvpn
-4. számítási feladat
-5. biztonság
-
-Az architektúra szimulált helyszíni hálózati környezet nélkül történő növekményes üzembe helyezéséhez futtassa az alábbi lépéseket ebben a sorrendben:
-
-1. infrastruktúra
-2. számítási feladat
-3. biztonság
-
-Ha mindent egy lépésben szeretne üzembe helyezni, használja az `all` paramétert. Vegye figyelembe, hogy a teljes folyamat több órát is igénybe vehet.
+A paraméterfájlok több helyen nem módosítható jelszót tartalmaznak. Módosítsa ezeket az értékeket az üzembe helyezés előtt.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-* Telepítse az [Azure PowerShell][azure-ps] legújabb verzióját.
+[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
-* A referenciaarchitektúra üzembe helyezése előtt ellenőrizze, hogy az előfizetése elegendő kvótával rendelkezik-e (legalább 38 mag). Ha nincs elég mag, küldjön támogatási kérelmet az Azure Portalról további kvótáért.
+### <a name="deploy-the-solution"></a>A megoldás üzembe helyezése 
 
-* Az üzembe helyezés költségeinek meghatározásához lásd: [Azure-díjkalkulátor][azure-pricing].
+1. Futtassa az alábbi parancsot egy szimulált helyszíni hálózat üzembe helyezéséhez.
 
-### <a name="deploy-the-reference-architecture"></a>A referenciaarchitektúra üzembe helyezése
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p onprem.json --deploy
+    ```
 
-1.  Töltse le vagy klónozza a [GitHub-adattárat][github] a saját helyi számítógépére.
+2. Futtassa az alábbi parancsot az Azure-beli virtuális hálózat és a VPN-átjáró üzembe helyezéséhez.
 
-2.  Nyisson meg egy PowerShell-ablakot, és lépjen a `/sharepoint/sharepoint-2016` mappára.
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p connections.json --deploy
+    ```
 
-3.  Futtassa az alábbi PowerShell-parancsot. A \<subscription id\> paraméterhez adja meg az Azure-előfizetése azonosítóját. A \<location\> paraméterhez adjon meg Azure-régiót (például `eastus` vagy `westus`). A \<mode\> paraméterhez adja meg az `onprem`, `infrastructure`, `createvpn`, `workload`, `security` vagy az `all` értéket.
+3. Futtassa az alábbi parancsot a jumpbox, az AD-tartományvezérlők és az SQL Server-virtuálisgépek üzembe helyezéséhez.
+
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure1.json --deploy
+    ```
+
+4. Futtassa az alábbi parancsot a feladatátvevő fürt és a rendelkezésreállási csoport létrehozásához. 
+
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure2-cluster.json --deploy
+
+5. Run the following command to deploy the remaining VMs.
+
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure3.json --deploy
+    ```
+
+Ezen a ponton ellenőrizze, hogy tud-e létesíteni TCP-kapcsolatot az SQL Server Always On rendelkezésreállási csoport számára a webes kezelőfelület és a terheléselosztó között. Ehhez végezze el az alábbi lépéseket:
+
+1. Az Azure Portal használatával keresse meg a `ra-sp-jb-vm1` nevű virtuális gépet az `ra-sp2016-network-rg` erőforráscsoportban. Ez a jumpbox-virtuálisgép.
+
+2. Kattintson a `Connect` parancsra egy, a virtuális gépre irányuló távoli asztali munkamenet megnyitásához. Használja az `azure1.json` paraméterfájlban megadott jelszót.
+
+3. A távoli asztali munkamenetből jelentkezzen be a 10.0.5.4-es IP-címre. Ez az `ra-sp-app-vm1` nevű virtuális gép IP-címe.
+
+4. Nyisson meg egy PowerShell-konzolt a virtuális gépen, és a `Test-NetConnection` parancsmaggal ellenőrizze, hogy csatlakozni tud-e a terheléselosztóhoz.
 
     ```powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
-    ```   
-4. Ha a rendszer kéri, jelentkezzen be az Azure-fiókjába. A kiválasztott módtól függően az üzembehelyezési szkriptek befejezése több órát is igénybe vehet.
+    Test-NetConnection 10.0.3.100 -Port 1433
+    ```
 
-5. Ha az üzembe helyezés befejeződik, futtassa a szkripteket az SQL Server Always On rendelkezésre állási csoportok konfigurálásához. További részletekért tekintse meg az [információs fájlt][readme].
+A kimenetnek a következőképpen kell kinéznie:
 
-> [!WARNING]
-> A paraméterfájlok több helyen nem módosítható jelszót (`AweS0me@PW`) tartalmaznak. Módosítsa ezeket az értékeket az üzembe helyezés előtt.
+```powershell
+ComputerName     : 10.0.3.100
+RemoteAddress    : 10.0.3.100
+RemotePort       : 1433
+InterfaceAlias   : Ethernet 3
+SourceAddress    : 10.0.0.132
+TcpTestSucceeded : True
+```
 
+Ha ez nem sikerül, az Azure Portal segítségével indítsa újra az `ra-sp-sql-vm2` nevű virtuális gépet. Amikor a virtuális gép újraindult, futtassa ismét a `Test-NetConnection` parancsot. A virtuális gép újraindítása után előfordulhat, hogy várnia kell körülbelül egy percet ahhoz, hogy a csatlakozás sikeres legyen. 
 
-## <a name="validate-the-deployment"></a>Az üzembe helyezés ellenőrzése
+Most pedig végezze el az üzembe helyezést az alábbi módon.
 
-A referenciaarchitektúra üzembe helyezése után az alábbi erőforráscsoportok fognak megjelenni a használt előfizetés alatt:
+1. Futtassa az alábbi parancsot a SharePoint-farm elsődleges csomópontjának üzembe helyezéséhez.
 
-| Erőforráscsoport        | Cél                                                                                         |
-|-----------------------|-------------------------------------------------------------------------------------------------|
-| ra-onprem-sp2016-rg   | Szimulált helyszíni hálózat Active Directoryval, a SharePoint 2016-hálózattal összevonva |
-| ra-sp2016-network-rg  | A SharePoint-környezet támogatására szolgáló infrastruktúra                                                 |
-| ra-sp2016-workload-rg | A SharePoint és a támogató erőforrások                                                             |
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure4-sharepoint-server.json --deploy
+    ```
 
-### <a name="validate-access-to-the-sharepoint-site-from-the-on-premises-network"></a>A SharePoint-hely helyszíni hálózatról való elérésének ellenőrzése
+2. Futtassa az alábbi parancsot a SharePoint-gyorsítótár, -keresés és -web üzembe helyezéséhez.
 
-1. Az [Azure Portalon][azure-portal] **Erőforráscsoportok** területén válassza ki a `ra-onprem-sp2016-rg` erőforráscsoportot.
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure5-sharepoint-farm.json --deploy
+    ```
 
-2. Az erőforrások listájában válassza ki a `ra-adds-user-vm1` nevű virtuálisgép-erőforrást. 
+3. Futtassa az alábbi parancsot az NSG-szabályok létrehozásához.
+
+    ```bash
+    azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure6-security.json --deploy
+    ```
+
+### <a name="validate-the-deployment"></a>Az üzembe helyezés ellenőrzése
+
+1. Az [Azure Portalon][azure-portal] keresse meg az `ra-onprem-sp2016-rg` erőforráscsoportot.
+
+2. Az erőforrások listájában válassza ki a `ra-onpr-u-vm1` nevű virtuálisgép-erőforrást. 
 
 3. Csatlakozzon a virtuális géphez a [Csatlakozás virtuális géphez][connect-to-vm] című részben ismertetett módon. Felhasználónév: `\onpremuser`.
 
@@ -252,38 +278,6 @@ A referenciaarchitektúra üzembe helyezése után az alábbi erőforráscsoport
 6.  A **Windows rendszerbiztonság** mezőben jelentkezzen be a SharePoint portálra a `contoso.local\testuser` felhasználónévvel.
 
 Ez a bejelentkezés a helyszíni hálózat által használt Fabrikam.com tartományból nyit alagutat a SharePoint portál által használt contoso.local tartomány felé. Amikor megnyílik a SharePoint-hely, a legfelső szintű bemutatówebhely fog megjelenni.
-
-### <a name="validate-jumpbox-access-to-vms-and-check-configuration-settings"></a>A jumpbox virtuális gépekhez való hozzáférésének ellenőrzése és a konfigurációs beállítások áttekintése
-
-1.  Az [Azure Portalon][azure-portal] **Erőforráscsoportok** területén válassza ki a `ra-sp2016-network-rg` erőforráscsoportot.
-
-2.  Az erőforrások listájában válassza ki a `ra-sp2016-jb-vm1` nevű virtuálisgép-erőforrást, azaz a jumpboxot.
-
-3. Csatlakozzon a virtuális géphez a [Csatlakozás virtuális géphez][connect-to-vm] című részben ismertetett módon. Felhasználónév: `testuser`.
-
-4.  Miután bejelentkezett a jumpboxba, nyisson meg onnan egy RDP-munkamenetet. Csatlakozzon a virtuális hálózaton található bármely másik virtuális géphez. Felhasználónév: `testuser`. A távoli számítógép biztonsági tanúsítványára vonatkozó figyelmeztetést figyelmen kívül hagyhatja.
-
-5.  Amikor megnyílik a virtuális géppel létesített távoli kapcsolat, tekintse át a konfigurációt, és végezzen módosításokat a felügyeleti eszközökkel, például a Kiszolgálókezelővel.
-
-Az alábbi táblázatban az üzembe helyezett virtuális gépek láthatók. 
-
-| Erőforrás neve      | Cél                                   | Erőforráscsoport        | Virtuális gép neve                       |
-|--------------------|-------------------------------------------|-----------------------|-------------------------------|
-| Ra-sp2016-ad-vm1   | Active Directory + DNS                    | Ra-sp2016-network-rg  | Ad1.contoso.local             |
-| Ra-sp2016-ad-vm2   | Active Directory + DNS                    | Ra-sp2016-network-rg  | Ad2.contoso.local             |
-| Ra-sp2016-fsw-vm1  | SharePoint                                | Ra-sp2016-network-rg  | Fsw1.contoso.local            |
-| Ra-sp2016-jb-vm1   | Jumpbox                                   | Ra-sp2016-network-rg  | Jb (a bejelentkezéshez használja a nyilvános IP-címet) |
-| Ra-sp2016-sql-vm1  | SQL Always On – Feladatátvétel                  | Ra-sp2016-network-rg  | Sq1.contoso.local             |
-| Ra-sp2016-sql-vm2  | SQL Always On – Elsődleges                   | Ra-sp2016-network-rg  | Sq2.contoso.local             |
-| Ra-sp2016-app-vm1  | SharePoint 2016 alkalmazás MinRole       | Ra-sp2016-workload-rg | App1.contoso.local            |
-| Ra-sp2016-app-vm2  | SharePoint 2016 alkalmazás MinRole       | Ra-sp2016-workload-rg | App2.contoso.local            |
-| Ra-sp2016-dch-vm1  | SharePoint 2016 elosztott gyorsítótárazás MinRole | Ra-sp2016-workload-rg | Dch1.contoso.local            |
-| Ra-sp2016-dch-vm2  | SharePoint 2016 elosztott gyorsítótárazás MinRole | Ra-sp2016-workload-rg | Dch2.contoso.local            |
-| Ra-sp2016-srch-vm1 | SharePoint 2016 keresés MinRole            | Ra-sp2016-workload-rg | Srch1.contoso.local           |
-| Ra-sp2016-srch-vm2 | SharePoint 2016 keresés MinRole            | Ra-sp2016-workload-rg | Srch2.contoso.local           |
-| Ra-sp2016-wfe-vm1  | SharePoint 2016 webes kezelőfelület MinRole     | Ra-sp2016-workload-rg | Wfe1.contoso.local            |
-| Ra-sp2016-wfe-vm2  | SharePoint 2016 webes kezelőfelület MinRole     | Ra-sp2016-workload-rg | Wfe2.contoso.local            |
-
 
 **_A referenciaarchitektúra készítésében közreműködtek:_** &mdash;  Joe Davies, Bob Fox, Neil Hodgkinson, Paul Stork
 
