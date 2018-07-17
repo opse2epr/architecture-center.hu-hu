@@ -332,18 +332,32 @@
       href: example-scenario/index.md
     - name: AI
       items:
-        - name: Képfeldolgozás
+        - name: Képbesorolás
           href: example-scenario/ai/intelligent-apps-image-processing.md
     - name: Alkalmazások
       items:
         - name: Szállodai foglalásra szolgáló csevegőrobot
           href: example-scenario/apps/commerce-chatbot.md
-        - name: DevOps Azure Kubernetes Service-szel
+        - name: DevOps tárolókkal
           href: example-scenario/apps/devops-with-aks.md
+        - name: DevOps VSTS-sel
+          href: example-scenario/apps/devops-dotnet-webapp.md
+        - name: SAP fejlesztési és tesztelési célokra
+          href: example-scenario/apps/sap-dev-test.md
+        - name: E-kereskedelmi kezelőfelület
+          href: example-scenario/apps/ecommerce-scenario.md
     - name: Adatok és analitika
       items:
         - name: Csalások valós idejű észlelése
           href: example-scenario/data/fraud-detection.md
+        - name: Skálázható rendelésfeldolgozás
+          href: example-scenario/data/ecommerce-order-processing.md
+    - name: Infrastruktúra
+      items:
+        - name: Többrétegű Windows
+          href: example-scenario/infrastructure/regulated-multitier-app.md
+        - name: HPC videórenderelés
+          href: example-scenario/infrastructure/video-rendering.md
 - name: Referenciaarchitektúrák
   items:
     - name: Áttekintés
