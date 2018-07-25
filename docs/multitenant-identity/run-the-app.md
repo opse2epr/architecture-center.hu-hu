@@ -1,24 +1,24 @@
 ---
 title: A Surveys alkalmazás futtatása
-description: A felmérések mintaalkalmazás futtatása helyben
+description: A Surveys mintaalkalmazás futtatása helyileg
 author: MikeWasson
 ms:date: 07/21/2017
-ms.openlocfilehash: 28d976374e5d6dbad434873eef149704f26a1f3f
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: d4fa8122794740e6935293147d999b26d9485d90
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30848682"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39229099"
 ---
 # <a name="run-the-surveys-application"></a>A Surveys alkalmazás futtatása
 
-Ez a cikk ismerteti, hogyan futtathatók a [Dejójáték felmérések](./tailspin.md) helyileg, a Visual Studio alkalmazás. Ezeket a lépéseket az Azure alkalmazás nem telepít. Azonban szüksége lesz egy Azure-erőforrások létrehozásához &mdash; az Azure Active Directory (Azure AD) címtár és a Redis gyorsítótár.
+Ez a cikk azt ismerteti, hogyan futtathat a [Tailspin Surveys](./tailspin.md) alkalmazást helyileg, a Visual Studióból. Ezeket a lépéseket az Azure-ban az alkalmazás nem telepít. Azonban szüksége lesz egy Azure-erőforrások létrehozása &mdash; egy Azure Active Directory (Azure AD) címtár és a egy Redis gyorsítótárhoz.
 
-A lépések összefoglalása itt található:
+A következő lépések összefoglalása:
 
-1. Hozzon létre egy Azure AD-címtár (bérlői) Dejójáték fiktív cég.
-2. Regisztrálja a felmérések alkalmazás és a háttérkiszolgáló webes API-t az Azure AD.
-3. Azure Redis Cache példányt létrehozni.
+1. A Tailspin fiktív hozzon létre egy Azure AD-címtár (bérlő).
+2. A Surveys alkalmazás és a háttéralkalmazás webes API regisztrálása az Azure ad-ben.
+3. Hozzon létre egy Azure Redis Cache-példányhoz.
 4. Az Alkalmazásbeállítások konfigurálása, és hozzon létre egy helyi adatbázist.
 5. Futtassa az alkalmazást, és regisztráljon egy új bérlőt.
 6. Alkalmazás-szerepkörök hozzáadása a felhasználók számára.
@@ -27,33 +27,33 @@ A lépések összefoglalása itt található:
 -   [Visual Studio 2017][VS2017]
 -   [A Microsoft Azure](https://azure.microsoft.com) fiók
 
-## <a name="create-the-tailspin-tenant"></a>A Dejójáték bérlő létrehozása
+## <a name="create-the-tailspin-tenant"></a>A Tailspin bérlő létrehozása
 
-Dejójáték fiktív cég, amelyen a felmérések alkalmazás. Dejójáték használja az Azure AD és az alkalmazás regisztrálásához más bérlők engedélyezéséhez. Ezek az ügyfelek használhatja az Azure AD hitelesítő adatait az alkalmazás-ba való bejelentkezéshez.
+Tailspin a fiktív vállalat, amely futtatja a Surveys alkalmazás. Tailspin regisztrálni az alkalmazást a többi bérlő engedélyezése az Azure AD. Ezek az ügyfelek ezután használhatja az Azure AD hitelesítő adataikkal bejelentkeznie az alkalmazásba.
 
-Ebben a lépésben létre fog hozni egy Azure AD-címtár Dejójáték számára.
+Ebben a lépésben az Azure AD-címtárat a Tailspin fog létrehozni.
 
 1. Jelentkezzen be az [Azure Portalra][portal].
 
-2. Kattintson a **új** > **biztonság + identitás szakaszában** > **az Azure Active Directory**.
+2. Kattintson a **+ erőforrás létrehozása** > **identitás** > **az Azure Active Directory**.
 
-3. Adja meg `Tailspin` a szervezet neve, és adja meg a tartomány nevét. A tartománynév fog rendelkezni az űrlap `xxxx.onmicrosoft.com` és egyedinek kell lenniük. 
+3. Adja meg `Tailspin` a szervezet neve, és adjon meg tartománynevet. A tartomány neve lesz a képernyő `xxxx.onmicrosoft.com` és globálisan egyedinek kell lennie. 
 
     ![](./images/running-the-app/new-tenant.png)
 
-4. Kattintson a **Create** (Létrehozás) gombra. Az új könyvtár létrehozása néhány percig is eltarthat.
+4. Kattintson a **Create** (Létrehozás) gombra. Az új könyvtár létrehozása néhány percet igénybe vehet.
 
-A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár képviseli, amelyet az alkalmazás előfizet lesz szüksége. Az alapértelmezett Azure AD-címtár (nem Dejójáték) használja, vagy hozzon létre egy új könyvtárat erre a célra. A példákban a Contoso a fiktív ügyfélként használjuk.
+A végpontok közötti forgatókönyv végrehajtásához szüksége lesz egy második Azure AD-címtár, amely jelöli, amelyet az alkalmazás regisztrál. Használja az alapértelmezett Azure AD-címtár (nem a Tailspin), vagy hozzon létre egy új könyvtárat erre a célra. A példákban a Contoso a fiktív ügyfélként használjuk.
 
-## <a name="register-the-surveys-web-api"></a>Regisztrálja a felmérések webes API-k 
+## <a name="register-the-surveys-web-api"></a>A felmérések webes API regisztrálása 
 
-1. Az a [Azure-portálon][portal], kiválasztja a fiókját a portál jobb felső sarkában az új Dejójáték könyvtár váltani.
+1. Az a [az Azure portal][portal], váltson az új Tailspin könyvtárat a portál jobb felső sarkában a fiók kiválasztásával.
 
-2. A bal oldali navigációs ablaktábláján válassza **Azure Active Directory**. 
+2. A bal oldali navigációs ablaktáblán válassza ki a **Azure Active Directory**. 
 
-3. Kattintson a **App regisztrációk** > **új alkalmazás regisztrációja**.
+3. Kattintson a **alkalmazásregisztrációk** > **új alkalmazásregisztráció**.
 
-4. Az a **létrehozása** panelen adja meg a következő adatokat:
+4. Az a **létrehozás** panelen adja meg a következőket:
 
    - **Név**: `Surveys.WebAPI`
 
@@ -65,51 +65,51 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
 
 5. Kattintson a **Create** (Létrehozás) gombra.
 
-6. Az a **App regisztrációk** panelen, jelölje be az új **Surveys.WebAPI** alkalmazás.
+6. Az a **alkalmazásregisztrációk** panelen válassza ki az új **Surveys.WebAPI** alkalmazás.
  
-7. Kattintson a **Tulajdonságok** elemre.
+7. Kattintson a **beállítások** > **tulajdonságok**.
 
-8. Az a **App ID URI** szerkesztési mezőhöz, adja meg `https://<domain>/surveys.webapi`, ahol `<domain>` annak a könyvtárnak a tartománynév. Például:`https://tailspin.onmicrosoft.com/surveys.webapi`
+8. Az a **Alkalmazásazonosító URI-t** beviteli mező, adja meg `https://<domain>/surveys.webapi`, ahol `<domain>` tartományneve annak a címtárnak. Például:`https://tailspin.onmicrosoft.com/surveys.webapi`
 
     ![Beállítások](./images/running-the-app/settings.png)
 
-9. Állítsa be **Multi-központjaként** való **Igen**.
+9. Állítsa be **több-bérlős** való **Igen**.
 
 10. Kattintson a **Save** (Mentés) gombra.
 
 ## <a name="register-the-surveys-web-app"></a>A felmérések webes alkalmazás regisztrálása 
 
-1. Lépjen vissza a **App regisztrációk** panelen, majd kattintson **új alkalmazás regisztrációja**.
+1. Lépjen vissza a **alkalmazásregisztrációk** panelen, és kattintson **új alkalmazásregisztráció**.
 
-2. Az a **létrehozása** panelen adja meg a következő adatokat:
+2. Az a **létrehozás** panelen adja meg a következőket:
 
    - **Név**: `Surveys`
    - **Az alkalmazástípus**: `Web app / API`
    - **Bejelentkezés URL-cím**: `https://localhost:44300/`
    
-   Figyelje meg, hogy a bejelentkezési URL-cím rendelkezik-e a port számát a `Surveys.WebAPI` alkalmazást az előző lépésben.
+   Figyelje meg, hogy a bejelentkezési URL-rendelkezik-e a port számát a `Surveys.WebAPI` alkalmazás az előző lépésben.
 
 3. Kattintson a **Create** (Létrehozás) gombra.
  
-4. Az a **App regisztrációk** panelen, jelölje be az új **felmérések** alkalmazás.
+4. Az a **alkalmazásregisztrációk** panelen válassza ki az új **felmérések** alkalmazás.
  
-5. Másolja át az azonosítót. Ezt később lesz szüksége.
+5. Másolja az alkalmazás azonosítója. Ez később lesz szüksége.
 
     ![](./images/running-the-app/application-id.png)
 
 6. Kattintson a **Tulajdonságok** elemre.
 
-7. Az a **App ID URI** szerkesztési mezőhöz, adja meg `https://<domain>/surveys`, ahol `<domain>` annak a könyvtárnak a tartománynév. 
+7. Az a **Alkalmazásazonosító URI-t** beviteli mező, adja meg `https://<domain>/surveys`, ahol `<domain>` tartományneve annak a címtárnak. 
 
     ![Beállítások](./images/running-the-app/settings.png)
 
-8. Állítsa be **Multi-központjaként** való **Igen**.
+8. Állítsa be **több-bérlős** való **Igen**.
 
 9. Kattintson a **Save** (Mentés) gombra.
 
 10. Az a **beállítások** panelen kattintson a **válasz URL-címek**.
  
-11. Adja hozzá a következő válasz URL-CÍMEN: `https://localhost:44300/signin-oidc`.
+11. Adja hozzá a következő válasz URL-cím: `https://localhost:44300/signin-oidc`.
 
 12. Kattintson a **Save** (Mentés) gombra.
 
@@ -117,41 +117,41 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
 
 14. Adja meg a leírását, például `client secret`.
 
-15. Az a **válasszon időtartama** legördülő menüben válasszon ki **1 év**. 
+15. Az a **kiválasztása időtartama** legördülő menüben válasszon ki **1 év**. 
 
-16. Kattintson a **Save** (Mentés) gombra. A kulcs mentésekor jön létre.
+16. Kattintson a **Save** (Mentés) gombra. A kulcs jön létre, amikor menti.
 
-17. Mielőtt ezt a panelt elhagyni, másolja a kulcsnak az értéke.
+17. Mielőtt ezt a panelt elhagyni, másolja a kulcs értékét.
 
     > [!NOTE] 
-    > A kulcs nem fog megjelenni újra után elnavigál a panelt. 
+    > A kulcs nem lesz látható újra után meg elhagyni a panelt. 
 
 18. A **API-hozzáférés**, kattintson a **szükséges engedélyek**.
 
 19. Kattintson a **hozzáadása** > **API kiválasztása**.
 
-20. A keresőmezőbe, keresse meg a `Surveys.WebAPI`.
+20. A keresőmezőbe keresése `Surveys.WebAPI`.
 
     ![Engedélyek](./images/running-the-app/permissions.png)
 
-21. Válassza ki `Surveys.WebAPI` kattintson **válasszon**.
+21. Válassza ki `Surveys.WebAPI` kattintson **kiválasztása**.
 
 22. A **delegált engedélyek**, ellenőrizze **hozzáférés Surveys.WebAPI**.
 
-    ![Engedélyek delegálás beállítása](./images/running-the-app/delegated-permissions.png)
+    ![Engedélyek beállítása meghatalmazott](./images/running-the-app/delegated-permissions.png)
 
-23. Kattintson a **válasszon** > **végzett**.
+23. Kattintson a **Kiválasztás** > **Kész** gombra.
 
 
-## <a name="update-the-application-manifests"></a>Az alkalmazásjegyzékeknek frissítése
+## <a name="update-the-application-manifests"></a>Frissítse az alkalmazásjegyzékeket
 
-1. Lépjen vissza a **beállítások** panelen a `Surveys.WebAPI` alkalmazást.
+1. Lépjen vissza a **beállítások** paneljén a `Surveys.WebAPI` alkalmazást.
 
 2. Kattintson a **Manifest** > **szerkesztése**.
 
     ![](./images/running-the-app/manifest.png)
  
-3. Adja hozzá a következő JSON a `appRoles` elemet. Új GUID azonosítóját készítése a `id` tulajdonságok.
+3. Adja hozzá a következő JSON-a `appRoles` elemet. Hozzon létre új GUID-azonosítói a `id` tulajdonságait.
 
    ```json
    {
@@ -172,41 +172,41 @@ A végpont forgatókönyv végrehajtásához egy második Azure AD-címtár kép
    }
    ```
 
-4. Az a `knownClientApplications` tulajdonság, vegye fel a felmérések webes alkalmazás, amely korábban a felmérések alkalmazás regisztrálásakor kapott Alkalmazásazonosító. Példa:
+4. Az a `knownClientApplications` tulajdonság, adja hozzá a felmérések webes alkalmazás, amely korábban a Surveys alkalmazás regisztrálásakor kapott Alkalmazásazonosító. Példa:
 
    ```json
    "knownClientApplications": ["be2cea23-aa0e-4e98-8b21-2963d494912e"],
    ```
 
-   Ezt a beállítást a felmérések alkalmazás hozzáadása a webes API hívásához jogosult ügyfelek listáját.
+   Ez a beállítás a Surveys alkalmazás hozzáadása a webes API hívása jogosult ügyfelek listáját.
 
 5. Kattintson a **Save** (Mentés) gombra.
 
-Most ismételje meg a felmérések alkalmazást ugyanezekkel a lépésekkel kivéve ne adjon hozzá egy bejegyzést a `knownClientApplications`. Használja az ugyanazon szerepkör-definíciók, de új GUID azonosítók előállításához.
+Most ismételje meg a Surveys alkalmazás ugyanezekkel a lépésekkel kivéve ne adjon hozzá egy bejegyzés `knownClientApplications`. Használja ugyanazt a szerepkör-definíciók, de új GUID azonosítóját hozza létre.
 
-## <a name="create-a-new-redis-cache-instance"></a>Hozzon létre egy új Redis Cache példányt
+## <a name="create-a-new-redis-cache-instance"></a>Új Redis Cache-példány létrehozása
 
-A felmérések alkalmazás Redis gyorsítótár OAuth 2 jogkivonatot használja. A gyorsítótár létrehozásához:
+A Surveys alkalmazás a Redis cache OAuth 2 hozzáférési jogkivonatok használja. A gyorsítótár létrehozásához:
 
-1.  Ugrás a [Azure Portal](https://portal.azure.com) kattintson **új** > **adatbázisok** > **Redis Cache**.
+1.  Lépjen a [az Azure Portal](https://portal.azure.com) kattintson **+ erőforrás létrehozása** > **adatbázisok** > **Redis Cache**.
 
-2.  Töltse ki a szükséges információt, beleértve a DNS-név, az erőforráscsoport, a hely, IP-címek. Hozzon létre egy új erőforráscsoportot, vagy használjon egy meglévő erőforráscsoportot.
+2.  Adja meg a szükséges információkat, beleértve a DNS-név, erőforráscsoport, helyét, és a tarifacsomag. Hozzon létre egy új erőforráscsoportot, vagy használjon egy meglévő erőforráscsoportot.
 
 3. Kattintson a **Create** (Létrehozás) gombra.
 
-4. A Resis gyorsítótár létrehozása után nyissa meg az erőforrás a portálon.
+4. A Redis gyorsítótár létrehozása után keresse meg az erőforrást a portálon.
 
-5. Kattintson a **hívóbetűk** és másolja az elsődleges kulcsot.
+5. Kattintson a **hozzáférési kulcsok** , és másolja az elsődleges kulcsot.
 
-A Redis gyorsítótár létrehozásával kapcsolatos további információkért lásd: [használata Azure Redis Cache hogyan](/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache).
+Egy Redis cache létrehozásával kapcsolatos további információkért lásd: [How to Azure Redis Cache használata](/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache).
 
-## <a name="set-application-secrets"></a>Set alkalmazás titkos kulcsok
+## <a name="set-application-secrets"></a>Titkos alkalmazáskulcsok beállítása
 
 1.  Nyissa meg a Tailspin.Surveys megoldást a Visual Studióban.
 
-2.  A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet, és válassza ki **felhasználói kulcsok kezelése**.
+2.  A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet, és válassza ki **felhasználói titkok kezelése**.
 
-3.  A secrets.json fájl illessze be az alábbiakat:
+3.  A secrets.json fájlban illessze be a következőket:
     
     ```json
     {
@@ -222,16 +222,16 @@ A Redis gyorsítótár létrehozásával kapcsolatos további információkért 
     }
     ```
    
-    Cserélje le a következőképpen csúcsos zárójelek megjelenő elemek:
+    Cserélje le a csúcsos zárójelpárban van, a következő megjelenített elemek:
 
-    - `AzureAd:ClientId`: A felmérések alkalmazás az alkalmazás azonosítója.
-    - `AzureAd:ClientSecret`: A kulcs az Azure ad-ben a felmérések alkalmazás regisztrálásakor létrehozott.
-    - `AzureAd:WebApiResourceId`: A App ID URI Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor megadott. Az űrlap rendelkeznie kell `https://<directory>.onmicrosoft.com/surveys.webapi`
-    - `Redis:Configuration`: Hozhat létre. Ez a karakterlánc a DNS neve alapján a Redis gyorsítótárt és az elsődleges elérési kulcsot. For example, "tailspin.redis.cache.windows.net,password=2h5tBxxx,ssl=true".
+    - `AzureAd:ClientId`: Az a Surveys alkalmazás azonosítója.
+    - `AzureAd:ClientSecret`: A kulcs, amely akkor jön létre, ha a Surveys alkalmazás Azure AD-ben regisztrált.
+    - `AzureAd:WebApiResourceId`: Az Alkalmazásazonosító URI-t, hogy a megadott Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor. Az űrlap kell rendelkeznie `https://<directory>.onmicrosoft.com/surveys.webapi`
+    - `Redis:Configuration`: Ez a karakterlánc, a DNS-nevét a Redis cache és az elsődleges elérési kulcs létrehozása. For example, "tailspin.redis.cache.windows.net,password=2h5tBxxx,ssl=true".
 
 4.  Mentse a frissített secrets.json fájlt.
 
-5.  Ismételje meg ezeket a lépéseket a Tailspin.Surveys.WebAPI projekt esetében, de illessze be a következő secrets.json. Cserélje le azt korábban a csúcsos zárójelek elemeket.
+5.  Ismételje meg ezeket a lépéseket a Tailspin.Surveys.WebAPI projekt, de secrets.json illessze be a következő. Ahogy korábban is cserélje le a csúcsos zárójelpárban van, a cikkeket.
 
     ```json
     {
@@ -246,11 +246,11 @@ A Redis gyorsítótár létrehozásával kapcsolatos további információkért 
 
 ## <a name="initialize-the-database"></a>Az adatbázis inicializálása
 
-Ebben a lépésben szüksége lesz az Entity Framework 7 LocalDB használata egy helyi SQL-adatbázis létrehozásához.
+Ebben a lépésben használandó entitás-keretrendszer 7 LocalDB használatakor egy helyi SQL-adatbázis létrehozásához.
 
 1.  Nyisson meg egy parancsablakot
 
-2.  Nyissa meg a Tailspin.Surveys.Data projekt.
+2.  Keresse meg a Tailspin.Surveys.Data projekt.
 
 3.  Futtassa az alábbi parancsot:
 
@@ -262,62 +262,62 @@ Ebben a lépésben szüksége lesz az Entity Framework 7 LocalDB használata egy
 
 Futtassa az alkalmazást, indítsa el a Tailspin.Surveys.Web és a Tailspin.Surveys.WebAPI projektek.
 
-A Visual Studio segítségével mindkét projekt futtatásához automatikusan F5, a következőképpen állíthatja be:
+Visual Studio segítségével mindkét projekt futtatásához automatikusan F5 billentyűt, a következőképpen állíthatja be:
 
 1.  A Megoldáskezelőben kattintson a jobb gombbal a megoldás, és kattintson a **indítási projektek beállítása**.
 2.  Válassza ki **több kezdőprojekt**.
 3.  Állítsa be **művelet** = **Start** Tailspin.Surveys.Web és Tailspin.Surveys.WebAPI projektek.
 
-## <a name="sign-up-a-new-tenant"></a>Iratkozzon fel egy új bérlőt
+## <a name="sign-up-a-new-tenant"></a>Regisztráljon egy új bérlőt
 
-Az alkalmazás indításakor nem jelentkezett be, így a kezdőlapon:
+Az alkalmazás indításakor nem jelentkezett be, így az üdvözlő oldal jelenik meg:
 
 ![Kezdőlap](./images/running-the-app/screenshot1.png)
 
-A szervezet feliratkozáshoz:
+Regisztráció a szervezet:
 
-1. Kattintson a **regisztrálja a vállalat Dejójáték**.
-2. Jelentkezzen be az Azure AD-címtárral, amely a szervezet a felmérések alkalmazással jelöli. Be kell jelentkeznie rendszergazda felhasználóként.
-3. Fogadja el a jóváhagyási kérése.
+1. Kattintson a **regisztrálni a vállalat a Tailspin**.
+2. Jelentkezzen be az Azure AD-címtár, amely a szervezet a Surveys alkalmazással jelöli. Rendszergazda felhasználóként jelentkezzen be.
+3. Fogadja el a beleegyezést kérő üzenetet.
 
-Az alkalmazás a bérlő regisztrálja, és majd kijelentkezik meg. Az alkalmazás kijelentkezik, mert később szüksége lesz a szerepkörökhöz beállítása az Azure AD, az alkalmazás használata előtt.
+Az alkalmazás a bérlő regisztrálja, és ezután jelentkezteti ki. Az alkalmazás kijelentkezik, mert szüksége lesz az alkalmazás-szerepkörök beállítása az Azure AD-ben az alkalmazás használata előtt.
 
 ![Regisztráció után](./images/running-the-app/screenshot2.png)
 
 ## <a name="assign-application-roles"></a>Alkalmazás-szerepkörök hozzárendelése
 
-Amikor a bérlő előfizet, AD a bérlői rendszergazda felhasználók szerepkörökhöz kell rendelni.
+Amikor egy bérlő regisztrál, a bérlői rendszergazda AD hozzá kell rendelnie alkalmazás-szerepkörök a felhasználók számára.
 
 
-1. Az a [Azure-portálon][portal], az Azure AD-címtár, amellyel iratkozzon fel a felmérések app váltani. 
+1. Az a [az Azure portal][portal], váltson át az Azure AD-címtár, amellyel a Surveys alkalmazás regisztrálhat. 
 
-2. A bal oldali navigációs ablaktábláján válassza **Azure Active Directory**. 
+2. A bal oldali navigációs ablaktáblán válassza ki a **Azure Active Directory**. 
 
-3. Kattintson a **vállalati alkalmazások** > **összes alkalmazás**. A portál felsorolja `Survey` és `Survey.WebAPI`. Ha nem, akkor győződjön meg arról, hogy a regisztrációs folyamat befejeződött-e.
+3. Kattintson a **vállalati alkalmazások** > **minden alkalmazás**. A portálon megjelennek `Survey` és `Survey.WebAPI`. Ha nem, akkor győződjön meg arról, hogy elvégezte-e a regisztrációs folyamat.
 
-4.  Kattintson az felmérések alkalmazásra.
+4.  Kattintson a Surveys alkalmazás.
 
 5.  Kattintson a **felhasználók és csoportok**.
 
 4.  Kattintson a **felhasználó hozzáadása**.
 
-5.  Ha a prémium szintű Azure AD, kattintson **felhasználók és csoportok**. Ellenkező esetben kattintson a **felhasználók**. (Az Azure AD Premium szerepkört rendel egy csoport szükséges.)
+5.  Ha rendelkezik Azure AD Premium szolgáltatással, kattintson a **felhasználók és csoportok**. Ellenkező esetben kattintson a **felhasználók**. (A prémium szintű Azure AD szerepkör hozzárendelése egy csoporthoz szükséges.)
 
-6. Jelöljön ki egy vagy több felhasználót, majd **válasszon**.
+6. Válassza ki egy vagy több felhasználót, és kattintson a **kiválasztása**.
 
     ![Felhasználó vagy csoport kiválasztása](./images/running-the-app/select-user-or-group.png)
 
-6.  Válassza ki a szerepkört, és kattintson a **válasszon**.
+6.  Válassza ki a szerepkört, és kattintson a **kiválasztása**.
 
     ![Felhasználó vagy csoport kiválasztása](./images/running-the-app/select-role.png)
 
 7.  Kattintson a **Hozzárendelés** gombra.
 
-Ismételje meg a azonos Survey.WebAPI alkalmazásához szerepköröket hozzárendelni.
+Ismételje meg a ugyanazokat a lépéseket, ha Survey.WebAPI alkalmazásához szerepköröket.
 
-> Fontos: A felhasználó mindig meg kell adni a felmérést és a Survey.WebAPI azonos szerepkörök. Ellenkező esetben a felhasználónak kell inkonzisztens engedélyek, a webes API 403-as (tiltott) hibákhoz vezethetnek.
+> Fontos: A felhasználók mindig rendelkeznie kell a felmérési és a Survey.WebAPI ugyanezeket a szerepköröket. Ellenkező esetben a felhasználói jogosultak lesznek inkonzisztens, amely a webes API a 403-as (tiltott) hibákhoz vezethetnek.
 
-Most lépjen vissza az alkalmazást, és jelentkezzen be újra. Kattintson a **a felmérések**. Ha a felhasználó a SurveyAdmin vagy SurveyCreator szerepkör van hozzárendelve, megjelenik egy **felmérés létrehozása** gomb, amely azt jelzi, hogy a felhasználó rendelkezik-e egy új felmérés létrehozásához szükséges engedélyek.
+Most lépjen vissza az alkalmazást, és jelentkezzen be újra. Kattintson a **saját felmérések**. Ha a felhasználói szerepkör van rendelve, a SurveyAdmin vagy SurveyCreator, látni fogja a **felmérés létrehozása** gomb, amely azt jelzi, hogy a felhasználók számára hozzon létre egy új felmérésre.
 
 ![A felmérések](./images/running-the-app/screenshot3.png)
 

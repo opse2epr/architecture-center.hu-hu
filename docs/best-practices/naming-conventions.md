@@ -4,12 +4,12 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 09bcfa3c0a0c46605f0025adad06f8049f109f1b
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.openlocfilehash: 6ad71a5ee39b8f1863c51dae0120dbdc7baf1f76
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987733"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39229150"
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -119,6 +119,13 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 |Terheléselosztási szabályok konfigurációja |Load Balancer |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`http` |
 |Azure Application Gateway |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-agw` |`profx-agw` |
 |Traffic Manager-profil |Erőforráscsoport |1–63 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet és időszak |`<descriptive context>` |`app1` |
+
+### <a name="containers"></a>Containers
+
+| Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
+| --- | --- | --- | --- | --- | --- | --- |
+|Container Registry | Globális |5 – 50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karakterek |`<service short name>registry` |`app1registry` |
+
 
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 
