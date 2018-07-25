@@ -1,36 +1,32 @@
 ---
-title: 'Explainer: Mi az a felhő irányítás?'
-description: Az erőforrás-irányítás fogalmát ismerteti az Azure és a felhő
+title: Mit jelent a felhő cégirányítási?
+description: Az erőforrás-hozzáférés szabályozása az Azure-ban fogalmát ismertetése
 author: petertay
-ms.openlocfilehash: 3404beaa719177ee7638feed8a8442b5c3b455c6
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.openlocfilehash: 3338ed5652296c5cd01277a51be1cb5893320b65
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206480"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39229201"
 ---
-# <a name="explainer-what-is-cloud-resource-governance"></a>Explainer: Mi az a felhő erőforrás irányítás?
+# <a name="what-is-cloud-resource-governance"></a>Mi a felhőbeli erőforrás-szabályozás?
 
-Az a [hogyan Azure működik](azure-explainer.md) explainer, megtudta, hogy Azure gyűjteményei, kiszolgálók és hálózati eszközt futtató virtualizált hardver- és a felhasználók nevében. Azure lehetővé teszi, hogy a szervezet fejlesztői és az informatikai részlegeknek képesnek kell lennie a gyors egyszerűvé létrehozása, olvasása, frissítése és törli az erőforrást, igény szerint.
+A [Azure működése?](azure-explainer.md), hogy megtanulta, hogy az Azure a kiszolgálókon és hálózati hardvereivel futtató virtualizált hardver- és a felhasználók nevében. Az Azure lehetővé teszi, hogy a szervezet fejlődés és IT-részlegek számára egyszerűvé létrehozása, olvasása, frissítése és törlése az erőforrásokat, igény szerint legyünk.
 
-Azonban amíg korlátozás jogosultságot ad erőforrások elérése a fejlesztők számára biztosíthat nagyon nagy, nem kívánt költség következményekre is vezethet. Például a fejlesztői csapat előfordulhat, hogy jóvá kell hagyni tesztelési erőforráscsoport telepíteni, de elfelejti törli őket, ha a tesztelés. Ezek az erőforrások továbbra is keletkeznek költségek, annak ellenére, hogy azok használata már nem jóváhagyott vagy szükséges. 
+Azonban amíg így unrestricted erőforrás-hozzáférés a fejlesztők számára is, így nagyon hatékony, a költségek nem kívánt következményekkel is vezethet. Ha például egy fejlesztői csapat előfordulhat, hogy jóvá kell hagyni tesztelési erőforrások üzembe helyezésének, de felejtse el törölni őket, ha a tesztelés. Ezek az erőforrások továbbra is beleszámítanak a költségek, annak ellenére, hogy azok használata már nem jóváhagyott vagy szükséges. 
 
-Ez a probléma megoldása az erőforrás-hozzáférés **cégirányítási**. Cégirányítási kezelését, megfigyelését és naplózás céljai az Azure-erőforrások használatát és a szervezet folyamatban hivatkozik. 
+A megoldás a probléma az erőforrás-hozzáférés **cégirányítási**. Cégirányítási kezelését, megfigyelését és naplózás használata Azure-erőforrások megfelelnek a kitűzött célokat, és a szervezet követelményeinek folyamatban hivatkozik. 
 
 > [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2ii94] 
 
-Következő célokat és követelményeket egyediek minden szervezet számára, hogy nem létezik univerzális megközelítése irányítás szerepelhet. Ehelyett Azure megvalósítja a két elsődleges irányítás eszközök **erőforrás-alapú hozzáférés-vezérlést (RBAC)**, és **erőforrás-házirend**, és a használatuk irányítás modell tervezéséhez minden szervezet számára.
+Következő célokat és követelményeket egyediek-e az egyes cégeknek, ezért nem lehetséges, hogy a cégirányítási időkorlátokat. Inkább az Azure csomagszűrő két elsődleges cégirányítási eszközök, **erőforráshoz szerepköralapú hozzáférés-vezérlés (RBAC)**, és **erőforrás-szabályzat**, és a szolgáltatás minden szervezet számára a használatuk cégirányítási modell tervezéséhez.
 
-Szerepalapú határozza meg a szerepköröket, és szerepkörök definiálása a képességeket a szerepkörhöz hozzárendelt felhasználó számára. Például a **tulajdonos** szerepkör lehetővé teszi, hogy az összes képességei (létrehozása, olvasása, frissítése és törlése)-erőforrásokhoz, amíg a **olvasó** szerepkörök lehetővé teszi, hogy a csak olvasási képességet. Szerepkörök egy széles körét, amely különféle erőforrásokhoz vonatkozik, vagy néhány alkalmazó keskeny hatókör is definiálhatók. 
+Az RBAC szerepkörök határozza meg, és a szerepkörök határozzák meg a képességeket a szerepkörhöz rendelt felhasználók. Például a **tulajdonosa** szerepkör lehetővé teszi, hogy az összes képességek (létrehozása, olvasása, frissítése és törlése) egy erőforráshoz, amíg a **olvasó** szerepkörök lehetővé teszi, hogy a csak olvasási képességet. Szerepkörök egy széles körét, amely különféle erőforrásokhoz vonatkozik, vagy vonatkozik néhány keskeny hatóköre lehet definiálni. 
 
-Erőforrás-házirendek erőforrás létrehozása vonatkozó szabályok meghatározásához. Például egy erőforrás-házirend korlátozhatja a virtuális gépek egy adott előtti-appproved értékre a Termékváltozat. Vagy egy erőforrás-házirend alkalmazását kényszeríthetik költséghely rendelkező címke hozzáadása a kérelem az erőforrás létrehozásához. 
+Erőforrás-házirendek erőforrás-létrehozás vonatkozó szabályok meghatározásához. Például egy erőforrás-szabályzat korlátozhatja az egy adott előtti-appproved méretű virtuális gép Termékváltozata. Másik lehetőségként egy erőforrás-szabályzat kényszerítheti a költséghely a címke hozzáadása az erőforrás létrehozásához a kérelem elküldésekor. 
 
-Ezek az eszközök konfigurálásakor fontos szempont szervezeti agilitást és irányítási van terheléselosztás. Ez azt jelenti, hogy a szigorúbb a cégirányítási házirend, a kisebb gyors a fejlesztők és informatikai dolgozók válik. Ennek az az oka egy korlátozó goverance házirend szükség lehet további manuális lépések, például az eszközjelszó űrlap kitöltése vagy e-mailt küldeni egy személy a cégirányítási csapat manuálisan az erőforrás létrehozása a fejlesztő. A goverance team véges képességekkel rendelkezik, és előfordulhat, hogy válnak a várakozó, Várakozás a információforrásait, hogy létezik és nem szükséges erőforrások keletkezhetnek költségek, amíg azok várakozási idő után lehet törölni, a rendszer fejlesztési csapat eredményez.
+Ezek az eszközök konfigurálása, ha fontos szempont szervezeti rugalmasság és irányítás osztja el. Ez azt jelenti, hogy a szigorúbb cégirányítási házirendjében a kevésbé rugalmas válnak a fejlesztők és informatikai dolgozók. Ennek az oka egy korlátozó goverance házirendet szükség lehet további manuális lépések, például az eszközjelszó töltsön ki egy űrlapot, vagy manuálisan hozzon létre egy erőforrást a cégirányítási csapat egy személy e-mail küldése a fejlesztő. A goverance csapata véges képességekkel rendelkezik, és előfordulhat, hogy legyen várakozó fel, Várakozás a létrehozott és a felesleges erőforrások keletkezhetnek költségek addig azokat törölni kell az erőforrások rendszer fejlesztőcsapatok eredményez.
 
 ## <a name="next-steps"></a>További lépések
 
-A következő lépés az Azure elfogadásakor [megismerése az Azure-ban digitális identitásokat](tenant-explainer.md) és [az első felhasználó létrehozása az Azure AD][docs-add-users-to-aad].
-
-<!-- Links -->
-
-[docs-add-users-to-aad]: /azure/active-directory/add-users-azure-active-directory?toc=/azure/architecture/cloud-adoption-guide/toc.json
+Most, hogy megismerkedett a felhőbeli erőforrások goverance fogalmát, helyezze át további részleteket ismerhet meg [erőforrásokhoz való hozzáférés kezelésének módját](azure-resource-access.md) learning előkészítése az Azure-ban [cégirányítási modell tervezéséről](governance-how-to.md).

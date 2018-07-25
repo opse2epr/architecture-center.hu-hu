@@ -3,16 +3,16 @@ title: 3D videó megjelenítése az Azure-ban
 description: Natív HPC számítási feladatok futtatása az Azure-ban, az Azure Batch szolgáltatással
 author: adamboeglin
 ms.date: 07/13/2018
-ms.openlocfilehash: b3af0641642d7ec4b022e8c96f51693eeb0adee4
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: e629e2ba0b9490e534057fee33f7bededa9656af
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39061152"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39229184"
 ---
 # <a name="3d-video-rendering-on-azure"></a>3D videó megjelenítése az Azure-ban
 
-3D renderelési az időigényes, amely a CPU-idő co teljes jelentős mennyiségű igényel.  Egyetlen gépen, létrehozni bloberőforrásokhoz videofájl származó statikus objektumokat is órákig vagy akár napokig eltarthat hossza és a videót, akkor állít elő összetettségétől függően.  Számos vállalat vagy költséges, csúcskategóriás fogja megvásárolni ezeket a feladatokat, vagy be, amely is küldhetők be feladatok a nagy renderelő farmokat asztali számítógépeket.  Azonban az Azure Batch előnyeit kihasználva Ez a teljesítmény érhetőek el, ha szükséges, és leállításakor magát, ha nem, akkor minden tőkebefektetés nélkül.
+3D renderelési az időigényes, amely jelentős mennyiségű Processzor időtartama igényel.  Egyetlen gépen, létrehozni bloberőforrásokhoz videofájl származó statikus objektumokat is órákig vagy akár napokig eltarthat hossza és a videót, akkor állít elő összetettségétől függően.  Számos vállalat vagy költséges, csúcskategóriás fogja megvásárolni ezeket a feladatokat, vagy be, amely is küldhetők be feladatok a nagy renderelő farmokat asztali számítógépeket.  Azonban az Azure Batch előnyeit kihasználva Ez a teljesítmény érhetőek el, ha szükséges, és leállításakor magát, ha nem, akkor minden tőkebefektetés nélkül.
 
 A Batch lehetővé teszi egy egységes felügyeleti élmény és a feladatütemezésben választja, a Windows Server vagy Linux számítási csomópontok. A Batch-Csel használhatja a meglévő Windows vagy Linux alkalmazásai, például AutoDesk Maya és a Blender, nagy léptékű futtatásához renderelési feladatok az Azure-ban.
 

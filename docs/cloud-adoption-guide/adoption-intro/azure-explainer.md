@@ -1,37 +1,37 @@
 ---
-title: 'Explainer: Azure működése'
-description: Azure belső működését ismerteti
+title: Hogyan működik az Azure?
+description: Az Azure belső működésére ismertetése
 author: petertay
-ms.openlocfilehash: 88514ba01efabe38a1b92d135321c2e44cef004e
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.openlocfilehash: bf301a05d69ed66aa03727dde3968477c2337790
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206463"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39228966"
 ---
-# <a name="explainer-how-does-azure-work"></a>Explainer: Azure működése
+# <a name="how-does-azure-work"></a>Hogyan működik az Azure?
 
-Azure a Microsoft nyilvános felhő platformja. Az Azure kínál, többek közt a platform (PaaS), infrastruktúrák (IaaS), egy szolgáltatás, és számos más adatbázis szolgáltatás nagy gyűjteménye. De mi pontosan Azure, és hogyan működik?
+Az Azure a Microsoft nyilvános felhő platformja. Az Azure gyűjteménye, többek között platform (PaaS), szolgáltatott infrastruktúra (IaaS), adatbázis-szolgáltatás (DBaaS), és sok más szolgáltatás szolgáltatásokat kínál. De mi pontosan az Azure, és hogyan működik?
 
 > [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2ixGo] 
 
-Azure, például más felhőplatformokkal támaszkodik a technológiát néven **virtualizálási**. A legtöbb számítógép hardvere emulálni a szoftvert, mert a legtöbb számítógép hardvere olyan egyszerűen véglegesen vagy pontosvesszővel véglegesen kódolt szilícium utasításokat. Az emuláció réteg, amely leképezhető szoftver utasításokat hardver utasítások használatával, virtualizált hardverrel is végre lehet hajtani szoftver, mintha a tényleges hardver.
+Azure-ban, mint más felhőplatformokon támaszkodik egy technológia, más néven **virtualizálási**. A legtöbb számítógép hardvere emulálni a szoftver, mivel a legtöbb számítógép hardvere egyszerűen véglegesen vagy véglegesen pontosvesszővel titkosításúnak szilícium utasításokat egy készletét. Az emuláció réteg, amely leképezi a szoftver utasításokat utasításait a hardver használatával, virtualizált hardverrel is hajtsa végre a szoftvereket, mintha magára a hardverkövetelmények.
 
-A felhő alapvetően, egy vagy több olyan adatközpontokban, amelyek végrehajtása a virtualizált hardverrel ügyfeleik nevében fizikai kiszolgálók egy csoportja. Igen, hogyan nem a felhő létrehozása, indítása, leállítása, és egyidejűleg törlése virtualizált hardverrel példánya több millió felhasználók millióit?
+Alapvetően a felhőben, hajtsa végre a virtualizált hardverrel ügyfeleik nevében egy vagy több adatközpontokban fizikai kiszolgálók egy csoportja. Igen, hogyan nem a felhő létrehozása, indítása, leállítása és virtualizált hardverrel példánya több millió egyszerre törlése ügyfelek milliói számára?
 
-Ennek megértéséhez vizsgáljuk meg a hardver az adatközpontban architektúrájának.  Minden adatközponton belül olyan óta várakozik a kiszolgáló rackszekrények kiszolgálók gyűjteménye. Minden kiszolgáló állványban található több kiszolgáló **paneleken** továbbá egy hálózati kapcsoló hálózati kapcsolat és egy terjesztési teljesítménye (PDU) power biztosítása. Például rackszekrények néha sorolhatók néven nagyobb egységekre **fürtök**. 
+Ennek megértéséhez Tekintsünk meg a hardver, az Adatközpont architektúráját.  Minden adatközpontban olyan visszamegyek a kiszolgáló állványt kiszolgálók gyűjteménye. Minden kiszolgáló állványban található számos kiszolgáló **panelek** és a egy hálózati kapcsoló hálózati kapcsolatot és a egy power terjesztési egységek (PDU) biztosít a power. Nagyobb egységeket, más néven a állványt néha együtt vannak csoportosítva **fürtök**. 
 
-Minden állványt vagy fürt a kiszolgálók többsége vannak kijelölve, a felhasználó nevében a virtualizált hardverrel példányán fusson. Azonban a kiszolgálók számos futtatni a felhő háló tartományvezérlőként ismert felügyeleti szoftver. A **fabric controller** egy elosztott alkalmazás számos feladatokkal. Azt foglal le, szolgáltatások, a kiszolgáló és a rajta futó szolgáltatások állapotát követi és kiszolgálók heals, ha azt elmulasztják.
+Minden állványt vagy fürt a kiszolgálók többsége vannak kijelölve, a felhasználó nevében a virtualizált hardverrel példányok futtatásához. Azonban a kiszolgálók számos felhőjét felügyeleti szoftverek a hálóvezérlő néven. A **hálóvezérlő** egy elosztott alkalmazás számos feladatokkal. Foglalja le a szolgáltatások, a kiszolgáló és a rajta futó szolgáltatások állapotát figyeli, és kijavítja a kiszolgálók, amikor meghiúsulnak.
 
-A fabric controller minden példánya csatlakozik-e egy másik készlet felhő vezénylési szoftvert, általában néven futtató kiszolgálók egy **előtér**. Az előtér üzemelteti a webes szolgáltatások RESTful API-k és a felhő végez összes funkciójának használt belső Azure adatbázisok. 
+Minden példánya a hálóvezérlő csatlakoztatva van egy másik hárompéldányos készletet felhőalapú vezénylési szoftvert, általában más néven futtató kiszolgálók egy **előtér**. Az előtér üzemelteti a webes szolgáltatásokat, RESTful API-k és a felhő hajtja végre a függvények használt belső Azure-adatbázisok. 
 
-Így például az előtér tárolja a szolgáltatásokat, amelyeket az ügyfél-tanúsítványigénylések Azure-erőforrásokat lefoglalni [virtuális hálózatok][vnet], [virtuális gépek] [ vms], például a szolgáltatások és [Cosmos DB][cosmosdb]. Az előtér először ellenőrzi a felhasználó, és ellenőrzi, hogy a felhasználó jogosult-e a kért erőforrásokat. Ha igen, az előtér egy kiszolgálószekrény található elegendő kapacitással rendelkező adatbázis olvas, és majd arra utasítja a fabric controller az állványra lefoglalni az erőforrás.
+Így például az előtér tárolja-e a szolgáltatásokat, amelyek az Azure-erőforrásokat lefoglalni a felhasználói kérések kezelésére [virtuális hálózatok][vnet], [virtuális gépek] [ vms], és a szolgáltatásokat, mint például [Cosmos DB][cosmosdb]. Az előtér először ellenőrzi a felhasználó, és ellenőrzi a felhasználó jogosult-e a kért erőforrások lefoglalása. Ha igen, az előtér olvas, keresse meg a kiszolgáló állvány elegendő kapacitással az adatbázis, és majd arra utasítja a hálóvezérlő a az állványra szerelt, az erőforrás lefoglalásához.
 
-Igen nagyon egyszerűen Azure gyűjteménye túl nagy a kiszolgálók és a hálózati hardver, valamint álló összetett készlettel, amely a konfigurációs levezényelni elosztott alkalmazások és az ezeken a kiszolgálókon a virtualizált hardver- és működését. És így hatékony Azure teszi lehetővé a vezénylési – felhasználó már nem felelős és frissítése hardver, Azure összes ezt a háttérben végzi. 
+Tehát nagyon egyszerűen Azure gyűjteménye hatalmas, kiszolgálók és a hálózati eszközt, valamint összetett elosztott alkalmazások, amelyekkel a konfiguráció és a művelet a virtualizált hardver- és az ezeken a kiszolgálókon. És ennek vezénylését, amely az Azure ezért sokoldalúak - felhasználók nem lesznek karbantartásáért felelős és frissítése hardver, az Azure összes ezt a háttérben hajtja végre. 
 
 ## <a name="next-steps"></a>További lépések
 
-* Most, hogy megismerte az Azure belső működésére, megismerése [erőforrás hozzáférés-irányítási](governance-explainer.md). Majd lépjen az első Azure, ami történő elfogadásával [megismerése az Azure-ban digitális identitásokat](tenant-explainer.md). A lépés befejezése után készen áll [az első felhasználó létrehozása az Azure AD][docs-add-users-to-aad].
+* Most, hogy megismerkedett az Azure belső működésére, ismerje [erőforrás-hozzáférés szabályozása](governance-explainer.md). 
 
 <!-- Links -->
 

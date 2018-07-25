@@ -1,18 +1,18 @@
 ---
-title: A magas rendelkezésre állású több területi N szintű alkalmazás
+title: Többrégiós N szintű alkalmazás magas rendelkezésre állás érdekében
 description: Virtuális gépek üzembe helyezése több régióban az Azure-on a magas rendelkezésre állás és rugalmasság érdekében.
 author: MikeWasson
-ms.date: 05/03/2018
+ms.date: 07/19/2018
 pnp.series.title: Windows VM workloads
 pnp.series.prev: n-tier
-ms.openlocfilehash: 48943094e7847e39b9fdc4c3f71e27f2e6e41293
-ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
+ms.openlocfilehash: a8dafab9ce8312004e99f0f19d06d6b47b6b19d8
+ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/06/2018
-ms.locfileid: "33673710"
+ms.lasthandoff: 07/24/2018
+ms.locfileid: "39229252"
 ---
-# <a name="multi-region-n-tier-application-for-high-availability"></a>A magas rendelkezésre állású több területi N szintű alkalmazás
+# <a name="multi-region-n-tier-application-for-high-availability"></a>Többrégiós N szintű alkalmazás magas rendelkezésre állás érdekében
 
 Ez a referenciaarchitektúra néhány bevált eljárást mutat be egy N szintű alkalmazás több Azure-régióban való futtatásához a magas rendelkezésre állás eléréséhez és egy robusztus vészhelyreállítási infrastruktúra kiépítéséhez. 
 
@@ -22,7 +22,7 @@ Ez a referenciaarchitektúra néhány bevált eljárást mutat be egy N szintű 
 
 ## <a name="architecture"></a>Architektúra 
 
-Ez az architektúra látható egy épít [N szintű alkalmazás SQL Server](n-tier-sql-server.md). 
+Ez az architektúra épít látható [SQL Servert használó N szintű alkalmazás](n-tier-sql-server.md). 
 
 * **Elsődleges és másodlagos régiók**. Használjon két régiót a magas rendelkezésre állás eléréséhez. Az egyik ebben az esetben az elsődleges régió. A másik a feladatátvétel során használt régió.
 
@@ -80,18 +80,18 @@ Ha a Traffic Manager feladatátvételt hajt végre, automatikus feladat-visszav�
 
 Vegye figyelembe, hogy a Traffic Manager alapértelmezés szerint automatikusan végrehajtja a feladat-visszavételt. Ennek megelőzéséhez manuálisan csökkentse az elsődleges régió prioritását a feladatátvétel után. Tegyük fel például, hogy az elsődleges régió 1-es prioritású, a második pedig 2-es. A feladatátvétel után az automatikus visszavétel megelőzéséhez állítsa az elsődleges régió prioritását 3-asra. A prioritást akkor állítsa 1-esre, ha már készen áll a visszaváltásra.
 
-A következő [Azure CLI][install-azure-cli]-parancsot frissíti a prioritást:
+A következő [Azure CLI][azure-cli]-parancsot frissíti a prioritást:
 
 ```bat
-azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
-    --name <traffic-manager-name> --type AzureEndpoints --priority 3
+az network traffic-manager endpoint update --resource-group <resource-group> --profile-name <profile>
+    --name <endpoint-name> --type azureEndpoints --priority 3
 ```    
 
 Másik megoldásként ideiglenesen letilthatja a végpontot, amíg készen nem áll a feladat-visszavételre:
 
 ```bat
-azure network traffic-manager  endpoint set --resource-group <resource-group> --profile-name <profile>
-    --name <traffic-manager-name> --type AzureEndpoints --status Disabled
+az network traffic-manager endpoint update --resource-group <resource-group> --profile-name <profile>
+    --name <endpoint-name> --type azureEndpoints --endpoint-status Disabled
 ```
 
 A feladatátvétel okától függően előfordulhat, hogy újra üzembe kell helyeznie az erőforrásokat a régión belül. A feladat-visszavétel előtt tesztelje a működési készenlétet. A teszt többek között a következőket ellenőrzi:
@@ -109,10 +109,10 @@ Az rendelkezésre állási csoport konfigurálása:
 * Legalább két tartományvezérlőt helyezzen mindegyik régióba.
 * Minden tartományvezérlőhöz rendeljen egy statikus IP-címet.
 * Hozzon létre egy virtuális hálózatok közötti kapcsolatot a virtuális hálózatok közötti kommunikációhoz.
-* Minden egyes virtuális hálózat esetében adja hozzá a tartományvezérlők IP-címeit (mindkét régióból) a DNS-kiszolgálók listájához. Ezt az alábbi CLI-paranccsal teheti meg. További információ: [Virtuális hálózat által használt DNS-kiszolgálók kezelése][vnet-dns].
+* Minden egyes virtuális hálózat esetében adja hozzá a tartományvezérlők IP-címeit (mindkét régióból) a DNS-kiszolgálók listájához. Ezt az alábbi CLI-paranccsal teheti meg. További információkért lásd: [módosítása DNS-kiszolgálók][vnet-dns].
 
     ```bat
-    azure network vnet set --resource-group dc01-rg --name dc01-vnet --dns-servers "10.0.0.4,10.0.0.6,172.16.0.4,172.16.0.6"
+    az network vnet update --resource-group <resource-group> --name <vnet-name> --dns-servers "10.0.0.4,10.0.0.6,172.16.0.4,172.16.0.6"
     ```
 
 * Hozzon létre egy [Windows Server feladatátvételi fürtszolgáltatást][wsfc] (WSFC) fürtöt, amely mindkét régióban tartalmazza SQL Server-példányokat. 
@@ -171,7 +171,7 @@ Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy 
 [azure-sla]: https://azure.microsoft.com/support/legal/sla/
 [azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx
-[install-azure-cli]: /azure/xplat-cli-install
+[azure-cli]: /cli/azure/
 [regional-pairs]: /azure/best-practices-availability-paired-regions
 [resource groups]: /azure/azure-resource-manager/resource-group-overview
 [resource-group-links]: /azure/resource-group-link-resources
@@ -185,7 +185,7 @@ Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy 
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
 [traffic-manager]: https://azure.microsoft.com/services/traffic-manager/
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
-[vnet-dns]: /azure/virtual-network/virtual-networks-manage-dns-in-vnet
+[vnet-dns]: /azure/virtual-network/manage-virtual-network#change-dns-servers
 [vnet-to-vnet]: /azure/vpn-gateway/vpn-gateway-vnet-vnet-rm-ps
 [vpn-gateway]: /azure/vpn-gateway/vpn-gateway-about-vpngateways
 [wsfc]: https://msdn.microsoft.com/library/hh270278.aspx
