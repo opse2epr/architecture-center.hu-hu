@@ -458,75 +458,46 @@
       items:
         - name: Áttekintés
           href: cloud-adoption-guide/adoption-intro/overview.md
-        - name: Az Azure belső elemeinek ismertetése
+        - name: Információk az Azure belső folyamatairól
           items:
-            - name: 'Ismertető: Az Azure működése'
+            - name: Hogy működik az Azure?
               href: cloud-adoption-guide/adoption-intro/azure-explainer.md
-            - name: 'Ismertető: Mi az a felhőerőforrás-szabályozás?'
+            - name: Mi az a felhőerőforrás-szabályozás?
               href: cloud-adoption-guide/adoption-intro/governance-explainer.md
-        - name: A digitális személyazonosság az Azure-ban
+        - name: Az Azure erőforrás-hozzáférési szabályozásának ismertetése
           items:
-            - name: 'Ismertető: Mi az Azure Active Directory-bérlő?'
-              href: cloud-adoption-guide/adoption-intro/tenant-explainer.md
-            - name: 'Bemutató: Azure Active Directory-bérlő beszerzése'
-              href: /azure/active-directory/develop/active-directory-howto-tenant
-              maintainContext: true
-            - name: 'Útmutató: Az Azure Active Directory-bérlő kialakítása'
-              href: cloud-adoption-guide/adoption-intro/tenant.md
-            - name: 'Bemutató: Felhasználó hozzáadása az Azure Active Directory-bérlőhöz'
-              href: /azure/active-directory/add-users-azure-active-directory
-              maintainContext: true
-        - name: Azure-előfizetések ismertetése
-          items:
-            - name: 'Ismertető: Mi az Azure-előfizetés?'
-              href: cloud-adoption-guide/adoption-intro/subscription-explainer.md
-            - name: 'Útmutató: Az Azure-előfizetések kialakítása'
-              href: cloud-adoption-guide/adoption-intro/subscription.md
-        - name: Erőforrás-kezelés az Azure-ban
-          items:
-            - name: 'Ismertető: Mi az Azure Resource Manager?'
-              href: cloud-adoption-guide/adoption-intro/resource-manager-explainer.md
-            - name: 'Ismertető: Mi az Azure-erőforráscsoport?'
-              href: cloud-adoption-guide/adoption-intro/resource-group-explainer.md
-            - name: 'Ismertető: Az Azure erőforrás-hozzáférésének megismerése'
-              href: /azure/active-directory/active-directory-understanding-resource-access
-              maintainContext: true
-            - name: 'Bemutató: Erőforráscsoport létrehozása a portál használatával'
-              href: /azure/azure-resource-manager/resource-group-portal
-              maintainContext: true
-            - name: 'Útmutató: Az erőforráscsoportok kialakítása'
-              href: cloud-adoption-guide/adoption-intro/resource-group.md
-            - name: 'Útmutató: Az Azure-erőforrások elnevezési konvenciói'
-              href: /azure/architecture/best-practices/naming-conventions
-              maintainContext: true
+            - name: Az Azure erőforráshozzáférés-kezelésének megismerése
+              href: cloud-adoption-guide/adoption-intro/azure-resource-access.md
+            - name: Útmutató az Azure-szabályozás megtervezéséhez
+              href: cloud-adoption-guide/adoption-intro/governance-how-to.md
         - name: Alapszintű architektúrák üzembe helyezése az Azure-ban
           items:
             - name: Szolgáltatásként nyújtott platformra (PaaS) épülő architektúra
               items:
-                - name: 'Bemutató: Alapszintű webalkalmazás üzembe helyezése az Azure-ban'
+                - name: Alapszintű webalkalmazás üzembe helyezése az Azure-ban
                   href: /azure/app-service
                   maintainContext: true
-                - name: 'Útmutató: Ajánlott eljárások a webes alkalmazásokhoz az Azure-ban'
+                - name: Ajánlott eljárások a webalkalmazásokhoz az Azure-ban
                   href: /azure/architecture/reference-architectures/app-service-web-app/basic-web-app
                   maintainContext: true
             - name: Szolgáltatott infrastruktúra (IaaS)
               items:
-                - name: 'Ismertető: Mi az Azure virtuális hálózat?'
+                - name: Mi az Azure-beli virtuális hálózat?
                   href: /azure/virtual-network/virtual-networks-overview
                   maintainContext: true
-                - name: 'Bemutató: Virtuális hálózat üzembe helyezése az Azure-ban'
+                - name: Virtuális hálózat üzembe helyezése az Azure-ban
                   href: /azure/virtual-network/virtual-networks-create-vnet-arm-pportal
                   maintainContext: true
-                - name: 'Bemutató: Egyetlen Windows rendszerű virtuális gép IaaS típusú munkaterhelésének telepítése az Azure-ba'
+                - name: Egyetlen Windows rendszerű virtuális gép IaaS típusú számítási feladatának üzembe helyezése az Azure-ban
                   href: /azure/virtual-machines/windows/quick-create-portal
                   maintainContext: true
-                - name: 'Útmutató: Windows rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai'
+                - name: Windows rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai
                   href: /azure/architecture/reference-architectures/virtual-machines-windows/single-vm
                   maintainContext: true
-                - name: 'Útmutató: Egyetlen Linux rendszerű virtuális gép IaaS típusú számítási feladatainak üzembe helyezése az Azure-ban'
+                - name: Egyetlen Linux rendszerű virtuális gép IaaS típusú számítási feladatainak üzembe helyezése az Azure-ban
                   href: /azure/virtual-machines/linux/quick-create-portal
                   maintainContext: true
-                - name: 'Útmutató: Linux rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai'
+                - name: Linux rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai
                   href: /azure/architecture/reference-architectures/virtual-machines-linux/single-vm
                   maintainContext: true
     - name: Köztes Azure-bevezetés
