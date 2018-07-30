@@ -3,12 +3,12 @@ title: Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az 
 description: Bevált módszerek a magas rendelkezésre állású SharePoint Server 2016-farm létrehozására az Azure-ban.
 author: njray
 ms.date: 07/14/2018
-ms.openlocfilehash: ff690300cb5f4af301bcfac58ac10b9b3c47f96d
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 04c69309e9f96e3bf7cd7faabeedd9b6d9da1ebd
+ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060897"
+ms.lasthandoff: 07/29/2018
+ms.locfileid: "39334130"
 ---
 # <a name="run-a-high-availability-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 
@@ -66,17 +66,19 @@ Az átjáró-alhálózatnak a *GatewaySubnet* névvel kell rendelkeznie. Rendelj
 
 ### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
 
-A Standard DSv2 virtuális gépek méretei alapján ehhez az architektúrához legalább 38 magra van szükség:
+Ehhez az architektúrához legalább 44 mag szükséges:
 
 - 8 SharePoint-kiszolgáló, Standard_DS3_v2 méret (4 mag/darab) = 32 mag
 - 2 Active Directory-tartományvezérlő, Standard_DS1_v2 méret (1 mag/darab) = 2 mag
-- 2 SQL Servert futtató virtuális gép, Standard_DS1_v2 méret = 2 mag
+- 2 SQL Servert futtató virtuális gép, Standard_DS3_v2 méret = 8 mag
 - 1 csomóponttöbbség, Standard_DS1_v2 méret = 1 mag
 - 1 felügyeleti kiszolgáló, Standard_DS1_v2 méret = 1 mag
 
-A magok teljes száma a kiválasztott virtuálisgép-méretektől függ. További információt a [SharePoint Serverre vonatkozó javaslatokat](#sharepoint-server-recommendations) tartalmazó alábbi szakaszban talál.
-
 Győződjön meg arról, hogy az Azure-előfizetésnek elegendő virtuálisgép-magkvóta áll rendelkezésére, különben az üzembe helyezés sikertelen lesz. Lásd: [Az Azure-előfizetések és -szolgáltatások korlátozásai, kvótái és megkötései][quotas]. 
+
+A keresési indexelő kivételével az összes SharePoint-szerepkörhöz javasoljuk a [Standard_DS3_v2][vm-sizes-general] virtuálisgép-méret használatát. A keresési indexelőnek legalább [Standard_DS13_v2][vm-sizes-memory] méretűnek kell lennie. Teszteléshez a referenciaarchitektúra paraméterfájljai a kisebb, DS3_v2 méretet adják meg a keresési indexelő szerepkörhöz. Éles környezetek esetén frissítse a paraméterfájlokat a DS13 vagy nagyobb méret használatára. További információkat a [SharePoint Server 2016 hardver- és szoftverkövetelményeit][sharepoint-reqs] ismertető cikkben találhat. 
+
+SQL Servert futtató virtuális gépekhez legalább 4 mag és 8 GB RAM szükséges. A referenciaarchitektúra paraméterfájljai a DS3_v2 méretet adják meg. Előfordulhat, hogy éles környezet esetén nagyobb virtuálisgép-méretet kell megadnia. További információkat [a tárolás és az SQL Server kapacitástervezésével és konfigurálásával (SharePoint Server)](/sharepoint/administration/storage-and-sql-server-capacity-planning-and-configuration#estimate-memory-requirements) kapcsolatos cikkben olvashat. 
  
 ### <a name="nsg-recommendations"></a>NSG-kre vonatkozó javaslatok
 
@@ -109,18 +111,12 @@ A SharePoint-farm konfigurálása előtt győződjön meg arról, hogy minden sz
 - Gyorsítótár-felügyelői fiók
 - Emelt jogosultsági szintű gyorsítótár-olvasói fiók
 
-A keresési indexelő kivételével az összes szerepkörhöz javasoljuk a [Standard_DS3_v2][vm-sizes-general] virtuálisgép-méret használatát. A keresési indexelőnek legalább [Standard_DS13_v2][vm-sizes-memory] méretűnek kell lennie. 
-
-> [!NOTE]
-> A referenciaarchitektúra Resource Manager-sablonja a telepítés tesztelésére a kisebb DS3 méretet használja a keresési indexelőhöz. Éles környezetek esetén használja a DS13 méretet, vagy egy annál nagyobbat. 
-
-Az éles környezetben végzett számítási feladatokról lásd: [A SharePoint Server 2016 hardver- és szoftverkövetelményei][sharepoint-reqs]. 
-
 Ne felejtse el megtervezni a keresési architektúrát, hogy meg tudjon felelni a lemezteljesítmény minimális támogatási követelményének (200 MB/s). Lásd: [Vállalati keresési architektúra megtervezése a SharePoint Server 2013 rendszerben][sharepoint-search]. Kövesse a [SharePoint Server 2016 bejárásának ajánlott eljárásaira][sharepoint-crawling] vonatkozó útmutatást is.
 
 Továbbá a keresési összetevő adatait tárolja egy külön tárolóköteten vagy nagy teljesítményű partíción. A terhelés csökkentéséhez és a teljesítmény növeléséhez konfigurálja az architektúrához szükséges objektum-gyorsítótár felhasználói fiókjait. A Windows Server operációsrendszer-fájljait, a SharePoint Server 2016 programfájljait és a diagnosztikai naplókat ossza el három külön tárolókötet vagy normál teljesítményű partíció között. 
 
 További információk a javaslatokról: [Az első üzembe helyezés rendszergazdai- és szolgáltatásfiókjai a SharePoint Server 2016 rendszerben][sharepoint-accounts].
+
 
 ### <a name="hybrid-workloads"></a>Hibrid számítási feladatok
 

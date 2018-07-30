@@ -1,20 +1,16 @@
 ---
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 80cb7fde0694257a5c413b702505e27f18aed8d3
-ms.sourcegitcommit: d702b4d27e96e7a5a248dc4f2f0e25cf6e82c134
+ms.openlocfilehash: 3a667334be682e7e96c6dd30bd401a7e4c608108
+ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/23/2018
-ms.locfileid: "31771686"
+ms.lasthandoff: 07/29/2018
+ms.locfileid: "39334266"
 ---
 # <a name="azure-application-architecture-guide"></a>Útmutató az Azure alkalmazásarchitektúrájához
 
 Ez az útmutató egy strukturált megközelítést mutat be az Azure-on futó skálázható, rugalmas, magas rendelkezésre állású alkalmazások tervezéséhez. Az útmutatót az ügyfélesetekből származó tapasztalatok és az ajánlott eljárások alapján állítottunk össze.
-
-<br/>
-
-<img src="./images/guide-steps.svg" style="max-width:800px;"/>
 
 ## <a name="introduction"></a>Bevezetés
 
@@ -62,8 +58,7 @@ A legelső döntés a legfontosabb. Milyen típusú architektúrát szeretnénk 
 
 További információ:
 
-- [Architektúrastílusok][arch-styles]
-- [Azure-referenciaarchitektúrák][ref-archs]
+- [Architektúrastílusok](./architecture-styles/index.md)
 
 ### <a name="technology-choices"></a>Technológiai lehetőségek
 
@@ -80,36 +75,14 @@ Meghatároztunk tíz magas szintű tervezési alapelvet, amelyeket követve ská
 
 További információ:
 
-- [Tervezési alapelvek Azure-alkalmazásokhoz][design-principles]
-- [Ajánlott eljárások felhőalkalmazások készítésekor][best-practices]
+- [Tervezési alapelvek](./design-principles/index.md)
+
 
 ### <a name="quality-pillars"></a>A minőség alappillérei
 
 Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság. Tervezés-áttekintési ellenőrzőlistáink segítségével ellenőrizheti, hogy az architektúra megfelel-e ezeknek a minőségi alappilléreknek.
 
-További információ:
-
-- [A szoftverminőség alappillérei][pillars]
-- [Tervezésáttekintési ellenőrzőlisták][checklists] 
-
-### <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
-
-A tervezési minták általános megoldást nyújtanak a gyakori szoftvertervezési problémákra. Összeállítottunk néhány tervezési mintát, amelyek különösen hasznosak elosztott felhőalkalmazások tervezésekor.
-
-További információ:
-
-- [Felhőalkalmazások tervezési mintáinak katalógusa](../patterns/index.md)
+- [A minőség alappillérei](./pillars.md)
 
 
-[arch-styles]: ./architecture-styles/index.md
-[best-practices]: ../best-practices/index.md
-[checklists]: ../checklist/index.md
-[compute-options]: ./technology-choices/compute-comparison.md
-[design-principles]: ./design-principles/index.md
 [ebook]: https://azure.microsoft.com/campaigns/cloud-application-architecture-guide/
-[patterns]: ../patterns/index.md?toc=/azure/architecture/guide/toc.json
-[pillars]: ./pillars.md
-[ref-archs]: ../reference-architectures/index.md
-[storage-options]: ./technology-choices/data-store-comparison.md
-[technology-choices]: ./technology-choices/index.md
-
