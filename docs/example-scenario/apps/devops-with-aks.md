@@ -3,12 +3,12 @@ title: CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 description: Bevált forgatókönyv egy DevOps-folyamattal a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használó Node.js-webalkalmazások készítéséhez.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: d9f6571234a0c3e67a233cfda1a37f6fb32929a3
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: dceb4ad3c34ec43a54d802772f5817cacdd3929c
+ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060761"
+ms.lasthandoff: 07/29/2018
+ms.locfileid: "39334215"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 
@@ -119,7 +119,7 @@ Az üzembe helyezés befejeződik 15 – 20 percet is igénybe vehet.
 
 ## <a name="pricing"></a>Díjszabás
 
-Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz. egyezik a várt forgalomhoz.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
 Adtunk három példa költség profilok tárolólemezképek tárolására és az alkalmazások futtatása a Kubernetes-csomópontok száma alapján.
 

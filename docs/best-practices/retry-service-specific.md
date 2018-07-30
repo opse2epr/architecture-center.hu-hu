@@ -4,12 +4,12 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 39d342dc96e3d0d923ce159c392d9427359a4639
-ms.sourcegitcommit: f7fa67e3bdbc57d368edb67bac0e1fdec63695d2
+ms.openlocfilehash: 72dfb59c3357c5f14806a33ef5f6cdd3e7937915
+ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/05/2018
-ms.locfileid: "37843626"
+ms.lasthandoff: 07/29/2018
+ms.locfileid: "39334164"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -23,7 +23,7 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 | --- | --- | --- | --- | --- |
 | **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
 | **[Cosmos DB](#cosmos-db)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
-| **[Az Event Hubs](#azure-event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
+| **[Az Event Hubs](#event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
 | **[A redis Cache](#azure-redis-cache)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
 | **[Keresés](#azure-search)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
 | **[Service Bus](#service-bus)** |Natív, az ügyfél része |Szoftveres |Névtérkezelő, üzenetkezelési előállító vagy ügyfél |ETW |
