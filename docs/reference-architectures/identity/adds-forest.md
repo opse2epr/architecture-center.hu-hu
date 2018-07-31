@@ -10,12 +10,12 @@ pnp.series.title: Identity management
 pnp.series.prev: adds-extend-domain
 pnp.series.next: adfs
 cardTitle: Create an AD DS forest in Azure
-ms.openlocfilehash: 105ffc4b329331522529161731b1947f99e02280
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.openlocfilehash: 64253d900dbce9966aa76d99d758bfb581b9df5f
+ms.sourcegitcommit: 2154e93a0a075e1f7425a6eb11fc3f03c1300c23
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142199"
+ms.lasthandoff: 07/30/2018
+ms.locfileid: "39352610"
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
@@ -134,7 +134,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 2. Az Azure portal használatával keresse meg a virtuális gép nevű `ra-adt-mgmt-vm1`.
 
-2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A felhasználónév `contoso\testuser`, és a jelszó pedig a megadott a `onprem.json` alkalmazásparaméter-fájlt.
+2. Kattintson a `Connect` parancsra egy, a virtuális gépre irányuló távoli asztali munkamenet megnyitásához. A felhasználónév `contoso\testuser`, és a jelszó pedig a megadott a `onprem.json` alkalmazásparaméter-fájlt.
 
 3. A belül a távoli asztali munkamenetet, nyissa meg egy másik távoli asztali munkamenetet 192.168.0.4, amely az IP-címet a virtuális gép nevű `ra-adtrust-onpremise-ad-vm1`. A felhasználónév `contoso\testuser`, és a jelszó pedig a megadott a `azure.json` alkalmazásparaméter-fájlt.
 
@@ -171,7 +171,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 [creating-forest-trusts]: https://technet.microsoft.com/library/cc816810(v=ws.10).aspx
 [github]: https://github.com/mspnp/reference-architectures/tree/master/identity/adds-forest
 [incoming-trust]: https://raw.githubusercontent.com/mspnp/reference-architectures/master/identity/adds-forest/extensions/incoming-trust.ps1
-[microsoft_systems_center]: https://www.microsoft.com/server-cloud/products/system-center-2016/
+[microsoft_systems_center]: https://microsoft.com/cloud-platform/system-center
 [monitoring_ad]: https://msdn.microsoft.com/library/bb727046.aspx
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
 [solution-script]: https://raw.githubusercontent.com/mspnp/reference-architectures/master/identity/adds-forest/Deploy-ReferenceArchitecture.ps1
