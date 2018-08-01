@@ -4,13 +4,12 @@ description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezé
 author: MikeWasson
 ms.date: 05/26/2017
 ms.custom: resiliency
-pnp.series.title: Design for Resiliency
-ms.openlocfilehash: 9a6bd1332ea59923b32379018060403024b15e10
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: c32f093da4c47ef655dfca89b0410f063e9fe212
+ms.sourcegitcommit: 2154e93a0a075e1f7425a6eb11fc3f03c1300c23
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012637"
+ms.lasthandoff: 07/30/2018
+ms.locfileid: "39352586"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -47,11 +46,11 @@ A rugalmasság nem kezelhető bővítményként. A rendszer integrált részeké
 4. **Tesztelje** az implementálást a hibák szimulálásával és kényszerített feladatátvételek aktiválásával. 
 5. **Helyezze üzembe** az alkalmazást egy megbízható, megismételhető folyamattal. 
 6. **Monitorozza** az alkalmazást a hibák észlelése érdekében. A rendszer monitorozásával felmérheti az alkalmazás állapotát, és szükség esetén válaszolhat az incidensekre. 
-7. **Tegyen intézkedéseket**, ha manuális beavatkozást igénylő incidensek fordulnak elő.
+7. **Tegyen intézkedéseket**, ha manuális beavatkozást igénylő hibák fordulnak elő.
 
 A cikk további részében részletesebben tárgyaljuk az egyes lépéseket.
 
-## <a name="defining-your-resiliency-requirements"></a>A rugalmassági követelmények meghatározása
+## <a name="define-your-availability-requirements"></a>A rendelkezésreállási követelmények meghatározása
 A rugalmasság tervezése az üzleti követelményekkel kezdődik. Az alábbiakban néhány olyan módszert találhat, amelyek bemutatják, miként veheti figyelembe a rugalmasságot ezeket a szempontokat szem előtt tartva.
 
 ### <a name="decompose-by-workload"></a>Felbontás számítási feladat alapján
@@ -140,7 +139,28 @@ A feladatátvétel továbbá nem azonnali lefutású, így a feladatátvétel so
 
 A kiszámított SLA-szám hasznos kiindulási alap, de nem mutat teljes képet a rendelkezésre állásról. Gyakran előfordul, hogy egy alkalmazás teljesítménye leállás nélkül csökken, ha nem kritikus útvonal hibásodik meg. Vegyünk például egy könyvkatalógust megjelenítő alkalmazást. Ha az alkalmazás nem tudja lekérni a borítók miniatűrjét, helyőrző képet jeleníthet meg helyette. Ebben az esetben a kép lekérésének sikertelensége nem csökkenti az alkalmazás üzemidejét, de hatással van a felhasználói élményre.  
 
-## <a name="redundancy-and-designing-for-failure"></a>Redundancia és meghibásodásra felkészült tervezés
+## <a name="design-for-resiliency"></a>Rugalmasságot szem előtt tartó tervezés
+
+A tervezési fázis során javasolt hibaállapot-elemzést (FMA) végezni. Az FMA célja a lehetséges meghibásodási pontok megtalálása, és annak definiálása, hogyan reagáljon az alkalmazás ezekre a hibákra.
+
+* Hogyan észleli az alkalmazás az adott hibatípust?
+* Hogyan reagál az alkalmazás az adott hibatípusra?
+* Hogyan naplózza és monitorozza az adott hibatípust? 
+
+Az FMA eljárásra vonatkozó további információkért – a kifejezetten az Azure-ra vonatkozó ajánlásokkal együtt – lásd [az Azure rugalmasságáról szóló műszaki útmutató hibaállapot-elemzéssel foglalkozó részét][fma].
+
+### <a name="example-of-identifying-failure-modes-and-detection-strategy"></a>Példa a hibaállapotok azonosítására és az észlelési stratégiára
+**Meghibásodási pont:** Külső webszolgáltatás/API meghívása.
+
+| Hibaállapot | Észlelési stratégia |
+| --- | --- |
+| A szolgáltatás nem érhető el |HTTP 5xx |
+| Throttling |HTTP 429 (Túl sok kérelem) |
+| Hitelesítés |HTTP 401 (Jogosulatlan) |
+| Lassú válasz |A kérés túllépi az időkorlátot |
+
+
+### <a name="redundancy-and-designing-for-failure"></a>Redundancia és meghibásodásra felkészült tervezés
 
 A hibák a hatásukat illetően eltérőek lehetnek. Bizonyos hardveres hibák – például egy meghibásodott lemez – csak egyetlen gazdagépet érintenek. Egy meghibásodott hálózati kapcsoló egy teljes kiszolgálószekrényt érinthet. Kevésbé gyakori meghibásodások teljes adatközpontok működését zavarhatják meg, például egy áramkimaradás esetén az adatközpontban. Ritkán egy teljes régió válhat elérhetetlenné.
 
@@ -167,90 +187,43 @@ Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók k
 | Hálózati késleltetés | Nagyon alacsony | Alacsony | Közepes vagy magas |
 | Virtuális hálózat  | VNet | VNet | Régiók közötti virtuális hálózatok közötti társviszony |
 
-## <a name="designing-for-resiliency"></a>Rugalmasságot szem előtt tartó tervezés
-A tervezési fázis során javasolt hibaállapot-elemzést (FMA) végezni. Az FMA célja a lehetséges meghibásodási pontok megtalálása, és annak definiálása, hogyan reagáljon az alkalmazás ezekre a hibákra.
-
-* Hogyan észleli az alkalmazás az adott hibatípust?
-* Hogyan reagál az alkalmazás az adott hibatípusra?
-* Hogyan naplózza és monitorozza az adott hibatípust? 
-
-Az FMA eljárásra vonatkozó további információkért – a kifejezetten az Azure-ra vonatkozó ajánlásokkal együtt – lásd [az Azure rugalmasságáról szóló műszaki útmutató hibaállapot-elemzéssel foglalkozó részét][fma].
-
-### <a name="example-of-identifying-failure-modes-and-detection-strategy"></a>Példa a hibaállapotok azonosítására és az észlelési stratégiára
-**Meghibásodási pont:** Külső webszolgáltatás/API meghívása.
-
-| Hibaállapot | Észlelési stratégia |
-| --- | --- |
-| A szolgáltatás nem érhető el |HTTP 5xx |
-| Throttling |HTTP 429 (Túl sok kérelem) |
-| Hitelesítés |HTTP 401 (Jogosulatlan) |
-| Lassú válasz |A kérés túllépi az időkorlátot |
-
-## <a name="resiliency-strategies"></a>Rugalmassági stratégiák
+## <a name="implement-resiliency-strategies"></a>Rugalmassági stratégiák megvalósítása
 Ebben a szakaszban áttekintünk néhány gyakori rugalmassági stratégiát. Ezek legtöbbje az alkalmazott technológiától függetlenül működik. Az ebben a szakaszban található leírások az egyes technikák általános működési elvét foglalják össze, további információkra mutató hivatkozásokkal.
 
-### <a name="retry-transient-failures"></a>Újrapróbálkozás átmeneti meghibásodások esetén
-Az átmeneti meghibásodások oka lehet a hálózati kapcsolat pillanatnyi megszakadása, az adatbázis-kapcsolat megszakadása, vagy foglalt szolgáltatás miatti időtúllépés. Az átmeneti meghibásodások gyakran megoldódnak a kérelem újbóli elküldésével. Sok Azure-szolgáltatás esetében az ügyfél SDK automatikus újrapróbálkozásokat valósít meg, a hívó számára átlátható módon; lásd [Szolgáltatásspecifikus újrapróbálkozásokkal kapcsolatos útmutatás][retry-service-specific guidance].
+**Újrapróbálkozás átmeneti meghibásodások esetén**. Az átmeneti meghibásodások oka lehet a hálózati kapcsolat pillanatnyi megszakadása, az adatbázis-kapcsolat megszakadása, vagy foglalt szolgáltatás miatti időtúllépés. Az átmeneti meghibásodások gyakran megoldódnak a kérelem újbóli elküldésével. Sok Azure-szolgáltatás esetében az ügyfél SDK automatikus újrapróbálkozásokat valósít meg, a hívó számára átlátható módon; lásd [Szolgáltatásspecifikus újrapróbálkozásokkal kapcsolatos útmutatás][retry-service-specific guidance].
 
-Mindegyik újrapróbálkozás növeli a teljes késést. Túl sok sikertelen kérelem továbbá szűk keresztmetszetet eredményezhet, mivel a függőben lévő kérelmek halmozódnak az üzenetsorban. Ezek a blokkolt kérelmek olyan kritikus rendszererőforrásokat akadályozhatnak, mint a memória, szálak, adatbázis-kapcsolatok stb., ezáltal pedig kaszkádolt meghibásodásokhoz vezethetnek. Ennek elkerülése végett növelni kell az egyes újrapróbálkozások közötti időt, és korlátozni a sikertelen kérelmek lehetséges számát.
+Mindegyik újrapróbálkozás növeli a teljes késést. Túl sok sikertelen kérelem továbbá szűk keresztmetszetet eredményezhet, mivel a függőben lévő kérelmek halmozódnak az üzenetsorban. Ezek a blokkolt kérelmek olyan kritikus rendszererőforrásokat akadályozhatnak, mint a memória, szálak, adatbázis-kapcsolatok stb., ezáltal pedig kaszkádolt meghibásodásokhoz vezethetnek. Ennek elkerülése végett növelni kell az egyes újrapróbálkozások közötti időt, és korlátozni a sikertelen kérelmek lehetséges számát. 
 
-![Összetett SLA](./images/retry.png)
+![](./images/retry.png)
 
-További információkért lásd: [Újrapróbálkozási minta][retry-pattern].
-
-### <a name="load-balance-across-instances"></a>Terheléselosztás példányok között
-A skálázhatóság érdekében a felhőalkalmazásoknak képesnek kell lenniük a további példányok hozzáadása révén történő horizontális felskálázásra. Ez a módszer is növeli a rugalmasságot, mert a nem megfelelő állapotú példányokat ki lehet iktatni a rotációból.  
-
-Például:
+**Terheléselosztás példányok között**. A skálázhatóság érdekében a felhőalkalmazásoknak képesnek kell lenniük a további példányok hozzáadása révén történő horizontális felskálázásra. Ez a módszer is növeli a rugalmasságot, mert a nem megfelelő állapotú példányokat ki lehet iktatni a rotációból. Például:
 
 * Helyezzen két vagy több virtuális gépet terheléselosztó mögé. A terheléselosztó az összes virtuális gép között osztja el a forgalmat. Lásd az [elosztott terhelésű virtuális gépek üzemeltetése a skálázhatóság és a rendelkezésre állás érdekében][ra-multi-vm] témakörrel foglalkozó részt.
 * Skálázzon fel horizontálisan egy Azure App Service alkalmazást több példányra. Az App Service automatikusan elosztja a terhelést a példányok között. Lásd: [Alapszintű webalkalmazás][ra-basic-web].
 * Az [Azure Traffic Managerrel][tm] ossza el a forgalmat végpontok között.
 
-### <a name="replicate-data"></a>Adatok replikálása
-Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik.  
-
-Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával. 
+**Adatok replikálása**. Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik. Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával. 
 
 A rendelkezésre állás maximalizálása érdekében a replikákat több régióban is el lehet helyezni. Ez azonban növeli az adatok replikálásával járó késést. A régiók közötti replikálás általában aszinkron módon történik, ami végleges konzisztenciájú modellt jelent, valamint azt, hogy egy replika meghibásodása adatveszteséggel járhat. 
 
-### <a name="degrade-gracefully"></a>Leállás nélküli teljesítménycsökkenés
-Ha egy szolgáltatás meghibásodik, és nincs feladatátvételi útvonal, az alkalmazás képes lehet leállás nélküli teljesítménycsökkenéssel tovább futni, továbbra is elfogadható felhasználói élményt nyújtva. Például:
+**Leállás nélküli teljesítménycsökkenés**. Ha egy szolgáltatás meghibásodik, és nincs feladatátvételi útvonal, az alkalmazás képes lehet leállás nélküli teljesítménycsökkenéssel tovább futni, továbbra is elfogadható felhasználói élményt nyújtva. Például:
 
 * Helyezzen egy munkaelemet üzenetsorba későbbi kezelés céljából. 
 * Adjon vissza becsült értéket.
 * Használjon helyi gyorsítótárban tárolt adatokat. 
 * Jelenítsen meg hibaüzenetet a felhasználó számára. (Ez jobb lehetőség, mint ha az alkalmazás nem válaszol a további kérelmekre.)
 
-### <a name="throttle-high-volume-users"></a>Nagy forgalmú felhasználók szabályozása
-Előfordulhat, hogy néhány felhasználó túlzott terhelést okoz. Ez más felhasználókra is hatással lehet, csökkentve az alkalmazás teljes rendelkezésre állását.
+**Nagy forgalmú felhasználók szabályozása**. Előfordulhat, hogy néhány felhasználó túlzott terhelést okoz. Ez más felhasználókra is hatással lehet, csökkentve az alkalmazás teljes rendelkezésre állását.
 
 Ha egyetlen ügyfél túlzott mennyiségű kérelmet küld, az alkalmazás bizonyos ideig szabályozhatja a felhasználó forgalmát. A szabályozási időszak alatt az alkalmazás visszautasítja az adott ügyféltől érkező néhány vagy összes kérelmet (a konkrét szabályozási stratégiától függően). A szabályozási küszöbérték függhet az ügyfél szolgáltatásszintjétől. 
 
-A szabályozás nem feltétlenül jelent kártételi szándékot az ügyfél részéről – csupán azt jelenti, hogy túllépte a szolgáltatási kvótáját. Egyes esetekben a fogyasztók rendszeresen túlléphetik a kvótájukat, vagy egyéb helytelen magatartást tanúsíthatnak. Ilyen esetben további lépésként lehetséges a felhasználó blokkolása. Ez általában API-kulcs vagy IP-címtartomány blokkolása révén történik.
+A szabályozás nem feltétlenül jelent kártételi szándékot az ügyfél részéről – csupán azt jelenti, hogy túllépte a szolgáltatási kvótáját. Egyes esetekben a fogyasztók rendszeresen túlléphetik a kvótájukat, vagy egyéb helytelen magatartást tanúsíthatnak. Ilyen esetben további lépésként lehetséges a felhasználó blokkolása. Ez általában API-kulcs vagy IP-címtartomány blokkolása révén történik. További információkért lásd: [Szabályozási minta][throttling-pattern].
 
-További információkért lásd: [Szabályozási minta][throttling-pattern].
+**Áramköri megszakító használata**. Az [áramköri megszakítási][circuit-breaker-pattern] minta meggátolhatja, hogy egy alkalmazás olyan műveletet próbáljon többször végrehajtani, amely nagy eséllyel lesz sikertelen. Az áramköri megszakító egy szolgáltatás meghívásait burkolja, és nyomon követi a nemrégiben történt hibákat. Ha a hibaszám túllépi a küszöbértéket, az áramköri megszakító egy hibakódot ad vissza a szolgáltatás hívása nélkül. Ez időt biztosít a szolgáltatásnak, hogy helyreálljon. 
 
-### <a name="use-a-circuit-breaker"></a>Áramköri megszakító használata
-Az áramköri megszakítási minta meggátolhatja, hogy egy alkalmazás olyan műveletet próbáljon többször végrehajtani, amely nagy eséllyel lesz sikertelen. Működése egy valódi áramköri megszakítóéhoz hasonlít, amely megszakítja az áramkört annak túlterhelődése esetén.
+**Adatforgalmi kiugrások csökkentése terheléskiegyenlítéssel**. Az alkalmazások adatforgalmának esetleges hirtelen kiugrásai túlterhelhetik a háttérkiszolgálón futó szolgáltatásokat. Ha egy háttérszolgáltatás nem képes elég gyorsan válaszolni a kérelmekre, az sorban állásra kényszerítheti a kérelmeket, vagy az alkalmazás szolgáltatás általi szabályozását válthatja ki. Ennek elkerülése végett az üzenetsor pufferként használható. Új munkaelem megjelenésekor a háttérszolgáltatás azonnali meghívása helyett az alkalmazás aszinkron futáshoz állít sorba egy munkaelemet. Az üzenetsor pufferként működik, amely csökkenti a terhelési kiugrásokat. További információkért lásd az [üzenetsor-alapú terheléskiegyenlítési mintával][load-leveling-pattern] foglalkozó részt.
 
-Az áramköri megszakító egy szolgáltatás meghívásait burkolja. Háromféle állapota lehetséges:
-
-* **Zárt**. Ez a megszakító normál állapota. Az áramköri megszakító kérelmeket küld a szolgáltatásnak, és egy számlálóval követi nyomon a közelmúltbeli hibák számát. Ha a hibaszám túllépi a küszöbértéket egy adott időtartamon belül, az áramköri megszakító Nyitott állapotba vált. 
-* **Nyitott**. Ebben az állapotban az áramköri megszakító azonnal meghiúsítja az összes kérelmet, a szolgáltatás meghívása nélkül. Az alkalmazásnak tartalmaznia kell kezelési útvonalat, mint például az adatok replikából történő beolvasását, vagy egyszerűen hiba jelzését a felhasználó számára. Az áramköri megszakító Nyitott állapotba történő váltáskor elindít egy időzítőt. Amikor az időzítő lejár, az áramköri megszakító Félig nyitott állapotba vált.
-* **Félig nyitott**. Ebben az állapotban az áramköri megszakító korlátozott számú kérelem továbbítását engedélyezi a szolgáltatás felé. Ha a kérelmek sikeresek, az a szolgáltatás helyreállását feltételezi, és az áramköri megszakító visszavált Zárt állapotba. Ellenkező esetben Nyitott állapotba vált vissza. A Félig nyitott állapot megakadályozza, hogy a helyreállítás alatt lévő szolgáltatást hirtelen elárasszák a kérelmek.
-
-További információkért lásd: [Áramköri megszakítási minta][circuit-breaker-pattern].
-
-### <a name="use-load-leveling-to-smooth-out-spikes-in-traffic"></a>Adatforgalmi kiugrások csökkentése terheléskiegyenlítéssel
-Az alkalmazások adatforgalmának esetleges hirtelen kiugrásai túlterhelhetik a háttérkiszolgálón futó szolgáltatásokat. Ha egy háttérszolgáltatás nem képes elég gyorsan válaszolni a kérelmekre, az sorban állásra kényszerítheti a kérelmeket, vagy az alkalmazás szolgáltatás általi szabályozását válthatja ki.
-
-Ennek elkerülése végett az üzenetsor pufferként használható. Új munkaelem megjelenésekor a háttérszolgáltatás azonnali meghívása helyett az alkalmazás aszinkron futáshoz állít sorba egy munkaelemet. Az üzenetsor pufferként működik, amely csökkenti a terhelési kiugrásokat. 
-
-További információkért lásd az [üzenetsor-alapú terheléskiegyenlítési mintával][load-leveling-pattern] foglalkozó részt.
-
-### <a name="isolate-critical-resources"></a>Kritikus erőforrások elkülönítése
-Egy alrendszerben bekövetkező meghibásodás időnként kaszkádolás révén elterjedhet, az alkalmazás más részein is meghibásodásokat okozva. Ilyen akkor történhet, ha egy hiba miatt bizonyos erőforrások, mint például szálak vagy szoftvercsatornák, nem szabadulnak fel időben, ami erőforrásfogyáshoz vezet. 
+**Kritikus erőforrások elkülönítése**. Egy alrendszerben bekövetkező meghibásodás időnként kaszkádolás révén elterjedhet, az alkalmazás más részein is meghibásodásokat okozva. Ilyen akkor történhet, ha egy hiba miatt bizonyos erőforrások, mint például szálak vagy szoftvercsatornák, nem szabadulnak fel időben, ami erőforrásfogyáshoz vezet. 
 
 Ennek elkerülése végett a rendszer elkülönített csoportokra particionálható, aminek eredményeképpen az egy partícióban bekövetkező hiba nem vezet a teljes rendszer leállásához. Ezt a módszert Válaszfal mintának is szokás nevezni.
 
@@ -260,19 +233,13 @@ Példák:
 * Használjon külön szálkészleteket a különböző szolgáltatások meghívásainak elkülönítésére. Ez segít meggátolni a kaszkádolás révén terjedő hibákat, ha az egyik szolgáltatás meghibásodik. Példaként tekintse meg a Netflix [Hystrix könyvtárát][hystrix].
 * [Tárolók][containers] felhasználásával korlátozza az egyes alrendszerek által elérhető erőforrások mennyiségét. 
 
-![Összetett SLA](./images/bulkhead.png)
+![](./images/bulkhead.png)
 
-### <a name="apply-compensating-transactions"></a>Kompenzáló tranzakciók alkalmazása
-A kompenzáló tranzakciók más, befejezett tranzakciók hatásait szüntetik meg.
-
-Az elosztott rendszerekben rendkívül nehéz lehet az erős tranzakció-konzisztencia megvalósítása. A kompenzáló tranzakciók révén megvalósítható a konzisztencia azáltal, hogy kisebb, különálló tranzakciókat használunk, amelyek mindegyike visszavonható.
+**Kompenzáló tranzakciók alkalmazása**. A [kompenzáló tranzakciók][compensating-transaction-pattern] más, befejezett tranzakciók hatásait szüntetik meg. Az elosztott rendszerekben rendkívül nehéz lehet az erős tranzakció-konzisztencia megvalósítása. A kompenzáló tranzakciók révén megvalósítható a konzisztencia azáltal, hogy kisebb, különálló tranzakciókat használunk, amelyek mindegyike visszavonható.
 
 Például utazásfoglalás esetében az ügyfél foglalhat autót, hotelszobát és repülőjegyet. Ha e lépések bármelyike meghiúsul, az egész művelet meghiúsul. Az egész művelet egyetlen elosztott tranzakcióval történő megvalósítása helyett definiálható kompenzáló tranzakció mindegyik lépéshez. Az autófoglalás visszavonásához például törölheti a foglalást. A teljes művelet befejezése érdekében koordinátor hajtja végre az összes lépést. Ha valamelyik lépés meghiúsul, a koordinátor kompenzáló tranzakciókkal vonja vissza a már befejezett lépéseket. 
 
-További információkért lásd a [kompenzáló tranzakció mintával][compensating-transaction-pattern] foglalkozó részt. 
-
-
-## <a name="testing-for-resiliency"></a>Rugalmasság tesztelése
+## <a name="test-for-resiliency"></a>Rugalmasság tesztelése
 A rugalmasságot általában véve nem lehet ugyanúgy tesztelni, mint az alkalmazások működőképességét (egységtesztek futtatásával stb). Ehelyett azt kell megvizsgálni, hogyan teljesít a végpontok közötti munkaterhelés csak időnként jelentkező hibafeltételek mellett.
 
 A tesztelés iteratív folyamat. Tesztelje az alkalmazást, mérje meg az eredményt, elemezze és kezelje az esetleges kapott hibákat, majd ismételje meg a folyamatot.
@@ -294,12 +261,12 @@ Ez is egy érv a lehetséges hibapontok tervezési fázis során történő elem
 
 **Terheléses tesztelés**. A [Visual Studio Team Services][vsts], az [Apache JMeter][jmeter] vagy más hasonló eszköz segítségével végezhető el az alkalmazás terheléses tesztelése. A terheléses tesztelés kulcsfontosságú a csak terhelés alatt bekövetkező hibák, mint például a háttéradatbázis túlterhelése vagy a szolgáltatásszabályozás azonosítása szempontjából. A csúcsterhelést tesztelje, termelési adatok vagy a termelési adatokhoz lehető legközelebb álló szintetikus adatok használatával. A cél annak megállapítása, hogyan viselkedik az alkalmazás valós körülmények között.   
 
-## <a name="resilient-deployment"></a>Rugalmas üzembe helyezés
+## <a name="deploy-using-reliable-processes"></a>Üzembe helyezés megbízható folyamatokkal
 Miután egy alkalmazás éles telepítése megtörtént, a frissítések hibaforrások lehetnek. A legrosszabb esetben egy rossz frissítés szolgáltatáskiesést okozhat. Ennek elkerülése végett az üzembehelyezési folyamatnak kiszámíthatónak és ismételhetőnek kell lennie. A telepítés magában foglalja az Azure-erőforrások kiépítését, az alkalmazáskód telepítését és a konfigurációs beállítások alkalmazását. A frissítések ezek némelyikére vagy mindegyikére terjedhetnek ki. 
 
 A lényeg, hogy a manuális telepítés során gyakran fordul elő hiba – emiatt ajánlott automatizált, idempotens folyamat alkalmazása, amely igény szerint futtatható, meghibásodás esetén pedig újból futtatható. 
 
-* Automatizálja az Azure-erőforrások kiépítését Resource Manager-sablonok révén.
+* Automatizálja az Azure-erőforrások kiépítését Azure Resource Manager-sablonokkal.
 * Használja az [Azure Automation célállapot-konfigurációt][dsc] (DSC) a virtuális gépek konfigurálásához.
 * Használjon automatizált üzembehelyezési folyamatot az alkalmazáskódhoz.
 
@@ -315,7 +282,7 @@ Kérdéses lehet még az alkalmazásfrissítések bevezetésének mikéntje. Aj�
 
 Bármelyik módszert is választja, biztosítsa a legutóbbi biztosan jól működő üzemelő példányhoz való visszatérés lehetőségét arra az esetre, ha az új verzió nem működne. Továbbá ha hiba lép fel, az alkalmazásnaplóknak jelezniük kell, melyik verzió okozta a hibát. 
 
-## <a name="monitoring-and-diagnostics"></a>Monitorozás és diagnosztika
+## <a name="monitor-to-detect-failures"></a>Monitorozás a hibák észlelése érdekében
 A megfigyelés és a diagnosztika létfontosságú a rugalmasság szempontjából. Ha hiba lép fel, tudnia kell róla, hogy hiba történt, és a hiba kiváltó okairól szóló információkra is szüksége van. 
 
 A kiterjedt, elosztott rendszerek megfigyelése meglehetősen nehéz. Vegyünk például egy néhány tucat virtuális gépen futó alkalmazást – nem célszerű minden egyes virtuális gépre bejelentkezni, és egyenként végignézni a naplófájlokat a hiba elhárítása céljából. Valószínű, hogy a virtuális gépek példányszáma sem statikus. A virtuális gépek száma nőhet vagy csökkenhet az alkalmazás skálázása során, időnként pedig meghibásodhat egy-egy példány, és az újbóli kiépítésére lehet szükség. Ezen felül a felhőalkalmazások általában több adattárral (Azure Storage, SQL Database, Cosmos DB, Redis Cache) dolgoznak, és egyetlen felhasználói művelet több alrendszerre is kiterjedhet. 
@@ -341,7 +308,7 @@ Az alkalmazásnaplók a diagnosztikai adatok fontos forrását képezik. Ajánlo
 
 A megfigyeléssel és diagnosztikával kapcsolatos további információkért lásd a [megfigyelési és diagnosztikai útmutatót][monitoring-guidance] tartalmazó szakaszt.
 
-## <a name="manual-failure-responses"></a>Manuális meghibásodási válaszok
+## <a name="respond-to-failures"></a>Válasz a hibákra
 A korábbi szakaszok az automatizált helyreállítási stratégiákról szóltak, amelyek létfontosságúak a magas rendelkezésre állás szempontjából. Időnként azonban kézi beavatkozás szükséges.
 
 * **Riasztások**. Kísérje figyelemmel az alkalmazása olyan figyelmeztető jeleit, amelyek proaktív beavatkozást igényelhetnek. Ha például az SQL Database vagy a Cosmos DB rendszeresen szabályozza az alkalmazását, lehetséges, hogy növelnie kell az adatbázis-kapacitását, vagy optimalizálnia kell a lekérdezéseit. Ebben a példában, bár az alkalmazás képes átláthatóan kezelni a szabályozási hibákat, a telemetria riasztást küld, hogy nyomon követhesse az eseményeket.  
