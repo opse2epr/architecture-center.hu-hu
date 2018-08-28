@@ -4,12 +4,12 @@ description: Segédlet egy jól megtervezett webes API létrehozásához.
 author: dragon119
 ms.date: 01/12/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: db9784f454e0b52b335d6dff3a054c2c59124c9f
-ms.sourcegitcommit: f7418f8bdabc8f5ec33ae3551e3fbb466782caa5
+ms.openlocfilehash: 68ed3f59e1fd63ae754ceabf27a182daa0de0e5d
+ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36209610"
+ms.lasthandoff: 08/10/2018
+ms.locfileid: "43016166"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -25,7 +25,7 @@ Ez az útmutató a webes API-k tervezése során megfontolandó problémákat is
 
 Roy Fielding 2000-ben mutatta be a REST (Representational State Transfer, reprezentáción alapuló állapotátvitel) nevű, a webes szolgáltatások tervezésére szolgáló architekturális módszert. A REST egy architekturális stílus a hipermédián alapuló elosztott rendszerek készítéséhez. A REST mindennemű mögöttes protokolltól független, és nem feltétlenül kötődik a HTTP-hez. A leggyakoribb REST-alkalmazások azonban a HTTP-protokollt használják, így ez az útmutató elsősorban a HTTP REST API-k tervezésére koncentrál.
 
-A REST egyik fő előnye a HTTP-vel szemben a nyitott szabványok használata, valamint az, hogy nem köti az API vagy az ügyfélalkalmazások végrehajtását egyetlen konkrét implementáláshoz sem. Egy REST-alapú webszolgáltatás például megírható ASP.NET-ben, az ügyfélalkalmazások pedig bármilyen nyelvet vagy eszközkészletet használhatnak, amelyekkel HTTP-kérések hozhatók létre és HTTP-válaszok elemezhetők.
+Egy elsődleges REST HTTP protokollon keresztül előnye, hogy nyílt szabványok, és nem köti az API-t megvalósítását vagy az ügyfélalkalmazások megvalósítása sem adott. Egy REST-alapú webszolgáltatás például megírható ASP.NET-ben, az ügyfélalkalmazások pedig bármilyen nyelvet vagy eszközkészletet használhatnak, amelyekkel HTTP-kérések hozhatók létre és HTTP-válaszok elemezhetők.
 
 Az alábbiakban a HTTP-t használó RESTful API-k fő tervezési alapelvei közül ismertetünk néhányat:
 
@@ -43,7 +43,7 @@ Az alábbiakban a HTTP-t használó RESTful API-k fő tervezési alapelvei köz�
     {"orderId":1,"orderValue":99.90,"productId":1,"quantity":1}
     ```
 
-- A REST API-k egységes felületet használnak, amely segít az ügyfél és a szolgáltatás implementálásának különválasztásában. A REST API-k HTTP épül a egységes felületet hozzátartozik, hogy szabványos HTTP-műveleteket az erőforrásokon végrehajtott műveletek végrehajtásához. A leggyakoribb műveletek a következők: GET, POST, PUT, PATCH és DELETE. 
+- A REST API-k egységes felületet használnak, amely segít az ügyfél és a szolgáltatás implementálásának különválasztásában. A REST API-k HTTP épül az egységes felületet tartalmaz szabványos HTTP-műveletek használatával az erőforrásokon végezhetők műveletek. A leggyakoribb műveletek a következők: GET, POST, PUT, PATCH és DELETE. 
 
 - A REST API-k állapot nélküli kérésmodellt használnak. A HTTP-kéréseknek függetlennek kell lenniük, és bármilyen sorrendben előfordulhatnak, ezért nem valósítható meg az átmeneti állapotadatok kérések közötti megőrzése. Az információt egyedül maguk az erőforrások tárolják, és minden kérésnek atomi műveletnek kell lennie. Ez a megkötés teszi lehetővé a webes szolgáltatások kiváló méretezhetőségét, mert nincs szükség az ügyfelek és kiszolgálók közötti affinitás megőrzésére. Bármely kiszolgáló képes kezelni bármilyen ügyféltől beérkező kérést. Mindemellett más tényezők korlátozhatják a méretezhetőséget. Számos webes szolgáltatás például egy háttérbeli adattárba ír, amelyet adott esetben nehéz lehet felskálázni. (Az [adatparticionálást](./data-partitioning.md) ismertető cikk az adattárak felskálázási stratégiáit ismerteti.)
 
@@ -395,7 +395,7 @@ A verziókezelés lehetővé teszi a webes API-k számára, hogy jelezzék az el
 ### <a name="no-versioning"></a>Nincs verziókezelés
 Ez a legegyszerűbb megközelítés, és egyes belső API-k esetében elfogadható. A nagy változások megjeleníthetők új erőforrásokként vagy hivatkozásokként.  A tartalom meglévő erőforrásokhoz való hozzáadása nem biztos, hogy alapvető változást jelent, mivel az ügyfélalkalmazások, amelyek nem számítanak erre a tartalomra, egyszerűen figyelmen kívül hagyják azt.
 
-Például az URI kérelem *http://adventure-works.com/customers/3* visszaadja-e részletes adatait tartalmazó egyetlen ügyfél `id`, `name`, és `address` az ügyfélalkalmazás által várt mezők:
+Például a kérés URI-ra *http://adventure-works.com/customers/3* egyetlen ügyfél részleteit adja vissza `id`, `name`, és `address` ügyfélalkalmazás által várt mezők:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -423,7 +423,7 @@ A meglévő ügyfélalkalmazások továbbra is megfelelően működhetnek, ha fi
 ### <a name="uri-versioning"></a>URI-verziókezelés
 Minden alkalommal, amikor módosítja a webes API-t vagy az erőforrások sémáját, minden erőforrás esetében hozzáad egy verziószámot az URI-hoz. A korábban meglévő URI-k továbbra is úgy működnek, mint korábban, vagyis visszaadják az eredeti sémájukhoz igazodó erőforrásokat.
 
-Az előző példában kiterjesztése, ha a `address` mező új alárendelt mezőkbe tartalmazó minden részét képezi a cím szerkezete (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás ezen verziója lehet egy verziószámot, például tartalmazó URI keresztül közzétett http://adventure-works.com/v2/customers/3:
+Az előző példában kiterjesztése, ha a `address` mezőt tartalmazó minden részét képezi a cím alárendelt mezőkbe van átstrukturálása (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás e verziója lehet egy URI-t, amely tartalmaz egy verziószámot, mint például keresztül közzétett http://adventure-works.com/v2/customers/3:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -435,7 +435,7 @@ Content-Type: application/json; charset=utf-8
 Ez a verziókezelő mechanizmus nagyon egyszerű, de függ attól, hogy a kiszolgáló a megfelelő végpontra irányítja-e a kérést. Azonban nehézkessé válhat, ahogy a webes API egyre kiforrottabb lesz, és a kiszolgálónak különböző verziókat kell támogatnia egyidejűleg. Ha az egyszerűség felől közelítjük meg a kérdést, az ügyfélalkalmazások minden esetben ugyanazt az adatot (3-as ügyfél) kérdezik le, ezért az URI-nak sem kellene verziónként eltérőnek lennie. Ez a séma a HATEOAS implementálását is bonyolultabbá teszi, mivel az összes hivatkozásnak tartalmaznia kell a verziószámot a hozzájuk tartozó URI-kban.
 
 ### <a name="query-string-versioning"></a>Lekérdezésisztring-verziókezelés
-Ahelyett, hogy így több URI-k, megadhatja a verziót az erőforrás egy paraméterrel, a lekérdezési karakterláncot, mint a HTTP-kérelem fűzött belül *http://adventure-works.com/customers/3?version=2*. A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
+Több URI megadása helyett megadhat az erőforrás verziója egy paraméterrel a lekérdezési karakterláncban, mint például a HTTP-kérelem hozzáfűzi *http://adventure-works.com/customers/3?version=2*. A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
 
 Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési sztring elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
 

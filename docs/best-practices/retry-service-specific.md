@@ -4,12 +4,12 @@ description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechani
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 72dfb59c3357c5f14806a33ef5f6cdd3e7937915
-ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
+ms.openlocfilehash: 790c933458717f2cb4cde0741b1d22f6ae89cc39
+ms.sourcegitcommit: 8ec48a0e2c080c9e2e0abbfdbc463622b28de2f2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/29/2018
-ms.locfileid: "39334164"
+ms.lasthandoff: 08/18/2018
+ms.locfileid: "43016123"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -23,7 +23,9 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 | --- | --- | --- | --- | --- |
 | **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
 | **[Cosmos DB](#cosmos-db)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
+| **Data Lake Store** |Natív, az ügyfél része |Nem konfigurálható |Egyes műveletek |None |
 | **[Az Event Hubs](#event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
+| **[Az IoT Hub](#iot-hub)** |Natív, az ügyfél-SDK |Szoftveres |Ügyfél |None |
 | **[A redis Cache](#azure-redis-cache)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
 | **[Keresés](#azure-search)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
 | **[Service Bus](#service-bus)** |Natív, az ügyfél része |Szoftveres |Névtérkezelő, üzenetkezelési előállító vagy ügyfél |ETW |
@@ -125,6 +127,25 @@ client.RetryPolicy = RetryPolicy.Default;
 ### <a name="more-information"></a>További információ
 [.NET standard ügyféloldali kódtár az Azure Event Hubshoz](https://github.com/Azure/azure-event-hubs-dotnet)
 
+## <a name="iot-hub"></a>IoT Hub
+
+Az Azure IoT Hub szolgáltatás csatlakoztatása, figyelése és kezelése az eszközök internetes hálózata (IoT) alkalmazások fejlesztéséhez.
+
+### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
+
+Az Azure IoT eszközoldali SDK-t is észleli a hibákat, a hálózat, a protokoll vagy az alkalmazásban. Hiba típusa alapján az SDK ellenőrzi, hogy kell-e egy újra kell elvégezni. Ha a hiba *helyreállítható*, ismételje meg a konfigurált újrapróbálkozási szabályzat használatakor megkezdi az SDK-t.
+
+Az alapértelmezett újrapróbálkozási szabályzata *exponenciális visszatartás véletlenszerű jittert az*, de ez konfigurálható.
+
+### <a name="policy-configuration"></a>Szabályzatkonfiguráció
+
+Szabályzatkonfiguráció eltérő nyelv szerint. További részletekért lásd: [újrapróbálkozási házirend-konfigurációt az IoT Hub](/azure/iot-hub/iot-hub-reliability-features-in-sdks#retry-policy-apis).
+
+### <a name="more-information"></a>További információ
+
+* [Az IoT Hub újrapróbálkozási szabályzat](/azure/iot-hub/iot-hub-reliability-features-in-sdks)
+* [Az IoT Hub eszköz leválasztásának hibaelhárítása](/azure/iot-hub/iot-hub-troubleshoot-connectivity)
+
 ## <a name="azure-redis-cache"></a>Azure Redis Cache
 Az Azure Redis Cache gyors adathozzáférést és alacsony késést kínáló gyorsítótár-szolgáltatás, amely a népszerű, nyílt forráskódú Redis Cache-re épül. Biztonságos, a Microsoft felügyeli, és az Azure bármelyik alkalmazásából elérhető.
 
@@ -133,7 +154,7 @@ Ebben az útmutatóban azt feltételezzük, hogy a StackExchange.Redis ügyfelet
 Vegye figyelembe, hogy a StackExchange.Redis ügyfél egyetlen kapcsolaton keresztül végez multiplexálást. A javasolt felhasználás az, ha létrehozza az ügyfél egy példányát az alkalmazás indításakor, és ezt a példányt használja a gyorsítótár elérését célzó összes művelethez. Így a gyorsítótárral való kapcsolat csak egyszer jön létre, ezért az ebben a szakaszban leírt összes útmutatás ezen első kapcsolat újrapróbálkozási szabályzatára vonatkozik, nem pedig a gyorsítótárhoz hozzáférő egyes műveletekre.
 
 ### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
-A StackExchange.Redis ügyfél egy számos beállítással konfigurált kapcsolatkezelő osztályt használ. Néhány példa ezekre a beállításokra:
+A StackExchange.Redis ügyfél egy konfigurált beállításokat, beleértve a készletével osztályt használja:
 
 - **ConnectRetry**. Ennyi alkalommal próbálkozik újra a gyorsítótárhoz való sikertelen kapcsolódás esetén.
 - **ReconnectRetryPolicy**. A használt újrapróbálkozási stratégia.

@@ -3,12 +3,12 @@ title: Méretezhető Rendelésfeldolgozó az Azure-ban
 description: Példa az Azure Cosmos DB használatával nagy mértékben skálázható rendelés feldolgozási folyamat felépítésével bajlódnia.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: 541b5e9f523c64bc55526e4e2dffc57a5212e67f
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 9fa0dc7c564270ee811b56169e05f7e743664838
+ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39061138"
+ms.lasthandoff: 08/10/2018
+ms.locfileid: "43016191"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Méretezhető Rendelésfeldolgozó az Azure-ban
 
@@ -41,7 +41,7 @@ Ez az architektúra egy rendelés feldolgozási folyamat főbb összetevőit ism
 
 ### <a name="components"></a>Összetevők
 
-* [A cosmos DB] [ docs-cosmos-db] a Microsoft globálisan elosztott, többmodelles adatbázis, amely a megoldásokat, rugalmasan és egymástól függetlenül méretezhető átviteli sebesség és tárterület tetszőleges számú földrajzi régió között. Átviteli sebesség, a késés, a rendelkezésre állást kínál, és a konzisztenciára vonatkozó garanciákat biztosít átfogó szolgáltatási szerződésekre (SLA). Ebben a forgatókönyvben használ a Cosmos DB esemény stream-tárhely és a pillanatkép-tároló, és Cosmos DB, módosítási hírcsatorna adatkonzisztencia és tartalék szolgáltatásokat használja ki. 
+* [A cosmos DB] [ docs-cosmos-db] a Microsoft globálisan elosztott, többmodelles adatbázis, amely a megoldásokat, rugalmasan és egymástól függetlenül méretezhető átviteli sebesség és tárterület tetszőleges számú földrajzi régió között. Átviteli sebesség, a késés, a rendelkezésre állást kínál, és a konzisztenciára vonatkozó garanciákat biztosít átfogó szolgáltatási szerződésekre (SLA). Ebben a forgatókönyvben használ a Cosmos DB esemény stream-tárhely és a pillanatkép-tároló, és kihasználja [Cosmos DB-módosítási hírcsatorna] [ docs-cosmos-db-change-feed] szolgáltatások adat-helyreállítás konzisztencia és a hibatűrés biztosításához. 
 * [Az Apache Kafka on HDInsight] [ docs-kafka] egy felügyelt szolgáltatás megvalósítása az Apache Kafka, egy nyílt forráskódú elosztott streamelési platform streamadatfolyamatok és -alkalmazások létrehozásához. Kafka, üzenetsorokhoz hasonló üzenetközvetítő funkciót is biztosít a közzététel és feliratkozás adatstreameket. Ebben a forgatókönyvben a Kafka használatával feldolgozni a bejövő, valamint a folyamat feldolgozása sorrendben alsóbb rétegbeli események. 
 
 ## <a name="considerations"></a>Megfontolandó szempontok
@@ -107,6 +107,7 @@ Egyéb kapcsolódó erőforrások a következők:
 [architecture-diagram]: ./images/architecture-diagram-cosmos-db.png
 [docs-cosmos-db]: /azure/cosmos-db
 [docs-cosmos-db-change-feed]: /azure/cosmos-db/change-feed
+[docs-cosmos-db-online-backup-and-restore]: /azure/cosmos-db/online-backup-and-restore
 [docs-cosmos-db-regional-failover]: /azure/cosmos-db/regional-failover
 [docs-cosmos-db-guarantees]: /azure/cosmos-db/distribute-data-globally#AvailabilityGuarantees
 [docs-cosmos-db-use-cases]: /azure/cosmos-db/use-cases

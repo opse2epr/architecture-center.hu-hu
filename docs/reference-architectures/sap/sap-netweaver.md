@@ -3,12 +3,12 @@ title: SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe hely
 description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendszerű Azure-ban magas rendelkezésre állású.
 author: lbrader
 ms.date: 05/11/2018
-ms.openlocfilehash: 90334e4872bdd15d59aa16286a031d07f3d1bb2f
-ms.sourcegitcommit: 86d86d71e392550fd65c4f76320d7ecf0b72e1f6
+ms.openlocfilehash: f4a33e7a3f30bdd6d8bdd41599a5e3b47501b874
+ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/06/2018
-ms.locfileid: "37864538"
+ms.lasthandoff: 08/10/2018
+ms.locfileid: "43016148"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
@@ -35,7 +35,7 @@ Az architektúra a következő infrastruktúra és a kulcs szoftver összetevők
 - **Jumpbox**. Más néven bástyagazdagép. Ez a biztonságos virtuális gép a hálózat, amely a rendszergazdák használhatják a más virtuális gépekhez való csatlakozáshoz.
 - **A Windows Server Active Directory-tartományvezérlők**. A tartományvezérlők minden olyan virtuális gépek és a tartomány felhasználói szolgálnak.
 
-**Terheléselosztók**. Mindkét SAP beépített terheléselosztók és [Azure Load Balancer](/azure/load-balancer/load-balancer-overview) segítségével magas rendelkezésre ÁLLÁS elérése érdekében. Az Azure Load Balancer-példányok segítségével osztja el a forgalmat az alkalmazás szinten alhálózatot a virtuális gépek.
+**Terheléselosztók**. [Az Azure Load Balancer](/azure/load-balancer/load-balancer-overview) példányok az alkalmazás szinten alhálózaton lévő virtuális gépek forgalom elosztására használhatók. Az adatszinten magas rendelkezésre állású elérhető beépített SAP terheléselosztók, az Azure Load Balancer vagy más mechanizmusok, attól függően, az adatbázis-kezelő használatával. További információkért lásd: [SAP NetWeaver az Azure Virtual Machines DBMS üzembe](/azure/virtual-machines/workloads/sap/dbms-guide). 
 
 **Rendelkezésre állási csoportok**. Az SAP Web Dispatcher, SAP-alkalmazáskiszolgáló és (A) SCS virtuális gépek, a szerepkörök külön vannak csoportosítva [rendelkezésre állási csoportok](/azure/virtual-machines/windows/tutorial-availability-sets), és a felhasznált szerepkörönként legalább két virtuális gépet. Ez lehetővé teszi a virtuális gépek magasabb szintű támogatásra jogosult [szolgáltatói szerződést](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA).
 

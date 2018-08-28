@@ -1,15 +1,15 @@
 ---
-title: Az Azure cégirányítási kialakítási útmutató
+title: Útmutató az Azure-szabályozás megtervezéséhez
 description: Útmutató ahhoz, hogy egy felhasználó egy egyszerű számítási feladat üzembe helyezéséhez Azure cégirányítási vezérlők konfigurálása
 author: petertay
-ms.openlocfilehash: 78545400fc0b09262dce3d0e577442443468b2ed
-ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
+ms.openlocfilehash: 88cd24a46a6bdaca4e0dd18706af1f7e3fe3bce2
+ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/24/2018
-ms.locfileid: "39229695"
+ms.lasthandoff: 08/10/2018
+ms.locfileid: "43016126"
 ---
-# <a name="azure-governance-design-guide"></a>Az Azure cégirányítási kialakítási útmutató
+# <a name="azure-governance-design-guide"></a>Útmutató az Azure-szabályozás megtervezéséhez
 
 A jelen tervezési útmutató célközönségét a *központi informatikai* személy a szervezetben. *Központi informatikai* , amelyek segítenek a szervezet cégirányítási architektúra felelős. Amint már tudja, az a [Mi a felhőbeli erőforrás-szabályozás?](governance-explainer.md) ismertető, cégirányítási hivatkozik folyamatban kezelését, megfigyelését és naplózás használata Azure-erőforrások megfelelnek a kitűzött célokat, és a szervezet követelményeinek.
 
@@ -24,7 +24,7 @@ Az alapszintű bevezetési szakasz a célunk, üzembe helyezéséhez egy egyszer
 Mielőtt megkezdjük a cégirányítási modell tervezéséhez, fontos tudni, hogyan licencelve van-e az Azure. Ennek oka az, a rendszergazdai fiókok az Azure-licenchez tartozó rendelkezik a legmagasabb szintű összes az Azure-erőforrásokhoz való hozzáférés. Ezek a rendszergazdai fiókok vevőrendelési a cégirányítási modell.  
 
 > [!NOTE]
-> Ha a szervezet rendelkezik egy meglévő [Microsoft nagyvállalati szerződés](https://www.microsoft.com/licensing/licensing-programs/enterprise.aspx) , amely nem tartalmazza az Azure, Azure azáltal, hogy a vonatkozó előzetes pénzügyi kötelezettségvállalást is hozzáadhatók. Lásd: [nagyvállalati licencek használata az Azure](https://azure.microsoft.com/pricing/enterprise-agreement/) további információt. 
+> Ha a szervezet rendelkezik egy meglévő [Microsoft nagyvállalati szerződés](https://www.microsoft.com/en-us/licensing/licensing-programs/enterprise.aspx) , amely nem tartalmazza az Azure, Azure azáltal, hogy a vonatkozó előzetes pénzügyi kötelezettségvállalást is hozzáadhatók. Lásd: [nagyvállalati licencek használata az Azure](https://azure.microsoft.com/pricing/enterprise-agreement/) további információt. 
 
 Az Azure ad hozzá a szervezet nagyvállalati szerződéssel, a szervezet lett arra kéri, hogy hozzon létre egy **Azure-fiók**. A fiók létrehozása során egy **Azure-fiók tulajdonosa** lett létrehozva, valamint egy Azure Active Directory (Azure AD) bérlő az olyan **globális rendszergazdai** fiók. Az Azure AD-bérlő egy logikai szerkezet, amely egy Azure AD biztonságos, dedikált példányát jelöli.
 
