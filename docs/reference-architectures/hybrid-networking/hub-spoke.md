@@ -5,12 +5,12 @@ author: telmosampaio
 ms.date: 04/09/2018
 pnp.series.title: Implement a hub-spoke network topology in Azure
 pnp.series.prev: expressroute
-ms.openlocfilehash: 9105748f434e5d655b09b1fe0775417f33a912b0
-ms.sourcegitcommit: f7fa67e3bdbc57d368edb67bac0e1fdec63695d2
+ms.openlocfilehash: abe9d6a58f3deeab388c20471c5559d63ef2f245
+ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/05/2018
-ms.locfileid: "37843592"
+ms.lasthandoff: 08/10/2018
+ms.locfileid: "43016150"
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -18,7 +18,7 @@ Ez a referenciaarchitektúra bemutatja, hogyan lehetséges a küllős hálózati
 
 ![[0]][0]
 
-*Töltse le az ][visio-download]architektúra [Visio-fájlját*
+*Töltse le az architektúra [Visio-fájlját][visio-download]*
 
 
 A topológia előnyei a következők:
@@ -112,7 +112,7 @@ Ezenkívül vegye figyelembe, mely szolgáltatások vannak megosztva az agyban. 
 
 Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo]. Használ a virtuális gépeket az egyes virtuális hálózatok kapcsolatának tesztelése. Az **agyi virtuális hálózat** **megosztott szolgáltatási** alhálózatában nincsenek tárolva tényleges szolgáltatások.
 
-Az üzembe helyezés az előfizetésben hoz létre a következő erőforrás-csoportok:
+Az üzembe helyezés a következő erőforráscsoportokat hozza létre az előfizetésben:
 
 - eseményközpont-nva-rg
 - eseményközpont-vnet-rg
@@ -121,7 +121,7 @@ Az üzembe helyezés az előfizetésben hoz létre a következő erőforrás-cso
 - spoke1-vnet-rg
 - spoke2-művele-rg
 
-A sablon alkalmazásparaméter-fájlok tekintse meg ezeket a neveket, így módosítja őket, ha a paraméter fájlok frissítése az egyeztetéshez.
+A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
@@ -183,16 +183,16 @@ Az agyi virtuális hálózat, a szimulált helyszíni környezetből conectivity
 
 **Windows központi telepítési**
 
-1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
-2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
+2. Kattintson a `Connect` parancsra egy, a virtuális gépre irányuló távoli asztali munkamenet megnyitásához. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
 3. Nyisson meg egy PowerShell-konzolt a virtuális gépen, és a `Test-NetConnection` parancsmaggal győződjön meg arról, hogy képes-e csatlakozni a jumpbox virtuális Géphez az agyi virtuális hálózat.
 
    ```powershell
    Test-NetConnection 10.0.0.68 -CommonTCPPort RDP
    ```
-A kimenet az alábbihoz hasonlóan kell kinéznie:
+A kimenetnek a következőképpen kell kinéznie:
 
 ```powershell
 ComputerName     : 10.0.0.68
@@ -208,11 +208,11 @@ TcpTestSucceeded : True
 
 **Linux-telepítés**
 
-1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
 2. Kattintson a `Connect` , és másolja a `ssh` parancs jelenik meg a portálon. 
 
-3. A Linux. Ehhez futtassa `ssh` csatlakozhat a szimulált helyszíni környezetet. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
+3. A Linux. Ehhez futtassa `ssh` csatlakozhat a szimulált helyszíni környezetet. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
 4. Használja a `ping` parancsot az agyi virtuális hálózat a jumpbox virtuális Géphez való kapcsolódás tesztelése:
 
@@ -259,9 +259,9 @@ Teszt conectivity a szimulált helyszíni környezetből a küllő virtuális h�
 
 **Windows központi telepítési**
 
-1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
-2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
+2. Kattintson a `Connect` parancsra egy, a virtuális gépre irányuló távoli asztali munkamenet megnyitásához. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
 3. Nyisson meg egy PowerShell-konzolt a virtuális gépen, és a `Test-NetConnection` parancsmaggal győződjön meg arról, hogy képes-e csatlakozni a jumpbox virtuális gépeket a küllő virtuális hálózatok a.
 
@@ -274,11 +274,11 @@ Teszt conectivity a szimulált helyszíni környezetből a küllő virtuális h�
 
 A küllő virtuális hálózatokhoz, Linux rendszerű virtuális gépek használata a szimulált helyszíni környezetből conectivity teszteléséhez hajtsa végre az alábbi lépéseket:
 
-1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
 2. Kattintson a `Connect` , és másolja a `ssh` parancs jelenik meg a portálon. 
 
-3. A Linux. Ehhez futtassa `ssh` csatlakozhat a szimulált helyszíni környezetet. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
+3. A Linux. Ehhez futtassa `ssh` csatlakozhat a szimulált helyszíni környezetet. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
 5. Használja a `ping` parancsot minden egyes küllőben a jumpbox virtuális gépek kapcsolatának teszteléséhez:
 
@@ -289,7 +289,7 @@ A küllő virtuális hálózatokhoz, Linux rendszerű virtuális gépek használ
 
 ### <a name="add-connectivity-between-spokes"></a>Kapcsolat hozzáadása küllők között
 
-Ez a lépés nem kötelező. Ha azt szeretné, hogy a küllők kapcsolódjanak egymáshoz, használja az agyi virtuális hálózat útválasztó newtwork virtuális berendezés (NVA), és az kényszerít ki forgalmat a küllők az útválasztó egy másik küllőhöz kapcsolódási kísérlet során. Egy alapszintű példa nva-t, mint egyetlen virtuális gép üzembe helyezéséhez a felhasználó által megadott útvonalak (udr-EK), hogy a kettő együtt küllő a virtuális hálózatokhoz való csatlakozás, hajtsa végre az alábbi lépéseket:
+Ez a lépés nem kötelező. Ha azt szeretné, hogy a küllők kapcsolódjanak egymáshoz, használja az agyi virtuális hálózat útválasztó egy hálózati virtuális készüléket (NVA), és az kényszerít ki forgalmat a küllők az útválasztó egy másik küllőhöz kapcsolódási kísérlet során. Egy alapszintű példa nva-t, mint egyetlen virtuális gép üzembe helyezéséhez a felhasználó által megadott útvonalak (udr-EK), hogy a kettő együtt küllő a virtuális hálózatokhoz való csatlakozás, hajtsa végre az alábbi lépéseket:
 
 1. Nyissa meg az `hub-nva.json` fájlt. Cserélje le a tartozó értékeket `adminUsername` és `adminPassword`.
 
