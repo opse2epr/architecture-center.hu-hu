@@ -2,12 +2,13 @@
 title: Particionáljon a korlátok kiküszöböléséhez
 description: Particionálás használata az adatbázis-, hálózati és számítási korlátok megkerüléséhez
 author: MikeWasson
-ms.openlocfilehash: 86306c6c33ea7a93c4c1f868d820cc522095a8b7
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: 2f6bf797c2c7e5af7c487635c19eaf77eee77dec
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206903"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326296"
 ---
 # <a name="partition-around-limits"></a>Particionáljon a korlátok kiküszöböléséhez
 
@@ -33,7 +34,7 @@ Egy adatbázis particionálható *horizontálisan*, *vertikálisan* vagy *funkci
 
 Részletesebb útmutatásért tekintse meg az [adatparticionálással][data-partitioning-guidance] foglalkozó témakört.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **Particionálja az alkalmazás különböző részeit**. Az adatbázisok kézenfekvő jelöltek a particionálásra, érdemes lehet azonban megfontolni a tárterület, a gyorsítótár, az üzenetsorok és a számítási példányok particionálását is.
 

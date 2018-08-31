@@ -1,73 +1,74 @@
 ---
-title: Nagy számítási architektúra stílus
-description: Előnyeit, kihívást és ajánlott eljárások az architektúrák nagy számítási ismerteti az Azure-on
+title: A Big Compute architektúrastílus
+description: Ismerteti a Big Compute-architektúrák előnyeit, kihívásait és ajánlott eljárásait az Azure-ban.
 author: MikeWasson
-ms.openlocfilehash: b16be4133143d7d73062eeb280b44779c390f387
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.date: 08/30/2018
+ms.openlocfilehash: aca2221faf1fbf47de2fd81c8909dfe8aef46bea
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24539785"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326173"
 ---
-# <a name="big-compute-architecture-style"></a>Nagy számítási architektúra stílus
+# <a name="big-compute-architecture-style"></a>A Big Compute architektúrastílus
 
-A kifejezés *nagy számítási* nagyméretű mag, gyakran száma akár a több száz vagy ezer a nagy számú igénylő munkaterhelések ismerteti. Forgatókönyvek például a kép megjelenítési, folyadékból dynamics, pénzügyi kockázat modellezési, olaj feltárása, gyógyszerfejlesztés és mérnöki magas terhelés elemző, többek között.
+A *Big Compute* kifejezés olyan nagyméretű számítási feladatokat jelent, amelyekhez nagy mennyiségű, akár a több száz vagy több ezer mag szükséges. Ilyen forgatókönyv például a képrenderelés, a folyadékdinamika, a pénzügyi kockázatok modellezése, az olajfeltárás, a gyógyszerfejlesztés vagy a műszaki feszültségelemzés.
 
 ![](./images/big-compute-logical.png)
 
-Az alábbiakban néhány tipikus nagy számítási alkalmazások jellemzői:
+A Big Compute-alkalmazások néhány jellemzője:
 
-- A munkahelyi felosztható diszkrét feladatokat, melyekhez egyidejűleg több mag között futtatható.
-- Minden feladat azonban véges. Az egyes bemenetből fogad adatokat, nem az egyes feldolgozási, és kimenetet. A teljes alkalmazás futtatása véges időtartama (perc nap). A megszokott mintát követi, hogy osszon ki a továbbítás magok nagy mennyiségű, és le egyszer nulla léptetéses az alkalmazás végrehajtja. 
-- Az alkalmazás nem kell mentése 24/7 maradnak. A rendszer azonban csomópontok hibáit vagy az alkalmazás összeomlik kell kezelni.
-- Az egyes alkalmazásokra a feladatok független, és a párhuzamosan futtatható. Más esetekben feladatok szorosan összekapcsolt, tehát kell módosításának vagy köztes eredmények exchange. Ebben az esetben érdemes lehet a nagy sebességű hálózatkezelési technológiákat, például az InfiniBand és a távoli közvetlen memória-hozzáférés (RDMA). 
-- Attól függően, hogy a munkaterhelés használhatja a számítási igényű Virtuálisgép-méretek (H16r H16mr és a9-es).
+- A munka felosztható önálló feladatokra, amelyek egyidejűleg futtathatók több magon.
+- Mindegyik feladat véges. Bemeneti adatokat igényel, feldolgozást végez és létrehoz egy kimenetet. A teljes alkalmazás véges ideig fut (ez néhány perctől napokig terjedhet). Gyakori minta nagy mennyiségű mag kiépítése egyszerre, majd az alkalmazás befejeződésével a magok számának nullára csökkentése. 
+- Az alkalmazásnak nem kell folyamatosan futnia. Azonban a rendszernek tudnia kell kezelni a csomóponthibákat és az alkalmazás-összeomlásokat.
+- Egyes alkalmazások esetében a feladatok egymástól függetlenek, és párhuzamosan futtathatók. Más esetekben a feladatok szorosan kapcsolódnak egymáshoz, azaz kommunikálniuk kell és meg kell osztaniuk egymással a köztes eredményeket. Ebben az esetben érdemes olyan nagy sebességű hálózatkezelési technológiákat használni, mint az InfiniBand, és a távoli közvetlen memória-hozzáférés (RDMA). 
+- A számítási feladattól függően nagy számítási igényekre szabott virtuálisgép-méretek is használhatók (H16r, H16mr és A9).
 
-## <a name="when-to-use-this-architecture"></a>Mikor érdemes használni, ez az architektúra
+## <a name="when-to-use-this-architecture"></a>Mikor érdemes ezt az architektúrát használni?
 
-- Számítástechnikai számításigényes műveletek, például szimuláció és szám crunching.
-- Számítástechnikai intenzív és több számítógépet (10-1000 egység) a processzorok között kell osztani szimulációja.
-- Túl sok memóriát igényelnek egy számítógép, amely több számítógép között meg kell osztani szimulációja.
-- Hosszan futó számítások, az adott túl sokáig tartott egyetlen számítógépen.
-- Kisebb számítások, amelyek 100-as egység vagy idő szerint, például a Monte Carlo szimulációja 1000 egység kell futtatni.
+- Nagy számítási igényű műveletek esetében, mint a szimuláció és a számokkal való munka.
+- Nagy számítási igényű szimulációk esetében, amelyeket fel kell osztani több számítógép és több CPU között (tíztől több ezres nagyságrendig).
+- Olyan szimulációk esetében, amelyeknek túl nagy a memóriaigénye egyetlen számítógép számára, ezért fel kell őket osztani több számítógép között.
+- Hosszan futó számítások esetében, amelyeket egyetlen számítógépen túl sokáig tartana elvégezni.
+- Kisebb számítások esetében, amelyeket több száz vagy több ezer alkalommal el kell végezni, ilyenek például a Monte Carlo-szimulációk.
 
 ## <a name="benefits"></a>Előnyök
 
-- Nagy teljesítményt és az "[embarrassingly párhuzamos][embarrassingly-parallel]" feldolgozása.
-- Is hasznosítására több száz vagy ezer számítógép magok gyorsabban nagy problémák megoldására.
-- Speciális nagy teljesítményű hardverre, dedikált nagy sebességű InfiniBand hálózatokkal való hozzáférést.
-- Virtuális gépek építhető megfelelően működik, és szakadjon, majd el őket. 
+- Nagy teljesítmény és „[zavaróan párhuzamos][embarrassingly-parallel]” feldolgozás.
+- Egyszerre több száz vagy több ezer számítógépmag hasznosítása a nagyobb problémák gyorsabb megoldásához.
+- Hozzáférés speciális nagy teljesítményű hardverekhez dedikált nagy sebességű InfiniBand-hálózatokkal.
+- A virtuális gépek igény szerint helyezhetők üzembe és építhetők le. 
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-- A virtuális gép infrastruktúra kezelése.
-- A szám crunching mennyisége kezelése. 
-- Magok ezer kiépítése időben.
-- Szorosan összekapcsolt feladatokhoz több maggal is jár diminishing értéket ad vissza. Szükség lehet az optimális magok száma található kipróbálásához.
+- A virtuálisgép-infrastruktúra kezelése.
+- A számokkal való munka mennyiségének kezelése. 
+- Többezer mag időben történő kiépítése.
+- Szorosan összekapcsolt feladatok esetén több mag hozzáadása ronthatja a teljesítményt. A magok megfelelő számának megtalálása lehet, hogy kísérletezést igényel.
 
-## <a name="big-compute-using-azure-batch"></a>Nagy számítási az Azure Batch használatával
+## <a name="big-compute-using-azure-batch"></a>Big Compute az Azure Batch használatával
 
-[Az Azure Batch] [ batch] egy felügyelt szolgáltatás nagy méretű nagy teljesítményű számítástechnikai rendszerek (HPC)-alkalmazások futtatására.
+Az [Azure Batch][batch] egy felügyelt szolgáltatás, amellyel nagyméretű és nagy teljesítményű feldolgozási (HPC) alkalmazásokat futtathat.
 
-Azure Batch használatával, konfigurálja a VM-készletben, és az alkalmazások és adatok fájlok feltöltése. Majd a Batch szolgáltatás kiosztja a virtuális gépek, feladatokat rendelhet a virtuális gépek, futtatja a feladatok és kíséri. Kötegelt automatikusan lehet terjeszteni a virtuális gépeket, a munkaterhelés adott válaszként. Kötegelt is biztosít a feladatütemezés.
+Az Azure Batch használatakor konfigurálnia kell egy VM-készletet, és fel kell töltenie az alkalmazásokat és adatfájlokat. Ezután a Batch szolgáltatás kiosztja a virtuális gépeket, feladatokat rendel azokhoz, futtatja a feladatokat, és monitorozza az állapotot. A Batch a számítási feladat igényeinek megfelelően automatikusan méretezi a virtuális gépeket. A Batch emellett a feladatütemezésről is gondoskodik.
 
 ![](./images/big-compute-batch.png) 
 
-## <a name="big-compute-running-on-virtual-machines"></a>Nagy virtuális gépeken futó számítási
+## <a name="big-compute-running-on-virtual-machines"></a>Big Compute a virtuális gépeken
 
-Használhat [Microsoft HPC Pack] [ hpc-pack] virtuális gépek, a fürt felügyeletéhez és ütemezéséhez és figyelése a HPC feladatokat. Ezt a módszert kell kiépíteni, és a virtuális gépek és a hálózati infrastruktúra kezeléséhez. Fontolja meg ezt a módszert használja, ha a meglévő HPC munkaterhelésekkel rendelkeznek, és szeretne áttérni a tanúsítványszolgáltatás néhány vagy az összes informatikai az Azure-bA. A teljes HPC-fürt áthelyezése az Azure-ba, vagy tartsa a HPC fürt a helyszínen, de Azure kapacitásnövelés kapacitás használja. További információkért lásd: [számítási munkaterhelés nagy méretű kötegelt és HPC megoldások][batch-hpc-solutions].
+A [Microsoft HPC Packkel][hpc-pack] felügyelhet egy virtuális gépekből álló fürtöt, valamint ütemezheti és monitorozhatja a HPC-feladatokat. Ennél a módszernél az Ön feladata a virtuális gépek és a hálózati infrastruktúra kiépítése és felügyelete. A módszert akkor érdemes használni, ha a meglévő HPC számítási feladatait vagy azok egy részét át szeretné helyezni az Azure-ba. Áthelyezheti a teljes HPC-fürtöt az Azure-ba, vagy megtarthatja a fürtöt a helyszínen és az Azure-t használhatja a kapacitáscsúcsok esetén. További információkért lásd: [Batch- és HPC-megoldások nagyméretű számítási feladatokhoz][batch-hpc-solutions].
 
-### <a name="hpc-pack-deployed-to-azure"></a>Az Azure rendszerbe telepítendő HPC Pack
+### <a name="hpc-pack-deployed-to-azure"></a>Az Azure-ban telepített HPC Pack
 
-Ebben a forgatókönyvben a HPC-fürt egészében Azure jön létre.
+Ebben a forgatókönyvben a HPC-fürtöt teljes egészében az Azure-ban hozzuk létre.
 
 ![](./images/big-compute-iaas.png) 
  
-Az átjárócsomópont kezelést és a feladatütemezés a fürt szolgáltatásokat biztosítja. Szorosan összekapcsolt feladatokhoz használja az RDMA hálózati nagyon nagy sávszélesség, virtuális gépek kis késleltetésű kommunikációját biztosító. További információ: [HPC Pack 2016-fürt üzembe helyezése az Azure-ban][deploy-hpc-azure].
+Az átjárócsomópont felügyeleti és feladatütemezési szolgáltatásokat nyújt a fürthöz. Szorosan összekapcsolt feladatokhoz használjon egy RDMA-hálózatot, amely rendkívül nagy sávszélességű, kis késleltetésű kommunikációt biztosít a virtuális gépek között. További információkat a [HPC Pack 2016-fürt az Azure-ban való üzembe helyezését][deploy-hpc-azure] ismertető cikkben olvashat.
 
 ### <a name="burst-an-hpc-cluster-to-azure"></a>HPC-fürt löketszerű átvitele az Azure-ba
 
-Ebben a forgatókönyvben a szervezet helyszíni HPC Pack fut, és használja az Azure virtuális gépek kapacitásnövelés kapacitást. A fürt átjárócsomópontjába helyszíni. Expressroute-on vagy VPN-átjárót a helyszíni hálózat csatlakozik az Azure virtuális hálózatot.
+Ebben a forgatókönyvben a vállalat a helyszínen futtatja a HPC Packet, az Azure-beli virtuális gépeket pedig a kapacitáscsúcsok esetén használja. A fürt helyszíni átjárócsomóponttal rendelkezik. A helyszíni hálózat ExpressRoute vagy VPN Gateway használatával csatlakozik az Azure VNethez.
 
 ![](./images/big-compute-hybrid.png) 
 

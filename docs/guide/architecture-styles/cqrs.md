@@ -1,75 +1,76 @@
 ---
-title: CQRS architektúra stílus
-description: Előnyeit, kihívást és ajánlott eljárások a CQRS architektúrák ismerteti
+title: CQRS architektúrastílus
+description: A CQRS-architektúrák előnyeit, illetve az azzal kapcsolatos problémákat és az ajánlott eljárásokat ismerteti
 author: MikeWasson
-ms.openlocfilehash: dd3da5886587159f57646ff1bfffa2094725f798
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.date: 08/30/2018
+ms.openlocfilehash: ba7af25f940a01e184279c4665f8fce8ebb71b23
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24539865"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43325924"
 ---
-# <a name="cqrs-architecture-style"></a>CQRS architektúra stílus
+# <a name="cqrs-architecture-style"></a>CQRS architektúrastílus
 
-A parancs és a lekérdezés felelősségi elkülönítése (CQRS) olyan architektúra stílus, amely elválasztja az olvasási műveletek az írási műveletek. 
+A Command and Query Responsibility Segregation (CQRS, azaz a parancskiadási és a lekérdezési felelősségek elkülönítése) egy olyan architektúrastílus, amely elkülöníti az olvasási műveleteket az írási műveletektől. 
 
 ![](./images/cqrs-logical.svg)
 
-A hagyományos-architektúrák esetén az azonos adatmodell használt lekérdezése, és frissítse az adatbázist. Amely egyszerű és alapvető CRUD műveletek esetén működik. Összetett alkalmazások azonban ez a megközelítés válhat kezelése nehézkessé. Olvasási oldalán, például az alkalmazás végezhet számos különböző lekérdezéseket, különböző alakzatok objektumok (DTOs) adatátvitel vissza. Objektum leképezésének bonyolult válhat. A írási oldalon a modell nehéznek összetett érvényesítési és üzleti logikát. Ennek eredményeképpen fejezheti egy túl összetett modellt, amely túl sok.
+A hagyományos architektúrák esetében ugyanaz az adatmodell használatos az adatbázisok lekérdezésére és frissítésére. Ez egyszerű és jól működik, ha alapszintű CRUD-műveletekről van szó. Összetettebb alkalmazások esetében azonban ez a megközelítés nehézkessé válhat. Például az olvasási oldalon az alkalmazás számos különböző lekérdezést végezhet, amelyek különböző típusú adatátviteli objektumokat (DTO-kat) adnak vissza. Az objektumok leképezése igen bonyolulttá válthat. A írási oldalon a modell összetett érvényesítési és üzleti logikát valósíthat meg. Ennek eredményeképpen egy túlzottan összetett, túl sok feladatot végző modell jöhet létre.
 
-Egy másik lehetséges probléma olvasási és írási munkaterhelések gyakran aszimmetrikus, nagyon különböző teljesítmény és méretezhetőség követelményeknek. 
+Egy másik lehetséges probléma, hogy az olvasási és írási számítási feladatok gyakran aszimmetrikusak, amelyek teljesítménybeli és méretezhetőségi igényei nagyban eltérhetnek egymástól. 
 
-CQRS olvasási elválasztva megoldja ezeket a problémákat, és írja be különálló modellek segítségével **parancsok** frissíteni az adatokat, és **lekérdezések** adatokat olvasni.
+A CQRS ezeket a problémákat úgy oldja meg, hogy az olvasást és az írást önálló modellekbe különíti: az adatok frissítéséhez **parancsokat**, az olvasásukhoz pedig **lekérdezéseket** használ.
 
-- Parancsok kell lennie a feladatot ahelyett, hogy központú adatok alapján. ("Könyv Szálloda helyiségben" nem "beállítás ReservationStatus fenntartott.") Az aszinkron feldolgozás ahelyett, hogy szinkron feldolgozás alatt várólistájának parancsok lehet helyezni.
+- A parancsoknak feladatalapúnak kell lenniük ahelyett, hogy adatközpontúak lennének. (Például „Book hotel room” a „set ReservationStatus to Reserved” helyett.) A parancsok a szinkron feldolgozás helyett egy aszinkron feldolgozási sorba kerülnek.
 
-- Lekérdezések soha ne módosítsa az adatbázis. A lekérdezés egy DTO, amelyek nem foglalják magukban az bármilyen tartomány Tudásbázis adja vissza.
+- A lekérdezések soha nem módosítják az adatbázist. A lekérdezés egy olyan DTO-t ad vissza, amely nem tartalmaz a környezettel kapcsolatos ismerteket.
 
-A nagyobb elkülönítési fizikailag elkülönítheti a adatolvasási a az adatok írása. Ebben az esetben olvasható adatbázis használhatja a saját adatok séma optimalizált lekérdezések. Tárolhatja például a [materializált nézet] [ materialized-view] az adatok bonyolult illesztésekre vagy összetett O/RM-hozzárendelések elkerülése érdekében. Adattár más típusú még akkor is használhatja. Például az írási adatbázis esetleg relációs, míg olvasható adatbázis egy dokumentum-adatbázis.
+A nagyobb mértékű elkülönítés érdekében fizikailag is elkülönítheti az olvasási és az írási adatokat. Ebben az esetben az olvasási adatbázis használhatja a saját, lekérdezésekhez optimalizált adatsémáját. Például tárolhatja az adatok [materializált nézetét][materialized-view], a bonyolult illesztések vagy O/RM-leképezések elkerülése érdekében. Sőt, akár eltérő típusú adattárat is használhat. Például az írási adatbázis lehet relációs, míg az olvasási adatbázis lehet egy dokumentum-adatbázis.
 
-Ha külön olvasási és írási adatbázisokat használnak, azok kell tartani szinkronban. Általában ez érhető el, mivel az egy eseményt, amikor frissíti az adatbázis közzététele írási modell. Az adatbázis frissítése és az esemény közzétételéhez egy tranzakción belül kell megtörténnie. 
+Különálló olvasási és írási adatbázisok használata esetén az adatbázisokat szinkronban kell tartani. Ez általában úgy érhető el, hogy az írási modell az adatbázis frissítésekor közzé tesz egy eseményt. Az adatbázis frissítésének és az esemény közzétételének egy tranzakción belül kell megtörténnie. 
 
-Egyes megvalósítások CQRS használati a [esemény forrás mintát][event-sourcing]. Ebben a mintában az alkalmazásállapot események sorozatát tárolja. Minden esemény módosítások készletét reprezentálja, az adatokhoz. A jelenlegi állapota alapján az események visszajátszását összeállított. CQRS környezetben, egy esemény forrásanyag előnye, hogy használható-e az azonos események értesíteni a többi összetevő &mdash; ebben az esetben, értesítse a olvasási modell. Az olvasási modellje a események készít pillanatképet az aktuális állapotát, amely a lekérdezések hatékonyabb. Azonban esemény forrás hozzáadása összetettsége a tervező.
+Egyes CQRS-megvalósítások az [Event Sourcing mintát][event-sourcing] használják. Ebben a mintában az alkalmazásállapot események sorozataként tárolódik. Az egyes események az adatok módosításainak egy halmazát jelölik. A jelenlegi állapot az események visszajátszása alapján áll össze. Egy CQRS-környezetben az Event Sourcing egyik előnye, hogy ugyanazok az események használhatók a többi összetevő, jelen esetben az olvasási modell értesítéséhez. Az olvasási modell az események használatával pillanatképet készít az aktuális állapotról, ami a lekérdezések esetében hatékonyabb megoldásnak bizonyul. Az Event Sourcing azonban bonyolultabbá teszi a kialakítást.
 
 ![](./images/cqrs-events.svg)
 
-## <a name="when-to-use-this-architecture"></a>Mikor érdemes használni, ez az architektúra
+## <a name="when-to-use-this-architecture"></a>Mikor érdemes ezt az architektúrát használni?
 
-Vegye figyelembe a CQRS sok érhetik el a ugyanazokat az adatokat, különösen akkor, ha az olvasási és írási munkaterhelések aszimmetrikus együttműködési tartományokhoz.
+A CQRST olyan együttműködési tartományok esetében érdemes használni, ahol több felhasználó dolgozik ugyanazokkal az adatokkal, különösen, ha az olvasási és írási számítási feladatok aszimmetrikusak.
 
-CQRS nincs egy legfelső szintű architektúra, amely egy teljes rendszerre vonatkozik. Csak a alrendszerrel CQRS érvényes Ha olvasási és írási elválasztó egyértelmű értéke van. Ellenkező esetben létrehozásakor nagyobb fokú összetettségével jár nem juttatásra.
+A CQRS nem legfelső szintű architektúra, amely a teljes rendszerre vonatkozik. A CQRST-t csak azokra az alrendszerekre alkalmazza, ahol az olvasás és az írás különválasztása egyértelműen megéri. Különben csak nagyobb fokú összetettséget hoz létre, különösebb előny nélkül.
 
 ## <a name="benefits"></a>Előnyök
 
-- **Egymástól függetlenül skálázás**. CQRS lehetővé teszi, hogy az Olvasás és munkaterhelések méretezését írás, és kevesebb zárolási contentions eredményezheti.
-- **Optimalizált adatok sémák.**  Az olvasási oldalán optimalizált séma használható lekérdezéseket, miközben a írási oldalon frissítések optimalizált séma használja.  
-- **Biztonság**. Célszerűbb győződjön meg arról, hogy csak a megfelelő tartományhoz entitások hajt végre írási műveleteket az adatokon.
-- **Aggályokat elkülönítése**. Az olvasási és írási oldalak elkülönítése modellek, amelyek több fenntarthatóvá és rugalmas eredményezhet. A legtöbb bonyolult üzleti logikát a írási modell állapotba kerül. Lehet, hogy az olvasási modell viszonylag egyszerű.
-- **Egyszerűbb lekérdezések**. A materializált nézet tárolása olvasható adatbázis, az alkalmazás elkerülheti a bonyolult illesztésekre lekérdezésekor.
+- **Függetlenül méretezhető**. A CQRS lehetővé teszi az olvasási és írási számítási feladatok egymástól független méretezését, ezáltal kevesebb zárolási versenyt eredményezhet.
+- **Optimalizált adatsémák.**  Az olvasási oldal lekérdezésekre optimalizált sémát, az írási oldal pedig frissítésekhez optimalizált sémát használhat.  
+- **Biztonság**. Egyszerűbb meggyőződni arról, hogy csak a megfelelő tartományi entitások végeznek írást az adatokon.
+- **Kockázatok elkülönítése**. Az olvasási és írási oldalak elkülönítésével könnyebben fenntartható és rugalmas modellek hozhatók létre. A bonyolult üzleti logika legnagyobb része az írási modellbe kerül. Az olvasási modell lehet viszonylag egyszerű.
+- **Egyszerűbb lekérdezések**. A materializált nézet olvasási adatbázisban való tárolásával elkerülhető, hogy az alkalmazásnak bonyolult illesztésekre legyen szüksége a lekérdezések során.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-- **Összetettsége**. CQRS alapvető lényege egyszerű. De azt is vezethet összetettebb alkalmazás tervét, különösen akkor, ha az esemény forrás mintát tartalmaznak.
+- **Összetettség**. A CQRS alapvető működése egyszerű. Viszont bonyolultabbá teheti az alkalmazások kialakítását, különösen akkor, ha az Event Sourcing mintát is tartalmazza.
 
-- **Üzenetküldési**. CQRS nem igényel üzenetküldési, bár általában üzenetküldési folyamat parancsok használata, és (update) események közzététele. Az alkalmazás ebben az esetben üzenet hibák vagy a duplikált üzenetek kell kezelni. 
+- **Üzenetkezelés**. Bár a CQRS használatához nincs szükség üzenetkezelésre, az üzenetkezelési szolgáltatást gyakorta használják a parancsok feldolgozására és a frissítési események közzétételére. Ebben az esetben az alkalmazásnak kezelnie kell az üzenethibákat és az ismétlődő üzeneteket. 
 
-- **Végleges konzisztencia**. Ha külön az olvasási és írási adatbázisok, előfordulhat, hogy az olvasható adatok elavult. 
+- **Végleges konzisztencia**. Ha elkülöníti az olvasási és írási adatbázisokat, az olvasási adatok elavulttá válhatnak. 
 
 ## <a name="best-practices"></a>Ajánlott eljárások
 
-- CQRS kapcsolatos további információkért lásd: [CQRS mintát][cqrs-pattern].
+- A CQRS használatával kapcsolatos további információkért lásd: [CQRS minta][cqrs-pattern].
 
-- Érdemes lehet a [esemény forrás] [ event-sourcing] mintát frissítés ütközések elkerülése érdekében.
+- A frissítések ütközésének elkerülése érdekében fontolja meg az [Event Sourcing][event-sourcing] minta használatát.
 
-- Érdemes lehet a [materializált nézet mintát] [ materialized-view] olvasási modell a séma lekérdezésekhez optimalizálja.
+- Az olvasási modell esetében fontolja meg a [Materialized View minta][materialized-view] használatát a séma a lekérdezésekhez való optimalizálása érdekében.
 
-## <a name="cqrs-in-microservices"></a>A mikroszolgáltatások CQRS
+## <a name="cqrs-in-microservices"></a>CQRS használata a mikroszolgáltatásokban
 
-CQRS különösen hasznos lehet egy [mikroszolgáltatások architektúra][microservices]. Mikroszolgáltatások alapelvei egyike, hogy a szolgáltatás nem tud közvetlenül elérni egy másik szolgáltatás adattár.
+A CQRS különösen hasznos lehet [mikroszolgáltatásokra épülő architektúrák esetében][microservices]. A mikroszolgáltatások egyik alapelve, hogy a szolgáltatások nem érhetik el közvetlenül egy másik szolgáltatás adattárát.
 
 ![](./images/cqrs-microservices-wrong.png)
 
-Az alábbi diagram szemlélteti A szolgáltatás írja az adattárat, és szolgáltatás B tartja az adatok materializált nézet. A szolgáltatás egy eseményt, ha az adattár ír közzéteszi. B szolgáltatás számítógépcsoportra fizetett elő az eseményt.
+Az alábbi diagramon az A szolgáltatás egy adattárba ír, a B szolgáltatás pedig megőrzi az adatok materializált nézetét. Az A szolgáltatás közzétesz egy eseményt, valahányszor az adattárba ír. A B szolgáltatás feliratkozik az eseményre.
 
 ![](./images/cqrs-microservices-right.png)
 

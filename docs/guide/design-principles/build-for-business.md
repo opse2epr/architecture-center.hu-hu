@@ -2,12 +2,13 @@
 title: Tervezzen a vállalkozás igényei szerint
 description: Minden tervezési döntés legyen igazolható egy üzleti igénnyel
 author: MikeWasson
-ms.openlocfilehash: 768f2298860d91774d93c1917cf95000bb2b873d
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: f3086b36be0ead7466c33cd083f29f2c67bed440
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206900"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43325900"
 ---
 # <a name="build-for-the-needs-of-the-business"></a>Tervezzen a vállalkozás igényei szerint
 
@@ -15,7 +16,7 @@ ms.locfileid: "36206900"
 
 Ez a tervezési alapelv nyilvánvalónak tűnhet, de kulcsfontosságú szem előtt tartani a megoldások tervezése során. Több milliónyi, vagy néhány ezer felhasználóra számít? Elfogadható egy egyórás alkalmazáskimaradás? Kiszámítható számítási feladatokra vagy nagymértékben ingadozó forgalomra számít? Végső soron minden tervezési döntésnek igazolhatónak kell lennie egy üzleti igénnyel. 
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **Határozza meg az üzleti célkitűzéseket**, beleértve a helyreállítási idő célkitűzését (RTO), a helyreállítási időkorlátot (RPO) és a maximális tolerálható kimaradást (MTO). Az architektúrával kapcsolatos döntéseket ezen információk alapján kell meghoznia. Ha például alacsony RTO-t szeretne elérni, érdemes lehet egy másodlagos régióba történő automatizált feladatátvételt megvalósítani. Ha azonban a megoldás magasabb RTO mellett is jól működik, akkor az ilyen fokú redundancia szükségtelen.
 

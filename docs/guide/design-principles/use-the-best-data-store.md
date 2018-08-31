@@ -2,12 +2,13 @@
 title: Használja a feladathoz legmegfelelőbb adattárat
 description: Válassza az adataihoz és azok felhasználásához leginkább megfelelő tárolótechnológiát
 author: MikeWasson
-ms.openlocfilehash: c3619012e8c199d154e4ac432ce03b2a9295c26f
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: 25839f5a749881f415c923db5497984d32b8ac91
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206897"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326091"
 ---
 # <a name="use-the-best-data-store-for-the-job"></a>Használja a feladathoz legmegfelelőbb adattárat
 
@@ -25,7 +26,7 @@ Például egy termékkatalógust tárolhat egy dokumentum-adatbázisban, (péld�
 
 Ne feledje, hogy adat alatt nem csak a megőrzött alkalmazásadatokat értjük. Ide tartoznak az alkalmazásnaplók, események, üzenetek és a gyorsítótárak is.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **Ne relációs adatbázissal oldjon meg mindent**. Ha szükséges, gondolkozzon más adattárakban is. Lásd: [A megfelelő adattároló kiválasztása][data-store-overview].
 

@@ -4,12 +4,12 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 6ad71a5ee39b8f1863c51dae0120dbdc7baf1f76
-ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
+ms.openlocfilehash: 8aa0b46d9f43107cfa4ae4be3160900249365702
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/24/2018
-ms.locfileid: "39229150"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326320"
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -111,10 +111,10 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 | --- | --- | --- | --- | --- | --- | --- |
 |Virtuális hálózat (VNet) |Erőforráscsoport |2–64 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-vnet` |`profx-vnet` |
 |Alhálózat |Szülő VNet |2–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`web` |
-|Hálózati adapter |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vmname>-nic<num>` |`profx-sql1-nic1` |
+|Hálózati adapter |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vmname>-nic<num>` |`profx-sql1-vm1-nic1` |
 |Hálózati biztonsági csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-<context>-nsg` |`profx-app-nsg` |
 |Hálózat biztonsági csoport szabálya |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`sql-allow` |
-|Nyilvános IP-cím |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vm or service name>-pip` |`profx-sql1-pip` |
+|Nyilvános IP-cím |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vm or service name>-pip` |`profx-sql1-vm1-pip` |
 |Load Balancer |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-lb` |`profx-lb` |
 |Terheléselosztási szabályok konfigurációja |Load Balancer |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`http` |
 |Azure Application Gateway |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-agw` |`profx-agw` |
@@ -195,4 +195,4 @@ A tárfiókok és a tárolók neve a létrehozásuk után nem módosítható. Ha
 
 <!-- links -->
 
-[scaffold]: /azure/azure-resource-manager/resource-manager-subscription-governance
+[scaffold]: /azure/azure-resource-manager/resource-manager-azure-scaffold

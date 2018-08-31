@@ -2,12 +2,13 @@
 title: Minimalizálja a koordinációt
 description: A skálázhatóság érdekében minimalizálja a koordinációt az alkalmazásszolgáltatások között.
 author: MikeWasson
-ms.openlocfilehash: f26222148db2b48743c52293011ea0a5a58ebe07
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: 0e0aa34f851ee743a0c4bebc6d9ca63d7f3ae203
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206856"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326214"
 ---
 # <a name="minimize-coordination"></a>Minimalizálja a koordinációt 
 
@@ -27,7 +28,7 @@ A „pontosan egyszer” szemantika a koordináció egy másik gyakori forrása.
 
 A feldolgozók közötti koordinációhoz olyan mintákat is használhat, mint például a [Feladatütemező ügynök felügyeleti mintája][sas-pattern], de ebben az esetben a munka particionálása jobb módszer lehet. Minden egyes feldolgozóhoz megrendelések bizonyos tartománya van hozzárendelve (például számlázási régiónként). Ha egy feldolgozó összeomlik, egy új példány ott folytatja a feladatot, ahol az előző abbahagyta, de a példányok nem versenyeznek egymással.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **Végső konzisztencia támogatása**. Az adatok elosztásakor koordinációra van szükség az erős konzisztencia megvalósulásának kikényszerítésére. Tegyük fel például, hogy egy művelet két adatbázist frissít. Ahelyett, hogy egy tranzakciós hatókörbe helyezné, jobb, ha a rendszer képes végső konzisztenciát használni, például a [Kompenzáló tranzakció][compensating-transaction] minta használatával, a hiba utáni logikai visszavonáshoz.
 

@@ -2,12 +2,13 @@
 title: Tervezés az önjavítást szem előtt tartva
 description: A rugalmas alkalmazások manuális beavatkozás nélkül is helyre tudnak állni a hibák után.
 author: MikeWasson
-ms.openlocfilehash: 508341ba428b294cf268e34e922aced9d2d67579
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: f85e3881fe7753f0551d1d31dd64b4631b441686
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206907"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43325808"
 ---
 # <a name="design-for-self-healing"></a>Tervezés az önjavítást szem előtt tartva
 
@@ -25,7 +26,7 @@ Az adott hibatípusra adott válasz az alkalmazás rendelkezésreállási követ
 
 Emellett ne csak az olyan nagy eseményeket vegye figyelembe, mint a regionális kimaradások, mert ezek általában ritkán fordulnak elő. Legalább ennyire, vagy még jobban kell összpontosítania a helyi, rövid ideig tartó hibák, például a hálózati kapcsolathibák vagy a meghibásodott adatbázis-kapcsolatok kezelésére.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **A sikertelen műveletek újrapróbálása**. Az átmeneti meghibásodások bekövetkezhetnek a hálózati kapcsolat pillanatnyi megszakadásából, az adatbázis-kapcsolat megszakadásából, vagy foglalt szolgáltatás miatti időtúllépésből kifolyólag. Építsen újrapróbálkozási logikát az alkalmazásba az átmeneti hibák kezelésére. Sok Azure-szolgáltatás esetében az ügyfél SDK automatikus újrapróbálkozásokat valósít meg. További információ: [Átmeneti hibák kezelése][transient-fault-handling] és [Újrapróbálkozási minta][retry].
 

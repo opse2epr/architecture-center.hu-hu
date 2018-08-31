@@ -2,12 +2,13 @@
 title: Tervezés a változás szolgálatában
 description: A fejlődést szem előtt tartó tervezés kulcsfontosságú a folyamatos innováció szempontjából.
 author: MikeWasson
-ms.openlocfilehash: 9873d5c4e19d738a77a222e1f9a878ac5f5d125f
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: bbd5699e257663514cf7bb8b856fe35f51799c73
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206894"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43325706"
 ---
 # <a name="design-for-evolution"></a>Tervezzen a fejlődést szem előtt tartva
 
@@ -19,9 +20,9 @@ Ez a probléma nem korlátozódik a monolitikus alkalmazásokra. Egy alkalmazás
 
 A mikroszolgáltatások a fejlődésközpontú tervezés megvalósításának egyre népszerűbb módjává válnak, mert választ nyújtanak az itt említett problémák többségére.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
-**Törekvés a nagyfokú kohézióra és a laza kapcsolódásokra**. A szolgáltatás akkor jellemezhető *kohézióval*, ha logikailag összetartozó funkciókat biztosít. A szolgáltatások akkor *kapcsolódnak lazán*, ha az egyik szolgáltatás módosítása nem jár együtt egy másik módosításával. A nagyfokú kohézió általában azt eredményezi, hogy egy funkció változtatásai a többi kapcsolódó funkció módosítását is szükségessé teszik. Ha úgy látja, hogy egy szolgáltatás frissítése a többi szolgáltatás összehangolt frissítését kívánja meg, az annak a jele lehet, hogy nincs kohézió a szolgáltatások között. A kitűzött célokat, tartomány-központú kialakítás (nnn) egyik azonosíthatja ezeket a határokat.
+**Törekvés a nagyfokú kohézióra és a laza kapcsolódásokra**. A szolgáltatás akkor jellemezhető *kohézióval*, ha logikailag összetartozó funkciókat biztosít. A szolgáltatások akkor *kapcsolódnak lazán*, ha az egyik szolgáltatás módosítása nem jár együtt egy másik módosításával. A nagyfokú kohézió általában azt eredményezi, hogy egy funkció változtatásai a többi kapcsolódó funkció módosítását is szükségessé teszik. Ha úgy látja, hogy egy szolgáltatás frissítése a többi szolgáltatás összehangolt frissítését kívánja meg, az annak a jele lehet, hogy nincs kohézió a szolgáltatások között. A célja a tartományvezérelt tervezési (DDD) egyik ezeken a határokon belül azonosításához.
 
 **Környezettel kapcsolatos ismeretek beépítése**. Amikor egy ügyfél egy szolgáltatást használ, az adott környezetre (tartományra, területre) vonatkozó üzleti szabályok érvényesítésének felelőssége nem hárulhat az ügyfélre. Ehelyett a szolgáltatásnak kell magában foglalnia a környezettel kapcsolatos mindazon ismereteket, amelyek a felelősségi körébe tartoznak. Ennek hiányában minden egyes ügyfélnek érvényesítenie kell az üzleti szabályokat, aminek az lesz az eredménye, hogy a környezettel kapcsolatos ismeretek szétoszlanak az alkalmazás különböző részei között. 
 

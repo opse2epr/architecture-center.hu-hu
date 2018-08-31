@@ -2,12 +2,13 @@
 title: A szoftverminőség alappillérei
 description: A cikk a szoftverminőség öt alappillérét ismerteti, melyek a skálázhatóság, a rendelkezésre állás, a rugalmasság, a felügyelet és a biztonság.
 author: MikeWasson
-ms.openlocfilehash: 117706046ca1a9b7f3203a99737347809d0c323f
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.date: 08/30/2018
+ms.openlocfilehash: dce87aba849c61750416f277bcc5558c400c1f25
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252787"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326156"
 ---
 # <a name="pillars-of-software-quality"></a>A szoftverminőség alappillérei 
 
@@ -94,7 +95,7 @@ Mindezen tényezők miatt a felhőalapú alkalmazásokat úgy kell megtervezni, 
 - Az Azure Managed Disks felügyelt lemezi automatikusan különböző tárolóskálázási egységekbe kerülnek a hardverhibák hatásának csökkentése érdekében.
 - Az egyes rendelkezésre állási csoportokhoz tartozó virtuális gépek több tartalék tartományon vannak elosztva. A tartalék tartományok az azonos tápforrással és hálózati kapcsolóval rendelkező virtuális gépek csoportjai. A virtuális gépek több tartalék tartományon való elosztása korlátozza a hardvermeghibásodások, hálózatkimaradások vagy a tápellátás megszakadásának hatását.
 
-Említett, továbbra is szeretné rugalmassági build az alkalmazásba. Rugalmassági stratégiák az architektúra minden szintjén alkalmazhatók. Bizonyos megoldások inkább taktikai jellegűek – például egy távoli hívás újrapróbálása egy átmeneti hálózati hiba után. Más megoldások inkább stratégiai jellegűek, például egy teljes alkalmazás feladatátvétele egy másodlagos régióba. A taktikai megoldások nagy hatással járhatnak. Jóllehet ritkán fordul elő, hogy egy teljes régió kimaradást tapasztaljon, az átmeneti problémák, például a hálózati torlódás azonban gyakoribbak, így először ezekre kell felkészülni. Fontos a megfelelő monitorozás és diagnosztika megléte is a bekövetkező hibák észlelése és a kiváltó okok felderítése érdekében.
+Ugyanakkor továbbra is szeretné rugalmasság építve az alkalmazásba. Rugalmassági stratégiák az architektúra minden szintjén alkalmazhatók. Bizonyos megoldások inkább taktikai jellegűek – például egy távoli hívás újrapróbálása egy átmeneti hálózati hiba után. Más megoldások inkább stratégiai jellegűek, például egy teljes alkalmazás feladatátvétele egy másodlagos régióba. A taktikai megoldások nagy hatással járhatnak. Jóllehet ritkán fordul elő, hogy egy teljes régió kimaradást tapasztaljon, az átmeneti problémák, például a hálózati torlódás azonban gyakoribbak, így először ezekre kell felkészülni. Fontos a megfelelő monitorozás és diagnosztika megléte is a bekövetkező hibák észlelése és a kiváltó okok felderítése érdekében.
 
 Amikor egy alkalmazást rugalmasnak tervez meg, ismernie kell a rendelkezésreállási követelményeket. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez?
 

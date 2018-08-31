@@ -3,12 +3,12 @@ title: SQL Servert használó N szintű alkalmazás
 description: Egy többrétegű architektúra megvalósítása az Azure-ban, a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel módja.
 author: MikeWasson
 ms.date: 07/19/2018
-ms.openlocfilehash: 42ba18e9ffef32c6990fbb888cc41e980fb4abea
-ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
+ms.openlocfilehash: fc761e940a25c4667146db9598d944bac2c32496
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/24/2018
-ms.locfileid: "39229133"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43326056"
 ---
 # <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
@@ -220,7 +220,7 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
     "witnessStorageAccountKey": "[replace-with-storagekey]"
     ```
 
-8. Az a `n-tier-windows.json` fájlt, a Keresés az összes példány `testPassw0rd!23`, `test$!Passw0rd111`, és `AweS0me@SQLServicePW`. Le kell cserélni a saját jelszavát, és mentse a fájlt.
+8. Az a `n-tier-windows.json` fájlt, keresse meg az összes példányát `[replace-with-password]` és a egy erős jelszót cserélje le őket. Mentse a fájlt.
 
     > [!NOTE]
     > Ha módosítja a rendszergazdai felhasználónevet, frissíteni kell a `extensions` letiltja a JSON-fájlban. 

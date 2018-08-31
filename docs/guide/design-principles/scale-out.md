@@ -2,12 +2,13 @@
 title: Tervezzen horizontális felskálázásra
 description: A felhőalapú alkalmazásokat a horizontális skálázást szem előtt tartva kell megtervezni.
 author: MikeWasson
-ms.openlocfilehash: 8207f322d4312f6a30a8b0db7328b272c1d82de0
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.date: 08/30/2018
+ms.openlocfilehash: 9b57f4e6a17eece4f5283436e104c286602bb54f
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206943"
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43325654"
 ---
 # <a name="design-to-scale-out"></a>Tervezzen horizontális felskálázásra
 
@@ -15,7 +16,7 @@ ms.locfileid: "36206943"
 
 A felhő egyik legfőbb előnye a rugalmas méretezés &mdash; ez a kapacitás igény szerinti kihasználását, vagyis a terhelés mértéke szerinti horizontális fel- illetve leskálázást jelenti. Tervezze úgy az alkalmazását, hogy az skálázható legyen horizontálisan, igény szerint hozzá lehessen adni vagy el lehessen távolítani új példányokat.
 
-## <a name="recommendations"></a>Ajánlatok
+## <a name="recommendations"></a>Javaslatok
 
 **Példány tartós használatának elkerülése**. A tartós használat vagy *munkamenet-affinitás* azt a gyakorlatot jelenti, amikor az ugyanazon ügyféltől érkező kérelmeket a rendszer mindig ugyanarra a kiszolgálóra irányítja. A tartós használat korlátozza az alkalmazás horizontális felskálázási képességét. Például a nagy forgalmú felhasználóktól érkező terhelés nem lesz elosztva a példányok között. A tartós használat oka lehet a memóriában tárolt munkamenet-állapot vagy a számítógép-specifikus titkosítási kulcsok használata. Gondoskodjon arról, hogy a példányok bármilyen kérelmet képesek legyenek kezelni. 
 
