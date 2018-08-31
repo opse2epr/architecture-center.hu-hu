@@ -1,516 +1,501 @@
+items:
 - name: Azure Architecture Center
   href: index.md
 - name: Felhő – alapok
   items:
-    - name: Útmutató az alkalmazásarchitektúrához
+  - name: Útmutató az alkalmazásarchitektúrához
+    items:
+    - name: Bevezetés
+      href: guide/index.md
+    - name: Architektúrastílusok
       items:
-        - name: Bevezetés
-          href: guide/index.md
-        - name: Architektúrastílusok
-          items:
-            - name: Áttekintés
-              href: guide/architecture-styles/index.md
-            - name: N szintű alkalmazás
-              href: guide/architecture-styles/n-tier.md
-            - name: Webüzenetsor-feldolgozó
-              href: guide/architecture-styles/web-queue-worker.md
-            - name: Mikroszolgáltatások
-              href: guide/architecture-styles/microservices.md
-            - name: CQRS
-              href: guide/architecture-styles/cqrs.md
-            - name: Eseményvezérelt architektúra
-              href: guide/architecture-styles/event-driven.md
-            - name: Big Data
-              href: guide/architecture-styles/big-data.md
-            - name: Big Compute
-              href: guide/architecture-styles/big-compute.md
-        - name: Számítási szolgáltatás kiválasztása
-          items:
-            - name: Áttekintés
-              href: guide/technology-choices/compute-overview.md
-            - name: Döntési fa
-              href: guide/technology-choices/compute-decision-tree.md
-            - name: Számítási lehetőségek összehasonlítása
-              href: guide/technology-choices/compute-comparison.md
-        - name: Adattár kiválasztása
-          items:
-            - name: Áttekintés
-              href: guide/technology-choices/data-store-overview.md
-            - name: Adattárak összehasonlítása
-              href: guide/technology-choices/data-store-comparison.md
-        - name: Tervezési alapelvek
-          items:
-            - name: Áttekintés
-              href: guide/design-principles/index.md
-            - name: Tervezzen az önjavítást szem előtt tartva
-              href: guide/design-principles/self-healing.md
-            - name: Tervezzen mindent redundánsra
-              href: guide/design-principles/redundancy.md
-            - name: Minimalizálja a koordinációt
-              href: guide/design-principles/minimize-coordination.md
-            - name: Tervezzen horizontális felskálázásra
-              href: guide/design-principles/scale-out.md
-            - name: Particionáljon a korlátok kiküszöböléséhez
-              href: guide/design-principles/partition.md
-            - name: Tervezzen műveletekhez
-              href: guide/design-principles/design-for-operations.md
-            - name: Használjon felügyelt szolgáltatásokat
-              href: guide/design-principles/managed-services.md
-            - name: Használja a feladathoz legmegfelelőbb adattárat
-              href: guide/design-principles/use-the-best-data-store.md
-            - name: Tervezzen a fejlődést szem előtt tartva
-              href: guide/design-principles/design-for-evolution.md
-            - name: Tervezzen a vállalkozás igényei szerint
-              href: guide/design-principles/build-for-business.md
-        - name: A szoftverminőség alappillérei
-          href: guide/pillars.md
-        - name: A felhőalapú architektúrák ajánlott eljárásai
-          items:
-            - name: API-tervezés
-              href: best-practices/api-design.md
-            - name: API-implementáció
-              href: best-practices/api-implementation.md
-            - name: Automatikus skálázás
-              href: best-practices/auto-scaling.md
-            - name: Háttérfeladatok
-              href: best-practices/background-jobs.md
-            - name: Gyorsítótárazás
-              href: best-practices/caching.md
-            - name: Content Delivery Network
-              href: best-practices/cdn.md
-            - name: Adatparticionálás
-              href: best-practices/data-partitioning.md
-            - name: Monitorozás és diagnosztika
-              href: best-practices/monitoring.md
-            - name: Elnevezési konvenciók
-              href: best-practices/naming-conventions.md
-            - name: Átmeneti hibák kezelése
-              href: best-practices/transient-faults.md
-            - name: Újrapróbálkozási útmutatás adott szolgáltatásoknál
-              href: best-practices/retry-service-specific.md
-    - name: Útmutató az adatarchitektúrához
+      - name: Áttekintés
+        href: guide/architecture-styles/index.md
+      - name: N szintű alkalmazás
+        href: guide/architecture-styles/n-tier.md
+      - name: Webüzenetsor-feldolgozó
+        href: guide/architecture-styles/web-queue-worker.md
+      - name: Mikroszolgáltatások
+        href: guide/architecture-styles/microservices.md
+      - name: CQRS
+        href: guide/architecture-styles/cqrs.md
+      - name: Eseményvezérelt architektúra
+        href: guide/architecture-styles/event-driven.md
+      - name: Big Data
+        href: guide/architecture-styles/big-data.md
+      - name: Big Compute
+        href: guide/architecture-styles/big-compute.md
+    - name: Számítási szolgáltatás kiválasztása
       items:
-        - name: Bevezetés
-          href: data-guide/index.md
-        - name: Hagyományos RDBMS számítási feladatok
-          items:
-            - name: Áttekintés
-              href: data-guide/relational-data/index.md
-            - name: Online tranzakciófeldolgozás (OLTP)
-              href: data-guide/relational-data/online-transaction-processing.md
-            - name: Adatraktározás
-              href: data-guide/relational-data/data-warehousing.md
-            - name: Online analitikus feldolgozás (OLAP)
-              href: data-guide/relational-data/online-analytical-processing.md
-            - name: 'Kinyerés, átalakítás és betöltés (ETL)'
-              href: data-guide/relational-data/etl.md
-        - name: Big data-architektúrák
-          items:
-            - name: Áttekintés
-              href: data-guide/big-data/index.md
-            - name: Kötegelt feldolgozás
-              href: data-guide/big-data/batch-processing.md
-            - name: Valós idejű feldolgozás
-              href: data-guide/big-data/real-time-processing.md
-            - name: Gépi tanulás nagy léptékben
-              href: data-guide/big-data/machine-learning-at-scale.md
-            - name: Nem relációs adattárak
-              href: data-guide/big-data/non-relational-data.md
-            - name: Forgatókönyvek
-              items:
-                - name: Bővített analitika
-                  href: data-guide/scenarios/advanced-analytics.md
-                - name: Data lake tárolók
-                  href: data-guide/scenarios/data-lake.md
-                - name: Szabad formátumú szöveges keresés
-                  href: data-guide/scenarios/search.md
-                - name: Interaktív adatfeltárás
-                  href: data-guide/scenarios/interactive-data-exploration.md
-                - name: Természetes nyelvek feldolgozása
-                  href: data-guide/scenarios/natural-language-processing.md
-                - name: Idősorozattal kapcsolatos megoldások
-                  href: data-guide/scenarios/time-series.md
-                - name: CSV- és JSON-fájlok használata
-                  href: data-guide/scenarios/csv-and-json.md
-            - name: Technológiai lehetőségek
-              items:
-                - name: Analitikus adattárak
-                  href: data-guide/technology-choices/analytical-data-stores.md
-                - name: Elemzések és jelentéskészítés
-                  href: data-guide/technology-choices/analysis-visualizations-reporting.md
-                - name: Kötegelt feldolgozás
-                  href: data-guide/technology-choices/batch-processing.md
-                - name: Kognitív szolgáltatások
-                  href: data-guide/technology-choices/cognitive-services.md
-                - name: Adattárolás
-                  href: data-guide/technology-choices/data-storage.md
-                - name: Gépi tanulás
-                  href: data-guide/technology-choices/data-science-and-machine-learning.md
-                - name: Természetes nyelvek feldolgozása
-                  href: data-guide/technology-choices/natural-language-processing.md
-                - name: Folyamatvezénylés
-                  href: data-guide/technology-choices/pipeline-orchestration-data-movement.md
-                - name: Valós idejű üzenetbetöltés
-                  href: data-guide/technology-choices/real-time-ingestion.md
-                - name: Adattárolók keresése
-                  href: data-guide/technology-choices/search-options.md
-                - name: Stream-feldolgozás
-                  href: data-guide/technology-choices/stream-processing.md
-        - name: Általános megfontolások
-          items:
-            - name: Adatátvitel
-              href: data-guide/scenarios/data-transfer.md
-            - name: Helyszíni adatmegoldások kiterjesztése a felhőre
-              href: data-guide/scenarios/hybrid-on-premises-and-cloud.md
-            - name: Adatmegoldások védelme
-              href: data-guide/scenarios/securing-data-solutions.md
-    - name: Tervezési minták felhőkhöz
+      - name: Áttekintés
+        href: guide/technology-choices/compute-overview.md
+      - name: Döntési fa
+        href: guide/technology-choices/compute-decision-tree.md
+      - name: Számítási lehetőségek összehasonlítása
+        href: guide/technology-choices/compute-comparison.md
+    - name: Adattár kiválasztása
       items:
-        - name: Áttekintés
-          href: patterns/index.md
-        - name: Kategóriák
-          items:
-            - name: Rendelkezésre állás
-              href: patterns/category/availability.md
-            - name: Adatkezelés
-              href: patterns/category/data-management.md
-            - name: Tervezés és megvalósítás
-              href: patterns/category/design-implementation.md
-            - name: Üzenetkezelés
-              href: patterns/category/messaging.md
-            - name: Kezelés és monitorozás
-              href: patterns/category/management-monitoring.md
-            - name: Teljesítmény és méretezhetőség
-              href: patterns/category/performance-scalability.md
-            - name: Rugalmasság
-              href: patterns/category/resiliency.md
-            - name: Biztonság
-              href: patterns/category/security.md
-        - name: Ambassador
-          href: patterns/ambassador.md
-        - name: Anti-corruption Layer
-          href: patterns/anti-corruption-layer.md
-        - name: Backends for Frontends
-          href: patterns/backends-for-frontends.md
-        - name: Bulkhead
-          href: patterns/bulkhead.md
-        - name: Cache-Aside
-          href: patterns/cache-aside.md
-        - name: Circuit Breaker
-          href: patterns/circuit-breaker.md
-        - name: Command and Query Responsibility Segregation (CQRS)
-          href: patterns/cqrs.md
-        - name: Compensating Transaction
-          href: patterns/compensating-transaction.md
-        - name: Competing Consumers
-          href: patterns/competing-consumers.md
-        - name: Compute Resource Consolidation
-          href: patterns/compute-resource-consolidation.md
-        - name: Event Sourcing
-          href: patterns/event-sourcing.md
-        - name: External Configuration Store
-          href: patterns/external-configuration-store.md
-        - name: Federated Identity
-          href: patterns/federated-identity.md
-        - name: Gatekeeper
-          href: patterns/gatekeeper.md
-        - name: Gateway Aggregation
-          href: patterns/gateway-aggregation.md
-        - name: Gateway Offloading
-          href: patterns/gateway-offloading.md
-        - name: Gateway Routing
-          href: patterns/gateway-routing.md
-        - name: Health Endpoint Monitoring
-          href: patterns/health-endpoint-monitoring.md
-        - name: Index Table
-          href: patterns/index-table.md
-        - name: Leader Election
-          href: patterns/leader-election.md
-        - name: Materialized View
-          href: patterns/materialized-view.md
-        - name: Pipes and Filters
-          href: patterns/pipes-and-filters.md
-        - name: Priority Queue
-          href: patterns/priority-queue.md
-        - name: Queue-Based Load Leveling
-          href: patterns/queue-based-load-leveling.md
-        - name: Retry
-          href: patterns/retry.md
-        - name: Scheduler Agent Supervisor
-          href: patterns/scheduler-agent-supervisor.md
-        - name: Sharding
-          href: patterns/sharding.md
-        - name: Sidecar
-          href: patterns/sidecar.md
-        - name: Static Content Hosting
-          href: patterns/static-content-hosting.md
-        - name: Strangler
-          href: patterns/strangler.md
-        - name: Throttling
-          href: patterns/throttling.md
-        - name: Valet Key
-          href: patterns/valet-key.md
-    - name: Teljesítménnyel kapcsolatos kizárási minták
+      - name: Áttekintés
+        href: guide/technology-choices/data-store-overview.md
+      - name: Adattárak összehasonlítása
+        href: guide/technology-choices/data-store-comparison.md
+    - name: Tervezési alapelvek
       items:
-        - name: Áttekintés
-          href: antipatterns/index.md
-        - name: Foglalt adatbázis
-          href: antipatterns/busy-database/index.md
-        - name: Foglalt előtér
-          href: antipatterns/busy-front-end/index.md
-        - name: Forgalmas I/O
-          href: antipatterns/chatty-io/index.md
-        - name: Felesleges beolvasások
-          href: antipatterns/extraneous-fetching/index.md
-        - name: Nem megfelelő példányosítás
-          href: antipatterns/improper-instantiation/index.md
-        - name: Monolitikus adatmegőrzés
-          href: antipatterns/monolithic-persistence/index.md
-        - name: Nincs gyorsítótárazás
-          href: antipatterns/no-caching/index.md
-        - name: Szinkron I/O
-          href: antipatterns/synchronous-io/index.md
-    - name: Mikroszolgáltatások létrehozása az Azure-ban
+      - name: Áttekintés
+        href: guide/design-principles/index.md
+      - name: Tervezzen az önjavítást szem előtt tartva
+        href: guide/design-principles/self-healing.md
+      - name: Tervezzen mindent redundánsra
+        href: guide/design-principles/redundancy.md
+      - name: Minimalizálja a koordinációt
+        href: guide/design-principles/minimize-coordination.md
+      - name: Tervezzen horizontális felskálázásra
+        href: guide/design-principles/scale-out.md
+      - name: Particionáljon a korlátok kiküszöböléséhez
+        href: guide/design-principles/partition.md
+      - name: Tervezzen műveletekhez
+        href: guide/design-principles/design-for-operations.md
+      - name: Használjon felügyelt szolgáltatásokat
+        href: guide/design-principles/managed-services.md
+      - name: Használja a feladathoz legmegfelelőbb adattárat
+        href: guide/design-principles/use-the-best-data-store.md
+      - name: Tervezzen a fejlődést szem előtt tartva
+        href: guide/design-principles/design-for-evolution.md
+      - name: Tervezzen a vállalkozás igényei szerint
+        href: guide/design-principles/build-for-business.md
+    - name: A szoftverminőség alappillérei
+      href: guide/pillars.md
+    - name: A felhőalapú architektúrák ajánlott eljárásai
       items:
-        - name: Bevezetés
-          href: microservices/index.md
-        - name: Tartományelemzés
-          href: microservices/domain-analysis.md
-        - name: Mikroszolgáltatások határainak azonosítása
-          href: microservices/microservice-boundaries.md
-        - name: Adatkezelési szempontok
-          href: microservices/data-considerations.md
-        - name: Szolgáltatások közötti kommunikáció
-          href: microservices/interservice-communication.md
-        - name: API-tervezés
-          href: microservices/api-design.md
-        - name: Adatfeldolgozás és munkafolyamatok
-          href: microservices/ingestion-workflow.md
-        - name: API-átjárók
-          href: microservices/gateway.md
-        - name: Naplózás és figyelés
-          href: microservices/logging-monitoring.md
-        - name: CI/CD
-          href: microservices/ci-cd.md
-    - name: Több-bérlős identitások kezelése
+      - name: API-tervezés
+        href: best-practices/api-design.md
+      - name: API-implementáció
+        href: best-practices/api-implementation.md
+      - name: Automatikus skálázás
+        href: best-practices/auto-scaling.md
+      - name: Háttérfeladatok
+        href: best-practices/background-jobs.md
+      - name: Gyorsítótárazás
+        href: best-practices/caching.md
+      - name: Content Delivery Network
+        href: best-practices/cdn.md
+      - name: Adatparticionálás
+        href: best-practices/data-partitioning.md
+      - name: Monitorozás és diagnosztika
+        href: best-practices/monitoring.md
+      - name: Elnevezési konvenciók
+        href: best-practices/naming-conventions.md
+      - name: Átmeneti hibák kezelése
+        href: best-practices/transient-faults.md
+      - name: Újrapróbálkozási útmutatás adott szolgáltatásoknál
+        href: best-practices/retry-service-specific.md
+  - name: Útmutató az adatarchitektúrához
+    items:
+    - name: Bevezetés
+      href: data-guide/index.md
+    - name: Hagyományos RDBMS számítási feladatok
       items:
-        - name: Bevezetés
-          href: multitenant-identity/index.md
-        - name: A Tailspin forgatókönyv
-          href: multitenant-identity/tailspin.md
-        - name: Hitelesítés
-          href: multitenant-identity/authenticate.md
-        - name: Jogcímalapú identitás
-          href: multitenant-identity/claims.md
-        - name: Bérlői feliratkozás
-          href: multitenant-identity/signup.md
-        - name: Alkalmazás-szerepkörök
-          href: multitenant-identity/app-roles.md
-        - name: Engedélyezés
-          href: multitenant-identity/authorize.md
-        - name: Webes API-k biztonságossá tétele
-          href: multitenant-identity/web-api.md
-        - name: Hozzáférési jogkivonatok gyorsítótárazása
-          href: multitenant-identity/token-cache.md
-        - name: Ügyféltény
-          href: multitenant-identity/client-assertion.md
-        - name: Titkos alkalmazáskulcsok védelme
-          href: multitenant-identity/key-vault.md
-        - name: Összevonás az ügyfél AD FS szolgáltatásával
-          href: multitenant-identity/adfs.md
-        - name: A Surveys alkalmazás futtatása
-          href: multitenant-identity/run-the-app.md
-    - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
+      - name: Áttekintés
+        href: data-guide/relational-data/index.md
+      - name: Online tranzakciófeldolgozás (OLTP)
+        href: data-guide/relational-data/online-transaction-processing.md
+      - name: Adatraktározás
+        href: data-guide/relational-data/data-warehousing.md
+      - name: Online analitikus feldolgozás (OLAP)
+        href: data-guide/relational-data/online-analytical-processing.md
+      - name: Kinyerés, átalakítás és betöltés (ETL)
+        href: data-guide/relational-data/etl.md
+    - name: Big data-architektúrák
       items:
-        - name: Cloud Services-alkalmazás migrálása a Service Fabricbe
-          href: service-fabric/migrate-from-cloud-services.md
-        - name: Service Fabric-alkalmazás újrabontása
-          href: service-fabric/refactor-migrated-app.md
+      - name: Áttekintés
+        href: data-guide/big-data/index.md
+      - name: Kötegelt feldolgozás
+        href: data-guide/big-data/batch-processing.md
+      - name: Valós idejű feldolgozás
+        href: data-guide/big-data/real-time-processing.md
+      - name: Gépi tanulás nagy léptékben
+        href: data-guide/big-data/machine-learning-at-scale.md
+      - name: Nem relációs adattárak
+        href: data-guide/big-data/non-relational-data.md
+      - name: Forgatókönyvek
+        items:
+        - name: Bővített analitika
+          href: data-guide/scenarios/advanced-analytics.md
+        - name: Data lake tárolók
+          href: data-guide/scenarios/data-lake.md
+        - name: Szabad formátumú szöveges keresés
+          href: data-guide/scenarios/search.md
+        - name: Interaktív adatfeltárás
+          href: data-guide/scenarios/interactive-data-exploration.md
+        - name: Természetes nyelvek feldolgozása
+          href: data-guide/scenarios/natural-language-processing.md
+        - name: Idősorozattal kapcsolatos megoldások
+          href: data-guide/scenarios/time-series.md
+        - name: CSV- és JSON-fájlok használata
+          href: data-guide/scenarios/csv-and-json.md
+      - name: Technológiai lehetőségek
+        items:
+        - name: Analitikus adattárak
+          href: data-guide/technology-choices/analytical-data-stores.md
+        - name: Elemzések és jelentéskészítés
+          href: data-guide/technology-choices/analysis-visualizations-reporting.md
+        - name: Kötegelt feldolgozás
+          href: data-guide/technology-choices/batch-processing.md
+        - name: Kognitív szolgáltatások
+          href: data-guide/technology-choices/cognitive-services.md
+        - name: Adattárolás
+          href: data-guide/technology-choices/data-storage.md
+        - name: Gépi tanulás
+          href: data-guide/technology-choices/data-science-and-machine-learning.md
+        - name: Természetes nyelvek feldolgozása
+          href: data-guide/technology-choices/natural-language-processing.md
+        - name: Folyamatvezénylés
+          href: data-guide/technology-choices/pipeline-orchestration-data-movement.md
+        - name: Valós idejű üzenetbetöltés
+          href: data-guide/technology-choices/real-time-ingestion.md
+        - name: Adattárolók keresése
+          href: data-guide/technology-choices/search-options.md
+        - name: Stream-feldolgozás
+          href: data-guide/technology-choices/stream-processing.md
+    - name: Általános megfontolások
+      items:
+      - name: Adatátvitel
+        href: data-guide/scenarios/data-transfer.md
+      - name: Helyszíni adatmegoldások kiterjesztése a felhőre
+        href: data-guide/scenarios/hybrid-on-premises-and-cloud.md
+      - name: Adatmegoldások védelme
+        href: data-guide/scenarios/securing-data-solutions.md
+  - name: Tervezési minták felhőkhöz
+    items:
+    - name: Áttekintés
+      href: patterns/index.md
+    - name: Kategóriák
+      items:
+      - name: Rendelkezésre állás
+        href: patterns/category/availability.md
+      - name: Adatkezelés
+        href: patterns/category/data-management.md
+      - name: Tervezés és megvalósítás
+        href: patterns/category/design-implementation.md
+      - name: Üzenetkezelés
+        href: patterns/category/messaging.md
+      - name: Kezelés és monitorozás
+        href: patterns/category/management-monitoring.md
+      - name: Teljesítmény és méretezhetőség
+        href: patterns/category/performance-scalability.md
+      - name: Rugalmasság
+        href: patterns/category/resiliency.md
+      - name: Biztonság
+        href: patterns/category/security.md
+    - name: Ambassador
+      href: patterns/ambassador.md
+    - name: Anti-corruption Layer
+      href: patterns/anti-corruption-layer.md
+    - name: Backends for Frontends
+      href: patterns/backends-for-frontends.md
+    - name: Bulkhead
+      href: patterns/bulkhead.md
+    - name: Cache-Aside
+      href: patterns/cache-aside.md
+    - name: Circuit Breaker
+      href: patterns/circuit-breaker.md
+    - name: Command and Query Responsibility Segregation (CQRS)
+      href: patterns/cqrs.md
+    - name: Compensating Transaction
+      href: patterns/compensating-transaction.md
+    - name: Competing Consumers
+      href: patterns/competing-consumers.md
+    - name: Compute Resource Consolidation
+      href: patterns/compute-resource-consolidation.md
+    - name: Event Sourcing
+      href: patterns/event-sourcing.md
+    - name: External Configuration Store
+      href: patterns/external-configuration-store.md
+    - name: Federated Identity
+      href: patterns/federated-identity.md
+    - name: Gatekeeper
+      href: patterns/gatekeeper.md
+    - name: Gateway Aggregation
+      href: patterns/gateway-aggregation.md
+    - name: Gateway Offloading
+      href: patterns/gateway-offloading.md
+    - name: Gateway Routing
+      href: patterns/gateway-routing.md
+    - name: Health Endpoint Monitoring
+      href: patterns/health-endpoint-monitoring.md
+    - name: Index Table
+      href: patterns/index-table.md
+    - name: Leader Election
+      href: patterns/leader-election.md
+    - name: Materialized View
+      href: patterns/materialized-view.md
+    - name: Pipes and Filters
+      href: patterns/pipes-and-filters.md
+    - name: Priority Queue
+      href: patterns/priority-queue.md
+    - name: Queue-Based Load Leveling
+      href: patterns/queue-based-load-leveling.md
+    - name: Retry
+      href: patterns/retry.md
+    - name: Scheduler Agent Supervisor
+      href: patterns/scheduler-agent-supervisor.md
+    - name: Sharding
+      href: patterns/sharding.md
+    - name: Sidecar
+      href: patterns/sidecar.md
+    - name: Static Content Hosting
+      href: patterns/static-content-hosting.md
+    - name: Strangler
+      href: patterns/strangler.md
+    - name: Throttling
+      href: patterns/throttling.md
+    - name: Valet Key
+      href: patterns/valet-key.md
+  - name: Teljesítménnyel kapcsolatos kizárási minták
+    items:
+    - name: Áttekintés
+      href: antipatterns/index.md
+    - name: Foglalt adatbázis
+      href: antipatterns/busy-database/index.md
+    - name: Foglalt előtér
+      href: antipatterns/busy-front-end/index.md
+    - name: Forgalmas I/O
+      href: antipatterns/chatty-io/index.md
+    - name: Felesleges beolvasások
+      href: antipatterns/extraneous-fetching/index.md
+    - name: Nem megfelelő példányosítás
+      href: antipatterns/improper-instantiation/index.md
+    - name: Monolitikus adatmegőrzés
+      href: antipatterns/monolithic-persistence/index.md
+    - name: Nincs gyorsítótárazás
+      href: antipatterns/no-caching/index.md
+    - name: Szinkron I/O
+      href: antipatterns/synchronous-io/index.md
+  - name: Mikroszolgáltatások létrehozása az Azure-ban
+    items:
+    - name: Bevezetés
+      href: microservices/index.md
+    - name: Tartományelemzés
+      href: microservices/domain-analysis.md
+    - name: Mikroszolgáltatások határainak azonosítása
+      href: microservices/microservice-boundaries.md
+    - name: Adatkezelési szempontok
+      href: microservices/data-considerations.md
+    - name: Szolgáltatások közötti kommunikáció
+      href: microservices/interservice-communication.md
+    - name: API-tervezés
+      href: microservices/api-design.md
+    - name: Adatfeldolgozás és munkafolyamatok
+      href: microservices/ingestion-workflow.md
+    - name: API-átjárók
+      href: microservices/gateway.md
+    - name: Naplózás és figyelés
+      href: microservices/logging-monitoring.md
+    - name: CI/CD
+      href: microservices/ci-cd.md
+  - name: Több-bérlős identitások kezelése
+    items:
+    - name: Bevezetés
+      href: multitenant-identity/index.md
+    - name: A Tailspin forgatókönyv
+      href: multitenant-identity/tailspin.md
+    - name: Hitelesítés
+      href: multitenant-identity/authenticate.md
+    - name: Jogcímalapú identitás
+      href: multitenant-identity/claims.md
+    - name: Bérlői feliratkozás
+      href: multitenant-identity/signup.md
+    - name: Alkalmazás-szerepkörök
+      href: multitenant-identity/app-roles.md
+    - name: Engedélyezés
+      href: multitenant-identity/authorize.md
+    - name: Webes API-k biztonságossá tétele
+      href: multitenant-identity/web-api.md
+    - name: Hozzáférési jogkivonatok gyorsítótárazása
+      href: multitenant-identity/token-cache.md
+    - name: Ügyféltény
+      href: multitenant-identity/client-assertion.md
+    - name: Titkos alkalmazáskulcsok védelme
+      href: multitenant-identity/key-vault.md
+    - name: Összevonás az ügyfél AD FS szolgáltatásával
+      href: multitenant-identity/adfs.md
+    - name: A Surveys alkalmazás futtatása
+      href: multitenant-identity/run-the-app.md
+  - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
+    items:
+    - name: Cloud Services-alkalmazás migrálása a Service Fabricbe
+      href: service-fabric/migrate-from-cloud-services.md
+    - name: Service Fabric-alkalmazás újrabontása
+      href: service-fabric/refactor-migrated-app.md
 - name: Példaforgatókönyvek
   items:
-    - name: Áttekintés
-      href: example-scenario/index.md
-    - name: AI
-      items:
-        - name: Képbesorolás
-          href: example-scenario/ai/intelligent-apps-image-processing.md
-    - name: Alkalmazások
-      items:
-        - name: Szállodai foglalásra szolgáló csevegőrobot
-          href: example-scenario/apps/commerce-chatbot.md
-        - name: DevOps tárolókkal
-          href: example-scenario/apps/devops-with-aks.md
-        - name: DevOps VSTS-sel
-          href: example-scenario/apps/devops-dotnet-webapp.md
-        - name: SAP fejlesztési és tesztelési célokra
-          href: example-scenario/apps/sap-dev-test.md
-        - name: E-kereskedelmi kezelőfelület
-          href: example-scenario/apps/ecommerce-scenario.md
-    - name: Adatok és analitika
-      items:
-        - name: Csalások valós idejű észlelése
-          href: example-scenario/data/fraud-detection.md
-        - name: Skálázható rendelésfeldolgozás
-          href: example-scenario/data/ecommerce-order-processing.md
-    - name: Infrastruktúra
-      items:
-        - name: Többrétegű Windows
-          href: example-scenario/infrastructure/regulated-multitier-app.md
-        - name: HPC videórenderelés
-          href: example-scenario/infrastructure/video-rendering.md
+  - name: Áttekintés
+    href: example-scenario/index.md
+  - name: AI
+    items:
+    - name: Képbesorolás
+      href: example-scenario/ai/intelligent-apps-image-processing.md
+  - name: Alkalmazások
+    items:
+    - name: Szállodai foglalásra szolgáló csevegőrobot
+      href: example-scenario/apps/commerce-chatbot.md
+    - name: DevOps tárolókkal
+      href: example-scenario/apps/devops-with-aks.md
+    - name: DevOps VSTS-sel
+      href: example-scenario/apps/devops-dotnet-webapp.md
+    - name: SAP fejlesztési és tesztelési célokra
+      href: example-scenario/apps/sap-dev-test.md
+    - name: E-kereskedelmi kezelőfelület
+      href: example-scenario/apps/ecommerce-scenario.md
+  - name: Adatok és analitika
+    items:
+    - name: Csalások valós idejű észlelése
+      href: example-scenario/data/fraud-detection.md
+    - name: Skálázható rendelésfeldolgozás
+      href: example-scenario/data/ecommerce-order-processing.md
+  - name: Infrastruktúra
+    items:
+    - name: Többrétegű Windows
+      href: example-scenario/infrastructure/regulated-multitier-app.md
+    - name: HPC videórenderelés
+      href: example-scenario/infrastructure/video-rendering.md
 - name: Referenciaarchitektúrák
   items:
+  - name: Áttekintés
+    href: reference-architectures/index.md
+  - name: App Service webalkalmazás
+    items:
+    - name: Alapszintű webalkalmazás
+      href: reference-architectures/app-service-web-app/basic-web-app.md
+    - name: Továbbfejlesztett méretezhetőség
+      href: reference-architectures/app-service-web-app/scalable-web-app.md
+    - name: Többrégiós üzembe helyezés
+      href: reference-architectures/app-service-web-app/multi-region.md
+  - name: Big Data
+    items:
+    - name: Enterprise BI és SQL Data Warehouse
+      href: reference-architectures/data/enterprise-bi-sqldw.md
+    - name: Automatizált nagyvállalati BI SQL Data Warehouse-zal és Data Factoryval
+      href: reference-architectures/data/enterprise-bi-adf.md
+    - name: Streamek feldolgozása az Azure Stream Analyticsszel
+      href: reference-architectures/data/stream-processing-stream-analytics.md
+  - name: Hibrid hálózatok
+    items:
     - name: Áttekintés
-      href: reference-architectures/index.md
-    - name: App Service webalkalmazás
-      items:
-        - name: Alapszintű webalkalmazás
-          href: reference-architectures/app-service-web-app/basic-web-app.md
-        - name: Továbbfejlesztett méretezhetőség
-          href: reference-architectures/app-service-web-app/scalable-web-app.md
-        - name: Többrégiós üzembe helyezés
-          href: reference-architectures/app-service-web-app/multi-region.md
-    - name: Big Data
-      items:
-        - name: Enterprise BI és SQL Data Warehouse
-          href: reference-architectures/data/enterprise-bi-sqldw.md
-        - name: Automatizált nagyvállalati BI SQL Data Warehouse-zal és Data Factoryval
-          href: reference-architectures/data/enterprise-bi-adf.md
-    - name: Hibrid hálózatok
-      items:
-        - name: Áttekintés
-          href: reference-architectures/hybrid-networking/index.md
-        - name: VPN
-          href: reference-architectures/hybrid-networking/vpn.md
-        - name: ExpressRoute
-          href: reference-architectures/hybrid-networking/expressroute.md
-        - name: ExpressRoute VPN-alapú feladatátvétellel
-          href: reference-architectures/hybrid-networking/expressroute-vpn-failover.md
-        - name: Küllős topológia
-          href: reference-architectures/hybrid-networking/hub-spoke.md
-        - name: Küllős topológia közös szolgáltatásokkal
-          href: reference-architectures/hybrid-networking/shared-services.md
-    - name: Identitáskezelés
-      items:
-        - name: Áttekintés
-          href: reference-architectures/identity/index.md
-        - name: A helyszíni AD és az Azure AD integrálása
-          href: reference-architectures/identity/azure-ad.md
-        - name: Az AD DS kiterjesztése az Azure-ra
-          href: reference-architectures/identity/adds-extend-domain.md
-        - name: AD DS-erdő létrehozása az Azure-ban
-          href: reference-architectures/identity/adds-forest.md
-        - name: Az AD FS kiterjesztése az Azure-ra
-          href: reference-architectures/identity/adfs.md
-    - name: N szintű alkalmazás
-      items:
-        - name: SQL Servert használó N szintű alkalmazás
-          href: reference-architectures/n-tier/n-tier-sql-server.md
-        - name: Többrégiós N szintű alkalmazás
-          href: reference-architectures/n-tier/multi-region-sql-server.md
-        - name: Cassandrát használó N szintű alkalmazás
-          href: reference-architectures/n-tier/n-tier-cassandra.md
-        - name: Linux rendszerű virtuális gép üzembe helyezése
-          href: reference-architectures/n-tier/linux-vm.md
-        - name: Windows rendszerű virtuális gép üzembe helyezése
-          href: reference-architectures/n-tier/windows-vm.md
-    - name: Hálózati DMZ
-      items:
-        - name: Szegélyhálózat (DMZ) az Azure és a helyszíni hely között
-          href: reference-architectures/dmz/secure-vnet-hybrid.md
-        - name: Szegélyhálózat (DMZ) az Azure és az internet között
-          href: reference-architectures/dmz/secure-vnet-dmz.md
-        - name: Magas rendelkezésre állású virtuális hálózati készülékek
-          href: reference-architectures/dmz/nva-ha.md
-    - name: SAP
-      items:
-        - name: SAP NetWeaver bármely adatbázishoz (AnyDB)
-          href: reference-architectures/sap/sap-netweaver.md
-        - name: SAP S/4HANA
-          href: reference-architectures/sap/sap-s4hana.md
-        - name: SAP HANA on Azure Large Instances
-          href: reference-architectures/sap/hana-large-instances.md
-    - name: Jenkins server
-      href: reference-architectures/jenkins/index.md
-    - name: SharePoint Server 2016
-      href: reference-architectures/sharepoint/index.md
+      href: reference-architectures/hybrid-networking/index.md
+    - name: VPN
+      href: reference-architectures/hybrid-networking/vpn.md
+    - name: ExpressRoute
+      href: reference-architectures/hybrid-networking/expressroute.md
+    - name: ExpressRoute VPN-alapú feladatátvétellel
+      href: reference-architectures/hybrid-networking/expressroute-vpn-failover.md
+    - name: Küllős topológia
+      href: reference-architectures/hybrid-networking/hub-spoke.md
+    - name: Küllős topológia közös szolgáltatásokkal
+      href: reference-architectures/hybrid-networking/shared-services.md
+  - name: Identitáskezelés
+    items:
+    - name: Áttekintés
+      href: reference-architectures/identity/index.md
+    - name: A helyszíni AD és az Azure AD integrálása
+      href: reference-architectures/identity/azure-ad.md
+    - name: Az AD DS kiterjesztése az Azure-ra
+      href: reference-architectures/identity/adds-extend-domain.md
+    - name: AD DS-erdő létrehozása az Azure-ban
+      href: reference-architectures/identity/adds-forest.md
+    - name: Az AD FS kiterjesztése az Azure-ra
+      href: reference-architectures/identity/adfs.md
+  - name: N szintű alkalmazás
+    items:
+    - name: SQL Servert használó N szintű alkalmazás
+      href: reference-architectures/n-tier/n-tier-sql-server.md
+    - name: Többrégiós N szintű alkalmazás
+      href: reference-architectures/n-tier/multi-region-sql-server.md
+    - name: Cassandrát használó N szintű alkalmazás
+      href: reference-architectures/n-tier/n-tier-cassandra.md
+    - name: Linux rendszerű virtuális gép üzembe helyezése
+      href: reference-architectures/n-tier/linux-vm.md
+    - name: Windows rendszerű virtuális gép üzembe helyezése
+      href: reference-architectures/n-tier/windows-vm.md
+  - name: Hálózati DMZ
+    items:
+    - name: Szegélyhálózat (DMZ) az Azure és a helyszíni hely között
+      href: reference-architectures/dmz/secure-vnet-hybrid.md
+    - name: Szegélyhálózat (DMZ) az Azure és az internet között
+      href: reference-architectures/dmz/secure-vnet-dmz.md
+    - name: Magas rendelkezésre állású virtuális hálózati készülékek
+      href: reference-architectures/dmz/nva-ha.md
+  - name: SAP
+    items:
+    - name: SAP NetWeaver bármely adatbázishoz (AnyDB)
+      href: reference-architectures/sap/sap-netweaver.md
+    - name: SAP S/4HANA
+      href: reference-architectures/sap/sap-s4hana.md
+    - name: SAP HANA on Azure Large Instances
+      href: reference-architectures/sap/hana-large-instances.md
+  - name: Jenkins server
+    href: reference-architectures/jenkins/index.md
+  - name: SharePoint Server 2016
+    href: reference-architectures/sharepoint/index.md
 - name: Tervezésáttekintési keretrendszer
   items:
-    - name: Rugalmasságot szem előtt tartó tervezés
-      href: resiliency/index.md
-    - name: A hibaállapot elemzése
-      href: resiliency/failure-mode-analysis.md
-    - name: Rendelkezésre állási ellenőrzőlisták
-      href: checklist/availability.md
-    - name: DevOps ellenőrzőlisták
-      href: checklist/dev-ops.md
-    - name: Rugalmasságra vonatkozó ellenőrzőlista (általános)
-      href: checklist/resiliency.md
-    - name: Rugalmasságra vonatkozó ellenőrzőlista (Azure-szolgáltatások)
-      href: checklist/resiliency-per-service.md
-    - name: Méretezhetőségi ellenőrzőlisták
-      href: checklist/scalability.md
-- name: Cloud – Bevezetési útmutató
+  - name: Rugalmasságot szem előtt tartó tervezés
+    href: resiliency/index.md
+  - name: A hibaállapot elemzése
+    href: resiliency/failure-mode-analysis.md
+  - name: Rendelkezésre állási ellenőrzőlisták
+    href: checklist/availability.md
+  - name: DevOps ellenőrzőlisták
+    href: checklist/dev-ops.md
+  - name: Rugalmasságra vonatkozó ellenőrzőlista (általános)
+    href: checklist/resiliency.md
+  - name: Rugalmasságra vonatkozó ellenőrzőlista (Azure-szolgáltatások)
+    href: checklist/resiliency-per-service.md
+  - name: Méretezhetőségi ellenőrzőlisták
+    href: checklist/scalability.md
+- name: A nagyvállalati felhőmegoldások bevezetése
   items:
-    - name: Bevezetés
-      href: cloud-adoption-guide/index.md
-    - name: Az Azure bevezetésének alapjai
-      items:
-        - name: Áttekintés
-          href: cloud-adoption-guide/adoption-intro/overview.md
-        - name: Információk az Azure belső folyamatairól
-          items:
-            - name: Hogy működik az Azure?
-              href: cloud-adoption-guide/adoption-intro/azure-explainer.md
-            - name: Mi az a felhőerőforrás-szabályozás?
-              href: cloud-adoption-guide/adoption-intro/governance-explainer.md
-        - name: Az Azure erőforrás-hozzáférési szabályozásának ismertetése
-          items:
-            - name: Az Azure erőforráshozzáférés-kezelésének megismerése
-              href: cloud-adoption-guide/adoption-intro/azure-resource-access.md
-            - name: Útmutató az Azure-szabályozás megtervezéséhez
-              href: cloud-adoption-guide/adoption-intro/governance-how-to.md
-        - name: Alapszintű architektúrák üzembe helyezése az Azure-ban
-          items:
-            - name: Szolgáltatásként nyújtott platformra (PaaS) épülő architektúra
-              items:
-                - name: Alapszintű webalkalmazás üzembe helyezése az Azure-ban
-                  href: /azure/app-service
-                  maintainContext: true
-                - name: Ajánlott eljárások a webalkalmazásokhoz az Azure-ban
-                  href: /azure/architecture/reference-architectures/app-service-web-app/basic-web-app
-                  maintainContext: true
-            - name: Szolgáltatott infrastruktúra (IaaS)
-              items:
-                - name: Mi az Azure-beli virtuális hálózat?
-                  href: /azure/virtual-network/virtual-networks-overview
-                  maintainContext: true
-                - name: Virtuális hálózat üzembe helyezése az Azure-ban
-                  href: /azure/virtual-network/virtual-networks-create-vnet-arm-pportal
-                  maintainContext: true
-                - name: Egyetlen Windows rendszerű virtuális gép IaaS típusú számítási feladatának üzembe helyezése az Azure-ban
-                  href: /azure/virtual-machines/windows/quick-create-portal
-                  maintainContext: true
-                - name: Windows rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai
-                  href: /azure/architecture/reference-architectures/virtual-machines-windows/single-vm
-                  maintainContext: true
-                - name: Egyetlen Linux rendszerű virtuális gép IaaS típusú számítási feladatainak üzembe helyezése az Azure-ban
-                  href: /azure/virtual-machines/linux/quick-create-portal
-                  maintainContext: true
-                - name: Linux rendszerű virtuális gépek Azure-ban történő üzembe helyezésének ajánlott eljárásai
-                  href: /azure/architecture/reference-architectures/virtual-machines-linux/single-vm
-                  maintainContext: true
-    - name: Köztes Azure-bevezetés
-      items:
-        - name: Áttekintés
-          href: cloud-adoption-guide/intermediate-stage/overview.md
-        - name: Útmutató a szabályozás megtervezéséhez
-          href: cloud-adoption-guide/intermediate-stage/governance-design-guide.md
+  - name: Bevezetés
+    href: cloud-adoption/overview.md
+  - name: Első lépések
+    items:
+    - name: Áttekintés
+      href: cloud-adoption/getting-started/overview.md
+    - name: Hogy működik az Azure?
+      href: cloud-adoption/getting-started/what-is-azure.md
+    - name: Mi az a felhőerőforrás-szabályozás?
+      href: cloud-adoption/getting-started/what-is-governance.md
+    - name: Az Azure erőforrás-hozzáférési szabályozása
+      href: cloud-adoption/getting-started/azure-resource-access.md
+  - name: Szabályozás
+    items:
+    - name: Áttekintés
+      href: cloud-adoption/governance/overview.md
+    - name: Szabályozási terv egyetlen csapathoz
+      href: cloud-adoption/governance/governance-single-team.md
+    - name: Szabályozási terv több csapathoz
+      href: cloud-adoption/governance/governance-multiple-teams.md
+  - name: Infrastruktúra
+    items:
+    - name: Alapszintű számítási feladat üzembe helyezése
+      href: cloud-adoption/infrastructure/basic-workload.md
+  - name: Függelék
+    items:
+    - name: Azure Enterprise-szerkezet
+      href: cloud-adoption/appendix/azure-scaffold.md
+    - name: Azure Enterprise-szerkezet implementálása
+      href: cloud-adoption/appendix/azure-scaffold-examples.md
 - name: Azure Virtual Datacenter
   href: vdc/index.md
 - name: Azure AWS-szakembereknek
   items:
-    - name: Áttekintés
-      href: aws-professional/index.md
-    - name: Szolgáltatások összehasonlítása
-      href: aws-professional/services.md
+  - name: Áttekintés
+    href: aws-professional/index.md
+  - name: Szolgáltatások összehasonlítása
+    href: aws-professional/services.md
+ms.openlocfilehash: f82d3e29047cfca1a6a0d3e2e213b074094cc363
+ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 08/31/2018
+ms.locfileid: "43324840"
