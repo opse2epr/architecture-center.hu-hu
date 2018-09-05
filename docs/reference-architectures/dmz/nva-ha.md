@@ -6,12 +6,12 @@ ms.date: 12/06/2016
 pnp.series.title: Network DMZ
 pnp.series.prev: secure-vnet-dmz
 cardTitle: Deploy highly available network virtual appliances
-ms.openlocfilehash: fe279eea3f9cb024d6c6c14943013b9b9a87bc9c
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 556ec1e78960d64cce3bf803fc46c9146ce2584d
+ms.sourcegitcommit: f4069cf68456b5c74acb1b890dc4e45e11f12b59
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847747"
+ms.lasthandoff: 09/04/2018
+ms.locfileid: "43675831"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
@@ -92,6 +92,7 @@ A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható,
 ## <a name="next-steps"></a>További lépések
 * Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-prem] 7-es rétegű NVA-k használatával.
 * Megtudhatja, hogyan [implementálhat DMZ-t az Azure és az internet között][dmz-internet] 7-es rétegű NVA-k használatával.
+* [Az Azure-ban a hálózati virtuális berendezés hibák elhárítása](/azure/virtual-network/virtual-network-troubleshoot-nva)
 
 <!-- links -->
 [cloud-security]: /azure/best-practices-network-security

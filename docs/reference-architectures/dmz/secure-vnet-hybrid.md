@@ -7,12 +7,12 @@ pnp.series.title: Network DMZ
 pnp.series.prev: ./index
 pnp.series.next: secure-vnet-dmz
 cardTitle: DMZ between Azure and on-premises
-ms.openlocfilehash: 45583473ef297b2c7a5b0c4baff52485286dd051
-ms.sourcegitcommit: 9b459f75254d97617e16eddd0d411d1f80b7fe90
+ms.openlocfilehash: e397a8691a1b7b37cc0129d914dc85d92c876139
+ms.sourcegitcommit: f4069cf68456b5c74acb1b890dc4e45e11f12b59
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/03/2018
-ms.locfileid: "37403164"
+ms.lasthandoff: 09/04/2018
+ms.locfileid: "43675807"
 ---
 # <a name="dmz-between-azure-and-your-on-premises-datacenter"></a>DMZ az Azure és a helyszíni adatközpont között
 
@@ -226,6 +226,7 @@ Ebben a lépésben két helyi hálózati átjáró csatlakozik.
 * További információt a hálózati biztonság Azure-ral történő felügyeletével kapcsolatban [a Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-services-network-security] kapcsolatos cikkben olvashat.
 * Az Azure-erőforrások védelmével kapcsolatos további információkat [a Microsoft Azure biztonsági szolgáltatásait ismertető][getting-started-with-azure-security] cikkben olvashat. 
 * Az Azure-átjárókapcsolatokra vonatkozó biztonsági megfontolásokkal kapcsolatos további információkat a [hibrid hálózati architektúra Azure és helyszíni VPN használatával történő megvalósításáról][guidance-vpn-gateway-security] és a [hibrid hálózati architektúra Azure ExpressRoute használatával történő megvalósításáról][guidance-expressroute-security] szóló cikkben olvashat.
+* [Az Azure-ban a hálózati virtuális berendezés hibák elhárítása](/azure/virtual-network/virtual-network-troubleshoot-nva)
   > 
 
 <!-- links -->

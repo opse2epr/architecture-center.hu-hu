@@ -4,12 +4,12 @@ description: A vállalatok számára is annak biztosítására, biztonságos és
 author: rdendtler
 ms.date: 03/31/2017
 ms.author: rodend;karlku;tomfitz
-ms.openlocfilehash: 3b6dad71d36bc44a5f4d06b40f0570f673a3e539
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 91adce796ae7785d3831e9628fce0193076eec9b
+ms.sourcegitcommit: f4069cf68456b5c74acb1b890dc4e45e11f12b59
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326433"
+ms.lasthandoff: 09/04/2018
+ms.locfileid: "43675783"
 ---
 # <a name="azure-enterprise-scaffold---prescriptive-subscription-governance"></a>Az Azure enterprise scaffold - előíró előfizetés-irányítás
 Vállalatok egyre inkább vannak bevezetése a nyilvános felhő rugalmasságát és rugalmasságot biztosít. Azok az igénybe vett bevételi lehetőségeket, vagy a vállalati erőforrások optimalizálása a felhőalapú erősségeit. Microsoft Azure lehetőséget kínál számos, hogy a vállalatok számára például a számítási feladatok és alkalmazások széles választékának cím építőelemeket állíthatnak össze. 
@@ -84,7 +84,7 @@ A második pillar, a scaffold magában foglalja a létrehozás [Azure házirende
 
 * A házirend az alapértelmezett **engedélyezése** rendszer. Műveletek definiálása és erőforrásokat, amelyek megtagadása vagy az erőforrásokon végzett műveletek naplózásához a szabályzatok hozzárendelését, szabályozhatja.
 * Szabályzatok a szabályzatdefiníció a szabályzat adatdefiníciós nyelv (if-majd feltételek) ismerteti.
-* Létrehozhat olyan formázott fájlok JSON (Javascript Object Notation) szabályzatokat. Házirend meghatározása után, rendelje hozzá egy adott hatókörhöz: előfizetés, erőforráscsoport vagy erőforrás.
+* JSON (Javascript Object Notation) formátumban fájlokkal kell létrehoznia szabályzatokat. Házirend meghatározása után, rendelje hozzá egy adott hatókörhöz: előfizetés, erőforráscsoport vagy erőforrás.
 
 Szabályzatokkal rendelkezik, amelyek lehetővé teszik a minden részletre kiterjedő megközelítés a forgatókönyvek a több művelet. A műveletek a következők:
 
