@@ -3,12 +3,12 @@ title: Méretezhető Rendelésfeldolgozó az Azure-ban
 description: Példa az Azure Cosmos DB használatával nagy mértékben skálázható rendelés feldolgozási folyamat felépítésével bajlódnia.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: 9fa0dc7c564270ee811b56169e05f7e743664838
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.openlocfilehash: ff09a5c5426a187ea9ae35f728fe03ba099c4392
+ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "43016191"
+ms.lasthandoff: 09/06/2018
+ms.locfileid: "44040383"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Méretezhető Rendelésfeldolgozó az Azure-ban
 
@@ -104,7 +104,7 @@ Egyéb kapcsolódó erőforrások a következők:
 [small-pricing]: https://azure.com/e/3d43949ffbb945a88cc0a126dc3a0e6e
 [medium-pricing]: https://azure.com/e/1f1e7bf2a6ad4f7799581211f4369b9b
 [large-pricing]: https://azure.com/e/75207172ece94cf6b5fb354a2252b333
-[architecture-diagram]: ./images/architecture-diagram-cosmos-db.png
+[architecture-diagram]: ./media/architecture-diagram-cosmos-db.png
 [docs-cosmos-db]: /azure/cosmos-db
 [docs-cosmos-db-change-feed]: /azure/cosmos-db/change-feed
 [docs-cosmos-db-online-backup-and-restore]: /azure/cosmos-db/online-backup-and-restore

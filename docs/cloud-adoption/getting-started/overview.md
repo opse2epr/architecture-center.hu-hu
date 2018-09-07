@@ -2,12 +2,12 @@
 title: 'Enterprise Cloud Adoption: Első lépések'
 description: Ismerteti az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintése
 author: petertaylor9999
-ms.openlocfilehash: 25d1afe4d048b07a350dfc1b5c463b1d5425a8a4
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 0625de08b7151f710376787e13af8f4719686095
+ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326721"
+ms.lasthandoff: 09/06/2018
+ms.locfileid: "44040468"
 ---
 # <a name="enterprise-cloud-adoption-getting-started"></a>Enterprise Cloud Adoption: Első lépések 
 
@@ -35,6 +35,8 @@ Például egy felhőalapú stratégia csapat sikerült meghatározni a műszaki 
 
 Szintén fontos két magas szintű csoportok alkotják: egy cégirányítási csapat és a egy biztonsági csoport. Ezek a csapatok felelősek kialakítása, megvalósítása és a folyamatban lévő sablonesemények naplózását a vállalati cégirányítási és biztonsági házirendjeivel. A cégirányítási kell dolgoznia tagokat, amelyeket már használta az eszköz védelmét, Költségkezelés, Csoportházirend és a kapcsolódó témaköröket. A biztonsági csapat tagjait, amelyek vannak jól ismeri az aktuális biztonsági szabványokon, valamint a vállalat biztonsági követelményeinek van szükség.
 
+![Felhőalapú stratégia csapat, szabályozási és biztonsági csapatok számára](../_images/getting-started-overview-1.png)
+
 A cégirányítási csapat felelős tervezése és megvalósítása a vállalati irányítás modell a felhőben, valamint üzembe helyezése és karbantartása a megosztott infrastruktúra-eszközök, amelyek részei a digitális átalakulást. Ezek az eszközök közé tartozik a hardverek, a szoftverek, és a felhőbeli erőforrások szükségesek, hogy a helyszíni hálózat csatlakoztatása virtuális hálózatok a felhőben.
 
 A biztonsági csapat felelős, amelyek segítenek a vállalati biztonsági házirend a felhőben, szorosan működik az irányítási csapatával. A biztonsági csapat a biztonsági határ a helyszíni hálózat tartalmazza a virtuális hálózatok a felhőben a bővítmény tulajdonosa. Ez igénybe vehet a tulajdonos és a felhőbeli virtuális hálózaton a bejövő és kimenő tűzfalak fenntartása, valamint biztosítja az eszközöket és a házirend megakadályozásának jogosulatlan erőforrások központi telepítése formájában.
@@ -42,6 +44,8 @@ A biztonsági csapat felelős, amelyek segítenek a vállalati biztonsági házi
 ## <a name="step-2-learn-whats-new-in-the-cloud"></a>2. lépés: további Újdonságok a felhőben
  
 A következő lépése a vállalati digitális átalakulást további információ a felhő-számítástechnika változik hogyan módja a vállalat üzleti tevékenysége a felhő stratégia csapat tagjainak szól. Ez az előkészítési és a módosítások az üzleti, személyek és technológia megtervezése. Fontos a felhő stratégia csapata tagjaihoz, mi az új és más, mint a korábban megszokott helyszíni a felhőben.
+
+![Felhőalapú stratégia, szabályozási és biztonsági csapatok ismerje meg, hogy a felhőben működő ajánlott eljárásai.](../_images/getting-started-overview-2.png)
 
 A kiindulási pont, a felhő megértéséhez van tanulási [Azure működéséről](what-is-azure.md) magas szinten. Ezt követően ismerje meg a alapjait [irányítás az Azure-ban](what-is-governance.md) előkészítésekor [erőforrás hozzáférés-kezelés](azure-resource-access.md).
 
@@ -56,7 +60,7 @@ A következő lépés a felhő stratégia csapat számbavétele az üzleti probl
 |Kategória|Leírás|
 |-----|-----|
 |Költségkezelés|A technológia a vállalat fizet módon eseményáramlási kimaradást jelöli.|
-|Cégirányítás|A folyamatok engedményezhetné szembeni helytelen használat költség túllépését, a biztonsági problémák vagy a megfelelőségi problémák eredményezheti, hogy a vállalat által használt eseményáramlási kimaradást jelöli. | 
+|Szabályozás|A folyamatok engedményezhetné szembeni helytelen használat költség túllépését, a biztonsági problémák vagy a megfelelőségi problémák eredményezheti, hogy a vállalat által használt eseményáramlási kimaradást jelöli. | 
 |Megfelelőség|A vállalati betartja a saját belső folyamatok és házirendek, valamint a külső törvényeknek, előírásoknak és szabványok ugyanúgy eseményáramlási kimaradást jelöli. |
 |Biztonság|A vállalati külső fenyegetések elleni védelmet biztosít a technológia és az eszközök ugyanúgy eseményáramlási kimaradást jelöli. |
 |Adatirányítás|A vállalat kezeli az adatokat, különösen a vásárlói adatokat módon eseményáramlási kimaradást jelöli. Például az új általános adatvédelmi rendelet (GDPR) az Európai Unióban, szigorú követelményeket állít fel, amely lehet szükség, új hardver- és ügyféladatok védelméről.|    
@@ -80,6 +84,8 @@ Ez a folyamat kimenete üzleti kategóriák igazítva magas szintű megoldások 
 Most, hogy a kitűzött célokat a digitális átalakulás érdekében bevezetett lettek besorolva, előnyt élvez, és magas szintű megoldások javasolt, van-e a következő lépés a felhő stratégia csapat számára az egyes üzleti tervezési és megvalósítási csapatok számára a magas szintű megoldások mindegyikének igazítása csoportok. 
 
 A csapatok igénybe vehet a rangsorolt listája, és haladjon végig az egyes magas szintű megoldások minden megoldást. A tervezési folyamat magában foglalja a specifikációnak új infrastruktúra és az új számítási feladatok. Is előfordulhatnak, személyek és a folyamatok, akkor hajtsa végre a szerepkör-módosításokat. Emellett az is rendkívül fontos ezen a ponton minden tekintse át az egyes kialakítások a cégirányítási és a biztonsági csoportokhoz közé tartozik a tervezési csapat. Minden tervhez belül kell maradnia a házirendek és a szabályozási és biztonsági csapatok által meghatározott eljárást, és ezek a csapatok szerepelnie kell a végső bejelentkezési minden egyes kialakítások.
+
+![A felhő stratégia csapat kéz magas szintű megoldások tervezésének és megvalósításának Teams ki.](../_images/getting-started-overview-3.png)
 
 A kialakítás az egyes megoldások nem triviális feladat, és a tervek létrehozásakor figyelembe kell venni a többi csapatban más megoldás mintákat a környezetben. Például ha a tervek számos egy meglévő helyszíni alkalmazások és szolgáltatások áttelepítése a felhőbe, valószínűleg hatékonyabb, ha ezek együtt csoportot, és a egy teljes áttelepítési stratégiájának tervezése. Egy másik példa hogy nem lehetséges áttelepítéséhez, bizonyos meglévő helyszíni alkalmazások és szolgáltatások és a megoldás lehet őket az új fejlesztési vagy külső szolgáltatásokkal. Ebben az esetben ez hatékonyabb lehet csoportosítani ezeket együtt, és meghatározhatja a meghatározásához, ha egy külső szolgáltatás használható-e egynél több megoldás közöttük némi átfedés.
 

@@ -3,12 +3,12 @@ title: Valós idejű csalásészlelés az Azure-ban
 description: Rosszindulatú tevékenység észlelésére valós idejű bevált forgatókönyv az Azure Event Hubs és a Stream Analytics használatával.
 author: alexbuckgit
 ms.date: 07/05/2018
-ms.openlocfilehash: e22322133adf40d033ac5af98069cb00765d14ca
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 00d398ee02704948cb3e5024f0e23bfb51d4e9cc
+ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060812"
+ms.lasthandoff: 09/06/2018
+ms.locfileid: "44040349"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Valós idejű csalásészlelés az Azure-ban
 
@@ -99,7 +99,7 @@ Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is 
 [small-pricing]: https://azure.com/e/74149ec312c049ccba79bfb3cfa67606
 [medium-pricing]: https://azure.com/e/4fc94f7376de484d8ae67a6958cae60a
 [large-pricing]: https://azure.com/e/7da8804396f9428a984578700003ba42
-[architecture-diagram]: ./images/architecture-diagram-fraud-detection.png
+[architecture-diagram]: ./media/architecture-diagram-fraud-detection.png
 [docs-event-hubs]: /azure/event-hubs/event-hubs-what-is-event-hubs
 [docs-event-hubs-security-model]: /azure/event-hubs/event-hubs-authentication-and-security-model-overview
 [docs-stream-analytics]: /azure/stream-analytics/stream-analytics-introduction

@@ -2,19 +2,16 @@
 title: 'Enterprise Cloud Adoption: Cégirányítási tervezése az Azure-ban több csapat'
 description: Útmutató a több csapat, több számítási feladatot és több környezetet az Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
-ms.openlocfilehash: 2ad9fac6604d2766fed1df828f63e65c8a570888
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 4e317a4888b973846197fa9a35a6c29899f3806a
+ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326691"
+ms.lasthandoff: 09/06/2018
+ms.locfileid: "44040434"
 ---
 # <a name="enterprise-cloud-adoption-governance-design-for-multiple-teams"></a>Enterprise Cloud Adoption: Cégirányítási tervezés több fejlesztőcsapatoknak
 
 Ez az útmutató célja, amely megkönnyíti a folyamatot az Azure-ban a több csapat, több számítási feladatot, és több környezetet erőforrás cégirányítási modell létrehozása.  Azt fogjuk elméleti cégirányítási követelményeket tekintse meg, majd nyissa meg több szolgálnak példákkal, amelyek megfelelnek-e ezeknek a követelményeknek.
-
-> [!NOTE]
-> A részletes leírásáért lásd **környezetek** tekintse meg a 
 
 Követelmények:
 * A vállalati átmenet új felhőalapú szerepkörökkel és a felhasználók felelőssége terveket, és ezért van szükség az Identitáskezelés az Azure-ban különböző erőforrás-hozzáférési igényekkel rendelkező több csapatok számára. A következő felhasználók identitását tárolásához az identitáskezelési rendszerekkel van szükség:
