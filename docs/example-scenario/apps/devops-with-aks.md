@@ -3,12 +3,12 @@ title: CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 description: Bevált forgatókönyv egy DevOps-folyamattal a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használó Node.js-webalkalmazások készítéséhez.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: dceb4ad3c34ec43a54d802772f5817cacdd3929c
-ms.sourcegitcommit: 8b5fc0d0d735793b87677610b747f54301dcb014
+ms.openlocfilehash: d659916e3af0caa2128db25faab441a2af8f3f6a
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/29/2018
-ms.locfileid: "39334215"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389383"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 
@@ -22,7 +22,7 @@ Azure-szolgáltatások, például az Azure Kubernetes Service, Container Registr
 
 Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
-* Modernizálhatja alkalmazás fejlesztési eljárásaikat mikroszolgáltatásokon és tárolókon alapuló megközelítést.
+* Modernizálhatja megközelítés tárolóalapú mikroszolgáltatások fejlesztési eljárásaikat alkalmazás.
 * Felgyorsítható az alkalmazások fejlesztése és üzembe helyezési életciklusának.
 * Központi telepítések tesztelése és érvényesítési elfogadási környezetek automatizálása.
 
@@ -33,7 +33,7 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejlesztési és üzemeltetési folyamatot ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. A fejlesztők a Node.js webes alkalmazás forráskódjának módosítást hajt végre.
-2. A kód módosítása számára fontos, hogy a forrás vezérlő adattár, például a GitHub.
+2. Verziókövetési adattár, például a GitHub elkötelezett a kód megváltoztatására.
 3. A folyamatos integrációs (CI) folyamat elindításához egy GitHub-webhook aktiválja a Jenkins projekt build.
 4. A Jenkins készítése feladatot használ a dinamikus fordító-ügynökhöz az Azure Kubernetes Service egy tároló-létrehozási folyamat végrehajtásához.
 5. Egy tárolórendszerkép jön létre a kódot verziókövetési rendszerben, és ezután a rendszer továbbítja egy Azure Container Registrybe.
@@ -44,8 +44,8 @@ Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrend
 ### <a name="components"></a>Összetevők
 
 * [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a forgatókönyvben a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
-* [Azure-beli Linux rendszerű virtuális gépek] [ azurevm-docs] a Jenkins és a Grafana példányok futtatásához használt.
-* [Az Azure Container Registry] [ azureacr-docs] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és más régiókban is replikálja az Azure platform üzembe helyezéshez szükséges idő felgyorsítása érdekében.
+* [Azure-beli Linux rendszerű virtuális gépek] [ azurevm-docs] az IaaS platform, a Jenkins és a Grafana példányok futtatásához használt.
+* [Az Azure Container Registry] [ azureacr-docs] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és az Azure platformon felgyorsíthatja az üzembe helyezéshez szükséges idő szerint replikálható a régiók.
 * [Az Azure Kubernetes Service] [ azureaks-docs] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
 * [Az Azure Cosmos DB] [ azurecosmosdb-docs] egy globálisan elosztott, többmodelles adatbázis, amely lehetővé teszi, hogy illeszkedjen az igényeihez különféle adatbázis és a konzisztencia modellek közül választhat. A Cosmos DB használatával az adatok globális replikálása, és van nem fürt felügyeleti vagy a replikációs összetevő telepítését és konfigurálását.
 * [Az Azure Monitor] [ azuremonitor-docs] segít a teljesítmény, a biztonság fenntartására és a trendek azonosítására. Figyelő által előállított metrikákat más erőforrásokat és eszközöket, mint a Grafana használhatják.
@@ -53,7 +53,7 @@ Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrend
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* [A Visual Studio Team Services] [ vsts] és a egy folyamatos integrációs (CI), tesztelési és üzembe helyezése (CD) megvalósítása a Team Foundation Server Súgó folyamat-bármely alkalmazás.
+* [Az Azure folyamatok] [ azure-pipelines] súgó megvalósítása egy folyamatos integrációs (CI), tesztelési és üzembe helyezése (CD) folyamatot minden olyan alkalmazás esetében.
 * [Kubernetes] [ kubernetes] futtatható közvetlenül az Azure-beli virtuális gépek helyett egy felügyelt szolgáltatáson keresztül, ha szeretné jobban szabályozhatja a fürthöz.
 * [A Service Fabric] [ service-fabric] van egy másik másodlagos tárolóvezénylő, mely lecserélheti az AKS.
 
@@ -65,7 +65,7 @@ Az alkalmazásteljesítmény monitorozásához és a jelentés a problémák, eb
 
 Az Azure Kubernetes Service-fürt részeként a terheléselosztó elosztja a forgalmat alkalmazás egy vagy több tárolók (podok) az alkalmazást futtató között. Ez a megközelítés a tárolóalapú alkalmazások Kubernetes-ben futó magas rendelkezésre állású infrastruktúrát biztosít az ügyfelek számára.
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] az architektúra-központ érhető el.
+Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] elérhető az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 
@@ -73,11 +73,11 @@ Az Azure Kubernetes Service lehetővé teszi a fürtcsomópontok, hogy a videól
 
 Az Azure Cosmos DB egy globálisan elosztott, többmodelles adatbázis, amely globálisan méretezhető tárolt alkalmazásadatok. A cosmos DB kivonatolja az infrastruktúra mint a hagyományos adatbázis-összetevőket kell, és dönthet úgy, hogy a Cosmos DB globálisan, hogy a videólejátszást az ügyfelek replikálni.
 
-Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] az architektúra-központ érhető el.
+Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
-A támadások bekövetkeztének minimalizálása érdekében ez a forgatókönyv nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
+A támadások bekövetkeztének minimalizálása érdekében ebben a forgatókönyvben nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
 
 Ebben a forgatókönyvben hitelesítő adataival és engedélyeivel szétválasztása, használja az Azure Active Directory (AD) dedikált szolgáltatásnév. Az egyszerű szolgáltatás hitelesítő adatai, egy biztonságos hitelesítő objektumot a Jenkins tárolódnak, így, hogy ne legyenek közvetlenül elérhetővé tett és szkriptek vagy a buildelési folyamat látható.
 
@@ -123,9 +123,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 Adtunk három példa költség profilok tárolólemezképek tárolására és az alkalmazások futtatása a Kubernetes-csomópontok száma alapján.
 
-* [Kis][small-pricing]: Ez havonta 1000 tároló buildek utal.
-* [Közepes][medium-pricing]: Ez havonta 100 000 tároló buildek utal.
-* [Nagy][large-pricing]: Ez havonta 1 000 000 tároló buildek utal.
+* [Kis][small-pricing]: a díjszabási példa havonta 1000 tároló buildek utal.
+* [Közepes][medium-pricing]: a díjszabási példa havonta 100 000 tároló buildek utal.
+* [Nagy][large-pricing]: a díjszabási példa havonta 1 000 000 tároló buildek utal.
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 
@@ -149,7 +149,7 @@ Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernete
 [security]: /azure/security/
 [scalability]: ../../checklist/scalability.md
 [sshkeydocs]: /azure/virtual-machines/linux/mac-create-ssh-keys
-[vsts]: /vsts/?view=vsts
+[azure-pipelines]: /azure/devops/pipelines
 [kubernetes]: https://kubernetes.io/
 [service-fabric]: /azure/service-fabric/
 

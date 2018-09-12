@@ -3,20 +3,20 @@ title: CI/CD-folyamat a vsts-sel
 description: Egy példa létrehozása és közzététele az Azure Web Apps .NET-alkalmazás
 author: christianreddington
 ms.date: 07/11/18
-ms.openlocfilehash: ae4ac5fc02cc841fc39b3cbef46124fe9da75e9b
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: aea757087f4a505a8c52658abe1841c5455977cc
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39061159"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389273"
 ---
 # <a name="cicd-pipeline-with-vsts"></a>CI/CD-folyamat a vsts-sel
 
 Fejlesztési és üzemeltetési a fejlesztési, minőségbiztosítási és IT-üzemeltetési integrációt. Fejlesztési és üzemeltetési egységes kulturális környezet és a folyamatok rengeteg szükséges szoftvereket.
 
-A példaforgatókönyv azt szemlélteti, hogyan fejlesztői csapatok az Visual Studio Team Services az Azure App Service .NET kétrétegű webes alkalmazás üzembe helyezése. A webalkalmazás dependends alsóbb rétegbeli Azure platformon Platformszolgáltatási (PaaS) szolgáltatásokra. Ez a dokumentum is mutat meg néhány szempontot, hogy meg kell győződnie, ilyen esetben az Azure Platform (PaaS) szolgáltatás használatával való tervezésekor.
+A példaforgatókönyv azt szemlélteti, hogyan fejlesztői csapatok az Visual Studio Team Services az Azure App Service .NET kétrétegű webes alkalmazás üzembe helyezése. A webalkalmazás Platformszolgáltatási (PaaS) szolgáltatásokra alsóbb rétegbeli Azure Platform függ. Ez a dokumentum is mutat meg néhány szempontot, hogy meg kell győződnie, ilyen esetben az Azure Platform (PaaS) szolgáltatás használatával való tervezésekor.
 
-Alkalmazásfejlesztés folyamatos integrációs (CI) és folyamatos üzembe helyezés (CD) segítségével modern megközelítését bevezetése, segít, hogy a felhasználók számára a robusztus építés, tesztelési, központi telepítési és figyelési szolgáltatás érték kézbesítésének felgyorsítása. Platform használatával, mint például a Visual Studio Team Services mellett az Azure App Service szolgáltatásokban, a szervezetek biztosítható, a forgatókönyv fejlesztésének ahelyett, hogy az infrastruktúra engedélyezze azt a felügyeleti összpontosítanak maradnak.
+Alkalmazásfejlesztés folyamatos integrációs (CI) és folyamatos üzembe helyezés (CD) segítségével modern megközelítését bevezetése, megismerheti, hogyan érték egy robusztus építés, tesztelés, üzembe helyezési és figyelési szolgáltatás segítségével a felhasználók számára a kézbesítésének gyorsítását. Platform használatával, mint például a Visual Studio Team Services mellett az Azure App Service szolgáltatásokban, a szervezetek biztosítható, a forgatókönyv fejlesztésének ahelyett, hogy az infrastruktúra engedélyezze azt a felügyeleti összpontosítanak maradnak.
 
 ## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
 
@@ -43,20 +43,20 @@ Ebben a forgatókönyvben egy .NET-webalkalmazás a Visual Studio Team Services 
 
 * [Erőforráscsoportok] [ resource-groups] vannak az Azure-erőforrások logikai tárolója is adja meg a felügyeleti sík hozzáférés-vezérlő határához – gondolja át, hogy "központi telepítési egység" jelző egy erőforráscsoportot.
 * [A Visual Studio Team Services (VSTS)] [ vsts] egy szolgáltatás, amely lehetővé teszi a fejlesztési életciklus-végpontok; kezelését a tervezési és projektmenedzsment, a kód felügyelete készítése és kiadása a keresztül.
-* [Az Azure Web Apps] [ web-apps] Platformszolgáltatási (PaaS) szolgáltatás REST API-k, a webalkalmazások üzemeltetéséhez, a Platform és a mobil háttérrendszer. Amíg ez a cikk .NET összpontosít, többféle módon további szükséges fejlesztési platformon támogatott.
+* [Az Azure Web Apps] [ web-apps] üzemeltetéséhez, webalkalmazások, a REST API-k és a mobilalkalmazások háttérkomponensei Platformszolgáltatási (PaaS) szolgáltatás, a Platform. Amíg ez a cikk .NET összpontosít, többféle módon további szükséges fejlesztési platformon támogatott.
 * [Az Application Insights] [ application-insights] van egy belső, bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás webfejlesztőknek, több platformon.
 
 ### <a name="alternative-devops-tooling-options"></a>Alternatív fejlesztési és üzemeltetési eszközök beállításai
 
 Bár ez a cikk elsősorban a Visual Studio Team Services [Team Foundation Server] [ team-foundation-server] helyi helyére írja be a használható. Másik megoldásként is találhat egy nyílt forráskódú fejlesztési folyamat kihasználva együtt használt technológiák gyűjteménye [Jenkins][jenkins-on-azure].
 
-A kód perspektíva, az infrastruktúra- [Azure Resource Manager (ARM) sablon] [ arm-templates] kerültek, célszerűbb a részeként az Azure DevOps-projekt, de [Terraform] [ terraform] vagy [Chef] [ chef] Ha itt nincs befektetéseit. Ha inkább olyan infrastruktúra-szolgáltatás (IaaS) alapuló telepítési és a szükséges konfiguráció kezelése, akkor érdemes lehet akár [Azure Desired State Configuration][desired-state-configuration], [ Az Ansible] [ ansible] vagy [Chef][chef].
+A kód perspektíva, az infrastruktúra- [Azure Resource Manager-sablonok] [ arm-templates] kerültek, célszerűbb a részeként az Azure DevOps-projekt, de [Terraform] [ terraform] vagy [Chef] [ chef] Ha itt nincs befektetéseit. Ha inkább olyan infrastruktúra-szolgáltatás (IaaS) alapuló telepítési és a szükséges konfiguráció kezelése, akkor érdemes lehet akár [Azure Automation Állapotkonfiguráció][desired-state-configuration], [ Az Ansible] [ ansible] vagy [Chef][chef].
 
 ### <a name="alternatives-to-web-app-hosting"></a>Alternatívák webalkalmazás üzemeltetéséhez
 
 Alternatívák üzemeltetése az Azure Web Apps:
 
-* [Virtuális gép] [ compare-vm-hosting] - a számítási feladatok, amelyek a szükséges vezérlőt, magas szintű vagy operációsrendszer-összetevők függenek / szolgáltatások, amelyek nem engedélyezettek a Web Apps (pl. a Windows GAC, vagy a COM)
+* [Virtuális gép] [ compare-vm-hosting] - a számítási feladatok, amelyek a szükséges vezérlőt, magas szintű vagy operációsrendszer-összetevők függenek / szolgáltatások, amelyek nem engedélyezettek a Web Apps (például a Windows GAC, vagy a COM)
 * [Tároló üzemeltetési] [ azure-containers] – ahol függőségek az operációs rendszer és hordozhatóság üzemeltető, vagy sűrűségű üzemeltetés, egyúttal követelményeinek.
 * [A Service Fabric] [ service-fabric] -jó választás, ha a munkaterhelés-architektúra irányul, hogy körül elosztott összetevőket, amelyek üzembe helyezve, és futtassa a vezérlő magas fokú fürtök között. A Service Fabric is használható tárolók üzemeltetéséhez.
 * [Az Azure functions kiszolgáló nélküli] [ azure-functions] -jó választás, ha a munkaterhelés-architektúra részletes eltérése elosztott, minimális függőségeket, ahol az egyes összetevők csak szükséges igénylő összetevői részletesebben igény szerinti (nem folyamatos) futtatása, és vezénylési összetevők, nem szükséges.
@@ -70,20 +70,20 @@ A folyamatos integrációs folyamat részeként kell;
 * (Beleértve a véleménypontszáma elérési útjait) megfelelő kódot lefedettséggel rendelkező vetünk az alkalmazás összetevői
 * A megosztott, master (vagy trönk) ág vonatkozóan fut le a build biztosítása. Ez az ág stabil és telepítésként"kész" kell lennie. Hiányos vagy folyamatban lévő módosításokat kell elkülöníteni egy külön ágban végzett gyakori "integrációs továbbítsa" összevonása később ütközések elkerülése érdekében.
 
-**[Folyamatos kézbesítési (CD)] [ continuous-delivery]**  tárhelyeken, nem csak egy stabil hozhat létre, de egy stabil üzembe helyezési bemutatásához. Ez teszi integrációjuk CD egy kicsit összetettebb, a környezetre vonatkozó konfigurációval szükség, és megfelelően állítja ezeket az értékeket egy mechanizmust.
+**[Folyamatos kézbesítési (CD)] [ continuous-delivery]**  tárhelyeken, nem csak egy stabil hozhat létre, de egy stabil üzembe helyezési bemutatásához. Ez megkönnyíti egy kicsit összetettebb CD megvalósításához, a környezetspecifikus konfigurációra szükség, és megfelelően állítja ezeket az értékeket egy mechanizmust.
 
 Emellett elegendő lefedettségét integráció teszteléséhez szükséges győződjön meg arról, hogy vannak-e konfigurálva a különböző összetevők és megfelelően – teljes körű működik-e.
 
-Ez is szükségessé, beállítása és környezeti adott adatok alaphelyzetbe állítása és felügyelete az adatbázis-séma verziója.
+Ez is szükségessé, beállítása és környezetre jellemző adatok alaphelyzetbe állítása és felügyelete az adatbázis-séma verziója.
 
 A folyamatos teljesítés is kiterjesztheti terheléses tesztelés és a felhasználói elfogadás tesztelési környezeteket.
 
 Folyamatos Készregyártás számos előnyt biztosít az folyamatos figyelés ideális esetben minden környezetben keresztül.
-A konzisztencia és a központi telepítések és az integráció tesztelésre környezetekben megbízhatóságát könnyebbé vált a parancsfájl-kezelési létrehozását és a konfiguráció vagy a (hiba, amely lényegesen megkönnyíti a felhőalapú számítási feladatok esetén tekintse meg az Azure üzemeltetési infrastruktúrájának infrastruktúra mint kód) – Ez más néven a ["infrastruktúra-as-kód"][infra-as-code].
+A konzisztencia és a központi telepítések és az integráció tesztelésre környezetekben megbízhatóságát könnyebbé vált a parancsfájl-kezelési létrehozását és a konfiguráció vagy a (olyanra, amely lényegesen megkönnyíti a felhőbeli számítási feladatok esetén tekintse meg az Azure üzemeltetési infrastruktúrájának infrastruktúra mint kód) – Ez más néven a ["infrastruktúra-as-kód"][infra-as-code].
 
 * Indítsa el a lehető leghamarabb a folyamatos Készregyártás a projekt életciklusában. Hagyja a később, annál bonyolultabb lesz.
 * Integráció és az egységteszteket kell fordítani a projekt lehetőségként azonos prioritású
-* Környezet független központi telepítési csomagok használata, és kezelheti a környezetre vonatkozó konfigurációval a kibocsátási folyamat során.
+* Környezet független központi telepítési csomagok használata, és a kibocsátási folyamat környezetspecifikus konfigurációjának kezelése.
 * A kiadási kezelőeszközök belül, vagy hívja hardver-security-modulra (HSM), bizalmas konfigurációs védelme vagy [Key Vault][azure-key-vault], a kibocsátási folyamat során. Ne tároljon bizalmas konfigurációs verziókövetés belül.
 
 **Folyamatos tanulás** – a leghatékonyabb figyelést egy CD-környezet által biztosított eszközök alkalmazások teljesítményének figyelése (APM röviden), például a Microsoft [Application Insights] [ application-insights]. Alkalmazás számítási feladat figyelése elegendő mélysége, kritikus fontosságú, hibák, a terhelés megértése. [Az App Insights integrálhatók a VSTS folyamatos figyelés a CD-folyamat engedélyezéséhez][app-insights-cd-monitoring]. Ez használható a következő szintre, emberi beavatkozás vagy visszaállítási nélkül automatikus metódushívásainak engedélyezze, ha a riasztás észlelhető.
@@ -96,7 +96,7 @@ Vegye figyelembe, kihasználva a [jellemző tervezési minták a rendelkezésre 
 
 Tekintse át a rendelkezésre állási szempontok a megfelelő [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture]
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] az Azure architektúra-központ.
+Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 
@@ -104,7 +104,7 @@ Ha a cloud application készítése vegye figyelembe a [jellemző tervezési min
 
 Megfontolandó szempontok a megfelelő méretezhetőség [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture]
 
-Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] az Azure architektúra-központ.
+Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
@@ -118,7 +118,7 @@ Tekintse át a biztonsági szempontok a megfelelő [App Service webalkalmazás r
 
 Tekintse át a [jellemző tervezési minták a rugalmassághoz] [ design-patterns-resiliency] , és vegye fontolóra a megfelelő helyen.
 
-Számos annak [ajánlott eljárások az App Service rugalmasság] [ resiliency-app-service] az architektúra-központ.
+Számos annak [ajánlott eljárások az App Service] [ resiliency-app-service] a az Azure Architecture Centert.
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
@@ -135,7 +135,7 @@ Ebben a forgatókönyvben a CI/CD-folyamatok létrehozására az Azure DevOps-pr
 
 A DevOps-projekt fogja üzembe helyezése az App Service-csomag, az App Service-ben és a egy App Insights-erőforrást az Ön számára, valamint a Visual Studio Team Services-projekt konfigurálása az Ön számára.
 
-Miután megismerte a DevOps-projekt és a build elkészült, tekintse át az ahhoz tartozó kódot munkaelemek módosításokat, és a vizsgálati eredmények. Megfigyelheti, nincs teszt eredményei jelennek meg, a kódot nem tartalmazó bármely tesztek futtatásához.
+A DevOps-projekt üzembe helyezte és a létrehozás befejezése után tekintse át a társított kódmódosítás szükséges, munkaelemek, és a vizsgálati eredmények. Megfigyelheti, nincs teszt eredményei jelennek meg, a kódot nem tartalmazó bármely tesztek futtatásához.
 
 Tekintse át a kiadás definíciókat. Figyelje meg, hogy a kibocsátási folyamat telepítése, helyőrzőkivétel fejlesztői az alkalmazás közzététele befejeződött Figyelje meg, hogy egy **a folyamatos készregyártás eseményindítója** állítható be a **Drop** összetevő, a Dev környezetekbe történő automatikus kiadásaival hozhat létre. A folyamatos üzembe helyezési folyamat részeként a kiadások látni span több környezetben. Kiadás span mindkét infrastruktúra (például infrastruktúra technikák használatával kód), és az alkalmazáscsomagokat, valamint minden olyan konfigurációt követő feladatok szükséges is telepíthet.
 
@@ -144,7 +144,7 @@ Tekintse át a kiadás definíciókat. Figyelje meg, hogy a kibocsátási folyam
 * Fontolja meg az egyik kihasználva a [a jogkivonatok feladatok] [ vsts-tokenization] , amelyek is elérhetők a VSTS-piactéren.
 * Fontolja meg a [üzembe helyezés: Azure Key Vault] [ download-keyvault-secrets] VSTS-feladat, a kiadás az Azure KeyVault titkos kódok töltheti le. Ezután használhatja ezeket a titkos kulcsokat a kiadási definíció részeként változókként, és kell nem tárolja őket verziókövetési rendszerben.
 * Fontolja meg [változók kiadási] [ vsts-release-variables] meghajtó konfigurációjának a módosításához a környezetek a kiadási-definíciókban. Kiadási változók hatóköre beállítható egy teljes kiadása, vagy egy adott környezetben. Változók használata a titkos adatok, győződjön meg arról, hogy bejelöli-e a lakat ikonra.
-* Fontolja meg [üzembe helyezési kapuk] [ vsts-deployment-gates] a kibocsátási folyamat. Ez lehetővé teszi, hogy a monitorozási adatok (például az incidenskezelés vagy egyéb bespoke rendszerekhez) határozza meg, hogy kiadás támogatni kell külső rendszerekkel való társítás.
+* Fontolja meg [üzembe helyezési kapuk] [ vsts-deployment-gates] a kibocsátási folyamat. Ez lehetővé teszi a figyelési adatok (például az incidenskezelés vagy egyéb bespoke rendszerekhez) külső rendszerekkel való társítás e kiadás támogatni kell meghatározni.
 * Amennyiben a kibocsátási folyamat manuális beavatkozásra szükség, fontolja meg a [jóváhagyások] [ vsts-approvals] funkciót.
 * Fontolja meg [Application Insights] [ application-insights] és a kiadás a lehető leghamarabb folyamat további figyelési eszközök. A legtöbb szervezet csak megfigyelésének saját éles környezetben azonban a folyamat korábbi szakaszában a lehetséges hibák azonosítása és a felhasználók számára, éles környezetben gyakorolt hatás megakadályozása sikerült.
 

@@ -2,12 +2,13 @@
 title: 'Enterprise Cloud Adoption: Cégirányítási tervezése az Azure-ban több csapat'
 description: Útmutató a több csapat, több számítási feladatot és több környezetet az Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
-ms.openlocfilehash: 4e317a4888b973846197fa9a35a6c29899f3806a
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.date: 09/10/2018
+ms.openlocfilehash: ac2a63ad6ced1039290dc0bf5132b0d87a2c79cf
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040434"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389417"
 ---
 # <a name="enterprise-cloud-adoption-governance-design-for-multiple-teams"></a>Enterprise Cloud Adoption: Cégirányítási tervezés több fejlesztőcsapatoknak
 

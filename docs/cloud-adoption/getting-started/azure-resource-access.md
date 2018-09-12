@@ -2,12 +2,13 @@
 title: 'Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban'
 description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: az Azure resource manager, az előfizetések, erőforráscsoportok és erőforrások'
 author: petertaylor9999
-ms.openlocfilehash: cd26b73e0327fa15b6ae29492b45331a19b9d6c2
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.date: 09/10/2018
+ms.openlocfilehash: 2e64d8828574ebe216da1e76b19ec3ce5aeda993
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326533"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389077"
 ---
 # <a name="enterprise-cloud-adoption-resource-access-management-in-azure"></a>Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban
 

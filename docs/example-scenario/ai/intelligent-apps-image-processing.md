@@ -3,12 +3,12 @@ title: Képek besorolása a biztosítási kárigényekben, az Azure-ban
 description: Bevált forgatókönyv képfeldolgozás, az Azure-alkalmazások készítéséhez.
 author: david-stanford
 ms.date: 07/05/2018
-ms.openlocfilehash: 361a88234fd9ed918ab7664893f86666b4328b8c
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 0ca0b46e83219afc5e22c2ac6467bf4be945c97a
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060829"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389162"
 ---
 # <a name="image-classification-for-insurance-claims-on-azure"></a>Képek besorolása a biztosítási kárigényekben, az Azure-ban
 
@@ -16,7 +16,7 @@ Ebben a példaforgatókönyvben akkor számára ideális, dolgozhassa fel.
 
 Lehetséges alkalmazások közé tartozik a divat webhelyekhez képek besorolása, a szöveget és képeket a biztosítási követeléseket elemzése vagy a játék képernyőképek küldött telemetriai adatok megismerése. Hagyományosan vállalatok lenne kell fejleszthet szaktudását a gépi tanulási modelleket, a modelleket taníthat be, és végül futtassa a rendszerképek saját egyéni folyamaton kívül a képek az adatok beolvasásához.
 
-Azure-szolgáltatások például a Computer Vision API és az Azure Functions használatával a vállalatok szükségtelenné teszi a az egyes kiszolgálók felügyelete során költségeit, és azzal a szakértelemmel, amelyeket a Microsoft már körül feldolgozási rendszerképek kihasználva A cognitive services. Ebben a forgatókönyvben kifejezetten címek egy kép feldolgozási forgatókönyvet. Ha eltérő AI igényeit, fontolja meg a teljes körű [Cognitive Services][cognitive-docs].
+Azure-szolgáltatások például a Computer Vision API és az Azure Functions használatával a vállalatok szükségtelenné teszi a az egyes kiszolgálók felügyelete során költségeit, és azzal a szakértelemmel, amelyeket a Microsoft már körül feldolgozási rendszerképek kihasználva A cognitive services. Ebben a példaforgatókönyvben kifejezetten egy képfeldolgozási használatieset-címek. Ha eltérő AI igényeit, fontolja meg a teljes körű [Cognitive Services][cognitive-docs].
 
 ## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
 
@@ -63,11 +63,11 @@ Ebben a forgatókönyvben egy webes vagy mobilalkalmazásaiba háttér-összetev
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Az esetek többségében ez a forgatókönyv összetevőinek összes felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezen felüli van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
+Ebben a példában a forgatókönyvben használt összetevőket a legtöbb felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezt a korlátot mellett van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
 
-A cosmos DB nem automatikus skálázás kiosztott kérelemegységek (RU) tekintetében.  A követelmények becsléséhez tekintse át [kérelemegységek] [ request-units] dokumentációban. A teljes mértékben kihasználhatja a Cosmos DB méretezése meg kell is vessen egy pillantást [kulcsok particionálása][partition-key].
+A cosmos DB nem automatikus skálázás kiosztott kérelemegységek (RU) tekintetében.  A követelmények becsléséhez tekintse át [kérelemegységek] [ request-units] dokumentációban. Ismerje meg a teljes mértékben kihasználhatja a Cosmos DB méretezése, [kulcsok particionálása][partition-key].
 
-NoSQL-adatbázisok gyakran kereskedelmi rendelkezésre állását, méretezhetőségét és a partíció (abban az értelemben, a CAP-tétel) konzisztencia.  Azonban esetén kulcs-érték típusú adatmodelleket ebben a forgatókönyvben használt, tranzakció-konzisztencia ritkán szükség van, a legtöbb műveletekre atomi definíció szerint. További útmutatást [a megfelelő adattároló kiválasztása](../../guide/technology-choices/data-store-overview.md) az architektúra-központ érhető el.
+NoSQL-adatbázisok gyakran kereskedelmi konzisztencia (abban az értelemben, a CAP-tétel), a rendelkezésre állás, a méretezhetőség és a particionálást.  Ebben a példában a forgatókönyvben egy kulcs-érték típusú adatok modellt használja, és a tranzakció-konzisztencia ritkán van szükség, mivel a legtöbb műveletek atomi definíció szerint. További útmutatást [a megfelelő adattároló kiválasztása](../../guide/technology-choices/data-store-overview.md) érhető el az Azure Architecture Centert.
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
@@ -87,17 +87,17 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 
 Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
-Három példa költség-profilok forgalom mennyisége alapján biztosítunk (feltételezzük összes rendszerképekkel 100kb méretű):
+Három példa költség-profilok forgalom mennyisége alapján biztosítunk (feltételezzük összes rendszerképekkel 100 kb méretű):
 
-* [Kis][pricing]: Ez ad eredményül, amelyek feldolgozása &lt; 5000 képek egy hónapban.
-* [Közepes][medium-pricing]: Ez havi 500 000 lemezképek feldolgozására utal.
-* [Nagy][large-pricing]: Ez havi 50 milliót lemezképek feldolgozására utal.
+* [Kis][pricing]: utal. a díjszabási példa feldolgozási &lt; 5000 képek egy hónapban.
+* [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 képek feldolgozása utal.
+* [Nagy][large-pricing]: a díjszabási Példa havi 50 milliót képek feldolgozása utal.
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 A képzési ebben a forgatókönyvben, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].  
 
-Mielőtt ez éles környezetben, tekintse át az Azure Functions [ajánlott eljárások][functions-best-practices].
+Ebben a példaforgatókönyvben az éles környezetben üzembe helyezése előtt tekintse át az Azure Functions [ajánlott eljárások][functions-best-practices].
 
 <!-- links -->
 [pricing]: https://azure.com/e/f9b59d238b43423683db73f4a31dc380

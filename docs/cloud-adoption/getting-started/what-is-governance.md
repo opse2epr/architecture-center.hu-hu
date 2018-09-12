@@ -2,12 +2,13 @@
 title: 'Enterprise Cloud Adoption: Mi a felhőbeli erőforrás-szabályozás?'
 description: Az erőforrás-hozzáférés szabályozása az Azure-ban fogalmát ismertetése
 author: petertaylor9999
-ms.openlocfilehash: 17b95e56c033f6085285ef1b5cf69895ad3dcb51
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.date: 09/10/2018
+ms.openlocfilehash: 14c26cbccdbea524a7c7220b3bb98ed2a118c30d
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326531"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389213"
 ---
 # <a name="enterprise-cloud-adoption-what-is-cloud-resource-governance"></a>Enterprise Cloud Adoption: Mi a felhőbeli erőforrás-szabályozás?
 

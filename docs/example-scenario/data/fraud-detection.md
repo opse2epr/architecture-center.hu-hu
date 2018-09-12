@@ -3,16 +3,16 @@ title: Valós idejű csalásészlelés az Azure-ban
 description: Rosszindulatú tevékenység észlelésére valós idejű bevált forgatókönyv az Azure Event Hubs és a Stream Analytics használatával.
 author: alexbuckgit
 ms.date: 07/05/2018
-ms.openlocfilehash: 00d398ee02704948cb3e5024f0e23bfb51d4e9cc
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.openlocfilehash: d80fab460938cceeb84f3ed2ecd97e9e149f8e2d
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040349"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389128"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Valós idejű csalásészlelés az Azure-ban
 
-Ebben a példaforgatókönyvben a valós idejű adatok elemzése kívánó szervezetek számára a csalárd tranzakciókat vagy más rendellenes tevékenység.
+Ebben a példaforgatókönyvben a csalárd tranzakciókat vagy más rendellenes tevékenység észleli a valós idejű adatok elemzése kívánó szervezetek számára fontos.
 
 Lehetséges-alkalmazások tartalmaznak rosszindulatú hitelkártya tevékenység vagy a mobiltelefon hívások azonosítása. Online analitikus rendszerek hagyományos átalakíthatja és elemezheti az adatokat a rendellenes tevékenységek azonosítása órát is igénybe vehet.
 

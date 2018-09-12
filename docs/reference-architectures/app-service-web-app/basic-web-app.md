@@ -4,12 +4,12 @@ description: A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasol
 author: MikeWasson
 ms.date: 12/12/2017
 cardTitle: Basic web application
-ms.openlocfilehash: bc8cf9b5c66fc451d097cbc992ecb9a249645dce
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: e4992564bc4e8a7b71fc7c5f0bf1662f5e13d5c1
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/10/2018
-ms.locfileid: "37958840"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389400"
 ---
 # <a name="basic-web-application"></a>Alapszintű webalkalmazás
 [!INCLUDE [header](../../_includes/header.md)]
@@ -152,7 +152,7 @@ Engedélyezze a [diagnosztikai naplózást][diagnostic-logs], beleértve az alka
 
 Az alkalmazások terhelés alatti teljesítményének és viselkedésének monitorozásához használjon olyan szolgáltatásokat, mint a [New Relic][new-relic] vagy az [Application Insights][app-insights]. Vegye figyelembe az Application Insights [adatátviteli sebességre vonatkozó korlátozásait][app-insights-data-rate].
 
-Végezzen terheléstesztet, például a [Visual Studio Team Services][vsts] használatával. A felhőalapú alkalmazások teljesítményelemzésének általános áttekintéséért tekintse meg a [teljesítményelemzési ismertetőt][perf-analysis].
+Végezzen terheléstesztet, például egy eszközzel [Azure DevOps] [ azure-devops] vagy [Visual Studio Team Foundation Server][tfs]. A felhőalapú alkalmazások teljesítményelemzésének általános áttekintéséért tekintse meg a [teljesítményelemzési ismertetőt][perf-analysis].
 
 Tippek az alkalmazás hibaelhárításához:
 
@@ -224,6 +224,7 @@ További információkért lásd az [erőforrások Azure Resource Manager-sablon
 [app-service-security]: /azure/app-service-web/web-sites-security
 [app-settings]: /azure/app-service-web/web-sites-configure
 [arm-template]: /azure/azure-resource-manager/resource-group-overview#resource-groups
+[azure-devops]: /azure/devops/
 [azure-dns]: /azure/dns/dns-overview
 [custom-domain-name]: /azure/app-service-web/web-sites-custom-domain-name
 [deploy]: /azure/app-service-web/web-sites-deploy
@@ -252,9 +253,9 @@ További információkért lásd az [erőforrások Azure Resource Manager-sablon
 [sql-resource-limits]: /azure/sql-database/sql-database-resource-limits
 [ssl-cert]: /azure/app-service-web/web-sites-purchase-ssl-web-site
 [troubleshoot-blade]: https://azure.microsoft.com/updates/self-service-troubleshooting-for-app-service-web-apps-customers/
+[tfs]: /tfs/index
 [troubleshoot-web-app]: /azure/app-service-web/web-sites-dotnet-troubleshoot-visual-studio
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/app-service-reference-architectures.vsdx
-[vsts]: https://www.visualstudio.com/features/vso-cloud-load-testing-vs.aspx
 [web-app-autoscale]: /azure/app-service-web/web-sites-scale
 [web-app-backup]: /azure/app-service-web/web-sites-backup
 [web-app-log-stream]: /azure/app-service-web/web-sites-enable-diagnostic-log#streamlogs

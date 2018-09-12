@@ -4,12 +4,12 @@ description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezé
 author: MikeWasson
 ms.date: 05/26/2017
 ms.custom: resiliency
-ms.openlocfilehash: c32f093da4c47ef655dfca89b0410f063e9fe212
-ms.sourcegitcommit: 2154e93a0a075e1f7425a6eb11fc3f03c1300c23
+ms.openlocfilehash: b92a26323b4329f3dbe4f941b98da0080e730d65
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/30/2018
-ms.locfileid: "39352586"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389434"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -259,7 +259,7 @@ Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy 
 
 Ez is egy érv a lehetséges hibapontok tervezési fázis során történő elemzése mellett. Az elemzés eredményei szolgálhatnak a tesztelési terve bemeneteiként.
 
-**Terheléses tesztelés**. A [Visual Studio Team Services][vsts], az [Apache JMeter][jmeter] vagy más hasonló eszköz segítségével végezhető el az alkalmazás terheléses tesztelése. A terheléses tesztelés kulcsfontosságú a csak terhelés alatt bekövetkező hibák, mint például a háttéradatbázis túlterhelése vagy a szolgáltatásszabályozás azonosítása szempontjából. A csúcsterhelést tesztelje, termelési adatok vagy a termelési adatokhoz lehető legközelebb álló szintetikus adatok használatával. A cél annak megállapítása, hogyan viselkedik az alkalmazás valós körülmények között.   
+**Terheléses tesztelés**. A terheléses tesztelés kulcsfontosságú a csak terhelés alatt bekövetkező hibák, mint például a háttéradatbázis túlterhelése vagy a szolgáltatásszabályozás azonosítása szempontjából. A csúcsterhelést tesztelje, termelési adatok vagy a termelési adatokhoz lehető legközelebb álló szintetikus adatok használatával. A cél annak megállapítása, hogyan viselkedik az alkalmazás valós körülmények között.   
 
 ## <a name="deploy-using-reliable-processes"></a>Üzembe helyezés megbízható folyamatokkal
 Miután egy alkalmazás éles telepítése megtörtént, a frissítések hibaforrások lehetnek. A legrosszabb esetben egy rossz frissítés szolgáltatáskiesést okozhat. Ennek elkerülése végett az üzembehelyezési folyamatnak kiszámíthatónak és ismételhetőnek kell lennie. A telepítés magában foglalja az Azure-erőforrások kiépítését, az alkalmazáskód telepítését és a konfigurációs beállítások alkalmazását. A frissítések ezek némelyikére vagy mindegyikére terjedhetnek ki. 
@@ -355,4 +355,3 @@ A cikk lényeges pontjai a következők:
 [tm]: https://azure.microsoft.com/services/traffic-manager/
 [tm-failover]: /azure/traffic-manager/traffic-manager-monitoring
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
-[vsts]: https://www.visualstudio.com/features/vso-cloud-load-testing-vs.aspx

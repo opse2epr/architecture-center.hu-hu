@@ -3,14 +3,14 @@ title: E-kereskedelmi előtér-, az Azure-ban
 description: Az Azure-ban egy e-kereskedelmi helyek üzemeltetéséhez forgatókönyvét bevált
 author: masonch
 ms.date: 7/13/18
-ms.openlocfilehash: 568821e97c6b90a36429dfa8ec0ef9ed38c7963c
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 1af481476c74b365ce5145636426683c6896b00b
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39061131"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389196"
 ---
-# <a name="e-commerce-front-end-on-azure"></a>E-kereskedelmi előtér-, az Azure-ban
+# <a name="e-commerce-frontend-on-azure"></a>Azure-beli E-kereskedelmi frontend
 
 A példaforgatókönyv végigvezeti egy e-kereskedelem az Azure Platform –-szolgáltatásként (PaaS) eszközökkel előtér megvalósítását. Sok e-kereskedelmi webhelyekről szezonalitás és a forgalom változékonyságát idővel között. Esetén a termékek vagy szolgáltatások iránti igény lép, e kiszámítható módon vagy kiszámíthatatlanul, PaaS-eszközök használatával lehetővé teszi, hogy több vásárló és több tranzakció automatikus kezelésére. Emellett ebben a forgatókönyvben kihasználja a felhő gazdaságosságát szerint kell fizetnie kapacitásért fizet.
 
@@ -36,7 +36,7 @@ Ebben a forgatókönyvben a következő a vásárlási jegyek egy e-kereskedelmi
 5. Webhely concert részletek lekéri az Azure SQL Database-ből. 
 6. Webhely hivatkozik a megvásárolt jegy lemezképek Blob Storage-ban.
 7. Adatbázis-lekérdezés eredményeit az Azure Redis Cache-ben lettek gyorsítótárazva, a jobb teljesítmény érdekében.
-8. Felhasználó elküldi a jegyet rendeléseket és concert értékelések, amelyre kerülnek, az üzenetsor.
+8. Felhasználó elküldi a jegyet rendeléseket és concert értékelések, amelyre kerülnek, az üzenetsorban.
 9. Azure Functions által feldolgozott order fizetési és concert ellenőrzi.
 10. A cognitive services-elemzés a concert tekintse át a vélemény (pozitív vagy negatív) meghatározásához adjon meg.
 11. Az Application Insights teljesítménymértékeket biztosít a webalkalmazás állapotát.
@@ -49,7 +49,7 @@ Ebben a forgatókönyvben a következő a vásárlási jegyek egy e-kereskedelmi
 * [Az Azure Active Directory - B2C] [ docs-b2c] egy identitáskezelő szolgáltatás, amely lehetővé teszi a testreszabás, és hogyan ügyfelek regisztráció, bejelentkezés és az alkalmazások profiljuk kezelését felett van.
 * [Tárolási üzenetsorok] [ docs-storage-queues] üzenetsorbeli üzenetek esetén az alkalmazások által elérhető nagy számú tárolja.
 * [Függvények] [ docs-functions] kiszolgáló nélküli számítási lehetőség, amelyek lehetővé teszik az alkalmazások igény szerinti futtatása nélkül az infrastruktúrával kellene foglalkoznia.
-* [Cognitive Services – Hangulatelemzés] [ docs-sentiment-analysis] használja a machine learning API-kat, és lehetővé teszi a fejlesztők könnyedén adhat alkalmazásaihoz intelligens funkciókat, például érzelem-és; videofelismerést, arc-, beszéd, és és beszédfelismerés és a language understanding – alkalmazásokba.
+* [Cognitive Services – Hangulatelemzés] [ docs-sentiment-analysis] használja a machine learning API-kat, és lehetővé teszi a fejlesztők könnyedén adhat alkalmazásaihoz intelligens funkciókat, például érzelem- és video észlelési; videofelismerést, arc, beszédfelismerési és vizuális elismerést; és beszéd- és beszédfelismerés – alkalmazásokba.
 * [Az Azure Search] [ docs-search] egy keresési--szolgáltatásként felhőalapú megoldás, amely fejlett keresési funkciókat személyes tartalmakhoz webes, mobil és vállalati alkalmazások keresztül.
 * [Storage-blobokat] [ docs-storage-blobs] nagy mennyiségű strukturálatlan adat, például szövegek vagy bináris adatok tárolására vannak optimalizálva.
 * [A redis Cache] [ docs-redis-cache] fokozza a teljesítményét és méretezhetőségét, rendszerek, amelyek az erősen támaszkodnak háttér-adattárak rendszer ideiglenesen átmásolja a gyakran használt adatok gyors tárolóba, az alkalmazás közelében helyezkednek el.
@@ -63,13 +63,13 @@ Sok más technológiákkal, amellyel összpontosít az e-kereskedelmi nagy menny
 A webes szint és a funkciók más lehetőségek a következők:
 
 * [A Service Fabric] [ docs-service-fabric] -platform, amelynek elsődleges célja elosztott összetevőket, amelyek telepítése és a egy fürtbe, a vezérlő egy magas szintű futtathatja létrehozásához. A Service Fabric is használható tárolók üzemeltetéséhez.
-* [Az Azure Kubernetes Service] [ docs-kubernetes-service] -létrehozásához és telepítéséhez-tárolóhoz rendeltek, megoldások, amelyek a mikroszolgáltatási architektúra egy végrehajtására használható platform. Ez lehetővé teszi különböző összetevőihez tartozó független méretezését, igény szerinti tudják az alkalmazás rugalmasságát.
-* [Az Azure Container Instances] [ docs-container-instances] – gyors üzembe helyezése és a futó tárolók egy rövid életciklusával módon. Itt a tárolók általában üzembe futtathat például egy üzenet feldolgozása vagy egy számítás elvégzése gyors feldolgozás feladatokat és – figyelmeztetés megszüntetésről, amint ezek teljesülnek.
+* [Az Azure Kubernetes Service] [ docs-kubernetes-service] – A platform és helyezik üzembe tárolóalapú megoldásokat, amelyek használhatók a mikroszolgáltatási architektúra egy megvalósítását. Ez lehetővé teszi különböző összetevőihez tartozó független méretezését, igény szerinti tudják az alkalmazás rugalmasságát.
+* [Az Azure Container Instances] [ docs-container-instances] – gyors üzembe helyezése és a futó tárolók egy rövid életciklusával módon. Itt a tárolók üzembe futtathat például egy üzenet feldolgozása vagy egy számítás elvégzése gyors feldolgozás feladatokat és – figyelmeztetés megszüntetésről, amint ezek teljesülnek.
 * [A Service Bus] [a service bus] használható tárolási üzenetsor helyett.
 
 Egyéb lehetőségek az adatréteg számára a következők:
 
-* [A cosmos DB] [ docs-cosmosdb] – a Microsoft globálisan elosztott, többmodelles adatbázis. Ez például Cassandra, Mongodb, más adatmodellek futtatásához platformot biztosít a grafikon adatainak, vagy az egyszerű.
+* [A cosmos DB] [ docs-cosmosdb] – a Microsoft globálisan elosztott, többmodelles adatbázis. Ez a szolgáltatás futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -77,13 +77,13 @@ Egyéb lehetőségek az adatréteg számára a következők:
 
 * Vegye figyelembe, kihasználva a [jellemző tervezési minták a rendelkezésre állási] [ design-patterns-availability] a felhőbeli alkalmazások készítése során.
 * Tekintse át a rendelkezésre állási szempontok a megfelelő [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture]
-* Rendelkezésre állási kapcsolatos további szempontokért tekintse meg a [rendelkezésre állási ellenőrzőlista] [ availability] architektúra közepén.
+* Rendelkezésre állási kapcsolatos további szempontokért tekintse meg a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 
 * Ha a cloud application készítése vegye figyelembe a [jellemző tervezési minták a méretezhetőség][design-patterns-scalability].
 * Megfontolandó szempontok a megfelelő méretezhetőség [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture]
-* Más méretezhetőség témakörök tekintse meg a [méretezési ellenőrzőlista] [ scalability] az architektúra-központ érhető el.
+* Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
@@ -96,13 +96,13 @@ Egyéb lehetőségek az adatréteg számára a következők:
 
 * Vegye figyelembe, kihasználva a [áramkör-megszakító minta] [ circuit-breaker] biztosít hibakezelés normális kell az alkalmazás egy része nem érhető el.
 * Tekintse át a [jellemző tervezési minták a rugalmassághoz] [ design-patterns-resiliency] , és vegye fontolóra a megfelelő helyen.
-* Számos annak [ajánlott eljárások az App Service rugalmasság] [ resiliency-app-service] az architektúra-központ.
+* Számos annak [ajánlott eljárások az App Service] [ resiliency-app-service] a az Azure Architecture Centert.
 * Érdemes lehet aktív [georeplikációs] [ sql-geo-replication] az adatréteg számára, és [georedundáns] [ storage-geo-redudancy] képekhez és üzenetsorok tárolására.
-* A részletesebb leírását [rugalmasság] [ resiliency] tekintse át az architektúra-központ megfelelő cikkében.
+* A részletesebb leírásáért lásd [rugalmasság][resiliency], az Azure Architecture Centert megfelelő témakörében talál.
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-Ez a forgatókönyv üzembe helyezéséhez kövesse ezt [részletes oktatóanyag] [ end-to-end-walkthrough] bemutatja, hogyan lehet manuálisan telepíti minden egyes összetevő. Ebben az oktatóanyagban egy alkalmazást egy egyszerű jegyvásárlási futó .NET-mintaalkalmazást is biztosít. Emellett nincs automatikus központi telepítése az Azure-erőforrások legnagyobb része egy ARM-sablont.
+Ez a forgatókönyv üzembe helyezéséhez kövesse ezt [részletes oktatóanyag] [ end-to-end-walkthrough] bemutatja, hogyan lehet manuálisan telepíti minden egyes összetevő. Ebben az oktatóanyagban egy alkalmazást egy egyszerű jegyvásárlási futó .NET-mintaalkalmazást is biztosít. Emellett nincs automatizálható az Azure-erőforrások legnagyobb része a Resource Manager-sablonnal.
 
 ## <a name="pricing"></a>Díjszabás
 
@@ -110,9 +110,9 @@ Ismerje meg a forgatókönyv futtatásával járó költségeket, a szolgáltat�
 
 Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költség profilt:
 
-* [Kis][small-pricing]: Ez a minimális termelési szintű példány out összeállításához szükséges összetevőket jelöli. Itt azt feltételezzük kisebb mennyiségű felhasználó, csak a több ezer / hó számozása. Az alkalmazás egy standard szintű webalkalmazást, amely lesz ahhoz, hogy az automatikus skálázás egyetlen példányát használja. Egyéb összetevők vannak méretezve, hogy egy alapszintű csomag lehetővé teszik a költségek minimális mennyisége lesz, de továbbra is győződjön meg arról, hogy nincs-e SLA-t támogatja, és elegendő kapacitás a termelési szintű számítási feladatok.
-* [Közepes][medium-pricing]: Ez a tájékoztató ennél kisebb méretű központi összetevőket jelöli. Itt azt becsülje meg a rendszert használ a hónap folyamán körülbelül 100 000 felhasználót. A várt forgalom az mérsékelt standard csomagot egyetlen alkalmazás szolgáltatáspéldány történik. Ezenkívül mérsékelt rétegből álló cognitive, és keresse meg a díjkalkulátorban feltüntetett szolgáltatással bővül.
-* [Nagy][large-pricing]: Ez egy nagy méretű, több millió felhasználó / hó terabájtnyi adatot áthelyezni sorrendje webszolgáltatásokban alkalmazás jelöli. Ezen a szinten használati magas teljesítményt a prémium szint fronted traffic Managerrel több régióban üzembe helyezett webalkalmazások szükség. Adatok a következőket tartalmazza: tárolás, adatbázisok és a CDN, megtörténik az terabájtnyi adatot.
+* [Kis][small-pricing]: A díjszabási példa az elévült minimális termelési szintű példány létrehozásához szükséges összetevőket jelöli. Itt azt feltételezzük felhasználók, csak a több ezer / hó számozása kis számú. Az alkalmazás egy standard webalkalmazást, amely lesz ahhoz, hogy az automatikus skálázás egyetlen példányát használja. Egyéb összetevők vannak méretezve, hogy egy alapszintű csomag, amelyek lehetővé teszik a költségek minimális mennyisége lesz, de továbbra is győződjön meg arról, hogy nincs-e SLA-t támogatja, és elegendő kapacitás a termelési szintű számítási feladatok.
+* [Közepes][medium-pricing]: Ebben a példában díjszabása előzetes központi telepítés ennél kisebb méretű összetevőket jelöli. Itt azt becsülje meg a rendszert használ a hónap folyamán körülbelül 100 000 felhasználót. A várt forgalom az mérsékelt standard csomagot egyetlen alkalmazás szolgáltatáspéldány történik. Ezenkívül mérsékelt rétegből álló cognitive, és keresse meg a díjkalkulátorban feltüntetett szolgáltatással bővül.
+* [Nagy][large-pricing]: A díjszabási példa egy alkalmazás nagy adatmennyiség esetén: több millió felhasználó / hó terabájtnyi adatot áthelyezni sorrendje webszolgáltatásokban jelöli. Ezen a szinten használati magas teljesítményt a prémium szint fronted traffic Managerrel több régióban üzembe helyezett webalkalmazások szükség. Adatok a következőket tartalmazza: tárolás, adatbázisok és a CDN, megtörténik az terabájtnyi adatot.
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 

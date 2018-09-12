@@ -3,18 +3,18 @@ title: Méretezhető Rendelésfeldolgozó az Azure-ban
 description: Példa az Azure Cosmos DB használatával nagy mértékben skálázható rendelés feldolgozási folyamat felépítésével bajlódnia.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: ff09a5c5426a187ea9ae35f728fe03ba099c4392
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.openlocfilehash: aa7281263db7cc72781b740941f3b86dad025baa
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040383"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389111"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Méretezhető Rendelésfeldolgozó az Azure-ban
 
 Ebben a példaforgatókönyvben fontos szervezetek számára szükséges egy hatékonyan méretezhető és rugalmas architektúra online megrendelések feldolgozása. Lehetséges alkalmazások közé tartozik az e-kereskedelmi, és a pénztári, megrendelések teljesítése, és leltár-foglalási és követési kiskereskedelmi. 
 
-Ebben a forgatókönyvben egy event sourcing megközelítés implementálása mikroszolgáltatások funkcionális programozási modell használatával vesz igénybe. Mindegyik mikroszolgáltatás-adatfolyam-feldolgozó számít, és az összes üzleti logika mikroszolgáltatások implementálása. Ez a megközelítés lehetővé teszi a magas rendelkezésre állás és rugalmasság, a georeplikáció és gyors teljesítményt.
+Ebben a forgatókönyvben egy event sourcing megközelítés implementálása mikroszolgáltatások funkcionális programozási modell használatával vesz igénybe. Mindegyik mikroszolgáltatás egy adatfolyam-feldolgozó számít, és az összes üzleti logika mikroszolgáltatások implementálása. Ez a megközelítés lehetővé teszi a magas rendelkezésre állás és rugalmasság, a georeplikáció és gyors teljesítményt.
 
 Azure-szolgáltatások például a Cosmos DB és a HDInsight használata segíthet a Microsoft globálisan elosztott felhőméretű adatok tárolásához és lekéréséhez szakértelmet kihasználva csökkentheti a költségeket. Ebben a forgatókönyvben kifejezetten címek egy e-kereskedelmi vagy kereskedelmi forgatókönyvben; Ha más igényeinek megfelelően a data services, a rendelkezésre álló lista tekintse át [teljes körűen felügyelt intelligens adatbázis-szolgáltatások az Azure-ban][product-category].
 
@@ -41,7 +41,7 @@ Ez az architektúra egy rendelés feldolgozási folyamat főbb összetevőit ism
 
 ### <a name="components"></a>Összetevők
 
-* [A cosmos DB] [ docs-cosmos-db] a Microsoft globálisan elosztott, többmodelles adatbázis, amely a megoldásokat, rugalmasan és egymástól függetlenül méretezhető átviteli sebesség és tárterület tetszőleges számú földrajzi régió között. Átviteli sebesség, a késés, a rendelkezésre állást kínál, és a konzisztenciára vonatkozó garanciákat biztosít átfogó szolgáltatási szerződésekre (SLA). Ebben a forgatókönyvben használ a Cosmos DB esemény stream-tárhely és a pillanatkép-tároló, és kihasználja [Cosmos DB-módosítási hírcsatorna] [ docs-cosmos-db-change-feed] szolgáltatások adat-helyreállítás konzisztencia és a hibatűrés biztosításához. 
+* [A cosmos DB] [ docs-cosmos-db] a Microsoft globálisan elosztott, többmodelles adatbázis, amely a megoldásokat, rugalmasan és egymástól függetlenül méretezhető átviteli sebesség és tárterület tetszőleges számú földrajzi régió között. Átviteli sebesség, a késés, a rendelkezésre állást kínál, és a konzisztenciára vonatkozó garanciákat biztosít átfogó szolgáltatási szerződésekre (SLA). Ebben a forgatókönyvben használ a Cosmos DB esemény stream-tárhely és a pillanatkép-tároló, és kihasználja [Cosmos DB-módosítási hírcsatorna] [ docs-cosmos-db-change-feed] szolgáltatások adat-helyreállítás konzisztencia és a hibatűrés biztosításához.
 * [Az Apache Kafka on HDInsight] [ docs-kafka] egy felügyelt szolgáltatás megvalósítása az Apache Kafka, egy nyílt forráskódú elosztott streamelési platform streamadatfolyamatok és -alkalmazások létrehozásához. Kafka, üzenetsorokhoz hasonló üzenetközvetítő funkciót is biztosít a közzététel és feliratkozás adatstreameket. Ebben a forgatókönyvben a Kafka használatával feldolgozni a bejövő, valamint a folyamat feldolgozása sorrendben alsóbb rétegbeli események. 
 
 ## <a name="considerations"></a>Megfontolandó szempontok
@@ -83,13 +83,13 @@ Az Azure Cosmos DB pénzneme a kérelemegység (RU). Kérelemegységgel nem kell
 
 Adtunk meg három példa költség profilok tervez tevékenységek mennyisége alapján:
 
-* [Kis][small-pricing]: Ez utal. a Cosmos DB és a egy kisméretű (D3 v2) 1 TB-os adattár fenntartott 5 Kérelemegységet Kafka-fürt.
-* [Közepes][medium-pricing]: Ez a Cosmos DB és a egy vállalkozás (D4 v2) egy 10 TB-os adattár fenntartott 50 csökkenti hátterében Kafka-fürt.
-* [Nagy][large-pricing]: Ez a Cosmos DB és a egy nagy méretű (D5 v2) 30 TB adattár fenntartott 500 csökkenti hátterében Kafka-fürt.
+* [Kis][small-pricing]: a díjszabási példa az 1 TB-os adattár a Cosmos DB és a egy kisméretű (D3 v2) történő 5 Kérelemegységet fenntartott Kafka-fürt.
+* [Közepes][medium-pricing]: a díjszabási példa egy 10 TB-os data store a Cosmos DB és a egy vállalkozás (D4 v2) történő 50 RUs fenntartott Kafka-fürt.
+* [Nagy][large-pricing]: 500 RUs történő fenntartott a Cosmos DB és a egy nagy méretű (D5 v2) 30 TB adattár Kafka-fürt a díjszabási példa.
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 
-Ebben a példaforgatókönyvben alapján ez az architektúra által készített szélesebb körű verziója [Jet.com adatfeldolgozási főigazgatója](https://jet.com) a teljes körű rendelés feldolgozási folyamat számára. További információkért lásd: a [Jet.com adatfeldolgozási főigazgatója műszaki felhasználói profil] [ source-document] és [jet.com a bemutató Build 2018][source-presentation]. 
+Ebben a példaforgatókönyvben alapján ez az architektúra által készített szélesebb körű verziója [Jet.com adatfeldolgozási főigazgatója](https://jet.com) a teljes körű rendelés feldolgozási folyamat számára. További információkért lásd: a [Jet.com adatfeldolgozási főigazgatója műszaki felhasználói profil] [ source-document] és [jet.com a bemutató Build 2018][source-presentation].
 
 Egyéb kapcsolódó erőforrások a következők:
 * _[Adatigényes alkalmazások tervezése](https://dataintensive.net/)_  Martin Kleppmann (O'Reilly média, 2017.) szerint.
@@ -107,7 +107,6 @@ Egyéb kapcsolódó erőforrások a következők:
 [architecture-diagram]: ./media/architecture-diagram-cosmos-db.png
 [docs-cosmos-db]: /azure/cosmos-db
 [docs-cosmos-db-change-feed]: /azure/cosmos-db/change-feed
-[docs-cosmos-db-online-backup-and-restore]: /azure/cosmos-db/online-backup-and-restore
 [docs-cosmos-db-regional-failover]: /azure/cosmos-db/regional-failover
 [docs-cosmos-db-guarantees]: /azure/cosmos-db/distribute-data-globally#AvailabilityGuarantees
 [docs-cosmos-db-use-cases]: /azure/cosmos-db/use-cases

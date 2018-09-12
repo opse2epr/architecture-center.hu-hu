@@ -2,12 +2,13 @@
 title: 'Enterprise Cloud Adoption: Első lépések'
 description: Ismerteti az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintése
 author: petertaylor9999
-ms.openlocfilehash: 0625de08b7151f710376787e13af8f4719686095
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.date: 09/10/2018
+ms.openlocfilehash: b51e834a56f4d9818ca9475f959c3f888bae20bc
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040468"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389304"
 ---
 # <a name="enterprise-cloud-adoption-getting-started"></a>Enterprise Cloud Adoption: Első lépések 
 

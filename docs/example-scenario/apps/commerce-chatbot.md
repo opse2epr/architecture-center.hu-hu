@@ -3,16 +3,16 @@ title: Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
 description: A forgatókönyv létrehozásához a természetes nyelvi csevegőrobot kereskedelmi alkalmazások az Azure Bot Service, a Cognitive Services és a LUIS, Azure SQL Database és az Application Insights már bizonyított.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: b664faf20d806824c2581346aaa592b0d74207da
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 95a0fd77a99a348704a1d916de534a98d0b03448
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060863"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389332"
 ---
 # <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
 
-Ebben a példaforgatókönyvben olyan vállalatok, amelyek a természetes nyelvi csevegőrobot kell integrálható alkalmazásokat alkalmazható. Ebben a forgatókönyvben egy C# csevegőrobot egy Szálloda láncot, amely lehetővé teszi az ügyfelek számára, hogy ellenőrizze a rendelkezésre állás és a egy webes vagy mobilalkalmazás segítségével könyv vendéglátóipar szolgál.
+Ebben a példaforgatókönyvben olyan vállalatok, amelyek a természetes nyelvi csevegőrobot beépíthetik kell alkalmazható. Ebben a forgatókönyvben egy C# csevegőrobot egy Szálloda láncot, amely lehetővé teszi az ügyfelek számára, hogy ellenőrizze a rendelkezésre állás és a egy webes vagy mobilalkalmazás segítségével könyv vendéglátóipar szolgál.
 
 Példaforgatókönyvek közé tartozik, így az ügyfelek számára Szálloda rendelkezésre állás és a könyv termek megtekintése egy étterem elvihető menü tekintse át és helyezze el egy food sorrendben, vagy keresse meg és fényképek nyomatok. Hagyományosan vállalkozások hire kész, és ezek ügyfél-kérésekre való válaszolás ügyfél szolgáltatási ügynökök kell, és a felhasználónak kell várja meg, hogy egy munkatárs elérhető segítséget nyújt.
 
@@ -44,7 +44,7 @@ Ebben a forgatókönyvben a természetes nyelvi robot, amely úgy működik, min
 * [Az Azure Active Directory] [ aad-docs] van a Microsoft több-bérlős felhőalapú címtár- és identitáskezelési szolgáltatás. Az Azure AD B2C összekötő így azonosíthatja a magánszemélyek külső azonosítókat, például Google, Facebook vagy a Microsoft-Account támogatja.
 * [App Service-ben] [ appservice-docs] hozhat létre és üzemeltethet webalkalmazásokat az Ön által választott programozási nyelven infrastruktúra kezelése nélkül is.
 * [Bot Service] [ botservice-docs] elkészítheti, tesztelheti, telepítheti és felügyelheti a robotokat intelligens eszközöket biztosít.
-* [A cognitive Services] [ cognitive-docs] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg, beszéljenek, megértéséhez és a felhasználó szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
+* [A cognitive Services] [ cognitive-docs] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg beszél, megértésében, valamint a felhasználói szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
 * [Az SQL Database] [ sqldatabase-docs] van egy teljes körűen felügyelt relációs adatbázis-szolgáltatás, amely az SQL Server-motorhoz.
 * [Az Application Insights] [ appinsights-docs] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás, amely lehetővé teszi az alkalmazások, például a csevegőrobot teljesítményének figyelése.
 
@@ -64,7 +64,7 @@ Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenő
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Ebben a példában az Azure App Service-ben. Az App Service automatikusan skálázhatja a robot futtató példányok száma. Ez a funkció lehetővé teszi a webalkalmazás és csevegőrobot kereslet kielégítésére. Az automatikus méretezésben további információkért lásd: [automatikus méretezés ajánlott eljárásai] [ autoscaling] architektúra közepén.
+Ebben a példában az Azure App Service-ben. Az App Service automatikusan skálázhatja a robot futtató példányok száma. Ez a funkció lehetővé teszi a webalkalmazás és csevegőrobot kereslet kielégítésére. További információ az automatikus méretezésben: [automatikus méretezés ajánlott eljárásai] [ autoscaling] a az Azure Architecture Centert.
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
@@ -78,7 +78,7 @@ Az Azure SQL Database-ben tárolt adatok titkosítása transzparens adattitkosí
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna zónaredundáns adatbázisok, a feladatátvételi csoportok, a georeplikáció és az automatikus biztonsági mentést. Ezek a funkciók lehetővé teszik az alkalmazás egy karbantartási esemény vagy szolgáltatáskimaradás esetén is működőképes marad. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
+Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna zónaredundáns adatbázisok, a feladatátvételi csoportok, a georeplikáció és az automatikus biztonsági mentést. Ezek a funkciók lehetővé teszik az alkalmazás marad, ha van egy karbantartási esemény, illetve leállás. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
 
 Az alkalmazás állapotának figyelése, az ebben a forgatókönyvben az Application Insights. Az Application Insights riasztást, és reagálni, amely hatással lenne, a felhasználói élmény és a csevegőrobot rendelkezésre állása teljesítménybeli problémák. További információkért lásd: [Mi az Application Insights?][appinsights-docs]
 
@@ -141,11 +141,11 @@ A mintaalkalmazás az Azure Active Directory authentication összetevői és a L
 
 Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
-Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt üzenetek mennyisége alapján:
+Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt üzenetek száma alapján:
 
-* [Kis][small-pricing]: Ez havonta < 10 000 üzenetek feldolgozására utal.
-* [Közepes][medium-pricing]: Ez havi 500 000 < üzenetek feldolgozására utal.
-* [Nagy][large-pricing]: Ez havonta < 10 millió üzenetek feldolgozására utal.
+* [Kis][small-pricing]: havonta < 10 000 üzenetek feldolgozására utal. a díjszabási példa.
+* [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 < üzenetek feldolgozására utal.
+* [Nagy][large-pricing]: a díjszabási példa havonta < 10 millió üzenetek feldolgozására utal.
 
 ## <a name="related-resources"></a>Kapcsolódó erőforrások
 

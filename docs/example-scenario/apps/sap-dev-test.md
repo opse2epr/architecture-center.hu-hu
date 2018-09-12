@@ -3,12 +3,12 @@ title: SAP fejlesztési/tesztelési feladatokhoz
 description: Fejlesztési-tesztelési környezet SAP-forgatókönyv
 author: AndrewDibbins
 ms.date: 7/11/18
-ms.openlocfilehash: 675a5cb4b1ee4001ca50d24c145ce1a177f90da4
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: d0f266e40969cf4782e69041889a686387499722
+ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39061124"
+ms.lasthandoff: 09/11/2018
+ms.locfileid: "44389179"
 ---
 # <a name="sap-for-devtest-workloads"></a>SAP fejlesztési/tesztelési feladatokhoz
 
@@ -33,10 +33,10 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 Ebben a forgatókönyvben egy SAP-rendszer önálló adatbázis és a SAP alkalmazás kiszolgáló egyetlen virtuális gépen, az adatfolyam-gyűjteményre, a forgatókönyv segítségével a következőképpen mutatja be:
 
-1. -Ügyfelek a bemutatási szint használatához az SAP grafikus felhasználói felülettel, vagy más felhasználói felületek (az Internet Explorer, az Excel vagy más webes alkalmazás) a helyszíni eléréséhez az Azure-alapú SAP-rendszerhez.
-2. Kapcsolat a létrehozott Express Route használatával biztosítja. Az Expressroute az Azure-ban, az Expressroute-átjárója megszakad. Hálózati forgalmi útvonalak az Express Route-átjárón keresztül az átjáró-alhálózat és az átjáró-alhálózat az alkalmazás szinten küllő alhálózathoz (lásd a [küllős] [ hub-spoke] minta) és a egy hálózati biztonsági keresztül Átjáró, a SAP alkalmazás virtuális géphez.
+1. A bemutatási szint-ügyfelek a helyszíni saját SAP grafikus felhasználói Felülettel vagy más felhasználói felületek (az Internet Explorer, az Excel vagy más webes alkalmazás) eléréséhez az Azure-alapú SAP-rendszerhez használja.
+2. Kapcsolat egy meglévő Expressroute használatával biztosítja. Az Azure-ban, az Expressroute-átjárója az Express Route-kapcsolat megszakadt. Hálózati forgalmi útvonalak az Express Route-átjárón keresztül az átjáró-alhálózat és az átjáró-alhálózat az alkalmazás szinten küllő alhálózathoz (lásd a [küllős] [ hub-spoke] minta) és a egy hálózati biztonsági keresztül Átjáró, a SAP alkalmazás virtuális géphez.
 3. Az identitás felügyeleti kiszolgálók hitelesítési szolgáltatásokat nyújtanak.
-4. A Jump-Box helyi felügyeleti képességeket biztosít.
+4. A jump boxon helyi felügyeleti képességeket biztosít.
 
 ### <a name="components"></a>Összetevők
 
@@ -77,7 +77,7 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján négy példa költsé
 Nagy|32000|E32s_v3|3xP20, 1xP10|[Nagy méretű](https://azure.com/e/ada2e849d68b41c3839cc976000c6931)|
 Extra nagy|64000|M64s|4xP20, 1xP10|[Extra nagy](https://azure.com/e/975fb58a965c4fbbb54c5c9179c61cef)|
 
-Megjegyzés: egy útmutató, díjszabás, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit (kivéve, hálózati, biztonsági másolatot készíteni tárolás és adatkezelés bejövő/kimenő forgalom költségeit).
+Megjegyzés: egy útmutató, díjszabás, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit (kivéve, hálózati, biztonsági mentési tár, és a bejövő/kimenő adatforgalom díját).
 
 * [Kis](https://azure.com/e/9d26b9612da9466bb7a800eab56e71d1): egy kis rendszer áll VM-típus D8s_v3 8 x vCPUs, 32 GB RAM-MAL és 200 GB ideiglenes tárhely, emellett két 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket.
 * [Közepes](https://azure.com/e/465bd07047d148baab032b2f461550cd): egy közepes méretű rendszer áll VM-típus D16s_v3 16 x vCPUs, 64 GB RAM-MAL és 400 GB ideiglenes tárhely, emellett három 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket.
@@ -86,13 +86,13 @@ Megjegyzés: egy útmutató, díjszabás, és csak azt jelzi, hogy a virtuális 
 
 ## <a name="deployment"></a>Környezet
 
-A fenti forgatókönyv hasonlít az alapul szolgáló infrastruktúra üzembe helyezéséhez használja az üzembe helyezés gomb
+A fenti forgatókönyv hasonlít az alapul szolgáló infrastruktúra üzembe helyezéséhez használja az üzembe helyezés gombra
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fsap-2tier%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-\* SAP nem lesz telepítve, végrehajthatja az után az infrastruktúra beépített manuálisan kell.
+\* SAP nem lesznek automatikusan telepítve van, manuálisan telepítheti után az infrastruktúra állították össze.
 
 <!-- links -->
 [reference architecture]:  /azure/architecture/reference-architectures/sap
