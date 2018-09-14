@@ -3,12 +3,12 @@ title: Az Azure-alkalmazások vészhelyreállítása
 description: Technikai áttekintése és részletes információk a vész-helyreállítási a Microsoft Azure-alkalmazások tervezéséhez.
 author: adamglick
 ms.date: 05/26/2017
-ms.openlocfilehash: 2d890e479e008e03dcfce9b7240f8bcbaf270372
-ms.sourcegitcommit: e8f4786b187697b1bea374e5f35f217c65d2dfe0
+ms.openlocfilehash: faae658d91ec0cb2dd5dc436e67aa9b494fd4b49
+ms.sourcegitcommit: 46ed67297e6247f9a80027cfe891a5e51ee024b4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37343379"
+ms.lasthandoff: 09/13/2018
+ms.locfileid: "45556682"
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások vészhelyreállítása
 
@@ -299,7 +299,10 @@ Az alábbi témakörök ismertetik a katasztrófa utáni helyreállítás adott 
 
 | Szolgáltatás | Témakör |
 |---------|-------|
+| Azure Database for MySQL | [Az Azure Database for MySQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/mysql/concepts-business-continuity) |
+| Azure Database for PostgreSQL | [Az Azure Database for PostgreSQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/postgresql/concepts-business-continuity)
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
+| Cosmos DB | [Az Azure Cosmos DB az üzletmenet folytonosságának automatikus regionális feladatátvétel](/azure/cosmos-db/regional-failover)
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
 |Storage | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
 | SQL Database | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |

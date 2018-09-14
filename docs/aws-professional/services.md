@@ -5,12 +5,12 @@ keywords: cloud services összehasonlítása, cloud services képest, multicloud
 author: lbrader
 ms.date: 11/30/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 4c78f45c654a40142ff25736b83a5b6b10591fc6
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: e0064e7c8959086da360eedc4ae274af797dbbad
+ms.sourcegitcommit: 46ed67297e6247f9a80027cfe891a5e51ee024b4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325012"
+ms.lasthandoff: 09/13/2018
+ms.locfileid: "45556699"
 ---
 # <a name="aws-to-azure-services-comparison"></a>AWS – az Azure-szolgáltatások összehasonlítása
 
@@ -44,6 +44,7 @@ Az Azure az AWS-felhasználók számára, lásd [Azure AWS-szakembereknek szánt
 |         <strong>&nbsp;</strong>         |             EC2 Container Registry             |                                                                                                                [Az Azure Container Registrybe](https://azure.microsoft.com/services/container-registry/)                                                                                                                 |                                            Lehetővé teszi Docker-formátumú lemezképek tárolását. Az Azure-ban minden típusú tároló-üzembehelyezéshez létrehozására szolgál.                                             |
 | Mikroszolgáltatások / tárolóvezénylőt | Rugalmas Container Service for Kubernetes (EKS) |                                                                                                              [Az Azure Kubernetes Service (AKS)](https://azure.microsoft.com/services/kubernetes-service/)                                                                                                               |                  Telepítse a szervezett tárolóalapú alkalmazások Kubernetes használatával. Figyelés és a fürt felügyeleti automatikus frissítésekkel és a egy beépített operatív konzollal egyszerűsítheti.                  |
 |                 &nbsp;                  |                                                |                                                                                                                       [Service Fabric](https://azure.microsoft.com/services/service-fabric/)                                                                                                                        |              Olyan számítási szolgáltatás, mely állapotmentes vagy állapotalapú összetett, egymáshoz kapcsolódó kódösszetevők végrehajtását, életciklusát és rugalmasságát koordinálja és felügyeli.              |
+| &nbsp; | &nbsp; | [Service Fabric háló](/azure/service-fabric-mesh/service-fabric-mesh-overview) | Teljes körűen felügyelt szolgáltatás, amely lehetővé teszi a mikroszolgáltatás-alapú alkalmazások üzembe helyezése nélkül kezelése virtuális gépek, tároló, vagy a hálózat.
 |                 &nbsp;                  |                                                |                                                                                                                             [Az Azure Container Service (ACS)](/azure/container-service/)                                                                                                                              |                                                             Gyorsan üzembe helyezhet egy üzemkész Kubernetes, DC/OS vagy Docker Swarm-fürt                                                              |
 |               Kiszolgáló nélküli                |                     Lambda                     |                                                                                  [Azure Functions](https://azure.microsoft.com/services/functions/) <br/><br/>[Azure Event Grid](https://azure.microsoft.com/services/event-grid/)                                                                                  |                                       Teszi rendszerek integrálását és háttérbeli folyamatok futtatását ütemezés szerint vagy eseményre adott válaszként kiépítés és -kiszolgálók kezelése nélkül.                                        |
 |         <strong>&nbsp;</strong>         |                 Lambda @ Edge                  |                                                                                                                       [Az Azure IoT Edge-ben függvények](/azure/iot-edge/tutorial-deploy-function)                                                                                                                       |                                                    Függvények futtatja a peremhálózaton (közvetlenül a IoT-eszközök) felhőalapú időszakos kapcsolat mellett is.                                                    |
