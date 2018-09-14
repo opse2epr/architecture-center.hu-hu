@@ -3,12 +3,12 @@ title: Windows virtuális gép futtatása az Azure-ban
 description: A Windows virtuális gépek futtatása az Azure-ban a skálázhatóságot, a rugalmasságot, a kezelhetőséget és a biztonságot is figyelembe véve.
 author: telmosampaio
 ms.date: 04/03/2018
-ms.openlocfilehash: d790c9a6693dca751e0ba05f1fd3c23756cf53bb
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.openlocfilehash: a20359f90e7b20486defce3110b2db6f7e0027ba
+ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142216"
+ms.lasthandoff: 09/14/2018
+ms.locfileid: "45584697"
 ---
 # <a name="run-a-windows-vm-on-azure"></a>Windows virtuális gép futtatása az Azure-ban
 
@@ -115,6 +115,8 @@ Használja az [Azure Security Centert][security-center] az Azure-erőforrások b
 A [vizsgálati naplók][audit-logs] segítségével megtekintheti az üzembe helyezési műveleteket és más virtuálisgép-eseményeket.
 
 **Adattitkosítás.** Ha titkosítania kell az operációs rendszert és az adatlemezeket, érdemes megfontolnia az [Azure Disk Encryption][disk-encryption] használatát. 
+
+**A DDoS protection**. Ajánlott engedélyezni az [DDoS Protection Standard](/azure/virtual-network/ddos-protection-overview), amely biztosítja, hogy egy virtuális hálózatban található erőforrások további DDoS-kockázatcsökkentést. Alapszintű DDoS elleni védelem részeként az Azure platform automatikusan engedélyezve van, noha a DDoS Protection Standard kockázatcsökkentési képességeket biztosít, amelyek kifejezetten az Azure virtuális hálózati erőforrások, amelyek ideálisak.  
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 

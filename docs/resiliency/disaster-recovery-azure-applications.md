@@ -5,7 +5,7 @@ author: adamglick
 ms.date: 05/26/2017
 ms.openlocfilehash: faae658d91ec0cb2dd5dc436e67aa9b494fd4b49
 ms.sourcegitcommit: 46ed67297e6247f9a80027cfe891a5e51ee024b4
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 09/13/2018
 ms.locfileid: "45556682"
