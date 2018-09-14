@@ -2,13 +2,13 @@
 title: Az Azure-alkalmazások vészhelyreállítása
 description: Technikai áttekintése és részletes információk a vész-helyreállítási a Microsoft Azure-alkalmazások tervezéséhez.
 author: adamglick
-ms.date: 05/26/2017
-ms.openlocfilehash: faae658d91ec0cb2dd5dc436e67aa9b494fd4b49
-ms.sourcegitcommit: 46ed67297e6247f9a80027cfe891a5e51ee024b4
-ms.translationtype: HT
+ms.date: 09/12/2018
+ms.openlocfilehash: 4f879445154e37502bbeeeb90939737b6072e6ec
+ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/13/2018
-ms.locfileid: "45556682"
+ms.lasthandoff: 09/14/2018
+ms.locfileid: "45584799"
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások vészhelyreállítása
 
@@ -118,6 +118,9 @@ Is több manuális módszer használata a biztonsági mentés és visszaállít�
 
 A beépített redundancia, az Azure Storage két replika a biztonságimásolat-fájl ugyanabban a régióban hoz létre. Azonban a biztonsági mentési folyamat futtatásának gyakoriságát határozza meg a helyreállítási Időkorlát, vagyis az adatmennyiség elveszítheti a vész. Képzeljünk el például, hogy készítsen biztonsági mentést óránként tetején, és katasztrófa-két percet, az óra elején is. 58 perc után az utolsó biztonsági másolat rögzített adatok elvesznek. Ezenkívül régióra kiterjedő szolgáltatáskimaradás ellen, másolja a BACPAC-fájl egy másodlagos régióba. Ezután lehetősége visszaállításának ezeket a biztonsági mentéseket a másodlagos régióban. További részletekért lásd: [áttekintése: a felhő üzleti folytonossági és adatbázis katasztrófa utáni helyreállítás az SQL Database](/azure/sql-database/sql-database-business-continuity/).
 
+#### <a name="sql-data-warehouse"></a>SQL Data Warehouse
+Az SQL Data Warehouse használata [geo-biztonsági mentések](/azure/sql-data-warehouse/backup-and-restore#geo-backups) vész-helyreállítási párosított régióba visszaállításához. Ezeket a biztonsági másolatokat 24 óránként megnyílik, és visszaállítási 20 percen belül a párosított régióban. Ez a funkció alapértelmezés szerint be van az összes SQL data warehouse-adattárházak számára. Az adattárház visszaállításával kapcsolatos további információkért lásd: [visszaállítása az Azure-régióból egy földrajzi PowerShell-lel](/azure/sql-data-warehouse/sql-data-warehouse-restore#restore-from-an-azure-geographical-region-using-powershell).
+
 #### <a name="azure-storage"></a>Azure Storage
 Az Azure Storage esetében egy egyéni biztonsági mentési folyamat fejlesztése, vagy használja számos külső biztonsági mentési eszközök egyikét. Vegye figyelembe, hogy a legtöbb alkalmazás tervek további hagyhatják amikor tárolási erőforrások hivatkozás egymással. Például vegyünk egy SQL-adatbázis, amely rendelkezik egy olyan oszlop, hogy az Azure Storage-blobba. A biztonsági mentések nem egyszerre következnek be, ha az adatbázis egy blobot, amely nem készült biztonsági másolat a hiba előtt mutató kell. Az alkalmazás vagy a vész-helyreállítási terv musí implementovat rozhraní folyamatok kezeléséhez a inkonzisztenciát helyreállítás után.
 
@@ -127,7 +130,7 @@ Más infrastruktúra--szolgáltatásként (IaaS) üzemeltetett az adatplatformok
 ### <a name="reference-data-pattern-for-disaster-recovery"></a>Vész-helyreállítási referencia adatmintát
 Referenciaadatok, amely támogatja az alkalmazás funkciói csak olvasható adatok. Ez jellemzően nem változik gyakran. Habár a biztonsági mentés és visszaállítás egy metódust régióra kiterjedő szolgáltatáskimaradás, az RTO viszonylag hosszú. Az alkalmazás egy másodlagos régióba történő telepítésekor néhány stratégiát javíthatja az RTO a referenciaadatoknál.
 
-Mert az adatok változásának hivatkozhat ritkán, javíthatja az RTO a referenciaadatokat a másodlagos régió az állandó másolatának megtartásával. Ezzel elkerülhető, hogy egy esetleges vészhelyzet esetén a biztonsági másolatok visszaállításához szükséges időt. A több régiók vész-helyreállítási követelmények teljesítéséhez telepítenie kell az alkalmazás és a referenciaadatok együtt több régióban. A [referencia adatmintát magas rendelkezésre állású](high-availability-azure-applications.md#reference-data-pattern-for-high-availability), referenciaadatok szerepe magát, a külső tárhelyen, vagy olyan kombinációját is telepíthet.
+Mert az adatok változásának hivatkozhat ritkán, javíthatja az RTO a referenciaadatokat a másodlagos régió az állandó másolatának megtartásával. Ezzel elkerülhető, hogy egy esetleges vészhelyzet esetén a biztonsági másolatok visszaállításához szükséges időt. A több régiók vész-helyreállítási követelmények teljesítéséhez telepítenie kell az alkalmazás és a referenciaadatok együtt több régióban. Referenciaadatok szerepe magát, a külső tárhelyen, vagy olyan kombinációját is telepíthet.
 
 Referencia üzembe helyezési adatmodelljébe számítási csomópontok implicit módon eleget tesz a katasztrófa utáni helyreállítás. Az SQL Database referenciaadat-telepítés szükséges, hogy minden egyes régióban való üzembe helyezése a referenciaadatok másolatát. Az azonos stratégia az Azure Storage vonatkozik. Telepítenie kell az elsődleges és másodlagos régiók az Azure Storage szolgáltatásban tárolt adatok másolatát.
 
@@ -153,7 +156,7 @@ Egy lehetséges megvalósítása processzorkihasználtsága használja, az előz
 
 > [!NOTE]
 > Ez a tanulmány a legtöbb összpontosít platform (PaaS) szolgáltatás. Hibrid alkalmazások további replikáció és a rendelkezésre állási lehetőségek azonban az Azure Virtual Machines használatához. Ezek a hibrid alkalmazások szolgáltatás (IaaS) infrastruktúra használatával futtatni az SQL Server az Azure-beli virtuális gépeken. Ez lehetővé teszi a hagyományos rendelkezésre állási megközelítések az SQL Server AlwaysOn rendelkezésre állási csoportok vagy Naplóküldést például. Egyes technikák, például az AlwaysOn, csak a helyszíni SQL Server-példányokat és az Azure-beli virtuális gépek között működik. További információkért lásd: [az SQL Server Azure virtuális gépek magas rendelkezésre állás és vészhelyreállítás helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
-> 
+>
 > 
 
 #### <a name="reduced-application-functionality-for-transaction-capture"></a>A tranzakció rögzítéshez csökkentett az alkalmazás funkciói
@@ -308,5 +311,4 @@ Az alábbi témakörök ismertetik a katasztrófa utáni helyreállítás adott 
 | SQL Database | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |
 | Virtual machines (Virtuális gépek) | [Mi a teendő abban az esetben, ha egy Azure-szolgáltatáskimaradás hatással van az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
 | Virtuális hálózatok | [Virtuális hálózat – üzletmenet-folytonossági](/azure/virtual-network/virtual-network-disaster-recovery-guidance) |
-
 
