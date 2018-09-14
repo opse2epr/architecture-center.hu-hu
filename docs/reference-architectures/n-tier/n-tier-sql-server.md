@@ -3,12 +3,12 @@ title: SQL Servert használó N szintű alkalmazás
 description: Egy többrétegű architektúra megvalósítása az Azure-ban, a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel módja.
 author: MikeWasson
 ms.date: 07/19/2018
-ms.openlocfilehash: fc761e940a25c4667146db9598d944bac2c32496
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 3a291b9492c94450a42de96bea2135190c163fe7
+ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326056"
+ms.lasthandoff: 09/14/2018
+ms.locfileid: "45584748"
 ---
 # <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
@@ -154,6 +154,8 @@ A virtuális hálózatok forgalomelkülönítési határok az Azure-ban. Egy ado
 
 Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. További információkért lásd: [konfigurálása az Azure Key Vault-integráció az SQL Server Azure virtuális gépeken][sql-keyvault]. Emellett ajánlott alkalmazások titkos adatait, például az adatbázis kapcsolati karakterláncainak tárolása a Key Vaultban.
 
+Ajánlott engedélyezni az [DDoS Protection Standard](/azure/virtual-network/ddos-protection-overview), amely biztosítja, hogy egy virtuális hálózatban található erőforrások további DDoS-kockázatcsökkentést. Alapszintű DDoS elleni védelem részeként az Azure platform automatikusan engedélyezve van, noha a DDoS Protection Standard kockázatcsökkentési képességeket biztosít, amelyek kifejezetten az Azure virtuális hálózati erőforrások, amelyek ideálisak.  
+
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. Vegye figyelembe, hogy a teljes üzembe helyezés eltarthat akár két órát, amely tartalmazza az Active Directory tartományi szolgáltatások, a Windows Server feladatátvevő fürt és az SQL Server rendelkezésre állási csoport konfigurálása a szkriptek futtatására.
@@ -220,7 +222,7 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
     "witnessStorageAccountKey": "[replace-with-storagekey]"
     ```
 
-8. Az a `n-tier-windows.json` fájlt, keresse meg az összes példányát `[replace-with-password]` és a egy erős jelszót cserélje le őket. Mentse a fájlt.
+8. Az a `n-tier-windows.json` fájlt, keresse meg az összes példányát `[replace-with-password]` és `[replace-with-sql-password]` egy erős jelszót cserélje le őket. Mentse a fájlt.
 
     > [!NOTE]
     > Ha módosítja a rendszergazdai felhasználónevet, frissíteni kell a `extensions` letiltja a JSON-fájlban. 

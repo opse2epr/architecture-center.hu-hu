@@ -3,12 +3,12 @@ title: Azure Architecture Center
 description: Az Azure Architecture Center a Microsoft Azure-alapú megoldások létrehozásával kapcsolatos útmutatások, tervek, minták és ajánlott eljárások hivatalos gyűjteménye, amelyet a Microsoft mintákkal és gyakorlatokkal foglalkozó csoportja állít össze.
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 544196faa7156c5636b03d3f402bc48dcc63975f
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.openlocfilehash: ea3784a23c73c7f0eb103a0cb19e2c6b70ea9d7c
+ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987590"
+ms.lasthandoff: 09/14/2018
+ms.locfileid: "45584646"
 ---
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
@@ -46,16 +46,16 @@ ms.locfileid: "38987590"
             </div>
         </a>
     </li>
-    <!-- Cloud design patterns -->
+    <!-- Cloud Adoption -->
     <li>
-        <a href="/azure/architecture/patterns/">
+        <a href="/azure/architecture/cloud-adoption/">
             <div class="cardSize">
                 <div class="cardPadding">
                     <div class="card">
-                        <img src="_images/cloud-design-patterns.svg" alt="" />
+                        <img src="_images/cloud-adoption.svg" alt="" />
                         <div class="cardText">
-                            <h3>Tervezési minták felhőkhöz</h3>
-                            <p>Tervezési minták fejlesztők és megoldástervezők számára. Minden minta egy problémát, egy problémáról szóló mintát és egy Azure-alapú példát ismertet.</p>
+                            <h3>A nagyvállalati felhőmegoldások bevezetése</h3>
+                            <p>Az útmutatóból megismerheti a felhő bevezetésére vonatkozó, a teljes szervezetre kiterjedő stratégia létrehozásának folyamatát. Az útmutató a szervezeti felkészültséget, az irányítást és az infrastruktúrát helyezi a középpontba.</p>
                         </div>
                     </div>
                 </div>
@@ -166,6 +166,26 @@ ms.locfileid: "38987590"
             </div>
         </a>
     </li>
+    <!-- design patterns -->
+    <li>
+        <a href="/azure/architecture/microservices">
+            <div class="cardSize">
+                <div class="cardPadding">
+                    <div class="card">
+                        <div class="cardImageOuter">
+                            <div class="cardImage">
+                                <img src="_images/cloud-design-patterns.svg" alt="" />
+                            </div>
+                        </div>
+                        <div class="cardText">
+                            <h3>Tervezési minták felhőkhöz</h3>
+                            <p>Tervezési minták fejlesztők és megoldástervezők számára. Minden minta egy problémát, egy problémáról szóló mintát és egy Azure-alapú példát ismertet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
     <!-- Checklists -->
     <li>
         <a href="/azure/architecture/checklist/">
@@ -240,26 +260,6 @@ ms.locfileid: "38987590"
                         <div class="cardText">
                             <h3>Teljesítménnyel kapcsolatos kizárási minták</h3>
                             <p>A felhőalkalmazások teljesítményével és méretezhetőségével kapcsolatos problémák leggyakoribb okainak észlelése és javítása.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- Multitenant identity -->
-    <li>
-        <a href="/azure/architecture/multitenant-identity">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/multitenant-identity.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Identitáskezelés a több-bérlős alkalmazásokban</h3>
-                            <p>Ajánlott eljárások a több-bérlős módhoz az Azure AD identitáskezelésre való használata esetén.</p>
                         </div>
                     </div>
                 </div>
