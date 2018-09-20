@@ -4,12 +4,12 @@ description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek
 author: telmosampaio
 ms.date: 05/18/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 8aa0b46d9f43107cfa4ae4be3160900249365702
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 625f672c80b0256e93932b72367768f37c1e72f4
+ms.sourcegitcommit: f1dcc388c8b4fc983549c36d7e6b009fa1f072ba
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326320"
+ms.lasthandoff: 09/19/2018
+ms.locfileid: "46329878"
 ---
 # <a name="naming-conventions"></a>Elnevezési konvenciók
 
@@ -45,7 +45,7 @@ Az előfizetések elnevezésének ajánlott mintája a következő:
 | Contoso |IT |InternalApps |Production |Contoso IT InternalApps Production |
 | Contoso |IT |InternalApps |Dev |Contoso IT InternalApps Dev |
 
-A nagyobb vállalatok előfizetéseinek rendszerezéséről az [előfizetés-irányításra vonatkozó előíró utasításokban][scaffold] talál további információt.
+A nagyobb vállalatok előfizetéseinek további információkért lásd: [Azure enterprise scaffold - előíró előfizetés-irányítás][scaffold].
 
 ## <a name="use-affixes-to-avoid-ambiguity"></a>Elő- és utótagok használata a félreérthetőség elkerülése érdekében
 
@@ -195,4 +195,4 @@ A tárfiókok és a tárolók neve a létrehozásuk után nem módosítható. Ha
 
 <!-- links -->
 
-[scaffold]: /azure/azure-resource-manager/resource-manager-azure-scaffold
+[scaffold]: /azure/architecture/cloud-adoption/appendix/azure-scaffold
