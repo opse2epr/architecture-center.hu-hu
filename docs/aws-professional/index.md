@@ -5,12 +5,12 @@ keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít�
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 0af0890d383d22db0ed9d3b445cdd5b561b498ae
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: f90186ba36f035871ec918c65b05eebe44190ffa
+ms.sourcegitcommit: f1dcc388c8b4fc983549c36d7e6b009fa1f072ba
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012620"
+ms.lasthandoff: 09/19/2018
+ms.locfileid: "46329895"
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -156,7 +156,7 @@ Az Azure [georedundáns tárolási szolgáltatásának](https://azure.microsoft.
 
 ## <a name="services"></a>Szolgáltatások
 
-A szolgáltatások platformok közötti megfeleltethetőségének teljes listájáért tekintse meg az [AWS és az Azure szolgáltatás-összehasonlító mátrixát](https://aka.ms/azure4aws-services).
+A szolgáltatások platformok közötti megfeleltethetőségének teljes listája: [Az AWS és az Azure szolgáltatásainak összehasonlítása](./services.md).
 
 Nem minden Azure-termék és -szolgáltatás érhető el minden régióban. A részletekért tekintse meg a [termékek régiónkénti](https://azure.microsoft.com/regions/services/) elérhetőségét. Az egyes Azure-termékek vagy -szolgáltatások minimális üzemideje és szolgáltatáskiesés esetén alkalmazott jóváírási szabályzata a [szolgáltatói szerződések](https://azure.microsoft.com/support/legal/sla/) oldalán tekinthető meg.
 
@@ -175,8 +175,6 @@ Bár az AWS-példánytípusok és az Azure-beli virtuális gépek méretei hason
 -   [A virtuális gépek méretei az Azure-ban (Linux)](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/)
 
 Az AWS másodpercalapú számlázásával ellentétben az Azure-beli igény szerinti virtuális gépek percalapú számlázást alkalmaznak.
-
-Az Azure-ban nem állnak rendelkezésre az EC2-beli kihasználatlan példányoknak vagy dedikált gazdagépeknek megfelelő megoldások.
 
 #### <a name="ebs-and-azure-storage-for-vm-disks"></a>EBS és Azure Storage virtuálisgép-lemezekhez
 
@@ -227,7 +225,7 @@ Az Azure számos olyan számítási szolgáltatást nyújt, amelyeknek nincs kö
 
 -   [Az első Azure-függvény létrehozása](https://azure.microsoft.com/documentation/articles/functions-create-first-azure-function/)
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 
 #### <a name="s3ebsefs-and-azure-storage"></a>S3/EBS/EFS és Azure Storage
 
@@ -428,8 +426,6 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 
 ## <a name="next-steps"></a>További lépések
 
--   [Az AWS és az Azure szolgáltatás-összehasonlító mátrixa](https://aka.ms/azure4aws-services)
-
 -   [Az Azure platform interaktív nagyméretű áttekintő képe](http://azureplatform.azurewebsites.net/)
 
 -   [Bevezetés az Azure használatába](https://azure.microsoft.com/get-started/)
@@ -437,8 +433,6 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 -   [Azure-megoldások architektúrái](https://azure.microsoft.com/solutions/architecture/)
 
 -   [Azure-referenciaarchitektúrák](https://azure.microsoft.com/documentation/articles/guidance-architecture/)
-
--   [Minták és gyakorlatok: Azure-útmutató](https://azure.microsoft.com/documentation/articles/guidance/)
 
 -   [Ingyenes online tanfolyam: Microsoft Azure AWS-szakértőknek](http://aka.ms/azureforaws)
 
