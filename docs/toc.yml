@@ -65,30 +65,6 @@ items:
         href: guide/design-principles/build-for-business.md
     - name: A szoftverminőség alappillérei
       href: guide/pillars.md
-    - name: A felhőalapú architektúrák ajánlott eljárásai
-      items:
-      - name: API-tervezés
-        href: best-practices/api-design.md
-      - name: API-implementáció
-        href: best-practices/api-implementation.md
-      - name: Automatikus skálázás
-        href: best-practices/auto-scaling.md
-      - name: Háttérfeladatok
-        href: best-practices/background-jobs.md
-      - name: Gyorsítótárazás
-        href: best-practices/caching.md
-      - name: Content Delivery Network
-        href: best-practices/cdn.md
-      - name: Adatparticionálás
-        href: best-practices/data-partitioning.md
-      - name: Monitorozás és diagnosztika
-        href: best-practices/monitoring.md
-      - name: Elnevezési konvenciók
-        href: best-practices/naming-conventions.md
-      - name: Átmeneti hibák kezelése
-        href: best-practices/transient-faults.md
-      - name: Újrapróbálkozási útmutatás adott szolgáltatásoknál
-        href: best-practices/retry-service-specific.md
   - name: Útmutató az adatarchitektúrához
     items:
     - name: Bevezetés
@@ -251,6 +227,30 @@ items:
       href: patterns/throttling.md
     - name: Valet Key
       href: patterns/valet-key.md
+  - name: A felhőalapú alkalmazások ajánlott eljárásai
+    items:
+    - name: API-tervezés
+      href: best-practices/api-design.md
+    - name: API-implementáció
+      href: best-practices/api-implementation.md
+    - name: Automatikus skálázás
+      href: best-practices/auto-scaling.md
+    - name: Háttérfeladatok
+      href: best-practices/background-jobs.md
+    - name: Gyorsítótárazás
+      href: best-practices/caching.md
+    - name: Content Delivery Network
+      href: best-practices/cdn.md
+    - name: Adatparticionálás
+      href: best-practices/data-partitioning.md
+    - name: Monitorozás és diagnosztika
+      href: best-practices/monitoring.md
+    - name: Elnevezési konvenciók
+      href: best-practices/naming-conventions.md
+    - name: Átmeneti hibák kezelése
+      href: best-practices/transient-faults.md
+    - name: Újrapróbálkozási útmutatás adott szolgáltatásoknál
+      href: best-practices/retry-service-specific.md
   - name: Teljesítménnyel kapcsolatos kizárási minták
     items:
     - name: Áttekintés
@@ -271,62 +271,12 @@ items:
       href: antipatterns/no-caching/index.md
     - name: Szinkron I/O
       href: antipatterns/synchronous-io/index.md
-  - name: Mikroszolgáltatások létrehozása az Azure-ban
+  - name: Azure AWS-szakembereknek
     items:
-    - name: Bevezetés
-      href: microservices/index.md
-    - name: Tartományelemzés
-      href: microservices/domain-analysis.md
-    - name: Mikroszolgáltatások határainak azonosítása
-      href: microservices/microservice-boundaries.md
-    - name: Adatkezelési szempontok
-      href: microservices/data-considerations.md
-    - name: Szolgáltatások közötti kommunikáció
-      href: microservices/interservice-communication.md
-    - name: API-tervezés
-      href: microservices/api-design.md
-    - name: Adatfeldolgozás és munkafolyamatok
-      href: microservices/ingestion-workflow.md
-    - name: API-átjárók
-      href: microservices/gateway.md
-    - name: Naplózás és figyelés
-      href: microservices/logging-monitoring.md
-    - name: CI/CD
-      href: microservices/ci-cd.md
-  - name: Több-bérlős identitások kezelése
-    items:
-    - name: Bevezetés
-      href: multitenant-identity/index.md
-    - name: A Tailspin forgatókönyv
-      href: multitenant-identity/tailspin.md
-    - name: Hitelesítés
-      href: multitenant-identity/authenticate.md
-    - name: Jogcímalapú identitás
-      href: multitenant-identity/claims.md
-    - name: Bérlői feliratkozás
-      href: multitenant-identity/signup.md
-    - name: Alkalmazás-szerepkörök
-      href: multitenant-identity/app-roles.md
-    - name: Engedélyezés
-      href: multitenant-identity/authorize.md
-    - name: Webes API-k biztonságossá tétele
-      href: multitenant-identity/web-api.md
-    - name: Hozzáférési jogkivonatok gyorsítótárazása
-      href: multitenant-identity/token-cache.md
-    - name: Ügyféltény
-      href: multitenant-identity/client-assertion.md
-    - name: Titkos alkalmazáskulcsok védelme
-      href: multitenant-identity/key-vault.md
-    - name: Összevonás az ügyfél AD FS szolgáltatásával
-      href: multitenant-identity/adfs.md
-    - name: A Surveys alkalmazás futtatása
-      href: multitenant-identity/run-the-app.md
-  - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
-    items:
-    - name: Cloud Services-alkalmazás migrálása a Service Fabricbe
-      href: service-fabric/migrate-from-cloud-services.md
-    - name: Service Fabric-alkalmazás újrabontása
-      href: service-fabric/refactor-migrated-app.md
+    - name: Áttekintés
+      href: aws-professional/index.md
+    - name: Szolgáltatások összehasonlítása
+      href: aws-professional/services.md
 - name: Példaforgatókönyvek
   items:
   - name: Áttekintés
@@ -389,14 +339,6 @@ items:
   items:
   - name: Áttekintés
     href: reference-architectures/index.md
-  - name: App Service webalkalmazás
-    items:
-    - name: Alapszintű webalkalmazás
-      href: reference-architectures/app-service-web-app/basic-web-app.md
-    - name: Továbbfejlesztett méretezhetőség
-      href: reference-architectures/app-service-web-app/scalable-web-app.md
-    - name: Többrégiós üzembe helyezés
-      href: reference-architectures/app-service-web-app/multi-region.md
   - name: Big Data
     items:
     - name: Enterprise BI és SQL Data Warehouse
@@ -431,7 +373,7 @@ items:
       href: reference-architectures/identity/adds-forest.md
     - name: Az AD FS kiterjesztése az Azure-ra
       href: reference-architectures/identity/adfs.md
-  - name: N szintű alkalmazás
+  - name: N szintű alkalmazások
     items:
     - name: SQL Servert használó N szintű alkalmazás
       href: reference-architectures/n-tier/n-tier-sql-server.md
@@ -459,10 +401,78 @@ items:
       href: reference-architectures/sap/sap-s4hana.md
     - name: SAP HANA on Azure Large Instances
       href: reference-architectures/sap/hana-large-instances.md
-  - name: Jenkins server
-    href: reference-architectures/jenkins/index.md
-  - name: SharePoint Server 2016
-    href: reference-architectures/sharepoint/index.md
+  - name: Virtuális gépek számítási feladatai
+    items:
+    - name: Jenkins server
+      href: reference-architectures/jenkins/index.md
+    - name: SharePoint Server 2016
+      href: reference-architectures/sharepoint/index.md
+  - name: Webalkalmazások
+    items:
+    - name: Alapszintű webalkalmazás
+      href: reference-architectures/app-service-web-app/basic-web-app.md
+    - name: Továbbfejlesztett méretezhetőség
+      href: reference-architectures/app-service-web-app/scalable-web-app.md
+    - name: Többrégiós üzembe helyezés
+      href: reference-architectures/app-service-web-app/multi-region.md
+- name: Tervezési útmutatók
+  items:
+  - name: Mikroszolgáltatások létrehozása az Azure-ban
+    items:
+    - name: Bevezetés
+      href: microservices/index.md
+    - name: Tartományelemzés
+      href: microservices/domain-analysis.md
+    - name: Mikroszolgáltatások határainak azonosítása
+      href: microservices/microservice-boundaries.md
+    - name: Adatkezelési szempontok
+      href: microservices/data-considerations.md
+    - name: Szolgáltatások közötti kommunikáció
+      href: microservices/interservice-communication.md
+    - name: API-tervezés
+      href: microservices/api-design.md
+    - name: Adatfeldolgozás és munkafolyamatok
+      href: microservices/ingestion-workflow.md
+    - name: API-átjárók
+      href: microservices/gateway.md
+    - name: Naplózás és figyelés
+      href: microservices/logging-monitoring.md
+    - name: CI/CD
+      href: microservices/ci-cd.md
+  - name: Több-bérlős identitások kezelése
+    items:
+    - name: Bevezetés
+      href: multitenant-identity/index.md
+    - name: A Tailspin forgatókönyv
+      href: multitenant-identity/tailspin.md
+    - name: Hitelesítés
+      href: multitenant-identity/authenticate.md
+    - name: Jogcímalapú identitás
+      href: multitenant-identity/claims.md
+    - name: Bérlői feliratkozás
+      href: multitenant-identity/signup.md
+    - name: Alkalmazás-szerepkörök
+      href: multitenant-identity/app-roles.md
+    - name: Engedélyezés
+      href: multitenant-identity/authorize.md
+    - name: Webes API-k biztonságossá tétele
+      href: multitenant-identity/web-api.md
+    - name: Hozzáférési jogkivonatok gyorsítótárazása
+      href: multitenant-identity/token-cache.md
+    - name: Ügyféltény
+      href: multitenant-identity/client-assertion.md
+    - name: Titkos alkalmazáskulcsok védelme
+      href: multitenant-identity/key-vault.md
+    - name: Összevonás az ügyfél AD FS szolgáltatásával
+      href: multitenant-identity/adfs.md
+    - name: A Surveys alkalmazás futtatása
+      href: multitenant-identity/run-the-app.md
+  - name: Áttelepítés a Cloud Servicesből a Service Fabricbe
+    items:
+    - name: Cloud Services-alkalmazás migrálása a Service Fabricbe
+      href: service-fabric/migrate-from-cloud-services.md
+    - name: Service Fabric-alkalmazás újrabontása
+      href: service-fabric/refactor-migrated-app.md
 - name: Tervezésáttekintési keretrendszer
   items:
   - name: Rugalmasságot szem előtt tartó tervezés
@@ -517,17 +527,9 @@ items:
       href: cloud-adoption/appendix/azure-scaffold.md
     - name: Azure Enterprise-szerkezet implementálása
       href: cloud-adoption/appendix/azure-scaffold-examples.md
-- name: Azure Virtual Datacenter
-  href: vdc/index.md
-- name: Azure AWS-szakembereknek
-  items:
-  - name: Áttekintés
-    href: aws-professional/index.md
-  - name: Szolgáltatások összehasonlítása
-    href: aws-professional/services.md
-ms.openlocfilehash: 804207bfa17a0ef1ef61d5f0729c8e5df6af2089
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 87c781aabb78f339487dea41885a5e562be9df3e
+ms.sourcegitcommit: 36398937420b9a6a2c45759b90847a1819df4451
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46533949"
+ms.lasthandoff: 09/25/2018
+ms.locfileid: "47175624"
