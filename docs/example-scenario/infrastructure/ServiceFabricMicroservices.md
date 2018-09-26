@@ -3,12 +3,12 @@ title: A Service Fabric használata érdekében a monolitikus alkalmazások
 description: A nagy, monolitikus alkalmazások mikroszolgáltatásokra decomposing forgatókönyv
 author: timomta
 ms.date: 09/20/2018
-ms.openlocfilehash: a03818dc6e5f139decdb140e3f52d95e184b73e9
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 38249a6db591652d207d76d5b07c30c816ca2be9
+ms.sourcegitcommit: 36398937420b9a6a2c45759b90847a1819df4451
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534568"
+ms.lasthandoff: 09/25/2018
+ms.locfileid: "47175607"
 ---
 # <a name="using-service-fabric-to-break-up-monolithic-applications"></a>A Service Fabric használata érdekében a monolitikus alkalmazások
 
@@ -36,7 +36,7 @@ Ebben a forgatókönyvben a következő nagy monolitikus webalkalmazások tapasz
 
 A Service Fabricet használja, a üzemeltetési platformot, hogy sikerült alakítsa nagy IIS-webhely gyűjteménye, mikroszolgáltatások, ahogy az alábbi:
 
-![Teljes architektúra ábrája](./media/service-fabric-microservices/clip_image002.png)
+![Teljes architektúra ábrája](./media/service-fabric-microservices/service-fabric-complete.png)
 
 A fenti képen hogy egy nagy, az IIS-alkalmazás minden része szétbontása:
 
@@ -53,13 +53,13 @@ A Service Fabric lett választva, mert mindegyik mikroszolgáltatás a különf�
 
 A végső, elkülönített alkalmazás eléréséhez egy iteratív megközelítéssel használtuk. Hogy lépései IIS/ASP.Net nagyméretű webhelyek kiszolgálóból álló farmra. A kiszolgálófarm egyetlen csomópont van ábra alább. Az eredeti webhely a több virtuális könyvtárak (könyvtárak) tartalmaz, egy további Windows-szolgáltatás, a hely hívásokat, és a egy végrehajtható fájl, amely bizonyos rendszeres archiválása helykarbantartás.
 
-![Monolitikus architektúra ábrája](./media/service-fabric-microservices/clip_image004.png)
+![Monolitikus architektúra ábrája](./media/service-fabric-microservices/service-fabric-monolith.png)
 
 A fejlesztés első példányát, az IIS-hely és a könyvtárak helyezni egy [Windows tároló](/azure/service-fabric/service-fabric-containers-overview). Ez lehetővé teszi a hely maradjon működési, de szorosan nincs kötve a mögöttes kiszolgáló-csomópontot az operációs rendszer. A tároló futtatásához és az alapul szolgáló Service Fabric-csomópont által előkészített, de a csomópont nem kell rendelkeznie minden olyan állapotban, hogy a hely (beállításjegyzékbeli bejegyzéseket, fájlokat, stb.) függ. Azok az elemek találhatók a tárolóban. Azt is be van jelölve az Indexelő szolgáltatás egy Windows-tároló okok miatt. A tárolók üzembe helyezett, a rendszerverzióval ellátott és a méretezett egymástól függetlenül lehet. Végül azt üzemeltetett az archív szolgáltatás egy egyszerű [önálló exe](/azure/service-fabric/service-fabric-guest-executables-introduction) egy önálló exe egy speciális, mert.
 
 Az alábbi képen látható, hogyan a nagyméretű webhely most részlegesen bontjuk független egységekbe, és készen áll a kell szétbontása több idő lehetővé teszik.
 
-![Részlegesen szétbontása architektúra ábrája](./media/service-fabric-microservices/clip_image006.png)
+![Részlegesen szétbontása architektúra ábrája](./media/service-fabric-microservices/service-fabric-midway.png)
 
 További fejlesztési összpontosít elválasztása a egyetlen nagy Default Web site tároló fent szerepel. Mindegyik VDir ASP.Net alkalmazás egyszerre a tároló egyik távolítva, és az ASP.Net Core legelterjedtebb [a reliable services](/azure/service-fabric/service-fabric-reliable-services-introduction).
 

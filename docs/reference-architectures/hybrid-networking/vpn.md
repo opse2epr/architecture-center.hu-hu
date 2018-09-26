@@ -7,18 +7,18 @@ pnp.series.title: Connect an on-premises network to Azure
 pnp.series.next: expressroute
 pnp.series.prev: ./index
 cardTitle: VPN
-ms.openlocfilehash: ef89cdd3e2a175f82929b613159a99557560cc7a
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: d0966791642ee174d020c960c9fc6e72d8768539
+ms.sourcegitcommit: b38ba378c9d6110da2dfd50b4233fadd94604bb0
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325388"
+ms.lasthandoff: 09/25/2018
+ms.locfileid: "47167438"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-a-vpn-gateway"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával
 
 Ez a referenciaarchitektúra bemutatja, hogyan lehet kibővíteni a helyszíni hálózatot az Azure-ra helyek közötti virtuális magánhálózat (VPN) használatával. A forgalom a helyszíni hálózat és egy Azure Virtual Network (VNet) között egy IPsec VPN-alagúton halad át. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
-! [[0]] [0]
+![[0]][0]
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
@@ -51,7 +51,7 @@ Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a
 
 Hozzon létre egy Azure virtuális hálózatot egy, az összes szükséges erőforrás számára elegendő méretű címtérrel. Ügyeljen arra, hogy a virtuális hálózat címtere a növekedésnek is biztosítson helyet, ha van rá esély, hogy a jövőben további virtuális gépekre is szükség lesz. A virtuális hálózat címtere nem lehet átfedésben a helyszíni hálózattal. A fenti ábra például a 10.20.0.0/16 címteret használja a virtuális hálózathoz.
 
-Hozzon létre egy *GatewaySubnet* nevű alhálózatot /27 címtartománnyal. Ez az alhálózat a virtuális hálózat átjárójához szükséges. Ha kioszt 32 címet erre az alhálózatra, azzal megelőzheti az átjáró mérethatárának elérését a jövőben. Lehetőleg a címtér közepére se helyezze ezt az alhálózatot. Bevált gyakorlat az átjáró-alhálózat címterét a virtuális hálózat címterének felső végén beállítani. Az ábrán is látható példa a 10.20.255.224/27 címteret használja.  Íme egy gyors eljárás alapján számítja ki a [CIDR]:
+Hozzon létre egy *GatewaySubnet* nevű alhálózatot /27 címtartománnyal. Ez az alhálózat a virtuális hálózat átjárójához szükséges. Ha kioszt 32 címet erre az alhálózatra, azzal megelőzheti az átjáró mérethatárának elérését a jövőben. Lehetőleg a címtér közepére se helyezze ezt az alhálózatot. Bevált gyakorlat az átjáró-alhálózat címterét a virtuális hálózat címterének felső végén beállítani. Az ábrán is látható példa a 10.20.255.224/27 címteret használja.  Íme egy gyors eljárás a [CIDR] kiszámításához:
 
 1. A virtuális hálózat címterében lévő változó biteket állítsa 1-re, egészen az átjáró-alhálózat által használt bitekig, majd a többit állítsa 0-ra.
 2. Alakítsa át az eredményül kapott biteket decimálisra, és fejezze ki címtérként, az előtag hosszúságát pedig állítsa az átjáró-alhálózat hosszúságára.
@@ -133,7 +133,7 @@ A kapcsolati problémákra vonatkozó információk rögzítéséhez használja 
 
 Monitorozza az Azure VPN-átjáró működési naplóit az Azure Portalon elérhető auditnaplók segítségével. A helyi hálózati átjáróhoz, az Azure hálózati átjáróhoz és a kapcsolathoz külön naplók érhetők el. Ezzel az információval nyomon követhetők az átjáró módosításai, és hasznosak lehetnek, ha egy korábban funkcionáló átjáró működése valamiért leáll.
 
-! [[2]] a(z) [2]
+![[2]][2]
 
 Monitorozza a kapcsolatokat, és kövesse nyomon a hibaeseményeket. Az információ rögzítéséhez és jelentéséhez használhat olyan monitorozási csomagokat, mint amilyen például a [Nagios][nagios].
 
@@ -411,11 +411,11 @@ Az alábbi javaslatok segítenek megállapítani, hogy van-e probléma a virtuá
 
     Ennek az ellenőrzési módja a helyszínen futó VPN-berendezéstől függ. Ha például a Windows Server 2012 RRAS szolgáltatását használja, a teljesítményfigyelő segítségével nyomon követheti a VPN-kapcsolaton keresztül fogadott és küldött adatok mennyiségét. A *Távelérés (RAS) áttekintése* objektum segítségével válassza ki a *Fogadott bájtok/mp* és a *Küldési sebesség (bájt/s)* számlálókat:
 
-    ! [[3]] [3]
+    ![[3]][3]
 
     Az eredményeket hasonlítsa össze a VPN-átjáró számára elérhető sávszélességgel (az alapszintű és a standard termékváltozat esetében 100 Mb/s, illetve 200 Mb/s nagy teljesítményű termékváltozat esetében):
 
-    ! [[4]] [4]
+    ![[4]][4]
 
 - **Győződjön meg arról, hogy az alkalmazásterheléshez megfelelő számban és méretben telepített virtuális gépeket.**
 
@@ -454,7 +454,7 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
 [arm-templates]: /azure/resource-group-authoring-templates
-[az Azure-cli]: /azure/virtual-machines-command-line-tools
+[azure-cli]: /azure/virtual-machines-command-line-tools
 [azure-portal]: /azure/azure-portal/resource-group-portal
 [azure-powershell]: /azure/powershell-azure-resource-manager
 [azure-virtual-network]: /azure/virtual-network/virtual-networks-overview
@@ -486,7 +486,10 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 [vpn-appliances]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-architectures.vsdx
 [vpn-appliance-ipsec]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices#ipsec-parameters
-<!--[solution-script]: https://github.com/mspnp/reference-architectures/tree/master/guidance-hybrid-network-vpn/Deploy-ReferenceArchitecture.ps1-->
-<!--[solution-script-bash]: https://github.com/mspnp/reference-architectures/tree/master/guidance-hybrid-network-vpn/deploy-reference-architecture.sh-->
-<!--[virtualNetworkGateway-parameters]: https://github.com/mspnp/reference-architectures/tree/master/guidance-hybrid-network-vpn/parameters/virtualNetworkGateway.parameters.json-->
-[az Azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/ [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing [0]: "A helyszíni és Azure infrastruktúrákat áthidaló hibrid hálózat"./images/vpn.png: [2]:... /_images/Guidance-Hybrid-Network-VPN/audit-Logs.png "naplók az Azure Portalon" [3]:... /_images/Guidance-Hybrid-Network-VPN/RRAS-perf-Counters.png "teljesítményszámlálók a VPN-hálózati forgalom figyelésére" [4]:... /_images/Guidance-Hybrid-Network-VPN/RRAS-perf-Graph.png "Példa VPN hálózat teljesítménye ábra""
+[virtualNetworkGateway-parameters]: https://github.com/mspnp/hybrid-networking/vpn/parameters/virtualNetworkGateway.parameters.json
+[azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/
+[CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
+[0]: ./images/vpn.png "Helyszíni és Azure infrastruktúrákat áthidaló hibrid hálózat"
+[2]: ../_images/guidance-hybrid-network-vpn/audit-logs.png "Auditnaplók az Azure Portalon"
+[3]: ../_images/guidance-hybrid-network-vpn/RRAS-perf-counters.png "Teljesítményszámlálók a VPN-hálózati forgalom monitorozásához"
+[4]: ../_images/guidance-hybrid-network-vpn/RRAS-perf-graph.png "Példa VPN-hálózat teljesítménye ábra"

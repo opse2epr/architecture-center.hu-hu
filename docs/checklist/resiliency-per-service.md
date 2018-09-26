@@ -4,12 +4,12 @@ description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgált
 author: petertaylor9999
 ms.date: 03/02/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 735d4466f53ff03b67063b49b86f4184bbf1af41
-ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
+ms.openlocfilehash: f117a00b82df981134573018b55e70c3c29a6d46
+ms.sourcegitcommit: b38ba378c9d6110da2dfd50b4233fadd94604bb0
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/14/2018
-ms.locfileid: "45584765"
+ms.lasthandoff: 09/25/2018
+ms.locfileid: "47167421"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -77,6 +77,21 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
   * Ha az adatforrás georeplikált, általában kell mutatnia minden indexelő minden regionális Azure Search szolgáltatás a helyi adatok forrásreplikára. Ezt a megközelítést az Azure SQL Database-ben tárolt nagyméretű adathalmazok azonban nem ajánlott. A hiba oka, hogy az Azure Search nem hajtható végre a másodlagos SQL-adatbázis-replikákat, csak az elsődleges replika indexelő növekményes. Ehelyett minden indexelő mutasson az elsődleges replika. A feladatátvétel után az új elsődleges replika az Azure Search-indexelők mutassanak.  
   * Ha az adatforrás nem áll, georeplikált, pont, ugyanazt az adatforrást több indexelő, hogy több régióban az Azure Search-szolgáltatás folyamatosan és egymástól függetlenül index az adatforrásból. További információkért lásd: [Azure Search-teljesítmény és optimalizálás szempontok][search-optimization].
+
+## <a name="service-bus"></a>Service Bus
+
+**Prémium szintű használata a termelési számítási feladatokhoz**. [Service Bus prémium szintű üzenetkezelés](/azure/service-bus-messaging/service-bus-premium-messaging) biztosít dedikált és fenntartott feldolgozási erőforrásokat, és memóriakapacitásának kiszámítható teljesítményt és az átviteli sebesség támogatására. Prémium szintű üzenetkezelés csomag is hozzáférést biztosít, amely csak a prémium szintű ügyfelek először számára elérhető új szolgáltatásokkal. Eldöntheti, hogy a várható számítási feladatok alapján üzenetkezelési egységek száma.
+
+**Ismétlődő üzenetek kezeléséhez**. Ha a kiadó üzenet elküldése után azonnal meghiúsul, vagy hálózati vagy a rendszer meghibásodik, hibásan előfordulhat, hogy jegyezze fel, hogy az üzenet lett kézbesítve, és előfordulhat, hogy az azonos üzenetet küld a rendszer kétszer. A Service Bus duplikált elemek észlelésének engedélyezésével úgy tudja kezelni a probléma. További információkért lásd: [észlelési ismétlődő](/azure/service-bus-messaging/duplicate-detection).
+
+**Kivételek kezelése**. Üzenetkezelési API-k készítése a kivételeket, ha egy felhasználói hiba, konfigurációs hiba vagy más hiba lép fel. Az Ügyfélkód (küldők és fogadók) kezelje ezeket a kivételeket a kódra összpontosítsanak. Ez különösen fontos a kötegelt feldolgozás, ahol a kivételkezelés is használható, teljes üzenetköteget az adatvesztés elkerülése érdekében. További információkért lásd: [Service Bus-üzenetkezelés kivételei](/azure/service-bus-messaging/service-bus-messaging-exceptions).
+
+**Újrapróbálkozási szabályzat**. A Service Bus lehetővé teszi az alkalmazások számára legjobb újrapróbálkozási szabályzat kiválasztása. Az alapértelmezett házirendet, hogy a 9 maximális újrapróbálkozások száma, és várjon 30 másodpercet, de ez további módosítható. További információkért lásd: [újrapróbálkozási szabályzat – a Service Bus](/azure/architecture/best-practices/retry-service-specific#service-bus).
+
+**Használja a kézbesítetlen levelek várólistájára**. Ha az üzenet nem lehet feldolgozni, vagy több próbálkozás után címzettnek sem lett elküldve, a kézbesítetlen levelek várólistája kerülnek. Állítson be egy folyamatot az üzenetek olvasásakor a feldolgozatlan üzenetek sorhoz, vizsgálja meg őket és háríthatja el a problémát. A forgatókönyvtől függően előfordulhat, hogy ismételje meg az üzenetet,-, a módosításokat, és próbálkozzon újra, vagy vesse el az üzenetet. További információkért lásd: [a Service Bus – áttekintés kézbesíthetetlen levelek sorai](/azure/service-bus-messaging/service-bus-dead-letter-queues).
+
+**Használja a Geo-Disaster Recovery**. GEO-vészhelyreállítás biztosítja, hogy adatfeldolgozási továbbra is megfelelően működjenek, eltérő régióban vagy datacenter, ha egy teljes Azure-régiót vagy datacenter katasztrófa miatt elérhetetlenné válik. További információkért lásd: [Azure Service Bus Geo-disaster recovery](/azure/service-bus-messaging/service-bus-geo-dr).
+
 
 ## <a name="storage"></a>Storage
 
