@@ -3,12 +3,12 @@ title: IoT és data analytics konstrukció iparág
 description: Használja az IoT-eszközökkel és adatelemzéssel átfogó felügyeletét és konstrukció projektek működésének biztosítása érdekében.
 author: alexbuckgit
 ms.date: 08/29/2018
-ms.openlocfilehash: 0bd477fa914bdc1c1e9feaab85198c464b73280d
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 0f10ce25c0dc3529a22181e67bba0e63541cd4c8
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534577"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428369"
 ---
 # <a name="iot-and-data-analytics-in-the-construction-industry"></a>IoT és data analytics konstrukció iparág
 
@@ -58,7 +58,7 @@ Az adatok a következőképpen folyamatok a megoldáson keresztül:
 * [A TRAFFIC Manager](/azure/traffic-manager) szabályozza a különböző Azure-régiókban szolgáltatásvégpontokra érkező felhasználói forgalom elosztása.
 * [Load Balancer](/azure/load-balancer) adatok jelentkezés konstrukció berendezések eszközökről elosztja a Virtuálisgép-alapú webes szolgáltatások magas rendelkezésre állást biztosít.
 * [Az Azure Virtual Machines](/azure/virtual-machines) futtatja a webes szolgáltatásokat, amelyek fogadják és adatbetöltést konstrukció eredményeit az Apache Cassandra-adatbázisba.
-* [Az Apache Cassandra](http://cassandra.apache.org/) későbbi feldolgozásra az Apache Spark a fejlesztés adatok tárolására használt elosztott NoSQL-adatbázis.
+* [Az Apache Cassandra](https://cassandra.apache.org/) későbbi feldolgozásra az Apache Spark a fejlesztés adatok tárolására használt elosztott NoSQL-adatbázis.
 * [Web Apps](/azure/app-service) lekérdezését, és megtekintheti a forrásadatok és képek segítségével végfelhasználói webes alkalmazást. Felhasználó is kezdeményezheti a kötegelt feladatok Apache Spark az alkalmazáson keresztül.
 * [Az Apache Spark on HDInsight](/azure/hdinsight/spark) támogatja a memórián belüli feldolgozást a big data elemző alkalmazások teljesítményének növelése érdekében. Ebben a forgatókönyvben a Spark futtatására szolgál összetett algoritmusokat az Apache Cassandra tárolt adatokon.
 

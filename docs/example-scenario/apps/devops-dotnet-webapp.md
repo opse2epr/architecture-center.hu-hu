@@ -3,12 +3,12 @@ title: CI/CD-folyamat a vsts-sel
 description: Egy példa létrehozása és közzététele az Azure Web Apps .NET-alkalmazás
 author: christianreddington
 ms.date: 07/11/18
-ms.openlocfilehash: aea757087f4a505a8c52658abe1841c5455977cc
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.openlocfilehash: 6fb8f00f91ebb5ce6ca873d711d6919cf935ec55
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389273"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428550"
 ---
 # <a name="cicd-pipeline-with-vsts"></a>CI/CD-folyamat a vsts-sel
 
@@ -127,7 +127,7 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 ### <a name="prerequisites"></a>Előfeltételek
 
 * Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, első lépésként létrehozhat egy [ingyenes][azure-free-account] fiókot.
-* Egy meglévő Visual Studio Team Services (VSTS) fiókkal kell rendelkeznie. Ismerje meg részletesebben [létrehozása a Visual Studio Team Services (VSTS) fiók][vsts-account-create].
+* Jelentkezzen az Azure DevOps szervezet számára. További információkért lásd: [a rövid útmutató: a szervezete létrehozása][vsts-account-create].
 
 ### <a name="walk-through"></a>Útmutató
 
@@ -164,7 +164,7 @@ A Visual Studio Team Services ára a szervezet tényezők, például az egyidej�
 <!-- links -->
 [ansible]: /azure/ansible/
 [application-insights]: /azure/application-insights/app-insights-overview
-[app-service-reference-architecture]: /azure/architecture/reference-architectures/app-service-web-app/
+[app-service-reference-architecture]: ../../reference-architectures/app-service-web-app/basic-web-app.md
 [azure-free-account]: https://azure.microsoft.com/free/?WT.mc_id=A261C142F
 [arm-templates]: /azure/azure-resource-manager/resource-group-overview#template-deployment
 [architecture]: ./media/devops-dotnet-webapp/architecture-devops-dotnet-webapp.png
@@ -192,7 +192,7 @@ A Visual Studio Team Services ára a szervezet tényezők, például az egyidej�
 [continuous-delivery]: /azure/devops/what-is-continuous-delivery
 [web-apps]: /azure/app-service/app-service-web-overview
 [terraform]: /azure/terraform/
-[vsts-account-create]: /vsts/organizations/accounts/create-account-msa-or-work-student?view=vsts
+[vsts-account-create]: /azure/devops/organizations/accounts/create-organization-msa-or-work-student?view=vsts
 [vsts-approvals]: /vsts/pipelines/release/approvals/approvals?view=vsts
 [devops-project]: https://portal.azure.com/?feature.customportal=false#create/Microsoft.AzureProject
 [vsts-deployment-gates]: /vsts/pipelines/release/approvals/gates?view=vsts
@@ -210,5 +210,5 @@ A Visual Studio Team Services ára a szervezet tényezők, például az egyidej�
 [compare-vm-hosting]:/azure/app-service/choose-web-site-cloud-service-vm
 [app-insights-cd-monitoring]:/azure/application-insights/app-insights-vsts-continuous-monitoring
 [azure-region-pair-bcdr]:/azure/best-practices-availability-paired-regions
-[devops-project-create]: /vsts/pipelines/apps/cd/azure/azure-devops-project-aspnetcore?view=vsts
+[devops-project-create]: /azure/devops-project/azure-devops-project-aspnet-core
 [security]: /azure/security/

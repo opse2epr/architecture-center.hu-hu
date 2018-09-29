@@ -7,12 +7,12 @@ ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
-ms.openlocfilehash: 6e05a30245fbf5183a4e50a54650505f5a5f2aa8
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.openlocfilehash: bd212b8b4406a08058f811db030843f732e08cdc
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252924"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428839"
 ---
 # <a name="compute-resource-consolidation-pattern"></a>Számításierőforrás-konszolidálási minta
 
@@ -85,11 +85,11 @@ Ez a minta lehet, hogy nem megfelelő olyan feladatokhoz, amelyek kritikus hibat
 
 Amikor felhőszolgáltatást fejleszt az Azure-ban, a több feladat által végzett feldolgozást egyetlen szerepkörbe konszolidálhatja. Általában ez egy feldolgozói szerepkör, amely háttérben történő vagy aszinkron feldolgozási feladatokat végez.
 
-> Néhány esetben a háttérben történő vagy aszinkron feldolgozási feladatokat belefoglalhatja a webes szerepkörbe. Ezzel a módszerrel csökkentheti a költségeket és egyszerűsítheti az üzembe helyezést, azonban ez befolyásolhatja a webes szerepkör által biztosított nyilvános felület skálázhatóságát és válaszképességét. A [több Azure feldolgozói szerepkör egy Azure webes szerepkörben való kombinálásával](http://www.31a2ba2a-b718-11dc-8314-0800200c9a66.com/2012/02/combining-multiple-azure-worker-roles.html) foglalkozó cikkben részletes leírást talál a webes szerepkörben futtatott háttérben történő vagy aszinkron feldolgozási feladatokról.
+> Néhány esetben a háttérben történő vagy aszinkron feldolgozási feladatokat belefoglalhatja a webes szerepkörbe. Ezzel a módszerrel csökkentheti a költségeket és egyszerűsítheti az üzembe helyezést, azonban ez befolyásolhatja a webes szerepkör által biztosított nyilvános felület skálázhatóságát és válaszképességét. 
 
 Ez a szerepkör felelős a feladatok indításáért és leállításáért. Amikor az Azure Fabric Controller betölt egy szerepkört, kiváltja a szerepkör `Start` eseményét. Felülírhatja a `WebRole` vagy `WorkerRole` osztály `OnStart` metódusát, hogy kezelje az eseményt, például azoknak az adatoknak és egyéb erőforrásoknak az inicializálásával, amelyektől a metódus feladatai függnek.
 
-Ha a `OnStart` metódus befejeződött, a szerepkör elindíthatja válaszol a kérelmekre. Az `OnStart` és a `Run` metódus szerepkörben történő használatáról további információkat és útmutatást az [alkalmazások felhőbe való áthelyezését tárgyaló](https://msdn.microsoft.com/library/ff728592.aspx) minta- és gyakorlati útmutató [alkalmazásindítási folyamatokról szóló](https://msdn.microsoft.com/library/ff803371.aspx#sec16) szakaszában talál.
+Ha a `OnStart` metódus befejeződik, a szerepkör elkezdhet válaszolni a kérésekre. Az `OnStart` és a `Run` metódus szerepkörben történő használatáról további információkat és útmutatást az [alkalmazások felhőbe való áthelyezését tárgyaló](https://msdn.microsoft.com/library/ff728592.aspx) minta- és gyakorlati útmutató [alkalmazásindítási folyamatokról szóló](https://msdn.microsoft.com/library/ff803371.aspx#sec16) szakaszában talál.
 
 > Az `OnStart` metódus kódja legyen a lehető legtömörebb. Az Azure nem határoz meg küszöbértéket a metódus befejezésére engedélyezett időtartamnak, azonban a szerepkör nem kezdi megválaszolni az elküldött hálózati kéréseket, amíg a metódus be nem fejeződik.
 

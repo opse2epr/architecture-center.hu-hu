@@ -3,12 +3,12 @@ title: 'Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ba
 description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: az Azure resource manager, az előfizetések, erőforráscsoportok és erőforrások'
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: 2e64d8828574ebe216da1e76b19ec3ce5aeda993
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.openlocfilehash: c26b01d207bc4eb100653a826a053b394d03d1e6
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389077"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428703"
 ---
 # <a name="enterprise-cloud-adoption-resource-access-management-in-azure"></a>Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban
 
@@ -84,7 +84,7 @@ A következő vezérlő, hogy a felhasználó rendelkezik-e megfelelő engedély
 
 Az RBAC szerepkör engedélyekkel a felhasználó egy adott erőforráson eltarthat egy halmazát határozza meg. A szerepkör van rendelve a felhasználót, amikor a rendszer alkalmazza ezeket az engedélyeket. Például a [beépített **tulajdonosa** szerepkör](/azure/role-based-access-control/built-in-roles#owner) lehetővé teszi a felhasználóknak egy erőforráson bármely művelet elvégzésére.
 
-A következő vezérlő annak ellenőrzése, hogy a megadott beállítások alapján engedélyezi a kérelmet [Azure erőforrás-szabályzat](/azure/azure-policy/). Az Azure erőforrás-házirendek adjon meg egy adott erőforrás engedélyezett műveletek. Azure erőforrás-szabályzat megadhatja például, hogy csak engedélyezett a felhasználók számára egy adott típusú virtuális gép üzembe helyezése.
+A következő vezérlő annak ellenőrzése, hogy a megadott beállítások alapján engedélyezi a kérelmet [Azure erőforrás-szabályzat](/azure/governance/policy/). Az Azure erőforrás-házirendek adjon meg egy adott erőforrás engedélyezett műveletek. Azure erőforrás-szabályzat megadhatja például, hogy csak engedélyezett a felhasználók számára egy adott típusú virtuális gép üzembe helyezése.
 
 ![](../_images/governance-1-19.png)   
 *11. ábra. Az Azure erőforrás-szabályzat.*

@@ -4,12 +4,12 @@ description: A vállalatok számára is annak biztosítására, biztonságos és
 author: rdendtler
 ms.author: rodend
 ms.date: 9/22/2018
-ms.openlocfilehash: 223213e53f87785f4a389814bfac3609addd087d
-ms.sourcegitcommit: b38ba378c9d6110da2dfd50b4233fadd94604bb0
+ms.openlocfilehash: a1962a3d5be79715de4781d955b6be1db5923bea
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/25/2018
-ms.locfileid: "47167472"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429291"
 ---
 # <a name="azure-enterprise-scaffold-prescriptive-subscription-governance"></a>Az Azure enterprise scaffold: előíró előfizetés-irányítás
 
@@ -151,7 +151,7 @@ A kezdeményezések bevezetése megadott vállalatok logikai házirendek csoport
 
 Szabályzatok és a logikai kezdeményezések alapján csoportosítani a létrehozása után hozzá kell rendelnie a szabályzatot hatókör, hogy a felügyeleti csoport, egy előfizetést vagy akár egy erőforráscsoportot. Hozzárendelések lehetővé teszik egy alárendelt hatókört is kizárását a szabályzat-hozzárendelés. Például megtagadja az egy előfizetésen belül nyilvános IP-címek létrehozása, ha hozzárendelés segítségével létrehozhat egy erőforráscsoportot, a védett DMZ csatlakozik egy kivételt.
 
-Több szabályzat példák azt mutatják be, hogyan házirend és a kezdeményezések alkalmazható Azure-ban a különböző erőforrások található [GitHub](https:// https://github.com/Azure/azure-policy) tárház.
+Több szabályzat példák azt mutatják be, hogyan házirend és a kezdeményezések alkalmazható Azure-ban a különböző erőforrások található [GitHub](https://github.com/Azure/azure-policy) tárház.
 
 ## <a name="identity-and-access-management"></a>Identitás- és hozzáférés-kezelés
 

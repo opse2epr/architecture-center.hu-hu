@@ -8,12 +8,12 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
 - messaging
-ms.openlocfilehash: 2c17504f594843c10fcfe221f0087f1087a73fb8
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: fd616676f9487bdfe1bf23b3d0fec6c65b97a8f4
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847107"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429570"
 ---
 # <a name="pipes-and-filters-pattern"></a>Csövek és szűrők mintája
 
@@ -59,7 +59,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 - **Megbízhatóság**. Olyan infrastruktúrát használjon, amely biztosítja, hogy ne legyen adatvesztés a folyamat szűrői közötti adatátvitel során.
 
-- **Idempotencia**. Ha egy üzenet fogadását követően a folyamatban lévő szűrő meghibásodik, és a rendszer a feladatot a szűrő egy másik példányára ütemezi át, akkor lehetséges, hogy a feladat egy része már végre lett hajtva. Ha ez a feladat frissíti a globális állapot egyes aspektusait (például az adatbázisban tárolt információkat), akkor meg lehet ismételni ugyanezt a frissítést. Hasonló probléma fordulhat elő akkor, ha egy szűrő azután hibásodik meg, miután közzétette az eredményeit a folyamat következő szűrőjének, de még nem jelezte, hogy a feladatot sikeresen elvégezte. Ezekben az esetekben lehetséges, hogy ugyanazt a feladatot a szűrő egy másik példánya is elvégzi, így ugyanazok az eredmények kétszer lesznek közzétéve. Ez azt eredményezheti, hogy a folyamat soron következő szűrői ugyanazokat az adatokat kétszer fogják feldolgozni. Ezért a folyamatok szűrőinek idempotensnek kell lenniük. További információ: [Idempotens minták](http://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).
+- **Idempotencia**. Ha egy üzenet fogadását követően a folyamatban lévő szűrő meghibásodik, és a rendszer a feladatot a szűrő egy másik példányára ütemezi át, akkor lehetséges, hogy a feladat egy része már végre lett hajtva. Ha ez a feladat frissíti a globális állapot egyes aspektusait (például az adatbázisban tárolt információkat), akkor meg lehet ismételni ugyanezt a frissítést. Hasonló probléma fordulhat elő akkor, ha egy szűrő azután hibásodik meg, miután közzétette az eredményeit a folyamat következő szűrőjének, de még nem jelezte, hogy a feladatot sikeresen elvégezte. Ezekben az esetekben lehetséges, hogy ugyanazt a feladatot a szűrő egy másik példánya is elvégzi, így ugyanazok az eredmények kétszer lesznek közzétéve. Ez azt eredményezheti, hogy a folyamat soron következő szűrői ugyanazokat az adatokat kétszer fogják feldolgozni. Ezért a folyamatok szűrőinek idempotensnek kell lenniük. További információ: [Idempotens minták](https://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).
 
 - **Ismétlődő üzenetek**. Ha egy folyamat szűrője azután hibásodik meg, hogy közzétett egy üzenetet a folyamat következő szakaszában, akkor a rendszer futtathatja a szűrő másik példányát, és az ugyanennek az üzenetnek a másolatát fogja közzétenni a folyamatban. Ez azt eredményezheti, hogy ugyanazon üzenet két példánya lesz elküldve a következő szűrő számára. Ennek elkerülése érdekében a folyamatnak észlelnie kell és el kell távolítania az ismétlődő üzeneteket.
 
@@ -282,4 +282,4 @@ Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalós
 - [Versengő felhasználókat ismertető minta](competing-consumers.md). A folyamatok adott szűrők több példányát is tartalmazhatják. Ezen megközelítés lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését. A szűrőpéldányok versenyezni fognak egymással a bemeneti adatokért, egy adott szűrő két példánya nem dolgozhatja fel ugyanazokat az adatokat. Megmagyarázza ezt a megközelítést.
 - [Számításierőforrás-konszolidálási minta](compute-resource-consolidation.md). Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkat biztosít ezen stratégia előnyeiről és hátrányairól.
 - [Kompenzáló tranzakció mintája](compensating-transaction.md). A szűrők implementálhatóak visszavonható műveletként is, vagy olyan kompenzáló műveletként, amely hiba esetén visszaállít egy korábbi verzió szerinti állapotot. Ismerteti, hogy ez a módszer hogyan implementálható a végső konzisztencia fenntartásához vagy eléréséhez.
-- [Idempotens minták](http://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).
+- [Idempotens minták](https://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).

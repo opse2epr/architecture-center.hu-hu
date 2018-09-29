@@ -5,12 +5,12 @@ keywords: cloud services összehasonlítása, cloud services képest, multicloud
 author: lbrader
 ms.date: 11/30/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 0fd8355a805f7ae3549cdddac8b56b1714aa270b
-ms.sourcegitcommit: f1dcc388c8b4fc983549c36d7e6b009fa1f072ba
+ms.openlocfilehash: 34c8aec91a9759dbd0a4ff3cb854bf1291bf9042
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/19/2018
-ms.locfileid: "46329929"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429213"
 ---
 # <a name="aws-to-azure-services-comparison"></a>AWS – az Azure-szolgáltatások összehasonlítása
 
@@ -147,7 +147,7 @@ Az Azure az AWS-felhasználók számára, lásd [Azure AWS-szakembereknek szánt
 |          Adminisztráció           | Az AWS alkalmazás keresőszolgáltatás |                                                                                          [Az Azure Log Analytics az Operations Management Suite](https://azure.microsoft.com/services/log-analytics)                                                                                           | Naplókezelője által gyűjtött, az alkalmazás és a számítási feladatok részletesebb betekintést biztosít, és a gépi adatokat jelenítenek meg, például az eseménynaplók, hálózati naplók, teljesítményadatok és számos egyéb mind a helyszíni és felhőbeli számítógépadatok. |
 |      <strong>&nbsp;</strong>      |    Amazon EC2 Systems Manager     |                                                                    [A Microsoft Operations Management Suite – Automation and Control funkciói](https://www.microsoft.com/cloud-platform/operations-management-suite)                                                                     |                                 Lehetővé teszi a folyamatos informatikai szolgáltatásai és megfelelőségvizsgálat folyamat automatizálással és konfigurációkezeléssel. Az IT-automatizálás összetett és ismétlődő feladatok alakíthatja át.                                 |
 |      <strong>&nbsp;</strong>      |   Az AWS személyes Hálóállapot irányítópult   |                                                                                                          [Az Azure Resource Health](/azure/resource-health/resource-health-overview)                                                                                                           |                                                        Erőforrások, valamint a javasolt műveletek a resource health verziókezelő állapotával kapcsolatos részletes információkat szolgáltat.                                                        |
-|      <strong>&nbsp;</strong>      |            Harmadik féltől származó            |                                                                                                                    [Azure Storage Explorer](http://storageexplorer.com/)                                                                                                                    |                                                            Önálló alkalmazás, amelynek segítségével egyszerűen dolgozhat Azure Storage-adatokkal Windows, Mac OS, és Linux rendszereken.                                                            |
+|      <strong>&nbsp;</strong>      |            Harmadik féltől származó            |                                                                                                                    [Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/)                                                                                                                    |                                                            Önálló alkalmazás, amelynek segítségével egyszerűen dolgozhat Azure Storage-adatokkal Windows, Mac OS, és Linux rendszereken.                                                            |
 
 ## <a name="mobile-services"></a>Mobilszolgáltatások
 

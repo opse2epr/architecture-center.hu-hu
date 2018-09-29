@@ -3,12 +3,12 @@ title: Forgalmas I/O kizárási minta
 description: Ha sok I/O-kérés érkezik be, az negatívan befolyásolhatja a teljesítményt és a válaszkészséget.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: daa0c581d31c9389e2853f84075dc44d1e5ba78b
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 17193198918cc742b2e3f30e77dfc5c3f2726ebf
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325876"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428567"
 ---
 # <a name="chatty-io-antipattern"></a>Forgalmas I/O kizárási minta
 
@@ -217,7 +217,7 @@ await SaveCustomerListToFileAsync(customers);
 
 - Az adatok írásakor kerülje az erőforrások szükségesnél tovább történő zárolását, így csökkentheti a versengés kialakulásának esélyét a hosszabb műveletek során. Ha az írási művelet több adattárolót, fájlt vagy szolgáltatást is érint, akkor használjon olyan módszert, amely végül konzisztens eredményekhez vezet. Lásd: [Adatkonzisztencia-útmutató][data-consistency-guidance].
 
-- Ha puffereli az adatokat a memóriában az írása előtt, akkor az adatok a folyamatleállások esetén sebezhetővé válnak. Ha az adatátvitel viszonylag ritka, vagy adatlöketek jellemzik, akkor biztonságosabb az adatok tartósabb, külső üzenetsorban (például az [Event Hubsban](http://azure.microsoft.com/services/event-hubs/)) történő pufferelése.
+- Ha puffereli az adatokat a memóriában az írása előtt, akkor az adatok a folyamatleállások esetén sebezhetővé válnak. Ha az adatátvitel viszonylag ritka, vagy adatlöketek jellemzik, akkor biztonságosabb az adatok tartósabb, külső üzenetsorban (például az [Event Hubsban](https://azure.microsoft.com/services/event-hubs/)) történő pufferelése.
 
 - Fontolja meg a szolgáltatásból vagy adatbázisból lekért adatok gyorsítótárazását. Ezzel segíthet csökkenteni az I/O-műveletek mennyiségét, mert elkerüli az ugyanazon adatokra vonatkozó ismételt kéréseket. További információkért lásd a [Gyorsítótárazás – Ajánlott eljárások][caching-guidance] című témakört.
 
@@ -308,7 +308,7 @@ Az SQL-utasítás nyomon követéséből látható, hogy a rendszer az összes a
 [api-design]: ../../best-practices/api-design.md
 [caching-guidance]: ../../best-practices/caching.md
 [code-sample]:  https://github.com/mspnp/performance-optimization/tree/master/ChattyIO
-[data-consistency-guidance]: http://https://msdn.microsoft.com/library/dn589800.aspx
+[data-consistency-guidance]: https://msdn.microsoft.com/library/dn589800.aspx
 [ef]: /ef/
 [extraneous-fetching]: ../extraneous-fetching/index.md
 [new-relic]: https://newrelic.com/application-monitoring

@@ -3,12 +3,12 @@ title: A szabályozott iparágakban a Windows-webalkalmazás védelméhez
 description: Ez a forgatókönyv bevált, amellyel egy biztonságos, többrétegű webes alkalmazás a Windows Server az Azure-ban, hogy használja a méretezési csoportokat, Application Gateway, és a terheléselosztók.
 author: iainfoulds
 ms.date: 07/11/2018
-ms.openlocfilehash: 3572f215d9134a6650d76e1b14458226334c6f42
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.openlocfilehash: 780b82791510b6ca06ef918b66d2547794dfcf87
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389282"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428754"
 ---
 # <a name="secure-windows-web-application-for-regulated-industries"></a>A szabályozott iparágakban a Windows-webalkalmazás védelméhez
 
@@ -90,7 +90,7 @@ Rugalmas forgatókönyvek tervezésével kapcsolatos általános útmutatásért
 
 Az alapvető infrastruktúra ebben a forgatókönyvben egy Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
-1. Válassza ki a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Finfrastructure%2Fregulated-multitier-app%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+1. Válassza ki a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Finfrastructure%2Fregulated-multitier-app%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
    * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myWindowsscenario* a szövegmezőben.
    * Válassza ki a régiót, a **hely** legördülő listából.
@@ -120,7 +120,7 @@ Akkor is megtekintheti egy alapos [referenciaarchitektúra az SQL Server által�
 [appgateway-docs]: /azure/application-gateway/overview
 [architecture]: ./media/regulated-multitier-app/architecture-regulated-multitier-app.png
 [autoscaling]: /azure/architecture/best-practices/auto-scaling
-[availability]: /architecture/checklist/availability
+[availability]: ../../checklist/availability.md
 [azureaz-docs]: /azure/availability-zones/az-overview
 [azurecosmosdb-docs]: /azure/cosmos-db/introduction
 [cloudwitness-docs]: /windows-server/failover-clustering/deploy-cloud-witness

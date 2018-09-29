@@ -5,12 +5,12 @@ keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít�
 author: lbrader
 ms.date: 03/24/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: f90186ba36f035871ec918c65b05eebe44190ffa
-ms.sourcegitcommit: f1dcc388c8b4fc983549c36d7e6b009fa1f072ba
+ms.openlocfilehash: 04157b9a647779ae47ad0aff8132289a30544acf
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/19/2018
-ms.locfileid: "46329895"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429638"
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -96,7 +96,7 @@ Az Azure több módot is kínál az erőforrások kezelésére:
 
 Az ilyen kezelőfelületekben az erőforráscsoport központi szerepet játszik az Azure-erőforrások létrehozásában, üzembe helyezésében vagy módosításában. Ez hasonlít a „verem” az AWS-erőforrások a CloudFormation-üzembehelyezések során történő csoportosításakor betöltött szerepére.
 
-A kezelőfelületek szintaxisa és szerkezete különbözik az AWS-beli megfelelőiktől, azonban összehasonlítható képességekkel is rendelkeznek. Továbbá számos, az AWS-ben használt, harmadik féltől származó felügyeleti eszköz – például a [Hashicorp Terraform](https://www.terraform.io/docs/providers/azurerm/) és a [Netflix Spinnaker](http://www.spinnaker.io/) – szintén elérhető az Azure-ban.
+A kezelőfelületek szintaxisa és szerkezete különbözik az AWS-beli megfelelőiktől, azonban összehasonlítható képességekkel is rendelkeznek. Továbbá számos, az AWS-ben használt, harmadik féltől származó felügyeleti eszköz – például a [Hashicorp Terraform](https://www.terraform.io/docs/providers/azurerm/) és a [Netflix Spinnaker](https://www.spinnaker.io/) – szintén elérhető az Azure-ban.
 
 ### <a name="see-also"></a>Lásd még
 
@@ -426,15 +426,11 @@ A Notification Hubs nem támogatja az SMS-ek vagy e-mail-üzenetek küldését, 
 
 ## <a name="next-steps"></a>További lépések
 
--   [Az Azure platform interaktív nagyméretű áttekintő képe](http://azureplatform.azurewebsites.net/)
-
 -   [Bevezetés az Azure használatába](https://azure.microsoft.com/get-started/)
 
 -   [Azure-megoldások architektúrái](https://azure.microsoft.com/solutions/architecture/)
 
 -   [Azure-referenciaarchitektúrák](https://azure.microsoft.com/documentation/articles/guidance-architecture/)
-
--   [Ingyenes online tanfolyam: Microsoft Azure AWS-szakértőknek](http://aka.ms/azureforaws)
 
 
 <!-- links -->
