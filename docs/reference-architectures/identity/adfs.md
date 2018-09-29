@@ -9,12 +9,12 @@ ms.date: 11/28/2016
 pnp.series.title: Identity management
 pnp.series.prev: adds-forest
 cardTitle: Extend AD FS to Azure
-ms.openlocfilehash: 37edae209334da96aa9c121b1ac68c5e1d363323
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.openlocfilehash: f48f8e41b6b90931e7393808cf41ae01d7187416
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252729"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429264"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -119,7 +119,7 @@ Az AD FS és a WAP virtuális gépek terheléselosztóit a következőképpen ko
 * Használjon Azure-terheléselosztót a WAP virtuális gépekhez való külső hozzáférés biztosítására, és egy belső terheléselosztót a farm AD FS-kiszolgálóira irányuló terhelés elosztására.
 * Az AD FS- és WAP-kiszolgálók felé kizárólag a 443-as porton (HTTPS) megjelenő forgalmat továbbítsa.
 * A terheléselosztónak statikus IP-címet adjon.
-* Hozzon létre egy elleni HTTP protokollal állapotmintáihoz `/adfs/probe`. További információkért lásd: [hardver terhelés terheléselosztó állapotát ellenőrzi, és a webalkalmazás-Proxy / AD FS 2012 R2](https://blogs.technet.microsoft.com/applicationproxyblog/2014/10/17/hardware-load-balancer-health-checks-and-web-application-proxy-ad-fs-2012-r2/).
+* Hozzon létre egy állapotmintát elleni HTTP használatával `/adfs/probe`. További információkért lásd: [hardver Load Balancer állapot-ellenőrzések és a webalkalmazás-Proxy / AD FS 2012 R2](https://blogs.technet.microsoft.com/applicationproxyblog/2014/10/17/hardware-load-balancer-health-checks-and-web-application-proxy-ad-fs-2012-r2/).
   
   > [!NOTE]
   > Az AD FS-kiszolgálók a Kiszolgálónév jelzése (SNI) protokollt használják, így ha egy HTTPS-végpont használatával próbál mintát venni, a terheléselosztó hibába ütközik.
@@ -311,7 +311,7 @@ Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy mego
 [recommendations]: #recommendations
 [active-directory-federation-services-overview]: https://technet.microsoft.com/library/hh831502(v=ws.11).aspx
 [establishing-federation-trust]: https://blogs.msdn.microsoft.com/alextch/2011/06/27/establishing-federation-trust/
-[Deploying_a_federation_server_farm]:  https://azure.microsoft.com/documentation/articles/active-directory-aadconnect-azure-adfs/
+[Deploying_a_federation_server_farm]:  /windows-server/identity/ad-fs/deployment/deploying-a-federation-server-farm
 [install_and_configure_the_web_application_proxy_server]: https://technet.microsoft.com/library/dn383662.aspx
 [publish_applications_using_AD_FS_preauthentication]: https://technet.microsoft.com/library/dn383640.aspx
 [managing-adfs-components]: https://technet.microsoft.com/library/cc759026.aspx
@@ -319,7 +319,7 @@ Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy mego
 [azure-powershell-download]: https://azure.microsoft.com/documentation/articles/powershell-install-configure/
 [aad]: https://azure.microsoft.com/documentation/services/active-directory/
 [aadb2c]: https://azure.microsoft.com/documentation/services/active-directory-b2c/
-[adfs-intro]: /azure/active-directory/active-directory-aadconnect-azure-adfs
+[adfs-intro]: /azure/active-directory/hybrid/whatis-hybrid-identity
 [github]: https://github.com/mspnp/reference-architectures/tree/master/identity/adfs
 [adfs_certificates]: https://technet.microsoft.com/library/dn781428(v=ws.11).aspx
 [considerations]: ./considerations.md

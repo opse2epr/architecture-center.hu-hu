@@ -1,26 +1,26 @@
 ---
-title: Frissítés Azure Resource Manager-sablonok az erőforráshoz
-description: Ismerteti, hogyan lehet Azure Resource Manager sablonok egy erőforrás frissítése bővítése
+title: Az Azure Resource Manager-sablon egy erőforrás frissítése
+description: Ismerteti, hogyan lehet egy erőforrás frissítése az Azure Resource Manager-sablonok bővítése
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: fc2565819c66ee7695224ef5793e7276e6e552e0
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: f235f0b4d54d65ccc2fa67876916e922d75f6d07
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24538473"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429038"
 ---
-# <a name="update-a-resource-in-an-azure-resource-manager-template"></a>Frissítés Azure Resource Manager-sablonok az erőforráshoz
+# <a name="update-a-resource-in-an-azure-resource-manager-template"></a>Az Azure Resource Manager-sablon egy erőforrás frissítése
 
-Léteznek olyan forgatókönyvek, amelyben frissítenie kell egy erőforrást egy központi telepítése során. Ebben a forgatókönyvben használatnál erőforrás összes tulajdonság nem adható meg, amíg más, a függő erőforrások jönnek létre. Terheléselosztó háttérkészletének hoz létre, előfordulhat, hogy a virtuális gépek (VM) részt a háttérkészlet például frissítse a hálózati adapterek (NIC). És erőforrás-kezelő frissítése erőforrások támogatja a telepítés során, amíg meg kell kialakítása a sablont megfelelően hibák elkerülése érdekében, és győződjön meg arról, a központi telepítés kezelése frissítéseként.
+Léteznek olyan forgatókönyvek, ahol frissítenie kell egy erőforrás egy üzembe helyezés során. Ebben a forgatókönyvben egy erőforráshoz tartozó összes tulajdonság nem adható meg, amíg nem más, a függő erőforrások jönnek létre előforduló. A terheléselosztó háttérbeli készletet hoz létre, előfordulhat, hogy a virtuális gépeken (VM), hogy felveszi a háttérkészletben például frissítse a hálózati adapterek (NIC). És a Resource Manager támogatja a frissítési erőforrások üzembe helyezése során, míg kell tervezzen a sablont megfelelően hibák elkerülése érdekében, és győződjön meg arról, a központi telepítés kezelése frissítésként.
 
-Először hivatkoznia kell az erőforrás egyszer hozza létre, és majd hivatkozzon a erőforrás ugyanazzal a névvel, a frissítés később a sablonban. Azonban ha két azonos nevű sablonban, erőforrás-kezelő kivételt jelez. Ilyen hibák elkerülése érdekében adja meg a frissített erőforrása csatolt vagy egy subtemplate használatával néven második sablon a `Microsoft.Resources/deployments` erőforrástípus.
+Először is hivatkoznia kell az erőforrás egyszer hozza létre, és ezután hivatkozhat ugyanazzal a névvel, azt később frissíteni az erőforrás a sablonban. Azonban ha a két erőforrás rendelkezik egy sablon ugyanazzal a névvel, erőforrás-kezelő kivételt jelez. Ez a hiba elkerülése érdekében adja meg a frissített erőforrás van csatolva, vagy néven egy subtemplate a második sablon a `Microsoft.Resources/deployments` erőforrástípus.
 
-Ezután meg kell adnia a nevét, a meglévő tulajdonság módosítása vagy egy új nevet a beágyazott sablon hozzáadása tulajdonsághoz. Is meg kell adnia az eredeti tulajdonságok és az eredeti értékekre is. Ha nem adja meg az eredeti tulajdonságok és értékek, erőforrás-kezelő azt feltételezi, hogy hozzon létre egy új erőforrást szeretne, és törli az eredeti erőforrást.
+A második vagy adjon meg módosítani a meglévő tulajdonság neve vagy egy tulajdonság hozzáadása a beágyazott sablon új nevét. Is meg kell adnia az eredeti tulajdonságok és az eredeti értékekre is. Ha nem adja meg az eredeti tulajdonságait és értékeit, a Resource Manager feltételezi, hogy hozzon létre egy új erőforrást szeretne, és törli az eredeti erőforrás.
 
-## <a name="example-template"></a>Példa sablon
+## <a name="example-template"></a>Példasablon
 
-Azt mutatja be, hogy ez egy példa sablon vizsgáljuk meg. A sablon nevű virtuális hálózat telepíti `firstVNet` nevű több alhálózattal rendelkező `firstSubnet`. Ezután telepíti a virtuális hálózati adaptert (NIC) nevű `nic1` és társítja azt az alhálózatot. Ezt követően a központi telepítés erőforrást `updateVNet` tartalmaz egy beágyazott sablont, amely frissíti az `firstVNet` nevű második alhálózat hozzáadásával erőforrás `secondSubnet`. 
+Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon üzembe helyez egy nevű virtuális hálózatot `firstVNet` nevű alhálózattal rendelkező `firstSubnet`. Ezután üzembe helyez egy virtuális hálózati adapter (NIC) nevű `nic1` , és társítja azt az alhálózatot. Ezt követően egy központi telepítési erőforrás nevű `updateVNet` tartalmaz egy beágyazott sablont, amely frissíti a `firstVNet` adja hozzá egy második alhálózatot nevű erőforrás `secondSubnet`. 
 
 ```json
 {
@@ -80,7 +80,7 @@ Azt mutatja be, hogy ez egy példa sablon vizsgáljuk meg. A sablon nevű virtu�
         "mode": "Incremental",
         "parameters": {},
         "template": {
-          "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "parameters": {},
           "variables": {},
@@ -118,31 +118,31 @@ Azt mutatja be, hogy ez egy példa sablon vizsgáljuk meg. A sablon nevű virtu�
 }
 ```
 
-Vessen egy pillantást az erőforrás-objektum a `firstVNet` erőforrás első. Figyelje meg, hogy helyes-e beállításait a `firstVNet` beágyazott sablonban&mdash;ennek az az oka az erőforrás-kezelő nem engedélyezi a központi telepítés néven belül ugyanazt a sablont, és egy másik sablonba beágyazott sablonok lévőknek tekintendők. Az értékek respecifying által a `firstSubnet` erőforrás, hogy az erőforrás-kezelő törlésével és újratelepítésével helyett a meglévő erőforrás frissítése szólítja fel. Végül, az új beállítások a `secondSubnet` átveszik a frissítés során.
+Vessünk egy pillantást az erőforrás-objektumokat a `firstVNet` erőforrás első. Figyelje meg, hogy helyes-e a beállításait az `firstVNet` beágyazott sablonban&mdash;ennek az az oka az erőforrás-kezelő nem engedélyezi a központi telepítési névvel belül ugyanazt a sablont, és beágyazott sablonok másik sablont kell tekinteni. Az értékek respecifying által a `firstSubnet` erőforrás, azt mondjuk neki, erőforrás-kezelő törlését és újbóli üzembe helyezés helyett a meglévő erőforrás frissítése. Végül az új beállítások a `secondSubnet` mértékének a frissítés közben.
 
-## <a name="try-the-template"></a>Próbálja meg a sablon
+## <a name="try-the-template"></a>A sablon kipróbálása
 
-Ha azt szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket:
+Ha szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket:
 
-1.  Navigáljon az Azure portálon, válassza a  **+**  ikonra, és keresse meg a **sablon-üzembehelyezés** erőforrás írja be, és válassza ki azt.
-2.  Keresse meg a **sablon-üzembehelyezés** lapon jelölje be a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni telepítési** panelen.
+1.  Nyissa meg az Azure Portalon, válassza a **+** ikonra, majd keresse meg a **sablonalapú telepítés** erőforrás írja be, és kattintson rá.
+2.  Keresse meg a **sablonalapú telepítés** lapon válassza ki a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni üzembehelyezési** panelen.
 3.  Válassza ki a **szerkesztése** ikonra.
-4.  Az üres sablon törlésére.
+4.  Az üres sablon törlése.
 5.  Másolja és illessze be a mintasablon a jobb oldali ablaktáblán.
 6.  Válassza ki a **mentése** gombra.
-7.  Vissza a **egyéni telepítési** panelen, de ezúttal nem néhány legördülő listák. Jelölje ki az előfizetését, vagy hozzon létre új vagy meglévő erőforráscsoportot használni, és jelöljön ki egy helyet. Tekintse meg a feltételeket és kikötéseket, és válassza ki a **elfogadom** gombra.
+7.  Vissza a **egyéni üzembehelyezési** panelen, de ezúttal ott bizonyos legördülő listák. Válassza ki az előfizetését, vagy létrehozhat új vagy meglévő erőforráscsoport használata, és válassza ki azt a helyet. Tekintse át a használati feltételeket, majd válassza ki a **elfogadom** gombra.
 8.  Válassza ki a **beszerzési** gombra.
 
-Miután a telepítés véget ért, nyissa meg a portálon megadott erőforráscsoport. Megjelenik a virtuális hálózati nevű `firstVNet` és a hálózati adapter nevű `nic1`. Kattintson a `firstVNet`, majd kattintson a `subnets`. Megjelenik a `firstSubnet` , amely eredetileg, és megjelenik a `secondSubnet` , amely hozzá lett adva a a `updateVNet` erőforrás. 
+Miután a telepítés véget ért, nyissa meg az erőforráscsoportot a portálon megadott. Megjelenik egy nevű virtuális hálózatot `firstVNet` és a egy hálózati Adaptert `nic1`. Kattintson a `firstVNet`, majd kattintson a `subnets`. Megjelenik a `firstSubnet` , amely eredetileg létrehozták, és megjelenik a `secondSubnet` hozzáadott a `updateVNet` erőforrás. 
 
-![Eredeti alhálózat és a frissített alhálózati](../_images/firstVNet-subnets.png)
+![Eredeti alhálózat és a frissített alhálózat](../_images/firstVNet-subnets.png)
 
-Ezután térjen vissza az erőforráscsoportot, és kattintson a `nic1` kattintson `IP configurations`. Az a `IP configurations` szakaszban, a `subnet` értéke `firstSubnet (10.0.0.0/24)`. 
+Ezután lépjen vissza az erőforráscsoportot, és kattintson a `nic1` kattintson `IP configurations`. Az a `IP configurations` szakaszban a `subnet` értékre van állítva `firstSubnet (10.0.0.0/24)`. 
 
-![nic1 IP-konfigurációk beállításait](../_images/nic1-ipconfigurations.png)
+![nic1 IP-konfiguráció beállításai](../_images/nic1-ipconfigurations.png)
 
-Az eredeti `firstVNet` ahelyett, hogy megújult ismételt létrehozása megtörtént. Ha `firstVNet` kellett újra létre lett hozva, `nic1` volna nem rendelhetők hozzá `firstVNet`.
+Az eredeti `firstVNet` helyett a rendszer frissítette újra létre kell hozni. Ha `firstVNet` kellett újból létrejött, `nic1` akkor nem kell társítani `firstVNet`.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
-* Ezzel a technikával meg van valósítva a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure hivatkozás architektúrák](/azure/architecture/reference-architectures/). Ezek segítségével hozzon létre egy saját architektúra, vagy telepítse a referencia-architektúrák egyikét használhatja.
+* Ezzel a technikával implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). Hozzon létre saját architektúra, vagy üzembe helyezésére a referenciaarchitektúrák azt is használhatja.

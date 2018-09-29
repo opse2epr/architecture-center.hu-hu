@@ -3,12 +3,12 @@ title: SQL Servert használó N szintű alkalmazás
 description: Egy többrétegű architektúra megvalósítása az Azure-ban, a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel módja.
 author: MikeWasson
 ms.date: 07/19/2018
-ms.openlocfilehash: 3a291b9492c94450a42de96bea2135190c163fe7
-ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
+ms.openlocfilehash: d5f46570464916af892afcf492127402181a5df5
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/14/2018
-ms.locfileid: "45584748"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429145"
 ---
 # <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
@@ -267,8 +267,8 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [vnet faq]: /azure/virtual-network/virtual-networks-faq
 [wsfc-whats-new]: https://technet.microsoft.com/windows-server-docs/failover-clustering/whats-new-in-failover-clustering
 [Nagios]: https://www.nagios.org/
-[Zabbix]: http://www.zabbix.com/
-[Icinga]: http://www.icinga.org/
+[Zabbix]: https://www.zabbix.com/
+[Icinga]: https://www.icinga.org/
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
 [0]: ./images/n-tier-sql-server.png "N szintű architektúra a Microsoft Azure használatával"
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview 

@@ -1,335 +1,335 @@
 ---
 title: Gyorsítótárazási útmutató
-description: A jobb teljesítmény és méretezhetőség gyorsítótárazás útmutatást.
+description: Útmutatás a gyorsítótárazáshoz a teljesítmény és a méretezhetőség javítása érdekében.
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: fde1c3e8c65d357746e4ccaddebeebace943cf9d
-ms.sourcegitcommit: 441185360db49cfb3cf39527b68f318d17d4cb3d
+ms.openlocfilehash: 4db85df7331c805af6acbe0673dbcb993a895e03
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/19/2018
-ms.locfileid: "27973144"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429468"
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
-Gyorsítótárazás a közös technika, amely a célja, hogy a jobb teljesítmény és méretezhetőség, a rendszer. Ennek érdekében ideiglenesen másolása gyakran használt adatok gyors tárolók használata közeli található az alkalmazás. Ha az adatok gyors tároló közelebb található, mint az eredeti forrás az alkalmazáshoz, majd gyorsítótárazás jelentősen növelheti ügyfél alkalmazások válaszidejének előrejelzését adatok gyorsabban megtartásával.
+A gyorsítótárazás egy gyakran alkalmazott módszer, amelynek célja egy rendszer teljesítményének és méretezhetőségének javítása. Ehhez a rendszer ideiglenesen átmásolja a gyakran használt adatokat egy, az alkalmazás közelében lévő gyors tárolóba. Ha ez a gyors adattároló közelebb van az alkalmazáshoz, mint az eredeti forrás, akkor a gyorsabb adatkiszolgálás révén a gyorsítótárazással lényegesen javítható az ügyfélalkalmazások válaszideje.
 
-Gyorsítótárazás esetén leghatékonyabb egy ügyfél példány ismételten olvassa be ugyanazokat az adatokat, különösen akkor, ha az eredeti adattárolóban alkalmazása a következő feltételeket:
+A gyorsítótárazás akkor a leghatékonyabb, ha egy ügyfélpéldány rendszeresen ugyanazokat az adatokat olvassa be, és különösen akkor, ha az eredeti adattárat az alábbi tulajdonságok jellemzik:
 
 * Viszonylag statikus marad.
-* Lassú a gyorsítótár képest.
-* Azt az versengés magas szintű.
-* Az esetén távolságra hálózati késést okozhat, lassú a hozzáférést.
+* A gyorsítótár sebességéhez képest lassú.
+* Magas szintű versengésnek van kitéve.
+* Távoli, és a hálózati késleltetés lassú hozzáférést eredményezhet.
 
-## <a name="caching-in-distributed-applications"></a>Az elosztott alkalmazások gyorsítótárazása
-Elosztott alkalmazások általában megvalósítási valamelyike vagy mindegyike a következő stratégiák az adatokat:
+## <a name="caching-in-distributed-applications"></a>Gyorsítótárazás az elosztott alkalmazásokban
+Az elosztott alkalmazások általában az alábbi stratégiák egyikét vagy mindegyikét alkalmazzák az adatok gyorsítótárazása során:
 
-* Használatával egy titkos gyorsítótárral, az adatok tárolási helye helyileg egy alkalmazás vagy szolgáltatás egy példányát futtató számítógépen.
-* Megosztott gyorsítótárával, ami is elérhető, több folyamatok és/vagy gépek közös forrásként szolgáló használatával.
+* Privát gyorsítótár használata, amikor az adatok helyileg vannak tárolva az alkalmazás- vagy szolgáltatáspéldányt futtató számítógépen.
+* Megosztott gyorsítótár használata, amely több folyamat és/vagy számítógép által elérhető, közös adatforrásként szolgál.
 
-Mindkét esetben gyorsítótárazás hajtható végre az ügyféloldali és/vagy a kiszolgálóoldali. A folyamat, amely a felhasználói felületet biztosít a rendszerén, például egy webes böngésző vagy asztali alkalmazás ügyféloldali gyorsítótárazás történik.
-A kiszolgálóoldali gyorsítótár végezhető el, hogy távolról futó üzleti szolgáltatásokat biztosít a folyamatot.
+A gyorsítótárazásra mindkét esetben sor kerülhet az ügyféloldalon és/vagy a kiszolgálóoldalon. Az ügyféloldali gyorsítótárazást az a folyamat végzi el, amely egy rendszer felhasználói felületét biztosítja, például egy webböngészőt vagy egy asztali alkalmazást.
+A kiszolgálóoldali gyorsítótárazás a távolról futtatott üzleti szolgáltatásokat biztosító folyamattal történik.
 
-### <a name="private-caching"></a>Személyes gyorsítótárazása
-A legalapvetőbb a gyorsítótár típus egy memórián belüli tároló. Egyetlen folyamat címterében használatban van, közvetlenül a kódot, a folyamat futó érhetők el. Ez a gyorsítótár típus rendkívül gyors eléréséhez. Mérsékelt mennyiségű statikus adatok tárolásához, mert a gyorsítótár méretének általában a folyamatot futtató gépen rendelkezésre álló memória mennyisége korlátozza egy rendkívül hatékony eszközöket is biztosítható.
+### <a name="private-caching"></a>Privát gyorsítótárazás
+A legegyszerűbb gyorsítótárazási módszer a memóriában történő tárolás. Az adatok tárolása egyetlen folyamat címtartományában történik, és a tár közvetlenül, az adott folyamatban futó kóddal érhető el. Ez a gyorsítótártípus nagyon gyors hozzáférést biztosít. Igen hatékony módszernek bizonyult közepes mennyiségű statikus adat tárolására, mivel a gyorsítótár méretét jellemzően a folyamatot futtató számítógép szabad memóriájának mennyisége korlátozza.
 
-Ha fizikailag lehet a memóriában, több információt gyorsítótárazzanak van szüksége, a helyi fájlrendszerben írhat a gyorsítótárazott adatokat. A lassabb, mint a memóriában tartott adatok eléréséhez, de továbbra is kell gyorsabb és megbízhatóbb, mint az adatok beolvasása a hálózaton keresztül.
+Ha több adatot kell gyorsítótárazni, mint amennyit a memória fizikailag lehetségessé tesz, a gyorsítótárazott adatokat a helyi fájlrendszerbe is kiírhatja. Ezek hozzáférése lassabb, mint a memóriában tárolt adatoké, de még mindig gyorsabb és megbízhatóbb, mint az adatok hálózaton keresztüli lekérése.
 
-Ha ez a modell egyidejűleg használó alkalmazás több példánya van, minden alkalmazáspéldány rendelkezik saját független gyorsítótár okozó saját az adatok másolatát.
+Ha egy, a modellt használó alkalmazásból egyszerre több példányt is futtat, akkor minden alkalmazáspéldány saját, független gyorsítótárral rendelkezik, benne az adatok másolati példányaival.
 
-Gondoljon egy gyorsítótár a múltban valamikor az eredeti adatok pillanatképként. Ha ezek az adatok nem statikus, valószínű, hogy a különböző alkalmazáspéldányok különböző verzióit a data tartsa a gyorsítótárak az. Ezért ezek a példányok által végzett ugyanabban a lekérdezésben adhat vissza eltérő eredményeket, az 1. ábrán látható módon.
+A gyorsítótárat az eredeti adatok múltbeli pillanatfelvételeként képzelje el. Ha ezek az adatok nem statikusak, akkor valószínű, hogy a különböző alkalmazáspéldányok az adatok különböző verzióit tárolják a gyorsítótárukban. Ezért az ilyen példányok által végrehajtott azonos lekérdezés különböző eredményeket adhat, ahogy az 1. ábrán is látható.
 
-![Egy memórián belüli gyorsítótárral, az alkalmazás különböző példányai használatával](./images/caching/Figure1.png)
+![Memórián belüli gyorsítótár használata egy alkalmazás különböző példányaiban](./images/caching/Figure1.png)
 
-*1. ábra: Az alkalmazás különböző példányát egy memórián belüli gyorsítótárral használatával*
+*1. ábra: Memórián belüli gyorsítótár használata egy alkalmazás különböző példányaiban*
 
-### <a name="shared-caching"></a>Megosztott gyorsítótárazása
-Megosztott gyorsítótárával használata segíthet enyhítse vonatkozik, hogy adatokat az egyes gyorsítótárát, amely akkor fordulhat elő, a memórián belüli gyorsítótárazáshoz eltérőek lehetnek. Megosztott gyorsítótárazás biztosítja, hogy különböző alkalmazáspéldányok tekintse meg a gyorsítótárazott adatokat nézetét. Ennek érdekében a gyorsítótár helyének egy külön helyen, általában egy külön szolgáltatás részeként futó, a 2. ábrán látható módon.
+### <a name="shared-caching"></a>Megosztott gyorsítótár használata
+A megosztott gyorsítótárral kiküszöbölhető az a memórián belüli gyorsítótár használatakor előforduló probléma, hogy az egyes gyorsítótárakban lévő adatok eltérhetnek egymástól. A megosztott gyorsítótárazással biztosítható, hogy a különböző alkalmazáspéldányok a gyorsítótárazott adatok azonos nézetét lássák. Ehhez a rendszer a gyorsítótár számára egy külön helyet hoz létre, amelyet rendszerint egy különálló szolgáltatás részeként üzemeltet, a 2. ábrán látható módon.
 
-![Megosztott gyorsítótárával használatával](./images/caching/Figure2.png)
+![Megosztott gyorsítótár használata](./images/caching/Figure2.png)
 
-*2. ábra: Megosztott gyorsítótárával használatával*
+*2. ábra: Megosztott gyorsítótár használata*
 
-Egy megosztott gyorsítótárazási megközelítés fontos előnye a méretezhetőséget biztosít. Számos megosztott gyorsítótár szolgáltatás kiszolgálófürtöt használatával lehet megvalósítani, és a szoftver, amely az adatok elosztja a fürt átlátható módon felhasználását. Az alkalmazáspéldány egyszerűen küld a cache service.
-Az alkalmazás mögötti infrastruktúra felelős a gyorsítótárazott adatokat a fürt helyének meghatározása. A gyorsítótár további kiszolgálók hozzáadásával könnyedén méretezhető.
+A megosztott gyorsítótár használatának egyik fontos előnye az általa biztosított méretezhetőség. Sok olyan megosztott gyorsítótárazási szolgáltatás van, amely kiszolgálófürtön alapul, és olyan szoftvereket használ, amelyek átlátható módon osztják el az adatokat a fürtön keresztül. Az alkalmazáspéldány egyszerűen elküld egy kérelmet a gyorsítótár-szolgáltatásnak.
+Az alapul szolgáló infrastruktúra felelős a gyorsítótárazott adatok fürtbeli helyének meghatározásáért. A gyorsítótár további kiszolgálók hozzáadásával egyszerűen méretezhető.
 
-Két fő hátrányai a megosztott gyorsítótárazási megközelítés van:
+A megosztott gyorsítótár használatának két fő hátránya van:
 
-* A gyorsítótár lassabb, mert azt már nem tartják helyileg alkalmazás-példányokhoz eléréséhez.
-* A követelmény egy külön gyorsítótár szolgáltatás megvalósításához a megoldás lehet, hogy összetettebbé.
+* Lassabb a hozzáférés, mivel a gyorsítótár tárolása már nem helyileg, az egyes alkalmazáspéldányokban történik.
+* Az, hogy külön gyorsítótár-szolgáltatást kell kiépíteni, összetettebbé teheti az alkalmazott megoldást.
 
-## <a name="considerations-for-using-caching"></a>Gyorsítótár használatának szempontjai
-A következő szakaszok ismertetik részletesebben tervezéséről és a gyorsítótár használatával kapcsolatos szempontokat.
+## <a name="considerations-for-using-caching"></a>A gyorsítótár használatának szempontjai
+A következő szakaszokban részletesebben is ismertetjük a gyorsítótár tervezése és használata során megfontolandó szempontokat.
 
-### <a name="decide-when-to-cache-data"></a>Döntse el, ha adatok gyorsítótárazása
-Gyorsítótárazás jelentősen javíthatja a teljesítményt, a méretezhetőség és a rendelkezésre állási. A további adatok és a felhasználókat a nagyobb számú elérje ezeket az adatokat, annál nagyobb lesz a gyorsítótárazás előnyeit. Ennek oka az, gyorsítótárazás csökkenti a késést és nagy mennyiségű, az eredeti adattárolóban egyidejű kérelmek kezelése társított versengés.
+### <a name="decide-when-to-cache-data"></a>Hogyan lehet megállapítani, hogy mikor van szükség az adatok gyorsítótárazására?
+A gyorsítótárazással jelentősen javítható a teljesítmény, a méretezhetőség és a rendelkezésre állás. Minél több adattal dolgozik, és minél nagyobb azon felhasználók száma, akik számára az adatokhoz hozzáférést kell biztosítani, annál inkább jelentkeznek a gyorsítótár használatának előnyei. Ez azért van így, mert a gyorsítótárazás révén csökken az a késleltetés és versengés, amely az eredeti adattárban kialakult a túl sok egyidejű kérelem kezelése miatt.
 
-Például egy adatbázis támogathatja az egyidejű kapcsolatok korlátozott számú. Adatok megosztott gyorsítótárával beolvasása, azonban ahelyett, hogy az alapul szolgáló adatbázis lehetővé teszi elérje ezeket az adatokat, akkor is, ha a rendelkezésre álló kapcsolatok száma jelenleg nagyon gyorsan kimerítették ügyfélalkalmazást. Továbbá ha az adatbázis nem érhető el, ügyfélalkalmazások lehet folytatja a gyorsítótárban tartott adatok felhasználásával.
+Előfordulhat például, hogy egy adatbázis csak korlátozott számú párhuzamos kapcsolatot támogat. Ha azonban az adatokat a megosztott gyorsítótárból, nem pedig az alapul szolgáló adatbázisból kérik le, akkor az ügyfélalkalmazás abban az esetben is hozzáfér az adatokhoz, ha éppen nem áll rendelkezésre szabad kapcsolat. Ha pedig az adatbázis nem érhető el, a gyorsítótárban tárolt adatok felhasználásával az ügyfélalkalmazások továbbra is működőképesek maradhatnak.
 
-Fontolja meg a ritkán (például az adatok, amelyek nagyobb arányban az olvasási műveletek, mint az írási műveletek) módosított, de gyakran beolvasott adatokat. Azonban nem ajánlott a mérvadó kritikus adatot tárol, a gyorsítótár használatát. Ehelyett győződjön meg arról, hogy a módosításokat, hogy az alkalmazás nem biztosít elveszítik mindig menti egy állandó adattárolóhoz. Ez azt jelenti, hogy ha a gyorsítótár nem érhető el, az alkalmazás továbbra is az adattár használatával, és nem vesznek el fontos információkat.
+Érdemes megfontolni a gyorsítótárazás alkalmazását a gyakran beolvasott, de ritkán módosított adatok esetében (ha például bizonyos adatok olvasási műveleteinek száma nagyobb, mint az írási műveleteké). Nem javasoljuk azonban, hogy a gyorsítótárat a kritikus fontosságú információk mérvadó tárolójaként használja. Ehelyett gondoskodjon arról, hogy egy állandó adattárba kerüljön az összes olyan módosítás, amely nem veszhet el az alkalmazásból. Ez azt eredményezi, hogy ha a gyorsítótár nem érhető el, az adattár használatával az alkalmazás továbbra is működőképes maradhat, és nem vesznek el fontos információk.
 
-### <a name="determine-how-to-cache-data-effectively"></a>Határozza meg, hogyan hatékonyan gyorsítótárazza az adatokat
-A kulcsot a használatával hatékonyan gyorsítótárat gyorsítótárhoz leginkább megfelelő adatok meghatározásakor, és a megfelelő időben, gyorsítótárazás értékű. Az adatok az igény szerinti először az alkalmazás lekéri azt a gyorsítótárba lehet hozzáadni. Ez azt jelenti, hogy az alkalmazás csak egyszer az adatok beolvasása a a tárolót, és, hogy később elérhetők a gyorsítótár használatával lehet teljesíteni.
+### <a name="determine-how-to-cache-data-effectively"></a>Az adatok hatékony gyorsítótárazási módszerének meghatározása
+A gyorsítótár hatékony használatának kulcsa, hogy meg tudjuk határozni a gyorsítótárazásra leginkább alkalmas adatokat és időpontokat. Az adatok például hozzáadhatók a gyorsítótárhoz akkor, amikor egy alkalmazás először lekéri őket. Ez azt jelenti, hogy az alkalmazásnak csak egyszer kell beolvasnia az adatokat az adattárból, ezt követően a hozzáférés a gyorsítótár használatával már megoldható.
 
-Azt is megteheti a gyorsítótár részlegesen vagy teljesen feltölthetők adatok előre, általában az alkalmazás indításakor (összehangolása néven ismert megközelítés). Azonban nem feltétlenül ajánlott megvalósításához nagy gyorsítótár összehangolása, mert ez a megközelítés adhat az eredeti adattárolóban hirtelen és nagy terhelése, amikor az alkalmazás elindul.
+Alternatív megoldásként a gyorsítótár részlegesen vagy teljesen előre is feltölthető az adatokkal, jellemzően az alkalmazás indításakor (ez a megoldás áttöltésként is ismert). Nem feltétlenül ajánlott azonban az áttöltés használata nagy méretű gyorsítótárak esetében, mert ez a megoldás az alkalmazás indításakor hirtelenül és túlzott mértékben leterhelheti az eredeti adattárat.
 
-Gyakran használati minták elemzésének segítségével határozza meg, hogy teljesen vagy részben feltöltse a gyorsítótárba, és a gyorsítótár kívánt adatok kiválasztásához. Például hasznos lehet a gyorsítótár a statikus felhasználói profil adatokkal rendezi az ügyfelek, akik használják az alkalmazást rendszeresen (lehet, hogy minden nap), de nem az ügyfelek, akik használják az alkalmazást csak hetente.
+Gyakran a használati minták elemzése segíthet eldönteni, hogy érdemes-e teljesen vagy részlegesen előre feltölteni a gyorsítótárat, és hogy mely adatokat érdemes e célból kiválasztani. Hasznosnak bizonyulhat például a gyorsítótár feltöltése olyan ügyfelek statikus felhasználóiprofil-adataival, akik rendszeresen (esetleg minden nap) használják az alkalmazást, azokéval azonban nem, akik csak hetente egyszer veszik használatba.
 
-Gyorsítótárazás általában jól működik, amely nem módosítható, vagy ritkán végzett módosítások adatok. Például referencia jellegű információt, például a termék és díjszabási információkat e-kereskedelmi alkalmazás vagy a megosztott statikus erőforrásokat, amelyek költséges összeállításához. Néhány vagy az adatok tölthetők be a gyorsítótárba alkalmazások indításakor erőforrásainak terhelését a minimalizálása érdekében, és a teljesítmény javítása érdekében. Azt is megfelelő lehet egy olyan háttér folyamat, amely rendszeres időközönként frissíti az útmutató azt a gyorsítótárban lévő adatok folyamatosan naprakész adatokat tartalmazzon, vagy a gyorsítótárat frissíti, amely amikor referenciaadatok módosításokat.
+A gyorsítótárazás általában jól működik olyan adatokkal, amelyek nem módosíthatók vagy csak ritkán változnak. Ilyenek lehetnek a referenciainformációk, például egy elektronikus kereskedelmi alkalmazás termék- és díjszabási adatai, illetve olyan megosztott statikus erőforrások, amelyeknek a létrehozása nagyobb költséggel jár. Ezek az adatok részben vagy teljes egészében betölthetők a gyorsítótárba az alkalmazás indításakor, így minimalizálható az erőforrásigény, és fokozható a teljesítmény. Érdemes lehet alkalmazni egy olyan háttérfolyamat is, amely a naprakész állapot biztosítása érdekében rendszeresen frissíti a referenciaadatokat a gyorsítótárban, vagy amely a referenciaadatok módosításakor frissíti a gyorsítótárat.
 
-Gyorsítótárazás érdemes kisebb dinamikus adatokat, habár van néhány kivétel ez szempont a (lásd a szakasz magas dinamikus adatok gyorsítótárazása a cikk későbbi részében olvashat). Ha az eredeti adatok rendszeresen vált, a gyorsítótárban lévő adatokkal elévülés nagyon gyorsan vagy növeli a gyorsítótár az eredeti adattárolóban való szinkronizálása a csökkenti a gyorsítótár hatékonyságát.
+A gyorsítótárazás kevésbé hasznos, ha dinamikus adatokról van szó, bár vannak kivételek (további információkért lásd lejjebb a „Nagymértékben dinamikus adatok gyorsítótárazása” szakaszt). Ha az eredeti adatok rendszeresen változnak, a gyorsítótárban lévő információk nagyon gyorsan elavulhatnak, illetve a gyorsítótár és az eredeti adattár szinkronizálásának szükséglete csökkenti a gyorsítótárazás hatékonyságát.
 
-Ne feledje, hogy a gyorsítótár nem tartalmazza a teljes adatait, hogy egy entitás. Például ha adatelemet egy többértékű objektumot, például egy olyan nevét, címét és egyenleg banki ügyfél határozza meg, ezek közül néhány maradhat statikus (például a nevét és címét), mások (például az egyenleg) dinamikusabb lehetnek. Ezekben az esetekben hasznos lehet az adatok statikus részének gyorsítótárazza, és csak a fennmaradó adatok beolvasása (vagy kiszámításához) szükség.
+Vegye figyelembe, hogy a gyorsítótárnak nem kell tartalmaznia egy-egy entitás minden adatát. Ha például egy adatelem többértékű objektumot jelöl (például egy banki ügyfelet névvel, címmel és számlaegyenleggel), akkor ezen elemek közül egyesek statikusak (például a név és a cím), míg mások (például a számlaegyenleg) dinamikusabban változók lehetnek. Ilyen esetekben hasznos lehet az adatok statikus részét gyorsítótárba helyezni, és csak akkor lekérdezni (vagy kiszámítani) a többi adatot, amikor szükség van rájuk.
 
-Azt javasoljuk, hogy hajtsa végre a tesztelés és a használati Teljesítményelemzés előzetes feltöltési vagy igény szerinti betöltését, vagy mindkettőt, a gyorsítótár megfelelő meghatározásához. A döntéshez illékonyság és az adatok használati módja. Gyorsítótár-használat és Teljesítményelemzés különösen fontos az alkalmazásokat, amelyek nagy előforduló, és kiválóan méretezhető kell lennie. Például magas szinten méretezhető esetekben ésszerű rendezi a gyorsítótár csúcsidőben az adattár terhelésének csökkentése érdekében.
+Javasoljuk, hogy végezzen teljesítménytesztelést és használatelemzést annak meghatározására, hogy a gyorsítótár előre történő vagy igény szerinti feltöltése, esetleg ezek valamilyen kombinációja jelenti-e a megfelelő megoldást az Ön számára. A döntésnek az adatok változékonyságán és használati módján kell alapulnia. A gyorsítótár-kihasználtság és a teljesítmény elemzése különösen fontos azoknál az alkalmazásoknál, amelyeknek nagy terheléssel kell megbirkózniuk, és hatékonyan méretezhetőnek kell lenniük. Hatékonyan méretezhető alkalmazások esetén hasznosnak bizonyulhat például a gyorsítótár áttöltése, hogy csökkenjen az adattárat csúcsidőben érő terhelés.
 
-Gyorsítótárazás is segítségével kerülniük számítások az alkalmazás futása közben. Ha egy művelet átalakítja az adatokat, vagy összetett végez, akkor a művelet eredményét a gyorsítótár mentheti. Ha ugyanazt a számítást ezt követően szükség, az alkalmazás képes egyszerűen az eredmények visszakeresésére a gyorsítótárból.
+A gyorsítótárazással az is elkerülhető, ismétlődő számításokat kelljen elvégezni, miközben az alkalmazás fut. Ha egy művelet adatátalakítást vagy bonyolult számításokat végez, akkor a művelet eredményei elmenthetők a gyorsítótárba. Ha később ugyanazt a számítást kell elvégezni, az alkalmazás egyszerűen lekérheti az eredményeket a gyorsítótárból.
 
-Egy alkalmazás módosíthatja az adatokat, a gyorsítótár használatban van. Javasoljuk azonban a gyorsítótár adattárként átmeneti, tetszőleges időpontban tudta eltűnnek szokták érteni. Nem értékes adatok tárolása a gyorsítótár csak; Ügyeljen arra, hogy az információk, valamint az eredeti adattárolóban. Ez azt jelenti, hogy a gyorsítótár nem érhető el, ha minimálisra csökkenthető az adatvesztés esélyét.
+Az alkalmazások módosíthatják a gyorsítótárban tárolt adatokat. Azt javasoljuk azonban, hogy a gyorsítótárat olyan átmeneti adattárként kezelje, amelynek az adatai bármikor elveszhetnek. Értékes adatokat ne tároljon kizárólag a gyorsítótárban; győződjön meg róla, hogy az adatok továbbra is megtalálhatók az eredeti adattárban. Így minimálisra csökken az adatvesztés esélye akkor, ha a gyorsítótár nem érhető el.
 
-### <a name="cache-highly-dynamic-data"></a>Magas dinamikus adatok gyorsítótárazása
-Ha gyorsan változó információkat a állandó tárolóban vannak tárolva, azt a rendszer egy terhelésének adhat meg. Vegye figyelembe például olyan eszköz, amely folyamatosan a állapota vagy valamilyen egyéb mérési jelez. Ha egy alkalmazás nem gyorsítótárazza az adatokat az alapján, hogy a gyorsítótárban lévő adatokkal szinte mindig lesz elavult, az azonos szempont igaz, amikor tárolja, és ez az információ lekérése az adattár lehet. A mentéséhez, és ezek az adatok lehívása szükséges idő az módosulhatott.
+### <a name="cache-highly-dynamic-data"></a>Nagymértékben dinamikus adatok gyorsítótárazása
+Ha gyorsan változó információkat egy állandó adattárolóban tárol, az többletterhelést okozhat a rendszerben. Vegyünk például egy olyan eszközt, amely folyamatos jelentést küld az állapotról vagy egyéb mérőszámokról. Ha egy alkalmazás nem tárolja ezeket az adatokat a gyorsítótárban, mivel a gyorsítótárazott adatok így szinte mindig elavultak lennének, akkor ugyanez az információknak az adattárban való tárolására és onnan történő lekérésére is igaz lehet. Az adatok mentéséhez és beolvasásához szükséges idő alatt az adatok már módosulhattak is.
 
-Például ez esetben fontolja meg a dinamikus adatokat közvetlenül az állandó adattárban ahelyett, hogy a gyorsítótárban tárolja a előnyeit. Ha az adatok nem kritikus, és nem igényli a naplózás, majd nem számít, ha a alkalmi módosítás elvész.
+Ilyen esetekben érdemes megfontolni, hogy milyen előnyökkel járhat a dinamikus információk tárolása közvetlenül a gyorsítótárban, az állandó adattár helyett. Ha az adatok nem kritikus fontosságúak és nem kell őket naplózni, akkor nem számít, ha egy-egy módosítás elvész.
 
-### <a name="manage-data-expiration-in-a-cache"></a>A gyorsítótár adatok lejártának kezelése
-A legtöbb esetben egy gyorsítótárban tartott adata, amely használatban van az eredeti adattárolóban adatok másolatát. Az eredeti adattárolóban lévő adatokat előfordulhat, hogy módosítása után az került a gyorsítótárba, így az a gyorsítótárazott adatok elavult. Számos gyorsítótárazási rendszer lehetővé teszi a gyorsítótár adatok lejárnak, és csökkenteni a időszakot, amelynek adatai pontatlanok lehetnek elavult konfigurálása.
+### <a name="manage-data-expiration-in-a-cache"></a>A gyorsítótárazott adatok lejáratának kezelése
+A legtöbb esetben a gyorsítótárban tárolt adatok az eredeti adattárban lévő adatok másolatai. A gyorsítótárba helyezést követően az eredeti adattárban lévő adatok módosulhatnak, ami a gyorsítótárazott adatok elavulását eredményezi. Számos gyorsítótárazási rendszer teszi lehetővé a gyorsítótár konfigurálását arra, hogy elévültnek jelölje meg az adatokat, így csökkenthető az az időszak, amíg elavult adatokat tárol.
 
-Amikor gyorsítótárba helyezett adatok lejárnak, a rendszer eltávolítja a gyorsítótárban, és az alkalmazás kell lekérik az adatokat az eredeti adattárolóban (ezzel kockáztatja a újonnan lehívott adatokat vissza gyorsítótárba). Alapértelmezett lejárati házirendet állíthat be, amikor konfigurálja a gyorsítótárban. Sok gyorsítótár szolgáltatásokban akkor is is határozzák meg a lejárati időt, az egyes objektumok Ha tárolja őket programozott módon a gyorsítótárban.
-Néhány gyorsítótárak lehetővé teszik a lejárati időt megadni, abszolút értéke, vagy egy mozgó érték, melynek következtében az elem a gyorsítótárból eltávolított, ha nem érhető el a megadott időn belül. Ez a beállítás felülbírálja a gyorsítótár kiterjedő elévülési szabályzatának, de csak a megadott objektum.
+Az elévült adatokat a rendszer eltávolítja a gyorsítótárból, és az alkalmazásnak az eredeti adattárból kell visszaállítania az adatokat (ezek az újonnan lekért adatok aztán visszahelyezhetők a gyorsítótárba). A gyorsítótár konfigurálásakor beállíthat egy alapértelmezett elévülési szabályzatot. Több gyorsítótár-szolgáltatásban az egyes objektumok lejárati idejét is meg lehet szabni, ha azokat programozott módon tárolja a gyorsítótárban.
+Egyes gyorsítótárak lehetővé teszik a lejárati idő abszolút vagy mozgó értékként történő megadását, amely alapján a rendszer eltávolítja az adott elemeket a gyorsítótárból, ha a megszabott idő alatt nem próbáltak meg hozzájuk férni. Ez a beállítás felülbírál bármely, a teljes gyorsítótárra érvényes elévülési szabályzatot, de csak a megadott objektumokra vonatkozik.
 
 > [!NOTE]
-> Fontolja meg a lejárati időt, a gyorsítótár és a benne található gondosan objektumok. Ha azt túl rövid, objektumok túl gyorsan lejár, és csökkenti a gyorsítótár használatának előnyeit. Ha az időszakban túl hosszú, azzal az adatok elévültek kockáztatja.
+> Körültekintően vegye figyelembe a gyorsítótár és az abban lévő objektumok lejárati idejét. Ha az túl rövid, az objektumok túl hamar lejárnak, és így kevésbé érvényesülnek a gyorsítótár használatának előnyei. Ha viszont az időszakot túl hosszúra állítja be, azzal az adatok elévülését kockáztatja.
 > 
 > 
 
-Lehetőség arra is, hogy a gyorsítótár előfordulhat, hogy megtelnek Ha adatokat hosszú ideig rezidens továbbra is engedélyezett. Ebben az esetben minden kérést új elemek hozzáadására a gyorsítótár okozhat egyes elemek kiürítés néven ismert folyamat kényszerített módon el kell távolítani. Gyorsítótár-szolgáltatások általában kizárása adatok (LRU) legkevésbé legutóbb használt időközönként, de általában ez a házirend felülbírálása és eltávolítandó elemek megakadályozása. Azonban ha elfogadni ezt a módszert használja, akkor kockáztatja meghaladja a gyorsítótár a rendelkezésre álló memória. Egy alkalmazás, amely megpróbálja vegyen fel egy elemet a gyorsítótár sikertelen lesz, és kivételt.
+Amennyiben az adatokat hosszabb ideig nem távolítja el, előfordulhat, hogy a gyorsítótár megtelik. Ebben az esetben, ha új elemeket próbál hozzáadni a gyorsítótárhoz, sor kerülhet bizonyos elemek kényszerített eltávolítására – ezt a folyamatot kiürítésnek nevezzük. A gyorsítótár-szolgáltatások jellemzően a legrégebben használt (least-recently-used, LRU) adatokat ürítik ki, de általában lehetőség van a szabályzat felülírására és az ilyen elemek kiürítésének megakadályozására. Ez azonban a gyorsítótárban rendelkezésre álló memória megtelésének kockázatával jár, és az elemet a gyorsítótárhoz hozzáadni próbáló alkalmazás futtatása egy kivétellel meghiúsulhat.
 
-Egyes gyorsítótárazási megvalósítások előfordulhat, hogy olyan további kiürítés szabályzatokat. Többféle kiürítés házirendek. Ezek a következők:
+Egyes gyorsítótárazási megoldások további kiürítési szabályzatokat is biztosíthatnak. Többféle típusú kiürítési szabályzat létezik. Ezek a következők:
 
-* A legutóbb használt-szabályzat (az általános gyakorlat, hogy az adatokat nem szükséges ismét lesz).
-* Egy első-first out házirend (legrégebbi adatokat először kizárt).
-* Az explicit eltávolító házirendalapú (például a módosított adatok) kiváltott esemény.
+* Legutóbbi használaton alapuló szabályzat (ha az adatokra a továbbiakban feltehetően nem lesz szükség).
+* Elsőnek be, elsőnek ki szabályzat (először mindig a legrégebbi adatok kiürítésére kerül sor).
+* Kiváltott eseményen (például módosított adatokon) alapuló explicit eltávolítási szabályzat.
 
-### <a name="invalidate-data-in-a-client-side-cache"></a>Egy ügyféloldali gyorsítótárban lévő adatok érvénytelenné válnak
-Használatban van egy ügyféloldali gyorsítótár adatokat általában tekinthető, amely adatokat szolgáltat az ügyfélnek a szolgáltatás felügyelete kívül. A szolgáltatás közvetlenül nem kényszerítheti ki egy ügyfél hozzáadásához vagy eltávolításához információk ügyféloldali gyorsítótárában.
+### <a name="invalidate-data-in-a-client-side-cache"></a>Adatok érvénytelenítése egy ügyféloldali gyorsítótárban
+Az ügyféloldali gyorsítótárban tárolt adatokat általában nem tekintjük ahhoz a szolgáltatáshoz tartozónak, amely adatokat szolgáltat az ügyfél számára. A szolgáltatások közvetlenül nem kényszeríthetik az ügyfeleket az ügyféloldali gyorsítótár információinak hozzáadására vagy eltávolítására.
 
-Ez azt jelenti, hogy a rosszul konfigurált gyorsítótár továbbra is használja az elavult adatokat használó ügyfél. Például a gyorsítótár lejárati házirendje nem szabályszerű ügyfél elavult adatokat, amelyek a helyi gyorsítótárba helyezi az adatokat az eredeti adatforrás lapindexének változása után használhatja.
+Ezért előfordulhat, hogy a nem megfelelően konfigurált gyorsítótárat használó ügyfelek elavult információkkal fognak dolgozni. Ha például a gyorsítótár elévülési szabályzatainak megvalósítása nem megfelelő, akkor lehetséges, hogy az ügyfelek helyileg gyorsítótárazott, elavult információkat fognak használni, miközben az eredeti adatforrás adatai már módosultak.
 
-Ha a webes alkalmazás, amely adatokat szolgáltat a HTTP-kapcsolaton keresztül, implicit módon kényszerítheti a webes ügyfél (például egy böngésző vagy webproxyn) beolvasni a legfrissebb információkat. Ehhez az erőforrás URI megváltozása erőforrás frissítése. A webes ügyfelek általában az erőforrás URI az ügyféloldali gyorsítótár kulcsként használatához, ha megváltoztatja az URI Azonosítót, a webes ügyfél figyelmen kívül hagyja-e minden korábban erőforrás verziói a gyorsítótárban, és ehelyett beolvassa az új verziót.
+Ha olyan webalkalmazást épít ki, amely HTTP-kapcsolaton keresztül szolgáltat adatokat, akkor implicit módon kényszeríthet egy webes ügyfelet (például böngészőt vagy webproxyt) a legfrissebb információk lekérésére. Ezt akkor teheti meg, ha egy erőforrás az erőforrás URI-jának módosításával frissül. A webes ügyfelek általában az erőforrás URI-ját használják az ügyféloldali gyorsítótár kulcsaként, tehát ha az URI módosul, akkor a webes ügyfél figyelmen kívül hagyja az adott erőforrás előzőleg gyorsítótárazott verzióit, és helyette az új verziót olvassa be.
 
-## <a name="managing-concurrency-in-a-cache"></a>A gyorsítótár egyidejűségi kezelése
-Gyorsítótárak gyakran tervezték, hogy egy alkalmazás több példánya is van osztva. Minden egyes alkalmazáspéldány olvashatják és módosíthatják az adatokat a gyorsítótárban. Az azonos egyidejűségi problémák merülnek fel, az összes megosztott tároló következésképpen is érvényesek a gyorsítótárba. Olyan helyzet, amikor egy alkalmazást kell módosítani a gyorsítótárban tartott adatait szükség lehet győződjön meg arról, hogy az alkalmazás egy példánya által végzett frissítések nem írja felül a másik példány által végzett módosításokat.
+## <a name="managing-concurrency-in-a-cache"></a>Az egyidejűség kezelése a gyorsítótárakban
+A gyorsítótárak tervezése során gyakran az a cél, hogy egy alkalmazás több példánya által közösen használhatók legyenek. Mindegyik alkalmazáspéldány képes olvasni és módosítani a gyorsítótár adatait. Következésképpen a megosztott adattárral kapcsolatban felmerülő egyidejűségi problémák a gyorsítótáraknál is fellépnek. Olyan helyzetben, amikor egy alkalmazásnak módosítania kell a gyorsítótárban tárolt adatokat, előfordulhat, hogy gondoskodni kell arról, hogy az alkalmazás egyik példánya által elvégzett frissítések ne írhassák felül a másik példány által végrehajtott módosításokat.
 
-Attól függően, hogy az adatok természetét és ütközések valószínűségét is elfogadja párhuzamossági két módszer egyikét:
+Az adatok természetétől és az ütközések valószínűségétől függően kétféle egyidejűségi megközelítés létezik:
 
-* **Optimistic.** Azonnal előtt frissíti az adatokat, az alkalmazás ellenőrzi a gyorsítótárban lévő adatok módosulásának lekérdezés óta. Ha az adatok továbbra is azonos, a módosítás hajtható végre. Ellenkező esetben az alkalmazásnak van határozza meg, hogy a frissítést. (Az üzleti logika, amely ehhez a döntéshez meghajtók lesz az alkalmazás-specifikus.) Ezt a módszert alkalmas a helyzetekben, ahol frissítések alkalomszerű, vagy ha ütközések nem valószínű, hogy mi történjen.
-* **Pessimistic.** Amikor lekérdezi az adatokat, az alkalmazás zárolja a gyorsítótárban, megakadályozhatja, hogy egy másik példány a módosítás. Ez a folyamat biztosítja, hogy ütközések nem fordulhat elő, de blokkolására is képesek más esetekben kell feldolgozni ugyanazokat az adatokat. Pesszimista feldolgozási hatással lehet a megoldás a méretezhetőséget, és csak rövid élettartamú műveletek ajánlott. Ezt a módszert akkor lehet hasznos olyan esetekben, ahol ütközések valószínűbb, különösen akkor, ha egy alkalmazás több elem gyorsítótárában frissíti, és győződjön meg arról, hogy ezek a változások következetesen alkalmazzák.
+* **Optimista.** Közvetlenül az adatok frissítése előtt az alkalmazás ellenőrzi, hogy a gyorsítótár adatai módosítva lettek-e a lekérésük óta. Ha az adatok nem változtak, akkor a módosítás végrehajtható. Ellenkező esetben az alkalmazásnak kell meghatároznia, hogy elvégzi-e a frissítést. (A döntés alapjául szolgáló üzleti logika az adott alkalmazásra jellemző lesz.) Ez a megközelítés olyan esetekben alkalmazható, ahol a frissítések ritkák, vagy ahol az ütközések előfordulása nem valószínű.
+* **Pesszimista.** Az adatok lekérésekor az alkalmazás zárolja az adatokat a gyorsítótárban, nehogy egy másik példány módosíthassa őket. Ez a folyamat megakadályozza ugyan az ütközéseket, de blokkolhat olyan egyéb példányokat is, amelyeknek ugyanazokat az adatokat kell feldolgozniuk. A pesszimista egyidejűségi megközelítés befolyásolhatja a megoldás méretezhetőségét, és alkalmazása csak rövid ideig tartó műveletek esetén javasolt. Akkor lehet ideális megoldás, ha az ütközések nagyobb valószínűséggel fordulnak elő, különösen, ha egy alkalmazás több elemet is frissít a gyorsítótárban, és gondoskodni kell arról, hogy a módosítások következetesek legyenek.
 
-### <a name="implement-high-availability-and-scalability-and-improve-performance"></a>Magas rendelkezésre állás és méretezhetőség megvalósítása, és a teljesítmény javítása
-Kerülje a gyorsítótár elsődleges tárházaként adatok; Ez az a szerepe az eredeti adattárolóban, amelyből a rendszer a gyorsítótárból tölti fel. Az eredeti adattárolóban a megőrzése biztosításáért felelős.
+### <a name="implement-high-availability-and-scalability-and-improve-performance"></a>Magas rendelkezésre állás és méretezhetőség megvalósítása, illetve a teljesítmény javítása
+Kerülje a gyorsítótár elsődleges adattárként való használatát; erre az eredeti adattár szolgál, amelyből a rendszer feltölti a gyorsítótárat. Az eredeti adattár feladata az adatok megőrzése.
 
-Ügyeljen arra, hogy a megoldás megosztott gyorsítótár szolgáltatás rendelkezésre állását a kritikus függőségeket bevezetéséhez. Egy alkalmazás tudják is működjenek, ha a szolgáltatás, amely a megosztott gyorsítótár nem érhető el. Az alkalmazás nem kell lefagy vagy miközben a rendszer a gyorsítótár-szolgáltatást a sikertelen.
+Ügyeljen arra, hogy a használt megoldásokban ne kapcsolódjanak kritikus függőségek a megosztott gyorsítótár-szolgáltatások elérhetőségéhez. Az alkalmazásoknak akkor is működőképesnek kell maradniuk, ha a megosztott gyorsítótárat biztosító szolgáltatás nem érhető el. Addig sem szabad lefagyniuk vagy meghiúsulniuk, amíg a gyorsítótár-szolgáltatás újraindul.
 
-Ezért az alkalmazás ismeri fel a gyorsítótár-szolgáltatás rendelkezésre állását, és térhet vissza az eredeti adattárolóban, ha a gyorsítótár nem érhető el kell készíteni. A [megszakító mintát](http://msdn.microsoft.com/library/dn589784.aspx) akkor hasznos, ha ez a forgatókönyv kezelésére. A szolgáltatás, amely a gyorsítótár állíthatók helyre, és amint elérhetővé válik, a gyorsítótár tölteni, adatolvasás adattárolóból az eredeti, például a következő stratégiát, a [gyorsítótár-tartalékoljon mintát](http://msdn.microsoft.com/library/dn589799.aspx).
+Ezért az alkalmazásoknak képesnek kell lenniük a gyorsítótár-szolgáltatás rendelkezésre állási állapotának észlelésére, illetve az eredeti adattárra való visszaváltásra, ha a gyorsítótár nem érhető el. Ebben az esetben az [áramköri megszakítási minta](../patterns/circuit-breaker.md) használható eredményesen. A gyorsítótárat üzemeltető szolgáltatás visszaállítható, és amint elérhetővé válik, a gyorsítótár újból feltölthető, mivel az adatokat a rendszer az eredeti adattárból olvassa be, egy olyan stratégiát követve, amilyen például a [gyorsítótár-feltöltési minta](../patterns/cache-aside.md).
 
-Azonban előfordulhat, a méretezhetőség hatása a rendszer, ha az alkalmazás visszaáll az eredeti adattárolóban átmenetileg nem érhető el a gyorsítótár esetén.
-Az adattár helyreállítás alatt álló, amíg az eredeti adattárolóban sikerült kell swamped adatokat, és így a időtúllépések kérések, és nem sikerült a kapcsolat.
+Ha azonban az alkalmazás visszavált az eredeti adattárra, amikor a gyorsítótár ideiglenesen nem érhető el, az hatással lehet a rendszer méretezhetőségére.
+A gyorsítótár helyreállítása közben az eredeti adattárat eláraszthatják az adatkérések, ami időtúllépéseket és sikertelen kapcsolatokat eredményezhet.
 
-Vegye fontolóra egy helyi, saját gyorsítótár irányuló kérelem a megosztott gyorsítótár-et elérő összes alkalmazáspéldányok minden egyes példányában. Amikor az alkalmazás egy elemet kér le, azt is ellenőrzi először a saját gyorsítótárába, majd a megosztott a gyorsítótárba, és végül az eredeti adatok tárolásához. A helyi gyorsítótár adatok felhasználásával vagy a megosztott gyorsítótárban, vagy az adatbázis nem érhető el a megosztott gyorsítótárával esetén lehet megadni.
+Érdemes lehet létrehozni egy helyi, privát gyorsítótárat mindegyik alkalmazáspéldányhoz a megosztott gyorsítótár mellett, amelyhez az összes alkalmazáspéldány hozzá tud férni. Amikor az alkalmazás lekér egy adott elemet, először a helyi, majd a megosztott gyorsítótárban, végül pedig az eredeti adattárban kereshet. A helyi gyorsítótár a megosztott gyorsítótárban vagy (ha a megosztott gyorsítótár nem érhető el) az adatbázisban lévő adatokból is feltölthető.
 
-Ez a megközelítés megakadályozhatja, hogy a helyi gyorsítótárat a túl elévültek tekintetében a megosztott gyorsítótárával gondos konfigurációt igényel. Azonban a helyi gyorsítótár pufferként a Ha a megosztott gyorsítótár nem érhető el. 3. ábrán látható, ez a struktúra.
+Ennél a megközelítésnél körültekintő konfigurálásra van szükség annak elkerülésére, hogy a helyi gyorsítótár túlságosan elavulttá váljon a megosztott gyorsítótárhoz képest, de a helyi gyorsítótár megfelelő pufferként működhet, ha a megosztott gyorsítótár nem érhető el. Ez a struktúra látható a 3. ábrán.
 
-![Egy helyi, saját gyorsítótár használata megosztott gyorsítótárával](./images/caching/Caching3.png)
-*3. ábra: a helyi, saját gyorsítótár használata megosztott gyorsítótárával*
+![Helyi, privát gyorsítótár és megosztott gyorsítótár együttes használata](./images/caching/Caching3.png)
+*3. ábra: Helyi, privát gyorsítótár és megosztott gyorsítótár együttes használata*
 
-Nagy méretű gyorsítótárak, amely viszonylag hosszú élettartamú adatok tárolására támogatása érdekében néhány gyorsítótár biztosítanak egy magas rendelkezésre állású lehetőség, amely megvalósítja az automatikus feladatátvételt, ha a gyorsítótár nem érhető el. Ez általában a megközelítés a gyorsítótárazott adatokat, hogy egy elsődleges gyorsítótár-kiszolgáló egy másodlagos gyorsítótár-kiszolgáló replikálása, és átvált a másodlagos kiszolgáló az elsődleges kiszolgáló meghibásodása esetén, vagy a kapcsolat elvész.
+A viszonylag hosszú élettartamú adatokat tartalmazó, nagy méretű gyorsítótárak támogatása érdekében egyes gyorsítótár-szolgáltatások biztosítják a magas rendelkezésre állás lehetőségét, amely automatikus feladatátvételt hajt végre, ha a gyorsítótár nem érhető el. Ez a megközelítés általában magában foglalja az elsődleges gyorsítótár-kiszolgálón tárolt gyorsítótárazott adatok másodlagos gyorsítótár-kiszolgálóra történő replikációját, és ha az elsődleges kiszolgáló meghibásodik, vagy ha a kapcsolat megszakad, akkor a rendszer a másodlagos kiszolgáló használatára vált.
 
-A több célhoz rendelt írása társított késés csökkentése érdekében a másodlagos kiszolgáló replikációs aszinkron módon során felmerülő adatot ír a gyorsítótár az elsődleges kiszolgálón. Ezt a megközelítést vezet a lehetősége, hogy néhány gyorsítótárazott adatok elvesztésével járhat meghibásodása van, de ezek az adatok arányának kis képest a gyorsítótár méretét.
+A több célhelyre való írás okozta késleltetés csökkentése érdekében a másodlagos kiszolgálóra történő replikáció aszinkron módon is megvalósítható. Ilyenkor a rendszer az adatokat az elsődleges kiszolgáló gyorsítótárába írja. Ez azzal a veszéllyel jár, hogy meghibásodás esetén egyes gyorsítótárazott adatok elveszhetnek, az elveszett adatok részaránya azonban jóval kisebb, mint a gyorsítótár teljes mérete.
 
-Ha megosztott gyorsítótárával túl nagy, előnyös a gyorsítótárazott adatokat particionálásához esélyét csökkentheti a versengés, és a méretezhetőség javítása csomópontjai között lehet. Sok megosztott gyorsítótárak is támogatja a dinamikus hozzáadása (és eltávolítása) csomópontot, és az adatok egyensúlyba partíciók között. Ez a megközelítés előfordulhat, hogy tartalmaz, amely Fürtszolgáltatás, amely csomópontok gyűjteménye áll rendelkezésre ügyfélalkalmazások, zökkenőmentes, egyetlen gyorsítótár. Belsőleg azonban az adatok megvédheti a következő előre meghatározott telepítési stratégiát, amely egyenlően osztja szét csomópontok között. A [adatok particionálási útmutató](http://msdn.microsoft.com/library/dn589795.aspx) a Microsoft webhelyén particionálási stratégia lehet további információt nyújt.
+Ha a megosztott gyorsítótár mérete nagy, akkor előnyös lehet a gyorsítótárban tárolt adatok csomópontokra történő particionálása a versengés kialakulási esélyének csökkentése és a méretezhetőség javítása érdekében. Sok megosztott gyorsítótár támogatja a csomópontok dinamikus hozzáadását (és eltávolítását), valamint az adatok újraegyensúlyozását a partíciók között. Ez a megközelítés magában foglalhatja a fürtözést is, amikor a csomópontgyűjtemény az ügyfélalkalmazások számára egyetlen osztatlan gyorsítótárként jelenik meg. A rendszeren belül azonban az adatok egy előre megadott elosztási stratégia szerint vannak szétosztva a csomópontok között, így egyenlítve ki a terhelést. A lehetséges particionálási módszerekről további információkat a Microsoft webhelyén elérhető [adatparticionálási útmutatóban](https://msdn.microsoft.com/library/dn589795.aspx) talál.
 
-Fürtszolgáltatás növelje a gyorsítótár rendelkezésre állását. Ha egy csomópont meghibásodik, a gyorsítótár fennmaradó továbbra is elérhetők maradnak.
-Fürtszolgáltatás gyakran használt replikációs és feladatátvételi együtt. Minden csomópont replikálható, és a replika gyorsan online állapotba helyezhetők a csomópont meghibásodásakor.
+A fürtözéssel a gyorsítótár rendelkezésre állása is megnövelhető. Ha egy csomópont meghibásodik, a gyorsítótár fennmaradó része továbbra is elérhető marad.
+A fürtözést gyakran használják a replikációval és a feladatátvétellel együtt. Az egyes csomópontok replikálhatók, és a replika a csomópont meghibásodásakor gyorsan online állapotba helyezhető.
 
-Sok olvasási és írási műveletek valószínűleg egyetlen adatértékek vagy objektumokat. Azonban néha szükség lehet tárolja, vagy a nagy adatmennyiségek gyors beolvasása.
-Például a gyorsítótár összehangolása magukban foglalhatják több száz vagy ezer cikkek írása a gyorsítótárba. Az alkalmazás számos kapcsolódó elemek beolvasása a gyorsítótárból a kérésben részeként is módosítania kell.
+Az olvasási és írási műveletek többsége nagy valószínűséggel egyetlen adatértéket vagy objektumot tartalmaz. Esetenként azonban szükség lehet nagy adatmennyiségek gyors tárolására vagy lekérdezésére.
+A gyorsítótár-áttöltés például több száz vagy ezer elem gyorsítótárba írásával is járhat. Előfordulhat, hogy egy alkalmazásnak egy adott kérelem részeként nagy mennyiségű kapcsolódó elemet is le kell kérnie a gyorsítótárból.
 
-Sok nagy méretű gyorsítótárak kötegműveletek ezekből a célokból adja meg. Ez lehetővé teszi, hogy az egy kérelemhez elemek nagy mennyiségű becsomagolhatja ügyfélalkalmazást, és csökkenti a nagyszámú kis kérések végrehajtásához társított.
+Számos nagy méretű gyorsítótár biztosít kötegműveleteket erre a célra. Az ilyen műveletekkel az ügyfélalkalmazások nagy mennyiségű tételt csomagolhatnak össze egyetlen kérelemmé, így csökkenthető a sok kisebb kérelem végrehajtásával járó többletterhelés.
 
-## <a name="caching-and-eventual-consistency"></a>Gyorsítótárazás és a végleges konzisztencia
-A gyorsítótár-tartalékoljon minta működjön az alkalmazás, amely a gyorsítótárból tölti fel az példányát kell férnie a legtöbb legutóbbi és konzisztens legyen az adatok verziója. A rendszer, amely megvalósítja a végleges konzisztencia (például a replikált adatokat tároló) az nem lehet az eset.
+## <a name="caching-and-eventual-consistency"></a>Gyorsítótárazás és végleges konzisztencia
+Ahhoz, hogy a gyorsítótár-feltöltési minta működni tudjon, a gyorsítótárat feltöltő alkalmazáspéldánynak hozzáféréssel kell rendelkeznie az adatok legfrissebb és konzisztens verzióihoz. A végleges konzisztenciát megvalósító rendszerekben (például egy replikált adattárban) ez nem feltétlenül biztosítható.
 
-Egy alkalmazás egy példánya nem sikerült módosítani egy adatelemet, és érvénytelenné válnak a gyorsítótárazott verzió elem. Előfordulhat, hogy az alkalmazás egy másik példánya megpróbálja olvassa el ezt az elemet a gyorsítótárból, aminek következtében a gyorsítótár-tévesztési, hogy azok az adatokat olvas a tárolót, és hozzáadja azt a gyorsítótárban. Ha az adattár nem lett teljesen szinkronban a más replikával, az alkalmazáspéldány sikerült olvasni, és a gyorsítótár, a régi értékű.
+Egy alkalmazás egyik példánya módosíthat egy adatelemet, amely érvénytelenítheti az adott elem gyorsítótárazott verzióját. Az alkalmazás egy másik példánya megpróbálhatja ezt az elemet kiolvasni egy gyorsítótárból, ami nem fog sikerülni, így az adatokat az adattárból olvassa ki, és hozzáadja a gyorsítótárhoz. Ha azonban az adattár nem lett teljes mértékben szinkronizálva a többi replikával, akkor megtörténhet, hogy az alkalmazáspéldány a régi értéket olvassa ki, és azt tölti fel a gyorsítótárba.
 
-Az adatok konzisztenciájának kezelésére vonatkozó további információkért lásd: a [adatok konzisztencia ismertetése](http://msdn.microsoft.com/library/dn589800.aspx).
+Az adatkonzisztencia kezelésére vonatkozó további információkért lásd az [adatkonzisztencia ismertetését](https://msdn.microsoft.com/library/dn589800.aspx).
 
 ### <a name="protect-cached-data"></a>A gyorsítótárazott adatok védelme
-A cache service függetlenül használja, fontolja meg, hogyan védi az adatokat a jogosulatlan hozzáféréstől gyorsítótárban tartott. Nincsenek két fő vonatkozik:
+A használt gyorsítótár-szolgáltatástól függetlenül mindig át kell gondolni, hogyan védheti meg a gyorsítótárban tárolt adatokat az illetéktelen hozzáféréstől. A következő két fő területtel kell foglalkoznunk:
 
-* A gyorsítótárban lévő adatok adatvédelmet.
-* Az adatok védelme, mert a gyorsítótár és az alkalmazás által használt a gyorsítótár között zajló kommunikációról.
+* A gyorsítótárban lévő adatok adatvédelme.
+* Adatvédelem a gyorsítótár és a gyorsítótárat használó alkalmazás közötti adatátvitel során.
 
-A gyorsítótárban lévő adatok védelme érdekében a cache service bevezetheti olyan hitelesítési mechanizmus, amely megköveteli, hogy alkalmazásokat adja meg az alábbiakat:
+A gyorsítótárban lévő adatok védelme érdekében a gyorsítótár-szolgáltatás olyan hitelesítési mechanizmust alkalmazhat, amely a következők meghatározását követeli meg az alkalmazásoktól:
 
-* Mely identitások férhetnek hozzá a gyorsítótárban lévő adatok.
-* Milyen műveletek (olvasási és írási), amelyek az identitások elvégzéséhez jogosultak.
+* Azon identitások, amelyek hozzáférhetnek a gyorsítótárban lévő adatokhoz.
+* Azon (olvasási és írási) műveletek, amelyeket az identitások jogosultak elvégezni.
 
-Amely terhelés csökkentése érdekében van társítva olvasott és írt adatok követően identitás írási vagy olvasási hozzáférés a gyorsítótárhoz, hogy identitás használhatja-e az adatokat a gyorsítótárban.
+Az adatok olvasásához és írásához kapcsolódó terhelés csökkentése érdekében az identitás a gyorsítótárban lévő összes adatot felhasználhatja, miután írási és/vagy olvasási hozzáférést kapott a gyorsítótárhoz.
 
-Korlátozza a hozzáférést a gyorsítótárazott adatok megfelelő részhalmazát kell, ha a következők valamelyikét teheti:
+Ha korlátozni kell a gyorsítótárazott adatok részhalmazainak hozzáférését, a következők szerint járhat el:
 
-* A gyorsítótár felosztása partíciók (különböző gyorsítótár-kiszolgálók használatával), és csak hozzáférést identitások a partíciók, amelyek használatához engedélyezni kell.
-* Titkosíthatja az adatokat, minden egyes részhalmazban különböző kulcsokkal, és adja meg a titkosítási kulcsok csak identitásokat tartalmaz, amelyek rendelkezzenek hozzáféréssel az egyes részhalmaza. Egy ügyfélalkalmazás továbbra is lehet beolvasni az összes adatot a gyorsítótárban, de csak lesz képes visszafejteni az adatokat, amelynek a kulcsokat tartalmaz.
+* Ossza fel a gyorsítótárat partíciókra (különböző gyorsítótár-kiszolgálók használatával), és csak azon partíciókhoz biztosítson hozzáférést, amelyeket az identitások használhatnak.
+* Más-más kulcsok használatával titkosítsa az egyes részhalmazok adatait, és a titkosítási kulcsokat csak azoknak az identitásoknak adja meg, amelyeknek mindegyik részhalmazhoz hozzá kell férniük. Az ügyfélalkalmazások ugyan továbbra is képesek lehetnek lekérni a gyorsítótár bármely adatát, de csak azokat tudják visszafejteni, amelyek titkosítási kulcsaival rendelkeznek.
 
-Az adatok védelme kell azt tranzakciós átviteléhez is. Ehhez az szükséges, hogy a biztonsági szolgáltatásoktól függő a hálózati infrastruktúra, amely a gyorsítótárban való csatlakozáskor használandó ügyfélalkalmazások által biztosított. Ha a gyorsítótár megvalósítása a szervezeten belül helyszíni kiszolgáló használata, amely futtatja az ügyfélalkalmazások számára, majd a hálózat elkülönítését nem szükség lehet további lépéseket kell tennie. Ha a gyorsítótárban található távolról, és a TCP- vagy HTTP-kapcsolatot igényel (például az internethez) nyilvános hálózaton keresztül, vegye fontolóra SSL.
+Biztosítani kell ezen kívül a gyorsítótár bejövő és kimenő adatainak védelmét is. Ehhez a hálózati infrastruktúra által biztosított azon biztonsági szolgáltatásokra fog támaszkodni, amelyeket az ügyfélalkalmazások a gyorsítótárhoz történő kapcsolódáshoz használnak. Ha a gyorsítótár létrehozása az ügyfélalkalmazásokat üzemeltető cégen vagy intézményen belüli helyszíni kiszolgáló használatával történik, akkor lehetséges, hogy maga a hálózat elkülönítése nem igényel további lépéseket. Ha a távoli gyorsítótár nyilvános hálózaton (például az interneten) történő használatához TCP- vagy HTTP-kapcsolat szükséges, fontolja meg az SSL alkalmazását.
 
-## <a name="considerations-for-implementing-caching-with-microsoft-azure"></a>Szempontok a gyorsítótárazást, ha a Microsoft Azure
+## <a name="considerations-for-implementing-caching-with-microsoft-azure"></a>A gyorsítótárazás Microsoft Azure-ral való megvalósítása során megfontolandó szempontok
 
-[Azure Redis Cache](/azure/redis-cache/) nyílt forráskódú Redis gyorsítótár, amely egy Azure-adatközpontban szolgáltatásként fut megvalósítása. A gyorsítótárazási szolgáltatás, amely elérhető az összes Azure-alkalmazást, hogy az alkalmazás egy felhőalapú szolgáltatás, a webhely, vagy egy Azure virtuális gépen belüli biztosít. Gyorsítótárak megoszthatók ügyfélalkalmazások, amelyek rendelkeznek a megfelelő hozzáférési kulcsot.
+Az [Azure Redis Cache](/azure/redis-cache/) egy nyílt forráskódú Redis-gyorsítótár, amely szolgáltatásként fut egy Azure-adatközpontban. Olyan gyorsítótárazási szolgáltatást biztosít, amely bármely Azure-alkalmazásból elérhető, függetlenül attól, hogy az alkalmazás felhőszolgáltatásként, webhelyként vagy egy Azure-beli virtuális gépen belül lett létrehozva. A gyorsítótáron olyan ügyfélalkalmazások osztozhatnak, amelyek rendelkeznek a megfelelő hozzáférési kulccsal.
 
-Azure Redis Cache egy olyan nagy teljesítményű gyorsítótárazási megoldás, amely rendelkezésre állását, méretezhetőségét és biztonsági biztosít. Ez általában szolgáltatásként fut egy vagy több dedikált gépek elosztva. Megkísérli mértékű tárolása a memóriában gyors hozzáférés biztosítására használhatja. Ez az architektúra készült biztosít alacsony késéssel és magas teljesítmény ami csökkenti a lassú i/o-műveletek végrehajtásához.
+Az Azure Redis Cache egy nagy teljesítményű gyorsítótárazási megoldás, amely rendelkezésre állási, méretezhetőségi és biztonsági szolgáltatásokat nyújt. Általában egy vagy több dedikált gépen elosztott szolgáltatásként fut. A gyors hozzáférés biztosításához megpróbálja a lehető legtöbb információt eltárolni a memóriában. Az architektúrának az a célja, hogy kevesebb lassú I/O műveletet kelljen végrehajtani, így alacsonyabb legyen a késleltetés, és nagyobb a teljesítmény.
 
- Azure Redis Cache összeegyeztethető számos olyan ügyfél-alkalmazások által használt különböző API-k. Ha meglévő alkalmazásokat, amelyek már az Azure Redis Cache helyileg futó, az Azure Redis Cache kapcsolatot biztosít gyors áttelepítés gyorsítótárazás a felhőben.
+ Az Azure Redis Cache az ügyfélalkalmazások által használt sokféle API-val kompatibilis. Ha már rendelkezik olyan alkalmazásokkal, amelyek helyileg futtatják az Azure Redis Cache-t, akkor az Azure Redis Cache gyors migrálási útvonalat biztosít a felhőben történő gyorsítótárazáshoz.
 
 
 ### <a name="features-of-redis"></a>A Redis jellemzői
- A redis több mint egy egyszerű gyorsítótár-kiszolgálót. Memóriában elosztott adatbázist biztosít olyan széles körű parancs-készletet, számos gyakori forgatókönyveket támogat. Ezek a jelen dokumentum szakasz használata a Redis gyorsítótárazás ismerteti. Ez a szakasz néhány fő funkciója Redis biztosító foglalja össze.
+ A Redis több, mint egy egyszerű gyorsítótár-kiszolgáló. Átfogó parancskészlettel ellátott, elosztott, memóriabeli adatbázisról van szó, amely számos gyakori alkalmazási helyzetet támogat. Ezeket a lentebb található, A Redis-gyorsítótárazás használata című rész ismerteti. Ez a szakasz a Redis néhány fő funkcióját foglalja össze.
 
-### <a name="redis-as-an-in-memory-database"></a>A memóriában adatbázisként redis
-A redis egyaránt támogat olvasási és írási műveletet. A Redis írások védelme a rendszerhiba vagy rendszeresen tárolása egy helyi pillanatfelvétel fájlban vagy egy csak append naplófájlban. Ez nem a helyzet a sok gyorsítótárak (amelyet átmeneti adattároló).
+### <a name="redis-as-an-in-memory-database"></a>A Redis használata memóriabeli adatbázisként
+A Redis az olvasási és az írási műveleteket is támogatja. Védelmet biztosít az írási műveletek számára a rendszerhibák előfordulása esetén, mert rendszeres időközönként elmenti azokat egy helyi pillanatképfájlba vagy egy csak hozzáfűzéssel bővíthető naplófájlba. Ez a funkció a legtöbb gyorsítótárban (amelyeket átmeneti adattárolóknak kell tekinteni) nem érhető el.
 
- Összes írt aszinkron, és nem blokkolja az ügynökök adatok írásakor vagy olvasásakor. Ha Redis elkezd futni, az adatokat olvas a pillanatkép- vagy naplófájl fájlt, és használ a memóriabeli gyorsítótár összeállításához. További információkért lásd: [Redis-adatmegőrzés](http://redis.io/topics/persistence) a Redis-webhelyen.
+ Az összes írási művelet aszinkron módon lesz elvégezve, és nem akadályozzák az ügyfeleket az adatok írásában vagy olvasásában. Amikor a Redis elindul, a pillanatkép- vagy naplófájlból olvassa ki az adatokat, és azokat használja a memórián belüli gyorsítótár létrehozásához. További információkat a Redis webhelyén elérhető, a [Redis adatmegőrzésével](https://redis.io/topics/persistence) foglalkozó témakörben talál.
 
 > [!NOTE]
-> A redis nem garantálja, hogy minden írási műveleteket a rendszer menti a katasztrofális hibája esetén, de a legrosszabb csak néhány másodperc érdemes adatok elveszhetnek. Ne feledje, hogy a gyorsítótár nem célja a mérvadó adatforrásként működni, és az alkalmazások, a gyorsítótár segítségével győződjön meg arról, hogy kritikus mentett adatok sikeresen egy megfelelő adattároló feladata. További információkért lásd: a [gyorsítótár-tartalékoljon mintát](http://msdn.microsoft.com/library/dn589799.aspx).
+> A Redis nem garantálja, hogy egy katasztrofális hiba esetén az összes írási műveletet elmenti, de a legrosszabb esetben is csak néhány másodpercnyi adatmennyiséget veszíthet el. Ne felejtse el, hogy a gyorsítótár nem kezelendő mérvadó adatforrásként, és a gyorsítótárat használó alkalmazások felelősek azért, hogy a kritikus fontosságú adatokat sikeresen elmentsék a megfelelő adattárba. További információkért lásd a [gyorsítótár-feltöltési mintát](../patterns/cache-aside.md) ismertető cikket.
 > 
 > 
 
 #### <a name="redis-data-types"></a>Redis-adattípusok
-A redis egy kulcs-érték tároló, ahol értékek tartalmazhatnak egyszerű típusú vagy összetett adatszerkezetek, például a kivonatok, listák, és állítja be. Ezek az adattípusok atomi műveletek készlete támogatja. Kulcsok végleges vagy címkézett idő élettartamát, ekkor automatikusan eltávolított a gyorsítótárból a kulcs és a megfelelő értéket korlátozott lehet. Redis kulcsok és értékek kapcsolatos további információkért látogasson el a lap [Redis az adattípusokat és az absztrakt entitással egészült ki bemutatását](http://redis.io/topics/data-types-intro) a Redis-webhelyen.
+A Redis egy olyan kulcs-érték tároló, ahol az értékek egyszerű típusokat vagy összetett adatstruktúrákat (például kivonatokat, listákat és készleteket) tartalmazhatnak. A Redis többféle atomi művelet elvégzését teszi lehetővé ezeken az adattípusokon. A kulcsok lehetnek állandóak vagy korlátozott időtartamúak, amelynek lejártakor a kulcs és annak értéke automatikusan el lesz távolítva a gyorsítótárból. A Redis-kulcsokról és -értékekről további információkat a Redis webhelyén elérhető, [a Redis adattípusait és absztrakt entitásait bemutató](https://redis.io/topics/data-types-intro) témakörben talál.
 
-#### <a name="redis-replication-and-clustering"></a>A redis replikációhoz és fürtözéshez
-A redis támogatja a fő-és alárendelt replikációs rendelkezésre állásának és átviteli karbantartása. Az írási műveletek Redis fő csomópont egy vagy több alárendelt csomóponton előfordul replikálódnak. Olvasási műveletek a fő vagy a beosztottak bármelyikét szolgálhatók ki.
+#### <a name="redis-replication-and-clustering"></a>Redis-replikáció és -fürtözés
+A Redis támogatja a fölé-/alárendelt típusú replikációt a rendelkezésre állás biztosítása és az átviteli sebesség szinten tartása érdekében. A Redis-főcsomópontokra irányuló írási műveletek egy vagy több alárendelt csomópontra replikálhatók. Az olvasási műveleteket a főcsomópont és az alárendelt csomópontok is kiszolgálhatják.
 
-Esetén a hálózati partíció beosztottak továbbra is szolgál az adatok, és majd transzparens módon való újraszinkronizálás a master, ha a kapcsolat helyreállt. További részletekért látogasson el a [replikációs](http://redis.io/topics/replication) lap a Redis-webhelyen.
+Ha hálózatszakadás következik be, az alárendelt csomópontok továbbra is szolgáltathatnak adatokat, majd a kapcsolat helyreállásakor a rendszer transzparens módon újraszinkronizálja azokat a főcsomóponttal. További részleteket a Redis webhelyén elérhető, a [replikációval](https://redis.io/topics/replication) foglalkozó oldalon talál.
 
-Redis is biztosít a fürtözés, amely lehetővé teszi a transzparens módon adatok particionálása a szilánkok kiszolgáló között, és a betöltés terjednek. Ez a funkció, javul a méretezhetőség, mert új Redis-kiszolgálók is hozzáadhatók, és az adatokat, mint a gyorsítótár méretének particionálni növeli.
+A Redis fürtözésre is lehetőséget biztosít, ami lehetővé teszi az adatszilánkok transzparens módon történő particionálását a kiszolgálók között és a terhelés elosztását. Ez a funkció javítja a méretezhetőséget, mivel a gyorsítótár méretének növekedésével új Redis-kiszolgálókat lehet hozzáadni, az adatok pedig újraparticionálhatók.
 
-Továbbá a fürt egyes kiszolgálóin fő-és alárendelt replikációval replikálható. Ez biztosítja a rendelkezésre állási a fürt minden csomópontja között. Fürtszolgáltatás és horizontális kapcsolatos további információkért látogasson el a [Redis-fürt oktatóprogram lap](http://redis.io/topics/cluster-tutorial) a Redis-webhelyen.
+A fürt mindegyik kiszolgálója replikálható fölé- vagy alárendelt típusú replikációval. Ez mindegyik fürtcsomópont rendelkezésre állását biztosítja. A fürtözésről és a horizontális skálázásról további információkat a Redis webhelyén elérhető, a [Redis-fürt oktatóanyagát](https://redis.io/topics/cluster-tutorial) tartalmazó oldalon talál.
 
-### <a name="redis-memory-use"></a>Redis memória használata
-A Redis gyorsítótár korlátja véges, amely a gazdagépen rendelkezésre álló erőforrások függ. Egy Redis-kiszolgáló konfigurálásához, telepítheti a memória maximális mennyisége is megadhat. Egy Redis gyorsítótár lejárati időt, amely után automatikusan eltávolítja a gyorsítótárból is konfigurálhatja egy kulcsot. Ez a funkció is megakadályozzák a memóriabeli gyorsítótár való régi vagy elavult adatokat.
+### <a name="redis-memory-use"></a>A Redis-memória használata
+A Redis-gyorsítótár mérete véges, és a gazdagépen rendelkezésre álló erőforrásoktól függ. A Redis-kiszolgálók konfigurálásakor megadhatja az általuk maximálisan felhasználható memória mennyiségét. Egy lejárati idővel ellátott kulcsot is a beállíthat a Redis-gyorsítótárban, amely a lejáratát követően automatikusan eltávolítódik a gyorsítótárból. Ezzel a funkcióval megakadályozható, hogy a memórián belüli gyorsítótár régi vagy elavult adatokkal legyen feltöltve.
 
-Memória kitölti-e, mint a Redis esetén automatikusan kizárása kulcsokkal és értékekkel házirendek száma következő. Az alapértelmezett érték LRU (legrégebben használt), de egyéb házirendek, például a kulcsok véletlenszerű kizárása vagy a kiürítési teljesen kikapcsolása (a elemek hozzáadására a gyorsítótár sikertelen lesz, ha betelt, mely eset kísérlet) is megadhat. A lap [használatával Redis, mint egy LRU gyorsítótár](http://redis.io/topics/lru-cache) nyújt részletesebb információt.
+Ahogy a memória megtelik, a Redis adott szabályzatok alapján automatikusan ki tudja üríteni a kulcsokat és azok értékeit. Az alapértelmezett szabályzat az LRU (least recently used, legrégebben használt), de más szabályzatokat is kiválaszthat, így például a kulcsok véletlenszerű kiürítését, vagy a kiürítés kikapcsolását (ekkor nem lehet új elemeket hozzáadni a megtelt gyorsítótárhoz). További információkat [a Redis LRU-gyorsítótárként történő használatával](https://redis.io/topics/lru-cache) foglalkozó témakörben talál.
 
-### <a name="redis-transactions-and-batches"></a>Redis tranzakciók és kötegek
-A redis lehetővé teszi, hogy egy ügyfél-alkalmazás olvasása és írása az adatokat a gyorsítótárban, mint egy atomi tranzakciós műveletek sorozata elküldeni. A tranzakció a parancsok garantáltan egymás után futnak, és nincs más egyidejű ügyfelek által kiadott parancs fog interwoven, közöttük.
+### <a name="redis-transactions-and-batches"></a>Redis-tranzakciók és -kötegek
+A Redis lehetővé teszi az ügyfélalkalmazások számára, hogy olyan műveletsort küldhessenek el, amelyek atomi tranzakciókként adatokat olvasnak és írnak a gyorsítótárba. A tranzakció összes parancsa garantáltan egymás után fog lefutni, a többi párhuzamos ügyfél által kiadott parancsok beékelődése nélkül.
 
-Azonban ezek nincsenek igaz tranzakciók, egy relációs adatbázisban hajtaná végre őket. Tranzakció-feldolgozást két szakaszból--áll az első akkor, ha a parancsok sorba, és a második pedig a parancsok futtatásakor. A parancsok a tranzakció alkotó parancs üzenetsor-kezelési szakaszában, az ügyfél által benyújtott. Ha valamilyen hiba akkor fordul elő, ezen a ponton (például szintaktikai hibát, vagy helytelen számú paraméterrel) majd Redis elutasítja a teljes tranzakció feldolgozása és figyelmen kívül hagyja azt.
+Ezek azonban nem valódi tranzakciók, hiszen a végrehajtásukért egy relációs adatbázis felel. A tranzakciók feldolgozása két szakaszból áll: az első a parancsok üzenetsorba állítása, a második pedig a parancsok futtatása. A parancsok sorkezelési szakaszában az ügyfél beküldi azokat a parancsokat, amelyekből a tranzakció áll. Ha ekkor valamilyen hiba történik (például szintaktikai hiba lép fel vagy helytelen számú paraméter van megadva), akkor a Redis megtagadja a teljes tranzakció feldolgozását, és elveti azt.
 
-A futtatási fázis során Redis sorrendben minden egyes sorban álló parancs végrehajtása. Ebben a fázisban a parancs sikertelen lesz, ha a Redis továbbra is fennáll, a következő sorba állított parancs, és nem állítja vissza már futó parancsok hatásait. A tranzakció egyszerűsített képernyőn segít a teljesítmény megőrzése, és a versengés által okozott problémák elkerülése érdekében.
+A futtatási szakaszban a Redis egymás után végrehajtja a sorba állított parancsokat. Ha ebben a fázisban egy parancsot nem lehet végrehajtani, a Redis a sorban következő parancsra vált, és nem állítja vissza a már futtatott parancsok eredményét. Ezzel az egyszerűsített tranzakciós módszerrel szinten tartható a teljesítmény, és elkerülhetők a versengés okozta teljesítményproblémák.
 
-A redis valósítja meg a konzisztencia fenntartása támogatására optimista zárolási űrlap. Tranzakciók és a redis gyorsítótárral zárolása kapcsolatos részletes információkért látogasson el a [tranzakciók lap](http://redis.io/topics/transactions) a Redis-webhelyen.
+A Redis egyfajta optimista zárolást valósít meg a konzisztencia megőrzése érdekében. A Redis használatával történő tranzakció-végrehajtásról és zárolásról további információkat a Redis webhelyén elérhető, a [tranzakciókat ismertető oldal](https://redis.io/topics/transactions) tartalmaz.
 
-A redis is támogatja a kérelem nem tranzakciós kötegelés. A Redis-protokollt használó ügyfelek számára parancsainak elküldését a Redis-kiszolgáló lehetővé teszi az ügyfél küld a kérésben részeként műveleteket. Ez segít a hálózati csomag töredezettségének csökkentése érdekében. A köteg feldolgozása után minden parancs történik. Ha ezen parancsok bármelyikéhez az helytelen formátumú, akkor a program elutasítja (ami nem kerül sor a tranzakciók), de történik, a többi parancs. Még nincs garancia kapcsolatos a sorrendben, amelyben a kötegben parancsokat dolgoz fel.
+A Redis a kérelmek nem tranzakciós célú kötegelését is támogatja. Az a Redis-protokoll, amellyel az ügyfelek parancsokat küldenek egy Redis-kiszolgálóra, lehetővé teszi az ügyfelek számára, hogy ugyanazon kérelem részeként egy egész műveletsort is elküldhessenek. Ezzel csökkenthető a hálózat csomagtöredezettségének mértéke. A köteg feldolgozásakor a rendszer minden parancsot végrehajt. Ha a parancsok bármelyike helytelenül van megformázva, akkor az(ok)at a rendszer elutasítja (ami egy tranzakció esetén nem történik meg), a többi parancsot azonban végrehajtja. A kötegben lévő parancsok feldolgozási sorrendje nem garantálható.
 
-### <a name="redis-security"></a>Biztonsági redis
-A redis összpontosít tisztán adatok gyors hozzáférést biztosító, és célja, hogy csak megbízható ügyfelek által elérhető megbízható környezet futhat. A redis egy jelszó-hitelesítés alapján korlátozott biztonsági modellt támogatja. (Is lehet távolítsa el a hitelesítés teljesen, bár nem ajánlott ennek.)
+### <a name="redis-security"></a>A Redis biztonsági funkciói
+A Redis kizárólagos célja az adatokhoz való gyors hozzáférés biztosítása, és csak megbízható ügyfelek számára elérhető megbízható környezetben futtatható. A Redis támogatja a jelszavas hitelesítésen alapuló, korlátozott biztonságot nyújtó modelleket. (A hitelesítés teljesen el is hagyható, de ezt nem javasoljuk.)
 
-Az összes hitelesített ügyfelek megosztása globális ugyanazt a jelszót, és elérheti az erőforrásokhoz. Ha átfogóbb bejelentkezési biztonságra van szüksége, meg kell valósítani a saját biztonsági réteg a Redis-kiszolgáló elé, és az összes ügyfélkéréseket kell érintenie a réteget. A redis nem számára nem megbízható és nem hitelesített ügyfeleket közvetlenül elérhetővé tehető.
+Az összes hitelesített ügyfél ugyanazt a globális jelszót használja, és ugyanazokhoz az erőforrásokhoz fér hozzá. Ha ennél átfogóbb bejelentkezési biztonsági megoldásra van szüksége, akkor létre kell hoznia egy saját biztonsági réteget a Redis-kiszolgáló előtt, és minden ügyfélkérelemnek ezen kell áthaladnia. Meg kell akadályozni, hogy a Redishez közvetlenül hozzáférhessenek nem megbízható vagy nem hitelesített ügyfelek.
 
-Tiltsa le őket, vagy azokat átnevezése (és jogosultsággal rendelkező ügyfelek csak az új névvel rendelkező megadásával) korlátozzuk parancsok.
+A parancsok elérését a letiltásukkal vagy az átnevezésükkel korlátozhatja (és az új neveket csak az arra jogosult ügyfelek kapják meg).
 
-Redis közvetlenül nem támogatja bármely formájára vonatkozó adatok titkosítása, így minden kódolás ügyfélalkalmazások kell végrehajtani. Továbbá a Redis nem adja meg a transport security bármilyen. Ha kell azt a hálózaton keresztül zajlik védheti az adatokat, ajánlott végrehajtási egy SSL-proxy.
+A Redis közvetlenül nem támogatja az adattitkosítás semmilyen formáját, így a teljes kódolást az ügyfélalkalmazásoknak kell elvégezniük. Ezenkívül a Redis nem biztosít semmiféle átviteli biztonsági megoldást sem. Ha gondoskodnia kell az adatok védelméről a hálózati átvitel során, erre a célra SSL-proxy alkalmazását javasoljuk.
 
-További tudnivalókért keresse fel a [biztonsági Redis](http://redis.io/topics/security) lap a Redis-webhelyen.
-
-> [!NOTE]
-> Azure Redis Cache nyújt a saját biztonsági réteg, amelyekkel az ügyfelek kapcsolódnak. Az alapul szolgáló Redis-kiszolgálók nem érhetők el a nyilvános hálózathoz.
-> 
-> 
-
-### <a name="azure-redis-cache"></a>Azure Redis cache
-Azure Redis Cache Redis-kiszolgálók az Azure adatközpontjában futó hozzáférést biztosít. A hozzáférés-vezérlés és adatvédelmet homlokzati funkcionál. A gyorsítótár az Azure portál használatával építhető ki.
-
-A portál számos előre definiált konfigurációkat. A tartomány egy dedikált futtató 53 GB gyorsítótárában, hogy támogatja az SSL-kommunikáció (adatvédelmi) és a szolgáltatás fő-és alárendelt replikációt szolgáltatásiszint-szerződésben garantált 99,9 %-os rendelkezésre állás érdekében nélkül (nincs rendelkezésre állási garanciák) replikációs 250 MB méretű gyorsítótárat le a futó megosztott hardver.
-
-Az Azure portál használatával, akkor is konfigurálja a kiürítés házirendet, a gyorsítótár, és a szerepköröket, meghatározott felhasználók hozzáadásával a gyorsítótárban való hozzáférést.  Ezeket a szerepköröket, amelyek meghatározzák a műveletek a tagok hajthat végre, a tulajdonos, közreműködő, és ahhoz való olvasóra tartalmazza. Például a tulajdonos szerepkör tagjai rendelkeznek a teljes felügyeletet gyakorolhat a gyorsítótárban (beleértve a biztonsági) és annak tartalmát, a közreműködői szerepkör tagjai és információt írhat a gyorsítótárban, és az Olvasó szerepkör tagjai is csak lekérdezni lehet adatokat a gyorsítótárból.
-
-A legtöbb felügyeleti feladatok végrehajtására kerül sor, az Azure portálon keresztül. Emiatt a Redis szabványos verziójában elérhető felügyeleti parancsok közül sok nem érhető el, beleértve a programozott módon módosítsa a konfigurációt, állítsa le a Redis-kiszolgáló, további beosztottak konfigurálása vagy Kényszerített mentés adatok lemezre.
-
-Az Azure-portál tartalmaz egy kényelmes grafikus megjelenítését, amely lehetővé teszi, hogy a gyorsítótár teljesítményének figyeléséhez. Például tekintheti meg és gyorsítótárbeli találatok száma és végeznek, a végrehajtás alatt álló kérelmek száma, az olvasási és írási, az adatmennyiség kapcsolatok száma. Ezen információk alapján is határozza meg a gyorsítótár hatékonyságát, és ha szükséges, váltani ettől eltérő konfigurációt, vagy módosítsa a kiürítés házirendet.
-
-Emellett hozhat létre riasztásokat, amelyek egy e-mailek küldésére, ha egy vagy több kritikus metrikák egy várt tartományon kívül esnek. Például előfordulhat, hogy szeretne riasztást a rendszergazda Ha gyorsítótárbeli száma meghaladja a megadott érték az elmúlt órában, mert az azt jelenti, előfordulhat, hogy a gyorsítótár túl kicsi, vagy adatokat előfordulhat, hogy éppen dobható túl gyorsan.
-
-A Processzor, memória és a gyorsítótár hálózathasználatáról is figyelheti.
-
-További információt és példákat bemutatja, hogyan hozza létre és konfigurálja az Azure Redis Cache, látogasson el a [körül Azure Redis Cache Lap](https://azure.microsoft.com/blog/2014/06/04/lap-around-azure-redis-cache-preview/) meg az Azure blog.
-
-## <a name="caching-session-state-and-html-output"></a>Gyorsítótárazás munkamenet-állapot és a HTML-kimenetében
-Ha most felépítése ASP.NET webes alkalmazásokhoz, hogy az Azure webes szerepkörök használatával futtassa, mentheti munkamenet állapot információkat és az Azure Redis Cache HTML-kimenetet. Az Azure Redis Cache a munkamenetállapot-szolgáltatóját lehetővé teszi az ASP.NET webalkalmazások különböző példányai között munkamenet az információkat, és nagyon hasznos a webkiszolgáló farm olyan helyzetekben, ahol ügyfél-kiszolgáló kapcsolatot nem érhető el és gyorsítótárazási munkamenetadatok a memóriában nem lenne megfelelő.
-
-Használata a munkamenetállapot-szolgáltatóját Azure Redis Cache kézbesíti számos előnnyel jár, beleértve:
-
-* A nagy mennyiségű példánnyal ASP.NET webalkalmazás munkamenet-állapot megosztása.
-* Továbbfejlesztett méretezhetőség biztosítása.
-* Az azonos munkamenet-állapot adatainak ellenőrzése alatt, egyidejű hozzáférést támogató több olvasók és egyetlen írót.
-* Tömörítés segítségével a memóriahasználat és a hálózati teljesítmény javításához.
-
-További információkért lásd: [ASP.NET munkamenetállapot-szolgáltatóját az Azure Redis Cache](/azure/redis-cache/cache-aspnet-session-state-provider/).
+További információkat a Redis webhelyén elérhető, [a Redis biztonsági funkcióival foglalkozó](https://redis.io/topics/security) oldalon talál.
 
 > [!NOTE]
-> Nem használatos a munkamenetállapot-szolgáltatóját Azure Redis Cache az ASP.NET-alkalmazások az Azure-alapú környezetben futtatható. A várakozási a gyorsítótárból, az Azure-on kívüli elérésének megszüntetheti által nyújtott az adatokat.
+> Az Azure Redis Cache saját biztonsági réteget biztosít az ügyfelek csatlakozásához. A Redis háttérkiszolgálói a nyilvános hálózaton nem érhetőek el.
 > 
 > 
 
-Hasonlóképpen a kimeneti gyorsítótár-szolgáltató az Azure Redis Cache lehetővé teszi a HTTP-válaszokat az ASP.NET webes alkalmazások által generált mentését. A kimeneti gyorsítótár-szolgáltató használata Azure Redis Cache javíthatja a leképezési összetett HTML-kimenetében alkalmazások válaszidejét. Alkalmazáspéldányok hasonló választ eredményező teheti a megosztott kimeneti töredék ez után a kimeneti HTML generálása helyett a gyorsítótár használatát. További információkért lásd: [az ASP.NET kimeneti gyorsítótár-szolgáltató Azure Redis Cache](/azure/redis-cache/cache-aspnet-output-cache-provider/).
+### <a name="azure-redis-cache"></a>Azure Redis Cache
+Az Azure Redis Cache az Azure-adatközpontokon üzemeltetett Redis-kiszolgálókhoz biztosít hozzáférést. Az Azure Redis Cache hozzáférés-vezérlési és biztonsági előtérrendszerként funkcionál. A gyorsítótárak az Azure Portal használatával építhetők ki.
 
-## <a name="building-a-custom-redis-cache"></a>Egy egyéni Redis gyorsítótár létrehozása
-Azure Redis Cache szolgáltatásba, illetve egy homlokzati az alapul szolgáló Redis-kiszolgálókra. Jelenleg konfigurációk készletét támogatja, de nem biztosít a Redis-fürtszolgáltatáshoz. Ha szüksége van, amely nem mutatja be az Azure Redis cache-(például a gyorsítótár 53 GB-nál nagyobb) speciális konfiguráció hozza létre, és a saját Redis állomáskiszolgáló Azure virtuális gépek használatával.
+A portálon számos előre meghatározott konfiguráció érhető el. Ilyen konfigurációra példa egy dedikált szolgáltatásként működő, 53 GB-os gyorsítótár, amely támogatja az SSL-kommunikációt (adatvédelmi célból) és a fölé/alárendelt típusú replikációt 99,9%-os rendelkezésre állást garantáló SLA-val, de a konfiguráció lehet akár egy replikáció nélküli, megosztott hardveren futó, 250 MB-os gyorsítótár is (garantált rendelkezésre állás nélkül).
 
-Ez a potenciálisan összetett folyamat, mert a több virtuális gépek alárendelt és csomópontok meghatalmazottjaként járhatnak el, ha azt szeretné, többszörözésére létrehozásához szükség lehet. Továbbá ha létre szeretne hozni egy fürtöt, akkor szüksége több főkiszolgálók és alárendelt kiszolgálók. A minimális fürtözött topológiát, amely magas szintű rendelkezésre állást és méretezhetőséget biztosít a három fő-és alárendelt kiszolgálók (fürt tartalmaznia kell legalább három fő csomópontok) értékpár formájában rendszerezett legalább hat virtuális gépek foglalja magában.
+Az Azure Portalon a gyorsítótár kiürítési szabályzatát is beállíthatja, és vezérelheti a gyorsítótárhoz való hozzáférést a felhasználók adott szerepkörökhöz történő hozzáadásával.  A tagok által elvégezhető műveleteket meghatározó szerepkörök a következők: Tulajdonos, Közreműködő és Olvasó. A Tulajdonos szerepkör tagjai például teljes körű, a gyorsítótárra (beleértve a biztonsági megoldásokat) és annak tartalmára vonatkozó szabályozási jogosultsággal bírnak, a Közreműködő szerepkör tagjai olvasási és írási műveleteket végezhetnek a gyorsítótárban, az Olvasó szerepkör tagjai pedig csak adatokat kérhetnek le a gyorsítótárból.
 
-Minden fő-és alárendelt párt együtt zárja be a késés csökkentése érdekében érdemes kell elhelyezkedniük. Azonban minden álló párok csoportja futhat az különböző régiókban található különböző Azure adatközpontjaiban, ha közel az alkalmazásokat, amelyek valószínűleg használni a gyorsítótárazott adatok kereséséhez.  Például egy létrehozása és konfigurálása a Redis-csomópont egy Azure virtuális gépként fut, lásd: [a CentOS Linux virtuális gép az Azure-ban futó Redis](http://blogs.msdn.com/b/tconte/archive/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure.aspx).
+Az adminisztratív feladatok többségét az Azure Portalon kell végrehajtani. Emiatt a Redis standard verziójában elérhető adminisztratív parancsok közül több nem áll rendelkezésre, így például a konfiguráció szoftveres módosításának, a Redis-kiszolgáló leállításának, további alárendelt elemek konfigurálásának vagy az adatok lemezre történő kényszerített mentésének lehetősége.
+
+Az Azure Portal kényelmesen használható grafikus felülete lehetővé teszi a gyorsítótár teljesítményének monitorozását. Megtekinthető például a létrehozott kapcsolatok, a végrehajtott kérelmek, az olvasási és írási műveletek száma, valamint a gyorsítótár-találatok és -tévesztések aránya. Ezen információk alapján meghatározhatja a gyorsítótár hatékonyságát, és szükség esetén átválthat más konfigurációra, vagy módosíthatja a kiürítési szabályzatot.
+
+Olyan riasztásokat is létrehozhat, amelyek e-mail-üzeneteket küldenek egy rendszergazdának, ha egy vagy több kritikus jelentőségű mérőszám értéke kívül esik a várható tartományon. Érdemes lehet riasztani a rendszergazdát például akkor, ha az elmúlt órában a gyorsítótár-tévesztések száma meghaladott egy adott értéket, mert ez azt jelentheti, hogy a gyorsítótár túl kicsi, vagy az adatok kiürítésére túl gyorsan kerül sor.
+
+A gyorsítótár CPU-, memória- és hálózathasználata is monitorozható.
+
+Az Azure Redis Cache létrehozásával és konfigurálásával kapcsolatos további információkat és példákat az Azure blog [Azure Redis Cache-t körbejáró](https://azure.microsoft.com/blog/2014/06/04/lap-around-azure-redis-cache-preview/) oldalán talál.
+
+## <a name="caching-session-state-and-html-output"></a>A gyorsítótárazási munkamenet állapota és HTML-kimenete
+Azure-beli webes szerepkörök használatával futtatott ASP.NET-webalkalmazások létrehozásakor a munkamenet állapotinformációit és a HTML-kimenetet egy Azure Redis Cache-ben mentheti el. Az Azure Redis Cache munkamenetállapot-szolgáltatója engedélyezi a munkamenet-információk megosztását az ASP.NET-webalkalmazás különböző példányai között. Ez nagyon hasznos olyan webfarm-forgatókönyvek esetében, ahol az ügyfél-kiszolgáló affinitás nem áll rendelkezésre, és a munkamenetadatok memóriában történő gyorsítótárazása nem lenne megfelelő megoldás.
+
+Az Azure Redis Cache munkamenetállapot-szolgáltatójának használata számos előnnyel jár, például:
+
+* A munkamenet-állapot ASP.NET-webalkalmazások sok példányával osztható meg.
+* Jobb a méretezhetőség.
+* Szabályozott, párhuzamos hozzáférést lehet biztosítani ugyanazon munkamenet-állapotadatokhoz több olvasó és egyetlen író számára.
+* Tömörítéssel menthető a memória és javítható a hálózati teljesítmény.
+
+További információkért lásd [az Azure Redis Cache ASP.NET munkamenetállapot-szolgáltatójával](/azure/redis-cache/cache-aspnet-session-state-provider/) foglalkozó cikket.
 
 > [!NOTE]
-> Vegye figyelembe, hogy a saját Redis gyorsítótár ily módon alkalmazza, ha Ön felelősséggel tartozik figyeléséhez, kezeléséhez és a szolgáltatás biztonságossá tétele.
+> Ne használja az Azure Redis Cache munkamenetállapot-szolgáltatóját Azure-környezeten kívül futtatott ASP.NET-alkalmazásokkal. Az Azure-on kívüli gyorsítótár hozzáférésének késleltetése miatt előfordulhat, hogy az adatok gyorsítótárazásának teljesítménybeli előnyei nem használhatók ki.
+> 
 > 
 
-## <a name="partitioning-a-redis-cache"></a>A Redis gyorsítótár particionálás
-A gyorsítótár particionálás magában foglalja a gyorsítótár felosztása több számítógép között. Ez a struktúra lehetővé teszi számos előnnyel egyetlen kiszolgálóval, beleértve:
+Hasonlóképpen, az Azure Redis Cache kimeneti gyorsítótár-szolgáltatója az ASP.NET-webalkalmazások által létrehozott HTTP-válaszok mentését is lehetővé teszi. Az Azure Redis Cache kimeneti gyorsítótár-szolgáltatójának használatával csökkenthető az összetett HTML-kimeneteket renderelő alkalmazások válaszideje. A hasonló válaszokat visszaadó alkalmazáspéldányok a gyorsítótárban lévő megosztott kimeneti töredékeket használhatják a HTML-kimenet újbóli létrehozása helyett. További információkért lásd [az Azure Redis Cache ASP.NET-es kimeneti gyorsítótár-szolgáltatóját](/azure/redis-cache/cache-aspnet-output-cache-provider/) ismertető cikket.
 
-* Olyan gyorsítótár létrehozását is nagyobb, mint egy kiszolgálón is tárolhatók.
-* Osztja el az adatok között a kiszolgálók rendelkezésre állás javítása. Ha egy kiszolgáló meghibásodik vagy elérhetetlenné válik, az adatokat, amely tárolja nem érhető el, de a többi kiszolgálón továbbra is elérhető. A gyorsítótár ennek oka nem kritikus fontosságú a gyorsítótárazott adatokat csak átmeneti az adatok másolatát, amely az adatbázis használatban van. Egy olyan kiszolgálón, elérhetetlenné válik a gyorsítótárazott adatok helyette gyorsítótárazható egy másik kiszolgálón.
-* A terhelés terjednek kiszolgáló, így javul a teljesítmény és méretezhetőség között.
-* A felhasználók számára, amelyek férni, így csökkenti a késéseket lezárja Geolocating adatok.
+## <a name="building-a-custom-redis-cache"></a>Egyéni Redis-gyorsítótár kiépítése
+Az Azure Redis Cache a háttérbeli Redis-kiszolgálók előtérrendszereként funkcionál. Az Azure Redis Cache jelenleg rögzített számú konfigurációt támogat, de nem támogatja a Redis-fürtözést. Ha olyan speciális konfigurációra van szükség, amelyet az Azure Redis Cache nem támogat (például 53 GB-nál nagyobb méretű gyorsítótárra), az Azure-beli virtuális gépek segítségével saját Redis-kiszolgálókat is létrehozhat és üzemeltethet.
 
-A gyorsítótár a leggyakrabban használt particionálás formátuma horizontális. Ezt a stratégiát minden partíció (és horizontális skálázás) a Redis gyorsítótár önálló. Adatok horizontális logika, amely használatával megközelítés különböző terjesztheti az adatok segítségével egy adott partícióra van átirányítva. A [horizontális mintát](http://msdn.microsoft.com/library/dn589797.aspx) horizontális alkalmazásával kapcsolatos további információkat biztosít.
+Ez a folyamat meglehetősen összetett lehet, hiszen ha replikációt szeretne végrehajtani, akkor esetenként több virtuális gépet is létre kell hoznia, amelyek a fő- és alárendelt csomópontok szerepét töltik be. Továbbá, ha fürtöt kíván létrehozni, akkor több fő- és alárendelt kiszolgálóra lesz szüksége. Egy magas szintű rendelkezésre állást és méretezhetőséget biztosító, minimális méretű fürtözött replikációs topológia legalább hat virtuális gépből, azaz három pár fő- és alárendelt kiszolgálóból áll (egy fürtben legalább három főcsomópontnak kell lennie).
 
-A Redis gyorsítótár particionálás alkalmazásához hajthatók végre a következő módszerek egyikét:
+A késleltetés minimalizálása érdekében a fölé/alárendelt pároknak egymáshoz közel kell lenniük. Ha azonban a gyorsítótárban lévő adatokat az őket legtöbbször használó alkalmazásokhoz közel kívánja elhelyezni, az egyes párok futtathatók különböző régiókban található Azure-adatközpontokban is.  Példa Azure-beli virtuális gépként futtatott Redis-csomópont kiépítésére és konfigurálására: [A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban](https://blogs.msdn.microsoft.com/tconte/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure/) (blogbejegyzés).
 
-* *Kiszolgálóoldali lekérdezés útválasztást.* Ezzel a technikával az ügyfélalkalmazás egy kérést küld a Redis-kiszolgáló a gyorsítótárban (valószínűleg a legközelebbi kiszolgálót) alkotó. Minden egyes Redis-kiszolgáló tárolja, amely leírja, hogy azt tartalmazza, és információkat arról, hogy mely partíciók található más kiszolgálókon is tartalmaz a partíciós metaadatok. A Redis-kiszolgáló megvizsgálja az ügyfélkérés. Ha helyileg feloldható, hajtja végre a kért műveletet. Ellenkező esetben azt továbbítja a kérelmet be a megfelelő kiszolgálóra. Ez a modell fürtszolgáltatás Redis valósul meg, és további részletes leírását lásd a a [Redis-fürt oktatóanyag](http://redis.io/topics/cluster-tutorial) lap a Redis-webhelyen. A redis-fürtszolgáltatás ügyfélalkalmazások számára átlátható, és további Redis-kiszolgálók is hozzáadhatók a fürtöt (és az adatok újbóli particionálása) anélkül, hogy be újra az ügyfeleket.
-* *Ügyféloldali particionálást.* Ebben a modellben az ügyfélalkalmazás logikája (valószínűleg a szalagtár formájában), amely kérelmek tartalmazza a megfelelő Redis-kiszolgálóhoz. Ez a megközelítés Azure Redis Cache használható. Hozzon létre több Azure Redis Cache-gyorsítótárak (egy mindegyik adatok partíció), és az ügyféloldali logika, amely a kéréseket a megfelelő gyorsítótárba végrehajtása. Ha a particionálási sémát (Ha további Azure Redis Cache-gyorsítótárak jönnek létre, például) változik, ügyfélalkalmazások módosítania kell újra kell konfigurálni.
-* *Proxy támogatott particionálást.* A séma alkalmazások küldési kérelmek egy közbülső proxy szolgáltatás, amely tisztában van azzal, hogy az adatok particionálása, és ezután továbbítja a kérést a megfelelő ügyfél Redis kiszolgáló. Ez a módszer is használható az Azure Redis Cache; a proxy szolgáltatás Azure felhőalapú szolgáltatásként valósítható meg. Ez a megközelítés szükséges egy további szintű összetettség valósíthatja meg a szolgáltatást, és kérelmek hajtsa végre az ügyféloldali particionálást használnak, mint a hosszabb ideig is tarthat.
+> [!NOTE]
+> Vegye figyelembe, hogy ha egyéni Redis-gyorsítótárat hoz létre, akkor Ön felel a szolgáltatás monitorozásáért, felügyeletéért és biztonságáért.
+> 
 
-A lap [particionálására: hogyan adatok több Redis-példány között](http://redis.io/topics/partitioning) a Redis a webhely további információkat nyújt azokról a redis gyorsítótárral particionálás végrehajtására.
+## <a name="partitioning-a-redis-cache"></a>A Redis-gyorsítótár particionálása
+A gyorsítótár particionálása a gyorsítótár több számítógépre történő felosztását jelenti. Ez a struktúra számos előnnyel jár egyetlen gyorsítótár-kiszolgáló használatával szemben, amelyek például a következők lehetnek:
 
-### <a name="implement-redis-cache-client-applications"></a>Redis gyorsítótár ügyfélalkalmazások megvalósítása
-Számos programozási nyelven támogatása ügyfélalkalmazások redis. Ha a .NET-keretrendszer használatával hoz létre új alkalmazásokat, az ajánlott módszer a StackExchange.Redis ügyféloldali kódtár használata. Ebben a könyvtárban, amely a Redis-kiszolgálóhoz való kapcsolódás, parancsok küldése és fogadása válaszok részletes kivonatolja .NET-keretrendszer objektum modellt biztosít. Érhető el a Visual Studio NuGet-csomagként. Az Azure Redis Cache, vagy egy egyéni Redis gyorsítótár, a virtuális gép üzemeltetett való csatlakozáshoz használhatja ugyanazt a szalagtárat.
+* Sokkal nagyobb gyorsítótár hozható létre, mint amelyet egyetlen kiszolgálón tárolni lehetne.
+* Az adatok eloszthatók a kiszolgálók között, így javul a rendelkezésre állás. Ha egy kiszolgáló meghibásodik vagy elérhetetlenné válik, az általa tárolt adatok sem érhetők el, a többi kiszolgálón található adatok viszont továbbra is hozzáférhetők maradnak. Gyorsítótárak esetén ez nem jelent nagy problémát, mert a gyorsítótárazott adatok csak az adatbázisban tárolt adatok átmeneti másolati példányai. A hozzáférhetetlenné váló kiszolgáló gyorsítótárában tárolt adatok egy másik kiszolgálóra gyorsítótárába is áthelyezhetők.
+* A terhelés elosztható a kiszolgálók között, ezáltal javul a teljesítmény és méretezhetőség.
+* Az adatok a hozzájuk férő felhasználókhoz földrajzilag közel helyezhetők el, így csökken a késleltetés mértéke.
 
-Egy Redis-kiszolgálóhoz való csatlakozáshoz használhat a statikus `Connect` metódusában a `ConnectionMultiplexer` osztály. Ezzel a módszerrel hoz létre a kapcsolat az ügyfélalkalmazás élettartama során használandó készült, és több egyidejű szálat használhatja ugyanazt a kapcsolatot. Kapcsolódjon újra, és ne válassza le minden alkalommal, amikor a Redis műveletet hajt végre, mert ez ronthatja a teljesítményt.
+Gyorsítótárak esetében a particionálás leggyakrabban használt módszere a horizontális skálázás. Ilyenkor az egyes partíciók (vagy szilánkok) önmagukban is egy-egy Redis-gyorsítótárként működnek. Az adatokat horizontális skálázási logika alapján irányítják egy megadott partícióra, amely logika többféle megközelítést is alkalmazhat az adatok elosztására. További információkat a horizontális skálázás megvalósításáról a [horizontális skálázási mintát](../patterns/sharding.md) ismertető cikkben talál.
 
-A kapcsolat paraméterek, például a címet a Redis-host és a jelszót is megadhat. Azure Redis Cache használatakor vagy az elsődleges vagy másodlagos kulcsot az Azure felügyeleti portál használatával az Azure Redis Cache létrehozott kell a jelszót.
+A Redis-gyorsítótár particionálásának végrehajtása során a következő megközelítéseket alkalmazhatja:
 
-Miután csatlakozott a Redis-kiszolgáló, az a Redis-adatbázisra, amelyet úgy működik, mint a gyorsítótár leírót ezt úgy szerezheti be. A Redis-kapcsolatot biztosít a `GetDatabase` ehhez metódust. Ezután elemek beolvasása a gyorsítótárból, és a gyorsítótár használatával adatok tárolása a `StringGet` és `StringSet` módszerek. Ezek a módszerek várt paramétereként egy kulcs, és térjen vissza az elem, vagy a gyorsítótár, amely rendelkezik a megfelelő érték (`StringGet`) vagy az elem felvétele a gyorsítótár a kulcshoz (`StringSet`).
+* *Kiszolgálóoldali lekérdezés továbbítása.* Az ügyfélalkalmazás kérelmet küld a gyorsítótár részét képező valamelyik Redis-kiszolgálónak (nagy valószínűséggel a legközelebbinek). Mindegyik Redis-kiszolgáló tárolja a rajta található partíciót leíró metaadatokat, és arra vonatkozóan is tartalmaz információkat, hogy mely partíciók találhatók más kiszolgálókon. A Redis-kiszolgáló megvizsgálja az ügyfélkérelmet. Ha az helyileg megoldható, akkor elvégzi a kért műveletet. Ha nem oldható meg, akkor továbbítja a kérést a megfelelő kiszolgálóra. Erről a Redis-fürtözéssel megvalósított modellről további részleteket a Redis webhelyén elérhető, a [Redis-fürt oktatóanyagát](https://redis.io/topics/cluster-tutorial) tartalmazó oldalon talál. A Redis-fürtözés átlátható az ügyfélalkalmazások számára, és a fürthöz további Redis-kiszolgálók is hozzáadhatók (és az adatok újraparticionálhatók) anélkül, hogy az ügyfeleket újra kellene konfigurálni.
+* *Ügyféloldali particionálás.* Ebben a modellben az ügyfélalkalmazás (valószínűleg kódtár formájában elérhető) logikája irányítja a megfelelő Redis-kiszolgálókra a kérelmeket. Ez a módszer az Azure Redis Cache esetében is alkalmazható. Hozzon létre több Azure Redis Cache-t (mindegyik adatpartícióhoz egyet-egyet), és léptesse életbe az ügyféloldali logikát, amely a kérelmeket a megfelelő gyorsítótárba irányítja. Ha a particionálási séma módosul (például további Azure Redis Cache-ek létrehozása esetén), akkor az ügyfélalkalmazások újrakonfigurálására lehet szükség.
+* *Proxyval támogatott particionálás.* Ebben a sémában az ügyfélalkalmazások egy közvetítőként szolgáló proxyszolgáltatásnak küldenek kérelmeket, amely értelmezi az adatok particionálását, majd a kérelmet a megfelelő Redis-kiszolgálóra irányítja. Ez a módszer is alkalmazható az Azure Redis Cache esetében; a proxyszolgáltatás Azure-felhőszolgáltatásként is megvalósítható. Így összetettebb feladattá válik a szolgáltatás megvalósítása, és hosszabb időre lehet szükség a kérelmek végrehajtásához, mint az ügyféloldali particionálás esetében.
 
-Attól függően, hogy a Redis-kiszolgáló helyét sok művelet lehet, hogy fel Önnek némi késés, amíg a kiszolgáló átkerülnek a kérelmet, és választ küld vissza az ügyfélnek. A StackExchange kódtár biztosít aszinkron verzióinak nagy része a módszereket, amelyek továbbra is válaszol ügyfélalkalmazások segítségével érheti el. Ezek a módszerek támogatják a [feladatalapú aszinkron mintát](http://msdn.microsoft.com/library/hh873175.aspx) a .NET-keretrendszer.
+A Redis használatával történő particionálásról további információkat a Redis webhelyén elérhető [Particionálás: adatok felosztása több Redis-példány között](https://redis.io/topics/partitioning) oldalon talál.
 
-A következő kódrészletet látható nevű metódus `RetrieveItem`. Azt mutatja be, a gyorsítótár-tartalékoljon minta alapján Redis és StackExchange szalagtár megvalósítása. A metódus karakterlánc-érték vesz igénybe, és megpróbálja beolvasni a megfelelő elem a Redis gyorsítótárt meghívásával a `StringGetAsync` metódus (aszinkron verzióját `StringGet`).
+### <a name="implement-redis-cache-client-applications"></a>Redis gyorsítótár-ügyfélalkalmazások megvalósítása
+A Redis számos, különböző programozási nyelveken írt ügyfélalkalmazást támogat. Ha a .NET-keretrendszer használatával hoz létre új alkalmazásokat, ehhez a StackExchange.Redis ügyfélkódtár használatát javasoljuk. Ez a kódtár egy olyan .NET-keretrendszerbeli objektummodellt biztosít, amely kivonatolja a Redis-kiszolgálóhoz való csatlakozás, a parancsküldés és a válaszfogadás részleteit. A Visual Studióban NuGet-csomagként érhető el. Ugyanezzel a kódtárral kapcsolódhat egy Azure Redis-gyorsítótárhoz vagy egy virtuális gépen lévő egyéni Redis-gyorsítótárhoz.
 
-Ha az elem nem található, a mögöttes adatok forrás használatával beolvassa a `GetItemFromDataSourceAsync` metódus (amely egy helyi módszert, és nem része a StackExchange könyvtár). Ezután kerül a gyorsítótárba használatával a `StringSetAsync` , lekérhető gyorsabban legközelebb metódust.
+A Redis-kiszolgálóhoz való csatlakozáshoz használja a `ConnectionMultiplexer` osztály statikus `Connect` metódusát. A metódus által létrehozott kapcsolat úgy van kialakítva, hogy az ügyfélalkalmazás teljes élettartama alatt használható legyen, és ugyanezt a kapcsolatot több egyidejű szál is használhassa. Redis-műveletek végrehajtásakor ne hajtson végre minden alkalommal újracsatlakozást és leválasztást, mert ez ronthatja a teljesítményt.
+
+Megadhatja a kapcsolati paramétereket, például a Redis-gazdagép címét és a jelszót. Azure Redis Cache használata esetén a jelszó az Azure Redis Cache számára az Azure felügyeleti portálon létrehozott elsődleges vagy másodlagos kulcs.
+
+Miután csatlakozott a Redis-kiszolgálóhoz, beszerezhet egy leírót a gyorsítótárként szolgáló Redis-adatbázishoz. A Redis-kapcsolat ehhez a `GetDatabase` metódust biztosítja. Ezután a `StringGet` és a `StringSet` metódussal kérdezhet le elemeket a gyorsítótárból és menthet el benne adatokat. Ezek a metódusok paraméterként egy kulcsot várnak, majd visszaadják az egyező értékű elemet a gyorsítótárból (`StringGet`), vagy ezzel a kulccsal adják hozzá az elemet a gyorsítótárhoz (`StringSet`).
+
+A Redis-kiszolgáló helyétől függően számos műveletnél számíthatunk késleltetésre, amíg a kérelem eljut a kiszolgálóhoz, illetve a válasz az ügyfélhez. A StackExchange kódtár számos metódus aszinkron verzióját biztosítja, amelyek segítségével szinten tartható az ügyfélalkalmazások válaszkészsége. Ezek a metódusok támogatják a [feladatalapú aszinkron mintát](/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap) a .NET-keretrendszerben.
+
+A következő kódrészlet a `RetrieveItem` nevű metódust mutatja be. A példa a Redis és a StackExchange-kódtáron alapuló gyorsítótár-feltöltési minta megvalósítását szemlélteti. A metódus egy sztring formátumú kulcsérték használatával megkísérli lekérni a megfelelő elemet a Redis-gyorsítótárból a `StringGetAsync` metódus (a `StringGet` aszinkron verziója) meghívásával.
+
+Ha az adott elem nem található, akkor a rendszer az alapul szolgáló adatforrásból kéri le a `GetItemFromDataSourceAsync` metódussal (helyi metódus, nem része a StackExchange-kódtárnak). A rendszer ezután a `StringSetAsync` metódussal hozzáadja az elemet a gyorsítótárhoz, így legközelebb gyorsabban le lehet majd kérdezni.
 
 ```csharp
 // Connect to the Azure Redis cache
@@ -357,9 +357,9 @@ private async Task<string> RetrieveItem(string itemKey)
 }
 ```
 
-A `StringGet` és `StringSet` metódusok nem korlátozódnak lekérése és karakterlánc-értékek tárolásához. A cikk, mint bájttömb szerializált tarthat. .NET-objektum mentése kell, ha szerializálni a byte adatfolyamként, és használja a `StringSet` metódus a gyorsítótárba írni.
+A `StringGet` és a `StringSet` metódus nem korlátozódik a lekérésre és a sztringértékek tárolására. Ezek a metódusok minden, bájttömbként szerializált elemet támogatnak. Ha egy a .NET-objektumot kell elmentenie, bájtstreamként szerializálhatja, majd a `StringSet` metódussal a gyorsítótárba írhatja.
 
-Hasonló módon érheti el egy objektumot a gyorsítótárból használatával a `StringGet` metódus és a .NET objektumként deszerializálása azt. A következő kód bemutatja kiterjesztésmetódusok IDatabase interfész csoportja (a `GetDatabase` Redis kapcsolódási módszert adja vissza egy `IDatabase` objektum), és néhány példakód ezen módszerek írási és olvasási egy `BlogPost` objektum a gyorsítótárban:
+Hasonlóképpen, a `StringGet` metódus használatával beolvashatja az adott objektumot a gyorsítótárból, majd .NET-objektumként deszerializálhatja azt. Az alábbi kódban az IDatabase-illesztő bővítési metódusai (egy Redis-kapcsolat `GetDatabase` metódusa egy `IDatabase` objektumot ad vissza), illetve néhány olyan mintakód látható, amelyek ezeket a metódusokat használják egy `BlogPost` objektum gyorsítótárbeli olvasásához és írásához:
 
 ```csharp
 public static class RedisCacheExtensions
@@ -414,7 +414,7 @@ public static class RedisCacheExtensions
 }
 ```
 
-Az alábbi kód bemutatja nevű metódus `RetrieveBlogPost` használó ezek kiterjesztésmetódusok írási és olvasási egy szerializálható `BlogPost` a gyorsítótár, a gyorsítótár-tartalékoljon mintát a következő objektumot:
+Az alábbi kód egy `RetrieveBlogPost` nevű metódust szemléltet, amely ezeket a bővítő metódusokat használja egy szerializálható `BlogPost` objektum gyorsítótárbeli olvasásához és írásához, a gyorsítótár-feltöltési minta alapján:
 
 ```csharp
 // The BlogPost type
@@ -450,9 +450,9 @@ private async Task<BlogPost> RetrieveBlogPost(string blogPostKey)
 }
 ```
 
-Redis támogatja az parancs futószalagos, ha egy ügyfél alkalmazás több aszinkron kérést küld. A redis is vált a kérelmek ugyanazt a kapcsolatot használja helyett fogadására és válaszol a parancsok szigorú sorrendben.
+A Redis támogatja a parancsok adatcsatornás feldolgozását, ha egy ügyfélalkalmazás több aszinkron kérelmet küld. A parancsok szigorú sorrendben történő fogadása és megválaszolása helyett a Redis képes az ugyanazt a kapcsolatot használó kérelmek multiplexálására.
 
-Ez a megközelítés segít azáltal, hogy hatékonyabb használatát a hálózati késés csökkentésére. A következő kódrészletet mutat be, amely lekéri egyidejűleg két ügyfelek részleteit. A kód elküldi a két kérelmet, és néhány más feldolgozás (nincs ábrázolva) vár az eredmények előtt hajtja végre. A `Wait` a gyorsítótár-objektumának módszer hasonló a .NET-keretrendszer `Task.Wait` módszert:
+Ez a módszer a hatékonyabb hálózathasználat révén hozzájárul a késleltetés csökkentéséhez. Az alábbi kódrészlet két ügyfél adatainak egyidejű lekérdezésére mutat példát. A kód két kérelmet küld el, majd végrehajt egy másik műveletet (amely itt nem látható), miközben az eredmények beérkezésére vár. A gyorsítótár-objektum `Wait` metódusa hasonló a .NET-keretrendszer `Task.Wait` metódusához:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -465,25 +465,25 @@ var customer1 = cache.Wait(task1);
 var customer2 = cache.Wait(task2);
 ```
 
-Ügyfélalkalmazások, amelyek az Azure Redis Cache írásáról további információkért lásd: [Azure Redis Cache dokumentáció](https://azure.microsoft.com/documentation/services/cache/). További információk is érhető el: [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Basics.md).
+További információkat az Azure Redis Cache-sel kompatibilis ügyfélalkalmazások írásáról az [Azure Redis Cache dokumentációjában](https://azure.microsoft.com/documentation/services/cache/) talál. A [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Basics.md) is tartalmaz további tudnivalókat.
 
-A lap [folyamatok és multiplexers](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) ugyanazt a webhelyet az aszinkron műveletek és a Redis és StackExchange szalagtár futószalagos további információt nyújt.  Ebben a cikkben a Redis gyorsítótár, a következő szakaszban néhány speciális módszert, amely használatban van a Redis gyorsítótár adatokkal alkalmazható példákat tartalmaz.
+Az ugyanezen a webhelyen található, [folyamatokkal és multiplexerekkel](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) foglalkozó oldalon további információkat talál az aszinkron műveletekről és az adatcsatornás feldolgozásról a Redis és a StackExchange kódtár használatával.  A cikk következő részében (A Redis-gyorsítótárazás használata) példákat talál olyan, a gyakorlott felhasználóknak való technikákra, amelyeket a Redis-gyorsítótárban tárolt adatokon alkalmazhat.
 
-## <a name="using-redis-caching"></a>Redis gyorsítótár használata
-A legegyszerűbb Redis aggályokat gyorsítótárazás használata kulcs-érték párok ahol az érték egy tetszőleges hosszúságú bináris adatokat tartalmazó nem értelmezett karakterlánc. (Lényegében bájttömb karakterláncként kezelhető szó). Ebben a forgatókönyvben lett mutatja be a szakasz megvalósítása Redis Cache ügyfélalkalmazások az ebben a cikkben.
+## <a name="using-redis-caching"></a>A Redis-gyorsítótárazás használata
+A gyorsítótárazás során a Redis legegyszerűbben kulcs-érték párok formájában használható, ahol az érték egy tetszőleges hosszúságú, nem értelmezett sztring, amely bármilyen bináris adatot tartalmazhat. (Ez alapvetően egy sztringként kezelhető bájttömb). Ezt a forgatókönyvet a jelen cikk korábbi, „Redis gyorsítótár-ügyfélalkalmazások megvalósítása” című szakaszában mutattuk be.
 
-Vegye figyelembe, hogy kulcsok nem értelmezett olyan adatokat is tartalmazhat, így minden bináris adatot kulcsként. Minél hosszabb a kulcsot meg kell azonban a több helyet fog tartani, amíg tárolja, és annál tovább fog tartani, amíg keresési műveletek végrehajtásához. A használhatóság és a könnyű karbantartási gondosan tervezése a kulcstérértesítések használatával, és használjon értelmezhető (de nem részletes) kulcsokat.
+Vegye figyelembe, hogy a kulcsok nem értelmezett adatokat is tartalmaznak, így bármilyen bináris adat használható kulcsként. Minél hosszabb azonban a kulcs, a tárolás során annál több helyet foglal, és annál hosszabb ideig tart a keresési műveletek végrehajtása. A használhatóság és az egyszerű karbantartás érdekében gondosan tervezze meg a kulcsterületet, és használjon jelentéssel bíró (de ne túl részletes) kulcsokat.
 
-Például strukturált kulcsok, például a "felhasználói: 100" segítségével egyszerűen "100" helyett azonosító 100 az ügyfél a kulcsot jelöl. Ez a séma lehetővé teszi, hogy egyszerűen megkülönböztetni a tároló adattípusa különböző értékeket. A kulcs a azonosító 100 rendelés képviselő például a "rendelések: 100" kulcsot is használhat.
+Használjon strukturált kulcsokat, amilyen például az „ügyfél:100”, hogy az ügyfélkulcsot a 100-as azonosítóval, ne pedig csak a „100” értékkel jelölje. Ez a séma lehetővé teszi, hogy egyszerűen megkülönböztethessük a különböző adattípusokat tároló értékeket. Használhatja például a „rendelések:100” kulcsot is a 100-as azonosítójú megrendelés kulcsának megjelölésére.
 
-Egydimenziós bináris karakterláncok, leszámítva egy Redis kulcs-érték párokban szereplő érték is tárolható strukturáltabb információt, beleértve a listákat, és állítja be (rendezve és rendezetlen) csak. Redis biztosít átfogó parancsot, hogy ezek a típusok kezelhető, és ezek a parancsok számos StackExchange például egy ügyféloldali kódtára a .NET-keretrendszer alkalmazások. A lap [Redis az adattípusokat és az absztrakt entitással egészült ki bemutatását](http://redis.io/topics/data-types-intro) a Redis a webhely részletes áttekintést nyújt az ezek a típusok és a parancsok, amelyek segítségével kezelheti azokat.
+Az egydimenziós bináris sztringekon kívül a Redis kulcs-érték párok értéke strukturáltabb információkat is tartalmazhat, például listákat, (rendezett vagy nem rendezett) készleteket és kivonatokat. A Redis olyan átfogó parancskészletet biztosít, amely segítségével ezek a típusok módosíthatók, és a parancsok közül a legtöbb elérhető a .NET-keretrendszert használó alkalmazások számára egy ügyfélkódtáron (például a StackExchange-en) keresztül. A típusokról és a módosításukhoz használható parancsokról részletesebb áttekintést a Redis webhelyén elérhető, [a Redis adattípusait és absztrakt entitásait bemutató](https://redis.io/topics/data-types-intro) oldalon talál.
 
-Ez a szakasz néhány gyakori alkalmazási esetei ezeket az adattípusokat és parancsok foglalja össze.
+Ez a szakasz ezen adattípusok és parancsok néhány gyakori felhasználási esetét foglalja össze.
 
-### <a name="perform-atomic-and-batch-operations"></a>Hajtsa végre a atomi és kötegelt műveleteket
-A redis atomi get és set műveletek karakterlánc-értékek több támogatja. Ezeket a műveleteket, távolítsa el a lehetséges versenyhelyzet veszélyek külön használatakor előforduló `GET` és `SET` parancsok. A rendelkezésre álló műveletek a következők:
+### <a name="perform-atomic-and-batch-operations"></a>Atomi és kötegműveletek végrehajtása
+A Redis számos „lekérés és beállítás” típusú atomi műveletet támogat, amelyeket sztringértékeken lehet végrehajtani. E műveletek segítségével kiküszöbölhetők azok a versengésből származó esetleges veszélyek, amelyek a külön `GET` és `SET` parancsok használatakor előfordulhatnak. A rendelkezésre álló műveletek a következők:
 
-* `INCR`, `INCRBY`, `DECR`, és `DECRBY`, amely műveleteket atomi növekmény és csökkentést egész numerikus értékek. A StackExchange kódtár biztosít túlterhelt verziói a `IDatabase.StringIncrementAsync` és `IDatabase.StringDecrementAsync` módszereket hajtsa végre ezeket a műveleteket, és térjen vissza az eredményül kapott érték, amely a gyorsítótárba. A következő kódrészletet mutatja be az alábbi módszerekkel:
+* `INCR`, `INCRBY`, `DECR` és `DECRBY` – ezek atomi növelési és csökkentési műveletek, amelyeket egész számú numerikus adatértékeken lehet végrehajtani. A StackExchange-kódtár biztosítja az `IDatabase.StringIncrementAsync` és `IDatabase.StringDecrementAsync` metódusok túlterhelt verzióit a fenti műveletek elvégzéséhez, és a gyorsítótárban tárolt eredményt adja vissza. A következő kódrészlet ezen metódusok használatát mutatja be:
   
   ```csharp
   ConnectionMultiplexer redisHostConnection = ...;
@@ -499,7 +499,7 @@ A redis atomi get és set műveletek karakterlánc-értékek több támogatja. E
   // Decrement by 50
   // newValue should be 50
   ```
-* `GETSET`, amely lekéri az értéket, amelyet a kulcs van társítva, és nem módosítja azt egy új értékkel. A StackExchange könyvtár művelet keresztül elérhetővé teszi a `IDatabase.StringGetSetAsync` metódust. Az alábbi kódrészlet ezt a módszert példáját mutatja be. Ez a kód a kulcs "adatok: számláló" az előző példából tartozó aktuális értékét adja vissza. Majd azt visszaállítja a kulcs értéke nulla, az összes azonos művelet részeként:
+* `GETSET` – lekéri a kulcshoz társított értéket, és egy új értékre módosítja. A StackExchange-kódtár az `IDatabase.StringGetSetAsync` metóduson keresztül teszi elérhetővé ezt a műveletet. Az alábbi kódrészlet erre a metódusra mutat példát. Ez a kód az előző példából származó „data:counter” (adat:számláló) kulcs aktuális értékét adja vissza. Ezt követően nulla értékre állítja vissza a kulcs értékét, mindezt egyazon művelet részeként:
   
   ```csharp
   ConnectionMultiplexer redisHostConnection = ...;
@@ -507,7 +507,7 @@ A redis atomi get és set műveletek karakterlánc-értékek több támogatja. E
   ...
   string oldValue = await cache.StringGetSetAsync("data:counter", 0);
   ```
-* `MGET`és `MSET`, amelyhez vissza vagy módosítsa egy karakterlánc-értékek beállítása egyetlen műveletben. A `IDatabase.StringGetAsync` és `IDatabase.StringSetAsync` módszerek túlterhelt támogatja ezt a funkciót, hogy a következő példában látható módon:
+* `MGET` és `MSET` – egyetlen műveletként képes visszaadni vagy módosítani sztringértékek egy készletét. Az `IDatabase.StringGetAsync` és `IDatabase.StringSetAsync` metódusok túlterheltek ennek a funkciónak a támogatásához, ahogy a következő példában is látható:
   
   ```csharp
   ConnectionMultiplexer redisHostConnection = ...;
@@ -532,13 +532,13 @@ A redis atomi get és set műveletek karakterlánc-értékek több támogatja. E
 
   ```
 
-A Redis tranzakciók és kötegek szakaszban az ebben a cikkben leírtak Redis egyetlen tranzakció több műveletek is használhatja együttesen. A StackExchange könyvtár támogatást nyújt a tranzakciók keresztül a `ITransaction` felületet.
+Több műveletet is egyesíthet egyetlen Redis-tranzakcióba, ahogy azt a jelen cikk korábbi, „Redis-tranzakciók és -kötegek” című részében ismertettük. A StackExchange-kódtár az `ITransaction` illesztőn keresztül biztosít támogatást a tranzakciók számára.
 
-Létrehozhat egy `ITransaction` objektum használatával a `IDatabase.CreateTransaction` metódust. A tranzakció parancsok meghívásához által biztosított módszerekkel a `ITransaction` objektum.
+Az `ITransaction` objektumok létrehozása az `IDatabase.CreateTransaction` metódussal történik. Az `ITransaction` objektum által biztosított metódusokkal hívhat meg parancsokat a tranzakcióhoz.
 
-A `ITransaction` felületet biztosít hozzáférést módszerek által elért hasonló a `IDatabase` felület, azzal a különbséggel, hogy a metódusok aszinkron jellegűek. Ez azt jelenti, hogy ezeket csak végre, ha a `ITransaction.Execute` meghívott metódus. A által visszaadott érték a `ITransaction.Execute` módszer azt jelzi, hogy a tranzakció sikeresen létrejött-e (igaz) vagy, ha (hamis) sikertelen volt.
+Az `ITransaction` illesztő metódusok olyan készletéhez biztosít hozzáférést, amely hasonló az `IDatabase` illesztőn keresztül elérhetőhöz, de ezek mindegyike aszinkron metódus. Ez azt jelenti, hogy a végrehajtásukra csak az `ITransaction.Execute` metódus meghívásakor kerül sor. Az `ITransaction.Execute` metódus által visszaadott érték azt jelzi, hogy a tranzakció sikeresen létrejött-e (igaz) vagy sem (hamis).
 
-A következő kódrészletet példáját mutatja be, hogy lépésekben, és csökkenti két számlálók ugyanabban a tranzakcióban részeként:
+Az alábbi kódrészlet két számláló ugyanazon tranzakció részeként történő növelésére és csökkentésére mutat példát:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -553,15 +553,15 @@ Console.WriteLine("Result of increment: {0}", tx1.Result);
 Console.WriteLine("Result of decrement: {0}", tx2.Result);
 ```
 
-Ne feledje, hogy a Redis tranzakciók eltérően a relációs adatbázisok tranzakciók. A `Execute` metódus egyszerűen várólisták a tranzakció futtatható alkotó összes parancs, és ha valamelyiket rosszul megformázva majd a tranzakció le van állítva. Ha a parancsok sikeresen várólistára, minden parancs aszinkron módon futtatja.
+Ne feledje, hogy a Redis-tranzakciók eltérnek a relációs adatbázisok tranzakcióitól. Az `Execute` metódus egyszerűen sorba állítja a futtatni kívánt tranzakció összes parancsát, és ha ezek közül bármelyik hibás formátumú, akkor leállítja a tranzakciót. Ha minden parancs sikeresen sorba lett állítva, akkor a futtatásuk aszinkron módon történik.
 
-Ha a parancs sikertelen, a többi feldolgozási továbbra is. Ha vissza kell igazolnia, hogy a parancs sikeresen befejeződött, kell-e a parancs beolvasása használatával a **eredmény** tulajdonság a megfelelő feladat, mint a fenti példában szereplő. Olvasás a **eredmény** tulajdonság letiltja a hívó szál, amíg a feladat befejeződött.
+Ha egy parancs végrehajtása meghiúsul, a többi parancs feldolgozása tovább folytatódik. Ha ellenőriznie kell, hogy egy parancs sikeresen befejeződött-e, akkor a kapcsolódó művelet **Result** (Eredmény) tulajdonsága segítségével kell lekérnie a parancs eredményét, ahogy az a fenti példában látható. A **Result** tulajdonság olvasásakor a rendszer a feladat bejezéséig blokkolja a hívó szálat.
 
-További információkért lásd: a [Redis-tranzakciók](https://stackexchange.github.io/StackExchange.Redis/Transactions) lap a StackExchange.Redis-webhelyen.
+További információkat a StackExchange.Redis webhelyen elérhető, a [Redis-tranzakciókkal](https://stackexchange.github.io/StackExchange.Redis/Transactions) foglalkozó oldalon talál.
 
-Kötegelt műveletek végrehajtásához, használhatja a `IBatch` StackExchange függvénytár felületet. Ez az interfész által elért hasonló módszerek készlete hozzáférést biztosít a `IDatabase` felület, azzal a különbséggel, hogy a metódusok aszinkron jellegűek.
+Kötegműveletek végrehajtásához a StackExchange-kódtár `IBatch` illesztőjét használhatja. Ez az illesztő metódusok olyan készletéhez biztosít hozzáférést, amely hasonló az `IDatabase` illesztőn keresztül elérhetőhöz, de ezek mindegyike aszinkron metódus.
 
-Létrehozhat egy `IBatch` objektum használatával a `IDatabase.CreateBatch` metódust, és futtassa a kötegelt használatával a `IBatch.Execute` metódust, az alábbi példában látható módon. Ez a kód egyszerűen egy olyan karakterláncértéket, lépésekben és csökkenti az előző példában használt ugyanazokat a számlálókat beállítása, és megjeleníti az eredményeket:
+Az `IBatch` objektumok létrehozása az `IDatabase.CreateBatch` metódussal történik, majd az `IBatch.Execute` metódussal futtathatja a köteget, ahogy az alábbi példában látható. Ez a kód egyszerűen beállít egy sztringértéket, növeli és csökkenti az előző példában is használt számlálókat, és megjeleníti az eredményeket:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -576,10 +576,10 @@ Console.WriteLine("{0}", t1.Result);
 Console.WriteLine("{0}", t2.Result);
 ```
 
-Fontos megérteni, hogy eltérően a tranzakció kötegben a parancs futása sikertelen, mert az helytelen formátumú, ha a többi parancs előfordulhat, hogy továbbra is futtassa. A `IBatch.Execute` metódus nem ad vissza semmilyen arra utal, hogy a sikeres vagy sikertelen volt.
+Ne feledje: ha egy kötegbeli parancs hibás formátum miatt meghiúsul, a többi parancs futtatása – a tranzakcióktól eltérően – továbbra is lehetséges marad. Az `IBatch.Execute` metódus nem jelzi, hogy a végrehajtás sikeres vagy sikertelen-e.
 
-### <a name="perform-fire-and-forget-cache-operations"></a>Hajtsa végre a tűz és gyorsítótár-műveletekhez elfelejti
-Támogatja a tűz redis, és műveletek elfelejti jelzők parancs használatával. Ebben a helyzetben az ügyfél egyszerűen indít el egy műveletet, de nem áll az eredmény érdekében, és nem várja meg a parancs végrehajtása. Az alábbi példa bemutatja, hogyan hajtsa végre a tűz INCR parancsot, és elfelejti műveletet:
+### <a name="perform-fire-and-forget-cache-operations"></a>Nem követendő gyorsítótár-műveletek végrehajtása
+A Redis parancsjelzők használatával támogatja a nem követendő műveleteket. Az ilyen műveleteket az ügyfél kezdeményezi, de nem érdekli az eredmény, és nem várja meg a parancs befejeződését. Az alábbi példa egy INCR-parancs nem követendő műveletként való végrehajtását mutatja be:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -590,10 +590,10 @@ await cache.StringSetAsync("data:key1", 99);
 cache.StringIncrement("data:key1", flags: CommandFlags.FireAndForget);
 ```
 
-### <a name="specify-automatically-expiring-keys"></a>Adja meg az automatikusan lejáró kulcsok
-Ha egy elemet a Redis gyorsítótár vannak tárolva, amely után az elem automatikusan törlődni fognak a gyorsítótárból időtúllépés is megadhat. Hogyan jóval több időt egy kulcs tartozik a lejárat előtt is lekérdezhet a `TTL` parancsot. Ez a parancs alkalmazásokhoz is elérhető legyen StackExchange használatával a `IDatabase.KeyTimeToLive` metódust.
+### <a name="specify-automatically-expiring-keys"></a>Automatikusan lejáró kulcsok megadása
+A Redis-gyorsítótárban tárolt elemekhez megadhat egy időtúllépési értéket is, amelynek lejáratát követően a rendszer automatikusan eltávolítja az adott elemet a gyorsítótárból. A `TTL` paranccsal lekérdezheti, hogy mennyi idő van még hátra a kulcs lejártáig. Ezt a parancsot a StackExchange-alkalmazások az `IDatabase.KeyTimeToLive` metódussal érhetik el.
 
-A következő kódrészletet bemutatja, hogyan 20 másodperc lejárati idő egy kulcs, és a kulcs fennmaradó élettartama lekérdezése:
+A következő kódrészlet egy 20 másodperces kulcslejárati idő beállítását és a kulcs hátralévő idejének lekérdezését mutatja be:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -607,7 +607,7 @@ await cache.StringSetAsync("data:key1", 99, TimeSpan.FromSeconds(20));
 TimeSpan? expiry = cache.KeyTimeToLive("data:key1");
 ```
 
-Is is beállíthatja a lejárati idő egy adott dátumot és időpontot a lejárati paranccsal, amelyik elérhető a StackExchange könyvtárban, mint a `KeyExpireAsync` módszert:
+Az EXPIRE parancs használatával a lejárati időt egy meghatározott dátumra és időre is beállíthatja. Ez a parancs a StackExchange-kódtárban érhető el, mint `KeyExpireAsync` metódus:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -621,16 +621,16 @@ await cache.KeyExpireAsync("data:key1",
 ```
 
 > [!TIP] 
-> Manuálisan eltávolíthat egy elemet a gyorsítótár a StackExchange a könyvtárból érhető DEL parancs használatával a `IDatabase.KeyDeleteAsync` metódust.
+> A DEL parancs használatával bármely elemet eltávolíthat a gyorsítótárból. Ez a parancs a StackExchange kódtárban `IDatabase.KeyDeleteAsync` metódusként érhető el.
 
-### <a name="use-tags-to-cross-correlate-cached-items"></a>Kereszt-korrelálja gyorsítótárazott elemek címkék használata
-Egy Redis-készlet, amely egy kulcs megosztása több elem gyűjteménye. Egy készlet a SADD paranccsal hozhat létre. A csoportban lévő cikkek a SMEMBERS paranccsal kérheti le. A StackExchange függvénytár valósítja meg a SADD parancsot a `IDatabase.SetAddAsync` metódust, és a SMEMBERS parancs a `IDatabase.SetMembersAsync` metódust.
+### <a name="use-tags-to-cross-correlate-cached-items"></a>Címkék használata a gyorsítótárazott elemek összevetéséhez
+A Redis-készlet olyan elemek gyűjteménye, amelyek ugyanazt a kulcsot használják. A készletek az SADD paranccsal hozhatók létre. Az adott készletben lévő elemek az SMEMBERS paranccsal kérhetők le. A StackExchange-kódtár az SADD parancsot az `IDatabase.SetAddAsync`, az SMEMBERS parancsot pedig az `IDatabase.SetMembersAsync` metódussal hajtja végre.
 
-A SDIFF (set különbség), a SZINTERELŐ (set metszetének) és a SUNION (set union) parancsok segítségével új szalagoptimalizálási készleteket hozhat létre a meglévő készleteket kombinálhatja is. A szolgáltatás ezen műveletek a StackExchange könyvtárban a `IDatabase.SetCombineAsync` metódust. A metódusnak az első paraméter határozza meg a beállítási művelet végrehajtásához.
+A meglévő készleteket új készletek létrehozásához az SDIFF (különbség beállítása), az SINTER (metszet beállítása) és az SUNION (unió beállítása) parancsok használatával egyesítheti. A StackExchange-kódtár ezeket a műveleteket az `IDatabase.SetCombineAsync` metódusban egyesíti. A metódus első paramétere az elvégzendő műveletet határozza meg.
 
-Az alábbi kódtöredékek bemutatják, hogyan beállítása gyorsan tárolja, és beolvassa a kapcsolódó elemek gyűjteményei hasznos lehet. Ezt a kódot használja a `BlogPost` megvalósítása Redis gyorsítótár ügyfélalkalmazások szakaszában az ebben a cikkben ismertetett típusa.
+Az alábbi kódrészletek azt mutatják be, hogyan alkalmazhatók a készletek a kapcsolódó elemek gyűjteményének gyors tárolására és lekérdezésére. A kód által használt `BlogPost` típust a jelen cikk korábbi, „Redis gyorsítótár-ügyfélalkalmazások megvalósítása” című szakaszában mutattuk be.
 
-A `BlogPost` objektum négy mezőt tartalmaz – egy Azonosítót, cím, egy rangsorolási pontszám és címkék gyűjteménye. Az első kódrészletben látható a mintaadatok a C# listájának feltöltéséhez használt `BlogPost` objektumok:
+A `BlogPost` objektum a következő négy mezőt tartalmazza: azonosító, cím, rangsorolási pontszám és címkék gyűjteménye. Az alábbi első kódrészlet azokat a mintaadatokat mutatja be, amelyeket a rendszer a `BlogPost` objektumok C# listájának feltöltéséhez használ:
 
 ```csharp
 List<string[]> tags = new List<string[]>
@@ -664,7 +664,7 @@ for (int i = 0; i < numberOfPosts; i++)
 }
 ```
 
-A címkék az egyes tárolhatja `BlogPost` objektum a Redis gyorsítótár készletként, és rendelje hozzá minden Azonosítóját a `BlogPost`. Ez lehetővé teszi az alkalmazás gyorsan megtalálhatja a címkék, amelyek egy adott blogbejegyzést. Az ellenkező irányba keresés engedélyezéséhez, és minden blogbejegyzések, amelyek egy adott címke található, létrehozhat egy másik készlet, amely tárolja a blogbejegyzéseket, a kulcs a Címkeazonosító hivatkozik:
+Az egyes `BlogPost` objektumokhoz tartozó címkéket tárolhatja készletként egy Redis-gyorsítótárban, és minden egyes készlethez hozzárendelheti a `BlogPost` azonosítóját. Ez teszi lehetővé az alkalmazások számára, hogy gyorsan megtalálják az adott blogbejegyzéshez tartozó összes címkét. Az ellenkező irányban végzett keresés engedélyezéséhez és egy adott címkével ellátott összes blogbejegyzés megkereséséhez létrehozhat egy másik készletet, amely a kulcsban található címkeazonosítóra hivatkozó blogbejegyzéseket tartalmazza:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -688,7 +688,7 @@ foreach (BlogPost post in posts)
 }
 ```
 
-Ezen szerkezetek lehetővé teszik a nagyon hatékonyan számos gyakori lekérdezések végrehajtásához. Például található, és megjeleníti a blogbejegyzést 1 ilyen címkék:
+Ezzel a struktúrával sok gyakori lekérdezés nagyon hatékonyan végrehajtható. Megkeresheti és megjelenítheti például az 1. blogbejegyzés összes címkéjét, a következőhöz hasonlóan:
 
 ```csharp
 // Show the tags for blog post #1
@@ -698,7 +698,7 @@ foreach (var value in await cache.SetMembersAsync("blog:posts:1:tags"))
 }
 ```
 
-Található, amelyek közösek a blogban található összes kódcímkének 1 és blog post 2 utáni végrehajtásával set metszetének, az alábbiak szerint:
+Az 1. és a 2. blogbejegyzés közös címkéit a következő, metszést beállító művelettel keresheti meg:
 
 ```csharp
 // Show the tags in common for blog posts #1 and #2
@@ -709,7 +709,7 @@ foreach (var value in await cache.SetCombineAsync(SetOperation.Intersect, new Re
 }
 ```
 
-És egy adott címkét tartalmazó összes blogbejegyzések található:
+Így pedig megkereshet minden olyan blogbejegyzést, amely egy adott címkét tartalmaz:
 
 ```csharp
 // Show the ids of the blog posts that have the tag "iot".
@@ -719,12 +719,12 @@ foreach (var value in await cache.SetMembersAsync("tag:iot:blog:posts"))
 }
 ```
 
-### <a name="find-recently-accessed-items"></a>Keresés a nemrégiben elért elemek
-A közös számos más alkalmazáshoz szükséges feladata a legtöbb nemrégiben elért elemek kereséséhez. Például egy bloggolás helyet érdemes a közelmúltban olvasási blogbejegyzések kapcsolatos információk megjelenítéséhez.
+### <a name="find-recently-accessed-items"></a>Legutóbb elért elemek megkeresése
+Számos alkalmazás esetében szükség van a legutóbb elért elemek megkeresésére. Előfordulhat például, hogy egy blog információkat szeretne megjeleníteni a legutóbb olvasott blogbejegyzésekről.
 
-Ez a funkció a Redis lista használatával valósíthatja meg. Egy Redis lista több, azonos kulccsal rendelkező elem tartalmazza. A listában úgy működik, mint a kettős várólista. Elemek akkor leküldése vagy a lista végére, LPUSH (bal oldali leküldéses) és RPUSH (jobb oldali leküldéses) parancsok használatával. A lista másik végén elemek beolvasható a LPOP és RPOP parancsokkal. Elemek egy csoportjának a LRANGE és elrendezése paranccsal is vissza.
+Ez a feladat egy Redis-lista segítségével hajtható végre. A Redis-lista olyan elemeket tartalmaz, amelyek ugyanazt a kulcsot használják. A lista kétvégű üzenetsorként működik. Az elemeket a lista bármelyik végére leküldheti az LPUSH (leküldés balra) és az RPUSH (leküldés jobbra) paranccsal. Az elemeket a lista bármelyik végéről lekérdezheti az LPOP és az RPOP paranccsal. Elemkészlet is visszaadható az LRANGE és RRANGE parancsokkal.
 
-Az alábbi kódtöredékek bemutatják, hogyan végezheti el ezeket a műveleteket a StackExchange könyvtár használatával. Ezt a kódot használja a `BlogPost` az előző példákban típusa. Blogbejegyzés az Olvasás, felhasználó által a `IDatabase.ListLeftPushAsync` metódus leküldéses értesítések a kulcsot a Redis cache "blog:recent_posts" társított listáját, a blogbejegyzés címe.
+Az alábbi kódrészletek azt mutatják be, hogyan végezhetők el ezek a műveletek a StackExchange-kódtár használatával. Ez a kód az előző példa `BlogPost` típusát használja. Mivel a blogbejegyzéseket felhasználók olvassák, az `IDatabase.ListLeftPushAsync` metódus a blogbejegyzés címét egy olyan listára küldi le, amely a Redis-gyorsítótárban lévő „blog: recent_posts” kulcshoz van társítva.
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -736,9 +736,9 @@ await cache.ListLeftPushAsync(
     redisKey, blogPost.Title); // Push the blog post onto the list
 ```
 
-További blogbejegyzések olvasható, mert a címben vannak fejlesztőre ugyanazt a listát. A lista a sorozatot, amely címének lettek hozzáadva van rendezve. A közelmúltban olvasási blogbejegyzések vannak a listán bal oldali vége felé. (Ha azonos blogbejegyzést csak egyszer olvasható, azt kell több bejegyzést a listában.)
+Ahogy a felhasználók további blogbejegyzéseket olvasnak el, azok címeit is ugyanarra a listára küldi le a rendszer. A lista rendezésére a címek hozzáadási sorrendjében kerül sor. A legutóbb olvasott blogbejegyzések a lista bal oldalán jelennek meg. (Ha ugyanazt a blogbejegyzést többször is olvasták, több bejegyzésben is szerepel a listában.)
 
-A címek nemrég olvasási helyek használatával jelenítheti meg a `IDatabase.ListRange` metódust. Ez a módszer a kulcs a listában, egyfajta kiindulópontot és egy záró pontot tartalmazó vesz igénybe. A következő kód lekéri a 10 blogbejegyzések (elem 0-9) a bal szélső végén a lista címeit:
+A legutóbb olvasott bejegyzések címeit az `IDatabase.ListRange` metódussal jelenítheti meg. Ez a metódus a listát alkotó kulcsot, valamint a kiindulási és a végpontot használja. A következő kód 10 blogbejegyzés címét (0–9. elem) kérdezi le a lista bal oldali végéről:
 
 ```csharp
 // Show latest ten posts
@@ -748,18 +748,18 @@ foreach (string postTitle in await cache.ListRangeAsync(redisKey, 0, 9))
 }
 ```
 
-Vegye figyelembe, hogy a `ListRangeAsync` metódus nem elem eltávolítása a listából. Ehhez használhatja a `IDatabase.ListLeftPopAsync` és `IDatabase.ListRightPopAsync` módszerek.
+Vegye figyelembe, hogy a `ListRangeAsync` metódus nem távolít el elemeket a listáról. Erre az `IDatabase.ListLeftPopAsync` és `IDatabase.ListRightPopAsync` metódusokat használhatja.
 
-Ha szeretné megakadályozni a lista növekvő határozatlan ideig, rendszeres időközönként a lista segítségével is selejtezett elemeket. Az alábbi kódrészlet bemutatja, hogyan távolítsa el az összes, de az öt bal szélső elemet a listából:
+Ha nem szeretné, hogy a lista folyamatosan egyre hosszabb legyen, rendszeres időközönként kiselejtezhet elemeket a listáról. Az alábbi kódrészlet azt mutatja be, hogyan távolítható el az összes elem a listáról az öt bal szélső elem kivételével:
 
 ```csharp
 await cache.ListTrimAsync(redisKey, 0, 5);
 ```
 
-### <a name="implement-a-leader-board"></a>Alkalmazzon olyan vezető kártya
-Alapértelmezés szerint a csoportban lévő elemek nem tartják megadott sorrendben. Egy rendezett sorozata az ZADD paranccsal hozhat létre (a `IDatabase.SortedSetAdd` metódus a StackExchange könyvtárban). Az elemek egy numerikus érték, egy pontszám, amely egy paramétert a parancshoz nevű használatával vannak rendezve.
+### <a name="implement-a-leader-board"></a>Ranglista létrehozása
+Alapértelmezett esetben a készletekben lévő elemek nincsenek meghatározott sorrendbe állítva. A készleteket a ZADD paranccsal (a StackExchange-kódtár `IDatabase.SortedSetAdd` metódusával) rendszerezheti. A tételek rendezése egy pontszámnak nevezett numerikus érték használatával történik, amelyet paraméterként adunk meg a parancs számára.
 
-A következő kódrészletet ad hozzá egy blogbejegyzést címe sorrendbe állított listáját. Ebben a példában minden egyes blogbejegyzést is, amely tartalmazza a prioritást, a blogbejegyzés pontszám mezőt tartalmaz.
+Az alábbi kódrészlet egy blogbejegyzés címét adja hozzá egy rendezett listához. Ebben a példában mindegyik blogbejegyzéshez tartozik egy-egy pontszám mező is, amely a blogbejegyzés rangsorolását tartalmazza.
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -770,7 +770,7 @@ BlogPost blogPost = ...; // Reference to a blog post that has just been rated
 await cache.SortedSetAddAsync(redisKey, blogPost.Title, blogPost.Score);
 ```
 
-A blog post címét és pontszámok növekvő pontszám sorrendben használatával kérheti le a `IDatabase.SortedSetRangeByRankWithScores` módszert:
+A blogbejegyzések címeit és pontszámait növekvő sorrendben az `IDatabase.SortedSetRangeByRankWithScores` metódussal lehet lekérdezni:
 
 ```csharp
 foreach (var post in await cache.SortedSetRangeByRankWithScoresAsync(redisKey))
@@ -780,11 +780,11 @@ foreach (var post in await cache.SortedSetRangeByRankWithScoresAsync(redisKey))
 ```
 
 > [!NOTE]
-> A StackExchange kódtár is biztosít a `IDatabase.SortedSetRangeByRankAsync` metódus, amely visszaadja az adatokat a pontszám sorrendben, de nem ad vissza a pontszámok.
+> A StackExchange-kódtár az `IDatabase.SortedSetRangeByRankAsync` metódust is biztosítja, amely az eredményeket pontszám szerinti sorrendben adja vissza, de nem adja vissza a pontszámokat.
 > 
 > 
 
-Is beolvashatja csökkenő sorrendben a pontszámok elemeket, és a további paraméterek megadásával visszaadott tételszámának korlátozása a `IDatabase.SortedSetRangeByRankWithScoresAsync` metódust. A következő példában a címek és a felső 10 rangsorolt blogbejegyzések eredményét jeleníti meg:
+Az elemek csökkenő pontszám szerinti sorrendben is lekérdezhetők, illetve korlátozható a visszaadott elemek száma, ha további paramétereket adunk meg az `IDatabase.SortedSetRangeByRankWithScoresAsync` metódusnak. A következő példa a 10 legmagasabb pontszámmal rendelkező blogbejegyzés címét és pontszámát jeleníti meg:
 
 ```csharp
 foreach (var post in await cache.SortedSetRangeByRankWithScoresAsync(
@@ -794,7 +794,7 @@ foreach (var post in await cache.SortedSetRangeByRankWithScoresAsync(
 }
 ```
 
-A következő példában a `IDatabase.SortedSetRangeByScoreWithScoresAsync` metódus, amely segítségével a rendszer visszairányítja az alábbiakhoz egy adott pontszám esik cikkek tartomány:
+A következő példa az `IDatabase.SortedSetRangeByScoreWithScoresAsync` metódust használja, amellyel egy adott pontszámtartományra korlátozható a visszaadott elemek köre:
 
 ```csharp
 // Blog posts with scores between 5000 and 100000
@@ -805,12 +805,12 @@ foreach (var post in await cache.SortedSetRangeByScoreWithScoresAsync(
 }
 ```
 
-### <a name="message-by-using-channels"></a>Üzenet csatornák használatával
-Egy adatgyorsítótár működött, leszámítva a Redis-kiszolgáló egy nagy teljesítményű publisher/előfizető mechanizmus üzenetküldést biztosít. Ügyfélalkalmazások kérhet le egy csatornát, és más alkalmazások vagy szolgáltatások üzenetek közzéteheti a csatornára. Alkalmazások előfizetés kapja meg ezeket az üzeneteket, és tud feldolgozni.
+### <a name="message-by-using-channels"></a>Üzenetküldés csatornák használatával
+Amellett, hogy gyorsítótárként működnek, a Redis-kiszolgálók nagy teljesítményű közzétevői/előfizetői mechanizmuson alapuló üzenetküldésre is használhatók. Az ügyfélalkalmazások előfizethetnek egy csatornára, amelyen más alkalmazások vagy szolgáltatások üzeneteket tudnak közzétenni. Az előfizetéssel rendelkező alkalmazások megkapják ezeket az üzeneteket, és fel tudják őket dolgozni.
 
-Redis biztosít az ügyfélalkalmazások fizet elő csatornák ELŐFIZETÉS parancsot. Ez a parancs egy vagy több csatornát, amikor az alkalmazás fogad üzeneteket neve vár. A StackExchange könyvtár magában foglalja a `ISubscription` felület, amely lehetővé teszi a .NET-keretrendszer alkalmazás előfizetés, és tegye közzé az csatornák.
+A Redis a SUBSCRIBE parancsot biztosítja az ügyfélalkalmazások számára a csatornákra való előfizetéshez. Ez a parancs egy vagy több olyan csatorna nevét várja, amelyen az alkalmazás fogadja az üzeneteket. A StackExchange-kódtár tartalmazza az `ISubscription` illesztőt, amely lehetővé teszi a .NET-keretrendszert használó alkalmazások számára a csatornákra való előfizetést és a rajtuk történő közzétételt.
 
-Létrehozhat egy `ISubscription` objektum használatával a `GetSubscriber` metódus a Redis-kiszolgáló csatlakozik. Majd a használatával figyelni a csatornán üzenetek a `SubscribeAsync` metódus az objektum. Az alábbi példakód bemutatja, hogyan előfizetni a csatorna "üzenetek: blogPosts" nevű:
+Az `ISubscription`-objektumot a Redis-kiszolgálóhoz történő kapcsolódás `GetSubscriber` metódusával lehet létrehozni. Ezt követően a csatorna üzeneteit ennek az objektumnak a `SubscribeAsync` metódusával figyelheti. A következő példakód azt mutatja be, hogyan lehet előfizetni a „messages:blogPosts” nevű csatornára:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -819,13 +819,13 @@ ISubscriber subscriber = redisHostConnection.GetSubscriber();
 await subscriber.SubscribeAsync("messages:blogPosts", (channel, message) => Console.WriteLine("Title is: {0}", message));
 ```
 
-Az első paraméterben a `Subscribe` módszer a csatorna nevét. Ez a név a gyorsítótárban kulcsok által használt azonos szabályokat követi. A név tartalmazhat bináris adatokat, de ajánlott viszonylag rövid, jelentéssel bíró karakterláncok használatával biztosíthatja a megfelelő teljesítmény és karbantartási követelmények.
+A `Subscribe` metódus számára megadott első paraméter a csatorna neve. Erre a névre ugyanazok a konvenciók vonatkoznak, mint a gyorsítótár kulcsaira. A név tartalmazhat bármilyen bináris adatot, bár ajánlott viszonylag rövid, jelentéssel bíró sztringekat használni a megfelelő teljesítmény és karbantarthatóság érdekében.
 
-Azt is fontos megjegyezni, hogy a csatorna által használt névtér nem csatlakozik, kulcsok használatával. Ez azt jelenti, hogy lehet csatornák és kulcsok, azonos nevű, bár ez lehetséges, hogy az alkalmazás kódjában nehezebb karbantartása.
+Vegye figyelembe azt is, hogy a csatornák által használt névtér el van választva a kulcsok által használt névtértől. Ez azt jelenti, hogy azonos nevű csatornák és kulcsok is előfordulhatnak, bár ez megnehezítheti az alkalmazáskód karbantartását.
 
-A második paraméter nem egy művelet delegált. Ez a delegált aszinkron módon fut, amikor egy új üzenet jelenik meg, a csatornán. Ez a példa egyszerűen megjeleníti az üzenet a konzol (az üzenet tartalmaz egy blogbejegyzést címe).
+A második paraméter egy Művelet delegált. Ezt a delegáltat a rendszer aszinkron módon lefuttatja, amikor egy új üzenet jelenik meg a csatornán. Ebben a példában az üzenet egyszerűen megjelenik a konzolon (az üzenet tartalmazza a blogbejegyzés címét).
 
-A csatorna való közzétételéhez egy alkalmazás paranccsal a Redis közzététele. A StackExchange kódtár biztosít a `IServer.PublishAsync` is végrehajthatja ezt a műveletet. A következő kódrészletet a "üzenetek: blogPosts" csatorna közzététele egy üzenetet jeleníti meg:
+A csatornán történő közzétételéhez az alkalmazások a Redis PUBLISH parancsát használják. Ezen művelet végrehajtásához a StackExchange-kódtár az `IServer.PublishAsync` metódust biztosítja. A következő kódrészlet azt mutatja be, hogyan lehet üzenetet közzétenni a „messages:blogPosts” nevű csatornán:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -835,11 +835,11 @@ BlogPost blogPost = ...;
 subscriber.PublishAsync("messages:blogPosts", blogPost.Title);
 ```
 
-Ismerje meg a közzétételi/feliratkozási mechanizmusa kapcsolatos számos olyan pontja van:
+A közzétevői/előfizetői mechanizmus fontos jellemzői:
 
-* Több előfizető előfizetni, ugyanazt a csatornát, és azok összes üzeneteket fogja kapni az adott csatornán közzétett.
-* Előfizetők csak után azok előfizetett közzétett üzenetek fogadására. Csatornák nem pufferelt, és miután közzétette az üzenetet, a Redis-infrastruktúra leküldi mindegyik előfizető az üzenetet, és eltávolítja azt.
-* Alapértelmezés szerint az üzenetek az elküldés vannak előfizetők által fogadott. Egy magas active rendszerben nagy számú üzenetek és sok előfizetők és a közzétevők üzenetek garantált szekvenciális kézbesítését lelassíthatja a rendszer teljesítményét. Ha minden üzenet független sorrendje nem lényeges, csak, párhuzamos feldolgozása engedélyezheti a Redis rendszer, így válaszkészsége javítása. Lehet ezt elérni StackExchange ügyfélprogram úgy, hogy a false értékre az előfizető által használt kapcsolat PreserveAsyncOrder:
+* Több előfizető is feliratkozhat ugyanarra a csatornára, és mindegyik megkapja az adott csatornán közzétett üzeneteket.
+* Az előfizetők csak azokat az üzeneteket kapják meg, amelyeket az előfizetés időpontját követően tettek közzé. A csatornák nem puffereltek, és az üzenet közzétételét követően a Redis-infrastruktúra minden egyes előfizetőnek leküldi az üzenetet, majd eltávolítja azt.
+* Alapértelmezés szerint az előfizetők az üzeneteket az elküldés sorrendjében kapják meg. Nagy aktivitást mutató, nagy számú üzenettel, illetve sok előfizetővel és közzétevővel rendelkező rendszerek esetében az üzenetek garantáltan sorrendben történő kézbesítése csökkentheti a rendszer teljesítményét. Ha az üzenetek egymástól függetlenek, és a sorrendjük nem lényeges, engedélyezheti a Redis-rendszer számára az egyidejű feldolgozást, amely révén javítható a válaszképesség. Ez egy StackExchange-ügyfélben úgy valósítható meg, hogy az előfizető által használt kapcsolat PreserveAsyncOrder paraméternél a „hamis” értéket adja meg:
 
 ```csharp
 ConnectionMultiplexer redisHostConnection = ...;
@@ -847,55 +847,54 @@ redisHostConnection.PreserveAsyncOrder = false;
 ISubscriber subscriber = redisHostConnection.GetSubscriber();
 ```
 
-### <a name="serialization-considerations"></a>Szerializálási kapcsolatos szempontok
+### <a name="serialization-considerations"></a>Szerializálási szempontok
 
-Ha úgy dönt, a szerializálási formátum, fontolja meg a mellékhatásokkal között teljesítmény, együttműködés, versioning, a meglévő rendszerek, adatok tömörítése és Memóriaterhelést való kompatibilitást. Amikor teljesítmény értékelése, ne feledje, hogy referenciaalapok nagymértékben függ a környezetben. A munkaterhelések tényleges nem tükrözik, és újabb függvénytárak vagy a verzió nem tekinti. Nem minden forgatókönyvben egy "leggyorsabb" szerializálót van. 
+Amikor kiválaszt egy szerializálási formátumot, fontolja meg a teljesítmény, az együttműködési lehetőségek, a verziókezelés, a meglévő rendszerekkel fennálló kompatibilitás, az adatok tömörítése és a memóriaterhelés terén érvényesíthető kompromisszumokat. A teljesítmény kiértékelése során ne feledje, hogy a referenciaértékek nagymértékben függnek a környezettől. Előfordulhat, hogy nem tükrözik a tényleges számítási feladatok hatását, és nem feltétlenül veszik figyelembe az újabb kódtárakat vagy verziókat. Különböző alkalmazási helyzetekben különböző szerializálók bizonyulhatnak a leghatékonyabbnak. 
 
-Figyelembe kell venni néhány lehetőségek a következők:
+Szóba jöhető lehetőségek:
 
-- [Protokoll pufferek](https://github.com/google/protobuf) (is hívott protobuf) a strukturált adatok hatékonyan Google által fejlesztett szerializálási formátum. Adja meg az üzenet struktúrák szigorú típusmegadású definíciós fájlokat használja. A definíciós fájlok majd összeállítása a szerializálása és deszerializálása üzenetek nyelvspecifikus kódját. Protobuf használhatja meglévő RPC mechanizmusok keresztül, vagy hozhat létre a egy RPC szolgáltatás.
+- [Protokollpufferek](https://github.com/google/protobuf) (más néven protopuf): a Google által kifejlesztett szerializációs formátum a strukturált adatok hatékony szerializálásához. Ez a módszer az üzenetstruktúrák meghatározásához szigorú típusmegadású definíciós fájlokat használ. A rendszer a későbbiekben ezekből a definíciós fájlokból állít össze egy nyelvspecifikus kódot az üzenetek szerializálásához és deszerializálásához. A protopuf a meglévő RPC-mechanizmusokhoz is használható, de egy új RPC-szolgáltatást is létre tud hozni.
 
-- [Apache Thrift](https://thrift.apache.org/) használ, egy hasonló módszert használja, szigorú típusmegadású definíciós fájlokat, és egy fordítási lépés a szerializálási kódot és az RPC szolgáltatásokat.  
+- Az [Apache Thrift](https://thrift.apache.org/) hasonló megközelítést alkalmaz, szigorú típusmegadású definíciós fájlokkal és egy fordítási lépéssel a szerializálási kód és az RPC-szolgáltatások létrehozásához.  
 
-- [Apache Avro](https://avro.apache.org/) protokoll Buffers és Thrift, hasonló szolgáltatásokat nyújt, de nincs összeállítása lépés. Ehelyett a szerializált adatok mindig tartalmazza a séma, amely leírja a struktúra. 
+- Az [Apache Avro](https://avro.apache.org/) funkciói hasonlóak a protokollpufferekhez és a Thrifthez, de hiányzik belőle a fordítási lépés. Ehelyett a szerializált adatok mindig tartalmaznak egy olyan sémát, amelyek leírják a struktúrát. 
 
-- [JSON](http://json.org/) emberek számára olvasható szövegmező használó nyílt szabvány. Széles körű többplatformos támogatást tartalmaz. JSON üzenet sémák nem használja. Folyamatban egy szöveges formátumú, nincs nagyon hatékony a hálózaton keresztül. Néhány esetben azonban, előfordulhat, hogy adnak vissza gyorsítótárazott elemek közvetlenül az ügyfél ebben az esetben tárolása JSON mentése volt egy másik formátumból deszerializálása során, és JSON majd szerializálása költsége HTTP-n keresztül.
+- A [JSON](https://json.org/) egy felhasználók számára olvasható szövegmezőket használó nyílt szabvány, amely széleskörű, platformfüggetlen támogatást biztosít. A JSON nem használ üzenetsémákat. Mivel szöveges formátumról van szó, a hálózaton keresztüli továbbítása nem túl hatékony. Bizonyos esetekben azonban előfordulhat, hogy a gyorsítótárazott elemeket HTTP-kapcsolaton keresztül küldi vissza közvetlenül az ügyfélnek, amely esetben a JSON formátumban történő tárolással megtakarítható a más formátumról történő deszerializálás, majd a JSON formátumra való szerializálás költsége.
 
-- [BSON](http://bsonspec.org/) JSON hasonló struktúrával használó bináris szerializálási formátum. BSON úgy lett kialakítva, egyszerűsített, hogy könnyen és gyors szerializálása és deszerializálása, JSON viszonyítva kell lennie. Hasznos adat található hasonlóak mérete JSON. Attól függően, hogy az adatok egy BSON hasznos lehet kisebb vagy nagyobb, mint a JSON hasznos adatok között. BSON van néhány további adattípusok, amelyek nem érhetők el a JSON-ban, ilyen például a BinData (a byte tömbökben) és a dátum.
+- A [BSON](http://bsonspec.org/) egy, a JSON-hoz hasonló struktúrát használó, bináris szerializálási formátum. A BSON formátum kialakítása során a cél az volt, hogy a JSON-hoz képest kisebb méretű, könnyebben beolvasható, gyorsabban szerializálható és deszerializálható legyen. A hasznos adatok mérete a JSON-éhoz hasonló. Az adatoktól függően a BSON hasznos adatainak mérete kisebb vagy nagyobb is lehet a JSON-énál. A BSON rendelkezik néhány olyan adattípussal, amelyek nem érhetők el a JSON-ban. Ilyen például a BinData (bájttömbökhöz) és a Date (Dátum).
 
-- [MessagePack](http://msgpack.org/) , amely a hálózaton keresztül kell számára az átvitelhez kompakt bináris szerializálási formátum. Nincsenek üzenet sémák vagy üzenet típusa ellenőrzése.
+- A [MessagePack](https://msgpack.org/) egy olyan bináris szerializálási formátum, amely kellőképpen kis méretű a hálózaton keresztüli átvitelhez. A MessagePack nem alkalmaz üzenetsémákat vagy üzenettípus-ellenőrzést.
 
-- [Kötés](https://microsoft.github.io/bond/) platformfüggetlen keretrendszere, amely sematizált adatok használata. Támogatja a többnyelvű szerializálása és deszerializálása. Figyelmet a jelentősebb eltérések a más rendszerekkel, az itt felsorolt támogatja az öröklési, típus és általánosítási. 
+- A [Bond](https://microsoft.github.io/bond/) egy olyan platformfüggetlen keretrendszer, amely sematikus adatok kezelésére lett kifejlesztve. A Bond támogatja a nyelvek közötti szerializálást és deszerializálást. Az itt felsorolt egyéb rendszerekhez képest jelentősebb eltérés, hogy támogatja az öröklést, a típusaliasokat és az általánosítást. 
 
-- [gRPC](http://www.grpc.io/) egy nyílt forráskódú Google által fejlesztett RPC rendszer. Alapértelmezés szerint protokoll pufferek az adatdefiníciós nyelv és az alapjául szolgáló üzenet interchange formátum használ.
+- A [gRPC](https://www.grpc.io/) egy nyílt forráskódú, a Google által kifejlesztett RPC-rendszer. A gRPC alapértelmezés szerint protokollpuffereket használ definíciós nyelvként és az alapul szolgáló üzenetváltási formátumként.
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintát is lehet a forgatókönyvhöz kapcsolódó, az alkalmazások gyorsítótárazás bevezetésekor:
+Az adott forgatókönyv a következő minták használatát is meghatározhatja, amikor kiépíti a gyorsítótárazást az alkalmazásaiban:
 
-* [Gyorsítótár-tartalékoljon mintát](http://msdn.microsoft.com/library/dn589799.aspx): Ebben a mintában az igény szerinti adatok betöltése a gyorsítótárba egy adattárból ismerteti. Ez a minta biztosítja az egységességet a gyorsítótárban tartott és az adatok az eredeti adattárolóban között is segíti.
-* A [horizontális mintát](http://msdn.microsoft.com/library/dn589797.aspx) vízszintes particionálási tárolásakor méretezhetőség javítása érdekében, és nagy mennyiségű adat elérésekor végrehajtási információt nyújt.
+* [Gyorsítótár-feltöltési minta](../patterns/cache-aside.md): Ez a minta azt írja le, hogyan tölti be az igényelt adatokat az adattárból a gyorsítótárba. Segítségével arról is gondoskodni lehet, hogy a gyorsítótárban tárolt és az eredeti adattárban lévő adatok konzisztensek maradjanak.
+* A [horizontális skálázási minta](../patterns/sharding.md) információkat biztosít a vízszintes particionálás megvalósításáról a méretezhetőség javításához, amikor nagy adatmennyiségeket kell tárolni és hozzáférhetővé tenni.
 
 ## <a name="more-information"></a>További információ
-* A [MemoryCache osztály](http://msdn.microsoft.com/library/system.runtime.caching.memorycache.aspx) oldalon, a Microsoft webhelyén
-* A [Azure Redis Cache dokumentáció](https://azure.microsoft.com/documentation/services/cache/) oldalon, a Microsoft webhelyén
-* A [Azure Redis Cache – gyakori kérdések](/azure/redis-cache/cache-faq) oldalon, a Microsoft webhelyén
-* A [konfigurációs modell](http://msdn.microsoft.com/library/windowsazure/hh914149.aspx) oldalon, a Microsoft webhelyén
-* A [feladatalapú aszinkron mintát](http://msdn.microsoft.com/library/hh873175.aspx) oldalon, a Microsoft webhelyén
-* A [folyamatok és multiplexers](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) oldalon, a StackExchange.Redis GitHub-tárház
-* A [Redis-adatmegőrzés](http://redis.io/topics/persistence) a Redis-webhelyen lap
-* A [replikációs lap](http://redis.io/topics/replication) a Redis-webhelyen
-* A [Redis-fürt oktatóanyag](http://redis.io/topics/cluster-tutorial) a Redis-webhelyen lap
-* A [particionálására: hogyan adatok több Redis-példány között](http://redis.io/topics/partitioning) a Redis-webhelyen lap
-* A [használatával Redis, mint egy LRU gyorsítótár](http://redis.io/topics/lru-cache) a Redis-webhelyen lap
-* A [tranzakciók](http://redis.io/topics/transactions) a Redis-webhelyen lap
-* A [biztonsági Redis](http://redis.io/topics/security) a Redis-webhelyen lap
-* A [körül Azure Redis Cache Lap](https://azure.microsoft.com/blog/2014/06/04/lap-around-azure-redis-cache-preview/) oldalon, az Azure blog
-* A [a CentOS Linux virtuális gép az Azure-ban futó Redis](http://blogs.msdn.com/b/tconte/archive/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure.aspx) oldalon, a Microsoft webhelyén
-* A [ASP.NET munkamenetállapot-szolgáltatóját az Azure Redis Cache](/azure/redis-cache/cache-aspnet-session-state-provider) oldalon, a Microsoft webhelyén
-* A [az ASP.NET kimeneti gyorsítótár-szolgáltató Azure Redis Cache](/azure/redis-cache/cache-aspnet-output-cache-provider) oldalon, a Microsoft webhelyén
-* A [Redis az adattípusokat és az absztrakt entitások bevezetés](http://redis.io/topics/data-types-intro) a Redis-webhelyen lap
-* A [alapvető használati](https://stackexchange.github.io/StackExchange.Redis/Basics) a StackExchange.Redis-webhelyen lap
-* A [Redis-tranzakciók](https://stackexchange.github.io/StackExchange.Redis/Transactions) oldalon, a StackExchange.Redis-tárház
-* A [adatok particionálási útmutató](http://msdn.microsoft.com/library/dn589795.aspx) a Microsoft webhelyén
+* A [MemoryCache osztály](/dotnet/api/system.runtime.caching.memorycache) oldala a Microsoft webhelyén
+* Az [Azure Redis Cache dokumentációja](https://azure.microsoft.com/documentation/services/cache/) a Microsoft webhelyén
+* Az [Azure Redis Cache – Gyakori kérdések](/azure/redis-cache/cache-faq) oldal a Microsoft webhelyén
+* A [feladatalapú aszinkron minta](/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap) oldala a Microsoft webhelyén
+* A [folyamatok és multiplexerek](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) oldala a StackExchange.Redis GitHub-adattárban
+* A [Redis-adatmegőrzéssel](https://redis.io/topics/persistence) foglalkozó oldal a Redis webhelyén
+* A [replikációval](https://redis.io/topics/replication) foglalkozó oldal a Redis webhelyén
+* A [Redis-fürt oktatóanyaga](https://redis.io/topics/cluster-tutorial) a Redis webhelyén
+* A [Particionálás: adatok felosztása több Redis-példány között](https://redis.io/topics/partitioning) a Redis webhelyén
+* [A Redis használata LRU-gyorsítótárként](https://redis.io/topics/lru-cache) oldal a Redis webhelyén
+* A [tranzakciókkal](https://redis.io/topics/transactions) foglalkozó oldal a Redis webhelyén
+* A [Redis biztonsági funkcióival](https://redis.io/topics/security) foglalkozó oldal a Redis webhelyén
+* Az [Azure Redis Cache-t körbejáró](https://azure.microsoft.com/blog/2014/06/04/lap-around-azure-redis-cache-preview/) oldal a Redis webhelyén
+* [A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban](https://blogs.msdn.microsoft.com/tconte/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure/) blogbejegyzés a Microsoft webhelyén
+* Az [Azure Redis Cache ASP.NET-es munkamenetállapot-szolgáltatóját](/azure/redis-cache/cache-aspnet-session-state-provider) ismertető oldal a Microsoft webhelyén
+* Az [Azure Redis Cache ASP.NET-es kimeneti gyorsítótár-szolgáltatóját](/azure/redis-cache/cache-aspnet-output-cache-provider) ismertető oldal a Microsoft webhelyén
+* A [Redis adattípusait és absztrakt entitásait bemutató](https://redis.io/topics/data-types-intro) oldal a Redis webhelyén
+* Az [alapszintű használattal](https://stackexchange.github.io/StackExchange.Redis/Basics) foglalkozó oldal a StackExchange.Redis webhelyén
+* A [Redis-tranzakciókkal](https://stackexchange.github.io/StackExchange.Redis/Transactions) foglalkozó oldal a StackExchange.Redis adattárban
+* Az [adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx) a Microsoft webhelyén
 

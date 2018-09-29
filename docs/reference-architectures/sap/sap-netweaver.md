@@ -3,12 +3,12 @@ title: SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe hely
 description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendszerű Azure-ban magas rendelkezésre állású.
 author: lbrader
 ms.date: 05/11/2018
-ms.openlocfilehash: f4a33e7a3f30bdd6d8bdd41599a5e3b47501b874
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.openlocfilehash: b4a254980dd9aac2847bb194f22f99f3f05376de
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "43016148"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428805"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
@@ -145,7 +145,7 @@ A vészhelyreállítás (DR) meg kell tudni átadja a feladatokat egy másodlago
 
 - **Kiszolgálók alkalmazásrétegek**. SAP-alkalmazáskiszolgálók nem tartalmaznak üzleti adatokat. Az Azure-ban, egy egyszerű Vészhelyreállítási stratégia lehet SAP-alkalmazáskiszolgálókhoz létrehozni a másodlagos régióba, majd leállíthatja őket. Bármilyen konfigurációmódosítás vagy kernelfrissítés az elsődleges alkalmazáskiszolgálón, hogy a módosításokat át kell másolni a virtuális gépek a másodlagos régióban. Például a kernel végrehajtható másolja a Vészhelyreállítási virtuális gépekhez. Az automatikus replikálását egy másodlagos régióba alkalmazáskiszolgálók [Azure Site Recovery](/azure/site-recovery/site-recovery-overview) az ajánlott megoldás.
 
-- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A vészhelyreállítási régióban lévő virtuális gép futtatása a központi szolgáltatások szerepkört hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, azokat meg kell ismételni a közép-szolgáltatásokat futtató a vészhelyreállítási régióban lévő virtuális Gépen. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery replikálja a fürtcsomópontok, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal /sapmnt átmásolása a vészhelyreállítási régióban használhatja. Letöltéséhez egyszerű replikációs mód létrehozási, másolási és tesztelési feladatátvételi folyamatok részleteiért [SAP NetWeaver: Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás létrehozása](http://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és hivatkozzon a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
+- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A vészhelyreállítási régióban lévő virtuális gép futtatása a központi szolgáltatások szerepkört hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, azokat meg kell ismételni a közép-szolgáltatásokat futtató a vészhelyreállítási régióban lévő virtuális Gépen. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery replikálja a fürtcsomópontok, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal /sapmnt átmásolása a vészhelyreállítási régióban használhatja. Letöltéséhez egyszerű replikációs mód létrehozási, másolási és tesztelési feladatátvételi folyamatok részleteiért [SAP NetWeaver: Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás létrehozása](https://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és hivatkozzon a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
 
 - **Adatbázisréteg**. DR leginkább az adatbázis a saját integrált replikációs technológiával van megvalósítva. Esetén az SQL Server például azt javasoljuk, AlwaysOn rendelkezésre állási csoport létesíteni egy távoli régióba, a replika kézi feladatátvételre tranzakció aszinkron módon replikál. Aszinkron replikáció elkerülhető az elsődleges helyen interaktív számítási feladatai teljesítményével lehet. Manuális feladatátvétel személy elemezheti a DR hatását, és döntse el, ha a DR helyről működő indokolt lehetőséget kínál.
 

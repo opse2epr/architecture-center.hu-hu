@@ -1,90 +1,90 @@
 ---
-title: Az analitikai adatokat tároló kiválasztása
+title: Az analitikai adattár kiválasztása
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: cdc32c16e30aec5e1c0cb6959182215f99d56b56
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 3cf7dc533cc6ae3e6d7e2326852b585da8613e18
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30846882"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428873"
 ---
-# <a name="choosing-an-analytical-data-store-in-azure"></a>Az analitikai adatokat tároló kiválasztása az Azure-ban
+# <a name="choosing-an-analytical-data-store-in-azure"></a>Az Azure-ban egy analitikai adattár kiválasztása
 
-Az egy [big Data típusú adatok](../big-data/index.md) architektúra, szükség van a gyakran az az analitikus adatok tárolására szolgál a feldolgozott adatok strukturált formátuma nem kérdezhetők le analitikai eszközeivel. Analitikai adatokat tárolja, hogy mindkét közbeni elérési támogatási lekérdezését és cold-path adatok együttesen nevezzük szolgáló réteg, vagy az adatok tárolására szolgál.
+Az egy [big Data típusú adatok](../big-data/index.md) architecture, gyakran van szükség az olyan analitikai adatokat tárolja a feldolgozott szolgál egy strukturált formában, hogy lekérdezhetők legyenek elemzőeszközökkel. Analitikus adattárak mindkét ritkáról gyakori elérésű útvonal a támogatási lekérdezése és ritka elérésű útvonal adatok együttesen nevezzük a kiszolgálóréteget, vagy az adatok tárolására szolgáló.
 
-A szolgáló réteg a gyakran használt adatok elérési útja és a cold elérési foglalkozik a feldolgozott adatok. Az a [lambda architektúra](../big-data/index.md#lambda-architecture), a szolgáló réteg oszlik egy _sebesség szolgál_ réteg esetében, amely Növekményesen feldolgozott adatokat tárolja, és egy _szolgálkötegelt_szintje, amely tartalmazza a kötegelt feldolgozásra kimenet. A szolgáló réteg erős támogatást igényel az véletlenszerű olvasási és kis késésű. Is támogatnia kell az adattárolás a sebesség réteg véletlenszerű írások, mert adatok betöltése a tárolóba kötegelt okozna nemkívánatos késést. Másrészről adattárolás a kötegelt réteg nem támogatja a véletlenszerű írások kell, de ehelyett kötegelt írási műveletek.
+Feldolgozott adatok a gyakori elérésű útvonal és a ritka elérésű útvonal a kiszolgálórétegbe foglalkozik. Az a [lambda architektúra](../big-data/index.md#lambda-architecture), a kiszolgálórétegbe oszlik egy _sebesség szolgáló_ rétege, amely tárolja az adatokat növekményes módon feldolgozott, és a egy _batch-kiszolgáló_rétege, amely tartalmazza a kötegelt feldolgozásra kimeneti. A kiszolgálórétegbe véletlenszerű olvasást és kis késésű erős támogatását igényli. A gyors réteg az adattárolás támogatnia kell a is véletlenszerű írásokat, mert batch adatbetöltéshez a store-bA be fogja vezetni a nem várt késedelmeket. Másrészről adattárolás a kötegelt réteg nem kell a véletlenszerű írások támogatására, de ehelyett írja a batch.
 
-Nincs egyetlen legjobb adatok felügyeleti választás az összes adat tárolási feladatok elvégzéséről van. A különböző feladatok vannak optimalizálva, különböző adatkezelési megoldásokból. A legtöbb valós felhőalapú alkalmazások és folyamatok big Data típusú adatok különböző adatok tárolási követelményekkel rendelkezik, és gyakran használt adatok tárolási megoldások kombinációja.
+Nincs egyetlen data management ideális megoldássá az összes tárolási feladatok van. Más felügyeleti megoldásokkal a különböző feladatok vannak optimalizálva. A legtöbb valós felhőalapú alkalmazások és folyamatok big Data típusú adatok számos különböző adattárolási követelmények, és a gyakran használt adatok tárolási megoldások kombinációját.
 
-## <a name="what-are-your-options-when-choosing-an-analytical-data-store"></a>Mik azok a beállítások egy analitikai adattároló kiválasztásakor?
+## <a name="what-are-your-options-when-choosing-an-analytical-data-store"></a>Mik azok a beállítások egy analitikai adattár kiválasztásakor?
 
-Az adatok tárolási szolgáltató Azure igényeitől függően több lehetőség áll rendelkezésre:
+Az adatok tárolási szolgáltató az Azure-ban, igényeitől függően több lehetőség áll rendelkezésre:
 
 - [SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
 - [Azure SQL Database](/azure/sql-database/)
-- [SQL Server Azure virtuális gépen](/sql/sql-server/sql-server-technical-documentation)
+- [Az SQL Server Azure virtuális Gépen](/sql/sql-server/sql-server-technical-documentation)
 - [A HDInsight HBase/Phoenix](/azure/hdinsight/hbase/apache-hbase-overview)
-- [A HDInsight LLAP struktúra](/azure/hdinsight/interactive-query/apache-interactive-query-get-started)
+- [Hive LLAP, a HDInsight](/azure/hdinsight/interactive-query/apache-interactive-query-get-started)
 - [Az Azure Analysis Services](/azure/analysis-services/analysis-services-overview)
 - [Azure Cosmos DB](/azure/cosmos-db/)
 
-Ezeket a beállításokat, amely különböző típusú feladatok vannak optimalizálva, különböző adatbázis-modellek biztosítják:
+Ezek a beállítások adja meg a különböző adatbázis-modellek, amelyek a különböző típusú feladatok vannak optimalizálva:
 
-- [Kulcs/érték](https://msdn.microsoft.com/library/dn313285.aspx#sec7) adatbázisok tartsa egy szerializált objektum minden egyes kulcs értékre. Nagy mennyiségű adatot, ha le szeretné kérdezni egy elemet egy adott kulcs értéket, és nem kell tárolásához jó fontosságúak a lekérdezés más tulajdonságai, a cikk alapján.
-- [A dokumentum](https://msdn.microsoft.com/library/dn313285.aspx#sec8) adatbázisok a következők kulcs/érték-adatbázisok, amelyben az értékek a következők *dokumentumok*. A "dokumentumok" Ebben a környezetben az elnevezett mezők és értékek gyűjteménye. Általában az adatbázis tárolja az adatokat egy formátumban, például XML, YAM, JSON vagy BSON, de használhat egyszerű szöveg. A dokumentum adatbázisok nem kulcs mezőkre lekérdezhetik és hatékonyabbá teszi lekérdezése másodlagos indexek meghatározása. Így a dokumentum-adatbázis megfelelő feltételekkel bonyolultabb, mint a dokumentum kulcs értékének beolvasása igénylő alkalmazásokhoz. Például lekérdezhet olyan mezőkön, például termékazonosító, a felhasználói azonosító vagy az ügyfél neve.
-- [Oszlop-család](https://msdn.microsoft.com/library/dn313285.aspx#sec9) adatbázisok a következők adattárolás szerkezeti gyűjteményekbe kapcsolódó oszlopok oszlopcsaláddal nevű kulcs/érték adattárolókhoz. Nyilvántartásba adatbázis Előfordulhat például, a felhasználónév az oszlopok egy csoportja (először középső, legutóbbi), az a személy címét egy csoport és egy csoportot az a személy profil adatait (születési, nemét adatok). Az adatbázis tárolhatja minden oszlop termékcsalád külön partícióra, míg egy személy ugyanazzal a kulccsal kapcsolatos adatokat. Egy alkalmazás egy oszlop családba elolvashatják összes entitásra vonatkozó adatok elolvasása nélkül történik.
-- [Graph](https://msdn.microsoft.com/library/dn313285.aspx#sec10) adatbázisok objektumok és kapcsolatok gyűjteményeként információk tárolására. Egy grafikonon adatbázis hatékony hajthat végre az egymás között az objektumok és kapcsolatok a hálózaton áthaladó lekérdezések. Például lehet, hogy az objektumok alkalmazottak HR-adatbázisban, és érdemes lehetővé teszi lekérdezések például a "található összes közvetlenül vagy közvetve dolgozó alkalmazottak Scott."
+- [Kulcs/érték](https://msdn.microsoft.com/library/dn313285.aspx#sec7) adatbázisok tárolásához egyetlen szerializált objektum minden egyes kulcs érték. Készen nagy mennyiségű adatot, ahol szeretne kapni egy elemet a megadott kulcs értékét, és nincs tárolására szolgáló lekérdezés elem más tulajdonságok alapján.
+- [A dokumentum](https://msdn.microsoft.com/library/dn313285.aspx#sec8) adatbázisok találhatók, amelyben az értékek a következők kulcs/érték adatbázis *dokumentumok*. A "dokumentumok" Ebben a környezetben olyan elnevezett mezőkből és értékek gyűjteménye. Általában az adatbázis tárolja az adatokat egy formátumban, például XML, YAML, JSON vagy BSON, de előfordulhat, hogy használja az egyszerű szöveges. A dokumentum adatbázisok nem kulcs mezők lekérdezést, és a másodlagos indexeket, a hatékonyabb lekérdezés meghatározása. Ez lehetővé teszi a dokumentum-adatbázis bonyolultabb, mint a dokumentum-kulcsnak az értéke feltételek alapján adatokat igénylő alkalmazásokhoz megfelelő. Ha például kérdezheti a mezők, például a termék azonosítója, az ügyfél-azonosító vagy az ügyfél neve.
+- [Oszlopcsalád-](https://msdn.microsoft.com/library/dn313285.aspx#sec9) adatbázisok az olyan kulcs-érték adattárak, kapcsolódó oszlopok oszlopcsaláddal nevű gyűjteményekbe adattárolás struktúra. Például népszámlálási adatbázis lehet egy csoportot az oszlopok egy személy neve (először középen, utolsó), a személy címe egy csoportot, és a egy csoportot az a személy profiladatokat (születési idő, a Nemet adatok). Az adatbázis tárolhatja minden oszlopcsalád egy külön partícióban, miközben az összes adat egy személy ugyanazzal a kulccsal kapcsolatos. Egy alkalmazás egyetlen oszlopcsalád olvashatja az adatokat egy entitás összes elolvasása nélkül.
+- [Graph](https://msdn.microsoft.com/library/dn313285.aspx#sec10) adatbázisok tárolhatók objektumok és kapcsolatok gyűjteménye. A gráfadatbázis hatékonyan hajthat végre lekérdezéseket, amelyek objektumokat és kapcsolatokat hálózatát bejáró közöttük. Például lehet, hogy az objektumok egy emberi erőforrások adatbázisban az alkalmazottak, és érdemes megkönnyítése érdekében lekérdezések például "található összes alkalmazottait közvetlenül vagy közvetve Scott."
 
-## <a name="key-selection-criteria"></a>Kulcs kiválasztási feltételek
+## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
-A választási lehetőségek szűkítéséhez indítása ezen kérdések megválaszolásával:
+Így szűkítheti, első lépésként a kérdések megválaszolása:
 
-- Van szüksége, amely ki tud szolgálni az adatok elérési útnak gyakran használt adatok tárolási szolgáltató? Ha igen, szűkítheti a beállítások az adott sebesség szolgáló réteg vannak optimalizálva.
+- Szükség van, amely az adatok egy gyakori elérésű útvonal alapul szolgálhat tárolási szolgáltató? Ha igen, szűkítheti a lehetőségek, amelyek az a sebesség kiszolgálórétegbe vannak optimalizálva.
 
-- Tegye meg kell nagymértékben párhuzamos feldolgozási (MPP) támogatás, ahol lekérdezéseket a rendszer automatikusan terjeszt több folyamatok vagy csomóponton keresztül? Ha igen, választhatja ki, amely támogatja a lekérdezés kibővítési.
+- Ehhez meg kell nagymértékben párhuzamos feldolgozási (MPP) támogatást, ahol lekérdezéseket automatikusan között oszlanak meg több folyamatok vagy a csomópontok? Ha igen, válasszon egy beállítást, amely támogatja a lekérdezés horizontális felskálázást.
 
-- Szeretné használni a relációs adattároló? Ha igen, szűkítenie a lehetőségeit a relációs adatbázis-modell rendelkező. Azonban ügyeljen arra, hogy néhány nem relációs áruház lekérdezése SQL-szintaxis támogatásához, és az eszközök, például a PolyBase segítségével nem relációs adatokat kérdez.
+- Inkább használja a relációs adattároló? Ha igen, szűkítheti a lehetőségeit a azokat egy relációs adatbázis-modellel. Azonban vegye figyelembe, hogy néhány nem relációs adattárak támogatja-e az SQL-szintaxis, és az eszközök, például a PolyBase segítségével nem relációs adattárak lekérdezése.
 
-## <a name="capability-matrix"></a>Képesség mátrix
+## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a főbb változásai képességeit.
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
 
-| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | A HDInsight LLAP struktúra | Azure Analysis Services | Cosmos DB |
+| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 | --- | --- | --- | --- | --- | --- | --- |
-| Van a felügyelt | Igen | Igen | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen | Igen |
-| Elsődleges adatbázis-modell | Relációs (oszlopos formátum oszlopcentrikus indexek használata esetén) | Relációs táblák oszlopos tárolóval | Széles oszlop tároló | Hive/a memóriában | Táblázatos/MOLAP szemantikai modellek | Dokumentálja a tároló, a graph, a kulcs-érték tároló, a széles oszlop tároló |
-| SQL nyelvi támogatás | Igen | Igen | Igen (használatával [Phoenix](http://phoenix.apache.org/) JDBC-illesztőt) | Igen | Nem | Igen |
-| Gyorsaságot szolgáló réteg | Igen <sup>2</sup> | Nem | Igen | Igen | Nem | Igen |
+| A felügyelt szolgáltatás | Igen | Igen | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen | Igen |
+| Elsődleges adatbázismodell | Relációs (Oszlopalapú formátum az oszlopcentrikus indexek használata esetén) | Oszlopos szerkezetű relációs tábláival | Széles körű oszloptár | Hive és a memóriában | Szemantikai modellek táblázatos/MOLAP | Dokumentum-tároló, gráf, kulcs-érték tároló, széles oszloptár |
+| SQL nyelvi támogatás | Igen | Igen | Igen (használatával [Phoenix](https://phoenix.apache.org/) JDBC-illesztőprogram) | Igen | Nem | Igen |
+| Réteg szolgáltató gyorsaságot | Igen <sup>2</sup> | Nem | Igen | Igen | Nem | Igen |
 
-[1], kézi konfigurálás és a méretezés.
+[1] a kézi konfigurálás és a méretezést.
 
-A(z) [2] Using memóriaoptimalizált táblák és a kivonatoló vagy fürtözetlen indexeire.
+A(z) [2] a memóriaoptimalizált táblák és kivonatoló vagy fürtözetlen index.
  
-### <a name="scalability-capabilities"></a>Méretezhetőség képességek
+### <a name="scalability-capabilities"></a>Skálázhatósági képességeket.
 
-|                                                  | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | A HDInsight LLAP struktúra | Azure Analysis Services | Cosmos DB |
+|                                                  | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 |--------------------------------------------------|--------------|--------------------|----------------------------|------------------------|-------------------------|-----------|
-| A magas rendelkezésre állás érdekében redundáns területi kiszolgálók |     Igen      |        Igen         |            Igen             |           Nem           |           Nem            |    Igen    |
-|             Támogatja a lekérdezés kibővítési             |      Nem      |        Igen         |            Igen             |          Igen           |           Igen           |    Igen    |
-|          Dinamikus méretezhetőség (felskálázott)          |     Igen      |        Igen         |             Nem             |           Nem           |           Igen           |    Igen    |
+| Redundáns regionális kiszolgálók magas rendelkezésre állás érdekében |     Igen      |        Igen         |            Igen             |           Nem           |           Nem            |    Igen    |
+|             Támogatja a lekérdezés horizontális felskálázás             |      Nem      |        Igen         |            Igen             |          Igen           |           Igen           |    Igen    |
+|          A dinamikus méretezhetőség (vertikális felskálázási)          |     Igen      |        Igen         |             Nem             |           Nem           |           Igen           |    Igen    |
 |        Támogatja a memórián belüli gyorsítótárazáshoz, az adatok        |     Igen      |        Igen         |             Nem             |          Igen           |           Igen           |    Nem     |
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
 
-| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | A HDInsight LLAP struktúra | Azure Analysis Services | Cosmos DB |
+| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 | --- | --- | --- | --- | --- | --- | --- |
-| Hitelesítés  | SQL / Azure Active Directory (Azure AD) | SQL / Azure AD | helyi és az Azure AD <sup>1</sup> | helyi és az Azure AD <sup>1</sup> | Azure AD | adatbázis-felhasználók / keresztül hozzáférést az Azure AD-vezérlőt (IAM) |
+| Hitelesítés  | SQL / Azure Active Directory (Azure AD) | SQL / Azure AD | helyi / Azure AD <sup>1</sup> | helyi / Azure AD <sup>1</sup> | Azure AD | adatbázis-felhasználók / hozzáférést az Azure AD-vezérlőt (IAM) |
 | Adat-titkosítás inaktív állapotban | Igen <sup>2</sup> | Igen <sup>2</sup> | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen | Igen |
-| Sorszintű biztonság | Igen | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen (keresztül objektumszintű biztonsági modell) | Nem |
+| Sorszintű biztonság | Igen | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen (objektumszintű biztonság a modellben) keresztül | Nem |
 | Támogatja a tűzfalak | Igen | Igen | Igen <sup>3</sup> | Igen <sup>3</sup> | Igen | Igen |
 | Dinamikus adatmaszkolás | Igen | Nem | Igen <sup>1</sup> | Igen * | Nem | Nem |
 
-[1] igényel a használata egy [HDInsight-fürt tartományhoz](/azure/hdinsight/domain-joined/apache-domain-joined-introduction).
+[1] használata szükséges egy [tartományhoz csatlakoztatott HDInsight-fürt](/azure/hdinsight/domain-joined/apache-domain-joined-introduction).
 
-[2] átlátható adattitkosítás (TDE) segítségével az inaktív adatok titkosításához és visszafejtéséhez szükséges.
+[2] transzparens adattitkosítás (TDE) segítségével az inaktív adatok titkosításához és visszafejtéséhez szükséges.
 
-[3] az Azure Virtual Network használatakor. Lásd: [kiterjesztése Azure HDInsight Azure virtuális hálózat használatával](/azure/hdinsight/hdinsight-extend-hadoop-virtual-network).
+[3] egy Azure virtuális hálózaton belül. Lásd: [kiterjesztése az Azure HDInsight használata az Azure Virtual Network](/azure/hdinsight/hdinsight-extend-hadoop-virtual-network).

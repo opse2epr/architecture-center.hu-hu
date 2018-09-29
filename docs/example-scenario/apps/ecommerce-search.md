@@ -3,12 +3,12 @@ title: E-kereskedelmi termék intelligens keresőmotort
 description: Látható egy példán keresztül, ahol az Azure Search egy e-kereskedelmi alkalmazásban világszínvonalú keresési funkciókat biztosít szolgál
 author: jelledruyts
 ms.date: 09/14/2018
-ms.openlocfilehash: 97f89aa8df1a2c8236a847acf8b9f96842218f51
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 064567b4ad83551c59ad8c083540a69fb9f9afba
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534576"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428329"
 ---
 # <a name="intelligent-product-search-engine-for-e-commerce"></a>E-kereskedelmi termék intelligens keresőmotort
 
@@ -118,7 +118,7 @@ Azure Search kapcsolatos további információkért látogasson el a [dokumentá
 [apache-lucene]: https://lucene.apache.org/
 [elastic-marketplace]: https://azuremarketplace.microsoft.com/en-us/marketplace/apps/elastic.elasticsearch
 [end-to-end-walkthrough]: https://github.com/Azure/fta-customerfacingapps/tree/master/ecommerce/articles
-[search-sla]: http://go.microsoft.com/fwlink/?LinkId=716855
+[search-sla]: https://go.microsoft.com/fwlink/?LinkId=716855
 [search-tier]: /azure/search/search-sku-tier
 [search-capacity]: /azure/search/search-capacity-planning
 [search-security]: /azure/search/search-security-overview
@@ -126,8 +126,8 @@ Azure Search kapcsolatos további információkért látogasson el a [dokumentá
 [search-languages]: /rest/api/searchservice/language-support
 [search-analyzers]: /rest/api/searchservice/custom-analyzers-in-azure-search
 [search-scoring]: /rest/api/searchservice/add-scoring-profiles-to-a-search-index
-[search-samples]: /resources/samples/?service=search&sort=0
-[search-demo]: http://azjobsdemo.azurewebsites.net/
+[search-samples]: https://azure.microsoft.com/resources/samples/?service=search&sort=0
+[search-demo]: https://azjobsdemo.azurewebsites.net/
 [small-pricing]: https://azure.com/e/db2672a55b6b4d768ef0060a8d9759bd
 [medium-pricing]: https://azure.com/e/a5ad0706c9e74add811e83ef83766a1c
 [large-pricing]: https://azure.com/e/57f95a898daa487795bd305599973ee6

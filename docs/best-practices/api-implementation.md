@@ -1,62 +1,62 @@
 ---
 title: API-implementálási segédlet
-description: Útmutatás az API-k megvalósítása után.
+description: Útmutató az API-k megvalósításához.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: cc28864de36afdeed2f8a7155a307e312c3a398e
-ms.sourcegitcommit: c93f1b210b3deff17cc969fb66133bc6399cfd10
+ms.openlocfilehash: fff377d347ce93e9fb83fff1f5a44fe1c7b4dbea
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/05/2018
-ms.locfileid: "27596019"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429400"
 ---
 # <a name="api-implementation"></a>API-implementáció
 
-Gondosan tervezett RESTful webes API-k meghatározása az erőforrásokat, a kapcsolatokat és a navigációs rendszerek ügyfélalkalmazások számára elérhető. Megvalósítása és központi telepítése a webes API-k, gondolja át a fizikai követelményeinek a a webes API-t és az üzemeltetési környezetben található, amely a webes API-k összeállított ahelyett, hogy az adatok logikai szerkezetének. Ez az útmutató mutatja be gyakorlati tanácsok a webes API-k megvalósítása és közzétételi azt, hogy az ügyfélalkalmazások számára elérhető legyen. Részletes információ a webes API modell: [API tervezési útmutató](/azure/architecture/best-practices/api-design).
+A gondosan megtervezett RESTful webes API-k meghatározzák az ügyfélalkalmazások számára elérhető erőforrásokat, kapcsolatokat és navigációs rendszereket. A webes API-k megvalósításakor és központi telepítésekor a webes API-t futtató környezet fizikai követelményeit és a webes API felépítését kell figyelembe vennie az adatok logikai szerkezete helyett. Ez az útmutató ajánlott eljárásokat tartalmaz a webes API-k megvalósításához és közzétételéhez, hogy elérhetők legyenek az ügyfélalkalmazások számára. Részletes információ a webes API-k tervezéséről: [API-tervezési segédlet](/azure/architecture/best-practices/api-design).
 
 ## <a name="processing-requests"></a>Kérelmek feldolgozása
 
-A kód a tanúsítványigénylések bevezetésekor, vegye figyelembe a következő szempontokat.
+A kéréseket kezelő kód megvalósításakor vegye figyelembe az alábbi szempontokat:
 
-### <a name="get-put-delete-head-and-patch-actions-should-be-idempotent"></a>GET, PUT, DELETE, HEAD és JAVÍTÁSI műveletek idempotent kell lennie
+### <a name="get-put-delete-head-and-patch-actions-should-be-idempotent"></a>A GET, PUT, DELETE, HEAD és JAVÍTÁSI műveleteknek idempotensnek kell lenniük
 
-Ezek a kérelmek megvalósító kódot kell ugyanazok a mellékhatással működő. A kérésben felett erőforrást ismétlődő olyan állapotban kell kiváltani. Például több DELETE kérelmet küld a ugyanilyen URI kell rendelkeznie a hatást, bár lehet, hogy a HTTP-állapotkód a válaszüzenetek különböző. Az első törlési kérés előfordulhat, hogy vissza állapotkód: 204 (nincs tartalom), miközben egy későbbi törlési kérés előfordulhat, hogy térjen vissza az állapotkód: 404-es (nem található).
+A kérelmeket megvalósító kódnak nem lehetnek mellékhatásai. Ha egy kérést megismétel ugyanazon az erőforráson, a kérésnek ugyanazt az állapotot kell eredményeznie. Például egy adott URI-re küldött több DELETE kérelem eredményének ugyanannak kell lennie, habár a válaszüzenetekben található HTTP-állapotkódok különbözők lehetnek. Lehetséges, hogy az első törlési kérelem a 204 (nincs tartalom) állapotkódot, a további törlési kérelmek pedig a 404 (nem található) állapotkódot adják vissza.
 
 > [!NOTE]
-> A cikk [idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában áttekintést idempotencia, és hogyan vonatkozik az felügyeleti műveleteket.
+> Jonathan Oliver blogjának [idempotenciamintákról](https://blog.jonathanoliver.com/idempotency-patterns/) szóló cikke áttekintést nyújt idempotenciáról, és hogy az hogyan kapcsolódik az adatkezelési műveletekhez.
 >
 
-### <a name="post-actions-that-create-new-resources-should-not-have-unrelated-side-effects"></a>Hozzon létre új erőforrások utáni műveletek kell nem rendelkezik egymástól független hatásai
+### <a name="post-actions-that-create-new-resources-should-not-have-unrelated-side-effects"></a>Az új erőforrásokat létrehozó POST műveleteknek nem lehetnek független mellékhatásai
 
-Hozzon létre egy új erőforrást egy POST kérést olyan, ha a kérelem eredő korlátozódik az új erőforrás (és valószínűleg bármely közvetlenül kapcsolódó erőforrások esetén valamilyen kapcsolat érintett) például egy kereskedelmi rendszerben POST kérelmet létrehoz egy új rendelést, az ügyfél is előfordulhat, hogy módosítani kell a készlet szintek és számlázási adatokat, de nem módosíthatja a sorrend nem közvetlenül kapcsolódó információkat vagy mellékhatásokkal bármely más – a rendszer általános állapotát.
+Ha egy POST kérés célja egy új erőforrás létrehozása, a kérés csak az új erőforrásra lehet hatással (valamint esetleg a közvetlenül kapcsolódó erőforrásokhoz, ha vannak ilyenek). Például egy elektronikus kereskedelmi rendszerben egy ügyfél számára egy új erőforrást létrehozó POST kérés módosíthatja a készletszinteket és létrehozhat számlázási adatokat, de nem módosíthatja a rendeléshez nem közvetlenül kapcsolódó információkat, és nem lehet semmilyen más mellékhatása a rendszer általános állapotára.
 
-### <a name="avoid-implementing-chatty-post-put-and-delete-operations"></a>Kerülje a chatty POST, PUT és DELETE műveletek végrehajtása
+### <a name="avoid-implementing-chatty-post-put-and-delete-operations"></a>A POST, PUT és DELETE műveletek ne legyenek hosszadalmasak
 
-Támogatja a POST, PUT és DELETE kérelmek felett erőforrást gyűjtemények. Egy POST kérést is tartalmazza az új erőforrások több, és adja hozzá az összes ugyanaz a gyűjtemény, PUT-kérelmekben lecserélheti egy gyűjtemény-erőforrások teljes készletét, és a törlési kérelem távolíthatja el egy teljes gyűjteményt.
+Biztosítson támogatást a POST, PUT és DELETE kérések teljes erőforrás-gyűjteményeken való végrehajtásához. Egy POST kérés tartalmazhatja több új erőforrás részleteit is, amelyeket ugyanahhoz a gyűjteményhez ad hozzá. A PUT kérések egy gyűjtemény teljes erőforráskészletét lecserélhetik, míg a DELETE kérések egy teljes gyűjteményt eltávolíthatnak.
 
-Kötegelt kérelmekben teszi lehetővé az OData-támogatást ASP.NET Web API 2 szerepel. Egy ügyfélalkalmazás becsomagolhatja a több webes API-kérelmek és küldje el a kiszolgáló a egyetlen HTTP-kérelmek, és egyetlen HTTP-válasz tartalmazza a válaszok az egyes kérelmek fogadására. További információ [kötegelt támogatást bevezeti a webes API- és webes API OData](http://blogs.msdn.com/b/webdev/archive/2013/11/01/introducing-batch-support-in-web-api-and-web-api-odata.aspx).
+Az ASP.NET Web API 2-ben található OData-támogatás lehetővé teszi a kérések kötegelését. Az ügyfélalkalmazások becsomagolhatnak több webes API-kérést és egyetlen HTTP-kérésben küldhetik el őket a kiszolgálóra, majd egyetlen HTTP-választ kapnak vissza, amely az összes kérésre vonatkozó választ tartalmazza. További információ: [A kötegelés támogatásának bevezetése a webes API-ban és a webes API ODatában](https://blogs.msdn.microsoft.com/webdev/2013/11/01/introducing-batch-support-in-web-api-and-web-api-odata/).
 
-### <a name="follow-the-http-specification-when-sending-a-response"></a>A válasz küldésekor, hajtsa végre a HTTP-specifikáció 
+### <a name="follow-the-http-specification-when-sending-a-response"></a>Kövesse a HTTP-specifikációkat válasz küldésekor 
 
-Egy webes API-t, hogy a megfelelő HTTP-állapotkód: ahhoz, hogy az ügyfél határozza meg, hogyan legyen kezelve az eredmény, a megfelelő HTTP-fejlécek, hogy az ügyfél megértette az eredmény, és az ügyfél számára, hogy megfelelően formázott törzs tartalmazó üzenetek kell visszaadnia. az eredmény elemzése. 
+A webes API-nak olyan üzeneteket kell visszaadnia, amelyek tartalmazzák a megfelelő HTTP-állapotkódot, amelyek alapján az ügyfél el tudja dönteni, hogyan kezelje az eredményt. Emellett tartalmazniuk kell még a megfelelő HTTP-fejléceket, hogy az ügyfél értse az eredmény jellegét, valamint egy megfelelően formázott törzset, amely alapján az ügyfél elemezheti az eredményt. 
 
-Például a POST műveletet kell visszaadnia állapotkód (létrehozva) 201 és a válaszüzenetet a helyet megjelölő fejlécet a válaszüzenet bele kell foglalni az újonnan létrehozott erőforrás URI.
+Például a POST műveletnek a 201 (Létrehozva) állapotkódot kell visszaadnia, a válaszüzenetnek pedig bele kell foglalnia kell az újonnan létrehozott erőforrás URI-jét a válaszüzenet Location fejlécébe.
 
-### <a name="support-content-negotiation"></a>Támogatja a tartalom egyeztetését
+### <a name="support-content-negotiation"></a>A tartalomegyeztetés támogatása
 
-A válasz üzenet törzsét tartalmazhat adatok többféle formátumúak. Például egy HTTP GET kérést sikerült elküldeni JSON, vagy XML-formátuma. Az ügyfél elküldte a kérelmet, azt is adja meg az Accept fejlécet, amely meghatározza az adatok formátumok, amelyet kezelni tud. Ezek a formátumok adathordozó-típusok vannak megadva. Ügyfél, amely kibocsát egy GET kérelmet, amely lekéri a lemezkép megadhatja például, egy Accept fejlécet, amely az ügyfél képes kezelni, például a "kép/jpeg, kép/gif, kép vagy png" média-típusok listája.  A webes API-t az eredményt adja vissza, ha azt kell adatok formázásához médiatípust egyikének használatával, és adja meg a formátum a válasz a Content-Type fejléc.
+A válaszüzenetek törzse többféle formátumú adatokat tartalmazhat. Például egy HTTP GET kérés JSON vagy XML formátumú adatokat is visszaadhat. Az ügyfél által küldött kérés tartalmazhat egy Accept fejlécet, amelyben megadja, hogy milyen adatformátumokat tud kezelni. Ezek a formátumok médiatípusként vannak megadva. Ha például egy ügyfél kibocsát egy képet lekérő GET kérést, megadhat benne egy Accept fejlécet, amely felsorolja, hogy az ügyfél milyen médiatípusokat tud kezelni, például "image/jpeg, image/gif, image/png".  Amikor a webes API visszaadja az eredményt, az adatokat a felsorolt médiatípusok egyikével kell formáznia, és meg kell adnia a formátumot a válasz Content-Type fejlécében.
 
-Ha az ügyfél nem adott meg az Accept fejlécet, majd formátumának a használatára nem ésszerű alapértelmezett a választörzset. Tegyük fel az ASP.NET Web API-keretrendszer alapértelmezés szerint az JSON szöveges adatok.
+Ha az ügyfél nem adott meg Accept fejlécet, akkor az API egy kézenfekvő alapértelmezett formátumot használ a választörzsben. Az ASP.NET webes API-keretrendszer például alapértelmezés szerint a JSON formátumot használja a szöveges adatokhoz.
 
-### <a name="provide-links-to-support-hateoas-style-navigation-and-discovery-of-resources"></a>Tartalmaznak egy HATEOAS stílusú navigációs és az erőforrások felderítési támogatása
+### <a name="provide-links-to-support-hateoas-style-navigation-and-discovery-of-resources"></a>Adjon meg hivatkozásokat a HATEOAS stílusú navigáció és az erőforrás-felderítés támogatásához
 
-A HATEOAS megközelítés lehetővé teszi az ügyfél keresse meg és felderíthetik az erőforrásokat egy kezdeti kiindulási pontot. Ez az tartalmazó URI-azonosítók; hivatkozások használatával érhető el Amikor egy ügyfél megszerezni egy erőforrást HTTP GET kérelmet ad ki, a válasz URI-azonosítók, amelyek lehetővé teszik egy ügyfélalkalmazás bármely közvetlenül kapcsolódó erőforrások kereshetők meg gyorsan kell tartalmaznia. Például a webes API-k, amely az elektronikus kereskedelmi megoldás támogatja, az ügyfél esetleg elhelyezett megrendelést. Ha egy ügyfél-alkalmazás adatait ügyfél olvas be, a válasz hivatkozások, amelyek lehetővé teszik az ügyfélalkalmazás küldeni HTTP GET kérelmeket, amelyek ezeket a rendeléseket kell tartalmaznia. Emellett HATEOAS stílusú hivatkozások le kell írnia a többi művelet (POST, PUT, DELETE, és így tovább), hogy minden kapcsolódó erőforrás által támogatott minden egyes kérelem teljesítéséhez a hozzá tartozó URI együtt. Ez a megközelítés a további részletes leírását lásd [API tervezési][api-design].
+A HATEOAS módszer lehetővé teszi az ügyfelek számára, hogy egy kezdeti kiindulási pontról navigáljanak és derítsék fel az erőforrásokat. Ez URI-ket tartalmazó hivatkozásokkal történik. Amikor egy ügyfél kiad egy HTTP GET kérést egy erőforrás beszerzéséhez, akkor a válasznak tartalmaznia olyan URI-kat kell tartalmaznia, amelyekkel az ügyfélalkalmazás gyorsan megtalálhat bármilyen közvetlenül kapcsolódó erőforrást. Például vegyünk egy elektronikus kereskedelmi megoldást támogató webes API-t, amelyben egy ügyfél számos megrendelést adott le. Amikor egy ügyfélalkalmazás lekéri az ügyfél adatait, a válasznak olyan hivatkozásokat kell tartalmaznia, amelyek alapján az ügyfélalkalmazás el tudja küldeni a HTTP GET kéréseket a rendelés lekéréséhez. Emellett a kérések végrehajtásához HATEOAS stílusú hivatkozásokkal le kell írnia az egyes hivatkozott erőforrások által támogatott egyéb műveleteket (POST, PUT, DELETE stb.) a megfelelő URI-kkel. A módszer részletesebb leírását lásd: [API-tervezés][api-design].
 
-Jelenleg nincsenek HATEOAS végrehajtásának meghatározó szabványok nem, de a következő példában látható módon egy lehetséges módszer. Ebben a példában a részletek megtalált ügyfél HTTP GET kérelemre adja vissza egy választ, amely az adott ügyfélhez tartozó rendelések hivatkozó HATEOAS mutató hivatkozásokat tartalmaznak:
+Jelenleg nincsenek a HATEOAS megvalósítására vonatkozó szabványok, de a következő példa bemutat egy lehetséges módszert. Ebben a példában egy HTTP GET kérés, amely megkeresi az ügyfél adatait, egy olyan választ ad vissza, amely az ügyfél rendeléseire mutató HATEOAS-hivatkozásokat tartalmaz.
 
 ```HTTP
-GET http://adventure-works.com/customers/2 HTTP/1.1
+GET https://adventure-works.com/customers/2 HTTP/1.1
 Accept: text/json
 ...
 ```
@@ -69,29 +69,29 @@ Content-Type: application/json; charset=utf-8
 Content-Length: ...
 {"CustomerID":2,"CustomerName":"Bert","Links":[
     {"rel":"self",
-    "href":"http://adventure-works.com/customers/2",
+    "href":"https://adventure-works.com/customers/2",
     "action":"GET",
     "types":["text/xml","application/json"]},
     {"rel":"self",
-    "href":"http://adventure-works.com/customers/2",
+    "href":"https://adventure-works.com/customers/2",
     "action":"PUT",
     "types":["application/x-www-form-urlencoded"]},
     {"rel":"self",
-    "href":"http://adventure-works.com/customers/2",
+    "href":"https://adventure-works.com/customers/2",
     "action":"DELETE",
     "types":[]},
     {"rel":"orders",
-    "href":"http://adventure-works.com/customers/2/orders",
+    "href":"https://adventure-works.com/customers/2/orders",
     "action":"GET",
     "types":["text/xml","application/json"]},
     {"rel":"orders",
-    "href":"http://adventure-works.com/customers/2/orders",
+    "href":"https://adventure-works.com/customers/2/orders",
     "action":"POST",
     "types":["application/x-www-form-urlencoded"]}
 ]}
 ```
 
-Ebben a példában a felhasználói adatok által képviselt a `Customer` osztály a következő kódrészletben látható. A HATEOAS hivatkozások tartják a `Links` gyűjteménytulajdonság:
+Ebben a példában a felhasználói adatokat a `Customer` osztály jelöli a következő kódrészletben. A HATEOAS-hivatkozásokat a `Links` gyűjteménytulajdonság tartalmazza:
 
 ```csharp
 public class Customer
@@ -111,30 +111,30 @@ public class Link
 }
 ```
 
-A HTTP GET művelet lekérdezi a felhasználói adatok tárolási és szerkezetek egy `Customer` objektumot, és majd feltölti a `Links` gyűjtemény. Az eredmény válaszüzenetet JSON formátumúak. Mindegyik hivatkozás a következő mezőket tartalmazza:
+A HTTP GET művelet lekérdezi a felhasználói adatokat a tárolóból, és létrehoz egy `Customer` objektumot, majd feltölti a `Links` gyűjteményt. Az eredményt egy JSON-válaszüzenet formájában adja vissza a rendszer. Mindegyik hivatkozás a következő mezőket tartalmazza:
 
-* A visszaküldött objektum és a kapcsolat által ismertetett objektum közötti kapcsolat. Ebben az esetben "önkiszolgáló" azt jelzi, hogy a hivatkozás egy hivatkozást az objektum (hasonlóan egy `this` sok objektumorientált nyelvű mutató), "rendelések" Ez a név az ahhoz kapcsolódó információkat tartalmazó gyűjtemény.
-* A hivatkozás (`Href`) által URI formájában hivatkozás alatt leírt objektumhoz.
-* A HTTP-kérelem típusa (`Action`), amely ezt az URI lehet küldeni.
-* Adatok formátuma (`Types`), amely kell adni a HTTP kérelem, vagy adhatók vissza a válaszban, a kérelem típusától függően.
+* A visszaadott objektum és hivatkozásban leírt objektum közötti kapcsolat. Ebben az esetben „self” kifejezés azt jelzi, hogy a hivatkozás magára az objektumra mutat (hasonlóan számos objektumorientált nyelv `this` mutatójához), az „orders” pedig a kapcsolódó rendelési adatokat tartalmazó gyűjtemény neve.
+* A hivatkozás által leírt objektum hiperhivatkozása (`Href`) egy URI formájában.
+* Az URI felé küldhető HTTP-kérelem típusa (`Action`).
+* Azon adatok formátuma (`Types`), amelyeket meg kell adni a HTTP-kérelemben, vagy amelyeket a válasz visszaadhat, a kérelem típusától függően.
 
-A példa HTTP-válasz HATEOAS hivatkozások arra utal, hogy egy ügyfél-alkalmazás a következő műveleteket hajthat végre:
+A példa HTTP-válaszban található HATEOAS-hivatkozások azt jelzik, hogy egy ügyfélalkalmazás a következő műveleteket hajthatja végre:
 
-* Az URI azonosító a HTTP GET kérelemre `http://adventure-works.com/customers/2` az ügyfél (újra) részleteinek beolvasása. Az adatok adhatók vissza XML-vagy JSON-NÁ.
-* Az URI egy HTTP PUT-kérelmet `http://adventure-works.com/customers/2` módosításához az ügyfél részletes adatait. Az új adatokat a kérelemüzenet x-www-form-urlencoded formátumban kell megadni.
-* Az URI egy HTTP DELETE kérelmet `http://adventure-works.com/customers/2` az ügyfél törli. A kérelem nem minden további információkra, vagy vissza adatokat a válasz üzenet törzsében.
-* Az URI azonosító a HTTP GET kérelemre `http://adventure-works.com/customers/2/orders` az ügyfél a rendeléseket kereséséhez. Az adatok adhatók vissza XML-vagy JSON-NÁ.
-* Az URI egy HTTP PUT-kérelmet `http://adventure-works.com/customers/2/orders` hozzon létre egy új ahhoz, hogy az ügyfél számára. Az adatok a kérelemüzenet x-www-form-urlencoded formátumban kell megadni.
+* Egy HTTP GET kérelem a `https://adventure-works.com/customers/2` URI felé, amely (újra) lekéri az ügyfél adatait. Ezek az adatok XML vagy JSON formátumban adhatók vissza.
+* Egy HTTP PUT kérelem a `https://adventure-works.com/customers/2` URI felé, amely módosítja az ügyfél adatait. Az új adatokat a kérésüzenetben x-www-form-urlencoded formátumban kell megadni.
+* Egy HTTP DELETE kérelem a `https://adventure-works.com/customers/2` URI felé, amely törli az ügyfelet. A kérelem nem vár semmilyen további információt, és nem ad vissza semmilyen adatot a válaszüzenet törzsében.
+* Egy HTTP GET kérelem a `https://adventure-works.com/customers/2/orders` URI felé, amely lekéri az ügyfél összes rendelését. Ezek az adatok XML vagy JSON formátumban adhatók vissza.
+* Egy HTTP PUT kérelem a `https://adventure-works.com/customers/2/orders` URI felé, amely létrehoz egy új rendelést az ügyfélhez. Az adatokat a kérésüzenetben x-www-form-urlencoded formátumban kell megadni.
 
 ## <a name="handling-exceptions"></a>Kivételek kezelése
 
 Ha egy művelet nem kezelt kivételt jelez, vegye figyelembe a következő szempontokat.
 
-### <a name="capture-exceptions-and-return-a-meaningful-response-to-clients"></a>Rögzítheti a kivételeket, és az ügyfelek számára értelmes választ
+### <a name="capture-exceptions-and-return-a-meaningful-response-to-clients"></a>Kivételek rögzítése és jelentéssel bíró válasz visszaadása az ügyfeleknek
 
-A HTTP-művelet megvalósító kódot kell biztosítania az átfogó kivétel kezelése és terjesztése a keretrendszer nem kezelt kivételek helyett. Kivétel nem teszi lehetővé a művelet sikeres, ha vissza a válaszüzenetben található függvénynek adható át a kivételt, de egy beszédes leírást, a hiba a kivételt okozó tartalmaznia kell. A kivétel is tartalmaznia kell minden esetben egyszerűen adatszolgáltató állapotkódja 500 a megfelelő HTTP-állapotkód helyett. Például, ha a felhasználó kérésére, amely megsérti a korlátozás (például egy ügyfél, amely rendelkezik a nyitott rendelések törlésére tett kísérlet) adatbázis frissítése miatt, térjen vissza állapot kód 409 (Ütközés) és az ütközés okát jelző üzenet törzse. Ha bizonyos más feltétel Ez a beállítás a kérelem elérhetetlen, állapotkód: 400 (hibás kérés) térhet vissza. A HTTP-állapotkódok teljes listáját megtalálhatja a [állapotkódok definícióit](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) lap a W3C-webhelyen.
+A HTTP-műveleteket megvalósító kódnak átfogó kivételkezelést kell biztosítania ahelyett, hogy engedné a nem kezelt kivételek propagálását a keretrendszerbe. Ha egy kivétel megakadályozza a művelet sikeres elvégzését, a kivétel visszaadható a válaszüzenetben, de ez esetben jelentéssel bíró leírást is kell adnia a kivételt okozó hibáról. A kivételnek tartalmaznia a megfelelő HTTP-állapotkódot is ahelyett, hogy minden esetben egyszerűen az 500-as állapotkódot adná vissza. Ha például egy felhasználó kérés egy olyan frissítést vált ki, amely megsért egy korlátozást (például megkísérel törölni egy nyitott rendelésekkel rendelkező ügyfelet), akkor a 409 (Ütközés) állapotkódot kell visszaadni, valamint az üzenet törzsében jelezni kell ütközés okát. Ha valamilyen más körülmény akadályozza a kérés teljesítését, akkor a 400 (Hibás kérelem) állapotkód is visszaadható. A HTTP-állapotkódok teljes listáját megtalálhatja a W3C webhely [Állapotkódok definíciói](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) lapján.
 
-A Kódpélda trapek különböző feltételeket, és egy megfelelő választ ad vissza.
+A kódpélda rögzíti a különböző körülményeket, és megfelelő választ ad vissza.
 
 ```csharp
 [HttpDelete]
@@ -178,27 +178,27 @@ public IHttpActionResult DeleteCustomer(int id)
 ```
 
 > [!TIP]
-> Ne adjon meg információt, hogy egy támadó megpróbálta behatoljanak az API-érdemes lehet.
+> Ne adjon meg olyan információt, amelyet egy támadó felhasználhat az API-ba való behatoláshoz.
   
-Sok webkiszolgáló trapfeltételek hiba magukat a webes API elérése előtti. Például ha a webhely hitelesítést, és a felhasználó nem adja meg a megfelelő hitelesítési adatokat, a webkiszolgáló kell válaszolnia állapotkód 401 (nem engedélyezett). Amennyiben az ügyfél hitelesítése megtörtént, a kód végezheti a saját ellenőrzi, hogy ellenőrizze, hogy az ügyfél férnek hozzá a kért erőforrás kell lennie. Ha a hitelesítés sikertelen, térjen vissza állapotkód 403 (tiltott).
+Sok webkiszolgáló maga rögzíti a hibák körülményeit, mielőtt a hibák elérnék a webes API-t. Ha például egy webhelyen hitelesítés van konfigurálva, és a felhasználó nem adja meg a megfelelő hitelesítési adatokat, a webkiszolgálónak a 401 (Nem engedélyezett) állapotkódot kell visszaadnia. Az ügyfél hitelesítése után a kód a saját ellenőrzéseivel győződhet meg róla, hogy az ügyfélnek hozzáféréssel kell rendelkeznie a kért erőforráshoz. Ha a hitelesítés sikertelen, a 403 (Tiltott) állapotkódot kell visszaadni.
  
-### <a name="handle-exceptions-consistently-and-log-information-about-errors"></a>Kivételek következetesen kezelnek, és a hibákkal kapcsolatos adatok
+### <a name="handle-exceptions-consistently-and-log-information-about-errors"></a>A kivételek egységes kezelése és a hibákkal kapcsolatos adatok naplózása
 
-Egységes módon kezelje a kivételeket, vegye fontolóra egy globális hibakezelési stratégia a teljes webes API-k között. Is tartalmazniuk kell a naplózás, amely részletesen az egyes kivétel; rögzíti hiba Ez a hiba napló részletes információkat is tartalmazhat, mindaddig, amíg azt nem elérhetővé válik az interneten keresztül az ügyfelek számára. 
+A kivételek egységes kezelése érdekében érdemes egy globális hibakezelési stratégiát bevezetnie a teljes webes API-n. Emellett érdemes hibanaplózással rögzítenie az egyes kivételek összes részletét. A hibanapló bármilyen részletes információt tartalmazhat azzal a feltétellel, hogy az ügyfelek a weben keresztül nem férhetnek hozzá. 
 
-### <a name="distinguish-between-client-side-errors-and-server-side-errors"></a>Hibák az ügyféloldali és kiszolgálóoldali hibák megkülönböztetésére
+### <a name="distinguish-between-client-side-errors-and-server-side-errors"></a>Az ügyféloldali és kiszolgálóoldali hibák megkülönböztetése
 
-A HTTP protokoll különböztet miatt az ügyfélalkalmazás (a HTTP 4xx állapotkódok) előforduló hibákat, és a kiszolgálón (a HTTP 5xx állapotkódok) szülőmappához által okozott hibákat. Győződjön meg arról, hogy a válasz hibaüzeneteket az egyezmény tiszteletben.
+A HTTP-protokoll megkülönbözteti az ügyfélalkalmazás által okozott (HTTP 4xx állapotkódú) és a kiszolgáló hibái miatt előforduló (HTTP 5xx állapotkódú) hibákat. Ügyeljen arra, hogy a hibákkal kapcsolatos válaszüzenetekben betartsa ezt a konvenciót.
 
-## <a name="optimizing-client-side-data-access"></a>Ügyféloldali adatelérési optimalizálása
-Például a webkiszolgáló és az ügyfélalkalmazások elosztott környezetben a hálózati érintő elsődleges forrásokból. Ez működhet, és jelentős szűk keresztmetszet, különösen akkor, ha az ügyfélalkalmazás gyakran kérelmeket küld vagy fogad adatokat. Ezért akkor érhető el a hálózaton keresztül zajló kommunikációról forgalom csökkentése érdekében. A kód lekéri és adatok karbantartása bevezetésekor, vegye figyelembe a következő szempontokat:
+## <a name="optimizing-client-side-data-access"></a>Ügyféloldali adatelérés optimalizálása
+Az elosztott környezetekben, például amelyekben egy webkiszolgáló és ügyfélalkalmazások találhatók, az egyik elsődleges hibaforrás a hálózat. Ez jelentős szűk keresztmetszeteket okozhat, különösen akkor, ha egy ügyfélalkalmazás gyakran küld kérelmeket vagy fogad adatokat. Ezért törekedni kell a hálózaton keresztül zajló forgalom minimalizálására. Az adatok lekérését és karbantartását kezelő kód megvalósításakor vegye figyelembe az alábbi szempontokat:
 
-### <a name="support-client-side-caching"></a>Támogatja az ügyféloldali gyorsítótárazás
+### <a name="support-client-side-caching"></a>Az ügyféloldali gyorsítótárazás támogatása
 
-A HTTP 1.1 protokoll támogatja a gyorsítótárazást az ügyfeleken és a köztes kiszolgálókon keresztül, amely egy kérelem webproxykiszolgálókra irányítja a Cache-Control fejléc használatát. Amikor egy ügyfél-alkalmazás egy HTTP GET kérést küld a webes API-t, a válasz tartalmazhat egy Cache-Control-fejlécet, amely jelzi, hogy az adatokat a választörzs biztonságosan gyorsítótárazhatók az ügyfél vagy egy közbenső kiszolgálón, amelyen keresztül a kérelem volt irányíthatja, és mennyi ideig, mielőtt azt lejárati és elavult veszi figyelembe. A következő példa bemutatja a HTTP GET kérelemre, és a sérülésre adott válasz, amely tartalmazza a Cache-Control fejléc:
+A HTTP 1.1 protokoll támogatja a gyorsítótárazást az ügyfeleken és köztes kiszolgálókon, amelyeken egy Cache-Control fejléc irányítja a kérelmeket. Amikor egy ügyfélalkalmazás egy HTTP GET kérést küld a webes API-nak, a válasz tartalmazhat egy Cache-Control fejlécet, amely jelzi, hogy a válasz törzsében található adatok biztonságosan gyorsítótárazhatók-e az ügyfélnél vagy egy köztes kiszolgálón, amelyen a kérelem áthaladt, valamint megadja, hogy az adatok mennyi idő után járnak le és válnak elavulttá. A következő példa bemutat egy HTTP GET kérelmet és a rá adott választ, amely tartalmaz egy Cache-Control fejlécet:
 
 ```HTTP
-GET http://adventure-works.com/orders/2 HTTP/1.1
+GET https://adventure-works.com/orders/2 HTTP/1.1
 ```
 
 ```HTTP
@@ -210,7 +210,7 @@ Content-Length: ...
 {"orderID":2,"productID":4,"quantity":2,"orderValue":10.00}
 ```
 
-Ebben a példában a Cache-Control-fejlécet határozza meg, hogy az adatok vissza kell lejárt 600 másodperc után csak egyetlen ügyfél számára megfelelő és nem kell más ügyfelek által használt megosztott gyorsítótárával tárolni (Ez *titkos*). Megadhatja a Cache-Control fejléc *nyilvános* helyett *titkos* ebben az esetben az adatok megosztott gyorsítótárával tárolhatja, vagy megadhatja azt *no-tároló* ebben az esetben az adatok kell **nem** kell az ügyfél gyorsítótárába. Az alábbi példakód bemutatja, hogyan hozható létre a válaszüzenetet Cache-Control fejléc:
+Ebben a példában a Cache-Control fejléc megadja, hogy a visszaadott adatok 600 másodperc után járnak le, csak egyetlen ügyfél számára megfelelők és tilos őket más ügyfelek által is használt megosztott gyorsítótárakban tárolni (vagyis *private* (bizalmas) adatokról van szó). A Cache-Control fejléc a *private* helyett megadhat *public* (nyilvános) beállítást is, amely esetben az adatok tárolhatók egy megosztott gyorsítótárban, vagy megadhatja a *no-store* (nincs tárolás) értéket, amely esetben az adatok **nem** gyorsítótárazhatók az ügyfélben. Az alábbi példakód bemutatja, hogyan hozható létre egy Cache-Control fejléc a válaszüzenetben:
 
 ```csharp
 public class OrdersController : ApiController
@@ -240,7 +240,7 @@ public class OrdersController : ApiController
 }
 ```
 
-Ez a kód egy egyéni használ `IHttpActionResult` osztályt `OkResultWithCaching`. Ez az osztály lehetővé teszi, hogy a tartományvezérlő beállítása a gyorsítótár fejléc tartalma:
+Ez a kód egy `OkResultWithCaching` nevű egyéni `IHttpActionResult` osztályt használ. Ez az osztály lehetővé teszi a vezérlőnek a gyorsítótárfejléc tartalmának beállítását:
 
 ```csharp
 public class OkResultWithCaching<T> : OkNegotiatedContentResult<T>
@@ -273,23 +273,23 @@ public class OkResultWithCaching<T> : OkNegotiatedContentResult<T>
 ```
 
 > [!NOTE]
-> A HTTP protokollt is meghatároz. a *no-cache* fejlécéhez Cache-Control direktíva. Ahelyett, hogy megtévesztően Ez a direktíva nem jelent "nem gyorsítótárazzák" helyett "kísérelje meg újra érvényesítését a gyorsítótárban lévő adatokkal a kiszolgálóval való visszaküldés előtt."; de az adatok továbbra is gyorsítótárazható, de a rendszer minden alkalommal, amikor ellenőrzi segítségével győződjön meg arról, hogy az aktuális továbbra is.
+> A HTTP-protokoll a *no-cache* direktívát is meghatározza a Cache-Control fejléchez. Megtévesztő módon ez nem azt jelenti, hogy az adatokat nem lehet gyorsítótárazni, hanem hogy a gyorsítótárazott adatokat ellenőriztetni kell a kiszolgálóval a visszaadás előtt – tehát az adatok gyorsítótárazhatók, de minden használatkor ellenőrizni kell, hogy még aktuálisak-e.
 >
 >
 
-Gyorsítótár kezelése feladata az ügyfélalkalmazás vagy köztes server, de ha a megfelelően megvalósított is sávszélességet, és a jobb teljesítmény érdekében szükség már nemrég beolvasása fetch adatokhoz.
+A gyorsítótár kezelése az ügyfélalkalmazás vagy a köztes kiszolgáló feladata, de ha megfelelően van megvalósítva, akkor a használatával sávszélesség takarítható meg és növelhető a teljesítmény, mivel nincs szükség a már beszerzett adatok újbóli lekérésére.
 
-A *maximális-életkora* a Cache-Control fejléc értéke csak egy útmutató, és nem biztosítja, hogy a megfelelő adatokat nem módosítja a megadott időszakban. A webes API-t kell beállítania a maximális életkora attól függően, hogy a várt illékonyság az adatok a megfelelő értéket. Ha ez az időszak lejár, az ügyfél törölnie kell az objektumot a gyorsítótárból.
+A Cache-Control fejléc *max-age* (maximális kor) értéke csak tájékoztató jellegű, és nem garantálja, hogy a vonatkozó adatok időközben nem változnak. A webes API-nak úgy kell beállítania a max-age értékét, hogy tükrözze az adatok várható érvényességét. Ha ez az időszak lejár, az ügyfélnek törölnie kell az objektumot a gyorsítótárból.
 
 > [!NOTE]
-> A legtöbb modern böngésző támogatja, ügyféloldali gyorsítótárazás a megfelelő a cache-control fejlécek hozzáadásával a kérelmekre, és az eredmények a fejlécek vizsgálata leírtak szerint. Egyes régebbi böngészők azonban nem gyorsítótárazhatják az egy URL-címet, amely tartalmazza a lekérdezési karakterlánc által visszaadott értékeket. Ez a nem általában probléma valósítja meg a saját gyorsítótár felügyeleti stratégiájának a Microsofttól protokollon alapuló egyéni ügyfélalkalmazások esetében.
+> A legtöbb modern böngésző támogatja az ügyféloldali gyorsítótárazást azáltal, hogy az ismertetett módon gyorsítótár-vezérlő fejléceket ad hozzá a kérelmekhez, és megvizsgálja az eredmények fejlécét. Egyes régebbi böngészők azonban nem gyorsítótárazzák az olyan URL-címekről visszakapott adatokat, amelyek lekérdezési sztringet tartalmaznak. Ez általában nem okoz problémát az olyan egyéni ügyfélalkalmazások számára, amelyek az itt tárgyalt protokollon alapuló saját gyorsítótár-kezelési stratégiával rendelkeznek.
 >
-> Néhány régebbi proxyk ugyanilyen viselkedést, és előfordulhat, hogy gyorsítótárazzák URL-címek alapján a lekérdezési karakterláncokat tartalmazó kérelmeket. Ez az egyedi ügyfél-alkalmazások például olyan proxyn keresztül a webkiszolgálóhoz való csatlakozáshoz problémát okozhat.
+> Egyes régebbi proxyk ugyanígy viselkednek, és lehetséges, hogy nem gyorsítótárazzák a lekérdezési sztringekat tartalmazó URL-címeken alapuló kérelmeket. Ez az olyan egyedi ügyfélalkalmazások számára jelenthet problémát, amelyek egy ilyen proxyn keresztül csatlakoznak egy webkiszolgálóhoz.
 >
 
-### <a name="provide-etags-to-optimize-query-processing"></a>Adja meg a lekérdezés feldolgozása optimalizálása ETag-EK
+### <a name="provide-etags-to-optimize-query-processing"></a>A lekérdezés feldolgozásának optimalizálása ETagek megadásával
 
-Ha egy ügyfélalkalmazás olvas be olyan objektum, a válaszüzenetet is tartalmazhatnak egy *ETag* (Entitáscímke). Az ETag, amely jelzi, az erőforrás; verziója nem átlátszó karakterláncra minden alkalommal, amikor egy erőforrást módosítja az Etag is módosul. Az ügyfélalkalmazás az ETag gyorsítótárazza az adatokat részeként. Az alábbi példakód bemutatja, hogyan adja hozzá az egy ETag HTTP GET kérelemre adott válasz részeként. Ezt a kódot használja a `GetHashCode` metódus az objektum létrehozása egy numerikus érték, amely azonosítja az objektum (ha szükséges, bírálja felül ezt a módszert és saját olyan algoritmussal, például az MD5 kivonatoló készítése):
+Amikor egy ügyfélalkalmazás lekér egy objektumot, a válaszüzenet egy *ETaget* (entitáscímkét) is tartalmazhat. Az ETag egy olyan átlátszatlan sztring, amely egy erőforrás verzióját jelzi, és az erőforrás minden változásakor módosul. Az ügyfélalkalmazásnak az adatokkal együtt az ETaget is gyorsítótáraznia kell. Az alábbi példakód bemutatja, hogyan lehet hozzáadni egy ETaget egy HTTP GET kérelemre adott válaszhoz. Ez a kód a `GetHashCode` metódussal létrehoz egy numerikus értéket, amely azonosítja az objektumot (ha szükséges, felülírhatja ezt a metódust, és létrehozhat egy saját kivonatot az MD5 vagy más algoritmus segítségével):
 
 ```csharp
 public class OrdersController : ApiController
@@ -317,7 +317,7 @@ public class OrdersController : ApiController
 }
 ```
 
-A webes API-k által közzétett válaszüzenetet így néz ki:
+A webes API által közzétett válaszüzenet így néz ki:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -330,29 +330,29 @@ Content-Length: ...
 ```
 
 > [!TIP]
-> Biztonsági okokból nem engedélyezett bizalmas adatok vagy gyorsítótárazható hitelesített (HTTPS) kapcsolaton keresztül által visszaadott adatokat.
+> Biztonsági okokból ne engedélyezze a bizalmas adatok és a hitelesített (HTTPS-) kapcsolaton keresztül visszaadott adatok gyorsítótárazását.
 >
 >
 
-Egy ügyfélalkalmazás is későbbi GET kérést erőforrást beolvasásához bármikor, és ha az erőforrás változott (rendelkezik egy eltérő ETag) nem használhatók fel a gyorsítótárazott verzió és az új verzió kerüljön a gyorsítótárba. Ha egy erőforrás nagy, és az ügyfélnek küldött sávszélesség jelentős időt igényel, ugyanazok az adatok lehívása ismétlődő kérelmek nem elég hatékony válhat. Ez elleni, a HTTP protokoll meghatározza, hogy a GET kérelmek egy webes API-t támogató kell optimalizálása a következő folyamat:
+Egy ügyfélalkalmazás egy újabb GET kéréssel bármikor újra lekérheti ugyanazt az erőforrást, és ha az erőforrás változott (ha más az ETagje), akkor a gyorsítótárazott verziót el kell távolítani, és az új verziót kell hozzáadni a gyorsítótárhoz. Ha egy erőforrás nagy méretű, és az ügyfélnek való visszaküldése jelentős sávszélességet igényel, akkor nem hatékony több kérelmet küldeni ugyanannak az adatnak a lekérése céljából. A HTTP-protokoll ennek elkerülése érdekében a következő folyamatot határozza meg a GET kérelmek optimalizálásához, amelyet a webes API-knak támogatniuk kell:
 
-* Az ügyfél az If-None-Match HTTP-fejlécekben hivatkozott erőforrás-jelenleg gyorsítótárazott verziójának ETag tartalmazó GET kérést hoz létre:
+* Az ügyfél létrehoz egy GET kérelmet, amely az erőforrás jelenleg gyorsítótárazott verziójának ETagjét tartalmazza, és egy If-None-Match HTTP-fejlécben hivatkozik rá:
 
     ```HTTP
-    GET http://adventure-works.com/orders/2 HTTP/1.1
+    GET https://adventure-works.com/orders/2 HTTP/1.1
     If-None-Match: "2147483648"
     ```
-* A webes API-t a GET műveletet szerzi be a jelenlegi ETag a kért adatok (2. sorrendje a fenti példában), és összehasonlítja az értéket az If-None-Match fejléc.
-* Ha a jelenlegi ETag a kért adatok megegyezik a kérés megadott ETag, az erőforrás nem változott, és a webes API-t egy HTTP-válasz 304 (nem módosított) állapotkódot és egy üres üzenettörzs kell visszaadnia.
-* A kért adatok jelenlegi ETag nem egyezik a kérelem által biztosított, ha az adatok változásairól, és a webes API-t kell visszaadnia egy HTTP-válasz az új adatokkal az üzenettörzs és 200-as (OK) állapotkódot.
-* Ha a kért adatok már nem létezik a webes API-t az állapotkód: 404-es (nem található), egy HTTP-válasz kell visszaadnia.
-* Az ügyfél az állapotkód: használja a gyorsítótár karbantartása. Ha az adatok nem változott (állapotkód 304), akkor az objektum gyorsítótárazott maradhat, és az ügyfélalkalmazás továbbra is az az objektum jelenlegi verzióját használja. Ha az adatok megváltozott (állapotkód 200), majd a gyorsítótárazott objektum kellene, és az újat kerülnek. Ha már nem érhető el az adatokat (állapotkód: 404), majd az objektum el kell távolítani a gyorsítótárból.
+* A webes API GET művelete lekéri a kért adatok jelenlegi ETag címkéjét (2. rendelés a fenti példában), és összehasonlítja az értéket az If-None-Match fejlécben találhatóval.
+* Ha a kért adatok jelenlegi ETagje megegyezik a kérés által megadott ETaggel, akkor az erőforrás nem változott, és a webes API-nak a HTTP-válaszban egy üres üzenettörzset és a 304 (Nem módosított) állapotkódot kell visszaadnia.
+* Ha a kért adatok jelenlegi ETagje nem egyezik a kérés által megadott ETaggel, akkor az adatok változtak, és a webes API-nak a HTTP-válaszban az üzenettörzsben meg kell adnia az új adatokat és a 200 (OK) állapotkódot.
+* Ha a kért adatok már nem léteznek, akkor a webes API-nak egy 404 (Nem található) állapotkódú HTTP-választ kell visszaadnia.
+* Az ügyfél az állapotkódot használja a gyorsítótár karbantartásához. Ha az adatok nem változtak (304-es állapotkód), akkor az objektum a gyorsítótárban maradhat, és ügyfélalkalmazás tovább használhatja az objektum jelenlegi verzióját. Ha az adatok megváltoztak (200-as állapotkód), akkor a gyorsítótárazott objektumot el kell távolítani, és egy újat kell beszúrni helyette. Ha az adatok már nem érhetők el (404-es állapotkód), akkor az objektumot el kell távolítani a gyorsítótárból.
 
 > [!NOTE]
-> Ha a válasz fejléce a Cache-Control fejléc-tároló nem tartalmaz, akkor az objektum mindig el kell távolítani a gyorsítótárból, függetlenül a HTTP-állapotkód:.
+> Ha a válasz fejléce a no-store Cache-Control fejlécet tartalmazza, akkor az objektumot mindenképp el kell távolítani a gyorsítótárból, a HTTP-állapotkódtól függetlenül.
 >
 
-Az alábbi kódot a `FindOrderByID` metódus terjeszteni az If-None-Match fejléc támogatja. Figyelje meg, hogy ha az If-None-Match fejléc hiányzik, a megadott sorrendben mindig olvassa:
+Az alábbi kód az If-None-Match fejléc támogatásához kibővített `FindOrderByID` metódust mutatja. Figyelje meg, hogy ha az If-None-Match fejléc hiányzik, a rendszer mindig lekéri a megadott rendelést:
 
 ```csharp
 public class OrdersController : ApiController
@@ -420,7 +420,7 @@ public class OrdersController : ApiController
 }
 ```
 
-Ebben a példában a szerződés magában foglalja egy további egyéni `IHttpActionResult` osztályt `EmptyResultWithCaching`. Ez az osztály egyszerűen funkcionál csomagolásának egy `HttpResponseMessage` objektum, amely nem tartalmaz egy adott válasz törzse:
+Ebben a példában egy `EmptyResultWithCaching` nevű másik egyéni `IHttpActionResult` osztály is található. Ez az osztály egyszerű csomagolásként szolgál egy `HttpResponseMessage` objektum körül, amely nem tartalmaz választörzset:
 
 ```csharp
 public class EmptyResultWithCaching : IHttpActionResult
@@ -442,29 +442,29 @@ public class EmptyResultWithCaching : IHttpActionResult
 ```
 
 > [!TIP]
-> Ebben a példában az adatok ETag az adatok, az alapul szolgáló adatforrásban kivonatolásával jön létre. Az ETag más módon számítható ki, ha a folyamat további is lehet optimalizálni, és az adatok csak szükség lehet lekérni az adatforrásból, amennyiben a változás.  Ezt a módszert akkor különösen akkor hasznos, ha az adatok mérete nagy, vagy az adatforrás eléréséhez szükséges eredményezhet jelentős késés (például, ha az adatforrás egy távoli adatbázishoz).
+> Ebben a példában az adatok ETagje az alapul szolgáló adatforrásból lekért adatok kivonatolásával jön létre. Ha az ETag más módon is kiszámítható, akkor a folyamat tovább optimalizálható, és az adatokat csak akkor kell lekérni az adatforrásból, ha változtak.  Ez a módszer különösen hasznos, ha az adatok mérete nagy, vagy az adatforrás elérése jelentős késést eredményezhet (például ha az adatforrás egy távoli adatbázis).
 >
 
-### <a name="use-etags-to-support-optimistic-concurrency"></a>ETag-EK használatával támogatja az egyidejű hozzáférések optimista
+### <a name="use-etags-to-support-optimistic-concurrency"></a>Optimista párhuzamosság támogatása ETagek használatával
 
-Korábban a gyorsítótárazott adatok frissítések engedélyezéséhez a HTTP protokollt támogatja az egyidejű hozzáférések optimista stratégia. Ha után beolvasása, és a gyorsítótár egy erőforrást, az ügyfélalkalmazás ezt követően módosítsa vagy távolítsa el az erőforrás PUT vagy DELETE kérelmet küld, azt az ETag hivatkozó If-Match fejléc bele kell foglalni. A webes API-t használhatja ezeket az információkat határozza meg, hogy az erőforrás már megtörtént egy másik felhasználó lekérdezés óta, és egy megfelelő választ az ügyfélalkalmazás küldése az alábbiak szerint:
+A korábban gyorsítótárazott adatok frissítésének engedélyezéséhez a HTTP-protokoll támogat egy optimista párhuzamossági stratégiát. Ha egy erőforrás beolvasása és gyorsítótárazása után az ügyfélalkalmazás elküld egy PUT vagy DELETE kérést az erőforrás módosítása vagy eltávolítása céljából, akkor a kérésnek tartalmaznia kell az ETagre hivatkozó If-Match fejlécet. A webes API ezen információk alapján határozza meg, hogy az erőforrást a lekérése óta módosította-e egy másik felhasználó, majd az alábbiak szerint visszaküldi a megfelelő választ az ügyfélalkalmazásnak:
 
-* Az ügyfél hoz létre egy új részletes adatainak megadása az erőforrás és az ETag az If-Match HTTP-fejlécekben hivatkozott erőforrás-jelenleg gyorsítótárazott verziójának tartalmazó PUT-kérelmekben. A következő példa bemutatja, amely sorrendben frissíti a PUT-kérelmekben:
+* Az ügyfél létrehoz egy PUT kérelmet, amely tartalmazza az erőforrás új adatait és az erőforrás jelenleg gyorsítótárazott verziójának ETagjét, amelyre egy If-Match HTTP-fejléc hivatkozik. A következő példa egy rendelést frissítő PUT kérelmet mutat be:
 
     ```HTTP
-    PUT http://adventure-works.com/orders/1 HTTP/1.1
+    PUT https://adventure-works.com/orders/1 HTTP/1.1
     If-Match: "2282343857"
     Content-Type: application/x-www-form-urlencoded
     Content-Length: ...
     productID=3&quantity=5&orderValue=250
     ```
-* A webes API-t a PUT-műveletével szerzi be a jelenlegi ETag a kért adatok (1. sorrendje a fenti példában), és összehasonlítja az értéket az If-Match fejlécben.
-* Ha a jelenlegi ETag a kért adatok megegyezik a kérés megadott ETag, az erőforrás nem változott, és a webes API-k végre kell hajtania a frissítést, egy üzenetet, amelyben a HTTP-állapotkód: 204 (nincs tartalom) ad vissza, ha sikeres. A válasz a Cache-Control és a frissített verziót az erőforrás ETag fejlécek tartalmazhatnak. A válasz mindig tartalmaznia kell a helyre fejlécet tartalmazta, amely az újonnan frissített erőforrás URI hivatkozik.
-* Ha a kért adatok jelenlegi ETag nem egyezik meg a kérés megadott ETag, majd az adatok egy másik felhasználó óta megváltozott lehívása és a webes API-t kell visszaadnia egy HTTP-válasz egy üres üzenet szövege és annak 412 (előfeltétel be egy állapotkód: sikertelen).
-* Ha frissítenie kell az erőforrás már nem létezik a webes API-t az állapotkód: 404-es (nem található), egy HTTP-válasz kell visszaadnia.
-* Az ügyfél a gyorsítótár karbantartása az állapot kód- és válaszfejlécekről használ. Ha az adatok frissítése (állapotkód: 204), akkor az objektum is maradniuk gyorsítótárazott (a Cache-Control fejléc nem adja meg a nem-tároló), de az ETag frissíteni kell. Ha az adatokat egy másik felhasználó módosította (állapotkód 412) módosult, vagy nem található (állapotkód: 404), majd a gyorsítótárazott objektum kellene.
+* A webes API PUT művelete lekéri a kért adatok jelenlegi ETag címkéjét (1. rendelés a fenti példában), és összehasonlítja az értéket az If-Match fejlécben találhatóval.
+* Ha a kért adatok jelenlegi ETagje megegyezik a kérés által megadott ETaggel, akkor az erőforrás nem változott, és a webes API-nak el kell végeznie a frissítést, majd a sikeres frissítés után egy 204 (Nem módosított) HTTP-állapotkódú üzenetet kell visszaadnia. A válasz tartalmazhatja az erőforrás frissített verziójának Cache-Control és ETag fejléceit. A válasznak mindig tartalmaznia kell a Location fejlécet, amely az újonnan frissített erőforrás URI-jére hivatkozik.
+* Ha a kért adatok jelenlegi ETagje nem egyezik a kérés által megadott ETaggel, akkor a lekérés óta egy másik felhasználó módosította az adatokat, a webes API-nak pedig a HTTP-válaszban egy üres üzenettörzset és a 412 (Nem teljesül az előfeltétel) állapotkódot kell visszaadnia.
+* Ha a frissítendő erőforrás már nem létezik, akkor a webes API-nak egy 404 (Nem található) állapotkódú HTTP-választ kell visszaadnia.
+* Az ügyfél az állapotkóddal és a válaszfejlécekkel tartja karban a gyorsítótárat. Ha az adatok frissültek (204-es állapotkód), akkor az objektum maradhat a gyorsítótárban (amennyiben a Cache-Control fejléc nem a no-store értéket tartalmazza), de az ETaget frissíteni kell. Ha az adatokat egy másik felhasználó módosította (412-es állapotkód) vagy nem találhatók (404-es állapotkód), akkor a gyorsítótárazott objektumot el kell vetni.
 
-A következő példakód a PUT művelet az rendelések tartományvezérlő megvalósítását mutatja:
+A következő példakód az Orders vezérlő PUT műveletének megvalósítását mutatja be:
 
 ```csharp
 public class OrdersController : ApiController
@@ -537,52 +537,52 @@ public class OrdersController : ApiController
 ```
 
 > [!TIP]
-> Az If-Match fejléc nem teljesen kötelező, és ha nincs megadva a webes API mindig megpróbálja frissíteni a megadott sorrendben, esetleg egy másik felhasználó által végrehajtott frissítés mappába felülírja. Elveszett frissítése problémák elkerülése érdekében mindig adja meg az If-Match fejléc.
+> Az If-Match fejléc használata teljesen választható, és ha elhagyja, a webes API mindig megpróbálja frissíteni a megadott rendelést, akár vakon felülírva egy másik felhasználó által végrehajtott frissítést. Az elveszett frissítések miatti problémák elkerüléséhez mindig adjon meg egy If-Match fejlécet.
 >
 >
 
-## <a name="handling-large-requests-and-responses"></a>Nagy kérelmeit és válaszait kezelése
-Lehetnek olyan alkalmak, amikor egy ügyfél alkalmazást kell elküldeni vagy fogadni a több mérete (MB) lehet adatokat kérelmek ki (vagy nagyobb) mérete. Várakozás a adatmennyiség továbbított okozhat az ügyfélalkalmazás válaszol. Ha jelentős mennyiségű adatot tartalmazó kérelmek kezeléséhez van szüksége, vegye figyelembe a következő szempontokat:
+## <a name="handling-large-requests-and-responses"></a>Nagyméretű kérelmek és válaszok kezelése
+Előfordulhat, hogy egy ügyfélalkalmazásnak olyan kérelmeket kell kiállítania vagy olyan adatokat kell fogadnia, amelyek mérete több MB (vagy még nagyobb). Ha az ügyfélalkalmazás ekkora mennyiségű adat átvitelére várakozik, előfordulhat, hogy nem válaszol. Ha jelentős mennyiségű adatot tartalmazó kérelmeket kezel, vegye figyelembe a következő szempontokat:
 
-### <a name="optimize-requests-and-responses-that-involve-large-objects"></a>Kérelmeit és válaszait, például a nagyméretű objektumok optimalizálása
+### <a name="optimize-requests-and-responses-that-involve-large-objects"></a>Nagyméretű objektumokat tartalmazó kérelmek és válaszok optimalizálása
 
-Bizonyos erőforrások nagy objektumok vagy nagy mezők, például képeket vagy más típusú bináris adatok szerepelhetnek. A webes API támogatnia kell a folyamatos átviteli optimalizált feltöltése és ezekkel az erőforrásokkal való letöltésének engedélyezése.
+Bizonyos erőforrások nagyméretű objektumok lehetnek, vagy nagy mezőket, például képeket vagy más típusú bináris adatokat tartalmazhatnak. A webes API-nak támogatnia kell a streamelést az ilyen erőforrások fel- és letöltésének optimalizálásához.
 
-A HTTP protokoll biztosítja a darabolásos átviteli kódolás mechanizmus nagyméretű objektumok egy ügyfél adatfolyamként történő küldéséhez. Az ügyfél egy nagy objektumot egy HTTP GET kérést küld, a webes API-t is küldhet a válasz vissza darabonkénti *adattömbök* HTTP-kapcsolaton keresztül. A válaszban adatok hossza nem lehet, hogy kezdetben ismert (Ez lehet, hogy hozható létre), ezért a webes API-t futtató kiszolgálót az egyes adattömbök, amely meghatározza a Transfer-Encoding válaszüzenetet küldött e: darabolásos Content-Length fejlécet helyett fejléc. Az ügyfélalkalmazás kaphat az egyes adattömbök viszont, hogy a teljes válasz kialakításához. Az adatok átvitele befejeződött, ha a kiszolgáló küld vissza a végső rendszer mérete nulla. 
+A HTTP-protokoll biztosítja a darabolásos átvitel kódolási mechanizmusát, amellyel a nagyméretű adatobjektumok visszastreamelhetők egy ügyfélhez. Amikor az ügyfél elküld egy nagy objektumra vonatkozó HTTP GET kérést, a webes API képes a választ darabonkénti *adattömbök* formájában visszaküldeni egy HTTP-kapcsolaton keresztül. A válaszban található adatok hossza kezdetben ismeretlen lehet (előfordulhat, hogy az adatok akkor jönnek létre), ezért a webes API-t futtató kiszolgálónak minden egyes adattömbbel együtt küldenie kell egy válaszüzenetet, amely egy Transfer-Encoding: Chunked fejlécet tartalmaz egy Content-Length fejléc helyett. Az ügyfélalkalmazás egymás után kaphatja meg az egyes adattömböket, amelyekből felépíti a teljes választ. Az adatok átvitele akkor ér véget, amikor a kiszolgáló visszaküld egy nulla méretű végső tömböt. 
 
-Egyetlen kérelem kapcsolódását eredményezheti egy nagy objektumot, amely jelentős erőforrásokat használ fel. Ha a folyamatos átviteli folyamat során a webes API-k határozza meg, hogy a kérelemben adatok mennyisége túllépte néhány elfogadható határai, akkor megszakítja a műveletet, és vissza válaszüzenetet állapotkóddal 413 (kérelem entitás túl nagy).
+Egyetlen kérelem is eredményezhet egy olyan nagyméretű objektumot, amely jelentős erőforrásokat használ fel. Ha a streamelési folyamat során a webes API azt állapítja meg, hogy egy kérelem adatmennyisége túllép valamilyen elfogadható korlátot, akkor megszakíthatja a műveletet, és visszaadhat egy válaszüzenetet a 413 (A kérelemegység túl nagy) állapotkóddal.
 
-Minimalizálhatja a HTTP-tömörítés a hálózaton keresztül továbbított nagy objektumok méretét. Ez a megközelítés segít csökkentheti a hálózati forgalom és a kapcsolódó hálózati késés, de az ügyfél és a webes API-t futtató kiszolgáló további feldolgozását igénylő. Például egy ügyfélalkalmazást, amely a tömörített adatok fogadására vár tartalmazhatnak elfogadás-kódolással: gzip kérelem fejléce (más algoritmusok is megadható adattömörítés). Ha a kiszolgáló támogatja a tömörítést azt kell válaszolnia a gzip-formátumban a üzenet szövege és a tartalom-kódolás tárolt tartalmat: gzip válaszfejlécet.
+A hálózaton keresztül továbbított nagyméretű objektumok mérete HTTP-tömörítéssel minimalizálható. Ez a módszer segít csökkenteni a hálózati forgalmat és a kapcsolódó hálózati késést, viszont az ügyfélnek és a webes API-t futtató kiszolgálónak egyaránt további feldolgozást kell végeznie. Például egy tömörített adatok fogadását váró ügyfélalkalmazás belefoglalhat a kérésébe egy „Accept-Encoding: gzip” fejlécet (más adattömörítési algoritmusok is megadhatók). Ha a kiszolgáló támogatja a tömörítést, akkor a válaszban meg kell adnia a gzip formátumú tartalmat az üzenettörzsben, valamint az „Accept-Encoding: gzip” válaszfejlécet.
 
-Kombinálhatja a kódolt tömörítés, amelynél adatfolyamos; először előtt streaming az adatok tömörítésére, és adja meg a gzip tartalmának kódolását és darabolásos átviteli kódolás a üzenetfejlécben. Ne feledje, hogy olyan webkiszolgálók (például az Internet Information Server) beállítható úgy, hogy automatikusan tömöríti a HTTP-válaszokat, függetlenül attól, hogy a webes API-k tömöríti-e az adatokat, vagy nem.
+A tömörítés kombinálható a streameléssel: a streamelés előtt tömörítse az adatokat, és adja meg a gzip tartalomkódolást és a darabolt átviteli kódolást az üzenetfejlécekben. Vegye figyelembe, hogy egyes webkiszolgálók (például az Internet Information Server) beállíthatók úgy, hogy automatikusan tömörítsék a HTTP-válaszokat, függetlenül attól, hogy a webes API tömöríti-e az adatokat.
 
-### <a name="implement-partial-responses-for-clients-that-do-not-support-asynchronous-operations"></a>Részleges válasz az ügyfelek, amelyek nem támogatják az aszinkron műveletek végrehajtása
+### <a name="implement-partial-responses-for-clients-that-do-not-support-asynchronous-operations"></a>Részleges válaszok megvalósítása az aszinkron műveleteket nem támogató ügyfelek felé
 
-Aszinkron streaming alternatívájaként ügyfélalkalmazás is igényelhetnek adattömböket, részleges válasz néven nagy objektumok adatait. Az ügyfélalkalmazás megszerezni az objektum adatait egy HTTP HEAD-kérést küld. Ha a webes API támogatja a részleges válasz, ha a HEAD kérelem, amely tartalmaz egy elfogadás-tartományok és a Content-Length fejlécet, amely az objektum teljes méretét válaszüzenetet válaszolnia kell, de az üzenet törzsét üresnek kell lennie. Az ügyfélalkalmazás ezen információk használatával hozható létre több GET kérelem által megadott bájttartomány fogadására. A webes API HTTP-állapot 206 (részleges tartalom), a Content-Length fejlécet, amely meghatározza a válaszüzenetet, és a Content-Range fejléc, amely jelzi, mely része (például bájt 4000 üzenettörzsbeli adatok tényleges mennyiségét válaszüzenetet kell visszaadnia. 8000) az az objektum az adatok jelöli.
+Az aszinkron streamelés alternatívájaként az ügyfélalkalmazás explicit módon megadhatja, hogy a nagy objektumok esetében tömbökben kéri az adatokat. Ezeket a tömböket részleges válaszoknak hívják. Az ügyfélalkalmazás egy HTTP HEAD kérést küld az objektum adatainak lekéréséhez. Ha a webes API támogatja a részleges válaszokat, akkor a HEAD kérésre adott válaszüzenetének tartalmaznia kell egy Accept-Ranges fejlécet és egy Content-Length fejlécet, amely az objektum teljes méretét jelzi, de üzenet törzsének üresnek kell lennie. Az ügyfélalkalmazás ezen információk alapján hoz létre több GET kérést, amelyekben megadja a fogadni kívánt bájttartományt. A webes API válaszüzenetének tartalmaznia kell a 206 (Részleges tartalom) HTTP-állapotkódot; egy Content-Length fejlécet, amely meghatározza, hogy a válaszüzenet törzsében mennyi adat található, valamint egy Content-Range fejlécet, amely jelzi, hogy az adatok az objektum mely részét képezik (például a 4000. bájttól a 8000. bájtig).
 
-Részletesen ismerteti a HTTP HEAD-kérelmek és a részleges válasz [API tervezési][api-design].
+A HTTP HEAD-kérelmek és a részleges válaszok bővebb leírása: [API-tervezés][api-design].
 
-### <a name="avoid-sending-unnecessary-100-continue-status-messages-in-client-applications"></a>Ne küldjön szükségtelen 100-ügyfélalkalmazások található állapotüzenetek folytatása
+### <a name="avoid-sending-unnecessary-100-continue-status-messages-in-client-applications"></a>Kerülje a szükségtelen 100-Continue állapotüzenetek küldését az ügyfélalkalmazásban
 
-Egy ügyfél-alkalmazás, amely arra készül, hogy a nagy mennyiségű adatot küldeni előfordulhat, hogy meghatározásához először a kiszolgáló tényleges hajlandó a kérést. Az adatküldés előtt az ügyfélalkalmazás is elküldhetik a egy várt HTTP-kérelem: 100-továbbra is a fejlécet, a Content-Length fejlécet, amely az adatokat, de egy üres üzenettörzs méretét jelzi. Ha a kiszolgáló hajlandó kezelni a kérést, azt egy üzenet, amely meghatározza a HTTP-állapot – 100 (Folytatás) kell válaszolnia. Az ügyfélalkalmazás majd a folytatáshoz, és a teljes, beleértve az adatokat az üzenet törzsében kérelem küldése.
+Ha egy ügyfélalkalmazás nagy mennyiségű adatot készül küldeni egy kiszolgálóra, akkor először megállapíthatja, hogy a kiszolgáló egyáltalán hajlandó-e fogadni a kérést. Az adatküldés előtt az ügyfélalkalmazás elküldhet egy HTTP-kérelmet, amely tartalmazza az „Expect: 100-Continue” fejlécet és az adatok méretét jelző Content-Length fejlécet, de az üzenettörzse üres. Ha a kiszolgáló hajlandó kezelni a kérést, akkor a válaszüzenetében a 100 (Folytatás) HTTP-állapotkódot kell megadnia. Az ügyfélalkalmazás ezután elküldheti a teljes kérést, az üzenet törzsében megadott adatokkal.
 
-Ha az IIS használatával az üzemeltetett szolgáltatás, a HTTP.sys illesztő automatikusan észleli és kezeli a várt: 100-fejlécek folytatni a kérelmek a webes alkalmazásba való továbbítása előtt. Ez azt jelenti, hogy nem valószínű, hogy ezek a fejlécek, az alkalmazás kódjában, és akkor feltételezheti, hogy az IIS már szűri, akkor megfelelően konfiguráltnak ítéli alkalmatlan vagy túl nagy üzeneteket.
+Az IIS használatával üzemeltetett szolgáltatások esetében a HTTP.sys illesztő automatikusan észleli és kezeli az „Expect: 100-Continue” fejléceket, mielőtt továbbítaná a kéréseket a webalkalmazásnak. Ez azt jelenti, hogy az alkalmazás kódjában valószínűleg nem lesznek láthatók ezek a fejlécek, és feltételezhető, hogy az IIS már kiszűrte az olyan üzeneteket, amelyeket nem megfelelőnek vagy túl nagynak talált.
 
-Ha a .NET-keretrendszer használatával hoz létre az ügyfélalkalmazások, akkor minden POST és a PUT üzenetek először a várt üzenetet szeretne küldeni: 100-alapértelmezés szerint továbbra is a fejléceket. Csakúgy, mint a kiszolgálóoldali, a folyamat kezeli transzparens módon a .NET-keretrendszer. Ez a folyamat azonban a kiszolgálóra, még akkor is a kis-kéréseket két üzenetváltások utak számát, amely minden POST és a PUT kérés eredményez. Ha az alkalmazás kérelmek nagy mennyiségű adatot nem küld, ez a szolgáltatás segítségével letilthatja a `ServicePointManager` osztály létrehozása `ServicePoint` az ügyfélalkalmazás az objektumok. A `ServicePoint` objektum kezeli a kapcsolatokat, az ügyfél által az alapján a rendszer és a gazdagép darabjai URI, amely azonosítja a kiszolgálón. Ezután beállíthatja a `Expect100Continue` tulajdonsága a `ServicePoint` objektum false értékre. URI, amely megfelel a rendszer és a gazdagép darabjai keresztül az ügyfél által küldött összes további POST és a PUT kérelmek a `ServicePoint` objektum rendszer anélkül küldi el várt: 100-fejlécek folytatni. A következő kód bemutatja, hogyan konfigurálhatja a `ServicePoint` objektum összes tervet az URI-azonosítók küldött kérelmeket a konfigurált `http` és `www.contoso.com`.
+Ha a .NET-keretrendszer használatával hoz létre ügyfélalkalmazásokat, akkor minden POST és PUT kérés először alapértelmezés szerint elküld egy „Expect: 100-Continue” fejlécet tartalmazó üzenetet. A kiszolgálóoldalhoz hasonlóan a .NET-keretrendszer transzparens módon kezeli a folyamatot. Ez a folyamat azonban azzal jár, hogy minden POST és PUT kérés teljesítése két üzenetváltást igényel a kiszolgálóval, még a kis méretű kérések is. Ha az alkalmazás nem küld nagy mennyiségű adatot tartalmazó kérelmeket, akkor letilthatja ezt a funkciót, ha a `ServicePointManager` osztállyal hoz létre `ServicePoint` objektumokat az ügyfélalkalmazásban. A `ServicePoint` objektum a kiszolgálón lévő erőforrásokat azonosító URI-k séma- és gazdagéptöredékei alapján kezeli az ügyfél által a kiszolgálóval létrehozott kapcsolatokat. Ezután a `ServicePoint` objektum `Expect100Continue` tulajdonságát false (hamis) értékre állíthatja. Minden későbbi POST és PUT kérés, amelyet az ügyfél a `ServicePoint` objektum séma- és gazdagéptöredékeivel megegyező URI-n keresztül küld, „Expect: 100-Continue” fejlécek nélkül lesz elküldve. A következő kód bemutatja, hogyan konfigurálható egy `ServicePoint` objektum, amely az URI-knek küldött összes kérést `http` sémával és `www.contoso.com` gazdagéppel konfigurálja.
 
 ```csharp
-Uri uri = new Uri("http://www.contoso.com/");
+Uri uri = new Uri("https://www.contoso.com/");
 ServicePoint sp = ServicePointManager.FindServicePoint(uri);
 sp.Expect100Continue = false;
 ```
 
-Azt is beállíthatja a statikus `Expect100Continue` tulajdonsága a `ServicePointManager` adhatja meg ennek a tulajdonságnak az alapértelmezett érték az összes azt követő osztály `ServicePoint` objektumok. További információkért lásd: [ServicePoint osztály](https://msdn.microsoft.com/library/system.net.servicepoint.aspx).
+Be lehet állítani a `ServicePointManager` osztály statikus `Expect100Continue` tulajdonságát is beállíthatja, hogy a tulajdonság ezt az alapértelmezett értéket adja meg minden ezután létrehozott `ServicePoint` objektumhoz. További információ: [ServicePoint-osztály](https://msdn.microsoft.com/library/system.net.servicepoint.aspx).
 
-### <a name="support-pagination-for-requests-that-may-return-large-numbers-of-objects"></a>Tördelési támogatja, amelyek nagy számú objektum térhetnek vissza kérelmeknél
+### <a name="support-pagination-for-requests-that-may-return-large-numbers-of-objects"></a>Tördelés támogatása olyan kéréseknél, amelyek esetlegesen nagy számú objektumot adhatnak vissza
 
-Ha egy gyűjtemény sok erőforrást tartalmaz, GET kérés kiadása a hozzá tartozó URI képes jelentős feldolgozási teljesítményét webes API-t üzemeltető kiszolgálón eredményez, és hálózati forgalom, ami jelentős mennyiségű készítése nagyobb késéseket.
+Ha egy gyűjtemény sok erőforrást tartalmaz, egy GET kérés eljuttatása a megfelelő URI-hez jelentős mértékű feldolgozást igényelhet a webes API-t üzemeltető kiszolgálón, ami hatással lehet a teljesítményre és nagy mennyiségű hálózati forgalommal járhat, ez pedig a késések növekedéséhez vezet.
 
-Ezekben az esetekben kezelni, a webes API-k támogatnia kell a lekérdezési karakterláncok, amelyek lehetővé teszik az ügyfélalkalmazás kérelmek finomíthatja vagy adatlehívás könnyebben kezelhető, különálló tömb (vagy lapok). Az alábbi kódot a `GetAllOrders` metódust a `Orders` vezérlő. Ez a módszer lekéri a rendelés részleteit. Ez a metódus lett megkötés nélkül, kapcsolódását visszaadhatja nagy mennyiségű adatot. A `limit` és `offset` paraméterek célja, hogy csökkentse az adatok mennyisége kisebb részhalmazát, ez esetben csak az első 10 rendeléseket alapértelmezés szerint:
+Az ilyen esetek kezeléséhez a webes API-nak támogatnia kell az olyan lekérdezési sztringekat, amelyek lehetővé teszik, hogy az ügyfélalkalmazás pontosítsa a kérelmeket, vagy könnyebben kezelhető, különálló blokkokra (vagy lapokra) tagolva kérje le az adatokat. Az alábbi kód az `Orders` vezérlő `GetAllOrders` metódusát mutatja be. Ez a metódus a rendelések részleteit kéri le. Ha a metódus korlátozás nélküli lenne, előfordulhat, hogy nagy mennyiségű adatot adna vissza. A `limit` és az `offset` paraméter célja, hogy az adatok mennyiségét egy kisebb részhalmazra csökkentse, ebben az esetben alapértelmezés szerint csak az első 10 rendelésre:
 
 ```csharp
 public class OrdersController : ApiController
@@ -601,199 +601,199 @@ public class OrdersController : ApiController
 }
 ```
 
-Egy ügyfélalkalmazás kiadhatnak egy URI segítségével 50 eltolástól kezdve 30 kérelmek lekérésére irányuló kérelem `http://www.adventure-works.com/api/orders?limit=30&offset=50`.
+Egy ügyfélalkalmazás kiadhat olyan kérelmet, amely 30 rendelést kér le 50-es eltolástól kezdve a `https://www.adventure-works.com/api/orders?limit=30&offset=50` URI használatával.
 
 > [!TIP]
-> Kerülje a megadásához, amelyek URI, amely az érték 2000-nél több karakter hosszú lekérdezési karakterláncok ügyfélalkalmazások engedélyezését. Számos webalkalmazás-ügyfelek és kiszolgálók ilyen hosszú URI-azonosítók nem tudja kezelni.
+> Ne engedélyezze az ügyfélalkalmazásoknak olyan lekérdezési sztringek megadását, amelyek 2000 karakternél hosszabb URI-t eredményeznek. Számos webes ügyfél és kiszolgáló nem tudja kezelni az ilyen hosszú URI-kat.
 >
 >
 
-## <a name="maintaining-responsiveness-scalability-and-availability"></a>Reakcióidőt, a méretezhetőség és a rendelkezésre állás fenntartása
-Az azonos web API futtató bárhol a világon sok ügyfélalkalmazások előfordulhat, hogy lesz szükség. Fontos biztosítania, hogy a webes API-t kell lennie a magas különböző munkaterhelések támogatásához, és rendelkezésre állás biztosításához az üzleti szempontból kulcsfontosságú műveleteket az ügyfelek méretezhető, nagy terhelés alatt válaszkészsége fenntartásához. Ha ezek a követelmények teljesítéséhez módjának meghatározása, vegye figyelembe a következő szempontokat:
+## <a name="maintaining-responsiveness-scalability-and-availability"></a>A válaszképesség, a skálázhatóság és a rendelkezésre állás fenntartása
+Egy adott webes API-t számos ügyfélalkalmazás használhat a világ bármely részén. Fontos, hogy a webes API úgy legyen megvalósítva, hogy válaszképes legyen nagy mértékű terhelés alatt is, hogy skálázható legyen a nagymértékben ingadozó számítási feladatok kezeléséhez, és hogy garantáltan rendelkezésre álljon az üzleti szempontból kulcsfontosságú műveleteket végző ügyfelek számára. Mindezen követelmények teljesítése érdekében vegye figyelembe a következő szempontokat:
 
-### <a name="provide-asynchronous-support-for-long-running-requests"></a>Aszinkron támogatást nyújt a hosszan futó kérelmek
+### <a name="provide-asynchronous-support-for-long-running-requests"></a>A hosszan futó kérelmek aszinkron támogatásának biztosítása
 
-A kérelmeket, amelyek feldolgozása hosszú időbe telhet, hogy a kérés elküldése megtörtént az ügyfél blokkolása nélkül kell elvégezni. A webes API-k hajthatják végre a kérelem ellenőrzéséhez kezdeményezni egy külön feladat a munkájuk elvégzéséhez, és térjen vissza a HTTP-kód 202 (elfogadható) válaszüzenetet néhány kezdeti ellenőrzése. A feladat futtathat a webes API részeként aszinkron feldolgozás, vagy a háttérfeladat sikerült kiszervezett.
+Az olyan kérelmeket, amelyek feldolgozása hosszú időbe telhet, a kérelmet küldő ügyfél blokkolása nélkül kell feldolgozni. A webes API elvégezhet néhány kezdeti ellenőrzést a kérelem érvényesítéséhez, elindíthat egy külön feladatot a munka elvégzéséhez, majd visszaadhat egy 202 (Elfogadva) HTTP-kódú válaszüzenetet. A feladat futhat aszinkron módon a webes API feldolgozófolyamatának részeként, vagy kiszervezhető egy háttérfeladatba.
 
-A webes API-t kell is egy olyan mechanizmus biztosítása az ügyfélalkalmazás találatot feldolgozását. Ennek érdekében azáltal, hogy a rendszeres időközönként lekérdezés alkalmazásokat egy olyan ügyfél lekérdezési mechanizmus e feldolgozása befejeződik, és az eredményt vagy engedélyezése a webes API-k elküldeni egy értesítést, ha a művelet befejeződött.
+A webes API-nak emellett biztosítania kell egy mechanizmust, amely visszaadja a feldolgozás eredményét az ügyfélalkalmazásnak. Ennek érdekében megadhat az ügyfélalkalmazásoknak egy lekérdezési mechanizmust, amellyel időnként lekérdezhetik, hogy a feldolgozás befejeződött-e, és lekérhetik az eredményt, vagy engedélyezhetjük, hogy a webes API egy értesítést küldjön a művelet befejezése után.
 
-Egy egyszerű lekérdezési módszer biztosításával valósíthat meg egy *lekérdezési* URI, amely úgy működik, mint egy virtuális erőforrást a következő módon:
+Egyszerűen megvalósíthat egy lekérdezési mechanizmust, ha a következőképpen megad egy virtuális erőforrásként szolgáló *lekérdezési* URI-t:
 
-1. Az ügyfélalkalmazás a kezdeti kérést küld a webes API-t.
-2. A webes API-t a kérelem kapcsolatos információkat tárolja a table storage vagy a Microsoft Azure Cache tárolt tábla, és állít elő ez a bejegyzés egyedi kulcs, valószínűleg egy GUID formájában.
-3. A webes API-k indít el egy külön feladat feldolgozásával. A webes API-t a feladat állapotát rögzíti a táblázat *futtató*.
-4. A webes API-t adja vissza válaszüzenetet HTTP-állapotkód: 202 (elfogadható), és a táblabeli GUID-azonosítója az üzenet törzsét.
-5. A feladat befejezése után a webes API-t tárolja az eredményeket a táblában, és a feladat állapotának beállítása *Complete*. Ne feledje, hogy a feladat sikertelen lesz, ha a webes API-k sikerült is a hibával kapcsolatos információkat tárolja az állapot beállítása *sikertelen*.
-6. A feladat futása közben, az ügyfél továbbra is a saját feldolgozási végrehajtása. Azt is rendszeresen kérelmet küld az URI */polling/ {guid}* ahol *{guid}* a globálisan egyedi Azonosítót ad vissza a 202 válaszüzenetben a webes API-t.
-7. A webes API-t, a */polling/ {guid}* URI a táblázatban a megfelelő feladat állapotának lekérdezése, és adja vissza egy válaszüzenetben HTTP-állapotkód: 200 (OK) ebben az állapotban (*futtató*, *Teljes*, vagy *sikertelen*). Ha a feladat befejeződött, vagy sikertelen volt, a válaszüzenetet is hozzáadhat az eredmények a feldolgozás vagy bármely információ elérhető a hiba okát.
+1. Az ügyfélalkalmazás elküldi a kezdeti kérelmet a webes API-nak.
+2. A webes API tárolja a kérelemmel kapcsolatos információkat egy táblatárolóban vagy a Microsoft Azure Cache-ben tárolt táblában, és létrehoz egy egyedi kulcsot a bejegyzéshez, valószínűleg egy GUID formájában.
+3. A webes API elindítja a feldolgozást egy külön feladatként. A webes API a táblában a feladat állapotát *Fut* értékre állítja.
+4. A webes API visszaad egy válaszüzenetet a 202 (Elfogadva) HTTP-állapotkóddal és az üzenet törzsében a táblabejegyzés GUID-azonosítójával.
+5. A feladat befejezése után a webes API tárolja az eredményeket a táblában, és a feladat állapotát *Befejezve* értékre állítja. Vegye figyelembe, hogy ha a feladat meghiúsul, a webes API a sikertelenségről is tárolhat információkat, az állapotot pedig *Sikertelen* értékre állíthatja.
+6. A feladat futása közben az ügyfél továbbra is végezhet saját feldolgozást. Eközben időközönként elküldhet egy kérelmet a */polling/{guid}* URI-nek, ahol a *{guid}* az a globálisan egyedi azonosító, amelyet a webes API a 202-es válaszüzenetben visszaadott.
+7. A */polling/{guid}* URI-hez tartozó webes API lekérdezi a vonatkozó feladat állapotát a táblából, és visszaad egy válaszüzenetet a 200 (OK) HTTP-állapotkóddal és az állapottal (*Fut*, *Befejezve* vagy *Sikertelen*). Ha a feladat befejeződött vagy meghiúsult, a válaszüzenet tartalmazhatja a feldolgozás eredményét vagy a sikertelenség okával kapcsolatban elérhető információkat is.
 
-Az értesítések végrehajtási lehetőségek a következők:
+Az értesítések megvalósításának lehetőségei a következők:
 
-- Az Azure Notification Hub használatával, majd az aszinkron válaszok ügyfélalkalmazások számára. További információkért lásd: [Azure Notification Hubs – felhasználók értesítése](/azure/notification-hubs/notification-hubs-aspnet-backend-windows-dotnet-wns-notification/).
-- Az ügyfél biztonsági a üstökös modell használatával szeretné megőrizni az ügyfél és a webes API-t futtató kiszolgáló közötti hálózati kapcsolatot, és a kapcsolattal a leküldéses üzenetek a kiszolgálóról. Az MSDN újság cikk [egy egyszerű üstökös alkalmazást a Microsoft .NET-keretrendszer összeállítása](https://msdn.microsoft.com/magazine/jj891053.aspx) egy példa megoldást ismertet.
-- SignalR segítségével adatokat küldeni valós idejű a webkiszolgáló az ügyfél hálózati kapcsolaton keresztül. SignalR érhető el az ASP.NET-webalkalmazások számára történő NuGet-csomagként. További információ található a [ASP.NET SignalR](http://signalr.net/) webhelyet.
+- Aszinkron válaszok leküldése az ügyfélalkalmazásoknak az Azure Notification Hub használatával. További információ: [Azure Notification Hubs – felhasználók értesítése](/azure/notification-hubs/notification-hubs-aspnet-backend-windows-dotnet-wns-notification/).
+- A Comet modell használata egy állandó hálózati kapcsolat fenntartásához az ügyfél és a webes API-t üzemeltető kiszolgáló között, és a kapcsolat használata a kiszolgálóról az ügyfélhez visszaküldött üzenetek leküldéséhez. Ehhez az MSDN magazin [Egyszerű Comet-alkalmazás Microsoft .NET-keretrendszerben való létrehozását](https://msdn.microsoft.com/magazine/jj891053.aspx) ismertető cikkében talál egy példát.
+- Adatok valós idejű leküldése a kiszolgálóról az ügyfél felé állandó kapcsolaton keresztül a SignalR használatával. A SignalR az ASP.NET-webalkalmazásokhoz NuGet-csomagként érhető el. További információt az [ASP.NET SignalR](https://www.asp.net/signalr) webhelyen talál.
 
-### <a name="ensure-that-each-request-is-stateless"></a>Gondoskodjon arról, hogy az egyes kérelmek állapot nélküli
+### <a name="ensure-that-each-request-is-stateless"></a>Az egyes kérelmek állapotnélküliségének biztosítása
 
-Minden egyes kérelem atomi figyelembe venni. Egy ügyfélalkalmazás egy kérelmet, és bármely későbbi ugyanaz az ügyfél által küldött kérelmeket közötti függőségek kell lennie. Ez a megközelítés segít a méretezhetőségi; a webszolgáltatás példánya több kiszolgálót is telepíthető. Ügyfélkérések irányítható, ezek a példányok, és az eredmények mindig azonosnak kell lennie. Ez is növeli a rendelkezésre állási hasonló okból; Ha egy web server sikertelen kérelmeket egy másik példányhoz átirányítható (Azure Traffic Manager használatával) során a kiszolgáló újraindítása nincs sérültnek hatása az ügyfélalkalmazások számára.
+Minden egyes kérelmet atominak kell tekinteni. Egy ügyfélalkalmazás különböző időpontokban elküldött kérelmei között nem állhatnak fenn függőségek. Ez a módszer segíti a méretezhetőséget, és a webszolgáltatás példányai több kiszolgálóra is telepíthetők. Az ügyfélkérések bármelyik példányhoz irányíthatók, és az eredmények mindig azonosak. A megoldás hasonlóképpen javítja a rendelkezésre állást is: ha egy webkiszolgáló meghibásodik, a kérések átirányíthatók egy másik példányhoz az Azure Traffic Managerrel, amíg a kiszolgáló újraindul, és mindez semmilyen negatív hatással nincs az ügyfélalkalmazásra.
 
-### <a name="track-clients-and-implement-throttling-to-reduce-the-chances-of-dos-attacks"></a>Nyomon követheti az ügyfelek és a sávszélesség-szabályozás megvalósítása esélyét csökkentheti a Szolgáltatásmegtagadási támadások
+### <a name="track-clients-and-implement-throttling-to-reduce-the-chances-of-dos-attacks"></a>Ügyfelek nyomon követése és szabályozás alkalmazása a szolgáltatásmegtagadási támadások esélyének csökkentése érdekében
 
-Ha egy adott ügyfél nagy számú kérést küld egy adott időn belül, előfordulhat, hogy se sajátíthassa ki a szolgáltatás és a teljesítményét a más ügyfelekkel. A probléma orvoslása érdekében webes API-k nyomon követését az IP-cím, az összes beérkező kérelem vagy -naplózás minden hitelesített hozzáférést figyelheti ügyfélalkalmazások hívásait. Ezek az információk használatával korlátozható az erőforrásokhoz való hozzáférést. Ha egy ügyfél meghaladja a meghatározott korláttal, a webes API-k vissza válaszüzenetet 503-as (a szolgáltatás nem érhető el) állapotú, és tartalmaznak egy újrapróbálkozási után fejlécet, amely meghatározza, amikor az ügyfél feladateseményeket küldhet a következő kérés nélkül alatt elutasította. Ezt a stratégiát segíthet a veszélyét annak, hogy a szolgáltatás megtagadása (DOS) támadás lévő ügyfelek, a rendszer leállása csökkentése érdekében.
+Ha egy adott ügyfél nagy számú kérést küld egy adott időn belül, előfordulhat, hogy kisajátítja a szolgáltatást, és befolyásolja a további ügyfelek teljesítményét. Ennek elkerülése érdekében a webes API monitorozhatja az ügyfélalkalmazások hívásait. Ez az összes bejövő kérelem IP-címének rögzítésével vagy az összes hitelesített hozzáférés naplózásával is történhet. Ezen adatok alapján korlátozható az erőforrásokhoz való hozzáférés. Ha egy ügyfél túllép egy adott korlátozását, a webes API visszaadhat egy válaszüzenetet az 503 (A szolgáltatás nem érhető el) állapotkóddal és egy Retry-After fejléccel, amelyben megadja, hogy az ügyfél mikor küldheti el a következő kérelmet anélkül, hogy a rendszer elutasítaná. Ez a stratégia segíthet megakadályozni, hogy bizonyos ügyfelek szolgáltatásmegtagadásos (DOS) támadásokkal akadályozzák a rendszer működését.
 
-### <a name="manage-persistent-http-connections-carefully"></a>Állandó HTTP-kapcsolatok gondosan kezelése
+### <a name="manage-persistent-http-connections-carefully"></a>Állandó HTTP-kapcsolatok gondos kezelése
 
-A HTTP protokoll azok állandó HTTP-kapcsolatokat támogatja. A HTTP 1.0 leírásnak fel a kapcsolatot: Keep-Alive fejléc, amely lehetővé teszi egy ügyfélalkalmazást, annak jelzésére, hogy az újakat nyitása helyett későbbi kérelmek küldéséhez használhatja ugyanazt a kapcsolatot a kiszolgálóval. Ha az ügyfél nem használja fel a kapcsolatot a gazdagép által megadott időn belül automatikusan bezáródik a kapcsolatot. Ez a viselkedés a HTTP 1.1 Azure-szolgáltatások által használt, így nem szükséges belefoglalni a fejlécek életben tartási üzenetek az alapértelmezett beállítás.
+A HTTP-protokoll támogatja az állandó HTTP-kapcsolatokat, ahol elérhetők. A HTTP 1.0 specifikáció bevezette a „Connection:Keep-Alive” fejlécet, amellyel az ügyfélalkalmazások jelezhetik a kiszolgálónak, hogy a későbbi kérelmeket ugyanazon a kapcsolaton keresztül is el tudják küldeni új kapcsolatok megnyitása helyett. A kapcsolat automatikusan lezárul, ha az ügyfél nem használja újra egy bizonyos időtartamon belül, amelyet a gazdagép határoz meg. Ez az Azure-szolgáltatások által használt HTTP 1.1 alapértelmezett viselkedése, így az üzenetekbe nem szükséges Keep-Alive fejléceket belefoglalni.
 
-Csökkenti a késést és a hálózati torlódás válaszkészsége javítása érdekében kapcsolatot nyitva tartása segítséget, de azok méretezhetőség sértő szükségtelen kapcsolatok hosszabb, mint más egyidejű ügyfelek képességét korlátozása szükséges nyitva tartja Csatlakoztassa. Azt is befolyásolhatja az eszközakkumulátor élettartamának, ha az ügyfél-alkalmazás fut egy mobileszközön; Ha az alkalmazás csak alkalmi kérelmeket küld a kiszolgáló, nyitott kapcsolat fenntartása okozhat az akkumulátor gyorsabban kiürítése. Győződjön meg arról, hogy a kapcsolat nem jön létre a HTTP 1.1 állandó, az ügyfél az alapértelmezett viselkedés felülbírálásához kapcsolat: Close fejlécet is tartalmaznia. Hasonlóképpen ha a kiszolgáló által kezelt nagyon nagy mennyiségű ügyfelet része lehet kapcsolat: Close fejléc a válaszüzenetek, amely kell zárja le a kapcsolatot, és kiszolgáló-erőforrás mentése.
+A kapcsolat nyitva tartása segíthet növelni a válaszkészséget a késés és a hálózati torlódás csökkentésével, de gyengítheti a skálázhatóságot, mivel a szükségtelen kapcsolatok felesleges nyitva tartása korlátozza a további ügyfelek csatlakozási lehetőségeit. Emellett ha az ügyfélalkalmazás mobileszközön fut, csökkentheti az eszköz akkumulátor-élettartamát is: ha az alkalmazás csak alkalmanként kérelmeket küld a kiszolgáló felé, a kapcsolat nyitva tartása gyorsabban lemerítheti az akkumulátort. Annak biztosításához, hogy a HTTP 1.1 ne tegyen állandóvá egy kapcsolatot, az ügyfél egy Connection:Close fejléc használatával felülírhatja az alapértelmezett viselkedést. Ha egy kiszolgáló rendkívül nagy mennyiségű ügyfelet kezel, akkor a válaszaiban a Connection:Close fejléc használatával hasonló módon lezárhatja a kapcsolatokat, így kiszolgáló-erőforrásokat takaríthat meg.
 
 > [!NOTE]
-> Állandó HTTP-kapcsolatok csak választható újdonsága a ismételten a kommunikációs csatornát létrehozó társított hálózati terhelésének csökkentése érdekében. A webes API-t és az ügyfélalkalmazás nem függ egy állandó HTTP-kapcsolat rendelkezésre állása. Ne használjon állandó HTTP-kapcsolatok megvalósításához üstökös stílusú értesítési rendszere; Ehelyett sockets (vagy websocket elemek, ha elérhető) használatára kell a TCP-rétegben. Végül vegye figyelembe a Keep-Alive fejléc korlátozott használat van, ha egy ügyfél-alkalmazás; proxyn keresztülmenő kiszolgálóval kommunikálva csak az ügyfél és a proxy kapcsolódási állandó lesz.
+> Az állandó HTTP-kapcsolatok funkciója teljes mértékben választható, és arra szolgál, hogy csökkentse a kommunikációs csatornák ismétlődő létrehozásával járó hálózati terhelést. Sem a webes API, sem az ügyfélalkalmazás nem függhet egy állandó HTTP-kapcsolat elérhetőségétől. Ne használjon állandó HTTP-kapcsolatokat a Comet stílusú értesítési rendszerek megvalósításához. Ehelyett használjon szoftvercsatornákat (vagy webes szoftvercsatornákat, ha elérhetők) a TCP-rétegben. Végül vegye figyelembe, hogy a Keep-Alive fejlécek csak korlátozottan használhatók, ha az ügyfélalkalmazás egy proxyn keresztül kommunikál a kiszolgálóval: ez esetben csak az ügyfél és a proxy kapcsolata lesz állandó.
 >
 >
 
-## <a name="publishing-and-managing-a-web-api"></a>Közzététele és webes API-k kezelése
-Webes API-k akkor válik elérhetővé az ügyfélalkalmazások, a webes API-t telepíteni kell egy gazdagép-környezetben. Ebben a környezetben az általában a webkiszolgáló, bár lehet, hogy más típusú gazdafolyamat. A webes API közzétételekor, a következő szempontokat kell figyelembe vennie:
+## <a name="publishing-and-managing-a-web-api"></a>Webes API-k közzététele és kezelése
+Ahhoz, hogy egy webes API elérhető legyen az ügyfélalkalmazások számára, a webes API-t telepíteni kell egy gazdakörnyezetben. Ez a környezet általában egy webkiszolgáló, bár valamilyen más típusú gazdafolyamat is lehet. A webes API-k közzétételekor vegye figyelembe a következő szempontokat:
 
-* Összes kérelem kell hitelesítenie és engedélyeznie, és a megfelelő szintű hozzáférés-vezérlés kényszerítettnek kell lennie.
-* Kereskedelmi webes API-k válaszidők vonatkozó különböző szolgáltatásminőségi garanciák célpontjává válhat. Fontos méretezhető, hogy a gazdagép-környezetben, így ha a terhelést időbeli nagymértékben változhat.
-* Elképzelhető, hogy szükséges mérési kérelmekre jeleníthetnek célokra.
-* Szabályozza a forgalmat a webes API-hoz, és a kvóták kimerített adott ügyfelek sávszélesség-szabályozás megvalósításához szükség lehet.
-* Szabályozási követelmények előfordulhat, hogy engedélyezhetik naplózása és az összes kérelmeit és válaszait naplózását.
-* Rendelkezésre állás biztosítása érdekében, akkor lehet szükség a webes API-t futtató kiszolgáló állapotának figyelésére, és szükség esetén indítsa újra.
+* Minden kérelmet hitelesíteni és engedélyezni kell, és be kell tartatni a megfelelő szintű hozzáférés-vezérlést.
+* A kereskedelmi webes API-k válaszidejére különböző minőségi garanciák vonatkozhatnak. Fontos, hogy a gazdakörnyezet skálázható legyen, ha a terhelés idővel nagymértékben változhat.
+* Szükség lehet a kérelmek mérésére pénzügyi okokból.
+* Lehetséges, hogy a webes API felé irányuló forgalmat korlátozni kell, valamint a kvótájukat felhasználó adott ügyfelekre vonatkozó szabályozást kell bevezetni.
+* A szabályozási követelmények előírhatják az összes kérelem és válasz naplózását.
+* A rendelkezésre állás biztosítása érdekében szükség lehet a webes API-t futtató kiszolgáló állapotának monitorozására, és adott esetben újraindítására.
 
-Akkor célszerű lehet használata leválasztja ezeket a problémákat a műszaki problémák, a webes API-k végrehajtására vonatkozó. Emiatt érdemes lehet létrehozni egy [homlokzati](http://en.wikipedia.org/wiki/Facade_pattern), és külön folyamatban futó kérelmek irányítja a webes API-hoz. A homlokzati biztosíthat a felügyeleti műveleteket, és előre érvényesíteni a kéréseket a webes API-hoz. Egy homlokzati használatával művelettel is sok működési előnyöket, többek között:
+Ezeket a problémákat célszerű elkülöníteni a műszaki kérdésektől a webes API-k megvalósításakor. Emiatt érdemes lehet létrehozni egy [előtérrendszert](https://en.wikipedia.org/wiki/Facade_pattern), amely külön folyamatként fut, és a webes API-hoz irányítja a kérelmeket. Az előtérrendszer felügyeleti műveleteket biztosíthat, és továbbíthatja az érvényesített kéréseket a webes API felé. Az előtérrendszer használata számos funkcionális előnnyel is jár, többek között:
 
-* Több Web API-k integrációs pontjaként működött.
-* Üzenetek átalakítása, és a kommunikációs protokollokat fordítása ügyfelek különböző technológiák használatával készültek.
-* Gyorsítótárazás kérelmeit és válaszait csökkentése érdekében betölteni a webes API-t futtató kiszolgálón.
+* Több webes API integrációs pontjaként szolgál.
+* különböző technológiák használatával átalakítja az üzeneteket és lefordítja a kommunikációs protokollokat az ügyfelek számára.
+* Gyorsítótárazza a kérelmeket és válaszokat a webes API-t futtató kiszolgáló terhelésének csökkentése érdekében.
 
-## <a name="testing-a-web-api"></a>A webes API tesztelése
-Egy webes API-t, mint minden más olyan szoftver alaposan kell vizsgálni. Érdemes lehet egység tesztet végrehajtva ellenőrizze a webes API-k jellege működésére létrehozása számos lehetőséget kínál a saját további követelmények ellenőrzése, hogy megfelelően működik-e. Meg kell különös figyelmet fordítani az alábbi szempontokat:
+## <a name="testing-a-web-api"></a>Webes API tesztelése
+A webes API-kat ugyanolyan alaposan kell tesztelni, mint minden más szoftvert. Érdemes egységteszteket létrehozni a működés ellenőrzéséhez. A webes API-k jellegüknél fogva saját további követelmények alapján ellenőrzik a helyes működést. Fordítson különös figyelmet a következőkre:
 
-* Az összes útvonal ellenőrzése, hogy azok a megfelelő műveleteket hívhatnak meg a teszteléséhez. Különösen ügyeljen a visszaadott HTTP-állapotkód: (a metódus nem engedélyezett) 405 váratlanul Ez azt jelzi, hogy az útvonal és a HTTP-metódus (GET, POST, PUT, DELETE), amely képes továbbítani, hogy az útvonal eltérést.
+* Ellenőrizze az összes útvonalat, hogy a megfelelő műveleteket hívják-e meg. Különösen figyeljen a váratlanul visszaadott 405 (Nem engedélyezett metódus) HTTP-állapotkódra, mivel ez azt jelezheti, hogy egy útvonal és a rajta keresztül elküldhető HTTP-metódusok (GET, POST, PUT, DELETE) nem egyeznek.
 
-    HTTP-kérelmeket küldjön útvonalakat, amelyek nem támogatják őket, például egy adott erőforrás POST kérelem elküldése (a POST kérelmek csak küldjön el erőforrás-gyűjtemények). Ezekben az esetekben az egyetlen érvényes válasz *kell* állapotkód 405 (nem engedélyezett) lehet.
-* Győződjön meg arról, hogy az összes útvonal megfelelően védettek, és a megfelelő hitelesítési és engedélyezési ellenőrzés alatt áll.
+    Küldjön HTTP-kérelmeket olyan útvonalakra, amelyeket nem támogatják őket, például egy POST kérelmet egy adott erőforrásra (a POST kérelmeket csak erőforrás-gyűjteményekre lehet küldeni). Ezekben az esetekben az *egyetlen* érvényes válasz a 405 (Nem engedélyezett) állapotkód lehet.
+* Ellenőrizze, hogy az összes útvonal megfelelően védett-e, és megtörténnek-e a megfelelő hitelesítési és engedélyezési ellenőrzések.
 
   > [!NOTE]
-  > Például a felhasználó hitelesítési olyan vonatkozásai feltehetően az ezzel a webes API-k, hanem a gazdagép-környezetben, de továbbra is szükséges, hogy biztonsági vizsgálatok tartalmazzák a telepítési folyamat részeként.
+  > Bizonyos biztonsági intézkedésekért, például a felhasználók hitelesítésért valószínűleg nem a webes API, hanem a gazdakörnyezet felel, de ettől függetlenül még szükséges a biztonsági vizsgálatok elvégzése a telepítési folyamat részeként.
   >
   >
-* Minden egyes művelet által végrehajtott kivételkezelést tesztelése, és győződjön meg arról, hogy egy megfelelő és a jelentéssel bíró HTTP-válasz küld vissza az ügyfélalkalmazást.
-* Ellenőrizze, hogy szabályos és válasz üzeneteket. Például ha egy HTTP POST-kérelmet tartalmazza az adatokat egy új erőforrás x-www-form-urlencoded formátumban, győződjön meg arról, hogy a megfelelő műveletet megfelelően elemzi az adatokat, az erőforrásokat, és az új erőforrás részleteit tartalmazó választ többek között a megfelelő helyet megjelölő fejlécet.
-* Ellenőrizze az összes hivatkozásokat és URI-azonosítók a válaszüzenetek. Például egy HTTP POST üzenet az újonnan létrehozott erőforrás URI kell visszaadnia. Minden HATEOAS kapcsolat érvényesnek kell lennie.
+* Tesztelje az egyes műveletek kivételkezelését, és ellenőrizze, hogy a műveletek megfelelő és jelentéssel bíró HTTP-válaszokat adnak-e vissza az ügyfélalkalmazásnak.
+* Ellenőrizze, hogy a kérelem- és válaszüzenetek szabályosak-e. Ha például egy HTTP POST kérelem x-www-form-urlencoded formátumban tartalmazza egy új erőforrás adatait, győződjön meg arról, hogy a vonatkozó művelet megfelelően elemzi az adatokat, létrehozza az erőforrásokat, és visszaad egy választ, amely tartalmazza az új erőforrás részleteit, köztük a megfelelő Location fejlécet.
+* Ellenőrizze az összes hivatkozást és URI-t a válaszüzenetekben. Például egy HTTP POST üzenetnek az újonnan létrehozott erőforrás URI-jét kell visszaadnia. Minden HATEOAS-hivatkozásnak érvényesnek kell lennie.
 
-* Győződjön meg arról, hogy a minden művelet bemeneti különböző kombinációkban megfelelő állapotkódjai adja vissza. Példa:
+* Győződjön meg arról, hogy a minden művelet a megfelelő állapotkódokat adja vissza a különböző bemeneti kombinációkra. Példa:
 
-  * Sikeres lekérdezés esetén visszaadja-e állapotkód 200 (OK)
-  * Ha egy erőforrás nem található, a művelet HTTP-állapotkód: 404-es (nem található) kell visszaadnia.
-  * Ha az ügyfél elküldi a kérelmeket, amelyek sikeresen töröl egy erőforrást, az állapotkód: 204 (nincs tartalom) kell lennie.
-  * Az ügyfél által létrehozott egy új erőforrást kérelmet küld, ha az állapotkódnak kell-e a 201-es (létrehozva)
+  * Ha egy lekérdezés sikeres, a 200 (OK) állapotkódot kell visszaadnia.
+  * Ha egy erőforrás nem található, a műveletnek a 404 (Nem található) HTTP-állapotkódot kell visszaadnia.
+  * Ha az ügyfél elküld egy kérelmet, amely sikeresen töröl egy erőforrást, a 204 (Nincs tartalom) állapotkódnak kell megjelennie.
+  * Ha az ügyfél elküld egy kérelmet, amely létrehoz egy új erőforrást, a 201 (Létrehozva) állapotkódnak kell megjelennie.
 
-Figyelje, hogy váratlan állapotkódok 5xx tartományban vannak. Ezek az üzenetek általában jelenti a kiszolgáló által annak jelzésére, hogy az eszköz nem egy érvényes kérelem teljesítéséhez.
+Figyeljen a válaszokban a váratlan állapotkódokra az 5xx tartományban. Ezekkel az üzenetekkel a gazdakiszolgáló általában azt jelzi, hogy nem tudott teljesíteni egy érvényes kérelmet.
 
-* A különböző kérelem fejléc kombinációit, amelyek egy ügyfélalkalmazást, adja meg, és győződjön meg arról, hogy a webes API-t adja vissza a várt információkat válaszüzenetek tesztelése.
-* Lekérdezési karakterláncok tesztelése. Egy műveletet a választható paraméterek: (például tördelési kérések) is igénybe vehet, ha tesztelni a különböző kombinációkban és a paraméterek sorrendjét.
-* Győződjön meg arról, hogy az aszinkron műveletek sikeresen befejeződnek. Ha a webes API támogatja az adatfolyam-kérelmek nagyméretű bináris objektumok (például a video- vagy hang) visszaadó, győződjön meg arról, hogy ügyfélkérelmek nem tiltanak közben az adatok továbbítja adatfolyamként. Ha a webes API-k megvalósítja a hosszan futó adatmódosítási műveletek lekérdezése, győződjön meg arról, hogy a műveletek jelentett állapotuk megfelelően azok a folytatáshoz.
+* Tesztelje az ügyfélalkalmazás által megadható különböző fejléc-kombinációkat, és győződjön meg arról, hogy a webes API a várt információt adja vissza a válaszüzenetekben.
+* Tesztelje a lekérdezési sztringekat. Ha egy műveletnek választható paraméterei is lehetnek (például tördelési kérések), tesztelje a paraméterek különböző kombinációit és sorrendjeit.
+* Ellenőrizze, hogy az aszinkron műveletek sikeresen befejeződnek-e. Ha a webes API támogatja streamelést a nagyméretű bináris objektumokat (például videókat vagy hangfájlokat) visszaadó kérelmeknél, akkor ügyeljen arra, hogy az ügyfélkérelmek ne legyenek blokkolva az adatok streamelése közben. Ha a webes API ciklikus lekérdezéseket használ a hosszan futó adatmódosítási műveletekhez, ellenőrizze, hogy a műveletek menet közben megfelelően jelentik-e az állapotukat.
 
-Inkább hozzon létre, és teljesítmény tesztek futtatása annak ellenőrzése, hogy a webes API-k cselekedjenek kielégítően működik. Webalkalmazás teljesítmény- és tesztelése a projekt betöltésekor Visual Studio Ultimate használatával hozhat létre. További információkért lásd: [teljesítmény vizsgálat futtatása előtt egy alkalmazás](https://msdn.microsoft.com/library/dn250793.aspx).
+Emellett hozzon létre és futtasson teljesítményteszteket, amelyekkel ellenőrizheti, hogy a webes API kielégítően működik-e nagy terhelés alatt. Webes teljesítmény- és terheléses tesztelési projekteket a Visual Studio Ultimate használatával hozhat létre. További információ: [Alkalmazások teljesítményének tesztelése közzététel előtt](https://msdn.microsoft.com/library/dn250793.aspx).
 
 ## <a name="using-azure-api-management"></a>Az Azure API Management használata 
 
-A Azure-érdemes [Azue API Management](https://azure.microsoft.com/documentation/services/api-management/) közzétételét és kezelését egy webes API-t. Ez a funkció segítségével is létrehozhat olyan szolgáltatás, amely egy vagy több Web API-k egy homlokzati funkcionál. A szolgáltatás pedig egy méretezhető webszolgáltatás, amelyet hozhat létre és konfigurálja az Azure felügyeleti portál használatával. Ez a szolgáltatás segítségével közzétehet és kezelhet a webes API-k az alábbiak szerint:
+Az Azure-ban érdemes az [Azure API Management](https://azure.microsoft.com/documentation/services/api-management/) szolgáltatást használnia a webes API-k közzétételéhez és felügyeletéhez. Ezzel az eszközzel létrehozhat egy olyan szolgáltatást, amely egy vagy több webes API előtér-szolgáltatásaként funkcionál. Maga a szolgáltatás egy méretezhető webszolgáltatás, amelyet az Azure felügyeleti portálján hozhat létre és konfigurálhat. A szolgáltatással a következőképpen tehet közzé és felügyelhet egy webes API-t:
 
-1. Egy webhely, az Azure cloud service vagy Azure virtuális gép központi telepítése a webes API-t.
-2. Az API management szolgáltatás kapcsolódni a webes API-t. A felügyeleti API URL-címre küldött kérelmeket a webes API URI-azonosítók van leképezve. Az azonos API management szolgáltatás irányíthatja a kérelmek egynél több webes API-hoz. Ez lehetővé teszi, hogy több webes API-k az egyetlen felügyeleti szolgáltatást összesíteni. Ehhez hasonlóan az azonos web API lehet hivatkozni több API management szolgáltatás Ha korlátozhatja, vagy a különböző alkalmazások funkcióinak partícióazonosító kell.
-
-   > [!NOTE]
-   > Az URI-azonosítók a HTTP GET kérelmek válasz részeként létrehozott HATEOAS hivatkozások hivatkoznia kell az API management szolgáltatás és nem a webes API-t üzemeltető webkiszolgáló URL-CÍMÉT.
-   >
-   >
-3. Minden webes API-t, adja meg, amely a webes API-t és a választható paraméterek: egy művelet által végrehajtható elérhetővé teszi a HTTP-műveletek bemeneti adatként. Is beállítható, hogy az API management szolgáltatás kell gyorsítótárazza a választ, a webes API ismétlődő kérelmek az adatok optimalizálása kapott. A minden művelet hozhat létre a HTTP-válasz részletes adatait rögzíti. Az adatok létrehozásához a dokumentáció a fejlesztők számára, ezért fontos, hogy a rendszer pontos és teljes.
-
-   Megadhat műveletek az Azure felügyeleti portál által szolgáltatott varázslók segítségével manuálisan, vagy importálhatja azokat a definíciók WADL vagy Swagger formátumú tartalmazó fájlt.
-4. A biztonsági beállítások az API management szolgáltatás és a webkiszolgáló a webes API-k közötti kommunikáció céljára. Az API management szolgáltatás jelenleg az egyszerű hitelesítés és a kölcsönös hitelesítést tanúsítványokkal, és az OAuth 2.0 felhasználói engedélyezési támogatja.
-5. Hozzon létre egy termék. A termék a egység kiadvány; a webes API-t a kezelési szolgáltatást, hogy a termék korábban csatolva hozzá. A termék meg van nyitva, a webes API-k elérhetővé válnak a fejlesztők számára.
+1. Telepítse az API-t egy webhelyre, Azure-felhőszolgáltatásba vagy Azure-beli virtuális gépre.
+2. Csatlakoztassa az API Management szolgáltatást a webes API-hoz. A felügyeleti API URL-címére küldött kérelmeket a webes API-ban lévő URI-kre képezi le a rendszer. Egy API Management szolgáltatás több webes API-hoz is irányíthatja a kérelmeket. Ezáltal több webes API-t összesíthet egyetlen felügyeleti szolgáltatásban. Hasonlóképp egy webes API-ra több API Management szolgáltatás is hivatkozhat, ha a különböző alkalmazások számára elérhető funkciókat korlátozni vagy particionálni kell.
 
    > [!NOTE]
-   > Közzététel a termék, mielőtt-felhasználócsoportokat, amelyek a termék elérheti és felhasználók hozzáadása az ezeket a csoportokat is meghatározhatja. A felügyelhető a fejlesztők és a webes API-t használó alkalmazásokban. Ha a webes API jóvá, nem tudnak hozzáférni az előtt egy fejlesztő kérést kell küldenie a termék rendszergazdájának. A rendszergazda is hozzáférés engedélyezése vagy megtagadása a fejlesztőnek. Meglévő fejlesztők is blokkolható, ha olyan körülmények között módosíthatja.
+   > A HTTP GET kérések válaszainak részeként létrehozott HATEOAS-hivatkozásokban található URI-knek az API Management szolgáltatás URL-címére kell hivatkozniuk, és nem a webes API-t üzemeltető webkiszolgálóra.
    >
    >
-6. Minden webes API-szabályzatok konfigurálása Házirendek szabályozására, például hogy a tartományok közötti hívások engedélyezni kell, hogyan hitelesíti az ügyfeleket, hogy XML és JSON adatok formázza transzparens módon, hogy egy adott IP-címtartomány hívásait korlátozza-e szempontok használati kvóták, és korlátozhatja a hívás sebessége. Házirendek globálisan alkalmazhatók a teljes termék, a termék egy webes API-t vagy webes API-k az egyes műveletek között.
+3. Minden webes API-hoz adja meg a közzétett HTTP-műveleteket, valamint a műveletek által bemenetként felhasználható opcionális paramétereket. Azt is beállíthatja, hogy az API Management szolgáltatás gyorsítótárazza-e a webes API-tól kapott választ, így optimalizálhatja az ugyanazon adatokra irányuló ismétlődő kérelmeket. Rögzítse az egyes műveletek által adható HTTP-válaszok részleteit. Ezek az adatok a fejlesztői dokumentációk létrehozására szolgálnak, ezért fontos hogy pontosak és teljesek legyenek.
 
-További információkért lásd: a [API Management dokumentációja](/azure/api-management/). 
+   A műveleteket meghatározhatja manuálisan az Azure felügyeleti portáljának varázslóival, vagy importálhatja őket egy fájlból, amely WADL vagy Swagger formátumban tartalmazza a definíciókat.
+4. Konfigurálja az API Management szolgáltatás és a webes API-t üzemeltető webkiszolgáló közötti kommunikáció biztonsági beállításait. Az API Management szolgáltatás jelenleg támogatja a tanúsítványokkal végzett alapszintű hitelesítést és kölcsönös hitelesítést, valamint az OAuth 2.0 felhasználói hitelesítést.
+5. Hozzon létre egy terméket. A termék a közzététel egysége: azokat a webes API-kat kell hozzáadnia, amelyeket korábban csatlakoztatott a kezelési szolgáltatáshoz. A termék közzététele után a webes API-k elérhetővé válnak a fejlesztők számára.
+
+   > [!NOTE]
+   > A termék közzététele előtt megadhat felhasználói csoportokat, amelyek hozzáférhetnek a termékhez, és felhasználókat adhat a csoportokhoz. Ezzel szabályozható, hogy a webes API-t mely fejlesztők és alkalmazások használhatják. Ha a webes API-t jóvá kell hagyni, a hozzáférés előtt a fejlesztőknek kérelmet kell küldeniük a termék adminisztrátorának. A rendszergazda engedélyezheti vagy megtagadhatja a fejlesztő hozzáférését. A már engedélyezett fejlesztők is blokkolhatók, ha a körülmények megváltoznak.
+   >
+   >
+6. Konfiguráljon szabályzatokat minden webes API-hoz. A szabályzatok meghatározzák például, hogy a tartományok közötti hívások engedélyezettek-e, hogy hogyan zajlik az ügyfelek hitelesítése, hogy az XML és JSON formátumok közötti átalakítás transzparens módon történik-e, hogy egy adott IP-címtartomány hívásai korlátozva legyenek-e, hogy a hívások sebessége korlátozott legyen-e, valamint a használati kvótákat. A szabályzatok alkalmazhatók globálisan az egész termékre, a termékben lévő adott webes API-ra, vagy a webes API-k egyes műveleteire.
+
+További információ: [az API Management dokumentációja](/azure/api-management/). 
 
 > [!TIP]
-> Azure biztosít az Azure Traffic Manager, ami lehetővé teszi a feladatátvételi és terheléselosztási megvalósítása, és a késés csökkentésére különböző földrajzi helyeken található üzemeltetett webhely több példánya között. Az API Management szolgáltatással; együtt használhatja az Azure Traffic Manager az API Management Service egy webhely keresztül Azure Traffic Manager-példányokban kívánja irányíthatja a kérelmeket.  További információkért lásd: [Traffic Manager útválasztási metódusok](/azure/traffic-manager/traffic-manager-routing-methods/).
+> Az Azure az Azure Traffic Manager segítségével teszi lehetővé a feladatátvétel és a terheléselosztás megvalósítását, valamint egy webhely különböző földrajzi helyeken üzemeltetett példányai közötti késés csökkentését. Az Azure Traffic Manager az API Management szolgáltatással együtt használható: az API Management az Azure Traffic Manager segítségével irányítja egy webhely példányaira küldött kérelmek útválasztását.  További információ: [A Traffic Manager forgalomirányítási módszerei](/azure/traffic-manager/traffic-manager-routing-methods/).
 >
-> Ez a struktúra a webhelyek, az egyéni DNS-nevek használatakor konfigurálnia kell a megfelelő CNAME rekordot a DNS-nevével, az Azure Traffic Manager webhely ponthoz minden webhelyhez.
+> Ha ebben a struktúrában egyéni DNS-neveket használ a webhelyekhez, konfigurálja mindegyik webhely megfelelő CNAME rekordját úgy, hogy az Azure Traffic Manager webhely DNS-nevére mutasson.
 >
 
 ## <a name="supporting-client-side-developers"></a>Ügyféloldali fejlesztők támogatása
-A fejlesztők ügyfélalkalmazások általában hozhat létre a web API, és a paraméterek, a adattípusok, a visszatérési típusok és a visszatérési kódokat, amelyek bemutatják a különböző kérelmek és között a webes válaszok vonatkozó dokumentációt elérésével ismereteket igényel szolgáltatás és az ügyfélalkalmazást.
+Az ügyfélalkalmazások fejlesztőinek általában információkra van szükségük a webes API elérésével kapcsolatban. Emellett dokumentációra is szükségük van a paraméterekről, adattípusokról, visszatérési típusokról és visszatérési kódokról, amelyek leírják a webszolgáltatás és az ügyfélalkalmazás között küldött különböző kérelmeket és válaszokat.
 
-### <a name="document-the-rest-operations-for-a-web-api"></a>A webes API-k REST műveleteinek dokumentálása
-Az Azure API Management Service tartalmaz, amely leírja a REST-műveletek webes API-k által elérhetővé tett egy fejlesztői portálján. A termék is közzé lett téve jelenik meg ezen a portálon. A fejlesztők is használhatja e portált Feliratkozás a hozzáférést. a rendszergazda ezután jóváhagyhatja vagy visszautasítja a kérelmet. Ha a fejlesztői jóvá van hagyva, rendelt való hitelesítéshez szükséges hívások az ügyfélalkalmazások számára, ők fejlesztik ki az előfizetés kulcsa. Ezt a kulcsot meg kell adni minden webes API-hívással egyébként elutasításra kerül.
+### <a name="document-the-rest-operations-for-a-web-api"></a>A webes API-k REST-műveleteinek dokumentálása
+Az Azure API Management szolgáltatás tartalmaz egy fejlesztői portált, amely leírja a webes API-k által elérhetővé tett REST-műveleteket. A közzétett termékek megjelennek a portálon. A fejlesztők ezen a portálon regisztrálhatnak hozzáférésért, majd a rendszergazda jóváhagyhatja vagy visszautasítja a kérelmüket. Ha a fejlesztőnek jóváhagyták a kérelmét, kap egy előfizetési kulcsot, amellyel hitelesítheti az általa fejlesztett ügyfélalkalmazások hívásait. Ezt a kulcsot meg kell adni minden webes API-hívással, máskülönben a rendszer elutasítja a hívást.
 
-Ezen a portálon is biztosítja:
+A portál a következőket is tartalmazza:
 
-* Műveletek a érheti el, a szükséges paraméterek és a különböző válaszokat visszaadható listázása a termék dokumentációját. Vegye figyelembe, hogy ezek az információk jönnek létre a 3. lépésben a közzétételi listájában megadott adatok egy webes API-t a Microsoft Azure API Management Service szakasz segítségével.
-* Az kódrészletek, amelyek bemutatják, hogyan több nyelven, beleértve a JavaScript, C#, Java, Ruby, Python, és a PHP műveleteket hívhatnak meg.
-* A fejlesztők konzol, amely lehetővé teszi a fejlesztők a termékben lévő egyes műveletek tesztelése, és az eredmények megtekintése a HTTP-kérelem küldése.
-* Egy oldal, ahol a fejlesztői jelenthetik-e bármilyen problémák vagy a talált problémákat.
+* A termék dokumentációja, a termék által elérhetővé tett műveletek listája, a szükséges paraméterek és a különböző visszaadható válaszok. Vegye figyelembe, hogy ezek az információk a „Webes API közzététele a Microsoft Azure API Management szolgáltatással” című szakaszban található lista 3. lépésében megadott információ alapján jönnek létre.
+* Kódrészletek, amelyek bemutatják a műveletek meghívását számos nyelvből, köztük a JavaScript, C#, Java, Ruby, Python, és PHP nyelvekből.
+* Egy fejlesztői konzol, amely lehetővé teszi a fejlesztőknek a termékműveletek HTTP-kérelmek küldésével való tesztelését, valamint az eredmények megtekintését.
+* Egy oldal, ahol a fejlesztők jelenthetik a talált hibákat és problémákat.
 
-Az Azure felügyeleti portálra lehetővé teszi a fejlesztői portálján stíluselemekkel és az elrendezés felel meg a szervezet branding módosítása testreszabását.
+Az Azure felügyeleti portálja lehetőséget nyújt a fejlesztői portál testreszabására: a portál stíluselemei és elrendezése a saját vállalat márkajegyeihez igazíthatók.
 
-### <a name="implement-a-client-sdk"></a>Egy ügyfél SDK megvalósítása
-Egy ügyfélalkalmazás létrehozása, amely meghívja a többi hozzáférés kérése a webes API megköveteli, hogy minden kérelmet létrehozni és formázza megfelelően, a webszolgáltatást futtató kiszolgálón a kérelem elküldése és kidolgozására válasz elemzése kód jelentős mennyiségű írása a kérelem e sikeres vagy sikertelen volt, és minden visszaadott adatok kinyerése érdekében. Az ügyfélalkalmazás az a problémák elleni védekezésben, hogy a REST-felületet burkolja és kivonatolja a kevésbé fontos részletek belül több működési készlete módszerek SDK biztosíthat. Egy ügyfélalkalmazás ezek a módszerek, amely transzparens módon hívások konvertálása a REST-kérelmek és alakítsa át a válaszok metódus visszatérési értékek programba. Ez a sok szolgáltatásokat, például az Azure SDK által megvalósított közös technika.
+### <a name="implement-a-client-sdk"></a>Ügyféloldali SDK megvalósítása
+Ha olyan ügyfélalkalmazást hoz létre, amely REST-kérelmek meghívásával ér el egy webes API-t, nagy mennyiségű kódot kell írni az egyes kérelmek létrehozásához, megfelelő formázásához és a webszolgáltatást futtató kiszolgálóra való elküldéséhez, valamint a válasz elemzéséhez, a kérelem sikerességének vagy sikertelenségének megállapításához és a visszaadott adatok kinyeréséhez. Ha el kívánja szigetelni az ügyfélalkalmazást ezektől a problémáktól, megadhat egy SDK-t, amely becsomagolja a REST-felületet, és egy jobban használható metódusgyűjteménybe foglalja ezeket a részleteket. Az ügyfélalkalmazások felhasználhatják ezeket a metódusokat, amelyek transzparens módon átalakítják a hívásokat REST-kérelmekké, majd a válaszokat visszaalakítják a metódusok által visszaadott értékekké. Ez egy elterjedt megoldás, amelyet számos szolgáltatás használ, köztük az Azure SDK is.
 
-Jelentős vállalkozás egy ügyféloldali SDK létrehozása esetén, mert van egységesen kell végrehajtani, alaposan tesztelni. Azonban a folyamat nagy része gépi tehető, és sok szállítók eszközöket, amelyek a automatizálhat ezek a feladatok fogja tartalmazni.
+Egy ügyféloldali SDK létrehozása jelentős vállalkozás, mivel egységes megvalósítást és alapos tesztelést igényel. Azonban a folyamat nagy része gépesíthető, és sok beszállító kínál olyan eszközöket, amelyekkel számos feladat automatizálható.
 
-## <a name="monitoring-a-web-api"></a>Webes API-k figyelése
-Attól függően, hogy hogyan közzététele és telepítése a webes API-t is figyelheti a webes API-k közvetlenül, vagy használati és adatokat gyűjthet a forgalomhoz, amely az API Management szolgáltatáson keresztül elemzésével.
+## <a name="monitoring-a-web-api"></a>Webes API monitorozása
+Attól függően, hogy a webes API hogyan lett közzétéve és üzembe helyezve, monitorozhatja az API-t közvetlenül, vagy felhasználási és állapotadatokat gyűjthet az API Management szolgáltatáson áthaladó forgalom elemzésével.
 
-### <a name="monitoring-a-web-api-directly"></a>Webes API-k közvetlenül figyelése
-Ha a webes API-t az ASP.NET Web API-sablont (vagy a Web API-projektet, vagy egy Azure-felhőszolgáltatásban a webes szerepkör) és a Visual Studio 2013 megvalósítását, gyűjthet rendelkezésre állását, teljesítményét és használati adatok ASP.NET Application Insights segítségével. Az Application Insights egy csomagot, amely transzparens módon nyomon követi, és információt kérelmeit és válaszait rögzíti, amikor a webes API-t a rendszer a felhő; Ha a csomag telepítve és konfigurálva van, nem kell módosítani kell a kódot a webes API-t használja. A webes API-t az Azure-webhelyre történő telepítésekor az összes forgalom vizsgálják, és a következő adatokat gyűjti az adatokat:
+### <a name="monitoring-a-web-api-directly"></a>Webes API közvetlen monitorozása
+Ha a webes API megvalósításához az ASP.NET Web API-sablont (akár webes API-projektként, akár egy Azure-felhőszolgáltatáson belüli webes szerepkörként) és a Visual Studio 2013-at használta, akkor az ASP.NET Application Insights segítségével adatokat gyűjthet a webes API rendelkezésre állásáról, teljesítményéről és használatáról. Az Application Insights egy olyan csomag, amely transzparens módon nyomon követi és rögzíti a kérelmek és válaszok adatait, ha a webes API a felhőben lett üzembe helyezve. A csomag telepítése és konfigurálása után nem szükséges módosítani a webes API kódját a használatához. Ha a webes API-t egy Azure-webhelyen telepíti, a rendszer minden forgalmat megvizsgál, és a következő statisztikákat gyűjti össze:
 
-* Kiszolgáló válaszideje.
-* Kiszolgáló kérések számát és az egyes kérelmek részletei.
-* A felső leglassabb kérelmek átlagos válaszidő tekintetében.
-* A sikertelen kérelmek részleteit.
-* A munkamenetek számának a különböző böngészők és a felhasználó által kezdeményezett ügynökök.
-* A legtöbb gyakran megtekintett lapok (elsősorban akkor hasznos, webes alkalmazásokhoz, hanem a webes API-khoz).
-* A különböző felhasználói szerepköröket a webes API-k eléréséhez.
+* kiszolgáló válaszideje,
+* kiszolgáló kérelmeinek száma és az egyes kérelmek részletei,
+* a leglassabb kérelmek átlagos válaszidő alapján,
+* a sikertelen kérelmek részletei,
+* a különböző böngészők és felhasználói ügynökök által kezdeményezett munkamenetek száma,
+* a leggyakrabban megtekintett lapok (ez nem elsősorban a webes API-khoz, hanem a webalkalmazásokhoz hasznos).
+* a webes API-hoz hozzáférő különböző felhasználói szerepkörök.
 
-Valós idejű az Azure felügyeleti portálon megtekintheti ezeket az adatokat. Webtests, amely a webes API-k állapotának figyelésére is létrehozhat. A webtesztben rendszeres kérést küld a megadott URI-azonosító található a webes API-t, és a válasz rögzíti. A sikeres válasz (például a HTTP-állapotkód 200) definícióját is megadhat, és ha a kérelem nem ad vissza ezt a választ egy rendszergazda küldendő riasztás elrendezheti. Ha szükséges, a rendszergazda újraindíthatja a kiszolgáló, a webes API-t futtató, ha sikertelen volt.
+Ezeket az adatokat valós időben követheti az Azure felügyeleti portálján. Létrehozhat webteszteket is, amelyek a webes API állapotát monitorozzák. A webtesztek rendszeres kérelmeket küldenek egy webes API megadott URI-jére, és rögzítik a válaszokat. Meghatározhatja, mi számít sikeres válasznak (például a 200-as HTTP-állapotkód), és beállíthatja, hogy ha a kérelem nem ezt a választ adja vissza, a rendszer küldjön riasztást egy rendszergazdának. Szükség esetén a rendszergazda újraindíthatja a webes API-t futtató kiszolgálót, ha meghibásodott.
 
-További információkért lásd: [ASP.NET Application Insights – első lépések](/azure/application-insights/app-insights-asp-net/).
+További információ: [Application Insights – Az ASP.NET használatának első lépései](/azure/application-insights/app-insights-asp-net/).
 
-### <a name="monitoring-a-web-api-through-the-api-management-service"></a>Az API Management szolgáltatáson keresztül webes API-k figyelése
-Ha a webes API-t az API Management szolgáltatással közzétett, az API Management oldalon, az Azure felügyeleti portálra tartalmaz egy irányítópultot, amely lehetővé teszi az általános teljesítményt, a szolgáltatás megtekintését. Az Analytics lap lehetővé teszi a részletekbe menően tárhatják fel a termék felhasználási módjának részleteit. Ezen a lapon az alábbi lapokat tartalmazza:
+### <a name="monitoring-a-web-api-through-the-api-management-service"></a>Webes API monitorozása az API Management szolgáltatáson keresztül
+Ha az API Management szolgáltatással tette közzé a webes API-t, az Azure felügyeleti portál API Management oldala tartalmaz egy irányítópultot, amelyen áttekinthető a szolgáltatás általános teljesítménye. Az Elemzés oldalon részletes elemzések találhatók a termék használatáról. Ez az oldal a következő lapokat tartalmazza:
 
-* **Használati**. Ezen a lapon API-hívások és a sávszélesség adott idő alatt az adott hívások kezelésére használt információkat tartalmaz. Szűrheti a használat részleteiről termék, az API és a művelet.
-* **Állapotfigyelő**. Ezen a lapon megtekintheti az API-kérelmek (a HTTP-állapotkódok visszaadott) eredményeit, a gyorsítótárazási házirendet, az API válaszidő és a szolgáltatás válaszidejének hatékonyságát teszi lehetővé. Ebben az esetben szűrheti állapotadatok termék, az API és a művelet.
-* **Tevékenység**. Ezen a lapon a sikeres hívás, sikertelen hívás, letiltott hívások, átlagos válaszidő és minden egyes termék, a webes API és a működéséhez válaszidők számú szöveg összegzését tartalmazza. Ezen a lapon is találhatók minden egyes fejlesztő felé indított hívások száma.
-* **Egy pillanat alatt**. Ezen a lapon a teljesítményadatokat, beleértve a fejlesztők feladata, hogy a legtöbb API-hívások, és a termékek, a webes API-k és a fogadott hívásokat a műveletek összegzését jeleníti meg.
+* **Használat** – Ez a lap információkat közöl az API-hívások számáról és az ezek kezeléséhez igénybe vett sávszélességről. A használati adatok szűrhetők termék, API és művelet szerint.
+* **Állapot** – Ezen a lapon megtekinthetők az API-kérelmek eredményei (a visszaadott HTTP-állapotkódok), a gyorsítótárazási szabályzat hatékonysága, az API válaszideje és a szolgáltatás válaszideje. Az állapotadatok szintén szűrhetők termék, API és művelet szerint.
+* **Tevékenység** – Ez a lap szöveges összegzést tartalmaz a sikeres, sikertelen és blokkolt hívásokról, az átlagos válaszidőről, valamint az egyes termékek, webes API-k és műveletek válaszidejéről. Emellett az oldal az egyes fejlesztők által indított hívások számát is felsorolja.
+* **Áttekintés** – Ez a lap a teljesítményadatok összegzését tartalmazza, beleértve a legtöbb API-hívást indító fejlesztőket, és az e hívásokat fogadó termékeket, webes API-kat és műveleteket.
 
-Ezek az információk segítségével határozza meg, hogy egy adott webes API-t vagy a művelet hatására a szűk keresztmetszetek, és ha szükséges méretezni a gazdagép-környezetben, és adjon hozzá további kiszolgálókat. Akkor is megállapítása, hogy egy vagy több alkalmazást le aránytalanul nagy mennyiségű erőforrást használ, és a megfelelő házirendekkel kvótáit és hívás díjszabás korlátozza.
+Ezen adatok alapján lehet megállapítani, hogy egy adott webes API vagy művelet szűk keresztmetszetet okoz-e, majd szükség esetén skálázhatja a gazdakörnyezetet további kiszolgálókkal. Emellett az is megállapítható, ha egy vagy több alkalmazás aránytalanul nagy mennyiségű erőforrást használ, majd a megfelelő szabályzatokkal kvóták állíthatók be és korlátozható a hívások gyakorisága.
 
 > [!NOTE]
-> Módosíthatja a közzétett termék adatait, és a módosítások azonnal. Például vegye fel vagy távolítsa el a művelet a webes API-k anélkül, hogy újra közzé a terméket, amely tartalmazza a webes API-t.
+> A közzétett termékek részleteinek módosításai azonnal hatályba lépnek. Például egy webes API-hoz hozzáadhat vagy eltávolíthat egy műveletet anélkül, hogy újra közzé kellene tennie a webes API-t tartalmazó terméket.
 >
 >
 
 ## <a name="more-information"></a>További információ
-* [Az ASP.NET Web API OData](http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api) példák és további információkat tartalmaz az OData webes API-k végrehajtási ASP.NET használatával.
-* [Introducing kötegelt támogatása a webes API- és webes API OData](http://blogs.msdn.com/b/webdev/archive/2013/11/01/introducing-batch-support-in-web-api-and-web-api-odata.aspx) kötegműveletek megvalósítását a webes API-k használatával OData ismerteti.
-* [Idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában áttekintést idempotencia, és hogyan vonatkozik az felügyeleti műveleteket.
-* [Állapotkódok definícióit](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) a W3C a webhely HTTP-állapotkódok és azok leírásait tartalmazza a teljes listáját tartalmazza.
-* [Háttérfeladatok futtatása a webjobs-feladatok](/azure/app-service-web/web-sites-create-web-jobs/) útmutatást és példákat nyújt WebJobs használata a háttérbeli műveletek végrehajtásához.
-* [Az Azure Notification Hubs – felhasználók értesítése](/azure/notification-hubs/notification-hubs-aspnet-backend-windows-dotnet-wns-notification/) bemutatja, hogyan használja az Azure Notification Hub leküldéses aszinkron válaszok ügyfélalkalmazások számára.
-* [Az API Management](https://azure.microsoft.com/services/api-management/) egy webes API-k felügyelt és biztonságos hozzáférést biztosító termék közzétételét ismerteti.
-* [Az Azure API Management REST API-referencia](https://msdn.microsoft.com/library/azure/dn776326.aspx) az API Management REST API használata egyéni felügyeleti alkalmazásokat hozhatnak létre.
-* [A TRAFFIC Manager útválasztási metódusok](/azure/traffic-manager/traffic-manager-routing-methods/) összefoglalja, hogyan Azure Traffic Manager segítségével terheléselosztásához kérelmek egy webes API-t futtató webhely több példánya között.
-* [Az Application Insights – első lépések ASP.NET](/azure/application-insights/app-insights-asp-net/) telepítését és konfigurálását egy ASP.NET Web API-projektet az Application Insights részletes információkat tartalmaz.
+* Az [ASP.NET – webes API OData](https://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api) példákat és további információkat tartalmaz az OData webes API-k ASP.NET használatával való megvalósításáról.
+* [A kötegelés támogatásának a webes API-ban és a webes API ODatában való bevezetését](https://blogs.msdn.microsoft.com/webdev/2013/11/01/introducing-batch-support-in-web-api-and-web-api-odata/) ismertető cikk leírja, hogyan lehet kötegelt műveleteket megvalósítani egy webes API-ban az ODatával.
+* Jonathan Oliver blogjának [idempotenciamintákról](https://blog.jonathanoliver.com/idempotency-patterns/) szóló cikke áttekintést nyújt idempotenciáról, és hogy az hogyan kapcsolódik az adatkezelési műveletekhez.
+* A W3C webhely [Állapotkód-definíciókat](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) ismertető lapján megtalálható a HTTP-állapotkódok teljes listája és a leírásaik.
+* A [Háttérfeladatok WebJobs-feladatokkal való futtatásáról](/azure/app-service-web/web-sites-create-web-jobs/) szóló cikk útmutatást és példákat tartalmaz a háttérbeli műveletek WebJobs használatával való végrehajtásához.
+* Az [Azure Notification Hubs felhasználói értesítéseiről](/azure/notification-hubs/notification-hubs-aspnet-backend-windows-dotnet-wns-notification/) szóló cikk bemutatja, hogyan küldhetők le aszinkron válaszok az ügyfélalkalmazásoknak az Azure Notification Hub használatával.
+* Az [API Management](https://azure.microsoft.com/services/api-management/) leírja, hogyan lehet közzétenni egy terméket, amely felügyelt és biztonságos hozzáférést biztosít egy webes API-hoz.
+* Az [Azure API Management REST API-referencia](https://msdn.microsoft.com/library/azure/dn776326.aspx) leírja, hogyan használható az API Management REST API egyéni felügyeleti alkalmazások létrehozásához.
+* [A Traffic Manager útválasztási módszereit](/azure/traffic-manager/traffic-manager-routing-methods/) ismertető cikk összefoglalja, hogyan osztható el a kérelmek terhelése egy webes API-t futtató webhely több példánya között az Azure Traffic Managerrel.
+* Az [Application Insights – Az ASP.NET első lépéseit](/azure/application-insights/app-insights-asp-net/) ismertető cikk részletes információkat nyújt az Application Insights ASP.NET webes API-projektben történő telepítéséhez és konfigurálásához.
 
 
 <!-- links -->

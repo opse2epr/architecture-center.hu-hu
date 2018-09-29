@@ -1,41 +1,41 @@
 ---
-title: Egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok
-description: Ismerteti, hogyan lehet egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok
+title: Tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
+description: Ismerteti, hogyan lehet egy tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: 893779e652b845b3d936d11936dc767ef632fa43
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 2c2fd93c977b82bed05ebe0ae68233a700df0f4f
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24538665"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428584"
 ---
-# <a name="implement-a-property-transformer-and-collector-in-an-azure-resource-manager-template"></a>Egy tulajdonság átalakító és a gyűjtő valósítania az Azure Resource Manager-sablonok
+# <a name="implement-a-property-transformer-and-collector-in-an-azure-resource-manager-template"></a>Tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
 
-A [objektum használata Azure Resource Manager-sablon egyik paraméterének][objects-as-parameters], megtudta, hogyan erőforrás tulajdonságértékek tárolása egy objektumot, és alkalmazni azokat az erőforráshoz való központi telepítése során. Ez nagyon hasznos módja a paraméterek kezeléséhez, miközben továbbra is igényel az objektum tulajdonságainak hozzárendelését erőforrás-tulajdonságok minden alkalommal, amikor a sablon használatát.
+A [objektum használata paraméterként egy Azure Resource Manager-sablonban][objects-as-parameters], bemutattuk, hogyan erőforrás tulajdonságértékek tárolása egy objektumot, és alkalmazza őket egy resource üzembe helyezés során. Bár ez nagyon hasznos lehet kezelni a paramétereket, akkor továbbra is szükséges, hogy az objektum tulajdonságainak az erőforrás-tulajdonságok minden alkalommal, amikor használni a sablonban.
 
-Ez elkerülhető, hogy a tulajdonság-átalakítási és -gyűjtő sablont, amely megismétli a object tömbben, és az erőforrás által várt JSON-séma alakítja valósíthat meg.
+Ez elkerülhető, hogy egy tulajdonság átalakítási és -gyűjtő sablont, amely az objektum tömb végiglépkedve és alakítja azt az erőforrás által várt JSON-sémájában valósíthat meg.
 
 > [!IMPORTANT]
-> Ez a megközelítés megköveteli, hogy Ön ismeri részletesen a Resource Manager sablonok és a funkciók.
+> Ez a megközelítés megköveteli, hogy Ön ismeri részletesen a Resource Manager-sablonok és funkciók.
 
-Vessen egy pillantást hogyan ket lehet megvalósítani egy tulajdonság adatgyűjtő és fogyasztótípusokkal egy példa egy [hálózati biztonsági csoport (NSG)][nsg]. Az alábbi ábrán a sablonokat, és ezeket a sablonokat az erőforrások közötti kapcsolatot ábrázolja:
+Vessünk egy pillantást is tanfolyamsorozat egy tulajdonság-gyűjtő és a egy példa, amely üzembe helyezi az átalakító egy [hálózati biztonsági csoport (NSG)][nsg]. Az alábbi ábra bemutatja a sablonokat, és ezeket a sablonokat az erőforrások közötti kapcsolat:
 
-![tulajdonság-gyűjtő és az átalakító architektúrája](../_images/collector-transformer.png)
+![tulajdonság-gyűjtő és átalakító architektúra](../_images/collector-transformer.png)
 
 A **hívó sablon** két forrásokat tartalmazza:
-* a sablon hivatkozást, amellyel elindítja a **adatgyűjtő sablon**.
-* a telepítendő NSG-erőforrás.
+* egy sablon hivatkozást, amely meghívja a **gyűjtő sablon**.
+* az NSG-erőforrás üzembe helyezéséhez.
 
-A **adatgyűjtő sablon** két forrásokat tartalmazza:
-* egy **horgonyzási** erőforrás.
-* egy sablon hivatkozást, amely hívja meg a másolási ciklust átalakító-sablon.
+A **gyűjtő sablon** két forrásokat tartalmazza:
+* egy **forráshorgony** erőforrás.
+* sablon hivatkozás, amely egy másolási ciklust átalakító sablonnal hív meg.
 
-A **átalakító sablon** tartalmaz, amely egyetlen erőforrásra: egy üres sablont egy változóhoz, amely átalakítja a `source` , amelyet az NSG-erőforrás a várt JSON-séma a JSON a **fő sablon**.
+A **átalakító sablon** egyetlen erőforrást tartalmaz: egy üres sablonnal, amely átalakítja a a `source` a JSON-séma szerint az NSG-erőforrás a várt JSON-a **fő sablon**.
 
 ## <a name="parameter-object"></a>A paraméter objektum
 
-Fogjuk használni a `securityRules` paraméter objektum [paraméterekként objektumok][objects-as-parameters]. A **átalakító sablon** átalakítja az egyes objektumok a `securityRules` tömb be, amelyet az NSG-erőforrás a várt JSON-séma a **hívó sablon**.
+Fogjuk használni a `securityRules` paraméter objektumot [paraméterekként objektumok][objects-as-parameters]. A **átalakító sablon** átalakítja az egyes objektumok a `securityRules` az NSG-erőforrás által várt JSON-sémájában tömböt a **hívó sablon**.
 
 ```json
 {
@@ -76,19 +76,19 @@ Fogjuk használni a `securityRules` paraméter objektum [paraméterekként objek
   }
 ```
 
-Vizsgáljuk meg a **átalakító sablon** első.
+Nézzük meg a **átalakító sablon** első.
 
-## <a name="transform-template"></a>Átalakítás sablon
+## <a name="transform-template"></a>Sablonok átalakítása
 
-A **átalakító sablon** az átadott két paramétereket tartalmaz a **adatgyűjtő sablon**: 
-* `source`van olyan objektum, amely fogad egy tulajdonság értékének objektum a tulajdonság-tárolótömb. A fenti példában minden egyes objektum a `"securityRules"` tömb átadása egyenként.
-* `state`van olyan tömb, amely megkapja a korábbi átalakítások összefűzött eredményeit. Ez az átalakítani kívánt JSON gyűjteménye.
+A **átalakító sablon** két az átadott paramétereket tartalmaz az **gyűjtő sablon**: 
+* `source` egy olyan objektum, amely fogad egy tulajdonság értékének objektum a tulajdonság tömbből. Ebben a példában minden egyes objektum a `"securityRules"` tömb átadása egyenként.
+* `state` van egy tömb, amely megkapja a korábbi átalakítások összefűzött eredményeit. Ez az átalakított JSON gyűjteménye.
 
 A paraméterek néznek ki:
 
 ```json
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "source": { "type": "object" },
@@ -99,7 +99,7 @@ A paraméterek néznek ki:
   },
 ```
 
-A sablon is meghatároz egy nevű változó `instance`. A tényleges tranform segítségével végzi a `source` objektumot a szükséges JSON-séma be:
+A sablon is meghatároz egy nevű változó `instance`. A tényleges tranform, hajtja végre a `source` objektumot be a szükséges JSON-sémája:
 
 ```json
   "variables": {
@@ -123,7 +123,7 @@ A sablon is meghatároz egy nevű változó `instance`. A tényleges tranform se
   },
 ```
 
-Végezetül a `output` a sablon az összegyűjtött átalakítások összefűzi a `state` végzi el az aktuális átalakítás paraméterrel a `instance` változó:
+Végül a `output` a sablon fűzi össze az összegyűjtött átalakítások, a `state` az aktuális átalakítás végzi paraméter a `instance` változó:
 
 ```json
   "outputs": {
@@ -133,14 +133,14 @@ Végezetül a `output` a sablon az összegyűjtött átalakítások összefűzi 
     }
 ```
 
-A következő vessen egy pillantást a **adatgyűjtő sablon** hogyan továbbítja a paraméterértékeket a megtekintéséhez.
+Ezután vessünk egy pillantást a **gyűjtő sablon** megtekintéséhez, hogyan továbbítja a paraméterértékeket.
 
-## <a name="collector-template"></a>Adatgyűjtő sablon
+## <a name="collector-template"></a>Gyűjtő sablon
 
-A **adatgyűjtő sablon** három paramétereket tartalmaz:
-* `source`a teljes objektum paramétertömb van. A által átadott a **hívó sablon**. A neve megegyezik annak a `source` paramétere a **átalakító sablon** , de egy fő különbség, hogy talán már észrevette: Ez a teljes tömb, de azt csak átadni a tömb egy elemet a **átalakító sablon** egyszerre.
-* `transformTemplateUri`az URI-azonosítója a **átalakító sablon**. A sablon újrahasznosításának itt paramétert azt még meghatározása.
-* `state`kezdetben üres tömb, hogy a **átalakító sablon**. A másolási ciklust befejezésekor átalakított paraméter objektumok gyűjteménye tárolja.
+A **gyűjtő sablon** három paramétereket tartalmazza:
+* `source` az objektum teljes paramétertömböt van. A által átadott a **hívó sablon**. Ez rendelkezik-e a neve megegyezik a `source` paramétert a **átalakító sablon** , de talán már észrevette, hogy egy fő különbséggel: a teljes tömb, de csak átadott tömb egy elemet a **átalakító sablon** egyszerre.
+* `transformTemplateUri` az URI-t, a **átalakító sablon**. A sablon újrahasznosíthatóság itt paramétert azt most definiálja.
+* `state` adjuk át, hogy kezdetben üres tömb a **átalakító sablon**. A másolási ciklus befejezésekor az átalakított paraméter objektumok gyűjteményét tárolja.
 
 A paraméterek néznek ki:
 
@@ -154,7 +154,7 @@ A paraméterek néznek ki:
     }
 ``` 
 
-A következő nevű változó meghatároztuk `count`. Az érték hossza a `source` paraméter object tömbben:
+Ezt követően adja meg azt az nevű változó `count`. A érték hossza pedig a `source` objektum Pole parametru:
 
 ```json
   "variables": {
@@ -162,11 +162,11 @@ A következő nevű változó meghatároztuk `count`. Az érték hossza a `sourc
   },
 ```
 
-Mivel előfordulhat, hogy azt gyanítja, azt használatát ismétlések számát a másolási ciklust.
+Mivel előfordulhat, hogy azt gyanítja, használja azt az ismétlések számát a másolási ciklust.
 
-Most vessen egy pillantást az erőforrásokat. Azt adja meg a két erőforrások:
-* `loop-0`a másolási ciklust a nulla alapú erőforrás van.
-* `loop-`van kibővítve eredményét a `copyIndex(1)` működnek, mint az erőforrás, kezdve egyedi iterációs alapú nevet létrehozni `1`.
+Most vessünk egy pillantást az erőforrások. Azt adja meg a két erőforrás:
+* `loop-0` a másolási ciklust nulla-alapú erőforrás-van.
+* `loop-` eredménye van kibővítve a `copyIndex(1)` függvény használatával létrehoz egy egyedi iteráció-alapú nevet az erőforráshoz, kezdve `1`.
 
 Az erőforrások néznek ki:
 
@@ -180,7 +180,7 @@ Az erőforrások néznek ki:
         "mode": "Incremental",
         "parameters": { },
         "template": {
-          "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "parameters": { },
           "variables": { },
@@ -218,9 +218,9 @@ Az erőforrások néznek ki:
   ],
 ```
 
-Ismerkedjen meg a paramétereket, azt hogy átadni részletes bemutatása a **átalakító sablon** a beágyazott sablonban. A visszahívás korábbi, amely a `source` paraméter adja meg az aktuális objektum a `source` paraméter object tömbben. A `state` paraméter hol történik a gyűjteményhez, mert az előző munkamenetben, a másolási ciklust kimenete tart&mdash;figyelje meg, hogy a `reference()` függvény a `copyIndex()` függvény a nem a hivatkozniparaméter`name` az előző csatolt sablon objektum&mdash;, és átadja az aktuális iteráció.
+Vizsgáljuk meg közelebbről a azt Ön átadása paramétereket a **átalakító sablon** a beágyazott sablonban. A korábban emlékeztetnek arra, hogy a `source` paraméter adja meg az aktuális objektum a `source` objektum Pole parametru. A `state` paraméter hol történik a gyűjteményt, mert tart a másolási ciklust előző lépésében kimenete&mdash;figyelje meg, hogy a `reference()` függvény a `copyIndex()` függvény paraméterek nélkül való hivatkozáshoz a `name` az előző társított sablonobjektum&mdash;, és átadja a jelenlegi verzió továbbfejlesztésében.
 
-Végezetül a `output` a sablon adja vissza a `output` , az utolsó lépésében a **átalakító sablon**:
+Végül a `output` a sablon adja vissza a `output` az utolsó ismétlése a **átalakító sablon**:
 
 ```json
   "outputs": {
@@ -230,13 +230,13 @@ Végezetül a `output` a sablon adja vissza a `output` , az utolsó lépésében
     }
   }
 ```
-A megszokás vissza a `output` az utolsó lépésében a a **átalakító sablon** való a **hívó sablon** mert jelent meg azt is tárolja a `source` a paraméter. Ne feledje azonban, hogy-e az utolsó lépésében a **átalakító sablon** , amely tartalmazza a teljes átalakított tulajdonság objektumokból álló tömb, és pontosan a kívánt való visszatéréshez.
+Visszaadandó counterintuitive tűnhet a `output` az utolsó ismétlése a **átalakító sablon** , a **hívó sablon** jelent meg tudjuk tárolta, mert a `source` a paraméter. Ne feledje azonban, hogy-e az utolsó ismétlése a **átalakító sablon** , amely tartalmazza a teljes átalakított tulajdonság objektumtömb, és ez pontosan a kívánt való visszatéréshez.
 
-Végezetül vessen egy pillantást hogyan hívhatja meg a **adatgyűjtő sablon** a a **hívó sablon**.
+Végül tekintsük át, hogyan lehet meghívni a **gyűjtő sablon** származó a **hívó sablon**.
 
-## <a name="calling-template"></a>Hívása sablon
+## <a name="calling-template"></a>Hívása a sablon
 
-A **hívó sablon** nevű egyetlen paraméter meghatározza `networkSecurityGroupsSettings`:
+A **hívó sablon** nevű egyetlen paraméter meghatározása `networkSecurityGroupsSettings`:
 
 ```json
 ...
@@ -246,7 +246,7 @@ A **hívó sablon** nevű egyetlen paraméter meghatározza `networkSecurityGrou
     }
 ```
 
-Ezt követően a sablon nevű egyetlen változót definiál `collectorTemplateUri`:
+Következő lépésként határozza meg a sablont a nevű változóhoz `collectorTemplateUri`:
 
 ```json
 "variables": {
@@ -254,7 +254,7 @@ Ezt követően a sablon nevű egyetlen változót definiál `collectorTemplateUr
   }
 ```
 
-Teheti meg, mert ez az URI-JÁNAK a **adatgyűjtő sablon** , amely a csatolt sablonerőforrás használják:
+Hiányol, mivel ez az URI-JÁNAK a **gyűjtő sablon** , amelyek a társított sablonerőforrás használják:
 
 ```json
 {
@@ -275,11 +275,11 @@ Teheti meg, mert ez az URI-JÁNAK a **adatgyűjtő sablon** , amely a csatolt sa
 }
 ```
 
-Azt adja át a két paraméter a **adatgyűjtő sablon**:
-* `source`az objektum tulajdonságtömb van. A példánkban ez a `networkSecurityGroupsSettings` paraméter.
-* `transformTemplateUri`az URI-azonosítója csak meghatározott, a változó a **adatgyűjtő sablon**.
+Adjuk át, hogy a két paramétert a **gyűjtő sablon**:
+* `source` az objektum tulajdonságtömb van. Ebben a példában ez a `networkSecurityGroupsSettings` paraméter.
+* `transformTemplateUri` a változó csak meghatározott az URI-ját a **gyűjtő sablon**.
 
-Végezetül a `Microsoft.Network/networkSecurityGroups` erőforrás közvetlenül rendeli hozzá a `output` , a `collector` kapcsolódó sablon erőforrást a `securityRules` tulajdonság:
+Végül a `Microsoft.Network/networkSecurityGroups` erőforrás közvetlenül rendeli hozzá a `output` , a `collector` sablonerőforrás hogy társított annak `securityRules` tulajdonság:
 
 ```json
     {
@@ -301,9 +301,9 @@ Végezetül a `Microsoft.Network/networkSecurityGroups` erőforrás közvetlenü
   }
 ```
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
-* Ezzel a technikával meg van valósítva a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure hivatkozás architektúrák](/azure/architecture/reference-architectures/). Ezek segítségével hozzon létre egy saját architektúra, vagy telepítse a referencia-architektúrák egyikét használhatja.
+* Ezzel a technikával implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). Hozzon létre saját architektúra, vagy üzembe helyezésére a referenciaarchitektúrák azt is használhatja.
 
 <!-- links -->
 [objects-as-parameters]: ./objects-as-parameters.md

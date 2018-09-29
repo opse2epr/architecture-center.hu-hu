@@ -3,12 +3,12 @@ title: Számítógéppel támogatott mérnöki (CAE-) SaaS-platformként az Azur
 description: Ez a forgatókönyv bemutatja, ajánlott eljárások az Azure-on futtatott egy számítógéppel támogatott mérnöki (CAE-) szoftver--szolgáltatásként (SaaS) platform
 author: alexbuckgit
 ms.date: 08/22/2018
-ms.openlocfilehash: f2a9df52305ed3379f5405738cf66e70fde1cb4d
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 4658faf1e8cc8ecbfc7881cef6319bb902adbbd4
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534556"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428635"
 ---
 # <a name="computer-aided-engineering-cae-saas-platform-on-azure"></a>Számítógéppel támogatott mérnöki (CAE-) SaaS-platformként az Azure-ban
 
@@ -36,7 +36,7 @@ Ez az architektúra használatával egyéb forgatókönyvek a következők lehet
 
 ![A Szolgáltatottszoftver-megoldás, amely lehetővé teszi a HPC-képességek architektúrája][architecture]
 
-* A felhasználók NV-sorozat virtuális gépeken (VM) egy böngészőből egy HTML5-alapú RDP kapcsolat használatakor a [Apache Guacamole szolgáltatás](http://guacamole.apache.org/). Virtuálisgép-példány hatékony gpu-k képmegjelenítési, valamint által biztosított együttműködési környezettel feladatok adja meg. A felhasználók saját tervek szerkesztése és az eredmények megtekintése a nagy teljesítményű számítástechnikai mobileszközök vagy hordozható számítógépeken való hozzáférés nélkül. Az ütemező felhasználó által definiált heurisztika alapuló további virtuális gépeket indít el.
+* A felhasználók NV-sorozat virtuális gépeken (VM) egy böngészőből egy HTML5-alapú RDP kapcsolat használatakor a [Apache Guacamole szolgáltatás](https://guacamole.apache.org/). Virtuálisgép-példány hatékony gpu-k képmegjelenítési, valamint által biztosított együttműködési környezettel feladatok adja meg. A felhasználók saját tervek szerkesztése és az eredmények megtekintése a nagy teljesítményű számítástechnikai mobileszközök vagy hordozható számítógépeken való hozzáférés nélkül. Az ütemező felhasználó által definiált heurisztika alapuló további virtuális gépeket indít el.
 * Egy asztali CAD-munkamenetben a felhasználók elküldhetik a számítási feladatok végrehajtásához a rendelkezésre álló HPC-fürtcsomópontokon. Ilyen számítási feladat például feszültségelemzés vagy a folyadékdinamikai számítások, így nincs szükség helyszíni dedikált számítási fürtök feladatait. Ezek a fürtcsomópontok beállítható úgy, hogy a terhelés vagy üzenetsor mélységtől függ az aktív felhasználói igény szerinti számítási erőforrások automatikus méretezése.
 * Az Azure Kubernetes Service (AKS) segítségével a végfelhasználók számára elérhető webes erőforrások üzemeltetéséhez.
 
@@ -48,7 +48,7 @@ Ez az architektúra használatával egyéb forgatókönyvek a következők lehet
 * [Az Application Gateway](/azure/application-gateway/) elosztja a terhelést a webkiszolgálók érkező kérelmeket.
 * [Az Azure Kubernetes Service (AKS)](/azure/aks/) szimulációkhoz, amelyeknek nincs szükségük a HPC- vagy GPU virtuális gépek nagy képességeit alacsonyabb költségekkel méretezhető számítási feladatok futtatására szolgál.
 * [Altair PBS Works Suite](https://www.pbsworks.com/PBSProduct.aspx?n=PBS-Works-Suite&c=Overview-and-Capabilities) koordinálja a HPC munkafolyamat, biztosítva, hogy elegendő virtuálisgép-példányok érhetők el a jelenlegi terhelés kezeléséhez. Is felszabadítja a virtuális gépeket, ha igény szerinti alacsonyabb költségek csökkentése érdekében.
-* [A BLOB storage-](/storage/blobs/storage-blobs-introduction) tárolja a fájlokat, amelyek támogatják az ütemezett feladatok. 
+* [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) tárolja a fájlokat, amelyek támogatják az ütemezett feladatok. 
 
 ### <a name="alternatives"></a>Alternatív megoldások
 

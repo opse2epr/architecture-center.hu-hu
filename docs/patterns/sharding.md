@@ -8,12 +8,12 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: a4e35a19851f4742b5c154197c22bb1fe13de108
-ms.sourcegitcommit: e9d9e214529edd0dc78df5bda29615b8fafd0e56
+ms.openlocfilehash: bc2b6aeb6966d14327a21849adbbfe635eae59df
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/28/2018
-ms.locfileid: "37091104"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428856"
 ---
 # <a name="sharding-pattern"></a>Horizontális skálázási minta
 
@@ -219,6 +219,3 @@ Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalós
 - [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx). Az adattárak horizontális skálázása további problémákat vethet fel. Ez az útmutató az adattáraknak a skálázhatóság növelése, a versengés csökkentése és a teljesítmény optimalizálása érdekében a felhőben történő particionálásával kapcsolatos problémákat ismerteti.
 - [Index Table minta](index-table.md). A lekérdezések néha nem támogathatók teljes mértékben pusztán a szegmenskulcs kialakításának segítségével. Lehetővé teszi, hogy az alkalmazások gyorsan kérjenek le adatokat egy nagy adattárból a szegmenskulcstól eltérő kulcs megadásával.
 - [Tényleges táblán alapuló nézet minta](materialized-view.md). Bizonyos lekérdezési műveletek teljesítményének fenntartása érdekében célszerű materializált nézeteket létrehozni, amelyek egyesítik és összegzik az adatokat, különösen akkor, ha ezek az összegzett adatok a szegmensek között elosztott információkon alapulnak. Ismerteti, hogyan hozhatja létre és töltheti fel adatokkal ezeket a nézeteket.
-- [Shard Lessons](http://www.addsimplicity.com/adding_simplicity_an_engi/2008/08/shard-lessons.html) (Szegmensekkel kapcsolatos szempontok) az Adding Simplicity blogban.
-- [Database Sharding](http://dbshards.com/database-sharding/) (Adatbázisok horizontális skálázása) a CodeFutures webhelyen.
-- [Building Scalable Databases: Pros and Cons of Various Database Sharding Schemes](http://www.25hoursaday.com/weblog/2009/01/16/BuildingScalableDatabasesProsAndConsOfVariousDatabaseShardingSchemes.aspx) (Skálázható adatbázisok létrehozása: Az adatbázisok horizontális skálázására szolgáló különböző sémáinak előnyei és hátrányai) Dare Obasanjo blogjában.

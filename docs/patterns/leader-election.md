@@ -8,12 +8,12 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - design-implementation
 - resiliency
-ms.openlocfilehash: 8c8efa0846550557bb53ea81f85ac0e303a77b19
-ms.sourcegitcommit: f19314f18cd794ebe380fa722ca92066b8735b56
+ms.openlocfilehash: 6cc4b19e889cc9fc692e388498cc16ea56b1c981
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/03/2018
-ms.locfileid: "37348269"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429196"
 ---
 # <a name="leader-election-pattern"></a>Vezetőválasztási minta
 
@@ -43,7 +43,7 @@ A rendszernek robusztus mechanizmust kell biztosítania a vezető kiválasztás�
 Többféle módon is kiválasztható egy vezető egy elosztott környezet feladatainak készletéből, például:
 - A legalacsonyabb besorolású példány- vagy folyamatazonosítóval rendelkező feladatpéldány kiválasztása.
 - Verseny a közös, elosztott mutex beszerzéséért. Az a feladatpéldány lesz a vezető, amelyik elsőként szerzi be a mutexet. Azonban a rendszernek biztosítania kell a mutex felszabadítását, ha a vezető leáll vagy megszakad a kapcsolata a rendszer többi részével, hogy egy másik feladatpéldány vehesse át a vezető szerepet.
-- Egyik széles körben használt vezetőválasztási algoritmus (például a [Bully algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) vagy a [Ring algoritmus](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html)) megvalósítása. Ezek az algoritmusok azt feltételezik, hogy a választásban részt vevő minden jelölt egyedi azonosítóval rendelkezik, és megbízhatóan kommunikál a többi jelölttel.
+- Egyik széles körben használt vezetőválasztási algoritmus (például a [Bully algoritmus](https://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) vagy a [Ring algoritmus](https://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html)) megvalósítása. Ezek az algoritmusok azt feltételezik, hogy a választásban részt vevő minden jelölt egyedi azonosítóval rendelkezik, és megbízhatóan kommunikál a többi jelölttel.
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
@@ -198,7 +198,7 @@ Az alábbi útmutatók segíthetnek a minta megvalósításakor:
 - [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). A feladatot futtató gazdagépek példányai az alkalmazások terhelésének változásainak megfelelően elindíthatók vagy leállíthatók. Az automatikus skálázás segítségével a teljesítmény és az átviteli sebesség szinten tartható a feldolgozási csúcsidőszakban.
 - [Compute-particionálási útmutató](https://msdn.microsoft.com/library/dn589773.aspx) Ez az útmutató ismerteti, hogyan rendelhet feladatokat a gazdagépekhez egy felhőszolgáltatásban olyan módon, hogy az segítsen minimalizálni a futtatási költségeket a szolgáltatás skálázhatóságának, teljesítményének, rendelkezésre állásának és biztonságának megőrzése mellett.
 - [Feladatalapú aszinkron minta](https://msdn.microsoft.com/library/hh873175.aspx).
-- A [Bully algoritmust](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) ábrázoló példa.
-- A [Ring algoritmust](http://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html) ábrázoló példa.
-- Az [Apache Curator](http://curator.apache.org/), amely az Apache ZooKeeper ügyfélkódtára.
+- A [Bully algoritmust](https://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) ábrázoló példa.
+- A [Ring algoritmust](https://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/RingElectExample.html) ábrázoló példa.
+- Az [Apache Curator](https://curator.apache.org/), amely az Apache ZooKeeper ügyfélkódtára.
 - Az MSDN [blobbérleteket (REST API)](https://msdn.microsoft.com/library/azure/ee691972.aspx) ismertető cikke.

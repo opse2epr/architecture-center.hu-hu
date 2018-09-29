@@ -1,93 +1,93 @@
 ---
-title: Adatfeldolgozást és mikroszolgáltatások munkafolyamata
-description: Adatfeldolgozást és mikroszolgáltatások munkafolyamata
+title: Adatfeldolgozás és munkafolyamatok a mikroszolgáltatások
+description: Adatfeldolgozás és munkafolyamatok a mikroszolgáltatások
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: 6477c3f2b0cc6d37dcd4637dc0dde4f7a6e3cc74
-ms.sourcegitcommit: 94c769abc3d37d4922135ec348b5da1f4bbcaa0a
+ms.openlocfilehash: 1851d979ed23b35046474f299128064d1abb375e
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/13/2017
-ms.locfileid: "26678730"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429485"
 ---
-# <a name="designing-microservices-ingestion-and-workflow"></a>Mikroszolgáltatások tervezése: adatfeldolgozást és a munkafolyamat
+# <a name="designing-microservices-ingestion-and-workflow"></a>Mikroszolgáltatások tervezése: adatfeldolgozás és munkafolyamatok
 
-Mikroszolgáltatások gyakran olyan munkafolyamatot, amely egyetlen tranzakció több szolgáltatáshoz is rendelkezik. A munkafolyamat megbízható; kell lennie. nem lehet tranzakciók elveszíti vagy részben befejezett állapotban hagyja őket. Nagyon fontos is a bejövő kérelmek adatfeldolgozást átviteli sebességét. A sok kisméretű szolgáltatások kommunikál egymással a bejövő kérelmek kapacitásnövelés is ne terhelje tovább a értekezleteire kommunikációt. 
+Mikroszolgáltatások gyakran rendelkeznek egy munkafolyamatot egy tranzakció több szolgáltatást is. A munkafolyamat megbízható; kell lennie. nem lehet tranzakció megszakad vagy részlegesen befejezett állapotban hagyja őket. Emellett fontos szabályozni azt a bejövő kérelmek feldolgozási sebességet. Sok kis szolgáltatással kommunikál egymással a bejövő kérések hirtelen kiugrásai túlterhelhetik futó a szolgáltatások közötti kommunikációt eredményezhet. 
 
 ![](./images/ingestion-workflow.png)
 
-## <a name="the-drone-delivery-workflow"></a>A dron kézbesítési munkafolyamatot
+## <a name="the-drone-delivery-workflow"></a>A drone delivery munkafolyamat
 
-A dron továbbítási alkalmazást hozhat létre a következő műveleteket kell elvégezni egy kézbesítési ütemezése:
+A Drone Delivery alkalmazást a következő műveleteket kell elvégezni egy kézbesítési ütemezése:
 
-1. Tekintse meg a felhasználói fiókhoz (fiókszolgáltatás).
+1. Ellenőrizze a felhasználói fiókhoz (szolgáltatásának) állapotát.
 2. Hozzon létre egy új csomag entitás (csomag szolgáltatás).
-3. Jelölőnégyzet külső szállítására a kézbesítéshez szükséges-e a felvételi és kézbesítési helyeken alapuló (külső szállítására szolgáltatás).
-4. Ütemezhet egy dron felvételhez (dron szolgáltatás).
-5. Hozzon létre egy új kézbesítési entitás (kézbesítési szolgáltatás).
+3. Ellenőrzés külső bárminemű a szállítási, szükséges-e a begyűjtés és a továbbítás helyeken alapuló (külső közlekedési szolgáltatás).
+4. Ütemezzen egy drónt felvételre (Drónos szolgáltatás).
+5. Hozzon létre egy új kézbesítési entitás (Tartalomkézbesítési szolgáltatás).
 
-Ez az a teljes alkalmazás alapszolgáltatásai, ezért a végpont folyamat, valamint megbízható performant kell lennie. Egyes adott kihívásokkal kell figyelembe venni:
+Ez a központi eleme a teljes alkalmazást, így a teljes körű folyamatot, valamint megbízható, nagy teljesítményű kell lennie. Egyes adott kihívást vonhat:
 
-- **Terheléskiegyenlítés**. Túl sok ügyfél kérést is ne terhelje tovább a rendszer értekezleteire hálózati forgalmat. Azt is is ne terhelje tovább háttér függőségek, például a tároló- és távoli szolgáltatások. Ezek a szolgáltatások hívja, ellennyomás létrehozásakor a rendszer szabályozásával előfordulhat, hogy reagálni. Ezért fontos a kérelmeket a rendszer által a üzembe egy puffer vagy feldolgozásra várólista beérkező terhelés. 
+- **Terheléskiegyenlítés**. Túl sok ügyfél kérést túlterhelhetik eredményezhet hálózati forgalmat a rendszer. Azt is túlterhelhetik háttérrendszer függőségeit, például a storage vagy a távoli szolgáltatások. Ezek a szolgáltatások meghívása őket, a rendszer ellennyomás létrehozása szabályozás előfordulhat, hogy reagálni. Ezért fontos a kérelmeket a rendszer egy puffer, vagy a feldolgozáshoz várólistára helyezésével érkező terhelés. 
 
-- **Garantált kézbesítés**. Bármely ügyfél kérelmeket elkerüléséhez az adatfeldolgozást összetevő kell garantálja, legalább egyszeri üzenetek. 
+- **Garantált kézbesítés**. Az Adatbetöltési összetevő bármely ügyfél kérelmeket elkerüléséhez biztosítania kell, legalább egyszeri kézbesítési üzenetek. 
 
-- **Hibakezelés**. Ha a szolgáltatások egy hibakódot ad vissza, vagy nem átmeneti hibát tapasztal, a kézbesítés nem lehet ütemezni. Hibakód utalhat a várható hibaállapotot (például a felhasználói fiók fel van függesztve) vagy egy váratlan kiszolgálóhiba (HTTP 5xx). Elképzelhető, hogy a szolgáltatás is érhető el, amely a hálózati hívás túllépi az időkorlátot. 
+- **Hibakezelés**. Ha a szolgáltatások egy hibakódot ad vissza, vagy nem átmeneti hibát tapasztal, a tartalomkézbesítési nem lehet ütemezni. Egy hibakódot jelezheti a várt hibát (például a felhasználói fiók fel van függesztve) vagy egy váratlan kiszolgálóhiba (HTTP 5xx). Elképzelhető, hogy egy szolgáltatás még nem érhető el, a hálózati hívás időtúllépés miatt. 
 
-Először megnézzük a egyenlet adatfeldolgozást oldalán &mdash; hogyan a rendszer magas teljesítmény bejövő felhasználói kérelmek fogadására képes. Azt fogja fontolja meg a dron továbbítási alkalmazást hozhat létre hogyan valósíthatja meg a megbízható munkafolyamat. Változik, hogy a kialakítás az adatfeldolgozást alrendszer befolyásolja a munkafolyamat háttér. 
+Először áttekintjük az Adatbetöltési oldala egyenlet &mdash; hogyan a rendszer a bejövő felhasználói kérések magasabb átviteli sebességen feldolgozására képes. Azt fogjuk fontolja meg a drone delivery alkalmazás hogyan valósíthat meg egy megbízható munkafolyamatot. Azt tapasztaltuk, hogy az Adatbetöltési alrendszer a kialakítás befolyásolja a munkafolyamat-háttérrendszer. 
 
-## <a name="ingestion"></a>Adatfeldolgozást
+## <a name="ingestion"></a>Adatbetöltési
 
-Üzleti követelmények alapján, a fejlesztői csapat meghatározott szempontjából a következő művelet követelmények:
+Üzleti követelmények alapján, a fejlesztői csapat azonosítja a következő nem funkcionális követelmények támogatunk:
 
-- 10e kérelmek/másodperc fenntartható átviteli sebességet.
-- Tudja kezelni a teljesítményt, legfeljebb 50K másodpercenkénti nélkül ügyfél kérelmeket, vagy időtúllépés miatt.
-- Kisebb, mint 500ms várakozási ideje a a 99th PERCENTILIS visszaadása.
+- 10e kérelmek/s folyamatos teljesítményt.
+- Tudja kezelni az adatforgalmi csúcsokhoz legfeljebb 50 ezer/mp nélkül ügyfél kérelmeket, vagy túllépik az időkorlátot.
+- Kisebb, mint 500ms késés 99 %-a.
 
-A követelmény alkalmi igényeiben jelentkező forgalmának kezeléséhez tervezési kihívást mutatja be. Elméletileg a rendszer sikerült horizontálisan a maximális várt forgalom kezeléséhez. Azonban kiépítése, hogy számos olyan forrás nagyon hatékony. Az esetek többségében az alkalmazást nem kell, hogy mekkora kapacitást, nem lenne üresjárati mag, költségszámítás money érték hozzáadása nélkül.
+A követelmény alkalmanként adatforgalmi kiugrások kezelésére tervezési kihívást mutat be. Elméletileg a rendszer sikerült horizontálisan a maximális várt forgalom kezeléséhez. Azonban kiépítése, hogy számos erőforrás nagyon hatékony. A legtöbb esetben az alkalmazás nem kell, hogy mekkora kapacitást, így lesz tétlen Processzormagok költségszámítási money érték hozzáadása nélkül.
 
-A jobb megoldás, a bejövő kéréseket kerüljenek a puffert, és lehetővé teszik a terhelés leveler összekötőként puffer. Ezzel a kialakítással a adatfeldolgozást szolgáltatás képes kezelni a maximális adatfeldolgozást sebességét rövid időszakokra kell lennie, de a háttér-szolgáltatások csak kell a maximális fenntartható terhelés kezelésére. Pufferelés első végén, a háttér-szolgáltatások nem kell kezelni a forgalom nagy teljesítményt. A dron továbbítási alkalmazást hozhat létre, a szükséges léptékű [Azure Event Hubs](/azure/event-hubs/) a terhelés simítás jó választás. Az Event Hubs alacsony késéssel és nagy teljesítményt biztosít, és egy költséghatékony megoldást a következő magas adatfeldolgozást kötetek. 
+Jobb módszer, hogy a bejövő kérelmek elhelyezi egy puffer, és lehetővé teszik a puffer terheléselosztóként jár el. Ezzel a kialakítással kell, hogy a szolgáltatás tudja kezelni a maximális feldolgozási sebességét rövid időszakokra, de a háttérszolgáltatások csak a maximális fenntartható terhelés kezeléséhez van szükség. Az előtér: pufferelés, a háttérszolgáltatások nem kell nagy adatforgalmi kiugrások kezelésére. A Drone Delivery alkalmazást szükséges méreten [Azure Event Hubs](/azure/event-hubs/) terheléskiegyenlítési esetében megfelelő választás. Az Event Hubs biztosít alacsony késéssel és nagy átviteli sebességet, és a egy költséghatékony megoldás Adatbetöltési nagy mennyiségben. 
 
-A tesztelés során a egy Standard csomagra eseményközpont 32 partíciók és 100 átviteli egységek használtuk. Megfigyelhető, hogy hamarosan 32 KB-os esemény / másodperc adatfeldolgozást, késéssel 90ms körül. Jelenleg az alapértelmezett érték 20 átviteli egység, de az Azure-ügyfél kérhetnek további átviteli egységek tervátalakítási egy támogatási kérést. Lásd: [Event Hubs kvóták](/azure/event-hubs/event-hubs-quotas) további információt. Csakúgy, mint a metrikák sok tényezők befolyásolhatják a teljesítményt, például az üzenet terhelés méretének, így nem értelmezi őket egy alapként. További átviteli van szükség, ha az adatfeldolgozást szolgáltatás shard egynél több eseményközpont között is. A még nagyobb átviteli sebességet [Event Hubs dedikált](/azure/event-hubs/event-hubs-dedicated-overview) biztosít egy bérlői központi telepítéseket is érkező másodpercenként több mint 2 millió esemény.
+Tesztelés használtuk egy Standard szintű event hubs átviteli egységeket 100 és 32 partícióval. Megállapítottuk, hogy körülbelül 32 ezer esemény / s betöltési, körül 90ms késéssel. Az alapértelmezett korlát jelenleg 20 átviteli egység, de az Azure-ügyfelek kérhet további átviteli egységek ügyfélszolgálatunknak küldött támogatási kérést. Lásd: [Event Hubs-kvótákról](/azure/event-hubs/event-hubs-quotas) további információt. A metrikák, a számos tényező befolyásolhatja a teljesítményt, például az üzenetek hasznos adatainak mérete, mivel így nem értelmezi őket alapként. További átviteli van szükség, ha a feldolgozó szolgáltatás szegmens egynél több eseményközpont között is. A még nagyobb átviteli sebességet [Event Hubs dedikált](/azure/event-hubs/event-hubs-dedicated-overview) kínál egybérlős üzemelő példánya, amely a bejövő képes kezelni másodpercenként több mint 2 millió esemény.
 
-Fontos megérteni, hogyan Event Hubs ilyen magas teljesítmény érhető el, mert, amely hatással van, hogyan ügyfél foglaljanak Eseményközpontokból származó üzenetek. Az Event Hubs nem valósítja meg a *várólista*. Ahelyett, hogy, amely egy *eseményfelhasználó*. 
+Fontos megérteni, hogyan érheti el az Event Hubs, az ilyen nagy teljesítményű, mert, amely hatással van, hogy egy ügyfél foglaljanak Event hubs szolgáltatástól érkező üzenetek. Az Event Hubs nem valósít meg egy *várólista*. Ehelyett valósít meg egy *eseménystream*. 
 
-A várólistához egy egyedi felhasználói eltávolítása egy üzenetet az üzenetsorból, és a következő fogyasztói az üzenet nem jelenik. Várólisták ezért használatát teszik lehetővé a [versengő fogyasztók mintát](../patterns/competing-consumers.md) párhuzamosan üzenetek feldolgozásához, és a méretezhetőség javítása. Nagyobb rugalmasság a fogyasztó tárolja a zárolást az üzenet és zárolás feloldása, amikor az üzenet feldolgozása megtörtént. Ha a fogyasztó nem sikerül &mdash; például a csomóponton futó összeomlások &mdash; a zárolás végrehajtásának időkorlátja, és az üzenet vissza a várólista-kiszolgálóra kerül. 
+Az üzenetsor az egyes fogyasztók távolíthatja el egy üzenetet az üzenetsorból, és a következő fogyasztói az üzenet nem jelenik meg. Üzenetsorok azt ezért lehetővé teszik, hogy egy [versengő felhasználók mintája](../patterns/competing-consumers.md) üzenetek párhuzamos feldolgozását, és a méretezhetőség javítása. A nagyobb rugalmasság érdekében a fogyasztó az üzenet a zárolási tárolja, és a zárolás feloldása, ha az üzenet feldolgozása megtörtént. Ha a feldolgozó meghibásodik &mdash; például a csomóponton futó szoftverleállások &mdash; zárolási túllépi az időkorlátot, és az üzenet vissza alakzatot a várólistára kerül. 
 
 ![](./images/queue-semantics.png)
 
-Az Event Hubs, másrészt adatfolyam szemantikáját használja. A fogyasztók olvashatja a streamet egymástól függetlenül saját tempójában. Mindegyik felhasználó felelős nyomon követése céljából az aktuális pozíciót az adatfolyamban. A fogyasztó az egyes előre meghatározott időközönként állandó tároló kell írni a jelenlegi állapotában. Így ha a fogyasztó (például a fogyasztói összeomlik vagy az állomás nem tud) hibát észlel, majd új példányt folytathatja az adatfolyam olvasásakor az utolsó rögzített hely. Ez a folyamat *ellenőrzőpontok*. 
+Az Event Hubs, másrészről, használja a streamelési szemantikáját. A fogyasztók olvashatja a streamet, egymástól függetlenül saját tempójában. Mindegyik felhasználó az aktuális pozícióját az adatfolyamban nyomon gondoskodik a felelős. A fogyasztó kell írni az aktuális pozícióját adattárolásra néhány előre meghatározott időközönként. Így ha az ügyfél egy tartalék (például a fogyasztói szoftverleállások vagy a gazdagép nem), majd egy új példányt folytathatja a utolsó feljegyzett beosztás érkező adatfolyam olvasása. Ez a folyamat *ellenőrzőpontok*. 
 
-A megfelelő teljesítmény érdekében egy végfelhasználói általában nem ellenőrzőpont után minden üzenetet. Ehelyett az egyes rögzített időközönként, például a feldolgozást követően az ellenőrzőpontok  *n*  üzeneteket, vagy minden  *n*  másodperc. Következésképpen a fogyasztó nem sikerül, ha egyes események előfordulhat, hogy feldolgozni kétszer, mert egy új példány mindig szerzi be a legutóbbi ellenőrzőponttól. Nincs olyan kompromisszumot: gyakori ellenőrzőpontokat hátrányosan befolyásolhatja a teljesítményt, de a ritka ellenőrzőpontokat jelenti azt, egy meghibásodás után fog visszajátszásos a további események.  
+Teljesítménybeli megfontolások miatt az olyan fogyasztói általában nem ellenőrzőpont után minden üzenetet. Ehelyett azt rögzített időköz, például a feldolgozás után ad hozzá ellenőrzőpontokat *n* üzeneteket, vagy minden *n* másodperc. Következtében ha egy feldolgozó nem jár sikerrel, néhány esemény előfordulhat, hogy első feldolgozása kétszer, mert egy új példányt mindig szerzi be a legutóbbi ellenőrzőponttól. Egy ára van: a gyakori ellenőrzőpontok összeállítása hátrányosan befolyásolhatja a teljesítményt, de a ritka ellenőrzőpontok jelenti azt, további események fog játszani hiba után.  
 
 ![](./images/stream-semantics.png)
  
-Az Event Hubs nem versengő fogyasztó számára készült. Bár több felhasználóból adatfolyam tudja olvasni, minden egyes halad át a adatfolyam egymástól függetlenül. Ehelyett az Event Hubs egy particionált felhasználói mintát használ. Az eseményközpontok legfeljebb 32-partíciókkal rendelkezik. Horizontális skálázhatóságot az érhető el egy külön végfelhasználói hozzárendelése minden partíció.
+Az Event Hubs nem versengő fogyasztó számára készült. Több fogyasztó tudja olvasni a stream, bár egyes is járja a stream egymástól függetlenül. Ehelyett az Event Hubs egy particionált felhasználói mintát használ. Az event hub legfeljebb 32 partícióval rendelkezik. Horizontális skálázás külön fogyasztók rendel mindegyik partíció érhető el.
 
-Ez mit jelent a dron kézbesítési munkafolyamat? Ahhoz, hogy a teljes előnye, hogy az Event Hubs, a kézbesítési ütemezési nem Várjon, amíg minden üzenetet dolgozható fel, mielőtt a Tovább gombra. Ha mégis meghaladja, az idő, Várakozás a hálózati hívás befejezéséhez fog legmagasabbak. Ehelyett kell kötegek párhuzamosan, a háttér-szolgáltatásokhoz való aszinkron hívásokkal üzenetek feldolgozásához. Megtanulhatja, mivel a megfelelő ellenőrzőpont-stratégia kiválasztása az is fontos.  
+Ez mit jelent a drone delivery munkafolyamat? A teljes kiaknázásához az Event Hubs lekéréséhez a kézbesítési ütemezési minden üzenet feldolgozása után áthelyezni a következő nem várja. Ebben az esetben, amely azt fogják tölteni legtöbbször a Várakozás a hálózati hívások végrehajtásához. Ehelyett azt kell feldolgoznia az üzenetek aszinkron hívásokat a háttérszolgáltatások használatával párhuzamosan kötegek. Ahogy láthatjuk, a megfelelő ellenőrzőpont-stratégia kiválasztása az is fontos.  
 
 ## <a name="workflow"></a>Munkafolyamat
 
-Olvasási és az üzenetek feldolgozása három lehetséges nézett azt: Event Processor Host, Service Bus-üzenetsorok és az IOT hubbal reagálni könyvtár. IOT hubbal reagálni választottuk, de megértéséhez Event Processor Host kezdődnie segíti. 
+Megvizsgáltunk, beolvasása, illetve az üzenetek feldolgozására három lehetőség: Event Processor Host, Service Bus-üzenetsorok és a IoTHub React könyvtárban. Választottuk IoTHub reagálni, de ennek megértéséhez segít az Event Processor Host indítása. 
 
 ### <a name="event-processor-host"></a>Event Processor Host
 
-Event Processor Host készült üzenet kötegelés. Az alkalmazás megvalósítja a `IEventProcessor` felületet, és a Processor Host létrehoz egy esemény processzorpéldány minden partíció esetében az eseményközpontba. Az Event Processor Host majd meghívja a minden esemény processzor `ProcessEventsAsync` eseményüzeneteket kötegekben metódust. Az alkalmazás vezérlők az ellenőrzőpont belül a `ProcessEventsAsync` metódust, és az Event Processor Host ellenőrzőpontot ír az Azure storage. 
+Event Processor Host üzenet kötegelés lett tervezve. Az alkalmazás megvalósítja a `IEventProcessor` felületet, és a processzor gazdagép hoz létre egy esemény processzorpéldány minden partíció esetében az eseményközpontban. Az Event Processor Host ekkor meghívja a minden egyes eseményfeldolgozó `ProcessEventsAsync` eseményüzenetek váró metódust. Az ellenőrzőpont belül az Alkalmazásvezérlés a `ProcessEventsAsync` metódust, és az Event Processor Host ellenőrzőpontot ír az Azure storage. 
 
-A partíciókon belül Event Processor Host megvárja-e a `ProcessEventsAsync` vissza a következő mérési adatköteget való ismételt hívása előtt. Ezt a módszert használja egyszerűbbé teszi a programozási modellel, mert a feldolgozás eseménykód nem szükséges ismételten belépő. Azonban azt is jelenti, hogy a eseményfeldolgozóhoz kezeli egy kötegelt egyszerre, és ez a sebesség, amellyel a Processor Host üzenetek is szivattyú gates.
+Egy partíción belül Event Processor Host megvárja, amíg `ProcessEventsAsync` vissza úgy, a következő köteg meghívása előtt. Ez a megközelítés leegyszerűsíti a programozási modell, mert a feldolgozás eseménykód nem kell ismételten belépő. Azonban azt is jelenti, hogy az eseményfeldolgozó kezeli egy kötegelt egyszerre, és ez gates a sebesség, amellyel a Processor Host pump is a üzeneteket.
 
 > [!NOTE] 
-> A Processor Host ténylegesen nem *Várjon, amíg* abban az értelemben az egy szál blokkolás. A `ProcessEventsAsync` metódus aszinkron, ezért a Processor Host teheti más feladatok, amíg befejeződik az metódus. De azt nem az adott partíció üzenetek egy másik köteg mindaddig, amíg a metódus visszaadja. 
+> A processzor gazdagép ténylegesen nem *várjon* abban az értelemben, a szál blokkolása. A `ProcessEventsAsync` metódus aszinkron, ezért az Processor Host végezhet egyéb műveleteket, amíg befejeződik a metódus. De azt nem az adott partíció egy másik üzenetköteget mindaddig, amíg a metódus adja vissza. 
 
-A dron alkalmazásban az üzenetkötegek párhuzamosan lehet feldolgozni. De a teljes kötegelt befejezéséhez Várakozás a szűk keresztmetszetek is okozhatnak. Feldolgozási csak lehet gyorsaságának a leglassabb üzenet egy kötegben. Válaszidők bármilyen változása a "hosszú utóhívás," ahol néhány lassú válaszok húzza le az egész rendszert hozhat létre. A teljesítménytesztek bemutatta, hogy azt nem érte el az ezzel a megközelítéssel cél átviteli sebességet. Ez a does *nem* jelenti azt, hogy Event Processor Host használata kerülendő. A magas teljesítmény kerülje a hosszan futó feladatokat belül, de a `ProcesssEventsAsync` metódust. Gyors feldolgozása egyes kötegekben.
+A drone alkalmazásban egy üzenetköteget párhuzamosan lehet feldolgozni. De Várakozás a teljes kötegelt végrehajtásához a szűk keresztmetszetet is okozhatnak. Feldolgozási csak lehet olyan gyors kötegelt belül a leglassabb üzenetnek számít. Válaszidők bármilyen változása hozhat létre egy "hosszú tail," ahol néhány lassúak a válaszok húzza le az egész rendszert. A teljesítménytesztek kimutatta, hogy azt nem érte el a célként megadott átviteli sebességet, ezzel a megközelítéssel. Ez a kód *nem* jelenti azt, hogy lehetőleg ne Event Processor Host használatával. A nagy teljesítményű, kerülje bármely hosszú lefutású feladat található, de a `ProcesssEventsAsync` metódust. Az egyes kötegek gyorsan feldolgozni.
 
-### <a name="iothub-react"></a>Reagálni IOT hubbal 
+### <a name="iothub-react"></a>IotHub React 
 
-[IOT hubbal reagálni](https://github.com/Azure/toketi-iothubreact) események olvasása az Eseményközpont Akka adatfolyamok könyvtár. Akka adatfolyamok egy adatfolyam-alapú programozási keretrendszerről, amely megvalósítja a [reaktív adatfolyamok](http://www.reactive-streams.org/) megadását. Is biztosítja az adatfolyam-továbbítási hatékony folyamatok, ahol minden adatfolyam műveleteket aszinkron módon történik, és az adatcsatorna szabályosan kezeli ellennyomás létrehozásához. Ellennyomás akkor fordul elő, amikor egy eseményforrás eredményez, mint az alárendelt fogyasztók fogadhatja gyorsabban események &mdash; amelyhez pontosan a helyzet akkor, ha a a dron kézbesítési rendszer rendelkezik a csúcs a forgalom. Ha a háttérkiszolgáló szolgáltatások lassabban go, IOT hubbal reagálni lelassulnak. Ha kapacitás nő, IOT hubbal reagálni fogja leküldeni a több üzenet a feldolgozási folyamaton keresztül.
+[IotHub React](https://github.com/Azure/toketi-iothubreact) Akka Streamek könyvtár az Eseményközpontból érkező események olvasását. Akka Streamek egy stream-alapú programozási keretrendszerről, amely megvalósítja a [reaktív Streamek](https://www.reactive-streams.org/) specifikációnak. Hatékony streamelési folyamatok létrehozásával, ahol az összes streamelési műveleteket aszinkron módon történik, és a folyamat szabályosan kezeli ellennyomás hozhat létre egy megoldást kínál. Ellennyomás akkor történik, ha az eseményforrás eredményez, mint az alárendelt fogyasztók fogadhatja gyorsabb ütemben események &mdash; amelynek pontosan az a helyzet akkor, ha a a drone delivery rendszer nevű kategóriáé a forgalom. Ha háttérszolgáltatások lassabban, IoTHub React lelassulnak. Kapacitás nő, ha IoTHub React fogja leküldeni a további üzeneteket, a folyamat keresztül.
 
-Az Event Hubs eseményeit streaming nagyon természetes programozási modellt Akka adatfolyamokat is. Helyett egy kötegelt események ismétlése, határozza meg, amely minden esemény alkalmazandó, és tájékoztassa kezelni a streaming Akka adatfolyamok műveletkészlet. Akka adatfolyamok határozza meg a folyamatos átviteli folyamat *források*, *Forgalomáramlás*, és *fogadók esetében*. Forrás hoz létre egy kimeneti adatfolyamba, a folyamat egy bemeneti adatfolyam feldolgozza, és hozza létre a kimeneti adatfolyamokat, és a fogadó fel adatfolyam nélkül állít elő kimenetet.
+Streamelés az Event hubs-Eseményközpontok eseményeinek nagyon természetes programozási modellt Akka Streameket is. Helyett hurkolás események kötegelt keresztül, számos műveletet minden egyes esemény érvényesek, és lehetővé teszik a Akka Streamek kezelni, a streamelési határozza meg. Akka Streamek határozza meg, hogy a streamelési folyamat *források*, *folyamatok*, és *fogadók*. Egy adatforrás generál egy kimeneti adatfolyamba, egy folyamatot egy bemeneti stream feldolgozza, és létrehozza a kimeneti adatfolyamokat és egy fogadó felhasznál egy stream nélkül állít elő kimenetet.
 
-A kód itt látható a Feladatütemező szolgáltatás, amely beállítja a Akka adatfolyamok folyamat:
+A Scheduler szolgáltatás, amely beállítja a Akka Streamek folyamat a következő kódot:
 
 ```java
 IoTHub iotHub = new IoTHub();
@@ -98,11 +98,11 @@ messages.map(msg -> DeliveryRequestEventProcessor.parseDeliveryRequest(msg))
         .run(streamMaterializer);
 ```
 
-Ezt a kódot állít be az Event Hubs. A `map` utasítás minden eseményüzenet deserializes egy Java-osztály egy kézbesítési kérelem jelölő be. A `filter` utasítás eltávolítja minden `null` be az adatfolyamból objektumok; ebben az esetben, ha egy üzenet nem deszerializálható megóvja. A `via` utasítás csatlakoztatja a forrás egy folyamatot, amely minden kézbesítési kérést dolgoz fel. A `to` metódus az ellenőrzőpont fogadó, IOT hubbal reagálni rendszerbe beépített csatlakoztatja a folyamatot.
+Ez a kód az Event Hubs konfigurálja a forrásaként. A `map` utasítás deserializes egyes eseményüzenet be egy Java-osztály, amely egy kézbesítési kérést jelöli. A `filter` utasítás eltávolítja az összes `null` az adatfolyamból objektumokat; ez az eset, amikor egy üzenet nem lehet deszerializálni elleni őröket. A `via` utasítás csatlakoztatja a forrás egy folyamatot, amely minden egyes kézbesítési kérést dolgoz fel. A `to` metódus csatlakoztatja a ellenőrzőpont gyűjtő, amely IoTHub React be van építve a folyamatot.
 
-IOT hubbal reagálni használja egy másik ellenőrzőpontok stratégia esemény Host processzor-nál. Az ellenőrzőpontok a ellenőrzőpont fogadó, amely a lezáró szakasza a folyamatnak írja. Akka adatfolyamokat a kialakítása lehetővé teszi, hogy a folytatáshoz a streamelési adatok, miközben a fogadó ír az ellenőrzőpont-feldolgozási folyamat. Ez azt jelenti, hogy a felsőbb rétegbeli feldolgozás szakaszában nem kell várnia az ellenőrzőpontok használatával fordulhat elő. Konfigurálhatja az ellenőrzőpontok létrehozása után egy időtúllépési, vagy egy bizonyos számú üzenetek feldolgozása után.
+IoTHub React eseményfeldolgozó állomás, mint más ellenőrzőpontok stratégiát alkalmaz. Ellenőrzőpontok a ellenőrzőpont gyűjtő, amely az a folyamat leállítása szakasz által írt. Akka Streamek kialakítása lehetővé teszi, hogy a folyamat folytatásához a streamelési adatok, miközben a fogadó ír az ellenőrző pont. Ez azt jelenti, hogy a felsőbb rétegbeli feldolgozás szakaszában nem várja meg, megtörténjen ellenőrzőpontok használata szükséges. Konfigurálhatja az ellenőrzőpontok használata után időtúllépés vagy után adott számú üzenetet dolgozott.
 
-A `deliveryProcessor` hoz létre a Akka adatfolyamok folyamata:  
+A `deliveryProcessor` metódus a Akka Streamek folyamatot hoz létre:  
 
 ```java
 private static Flow<AkkaDelivery, MessageFromDevice, NotUsed> deliveryProcessor() {
@@ -126,78 +126,78 @@ private static Flow<AkkaDelivery, MessageFromDevice, NotUsed> deliveryProcessor(
 }
 ```
 
-A folyamat meghívja a statikus `processDeliveryRequestAsync` módszer, amely a minden üzenet feldolgozásakor a tényleges munkát.
+A folyamat meghívja a statikus `processDeliveryRequestAsync` metódushoz, amely a tényleges munkát üzenetek feldolgozására.
 
-### <a name="scaling-with-iothub-react"></a>Az IOT hubbal reagálni skálázás
+### <a name="scaling-with-iothub-react"></a>IoTHub reacttel méretezése
 
-A Feladatütemező szolgáltatás célja, hogy a tároló feltünteti olvassa be az egyetlen partícióra. Például, ha az Event Hubs 32-partíciókkal rendelkezik, a Feladatütemező szolgáltatás telepítése 32 replikával. Ez lehetővé teszi a magas fokú rugalmasságot biztosít horizontális skálázás tekintetében. 
+A Scheduler szolgáltatás célja, hogy az egyes tárolópéldányok egyetlen partícióról olvas. Például, ha az Event Hubs 32 partícióval rendelkezik, a Feladatütemező szolgáltatás üzembe helyezése 32 replikákkal rendelkező. Ez lehetővé teszi nagy rugalmasságot biztosít a horizontális skálázást tekintetében. 
 
-Attól függően, hogy a fürt méretét a fürt egyik csomópontjában levő rendelkezhet egynél több Feladatütemező szolgáltatás pod fut rajta. De ha a Feladatütemező szolgáltatás több erőforrást igényel, a fürt kiterjeszthető, ahhoz, hogy a három munkaállomás-csoporttal szét több csomópontot. A teljesítménytesztek bemutatta, hogy a Feladatütemező szolgáltatás határa memória - és szál-, így teljesítmény alárendelve nagy mértékben a Virtuálisgép-méretet és az egyes csomópontok három munkaállomás-csoporttal.
+Attól függően, a fürt méretét a fürtben egy csomópont lehet egynél több Scheduler szolgáltatás pod rajta való futtatásához. Azonban ha a Scheduler szolgáltatás több erőforrást igényel, a fürt kiterjeszthető, annak érdekében, hogy a podok szét több csomópontot. A teljesítménytesztek kimutatta, hogy a Scheduler szolgáltatás memória és a hozzászóláslánc-kötött, így teljesítmény nagy mértékben alárendelve, a virtuális gép mérete és a csomópontonként podok számát.
 
-Minden példány tudnia kell, amely az Event Hubs partícióazonosító olvasni. Konfigurálhatja a számát, azt előnyt a [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) Kubernetes erőforrástípus. Az egy StatefulSet három munkaállomás-csoporttal rendelkezik, amely tartalmazza az tartozó numerikus index állandó azonosítóval. Pontosabban, a pod értéke `<statefulset name>-<index>`, és ezt az értéket a tárolóhoz a Kubernetes keresztül érhető el [lefelé API](https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/). Futásidőben a Feladatütemező szolgáltatás a pod felhasználónevét olvassa be, és a pod index használja, mint a partícióazonosító.
+Minden példány tudnia kell, amely az Event Hubs particionálása olvasni. A partíciószám konfigurálásához meggyőződtünk előnye a [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) erőforrástípust a Kubernetesben. Egy StatefulSet podok egy állandó azonosítója, amely tartalmaz egy numerikus indexszel rendelkezik. Pontosabban, a pod név `<statefulset name>-<index>`, és ez az érték érhető el a tárolóhoz, a Kubernetes használatával [lefelé irányuló API](https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/). Futási időben a Scheduler szolgáltatás beolvassa a podnév, és a pod index használja, mint a partícióazonosító.
 
-Horizontális a Feladatütemező szolgáltatás még tovább szükség esetén sikerült event hub partíciónként több pod rendelhet, hogy több három munkaállomás-csoporttal mindegyik partíció olvas. Azonban ebben az esetben minden példány volna olvasni az események a hozzárendelt partícióban. Ismétlődő feldolgozásának elkerülése érdekében meg kell a kivonatolási algoritmust használja, hogy az egyes példányok kihagyja az üzenetek egy része felett. Ezzel a módszerrel több olvasók felhasználhat az adatfolyam, de minden üzenetet csak egy példány dolgoz fel. 
+Ha horizontális felskálázási még tovább a Scheduler szolgáltatás, hozzárendelhet egynél több pod event hub partíciónként, úgy, hogy az egyes partíciók több podok olvas. Azonban ebben az esetben minden példány volna olvasni az események a hozzárendelt partícióban. Ismétlődő feldolgozási elkerülése érdekében kell egy kivonatoló algoritmus használatára, hogy minden példány kihagyja az üzeneteket egy része felett. Ezzel a módszerrel több olvasók használhatnak fel, a streamet, de minden üzenetet csak egy példány dolgoz fel. 
  
 ![](./images/eventhub-hashing.png)
 
 ### <a name="service-bus-queues"></a>Service Bus-üzenetsorok
 
-Egy harmadik beállítás, amely azt tekinti az üzenetek átmásolni az Event Hubs egy Service Bus-üzenetsorba, és majd a Feladatütemező szolgáltatás elolvasta az üzeneteket a Service Bus. A bejövő kéréseket írása az csak a másolja őket a Service Bus Event Hubsban furcsa tűnhet.  Azonban az ötletére lett-e használni a különböző szintjeiről minden egyes szolgáltatás: használja az Event Hubs nagy forgalom igényeiben jelentkező befogadására közben a várólista szemantikáját a Service Bus számára, a munkaterhelés versengő fogyasztók mintával feldolgozni. Ne feledje, hogy a cél a folyamatos átviteli kisebb, mint a várható terhelést, így feldolgozásra a Service Bus-üzenetsorba nem kell lennie az üzenet olyan gyors adatfeldolgozást.
+Egy harmadik lehetőség, hogy mi számít az Event hubs szolgáltatástól érkező üzenetek másolása egy Service Bus-üzenetsorba, és majd a Scheduler szolgáltatás elolvasta az üzenetet a Service Bus. Úgy tűnhet, meglepő írásakor a bejövő kérelmek csak, hogy másolja őket a Service Bus Event hubsba.  Azonban a cél az volt, hogy az egyes szolgáltatások különböző előnyeit kihasználva: használja az Event Hubs elháríthatók ugrásszerűen nagy forgalom, miközben kihasználhatja a várólista szemantikáját a Service Bus egy versengő felhasználók mintája a számítási feladat feldolgozásához. Ne feledje, hogy a célt a vendégteljesítmény kisebb, mint a várható terhelés, így feldolgozási a Service Bus-üzenetsorba nem kell lennie olyan gyors üzenetbetöltés.
  
-Ezt a módszert használja az a koncepció igazolása megvalósítási érhető el, 4 KB-os műveletek másodpercenkénti száma. Ezeket a teszteket, amelyek még nem tette tényleges munka, de egyszerűen hozzáadni a szolgáltatás várakozási ideje a rögzített méretű utánzatait háttér szolgáltatások használt. Vegye figyelembe, hogy a teljesítmény számok volt sokkal kisebb, mint a Service Bus elméleti maximum. Az eltérés okai a következők:
+Ezzel a módszerrel proof-of-concept-implementáció érhető el, a 4 KB műveletek száma másodpercenként. Ezeket a teszteket, amelyek bármely valós munkát nem tette meg, de egyszerűen hozzáadott egy rögzített mértékű késés szolgáltatásonként utánzatként funkcionáló háttérszolgáltatások használja. Vegye figyelembe, hogy a teljesítmény-számok is sokkal kevesebb, mint a Service Bus elméleti maximális. Az eltérés okai a következők:
 
-- Nem rendelkezik a különböző ügyfél-paraméterek, például a kapcsolat készlet kapacitása, párhuzamos folyamatkezelést biztosítja, a lehívott, valamint a Köteg mérete fokának optimális értékeit.
+- Nem rendelkezik a különböző ügyfél-paraméterek, például a készlet kapcsolathoz megadott korlátot, a párhuzamos feldolgozás, a lehívott száma és a kötegméret fokú optimális értékeit.
 
-- A hálózati i/o-szűk keresztmetszeteket.
+- A hálózati szűk I/O keresztmetszetek.
 
-- Használja a [PeekLock](/rest/api/servicebus/peek-lock-message-non-destructive-read) mód helyett [ReceiveAndDelete](/rest/api/servicebus/receive-and-delete-message-destructive-read), amely volt szükség, annak érdekében, legalább egyszeri üzenetek kézbesítését.
+- Felhasználása [PeekLock](/rest/api/servicebus/peek-lock-message-non-destructive-read) mód helyett [ReceiveAndDelete](/rest/api/servicebus/receive-and-delete-message-destructive-read), amely volt szükség, legalább egyszeri kézbesítési üzenetek biztosítása érdekében.
 
-További teljesítménytesztek előfordulhat, hogy az alapvető ok észlelt és engedélyezett a problémák megoldásához. Azonban IOT hubbal reagálni teljesül, a teljesítmény cél, válassza ezt a beállítást. Említett, a Service Bus ehhez a forgatókönyvhöz kivitelezhető lehetőség.
+További teljesítménytesztek előfordulhat, hogy az alapvető ok felderítése és számunkra, hogy a problémák megoldásához. Azonban IotHub React teljesül, a teljesítmény célt, ezért választottuk ezt a lehetőséget. Mindemellett a Service Bus az ebben a forgatókönyvben kivitelezhető lehetőség.
 
-## <a name="handling-failures"></a>Hibák kezelése 
+## <a name="handling-failures"></a>Hibák 
 
-Nincsenek három általános osztályok nem kell figyelembe venni.
+Nincsenek fontolja meg a hiba három általános osztályba.
 
-1. Előfordulhat, hogy az alárendelt szolgáltatás nem átmeneti hiba, amely minden, amely nem valószínű, hogy eltűnik önmagában hiba. Nem tranziens hibák normál hibaállapotokat, például egy metódusnak érvénytelen a megadott tartalmazza. Is, nem kezelt kivételeket az alkalmazáskód vagy egy folyamat összeomló. Ilyen hiba akkor fordul elő, ha a teljes üzleti tranzakció hibaként kell megjelölni. Elképzelhető, hogy más lépéseket ugyanabban a tranzakcióban már sikeresen telepített szükségessé. (Kompenzációs tranzakciók lásd alább.)
+1. Előfordulhat, hogy az alárendelt szolgáltatás nem átmeneti hiba, amely minden hiba, amely nem valószínű, hogy megszabadítja önmagában. Nem átmeneti hibák közé tartozik a normál hiba feltételek, például egy érvénytelen bemenet. Is, nem kezelt kivételeket az alkalmazáskód vagy egy folyamat összeomlik. Az ilyen típusú hiba akkor fordul elő, ha a teljes üzleti tranzakció sikertelen kell megjelölni. Ugyanabban a tranzakcióban, amely sikeresen további lépések visszavonása szükség lehet. (A kompenzáló tranzakció, lásd alább.)
  
-2. Az alárendelt szolgáltatás problémákat tapasztalhat a például a hálózati időtúllépés átmeneti hiba történt. Ezek a hibák gyakran megoldhatók egyszerűen újra próbálkozik a hívást. Ha egy bizonyos számú kísérlet után továbbra is sikertelen a művelet, nem átmeneti hiba figyelembe. 
+2. Egy alárendelt szolgáltatás például egy hálózati időtúllépés átmeneti hibát tapasztalhat. Ezek a hibák gyakran megoldhatók egyszerűen hívása újrapróbálása. Ha a művelet egy bizonyos számú kísérlet után is sikertelen, figyelembe vette nem átmeneti hiba. 
 
-3. A Feladatütemező szolgáltatás előfordulhat, hogy fault (például azért, mert a csomópont összeomlik). Ebben az esetben Kubernetes megjelenik a szolgáltatás egy új példányát. Már folyamatban lévő tranzakciók, kell folytatni. 
+3. A Scheduler szolgáltatás előfordulhat, hogy tartalék (például azért, mert összeomlik, egy csomópont). Ebben az esetben a Kubernetes megjelenik a szolgáltatás egy új példányát. Azonban már folyamatban lévő tranzakciók kell folytatni. 
 
-## <a name="compensating-transactions"></a>Kompenzációs tranzakciók
+## <a name="compensating-transactions"></a>Kompenzáló tranzakciók
 
-Nem átmeneti hiba akkor fordul elő, ha az aktuális tranzakció lehet egy *részben sikertelen* állapotba, ahol egy vagy több lépése már sikeresen befejeződött. Például ha a dron szolgáltatás már ütemezve egy dron, a dron kell szakítható meg. Ebben az esetben az alkalmazást kell visszavonja a lépéseket, a sikeresen telepített egy [Compensating tranzakció](../patterns/compensating-transaction.md). Bizonyos esetekben kell erre a külső rendszerek vagy akár egy kézi művelet szerint. 
+Nem átmeneti hiba történik, ha az aktuális tranzakció lehet egy *részben sikertelen* állapot, ahol egy vagy több lépést már sikeresen befejeződött. Például ha a Drone szolgáltatás már ütemezve egy drónt, a drone kell megszakítva. Ebben az esetben az alkalmazásnak kell, hogy sikeres volt-e, a lépések visszavonása egy [kompenzáló tranzakció](../patterns/compensating-transaction.md). Bizonyos esetekben ez kell elvégezni egy külső rendszer, vagy akár egy manuális folyamat. 
 
-Ha tranzakciók kompenzációs logika összetett, érdemes lehet külön szolgáltatás létrehozása a folyamat felelős. Az a dron továbbítási alkalmazást hozhat létre a Feladatütemező szolgáltatás egy dedikált várólista, a sikertelen műveleteket helyezi. Egy külön mikroszolgáltatási, a felügyelő nevű olvassa be ebből a várólistából, és meghívja a API törlése a szolgáltatásokat, amelyeket a helyesbítéshez. Ez a módosítás a [Feladatütemező ügynök felügyelő mintát][scheduler-agent-supervisor]. A felügyeleti szolgáltatás eltarthat más műveleteket is, például szöveg vagy e-mail a felhasználó értesítése, vagy egy riasztást küldjön egy műveletek irányítópultot. 
+Ha a kompenzáló tranzakciók logika összetett, érdemes lehet külön szolgáltatás létrehozása felelős a folyamat. A Drone Delivery alkalmazás a Scheduler szolgáltatás sikertelen műveletek be egy dedikált üzenetsorba helyezi. Külön mikroszolgáltatások, a felügyelő nevű ebből az üzenetsorból olvas, és meghívja a lemondás API a meghiúsult lépések kompenzációjához szükséges szolgáltatásokat. Ez a kapcsolat egy változata a [Feladatütemező ügynök felügyeleti mintájának][scheduler-agent-supervisor]. A felügyeleti szolgáltatás előfordulhat, hogy más műveletek is, például szöveg vagy e-mailt a felhasználó értesítése, vagy riasztást küldeni a műveleti irányítópult. 
 
 ![](./images/supervisor.png)
 
-## <a name="idempotent-vs-non-idempotent-operations"></a>Az Idempotent vs az idempotent műveletek
+## <a name="idempotent-vs-non-idempotent-operations"></a>Idempotens vs nem idempotens műveletek
 
-Minden kérést elveszhetnek, a Feladatütemező szolgáltatás biztosítania kell, hogy minden üzenet legalább egyszer feldolgozása. Az Event Hubs képes garantálni, legalább egyszeri kézbesítési, ha az ügyfél ellenőrzőpontokat megfelelően.
+Kérések elveszhetnek, a Feladatütemező szolgáltatás biztosítania kell, hogy minden üzenet legalább egyszer feldolgozása. Az Event Hubs tud garantálni, legalább egyszeri kézbesítési, ha az ügyfél ellenőrzőpontokat megfelelően.
 
-A Feladatütemező szolgáltatás összeomlik, ha egy vagy több ügyfél kérelmeket feldolgozó közepén lehet. Azokat az üzeneteket a rendszer az ütemező egy másik példánya észlelnie, majd újra fel kell dolgozni. Mi történik, ha a kérés feldolgozása kétszer van? Fontos munka duplikálását elkerülje. Amikor az összes a rendszer két dronok az ugyanazon csomag küldése nem szeretnénk.
+A Scheduler szolgáltatás összeomlik, ha lehet feldolgozni az egy vagy több ügyfél küldött kérelmeket közepén. Ezeket az üzeneteket fog dolgozza fel az ütemező egy másik példánya, és újra fel kell dolgozni. Mi történik, ha a kérés feldolgozása kétszer van? Fontos elkerülhető a munka. Amikor az összes a rendszer két drónok esetében ugyanaz a csomag küldése nem szeretnénk.
 
-Egyik módszer az, hogy az idempotent összes műveletek. Egy műveletet az idempotent esetén többször hívható az anélkül további mellékhatásokkal első hívása után. Más szóval ügyfél hívhat meg a műveletet egyszer, kétszer, vagy többször, és az eredmény ugyanaz lesz. Alapvetően a szolgáltatás figyelmen kívül hagyja-ismétlődő hívások. A mellékhatással működő kell lennie az idempotent mód esetén a szolgáltatás képes észlelni az ismétlődő hívások kell lennie. Például lehet a hívó hozzárendelés azonosítója ahelyett, hogy a szolgáltatás létrehozása egy új. A szolgáltatás majd ellenőrizheti az ismétlődő azonosító.
+Egyik lehetőség, hogy úgy tervezze meg az összes, hogy idempotensek legyenek. Egy művelet idempotens esetén többször hívható az első hívása után további mellékhatásai előállító nélkül. Más szóval egy ügyfél hívhat meg a műveletet egyszer, kétszer, vagy több alkalommal, és az eredmény ugyanaz lesz. A szolgáltatás lényegében, figyelmen kívül hagyja ismétlődő hívásokat. Az, hogy idempotensek lesznek hatásai mód esetén a szolgáltatás képes észlelni a duplikált hívások kell lennie. Például rendelkezhet a hívó hozzárendelése a azonosító ahelyett, hogy a szolgáltatás hozzon létre egy új. A szolgáltatás is tekintse meg az ismétlődő azonosítók.
 
 > [!NOTE]
-> A HTTP-specifikáció szerint, hogy GET, PUT és DELETE módszerek idempotent kell lennie. POST metódus nem garantált, hogy az idempotent lehet. Ha a POST metódussal hoz létre egy új erőforrást, akkor általában nem garantálja, hogy a művelet nem idempotent. 
+> A HTTP-specifikációnak megállapítja, hogy a GET, PUT és DELETE-metódusok idempotensnek kell lenniük. POST metódus nem garantált, hogy idempotensek legyenek. Ha egy POST-metódus új erőforrást hoz létre, nincs általánosan garancia arra, hogy-e a művelet idempotens. 
 
-Nincs mindig egyszerű idempotent metódus írása. Lehetősége van az ütemezőt, hogy minden tranzakció tartós tárolójában előrehaladását úgy követheti nyomon. Amikor egy üzenetet feldolgozza, lenne, a tartós tárolójában állapotát. Minden lépés után azt kellene írni a eredménye. Ez a megközelítés a teljesítményre gyakorolt hatása lehet.
+Nem mindig idempotens metódus írása könnyen érthető megjegyzésblokkok írására. Egy másik lehetőség, a Scheduler az olyan tartós tárban minden egyes tranzakciót az előrehaladását úgy követheti nyomon. Minden alkalommal, amikor feldolgozza az üzenetet, lenne az állapotát a tartós tárolóban. Minden lépése után azt kellene írni a az eredményt. Előfordulhat, hogy ennek a módszernek a teljesítményre gyakorolt hatása.
 
-## <a name="example-idempotent-operations"></a>Példa: Az Idempotent műveletek
+## <a name="example-idempotent-operations"></a>Példa: Idempotens műveletek
 
-A HTTP-specifikáció szerint PUT módszerek idempotent kell lennie. A meghatározás meghatározza, hogy az idempotent ily módon:
+A HTTP-specifikációnak tájékoztatja, hogy a PUT módszerek idempotensnek kell lenniük. A specifikációnak idempotens ily módon határozza meg:
 
->  A kérési metódust akkor tekinthető "idempotent", ha a tervezett hatása a kiszolgálón, ez a módszer több azonos kérelmek megegyezik a hatás egyetlen ilyen kérelem. ([RFC 7231](https://tools.ietf.org/html/rfc7231#section-4))
+>  A kérelmi metódust "idempotens" számít, ha a tervezett hatása a kiszolgálón a a módszerrel több azonos kérések pedig ugyanaz, mint az egyetlen gyakorolt hatását kérelmet. ([RFC 7231](https://tools.ietf.org/html/rfc7231#section-4))
 
-Fontos PUT és a FELADÁS egy vagy több szemantikájú új entitás létrehozásakor közötti különbségek megértése. Mindkét esetben az ügyfél elküldi egy entitást képviselő alakot a kérés törzsében. Az URI azonosító szerinti azonban különböző.
+Új entitás létrehozásakor PUT, POST és szemantika közötti különbségek megértése fontos. Mindkét esetben az ügyfél elküldi az entitás reprezentációját a kérelem törzsében. De értelmében az URI azonosító nem egyezik.
 
-- A POST metódus az URI új entitás, például egy gyűjtemény szülő erőforrását jelöli. Például hozzon létre egy új kézbesítési, az URI azonosító lehet `/api/deliveries`. A kiszolgáló az entitások, és hozzárendeli egy új URI, például a `/api/deliveries/39660`. Ezt az URI eredmény abban az esetben a helyet megjelölő fejlécet a válasz. Minden alkalommal, amikor az ügyfél elküldi a kérelmet, a kiszolgáló hoz létre egy új entitást egy új URI.
+- Egy POST-metódus az URI-t az új entitás, például egy gyűjteményt egy szülőerőforrás jelenti. Például hozzon létre egy új szállítási, hogy az URI-t lehet `/api/deliveries`. A kiszolgáló hoz létre az entitást, és hozzárendeli egy új URI-t, mint például `/api/deliveries/39660`. Ez az URI a válasz Location fejléce adja vissza. Minden alkalommal, amikor az ügyfél elküld egy kérelmet, a kiszolgáló hoz létre egy új entitást egy új URI-t.
 
-- Egy PUT metódust az URI azonosítja az entitást. Már létezik egy entitás, hogy az URI-azonosítóhoz, ha a kiszolgáló lecseréli a meglévő entitás a verziót a kérelemben. Ha adott URI nem entitás létezik, a kiszolgáló létrehoz egy. Tegyük fel az ügyfél elküldi a PUT kérelmek `api/deliveries/39660`. Feltételezve, hogy nincs kézbesítését, hogy az URI-azonosítójú, a kiszolgáló létrehoz egy újat. Miután az ügyfél elküldi a kérésben újra, ha a kiszolgáló lecseréli a meglévő entitás.
+- Az URI-t egy PUT metódust a azonosítja az entitást. Ha már van egy entitás az URI-ra, a kiszolgáló felülírja a létező entitásba a változattal a kérésben. Ha nem entitás létezik, az URI-ra, a kiszolgáló létrehoz egyet. Tegyük fel, az ügyfél küld egy PUT kérelem a `api/deliveries/39660`. Feltételezve, hogy nincs kézbesítési az URI-ra, a kiszolgáló létrehoz egy újat. Most már az ügyfél elküld a kérésben újra, ha a kiszolgáló felülírja a létező entitásba.
 
-Ez a kézbesítési szolgáltatás végrehajtása a PUT metódust. 
+Íme a PUT metódust a kézbesítési szolgáltatás megvalósítását. 
 
 ```csharp
 [HttpPut("{id}")]
@@ -234,10 +234,10 @@ public async Task<IActionResult> Put([FromBody]Delivery delivery, string id)
 }
 ```
 
-Várható, hogy legtöbb kérelem létrehoz egy új entitást, így optimistically metódushívások `CreateAsync` a tárház objektum, majd kezeli az erőforrás helyette frissítésével duplikált-resource kivételei. 
+Valószínű, hogy a legtöbb kérelmek létrehoz egy új entitást, így optimistically metódushívások `CreateAsync` a tárház objektum majd kezeli az olyan ismétlődő-erőforrás kivételek, amelyek inkább az erőforrás frissítésével. 
 
 > [!div class="nextstepaction"]
-> [API-átjárókkal](./gateway.md)
+> [API-átjárókat](./gateway.md)
 
 <!-- links -->
 

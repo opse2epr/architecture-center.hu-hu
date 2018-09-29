@@ -9,18 +9,18 @@ pnp.pattern.categories:
 - data-management
 - design-implementation
 - performance-scalability
-ms.openlocfilehash: c2832aa806909c6f0aab8b6345ffb8162eb59903
-ms.sourcegitcommit: d08f6ee27e1e8a623aeee32d298e616bc9bb87ff
+ms.openlocfilehash: 9a2eecdff7494fb627ea5c4655e6edc789bd5bdf
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/07/2018
-ms.locfileid: "33811049"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429689"
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Command and Query Responsibility Segregation (CQRS) minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. Ezzel maximalizálhatja a teljesítményt, a méretezhetőséget és a biztonságot. Támogatja a rendszer fejlődéséhez időbeli keresztül nagyobb rugalmasságot biztosít, és megakadályozza, hogy a frissítési parancsok, amely a tartományi szinten egyesítési ütközések.
+Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől. Ezzel maximalizálhatja a teljesítményt, a méretezhetőséget és a biztonságot. Nagyfokú rugalmassága révén támogatja a rendszer fejlődését, és megakadályozza, hogy a frissítési parancsok a tartományi szint egyesítési ütközéseket okozzanak.
 
 ## <a name="context-and-problem"></a>Kontextus és probléma
 
@@ -248,8 +248,6 @@ Az alábbi minták és útmutatások hasznosak lehetnek a minta használatakor:
 
 - [A Materialized View minta](materialized-view.md). A CQRS megvalósítás olvasási modellje tartalmazhatja az írási modell adatainak materializált nézeteit, illetve a materializált nézetek létrehozására is használható.
 
-- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](http://aka.ms/cqrs). [A Command Query Responsibility Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) című cikk bemutatja a mintát, illetve részletesen taglalja, hogy mikor érdemes azt használni, az [Epilógus: tapasztalatok](https://msdn.microsoft.com/library/jj591568.aspx) című cikk pedig segít a minta használata során felmerülő problémák egy részének megértésében.
+- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](https://aka.ms/cqrs). [A Command Query Responsibility Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) című cikk bemutatja a mintát, illetve részletesen taglalja, hogy mikor érdemes azt használni, az [Epilógus: tapasztalatok](https://msdn.microsoft.com/library/jj591568.aspx) című cikk pedig segít a minta használata során felmerülő problémák egy részének megértésében.
 
-- A [Martin Fowler – CQRS](http://martinfowler.com/bliki/CQRS.html) című bejegyzés ismerteti a minta alapvető működését, továbbá egyéb hasznos források hivatkozásait is tartalmazza.
-
-- Greg Young [bejegyzéseiben](http://codebetter.com/gregyoung/) számos szempontból járja körül a CQRS mintát.
+- A [Martin Fowler – CQRS](https://martinfowler.com/bliki/CQRS.html) című bejegyzés ismerteti a minta alapvető működését, továbbá egyéb hasznos források hivatkozásait is tartalmazza.

@@ -3,12 +3,12 @@ title: Az SAP futtatása az Oracle-adatbázishoz az Azure éles környezetben
 description: Egy forgatókönyv példáján megjelenítése egy SAP éles üzembe helyezés az Azure-ban Oracle-adatbázishoz.
 author: DharmeshBhagat
 ms.date: 9/12/2018
-ms.openlocfilehash: 4e61b46a316d3332d3dae6438312a077ed40edb0
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: de70b79a408593c7a81f26170c7b71522e9cf3f1
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534585"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429604"
 ---
 # <a name="running-sap-in-production-using-an-oracle-database-on-azure"></a>Az SAP futtatása az Oracle-adatbázishoz az Azure éles környezetben
 
@@ -88,7 +88,7 @@ A következő hivatkozás használatával ebben a forgatókönyvben az alapul sz
 
 <a
 href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fsap-3tier-distributed-ora%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
+    <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
 
 > [!NOTE]

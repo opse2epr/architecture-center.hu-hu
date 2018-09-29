@@ -4,12 +4,12 @@ description: Útmutató a partíciók megfelelő elkülönítéséhez a függetl
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: d1d9c1b3cf07f724eb010fc260d86ceb84b789ca
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.openlocfilehash: 579f78004a662fe412cb8dcc25b9ad1db9782125
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/13/2018
-ms.locfileid: "29059972"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429502"
 ---
 # <a name="data-partitioning"></a>Adatparticionálás
 
@@ -551,37 +551,37 @@ Az adatkonzisztencia megvalósítását célzó stratégiák kialakításakor az
 [Rendelkezésre állás és konzisztencia az Event Hubsban]: /azure/event-hubs/event-hubs-availability-and-consistency
 [azure-limits]: /azure/azure-subscription-service-limits
 [Azure Content Delivery Network]: /azure/cdn/cdn-overview
-[Azure Redis Cache]: http://azure.microsoft.com/services/cache/
+[Azure Redis Cache]: https://azure.microsoft.com/services/cache/
 [Az Azure Storage skálázhatósági és teljesítménycéljai]: /azure/storage/storage-scalability-targets
 [Az Azure Storage Table tervezési útmutatója]: /azure/storage/storage-table-design-guide
 [Többnyelvű megoldások létrehozása]: https://msdn.microsoft.com/library/dn313279.aspx
 [cosmos-db-ru]: /azure/cosmos-db/request-units
 [Adathozzáférés nagymértékben skálázható megoldások esetén: az SQL, NoSQL és többnyelvű adatmegőrzés használata]: https://msdn.microsoft.com/library/dn271399.aspx
-[Adatkonzisztencia – Ismertető]: http://aka.ms/Data-Consistency-Primer
+[Adatkonzisztencia – Ismertető]: https://aka.ms/Data-Consistency-Primer
 [Adatparticionálási útmutató]: https://msdn.microsoft.com/library/dn589795.aspx
-[Adattípusok]: http://redis.io/topics/data-types
+[Adattípusok]: https://redis.io/topics/data-types
 [cosmosdb-sql-api]: /azure/cosmos-db/sql-api-introduction
 [Az Elastic Database szolgáltatásainak áttekintése]: /azure/sql-database/sql-database-elastic-scale-introduction
 [event-hubs]: /azure/event-hubs
 [Federations Migration Utility]: https://code.msdn.microsoft.com/vstudio/Federations-Migration-ce61e9c1
 [Irányelvek és javaslatok az Azure Service Fabric megbízható gyűjteményeihez]: /azure/service-fabric/service-fabric-reliable-services-reliable-collections-guidelines
-[Indextábla minta]: http://aka.ms/Index-Table-Pattern
-[Materializált nézet minta]: http://aka.ms/Materialized-View-Pattern
+[Indextábla minta]: ../patterns/index-table.md
+[Materializált nézet minta]: ../patterns/materialized-view.md
 [Többszegmenses lekérdezés]: /azure/sql-database/sql-database-elastic-scale-multishard-querying
 [Az Azure Service Fabric áttekintése]: /azure/service-fabric/service-fabric-overview
 [A Service Fabric Reliable Services particionálása]: /azure/service-fabric/service-fabric-concepts-partitioning
-[Particionálás: adatok felosztása több Redis-példány között]: http://redis.io/topics/partitioning
+[Particionálás: adatok felosztása több Redis-példány között]: https://redis.io/topics/partitioning
 [Entitáscsoport-tranzakciók végrehajtása]: https://msdn.microsoft.com/library/azure/dd894038.aspx
-[Oktatóanyag Redis-fürtökhöz]: http://redis.io/topics/cluster-tutorial
-[A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban]: http://blogs.msdn.com/b/tconte/archive/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure.aspx
+[Oktatóanyag Redis-fürtökhöz]: https://redis.io/topics/cluster-tutorial
+[A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban]: https://blogs.msdn.microsoft.com/tconte/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure/
 [Skálázás az Elastic Database felosztási-egyesítési eszközének használatával]: /azure/sql-database/sql-database-elastic-scale-overview-split-and-merge
 [Az Azure Content Delivery Network használata]: /azure/cdn/cdn-create-new-endpoint
 [Service Bus-kvóták]: /azure/service-bus-messaging/service-bus-quotas
 [service-fabric-reliable-collections]: /azure/service-fabric/service-fabric-reliable-services-reliable-collections
 [Az Azure Search szolgáltatási korlátozásai]:  /azure/search/search-limits-quotas-capacity
-[Horizontális particionálási minta]: http://aka.ms/Sharding-Pattern
+[Horizontális particionálási minta]: ../patterns/sharding.md
 [Támogatott adattípusok (Azure Search)]:  https://msdn.microsoft.com/library/azure/dn798938.aspx
-[Tranzakciók]: http://redis.io/topics/transactions
+[Tranzakciók]: https://redis.io/topics/transactions
 [Mi az Event Hubs?]: /azure/event-hubs/event-hubs-what-is-event-hubs
 [Mi az az Azure Search?]: /azure/search/search-what-is-azure-search
 [Mi az Azure SQL Database?]: /azure/sql-database/sql-database-technical-overview

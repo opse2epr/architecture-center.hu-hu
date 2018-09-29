@@ -1,698 +1,698 @@
 ---
-title: Megfigyelési és diagnosztikai útmutató
-description: Gyakorlati tanácsok a felhőben az elosztott alkalmazások figyeléséhez.
+title: Monitorozási és diagnosztikai útmutató
+description: Ajánlott eljárások a felhőben futó elosztott alkalmazások monitorozásához.
 author: dragon119
 ms.date: 07/13/2016
 pnp.series.title: Best Practices
-ms.openlocfilehash: 8dd3979233b03db800bd9514263d9c6fedefa074
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 4de9ce80a17a0ad429166ac2aa7f7f7f66c26db1
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24539017"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429672"
 ---
-# <a name="monitoring-and-diagnostics"></a>Megfigyelési és diagnosztikai
+# <a name="monitoring-and-diagnostics"></a>Monitorozás és diagnosztika
 [!INCLUDE [header](../_includes/header.md)]
 
-A felhőben futó elosztott alkalmazások és szolgáltatások természetükből, összetett kisebb szoftverek, sok áthelyezése részből áll. Éles környezetben fontos segítségével követheti nyomon, amelyben a felhasználók kihasználhassák a rendszer, az erőforrás-használat nyomkövetési módja, és általában a állapotának és a rendszer teljesítményének figyelése. Segítségével ezt az információt diagnosztikai segítségként ismeri fel és javítsa ki a problémákat, és is potenciális problémák segítségével, és megakadályozza, hogy azok lépett fel.
+A felhőben futó elosztott alkalmazások és szolgáltatások jellegükből adódóan összetett szoftverek, amelyek számos mozgó részből tevődnek össze. Éles környezetben fontos a rendszer felhasználók általi használatának nyomon követhetősége, az erőforrás-felhasználás nyomon követhetősége, valamint a rendszer állapotának és teljesítményének általános monitorozhatósága. Ezeknek a diagnosztikai információknak a segítségével észlelheti és javíthatja a problémákat, valamint felderítheti a potenciális problémákat, és megelőzheti azok bekövetkezését.
 
-## <a name="monitoring-and-diagnostics-scenarios"></a>Megfigyelési és diagnosztikai forgatókönyvek
-Figyelés segítségével betekintést egy mennyire működik-e a rendszer. A szolgáltatásminőség-tárolók karbantartásának döntő szerepet figyelési. Általános példák a figyelési adatok gyűjtése a következők:
+## <a name="monitoring-and-diagnostics-scenarios"></a>Monitorozási és diagnosztikai forgatókönyvek
+A monitorozás segítségével betekintést nyerhet abba, hogy mennyire jól működik a rendszer. A monitorozás kritikus szerepet játszik a szolgáltatásminőségi célok elérésében. Általános forgatókönyvek a monitorozási adatok gyűjtésére:
 
-* Győződjön meg arról, hogy a rendszer továbbra is működik megfelelően.
-* Nyomon követi, a rendszer és az összetevő elemei.
-* Teljesítményét, és győződjön meg arról, hogy az átviteli sebessége a rendszer nem csökkentheti a váratlanul munka növeli a kötetként karbantartása.
-* Amely garantálja, hogy a rendszer megfelel-e az ügyfelek létesített szolgáltatásiszint-szerződések (SLA).
-* Az adatvédelmi és biztonsági a rendszer, a felhasználók és az adatok védelme.
-* A naplózási és szabályozási céljából elvégzett műveletek nyomon követéséhez.
-* A rendszer és a trendeket, amely előfordulhat, hogy problémát okozhat, ha még nem érintett gyorsabban napi használat figyelését.
-* Nyomon követi a problémák, a lehetséges okok, kijavítása, ezt követő eldobására szoftverfrissítések és központi telepítés elemzésének keresztül kezdeti jelentést.
-* Műveletek nyomkövetéséhez és szoftverkiadások.
+* A rendszer megfelelő állapotának biztosítása.
+* A rendszer és összetevői rendelkezésre állásának nyomon követése.
+* A megfelelő teljesítmény fenntartása, hogy a rendszer feldolgozási képessége ne romoljon le váratlanul a munkamennyiség növekedésével.
+* Annak szavatolása, hogy a rendszer megfeleljen az ügyfelekkel kötött szolgáltatásiszint-szerződéseknek (service-level agreement, SLA).
+* A rendszer, a felhasználók és a felhasználói adatok védelmének és biztonságának biztosítása.
+* A naplózási és szabályozási céllal végzett műveletek nyomon követése.
+* A rendszer mindennapos használatának nyomon követése, és a trendek észlelése, amelyek megfelelő ellenintézkedések hiányában problémákat okozhatnak.
+* A felmerülő hibák nyomon követése a kezdeti jelentéstől a lehetséges okok elemzéséig, javításig, a hibákból fakadó szoftverfrissítésekig és üzembe helyezésig.
+* A műveletek nyomon követése, és a szoftverkiadások hibáinak elhárítása.
 
 > [!NOTE]
-> Ez a lista nem célja a átfogó. A dokumentum fő témáját forgatókönyvekben, a leggyakoribb esetekben a megfigyelési. Előfordulhat, hogy az adott ritkább vagy adott környezetre.
+> A fenti lista nem tekintendő átfogónak. A dokumentum ezekre a forgatókönyvekre, mint a leggyakoribb monitorozási helyzetekre összpontosít. Természetesen lehetnek más forgatókönyvek is, amelyek kevésé gyakoriak, vagy csak az adott környezetre jellemzőek.
 > 
 > 
 
-A következő szakaszok ismertetik részletesebben forgatókönyvekben. Az egyes forgatókönyvek esetében a információkat ismertet a következő formátumban:
+Az alábbi szakaszokban részletesebben tárgyaljuk ezeket a forgatókönyveket. Az egyes forgatókönyvekkel kapcsolatos információkat az alábbi formában ismertetjük:
 
-1. A forgatókönyv rövid áttekintése
-2. Ebben a forgatókönyvben jellemző követelményeinek
-3. A forgatókönyv és a lehetséges információforrásokat támogatásához szükséges nyers WMI-adatok
-4. Hogyan elemezheti és diagnosztikai információ létrehozásához kombinált a a nyers adatok
+1. A forgatókönyv rövid áttekintése.
+2. A forgatókönyv jellemző követelményei.
+3. A forgatókönyv végrehajtásához szükséges nyers rendszerállapot-adatok, valamint ezek lehetséges forrásai.
+4. A nyers adatok elemzésének és egyesítésének módszerei hasznos diagnosztikai információk létrehozása céljából.
 
 ## <a name="health-monitoring"></a>Állapotfigyelés
-A rendszer állapota kifogástalan, ha fut, és képes a kérelmek feldolgozásához. Állapotfigyelés célja a rendszer aktuális állapotáról pillanatképet létrehozni, így ellenőrizheti, hogy a rendszer minden összetevő várt módon működnek-e.
+A rendszer állapota akkor megfelelő, ha a rendszer fut, és képes kéréseket feldolgozni. Az állapotmonitorozás célja, hogy egy pillanatképet készítsen a rendszer aktuális állapotáról, amely alapján ellenőrizheti, hogy a rendszer minden összetevője a várt módon működik-e.
 
-### <a name="requirements-for-health-monitoring"></a>Állapotfigyelés követelményei
-Operátor kell értesítést gyorsan (belül pár másodperc), ha valamely része szerint a rendszer a nem megfelelő kell tekinteni. Az operátor megállapította, a rendszer mely részei megfelelően működnek, és problémákat tapasztal a részeket kell lennie. Rendszerállapot is kiemelten színe rendszeren keresztül:
+### <a name="requirements-for-health-monitoring"></a>Az állapotmonitorozásra vonatkozó követelmények
+Az operátoroknak gyorsan (pár másodpercen belül) értesülnie kell, ha a rendszer bármely részének működése nem megfelelőnek tekinthető. Az operátornak meg kell tudnia állapítani, hogy a rendszer mely részei működnek megfelelően, és mely részekben tapasztalhatók problémák. A rendszerállapot jelzőlámpás megoldással jeleníthető meg:
 
-* A piros sérült (a rendszer leállította)
-* A sárga részben megfelelő (a rendszer fut csökkentett)
-* A zöld teljesen kifogástalan
+* Vörös jelzi a meghibásodást (a rendszer leállt).
+* Sárga jelzi a részleges meghibásodást (a rendszer kevesebb funkciót biztosítva fut).
+* Zöld jelzi a teljesen kifogástalan működést.
 
-Egy átfogó állapotfigyelés rendszer lehetővé teszi, hogy a rendszer alrendszerek és az összetevők állapotának megtekintéséhez részletezés az operátor. Például ha a rendszer általános részben állapota kiváló írja le, az üzemeltető kell tudni nagyítás és annak megállapítása, mely a funkció jelenleg nem érhető el.
+Az átfogó állapotmonitorozási rendszer segítségével az operátor részletesen elemezheti a rendszer állapotát egészen az alrendszerek és az összetevők állapotáig. Ha például a rendszer általános állapota részlegesen megfelelőként jelenik meg, az operátornak képesnek kell lennie a nagyításra, és annak megállapítására, hogy épp melyik funkció nem érhető el.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-A nyers adatok, állapotfigyelés támogatásához szükséges következtében hozható létre:
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+Az állapotmonitorozás támogatásához szükséges nyers adatok a következők eredményeként hozhatók létre:
 
-* Nyomkövetés felhasználói kérelmek teljesítése. Ezek az információk segítségével határozza meg, mely kérelmek sikeres volt, amelyek nem, és minden kérelem mennyi ideig tart.
-* Szintetikus felhasználói figyelése. Ezt a folyamatot a felhasználó által végrehajtott lépések szimulál és a lépések egy előre meghatározott sorozatát követi. Minden lépés rögzíteni kell.
-* Kivételek, hibák és figyelmeztetések naplózása. Ezek az információk miatt az alkalmazás kódjának beilleszthető, valamint az Eseménynapló szolgáltatás sem hivatkozik, a rendszer az adatok beolvasása nyomkövetési utasítások rögzíthetők.
-* A rendszer külső szolgáltatások állapotának figyelése. Ez a figyelő akkor lehet szükség, beolvasása és elemzése az egészségügyi adatokat, amelyek ezeket a szolgáltatásokat. Ez az információ többféle formátumúak is igénybe vehet.
-* Végpontmonitoring kijelző. Ez az eljárás a "Rendelkezésre állásának figyelésére szolgáló" szakaszban részletesen ismertetett.
-* Gyűjtése környezeti teljesítményadatok, például a háttér CPU-felhasználás vagy (beleértve a hálózati) i/o-tevékenységet.
+* A felhasználói kérések végrehajtásának nyomon követése. Ezeknek az információknak a segítségével határozható meg, hogy mely kérések voltak sikeresek és melyek nem, és hogy mennyi ideig tart az egyes kérések végrehajtása.
+* Szintetikus felhasználómonitorozás. Ez a folyamat a felhasználó által végrehajtott lépéseket szimulálja, és előre meghatározott lépések sorát követi. Az egyes lépések eredményét rögzíteni kell.
+* Kivételek, hibák és figyelmeztetések naplózása. Ezek az információk az alkalmazás kódjába ágyazott nyomkövetési utasítások eredményeként, valamint a rendszer által hivatkozott szolgáltatások eseménynaplóiból lekért adatok alapján rögzíthetők.
+* A rendszer által használt külső szolgáltatások állapotának monitorozása. Az ilyen monitorozás során szükség lehet az érintett szolgáltatások által biztosított állapotadatok lekérésére és elemzésére. Ezek az adatok számos különféle formátumban fordulhatnak elő.
+* Végpont-monitorozás. Ezt a mechanizmust „A rendelkezésre állás monitorozása” című szakasz ismerteti részletesebben.
+* Környezeti teljesítményadatok gyűjtése, például a háttérbeli processzorhasználatra vagy I/O-tevékenységekre (beleértve a hálózati tevékenységeket is) vonatkozóan.
 
-### <a name="analyzing-health-data"></a>Rendszerállapot-adatok elemzése
-Az állapotfigyelés elsősorban gyorsan jelzi, hogy fut-e a rendszer. A közvetlen gyors adatelemzési is megjelenik egy figyelmeztetés, ha kritikus összetevője észleli megfelelő. (Ez nem válaszol egy ping-üzenetek, egymást követő sorozata például.) Az operátor majd is elvégezheti a szükséges javítási műveleteket.
+### <a name="analyzing-health-data"></a>Állapotadatok elemzése
+Az állapotmonitorozás elsődleges célja annak gyors jelzése, hogy a rendszer fut-e. A közvetlen adatok azonnali elemzése riasztást válthat ki, ha egy kritikus összetevő állapotát a monitorozás nem megfelelőnek ítéli. (Például akkor, amikor nem válaszol több egymást követő pingelésre.) Az operátor így végrehajthatja a megfelelő korrekciós műveleteket.
 
-Egy összetettebb rendszer egy prediktív elem legutóbbi és a jelenlegi munkaterhelés keresztül hajtja végre a cold elemzés közé tartozik. A cold elemzésre tendenciákat, és határozza meg, valószínűleg továbbra is működik megfelelően-e a rendszer, vagy hogy szükséges a rendszer további forrásokat. A prediktív elem alapján kritikus teljesítménymutatók, például:
+A fejlettebb rendszerek előrejelzési elemmel is rendelkezhetnek, amelyek a legutóbbi és az aktuális számítási feladatok hideg elemzése alapján működnek. A hideg elemzés képes észlelni a tendenciákat, és meghatározni, hogy a rendszer várhatóan megfelelő állapotú marad-e, és hogy van-e szüksége további erőforrásokra. Az előrejelzési elemnek kritikus teljesítménymutatók alapján kell működnie, például:
 
-* Minden szolgáltatás vagy az alrendszer irányuló kérelmek száma.
-* Ezek a kérelmek válaszidejét.
-* A bejövő és kimenő minden egyes szolgáltatás áramló adatok mennyiségét.
+* Az egyes szolgáltatásokra vagy alrendszerekre irányuló kérések mennyisége.
+* Az ilyen kérések válaszideje.
+* Az egyes szolgáltatásokba be- és onnan kilépő adatok mennyisége.
 
-Ha bármely metrika értéke meghaladja a megadott küszöbértéket, a rendszer is riasztást lehetővé teszi, hogy az operátor vagy az automatikus skálázást (ha elérhető) műveletek a megelőző rendszerállapot fenntartásához szükséges. Ezek a műveletek vonatkozhat erőforrások sikertelenek lesznek, és sávszélesség-szabályozás alkalmazása alacsonyabb prioritású kérelmek egy vagy több szolgáltatás újraindítása.
+Ha valamelyik metrika értéke meghaladja a meghatározott küszöbértéket, a rendszer riasztást küldhet, hogy az operátor vagy az automatikus skálázás (ha van) megtehesse a rendszer megfelelő állapotának fenntartásához szükséges megelőző intézkedéseket. Ilyen intézkedések lehetnek az erőforrások hozzáadása, egy vagy több meghibásodott szolgáltatás újraindítása, vagy az alacsonyabb prioritású kérések szabályozása.
 
-## <a name="availability-monitoring"></a>Rendelkezésre állás figyelése
-Egy valóban kifogástalan rendszer igényel, hogy az összetevők és a rendszer alkotó alrendszereket érhetők el. Rendelkezésre állásának figyelésére szolgáló szorosan kapcsolódnak a állapotfigyelés. De állapotfigyelés jeleníti meg egy azonnali a rendszer aktuális állapotát, mivel rendelkezésre állásának figyelésére szolgáló aggasztanak nyomon követése, a rendszer és az összetevőinek a rendszer a megadott hasznos üzemideje statisztikája létrehozásához.
+## <a name="availability-monitoring"></a>A rendelkezésre állás monitorozása
+Egy valóban kifogástalan állapotú rendszerhez elengedhetetlen, hogy a rendszert alkotó összetevők és alrendszerek rendelkezésre álljanak. A rendelkezésre állás monitorozása szorosan kapcsolódik az állapotmonitorozáshoz. Amíg azonban az állapotmonitorozás a rendszer aktuális állapotának azonnali helyzetét jeleníti meg, a rendelkezésre állás monitorozása a rendszer és a rendszer összetevőinek rendelkezésre állását követi nyomon, és statisztikákat készít a rendszer üzemidejére vonatkozóan.
 
-Számos rendszer egyes összetevőket (például egy adatbázis) vannak konfigurálva a beépített redundanciát, így lehetővé teszik a gyors feladatátvétel súlyos hibát vagy a kapcsolat megszakadása esetén. Felhasználók ideális esetben nem kell ügyelnie, hogy az ilyen hiba történt. De figyelési perspektíva rendelkezésre állási, a szükséges legtöbb információt gyűjteni a lehető ilyen a hiba okának megállapításához, és megakadályozhatja, hogy a ismétlődő korrekciós műveletek végrehajtása sikertelen.
+Számos rendszerben bizonyos összetevők (például az adatbázisok) beépített redundanciával vannak konfigurálva, így gyors feladatátvételt tesznek lehetővé súlyos hibák vagy a kapcsolat megszakadása esetén. Ideális esetben a felhasználók nem is tudhatják, hogy ilyen hiba történt. A rendelkezésre állás monitorozása szempontjából azonban a lehető legtöbb információt kell gyűjteni az ilyen hibákkal kapcsolatban, hogy megállapíthatók legyenek az okok, és végre lehessen hajtani a korrekciós műveleteket a hibák ismételt előfordulásának elkerülésére.
 
-Az adatok rendelkezésre állásának nyomon követéséhez szükséges alacsonyabb szintű tényező lehet, hogy függ. Előfordulhat, hogy ezek a tényezők számos adott, az alkalmazás, a rendszer és a környezetben. Hatékony megfigyelési rendszer rögzíti a rendelkezésre állási adatok a alacsony szintű tényezők megfelel-e, majd összesíti őket a rendszer átfogó képet. Például egy e-kereskedelmi rendszerben az üzleti funkció, amely lehetővé teszi az ügyfél rendelések helyezendő előfordulhat, hogy a rendelés részleteit tároló tárház és függ a fizetési rendszer, amely kezeli a pénzügyi tranzakciók ezek rendelések fizet. A rendszer sorrendben-elhelyezés része rendelkezésre állását éppen ezért a tárház és a fizetési alrendszer rendelkezésre állásának függvényében.
+A rendelkezésre állás nyomon követéséhez szükséges adatok számos alacsonyabb szintű tényezőtől függhetnek. Ezeknek a tényezőknek jelentős része az adott alkalmazásra, rendszerre vagy környezetre lehet jellemző. A hatékony monitorozási rendszerek az ezeknek az alacsony szintű tényezőknek megfelelő rendelkezésreállási adatokat rögzítik, majd azokat összesítve átfogó képet biztosítanak a rendszerről. Egy e-kereskedelmi rendszerben például az ügyfelek általi rendelést lehetővé tevő üzleti funkció függhet a megrendelések adatait tároló adattártól, valamint a megrendelések kifizetésére vonatkozó pénzügyi tranzakciókat kezelő fizetési rendszertől. A rendszer rendelési részének rendelkezésre állása ezért az adattár és a fizetési alrendszer rendelkezésre állásának függvénye.
 
-### <a name="requirements-for-availability-monitoring"></a>Rendelkezésre állásának figyelésére szolgáló követelményei
-Operátor is kell minden egyes rendszer és a alrendszer korábbi rendelkezésre állását, és ezen információk használatával bármely tendenciákat, amely egy vagy több alrendszereket rendszeresen sikertelenségét okozhatja. (Tegye szolgáltatások indítása sikertelen lesz, amely megfelelne a csúcsidőszakon feldolgozási nap adott időpontban?)
+### <a name="requirements-for-availability-monitoring"></a>A rendelkezésre állás monitorozására vonatkozó követelmények
+Az operátornak meg kell tudnia tekinteni az egyes rendszerek és alrendszerek rendelkezésreállási előzményadatait is, és ezeknek az információknak a segítségével ki kell tudniuk mutatni a tendenciákat, amelyek egy vagy több alrendszer rendszeres meghibásodását okozhatják. (A szolgáltatások egy olyan adott napszakban kezdenek meghibásodni, amely a feldolgozási csúcsidőszaknak felel meg?)
 
-Figyelési megoldás az azonnali és korábbi nézetben a rendelkezésre állási vagy minden egyes alrendszer elérhetetlensége kell biztosítania. Is képes gyorsan riasztási operátort, amikor egy vagy több szolgáltatási sikertelen lesz, vagy ha a felhasználók nem tudnak csatlakozni a szolgáltatások. Ez a kérdés nemcsak egyes szolgáltatás figyelése, de is vizsgálata folyamatban van a végrehajtandó műveleteket, minden felhasználó hajt végre, ha ezek a műveletek sikertelenek, amikor azok megkísérlik a szolgáltatással való kommunikációra. Bizonyos mértékig csatlakozási hiba fokú normális, és átmeneti hibák okozták lehet. De a rendszer riasztást kapcsolathibái megadott alrendszerhez egy adott időszakban fellépő számának hasznos lehet.
+A monitorozási megoldásoknak azonnali és előzményadatokat tartalmazó nézeteket is biztosítaniuk kell az egyes alrendszerek rendelkezésre állásával vagy rendelkezésre nem állásával kapcsolatban. Emellett képesnek kell lennie gyorsan riasztani az operátort, amikor egy vagy több szolgáltatás meghibásodik, vagy ha a felhasználók nem érik el a szolgáltatásokat. Ehhez nem csupán az egyes szolgáltatások monitorozása szükséges, hanem a felhasználók által végrehajtott műveletek vizsgálata is, ha ezek a műveletek meghiúsulnak, amikor kommunikálni próbálnak a szolgáltatással. A csatlakozási hibák bizonyos mértékig normálisnak tekinthetők, és átmeneti hibák miatt léphetnek fel. Hasznos lehet azonban engedélyezni a rendszer számára, hogy riasztást küldjön egy adott alrendszerhez kapcsolódóan egy adott időszakban fellépő kapcsolathibák számáról.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-Csakúgy, mint a állapotfigyelés, a nyers adatok rendelkezésre állásának figyelésére szolgáló támogatásához szükséges figyelés és naplózás, bármilyen kivételek, hibák és figyelmeztetések, amely akkor jelentkezhet szintetikus felhasználói miatt hozhatók létre. Emellett a rendelkezésre állási adatok szerezhető be végpont megfigyelési. Az alkalmazás is elérhetővé teheti, egy vagy több állapotfigyelő végpontot, egy funkcionális területen belül a rendszer minden egyes tesztelési eléréséhez. A felügyeleti rendszer minden egyes végpont ping meghatározott ütemezés szerint, és az eredmények (sikeres vagy sikertelen) gyűjtése.
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+Az állapotmonitorozáshoz hasonlóan, a rendelkezésre állás monitorozásának a támogatásához szükséges nyers adatok is a szintetikus felhasználómonitorozás, valamint a kivételek, hibák és figyelmeztetések naplózásának az eredményeként hozhatók létre. A rendelkezésreállási adatok emellett végpont-monitorozásból is beszerezhetők. Az alkalmazás egy vagy több állapotvégpontot is elérhetővé tehet a rendszer egy funkcionális területe elérésének teszteléséhez. A monitorozási rendszer pingelheti az egyes végpontokat egy meghatározott ütemezés szerint, és gyűjtheti ennek eredményét (sikeres vagy sikertelen).
 
-Az összes időtúllépések, hálózati kapcsolathibái és kapcsolódási próbálkozást rögzíteni kell. Minden adat időbélyeggel ellátott kell lennie.
+Az összes időtúllépést, hálózati kapcsolathibát és újrapróbált kapcsolódást rögzíteni kell. Minden adatot időbélyeggel kell ellátni.
 
 <a name="analyzing-availability-data"></a>
 
-### <a name="analyzing-availability-data"></a>Rendelkezésre állási adatok elemzése
-A WMI-adatok kell összesíteni és korrelált elemzés a következő típusú támogatásához:
+### <a name="analyzing-availability-data"></a>A rendelkezésreállási adatok elemzése
+A rendszerállapot-adatokat összesíteni és korrelálni kell a következő elemzéstípusok támogatásához:
 
-* A közvetlen rendelkezésre állását, valamint a rendszer alrendszereket.
-* A rendelkezésre állási hiba sebességét, a rendszer és alrendszereket. Ideális esetben operátor hibák okozták az adott tevékenységek képesnek kell lennie: Mi zajlik, amikor a rendszer nem tudta?
-* Hiba sebességű a rendszer vagy bármely alrendszerek közötti bármely ügyfélállapotainak megadott időszak, és a terhelés a rendszeren (például a felhasználói kérelmek száma) Ha a hiba történt.
-* A rendszer vagy bármely alrendszereket elérhetetlensége okait. Például lehet, hogy a okok szolgáltatás nem fut, a kapcsolat megszakadt, de időtúllépés és a csatlakoztatott, de az adatszolgáltató hibák csatlakoztatva.
+* A rendszer és az alrendszerek közvetlen rendelkezésre állása.
+* A rendszer és az alrendszerek rendelkezésreállási hibáinak aránya. Ideális esetben az operátornak képesnek kell lennie a hibák korrelálására az adott tevékenységekkel: mi történt, amikor a rendszer meghibásodott?
+* A rendszer vagy az alrendszerek meghibásodási arányainak előzménynézete adott időszakra vonatkozóan, valamint a rendszer terhelése (például a felhasználói kérések száma) a hiba bekövetkezésekor.
+* A rendszer vagy egy alrendszer rendelkezésre nem állásának okai. Ilyen ok lehet például, ha a szolgáltatás nem fut, ha megszakad a kapcsolat, ha létrejön a kapcsolat, de időtúllépés történik, vagy ha létrejön a kapcsolat, de hibát ad vissza.
 
-Egy meghatározott időtartamra vonatkozóan szolgáltatás százalékos rendelkezésre állását a következő képlettel számolhatja ki:
+A szolgáltatások adott időszakra vetített százalékos rendelkezésre állását az alábbi képlettel számíthatja ki:
 
 ```
 %Availability =  ((Total Time – Total Downtime) / Total Time ) * 100
 ```
 
-Ez akkor hasznos, SLA célokra. ([SLA figyelési](#SLA-monitoring) Ez az útmutató későbbi részében részletesebben leírt.) Definíciója *állásidő* a szolgáltatástól függ. Például a Visual Studio Team Services Build szolgáltatás állásidő meghatározása szerint az időszak (halmozott percek) számlálási időintervalluma Build szolgáltatás nem érhető el. Egy percet akkor tekinthető nem érhető el, ha a folyamatos HTTP-kérelmek szolgáltatás létrehozása során a percet ügyfél által kezdeményezett műveletek végrehajtásához egy hibakódot eredményezhet, vagy nem válaszol.
+Ez az SLA szempontjából hasznos. (Az [SLA monitorozását](#SLA-monitoring) az útmutató későbbi része ismerteti részletesen.) Az *állásidő* definíciója a szolgáltatástól függ. A Visual Studio Team Services Build Service például azon időtartamként (halmozott percek teljes száma) határozza meg az állásidőt, ameddig a Build Service nem állt rendelkezésre. Egy perc akkor tekintendő rendelkezésre nem állónak, ha az adott percben a Build Service számára küldött, ügyfél által kezdeményezett műveletek végrehajtására irányuló, egymást követő HTTP-kérések hibakódot eredményeznek vagy nem adnak vissza választ.
 
 ## <a name="performance-monitoring"></a>Teljesítményfigyelés
-A rendszer helyezkedik el, egyre több magas terhelés alatt (a felhasználók a kötet növelésével), ezek a felhasználók hozzáférést növekedésének adathalmaz méretének és a lehetőségét, amely egy vagy több összetevő hibája válik nagy valószínűséggel. Gyakran összetevő meghibásodása esetén a teljesítmény csökkenését előzi meg. Ha elvégezheti észleli a csökkenést, elvégezhető a helyzet orvoslásához proaktív lépéseket.
+A rendszer egyre nagyobb terhelése esetén (a felhasználók mennyiségének növekedésével), a felhasználók által elért adathalmazok mérete egyre nő, és egyre valószínűbbé válik egy vagy több összetevő meghibásodása. Az összetevők meghibásodását gyakran a teljesítmény csökkenése előzi meg. Ha képes észlelni az ilyen teljesítménycsökkenéseket, proaktív lépéseket tehet a helyzet orvoslására.
 
-A rendszer teljesítménye számos tényezőtől függ. Minden egyes tényező általában mérik fő teljesítménymutatók (KPI), például adatbázis-tranzakciók másodpercenkénti számát vagy a kötet hálózati kérelmek, amelyet sikeresen egy megadott időkereten belül. Ezen KPI-k némelyike előfordulhat, hogy használhatók az adott intézkedéseket, mivel előfordulhat, hogy a metrikák kombinációja származtatni mások számára.
+A rendszer teljesítménye számos tényezőtől függ. Az egyes tényezőket általában fő teljesítménymutatókkal (KPI) mérik, ilyen például az adatbázis-tranzakciók másodpercenkénti száma vagy a sikeresen kiszolgált hálózati kérések mennyisége egy adott időszakban. A KPI-k némelyike önálló teljesítménymutatóként érhető el, mások mérőszámok kombinációjából állnak.
 
 > [!NOTE]
-> Gyenge vagy a jó teljesítmény meghatározásához szükséges, hogy tudomásul veszi a szintű teljesítmény, ahol a rendszer fut képesnek kell lennie. Ehhez a megfigyelő a rendszer, míg az átlagos terhelés mellett működik, és az adatok rögzítésével az egyes KPI-KET egy meghatározott időtartamra vonatkozóan. Ez lehet, hogy magában, a rendszer egy szimulált terhelés alatt fut egy tesztkörnyezetben, és a megfelelő adatokat gyűjt a rendszer egy éles környezetbe történő telepítése előtt.
+> A gyenge vagy a jó teljesítmény meghatározásához ismerni kell azt a teljesítményszintet, amelyen a rendszernek képesnek kell lennie üzemelni. Ehhez meg kell figyelni a rendszert, miközben átlagos terhelés mellett működik, és rögzíteni kell az egyes KPI-k adatait egy időszakra vonatkozóan. Ez a rendszernek szimulált terhelés mellett, tesztkörnyezetben történő futtatásával, és a vonatkozó adatok gyűjtésével is járhat, mielőtt éles környezetben telepítené a rendszert.
 > 
-> Gondoskodnia kell arról, hogy a teljesítmény célokra figyelés nem lesz terhet a rendszeren. Előfordulhat, hogy dinamikusan úgy, hogy a Teljesítményfigyelő folyamat összegyűjti az adatok részletességi szintje.
+> Gondoskodnia kell arról, hogy a teljesítmény monitorozása ne váljon teherré a rendszer számára. A teljesítménymonitorozási folyamat által gyűjtött adatok részletességi szintjét érdemes lehet dinamikusan változtathatóvá tenni.
 > 
 > 
 
-### <a name="requirements-for-performance-monitoring"></a>Teljesítményfigyelés követelményei
-Vizsgálja meg a rendszer teljesítményét, operátor általában kell megfelelnie is információkat lásd:
+### <a name="requirements-for-performance-monitoring"></a>A teljesítmény monitorozására vonatkozó követelmények
+A rendszer teljesítményének vizsgálatához az operátornak általában az alábbi információkra van szüksége:
 
-* A felhasználói kérelmek adott válasz sebességet.
-* Az egyidejű felhasználói kérelmek száma.
+* A felhasználói kérések megválaszolásának sebessége.
+* Az egyidejű felhasználói kérések száma.
 * A hálózati forgalom mennyisége.
-* A sebesség, mely üzleti tranzakciók vannak befejezését.
-* Az átlagos feldolgozási ideje a kéréseket.
+* Az üzleti tranzakciók teljesítésének sebessége.
+* A kérések átlagos feldolgozási ideje.
 
-Azt is hasznos lehet a adja meg az eszközök, amelyek lehetővé teszik a helyszíni korrelációk segítségével operátor:
+Hasznos lehet olyan eszközökkel is ellátni az operátorokat, amelyek segítenek kimutatni az alábbiak közötti összefüggéseket, például:
 
-* A kérés várakozási ideje időpontokban (mennyi ideig tart egy kérelem feldolgozása után a felhasználó rendelkezik az indításához) és az egyidejű felhasználók száma.
-* Az átlagos válaszidő (mennyi ideig tart a kérelem végrehajtása után feldolgozása megkezdődött) és az egyidejű felhasználók száma.
-* A mennyiségű kérést, és a feldolgozási hibák száma.
+* Az egyidejű felhasználók száma és a kérések késése (mennyi ideig tart egy kérés feldolgozásának a megkezdése, miután a felhasználó elküldte azt).
+* Az egyidejű felhasználók száma és az átlagos válaszidő (mennyi ideig tart egy kérés befejezése, miután elkezdődött annak feldolgozása).
+* A kérések mennyisége és a feldolgozási hibák száma.
 
-A magas szintű működési információk mellett egy olyan operátort kell tudni teljesítménye az egyes összetevők részletes képet kaphat a rendszerben. Ezeket az adatokat általában nyomon követheti, mint az alsó szintű teljesítményszámlálók keresztül elérhető:
+Az ilyen magas szintű működési információk mellett az operátornak a rendszer egyes összetevőinek a teljesítményéről is részletes képet kell kapnia. Ezek az adatok általában alsó szintű teljesítményszámlálók használatával biztosíthatók, amelyek az alábbi információkat követik nyomon:
 
-* Memóriafelhasználás.
+* Memóriahasználat.
 * Szálak száma.
 * Processzor feldolgozási ideje.
-* Kérelmek várólistájának hossza.
-* Lemez- vagy i/o-sebességét és hibákat.
-* Ennyi bájtot írt, vagy olvassa el.
-* Köztes mutatókat, például a várólista hossza.
+* Kérésvárólista hossza.
+* Lemez vagy hálózat I/O-sebessége és -hibái.
+* Az írt vagy olvasott bájtok száma.
+* Köztes szoftverek mutatói, például az üzenetsor hossza.
 
-Minden képi megjelenítés lehetővé kell tennie az üzemeltető számára adjon meg egy időszakot. A megjelenített adatok a jelenlegi szituáció pillanatképe és/vagy a teljesítmény ügyfélállapotainak lehet.
+Minden megjelenítésnek lehetővé kell tennie az operátor számára egy időtartam megadását. A megjelenített adatok az aktuális helyzet pillanatképe és/vagy a teljesítmény előzménynézete lehetnek.
 
-Egy olyan operátort kell tudni hoz létre riasztást, a megadott időintervallumon bármely teljesítménymérték azok számát a megadott érték alapján.
+Az operátornak tudnia kell riasztást küldenie bármely megadott érték tetszőleges időintervallumra vonatkozó teljesítménymutatója alapján.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-A felhasználói kérelmek állapotának figyelésével, még az ügyfélszámítógépekre érkeznek, és továbbítja a rendszer gyűjthet magas szintű teljesítményadatok (átviteli, egyidejű felhasználók száma, az üzleti tranzakciók, hiba díjszabás és így tovább). Ez magában foglalja a nyomkövetési adatokkal időzítése együtt az alkalmazáskódban található kapcsolatos legfontosabb utasításokat tartalmazó. Minden hibák, kivételek és figyelmeztetések használatával történik, azokat a kérelmeket, ami miatt azokat a megfelelő adatokkal lesznek rögzítve. Az Internet Information Services (IIS) napló egy másik hasznos forrásaként szolgál.
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A rendszerre érkező és azon áthaladó felhasználói kérések állapotának monitorozásával magas szintű teljesítményadatokat gyűjthet (átviteli sebesség, egyidejű felhasználók száma, üzleti tranzakciók száma, hibaarányok és hasonlók). Ehhez nyomkövetési utasításokat kell az alkalmazáskód kulcspontjain elhelyezni időzítési információkkal együtt. Minden hibát, kivételt és figyelmeztetést elegendő mennyiségű adattal kell rögzíteni az őket okozó kérésekkel való korrelálás érdekében. Az Internet Information Services (IIS) naplója egy másik hasznos forrás.
 
-Ha lehetséges a külső rendszerekkel, az alkalmazás által használt teljesítményadatokat is rögzíti. A külső rendszerekből előfordulhat, hogy adja meg a saját teljesítményszámlálók és egyéb szolgáltatások ügynökteljesítmény-adatokat kér. Ha ez nem lehetséges, rekord információkat, például a kezdési és befejezési időpontja, a művelet állapotát (sikeres, sikertelen vagy figyelmeztetés) együtt a külső rendszerek minden kérelmet. Például használhatja a stoppert megközelítés ideje kérésekre: indításakor időzítő a kérelmet, és állíthatja le a időzítőt, ha a kérelem végrehajtása.
+Amennyiben lehetséges, az alkalmazás által használt külső rendszerek teljesítményadatait is rögzíteni kell. A külső rendszerek biztosíthatnak saját teljesítményszámlálókat vagy egyéb funkciókat a teljesítményadatok lekéréséhez. Ha ez nem lehetséges, rögzítse az olyan információkat, mint a külső rendszerre felé irányuló kérések kezdési és befejezési időpontja, valamint a művelet állapota (sikeres, sikertelen vagy figyelmeztetés). A kérésidők méréséhez használhat például egy stopperóra jellegű módszert: a kérés indításakor indítson el egy időmérőt, a befejezésekor pedig állítsa le.
 
-Lehet, hogy a rendszer az egyes összetevők alacsony szintű teljesítményadatokat funkciókat és szolgáltatásokat, például Windows-teljesítményszámlálók és az Azure Diagnostics elérhető.
+A rendszerek egyes összetevőinek alacsony szintű teljesítményadatai olyan funkciókon és szolgáltatásokon keresztül érhetők el, mint a Windows-teljesítményszámlálók és az Azure Diagnostics.
 
-### <a name="analyzing-performance-data"></a>A teljesítményadatok elemzése
-Munka nagy része a elemzés áll összesítése a felhasználói kérelem típusa és/vagy az alrendszer vagy a minden kérelmet küldenek szolgáltatás teljesítményadatait. A felhasználó kérésére például cikk hozzáadása egy kosár vagy a kivételt folyamat végrehajtása egy e-kereskedelmi rendszerben.
+### <a name="analyzing-performance-data"></a>Teljesítményadatok elemzése
+Az elemzési munka nagy részét a teljesítményadatoknak a felhasználói kérés típusa és/vagy azon alrendszer vagy szolgáltatás alapján való összesítése teszi ki, amely számára az egyes kérések el lettek küldve. Felhasználói kérés lehet például egy cikk hozzáadása egy bevásárlókosárhoz vagy a fizetési folyamat végrehajtása egy e-kereskedelmi rendszerben.
 
-Egy másik közös követelmény kijelölt százalékos érték teljesítményadatok kivonatolását végzi. Operátor például előfordulhat, hogy meghatározzák a válaszidők kérelmek százalékos 99, a kérelmek 95 %-os és a kérelmek 70 százalékos. Előfordulhat, hogy SLA célokat, vagy minden érték más célok állítani. A folyamatban lévő eredményeit azokat a problémák azonnali közel valós idejű kell megadni. Az eredmények is statisztikai célokra hosszabb idő lehet összesíteni.
+Egy másik gyakori követelmény a kiválasztott percentilisekben található teljesítményadatok összegzése. Az operátor például meghatározhatja a kérések 99 százalékának, a kérések 95 százalékának és a kérések 70 százalékának a válaszidejét. Az egyes percentilisekre SLA-célok vagy más célkitűzések vonatkozhatnak. A folyamatos eredményeket közel valós időben kell jelenteni, hogy észlelhetők legyenek az azonnali problémák. Az eredményeket emellett hosszabb időre vonatkozóan is összesíteni kell statisztikai célokból.
 
-Esetén késési problémák teljesítményét operátor gyorsan azonosíthatja a szűk keresztmetszetek okát a várakozási minden egyes lépést minden kérést végrehajtó megvizsgálásával kell lennie. A teljesítményadatok ezért biztosítania kell a teljesítmény mérőszámai egy adott kérelem az kelljen egyes lépéseihez szükséges adatok módszert.
+Amennyiben késési problémák vetnék vissza a teljesítményt, az operátornak gyorsan kell tudnia azonosítani a szűk keresztmetszet okát az egyes kérések által végrehajtott egyes lépések késésének vizsgálatával. A teljesítményadatoknak így lehetőséget kell biztosítaniuk az egyes lépések teljesítménymutatóinak korrelálására, hogy az adott kérésekhez lehessen kötni azokat.
 
-A képi megjelenítés követelményeitől függően lehet hasznos, ha szeretné létrehozni és tárolni egy adatkockát, amely a nyers adatok nézeteinek tartalmazza. Az adatkocka lehetővé tehetik a összetett alkalmi kérdez le, és a teljesítményadatok elemzése.
+A megjelenítés követelményeitől függően érdemes lehet létrehozni és menteni egy adatkockát, amely a nyers adatok nézeteit tartalmazza. Az adatkocka lehetővé teszi a teljesítményadatok komplex ad hoc lekérdezését és elemzését.
 
-## <a name="security-monitoring"></a>A biztonság ellenőrzése
-Bizalmas adatokat tartalmazó összes kereskedelmi rendszereket meg kell valósítania egy biztonsági struktúra. A biztonsági mechanizmust összetettsége az általában az adatok érzékenységének függvényében. A felhasználók hitelesítését igénylő rendszer rögzíteni kell:
+## <a name="security-monitoring"></a>A biztonság monitorozása
+A bizalmas adatokat kezelő kereskedelmi rendszerek mindegyikében meg kell valósítani egy biztonsági struktúrát. A biztonsági mechanizmus összetettségét általában az adatok bizalmassága határozza meg. A felhasználói hitelesítést igénylő rendszerekben az alábbiakat kell rögzíteni:
 
-* Az összes kísérlet, hogy azok sikertelen vagy sikeres.
-* Minden műveletet végzi--, és által--hitelesített felhasználók elért összes erőforrás részleteit.
-* Ha a felhasználó a munkamenet véget ér, és kijelentkezésekor lép érvénybe.
+* Az összes bejelentkezési kísérletet, függetlenül attól, hogy sikeresek vagy sikertelenek voltak.
+* A hitelesített felhasználók által végrehajtott összes műveletet, valamint az általa összes erőforrás adatait.
+* A munkamenet felhasználó általi befejezésének és a felhasználó kijelentkezésének időpontja.
 
-Figyelési lehet segítségével észlelheti a a rendszeren. Például a nagy számú sikertelen bejelentkezési kísérletek találgatásos támadásra utalhat. Egy váratlan megugrását kérésekben okozhatja egy elosztott-szolgáltatásmegtagadásos (DDoS-) támadások. Fel kell készülni figyelheti az összes kérelmet, függetlenül attól, ezek a kérelmek forrását összes erőforrást. A rendszer, amely rendelkezik a bejelentkezési biztonsági rés véletlenül esetleg felfedi a külvilág erőforrásokat anélkül, hogy a felhasználót, hogy ténylegesen jelentkezzen be.
+A monitorozás segítséget nyújthat a rendszert érő támadások észlelésében. Ha például magas a sikertelen bejelentkezési kísérletek száma, az találgatásos támadásra utalhat. A kérések számának váratlan megugrása elosztott szolgáltatásmegtagadásos (DDoS-) támadás eredménye lehet. Fel kell készülnie arra, hogy az erőforrások mindegyikére irányuló összes kérést monitorozza azok forrásától függetlenül. A bejelentkezéshez kapcsolódó biztonsági réssel rendelkező rendszerek véletlenül elérhetővé tehetik az erőforrásokat a külvilág számára anélkül, hogy a felhasználónak ténylegesen be kellene jelentkeznie.
 
-### <a name="requirements-for-security-monitoring"></a>Biztonsági figyelés követelményei
-A legfontosabb szempontok a biztonsági figyelés gyorsan engedélyezze az operátor:
+### <a name="requirements-for-security-monitoring"></a>A biztonság monitorozására vonatkozó követelmények
+A biztonság monitorozásának legfontosabb szempontjait figyelembe véve, az operátornak képesnek kell lennie gyorsan:
 
-* Megkísérelt behatolások észleléséhez egy nem hitelesített entitás.
-* Kísérletek azonosíthatja az adatokat, amelyekre nem lett hozzáféréssel rendelkeznek a műveletek végrehajtásához entitásokat.
-* Megállapításához, hogy a rendszer, vagy a rendszer, egyes részei kívül vagy belül a támadás alatt áll. (Például egy rosszindulatú hitelesített felhasználó előfordulhat, hogy próbál leállíthatja a rendszer.)
+* észlelni a nem hitelesített entitások általi behatolási kísérleteket;
+* azonosítani az entitások kísérleteit olyan adatokra irányuló műveletek végrehajtására, amelyekhez az entitások nem rendelkeznek hozzáféréssel;
+* megállapítani, ha a rendszer vagy annak egy része külső vagy belső támadás alatt áll. (Például egy rosszindulatú hitelesített felhasználó megpróbálja leállítani a rendszert.)
 
-Ezek a követelmények támogatása érdekében értesíteni kell, operátor:
+Ezeknek a követelményeknek a kiszolgálása érdekében az operátort értesíteni kell:
 
-* Ha egy fiók ismételt sikertelen bejelentkezési kísérletek egy adott időszakon belül.
-* Ha egy hitelesített fiók ismételten megpróbál tiltott erőforrások eléréséhez a meghatározott időszakon belül.
-* Ha a nem hitelesített vagy jogosulatlan kérelmek nagy számú meghatározott időszakon belül történik.
+* Ha egy fiók sorozatos sikertelen bejelentkezési kísérleteket tesz egy meghatározott időszakon belül.
+* Ha egy hitelesített fiók sorozatosan tiltott erőforrásokhoz próbál hozzáférni egy meghatározott időszakon belül.
+* Ha nagy számú nem hitelesített vagy jogosulatlan kérés érkezik egy meghatározott időszakon belül.
 
-A kezelőként megadott információkat kell tartalmaznia a gazdagép címe a forrás-az egyes kérelmek. Ha biztonsági problémát rendszeresen egy adott címtartományból merülnek fel, ezek a gazdagépek blokkolhatja.
+Az operátor rendelkezésére bocsátott információknak tartalmaznia kell az egyes kérések forrásának gazdagépcímét. Ha egy adott címtartománnyal kapcsolatban rendszeresen merülnek fel biztonsági megsértések, ezeket a gazdagépeket érdemes lehet blokkolni.
 
-A rendszer biztonságának fenntartásában kulcs része gyorsan észleli, amelyek eltérnek a szokásos mintát műveletek alatt. Például a sikertelen vagy sikeres bejelentkezési kérelmek száma észleli, ha van egy csúcs tevékenységben szokatlan időpontban segítségével vizuálisan megjeleníthető. (Ez a tevékenység példa: 3:00 órakor bejelentkezés, és számos műveletek elvégzésére, 9:00 órakor a munkanapot indításakor felhasználók). Ez az információ is használható időalapú automatikus skálázás konfigurálása érdekében. Például ha egy olyan operátort figyelembe veszi, hogy a felhasználók sok rendszeresen jelentkezzen be a nap adott időpontban, az üzemeltető rendezheti elindítani a további hitelesítési szolgáltatásokat, és a munka mennyiségét kezelésére, majd állítsa le a további szolgáltatások esetén a maximális a rendszer megfelelt.
+A rendszer biztonságának fenntartásában kulcsszerepet játszik a szokásos mintáktól eltérő műveletek gyors észlelése. A sikertelen és/vagy sikeres bejelentkezési kérések számára vonatkozó információk vizuális megjelenítésével például könnyebben észlelhető, ha szokatlan időpontban hajtanak végre nagy számú tevékenységet. (Például a felhasználók hajnali 3:00 órakor bejelentkeznek, és nagy számú műveletet hajtanak végre, holott a munkaidejük csak reggel 9:00 órakor kezdődik.) Ezen információkkal egyszerűbben konfigurálható az időalapú automatikus skálázás is. Ha például az operátor észreveszi, hogy sok felhasználó jelentkezik be rendszeresen egy adott napszakban, további hitelesítési szolgáltatásokat indíthat el a megnövekedett munkamennyiség kezelésére, majd leállíthatja a szolgáltatások a csúcsidőszak végét követően.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-A biztonság az legtöbb elosztott rendszerek minden felölelő szempontját. A lényeges adat valószínű, hogy a rendszer több pontokon hozható létre. Érdemes lehet összegyűjteni a biztonsági események emelt az alkalmazás, a hálózati berendezések, a kiszolgálók, a tűzfalak, a víruskereső szoftver, és más által a biztonsági adatai és az esemény felügyeleti SIEM-megközelítés bevezetése behatolás-megelőzési elemek.
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A legtöbb elosztott rendszer esetében a biztonság mindenre kiterjedő szempont. A kapcsolódó adatok létrehozása valószínűleg a rendszer több pontján történik. Érdemes lehet bevezetni egy biztonságiadat- és eseménykezelési (Security Information and Event Management, SIEM) megközelítést az alkalmazás, a hálózati berendezések, a kiszolgálók, a tűzfalak, a víruskereső szoftverek és az egyéb behatolásmegelőzési elemek által létrehozott eseményekből eredő, biztonsággal kapcsolatos adatok gyűjtésére.
 
-Biztonsági figyelési eszközök, amelyek nem szerepelnek az alkalmazás adatait építhessék be. Ezek az eszközök segédprogramok, amely azonosítja a külső szervezetek, vagy az alkalmazás és az adatok nem hitelesített hozzáférést irányuló kísérletek hálózati szűrők port vizsgálatát tevékenységeket tartalmazhatnak.
+A biztonság monitorozása az alkalmazás részét nem képező eszközökről származó adatokra is kiterjedhet. Ezek az eszközök lehetnek a külső ügynökségek portkeresési tevékenységeit azonosító segédprogramok, vagy az alkalmazásra és az adatokra irányuló, nem hitelesített hozzáférésre tett kísérleteket észlelő hálózati szűrők.
 
-Minden esetben az összegyűjtött adatokat a rendszergazda határozza meg a támadás természetét és tegye meg a megfelelő ellenintézkedések engedélyeznie kell.
+Bármiről is legyen szó, az összegyűjtött adatok segítségével a rendszergazda meghatározhatja a támadás természetét, és megteheti a megfelelő ellenintézkedéseket.
 
-### <a name="analyzing-security-data"></a>Biztonsági adatok elemzése
-A biztonsági figyelés jellemzője, a különböző forrásokból, amelyből az adat keletkezik. A különböző formátumokban és részletességi szintje gyakran megkövetelik a összetett elemzésének alkalmazássá be adatok egy összefüggő szál rögzített adatokat. Mellett a legegyszerűbb esetekben (például nagyszámú sikertelen bejelentkezések, vagy a kritikus fontosságú erőforrásokhoz való jogosulatlan hozzáférést ismételt kísérletek észlelése) hogy előfordulhat, hogy nem lehet végrehajtani a biztonsági adatok bármely összetett az automatikus feldolgozása. Ehelyett lehet érdemes időbélyeggel ellátott egyéb szakértői manuális elemzéshez engedélyezéséhez biztonságos tárházba eredeti formájukban, de ezek az adatok írása.
+### <a name="analyzing-security-data"></a>Biztonsággal kapcsolatos adatok elemzése
+A biztonság monitorozásának egyik jellemzője, hogy az adatok rengeteg különböző forrásból származhatnak. A különböző formátumok és részletességi szintek miatt gyakran szükség van a rögzített adatok összetett elemzésére és egy összefüggő információszállá való összefűzésükre. A legegyszerűbb esetektől (például a nagyszámú sikertelen bejelentkezéstől, vagy a kritikus erőforrásokhoz való sorozatos, jogosulatlan hozzáférésre tett kísérletek észlelésétől) eltekintve előfordulhat, hogy a biztonsággal kapcsolatos adatok bonyolult automatikus feldolgozása nem lehetséges. Ezeket az adatokat inkább időbélyeggel ellátva, de egyébként eredeti formájukban egy biztonságos adattárba érdemes írni a manuális szakértői elemzés lehetővé tétele érdekében.
 
 <a name="SLA-monitoring"></a>
 
-## <a name="sla-monitoring"></a>SLA-figyelés
-Fizető vevők támogató sok kereskedelmi rendszerek garanciák kapcsolatban a rendszer teljesítményét ellenőrizze SLA-k formájában. Alapvetően SLA-k állapotban, hogy a rendszer kezelni tud a meghatározott mennyiségű munka az egyeztetett időkereten belül, és a kritikus adatok elvesztése nélkül. Győződjön meg arról, hogy a rendszer megfelel mérhető SLA SLA figyelési érintett.
+## <a name="sla-monitoring"></a>Az SLA monitorozása
+A fizető ügyfeleket kiszolgáló számos kereskedelmi rendszer SLA-k formájában szavatolja a rendszer teljesítményét. Az SLA-k lényegében azt jelentik ki, hogy a rendszer képes egy meghatározott munkamennyiséget kezelni egy egyeztetett időkereten belül, a kritikus adatok elvesztése nélkül. Az SLA monitorozása annak biztosítására irányul, hogy a rendszer megfelel a mérhető SLA-knak.
 
 > [!NOTE]
-> SLA-figyelési szorosan kapcsolódnak a teljesítmény figyelése. De mivel teljesítményfigyelés van biztosítva, hogy a rendszer működését *optimális*, SLA figyelési szabályozza, amely meghatározza, milyen szerződéses kötelezettség *optimális* ténylegesen azt jelenti, hogy.
+> Az SLA monitorozása szorosan kapcsolódik a teljesítmény monitorozásához. Amíg azonban a teljesítmény monitorozásának célja a rendszer *optimális* működésének biztosítása, az SLA monitorozását egy szerződéses kötelezettség szabályozza, amely meghatározza, hogy az *optimális* ténylegesen mit is jelent.
 > 
 > 
 
-SLA-k a definiálja:
+Az SLA-kat általában az alábbiak vonatkozásában határozzák meg:
 
-* Általános rendelkezésre állására. Például egy szervezet előfordulhat, hogy garantálja, hogy a rendszer 99,9 %-ában elérhető lesz-e. Ez megfelel a legfeljebb 9 óra állásidő évente, vagy a hét körülbelül 10 perc.
-* Működési átviteli sebességet. Egy vagy több magas vízjeleket, amely garantálja, hogy a rendszer legfeljebb 100 000 egyidejű felhasználói kérelmek támogatásához, vagy 10 000 egyidejű üzleti tranzakciók kezelése például gyakran kifejezése ezen tulajdonsága.
-* Működési válaszidő. A rendszer is tehetik a kérelmek feldolgozásának sebessége garanciát. Például, hogy minden üzleti tranzakciók 99 százalékának befejezi 2 másodpercen belül, de nincs egyetlen tranzakció 10 másodpercnél hosszabb ideig tart.
+* A rendszer általános rendelkezésre állása. Előfordulhat például, hogy egy szolgáltató a rendszer 99,9%-os rendelkezésre állását szavatolja. Ez azt jelenti, hogy a rendszer évente legfeljebb 9 órát állhat, azaz hetente körülbelül 10 percet.
+* Működési teljesítmény. Ezt általában egy vagy több felső határértékkel fejezik ki, például annak szavatolásával, hogy a rendszer képes akár 100 000 egyidejű felhasználói kérés támogatására, vagy 10 000 egyidejű üzleti tranzakció kezelésére.
+* Működési válaszidő. A rendszer a kérések feldolgozásának sebességére is vállalhat kötelezettséget. Például: az üzleti tranzakciók 99 százalékát a rendszer 2 másodpercen belül feldolgozza, és egyetlen tranzakció feldolgozása sem tart 10 másodpercnél hosszabb ideig.
 
 > [!NOTE]
-> Néhány szerződések kereskedelmi rendszerekhez kiterjedhetnek SLA-k az ügyfél-támogatási szolgálatához. Például, hogy minden segélyszolgálat kérelmeket 5 percen belül fog kér választ, és hogy az összes probléma 99 %-át teljes kiiktatása 1 munkanapon belül. Hatékony [problémák nyomon követése](#issue-tracking) (később ebben a szakaszban leírt) van szolgáltatásiszint-szerződéseknek ehhez hasonló helyzeteknek billentyűt.
+> Egyes kereskedelmi rendszerek szerződései az ügyfélszolgálatra vonatkozó SLA-kat is tartalmazhatnak. Például: minden ügyfélszolgálati kérésre 5 percen belül érkezik válasz, és az ügyfélszolgálat a hibák 99%-át 1 munkanapon belül teljes mértékben elhárítja. A hatékony [problémakövetés](#issue-tracking) (a jelen szakasz egy későbbi része ismerteti) kritikus fontosságú az ezekhez hasonló SLA-k eléréséhez.
 > 
 > 
 
-### <a name="requirements-for-sla-monitoring"></a>SLA-figyelés követelményei
-A legmagasabb szintjén az üzemeltető meg tudja határozni egy pillanat alatt, hogy a rendszer megfelel-e a megállapodás szerinti SLA-k vagy nem kell lennie. Ha nem, a következő operátor kell tudni részletezéshez és le, és megvizsgálja a mögöttes tényezők állapítsa meg, hogy a követelményeket teljesítmény.
+### <a name="requirements-for-sla-monitoring"></a>Az SLA monitorozására vonatkozó követelmények
+A legfelső szinten az operátornak egy pillantásra meg kell tudnia állapítani, hogy a rendszer teljesíti-e a megállapodásba foglalt SLA-kat vagy sem. Ha nem, az operátornak képesnek kell lennie részletes elemzést végezni, és megvizsgálni a mögöttes tényezőket a teljesítménycsökkenés okainak meghatározásához.
 
-Tipikus magas szintű mutatók vizuálisan kitaláltak a következők:
+A vizuálisan ábrázolható, jellemző magas szintű mutatók az alábbiak lehetnek:
 
-* Hasznos üzemidő százalékát.
-* Az alkalmazás az átviteli sebesség (sikeres tranzakciók és/vagy a műveletek másodpercenkénti száma).
-* Sikeres/sikertelen alkalmazás kérések száma.
-* Az alkalmazás- és hibák, kivételek és figyelmeztetések száma.
+* A hasznos üzemidő százalékos aránya.
+* Az alkalmazás átviteli sebessége (a másodpercenkénti sikeres tranzakciók és/vagy műveletek mennyiségében kifejezve).
+* A sikeres/sikertelen alkalmazáskérések száma.
+* Az alkalmazás- és rendszerhibák, kivételek és figyelmeztetések száma.
 
-Ezek a mutatók mindegyikét a megadott időtartam szűri képesnek kell lennie.
+A mutatók mindegyikének szűrhetőnek kell lennie adott időszak alapján.
 
-A felhőalapú alkalmazások valószínűleg magában foglalja a több alrendszerek és összetevőket. Operátor válassza ki a magas szintű kijelzőt, és tekintse meg, hogyan össze az alapul szolgáló elemek tartozó képesnek kell lennie. Például ha a teljes rendszer üzemideje elfogadható érték alá csökken, egy olyan operátort kell tudni nagyítás, és döntse el, melyik elemet biztosítanak a hiba.
+A felhőalkalmazások vélhetően több alrendszerből és összetevőből állnak. Az operátornak az egyes felső szintű mutatókat kiválasztva meg kell tudnia tekinteni, hogy a mutató hogyan tevődik össze a mögöttes elemek állapota alapján. Ha például a teljes rendszer üzemideje egy elfogadható érték alá csökken, az operátornak képesnek kell lennie a nagyításra, és annak megállapítására, hogy mely elemek járultak hozzá a hibához.
 
 > [!NOTE]
-> Rendszer hasznos üzemidő kell gondosan definiálni. A maximális rendelkezésre állásának biztosításához redundancia használó rendszer elemek egyes példányai sikertelen lehet, de maradhat, hogy a rendszer működési. Állapotfigyelés által bemutatott rendszer üzemideje fel kell tüntetni az egyes elemek összesített üzemideje és nem feltétlenül e a rendszer ténylegesen leállt. Emellett előfordulhat, hogy lehet elkülönített hibák. Így akkor is, ha egy megadott rendszer nem érhető el, a rendszer további része lehet, hogy elérhetők maradnak, bár a csökkent funkcionalitással. (Egy e-kereskedelmi rendszerben hibája miatt a rendszer az ügyfél esetleg nem rendelések helyezi el, de előfordulhat, hogy a az ügyfél továbbra is el tud jutni a termékkatalógus.)
+> A rendszer üzemidejét gondosan kell meghatározni. A maximális rendelkezésre állást redundancia használatával biztosító rendszerekben az elemek egyes példányai meghibásodhatnak ugyan, a rendszer azonban továbbra is működőképes marad. A rendszer az állapotmonitorozás által kimutatott üzemidejének az egyes elemek összesített üzemidejét kell mutatnia, és nem feltétlenül azt, hogy a rendszer ténylegesen leállt-e. Emellett a hibák elkülöníthetők. Így ha egy adott alrendszer nem is áll rendelkezésre, a rendszer többi része továbbra is rendelkezésre állhat, jóllehet kevesebb funkciót biztosítva. (Egy e-kereskedelmi rendszerben például az egyik alrendszer hibája miatt a vevő esetleg nem küldhet megrendelést, azonban a termékkatalógust továbbra is böngészheti.)
 > 
 > 
 
-Riasztások céljából, a rendszer kell tudni indítson eseményt, ha a magas szintű mutatók bármelyikét haladja meg a megadott küszöbértéket. A számos tényező befolyásolja, a magas szintű kijelző alkotó alacsonyabb szintű részleteit a riasztási rendszer környezetfüggő adatként elérhetőnek kell lennie.
+Riasztási célokból a rendszernek képesnek kell lennie eseményt létrehozni, ha a felső szintű mutatók bármelyike meghalad egy adott küszöbértéket. A felső szintű mutatókat alkotó különféle összetevők alacsonyabb szintű adatainak környezetfüggő adatként elérhetőnek kell lenniük a riasztást létrehozó rendszer számára.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-A nyers adatok SLA figyelési támogatásához szükséges hasonlít a nyers adatok teljesítményfigyelési, állapotának és rendelkezésre állásának figyelésére szolgáló bizonyos aspektusainak együtt van szükség. (Ezek a szakaszok további részletekért tekintse meg.) Ezek az adatok által rögzítése:
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+Az SLA monitorozásának támogatásához szükséges nyers adatok hasonlóak a teljesítmény, és bizonyos szempontokból az állapot és a rendelkezésre állás monitorozásának nyers adataihoz. (További részletekért tekintse meg a vonatkozó szakaszokat.) Az adatok az alábbiak végrehajtásával rögzíthetők:
 
-* Végez a végpontmonitoring kijelző.
+* A végpontok monitorozása.
 * Kivételek, hibák és figyelmeztetések naplózása.
-* A felhasználói kérelmek teljesítése nyomkövetés.
-* A rendszer által használt külső szolgáltatások rendelkezésre állásának figyelése.
-* Metrikák és számlálók használatával.
+* A felhasználói kérések végrehajtásának nyomon követése.
+* A rendszer által használt külső szolgáltatások rendelkezésre állásának monitorozása.
+* Teljesítmény-mérőszámok és -számlálók használata.
 
-Minden adat legyen túllépte az időkorlátot és időbélyeggel ellátott.
+Minden adatot időponthoz kell kötni, és időbélyeggel kell ellátni.
 
-### <a name="analyzing-sla-data"></a>SLA-adatok elemzése
-A WMI-adatok létrehozására, a rendszer általános teljesítménye képe kell összesíteni. Összesített adatokat is támogatnia kell a Részletezés engedélyezése az alapul szolgáló alrendszerek teljesítmény vizsgálata. Például meg kell tudni:
+### <a name="analyzing-sla-data"></a>Az SLA-adatok elemzése
+A rendszerállapot-adatokat összesíteni kell a rendszer átfogó teljesítményének megjelenítéséhez. Az összesített adatoknak a részletes elemzést is lehetővé kell tenniük a mögöttes alrendszerek teljesítményének vizsgálatához. Például az alábbiakra kell képesnek lennie:
 
-* A felhasználói kérelmek teljes száma kiszámítása a meghatározott időszakon belül, és ezeket a kéréseket a sikeres és sikertelen arányát határozza meg.
-* Összevonja a felhasználói kérelmek rendszer válaszidejének átfogó képet létrehozásához a válaszidők.
-* Vizsgálja meg a felhasználói kérelmek szeretné bontani a kérelemben található egyedi munkaelemeket válaszidő kérelem teljes válaszidő előrehaladását.  
-* Hasznos üzemidő százalékban a rendszer általános rendelkezésre állására meghatározása egy adott időszakban.
-* A százalékos idő rendelkezésre állását az egyes összetevőkkel és szolgáltatásokkal elemzése a rendszerben. Ez lehet, hogy tartalmaz, amely harmadik féltől származó szolgáltatással létrehozott naplók elemzése.
+* Az adott időszakban kezdeményezett felhasználói kérések teljes számának megállapítása, valamint a sikeres és sikertelen kérések arányának meghatározása.
+* Átfogó kép kialakítása a rendszer válaszidejéről a felhasználói kérések válaszidejének összesítésével.
+* A felhasználói kérések állapotnak elemzése a kérések átfogó válaszidejének a kérést alkotó egyes munkaelemek válaszidejére való lebontásához.  
+* A rendszer átfogó rendelkezésre állásának meghatározása az üzemidőt százalékos arányként kifejezve egy adott időszakra vonatkozóan.
+* A rendszer egyes összetevőinek és szolgáltatásainak az idő százalékában kifejezett rendelkezésre állásának elemzése. Ehhez esetleg szükség lehet a külső szolgáltatások által létrehozott naplók elemzésére.
 
-Számos kereskedelmi rendszer valós teljesítmény ábra elleni egyeztetett SLA jelentés egy megadott időtartamig, általában egy hónap szükségesek. Ezek az információk segítségével kiszámítani kreditek vagy egyéb visszafizetések az ügyfelek Ha adott időszakban nem felel meg az SLA-k. A szolgáltatás rendelkezésre állásának kiszámíthatja a szakaszban bemutatott módszerrel [rendelkezésre állási adatok elemzése](#analyzing-availability-data).
+Számos kereskedelmi rendszernek jelentenie kell a tényleges teljesítményadatokat a megállapodásban foglalt SLA-k alapján egy adott időtartamra, általában egy hónapra vonatkozóan. Az információk segítségével számítható ki az ügyfeleket illető jóváírás vagy egyéb visszatérítés, ha az SLA-k nem teljesültek az adott időszakban. Az egyes szolgáltatások rendelkezésre állását [A rendelkezésreállási adatok elemzése](#analyzing-availability-data) című szakaszban bemutatott módszerrel számíthatja ki.
 
-Belső célra egy szervezet előfordulhat, hogy is nyomon követheti az a szám és a szolgáltatások nem fognak kiváltó incidensek jellege. A problémák megoldásához gyorsan, vagy kiküszöbölheti a teljesen, hogyan csökkentheti az állásidőt, és megfelelnek a szolgáltatásiszint-szerződések segítségével.
+A vállalatok a szolgáltatások meghibásodását okozó incidensek számát és természetét is követhetik belső használatra. A problémák gyors megoldásának vagy teljes kiküszöbölésének elsajátításával csökkenthető az állásidő, és teljesíthetők az SLA-k.
 
 ## <a name="auditing"></a>Naplózás
-Az alkalmazás természetétől függően előfordulhat, kötelező vagy egyéb jogszabályok által megadott felhasználói műveletek naplózása és az összes adatelérési rögzítése követelményei. Naplózás is bizonyító, hogy hivatkozásokat a felhasználók bizonyos kérésekre. A nem megtagadás számos üzleti e rendszer megbízhatósági fenntartása érdekében fontos tényezőt kell az ügyfél és a szervezet, amely felelős az alkalmazás vagy szolgáltatás között.
+Az alkalmazás jellegétől függően a törvényi vagy egyéb jogi rendelkezések megszabhatnak a felhasználói műveletek naplózására és az összes adatelérés rögzítésére vonatkozó követelményeket. A naplózás az ügyfeleket az egyes kérésekhez kötő bizonyítékot biztosíthat. A letagadhatatlanság fontos tényező számos elektronikus üzleti rendszerben az ügyfél és az alkalmazásért vagy szolgáltatásért felelős vállalat közötti bizalom fenntartásában.
 
-### <a name="requirements-for-auditing"></a>Naplózásának követelményei
-Valamelyik elemzőnek, hogy a felhasználók így is újbóli összeállítása a felhasználói műveleteket hajt végre üzleti műveletek sorrendjének követéséhez képesnek kell lennie. Erre akkor lehet szükség, egyszerűen alkot rekordot, vagy a törvényszéki nyomozások részeként.
+### <a name="requirements-for-auditing"></a>A naplózásra vonatkozó követelmények
+Az elemzőknek nyomon kell tudniuk követni a felhasználók által végrehajtott üzleti műveletek sorát, hogy rekonstruálhassák a felhasználók műveleteit. Előfordulhat, hogy erre egyszerűen a nyilvántartás miatt van szükség, vagy pedig egy törvényszéki vizsgálat részeként.
 
-A naplóinformációkat szigorúan bizalmas. Ez valószínűleg magában foglalja, amely azonosítja a felhasználókat a rendszer a feladatokat helyreállítást hajt végre, és adatokat. Emiatt a naplóinformációkat valószínűleg a következőkben csak megbízható elemzők rendelkezésre álló jelentések helyett egy interaktív rendszert, amely támogatja a grafikus műveletek részletes. Valamelyik elemzőnek számos különböző jelentések létrehozásához képesnek kell lennie. Például jelentések előfordulhat, hogy minden felhasználó tevékenységek egy adott időtartományban listában, a tevékenység egyetlen felhasználóhoz időrendje részletességi vagy listában egy vagy több erőforrásokon végrehajtott műveletek sorozata.
+A naplóadatok rendkívül bizalmasak. Valószínűleg olyan adatokat is tartalmaznak, amelyek azonosítják a rendszer felhasználóit és az általuk végrehajtott feladatokat. A naplóadatok emiatt leginkább a kizárólag a megbízható elemzők számára elérhető jelentések formájában állnak rendelkezésre, nem pedig a grafikai műveletek részletes elemzését lehetővé tévő interaktív rendszerként. Az elemzőnek különböző jelentéseket kell tudniuk létrehozni. A jelentések például listázhatják az adott időszakban bekövetkezett felhasználó tevékenységeket, részletes kronológiát biztosíthatnak egy adott felhasználó tevékenységéről, vagy listázhatják az egy vagy több erőforrásra vonatkozóan végrehajtott műveletek sorát.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-Az elsődleges információforrások a naplózáshoz az alábbiakból állhat:
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A naplózáshoz használt információk elsődleges forrásai az alábbiak lehetnek:
 
-* A biztonsági rendszer, amely kezeli a felhasználó hitelesítése.
-* Nyomkövetési naplók, amely a felhasználó tevékenységét rögzíti.
-* Minden azonosítható és azonosítatlan hálózati kérelmeket nyomon biztonsági naplókat.
+* A felhasználók hitelesítését kezelő biztonsági rendszer.
+* A felhasználók tevékenységét rögzítő nyomkövetési naplók.
+* Az azonosítható és azonosíthatatlan hálózati kéréseket nyomon követő biztonsági naplók.
 
-A formátum, amely tárolja a naplózási adatok és szabályozási követelmények alapján előfordulhat, hogy vezeti. Például akkor lehet, hogy nem lehet bármely olyan módon adatot. (Ez rögzíteni kell az eredeti formátumában.) A tárház tárolási helye a hozzáférést az illetéktelen kell védeni.
+A naplóadatok formátumára és tárolásuk módjára szabályozási követelmények vonatkozhatnak. Előfordulhat például, hogy az adatok semmilyen módon nem törölhetők. (Az eredeti formátumukban kell rögzíteni azokat.) Az adatokat tároló adattárt védeni kell az illetéktelen hozzáférés ellen.
 
-### <a name="analyzing-audit-data"></a>Naplózási adatok elemzése
-Lehet, hogy valamelyik elemzőnek érhessék el az eredeti formájukban egészében nyers adatok. A követelmény a gyakori naplózási jelentések készítéséhez, vezérelt ezek az adatok elemzésére szolgáló eszközöket valószínűleg kifejezetten és a rendszer a külső tartani.
+### <a name="analyzing-audit-data"></a>A naplóadatok elemzése
+Az elemzőknek el kell tudniuk érni a nyers adatok egészét, azok eredeti formájában. Az általános naplózási jelentések készítésének igénye mellett az adatok elemzésére szolgáló eszközök valószínűleg specializáltak lesznek, és a rendszeren kívül vannak elhelyezve.
 
-## <a name="usage-monitoring"></a>Használat figyelését
-Használat figyelését nyomon követi a szolgáltatásai és összetevői az alkalmazások használatának módját. Operátor használhatja az összegyűjtött adatokat:
+## <a name="usage-monitoring"></a>A használat monitorozása
+A használat monitorozása az alkalmazás funkcióinak és összetevőinek használatát követi nyomon. Az operátor az alábbiakat teheti az összegyűjtött adatok használatával:
 
-* Határozza meg, mely funkciókat fokozottan használatosak, és a rendszer minden lehetséges elérési pontokhoz történő meghatározásához. Nagy forgalmú elemek előnye származhat működési particionálás és a terhelés több egyenletesen még akkor is, replikációt. Operátor is használhatja ezt az információt megállapítani, mely funkciókat ritkán használja, és lehetséges alternatívák vagy cserélni a rendszer egy jövőbeli verziójában.
-* A rendszer normál használják a működési események információhoz juthat. Például az elektronikus kereskedelmi webhely, rögzítheti a tranzakciók száma és az ügyfelek, akik felelős a kötet statisztikai adatait. Ezt az információt a kapacitástervezés ügyfelek számának növekedésével használható.
-* Észleli az (esetleg közvetetten) felhasználói számára a teljesítmény vagy a rendszer működését. Például ha az ügyfelek egy e-kereskedelmi rendszerben nagy számú rendszeresen abandon a vásárlási kártyák, ennek oka lehet a vegye ki funkciójú probléma.
-* Készítése a számlázási adatokat. Egy kereskedelmi alkalmazás vagy a több-bérlős szolgáltatást a előfordulhat, hogy az ügyfelek az általuk használt erőforrások díjat számítanak.
-* Kvóták kényszerítéséhez. Ha egy felhasználó egy több-bérlős rendszerben meghaladja a feldolgozási idő vagy az erőforrás-használat egy meghatározott időtartam alatt a fizetős kvótát, a hozzáférés korlátozható vagy feldolgozási is szabályozva.
+* A gyakran használt funkcióknak és a rendszer potenciálisan kritikus pontjainak az azonosítása. A nagy forgalmú elemek működése javítható funkcionális particionálással vagy akár replikációval a terhelés egyenletesebb elosztása érdekében. Az operátor ezen információk használatával megállapíthatja, hogy melyek azok ritkán használt funkciók, amelyeket érdemes lehet kivezetni vagy a rendszer egy jövőbeli verziójában lecserélni.
+* Információk beszerzése a rendszer működési eseményeivel kapcsolatban a normál használat során. Például egy e-kereskedelmi webhely a tranzakciók számával és az azokért felelős ügyfelek mennyiségével kapcsolatos statisztikai adatokat rögzíthet. Ezek az adatok a kapacitástervezéshez használhatók az ügyfelek számának növekedésével.
+* A rendszer teljesítményével vagy funkcióival kapcsolatos felhasználói elégedettség észlelése (lehetőleg közvetetten). HA például egy e-kereskedelmi rendszer ügyfelei rendszeresen, nagy számban hagyják félbe a vásárlást, annak oka a fizetési funkcióval kapcsolatos probléma lehet.
+* Számlázási információk létrehozása. A kereskedelmi alkalmazások és a több-bérlős szolgáltatások díjakat számíthatnak fel az ügyfeleknek az általuk használt erőforrásokért.
+* Kvóták érvényesítése. Ha egy több-bérlős rendszer valamelyik felhasználója meghaladja a feldolgozási időre vagy erőforrás-használatra vonatkozó, kifizetett kvótát egy adott időszak során, a hozzáférése korlátozható vagy a feldolgozási teljesítmény szabályozható.
 
-### <a name="requirements-for-usage-monitoring"></a>Használat figyelését követelményei
-Vizsgálja meg a rendszer használati, operátor általában kell megfelelnie is információkat lásd:
+### <a name="requirements-for-usage-monitoring"></a>A használat monitorozására vonatkozó követelmények
+A rendszerhasználat vizsgálatához az operátornak általában az alábbiakat magukban foglaló információkat kell látnia:
 
-* Minden egyes alrendszer által feldolgozott, és az egyes erőforrások felé irányuló kérelmek száma.
-* A munkát végző minden felhasználóhoz.
-* A kötet, amely minden felhasználó által elfoglalt adattárolási.
-* Az erőforrások minden felhasználó hozzáférhet.
+* Az egyes alrendszerek által feldolgozott és az egyes erőforrásokhoz továbbított kérések száma.
+* Az egyes felhasználók által végzett munka.
+* Az egyes felhasználók által foglalt adattárterület.
+* Az egyes felhasználók által elért erőforrások.
 
-Operátor hozhat létre diagramokat kell. Például egy grafikonon megjelenítheti a legtöbb erőforrást belekóstol felhasználókat, vagy a leggyakrabban elért erőforrások vagy -funkciókat.
+Az operátornak diagramokat is létre kell tudnia hozni. A grafikonokon például megjeleníthetők a leginkább erőforrás-igényes felhasználók, vagy a leggyakrabban elért erőforrások vagy rendszerfunkciók.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-Használat nyomon követése viszonylag magas szinten hajtható végre. Azt is vegye figyelembe, az egyes kérelmek indításának és befejezésének idejét és a kérés (olvasási, írási és így tovább, attól függően, hogy az adott erőforrás) jellegét. Ezt úgy szerezheti be ezeket az információkat:
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A használat monitorozása viszonylag magas szinten végezhető. Képes feljegyezni az egyes kérések kezdési és befejezési időpontját és a kérés jellegét (olvasás, írás stb., az adott erőforrástól függően). Ezek az információk az alábbi módokon szerezhetők be:
 
-* Felhasználói tevékenység nyomkövetés.
-* A rögzítés teljesítményszámlálók találhatók, amelyek mérik az egyes erőforrások kihasználtsága.
-* Az erőforrás-felhasználás, mely felhasználó figyelése.
+* Felhasználói tevékenység nyomon követése.
+* Az egyes erőforrások használatát mérő teljesítményszámlálók rögzítése.
+* Az egyes felhasználók erőforrás-felhasználásának monitorozása.
 
-Mérés céljából, is kell lennie lehet azonosítani, hogy mely felhasználók felelőssége milyen műveleteket, és az erőforrásokat, amelyek használják ezeket a műveleteket hajt végre. Az összegyűjtött információk kell lennie ahhoz, hogy pontos számlázási részletes.
+Mérési okokból azt is tudnia kell azonosítani, hogy az egyes műveleteket mely felhasználók hajtják végre, és hogy ezek a műveletek mely erőforrásokat használják. A gyűjtött információknak megfelelően részletezettnek kell lennie a pontos számlázáshoz.
 
 <a name="issue-tracking"></a>
 
-## <a name="issue-tracking"></a>A problémák nyomon követése
-Az ügyfelek és más felhasználók előfordulhat, hogy jelenti problémák esetén nem várt események vagy viselkedés a rendszerben. Problémák nyomon követése a problémák kezelése, való azon törekvéseit, hogy a rendszer minden alapul szolgáló problémák megoldásához és a lehetséges megoldások a felhasználók tájékoztatása tekintetében.
+## <a name="issue-tracking"></a>Problémakövetés
+Az ügyfelek és egyéb felhasználók problémákat jelenthetnek, ha váratlan esemény vagy működés következik be a rendszerben. A problémakövetés az ilyen problémák kezelésével foglalkozik, a problémákat a rendszerben rejlő alapvető hibák elhárítására irányuló törekvésekhez társítva, valamint tájékoztatja a felhasználókat a lehetséges megoldásokkal kapcsolatban.
 
-### <a name="requirements-for-issue-tracking"></a>A problémák nyomon követése követelményei
-Operátorok gyakran hajtsa végre a problémák nyomon követése külön rendszer-, amely lehetővé teszi, hogy rekord és a jelentés a problémák részleteit, amelyek felhasználók jelentést készítenek. Ezek az adatok tartalmazhatnak a feladatokat, a felhasználó próbál végrehajtani, a problémát, eseménysorozatát, és semmilyen hiba vagy kiadott figyelmeztető üzeneteket.
+### <a name="requirements-for-issue-tracking"></a>A problémakövetésre vonatkozó követelmények
+Az operátorok gyakran külön rendszer használatával végzik a problémakövetést, amelyeken rögzíthetik és jelenthetik a felhasználók által jelentett problémák részleteit. Ezek a részletek a felhasználók által megkísérelt feladatokat, a problémák tüneteit, az események sorozatát, valamint a küldött hiba- és figyelmeztető üzeneteket foglalhatják például magukban.
 
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-Probléma-nyomon követési adatok kezdeti adatforrását az a felhasználó, aki a problémát az elsőként jelentett. Lehet, hogy a felhasználó további adatokat nyújt, mint:
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A problémakövetési adatok kezdeti forrása a felhasználó, aki a problémát először jelentette. A felhasználó további adatokat is biztosíthat, például:
 
-* Összeomlási memóriaképet (ha az alkalmazás a felhasználói asztali környezetben futtató összetevőt tartalmazza).
-* Képernyő pillanatképet.
-* A dátum és idő, amikor a hiba történt, például a felhasználó földrajzi helye más környezeti adatokkal együtt.
+* Összeomlási memóriakép (ha az alkalmazás tartalmaz a felhasználó asztali gépén futó összetevőt).
+* Képernyő-pillanatfelvétel.
+* A hiba bekövetkezésének dátuma és időpontja az egyéb környezeti adatokkal, például a felhasználó tartózkodási helyével együtt.
 
-Ez az információ használható a hibakeresési elérhető, és a későbbi kiadásokban a szoftverfrissítés Hátralék összeállításához.
+Ezek az adatok felhasználhatók a hibakeresési tevékenység során, valamint a segítségükkel összeállítható a fejlesztendő funkciók listája a szoftver jövőbeli kiadásaihoz.
 
-### <a name="analyzing-issue-tracking-data"></a>Probléma-nyomkövetési adatok elemzése
-Különböző felhasználók előfordulhat, hogy a probléma jelenti. A probléma követőrendszerrel közös jelentések kell társítani.
+### <a name="analyzing-issue-tracking-data"></a>A problémakövetési adatok elemzése
+Előfordulhat, hogy több felhasználó is jelenti ugyanazt a problémát. A problémakövetési rendszernek társítania kell az azonos jelentéseket.
 
-A hibakeresési elérhető előrehaladását feljegyzik minden probléma jelentés ellen. Ha a probléma megoldódott, az ügyfél is tájékoztatni a megoldás.
+A hibakeresési tevékenység előrehaladását rögzíteni kell az egyes hibajelentésekben. Ha a probléma elhárítása megtörtént, az ügyfél tájékoztatható a megoldásról.
 
-Ha a felhasználó azt jelenti, amely rendelkezik egy ismert megoldás a probléma követőrendszerrel problémát, a következő operátor kell tudni azonnal tájékoztatja a felhasználót, a megoldás.
+Ha a felhasználó egy olyan problémát jelent, amelynek már létezik megoldása a problémakövetési rendszerben, az operátornak tudnia kell azonnal tájékoztatni a felhasználót a megoldásról.
 
-## <a name="tracing-operations-and-debugging-software-releases"></a>Műveletek szoftver verziókban nyomkövetéséhez és
-A felhasználó problémát jelent, ha a felhasználó gyakran csak tisztában a közvetlen hatással lehet, hogy azok a műveletek az. A felhasználó is csak jelentik az eredményeket a saját felhasználói felület vissza egy olyan operátort, aki felelős a rendszerben. Ezek a tapasztalatok rendszerint látható tünete egy vagy több alapvető problémák. Sok esetben egy elemző kell átrágniuk a időrendje az alapul szolgáló műveletek a probléma okának meghatározásához. Ez a folyamat *kiváltó okot*.
-
-> [!NOTE]
-> Legfelső szintű okát előfordulhat, hogy fedik le a hatékonyság hiánya az alkalmazások kialakításában. Ezekben a helyzetekben esetleg az érintett elemek átdolgozási, és központi telepítésére egy későbbi kiadásában. Ez a folyamat gondos hozzáférésre van szüksége, és a frissített összetevők szorosan kell figyelni.
-> 
-> 
-
-### <a name="requirements-for-tracing-and-debugging"></a>Nyomkövetés és hibakeresés vonatkozó követelmények
-A nyomkövetés nem várt események és egyéb problémák, létfontosságú, hogy a figyelési adatokat biztosít-e elegendő információt egy elemző nyomkövetéshez vissza ezeknek a problémáknak a források az engedélyezése, és hozza létre újból az események, sorozatát. Ez az információ ahhoz, hogy valamelyik elemzőnek oka az esetleges problémák diagnosztizálásához elegendőnek kell lennie. A fejlesztők is végezze el a szükséges módosításokat, megakadályozhatja, hogy a ismétlődő.
-
-### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Az adatforrások, instrumentation és adatgyűjtés követelmények
-Hibakeresési nyomkövetés összes módszert (és a paraméterek) meghívni, amely a rendszeren keresztül tételéig ábrázol, amikor egy ügyfél egy adott kérelmet fát kialakításához művelet részeként magába foglaló. Rögzített és naplózott kell kivételeket és a figyelmeztetéseket, mivel ez a folyamat során a rendszer létrehozza.
-
-Támogatja a hibakeresés, a rendszer képes hurkok, amelyek lehetővé teszik a rendszer kritikus fontosságú pontokon állapotadatokat rögzítéséhez operátor. Vagy a rendszer által biztosított kijelölt műveletek állapotát részletes lépéseit. Ezen a szinten részletességi rögzítésével adatok adhat meg a rendszer további terhelést, és egy ideiglenes folyamat kell lennie. Operátort használja ezt a folyamatot, elsősorban akkor, ha nagyon szokatlan számos esemény következik be, és nehéz replikálni, vagy ha egy új a egy vagy több eleme rendszerben verzióhoz gondos figyelése annak érdekében, hogy a várt módon elemek függvény.
-
-## <a name="the-monitoring-and-diagnostics-pipeline"></a>A figyelés és diagnosztika-feldolgozási folyamat
-Nagy méretű elosztott a figyelést jelentős kihívást jelent. Minden az előző szakaszban leírt forgatókönyv nem feltétlenül tekintendő elkülönítve. Nincs feltehetőleg egy jelentős átfedésben lévő, amely az egyes esetekben szükséges megfigyelési és diagnosztikai adatokat, de ezek az adatok feldolgozása és jelenik meg a különböző módokon lehet, hogy kell-e. Ezen okok miatt kell venni a figyelési és diagnosztika átfogó képet.
-
-A teljes figyelése és diagnosztika folyamat is előirányozni, egy folyamatot, amely magában foglalja a szakaszt, 1. ábrán látható.
-
-![A figyelés és diagnosztika feldolgozási szakaszból](./images/monitoring/Pipeline.png)
-
-*1. ábra. A figyelés és diagnosztika feldolgozási szakaszból*
-
-1. ábra mutatja be, hogyan figyelési és diagnosztikai adatokat az adatforrások különböző származhatnak. A rendszerállapot és a gyűjtemény szakaszában, amikor az adatok kell-e rögzíteni kell, hogy az adatforrások azonosító van szó, mely adatok rögzítéséhez, azt rögzítése és formázása ezeket az adatokat, így könnyen vizsgálni meghatározásához. Az elemzés/diagnosztikai szakasza a nyers adatokat fogad, és lekérdezhetik a fontos információkat, amelyek operátor használatával határozhatják meg, a rendszer állapotának létrehozásához használja. Az üzemeltető lehetséges műveletek kapcsolatos döntések érvénybe ezen információk használatával, és majd hírcsatorna újra üzembe a rendszerállapot és a gyűjtemény szakaszában az eredményeket. A képi megjelenítés/riasztások szakaszban fázis a rendszerállapot fogyasztható nézetét mutatja be. Azt is megjelenítheti közel valós idejű irányítópultokat sorozatának használatával. És az hozhat létre jelentéseket, a diagramok és a diagram az adatok, amelyek segítségével azonosíthatja a hosszú távú előzményadatok áttekintése. Ha információt azt jelzi, hogy KPI valószínűleg hosszabb legyen, mint a elfogadható határai, ebben a szakaszban is elindítható operátor riasztást. Bizonyos esetekben egy riasztás is is indításához használható egy automatikus folyamat, amely megpróbálja korrekciós műveletek, például az automatikus skálázást.
-
-Vegye figyelembe, hogy ezeket a lépéseket egy folyamatos üzenetkezelési folyamat, amelyben párhuzamosan a szakaszok történik hoz létre. Ideális esetben a fázisok dinamikusan konfigurálható legyen. Bizonyos időpontokban különösen akkor, ha a rendszer újonnan telepítve van, vagy problémákba ütközött, szükség lehet gyakrabban a kiterjesztett adatok gyűjtéséhez. A többi időszakban állítható vissza egy alap szint, győződjön meg arról, hogy a rendszer megfelelően működik-e a lényeges információk rögzítése lehetővé kell tenni.
-
-Ezenfelül a teljes felügyeleti folyamatot figyelembe kell venni egy élő, folyamatosan megoldás, amely pontosabb beállításra és visszajelzés miatt fejlesztései. Például előfordulhat, hogy a kiindulási pont rendszer állapotának számos tényező méri. Időbeli Analysis vezethet a pontosítás elvetése intézkedéseket, amelyek nem releváns, így már pontosabban az adatokat, amelyekre szüksége van a fókusz, ugyanakkor minimalizálja a háttérzaj.
-
-## <a name="sources-of-monitoring-and-diagnostic-data"></a>Megfigyelési és diagnosztikai adatforrások
-Az információk a megfigyelési folyamat által használt származhatnak forrásokból, 1. ábrán látható módon. Az alkalmazás szintjén információk szóló a kódot a rendszer a nyomkövetési naplók származik. A fejlesztők kódjukat keresztül áramló nyomon követése a szabványos megközelítést kell követnie. Például egy metódus bejegyzést el tudná küldeni egy nyomkövetési üzenet, amely megadja a metódus, a jelenlegi időpontnál, mindegyik paraméterhez, és minden egyéb kapcsolódó információt értékének nevét. A be- és kilépés idő rögzítése akkor is lehet hasznos.
-
-Jelentkezzen be a kivételeket, és a figyelmeztetéseket, és győződjön meg arról, hogy megőrizze-e a beágyazott kivételek és figyelmeztetések teljes nyomkövetési. Ideális esetben a tevékenység korrelációs adatokkal (a kérelmek nyomon követése, mert haladnak át a rendszer) együtt, a kódot futtató felhasználó azonosító információkat is rögzíti. És próbálja meg elérni az összes erőforrást, például az üzenetsorok, adatbázisok, fájlok és más függő szolgáltatások naplózni kell. Ez az információ a szoftverhasználat-mérő és naplózási célokra használható.
-
-Számos alkalmazás ellenőrizze a kódtárai és keretrendszerei segítségével végrehajthat olyan gyakori feladatokat, például egy-adattároló elérése vagy a hálózaton keresztül kommunikál. Előfordulhat, hogy ezen keretrendszerek konfigurálható a saját nyomkövetési üzenetek és a nyers diagnosztikai információkat, például a tranzakciós díjakat biztosítanak és adatok továbbítása sikeres és sikertelen műveletek.
+## <a name="tracing-operations-and-debugging-software-releases"></a>A műveletek nyomon követése, és a szoftverkiadások hibáinak elhárítása
+Amikor egy felhasználó problémát jelent, a felhasználó gyakran csak a saját műveleteire kifejtett közvetlen hatásnak van tudatában. A felhasználó csak az általa tapasztalt működés eredményét tudja jelenteni a rendszer karbantartásáért felelős operátor számára. Ezek a tapasztalatok rendszerint csak a látható tünetei egy vagy több alapvető problémáknak. Sok esetben egy elemzőnek alaposan át kell tekintenie a mögöttes műveletek kronológiáját a probléma kiváltó okának meghatározásához. Ezt az eljárást *a kiváltó okok elemzésének* nevezik.
 
 > [!NOTE]
-> Számos modern keretrendszerek automatikus teljesítmény és a nyomkövetési események közzététele. Ezek az információk rögzítése egyszerűen és tároljuk, ahol feldolgozásra és elemzése segítségével biztosít.
+> A kiváltó okok elemzése feltárhatja az alkalmazás tervezési hiányosságait. Ilyen esetekben át lehet dolgozni az érintett elemeket, és egy későbbi kiadás részeként telepíteni lehet azokat. Ez a folyamat alapos tervezést igényel, és a frissített összetevőket gondosan monitorozni kell.
 > 
 > 
 
-Az operációs rendszer, ahol az alkalmazás futása lehet egy rendszerszintű alacsony szintű információkat, például az i/o-sebességét, a memóriahasználat és a CPU-használat jelző teljesítményszámlálók forrását. Operációs rendszer hibái (például a meg nem nyílik meg megfelelően fájl) is lehet, hogy jelenteni.
+### <a name="requirements-for-tracing-and-debugging"></a>A nyomkövetésre és hibakeresésre vonatkozó követelmények
+A váratlan események és egyéb problémák követéséhez létfontosságú, hogy a monitorozási adatok elegendő információt biztosítsanak az elemző számára a problémák eredetének visszakövetéséhez és a bekövetkezett események sorának rekonstruálásához. Elegendő információnak kell rendelkezésre állnia ahhoz, hogy az elemző diagnosztizálhassa a problémák kiváltó okait. A fejlesztők ezután elvégezhetik a szükséges módosításokat a problémák újbóli bekövetkezésének a megakadályozásához.
 
-Is figyelembe kell venni az alapul szolgáló infrastruktúra és az összetevők, amelyeken a rendszer futtatja. Virtuális gépek, virtuális hálózatok és tárolási szolgáltatások lehetnek források fontos infrastruktúra szintű a teljesítményszámlálók és más diagnosztikai adatokat.
+### <a name="data-sources-instrumentation-and-data-collection-requirements"></a>Adatforrások, rendszerállapot-adatok és adatgyűjtési követelmények
+A hibaelhárításnak része lehet az egyes műveletek keretében meghívott összes metódus (és azok paramétereinek) nyomon követése, így felépíthető egy fa, amely a rendszeren végighaladó logikai folyamatot ábrázolja, amikor egy ügyfél egy adott kérést kezdeményez. A rendszer által a folyamat eredményeként létrehozott kivételeket és figyelmeztetéseket rögzíteni és naplózni kell.
 
-Ha az alkalmazás más külső szolgáltatások, például a webkiszolgáló vagy az adatbázis-kezelő rendszer, ezeket a szolgáltatásokat saját nyomkövetési adatokat, a naplókat, és a teljesítményszámlálók előfordulhat, hogy tegye közzé. Ilyen például az SQL Server dinamikus felügyeleti nézetek nyomon követési műveleteket hajt végre egy SQL Server-adatbázist, és IIS nyomkövetési napló rögzítéséhez a webkiszolgálónak intézett kérelmeket.
+A hibakeresés támogatása érdekében a rendszer hurkokat biztosíthat, amelyek segítségével az operátor rögzítheti a rendszer kritikus pontjainak állapotadatait. Másik megoldásként a rendszer biztosíthat információkat minden lépésről, miközben a kiválasztott műveletek zajlanak. Az ilyen részletességi szintű adatok rögzítése további terhelést jelenthet a rendszer számára, ezért ideiglenes folyamatnak kell lennie. Az operátorok főleg akkor alkalmazzák ezt a folyamatot, amikor rendkívül szokatlan események nehezen megismételhető sorozata következik be, vagy ha a rendszerben újonnan bevezetett egy vagy több elemet gondosan monitorozni kell annak biztosításához, hogy az elemek az elvárt módon működnek.
 
-A rendszer összetevőinek módosítva lett, és új verziók telepítve vannak, fontos attribútum problémák, események és metrikák minden verzióra. Ezt az információt kell kötni vissza a kiadási folyamatot, hogy egy összetevő egy adott verziójához problémákat gyorsan követni, és javítása.
+## <a name="the-monitoring-and-diagnostics-pipeline"></a>A monitorozási és diagnosztikai folyamat
+A kiterjedt, elosztott rendszerek megfigyelése meglehetősen nehéz. Az előző szakaszban leírt forgatókönyveket nem feltétlenül egymástól elkülönítve kell alkalmazni. Az egyes helyzetekhez szükséges monitorozási és diagnosztikai adatok vélhetően jelentős átfedésben lesznek, jóllehet előfordulhat, hogy az adatokat különböző módon kell feldolgozni és megjeleníteni. Ebből kifolyólag a monitorozást és a diagnosztikát holisztikus módon kell szemlélni.
 
-A rendszer biztonsági problémák bármikor fordulhatnak elő. Például egy felhasználó megkísérelhetik jelentkezzen be egy érvénytelen felhasználói azonosító vagy jelszó. Hitelesített felhasználó megpróbálja erőforrás jogosulatlan hozzáférést szerezni. Vagy a felhasználó előfordulhat, hogy adjon meg egy érvénytelen vagy elavult kulccsal a titkosított adatok eléréséhez. Mindig legyenek naplózva a sikeres és a meghibásodott kéréseket, biztonsággal kapcsolatos információkat.
+A teljes monitorozási és diagnosztikai folyamatot egy folyamatként érdemes elképzelni, amely az 1. ábrán látható szakaszokat foglalja magában.
 
-A szakasz [alkalmazás tagolása](#instrumenting-an-application) további útmutatást nyújt az irányítsa információkat. De stratégiák számos segítségével gyűjtheti össze ezeket az információkat:
+![A monitorozási és diagnosztikai folyamat szakaszai](./images/monitoring/Pipeline.png)
 
-* **A rendszer vagy alkalmazás figyelési**. Ezt a stratégiát belső források az alkalmazás, az alkalmazás-keretrendszerek számára, az operációs rendszer és az infrastruktúra belül használja. Az alkalmazás kódjának hozhat létre a saját figyelési adatok figyelmet a jelentősebb pontokat az egyik ügyfélkérelemben-életciklus során. Az alkalmazás nyomkövetési utasítások, előfordulhat, hogy szelektív engedélyezhetők és letilthatók, körülmények tartalmazhatnak. Is esetleg diagnosztika dinamikusan szúrjon egy diagnosztikai keretrendszer használatával. Ezen keretrendszerek általában adja meg a beépülő modulok nem lehet a kódban a különböző instrumentation pontok csatolja, és ezeket a pontokat nyomkövetési adatok rögzítéséhez.
+*1. ábra A monitorozási és diagnosztikai folyamat szakaszai*
+
+Az 1. ábra rámutat arra, hogy a monitorozási és diagnosztikai adatok számos különféle adatforrásból származhatnak. A rendszerállapot-megfigyelési és az adatgyűjtési szakasz feladata a rögzítendő adatok forrásainak azonosítása, a rögzítendő adatoknak, a rögzítés módjának és az adatok könnyű vizsgálhatóságot lehetővé tevő formátumának meghatározása. Az elemzés/diagnosztika szakasz a nyers adatokat felhasználva hasznos adatokat hoz létre, amelyek segítségével az operátor meghatározhatja a rendszer állapotát. Az operátor ezen információk alapján döntéseket hozhat a lehetséges intézkedésekre vonatkozóan, majd az eredményeket visszaküldheti a rendszerállapot-figyelési és az adatgyűjtési szakaszba. A megjelenítési/riasztási szakasz hasznavehető képet biztosít a rendszer állapotáról. Különféle irányítópultokon közel valós idejű információkat jeleníthet meg. Emellett jelentések, diagramok és grafikonok létrehozásával a hosszú távú trendek azonosítását segítő adatok előzménynézetét biztosíthatja. Ha az adatok azt jelzik, hogy egy KPI valószínűleg meghaladja majd az elfogadható határértékeket, ez a szakasz riasztást is küldhet az operátornak. Bizonyos esetekben a riasztással automatikus folyamat is indítható, amely korrekciós művelet, például automatikus skálázás végrehajtására tesz kísérletet.
+
+Vegye figyelembe, hogy a lépéseket egy összefüggő folyamatot alkotnak, amelyben a szakaszok egymással párhuzamosan zajlanak. Ideális esetben a szakaszok dinamikusan konfigurálhatók. Bizonyos pontokon, különösen ha a rendszer újonnan lett üzembe helyezve vagy problémákba ütközik, nagyobb gyakorisággal lehet szükség többféle adat gyűjtésére. Máskor azonban vissza kell tudni állni csak a lényeges információk alapszintű gyűjtésére a rendszer megfelelő működésének ellenőrzéséhez.
+
+Ezenfelül a teljes monitorozási folyamatot egy folyamatosan működő megoldásnak kell tekinteni, amely finomhangolásra és fejlesztésre szorul a visszajelzések alapján. Előfordulhat például, hogy induláskor esetleg rengeteg tényezőt mér a rendszer állapotának meghatározásához. Idővel az elemzés révén finomítható a működés, a nem releváns mérések elvethetők, és pontosabban összpontosíthat a valóban szükséges adatokra, miközben a háttérzaj minimalizálható.
+
+## <a name="sources-of-monitoring-and-diagnostic-data"></a>A monitorozási és diagnosztikai adatok forrásai
+A monitorozási folyamat által használt által információk számos különböző forrásból származhatnak, amint az az 1. ábrán is látható. Az alkalmazás szintjén az információk a rendszer kódjába ágyazott nyomkövetési naplókból származnak. A fejlesztőknek érdemes egy standard megközelítést alkalmazni a vezérlési folyam nyomon követésére a kódban. A metódusokba való belépéskor például kibocsátható egy nyomkövetési üzenet, amely megadja a metódus nevét, az aktuális időpontot, az egyes paraméterek értékét és minden egyéb releváns információt. A be- és kilépési idők rögzítése szintén hasznosnak bizonyulhat.
+
+Az összes kivételt és figyelmeztetést naplózni kell, és gondoskodni kell a beágyazott kivételek és figyelmeztetések teljes nyomkövetésének a megőrzéséről. Ideális esetben a kódot futtató felhasználót azonosító adatokat is rögzíteni kell, a tevékenységek korrelálására szolgáló adatokkal egyetemben (a kérések nyomon követésére, miközben áthaladnak a rendszeren). Emellett naplózni kell az erőforrások, például az üzenetsorok, adatbázisok, fájlok és egyéb függő szolgáltatások elérésére tett kísérleteket is. Ezek az információk mérési és naplózási célokra használhatók.
+
+Számos alkalmazás használ kódtárakat és keretrendszereket az általános feladatok végrehajtására, például az adattárak eléréséhez vagy a hálózaton keresztüli kommunikációhoz. Ezek a keretrendszerek konfigurálhatók saját nyomkövetési üzenetek és nyers diagnosztikai információk biztosítására, ilyen például a tranzakciók sebessége vagy az adatátvitel sikeressége és sikertelensége.
+
+> [!NOTE]
+> Számos modern keretrendszer automatikusan közzéteszi a teljesítményt és a nyomkövetési eseményeket. Ezen információk rögzítéséhez csupán eszközt kell biztosítani a lekérésükhöz, és olyan helyen kell tárolni őket, ahol feldolgozhatók és elemezhetők.
+> 
+> 
+
+Az alkalmazást futtató operációs rendszer olyan alsó szintű rendszerinformációk forrásaként szolgálhat, mint az I/O-sebességet, a memória- és a processzorhasználatot jelző teljesítményszámlálók. Az operációs rendszer hibái (például egy fájl megfelelő megnyitásának sikertelensége) szintén jelenthetők.
+
+A rendszert futtató mögöttes infrastruktúrát és összetevőket is számításba kell venni. A virtuális gépek, virtuális hálózatok és tárolószolgáltatások mind szolgálhatnak fontos, infrastruktúraszintű teljesítményszámlálók és egyéb diagnosztikai adatok forrásául.
+
+Ha az alkalmazás egyéb külső szolgáltatásokat, például webkiszolgálót vagy adatbázis-kezelési rendszert is használ, ezek a szolgáltatások saját nyomkövetési adatokat, naplókat és teljesítményszámlálókat tehetnek közzé. Ilyenek például az SQL Server dinamikus felügyeleti nézetei az SQL Server-adatbázisra irányulóan végrehajtott műveletek nyomon követésére, és az IIS nyomkövetési naplói a webkiszolgálóhoz intézett kérések rögzítésére.
+
+A rendszer összetevőinek módosításával és az újabb verziók üzembe helyezésével fontos, hogy a problémák, események és mérőszámok az egyes verziókhoz rendelhetők legyenek. Ezeket az információkat a kiadási folyamathoz kell kötni, hogy az összetevők adott verziójával kapcsolatos problémák gyorsan felderíthetők és javíthatók legyenek.
+
+Biztonsági problémák a rendszer bármelyik pontján felléphetnek. Egy felhasználó például megpróbálhat érvénytelen felhasználói azonosítóval vagy jelszóval bejelentkezni. Egy hitelesített felhasználó megpróbálhat jogosulatlan hozzáférést szerezni egy erőforráshoz. Vagy egy felhasználó megpróbálhat egy érvénytelen vagy elavult kulcsot megadni a titkosított adatok eléréséhez. A sikeres és sikertelen kérések biztonsággal kapcsolatos adatait mindig naplózni kell.
+
+A [Rendszerállapot-figyelés az alkalmazásban](#instrumenting-an-application) szakasz további útmutatást nyújt azon információkkal kapcsolatban, amelyeket rögzíteni kell. Az információk gyűjtésére azonban többféle stratégia használható:
+
+* **Alkalmazás-/rendszermonitorozás**. Ez a stratégia az alkalmazáson, alkalmazás-keretrendszereken, operációs rendszereken és infrastruktúrán belüli forrásokat használ. Az alkalmazás kódja is létrehozhat saját monitorozási adatokat az ügyfélkérések életciklusának fontosabb pontjain. Az alkalmazás nyomkövetési utasításokat is tartalmazhat, amelyek szelektíven engedélyezhetők vagy tilthatók le a körülményeknek megfelelően. Diagnosztika is beszúrható dinamikusan diagnosztikai keretrendszer használatával. Ezek a keretrendszerek általában olyan beépülő modulokat biztosítanak, amelyek a kód különböző rendszerállapot-figyelési pontjaihoz csatlakozva rögzítik a pontok nyomkövetési adatait.
   
-    Emellett a kód és/vagy az alkalmazás mögötti infrastruktúra előfordulhat, hogy indíthat eseményeket a kritikus pontokon. Figyelő, amely a ezeket az eseményeket figyelő ügynökök rögzítheti az eseményadatok.
-* **Felhasználó figyelési**. Ez a megközelítés rögzíti a felhasználó és az alkalmazás közötti interakció, és minden kérés és válasz áramló betartja. Ez az információ rendelkezhet egy kettős célja: használat mérési az összes felhasználó, és annak meghatározásához, hogy a felhasználók kapnak egy megfelelő szolgáltatásminőség (például a gyors válaszidők, az alacsony késleltetés és a minimális hibák) használható. A rögzített adatok segítségével azonosíthatja a problémás területeket. Ha hiba történik a leggyakrabban. Is használhatja az adatok azonosítására elemek ahol a rendszer lelassul, esetleg csatlakozási pontokhoz, az alkalmazás vagy a szűk keresztmetszetek más fürtözéstípussal miatt. Gondosan alkalmazza ezt a módszert használja, ha esetleg a felhasználói forgalom Hibakeresés és tesztelési célú alkalmazáson keresztül helyreállítására.
+    Emellett a kód és/vagy a mögöttes infrastruktúra is létrehozhat eseményeket a kritikus pontokon. Az események figyelésére konfigurált monitorozási ügynökök rögzíthetik az eseményadatokat.
+* **Valódi felhasználómonitorozás**. Ez a megközelítés a felhasználó és az alkalmazás közötti interakciót rögzíti, és az egyes kérések és válaszok útját figyeli. Ezek az információk két célra alkalmazhatók: az egyes felhasználók általi használat mérésére, valamint annak meghatározására, hogy a felhasználók megfelelő szolgáltatásminőséget kapnak-e (például gyors válaszidők, alacsony késés és minimális számú hiba). A rögzített adatok használatával azonosíthatók a problémás területek, ahol a hibák leggyakrabban fellépnek. Az adatok alapján azonosíthatók azok az elemek is, ahol a rendszer lelassul, vélhetően az alkalmazás forgalmas pontjai vagy a szűk keresztmetszet más formái miatt. Ha körültekintően alkalmazza ezt a megközelítést, a felhasználóknak az alkalmazásban követett útja esetleg rekonstruálható lesz hibakeresési és tesztelési célokra.
   
   > [!IMPORTANT]
-  > Érdemes lehet az adatok rögzített valós figyelés kell szigorúan bizalmas, mert a bizalmas adatokat tartalmazhat. Ha a rögzített adatok menti, tárolja biztonságos helyen. Ha szeretné használni az adatok a teljesítmény figyelése, vagy a hibakeresési célra, sáv minden személyes azonosításra alkalmas adatok először.
+  > A valódi felhasználók monitorozásával rögzített adatokat rendkívül kényes adatként kell kezelni, mivel bizalmas információkat is tartalmazhatnak. Ha menti a rögzített adatokat, biztonságosan tárolja azokat. Ha az adatokat a teljesítmény monitorázáshoz vagy hibakereséshez szeretné használni, először távolítsa el a személyes azonosításra alkalmas adatok mindegyikét.
   > 
   > 
-* **Szintetikus felhasználói figyelése**. Ez a megközelítés a saját teszt ügyfél, amely a felhasználó szimulál és a hajtja végre műveletek konfigurálható, de általában több írható. A teljesítmény a teszt ügyfél annak meghatározásához, a rendszer állapotának nyomon követheti. Hogyan reagál a rendszer a magas terhelés alatt, és milyen rendezési kimeneti figyelést akkor jön létre, ilyen körülmények létrehozásához egy terhelés-tesztelési művelet részeként is használhatók a teszt ügyfél több példányát.
+* **Szintetikus felhasználómonitorozás**. Ebben a megközelítésben saját tesztügyfelet ír, amely szimulálja a felhasználókat, és egy konfigurálható, de általános műveletsort hajt végre. A tesztügyfél teljesítményének nyomon követésével meghatározhatja a rendszer állapotát. A tesztügyfél több példányát egy terheléstesztelési művelet részeként használva megállapítható, hogyan reagál a rendszer a magas terhelés alatt, és milyen monitorozási adatok keletkeznek ilyen körülmények közt.
   
   > [!NOTE]
-  > A figyelés valós és szintetikus felhasználói beleértve, követi, és időpontokat metódushívások és más kritikus kérelem végrehajtása is létrehozható.
+  > A valódi és szintetikus felhasználómonitorozás olyan kód alkalmazásával valósítható meg, amely a metódushívásokat és az alkalmazás egyéb kritikus részeit követi nyomon és látja el időadatokkal.
   > 
   > 
-* **Profilkészítési**. Ez a megközelítés elsősorban azoknak a figyelési és az alkalmazások teljesítményének javítása. Ahelyett, hogy valós és szintetikus felhasználói figyelési működési szinten működik, az alkalmazás fut alacsonyabb szintű információkat rögzíti. Profilkészítési rendszeres mintavételi a végrehajtási állapot egy alkalmazás (mely kódrészletek, amelyek az alkalmazás fut egy időben meghatározására) használatával is létrehozható. Is használhatja a instrumentation mintavételt szúr be a kódot fontos junctures (például a kezdő és záró metódushívások), és milyen módszerek indították, milyen időpontban, és mennyi ideig tartott minden hívás rögzíti. Ezek az adatok meghatározásához az alkalmazás mely részei teljesítményproblémákat okozhat majd elemezheti.
-* **Végpontmonitoring kijelző**. Ez a módszer egy vagy több diagnosztikai végpontot, amely kifejezetten a figyelés bekapcsolható az mutatja az alkalmazás használja. A végpont végzett információküldéshez biztosít az alkalmazás kódjának a, és visszatérhet a rendszer állapotával kapcsolatos információkat. Különböző végpontok különböző szempontjairól a funkciók összpontosíthat. A saját diagnosztika ügyfél által küldött kérések végpontokkal való írása, és a válaszok beolvaszt. További információkért lásd: a [állapotfigyelő végpont figyelési mintát](../patterns/health-endpoint-monitoring.md).
+* **Profilkészítés**. Ez a megközelítés elsősorban az alkalmazásteljesítmény monitorozását és javítását célozza. Ahelyett, hogy a valódi és szintetikus felhasználómonitorozás funkcionális szintjén működne, alacsonyabb szintű információkat rögzít az alkalmazás futása során. A profilkészítés az alkalmazások végrehajtási állapotának rendszeres mintavételezésével (az alkalmazás által az adott pillanatban futtatott kódrészlet meghatározásával) valósítható meg. Olyan rendszerállapot-figyelést is alkalmazhat, amely mintavételezőket szúr be a kód kritikus elágazásain (például a metódushívások indításánál és befejezésénél), és rögzíti, hogy mely metódusok lettek meghívva, mikor, és mennyi ideig tartottak az egyes hívások. Az adatok elemzésével aztán meghatározható, hogy az alkalmazás mely részei okozhatnak teljesítményproblémákat.
+* **Végpont-monitorozás**. Ez a módszer egy vagy több diagnosztikai végpontot alkalmaz, amelyeket az alkalmazás kifejezetten a monitorozás lehető tétele céljából tesz elérhetővé. A végpontok egy utat biztosítanak az alkalmazás kódjába, és információkat adhatnak vissza a rendszer állapotával kapcsolatban. Különböző végpontok a működés különböző aspektusaira fókuszálhatnak. Írhat saját diagnosztikai ügyfelet, amely rendszeresen kéréseket küld ezekre a végpontokra, és feldolgozza a válaszokat. További információért lásd az [állapot végponti monitorozását végző mintát](../patterns/health-endpoint-monitoring.md).
 
-Maximális érvényességének ezek a technológiák kombinációját kell használnia.
+A maximális lefedettség érdekében érdemes ezeknek a módszereknek valamilyen kombinációját alkalmaznia.
 
 <a name="instrumenting-an-application"></a>
 
-## <a name="instrumenting-an-application"></a>Egy alkalmazás tagolása
-Instrumentation egy a megfigyelési folyamat kritikus részét képezi. Döntéseket lehet jelentéssel bíró teljesítményéről és a rendszer állapotát, csak akkor, ha először rögzíteni az adatokat, amely lehetővé teszi, hogy ezek a döntések. Gyűjtse össze a instrumentation használatával információkat elegendő ahhoz, hogy a teljesítmény értékeléséhez, problémák diagnosztizálásához és anélkül, hogy jelentkezzen be egy távoli az üzemi kiszolgáló nyomkövetési (és a hibakereséshez) végrehajtásához döntéseket kell manuálisan. WMI-adatok általában a metrikák és a nyomkövetési naplók írt információkat tartalmazza.
+## <a name="instrumenting-an-application"></a>Rendszerállapot-figyelés az alkalmazásban
+A rendszerállapot-figyelés a monitorozási folyamat kritikus részét képezi. A rendszer teljesítményével és állapotával kapcsolatban csak úgy hozhat megalapozott döntéseket, ha előbb rögzíti azokat az adatokat, amelyek lehetővé teszik ezen döntések meghozatalát. A rendszerállapot-figyelés segítségével gyűjtött információknak elegendőnek kell lenniük a teljesítmény értékeléséhez, a problémák diagnosztizálásához és a döntések meghozatalához anélkül, hogy be kellene jelentkezni egy távoli éles kiszolgálóra a nyomkövetés (és a hibakeresés) manuális végrehajtásához. A rendszerállapot-adatok általában mérőszámokból és a nyomkövetési naplókba írt információkból állnak.
 
-A nyomkövetési napló tartalmát lehet az alkalmazás által írt adatok szöveges vagy bináris adatok jön létre egy nyomkövetési esemény eredményét (ha az alkalmazás által használt Windows esemény-nyomkövetése--ETW) eredményét. Akkor is létrehozhatók, a rendszer naplóit, amely az infrastruktúra, például webkiszolgálót részeibe származó események. Szöveges napló üzenetek gyakran kell emberek számára olvasható, de a azok is, amely lehetővé teszi az automatikus rendszer könnyen értelmezhető őket formátumban kell írni.
+A nyomkövetési napló tartalmát képezhetik az alkalmazás által írt szöveges adatok vagy a nyomkövetési események eredményeként keletkező bináris adatok (ha az alkalmazás Windows esemény-nyomkövetést (ETW) alkalmaz). Ezeket az adatokat az infrastruktúra részein, például a webkiszolgálón létrejövő eseményeket rögzítő rendszernaplók is létrehozhatják. A szöveges naplóüzenetek gyakran a felhasználók számára olvashatók, azonban olyan formátumban kell írni őket, amely lehetővé teszi az egyszerű elemzésüket is az automatikus rendszerek számára.
 
-Naplók kategorizálja meg. Nem minden nyomkövetési adatok írása az egyetlen naplót, de külön naplók segítségével jegyezze fel a rendszer különböző működési szempontjait nyomkövetési kimenetét. Majd gyorsan naplóüzenetek szerint szűrheti a megfelelő naplót olvasásakor ahelyett, hogy egyetlen hosszadalmas fájlba feldolgozásához. Soha nem írási információt, amely különböző biztonsági követelményeket (például naplózási információk és adatok hibakeresés) rendelkezik, a naplóhoz.
+A naplókat kategorizálni is kell. Ne írjon minden nyomkövetési adatot ugyanabba a naplóba, hanem külön naplókba rögzítse a rendszer különböző működési területeinek nyomkövetési eredményeit. Így gyorsan szűrheti majd a naplóüzeneteket, ha azokat a megfelelő naplóból olvassa be, és nem egyetlen hosszú fájlt kell feldolgoznia. Ne írjon különböző biztonsági követelményekkel rendelkező információt (például naplózási információkat és hibakeresési adatokat) ugyanazon naplóba.
 
 > [!NOTE]
-> A napló is elegendő lehet a fájlrendszerben fájlként, vagy előfordulhat, hogy tárolható néhány más formátumban, például blob Storage tárolóban lévő blob. Naplóadatok is tárolható előfordulhat, hogy több strukturált tárhelyen, például egy tábla sorainak.
+> A napló lehet egy fájl a fájlrendszerben, vagy menthető más formátumba is, például blobként a Blob Storage-tárolóban. A naplóadatok tárolhatók strukturáltabb módon is, például egy tábla soraiként.
 > 
 > 
 
-Metrikák általában lesz mérték vagy száma néhány szempontja vagy az erőforrás a rendszerben meghatározott időben, egy vagy több hozzárendelt címkék vagy a dimenziók (más néven a *minta*). Egyetlen példány futhat egy metrika nem általában akkor hasznos, elkülönítve. Ehelyett a metrikák van időbeli rögzíthetők. Figyelembe kell venni a kulccsal kapcsolatos probléma, mely metrikák rögzíteni kell, és hogy milyen gyakran. Adatok metrikáihoz túl gyakran létrehozása adhat a rendszer jelentős további terhelése, mivel rögzítésével metrikák ritkán okozza, amelyeken a esetekben jelentős esemény történt, hogy vezethet. A szempontok metrika metrika függ. Például egy kiszolgálón CPU-felhasználás előfordulhat, hogy jelentős eltérések lehetnek a másodikból másik, de magas kihasználtsága válik a problémát, csak ha hosszú élettartamú a perc alatt.
+A mérőszámok általában a rendszer egy adott aspektusára vagy erőforrására és egy adott időpontra vonatkozó mérések vagy darabszámok, amelyek egy vagy több hozzárendelt címkével vagy dimenzióval rendelkeznek (ezeket néha *mintának* is szokás nevezni). A mérőszámok egyes példányai önmagukban általában nem használhatók, hanem hosszabb időtartamra vonatkozóan kell rögzíteni őket. A legfontosabb azt figyelembe venni, hogy pontosan mely mérőszámokat és milyen gyakorisággal kell rögzíteni. A mérőszámadatok túl gyakori gyűjtése jelentős további terhelést jelent a rendszer számára, míg a túl ritka gyűjtés esetén lemaradhat az egyes jelentős események keletkezését okozó körülményekről. A szempontok mérőszámonként eltérőek lehetnek. A processzorhasználat egy kiszolgálón például egyik másodpercről a másikra változhat, de a magas kihasználtság csak akkor válik problémává, ha hosszan, több percen keresztül tart.
 
 <a name="information-for-correlating-data"></a>
 
-### <a name="information-for-correlating-data"></a>Információk adatok használatával történik
-Könnyen egyes rendszerszintű teljesítményszámlálók figyelése, metrikák erőforrások rögzítése és alkalmazás nyomkövetési adatok lekérését a különböző naplófájlokat. De bizonyos űrlapok figyelési igényelnek a figyelési folyamat összefüggéseket a több forrásból beolvasott adatok elemzése és diagnosztikai szakasza. Ezeket az adatokat több űrlap tarthat a nyers adatok, és a folyamat biztosítani kell tennie képezi le különböző űrlapok megfelelő WMI-adatok. Például az alkalmazás-keretrendszer szintjén feladat lehet, hogy azonosítható, ha egy szálat. Az alkalmazáson belül ugyanaz a munkahelyi hozzárendelve a felhasználóhoz, aki ezt a feladatot hajt végre a felhasználói azonosító lehet.
+### <a name="information-for-correlating-data"></a>Információk az adatok korrelálásához
+Egyszerűen monitorozhatja az egyes rendszerszintű teljesítményszámlálókat, rögzítheti az erőforrások mérőszámait, és szerezhet be alkalmazás-nyomkövetési információkat a különböző naplófájlokból. A monitorozás bizonyos formái esetén azonban szükség van egy elemzési és diagnosztikai szakaszra a monitorozási folyamatban a különféle forrásokból származó adatok korrelálásához. Ezek az adatok különféle formákat ölthetnek a nyers adatokban, és az elemzési folyamatot el kell látni megfelelő mennyiségű rendszerállapot-adattal, hogy képes legyen leképezni ezeket a különféle formákat. Tegyük fel például, hogy az alkalmazás-keretrendszer szintjén az egyes feladatokat egy szálazonosító azonosítja. Az alkalmazáson belül ugyanazon feladat az azt végrehajtó felhasználó felhasználói azonosítójához társítható.
 
-Is hogy nem valószínű, hogy lehet, hogy egy 1:1 leképezési szálak és a felhasználói kérelmek közötti aszinkron műveletek előfordulhat, hogy ismét felhasználni, az azonos szálak egynél több felhasználó nevében műveletek végrehajtásához. A fontos információk nehezíti további, egyetlen kérelem előfordulhat, hogy kell kezelnie egynél több szál rendszeren keresztül végrehajtási flow-ként. Ha lehetséges egyes kérelmek társítani egy egyedi tevékenység azonosítója, amely segítségével a rendszer a kérés környezete részeként propagálja. (A technika, és a nyomkövetési adatokat is beleértve tevékenység azonosítók függ a nyomkövetési adatok rögzítésére szolgáló technológia.)
+Emellett nem is valószínű, hogy 1:1 leképezés hozható létre a szálak és a felhasználói kérések között, mivel az aszinkron műveletek ugyanannak a szálnak a használatával több felhasználó nevében is végezhetnek műveleteket. A dolgot tovább bonyolítja, hogy egyetlen kérést több szál is kezelhet, ahogy a végrehajtás végighalad a rendszeren. Amennyiben lehetséges, az egyes kérésekhez egy egyedi tevékenységazonosítót társítson, amelyet a végrehajtás propagál a rendszeren a kérés környezetének részeként. (A tevékenységazonosítóknak létrehozásának és nyomkövetési adatokba való foglalásának módszere a nyomkövetési adatok rögzítésére szolgáló technológiától függ.)
 
-Összes figyelési adatot időbélyeggel ellátott ugyanúgy kell lennie. Konzisztencia jegyezze fel a összes dátum és idő egyezményes világidő használatával. Ez segítséget nyújt könnyebben nyomkövetési események sorozatát.
+Minden monitorozási adatot ugyanúgy kell időbélyeggel ellátni. A konzisztencia érdekében minden dátumot és időpontot az egyezményes világidő (UTC) használatával rögzítsen. Ez megkönnyíti az eseménysorozatok nyomon követését.
 
 > [!NOTE]
-> Előfordulhat, hogy a különböző időzónák és hálózatok működő számítógépek nem lesznek szinkronizálva. Nem attól függ, hogy kizárólag időbélyegeket használja több számítógép is WMI-adatok használatával történik.
+> Előfordulhat, hogy a különböző időzónákban és hálózatokon működő számítógépek nincsenek szinkronizálva. Ne támaszkodjon kizárólag az időbélyegekre a több számítógépet is érintő rendszerállapot-adatok korrelálásához.
 > 
 > 
 
-### <a name="information-to-include-in-the-instrumentation-data"></a>A WMI-adatok foglalandó adatok
-Amikor eldönti, hogy mely WMI-adatok gyűjtésére, vegye figyelembe a következő szempontokat:
+### <a name="information-to-include-in-the-instrumentation-data"></a>A rendszerállapot-adatokba foglalandó információk
+Amikor mérlegeli, hogy milyen információkat kell gyűjtenie, vegye figyelembe az alábbi szempontokat:
 
-* Ellenőrizze, hogy a nyomkövetési események által rögzített adatokat gép és a HR-részleg olvasható. Ezeket az adatokat, lehetővé teszi a naplóadatok automatizált feldolgozási rendszerek között, és a műveletek és a naplók beolvasásakor személyzet mérnöki konzisztencia biztosításához jól meghatározott sémák fogad el. Környezeti adatokat tartalmaznak, például a telepítési környezet, a gép, amelyen a folyamat fut, a folyamat, és a hívási verem részleteit.  
-* Adatgyűjtés csak szükség esetén, mert akkor adhat meg a rendszer jelentős terhelésének engedélyezése. Profilkészítési instrumentation használatával rögzíti (például egy metódushívás) esemény minden alkalommal következik be, mivel mintavételi rekordok csak a kijelölt eseményeket. A kijelölés időalapú lehet (miután minden  *n*  másodperc), vagy gyakoriság-alapú (után minden  *n*  kérelmek). Események nagyon gyakran fordul elő, ha által instrumentation profilkészítési előfordulhat, hogy túl sok terhet és okozhat maga általános teljesítményét. Ebben az esetben a mintavétel módszer előnyösebb lehet. Azonban ha az események gyakorisága alacsony, mintavételi előfordulhat, hogy teljesíti az őket. Ebben az esetben a instrumentation jobb megközelítés lehet.
-* Adjon meg egy fejlesztői vagy a rendszergazda az összes kérelem forrásának megfelelő környezet. Ebbe beletartozhatnak valamilyen tevékenység azonosítója, amely azonosítja a kérelmet egy adott példányához. Ezt a tevékenységet a számítási végzett munka, és a használt erőforrások összefüggéseket használható információkat is tartalmazhat. Vegye figyelembe, hogy előfordulhat, hogy ez a munkahelyi kereszt-folyamat, illetve a számítógép határokat. Mérés, a környezet is tartalmaznia kell (közvetlenül vagy közvetve keresztül más korrelált információk) ügyfél számára, hogy a kérelem elvégzendő mutató hivatkozás. Ebben a kontextusban az alkalmazás állapotára vonatkozó figyelési adatokat rögzítésének időben értékes információkat biztosít.
-* Rögzítse az összes kérelmet, és a helyek vagy régiókban, amelyből a kérések száma. Ez az információ segít a meghatározása, hogy vannak-e bármilyen helyspecifikus csatlakozási pontokhoz. Ez az információ is hasznos lehet meghatározni, hogy e particionálni egy alkalmazás vagy az azt használó adatokat.
-* Jegyezze fel, és gondosan rögzítése a kivételek részletei. Gyakran kritikus hibakeresési információ elvész gyenge kivétel miatt. A kivételek fellépése, amelyek az alkalmazás jelez, beleértve a belső kivételek és más környezeti teljes körű információkat rögzíti. Ha lehetséges közé tartozik a hívási verem.
-* Lehet, az adatok, amelyek mérik a különböző elemekhez, az alkalmazás, egységes Ez segít a események elemzésével, és azokat a felhasználói kérelmek adatok. Fontolja meg egy átfogó és konfigurálható naplózása csomag használata összegyűjteni ahelyett, hogy a fejlesztők számára, hogy elfogadják a megközelítési valósítják meg a rendszer különböző részei függően. Adatokat gyűjt a kulcsfontosságú teljesítményszámlálókról, például a kötet i/o végrehajtás alatt álló hálózathasználat, kéréseket, a memória használata, és a CPU-felhasználás száma. Néhány infrastruktúra-szolgáltatásokat nyújthatnak a saját specifikus számlálókat, például az adatbázis, a sebesség, amellyel tranzakciók történik, és sikeres vagy sikertelen tranzakciók száma kapcsolatok száma. Alkalmazások is definiálhat a saját egyes teljesítményszámlálókat.
-* Külső szolgáltatások, például az adatbázis-rendszerek, webszolgáltatások vagy egyéb rendszerszintű szolgáltatások, az infrastruktúra részét képező összes hívások naplózása. Jegyezze fel minden hívás végrehajtásához szükséges idő kapcsolatos információkat és a sikeres, vagy a a hívás sikertelen. Ha lehetséges az összes alkalmazás adatai rögzítési újrapróbálkozások és bármely átmeneti hibák esetén fellépő hibák.
+* Gondoskodjon róla, hogy a nyomkövetési események által rögzített információk gépi és emberi olvasásra egyaránt alkalmasak legyenek. Alkalmazzon jól meghatározott sémákat az ilyen információkhoz, hogy megkönnyítse a naplóadatok automatizált feldolgozását a különféle rendszereken, valamint hogy biztosítsa a konzisztenciát a naplókat használó üzemeltetési és fejlesztési személyzet számára. Az információkat egészítse ki környezeti adatokkal, például a telepítési környezetre, a folyamatot futtató gépre, a folyamat részleteire és a hívási veremre vonatkozó adatokkal.  
+* A profilkészítést csak abban az esetben engedélyezze, ha valóban szükséges, mivel jelentős többletterhelésnek teheti ki a rendszert. A rendszerállapot-adatokat használó profilkészítés minden egyes alkalommal rögzíti az eseményeket (például a metódushívásokat) azok előfordulásakor, míg a mintavételezés csak a kiválasztott eseményeket rögzíti. A kijelölt lehet időalapú (után minden *n* másodperc), vagy gyakorisága-alapú (miután minden *n* kérések). Ha túl gyakran történnek események, a rendszerállapot-adatokat használó profilkészítés túl nagy terhet jelenthet, és negatív hatással lehet az általános teljesítményre. Ebben az esetben a mintavételezéses módszer használata előnyösebb lehet. Ha azonban az események gyakorisága alacsony, előfordulhat, hogy a mintavételezés lemarad róluk. Ebben az esetben a rendszerállapot-figyelés bizonyulhat a hatékonyabb megközelítésnek.
+* Biztosítson elegendő kontextust, amely alapján a fejlesztők és rendszergazdák megállapíthatják az egyes kérések forrását. A kontextus tartalmazhat például valamilyen tevékenységazonosítót, amely azonosítja a kérés egy adott példányát. Emellett tartalmazhat olyan információkat is, amelyek használatával a tevékenység korrelálható az elvégzett számítási munkával és a használt erőforrásokkal. Vegye figyelembe, hogy a munka esetleg túlnyúlik a folyamatok és a gépek határain. Mérés esetén a kontextusnak tartalmaznia kell (közvetlenül vagy más korrelált információkon keresztül közvetve) a kérés létrehozását kiváltó felhasználóra vonatkozó hivatkozást is. A kontextus értékes információkat biztosít az alkalmazásnak a monitorozási adatok rögzítésének időpontjában érvényes állapotára vonatkozóan.
+* Minden kérést rögzíteni kell, a kérések kezdeményezésének helyével vagy régiójával együtt. Ezen információk segíthetnek annak meghatározásában, hogy vannak-e helyspecifikus kritikus pontok a rendszerben. Az információk hasznosak lehetnek annak meghatározásához is, hogy érdemes-e az alkalmazást vagy az általa használt adatokat újraparticionálni.
+* A kivételek adatait szintén gondosan rögzíteni kell. A kritikus fontosságú hibakeresési információk gyakran elvesznek a kivételek nem megfelelő kezelésének eredményeként. Az alkalmazás által jelentett kivételek minden adatát rögzíteni kell, beleértve a belső kivételekre vonatkozó és az egyéb környezeti információkat is. Ha lehetséges, a hívási vermet is rögzíteni kell.
+* Az alkalmazás különböző elemei által rögzített adatoknak konzisztensnek kell lenniük, ez ugyanis segíthet az események elemzésében, és azoknak a felhasználói kérésekkel való korrelálásában. Vegye fontolóra egy átfogó és konfigurálható naplózási csomag alkalmazását az információk gyűjtésére, és inkább nem számítson arra, hogy a fejlesztők ugyanazt a megközelítést alkalmazzák majd a rendszer különböző részeinek megvalósítása során. Gyűjtse a kulcsfontosságú teljesítményszámlálók adatait, például a végrehajtott I/O-műveletek mennyiségét, a hálózathasználatot, a kérések számát, a memóriahasználatot és a processzorhasználatot. Egyes infrastruktúraszolgáltatások saját teljesítményszámlálókat is biztosíthatnak, például az adatbázisokkal létesített kapcsolatok számát, a tranzakciók végrehajtási sebességét, valamint a sikeres vagy sikertelen tranzakciók számát. Emellett az alkalmazások is meghatározhatnak saját teljesítményszámlálókat.
+* Naplózza a külső szolgáltatásokra, például adatbázisrendszerekre, webszolgáltatásokra vagy az infrastruktúra részét képező egyéb rendszerszintű szolgáltatásokra irányuló összes hívást. Rögzítse az egyes hívások végrehajtásához szükséges időkkel, valamint a hívások sikerességével vagy sikertelenségével kapcsolatos információkat is. Amennyiben lehetséges, rögzítse az összes újrapróbálkozási kísérletet és hibát is az előforduló átmeneti hibák esetén.
 
-### <a name="ensuring-compatibility-with-telemetry-systems"></a>Telemetria rendszerekkel való kompatibilitás biztosítása
-Sok esetben az információt, amely instrumentation generált események sorozataként és elemzések egy külön telemetriai rendszerre átadva. A telemetriai adatok rendszer általában független bármely adott alkalmazás vagy topológia, de azt várja, amely általában egy séma határozza meg az adott formátumú adatokat. A hatékony sémában, amely meghatározza az adatok és a típusokat, amelyek a telemetriai adatok rendszer fogadására képes szerződés. A séma platformokon és eszközökön számos érkező adatok lehetővé kell általánosítva.
+### <a name="ensuring-compatibility-with-telemetry-systems"></a>A telemetriarendszerekkel való kompatibilitás biztosítása
+Sok esetben a rendszerállapot-figyelés által létrehozott információk események sorozataként jönnek létre, amelyeket egy telemetriarendszer vesz át feldolgozásra és elemzésre. A telemetriarendszerek általában mindenféle alkalmazástól vagy topológiától függetlenek, de elvárják, hogy az információk egy specifikus, általában valamilyen séma alapján meghatározott formátumot kövessenek. A séma lényegében egy megállapodást jelent, amely meghatározza azon adatmezőket és -típusokat, amelyeket a telemetriarendszer fogadni képes. A sémát érdemes általánosítani, hogy a különféle platformokról és eszközökről érkező adatok mindegyikét kezelni tudja.
 
-A közös séma tartalmaznia kell mezőket vonatkozó összes instrumentation esemény, például az esemény nevét, az esemény időpontja, a küldő és a részletek szükséges adatok (például a felhasználói azonosító Eszközazonosítót az eseményeket az IP-címe és az Alkalmazásazonosító). Ne feledje, hogy lévő eszközök események, előfordulhat, hogy ablakába, ezért a séma nem kell az eszköz-típustól függnek. Emellett a különböző eszközök előfordulhat, hogy előléptetése események ugyanahhoz az alkalmazáshoz; az alkalmazása által támogatott központi vagy egyéb formája kereszt-eszköz.
+Az általános sémának tartalmaznia kell az összes rendszerállapot-figyelési eseményben megtalálható lévő mezőket, például az esemény nevét, az esemény időpontját, a küldő IP-címét, valamint a más eseményekkel való korreláláshoz szükséges adatokat (például a felhasználóazonosítót, eszközazonosítót és alkalmazásazonosítót). Ne feledje, hogy a legkülönfélébb eszközök hozhatnak létre eseményeket, ezért a sémának nem szabad függenie az eszköztípustól. Emellett a különböző eszközök ugyanarra az alkalmazásra vonatkozó eseményeket hozhatnak létre, ezért az alkalmazásnak támogatnia kell a barangolást vagy a különböző eszközök közötti terjesztés valamilyen más formáját.
 
-A séma, amely kapcsolódik a különböző alkalmazások által közösen használt adott célra tartomány mezők is tartalmazhatja. Ez az információ a kivételek, alkalmazás kezdő és záró eseményeket, és a sikeres és/vagy webszolgáltatás API-hívás sikertelen lehet. Minden alkalmazás, amely ugyanazokat a tartomány mezők használni kell hozható létre olyan események, közös jelentések és elemzés kialakítani engedélyezése.
+A séma tartalmazhat tartományi mezőket is, amelyek a különböző alkalmazásokban közös forgatókönyvre jellemzők. A mezők tartalmazhatnak a kivételekkel, az alkalmazásindítási és -bezárási eseményekkel, valamint a webszolgáltatás API-hívásainak sikerével és/vagy sikertelenségével kapcsolatos információk. Az ugyanazon tartományi mezőket használó alkalmazások mindegyikének ugyanazokat az eseményeket kell kibocsátania, ami lehetővé teszi a közös jelentések és elemzések létrehozását.
 
-Végül a séma tartalmazhat egyéni mezők rögzítésének alkalmazásspecifikus események részletes adatait.
+Végül a séma tartalmazhat egyéni mezőket is az alkalmazásspecifikus események adatainak a rögzítéséhez.
 
-### <a name="best-practices-for-instrumenting-applications"></a>Alkalmazások tagolása ajánlott eljárásai
-Az alábbi lista a felhőben futó elosztott alkalmazások tagolása ajánlott eljárásai foglalja össze.
+### <a name="best-practices-for-instrumenting-applications"></a>Ajánlott eljárások az alkalmazásokban zajló rendszerállapot-figyeléshez
+Az alábbi lista a felhőben futó elosztott alkalmazás rendszerállapot-figyelésére vonatkozó ajánlott eljárásokat foglalja össze.
 
-* Ne naplók könnyen olvasható és könnyen értelmezhető. Használjon strukturált naplózás, ahol csak lehetséges. Rövid és informatív üzeneteket a lehet.
-* Összes napló a forrás azonosítása, és adja meg és az információk, mivel a rendszer minden naplóbejegyzés ír.
-* Időzóna és a formátum használata minden időbélyegeket. Ez segít a hardver és a különböző földrajzi régióban futó szolgáltatások műveletek események összefüggéseket.
-* A megfelelő naplófájlba írásakor és kategorizálása a naplók.
-* Nem fedjük fel a rendszer bizalmas adatait vagy a felhasználók személyes információt. Megtisztítás ezt az információt, mielőtt jelentkezett, de győződjön meg arról, hogy megőrzi a vonatkozó adatokat. Például az azonosító és jelszó eltávolítása minden adatbázis-kapcsolati karakterláncok, de a naplóba bejegyezni további adatait, hogy valamelyik elemzőnek megállapíthatja, hogy a rendszer fér hozzá a megfelelő adatbázishoz. Minden kritikus kivételeket, de a rendszergazdája számára, kapcsolja be a naplózást be- és kikapcsolását kivételeket és figyelmeztetések alacsonyabb szinteken. Emellett rögzítheti és újrapróbálkozási logika kapcsolatos összes információ. Ezeket az adatokat a rendszer átmeneti állapotának figyelése a hasznos lehet.
-* Nyomkövetés kívüli folyamat indított, például külső webszolgáltatások és adatbázisok kérelmek.
-* Naplóüzenetek ne keverje különböző biztonsági követelmények a azonos naplófájlban. Például nem írható hibakeresési és naplózási azonos naplózandó információk.
-* Kivételével kapcsolatos naplózási eseményeket, ellenőrizze, hogy az összes naplózási hívás tűz-és-elfelejti műveleteket, amelyek nem blokkolják az üzleti tevékenységre előrehaladását. Naplózási eseményeket olyan kivételes, mivel az üzleti szempontból kulcsfontosságúként, illetve az üzleti tevékenységre alapvető részeként besorolhatók.
-* Győződjön meg arról, hogy naplózási bővíthető, és nem rendelkezik konkrét, meghatározott cél bármely közvetlen függőség tartozhat. Például ahelyett, hogy adatok írásakor használatával *System.Diagnostics.Trace*, absztrakt illesztőfelület határozza meg (például *ILogger*), amely elérhetővé teszi a naplózási módszerek és, amelyek segítségével kell végrehajtani megfelelő módon.
-* Győződjön meg arról, hogy az összes naplózási hibamentes-e, és soha nem elindítja az egymásra épülő hibáit. Naplózás nem kell throw kivételek.
-* Folyamatban lévő iteratív folyamat instrumentation tekinti, és nem csak akkor, ha a probléma rendszeresen, ellenőrizze a naplókat.
+* A naplók legyenek könnyen olvashatók és elemezhetők. Alkalmazzon strukturált naplózást, ahol lehetséges. A naplóüzenetek legyenek tömörek és leíró jellegűek.
+* Minden naplóban azonosítsa a forrást, és biztosítson környezeti és időadatokat az egyes bejegyzések írásakor.
+* Használja ugyanazt az időzónát és formátumot minden időbélyeghez. Így könnyebben korrelálhatja az olyan műveletek eseményeit, amelyek különböző régiókban futó hardvereken és szolgáltatásokon futnak.
+* Kategorizálja a naplókat, és írja az üzeneteket a megfelelő naplófájlba.
+* Ne tegye közzé a rendszerrel kapcsolatos bizalmas adatokat és a felhasználók személyes adatait. A naplózás előtt tisztítsa meg az adatokat ezektől az információktól, azonban a releváns részleteket mindenképpen őrizze meg. Törölje például az azonosítót és a jelszót minden adatbázis-kapcsolati sztringből, a megmaradt információkat azonban írja a naplóba, így az elemzők megállapíthatják, hogy a rendszer a megfelelő adatbázist éri-e el. Naplózza az összes kritikus kivételt, azonban tegye lehetővé a rendszergazda számára a naplózás be-/kikapcsolását az alacsonyabb szintű kivételek és figyelmeztetések esetén. Rögzítse és naplózza az újrapróbálkozási logikával kapcsolatos összes információt is. Ezek az adatok hasznosnak bizonyulhatnak a rendszer átmeneti állapotának a monitorozása során.
+* Kövesse a folyamatokon kívülre indított hívásokat, például a külső webszolgáltatásokra és adatbázisokra irányuló kéréseket.
+* Ne keverje a különböző biztonsági szintű naplóüzeneteket ugyanabban a naplófájlban. Ne írja például a hibakeresési és a naplózási információkat ugyanabba a naplófájlba.
+* A naplózási eseményeket kivéve, gondoskodjon róla, hogy az összes naplóhívás egyszeri művelet legyen, amely nem gátolja az üzleti tevékenységek végrehajtását. A naplózási események azért kivételesek, mivel üzleti szempontból kulcsfontosságúak, és az üzleti tevékenységek alapvető részének tekinthetők.
+* Gondoskodjon róla, hogy a naplózás bővíthető legyen, és ne függjön közvetlenül semmilyen konkrét céltól. Például ahelyett, hogy a *System.Diagnostics.Trace* használatával írná az adatokat, definiáljon egy absztrakt felületet (például *ILogger*), amely naplózási metódusokat tesz elérhetővé, és amely bármilyen megfelelő módszerrel megvalósítható.
+* Gondoskodjon róla, hogy a naplózás hibamentes legyen, és ne váltson ki sorozatosan egymásra épülő hibákat. A naplózásnak nem szabad kivételeket jelentenie.
+* A rendszerállapot-figyelést egy folyamatosan zajló, iteratív folyamatként kell kezelni, és a naplókat rendszeresen át kell tekinteni, nem csupán probléma esetén.
 
-## <a name="collecting-and-storing-data"></a>Összegyűjtése és adatok tárolása
-A megfigyelési folyamat gyűjtemény szakasza foglalkozik, amely instrumentation hoz létre, a könnyebb felhasználásához az elemzés/elemzés céljából. szakaszra vonatkozóan, és az átalakított adatok mentése megbízható tárolt adatok formázása adatainak lekérése során. A WMI-adatok, amelyek gyűjtse össze egy elosztott rendszer különböző részei a különböző helyek és a különböző formátumokban is tárolható. Például az alkalmazás kódjában előfordulhat, hogy nyomkövetési naplófájlok készítése és készítése alkalmazás eseménynapló-adatokat, mivel más technológiák útján rögzíthetők teljesítményszámlálót mutat be, figyelheti a kulcsfontosságú elemeit annak az infrastruktúra, amely az alkalmazás használja. Bármely külső összetevőkkel és szolgáltatásokkal, hogy az alkalmazás által használt nyújthatnak rendszerállapottal kapcsolatos információkat a különböző formátumokban külön nyomkövetési fájlok, a blob-tároló, vagy még akkor is egyéni adattárat.
+## <a name="collecting-and-storing-data"></a>Az adatok gyűjtése és tárolása
+A monitorozási folyamat adatgyűjtési szakaszának feladata a rendszerállapot-figyelés során létrehozott információk lekérése, az adatok formázása az elemzési/diagnosztikai szakaszban történő könnyebb feldolgozás céljából, valamint az átalakított adatok mentése egy megbízható tárolóba. Az elosztott rendszerek különböző részeiből gyűjtött rendszerállapot-adatok különféle helyeken és különböző formátumokban tárolhatók. Az alkalmazás kódja például nyomkövetési naplófájlokat és az alkalmazáseseményekhez kapcsolódó naplóadatokat hozhat elő, míg az alkalmazás által használt infrastruktúra kritikus pontjait monitorozó teljesítményszámlálók más technológiákkal rögzíthetők. Az alkalmazás által használt külső összetevők és szolgáltatások eltérő formátumokban biztosíthatják a rendszerállapot-adatokat külön profilelemzési fájlok, blobtárolók vagy akár egyéni adattárak használatával.
 
-Adatgyűjtés gyakran önállóan futtatható az alkalmazás, amely hoz létre a WMI-adatok gyűjtése szolgáltatáson keresztül történik. 2. ábra ebbe az architektúrába, a rendszerállapot-adatgyűjtés alrendszer kiemelés mutatja be.
+Az adatgyűjtés gyakran a rendszerállapot-adatokat létrehozó alkalmazástól függetlenül futtatható adatgyűjtési szolgáltatás használatával történik. A 2. ábrán erre az architektúrára látható egy példa, amely kiemeli a rendszerállapot-adatokat gyűjtő alrendszert.
 
-![Példa WMI-adatok gyűjtése](./images/monitoring/TelemetryService.png)
+![Példa a rendszerállapot-adatok gyűjtésére](./images/monitoring/TelemetryService.png)
 
-*2. ábra. WMI-adatok gyűjtése*
+*2. ábra Rendszerállapot-adatok gyűjtése*
 
-Vegye figyelembe, hogy ez egy egyszerűsített nézete. A szolgáltatás nem feltétlenül egyetlen folyamat, és előfordulhat, hogy a különböző gépeken futó sok része alkotják, a következő szakaszokban ismertetett módon. Továbbá ha néhány telemetriai adatok elemzését gyorsan kell elvégezni (közbeni elemzés, a szakaszban leírt módon [támogató működés közbeni, gyakran és ritkán használt analysis](#supporting-hot-warm-and-cold-analysis) a jelen dokumentum későbbi), helyi összetevők működését a szolgáltatás előfordulhat, hogy feladatokat elemzés azonnal. 2. ábra az ebben a helyzetben a kijelölt eseményeket ábrázol. Analitikus feldolgozás után, az eredmények küldhető közvetlenül a képi megjelenítés és a riasztási alrendszer. Van kitéve a meleg vagy a cold elemzési adatokat van tárolt várja feldolgozása közben.
+Vegye figyelembe, hogy ez egy egyszerűsített ábra. Az adatgyűjtési szolgáltatás nem feltétlenül egyetlen folyamat, és akár különböző gépeken futó több összetevőből is állhat, amint azt a következő szakaszok ismertetik. Továbbá, ha bizonyos telemetriaadatok elemzését gyorsan kell elvégezni (forró elemzés, a dokumentum későbbi, a [Forró, meleg és hideg elemzés támogatása](#supporting-hot-warm-and-cold-analysis) című szakaszban leírtak szerint), az adatgyűjtési szolgáltatáson kívül működő helyi összetevők azonnal elvégezhetik az elemzési feladatokat. A 2. ábra ezt a helyzetet ábrázolja a kiválasztott eseményekre vonatkozóan. Az elemzést követően az eredmények közvetlenül a megjelenítési és riasztási alrendszerbe küldhetők. A meleg vagy hideg elemzésnek alávetett adatokat a tároló tárolja, amíg feldolgozásra várnak.
 
-Az Azure-alkalmazások és szolgáltatások, Azure Diagnostics egy lehetséges megoldást nyújt adatok rögzítéséhez. Az Azure Diagnostics adatait gyűjti össze az egyes számítási csomópontok az alábbi forrásokból összesíti az és majd feltölti az Azure Storage:
+Az Azure-alkalmazások és -szolgáltatások esetében az Azure Diagnostics egyetlen lehetséges megoldást kínál az adatok rögzítésére. Az Azure Diagnostics az egyes számítási csomópontok alábbi forrásaiból gyűjti az adatokat, majd összesíti azokat, és feltölti az Azure Storage-ba:
 
 * IIS-naplók
-* Az IIS Kérelemszűrése sikertelen naplók
-* Windows-Eseménynapló
+* sikertelen kéréseket tartalmazó IIS-naplók,
+* Windows-eseménynaplók,
 * Teljesítményszámlálók
-* Összeomlási memóriaképek
-* Az Azure Diagnostics infrastruktúra naplók  
-* Egyéni hibanaplókat
-* .NET EventSource
-* Jegyzékfájl-alapú ETW
+* összeomlási memóriaképek,
+* Azure Diagnostics-infrastruktúranaplók,  
+* egyéni hibanaplók,
+* .NET EventSource,
+* jegyzékalapú ETW.
 
-További információkért lásd: a cikk [Azure: Telemetriai alapjait és hibaelhárítás](http://social.technet.microsoft.com/wiki/contents/articles/18146.windows-azure-telemetry-basics-and-troubleshooting.aspx).
+További információért tekintse meg az [Azure-ban használt telemetria alapjait és hibaelhárítását](https://social.technet.microsoft.com/wiki/contents/articles/18146.windows-azure-telemetry-basics-and-troubleshooting.aspx) ismertető cikket.
 
-### <a name="strategies-for-collecting-instrumentation-data"></a>Stratégiák a WMI-adatok gyűjtése
-A rugalmas jellegét a felhőben, és ne legyen szükség a manuálisan lekérése telemetriai adatokat minden csomópont a rendszerben, figyelembe véve gondoskodik az adatok átvitele egy központi helyen, és konszolidált. A rendszer több adatközpontot is lehet hasznos, ha először begyűjtése, összevonása akkor történjen meg, és adatok régiónként-alapon tárolja, és majd összesítése a regionális adatok egyetlen központi rendszerben szeretné.
+### <a name="strategies-for-collecting-instrumentation-data"></a>A rendszerállapot-adatok gyűjtésére vonatkozó stratégiák
+Figyelembe véve a felhő rugalmas jellegét, és elkerülendő, hogy a telemetriaadatokat manuálisan kelljen lekérni a rendszer minden egyes csomópontjáról, gondoskodjon arról, hogy a rendszer egy központi helyre továbbítsa és ott konszolidálja az adatokat. A több adatközpontra is kiterjedő rendszerek esetén először hasznos lehet régiónként gyűjteni, konszolidálni és tárolni az adatokat, majd ezeket a regionális adatokat egyetlen központi rendszerbe összesíteni.
 
-Sávszélesség-optimalizálásához választhatja adattömböket, mint a kötegek üzenetfejléceket adatok átvitele. Azonban az adatokat kell nem később határozatlan ideig, különösen akkor, ha időérzékeny információkat tartalmaz.
+A sávszélesség-használat optimalizálása érdekében a kevésbé sürgős adatokat tömbökben, kötegekként is továbbíthatja. Az adatokat azonban nem szabad a végtelenségig késleltetni, különösen ha időérzékeny információkat tartalmaznak.
 
-#### <a name="pulling-and-pushing-instrumentation-data"></a>*Húzza és WMI-adatok küldését*
-A rendszerállapot-adatgyűjtés alrendszer aktívan beolvasható WMI-adatok a különböző naplókat, valamint a más forrásokból, az alkalmazás egyes példányainak (a *lekéréses modell*). Vagy a passzív fogadó, amely megvárja-e az adatok küldését a az alkalmazás minden példánya alkotó összetevők működhet (a *leküldési modelljével*).
+#### <a name="pulling-and-pushing-instrumentation-data"></a>*A rendszerállapot-adatok lekérése és leküldése*
+A rendszerállapot-adatokat gyűjtő alrendszer aktívan lekérheti a rendszerállapot-adatokat a különféle naplókból és egyéb forrásokból az alkalmazás egyes példányaira vonatkozóan (*lekéréses modell*). Az alrendszer működhet passzív fogadóként is, amely azt várja, hogy az alkalmazás egyes példányait alkotó összetevők elküldjék az adatokat (*leküldéses modell*).
 
-A lekéréses modell végrehajtási egyik módszer, hogy figyelőügynökök futtató helyi az alkalmazás minden példányát használja. Figyelési ügynök külön folyamat, amely rendszeres időközönként beolvassa (ponttá) telemetriai adatokat a helyi csomópont be, és írja közvetlenül ezeket az információkat, amelyek az alkalmazás összes példányát központi tárolása. Azt a mechanizmust, amely megvalósítja az Azure Diagnostics. Egy Azure webes vagy feldolgozói szerepkör minden egyes példánya beállítható úgy, hogy a rögzítési diagnosztikai és egyéb nyomkövetési adatok helyben tárolt. A figyelési ügynök, amely minden példány együtt fut az Azure Storage másolja át a megadott adatokat. A cikk [diagnosztika engedélyezésével az Azure Cloud Services és a virtuális gépek](/azure/cloud-services/cloud-services-dotnet-diagnostics) részletesen ismerteti a folyamatot. Bizonyos elemek, például az IIS naplóit, összeomlási memóriaképek és egyéni hibanaplókat, a blob-tároló kerülnek. A table storage a Windows Eseménynapló ETW-események és teljesítményszámlálók adatait rögzíti. 3. ábra szemlélteti a mechanizmus.
+A lekéréses modell megvalósításának egyik módszere az alkalmazás egyes példányaival helyileg futó monitorozási ügynökök használata. A monitorozási ügynök egy külön folyamat, amely rendszeres időközönként beolvassa (lekéri) a helyi csomóponton gyűjtött telemetria-adatokat, és ezeket az információkat közvetlenül az alkalmazás összes példánya által közösen használt központi tárolóba írja. Az Azure Diagnostics ezt a mechanizmust valósítja meg. Az Azure webes vagy feldolgozói szerepköreinek minden példánya konfigurálható a helyben tárolt diagnosztikai és egyéb nyomkövetési adatok gyűjtésére. Az egyes példányok mellett futó monitorozási ügynökök átmásolják a meghatározott adatokat az Azure Storage-ba. A folyamattal kapcsolatban [a diagnosztikának az Azure Cloud Services és a Virtual Machines szolgáltatásban való engedélyezésével](/azure/cloud-services/cloud-services-dotnet-diagnostics) foglalkozó cikk biztosít további információt. Bizonyos elemek, például az IIS-naplók, az összeomlási memóriaképek és az egyéni hibanaplók írása blobtárolókba történik. A Windows-eseménynaplók, ETW-események és a teljesítményszámlálók adatait pedig táblatárolók rögzítik. A 3. ábra ezt a mechanizmust ábrázolja.
 
-![A figyelési ügynök használatával információkat le, és írja a megosztott tárolóba ábrája](./images/monitoring/PullModel.png)
+![Az információk monitorozási ügynök használatával való lekérését és megosztott tárolóba való írását bemutató ábra.](./images/monitoring/PullModel.png)
 
-*3. ábra. A figyelési ügynök használatával információkat le, és írja a megosztott tárolóba*
+*3. ábra Az információk monitorozási ügynök használatával való lekérése és megosztott tárolóba való írása*
 
 > [!NOTE]
-> A figyelési ügynök használatával kiválóan alkalmas a WMI-adatok természetes lekért adatforrás rögzítése. Egy példa az SQL Server dinamikus felügyeleti nézetek vagy egy Azure Service Bus-várólista hossza információt.
+> A monitorozási ügynökök ideális megoldást jelentenek az adatforrásokból magától értetődően lekért rendszerállapot-adatok rögzítéséhez. Ilyen adatok például az SQL Server dinamikus felügyeleti nézeteiből származó adatok vagy az Azure Service Bus-üzenetsor hossza.
 > 
 > 
 
-Legyen megvalósítható a csak korlátozott számú csomópontok egyetlen helyen futó csak kevés számítógépet érintő alkalmazások telemetriai adatainak tárolásához leírt módon. Azonban egy összetett, skálázható, globális felhő alkalmazás hatalmas mennyiségű adatot előfordulhat, hogy generálása több száz webes és feldolgozói szerepkörök, adatbázis szilánkok és egyéb szolgáltatásokat. Az adatok foglalkozók is könnyen ne terhelje, tovább a i/o-sávszélesség egyetlen központi helyen érhető el. Ezért a telemetriai adatok megoldásának méretezhető, ezáltal megakadályozhatja, hogy a rendszer kiterjeszti a szűk forráscsoportként kell. Ideális esetben a megoldás (például naplózási vagy számlázási adatok) fontos figyelési adatok elvesztése, ha a rendszer nem sikerül a kockázatok csökkentése redundancia fokú kell tartalmaznia.
+Az imént ismertetett megközelítés az egy helyen, korlátozott számú csomóponton futó, kisléptékű alkalmazás telemetriaadatainak tárolására is alkalmazható. Az összetett, nagy mértékben skálázható, globális, felhőalkalmazások azonban hatalmas mennyiségű adatot állíthatnak elő több száz webes és feldolgozói szerepkörből, adatbázis-szilánkból és egyéb szolgáltatásból. Az adatok ilyen mértékű áramlása könnyen túlterhelheti az egyetlen központi helyen rendelkezésre álló I/O-sávszélességet. A telemetriamegoldásnak ezért skálázhatónak kell lennie, nehogy szűk keresztmetszetet jelentsen a rendszer növekedése során. Ideális esetben a megoldásnak bizonyos fokú redundanciát is biztosítania kell, így csökkenthető a fontos monitorozási adatok (például a naplózási vagy számlázási adatok) elvesztésének kockázata a rendszer valamelyik részének meghibásodása esetén.
 
-A következő problémák is létrehozható queuing, a 4. ábrán látható módon. Az ebbe az architektúrába, a helyi figyelési ügynök (ha megfelelően konfigurálható) vagy egyéni adatgyűjtés-szolgáltatás (Ha nem) POST-adatokat annak a várólistára. (A tárolás szolgáltatás írása a 4. ábra) aszinkron módon fut külön folyamatban lekéri az adatokat a várólistán szereplő, és írja a megosztott tárhelyhez. Az üzenet-várólista nem megfelelő-e ebben a forgatókönyvben, mert a "legalább egyszeri" biztosít, amelyek segítenek, győződjön meg arról, hogy várólistán lévő adatok nem vesznek után feladás szemantikáját. A storage szolgáltatás írása egy külön feldolgozói szerepkör használatával is létrehozható.
+Ezen problémák megoldására megvalósítható a sorkezelés, amint az a 4. ábrán látható. Ebben az architektúrában a helyi monitorozási ügynök (ha megfelelően konfigurálható) vagy egy egyéni adatgyűjtési szolgáltatás (ha nem) az adatokat közzé teszi egy üzenetsorban. Egy aszinkron módon futó másik folyamat (a 4. ábrán bemutatott tárolóírási szolgáltatás) fogja az üzenetsorban lévő adatokat, és a megosztott tárolóba írja azokat. Az üzenetsorok megfelelő megoldást kínálnak az ilyen forgatókönyvekben, mivel a „legalább egyszeri” szemantikájuk révén biztosítják, hogy az üzenetsorba küldött adatok nem vesznek el a közzétételük után. A tárolóírási szolgáltatás egy külön feldolgozói szerepkör használatával valósítható meg.
 
-![A várólisták puffer WMI-adatok használatával ábrája](./images/monitoring/BufferedQueue.png)
+![A rendszerállapot-adatok üzenetsorral való pufferelésének ábrája.](./images/monitoring/BufferedQueue.png)
 
-*4. ábra. A várólisták puffer WMI-adatok használatával*
+*4. ábra A rendszerállapot-adatok pufferelése üzenetsorral*
 
-A helyi adatgyűjtés szolgáltatás adatokat adhat egy várólista átvétel után azonnal. A várólista pufferként, és a tárolás szolgáltatás írása beolvashatja és a saját tempójában írni. Alapértelmezés szerint egy várólista érkezési sorrendben történő kiküldési szinten működik. De rangsorolhatja üzenetek keresztül a várólista gyorsító őket, ha gyorsabban kell kezelni álló adatokat tartalmaznak. További információkért lásd: a [prioritású várólistára](https://msdn.microsoft.com/library/dn589794.aspx) mintát. A különböző csatornákon (például a Service Bus-üzenettémakörök) segítségével azt is megteheti, attól függően, hogy az űrlap elemzésfeldolgozási, amely szükséges a különböző helyekre adatok közvetlen.
+A helyi adatgyűjtési szolgáltatás közvetlenül a fogadásuk után hozzáadhatja az adatokat az üzenetsorhoz. Az üzenetsor pufferként szolgál, és így a tárolóírási szolgáltatás a saját tempójában kérheti le és írhatja az adatokat. Alapértelmezés szerint az üzenetsorok érkezési sorrend alapján működnek. Az üzenetek azonban rangsorolhatók is, így a gyorsan kezelendő adatokat tartalmazó üzenetek gyorsabban haladhatnak végig az üzenetsoron. További információért tekintse meg az [elsőbbségi üzenetsor](https://msdn.microsoft.com/library/dn589794.aspx) mintáját. Használhat más csatornákat (például Service Bus-témaköröket) is az adatok más célhelyekre való irányítására a szükséges elemzési módszertől függően.
 
-A méretezhetőség a tárolás szolgáltatás írása több példányát is futtathatja. Ha nagy mennyiségű esemény, használhatja az eseményközpontok a különböző számítási erőforrásokat, az adatfeldolgozás és -tárolás adatokat átirányítani.
+A skálázhatóság érdekében a tárolóírási szolgáltatás több példányát is futtathatja. Nagy mennyiségű esemény esetén az adatokat egy eseményközpont segítségével irányíthatja különböző számítási erőforrásokhoz feldolgozásra és tárolásra.
 
 <a name="consolidating-instrumentation-data"></a>
 
-#### <a name="consolidating-instrumentation-data"></a>*Összevonja a WMI-adatok*
-A WMI-adatok az adatgyűjtés szolgáltatás egy alkalmazás egyetlen példányát kiolvassa lehetőséget nyújt az honosított rálátást enged és annak a példánynak teljesítményét. A rendszer általános állapotának felmérésére fontos vonják össze a helyi nézetében lévő adatok az egyes funkcióit. Ezt követően az adatokat a tárolja, de egyes esetekben is érhet el, az adatgyűjtés a következők szerint hajthat végre. Ahelyett, hogy közvetlenül a megosztott tárolóba írása, a WMI-adatok egy különálló összevonási szolgáltatás, amely egyesíti az adatokat, és úgy működik, mint egy szűrő és törlési folyamat is továbbítása. Például a azonos korrelációs adatok, például Tevékenységazonosítót WMI-adatok által is. (Ez akkor lehet, hogy egy felhasználó elindítja az egyik csomópont üzleti műveletet, és ezután lekérdezi egy másik csomópontjára továbbítja csomópont meghibásodik, vagy attól függően, hogy a terheléselosztás konfigurálását.) Ez a folyamat is észleli, és távolítsa el az ismétlődő adatokat (mindig annak a lehetősége, ha a telemetriai adatok szolgáltatás használ a leküldéses WMI-adatok kimenő Storage üzenetsorokat). 5. ábra mutatja be: Ez a struktúra.
+#### <a name="consolidating-instrumentation-data"></a>*Rendszerállapot-adatok konszolidálása*
+Az adatgyűjtési szolgáltatás által az egyes alkalmazáspéldányokról lekért rendszerállapot-adatok alapján az adott példány állapotára és teljesítményére vonatkozó helyi nézet hozható létre. A rendszer általános állapotának értékeléséhez az ilyen helyi nézetekben található adatok bizonyos szempontjait konszolidálni kell. Ez az adatok tárolása után tehető meg, bizonyos esetekben azonban már az adatgyűjtés során is megvalósítható. A megosztott tárolóba való közvetlen írás helyett a rendszerállapot-adatok áthaladhatnak egy külön adatkonszolidálási szolgáltatáson, amely egyesíti az adatokat, és egyfajta szűrő- és tisztítófolyamatként is működik. Az azonos korrelációs adatokat (például tevékenységazonosítót) tartalmazó rendszerállapot-adatok például egybeolvaszthatók. (Előfordulhat, hogy a felhasználó egy adott csomóponton elindít valamilyen üzleti műveletet, majd a csomópont meghibásodása esetén vagy terheléselosztási beállítások miatt a rendszer a műveletet áthelyezi egy másik csomópontra.) Ez a folyamat képes továbbá észlelni és eltávolítani a duplikált adatokat (ezeknek mindig fennáll az esélye, ha a telemetriaszolgáltatás üzenetsorok használatával küldi el a rendszerállapot-adatokat a tárolóba). Az 5. ábra erre a struktúrára mutat be egy példát.
 
-![A szolgáltatás használatával vonják össze a WMI-adatok – példa](./images/monitoring/Consolidation.png)
+![Példa szolgáltatás használatára a rendszerállapot-adatok konszolidálásához.](./images/monitoring/Consolidation.png)
 
-*5. ábra. Külön szolgáltatással összefogása és WMI-adatok törlése*
+*5. ábra Külön szolgáltatás használata a rendszerállapot-adatok konszolidálására és tisztítására*
 
-### <a name="storing-instrumentation-data"></a>WMI-adatok tárolása
-Az előző beszélgetéseket, amely WMI-adatok tárolja módja ahelyett, hogy simplistic nézetét rendelkezik ábrázolva. A valóságban azt is célszerű a különböző típusú adatok tárolására, amelyben minden várhatóan használt módszer a legmegfelelőbb technológiák használatával.
+### <a name="storing-instrumentation-data"></a>Rendszerállapot-adatok tárolása
+Az előző fejtegetések meglehetősen egyszerű képet festettek a rendszerállapot-adatok tárolásának módjáról. A valóságban azonban célszerű lehet a különböző típusú adatokat olyan technológiák használatával tárolni, amelyek a leginkább megfelelők az egyes típusok vélhető felhasználási módjának.
 
-Például az Azure-blob és table storage rendelkezik néhány Hasonlóságok elért most módon. Azonban lehetnek korlátozások a hajthat végre őket a műveletekben, és az adatokat azok vonatkozik, amelyek granularitása Igen különbözőek. Ha további analitikai műveleteket végezhet, vagy az adatok teljes szöveges keresésre van szüksége, több megfelelő optimalizált képességeket biztosító lekérdezések és adatelérési bizonyos típusú adatok tárolási használandó lehet. Példa:
+Például az Azure Blob Storage és Table Storage az elérésük szempontjából valamelyest hasonlóak. A használatukkal végrehajtható műveletek szempontjából azonban bizonyos korlátokkal rendelkeznek, és a bennük tárolt adatok részletessége is igen különböző. Ha további elemzési műveleteket kell végrehajtania, vagy teljes szöveges keresési képességekre van szüksége az adatok vonatkozásában, jobb megoldás lehet a különféle lekérdezés- és adathozzáférés-típusokra optimalizált képességeket biztosító adattárakat használni. Példa:
 
-* Teljesítmény számlálóadatok alkalmi elemzés engedélyezése SQL-adatbázisban tárolható.
-* Nyomkövetési naplók jobban tárolódhat Azure Cosmos DB.
-* Biztonsági adatokat HDFS csak írható.
-* Teljes szöveges keresés által kért információ (amely a gazdag indexelési keresések is sebessége) Elasticsearch keresztül is tárolhatók.
+* A teljesítményszámlálók adatainak SQL-adatbázisban való tárolása lehetővé teszi az ad hoc elemzést.
+* A nyomkövetési naplókat érdemesebb lehet az Azure Cosmos DB-ben tárolni.
+* A biztonsággal kapcsolatos információk a HDFS-be írhatók.
+* A teljes szöveges keresést igénylő információk az Elasticsearch használatával tárolhatók (ami a gazdag indexelésnek köszönhetően növelheti a keresések sebességét).
 
-Egy másik szolgáltatást, amely rendszeres időközönként lekéri az adatokat a megosztott tároló, a partíciók és a szűrők célja az adatok, és ezután ír egy megfelelő összességének adattárolókhoz 6. ábrán látható módon valósíthatja meg. Egy másik módszert is, hogy tartalmazza ezt a szolgáltatást a konszolidáció és törlési folyamat és az adatok írása közvetlenül ezekkel az áruházakkal mivel azt rendelkezik beolvasott ahelyett, a közbenső mentése megosztott tárterület. Minden módszer van annak előnyeit és hátrányait. Egy külön particionálási szolgáltatás üzembe csökkenti annak az Összevonás és karbantartása szolgáltatás terhelését, és lehetővé teszi, hogy legalább (attól függően, hogy mennyi adatot őrzi meg a megosztott tároló) szükség esetén újra létrejön a particionált adatok egy részét. Azonban ez további-erőforrásokat használ fel. Is valószínűleg késleltetés az alkalmazás feltünteti a WMI-adatok fogadását, és ezeket az adatokat átváltását végrehajthatóként információk között.
+Megvalósíthat egy további szolgáltatást is, amely rendszeres időközönként lekéri az adatokat a megosztott tárolóból, a céljuknak megfelelően particionálja és szűri azokat, majd a megfelelő adattárakba írja őket, amint az a 6. ábrán látható. Egy másik megközelítés ezen funkció belefoglalása a konszolidálási és tisztítási folyamatba, és az adatoknak közvetlenül ezen tárolókba, nem pedig egy közbenső megosztott tárterületre való írása a lekérésüket követően. Mindegyik megközelítésnek vannak előnyei és hátrányai. Egy külön particionálási szolgáltatás megvalósítása csökkenti a konszolidálási és tisztítási szolgáltatás terhelését, és lehetővé teszi, hogy szükség esetén legalább a particionált adatok egy részét újra létre lehessen hozni (attól függően, hogy mekkora a megosztott tárolóban megőrzött adatok mennyisége). Ez azonban további erőforrásokat használ fel. Emellett elképzelhető, hogy a rendszerállapot-adatok később érkeznek meg az egyes alkalmazáspéldányokról, és később történik a gyakorlatban használható információkká való átalakításuk.
 
-![Particionálás és az adatok tárolása](./images/monitoring/DataStorage.png)
+![Az adatok particionálása és tárolása](./images/monitoring/DataStorage.png)
 
-*6. ábra. Particionálás analitikai adatok és a tárhellyel kapcsolatos követelmények*
+*6. ábra Az adatok particionálása az elemzési és tárolási követelményeknek megfelelően*
 
-Az azonos WMI-adatok több célra lehet szükség. Például teljesítményszámlálók segítségével adja meg a rendszer teljesítményét az idő múlásával ügyfélállapotainak. Ezeket az információkat az ügyfél számlázási generálhassák egyéb használati adatok lehet kombinálni. Ezekben a helyzetekben ugyanazokat az adatokat több célra, például egy dokumentum-adatbázis, amely működhet, és a hosszú távú tárolási a számlázási adatokat tároló és a többdimenziós áruházból kezelése bonyolult teljesítmény analytics lehet küldeni.
+Ugyanazok a rendszerállapot-adatok több célból is szükségesek lehetnek. A teljesítményszámlálók segítségével például megjeleníthető az idő múlásával tapasztalható rendszerteljesítmény előzménynézete. Ezeket az információkat más használati adatokkal egyesítve létrehozhatók az ügyfélre vonatkozó számlázási információk. Ilyen esetekben ugyanazokat az adatokat esetleg több célhelyre is továbbítani kell, például a számlázási információk hosszú távú tárolására szolgáló dokumentum-adatbázisba, és a komplex teljesítményelemzés kezelését lehetővé tevő többdimenziós tárolóba.
 
-Azt is figyelembe kell venni, hogyan sürgősen a adatokra szükség. Bemutatja, hogy a riasztási adatok használatával kell elérni gyorsan, ezért érdemes lehet tárolt adatok gyors és indexelt vagy felépítve, hogy a riasztási rendszer hajt végre a lekérdezések optimalizálását. Egyes esetekben szükség lehet a telemetriai adatok szolgáltatás, amely összegyűjti a minden egyes csomóponton formázása és a helyileg menteni az adatokat, hogy a riasztási rendszer helyi példányának gyorsan értesítheti, az esetleges problémákat. A storage szolgáltatás az előző ábrán is látható, és központilag tárolja, ha más célokra is szükséges írása ugyanazokat az adatokat képes továbbítani.
+Azt is figyelembe kell venni, hogy mennyire sürgősen van szükség az adatokra. A riasztásokhoz szükséges információkat biztosító adatokat gyorsan kell elérni, ezért egy gyors adattárban, indexelve vagy strukturálva kell tárolni őket a riasztási rendszer által végrehajtott lekérdezések optimalizálásához. Egyes esetekben szükséges lehet, hogy az egyes csomópontokon az adatokat gyűjtő telemetriaszolgáltatás az adatokat helyben formázza és mentse, hogy a riasztási rendszer helyi példánya gyorsan értesíthesse a felhasználókat a problémákról. Ugyanezek az adatok elirányíthatók az előző ábrákon látható tárolóírási szolgáltatásnak, és központilag tárolhatók, ha más célokból is szükség lenne rájuk.
 
-További használható információkat figyelembe veendő analysis jelentéskészítéshez, valamint a múltbeli trendek gyorsabban üzenetfejléceket, amely olyan módon, amely támogatja az adatbányászat és az ad hoc lekérdezéseket is tárolhatók. További információkért tekintse meg a szakasz [működés közbeni, gyakran és ritkán használt elemzési támogató](#supporting-hot-warm-and-cold-analysis) újabb ebben a dokumentumban.
+Az alaposabb elemzéshez, a jelentéskészítéshez és az előzménytrendek észleléséhez használt információk kevésbé sürgősek, és olyan módon tárolhatók, amely támogatja az adatbányászatot és az ad hoc lekérdezéseket. További információért tekintse meg a [Forró, meleg és hideg elemzés támogatása](#supporting-hot-warm-and-cold-analysis) című szakaszt a dokumentum későbbi részében.
 
-#### <a name="log-rotation-and-data-retention"></a>*Naplóváltás és az adatok megőrzése*
-Instrumentation hozhat létre a jelentős mennyiségű adatot. Ezeket az adatokat több helyen, a nyers naplófájlok nyomkövetési fájlok kezdve lehessen vonni és egyéb információkat a konszolidált minden csomópont rögzített tisztítani és particionált nézet a tárolt megosztott adatokról. Néhány esetben az adatok feldolgozott és továbbított, után az eredeti forrás nyers adatok távolíthatók el minden csomópont. Más esetben egyszerűen hasznos a nyers adatok mentéséhez vagy szükséges lehet. Hibakeresési célra generált adatok például előfordulhat, hogy legjobban hagyható nyers formájában érhető el, de tudja majd elveti gyorsan hibáit rendelkezik lett javítása után.
+#### <a name="log-rotation-and-data-retention"></a>*Naplóváltás és adatmegőrzés*
+A rendszerállapot-figyelés jelentős mennyiségű adatot hozhat létre. Ezek az adatok több helyen tárolhatók, az egyes csomópontokon rögzített nyers naplófájloktól, profilelemzési fájloktól és egyéb információktól a megosztott tárolóban található konszolidált, megtisztított és particionált nézetekig. Néhány esetben az eredeti nyers forrásadatok eltávolíthatók a csomópontokról az adatok feldolgozását és továbbítását követően. Más esetekben azonban szükséges vagy egyszerűen csak hasznos lehet menteni a nyers adatokat. A hibakeresési célból létrehozott adatokat például jobb lehet nyers formájukban meghagyni, azonban a hibák javítását követően gyorsan elvethetők.
 
-Teljesítményadatok gyakran van hosszabb élettartamát, így gyorsabban teljesítménytrendek és a kapacitástervezés is használható. Az összevont nézetet ezen adatok általában tartják online véges időtartamra és a gyors hozzáférés engedélyezéséhez. Ezt követően az archiválható vagy elvetett. Adatgyűjtés-mérés és számlázási ügyfelek előfordulhat, hogy határozatlan ideig menteni kell. Emellett szabályozó igények miatt előfordulhat, hogy naplózási és biztonsági okokból gyűjtött információkat is archivált és menteni kell. Ezeket az adatokat is bizalmas, és előfordulhat, hogy a titkosított vagy más módon védett az illetéktelen kell. A felhasználói jelszavakat és egyéb adatait, amelyik alkalmas lehet véglegesíteni identitás csalás rögzíteni soha nem kell. Ezeket az adatokat az adatokból kell törlődik, mielőtt a rendszer tárolja.
+A teljesítményadatok általában hosszabb életűek, mivel így felhasználhatók a teljesítménytrendek észlelésére és a kapacitástervezéshez. Az ilyen adatok konszolidált nézeteit szokás a gyorsabb elérés érdekében határozott ideig online megőrizni. Ezt követően archiválhatók vagy elvethetők. A mérési és számlázási célból gyűjtött adatokat néha határozatlan ideig meg kell őrizni. Emellett szabályozási követelmények is előírhatják, hogy a naplózási és biztonsági célból gyűjtött információkat archiválni és menteni kell. Ezek az adatok bizalmasak is, és emiatt előfordulhat, hogy titkosítani vagy más módon védeni kell azokat az illetéktelen hozzáférés ellen. A felhasználók jelszavait és a személyazonossági csalások elkövetéséhez felhasználható egyéb adatait soha nem szabad rögzíteni. Ezeket az információkat el kell távolítani az adatokból a mentésük előtt.
 
-#### <a name="down-sampling"></a>*Lefelé-mintavétel*
-Akkor célszerű múltbeli adatok tárolására, hosszú távú trendek ismerhető. Ahelyett, hogy a régi adatok mentése egészében, esetleg le-minta csökkentése a probléma megoldásához és a tárolási költségek csökkentése az adatokat. Tegyük fel helyett mentése perc által percenként teljesítménymutatók, akkor összevonhatja adatokat, amelyek több mint egy hónappal régi ahhoz, hogy az űrlap egy óra órán keresztül nézetben.
+#### <a name="down-sampling"></a>*A mintavételezés sebességének csökkentése*
+Az előzményadatokat célszerű menteni a hosszú távú trendek felismerése érdekében. A régi adatok egészének való mentése helyett azonban csökkenthető az adatok mintavételezésének sebessége az adatok felbontásának és a tárolási költségeknek a csökkentéséhez. A percenkénti teljesítménymutatók mentése helyett konszolidálhatja az egy hónapnál régebbi adatokat egy órára lebontott nézet létrehozásához.
 
-### <a name="best-practices-for-collecting-and-storing-logging-information"></a>Ajánlott eljárások az összegyűjtése és naplózási információk tárolása
-Az alábbi lista a gyakorlati tanácsok a rögzítése és tárolása naplózási információk foglalja össze:
+### <a name="best-practices-for-collecting-and-storing-logging-information"></a>Ajánlott eljárások a naplózási információk gyűjtéséhez és tárolásához
+Az alábbi lista a naplózási információk gyűjtésére és tárolására vonatkozó ajánlott eljárásokat foglalja össze:
 
-* A figyelési ügynök vagy adatgyűjtési szolgáltatás folyamaton-szolgáltatásnak futnia kell, és egyszerű telepítendő kell lennie.
-* Az összes kimenetét a figyelési ügynök, vagy adatgyűjtés szolgáltatás kell lennie egy független formátum, amely független a gép, az operációs rendszer vagy a hálózati protokoll. Például az adatok egy önálló leíró formátumban, például a JSON-NÁ, MessagePack, vagy Protobuf helyett ETL/ETW létrehozása. Egy szabványos formátumban lehetővé teszi, hogy a rendszer feldolgozási folyamatok; összeállításához olvassa el, -átalakítási és -adatokat küldeni a egyeztetett formában összetevőket könnyen integrálható.
-* A figyelés és az adatgyűjtési folyamat hibamentes kell lennie, és nem kell elindítani a kaszkádolt hiba feltételeket.
-* Az adatokat küld egy adatokat fogadó átmeneti hiba esetén a figyelési ügynök vagy az adatgyűjtés szolgáltatás kell készíteni, hogy a legújabb információk elküldése először a telemetriai adatok sorrendjének módosításához. (A figyelési ügynök/adatgyűjtési szolgáltatás előfordulhat, hogy dönthetnek úgy, hogy dobja el a régebbi adatokat, vagy később való szinkronizálásához, saját belátása szerint részére és helyileg menteni.)
+* A monitorozási ügynököt vagy az adatgyűjtési szolgáltatást futtassa folyamaton kívüli szolgáltatásként, és legyenek egyszerűen üzembe helyezhetők.
+* A monitorozási ügynök vagy az adatgyűjtési szolgáltatás minden kimenetének géptől, operációs rendszertől és hálózati protokolltól független semleges formátummal kell rendelkeznie. Az ETL/ETW helyett például az adatok kibocsáthatók egy önleíró formátumban, amilyen a JSON, a MessagePack vagy a Protobuf. A szabványos formátumok használata lehető teszi a rendszer számára feldolgozási folyamatok létrehozását. Az adatokat az egyeztetett formátumban olvasó, átalakító és küldő összetevők könnyen integrálhatók.
+* A monitorozási és adatgyűjtési folyamatnak hibamentesnek kell lennie, és nem válthat ki sorozatosan egymásra épülő hibákat.
+* Az információk adatfogadóba való küldésének átmeneti hibája esetén a monitorozási ügynöknek vagy az adatgyűjtési szolgáltatásnak készen kell állni a telemetriaadatok újrarendezésére, hogy a legújabb információk küldése történjen meg először. (A monitorozási ügynök/adatgyűjtési szolgáltatás saját belátása szerint dönthet úgy, hogy a régebbi adatokat elveti, vagy helyben menti, és később továbbítja pótlólag.)
 
-## <a name="analyzing-data-and-diagnosing-issues"></a>Adatok elemzése és a problémák diagnosztizálása
-A figyelés és diagnosztika folyamat fontos részét elemzi az összegyűjtött adatokat a teljes jól lesznek a rendszer kép beszerzése. A saját KPI-ket és a metrikák kell meghatározta, és fontos, hogy az elemző követelményeknek gyűjtött adatok felépítésének ismertetése. Is fontos tudni, hogyan különböző metrikák és napló-fájlt rögzített az adatok visszamenőleges korrelációban állnak, mert ezek az információk kulcs nyomkövetési események sorozatát kell, és a felmerülő problémák diagnosztizálásához.
+## <a name="analyzing-data-and-diagnosing-issues"></a>Az adatok elemzése és a problémák diagnosztizálása
+A monitorozási és diagnosztikai folyamat fontos részét képezi a gyűjtött adatok elemzése a rendszer átfogó állapotát mutató kép létrehozása érdekében. Már meg kellett határoznia a KPI-ket és a teljesítmény mérőszámait, és fontos megértenie, hogy a gyűjtött adatokat hogyan strukturálhatja az elemzési igényeknek megfelelően. Fontos továbbá azt is megértenie, hogy a különböző mérőszámokban és naplófájlokban rögzített adatok korrelálása hogyan történik, mivel ezek az információk kulcsszerepet játszhatnak az események sorozatának nyomon követésében, és segíthetnek diagnosztizálni a felmerülő problémákat.
 
-A szakaszban leírt módon [WMI-adatok konszolidálása](#consolidating-instrumentation-data), a rendszer részét képező összes adatok általában helyileg rögzített, de általában kell használható együtt más helyeken, amely részt vesz a létrehozott adatok a a rendszer. Ezt az információt igényel annak érdekében, hogy pontosan adatok egyesítése gondos korrelációs. A használati adatok művelet például előfordulhat, hogy span a csomópontot, amelyen a webhely, amelyhez a felhasználó csatlakozik, a csomópont egy külön szolgáltatás érhető el ezt a műveletet, és egy másik csomópontjára tárolt adatok tárolási részeként futó. Ezt az információt kell kötni segítségével adja meg a műveletet az erőforrás- és feldolgozási használati átfogó képet. Néhány előzetes feldolgozás és az adatok szűrése akkor fordulhat elő, a csomóponton, amelyen az adatok rögzített, mivel összesítési és formázás fordul központi csomóponton.
+A [Rendszerállapot-adatok konszolidálása](#consolidating-instrumentation-data) szakaszban leírtak szerint a rendszer egyes részeire vonatkozó adatok rögzítése helyben történik, azonban általában egyesíteni kell azokat a rendszer részét képező egyéb helyeken keletkező adatokkal. Az ilyen információk esetén a korrelálást gondosan kell végezni, hogy az adatok egyesítése pontos legyen. Egy adott művelethez kapcsolódó használati adatok például magukban foglalhatnak egy olyan webhelyet futtató csomópontot, amelyhez a felhasználó csatlakozott, a művelet keretében elért önálló szolgáltatást futtató másik csomópontot, valamint egy harmadik csomóponton található adattárat. Ezeket az információkat össze kell kötni, hogy átfogó képet adjanak a művelet erőforrás- és feldolgozásikapacitás-használatáról. Az adatok bizonyos mértékű előzetes feldolgozása és szűrése már az adatokat rögzítő csomóponton megtörténhet, az összesítés és formázás azonban nagyobb valószínűséggel a központi csomóponton megy végbe.
 
 <a name="supporting-hot-warm-and-cold-analysis"></a>
 
-### <a name="supporting-hot-warm-and-cold-analysis"></a>Működés közbeni, gyakran és ritkán használt elemzési támogatása
-Elemzése és újraformázása a képi megjelenítéshez tartozó adatokat, jelentések és riasztási céljából összetett folyamat lehet, amely a saját erőforrások készletét akkor. Néhány űrlapok figyelési sürgős és hatékony azonnali adatelemzési igényel. Ez más néven *elemzés közbeni*. Például az elemzések, amelyek szükségesek a riasztás és a biztonsági figyelést (például a rendszer a támadás észlelése) egyes funkcióit. Ezekből a célokból szükséges adatok gyors elérhető és a hatékony feldolgozás strukturált kell lennie. Egyes esetekben szükség lehet áthelyezni az elemzés feldolgozását az egyes csomópontokon, az adatok tárolási helye.
+### <a name="supporting-hot-warm-and-cold-analysis"></a>Forró, meleg és hideg elemzés támogatása
+Az adatok megjelenítési, jelentéskészítési és riasztási célú elemzése és újraformázása összetett folyamat lehet, amely saját erőforrásokat használ. A monitorozás egyes formái esetében az időtényező kritikus fontosságú, és az adatok azonnali elemzését igénylik. Ez a *forró elemzés*. Példák erre a riasztásokhoz és a biztonsági monitorozás egyes szempontjaihoz (például a rendszer elleni támadás észlelése) szükséges elemzések. Az ilyen célokból szükséges adatoknak gyorsan elérhetőnek és strukturáltnak kell lenniük a hatékony feldolgozás érdekében. Bizonyos esetekben szükség lehet az elemzések feldolgozását az adatokat tároló csomópontokra áthelyezni.
 
-Elemzés más formáinak kevesebb idő kritikus, és szükség lehet néhány számítási és összesítési után a nyers adatok érkezett. Ez a lehetőség *elemzés mozog*. Teljesítményelemzés gyakran ebbe a kategóriába tartozik. Ebben az esetben egy elkülönített, egyetlen teljesítményesemény valószínű statisztikailag jelentős. (Ez oka lehet egy hirtelen csúcs vagy probléma merült.) Az események sorozatát adatait a rendszer alapteljesítményét a megbízhatóbb kép kell biztosítania.
+Más elemzési formák esetében az időtényező kevésbé fontos, és bizonyos számításokra és összesítésre lehet szükség a nyers adatok fogadását követően. Ezt nevezzük *meleg elemzésnek*. A teljesítményelemzés gyakran ebbe a kategóriába esik. Ebben az esetben egyetlen, elszigetelt teljesítményesemény statisztikailag valószínűleg semmilyen jelentőséggel nem bír. (Okozhatta egy hirtelen megugrás vagy valamilyen hiba.) Az események sorozataiból származó adatok megbízhatóbb képet adnak a rendszer teljesítményéről.
 
-Meleg analysis is egészségügyi problémák diagnosztizálásához használható. Olyan állapotesemény általában a gyors elemzés feldolgozása, és azonnal is hoz létre riasztást. Egy olyan operátort kell tudni elemezze mélyebben a állapotesemény okait meleg elérési úton található adatok vizsgálatával. Ezek az adatok tartalmaznia kell a állapotesemény kiváltó vezettek eseményekkel kapcsolatos információk.
+A meleg elemzés segítséget nyújthat az állapotproblémák diagnosztizálásához is. Az állapotesemények feldolgozása általában forró elemzéssel történik, és az esemény azonnal létrehoznak riasztást. Az operátornak képesnek kell lennie elemezni az állapotesemény okait a meleg folyamatból származó adatok vizsgálatával. Ezeknek az adatoknak az állapoteseményt okozó problémához vezető eseményekkel kapcsolatos információkat kell tartalmazniuk.
 
-Néhány felügyeleti típus hozhat létre a hosszabb távú adatokat. Az elemzés hajtható végre egy későbbi időpontban, valószínűleg egy előre meghatározott ütemezés szerint. Bizonyos esetekben az elemzés előfordulhat, hogy kell elvégeznie a nagy mennyiségű adat egy meghatározott időtartamra vonatkozóan rögzített összetett szűrést. Ez a lehetőség *cold analysis*. A kulcs mérete, hogy az adatok tárolási biztonságosan után már megtörtént. Például használat, figyelés és naplózás szüksége van a rendszer rendszeres pontokon állapotának pontos képet idő, de az állapotadatokat nem feltétlenül szükséges összegyűjtött lett után azonnal feldolgozásra.
+A monitorozás bizonyos típusai hosszabb távú adatokat állítanak elő. Ez az elemzés egy későbbi időpontban is végrehajtható, akár egy előre meghatározott ütemezés szerint is. Bizonyos esetekben az elemzés során hosszabb időn keresztül rögzített, nagy mennyiségű adat összetett szűrését kell végrehajtani. Ezt nevezzük *hideg elemzésnek*. A legfontosabb követelmény, hogy az adatok biztonságos helyen legyenek tárolva a rögzítést követően. A használat monitorozásához és a naplózáshoz a rendszer állapotáról rendszeres időközönként készült pontos képekre van szükség, azonban az ilyen állapotadatoknak nem kell azonnal rendelkezésre állniuk feldolgozásra az adatgyűjtést követően.
 
-Operátor is cold elemzés segítségével adja meg az adatok prediktív állapotelemzésre. Az operátor korábbi összegyűjteni adott időszakon belül, és együtt használja az aktuális egészségügyi adatok (beolvasva a gyakran használt adatok elérési útja) követni a trendeket, amely hamarosan egészségügyi problémákat okozhat. Ezekben az esetekben szükség lehet a riasztást, hogy a javítási műveletek is lehet képernyőfelvételt készíteni.
+Az operátor hideg elemzéssel is biztosíthatja az adatokat a prediktív állapotelemzéshez. Az operátor az aktuális állapotadatokat (ezek a forró elemzési folyamatból származnak) egy megadott időszakban gyűjtött előzményadatokkal kiegészítve derítheti fel azokat a trendeket, amelyek hamarosan állapotproblémákat okozhatnak. Ezekben az esetekben riasztás létrehozása lehet szükséges, hogy korrekciós műveleteket lehessen végrehajtani.
 
-### <a name="correlating-data"></a>Adatok használatával történik
-Instrumentation rögzíti az adatokat a rendszer állapotáról pillanatképet tud biztosítani, de elemzés célja, hogy az adatok hajtható végre. Példa:
+### <a name="correlating-data"></a>Az adatok korrelálása
+A rendszerállapot-figyelés által rögzített adatok pillanatképet biztosíthatnak a rendszer állapotáról, az elemzés célja azonban az, hogy ezek az adatok hasznosíthatók legyenek a gyakorlatban. Példa:
 
-* Mi okozta egy adott időpontban a rendszer szintjén betöltése intenzív i/o?
-* Ennyi az adatbázis-műveletek nagy számú eredményét?
-* Ez az adatbázis válaszidőt, a tranzakciók másodpercenkénti száma, és fordítva válaszidőn alkalmazás, az azonos ettõl a pillanattól?
+* Mi okozta az intenzív, rendszerszintű I/O-terhelést egy adott időpontban?
+* Nagyszámú adatbázis-művelet miatt volt?
+* Kimutathatók a hatásai az adatbázis válaszidejében, a tranzakciók másodpercenkénti számában, valamint az alkalmazás válaszidejében ugyanezen a csomóponton?
 
-Ha igen, egy javító műveleteket, lehet, hogy csökkentse a terhelés lehet shard az adatok több kiszolgáló. Ezenkívül kivételek felmerülő bármilyen szinten, a rendszer egy hiba miatt. Egy szint a gyakran kivétel a fenti szinten egy másik hibát váltja ki.
+Ha igen, a terhelést csökkentő javítóintézkedés lehet az adatok szétosztása több kiszolgálóra. Ezenkívül kivételek jöhetnek létre a rendszer valamelyik szintjén fellépő hiba eredményeként. Egy adott szinten felmerülő kivétel gyakran egy újabb hibát vált ki az eggyel magasabb szinten.
 
-Ezen okok miatt kell tennie a figyelési adatok, a rendszer és a rajta futó alkalmazások állapotát átfogó képet létrehozásához minden szinten különböző típusú összefüggéseket. Ezután ezek az információk segítségével döntéseket hozzanak arról, hogy a rendszer akadálytalanul vagy nem működik, és határozza meg, mi a rendszer minőségének végezhető.
+Ebből kifolyólag az egyes szintek különböző típusú monitorozási adatait tudnia kell korrelálni a rendszer és az azon futó alkalmazások állapotát mutató átfogó kép létrehozásához. Ezután ezen információk segítségével eldöntheti, hogy a rendszer megfelelően működik-e vagy sem, és meghatározhatja a szükséges intézkedéseket a rendszer minőségének a javítására.
 
-A szakaszban leírt módon [információk használatával történik az adatok](#information-for-correlating-data), győződjön meg arról, hogy a nyers WMI-adatok megfelelő környezet és a tevékenység azonosítója segítő információkat tartalmaz a szükséges összesítések események használatával történik. Ezenkívül ezek az adatok különböző formátumokban lehet tartani, és ezeket az adatokat átalakíthatja elemzéshez szabványos formában elemzése szükség lehet.
+Az [Információk az adatok korrelálásához](#information-for-correlating-data) című szakaszban leírtak szerint gondoskodjon arról, hogy a nyers rendszerállapot-adatok elegendő környezeti és tevékenységazonosító-információkat tartalmazzanak az események korrelálásához szükséges összesítések támogatásához. Az adatok tárolása emellett különböző formátumokban történhet, ezért szükség lehet az elemzésükre, így szabványos formátumba konvertálhatók elemzéshez.
 
 ### <a name="troubleshooting-and-diagnosing-issues"></a>Hibaelhárítás és a problémák diagnosztizálása
-A diagnózisához képes hibáit, vagy váratlan viselkedést, beleértve a legfelső szintű OK elemzések végrehajtását okának megállapításához. Az információk szükséges általában a következők:
+A diagnosztika elvégzéséhez meg kell tudni állapítani a hibák vagy a váratlan működés okait, például a kiváltó okok elemzésével. Az ehhez szükséges információk általában az alábbiak:
 
-* Részletes információk az eseménynaplóban és nyomkövetésben, vagy a teljes rendszerben, vagy egy megadott időszakban egy adott alrendszer.
-* Fejezze be a kivételeket és egy meghatározott időtartamon belül a rendszer vagy egy megadott alrendszer előforduló hibák bármely megadott szint eredő híváslánc megjelenik.
-* Összeomlási memóriaképek bármely sikertelen folyamatok bárhol a rendszerben vagy egy megadott alrendszer a megadott időszak alatt történjen.
-* Tevékenység naplózza a meghatározott időszakon belül minden felhasználó vagy a kijelölt felhasználók elvégzett műveletek rögzítése.
+* Az eseménynaplókból és nyomkövetési adatokból származó részletes információk a rendszer egészére vagy egy adott alrendszerre vonatkozóan egy adott időszakból.
+* A rendszerben vagy egy adott alrendszerben egy adott időszak során fellépő bármilyen adott szintű kivételek vagy hibák eredményeként keletkezett teljes hívásláncok.
+* A rendszerben bárhol vagy egy adott alrendszerben egy adott időszak során meghiúsult folyamatok összeomlási memóriaképei.
+* Az összes felhasználó vagy a kiválasztott felhasználók által egy adott időszakban végrehajtott műveleteket rögzítő tevékenységnaplók.
 
-A rendszer-architektúra és a különböző összetevők állítható össze a megoldás részletes műszaki ismeretének gyakran hibaelhárítási célból adatok elemzése szükséges. Nagy mértékben a kézi beavatkozás következtében gyakran szükséges értelmezheti az adatokat, az problémák okait, és javítsa ki azokat a megfelelő stratégiát javasoljuk. Akkor célszerű csupán be ezeket az információkat egy példányát tárolja az eredeti formátumában, és lehetővé teszi egy szakértő cold elemzés céljából.
+Az adatok hibakeresési célú elemzéséhez gyakran a rendszer-architektúra és a megoldást alkotó különféle összetevők részletes műszaki ismerete szükséges. Ennek következtében az adatok értelmezéséhez, a hibák okainak megállapításához és a megfelelő javítási stratégia ajánlásához gyakran jelentős manuális beavatkozásra van szükség. Ezért célszerű lehet ezekről az információkról csupán egy másolatot tárolni az eredeti formátumban, és azt egy szakértőnek hideg elemzésre átadni.
 
-## <a name="visualizing-data-and-raising-alerts"></a>Adatok megjelenítése és a riasztás kiadását okozó
-A felügyeleti rendszer fontos eleme azt a képességet jelent-e az adatok úgy, hogy egy olyan operátort gyorsan ismerhető problémák és a trendeket. Fontos is gyorsan értesítsen operátor, ha egy jelentős esemény történt, amely képes lehet szükség a figyelmet.
+## <a name="visualizing-data-and-raising-alerts"></a>Adatok megjelenítése és riasztások létrehozása
+Minden monitorozási rendszer fontos eleme az adatok olyan formában való megjelenítése, amelynek révén az operátor gyorsan észreveheti a trendeket vagy a problémákat. Emellett fontos az is, hogy az operátort gyorsan értesíteni lehessen, ha valami olyan jelentős esemény következik be, amely figyelmet igényelhet.
 
-Adatok megjelenítési is igénybe vehet néhány űrlapokat, beleértve a képi megjelenítés irányítópultok, használatával, és jelentéskészítési lehetőségei.
+Az adatok megjelenítése különféle formákat ölthet, beleértve az irányítópultokon való megjelenítést, a riasztásokat és a jelentéseket.
 
-### <a name="visualization-by-using-dashboards"></a>Irányítópultok a képi megjelenítés
-A leggyakoribb adato módja, így diagramokat, diagramokat vagy valamilyen más ábra sorozataként irányítópulton. Ezek a tételek is paraméteres, és valamelyik elemzőnek válassza ki a fontos paraméterek (például az adott időszakban) bármely adott helyzetnek képesnek kell lennie.
+### <a name="visualization-by-using-dashboards"></a>Megjelenítés irányítópultok használatával
+Az adatok megjelenítésének leggyakoribb módja az irányítópultok használata, amelyek diagramokkal, grafikonokkal vagy egyéb ábrákkal jelenítik meg az információkat. Ezek az elemek paraméterekkel rendelkeznek, és az elemzőknek minden helyzethez ki kell tudniuk választani a fontos paramétereket (például az időszakot).
 
-Irányítópultok is hierarchikusan. Legfelső szintű irányítópultok egy átfogó betekintést nyújt a rendszer minden szempontját, de az üzemeltető számára a részletek lebontva. Például egy irányítópultot, amely a rendszer a teljes lemez i/o ábrázol lehetővé kell tennie, hogy valamelyik elemzőnek annak megállapítása, hogy egy minden egyes lemez i/o sebességeit megtekintéséhez, vagy pontosabb eszközök fiókja le aránytalanul nagy mennyiségű forgalom. Ideális esetben az irányítópulton is megjelenjen-e kapcsolódó információkat, például az összes kérelem (a felhasználó vagy a tevékenység), hogy az i/o forrása. Ez az információ felhasználható annak meghatározásához, hogy (és hogyan) való egyenletesen a terhelés több eszközön, és hogy a rendszer hajtaná végre jobban Ha több eszköz sem lett felvéve.
+Az irányítópultok hierarchikusan rendezhetők. A legfelső szintű irányítópultok átfogó képet adhatnak a rendszer egyes funkcióiról, azonban lehetővé teszik az operátor számára az adatok részletes elemzését. A rendszer lemezeinek átfogó I/O-teljesítményét ábrázoló irányítópulton például az elemzőnek meg kell tudnia tekinteni az egyes lemezek I/O-teljesítményét is, így megállapíthatja, hogy a nem egyenletes forgalomért egy vagy több eszköz-e a felelős. Ideális esetben az irányítópulton kapcsolódó információk is megjelennek, például az I/O-forgalmat létrehozó kérések forrása (a felhasználó vagy a tevékenység). Ezeknek az információknak a használatával meghatározható, hogy a terhelést egyenletesebben kell-e elosztani az eszközök között (és hogy miként), valamint hogy a rendszer jobban teljesítene-e az eszközök számának növelése esetén.
 
-Egy irányítópultot is használható a színkódolás vagy valamilyen más vizuális jelek jelzésére értékek rendellenes megjelenő vagy a várt tartományon kívül. Az előző példa:
+Az irányítópultokon színkódolás vagy valamilyen más vizuális jelölésrendszer is alkalmazható a rendellenes vagy a várt tartományon kívül eső értékek jelzésére. Az előző példával élve:
 
-* A lemez i/o sebesség mellett, amely hamarosan eléri a maximális kapacitásához hosszabb ideig (gyakran használt adatok lemez) is kiemelten piros.
-* A lemez i/o sebesség mellett, amely a rendszeresen rövid időszakokra a maximális korlátját (meleg lemez) sárga színnel is lehet.
-* Olyan lemezzel, amelyet a normál használati tapasztal zöld meg lehet jeleníteni.
+* A hosszabb időn keresztül a maximális kapacitáshoz közeli I/O-sebességgel üzemelő lemezek (forró lemez) vörös színnel jelölhetők.
+* Az időnként rövid ideig a maximális kapacitásnak megfelelő I/O-sebességgel üzemelő lemezek (meleg lemez) sárga színnel jelölhetők.
+* A normál használatot mutató lemezek zöld színnel jelölhetők.
 
-Vegye figyelembe, hogy egy irányítópult rendszer hatékonyan működjön, a nyers adatok kell rendelkeznie. Ha a saját irányítópult rendszer fejleszt, vagy egy másik szervezet által fejlesztett az irányítópulton, ismernie kell a mely WMI-adatok gyűjtésére, milyen szintű részletességű, és hogyan azt formátumban kell lennie az irányítópult felhasználását.
+Ahhoz, hogy egy irányítópult-rendszer hatékonyan működjön, rendelkeznie kell a feldolgozható nyers adatokkal. Ha saját irányítópult-rendszert hoz létre, vagy egy másik vállalat által fejlesztett irányítópultot használ, tisztában kell lennie azzal, hogy milyen rendszerállapot-adatokat kell gyűjtenie, milyen részletességi szinten, és hogyan kell formázni azokat, hogy az irányítópult fel tudja használni őket.
 
-Egy jó irányítópult nem csak információk jelennek meg, emellett lehetővé teszi egy elemző jelentenek ezt az információt ad hoc kérdésekre. Egyes rendszerek adja meg a felügyeleti eszközök, amelyek operátor ezeket a műveleteket, és áttekintheti az alapul szolgáló adatokat. Azt is megteheti attól függően, hogy a tárházban, amellyel az adatokat, esetleg adatait közvetlenül, vagy importálnia kell azt eszközök például a Microsoft Excel további elemzéshez és jelentéskészítéshez.
+Egy jó irányítópult nem csupán megjeleníti az információkat, hanem azt is lehetővé teszi, hogy az elemző ad hoc kérdéseket tegyen fel az információkkal kapcsolatban. Egyes rendszerek felügyeleti eszközöket is biztosítanak, amelyek használatával az operátor végrehajthatja ezeket a műveleteket, és áttekintheti a mögöttes adatokat. Az információk tárolásához használt adattártól függően az is előfordulhat, hogy az adatok közvetlenül is lekérdezhetők, vagy további elemzés és jelentéskészítés céljával olyan eszközökbe importálhatók, mint a Microsoft Excel.
 
 > [!NOTE]
-> Az arra jogosult személyek irányítópultok hozzáférés korlátozására, mivel előfordulhat, hogy üzleti szempontból érzékeny ezt az információt. Irányítópultok, hogy a felhasználók nem módosíthatják az adatok védelme is kell.
+> Az irányítópultokhoz való hozzáférést érdemes az arra jogosult személyekre korlátozni, mivel az információk üzleti szempontból bizalmasak lehetnek. Érdemes továbbá az irányítópultok alapjául szolgáló adatokat védeni, hogy a felhasználók ne módosíthassák azokat.
 > 
 > 
 
-### <a name="raising-alerts"></a>Riasztás kiváltása
-Riasztások a figyelés és a rendszerállapot-adatok elemzése és igénylő jelentős esemény történt észlelésekor értesítés létrehozása során a rendszer.
+### <a name="raising-alerts"></a>Riasztások létrehozása
+A riasztás a monitorozási és rendszerállapot-adatok elemzésének, és jelentős esemény észlelése esetén értesítések létrehozásának a folyamata.
 
-Riasztási biztosíthatja, hogy a rendszer továbbra is működik megfelelően, rugalmas és biztonságos. A rendszer, amely a teljesítményt, rendelkezésre állási és adatvédelmi garanciák teszi a felhasználók számára, ahol módosítania kell az adatokat a azonnal intézkedni fontos része legyen. Operátor módosítania kell a riasztást kiváltó esemény értesíti. Riasztási is használható meghívni a rendszer funkciók, például az automatikus skálázást.
+A riasztás hozzájárul a rendszer megfelelő állapotának, válaszkészségének és biztonságának a fenntartásához. Fontos része minden olyan rendszernek, amely teljesítmény-, rendelkezésreállási és adatvédelmi garanciákat vállal a felhasználók felé, akiknek az adatok alapján azonnal cselekedni kell. Előfordulhat, hogy az operátort értesíteni kell a riasztást kiváltó eseményről. A riasztási használható az olyan rendszerfunkciók indítására is, mint az automatikus skálázás.
 
-Riasztási általában attól függ, hogy a következő WMI-adatok:
+A riasztási általában az alábbi rendszerállapot-adatoktól függ:
 
-* Biztonsági események. Az eseménynaplók jelzik, amely ismételt hitelesítés és/vagy hitelesítési hibák történnek, a rendszer lehet támadás alatt áll, és operátor tájékoztatni kell.
-* Teljesítménymértékeket. A rendszer gyorsan kell válaszolnia, ha egy adott teljesítmény metrika meghaladja a megadott küszöbértéket.
-* Rendelkezésre állási adatait. Ha hibát észlel, gyorsan egy vagy több alrendszereket, vagy egy biztonsági mentési erőforrás feladatátvételt szükség lehet. Ismétlődő hibák alrendszernek komoly aggályokat utalhat.
+* Biztonsági események. Ha az eseménynaplók azt jelzik, hogy ismételt hitelesítési és/vagy jogosultsági hibák lépnek fel, elképzelhető, hogy a rendszer támadás alatt áll, és az operátort tájékoztatni kell.
+* Teljesítmény-mérőszámok. A rendszernek gyorsan kell reagálnia, ha egy adott teljesítmény-mérőszám meghalad egy megadott küszöbértéket.
+* Rendelkezésre állással kapcsolatos információk. Hiba észlelése esetén szüksége lehet egy vagy több alrendszer gyors újraindítására, vagy egy másodlagos erőforrásra való feladatátvételre. Amennyiben egyes alrendszerekben ismétlődő hibák tapasztalhatók, ez komolyabb problémákra utalhat.
 
-Operátorok riasztási információkat fordulhat elő, például az e-mailek, személyhívó eszköz, vagy SMS szöveg számos kézbesítési csatornák használatával. Előfordulhat, hogy egy riasztás is utalhat, hogy hogyan kritikus olyan helyzet van. Sok riasztási rendszer támogatja az előfizető csoportok, és ugyanabban a csoportban lévő összes operátorok kaphat olyan riasztásokat.
+Az operátorok számos különféle csatornán keresztül kaphatják meg a riasztásokat, például e-mailben, személyhívón vagy SMS-üzenetben. A riasztások tartalmazhatnak a helyzet súlyosságára utaló adatokat is. Számos riasztási rendszer támogatja az előfizetői csoportokat, így az azonos csoportban lévő operátorok ugyanazokat a riasztásokat kapják meg.
 
-Egy riasztási rendszer testreszabható legyen, és az alapul szolgáló WMI-adatok a megfelelő értéket paraméterként megadható. Ez a megközelítés lehetővé teszi, hogy az adatok szűrése, és arra utalnak, ezeket a küszöbértékeket vagy érdeklődésére számot tartó értékek kombinációi operátor. Vegye figyelembe, hogy bizonyos esetekben a nyers WMI-adatok adható meg a riasztási rendszer. Más helyzetekben akkor célszerű több összesített adatokat. (Például is kell figyelmeztet, ha egy csomópont a CPU-felhasználást 90 százalékára túllépte az elmúlt 10 perc). A riasztási rendszer megadott adatok is tartalmaznia kell a megfelelő összegzése és a helyi adatokat. Ezek az adatok segítségével az esélye, hogy vakriasztások események trip-e a riasztást.
+A riasztási rendszereknek testreszabhatónak kell lenniük, és ehhez a mögöttes rendszerállapot-adatok megfelelő értékei szolgálhatnak paraméterként. Ez a megközelítés lehetővé teszi, hogy az operátor az adatok szűrésével a fontos küszöbértékekre és értékkombinációkra összpontosíthasson. Vegye figyelembe, hogy egyes esetekben a nyers rendszerállapot-adatok biztosíthatók a riasztási rendszer számára. Más esetekben azonban célszerűbb összesített adatokat biztosítani. (Egy riasztás kiváltására például akkor kerülhet sor, amikor a processzor kihasználtsága az elmúlt 10 percben meghaladta a 90 százalékot.) A riasztási rendszernek biztosított információknak tartalmaznia kell a megfelelő összegzési és környezeti adatokat is. Az ilyen adatok segítségével csökkenthető a vakriasztások esélye.
 
 ### <a name="reporting"></a>Jelentéskészítés
-Jelentéskészítési használja a rendszer általános áttekintést készítéséhez. Akkor lehet, hogy tartalmaznia előzményadatokat aktuális információk mellett. Jelentéskészítési követelmények maguk két nagyobb kategóriába tartoznak: működési jelentése és a biztonsági jelentés.
+A jelentéskészítés segítségével egy általános áttekintés készíthető a rendszerről. Az áttekintés tartalmazhat előzményadatokat is az aktuális információk mellett. A jelentéskészítésre vonatkozó követelmények két nagyobb kategóriába sorolhatók: működési jelentések és biztonsági jelentések.
 
-Működési jelentése többek között a következő szempontokat:
+A működési jelentések általában az alábbi szempontokat érintik:
 
-* Statisztikai adatokat tartalmaz, használatával megérthetik, hogy a megadott időszak alatt a rendszer általános vagy megadott alrendszereket erőforrás-használat összesítése
-* Az erőforrás-felhasználás a rendszer általános vagy megadott alrendszereket trendek azonosításához egy megadott időszakban
-* A kivétel történt a rendszerben vagy a megadott alrendszereket meghatározott időszakon belül figyelése
-* Az alkalmazás szempontjából a telepített erőforrások hatékonyságának meghatározása, és az ismertetése, hogy erőforrások mennyisége (és azok kapcsolódó költségét) anélkül, hogy befolyásolná a teljesítmény feleslegesen csökkenthető
+* Azon statisztikai adatok összesítése, amelyek használatával megismerhető a rendszer egészének vagy egy adott alrendszernek az erőforrás-használata egy adott időszak során.
+* Erőforrás-használati trendek azonosítása a rendszer egészére vagy egy adott alrendszerre vonatkozóan egy adott időszakot figyelembe véve.
+* A rendszerben vagy egy adott alrendszerben egy adott időszak során fellépő kivételek monitorozása.
+* Az alkalmazás hatékonyságának meghatározása az üzembe helyezett erőforrások szempontjából, és annak vizsgálata, hogy csökkenthető-e az erőforrások mennyisége (és a kapcsolódó költségek) a teljesítmény szükségtelen csökkentése nélkül.
 
-Biztonsági reporting aggasztanak nyomon követése az ügyfelek használatára. Ez az alábbiakból állhat:
+A biztonsági jelentések a rendszer felhasználók általi használatának nyomon követésével foglalkoznak. Az alábbiakra terjedhetnek ki:
 
-* A naplózás felhasználói műveletek. Ehhez az egyes kérelmeket a minden felhasználó hajtja végre, és a dátum és idő rögzítése. A adatszerkezet ahhoz, hogy a rendszergazda gyorsan hozza létre újból a felhasználó végző adott időszakon belül műveletek sorrendjét.
-* Felhasználó követési erőforrás használja. Ehhez a rögzítés hogyan kér egy felhasználó hozzáfér a különböző erőforrások, a rendszer alkotó, valamint arról, hogyan hosszú. A rendszergazda felhasználó kihasználtsági jelentés készítése egy adott időszakban, valószínűleg számlázási okokból használhatja ezeket az adatokat kell lennie.
+* A felhasználói műveletek naplózása. Ehhez rögzíteni kell az egyes felhasználók által végrehajtott kéréseket, azok dátum- és időadataival együtt. Az adatokat megfelelően strukturálni kell, hogy a rendszergazda gyorsan rekonstruálhassa az egyes felhasználók által az adott időszakban végrehajtott műveletek sorát.
+* Az erőforrások a felhasználók általi használatának nyomon követése. Ehhez rögzíteni kell, hogy egy adott felhasználó egyes kérései hogyan és milyen hosszan férnek hozzá a rendszert alkotó különböző erőforrásokhoz. A rendszergazdának az adatok használatával képesnek kell lennie a használatról szóló, felhasználókon alapuló, adott időszakra vonatkozó jelentés létrehozására, például számlázási célból.
 
-Sok esetben kötegelt folyamatok jelentéskészítés meghatározott ütemezés szerint. (Késés általában nem kapcsolatos problémát.) De ezek is elérhetőnek kell lenniük generációs eseti alapon szükség esetén. Tegyük fel Ha egy relációs adatbázisban, például az Azure SQL Database adatokat tároló segítségével olyan eszköz, például az SQL Server Reporting Services kinyerése és adatok formázása és jelenthet, mint a jelentések.
+Sok esetben kötegelt folyamatok is létrehozhatnak jelentéseket egy meghatározott ütemezés szerint. (A késés általában nem jelent problémát.) A jelentéseket azonban ad hoc alapon is létre kell tudni hozni, ha szükséges. Ha például az adatait egy relációs adatbázisban, például az Azure SQL Database-ben tárolja, egy eszköz, például az SQL Server Reporting Services segítségével kinyerheti és formázhatja az adatokat, és megjelenítheti azokat különféle jelentésekben.
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
-* [Automatikus skálázás útmutatást](../best-practices/auto-scaling.md) ismerteti, hogyan lehet felügyeleti terhelés csökkentése így a folyamatosan figyelje a rendszer teljesítményét és megalapozott döntéseket hozzáadásával vagy eltávolításával erőforrások az operátor.
-* [Állapotfigyelő végpont figyelési mintát](https://msdn.microsoft.com/library/dn589789.aspx) ismerteti, hogyan lehet olyan alkalmazás, amely a külső eszközök rendszeres időközönként kitett végpontok keresztül elérhető funkcionális ellenőrzés végrehajtásához.
-* [Prioritás várólista mintát](https://msdn.microsoft.com/library/dn589794.aspx) bemutatja, hogyan várólistára helyezett üzenetek rangsorolására, hogy a sürgős kérelmek fogadásának és feldolgozhatók üzenetfejléceket üzenetek előtt.
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
+* [Útmutató az automatikus skálázáshoz](../best-practices/auto-scaling.md): azt ismerteti, hogy hogyan csökkenthetők a felügyeleti terhek, ha kevésbé van szükség olyan operátorra, aki folyamatosan monitorozza a rendszer teljesítményét, és döntéseket hoz az erőforrások hozzáadásáról vagy eltávolításáról.
+* [Állapot végponti monitorozását végző minta](https://msdn.microsoft.com/library/dn589789.aspx): azt ismerteti, hogy hogyan valósíthatók meg rendszeres működés-ellenőrzések egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök.
+* [Elsőbbségi üzenetsor mintája](https://msdn.microsoft.com/library/dn589794.aspx): azt ismerteti, hogy hogyan rangsorolhatók az üzenetsorokba helyezett üzenetek, hogy a sürgős kérések fogadása és feldolgozása a kevésbé sürgős üzenetek előtt történjen.
 
 ## <a name="more-information"></a>További információ
-* [Figyelése, diagnosztizálása és elhárítása a Microsoft Azure tárolás](/azure/storage/storage-monitoring-diagnosing-troubleshooting)
-* [Azure: Telemetriai alapjai és hibaelhárítás](http://social.technet.microsoft.com/wiki/contents/articles/18146.windows-azure-telemetry-basics-and-troubleshooting.aspx)
-* [Azure Cloud Services és a virtuális gépek diagnosztika engedélyezése](/azure/cloud-services/cloud-services-dotnet-diagnostics)
-* [Azure Redis gyorsítótár](https://azure.microsoft.com/services/cache/), [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/), és [HDInsight](https://azure.microsoft.com/services/hdinsight/)
-* [A Service Bus-üzenetsorok használata](/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues)
-* [SQL Server üzleti intelligencia Azure virtuális gépek](/azure/virtual-machines/windows/sqlclassic/virtual-machines-windows-classic-ps-sql-bi)
-* [Riasztási értesítéseket](/azure/monitoring-and-diagnostics/insights-receive-alert-notifications) és [nyomon követése szolgáltatásának állapota](/azure/monitoring-and-diagnostics/insights-service-health)
+* [Microsoft Azure Storage felügyelete, diagnosztizálása és hibaelhárítása](/azure/storage/storage-monitoring-diagnosing-troubleshooting)
+* [Azure: a telemetria alapjai és hibaelhárítása](https://social.technet.microsoft.com/wiki/contents/articles/18146.windows-azure-telemetry-basics-and-troubleshooting.aspx)
+* [Diagnosztika engedélyezése az Azure Cloud Services és a Virtual Machines szolgáltatásban](/azure/cloud-services/cloud-services-dotnet-diagnostics)
+* [Azure Redis Cache](https://azure.microsoft.com/services/cache/), [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/) és [HDInsight](https://azure.microsoft.com/services/hdinsight/)
+* [How to use Service Bus Queues](/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues) (A Service Bus-üzenetsorok használata)
+* [Az SQL Server Business Intelligence használata az Azure Virtual Machines szolgáltatásban](/azure/virtual-machines/windows/sqlclassic/virtual-machines-windows-classic-ps-sql-bi)
+* [Riasztási értesítések fogadása](/azure/monitoring-and-diagnostics/insights-receive-alert-notifications) és [szolgáltatások állapotának nyomon követése](/azure/monitoring-and-diagnostics/insights-service-health)
 * [Application Insights](/azure/application-insights/app-insights-overview)
 

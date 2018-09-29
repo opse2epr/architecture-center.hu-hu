@@ -8,12 +8,12 @@ pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: 9a0bf170c9b54c3b2ee9cc91d6dcb5c55a13b96a
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 1cb63b61f5eb97726e266f797dfe13011907c95f
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
-ms.locfileid: "29963210"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429332"
 ---
 # <a name="event-sourcing-pattern"></a>Események forráskezelése minta
 
@@ -82,7 +82,7 @@ Az eseménytárban több szálon vagy példányban futó alkalmazások is tárol
 
 Nincs szabványos megközelítés vagy létező mechanizmus (mint például az SQL-lekérdezések) az események olvasására az adatok beszerzéséhez. Adatként kizárólag eseménystreamek olvashatóak ki feltételként egy eseményazonosítót megadva. Az eseményazonosító tipikusan egyedi entitásokra képezhető le. Egy entitás aktuális állapota csak úgy határozható meg, ha visszajátssza az összes hozzá kapcsolódó eseményt az entitás eredeti állapotából kiindulva.
 
-Az egyes eseménystreamek hossza kihat a rendszer kezelésére és frissítésére. Nagyobb streamek esetén érdemes lehet adott időközönként, például adott számú eseményenként pillanatképeket létrehozni. Az entitás aktuális állapota a pillanatképből kiindulva és az annak időpontját követően bekövetkezett eseményeket visszajátszva kérhető le. Az adatpillanatképek létrehozásával kapcsolatos további információkért lásd: [Pillanatkép Martin Fowler Enterprise Application Architecture webhelyén](http://martinfowler.com/eaaDev/Snapshot.html) és [Mester-alárendelt pillanatkép-replikálás](https://msdn.microsoft.com/library/ff650012.aspx).
+Az egyes eseménystreamek hossza kihat a rendszer kezelésére és frissítésére. Nagyobb streamek esetén érdemes lehet adott időközönként, például adott számú eseményenként pillanatképeket létrehozni. Az entitás aktuális állapota a pillanatképből kiindulva és az annak időpontját követően bekövetkezett eseményeket visszajátszva kérhető le. Az adatpillanatképek létrehozásával kapcsolatos további információkért lásd: [Pillanatkép Martin Fowler Enterprise Application Architecture webhelyén](https://martinfowler.com/eaaDev/Snapshot.html) és [Mester-alárendelt pillanatkép-replikálás](https://msdn.microsoft.com/library/ff650012.aspx).
 
 Bár az Események forráskezelése minimalizálja az adatok ütköző frissítésének esélyét, az alkalmazásnak így is képesnek kell lennie kezelni a végleges konzisztenciából és a tranzakciók hiányából eredő inkonzisztenciát. Például egy, a leltárkészlet csökkenését jelző esemény érkezhet az adattárba, miközben éppen egy, az adott tételre vonatkozó megrendelés érkezik, ami azt eredményezi, hogy a két művelet egyeztetni kell, és vagy az ügyfelet tájékoztatni kell, vagy egy teljesítetlen rendelést létrehozni.
 
@@ -162,5 +162,3 @@ Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalós
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). Ha az Események forráskezelése mintát egy külön olvasási tárral vagy tényleges táblán alapuló nézetekkel alkalmazza, a beolvasott adatok nem azonnal, hanem csak végül lesznek konzisztensek. A szakasz az elosztott adatok konzisztenciájának megőrzésével kapcsolatos problémákat foglalja össze.
 
 - [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx). Az Események forráskezelése minta alkalmazása esetén az adatokat gyakorta szokás particionálni a skálázhatóság javítása, a versengés csökkentése és a teljesítmény optimalizálása érdekében. A szakasz az adatok diszkrét partíciókra való felosztását és az esetlegesen felmerülő problémákat ismerteti.
-
-- Greg Young bejegyzése: [Miért érdemes az Események forráskezelése mintát alkalmazni?](http://codebetter.com/gregyoung/2010/02/20/why-use-event-sourcing/).

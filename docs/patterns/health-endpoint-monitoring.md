@@ -9,12 +9,12 @@ pnp.pattern.categories:
 - availability
 - management-monitoring
 - resiliency
-ms.openlocfilehash: 3b3bce46b460148af17bfe6064cd052a5f9a6458
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 22a4e47c4dd8dd3dd11a4238e859acbea49f9d1b
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847849"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428975"
 ---
 # <a name="health-endpoint-monitoring-pattern"></a>Állapot végponti monitorozását végző minta
 
@@ -89,7 +89,7 @@ Hogyan konfiguráljuk a monitorozási végpontok biztonságát annak érdekében
 
      >  A DoS-támadások valószínűleg kisebb hatással lesznek egy különálló végpontra, amely anélkül végez alapszintű funkcióteszteket, hogy akadályozná az alkalmazás működését. Ha lehetséges, ne használjon olyan teszteket, amelyek kiszivárogtathatnak bizalmas információkat. Ha olyan információt kell visszaadnia, amely hasznos lehet egy támadónak, gondolja át, hogyan fogja megvédeni a végpontot és az adatot a jogosulatlan hozzáféréstől. Ebben az esetben nem elég pusztán az elrejtésre támaszkodni. Emellett érdemes lehet HTTPS-kapcsolatot alkalmazni, és titkosítani minden bizalmas adatot, bár ez meg fogja növelni a kiszolgáló terheltségét.
 
-- Hogyan érhetők el az olyan végpontok, amelyek hitelesítés által védettek? Nem minden eszköz és keretrendszer konfigurálható arra, hogy az állapot-ellenőrzési kérésbe belefoglalja a hitelesítő adatokat. A Microsoft Azure beépített állapot-ellenőrzési funkciói például nem képesek hitelesítő adatokat biztosítani. Néhány alternatív, külső megoldás: [Pingdom](https://www.pingdom.com/), [Panopta](http://www.panopta.com/), [NewRelic](https://newrelic.com/) és [Statuscake](https://www.statuscake.com/).
+- Hogyan érhetők el az olyan végpontok, amelyek hitelesítés által védettek? Nem minden eszköz és keretrendszer konfigurálható arra, hogy az állapot-ellenőrzési kérésbe belefoglalja a hitelesítő adatokat. A Microsoft Azure beépített állapot-ellenőrzési funkciói például nem képesek hitelesítő adatokat biztosítani. Néhány alternatív, külső megoldás: [Pingdom](https://www.pingdom.com/), [Panopta](https://www.panopta.com/), [NewRelic](https://newrelic.com/) és [Statuscake](https://www.statuscake.com/).
 
 - Hogyan ellenőrizhető, hogy a figyelőügynök megfelelően működik-e? Az egyik lehetőség elérhetővé tenni egy végpontot, amely egyszerűen visszaad egy értéket az alkalmazás konfigurációjából, vagy egy véletlenszerű értéket, amellyel tesztelhető az ügynök.
 

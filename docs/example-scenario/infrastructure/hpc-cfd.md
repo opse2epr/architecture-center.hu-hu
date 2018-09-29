@@ -3,12 +3,12 @@ title: Azure-on futó numerikus áramlástani (CFD)
 description: Mintául szolgáló megoldás leíró futtatásáról számítási Folyadékdinamika (CFD) az Azure-ban
 author: mikewarr
 ms.date: 09/20/2018
-ms.openlocfilehash: e765ca0e44ddb2ea4caa91afe4de675a16b43d35
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 2c14134a87173c0399f32947c60ead78e5257842
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534550"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428652"
 ---
 # <a name="running-computational-fluid-dynamics-cfd-on-azure"></a>Azure-on futó numerikus áramlástani (CFD)
 
@@ -72,7 +72,7 @@ Az Azure-beli üzembe helyezése előtt bizonyos Előfeltételek teljesülésér
 2. [SSH-kulcspár] [ cycle-ssh] való biztonságos bejelentkezéshez a CycleCloud kiszolgáló
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FCycleCloudCommunity%2Fcyclecloud_arm%2Fmaster%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
+    <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
 
 3. [Jelentkezzen be a CycleCloud kiszolgáló] [ cycle-login] konfigurálásához és a egy új fürt létrehozása

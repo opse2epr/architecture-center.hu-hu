@@ -3,12 +3,12 @@ title: Az SAP-feladatokat az Azure-ban fejlesztési/tesztelési enviroments
 description: Egy példán keresztül, az SAP-feladatokat a fejlesztési és tesztelési környezetek létrehozásához.
 author: AndrewDibbins
 ms.date: 7/11/18
-ms.openlocfilehash: bafa489ffb1be417f8813d727f63fa51b764f638
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 607fdbb07bb0f8ac7c5d3c37cd1fcf4e96536326
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46533915"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428533"
 ---
 # <a name="devtest-environments-for-sap-workloads-on-azure"></a>Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek
 
@@ -89,7 +89,7 @@ Megjegyzés: egy útmutató, díjszabás, és csak azt jelzi, hogy a virtuális 
 Ebben a forgatókönyvben az alapul szolgáló infrastruktúra telepítéséhez kattintson ide.
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fsap-2tier%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
+    <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
 
 Megjegyzés: Az SAP és Oracle nincs telepítve a központi telepítés során. Ezek az összetevők telepítését külön-külön kell.

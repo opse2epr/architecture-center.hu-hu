@@ -3,12 +3,12 @@ title: Adattárház és analitika értékesítés és marketing
 description: Az Azure-beli adattárház segítségével több forrásból származó adatok egyesíthetők, és optimalizálhatja a data analytics.
 author: alexbuckgit
 ms.date: 09/15/2018
-ms.openlocfilehash: 3c46de2921fe68a5a388fd4c8ebf6e7a4c736922
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: a6674279ee41167607db9c7def366afecb921939
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534557"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47427926"
 ---
 # <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárház és analitika értékesítés és marketing
 
@@ -76,7 +76,7 @@ Ezek segítségével számos Azure-összetevők különböző adatforrásokból 
 Ebben az architektúrában a technológiákat, a skálázhatóság és rendelkezésre állás, a vállalat követelményei ezáltal szabályozhatja a költségeket, miközben telepítve lettek kiválasztva.
 
 * A [nagymértékben párhuzamos feldolgozási architektúra](/azure/sql-data-warehouse/massively-parallel-processing-mpp-architecture) az SQL Data Warehouse a méretezhetőséget és teljesítményt biztosít.
-* Az SQL Data Warehouse rendelkezik [garantált SLA-kkal](http://azure.microsoft.com/support/legal/sla/sql-data-warehouse/v1_0/) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/sql-data-warehouse/sql-data-warehouse-best-practices).
+* Az SQL Data Warehouse rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/sql-data-warehouse/) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/sql-data-warehouse/sql-data-warehouse-best-practices).
 * Elemzés a tevékenységet, alacsony, ha a vállalat is [igény szerinti méretezés az SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-manage-compute-overview), csökkentése, vagy akár a költségek csökkentése a számítás felfüggesztése.
 * Az Azure Analysis Services lehet [horizontálisan felskálázott](/azure/analysis-services/analysis-services-scale-out) feladatok esetén a válaszidők csökkentése érdekében. Is elkülönítheti a feldolgozása a lekérdezési készletből, így az ügyfél lekérdezések nem lassítsa le a feldolgozási műveletek. 
 * Az Azure Analysis Services is rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/analysis-services/v1_0/) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/analysis-services/analysis-services-bcdr).

@@ -1,103 +1,103 @@
 ---
-title: Prioritású várólistára.
-description: Priorizálhatja azokat, hogy a magasabb prioritású kérelmek fogadott, és gyorsabban dolgozza fel a kisebb prioritással rendelkező szolgáltatások küldött kérelmeket.
-keywords: Kialakítási mintája
+title: Priority Queue
+description: Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - messaging
 - performance-scalability
-ms.openlocfilehash: ecfbb38304bb95587e9ca15523ad9594898d9b32
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 400bfbc03cf5640ff32a551636b01d60e6c0ec50
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24543145"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428499"
 ---
-# <a name="priority-queue-pattern"></a>Prioritás várólista minta
+# <a name="priority-queue-pattern"></a>Elsőbbségi üzenetsor mintája
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Priorizálhatja azokat, hogy a magasabb prioritású kérelmek fogadott, és gyorsabban dolgozza fel a kisebb prioritással rendelkező szolgáltatások küldött kérelmeket. Ebben a mintában akkor hasznos, az alkalmazásokat, amelyek az egyes ügyfelek különböző szolgáltatási szint biztosítja, hogy biztosítson.
+Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat. Ez a minta olyan alkalmazások esetében hasznos, amelyek különböző szolgáltatási szintre vonatkozó garanciákat kínálnak az egyes ügyfelek számára.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Alkalmazások hajtsa végre a háttérben történő feldolgozás, vagy más alkalmazásokhoz vagy szolgáltatásokhoz integrálása például delegálhatja más szolgáltatásokban meghatározott feladatok. A felhőben egy üzenet-várólista általában használt háttérben történő feldolgozás feladatok delegálására. Sok esetben egy szolgáltatás-kérelmek fogadásának a sorrendje fontos nem található. Egyes esetekben azonban fontos rangsorolására bizonyos kérésekre. Ezek a kérelmek korábbi, mint az alacsonyabb prioritású virtuális gép kérelmek az alkalmazás által korábban elküldött fel kell dolgozni.
+Az alkalmazások bizonyos feladatokat delegálhatnak más szolgáltatások számára, például a háttérfeldolgozás végrehajtását vagy a más alkalmazásokkal/szolgáltatásokkal való integrációt. A felhőben az üzenetsorokat jellemzően a feladatok háttérbeli feldolgozásra való delegálására használjuk. Sok esetben a szolgáltatások által fogadott rendelési kérelmek nem lényegesek. Néha azonban meg kell határozni bizonyos kérelmek prioritását. Ezeket a kérelmeket korábban kell feldolgozni, mint az alkalmazás által korábban küldött, alacsonyabb prioritású kérelmeket.
 
 ## <a name="solution"></a>Megoldás
 
-A várólista általában érkezési sorrendben történő kiküldési struktúra, és a fogyasztók ugyanabban a sorrendben, amely a várólistára könyvelés általában üzeneteket fogadni. Egyes üzenetsorok azonban támogatja a prioritás üzenetkezelés. Az alkalmazás, egy üzenet is rendelhet prioritást, valamint a várólistán lévő üzenetek automatikusan rendezi újra, így azok a magasabb prioritású fogadja az alacsonyabb prioritásúak előtt. Az ábrán láthatja a prioritás üzenetküldési rendelkező várólista.
+Az üzenetsorok általában érkezési sorrend alapján végzik a feldolgozást, és a fogyasztók jellemzően az üzenetsorban való közzététel sorrendjében kapják meg az üzeneteket. Bizonyos üzenetsorok azonban támogatják a prioritásalapú üzenetkezelést is. Az üzenetet közzétevő alkalmazás prioritást rendelhet az üzenetekhez, és ekkor a rendszer az üzenetsorban lévő üzenetek sorrendjét automatikusan úgy rendezi át, hogy a magasabb prioritású üzenetek fogadása történjen meg előbb. Az ábrán egy prioritásalapú üzenetkezelést alkalmazó üzenetsor látható.
 
-![1. ábra – egy üzenetsor-kezelési mechanizmust, amely támogatja az üzenet rangsorolási használatával](./_images/priority-queue-pattern.png)
+![1. ábra – Üzenetpriorizálást támogató üzenetsor-kezelési mechanizmus használata](./_images/priority-queue-pattern.png)
 
-> A legtöbb üzenet-várólista megvalósítások támogatja, több felhasználóból (következő a [versengő fogyasztók mintát](https://msdn.microsoft.com/library/dn568101.aspx)), és a fogyasztói folyamatok száma is méretezhető felfelé vagy lefelé attól függően, hogy igény szerint.
+> A legtöbb üzenetsor-implementáció támogatja a többfogyasztós megoldásokat (a [Versengő felhasználókat ismertető minta](https://msdn.microsoft.com/library/dn568101.aspx) szerint), és a fogyasztói folyamatok száma igény szerint skálázható vertikálisan.
 
-A rendszer nem támogatja a prioritásalapú üzenetsorok egy alternatív megoldás, hogy minden egyes prioritás külön várólistájának karbantartása. Az alkalmazás felelős az üzenetek a megfelelő várólistát. Minden egyes üzenetsorok rendelkezhetnek fogyasztók külön készletét. Magasabb prioritású várólisták is rendelkezik, és nagyobb, mint az alacsonyabb prioritású virtuális gép várólisták gyorsabb hardveren futó fogyasztói. A következő ábra azt mutatja be, különálló üzenetsorokat használ minden egyes prioritás.
+Olyan rendszerekben, amelyek nem támogatják a prioritásalapú üzenetsorokat, alternatív megoldásként külön sorokat tarthatunk fenn a prioritások számára. Az alkalmazás feladata az üzenetek megfelelő üzenetsorban történő közzététele. Minden egyes üzenetsorhoz külön fogyasztók tartozhatnak. A magasabb prioritású üzenetsorokhoz több, gyorsabb hardveren futtatott fogyasztó tartozhat, mint az alacsonyabb prioritású üzenetsorokhoz. A következő ábra azt mutatja be, amikor külön üzenetsorokat használunk minden egyes prioritáshoz.
 
-![2. ábra – külön üzenetsorokat használ minden egyes prioritás](./_images/priority-queue-separate.png)
+![2. ábra – Külön üzenetsor használata minden egyes prioritáshoz](./_images/priority-queue-separate.png)
 
 
-Ezt a stratégiát egy változatát, hogy először ellenőrizze a magas prioritású várólisták üzeneteket, és csak ezután start üzenetek beolvasása alacsonyabb prioritású virtuális gép várólisták a fogyasztók egyetlen készletét. Vannak a fogyasztói folyamatok egyetlen készletét alkalmazó megoldás közötti eltérések szemantikai (vagy egy adott sorba, amely támogatja a különböző prioritásokba vagy több üzenetsorok üzenetek hogy minden egyes üzenetek kezeléséhez egyetlen prioritás), és a megoldás amely használ több várólisták egy másik készlet minden egyes sor.
+Ennek a stratégiának egy variációja, ha egyetlen fogyasztókészlet először a magas prioritású üzenetsorok üzeneteit kérdezi le, majd azután az alacsonyabb prioritású üzenetsorok üzeneteit. Szemantikai különbségek vannak az egyetlen fogyasztófolyamat-készletet alkalmazó megoldások (ezek használhatnak egyetlen, különböző prioritású üzeneteket támogató üzenetsort vagy több üzenetsort, amelyek mindegyike adott prioritású üzeneteket kezel), illetve az olyan, több üzenetsort használó megoldások között, ahol minden egyes üzenetsorhoz külön készlet tartozik.
 
-Magasabb prioritású üzeneteket egyetlen készlet megközelítéssel mindig kapott és dolgozza fel előbb alacsonyabb prioritású üzenetek. Elméletileg üzeneteket, amelyek nagyon alacsony prioritást sikerült folyamatosan írhatók, és előfordulhat, hogy soha nem dolgozható fel. A több készlet módszert használja, az alacsonyabb prioritású üzenetek mindig dolgoz fel, nem csupán leggyorsabban a magasabb prioritású (attól függően, hogy a készletek és az erőforrások relatív méretét, hogy rendelkezik-e elérhető).
+Az egykészletes módszer esetén a magasabb prioritású üzeneteket fogadása és feldolgozása mindig az alacsonyabb prioritású üzenetek előtt történik. Elméletileg előfordulhat, hogy a nagyon alacsony prioritású üzenetek folyamatosan kiszorulnak, és soha nem lesznek feldolgozva. A többkészletes módszerben az alacsonyabb prioritású üzenetek minden esetben fel lesznek dolgozva, csak lassabban, mint a magasabb prioritásúak (a feldolgozás sebessége a készletek relatív méretétől és a rendelkezésre álló erőforrásoktól függ).
 
-A prioritás Üzenetsor-kezelés alapján történő a következő előnyöket biztosítja:
+A prioritásalapú üzenetsor-kezelés alkalmazása a következő előnyökkel jár:
 
-- Ez lehetővé teszi, hogy az üzleti követelményeinek megfelelően, a rendelkezésre állás vagy a teljesítmény, például a különböző szintjei szolgáltatás ügyfelek adott csoportokhoz rangsorolási igénylő alkalmazások.
+- Lehetővé teszi az alkalmazások számára, hogy megfeleljenek azon üzleti követelményeknek, amelyek a rendelkezésre állás vagy a teljesítmény priorizálását igénylik (például különböző szintű szolgáltatást nyújtanak adott ügyfélcsoportok számára).
 
-- Segíthet a működési költségek minimalizálása érdekében. Egyetlen sor megközelítéssel méretezheti vissza a felhasználók száma szükség esetén. Magas prioritású üzenetek továbbra is lesz elsőként feldolgozva (bár valószínűleg lassabban), és az alacsonyabb prioritású üzenetek előfordulhat, hogy később, az többé. Ha a több üzenetet várólista módszert, a fogyasztók egyes várólisták külön készletek bevezetése csökkentheti a fogyasztók alacsonyabb prioritású virtuális gép várólisták körét, vagy feldolgozási néhány nagyon kis prioritású virtuális gép várólisták fel is függesztheti a fogyasztók leállításával, Ezek a várólisták üzeneteket figyeli.
+- Hozzájárulhat az üzemeltetési költségek minimálisra csökkentéséhez. Az egykészletes módszerben szükség esetén csökkenthetjük a fogyasztók számát. Továbbra is először a magas prioritású üzenetek lesznek feldolgozva (bár esetleg lassabban), az alacsonyabb prioritású üzenetek pedig hosszabb ideig késhetnek. Ha több üzenetsoros megközelítést használ, ahol minden egyes üzenetsorhoz külön fogyasztókészlet tartozik, lecsökkentheti az alacsonyabb prioritású üzenetsorokhoz tartozó fogyasztókészlet nagyságát, vagy akár fel is függesztheti egyes nagyon alacsony prioritású üzenetsorok feldolgozását úgy, hogy leállítja a kérdéses üzenetsorok üzeneteit figyelő fogyasztókat.
 
-- Üzenet-várólista több megközelítés segítségével, maximalizálhatja az alkalmazás teljesítményét és méretezhetőségét felosztásával az üzenetek feldolgozási követelmények alapján. Például létfontosságú feladatok is prioritása fogadó számára azonnal, míg a kevésbé fontos háttérfeladatok fogadó számára kevésbé foglalt időszakokban ütemezett kell kezelnie kell kezelnie.
+- A többüzenetsoros megközelítés révén maximalizálható az alkalmazások teljesítménye és skálázhatósága az üzenetek feldolgozási követelményeken alapuló particionálásával. Például az alapvető fontosságú feladatok priorizálásával elérhető, hogy azokat azonnal futó fogadók dolgozzák fel, míg a kevésbé fontos háttérfeladatokat a kisebb terhelésű időszakokban futó fogadók kezelhetik.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Adja meg a prioritások a megoldás környezetében. Például magas prioritású azt is jelentheti, hogy üzenetek tíz másodpercen belül fel kell dolgozni. A magas prioritású elemeken, és a más erőforrások, az ezen feltételeknek kell kiosztani-követelményeinek azonosítása.
+Határozza meg a prioritásokat a megoldás tekintetében. A magas prioritás például azt jelentheti, hogy az üzeneteket tíz másodpercen belül fel kell dolgozni. Határozza meg a magas prioritású elemek kezelésére vonatkozó követelményeket, valamint az ezen kritériumoknak való megfelelés céljából lefoglalni kívánt egyéb forrásokat.
 
-Döntse el, ha az összes magasabb prioritású elemekkel bármely alacsonyabb prioritású elemek előtt kell végrehajtani. Ha az üzenetek feldolgozott fogyasztók egyetlen készletét, hogy egy olyan mechanizmus biztosítása, amely megelőzik és egy feladatot, ha egy magasabb prioritású üzenet elérhetővé válik egy kis prioritású virtuális gép üzenet kezelő felfüggesztése.
+Döntse el, hogy minden magas prioritású elemet az alacsonyabb prioritású elemek előtt kíván-e feldolgozni. Ha az üzeneteket egyetlen fogyasztókészlet dolgozza fel, ehhez olyan mechanizmust kell biztosítani, amely képes visszasorolni és felfüggeszteni az alacsony prioritású üzeneteket kezelő feladatot, ha magasabb prioritású üzenet válik elérhetővé.
 
-A több várólista módszert használja, használatakor az összes várólistán figyelő fogyasztói folyamatok egyetlen készletét, nem pedig egy dedikált fogyasztói készlet minden egyes sor a fogyasztó biztosítja azt mindig magasabb prioritású várólisták szolgáltatások üzeneteit algoritmust kell alkalmaznia mielőtt azokat a alacsonyabb prioritású virtuális gép várólistákból.
+Ha a több üzenetsoros megközelítésben egyetlen olyan fogyasztófolyamat-készletet használunk, amely az összes üzenetsort, nem pedig az egyes üzenetsorokhoz tartozó dedikált fogyasztókészletet figyeli, a fogyasztónak olyan algoritmust kell alkalmaznia, amely biztosítja, hogy a rendszer mindig előbb a magasabb prioritású üzenetsorok üzeneteit szolgálja ki.
 
-A figyelő a feldolgozás sebessége a magas és alacsony prioritású várólisták kiválasztásával győződjön meg arról, hogy ilyen üzeneteket dolgozzák fel a várt sebességeket.
+A magas és alacsony prioritású üzenetsorok feldolgozási sebességének monitorozásával biztosítható, hogy az ezen üzenetsorokban lévő üzenetek feldolgozása a várt sebességgel történjen.
 
-Kell garantálni, kis prioritású virtuális gép üzenetet dolgoz fel, akkor a több üzenetet várólista módszert, a fogyasztók több készletet végrehajtásához szükséges. Másik lehetőségként a sorhoz, amely támogatja az üzenet rangsorolási, is lehet dinamikusan életkorának az üzenetsorban található üzenet, mert a prioritás növelése. Ez a módszer azonban ezt a szolgáltatást nyújtó üzenet-várólista függ.
+Ha garantálni kell, hogy az alacsony prioritású üzenetek feldolgozása megtörténik, a több üzenetsoros megközelítést több fogyasztókészlettel kell implementálni. Alternatív megoldásként az üzenetpriorizálást támogató üzenetsorokban lehetséges az üzenetsorban található üzenetek prioritásának dinamikus növelése az idő előrehaladtával. Ezen megközelítés megvalósíthatósága azonban a funkciót biztosító üzenetsortól függ.
 
-Egy külön várólista a minden üzenet prioritása működik a legjobban, amelyek néhány jól meghatározott prioritások rendszerekhez.
+Külön üzenetsor használata az egyes üzenetprioritásokhoz olyan rendszerek esetében működik a legjobban, amelyek kevés, jól meghatározott prioritással rendelkeznek.
 
-Üzenet prioritások logikailag lehet meghatározni a rendszer. Például ahelyett, hogy explicit magas és alacsony prioritású üzeneteket, azok sikerült jelölhetők "fizető díj ügyfél" vagy "nem díj fizető ügyfeleket." Attól függően, hogy az üzleti modell a a rendszer a további erőforrásokat kiosztani is díj fizető felhasználók nem díj fizető azokat, mint az üzenetek feldolgozása.
+A rendszer képes logikai alapon meghatározni az üzenetprioritásokat. Például ahelyett, hogy explicit módon magas és alacsony prioritású üzenetekről beszélnénk, ezek lehetnek „fizető ügyfelek” és „nem fizető ügyfelek”. Az üzleti modelltől függően a rendszer több erőforrást foglalhat le a fizető ügyfelektől származó üzenetek feldolgozására, mint a nem fizető ügyfelek esetében.
 
-Költség feldolgozása társított ellenőrzése a várólista (néhány kereskedelmi üzenetkezelési rendszerek kell fizetni egy kis díj minden alkalommal, amikor egy üzenet közzé vagy lekérése, és minden alkalommal, amikor a várólista le kell kérdezni az üzenetek) üzenet, és lehet egy pénzügyi. Növeli a költségeket, több várólisták ellenőrzésekor.
+Előfordulhat, hogy pénzügyi és feldolgozási költséggel jár egy üzenet lekérdezése az üzenetsorból (egyes kereskedelmi forgalomban lévő üzenetkezelési rendszerek kis összegű díjat számítanak fel az üzenetek közzétételekor vagy lekérdezésekor, illetve az üzenetek üzenetsorból való lekérésekor). Több üzenetsor lekérdezésekor a költségek is növekednek.
 
-Akkor lehet dinamikusan úgy, hogy a fogyasztók alapján, amely a készlet szervizeli a várólista hossza a készlet mérete. További információkért lásd: a [automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx).
+A készlet által kiszolgált üzenetsor hossza alapján lehetséges a fogyasztókészlet méretének dinamikus módosítása. További információ: [Automatikus skálázási útmutató](https://msdn.microsoft.com/library/dn589774.aspx).
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez a minta olyan esetekben hasznos, ha:
+Ez a minta az alábbi forgatókönyvekben hasznos:
 
-- A rendszer több különböző prioritással rendelkező tevékenységek kell kezelni.
+- A rendszernek több olyan feladatot kell kezelnie, amelyek eltérő prioritásokkal rendelkeznek.
 
-- Különböző felhasználók vagy a bérlők különböző prioritással rendelkező fel kell dolgozni.
+- A különböző felhasználókat vagy bérlőket különböző prioritással kell kiszolgálni.
 
 ## <a name="example"></a>Példa
 
-A Microsoft Azure nem biztosít egy üzenetsor-kezelési mechanizmust, amely natív módon támogatja az automatikus rangsorolási üzenetek rendezés keresztül. Azonban valós Azure Service Bus-üzenettémák és előfizetések, amelyek az üzenetsor-kezelési módszer, amely üzenet szűrés együtt széles körét, amelyek hasznos legtöbb prioritású várólista implementációkban rugalmas lehetőségeket biztosít.
+A Microsoft Azure nem biztosít olyan üzenetsor-kezelési mechanizmust, amely natív módon támogatja az üzenetek rendezéssel történő automatikus priorizálását. Biztosít azonban olyan Azure Service Bus-témaköröket és -előfizetéseket, amelyek támogatják az üzenetszűrési szolgáltatást nyújtó üzenetsor-kezelési mechanizmust, valamint számos olyan rugalmas képességet, amelyek ideálissá teszik azt a legtöbb prioritásalapú üzenetsor implementálásakor.
 
-Egy Azure megoldás is létrehozható egy Service Bus, a témakör az alkalmazás beküldheti részére küldött üzenetek, a várólista azonos módon. Üzenetek metaadatok alkalmazás által definiált egyéni tulajdonságok formájában is tartalmazhat. A Service Bus-előfizetések társíthatók a témakört, és ezeket az előfizetéseket üzenetek tulajdonságaik alapján szűrhetők. Amikor egy alkalmazás egy üzenetet küld a témakör, az üzenet van irányítva a megfelelő előfizetés ahol annak olvasása a fogyasztó. Felhasználói folyamatokat is azonos szemantika használatával, egy üzenet-várólista (előfizetés egy logikai várólista) előfizetés üzeneteket beolvasni. A következő ábra azt mutatja be, az Azure Service Bus-üzenettémák és előfizetések prioritású várólista végrehajtási.
+Az Azure-megoldások képesek olyan Service Bus-témakörök implementálására, amelybe az alkalmazások az üzenetsorokkal azonos módon üzeneteket tehetnek közzé. Az üzenetek alkalmazások által meghatározott egyéni tulajdonságok formájában metaadatokat tartalmazhatnak. Az adott témakörhöz Service Bus-előfizetések társíthatók, és ezek az előfizetések a tulajdonságaik alapján szűrhetik az üzeneteket. Amikor egy alkalmazás üzenetet küld egy témakörnek, az üzenetet a rendszer a megfelelő előfizetéshez irányítja, ahol a fogyasztó elolvashatja azt. A fogyasztófolyamatok az üzenetek előfizetésből történő lekérdezésére ugyanazt a szemantikát használhatják, mint az üzenetsorok (az előfizetés logikai üzenetsornak tekinthető). A következő ábrán egy prioritásalapú üzenetsor Azure Service Bus-témakörök és -előfizetések felhasználásával történő implementálása látható.
 
-![3. ábra - végrehajtási egy prioritású várólistára. az Azure Service Bus-üzenettémák és előfizetések](./_images/priority-queue-service-bus.png)
+![3. ábra – Prioritásalapú üzenetsor Azure Service Bus-témakörök és -előfizetések felhasználásával történő implementálása](./_images/priority-queue-service-bus.png)
 
 
-A fenti ábrán az alkalmazások több üzenetek és rendeli hozzá az egyéni tulajdonságot, `Priority` minden üzenet értékű, vagy `High` vagy `Low`. Az alkalmazás ezen üzeneteket a témakörökbe küldi. A témakör azt, hogy mindkét üzenetek szűrése megvizsgálásával két kapcsolódó előfizetések a `Priority` tulajdonság. Egy előfizetés üzeneteket fogad ahol a `Priority` tulajdonsága `High`, és az egyéb üzeneteket fogad ahol a `Priority` tulajdonsága `Low`. Egyes fogyasztók üzenetek olvassa be az egyes előfizetések. A magas prioritású virtuális gép előfizetés nagyobb készlet rendelkezik, és a fogyasztók számára biztosítson a fogyasztók, kis prioritású virtuális gép-készletben-nál több erőforrást nagyobb teljesítményű számítógépek futhat.
+A fenti ábrán szereplő alkalmazás több üzenetet hoz létre, és hozzájuk rendel egy `Priority` nevű egyéni tulajdonságot és egy értéket (ez `High` vagy `Low` lehet). Az alkalmazás ezeket az üzeneteket közzéteszi egy témakörbe. Ez a témakör két társított előfizetéssel rendelkezik, amelyek a `Priority` tulajdonság megvizsgálásával szűrik az üzeneteket. Az egyik előfizetés akkor fogad üzeneteket, ha a `Priority` tulajdonság értéke `High`, a másik pedig akkor, ha a `Priority` tulajdonság értéke `Low`. Az egyes előfizetésekből fogyasztókészletek olvassák az üzeneteket. A magas prioritású előfizetések nagyobb készlettel rendelkeznek, és ezek a fogyasztók nagyobb teljesítményű, több erőforrással rendelkező számítógépeken futhatnak, mint az alacsony prioritású készletek fogyasztói.
 
-Vegye figyelembe, hogy nincs szükség különleges kapcsolatos magas és alacsony prioritás üzenetek ebben a példában a jelölést. Egyszerűen tulajdonságként az egyes üzeneteket a megadott címkék van, és segítségével a megadott előfizetés-üzenetek. További prioritások szükség, akkor további létrehozásához előfizetések és -készletek kezelésére e prioritások fogyasztói folyamatok viszonylag egyszerű.
+Vegye figyelembe, hogy ebben a példában nincs jelentősége a magas és alacsony prioritású üzenetek megjelölésének. Ezek egyszerűen az egyes üzenetekben tulajdonságokként megadott címkék, amelyeket a rendszer arra használ, hogy az üzeneteket egy adott előfizetéshez irányítsák. Ha további priorizálásra van szükség, viszonylag könnyű létrehozni további előfizetéseket fogyasztófolyamat-készleteket ezen prioritások kezeléséhez.
 
-Az elérhető PriorityQueue megoldás [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/priority-queue) tartalmazza ezt a módszert megvalósítása. Ez a megoldás tartalmaz két feldolgozói szerepkör projekt nevű `PriorityQueue.High` és `PriorityQueue.Low`. A feldolgozói szerepkörök örökli a `PriorityWorkerRole` osztály, amely tartalmazza a megadott előfizetés történő kapcsolódáshoz a szolgáltatásokat a `OnStart` metódust.
+A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/priority-queue) elérhető PriorityQueue megoldás ezen megközelítés egyik implementálását tartalmazza. Ez a megoldás a következő két feldolgozóiszerepkör-projektet tartalmazza: `PriorityQueue.High` és `PriorityQueue.Low`. Ezek a feldolgozói szerepkörök a `PriorityWorkerRole` osztály tulajdonságait öröklik, amely az adott előfizetéshez való csatlakozási funkciót tartalmazza az `OnStart` metódusban.
 
-A `PriorityQueue.High` és `PriorityQueue.Low` feldolgozói szerepkörök csatlakozás különböző előfizetésekhez, a konfigurációs beállítások határozzák meg. Különböző számú minden egyes szerepkör futtatásához a rendszergazdák konfigurálhatják. Általában nem lesz több példánya a `PriorityQueue.High` feldolgozói szerepkör, mint a `PriorityQueue.Low` feldolgozói szerepkör.
+A `PriorityQueue.High` és a `PriorityQueue.Low` feldolgozói szerepkör különböző előfizetésekhez csatlakozik, amelyet a konfigurációs beállítások határoznak meg. A rendszergazdák külön-külön konfigurálhatják a futtatni kívánt szerepkörök számát. Jellemzően a `PriorityQueue.High` feldolgozói szerepkör több példánya fog futni, mint a `PriorityQueue.Low` feldolgozói szerepkörből.
 
-A `Run` metódust a `PriorityWorkerRole` osztály rendezi a virtuális `ProcessMessage` metódus (is definiálva a `PriorityWorkerRole` osztály) tartozó minden üzenet érkezett a várólistát. A következő kódot tartalmazza a `Run` és `ProcessMessage` módszerek. A `QueueManager` PriorityQueue.Shared projektben meghatározott osztály Azure Service Bus-üzenetsorok használatával segítő metódusokat biztosít.
+A `PriorityWorkerRole` osztály `Run` metódusa kezeli az üzenetsorban fogadott üzenetek esetében futtatandó virtuális `ProcessMessage` metódust (amely szintén a `PriorityWorkerRole` osztályban van meghatározva). A következő kód a `Run` és a `ProcessMessage` metódust mutatja be. A PriorityQueue.Shared projektben meghatározott `QueueManager` osztály Azure Service Bus-üzenetsorok használatához biztosít segédmetódusokat.
 
 ```csharp
 public class PriorityWorkerRole : RoleEntryPoint
@@ -121,7 +121,7 @@ public class PriorityWorkerRole : RoleEntryPoint
   }
 }
 ```
-A `PriorityQueue.High` és `PriorityQueue.Low` mindkét feldolgozói szerepkörök bírálja felül az alapértelmezett funkcióit a `ProcessMessage` metódust. Az alábbi kódot a `ProcessMessage` módszer a `PriorityQueue.High` feldolgozói szerepkör.
+A `PriorityQueue.High` és a `PriorityQueue.Low` feldolgozói szerepkör egyaránt felülírja a `ProcessMessage` metódus alapértelmezett funkcióját. Az alábbi kód a `PriorityQueue.High` feldolgozói szerepkör `ProcessMessage` metódusát mutatja be.
 
 ```csharp
 protected override async Task ProcessMessage(BrokeredMessage message)
@@ -133,7 +133,7 @@ protected override async Task ProcessMessage(BrokeredMessage message)
 }
 ```
 
-Ha egy alkalmazás visszaküldés üzeneteket a témakör az előfizetések által használt társított a `PriorityQueue.High` és `PriorityQueue.Low` feldolgozói szerepkörök használatával adja meg a prioritás a `Priority` egyéni tulajdonság, a következő kódrészlet példa látható. Ezzel a kóddal (megvalósítva a `WorkerRole` osztály a PriorityQueue.Sender projekt), használja a `SendBatchAsync` segítő metódusában a `QueueManager` visszaküldeni az üzeneteket a témakörökbe kötegekben osztály.
+Ha egy alkalmazás a `PriorityQueue.High` és a `PriorityQueue.Low` feldolgozói szerepkör által használt előfizetésekhez rendelt témakörökben tesz közzé üzeneteket, akkor a `Priority` egyéni tulajdonság használatával adja meg azok prioritását, ahogyan az az alábbi mintakód esetében is látható. Ez a (PriorityQueue.Sender projekt `WorkerRole` osztályában implementált) kód a `QueueManager` osztály `SendBatchAsync` segédmetódusát használja az üzenetek témakörökben történő kötegelt közzétételéhez.
 
 ```csharp
 // Send a low priority batch.
@@ -162,19 +162,19 @@ for (int i = 0; i < 10; i++)
 this.queueManager.SendBatchAsync(highMessages).Wait();
 ```
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-- Minta bemutatja, ebben a mintában érhető el a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/priority-queue).
+- A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/priority-queue) talál egy, a minta bemutatására szolgáló példát.
 
-- [Aszinkron üzenetkezelési ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). A fogyasztó szolgáltatás, amely feldolgozza a kérést módosítania kell az alkalmazást, amely a kérelem közzétett példányának válaszol. Tájékoztatást nyújt a stratégia használható a kérelem/válasz üzenetküldéshez.
+- [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). Lehetséges, hogy a kérelmet feldolgozó fogyasztói szolgáltatásnak választ kell küldenie a kérelmet közzétevő alkalmazáspéldány számára. Információkat nyújt a kérelem/válasz típusú üzenetkezelés implementálásakor használható stratégiákról.
 
-- [Versengő fogyasztók mintát](competing-consumers.md). A várólisták az átviteli sebesség növelése érdekében ugyanazon a várólistán figyelő több felhasználóból rendelkezik, és a párhuzamos tevékenységek feldolgozását. A felhasználókat a rendszer "versenyeznek" az üzeneteket, de csak egy tudják feldolgozni az egyes üzeneteket. További információt nyújt az előnyöket és mellékhatásokkal végrehajtási ezt a módszert használja.
+- [Versengő felhasználókat ismertető minta](competing-consumers.md). Az üzenetsorok átviteli sebességének növelése érdekében lehetséges, hogy több fogyasztó figyelje ugyanazt az üzenetsort, és egyidejűleg dolgozza fel a feladatokat. Ezek a fogyasztók versenyezni fognak az üzenetekért, de egy adott üzenetet csak egy dolgozhat fel. További információkat biztosít ezen megközelítés implementálásának előnyeiről és hátrányairól.
 
-- [Sávszélesség-szabályozási mintát](throttling.md). Sávszélesség-szabályozás várólisták használatával is létrehozható. Prioritás üzenetküldési segítségével győződjön meg arról, hogy kér a kritikus alkalmazások vagy a nagy értékű ügyfelei által futtatott alkalmazások elsőbbséget kérelmek keresztül a kevésbé fontos alkalmazások.
+- [Szabályozási minta](throttling.md). A szabályozás üzenetsorok használatával valósítható meg. A prioritásalapú üzenetkezelés annak biztosítására használható, hogy a kritikus vagy a fontos ügyfelek által futtatott alkalmazások elsőbbséget élvezzenek a kevésbé fontos alkalmazások kérelmeihez képest.
 
-- [Automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx). Esetleg méretezése a kezelése attól függően, hogy a várólista hossza várólista fogyasztói folyamatok készlet mérete. Ezt a stratégiát a teljesítmény javítása érdekében különösen a magas prioritású üzenetkezelő készletek segítségével.
+- [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). Lehetségessé válhat az üzenetsorokat kezelő fogyasztófolyamat-készletek méretének skálázása az üzenetsor hosszától függően. Ezzel a stratégiával javítható a teljesítmény, különösen a magas prioritású üzeneteket kezelő készletek esetében.
 
-- [Vállalati integrációs minták a Service busszal](http://abhishekrlal.com/2013/01/11/enterprise-integration-patterns-with-service-bus-part-2/) Abhishek Lal blogjában.
+- [Vállalati integrációs minták a Service Bus használatával](https://abhishekrlal.com/2013/01/11/enterprise-integration-patterns-with-service-bus-part-2/) Abhishek Lal blogjában.
 

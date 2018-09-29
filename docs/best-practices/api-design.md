@@ -4,12 +4,12 @@ description: Segédlet egy jól megtervezett webes API létrehozásához.
 author: dragon119
 ms.date: 01/12/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: 68ed3f59e1fd63ae754ceabf27a182daa0de0e5d
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.openlocfilehash: 1bd53a7ccc54d086978891f1df5fdc2e25a5d638
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "43016166"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429380"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -34,7 +34,7 @@ Az alábbiakban a HTTP-t használó RESTful API-k fő tervezési alapelvei köz�
 - Minden erőforrás rendelkezik egy *azonosítóval*. Ez az URI, amely egyedileg azonosítja az adott erőforrást. Például egy adott ügyfélrendelés URI-ja a következő lehet: 
  
     ```http
-    http://adventure-works.com/orders/1
+    https://adventure-works.com/orders/1
     ```
  
 - Az ügyfelek az erőforrások *reprezentációinak* cseréje révén lépnek interakcióba a szolgáltatásokkal. Számos webes API a JSON-t használja csereformátumként. Például, ha a fent említett URI-ra egy GET-kérés érkezik, akkor a rendszer a következő válaszüzenetet adhatja vissza:
@@ -56,8 +56,8 @@ Az alábbiakban a HTTP-t használó RESTful API-k fő tervezési alapelvei köz�
         "quantity":4,
         "orderValue":16.60,
         "links": [
-            {"rel":"product","href":"http://adventure-works.com/customers/3", "action":"GET" },
-            {"rel":"product","href":"http://adventure-works.com/customers/3", "action":"PUT" } 
+            {"rel":"product","href":"https://adventure-works.com/customers/3", "action":"GET" },
+            {"rel":"product","href":"https://adventure-works.com/customers/3", "action":"PUT" } 
         ]
     } 
     ```
@@ -77,9 +77,9 @@ A 3. szint Fielding definíciója szerint igazi RESTful API-nak felel meg. A gya
 Összpontosítson a webes API-k által elérhetővé tett üzleti entitásokra. Például az e-kereskedelmi rendszerekben az elsődleges entitások az ügyfelek és a rendelések lehetnek. Egy rendelés megvalósítható egy HTTP POST-kérés küldésével, amely tartalmazza a rendelési adatokat. A HTTP-válasz jelzi, hogy a rendelés sikeres volt-e. Ha lehetséges, az erőforrás-URI-k alapuljanak főneveken (az erőforrás), ne pedig igéken (az erőforráson végrehajtott műveletek). 
 
 ```HTTP
-http://adventure-works.com/orders // Good
+https://adventure-works.com/orders // Good
 
-http://adventure-works.com/create-order // Avoid
+https://adventure-works.com/create-order // Avoid
 ```
 
 Egy erőforrásnak nem szükséges egyetlen fizikai adatelemen alapulnia. Például egy rendelési erőforrás esetében előfordulhat, hogy belsőleg implementálják egy relációs adatbázis több táblájaként, de az ügyfél számára egyetlen egységként kell bemutatni. Kerülje az olyan API-k létrehozását, amelyek egyszerűen csak tükrözik az adatbázis belső szerkezetét. A REST célja, hogy modellt képezzen az entitásokról és a műveletekről, amelyeket egy alkalmazás elvégezhet az adott entitásokon. Az ügyfél előtt nem szerencsés felfedni a belső implementáció részleteit.
@@ -87,7 +87,7 @@ Egy erőforrásnak nem szükséges egyetlen fizikai adatelemen alapulnia. Péld�
 Az entitások gyakran gyűjteményekbe vannak csoportosítva (rendelések, ügyfelek). A gyűjtemény a gyűjtemény elemétől különálló erőforrást képez, így rendelkeznie kell saját URI-val. A következő URI jelölheti például a rendelések gyűjteményét: 
 
 ```HTTP
-http://adventure-works.com/orders
+https://adventure-works.com/orders
 ```
 
 Egy HTTP GET-kérés a gyűjtemény URI-jának történő küldése lekéri a gyűjteményben szereplő elemek listáját. A gyűjtemény minden egyes eleméhez is egyedi URI tartozik. Egy, az elem URI-jának küldött HTTP GET-kérés visszaadja az elem részletes adatait. 
@@ -148,7 +148,7 @@ A HTTP-protokoll használatával az *adathordozók típusai*, más néven a MIME
 A kérés Content-Type fejléce megadja a reprezentáció formátumát. Az alábbiakban egy példát láthat egy POST-kérésre, amely JSON-adatokat tartalmaz:
 
 ```HTTP
-POST http://adventure-works.com/orders HTTP/1.1
+POST https://adventure-works.com/orders HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Content-Length: 57
 
@@ -160,7 +160,7 @@ Ha a kiszolgáló nem támogatja az adathordozó típusát, akkor a rendszer a 4
 Az ügyfél kérése tartalmazhat egy Accept fejlécet, amely tartalmazza az ügyfél által a kiszolgáló válaszüzenetében elfogadott adathordozó-típusok listáját. Példa:
 
 ```HTTP
-GET http://adventure-works.com/orders/2 HTTP/1.1
+GET https://adventure-works.com/orders/2 HTTP/1.1
 Accept: application/json
 ```
 
@@ -273,7 +273,7 @@ A GET-kérések gyűjtemény-erőforrások esetében nagy számú elemet is viss
 /orders?limit=25&offset=50
 ```
 
-Szintén megfontolandó egy felső határérték meghatározása a visszaadott elemek számára vonatkozóan, így megakadályozhatja a szolgáltatásmegtagadásos (DoS-) támadásokat. Segítheti az ügyfélalkalmazások működését, ha azon GET-kérések, amelyek többoldalas adatokat adnak vissza, szintén tartalmazzák a metaadatokat valamilyen formában, amelyek jelzik az adott gyűjteményben lévő elérhető erőforrások teljes számát. Emellett érdemes megfontolnia egyéb intelligens oldalakrabontási stratégiák használatát is. További információért lásd az [API-tervezéssel kapcsolatos, az intelligens oldalakra bontásra vonatkozó megjegyzéseket](http://bizcoder.com/api-design-notes-smart-paging)
+Szintén megfontolandó egy felső határérték meghatározása a visszaadott elemek számára vonatkozóan, így megakadályozhatja a szolgáltatásmegtagadásos (DoS-) támadásokat. Segítheti az ügyfélalkalmazások működését, ha azon GET-kérések, amelyek többoldalas adatokat adnak vissza, szintén tartalmazzák a metaadatokat valamilyen formában, amelyek jelzik az adott gyűjteményben lévő elérhető erőforrások teljes számát. 
 
 Hasonló stratégiát alkalmazhat az adatok szűrésére azok lekérésekor, ha egy olyan rendezési paraméterrel szolgál, amely a mezők nevét veszi fel értékként. Például: */orders?sort=ProductID*. Ez a megközelítés azonban negatív hatással lehet a gyorsítótárazásra, mert a lekérdezési sztring paraméterei szerepelnek az erőforrás-azonosítóban, amelyet számos gyorsítótárazási implementáció kulcsként használ a gyorsítótárazott adatokhoz történő hozzáféréshez.
 
@@ -288,7 +288,7 @@ Egy erőforrás tartalmazhat nagyméretű bináris mezőket, például fájlokat
 Emellett az ilyen erőforrások esetében fontolja meg a HTTP HEAD-kérések implementálását. A HEAD-kérések hasonlítanak a GET-kérésekre, azzal a különbséggel, hogy csak az erőforrást leíró HTTP-fejléceket adják vissza, üres üzenettörzzsel. Az ügyfélalkalmazások kiadhatnak olyan HEAD-kérést, amely megállapítja, hogy részleges GET-kérésekkel kell-e lekérni egy erőforrást. Példa:
 
 ```HTTP
-HEAD http://adventure-works.com/products/10?fields=productImage HTTP/1.1
+HEAD https://adventure-works.com/products/10?fields=productImage HTTP/1.1
 ```
 
 Az alábbiakban egy példát láthat a válaszüzenetre: 
@@ -304,7 +304,7 @@ Content-Length: 4580
 A Content-Length fejléc megadja az erőforrás teljes méretét, az Accept-Ranges fejléc pedig jelzi, hogy a kapcsolódó GET-művelet támogatja-e a részleges eredményeket. Az ügyfélalkalmazás az információk használatával kisebb adattömbökben kérheti le a képet. Az első kérés az első 2500 bájtot olvassa be a Range fejléc használatával:
 
 ```HTTP
-GET http://adventure-works.com/products/10?fields=productImage HTTP/1.1
+GET https://adventure-works.com/products/10?fields=productImage HTTP/1.1
 Range: bytes=0-2499
 ```
 
@@ -343,44 +343,44 @@ Például egy megrendelés és egy ügyfél közötti kapcsolat kezeléséhez a 
   "links":[
     {
       "rel":"customer",
-      "href":"http://adventure-works.com/customers/3", 
+      "href":"https://adventure-works.com/customers/3", 
       "action":"GET",
       "types":["text/xml","application/json"] 
     },
     {
       "rel":"customer",
-      "href":"http://adventure-works.com/customers/3", 
+      "href":"https://adventure-works.com/customers/3", 
       "action":"PUT",
       "types":["application/x-www-form-urlencoded"]
     },
     {
       "rel":"customer",
-      "href":"http://adventure-works.com/customers/3",
+      "href":"https://adventure-works.com/customers/3",
       "action":"DELETE",
       "types":[]
     },
     {
       "rel":"self",
-      "href":"http://adventure-works.com/orders/3", 
+      "href":"https://adventure-works.com/orders/3", 
       "action":"GET",
       "types":["text/xml","application/json"]
     },
     {
       "rel":"self",
-      "href":"http://adventure-works.com/orders/3", 
+      "href":"https://adventure-works.com/orders/3", 
       "action":"PUT",
       "types":["application/x-www-form-urlencoded"]
     },
     {
       "rel":"self",
-      "href":"http://adventure-works.com/orders/3", 
+      "href":"https://adventure-works.com/orders/3", 
       "action":"DELETE",
       "types":[]
     }]
 }
 ```
 
-Ebben a példában a `links` tömb hivatkozások halmazát tartalmazza. Mindegyik hivatkozás egy kapcsolódó entitáson elvégzendő műveletet jelöl. Minden hivatkozás adatai tartalmazzák a kapcsolatot („customer”), az URI-t (`http://adventure-works.com/customers/3`), a HTTP-metódust és a támogatott MIME-típusokat. Ez minden információ, amelyre az ügyfélalkalmazásnak szüksége van a művelet meghívásához. 
+Ebben a példában a `links` tömb hivatkozások halmazát tartalmazza. Mindegyik hivatkozás egy kapcsolódó entitáson elvégzendő műveletet jelöl. Minden hivatkozás adatai tartalmazzák a kapcsolatot („customer”), az URI-t (`https://adventure-works.com/customers/3`), a HTTP-metódust és a támogatott MIME-típusokat. Ez minden információ, amelyre az ügyfélalkalmazásnak szüksége van a művelet meghívásához. 
 
 A `links` tömb a lekért erőforrásra vonatkozó, önmagára hivatkozó információt is tartalmaz. Ezek a *self*-kapcsolattal rendelkeznek.
 
@@ -395,7 +395,7 @@ A verziókezelés lehetővé teszi a webes API-k számára, hogy jelezzék az el
 ### <a name="no-versioning"></a>Nincs verziókezelés
 Ez a legegyszerűbb megközelítés, és egyes belső API-k esetében elfogadható. A nagy változások megjeleníthetők új erőforrásokként vagy hivatkozásokként.  A tartalom meglévő erőforrásokhoz való hozzáadása nem biztos, hogy alapvető változást jelent, mivel az ügyfélalkalmazások, amelyek nem számítanak erre a tartalomra, egyszerűen figyelmen kívül hagyják azt.
 
-Például a kérés URI-ra *http://adventure-works.com/customers/3* egyetlen ügyfél részleteit adja vissza `id`, `name`, és `address` ügyfélalkalmazás által várt mezők:
+Például a kérés URI-ra *https://adventure-works.com/customers/3* egyetlen ügyfél részleteit adja vissza `id`, `name`, és `address` ügyfélalkalmazás által várt mezők:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -423,7 +423,7 @@ A meglévő ügyfélalkalmazások továbbra is megfelelően működhetnek, ha fi
 ### <a name="uri-versioning"></a>URI-verziókezelés
 Minden alkalommal, amikor módosítja a webes API-t vagy az erőforrások sémáját, minden erőforrás esetében hozzáad egy verziószámot az URI-hoz. A korábban meglévő URI-k továbbra is úgy működnek, mint korábban, vagyis visszaadják az eredeti sémájukhoz igazodó erőforrásokat.
 
-Az előző példában kiterjesztése, ha a `address` mezőt tartalmazó minden részét képezi a cím alárendelt mezőkbe van átstrukturálása (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás e verziója lehet egy URI-t, amely tartalmaz egy verziószámot, mint például keresztül közzétett http://adventure-works.com/v2/customers/3:
+Az előző példában kiterjesztése, ha a `address` mezőt tartalmazó minden részét képezi a cím alárendelt mezőkbe van átstrukturálása (például `streetAddress`, `city`, `state`, és `zipCode`), az erőforrás e verziója lehet egy URI-t, amely tartalmaz egy verziószámot, mint például keresztül közzétett https://adventure-works.com/v2/customers/3:
 
 ```HTTP
 HTTP/1.1 200 OK
@@ -435,7 +435,7 @@ Content-Type: application/json; charset=utf-8
 Ez a verziókezelő mechanizmus nagyon egyszerű, de függ attól, hogy a kiszolgáló a megfelelő végpontra irányítja-e a kérést. Azonban nehézkessé válhat, ahogy a webes API egyre kiforrottabb lesz, és a kiszolgálónak különböző verziókat kell támogatnia egyidejűleg. Ha az egyszerűség felől közelítjük meg a kérdést, az ügyfélalkalmazások minden esetben ugyanazt az adatot (3-as ügyfél) kérdezik le, ezért az URI-nak sem kellene verziónként eltérőnek lennie. Ez a séma a HATEOAS implementálását is bonyolultabbá teszi, mivel az összes hivatkozásnak tartalmaznia kell a verziószámot a hozzájuk tartozó URI-kban.
 
 ### <a name="query-string-versioning"></a>Lekérdezésisztring-verziókezelés
-Több URI megadása helyett megadhat az erőforrás verziója egy paraméterrel a lekérdezési karakterláncban, mint például a HTTP-kérelem hozzáfűzi *http://adventure-works.com/customers/3?version=2*. A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
+Több URI megadása helyett megadhat az erőforrás verziója egy paraméterrel a lekérdezési karakterláncban, mint például a HTTP-kérelem hozzáfűzi *https://adventure-works.com/customers/3?version=2*. A verzióparamétert alapértelmezés szerint egy közérthető értékre kell állítani, például az 1 értékre, ha a régebbi ügyfélalkalmazások nem használják azt.
 
 Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési sztring elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
 
@@ -450,7 +450,7 @@ A verziószám lekérdezésisztring-paramétereként való feltüntetése helyet
 1-es verzió:
 
 ```HTTP
-GET http://adventure-works.com/customers/3 HTTP/1.1
+GET https://adventure-works.com/customers/3 HTTP/1.1
 Custom-Header: api-version=1
 ```
 
@@ -464,7 +464,7 @@ Content-Type: application/json; charset=utf-8
 2-es verzió:
 
 ```HTTP
-GET http://adventure-works.com/customers/3 HTTP/1.1
+GET https://adventure-works.com/customers/3 HTTP/1.1
 Custom-Header: api-version=2
 ```
 
@@ -481,7 +481,7 @@ Vegye figyelembe, hogy akárcsak az előző két megközelítésnél, a HATEOAS 
 Amikor egy ügyfélalkalmazás HTTP GET-kérést küld egy webkiszolgálónak, akkor közölnie kell az általa kezelt tartalomformátumokat egy Accept fejléc használatával, ahogy ezt az útmutató korábbi szakaszaiban is ismertettük. Az *Accept* fejléc célja sokszor az, hogy lehetővé tegye az ügyfélalkalmazás számára annak meghatározását, hogy a választörzs XML, JSON vagy valamilyen más gyakori formátummal bír, amelynek elemzésére az ügyfél képes. Lehetséges azonban egyéni adathordozó-típusok meghatározása is. Ezek olyan információt tartalmaznak, amely alapján az ügyfélalkalmazás képes jelezni, melyik erőforrás-verzióra számít. A következő példa bemutat egy olyan kérést, amely megad egy *Accept* fejlécet a következő értékkel: *application/vnd.adventure-works.v1+json*. A *vnd.adventure-works.v1* elem jelzi a webkiszolgáló felé, hogy annak az erőforrás 1-es verzióját kell visszaadnia, míg a *json* elem azt határozza meg, hogy a választörzs formátumának JSON-nak kell lennie:
 
 ```HTTP
-GET http://adventure-works.com/customers/3 HTTP/1.1
+GET https://adventure-works.com/customers/3 HTTP/1.1
 Accept: application/vnd.adventure-works.v1+json
 ```
 
@@ -516,6 +516,5 @@ Az [Open API kezdeményezést](https://www.openapis.org/) egy iparági konzorciu
 
 ## <a name="more-information"></a>További információ
 * [Microsoft REST API-irányelvek](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md). Részletes javaslatok a nyilvános REST API-k tervezéséhez.
-* [Részletes REST-útmutató](http://restcookbook.com/). Bevezetés a RESTful API-k létrehozásának művészetébe.
 * [Webes API-k ellenőrzőlistája](https://mathieu.fenniak.net/the-api-checklist/). A webes API-k tervezése és implementálása során megfontolandó szempontok hasznos listája.
 * [Open API-kezdeményezés](https://www.openapis.org/). Az Open API dokumentációja és az implementálás részletei.

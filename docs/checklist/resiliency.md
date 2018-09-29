@@ -4,12 +4,12 @@ description: A feladatlista, amely rugalmasság aggályokat során tervezési ú
 author: petertaylor9999
 ms.date: 01/10/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 883424d5d3535f822cdba61ecb9520ce05f75ec7
-ms.sourcegitcommit: 2154e93a0a075e1f7425a6eb11fc3f03c1300c23
+ms.openlocfilehash: 17612ee08e2329ea648fd21d6764e7bae1ca20e2
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/30/2018
-ms.locfileid: "39352644"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429094"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -81,7 +81,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 ## <a name="security"></a>Biztonság
 
-**Az elosztott szolgáltatásmegtagadási (DDoS-) támadások elleni alkalmazásszintű védelem megvalósításához.** Azure-szolgáltatások a hálózati rétegen DDos-támadásokkal szembeni védettek. Azonban az Azure nem alkalmazásréteg támadásokkal szembeni, mert nehéz megkülönböztetni a valós felhasználói kérések a rosszindulatú felhasználók-kérelmek. "DDoS elleni védelem" című szakaszában talál további tájékoztatást az alkalmazásréteg DDoS-támadásokkal szembeni védelme [a Microsoft Azure hálózati biztonság](http://download.microsoft.com/download/C/A/3/CA3FC5C0-ECE0-4F87-BF4B-D74064A00846/AzureNetworkSecurity_v3_Feb2015.pdf) (letölthető PDF-fájl).
+**Az elosztott szolgáltatásmegtagadási (DDoS-) támadások elleni alkalmazásszintű védelem megvalósításához.** Azure-szolgáltatások a hálózati rétegen DDos-támadásokkal szembeni védettek. Azonban az Azure nem alkalmazásréteg támadásokkal szembeni, mert nehéz megkülönböztetni a valós felhasználói kérések a rosszindulatú felhasználók-kérelmek. "DDoS elleni védelem" című szakaszában talál további tájékoztatást az alkalmazásréteg DDoS-támadásokkal szembeni védelme [a Microsoft Azure hálózati biztonság](https://download.microsoft.com/download/C/A/3/CA3FC5C0-ECE0-4F87-BF4B-D74064A00846/AzureNetworkSecurity_v3_Feb2015.pdf) (letölthető PDF-fájl).
 
 **Az alkalmazás-erőforrásokhoz való hozzáférést a minimális jogosultság elvének megvalósítása.** Az alkalmazás-erőforrások eléréséhez az alapértelmezett a lehető legjobban kell lennie. Adja meg egy jóváhagyási alapon magasabb szintű engedélyeket. Alapértelmezés szerint az alkalmazás-erőforrások túlzottan megengedő hozzáférést adna eredményezhet valaki véletlenül vagy szándékosan erőforrások törlése. Az Azure biztosít [szerepköralapú hozzáférés-vezérlés](/azure/active-directory/role-based-access-built-in-roles/) kezelheti a felhasználói jogosultságok, de fontos, hogy más erőforrások, például az SQL Server a saját engedélyek rendszerekkel rendelkező legalacsonyabb jogosultsági engedélyeinek ellenőrzése.
 
@@ -99,7 +99,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Az alkalmazás üzembe helyezési folyamat automatizálható.** Ha a munkatársak szükség az alkalmazás manuális telepítése, emberi hiba okozhat az üzembe helyezés sikertelen lesz. 
 
-**Tervezze meg a kibocsátási folyamat rendelkezésre állásának maximalizálása érdekében.** A kiadási folyamathoz szükséges szolgáltatások üzembe helyezése során offline állapotba, ha az alkalmazás nem lehet ismét online állapotú lesz. Használja a [kék vagy zöld](http://martinfowler.com/bliki/BlueGreenDeployment.html) vagy [canary kiadás](http://martinfowler.com/bliki/CanaryRelease.html) üzembe helyezési módszer alkalmazását az éles környezetben való üzembe helyezéséhez. Az alábbi eljárások mindkettőben éles kódban mellett a kiadás kód üzembe helyezése, így a felhasználók kiadási kód átirányíthatóak éles kódban, hogy hiba esetén.
+**Tervezze meg a kibocsátási folyamat rendelkezésre állásának maximalizálása érdekében.** A kiadási folyamathoz szükséges szolgáltatások üzembe helyezése során offline állapotba, ha az alkalmazás nem lehet ismét online állapotú lesz. Használja a [kék vagy zöld](https://martinfowler.com/bliki/BlueGreenDeployment.html) vagy [canary kiadás](https://martinfowler.com/bliki/CanaryRelease.html) üzembe helyezési módszer alkalmazását az éles környezetben való üzembe helyezéséhez. Az alábbi eljárások mindkettőben éles kódban mellett a kiadás kód üzembe helyezése, így a felhasználók kiadási kód átirányíthatóak éles kódban, hogy hiba esetén.
 
 **Jelentkezzen be, és az alkalmazás-KözpontiTelepítés naplózása.** Ha szakaszos üzembe helyezési technikák, például a kék és zöld vagy a tesztcsoportos kiadások, az alkalmazás az éles környezetben futó egynél több verziója lesz. Probléma történjen, ha fontos meghatározni, hogy az alkalmazás melyik verzióját okozza a problémát. A lehető legtöbb verzióspecifikus adatok rögzítése egy hatékony naplózás stratégia megvalósításához.
 

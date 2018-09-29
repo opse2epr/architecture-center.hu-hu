@@ -1,113 +1,113 @@
 ---
-title: Key Vault segítségével alkalmazás titkos kulcsok védelme
-description: A Key Vault szolgáltatás használata az alkalmazás titkos kulcsok tárolására
+title: Key Vault használata az alkalmazás titkainak védelmére
+description: A Key Vault szolgáltatás használata az alkalmazás titkainak tárolásához
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
-ms.openlocfilehash: d49129a38d0413f6006095f03b817885e1ce6c92
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: b6d2e431da85f7c304747df2f804f1714596bfc6
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012518"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429179"
 ---
-# <a name="use-azure-key-vault-to-protect-application-secrets"></a>Az Azure Key Vault segítségével alkalmazás titkos kulcsok védelme
+# <a name="use-azure-key-vault-to-protect-application-secrets"></a>Azure Key Vault használata az alkalmazás titkainak védelmére
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
-Esetében gyakori, hogy bizalmas és védeni kell, például alkalmazás beállításait:
+Célszerű a gyakori, hogy olyan alkalmazásbeállításokat, amelyek kis-és nagybetűket, és védeni kell, például:
 
-* Adatbázisok kapcsolati karakterláncai
+* Adatbázisok kapcsolati sztringjei
 * Jelszavak
 * Titkosítási kulcsok
 
-Biztonsági szempontból ajánlott a verziókövetési rendszerrel ezeknek a kulcsoknak soha nem tárolja. Annak érdekében, hogy nyilvánosságra kerüljenek túl könnyű &mdash; akkor is, ha a forráskódraktárban személyes. És azt nem szinte megakadályozza a titkos kulcsok a főkönyvi nyilvános. A nagyobb projektek mely fejlesztők korlátozni lehet, hogy szeretné, és operátorok férhetnek hozzá a termelési titkos kulcsok. (A teszt- vagy környezetekben található beállítások eltérnek.)
+Bevált biztonsági gyakorlat verziókövetés titkos adatokat soha nem tárolja. Túl egyszerű, hogy nyilvánosságra kerüljenek &mdash; akkor is, ha a forráskód adattára privát. És azt nem szinte megakadályozza a titkos kulcsok az általános nyilvános. A nagyobb projektek mely fejlesztők korlátozni lehet, hogy szeretné, és operátorok hozzáférnek a termelési titkos kulcsait. (A tesztelési vagy fejlesztési környezetek beállítások eltérőek.)
 
-A titkos adatok tárolására egy biztonságosabb beállítás [Azure Key Vault][KeyVault]. Key Vault egy a felhőben üzemeltetett szolgáltatás kriptográfiai kulcsokat és más titkos kulcsok kezeléséhez. Ez a cikk bemutatja, hogyan Key Vault használatával tárolja az alkalmazás konfigurációs beállításokat.
+Egy biztonságosabb megoldás, ha a titkos adatokat tárolni [Azure Key Vault][KeyVault]. A Key Vault egy olyan felhőben üzemeltetett szolgáltatás titkosítási kulcsok és egyéb titkok kezeléséhez. Ez a cikk bemutatja, hogyan tárolja a konfigurációs beállításokat az alkalmazás a Key Vault használatával.
 
-Az a [Dejójáték felmérések] [ Surveys] alkalmazás, a következő beállítások érhetők titkos:
+Az a [Tailspin Surveys] [ Surveys] alkalmazás, a következő beállításokat is titkos:
 
-* Az adatbázis-kapcsolati karakterlánc.
-* A Redis kapcsolódási karakterlánc.
-* A webes alkalmazás titkos ügyfélkódot.
+* Az adatbázis-kapcsolati karakterláncot.
+* A Redis kapcsolati karakterlánc.
+* A titkos ügyfélkulcsot a webes alkalmazás.
 
-A felmérések alkalmazás betölt a konfigurációs beállításokat a következő helyről:
+A Surveys alkalmazás konfigurációs beállítások tölt be a következő helyeken:
 
-* A appsettings.json fájl
-* A [felhasználói titkos kulcsok tárolási] [ user-secrets] (fejlesztőkörnyezet; csak tesztelési célra)
-* Az üzemeltetési környezet (az Azure web apps Alkalmazásbeállítások)
-* Key Vault (Ha engedélyezve van)
+* Az appsettings.json fájl
+* A [felhasználói titkos kódok store] [ user-secrets] (fejlesztési környezet; csak tesztelési célra)
+* Az üzemeltetési környezet (alkalmazás beállításai az Azure web apps)
+* A Key Vault (Ha engedélyezve van)
 
-Minden egyes ezeket a felülbírálásokat az előzőre, így a Key Vault tárolt beállítások elsőbbséget.
+Minden egyes ezeket a felülbírálásokat az előzőt, így a Key vaultban tárolt beállítások elsőbbséget.
 
 > [!NOTE]
-> Alapértelmezés szerint le van tiltva a Key Vault konfigurációszolgáltatót. Nincs szükség az alkalmazás helyi futtatásához. Éles környezetben azt szeretné engedélyezni.
+> A Key Vault konfigurációszolgáltató alapértelmezés szerint le van tiltva. Nincs szükség az alkalmazás helyi futtatásához. Éles környezetben azt szeretné engedélyezni.
 
-Indításkor az alkalmazás beállítást olvassa ki minden regisztrált konfigurációszolgáltatót, és egy szigorú típusmegadású beállítások objektum feltöltéséhez használja őket. További információkért lásd: [lehetőségek használata és konfigurációs objektumok][options].
+Indításkor az alkalmazás minden regisztrált konfigurációszolgáltató beállításokat olvas, és feltölti egy szigorú típusmegadású objektum használja őket. További információkért lásd: [beállítások használatával és konfigurációs objektumok][options].
 
-## <a name="setting-up-key-vault-in-the-surveys-app"></a>Key Vault a felmérések alkalmazás beállítása
+## <a name="setting-up-key-vault-in-the-surveys-app"></a>A Surveys alkalmazás Key Vault beállítása
 Előfeltételek:
 
 * Telepítse a [Azure Resource Manager parancsmagjainak][azure-rm-cmdlets].
-* Konfigurálja az felmérések alkalmazást, a [futtassa a felmérések alkalmazást][readme].
+* Konfigurálja a Surveys alkalmazás leírtak szerint [a Surveys alkalmazás futtatása][readme].
 
 Magas szintű lépéseket:
 
-1. Állítson be egy rendszergazdai jogú felhasználót a bérlőben.
-2. Állítson be egy ügyféltanúsítványt.
-3. Hozzon létre egy kulcstartót.
-4. Konfigurációs beállítások hozzáadása a kulcstartót.
-5. Állítsa vissza a kódot, amely lehetővé teszi, hogy a kulcstároló.
-6. Frissítse az alkalmazás felhasználói titkos kulcsok.
+1. Állítsa be egy rendszergazdai felhasználót a bérlőben.
+2. Állítsa be az ügyféltanúsítványt.
+3. Kulcstartó létrehozása.
+4. Konfigurációs beállítások hozzáadása a kulcstartóhoz.
+5. Állítsa vissza a kódot, amely lehetővé teszi, hogy a key vaultban.
+6. Az alkalmazás felhasználói titkos kódok frissítése.
 
-### <a name="set-up-an-admin-user"></a>Állítson be egy rendszergazdai jogú felhasználó
+### <a name="set-up-an-admin-user"></a>Egy rendszergazda felhasználó beállítása
 > [!NOTE]
-> Hozzon létre egy kulcstartót, kezelheti az Azure-előfizetéshez fiókot kell használnia. Emellett bármely alkalmazás, amely a key vault olvasni engedélyeznie kell regisztrálni az ugyanannak a bérlőnek, mint ez a fiók.
+> Hozzon létre egy kulcstartót, olyan fiók, amely az Azure-előfizetés kezelése céljából kell használnia. Is minden olyan alkalmazás, hogy olvassa el a key vaultban tárolt elérjék regisztrálni kell, hogy a fiók ugyanabban a bérlőben.
 > 
 > 
 
-Ebben a lépésben teheti meg arról, hogy is létrehozott egy kulcstartót, miközben a bérlőtől felhasználóként van bejelentkezve az ahol az felmérések alkalmazás a regisztrációt.
+Ebben a lépésben teheti meg arról, hogy hozhat létre egy kulcstartót, amíg a bérlő felhasználóként jelentkezett be, a Surveys alkalmazás regisztrálva van-e.
 
-Hozzon létre egy rendszergazda felhasználó, ahol a felmérések alkalmazás regisztrálva van az Azure AD-bérlő belül.
+Hozzon létre egy rendszergazda felhasználó belül az Azure AD-bérlővel, ahol a Surveys alkalmazás regisztrálva van-e.
 
-1. Jelentkezzen be a [Azure-portálon][azure-portal].
-2. Válassza ki az Azure AD-bérlő, ahol az alkalmazás regisztrálva van.
-3. Kattintson a **további szolgáltatás** > **biztonság + identitás szakaszában** > **Azure Active Directory** > **felhasználók és csoportok**   >  **Minden felhasználó**.
-4. A portál felső részén kattintson **új felhasználó**.
-5. Töltse ki a mezőket, és rendelje hozzá a felhasználót a **globális rendszergazda** címtár szerepkörrel.
+1. Jelentkezzen be a [az Azure portal][azure-portal].
+2. Válassza ki az Azure AD-bérlővel, ahol az alkalmazás regisztrálva lesz.
+3. Kattintson a **további szolgáltatás** > **biztonság + IDENTITÁS** > **Azure Active Directory** > **felhasználók és csoportok**   >  **Minden felhasználó**.
+4. Kattintson a portál tetején **új felhasználó**.
+5. Töltse ki a mezőket, és rendelje hozzá a felhasználót a **globális rendszergazdai** címtárbeli szerepkör.
 6. Kattintson a **Create** (Létrehozás) gombra.
 
-![Globális rendszergazdai jogú felhasználó](./images/running-the-app/global-admin-user.png)
+![Globális rendszergazda](./images/running-the-app/global-admin-user.png)
 
-Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
+Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
 
 1. A központ menüben válassza ki a **előfizetések**.
 
     ![](./images/running-the-app/subscriptions.png)
 
-2. Válassza ki az előfizetést, amelyet a rendszergazda eléréséhez.
-3. Az előfizetés panelen válassza ki a **hozzáférés-vezérlés (IAM)**.
+2. A rendszergazda eléréséhez használni kívánt előfizetés kiválasztásához.
+3. Az előfizetési panelen válassza ki a **hozzáférés-vezérlés (IAM)**.
 4. Kattintson a **Hozzáadás** parancsra.
-4. A **szerepkör**, jelölje be **tulajdonos**.
-5. Írja be a felhasználó hozzá szeretne adni a tulajdonos e-mail címe.
+4. A **szerepkör**válassza **tulajdonosa**.
+5. Írja be a tulajdonosként hozzáadni kívánt felhasználó e-mail-címét.
 6. Válassza ki a felhasználót, és kattintson a **mentése**.
 
 ### <a name="set-up-a-client-certificate"></a>Ügyfél-tanúsítvány beállítása
-1. A PowerShell-parancsprogrammal [/Scripts/Setup-KeyVault.ps1] [ Setup-KeyVault] az alábbiak szerint:
+1. A PowerShell-parancsprogrammal [/Scripts/Setup-KeyVault.ps1] [ Setup-KeyVault] módon:
    
     ```
     .\Setup-KeyVault.ps1 -Subject <<subject>>
     ```
-    Az a `Subject` paraméter, adja meg a nevét, például a "surveysapp". A parancsfájl létrehoz egy önaláírt tanúsítványt, és tárolja a "jelenlegi felhasználó/Personal" tanúsítványtárolójában. Parancsfájl eredménye a JSON-töredéket. Másolja ezt az értéket.
+    Az a `Subject` paramétert, tetszőleges nevet, például a "surveysapp" adja meg. A szkript létrehoz egy önaláírt tanúsítványt, és tárolja azokat az "aktuális User/Personal" tanúsítványtárolójában. A parancsprogram kimenete egy JSON-töredék. Másolja ezt az értéket.
 
-2. Az a [Azure-portálon][azure-portal], lépjen a mappába, ahol a a felmérések alkalmazás regisztrálva, a fiók kiválasztja a portál jobb felső sarkában.
+2. Az a [az Azure portal][azure-portal], lépjen abba a könyvtárba, ahol a Surveys alkalmazás regisztrálva van, a portál jobb felső sarkában a fiók kiválasztásával.
 
-3. Válassza ki **az Azure Active Directory** > **App regisztrációk** > felmérések
+3. Válassza ki **az Azure Active Directory** > **Alkalmazásregisztrációk** > felmérések
 
 4.  Kattintson a **Manifest** , majd **szerkesztése**.
 
-5.  Illessze be a parancsfájlt a kimenetét a `keyCredentials` tulajdonság. Ennek a következőképpen kell kinéznie:
+5.  Illessze be a szkript kimenetében a `keyCredentials` tulajdonság. Ennek a következőképpen kell kinéznie:
         
     ```json
     "keyCredentials": [
@@ -123,35 +123,35 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
 
 6. Kattintson a **Save** (Mentés) gombra.  
 
-7. Ismételje meg a 3-6 ugyanazon JSON töredék hozzáadása a Web API (Surveys.WebAPI) az alkalmazás jegyzékében.
+7. Ismételje meg a 3-6 JSON ugyanarra a töredékre hozzáadása az alkalmazásjegyzékben, a webes API (Surveys.WebAPI).
 
-8. A PowerShell-ablakban futtassa a következő parancsot a tanúsítvány ujjlenyomatát.
+8. A PowerShell-ablakban futtassa a következő parancsot a tanúsítvány ujjlenyomatának beolvasása.
    
     ```
     certutil -store -user my [subject]
     ```
     
-    A `[subject]`, a tulajdonos a PowerShell-parancsfájl a megadott értéket használja. Az ujjlenyomat megtalálható-e a "Cert Hash(sha1)". Másolja ezt az értéket. Az ujjlenyomat később fogja használni.
+    A `[subject]`, használja az értéket, a PowerShell-parancsfájl a megadott tulajdonos. Az ujjlenyomat "Tanúsítvány SHA1" területen látható. Másolja ezt az értéket. Az ujjlenyomat később fogja használni.
 
 ### <a name="create-a-key-vault"></a>Kulcstartó létrehozása
-1. A PowerShell-parancsprogrammal [/Scripts/Setup-KeyVault.ps1] [ Setup-KeyVault] az alábbiak szerint:
+1. A PowerShell-parancsprogrammal [/Scripts/Setup-KeyVault.ps1] [ Setup-KeyVault] módon:
    
     ```
     .\Setup-KeyVault.ps1 -KeyVaultName <<key vault name>> -ResourceGroupName <<resource group name>> -Location <<location>>
     ```
    
-    Ha a hitelesítő adatok megadását kéri, jelentkezzen be az Azure AD-felhasználó, korábban létrehozott. A parancsfájl létrehoz egy új erőforráscsoportot, és egy új kulcstartó adott erőforráscsoporton belül. 
+    Amikor a rendszer kéri a hitelesítő adatokat, jelentkezzen be az Azure AD-felhasználóként előzőleg létrehozott jelszóra. A szkript létrehoz egy új erőforráscsoportot, és a egy új kulcstartóba adott erőforráscsoporton belül. 
    
-2. Futtassa újra SetupKeyVault.ps az alábbiak szerint:
+2. Futtassa újra a SetupKeyVault.ps az alábbiak szerint:
    
     ```
     .\Setup-KeyVault.ps1 -KeyVaultName <<key vault name>> -ApplicationIds @("<<Surveys app id>>", "<<Surveys.WebAPI app ID>>")
     ```
    
-    Állítsa be a következő paraméterértékeket:
+    Állítsa be a következő paraméter értékét:
    
-       * kulcstároló neve = a neve, mint a kulcstároló az előző lépésben.
-       * Alkalmazásazonosító felmérések = az Alkalmazásazonosítót a felmérések webalkalmazáshoz.
+       * a Key vault name = a neve, mint a key vault az előző lépésben.
+       * Alkalmazásazonosító felmérések = az Alkalmazásazonosítót a felmérések webes alkalmazás.
        * Surveys.WebApi app ID = az Alkalmazásazonosítót a Surveys.WebAPI alkalmazáshoz.
          
     Példa:
@@ -160,21 +160,21 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
      .\Setup-KeyVault.ps1 -KeyVaultName tailspinkv -ApplicationIds @("f84df9d1-91cc-4603-b662-302db51f1031", "8871a4c2-2a23-4650-8b46-0625ff3928a6")
     ```
     
-    Ezt a parancsfájlt a webes alkalmazás és a titkos kulcsok lekérése a kulcstartót webes API engedélyezi. Lásd: [Ismerkedés az Azure Key Vault](/azure/key-vault/key-vault-get-started/) további információt.
+    Ez a szkript engedélyezi a webalkalmazás és webes API titkos kódok lekérése a key vaultban. Lásd: [első lépései az Azure Key Vault](/azure/key-vault/key-vault-get-started/) további információt.
 
-### <a name="add-configuration-settings-to-your-key-vault"></a>Konfigurációs beállítások hozzáadása a kulcstartót
-1. Futtassa a következőképpen SetupKeyVault.ps::
+### <a name="add-configuration-settings-to-your-key-vault"></a>Konfigurációs beállítások hozzáadása a kulcstartóhoz
+1. SetupKeyVault.ps futtassa az alábbiak szerint:
    
     ```
     .\Setup-KeyVault.ps1 -KeyVaultName <<key vault name> -KeyName Redis--Configuration -KeyValue "<<Redis DNS name>>.redis.cache.windows.net,password=<<Redis access key>>,ssl=true" 
     ```
-    Ha
+    ahol
    
-   * kulcstároló neve = a neve, mint a kulcstároló az előző lépésben.
-   * DNS-név redis = a Redis cache példány DNS-neve.
-   * Redis hozzáférési kulcsot a hozzáférési kulcsot a Redis cache példány =.
+   * a Key vault name = a neve, mint a key vault az előző lépésben.
+   * Redis Cache a DNS-név = a Redis cache-példány a DNS-név.
+   * Redis Cache hozzáférési kulcs = a Redis cache-példány hozzáférési kulcsára.
      
-2. Ezen a ponton akkor érdemes annak megállapítására, hogy sikeresen tárolta a titkos kulcsok számára kulcstároló. Futtassa az alábbi PowerShell-parancsot:
+2. Ezen a ponton célszerű annak megállapítására, hogy sikerült menteni a titkos kulcsok a key vaulttal. Futtassa az alábbi PowerShell-parancsot:
    
     ```
     Get-AzureKeyVaultSecret <<key vault name>> Redis--Configuration | Select-Object *
@@ -186,9 +186,9 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
     .\Setup-KeyVault.ps1 -KeyVaultName <<key vault name> -KeyName Data--SurveysConnectionString -KeyValue <<DB connection string>> -ConfigName "Data:SurveysConnectionString"
     ```
    
-    Ha `<<DB connection string>>` van az adatbázis-kapcsolati karakterlánc értékét.
+    ahol `<<DB connection string>>` van az adatbázis-kapcsolati karakterlánc értékét.
    
-    A helyi adatbázis tesztelték, másolja a kapcsolati karakterláncot a Tailspin.Surveys.Web/appsettings.json fájlból. Ha így tesz, ügyeljen arra, hogy módosítsa a dupla fordított perjel ('\\\\") az egyetlen perjellel. A kettős fordított karakteréhez escape-karakter, a JSON-fájlban.
+    A helyi adatbázisban való teszteléshez, másolja a kapcsolati karakterláncot a Tailspin.Surveys.Web/appsettings.json fájlból. Ha így tesz, ügyeljen arra, hogy módosítsa a dupla fordított perjel ('\\\\"), egy fordított perjel. A dupla fordított perjelet karakteréhez escape-karakter, a JSON-fájlban.
    
     Példa:
    
@@ -198,7 +198,7 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
 
 ### <a name="uncomment-the-code-that-enables-key-vault"></a>Állítsa vissza a kódot, amely lehetővé teszi, hogy a Key Vault
 1. Nyissa meg a Tailspin.Surveys megoldást.
-2. A Tailspin.Surveys.Web/Startup.cs keresse meg a következő kódrészletet, és állítsa vissza azt.
+2. Keresse meg a következő kódrészletet Tailspin.Surveys.Web/Startup.cs, és állítsa vissza azt.
    
     ```csharp
     //var config = builder.Build();
@@ -207,7 +207,7 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
     //    config["AzureAd:ClientId"],
     //    config["AzureAd:ClientSecret"]);
     ```
-3. Tailspin.Surveys.Web/Startup.cs, keresse meg a kódot, amely regisztrálja a `ICredentialService`. Állítsa vissza a sor által használt `CertificateCredentialService`, és a sor által használt megjegyzésbe `ClientCredentialService`:
+3. Tailspin.Surveys.Web/Startup.cs, keresse meg a kódot, amely regisztrálja a `ICredentialService`. Állítsa vissza a sort, amely `CertificateCredentialService`, és tegye megjegyzésbe a sor használó `ClientCredentialService`:
    
     ```csharp
     // Uncomment this:
@@ -216,10 +216,10 @@ Most már az előfizetés tulajdonosa a felhasználóhoz rendelni.
     //services.AddSingleton<ICredentialService, ClientCredentialService>();
     ```
    
-    A módosítás lehetővé teszi a webalkalmazás használandó [ügyfél helyességi feltétel] [ client-assertion] lekérni az OAuth jogkivonatot. Az ügyfél helyességi feltétel az OAuth ügyfélkulcs nem szükséges. Azt is megteheti a titkos ügyfélkulcs tárolhatja a key vaultban. Azonban kulcstartó és mindkettő használja, hogy egy ügyfél ügyfél helyességi feltétel tanúsítvány, ha engedélyezi a kulcstároló, hogy célszerű engedélyezni, valamint az ügyfél állítás.
+    Ez a változás lehetővé teszi a WebApp [ügyféltény] [ client-assertion] az OAuth hozzáférési tokenek beszerzése. Az ügyféltény az OAuth ügyfélkulcs nem szükséges. Másik lehetőségként tárolhatja a titkos ügyfélkulcsot a key vaultban. Azonban a key vault és ügyféltény mindkettő az ügyfél használja a tanúsítvány, hogy legyen, ha engedélyezi a key vault, célszerű ügyféltény is engedélyezi.
 
-### <a name="update-the-user-secrets"></a>A felhasználó titkos kulcsok frissítése
-A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet, és válassza ki **felhasználói kulcsok kezelése**. A secrets.json fájlban törölje a meglévő JSON, és illessze be a következőket:
+### <a name="update-the-user-secrets"></a>A felhasználó titkos kódok frissítése
+A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet, és válassza ki **felhasználói titkok kezelése**. A secrets.json fájlban törölje a meglévő JSON, és illessze be a következő:
 
     ```
     {
@@ -241,22 +241,22 @@ A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet
     }
     ```
 
-A bejegyzések [szögletes zárójelbe] cserélje le a megfelelő értékeket.
+Cserélje le a [szögletes zárójelek] bejegyzést a megfelelő értékekkel.
 
-* `AzureAd:ClientId`: Az a felmérések alkalmazás ügyfél-azonosító.
-* `AzureAd:ClientSecret`: A kulcs az Azure ad-ben a felmérések alkalmazás regisztrálásakor létrehozott.
-* `AzureAd:WebApiResourceId`: A App ID URI Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor megadott.
-* `Asymmetric:CertificateThumbprint`: A tanúsítvány ujjlenyomata portáltól korábban, az ügyfél-tanúsítvány létrehozásakor.
-* `KeyVault:Name`: A kulcstartót a neve.
+* `AzureAd:ClientId`: Az a Surveys alkalmazás ügyfél-azonosító.
+* `AzureAd:ClientSecret`: A kulcs, amely akkor jön létre, ha a Surveys alkalmazás Azure AD-ben regisztrált.
+* `AzureAd:WebApiResourceId`: Az Alkalmazásazonosító URI-t, hogy a megadott Azure AD-ben a Surveys.WebAPI alkalmazás létrehozásakor.
+* `Asymmetric:CertificateThumbprint`: A tanúsítvány ujjlenyomatát a korábban, az ügyféltanúsítvány létrehozásakor.
+* `KeyVault:Name`: A key vault a neve.
 
 > [!NOTE]
-> `Asymmetric:ValidationRequired` hamis, mert a korábban létrehozott tanúsítvány nem volt által aláírt egy legfelső szintű hitelesítésszolgáltatót (CA). Éles, állítsa be, és a legfelső szintű hitelesítésszolgáltató által aláírt tanúsítványt használjon `ValidationRequired` igaz értékre.
+> `Asymmetric:ValidationRequired` hamis értéket, mert a korábban létrehozott tanúsítvány nem volt aláírva a legfelső szintű hitelesítésszolgáltató (CA). Éles környezetben állítsa be, és a legfelső szintű hitelesítésszolgáltató által aláírt tanúsítványt használjon `ValidationRequired` igaz értékre.
 > 
 > 
 
 Mentse a frissített secrets.json fájlt.
 
-Ezután a Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.WebApi projektet, és válassza ki **felhasználói kulcsok kezelése**. Törölje a meglévő JSON, és illessze be a következő:
+Ezután a Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.WebApi projektet, és válassza ki **felhasználói titkok kezelése**. Törölje a meglévő JSON, és illessze be a következőket:
 
 ```
 {
@@ -276,10 +276,10 @@ Ezután a Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.WebAp
 }
 ```
 
-Cserélje le a [szögletes zárójelbe] bejegyzések, és mentse a secrets.json fájlt.
+Cserélje le a [szögletes zárójelek] bejegyzést, és mentse a secrets.json fájlt.
 
 > [!NOTE]
-> A webes API-t győződjön meg arról, az ügyfél-azonosító használata a Surveys.WebAPI alkalmazáshoz, nem a felmérések alkalmazás.
+> A webes API ügyeljen arra, hogy az ügyfél-Azonosítót használja a Surveys.WebAPI alkalmazás, nem a Surveys alkalmazás.
 > 
 > 
 
@@ -299,5 +299,5 @@ Cserélje le a [szögletes zárójelbe] bejegyzések, és mentse a secrets.json 
 [readme]: ./run-the-app.md
 [Setup-KeyVault]: https://github.com/mspnp/multitenant-saas-guidance/blob/master/scripts/Setup-KeyVault.ps1
 [Surveys]: tailspin.md
-[user-secrets]: http://go.microsoft.com/fwlink/?LinkID=532709
+[user-secrets]: /aspnet/core/security/app-secrets
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance

@@ -1,98 +1,98 @@
 ---
-title: Content Delivery Network útmutató
-description: Útmutatás a Content Delivery Network (CDN) Azure-ban üzemeltetett nagy sávszélesség-tartalom.
+title: Útmutató a Content Delivery Networkhöz
+description: Útmutatás Azure-ban üzemeltetett nagy sávszélességű tartalmak Content Delivery Network (CDN) segítségével való továbbításához.
 author: dragon119
 ms.date: 02/02/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: 42b73db08ecef858f5279ea292cf8c0df77b847c
-ms.sourcegitcommit: 29fbcb1eec44802d2c01b6d3bcf7d7bd0bae65fc
+ms.openlocfilehash: 9805b1b6df8cedd7668eb9e85f741ee81c3dfa58
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/27/2018
-ms.locfileid: "29563557"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428890"
 ---
-# <a name="best-practices-for-using-content-delivery-networks-cdns"></a>Gyakorlati tanácsok a tartalomkézbesítési hálózat (tartalomtovábbító) használatát
+# <a name="best-practices-for-using-content-delivery-networks-cdns"></a>Ajánlott eljárások a tartalomkézbesítési hálózat (CDN) használatához
 
-Egy tartalomkézbesítési hálózat (CDN) egy olyan elosztott hálózati kiszolgálók hatékonyan által biztosított webes tartalom a felhasználók számára. Tartalomtovábbító gyorsítótárazott tartalom peremhálózati kiszolgálóinak hamarosan végfelhasználók számára, a késés csökkentése érdekében érdemes tárolni. 
+Egy tartalomkézbesítési hálózat (CDN) kiszolgálók olyan elosztott hálózata, amely hatékonyan kézbesíti a webes tartalmakat a felhasználóknak. A CDN-ek a késés minimalizálása érdekében gyorsítótárazott tartalmat tárolnak végfelhasználók közelében lévő peremhálózati kiszolgálókon. 
 
-Statikus tartalom, például a lemezképek, a stíluslapok, a dokumentumok, a ügyféloldali parancsprogramok és a HTML-lapok tartalomtovábbító általában használják. A CDN használatával főbb előnyei a következők: kisebb késést biztosít és a gyorsabb tartalom felhasználók földrajzi helytől függetlenül viszonyítva az adatközpontban Ha az alkalmazás üzemel. Tartalomtovábbító is segíthet a webes alkalmazás terhelésének csökkentése érdekében, mert az alkalmazás nem rendelkezik a tartalom a CDN futó érkező kérelmeket.
+A CDN-ek segítségével általában statikus tartalmak, például képek, stíluslapok, dokumentumok, ügyféloldali szkriptek vagy HTML-oldalak továbbíthatók. A CDN használatának főbb előnyei a következők: kisebb késés, gyorsabb tartalomkézbesítés a felhasználóknak függetlenül attól, hogy a földrajzi helyük mennyire van közel az alkalmazást üzemeltető adatközponthoz. A CDN segítségével a webalkalmazás terhelése is csökkenthető, mert az alkalmazásnak nem kell a CDN-en üzemeltetett tartalmakra vonatkozó kéréseket kiszolgálnia.
  
-![CDN-diagramja](./images/cdn/CDN.png)
+![CDN diagram](./images/cdn/CDN.png)
 
-Az Azure a [Azure tartalom Delivery Network](/azure/cdn/cdn-overview) globális CDN megoldást van, az Azure vagy bármely más helyen található, amelyek tartalmak nagy sávszélességű kézbesítéséhez. Azure CDN használatával, az Azure blob Storage tárolóban, webalkalmazás, virtuális gép, bármely nyilvánosan elérhető webkiszolgáló betöltött nyilvánosan elérhető objektumok gyorsítótárazásához. 
+Az Azure-ban az [Azure Content Delivery Network](/azure/cdn/cdn-overview) egy globális CDN-megoldás az Azure-ban vagy más helyeken üzemeltetett nagy sávszélességű tartalmak továbbítására. Az Azure CDN használatával lehetőség van a nyilvánosan elérhető, az Azure Blob-tárolóból, webalkalmazásokból, virtuális gépekről vagy bármilyen nyilvánosan elérhető webkiszolgálóról betöltött objektumok gyorsítótárazására. 
 
-Ez a témakör néhány általános, ajánlott eljárások és szempontokat a CDN használata esetén. Azure CDN használatával kapcsolatos további tudnivalókért lásd: [CDN dokumentáció](/azure/cdn/).
+Ez a témakör néhány, a CDN használata esetén általánosan ajánlott eljárást és szempontot ismertet. További információ az Azure CDN használatáról: [A CDN dokumentációja](/azure/cdn/).
 
-## <a name="how-and-why-a-cdn-is-used"></a>Miért és hogyan lehet a CDN használata
+## <a name="how-and-why-a-cdn-is-used"></a>Hogyan és miért érdemes használni a CDN-t
 
-A CDN a jellemző használati többek között:  
+A CDN tipikus alkalmazásai:  
 
-* Az ügyfélalkalmazások, gyakran egy webhelyről statikus erőforrások kézbesítéséhez. Ezeket az erőforrásokat lehet képek, stíluslapok, dokumentumok, fájlok, ügyféloldali parancsfájlokat, HTML-oldalaihoz, HTML-töredék vagy bármely más, a kiszolgáló nem kell módosítani az egyes kérelmek tartalmat. Az alkalmazás létrehozása az elemek futási időben, és elérhetővé teszi azokat a CDN (például a jelenlegi híreket egy Alkalmazáslista létrehozásával), de azt nem az egyes kérelmek.
-* Az eszközök, például mobiltelefon és táblagép nyilvános statikus és megosztott tartalom továbbítása. Magának az alkalmazásnak egy webszolgáltatás, amelyet az API-k kínál az ügyfelek számára a különböző eszközökön futó. A CDN-t is biztosíthat statikus adatkészletek (webszolgáltatás) keresztül az ügyfelek számára, lehet, hogy az ügyfél felhasználói felületének létrehozásához. Például a CDN használatával terjesztheti a JSON- vagy XML-dokumentumot.
-* A számítási erőforrásokat szolgál teljes webhelyeket, amelyeket csak nyilvános statikus tartalom az ügyfelek számára, anélkül, hogy a dedikált állnak.
-* Adatfolyam-továbbítási videofájlok az ügyfélnek az igény szerinti. Videó számos előnyt biztosít az alacsony késéssel és elérhető az globálisan található adatközpontokban, amelyek CDN kapcsolatot létesíteni a megbízható kapcsolatot. A Microsoft Azure Media Services (AMS) továbbítanak tartalmat a CDN későbbi terjesztés közvetlenül az Azure CDN integrálható. További információkért lásd: [Streaming végpontok áttekintése](/azure/media-services/media-services-streaming-endpoints-overview).
-* A felhasználói élmény a felhasználók számára, különösen az adatközpontban, az alkalmazást futtató távol található általában javítása. Ezek a felhasználók más módon csökkenhet, nagyobb késleltetéssel járhat. Egy webes alkalmazás a tartalom teljes mérete nagy részét gyakran statikus, és a CDN használata segíthet fenntartásához, teljesítmény és általános felhasználói élmény, így kiküszöböli a követelmény több adatközpontokban az alkalmazás központi telepítése során. Azure CDN-csomóponti helyek listáját lásd: [Azure CDN POP-helyek](/azure/cdn/cdn-pop-locations/).
-* (Az eszközök internetes hálózatát) az IoT-megoldások támogatása. Eszközök és az IoT-megoldás részt készülékek hatalmas mennyiségű sikerült könnyen ne terhelje tovább az alkalmazás Ha kellett továbbíthatja belső vezérlőprogram közvetlenül az egyes eszközök.
-* Másolás csúcsait és emelkedéseit anélkül, hogy a skálázandó alkalmazás igény, elkerülve a csatlakozása következtében nőtt fenntartási költségeihez. Például amikor az operációs rendszer frissítése a hardveres eszköz, például egy adott modell útválasztó, vagy a felhasználói eszköz, például egy intelligens TV megjelenik, lesz hatalmas csúcs igény szerint a felhasználók és eszközök millióira által rövid idő alatt letöltés.
+* Statisztikai erőforrások biztosítása ügyfélalkalmazásokhoz, gyakran egy webhelyről. Ezek az erőforrások lehetnek képek, stíluslapok, dokumentumok, fájlok, ügyféloldali szkriptek, HTML-lapok, HTML-töredékek vagy bármilyen tartalom, amelyet a kiszolgálónak nem kell módosítania az egyes kéréseknél. Az alkalmazás a futásidőben létrehozhat elemeket, és elérhetővé teheti azokat a CDN számára (például létrehoz egy listát az aktuális hírekről), de azt nem teszi meg minden kérelemnél.
+* Nyilvános statikus és megosztott tartalom biztosítása például mobiltelefonok, táblagépek és hasonló eszközök számára. Maga az alkalmazás egy szolgáltatás, amely API-t biztosít különböző eszközökön futó ügyfeleknek. A CDN a webes szolgáltatáson keresztül statikus adatkészleteket is biztosít az ügyfeleknek, például az ügyféloldali felhasználói felület létrehozásához. A CDN használható például JSON- vagy XML-dokumentumok terjesztésére.
+* Egész, csak nyilvános statikus tartalomból álló webhelyek kiszolgálása ügyfeleknek dedikált számítási erőforrások igénye nélkül.
+* Videofájlok streamelése az ügyfélnek igény szerint. A videók szempontjából előnyös a CDN-kapcsolatot biztosító, globálisan elhelyezett adatközpont által biztosított alacsony késés és megbízható kapcsolat. A Microsoft Azure Media Services (AMS) az Azure CDN-t integrálva szolgáltat tartalmat közvetlenül a CDN-nek további terjesztés céljából. További információk: [Streamvégpontok áttekintése](/azure/media-services/media-services-streaming-endpoints-overview).
+* Általában jobb felhasználói élmény, különösen az alkalmazást üzemeltető adatközponttól távol található felhasználók esetében. Ezek a felhasználók más esetben esetleg nagyobb késést tapasztalhatnának. A webalkalmazásokban gyakran a tartalom teljes méretének nagy része statikus, és a CDN használata segíthet fenntartani a teljesítményt és az általános felhasználói élményt úgy is, hogy nem kell az alkalmazást több adatközpontban üzembe helyezni. Az Azure CDN-csomópontok helyeinek listája: [Azure CDN POP-helyek](/azure/cdn/cdn-pop-locations/).
+* IoT- (Eszközök internetes hálózata) megoldások támogatása. Az IoT-megoldásokba bevont nagy számú eszköz és berendezés könnyen túlterhelhetne egy alkalmazást, ha a firmware-frissítéseket közvetlenül kéne terjesztenie minden eszközre.
+* A csúcspontok és hirtelen kiugrások kezelése igény szerint anélkül, hogy skálázni kellene az alkalmazást, így elkerülhetők a skálázás miatti megnövekedett futtatási költségek. Amikor például megjelenik egy operációsrendszer-frissítés egy hardvereszközhöz, például egy adott routermodellhez, vagy egy olyan fogyasztói eszközhöz, mint egy okostelevízió, nagy igénycsúcs várható, hiszen felhasználók és eszközök milliói töltik azt le rövid idő alatt.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-Figyelembe kell venni a CDN használata tervezése során több akadályok merülnek fel.  
+A CDN használatának tervezésekor több esetleges problémát is figyelembe kell venni.  
 
-* **Központi telepítési**. Döntse el, a forrás, ahol a CDN lekéri a tartalmat, és hogy mikor szükséges a tartalom telepítése több tároló rendszerben. Vegye figyelembe a statikus tartalom és erőforrások telepítésének folyamata. Szükség lehet például egy külön megoldás a tartalom betöltése az Azure blob Storage tárolóban.
-* **Verziókövetés és a cache-control**. Vegye figyelembe, hogyan fogja frissíteni a statikus tartalom, és új verziók helyezhetők üzembe. Megérteni, hogyan a CDN hajt végre, gyorsítótárazás és az idő-Élettartam (TTL). További Azure CDN: [gyorsítótárazás működése](/azure/cdn/cdn-how-caching-works).
-* **Tesztelési**. A CDN-beállításokat, ha a fejlesztés és tesztelés az alkalmazás helyileg vagy tesztelési környezetben helyi teszteléséhez nehézkes lehet.
-* **Keresés motor optimalizálási (keresőmotor-Optimalizáláshoz)**. Tartalom, például a képeket és a dokumentumok szolgáltatott más tartományokból a CDN használatakor. Ez lehet hatással a keresőmotor-Optimalizáláshoz ehhez a tartalomhoz.
-* **Tartalom biztonsági**. Nem minden tartalomtovábbító ajánlatot bármely formájára vonatkozó hozzáférés-vezérlés a tartalomhoz. Egyes CDN szolgáltatások, Azure CDN, beleértve a jogkivonat-alapú hitelesítés CDN-tartalom védelméhez támogatja. További információkért lásd: [védelmét biztosító Azure Content Delivery Network eszközök token hitelesítéssel](/azure/cdn/cdn-token-auth).
-* **Ügyfél biztonsági**. Az ügyfelek kapcsolódását az olyan környezetben, amely nem teszi lehetővé az erőforrásokhoz való hozzáférést a CDN a. Ennek oka lehet egy korlátozott biztonsági környezetben, amely korlátozza a hozzáférést csak ismert források, vagy egy, az erőforrások lapon eredeti csakis a betöltését. A tartalék megvalósításához szükség van kezelik az ilyen eseteket.
-* **Rugalmasság**. A CDN egy potenciális hibaérzékeny pontot az alkalmazáshoz. 
+* **Üzembe helyezés**. Határozza meg a forrást, ahonnan a CDN lekéri a tartalmat, és azt, hogy telepítenie kell-e a tartalmat egynél több tárolórendszerben. Vegye figyelembe a statikus tartalom és erőforrások üzembe helyezésének folyamatát. Előfordulhat például, hogy implementálnia kell egy külön lépést a tartalom Azure Blob Storage-ba való betöltéséhez.
+* **Verziókezelés és gyorsítótár-vezérlés**. Gondolja át, hogyan fogja frissíteni a statikus tartalmat, és hogyan fog új verziókat telepíteni. Ismerje meg a CDN gyorsítótárazásának működését és az élettartam (TTL) kezelését. Az Azure CDN esetében tekintse meg [A gyorsítótárazás működése](/azure/cdn/cdn-how-caching-works) című szakaszt.
+* **Tesztelés**. A CDN-beállítások helyi tesztelése nehézkes lehet, ha helyben vagy átmeneti környezetben zajlik az alkalmazás fejlesztése és tesztelése.
+* **Keresőmotor-optimalizálás (SEO)**. CDN használata esetében a képek, dokumentumok és a hasonló tartalmak kiszolgálása különböző tartományból történik. Ez hatással lehet a tartalomhoz tartozó keresőmotor-optimalizálásra.
+* **Tartalombiztonság**. Nem minden CDN biztosít hozzáférés-vezérlést a tartalomhoz. Bizonyos CDN-szolgáltatások (például az Azure CDN) támogatják a jogkivonat-alapú hitelesítést a CDN-tartalom védelme érdekében. További információk: [Az Azure Content Delivery Network objektumok biztosítása jogkivonat-alapú hitelesítéssel](/azure/cdn/cdn-token-auth).
+* **Ügyfélbiztonság**. Az ügyfelek kapcsolódhatnak olyan környezetből, amely nem teszi lehetővé a CDN-en lévő erőforrásokhoz való hozzáférést. Ez lehet egy biztonsági okból korlátozott környezet, amely csupán néhány ismert forráshoz enged hozzáférést, vagy egy olyan, amely a lap forrását kivéve mindenhonnan megakadályozza az erőforrások betöltését. Az ilyen esetek kezeléséhez szükséges egy tartalék megvalósítás.
+* **Rugalmasság**. A CDN egy potenciálisan hibaérzékeny pontja az alkalmazásoknak. 
 
-Olyan esetekben, ahol CDN lehet, hogy kevesebb hasznos belefoglalása:  
+Forgatókönyvek, ahol a CDN nem túl hasznos megoldás:  
 
-* Ha a tartalom egy alacsony találati aránya, az elérhető lehet csak néhány alkalommal állapotában érvényes (határozza meg a live idő beállítása). 
-* Ha az adatok személyes, többek között a nagyobb vállalatok vagy ellátási lánc ökoszisztéma.
+* Ha a tartalom találati aránya alacsony, előfordulhat, hogy az érvényessége során (ezt az alapértelmezett élettartamra vonatkozó beállítás határozza meg) csupán párszor használhatják. 
+* Ha az adat bizalmas, például nagyvállalatoknál vagy ellátási lánccal kapcsolatos ökoszisztémáknál.
 
 ## <a name="general-guidelines-and-good-practices"></a>Általános irányelvek és bevált gyakorlatok
 
-A CDN használata minimálisra csökkentése az alkalmazás terhelését, és rendelkezésre állás és teljesítmény maximalizálása érdekében egy jó módszer. Vegye figyelembe, hogy ezt a stratégiát, az összes a megfelelő tartalom és az alkalmazás által használt erőforrások bevezetése. Vegye figyelembe az alábbi szakaszok a pontok, a CDN használata a stratégia tervezésekor.
+A CDN használata kiváló módszer az alkalmazások terhelésének minimalizálására, valamint a lehető legmagasabb szintű rendelkezésre állás és teljesítmény elérésére. Érdemes lehet ezt a stratégiát alkalmazni az alkalmazás által használt összes megfelelő tartalomhoz és erőforráshoz. Amikor megtervezi a CDN-használati stratégiáját, vegye figyelembe az alábbi szempontokat.
 
 ### <a name="deployment"></a>Környezet
-Statikus tartalom esetleg kiosztása és egymástól függetlenül az alkalmazás telepítve, ha az alkalmazás központi telepítési csomagot vagy a folyamat nem tartalmaznak. Vegye figyelembe, hogy ez milyen hatással a versioning mind az alkalmazás-összetevők és a statikus tartalom kezeléséhez használt módszert.
+Előfordulhat, hogy a statikus tartalmat az alkalmazástól függetlenül kell létrehozni és telepíteni, ha nem vonja be az alkalmazástelepítési csomagba vagy folyamatba. Gondolja végig, milyen hatással lesz ez az alkalmazás összetevői és a statikus erőforrás-tartalom kezeléséhez használt verziókezelési stratégiára.
 
-Vegye figyelembe, hogy kötegelése és minification technikák segítségével az ügyfelek a betöltési idők csökkentése érdekében. Több fájl kötegelése egyesít egyetlen fájlt. Minification eltávolítja felesleges karaktereket parancsfájlok és CSS fájlok funkció módosítása nélkül.
+Érdemes lehet kötegelési és kicsinyítési technikákat alkalmazni az ügyfeleknél tapasztalható betöltési idő csökkentése érdekében. A kötegelés több fájlt egyesít egy fájlba. A kicsinyítés eltávolítja a szükségtelen karaktereket a szkriptekből és a CSS-fájlokból, de a működőképességet ez nem befolyásolja.
 
-Ha a tartalom telepítése további helyre van szüksége, ez lesz a telepítési folyamat egy további lépést. Ha az alkalmazás számára a CDN-t frissíti a tartalmat, lehet, hogy rendszeres időközönként, vagy az adott esemény bekövetkezésekor kell tárolnia a frissített tartalom semmilyen további helyek, valamint a végpont a CDN a.
+Ha a tartalmat egy további helyen is üzembe kell helyeznie, ez egy extra lépés lesz az üzembe helyezési folyamatban. Ha az alkalmazás frissíti a CDN tartalmát, például rendszeres időközönként vagy egy eseményre válaszként, a frissített tartalmat minden további helyen és a CDN végpontján is tárolnia kell.
 
-Vegye figyelembe, hogyan fogja kezelni a helyi fejlesztési és tesztelési, amikor néhány statikus tartalom várhatóan CDN helyről. A build script részeként például a CDN a tartalmat előre telepíthet. Használhat fordítási direktíváit vagy jelzők szabályozásához, hogy az alkalmazás betölti az erőforrások. Például hibakeresési módban, az alkalmazás tölthető statikus erőforrások egy helyi mappába. Az alkalmazás kiadási módban a CDN-t használja.
+Gondolja át, hogyan fogja kezelni a helyi fejlesztést és tesztelést, ha valamely statikus tartalom kiszolgálása egy CDN-ről várható. Megteheti például, hogy előre telepíti a tartalmat a CDN-re a buildszkript részeként. Másik megoldásként használhat fordítási irányelveket vagy jelzőket annak szabályozására, hogy hogyan töltse be az alkalmazás az erőforrásokat. Hibakeresési módban például az alkalmazás be tudná tölteni a statikus erőforrásokat egy helyi mappából. Kiadási módban az alkalmazás a CDN-t használná.
 
-Vegye figyelembe a fájltömörítés, például a gzip (GNU zip) beállításait. Tömörítés hajthatja végre a forrás kiszolgálón a webes alkalmazás-gazdaszolgáltatás vagy közvetlenül a peremhálózati kiszolgálóinak a CDN-t. További információkért lásd: [javítása a fájlok tömörítése a Azure CDN](/azure/cdn/cdn-improve-performance).
+Gondolja végig a fájltömörítési lehetőségeket, például a gzip (GNU zip) formátumot. A tömörítés végrehajtható a forráskiszolgálón a webalkalmazás üzemeltetésével vagy közvetlenül a peremhálózati kiszolgálókon a CDN segítségével. További információk: [A teljesítmény javítása a fájlok tömörítésével az Azure CDN-ben](/azure/cdn/cdn-improve-performance).
 
 
-### <a name="routing-and-versioning"></a>Az Útválasztás és versioning
-CDN-példány használható a különböző időpontokban szeretne. Például az alkalmazás új verziójának telepítésekor érdemes lehet egy új CDN-t használja, és tartsa meg a régi CDN (tartalom okozó régebbi formátumú) korábbi verzióihoz. Ha a tartalom eredete használja az Azure blob Storage tárolóban, hozzon létre egy külön tárfiókot vagy egy külön tárolóba, és a CDN-végpont mutasson. 
+### <a name="routing-and-versioning"></a>Útválasztás és verziókezelés
+Lehetséges, hogy különböző időpontokban különböző CDN-példányokat kell használnia. Előfordulhat például, hogy az alkalmazás új verziójának telepítésekor egy új CDN-t szeretne használni, a korábbi verziókhoz viszont meg szeretné tartani a régi CDN-t (amely régebbi formátumban tárolja a tartalmat). Ha a tartalom forrásának az Azure Blob Storage-t használja, létrehozhat egy külön tárfiókot vagy egy külön tárolót, és a CDN-végpontot irányíthatja arra. 
 
-Ne használja a lekérdezési karakterlánc jelölésére a CDN megtalálható erőforrásokhoz való hivatkozások az alkalmazás különböző verzióit, mert, amikor a tartalom lekérése az Azure blob storage, a lekérdezési karakterlánc része az erőforrás neve (a blob neve). Ezt a módszert használja szintén befolyásolhatják, hogy az ügyfél milyen módon gyorsítótárazza a erőforrások.
+A CDN-en lévő erőforrásokra mutató hivatkozásokban ne használja a lekérdezési sztringet az alkalmazás különböző verzióinak jelölésére, mert amikor az Azure Blob Storage-ból kér le tartalmat, a lekérdezési sztring része az erőforrás nevének (a blobnévnek). Ez a megközelítés arra is hatással lehet, hogy hogyan gyorsítótárazza az ügyfél az erőforrásokat.
 
-Statikus tartalom új verzióinak telepítését, ha egy alkalmazás módosítását kihívást lehet, ha az előző erőforrások gyorsítótárazza a CDN-t. További információk: gyorsítótár vezérlőn szakasz alatt.
+A statikus tartalom új verzióinak telepítése egy alkalmazás frissítésekor kihívást jelenthet, ha a korábbi erőforrások a CDN-en lettek gyorsítótárazva. További információkért tekintse meg alább a gyorsítótár-vezérlésre vonatkozó szakaszt.
 
-Fontolja meg a CDN ország tartalom hozzáférés korlátozása. Az Azure CDN lehetővé teszi szűrheti a kéréseket a származási alapján, és korlátozza a tartalom letöltéséhez. További információkért lásd: [korlátozza a hozzáférést a tartalmat az ország](/azure/cdn/cdn-restrict-access-by-country/).
+Érdemes lehet országonként korlátozni a CDN tartalmának elérését. Az Azure CDN lehetővé teszi a kérések szűrését a forrás országa alapján, és a kézbesített tartalom korlátozását. További információkat [a tartalom elérésének országonként történő korlátozásának](/azure/cdn/cdn-restrict-access-by-country/) ismertetésében talál.
 
-### <a name="cache-control"></a>Gyorsítótár-vezérlő
-Vegye figyelembe a rendszerben gyorsítótárazás kezelése. Például az Azure CDN csak is globális gyorsítótárazási szabályokat állíthat be, és majd egyéni adott forrás végpontok gyorsítótárazását. Azt is meghatározhatja, hogyan gyorsítótárazását végzi el a CDN a gyorsítótár-irányelv fejlécek küldését a forráson. 
+### <a name="cache-control"></a>Gyorsítótár-vezérlés
+Gondolja át, hogyan működjön a gyorsítótárazás a rendszerében. Az Azure CDN-ben például beállíthat globális gyorsítótárazási szabályokat, majd megadhat egyéni gyorsítótárazási beállításokat adott forrásvégpontokhoz. A forrásnál lévő gyorsítótárirányelv-fejlécek küldésével azt is szabályozhatja, hogy hogyan menjen végbe a gyorsítótárazás egy CDN-ben. 
 
-További információkért lásd: [gyorsítótárazás működése](/azure/cdn/cdn-how-caching-works).
+További információkért lásd: [A gyorsítótárazás működése](/azure/cdn/cdn-how-caching-works).
 
-Objektumok elérhetőnek kell lennie a CDN elkerülése érdekében törölje ezeket a forrásból, eltávolíthatja vagy törölni a CDN-végpontot, vagy a blob storage esetén ellenőrizze a tároló vagy blob személyes. Azonban elemek nem lesznek eltávolítva az az idő TTL eléréséig. A CDN-végpontok manuálisan is törölheti.
+Ha azt szeretné, hogy bizonyos objektumok ne legyenek elérhetők a CDN-en, törölheti őket a forrásról, eltávolíthatja vagy törölheti a CDN-végpontot, illetve Blob Storage esetén priváttá teheti a tárolót vagy blobot. Az elemek azonban az alapértelmezett élettartam lejártáig nem törlődnek. A CDN-végpontok manuálisan is véglegesen törölhetők.
 
 ### <a name="security"></a>Biztonság
 
-A CDN által biztosított tartalmat, keresztül HTTPS (SSL), a CDN által biztosított tanúsítvány használatával, valamint szabványos HTTP-kapcsolaton keresztül. Annak érdekében, ne böngésző vegyes tartalomról, szükség lehet a HTTPS használatával betöltött lapok statikus tartalmat igénylő a HTTPS protokoll használatával.
+A CDN a CDN által kiállított tanúsítvány használatával képes HTTPS (SSL) protokollon keresztül is kézbesíteni tartalmat, és standard HTTP-n keresztül is. A böngészőben megjelenő figyelmeztetések és a vegyes tartalom elkerülése érdekében érdemes HTTPS protokollon keresztül elérnie a HTTPS-en keresztül betöltött oldalakon megjelenő statikus tartalmat.
 
-Ha az eszközök statikus betűtípus fájlok például a CDN használatával, problémák léphetnek fel azonos eredetű házirend használatakor egy *XMLHttpRequest* hívás ezekkel az erőforrásokkal kérhet egy másik tartományban. Sok webböngészővel eltérő eredetű erőforrások megosztása (CORS), kivéve, ha a webkiszolgáló úgy van beállítva, a megfelelő válaszfejlécek beállítása megakadályozza. Beállíthatja, hogy a CDN és a CORS támogatja az alábbi módszerek egyikének használatával:
+Ha statikus objektumokat (pl. betűkészletfájlokat) kézbesít a CDN használatával, előfordulhat, hogy az azonos eredethez kapcsolódó szabályzatproblémák merülnek fel, ha *XMLHttpRequest* hívást használ ezen erőforrások különböző tartományból való lekérésére. Sok webböngésző nem engedélyezi az eltérő eredetű erőforrások megosztását (CORS), ha a webkiszolgáló nincs a megfelelő válaszfejlécek beállítására konfigurálva. A CDN-t beállíthatja a CORS támogatására az alábbi módszerek egyikével:
 
-* A CORS fejlécek hozzáadása a válaszokat a CDN konfigurálásához. További információkért lásd: [az Azure CDN szolgáltatás használata a CORS](/azure/cdn/cdn-cors). 
-* Ha a forrás az Azure blob Storage tárolóban, vegye fel a CORS-szabályokat a storage-végponthoz. További információkért lásd: [Cross-Origin Resource Sharing (CORS) támogatása az Azure Storage szolgáltatásainak](http://msdn.microsoft.com/library/azure/dn535601.aspx).
-* Konfigurálja a CORS fejlécek beállítása az alkalmazást. Lásd például: [engedélyezi eltérő eredetű kérések (CORS)](/aspnet/core/security/cors) az ASP.NET Core dokumentációjában.
+* A CDN-t konfigurálhatja arra, hogy CORS fejléceket adjon a válaszokhoz. További információk: [Az Azure CDN használata a CORS-szal](/azure/cdn/cdn-cors). 
+* Ha a forrás az Azure Blob Storage-ban van, hozzáadhat CORS-szabályokat a tároló végpontjához. További információk: [Az eltérő eredetű erőforrás-megosztás (CORS) támogatása az Azure Storage szolgáltatásokhoz](/rest/api/storageservices/Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services).
+* Konfigurálja az alkalmazást a CORS fejlécek beállítására. Lásd a [engedélyezi eltérő eredetű kérelmek (CORS)](/aspnet/core/security/cors) az ASP.NET Core dokumentációjában.
 
-### <a name="cdn-fallback"></a>CDN tartalék
-Vegye figyelembe, hogyan az alkalmazás fogja a folyamatosan növekvő adatmennyiségnek hiba vagy ideiglenes hiányában a CDN-t. Előfordulhat, hogy ügyfélalkalmazások másolja a helyileg (az ügyfél) a gyorsítótárazott erőforrások használhatják az előző kérelem során, vagy megadhat kódot, amely hibát észlel, és helyette a forrásból (az alkalmazás mappájában, vagy az Azure blob-erőforrások kérelmek az tároló, amely az erőforrások) Ha a CDN nem érhető el.
+### <a name="cdn-fallback"></a>CDN-tartalék
+Gondolja át, hogyan fog kezelni az alkalmazása egy hibát vagy a CDN átmeneti elérhetetlenségét. Előfordulhat, hogy ügyfélalkalmazások képesek a korábbi kérések során helyben (az ügyfélen) gyorsítótárazott erőforrások másolatainak használatára, vagy szerepeltethet olyan kódot, amely észleli a meghibásodást, és ha a CDN nem érhető el, inkább a forrásról kér erőforrásokat (az erőforrásokat tároló alkalmazásmappából vagy Azure Blob-tárolóról).

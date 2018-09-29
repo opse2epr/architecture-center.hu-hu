@@ -7,12 +7,12 @@ ms.date: 11/28/2016
 pnp.series.next: adds-extend-domain
 pnp.series.prev: ./index
 cardTitle: Integrate on-premises AD with Azure AD
-ms.openlocfilehash: 21a6474db94d34e23f79d1ba0e35943c0cb52966
-ms.sourcegitcommit: d5db5b8ed7429f056130096d0ef4b249b564599a
+ms.openlocfilehash: b5cd4d353c6d6b149c9c1b5547f8da8c25ad5a85
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/01/2018
-ms.locfileid: "37141384"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429230"
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -33,7 +33,7 @@ A referenciaarchitektúra tipikus alkalmazásai lehetnek:
 * Olyan architektúrák, amelyekben a helyszíni hálózat és az alkalmazás Azure virtuális hálózata nem VPN-alagúton vagy ExpressRoute-kapcsolatcsoportoton keresztül kapcsolódik.
 
 > [!NOTE]
-> Az Azure AD képes hitelesíteni az identitás a felhasználók és az alkalmazásokat, amelyek a szervezetek könyvtárában. Egyes alkalmazások és szolgáltatások, például az SQL Server esetében szükség lehet a számítógép hitelesítésére is, ebben az esetben ez a megoldás nem megfelelő.
+> Az Azure AD hitelesítheti a felhasználókat és alkalmazásokat, amelyek egy szervezet címtárában található identitását. Egyes alkalmazások és szolgáltatások, például az SQL Server esetében szükség lehet a számítógép hitelesítésére is, ebben az esetben ez a megoldás nem megfelelő.
 > 
 
 További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 
@@ -120,9 +120,9 @@ További információk ezekről a topológiákról: [Azure AD Connect-topológi�
 
 ### <a name="user-authentication"></a>Felhasználóhitelesítés
 
-Alapértelmezés szerint az Azure AD Connect szinkronizálási kiszolgáló konfigurálása a Jelszókivonat-szinkronizálást a helyszíni tartományi és az Azure AD között, és az Azure AD szolgáltatás azt feltételezi, hogy a felhasználók hitelesítéséhez azáltal, hogy ugyanazt a jelszót, hogy a helyszíni használnak. A legtöbb vállalat számára ez megfelelő, de érdemes figyelembe venni a vállalat meglévő szabályzatait és infrastruktúráját. Példa:
+Alapértelmezés szerint az Azure AD Connect szinkronizálási kiszolgáló a Jelszókivonat-szinkronizálás a helyszíni tartomány és az Azure AD között állítja be, és az Azure AD szolgáltatás feltételezi, hogy felhasználók a hitelesítéshez ugyanazt a jelszót, hogy a helyszíni használnak. A legtöbb vállalat számára ez megfelelő, de érdemes figyelembe venni a vállalat meglévő szabályzatait és infrastruktúráját. Példa:
 
-* A szervezete biztonsági házirendjével megtilthatja szinkronizálása a felhőbe azok kivonatai. Ebben az esetben érdemes megfontolni a szervezet [átmenő hitelesítés](/azure/active-directory/connect/active-directory-aadconnect-pass-through-authentication).
+* A szervezete biztonsági házirendjével megtilthatja a jelszókivonatok felhőbe. Ebben az esetben fontolja meg a szervezet [átmenő hitelesítés](/azure/active-directory/connect/active-directory-aadconnect-pass-through-authentication).
 * Esetleg az lehet az elvárás, hogy a felhasználók a felhőerőforrásokat a vállalati hálózaton lévő, tartományra csatlakozott gépekről zökkenőmentes egyszeri bejelentkezéssel (SSO) érhessék el.
 * A vállalatban esetleg már be vannak vezetve az Active Directory összevonási szolgáltatások (AD FS) vagy valamely más, harmadik féltől származó összevonási szolgáltató. Az Azure AD megfelelő konfigurálásával ez az infrastruktúra beállítható a felhőben tárolt jelszóadatok helyett a hitelesítés és az egyszeri bejelentkezés használatára.
 
@@ -216,9 +216,9 @@ További információkért lásd: [Azure Active Directory feltételes hozzáfér
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a GitHubon. A referencia-architektúrában telepíti egy szimulált helyszíni hálózati teszteléséhez és kísérletezhet használható az Azure-ban. A referenciaarchitektúra Windows vagy Linux rendszerű virtuális gépeken helyezhető üzembe az alábbi utasításokat követve: 
+Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalósított referenciaarchitektúra egy üzemelő példánya elérhető a GitHubon. Ez a referenciaarchitektúra üzembe helyez egy szimulált helyszíni hálózatot az Azure-ban, használhatja a teszteléshez és kísérletezéshez. A referenciaarchitektúra Windows vagy Linux rendszerű virtuális gépeken helyezhető üzembe az alábbi utasításokat követve: 
 
-1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fidentity%2Fazure-ad%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fidentity%2Fazure-ad%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Ha a hivatkozás megnyílt az Azure Portalon, meg kell adnia néhány beállítás értékét: 
    * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-aad-onpremise-rg` karakterláncot.
    * Válassza ki a régiót a **Hely** legördülő listából.
@@ -236,12 +236,12 @@ Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalós�
 [aad-agent-installation]: /azure/active-directory/active-directory-aadconnect-health-agent-install
 [aad-application-proxy]: /azure/active-directory/active-directory-application-proxy-enable
 [aad-conditional-access]: /azure/active-directory//active-directory-conditional-access
-[aad-connect-sync-default-rules]: /azure/active-directory/active-directory-aadconnectsync-understanding-default-configuration
-[aad-connect-sync-operational-tasks]: /azure/active-directory/active-directory-aadconnectsync-operations#staging-mode
+[aad-connect-sync-default-rules]: /azure/active-directory/hybrid/concept-azure-ad-connect-sync-default-configuration
+[aad-connect-sync-operational-tasks]: /azure/active-directory/hybrid/how-to-connect-sync-operations
 [aad-dynamic-memberships]: https://youtu.be/Tdiz2JqCl9Q
 [aad-dynamic-membership-rules]: /azure/active-directory/active-directory-accessmanagement-groups-with-advanced-rules
 [aad-editions]: /azure/active-directory/active-directory-editions
-[aad-filtering]: /azure/active-directory/active-directory-aadconnectsync-configure-filtering
+[aad-filtering]: /azure/active-directory/hybrid/how-to-connect-sync-configure-filtering
 [aad-health]: /azure/active-directory/active-directory-aadconnect-health-sync
 [aad-health-adds]: /azure/active-directory/active-directory-aadconnect-health-adds
 [aad-health-adfs]: /azure/active-directory/active-directory-aadconnect-health-adfs
@@ -250,13 +250,13 @@ Az ezeknek a javaslatoknak és szempontoknak a figyelembe vételével megvalós�
 [aad-powershell]: https://msdn.microsoft.com/library/azure/mt757189.aspx
 [aad-reporting-guide]: /azure/active-directory/active-directory-reporting-guide
 [aad-scalability]: https://blogs.technet.microsoft.com/enterprisemobility/2014/09/02/azure-ad-under-the-hood-of-our-geo-redundant-highly-available-distributed-cloud-directory/
-[aad-sync-best-practices]: /azure/active-directory/active-directory-aadconnectsync-best-practices-changing-default-configuration
-[aad-sync-disaster-recovery]: /azure/active-directory/active-directory-aadconnectsync-operations#disaster-recovery
+[aad-sync-best-practices]: /azure/active-directory/hybrid/how-to-connect-sync-best-practices-changing-default-configuration
+[aad-sync-disaster-recovery]: /azure/active-directory/hybrid/how-to-connect-sync-operations#disaster-recovery
 [aad-sync-requirements]: /azure/active-directory/active-directory-hybrid-identity-design-considerations-directory-sync-requirements
-[aad-topologies]: /azure/active-directory/active-directory-aadconnect-topologies
-[aad-user-sign-in]: /azure/active-directory/active-directory-aadconnect-user-signin
+[aad-topologies]: /azure/active-directory/hybrid/plan-connect-topologies
+[aad-user-sign-in]: /azure/active-directory/hybrid/plan-connect-user-signin
 [azure-active-directory]: /azure/active-directory-domain-services/active-directory-ds-overview
-[azure-ad-connect]: /azure/active-directory/active-directory-aadconnect
+[azure-ad-connect]: /azure/active-directory/hybrid/whatis-hybrid-identity
 [azure-multifactor-authentication]: /azure/multi-factor-authentication/multi-factor-authentication
 [considerations]: ./considerations.md
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview

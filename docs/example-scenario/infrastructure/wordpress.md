@@ -3,12 +3,12 @@ title: Hatékonyan skálázható és biztonságos WordPress-webhely létrehozás
 description: A forgatókönyv egy hatékonyan méretezhető és biztonságos WordPress-webhely media eseményeket létrehozásához bevált
 author: david-stanford
 ms.date: 09/18/2018
-ms.openlocfilehash: 595220a79e872fc102d85d239f292c5ad987123f
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 3091eebe6004666f6417c5a2f6a030331309805d
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534569"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428108"
 ---
 # <a name="highly-scalable-and-secure-wordpress-website"></a>Hatékonyan skálázható és biztonságos WordPress-webhely létrehozása
 
@@ -116,7 +116,7 @@ Biztosítunk egy előre konfigurált [profil költség] [ pricing] fenti Archite
 [mariadb-tutorial]: /azure/virtual-machines/linux/classic/mariadb-mysql-cluster
 [scaleset-docs]: /azure/virtual-machine-scale-sets/overview
 [security]: /azure/security/
-[availability]: /architecture/checklist/availability
+[availability]: ../../checklist/availability.md
 [resiliency]: /azure/architecture/resiliency/
 [scalability]: /azure/architecture/checklist/scalability
 [vmssautoscale-docs]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview

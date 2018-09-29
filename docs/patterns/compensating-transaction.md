@@ -1,102 +1,102 @@
 ---
 title: Compensating Transaction
 description: Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát.
-keywords: Kialakítási mintája
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - resiliency
-ms.openlocfilehash: a822de990d6ce933024207073b110e98f8da40bf
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 3d58537d9c77b97332bcabf762b9af7ed2f20421
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
-ms.locfileid: "26359401"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428142"
 ---
-# <a name="compensating-transaction-pattern"></a>Tranzakció mintát Compensating
+# <a name="compensating-transaction-pattern"></a>Kompenzáló tranzakció mintája
 
 [!INCLUDE [header](../_includes/header.md)]
 
-A lépésekre, és mindezek együtt meghatározzák az idővel konzisztenssé művelet, ha egy vagy több lépést meghibásodik sorozata által végzett munka visszavonása. A végleges konzisztencia modell az alábbi műveletek általában felhőben üzemeltetett alkalmazások, amelyek megvalósítják az összetett üzleti folyamatokat és munkafolyamatok találhatók.
+Visszavon egy sor, együtt végül egy konzisztens műveletet alkotó lépésben végrehajtott munkát, ha egy vagy több lépés meghiúsul. A végleges konzisztenciájú modellt követő műveletek általában olyan felhőben üzemeltetett alkalmazásokban találhatók, amelyek összetett üzleti folyamatokat és munkafolyamatokat valósítanak meg.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Gyakran a felhőben futó alkalmazások módosíthatják az adatokat. Ezeket az adatokat a előfordulhat, hogy különböző földrajzi helyen lévő különböző adatforrások között ossza szét. Versengés elkerülése érdekében, és javíthatja a teljesítményt elosztott környezetben, egy alkalmazás nem próbálja meg az erős tranzakciós konzisztencia biztosításához. Ehelyett az alkalmazás meg kell valósítania végleges konzisztencia. Ebben a modellben egy tipikus munkaidejét művelet külön lépések egy sorozatát áll. A lépések végrehajtása közben a rendszer szerinti átfogó képet inkonzisztens lehet, de a művelet befejeződött, és az összes lépést végre a rendszer kell válnia konzisztens újra.
+A felhőben futó alkalmazások gyakran módosítják az adatokat. Ezek az adatokat számos, különböző földrajzi helyeken lévő adatforrás között lehetnek elosztva. Az elosztott környezetben a versengés elkerülése és a teljesítmény javítása érdekében az alkalmazásnak nem az erős tranzakció-konzisztencia biztosítására kell törekednie. Ehelyett az alkalmazásnak a végleges konzisztenciát kell megvalósítania. Ebben a modellben egy tipikus üzleti tevékenység különálló lépések sorozatából áll. A lépések végrehajtása közben a rendszer állapotának átfogó képe inkonzisztens lehet, amikor azonban a tevékenység befejeződött, és az összes lépés végrehajtása megtörtént, a rendszernek újra konzisztensnek kell lennie.
 
-> A [adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx) információkat nyújt azokról az elosztott tranzakciók miért nem méretezhető well, és a végleges konzisztencia modell ezeket az alapelveket.
+> Az [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx) információkkal szolgál arról, hogy az elosztott tranzakciók miért nem skálázhatók jól, illetve ismerteti a végleges konzisztenciájú modell alapelveit.
 
-A végleges konzisztencia modell kihívást, hogyan kezeli a lépést, amely nem sikerült. Ebben az esetben szükség lehet visszavonja az összes a munkát az előző lépésekben a művelet befejeződött. Azonban az adatok nem egyszerűen állítható vissza, mert az alkalmazás más egyidejű példányok módosulhatott azt. Olyan esetekben, ahol az adatok még nem lett módosítva, egyidejű példánya, még akkor is, egy lépés visszavonása nem egyszerűen lehet kell az eredeti állapot-visszaállítást. Különböző üzleti vonatkozó szabályok alkalmazásához szükséges lehet (lásd a példa részben leírt utazás webhely).
+A végleges konzisztenciájú modell esetében a kihívást a meghiúsult lépések kezelése jelenti. Ebben az esetben szükség lehet a művelet összes korábbi lépése által elvégzett munka visszavonására. Az adatokat azonban nem lehet egyszerűen visszaállítani, mert a párhuzamos alkalmazáspéldányok esetleg módosíthatták azokat. Még az olyan esetekben is, ahol az adatokat egy párhuzamos alkalmazáspéldány sem módosította, egy lépések visszavonása nem feltétlenül jelenti egyértelműen az eredeti állapot visszaállítását. Előfordulhat, hogy különböző üzletspecifikus szabályok alkalmazása válik szükségessé (lásd a Példa szakaszban bemutatott utazási webhely esetét).
 
-Egy művelet, amely megvalósítja a végleges konzisztencia több heterogén adattárolókhoz is, ha visszavonása a művelet lépéseit szükséges minden egyes adattár pedig látogató. Minden-tárolóban végzett munka kell vonható megbízhatóan, hogy a rendszer megakadályozza az fennmaradó inkonzisztens.
+Ha a végleges konzisztenciát megvalósító művelet több heterogén adattárolóra is kiterjed, a lépések visszavonása esetében az összes adattárat végig kell járni. Minden egyes adattárban megfelelően kell visszavonni az elvégzett munkát ahhoz, hogy a rendszer ne maradjon inkonzisztens.
 
-Nem minden adat, amely megvalósítja a végleges konzisztencia művelet hatással lehet, hogy tárolható egy adatbázis. Szolgáltatás objektumorientált architektúra (SOA) környezetben egy művelet sikerült el művelet egy szolgáltatás, és a szolgáltatás által tárolt állapota megváltozhat. A művelet visszavonja, az állapotváltozás kell is vonható vissza. Ez a szolgáltatás újra meghívása és egy másik művelet, amely az első eredő megfordítja végrehajtása magába foglaló.
+A végleges konzisztenciát megvalósító művelet által érintett adatok közül nem feltétlenül található mindegyik adatbázisban. A szolgáltatásorientált architektúra (SOA) környezetében egy művelet meghívhat egy másik műveletet a szolgáltatásban, változást okozva a szolgáltatás által tárolt állapotban. A művelet visszavonásához ezt az állapotváltozást is vissza kell vonni. Ehhez szükség lehet a szolgáltatás ismételt meghívására, illetve egy másik, az eredeti lépés hatását visszavonó művelet végrehajtására.
 
 ## <a name="solution"></a>Megoldás
 
-A megoldás, hogy a kompenzációs tranzakció alkalmazza. A lépéseket egy kompenzációs tranzakcióban vissza kell vonnia az eredeti művelet lépéseit hatásait. Előfordulhat, hogy a kompenzációs tranzakció nem egyszerűen az állapot, a rendszer nem a elején. a művelet, mert ez a megközelítés végrehajtott változtatások felülírhatják a jelenlegi állapotában más egyidejű alkalmazáspéldányra cserélje. Ehelyett egy intelligens folyamat, amely az egyidejű példányok által végzett munka figyelembe veszi kell lennie. Ez a folyamat általában lesz adott, alkalmazás, az eredeti művelet által végzett munka jellege által vezérelt.
+A megoldást egy kompenzáló tranzakció megvalósítása jelenti. A kompenzáló tranzakció lépéseinek vissza kell vonniuk az eredeti művelet lépéseinek hatásait. Előfordulhat, hogy a kompenzáló tranzakció nem tudja egyszerűen visszaállítani a rendszer aktuális állapotát a művelet megkezdése előtti állapotra, mert ez a megoldás felülírná a párhuzamos alkalmazáspéldányok által végrehajtott esetleges módosításokat. Ehelyett egy intelligens folyamatra van szükség, amely a párhuzamos alkalmazáspéldányok által végzett munkát is figyelembe veszi. Ez a folyamat általában alkalmazásspecifikus, és az eredeti művelet által elvégzett munka jellege határozza meg.
 
-Általános gyakorlatként javasolt, hogy a munkafolyamat használja compensation igénylő idővel konzisztenssé művelet végrehajtásához. Az eredeti műveletet halad, akkor a rendszer minden lépés, és hogyan lehet visszavonni a lépés által végzett munka kapcsolatos adatokat rögzíti. A művelet sikertelen lesz, bármikor, ha a munkafolyamat gyors visszatekerés vissza végig a lépéseken, befejeződött, és a munkát, amely visszavonja az egyes lépéseket hajtja végre. Ne feledje, hogy kompenzációs tranzakció előfordulhat, hogy nem vonható vissza a munkát az eredeti műveletet pontos fordított sorrendben, és lehetséges, párhuzamos egyes visszavonási lépések végrehajtásához.
+Gyakran alkalmazott megközelítés egy munkafolyamat segítségével megvalósítani egy végül konzisztens műveletet, amely esetében kompenzációra van szükség. Az eredeti műveletet végrehajtása során a rendszer információkat rögzít minden lépésről, illetve arról, hogyan lehet visszavonni az általuk elvégzett munkát. Ha a művelet bármely ponton meghiúsul, a munkafolyamat visszafelé haladva végigveszi az elvégzett lépéseket, és az összes esetében végrehajtja a visszavonáshoz szükséges munkát. Fontos megjegyezni, hogy a kompenzáló tranzakció nem feltétlenül az eredeti műveletnek megfelelő sorrendben vonja vissza az elvégzett munkát, és egyszerre több visszavonási lépést is végrehajthat.
 
-> Ez a megközelítés hasonlít a tárgyalt Sagas stratégia [Clemens Vasters blog](http://vasters.com/clemensv/2012/09/01/Sagas.aspx).
+> Ez a gyakorlat nagyban hasonlít a [Clemens Vasters blogjában](https://vasters.com/clemensv/2012/09/01/Sagas.aspx) tárgyalt Sagas-stratégiához.
 
-A kompenzációs tranzakció során is idővel konzisztenssé és is meghiúsulhat. A rendszer kell tudni folytatni a kompenzációs tranzakció helyén sikertelen, és továbbra is. A lépést, amely nem sikerült, ismétlődő kompenzációs tranzakcióban lépéseket definiálni kell az idempotent parancsként, szükség lehet. További információkért lásd: [idempotencia minták](http://blog.jonathanoliver.com/idempotency-patterns/) Jonathan Oliver blogjában.
+A kompenzáló tranzakció is egy végül konzisztenssé váló művelet, amely szintén meghiúsulhat. A rendszernek képesnek kell lennie a kompenzáló tranzakció helyreállítására az adott hibánál, majd folytatni a műveletet. Előfordulhat, hogy egy meghiúsult lépést meg kell ismételni, ezért a kompenzáló tranzakcióban szereplő lépéseket idempotens parancsokként kell meghatározni. További információ: [Idempotens minták](https://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).
 
-Bizonyos esetekben nem esetleg helyreállítása a lépést, amely manuális beavatkozásra keresztül kivételével nem sikerült. Ilyen helyzetekben a rendszer kell hoz létre riasztást, és adja meg a hiba okát a lehető legtöbb információ.
+Bizonyos esetekben előfordulhat, hogy egy meghiúsult lépés helyreállítása csak manuális intézkedés révén lehetséges. Ilyen helyzetben a rendszernek riasztást kell létrehoznia, és a lehető legtöbb információt kell biztosítania a hiba okairól.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Nem lehet könnyen határozható meg, hogy egy lépést, amely megvalósítja a végleges konzisztencia művelet sikertelen volt. A lépés nem meghiúsulhat azonnal, de ehelyett letiltása sikerült. Időtúllépési mechanizmus valamilyen végrehajtásához szükség lehet.
+Nem mindig egyszerű megállapítani, hogy a végleges konzisztenciát megvalósító művelet adott lépése mikor hiúsult meg. Előfordulhat, hogy egy lépés nem azonnal hiúsul meg, de elakadást okoz. Egyes esetekben szükséges lehet valamilyen időtúllépési mechanizmus bevezetésére.
 
--A compensation logika könnyen nincs általánosítva. Egy kompenzációs tranzakció az adott alkalmazás. Az alkalmazás, elegendő adatnak lehet visszavonni a sikertelen művelettel lévő egyes lépések hatásait támaszkodik.
+A kompenzáció logikáját nem könnyű általánosítani. A kompenzáló tranzakciók alkalmazásspecifikusak. A meghiúsult művelet lépéseinek hatása akkor vonható vissza, ha az alkalmazás ehhez elegendő információval rendelkezik.
 
-Az idempotent parancsként kompenzációs tranzakción belül meg kell határozni a lépéseket. Ez lehetővé teszi a lépéseket kell ismételni, ha a kompenzációs tranzakció maga sikertelen.
+A kompenzáló tranzakción belüli lépéseket idempotens parancsokként kell meghatározni. Ez a kompenzáló tranzakció meghiúsulása esetén lehetővé teszi a lépések megismétlését.
 
-Az infrastruktúra, amely kezeli a lépéseket az eredeti műveletet, és a kompenzációs tranzakció rugalmas kell lennie. Kell veszítse el egy hibás lépés szükséges információkat, és megbízhatóan nyomon a kompenzáció logika képesnek kell lennie.
+Az eredeti művelet lépéseit és a kompenzáló tranzakciót kezelő infrastruktúrának rugalmasnak kell lennie. Nem veszítheti el a meghiúsult lépések kompenzációjához szükséges információkat, továbbá megbízhatóan kell monitoroznia a kompenzációs logika előrehaladásának állapotát.
 
-A kompenzációs tranzakció nem feltétlenül vissza az adatokat a rendszer, mint az eredeti műveletet elején. Ehelyett azt kiegyenlíti a lépéseket, amelyek sikeresen befejeződött, mielőtt a művelet nem sikerült által végzett munka.
+A kompenzáló tranzakció nem feltétlenül az eredeti művelet kezdetén fennálló állapotba állítja vissza az adatokat a rendszerben. Ehelyett a művelet meghiúsulása előtt sikeresen végrehajtott lépések által elvégzett munkát kompenzálja.
 
-A lépéseket a kompenzációs tranzakcióban sorrendje nem feltétlenül pontos ellenkező az eredeti művelet lépéseit. Például lehet, hogy egy adattár érzékenyebb a inkonzisztenciákat, mint a többi, és így a kompenzációs tranzakció a lépéseket, visszavonja a módosításokat az tárolóba jöjjön létre először.
+A kompenzáló tranzakció lépéseinek sorrendje nem feltétlenül az eredeti művelet lépéseinek a fordítottja. Például ha egy adattár a többinél érzékenyebb az inkonzisztenciákra, a kompenzáló tranzakció lépései először ennek a tárolónak a módosításait vonják vissza.
 
-A rövid távú időkorlát-alapú zárolási helyezi az egyes erőforrások, amely egy művelet befejezéséhez szükséges, és előre lehet beszerezni ezeket az erőforrásokat segítségével érdekében, hogy az általános tevékenység sikeres lesz. A munkahelyi csak azt követően minden erőforrás beszerzett kell végrehajtani. Minden művelet kell, mielőtt kivonatértékeket kér a zárolásokat lejár.
+A műveletet végrehajtó erőforrásokra helyezett rövid távú, időkorlát-alapú zárolás és az erőforrások előzetes beszerzése növeli a tevékenység sikeres végrehajtásának esélyét. A munkát csak az összes erőforrás beszerzését követően szabad végrehajtani. A zárolás lejárta előtt az összes tevékenységet be kell fejezni.
 
-Érdemes lehet újrapróbálkozási logika, amely további forgiving kompenzációs tranzakció kiváltó hibák minimalizálása érdekében a szokásosnál. Ha egy lépés, amely megvalósítja a végleges konzisztencia művelet sikertelen, próbálja meg a hiba átmeneti kivételként kezeli, és ismételje meg a. Csak a leállításához, és kompenzációs tranzakció kezdeményezése, ha a lépés sikertelen, ismételten vagy visszavonhatatlanul.
+A kompenzáló tranzakciót kiváltó hibák minimalizálása érdekében érdemes lehet olyan újrapróbálkozási logikát alkalmazni, amely a szokásosnál megengedőbb. Ha a végleges konzisztenciát megvalósító művelet egyik lépése meghiúsul, próbálja meg átmeneti kivételként kezelni a hibát, és ismételje meg az adott lépést. Csak akkor állítsa le a műveletet és indítsa el a kompenzáló tranzakciót, ha a lépés ismételten vagy visszavonhatatlanul meghiúsul.
 
-> Végrehajtási kompenzációs tranzakció kihívásai számos ugyanazok, mint a végleges konzisztencia megvalósítása. Lásd: a végleges konzisztencia végrehajtási szakasz szempontjai a [adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx) további információt.
+> A kompenzáló tranzakció végrehajtásával kapcsolatban számos hasonló kihívás merül fel, mint a végleges konzisztencia esetében. További információért lásd a végleges konzisztencia megvalósításának szempontjaival foglalkozó részt az [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx) témakörben.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez a minta csak visszavont kell lennie, ha azt elmulasztják műveletek használják. Ha lehetséges tervezze meg megoldásokat igénylő tranzakciók compensating összetettsége elkerülése érdekében.
+Ezt a mintát csak olyan műveletek esetében javasolt használni, amelyeket a meghiúsulásuk esetén vissza kell vonni. Ha lehetséges, keressen olyan megoldásokat, amelyekkel elkerülhető a kompenzáló tranzakciók jelentette összetettség.
 
 ## <a name="example"></a>Példa
 
-Utazás webhely lehetővé teszi, hogy az ügyfelek könyv útvonalak. Egyetlen útvonal járatok és szállodák előfordulhat, hogy alkotják. Az ügyfél határozzon London utazik és Párizsi be tudta végezze el az alábbi lépéseket egy útvonal létrehozásakor:
+Az utazási webhely lehetővé teszi, hogy az ügyfelek utakat foglaljanak le. Egy útiterv repülőjárat- és szállásfoglalások egész sorát tartalmazhatja. Az ügyfél, aki Seattle-ből Londonba, majd onnan Párizsba utazik, a következő lépéseket hajthatja végre az útiterv létrehozása során:
 
-1. Megjelenik egy ülések repülési F1 határozzon London.
-2. A felhőszolgáltató közötti átviteléhez F2 London Párizsba helyet könyv.
-3. A felhőszolgáltató közötti átviteléhez F3 Párizsi Budapest helyet könyv.
-4. Foglaljon le egy helyet, a szállodák H1 Londonban.
-5. Egy hely a szállodák H2 megadva lefoglalni.
+1. Helyet foglal a Seattle-ből Londonba tartó F1 repülőjáratra.
+2. Helyet foglal a Londonból Párizsba tartó F2 repülőjáratra.
+3. Helyet foglal a Párizsból Seattle-be tartó F3 repülőjáratra.
+4. Szobát foglal a londoni H1 szállodában.
+5. Szobát foglal a párizsi H2 szállodában.
 
-Ezeket a lépéseket egy idővel konzisztenssé műveletet jelent, bár minden egyes lépést külön műveletként. Ezért is teljesítő ezeket a lépéseket, a rendszer kell is rögzítse szükségessé minden lépés abban az esetben, ha az ügyfél úgy dönt, hogy az útvonal szakítsa meg a számláló műveletek. A számláló műveletek elvégzéséhez szükséges lépések követően futtathatja kompenzációs tranzakcióként.
+Ezek a lépések egy végül konzisztens műveletet alkotnak, bár minden egyes lépés külön műveletet jelent. Ezért a lépések végrehajtása mellett a rendszernek a visszavonásukhoz szükséges műveleteket is rögzítenie kell arra az esetre, ha az ügyfél úgy dönt, hogy törli az útitervet. Az ellenkező irányú műveletek elvégzéséhez szükséges lépések kompenzáló tranzakcióként futtathatók le.
 
-Figyelje meg, hogy a kompenzációs tranzakció lépéseit nem lehet az eredeti lépéseket pontos ellentéte, és minden lépés kompenzációs tranzakcióban lévő logika figyelembe kell vennie üzleti vonatkozó szabályokat. Például egy repülési hellyel unbooking előfordulhat, hogy nem jogosíthatók az ügyfél a fizetős pénzt teljes visszatérítése. Az ábra azt mutatja be, le egy utazás útvonal hosszú ideig futó tranzakció visszavonása kompenzációs tranzakció létrehozásakor.
+Megjegyzendő, hogy a kompenzáló tranzakció lépései nem feltétlenül az eredeti lépések pontos ellentétét jelentik, továbbá a kompenzáló tranzakció minden egyes lépésének logikája figyelembe kell vegyen minden vonatkozó üzletspecifikus szabályt. Például ha az ügyfél lemondja a repülőjegyre vonatkozó foglalást, korántsem biztos, hogy visszatérítés is jár neki. Az ábra bemutatja, hogyan hozható létre kompenzáló tranzakció egy utazás foglalására irányuló, hosszú ideje tartó tranzakció visszaállítására.
 
-![Egy hosszú ideig futó tranzakció le egy utazás útvonal visszavonása kompenzációs tranzakció létrehozása](./_images/compensating-transaction-diagram.png)
+![Kompenzáló tranzakció létrehozása egy utazás foglalására irányuló, hosszú ideje tartó tranzakció visszaállítására](./_images/compensating-transaction-diagram.png)
 
 
-> Esetleg a kompenzációs tranzakcióban párhuzamosan, attól függően, hogy az egyes lépéseihez szükséges kompenzációs logikai tervezésétől már végrehajtandó lépéseit.
+> Elvileg lehetséges a kompenzáló tranzakció lépéseinek párhuzamos végrehajtása is, attól függően, hogy az egyes lépések kompenzációs logikája hogyan lett kialakítva.
 
-A számos üzleti megoldások sikertelen volt-e egyetlen lépésben nem mindig szükségessé teszik a működés közbeni a rendszer egy kompenzációs tranzakció használatával ismét. Például ha&mdash;után rendelkező lefoglalt járatok F1 F2 és F3 utazás webhely forgatókönyvben&mdash;az ügyfél nem tudja lefoglalni a helyiségben: Szálloda H1, érdemes biztosítani az ügyfél egy másik Szálloda ugyanabban a városban, egy hely helyett a járatokat megszakítása. Az ügyfél továbbra is dönt, hogy megszakítja a (ebben az esetben az kompenzációs tranzakció fut, és visszavonja a járatok F1 F2 és F3 történt helyfoglalás), de ez a döntés kell tenni, az ügyfél által, nem pedig a rendszer.
+Számos üzleti megoldás esetében egyetlen hibás lépés nem feltétlenül jelenti azt, hogy az egész rendszert vissza kell állítani egy kompenzáló tranzakcióval. Ha például &mdash;az ügyfél lefoglalja az F1, F2 és F3 repülőjáratot az utazási webhely forgatókönyvében,&mdash;de utána nem tud szobát foglalni a H1 szállodában, a járatfoglalások törlése helyett érdemes inkább a város egy másik szállodáját a figyelmébe ajánlani. Az ügyfél továbbra is dönthet a lemondás mellett (ebben az esetben lefut a kompenzáló tranzakció, és visszavonja az F1, F2 és F3 járatra vonatkozó foglalást), de ezt a döntést az ügyfélnek kell meghoznia, nem pedig a rendszernek.
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-- [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). A tranzakció Compensating mintát gyakran használják műveletek visszavonásához, a végleges konzisztencia modell megvalósításához. A kezdés tájékoztatást nyújt az előnyöket és a végleges konzisztencia kompromisszumot.
+- [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A Kompenzáló tranzakció mintája gyakran használják olyan műveletek visszavonásához, amelyek a végleges konzisztenciájú modell megvalósítását szolgálják. Ez az ismertető a végleges konzisztencia előnyeiről és hátrányairól nyújt tájékoztatást.
 
-- [A Feladatütemező-ügynök – felügyelő mintát](scheduler-agent-supervisor.md). Ismerteti, hogyan lehet rugalmas rendszerben elosztott szolgáltatásokat és erőforrásokat használó üzleti műveletek végrehajtásához. Egyes esetekben szükség lehet egy kompenzációs tranzakció használatával egy művelet által végzett munka visszavonása.
+- [Ütemező–ügynök–felügyelő minta](scheduler-agent-supervisor.md). Ismerteti, hogyan lehet olyan rugalmas rendszereket megvalósítani, amelyek elosztott szolgáltatásokat és erőforrásokat használó üzleti műveletek végrehajtását végzik. Egyes esetekben szükség lehet egy művelet által elvégzett munka kompenzáló tranzakcióval történő visszavonására.
 
-- [Ismételje meg a minta](./retry.md). Compensating tranzakciók elvégzéséhez költséges lehet, és lehetséges, egy hatékony házirend tett sikertelen műveletek újrapróbálkozási mintát követve implementálásával minimalizálása érdekében a használatukat.
+- [Újrapróbálkozási minta](./retry.md). A kompenzáló tranzakciók végrehajtása költséges lehet, de az Újrapróbálkozási minta szerint megvalósított, a hibás műveletek megismétlésére vonatkozó hatékony szabályzattal minimálisra lehet csökkenteni a használatukat.

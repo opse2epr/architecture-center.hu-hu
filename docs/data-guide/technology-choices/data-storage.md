@@ -1,122 +1,122 @@
 ---
-title: Olyan adatok tárolási technológia kiválasztása
+title: Egy adattárolási módszerektől kiválasztása
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: b14611a2dc34bcb145cf420441795d4124e7baeb
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 496df68024aef0dcf030bb7e0138639610aa8a79
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847209"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429349"
 ---
 # <a name="choosing-a-big-data-storage-technology-in-azure"></a>A big Data típusú adatok tárolási technológia kiválasztása az Azure-ban
 
-Ez a témakör összehasonlítja a big data-megoldások adatok tárolási lehetőségei &mdash; pontosabban adatok tárolási tömeges adatfeldolgozást és kötegfeldolgozási, és nem a [analitikai adattárolókhoz](./analytical-data-stores.md) vagy [valós idejű adatfolyam-adatfeldolgozást](./real-time-ingestion.md).
+Ez a témakör a big data-megoldások adattárolás lehetőségeit hasonlítja össze &mdash; pontosabban tömeges adatbetöltés és a kötegelt feldolgozásra, és nem a adattárolás [analitikus adattárak](./analytical-data-stores.md) vagy [valós idejű adatfolyam-feldolgozó](./real-time-ingestion.md).
 
-## <a name="what-are-your-options-when-choosing-data-storage-in-azure"></a>Mik azok a beállítások adattárolás kiválasztásakor az Azure-ban?
+## <a name="what-are-your-options-when-choosing-data-storage-in-azure"></a>Mik azok a beállítások az adattárolás kiválasztásakor az Azure-ban?
 
-Az Azure, az adatok bevitele igényeitől függően több lehetőség áll rendelkezésre:
+Az adatok feldolgozása Azure-ba, igényeitől függően több lehetőség áll rendelkezésre:
 
 **A File storage**
 
-- [Az Azure Storage blobs szolgáltatásban](/azure/storage/blobs/storage-blobs-introduction)
+- [Az Azure Storage-blobok](/azure/storage/blobs/storage-blobs-introduction)
 - [Azure Data Lake Store](/azure/data-lake-store/)
 
 **NoSQL-adatbázisok**
 
 - [Azure Cosmos DB](/azure/cosmos-db/)
-- [A HDInsight HBase](http://hbase.apache.org/)
+- [A HDInsight-alapú HBase](https://hbase.apache.org/)
 
-## <a name="azure-storage-blobs"></a>Az Azure Storage blobs szolgáltatásban
+## <a name="azure-storage-blobs"></a>Az Azure Storage-blobok
 
-Az Azure Storage egy magas rendelkezésre álló, biztonságos, tartós, méretezhető és redundáns egy felügyelt tároló szolgáltatás. A karbantartást és a kritikus problémák kezelését a Microsoft végzi el Önnek. Az Azure Storage-e a széles körű tárolási megoldás Azure biztosít, szolgáltatásokat és eszközöket, amelyek azt használható száma miatt.
+Az Azure Storage szolgáltatás jelenleg felügyelt tárolási szolgáltatás, amely magas rendelkezésre álló, biztonságos, tartós, méretezhető és redundáns. A karbantartást és a kritikus problémák kezelését a Microsoft végzi el Önnek. Az Azure Storage szolgáltatás a legtöbb széles körben használt tárolási megoldásnak az Azure biztosít, szolgáltatásokat és eszközöket, amelyekkel lehet vele száma miatt.
 
-Nincsenek különböző Azure Storage szolgáltatás használhatja adattároláshoz. Az adatforrások száma blobok tárolására készültek legrugalmasabb beállítás [Blob-tároló](/azure/storage/blobs/storage-blobs-introduction). Blobok alapvetően fájlokat. Képek, dokumentumok, HTML-fájlok, virtuális merevlemezek (VHD), például naplók big Data típusú adatok tárolásához, a biztonsági másolatokat &mdash; pretty sok semmit. A blobok tárolása tárolókban történik, amelyek a mappákhoz hasonlatosak. Egy tároló blobok blobkészletek csoportosítását biztosítja. A storage-fiók korlátlan számú tárolót tartalmazhat, és egy tároló korlátlan számú BLOB tárolhatja.
+Nincsenek különböző Azure Storage szolgáltatás adatok tárolására használható. A legrugalmasabb lehetőség az olyan adatforrások közül blobok tárolására [a Blob storage-](/azure/storage/blobs/storage-blobs-introduction). Blobok lényegében ugyanolyan fájlok. Képek, dokumentumok, HTML-fájlok, virtuális merevlemezeket (VHD), például naplók big Data típusú adatok tárolására, az adatbázisok biztonsági mentések &mdash; pretty szinte bármit. A blobok tárolása tárolókban történik, amelyek a mappákhoz hasonlatosak. Egy tároló blobokat áll csoportosítását biztosítja. Egy tárfiók korlátlan számú tárolót tartalmazhat, egy tároló pedig korlátlan számú blob tárolására használható.
 
-Az Azure Storage nagy adatok és analitikák megoldások, érdemes választani egy miatt a rugalmasság, a magas rendelkezésre állás és a alacsony költség. Biztosít a gyakran használt adatok, a ritkán használt adatok, és archiválja a tárolási rétegek, a különböző használati eseteket. További információkért lásd: [Azure Blob Storage: közbeni, hűtsük le, és archiválja a tárolási rétegek](/azure/storage/blobs/storage-blob-storage-tiers).
+Az Azure Storage megfelelő választás az olyan big data és analitikai megoldások, a rugalmasság, magas rendelkezésre állású és alacsony költségek miatt. Itt a gyakori és ritka elérésű és archív tárolási szintek különböző használati esetek. További információkért lásd: [Azure Blob Storage: gyakori, ritka és archív tárolási szintek](/azure/storage/blobs/storage-blob-storage-tiers).
 
-Az Azure Blob storage is (HDInsight keresztül érhető el) hadoopból érhető el. A HDInsight egy blobtárolót használhat az Azure Storage-ben a fürt alapértelmezett fájlrendszereként. A Hadoop elosztott fájlrendszer (HDFS) rendszer által biztosított csatoló WASB illesztőprogram, a hdinsight összetevők teljes készlete működhet közvetlenül a strukturált vagy strukturálatlan adatok blobként tárolja. Az Azure Blob storage Azure SQL Data Warehouse PolyBase szolgáltatással a keresztül is elérhető.
+Az Azure Blob storage elérhető lesz a Hadoop (HDInsight keresztül érhető el). A HDInsight egy blobtárolót használhat az Azure Storage-ben a fürt alapértelmezett fájlrendszereként. Egy Hadoop elosztott fájlrendszer (HDFS) felületen WASB illesztőprogram által biztosított keresztül a HDInsight összetevők teljes készlete működhet közvetlenül a strukturált vagy strukturálatlan adatokon a BLOB. Az Azure Blob storage-n keresztül az Azure SQL Data Warehouse a PolyBase szolgáltatás használatával is elérhető.
 
-Egyéb Azure Storage-érdemes választani alkotó jellemzői a következők:
+Egyéb szolgáltatásokat, amelyek az Azure Storage a jó választás a következők:
 
 - [Több egyidejű stratégiák](/azure/storage/common/storage-concurrency?toc=%2fazure%2fstorage%2fblobs%2ftoc.json).
-- [Vész-helyreállítási és magas rendelkezésre állású lehetőség](/azure/storage/common/storage-disaster-recovery-guidance?toc=%2fazure%2fstorage%2fblobs%2ftoc.json).
-- [Titkosítását](/azure/storage/common/storage-service-encryption?toc=%2fazure%2fstorage%2fblobs%2ftoc.json).
-- [Szerepköralapú hozzáférés-vezérlés (RBAC)](/azure/storage/common/storage-security-guide?toc=%2fazure%2fstorage%2fblobs%2ftoc.json#management-plane-security) elérés Azure Active Directory – felhasználók és csoportok használatával.
+- [Vészhelyreállítás és magas rendelkezésre állási lehetőségek](/azure/storage/common/storage-disaster-recovery-guidance?toc=%2fazure%2fstorage%2fblobs%2ftoc.json).
+- [Titkosítás inaktív állapotban](/azure/storage/common/storage-service-encryption?toc=%2fazure%2fstorage%2fblobs%2ftoc.json).
+- [Szerepköralapú hozzáférés-vezérlés (RBAC)](/azure/storage/common/storage-security-guide?toc=%2fazure%2fstorage%2fblobs%2ftoc.json#management-plane-security) való hozzáférés az Azure Active Directory – felhasználók és csoportok használata.
 
 ## <a name="azure-data-lake-store"></a>Azure Data Lake Store
 
-[Azure Data Lake Store](/azure/data-lake-store/) van egy vállalati szintű kapacitású adattár a big data koncepción alapuló adatelemzési célokra. Data Lake lehetővé teszi egy egyfelhasználós bármilyen méretű, típusú és feldolgozási sebességű adatok rögzítéséhez [biztonságos](/azure/data-lake-store/data-lake-store-overview#DataLakeStoreSecurity) műveleti és felderítési jellegű helyét.
+[Az Azure Data Lake Store](/azure/data-lake-store/) van egy vállalati szintű kapacitású adattár a big Data típusú adatok adatelemzési számítási feladatokhoz. A Data Lake lehetővé teszi, hogy egy egyfelhasználós bármilyen méretű, típusú és feldolgozási sebességű adatok [biztonságos](/azure/data-lake-store/data-lake-store-overview#DataLakeStoreSecurity) műveleti és felderítési jellegű helyét.
 
-Data Lake Store nincsenek megkötések a fiókok méretének, a fájlok méretét vagy a data lake-ben tárolt adatok mennyisége. Adatait tárolja másolatnak köszönhetően, és nincs korlátozva az az időtartam, az adatok a Data Lake tárolható. Azonkívül, hogy a fájlokat, amelyek védelmet biztosítanak a váratlan meghibásodások több másolatot, a Data lake több egyéni tárolókiszolgáló terjed egy fájl részeit. Ez javítja az olvasás átviteli sebességét a fájl adatelemzés céljából történő párhuzamos beolvasásakor.
+Data Lake Store nincsenek megkötések a fiókok méretének, a fájlok méretét vagy a data lake-ben tárolt adatok mennyisége. Adatok azáltal, hogy több példányt tartósan tárolja, és az időtartam, ameddig az adatok tárolhatók a Data Lake a nem korlátozott. Amellett, hogy a fájlok védelme érdekében váratlan meghibásodások esetén több példányát, a Data lake több egyéni tárolókiszolgáló kártevőcsaládba egy fájl részeit. Ez javítja az olvasás átviteli sebességét a fájl adatelemzés céljából történő párhuzamos beolvasásakor.
 
-Data Lake Store (HDInsight keresztül érhető el) hadoopból érhető el a WebHDFS-kompatibilis REST API-k használatával. Akkor fontolja meg az egyedi vagy összevont méretűek-nál nagyobb, amelyet az Azure Storage támogatja használatát az Azure Storage helyett. Van azonban [teljesítményének hangolása irányelvek](/azure/data-lake-store/data-lake-store-performance-tuning-guidance#optimizing-io-intensive-jobs-on-hadoop-and-spark-workloads-on-hdinsight) kell követnie, ha a Data Lake Store-t elsődleges tárhelyét a HDInsight-fürtök, az adott útmutatókat [Spark](/azure/data-lake-store/data-lake-store-performance-tuning-spark), [ Hive](/azure/data-lake-store/data-lake-store-performance-tuning-hive), [MapReduce](/azure/data-lake-store/data-lake-store-performance-tuning-mapreduce), és [Storm](/azure/data-lake-store/data-lake-store-performance-tuning-storm). Emellett ügyeljen arra, hogy ellenőrizze a Data Lake Store [regionális rendelkezésre állási](https://azure.microsoft.com/regions/#services), mert nem érhető el a lehető legtöbb régióban Azure tárolóként, és így ellenőrzi, hogy a HDInsight-fürt ugyanabban a régióban található.
+Data Lake Store (HDInsight keresztül érhető el) hadoopból érhető el a WebHDFS-kompatibilis REST API-k használatával. Akkor fontolja meg az egyedi vagy összevont fájlméret-nál nagyobb, mint amelyet az Azure Storage által támogatott használatával Ez az Azure Storage-megoldásként. Vannak azonban [teljesítmény-finomhangolási útmutató](/azure/data-lake-store/data-lake-store-performance-tuning-guidance#optimizing-io-intensive-jobs-on-hadoop-and-spark-workloads-on-hdinsight) kell követnie, ha az elsődleges tárolóként használ a Data Lake Store egy HDInsight-fürtöt, az adott irányelvek [Spark](/azure/data-lake-store/data-lake-store-performance-tuning-spark), [ Hive-](/azure/data-lake-store/data-lake-store-performance-tuning-hive), [MapReduce](/azure/data-lake-store/data-lake-store-performance-tuning-mapreduce), és [Storm](/azure/data-lake-store/data-lake-store-performance-tuning-storm). Emellett mindenképpen ellenőrizze a Data Lake Store [régiónkénti rendelkezésre állás](https://azure.microsoft.com/regions/#services), mert nem érhető el a legtöbb régióban az Azure-tároló, és ugyanabban a régióban a HDInsight-fürt által működnie kell.
 
-Az Azure Data Lake Analytics összekapcsolt Data Lake Store kifejezetten lehetővé teszi, hogy a tárolt adatokra vonatkozó elemzés, és van beállítva, a teljesítmény adatok analytics forgatókönyvek esetén. Data Lake Store Azure SQL Data Warehouse PolyBase szolgáltatással a keresztül is elérhető.
+Az Azure Data Lake Analytics szolgáltatással párosítva, Data Lake Store kifejezetten lehetővé teszi, hogy a tárolt adatok elemzése és a nagy teljesítményt nyújtson az adatelemzési forgatókönyvekben. Data Lake Store használatával az Azure SQL Data Warehouse a PolyBase szolgáltatás használatával is elérhető.
 
 ## <a name="azure-cosmos-db"></a>Azure Cosmos DB
 
-[Az Azure Cosmos DB](/azure/cosmos-db/) Microsoft globálisan elosztott több modellre adatbázis. Cosmos DB biztosítja, hogy az egyetlen-számjegy-ezredmásodperces késések fordulnak elő, a bárhol a világon 99th PERCENTILIS több jól meghatározott konzisztencia modellek finomhangolása teljesítményt nyújt, és magas rendelkezésre állású többhelyű képességeket biztosítja.
+[Az Azure Cosmos DB](/azure/cosmos-db/) van a Microsoft globálisan elosztott többmodelles adatbázisa. Cosmos DB számjegy-ezredmásodperces a világ bármely pontján található 99 százalékon segíti a teljesítmény finomhangolását több jól definiált konzisztenciamodelleket kínál, és többkiszolgálós képességekkel rendelkező magas rendelkezésre állást garantál.
 
-Az Azure Cosmos DB séma-független. Anélkül, hogy a séma- és index felügyeleti foglalkozik az adatok automatikusan elvégzi. Ezenkívül többmodelles, tehát natívan támogatja a dokumentum, kulcs-érték, gráf és oszlopcsalád alapú adatmodelleket egyaránt. 
+Azure Cosmos DB a sémafüggetlen. Automatikusan indexeli az összes adatot, nem kell sémákat és indexeket felügyeleti foglalkozik. Ezenkívül többmodelles, tehát natívan támogatja a dokumentum, kulcs-érték, gráf és oszlopcsalád alapú adatmodelleket egyaránt. 
 
-Azure Cosmos DB-funkció:
+Az Azure Cosmos DB-funkcióit:
 
 - [Georeplikáció](/azure/cosmos-db/distribute-data-globally)
-- [Átviteli sebesség és tárterület a rugalmas méretezést](/azure/cosmos-db/partition-data) világszerte
-- [Öt jól meghatározott konzisztenciaszintek](/azure/cosmos-db/consistency-levels)
+- [A teljesítmény és a tárterület rugalmas méretezése](/azure/cosmos-db/partition-data) világszerte
+- [Öt jól definiált konzisztenciaszint](/azure/cosmos-db/consistency-levels)
 
 ## <a name="hbase-on-hdinsight"></a>HBase on HDInsight
 
-[Apache HBase](http://hbase.apache.org/) egy nyílt forráskódú NoSQL-adatbázis, amely a Hadoop és modellezve Google BigTable után van. A HBase véletlenszerű hozzáférést és erős konzisztenciát biztosít a nagy mennyiségű strukturálatlan és félig strukturált adatok egy séma nélküli adatbázisban oszlopcsaláddal szerint vannak rendszerezve biztosít.
+[Az Apache HBase](https://hbase.apache.org/) egy nyílt forráskódú NoSQL-adatbázis, amely Hadoop épül, és modellezni Google BigTable után van. A HBase véletlenszerű hozzáférést és erős konzisztenciát biztosít a nagy mennyiségű strukturálatlan és részben strukturált adatok séma nélküli adatbázisban oszlopcsaládok szerint rendezve biztosít.
 
-Az adatok a táblasorokban vannak tárolva, és a sorokon belüli adatok oszlopcsalád szerint vannak csoportosítva. A HBase séma nélküli, abban az értelemben, hogy sem az oszlopokat és a bennük tárolt adatok kell meghatározni a használatuk előtt. A nyílt forráskód lineáris módon méreteződik át a több ezer csomópontnyi adat petabájtjainak kezelése érdekében. Az adatredundanciára, a kötegelt feldolgozásra és más olyan szolgáltatásokra támaszkodhat, amelyeket elosztott alkalmazások nyújtanak a Hadoop rendszerben.
+Az adatok a táblasorokban vannak tárolva, és a sorokon belüli adatok oszlopcsalád szerint vannak csoportosítva. A HBase a séma nélküli, abban az értelemben, hogy az oszlopok és a bennük tárolt adatok típusa nem kell használat előtt meghatározni. A nyílt forráskód lineáris módon méreteződik át a több ezer csomópontnyi adat petabájtjainak kezelése érdekében. Az adatredundanciára, a kötegelt feldolgozásra és más olyan szolgáltatásokra támaszkodhat, amelyeket elosztott alkalmazások nyújtanak a Hadoop rendszerben.
 
-A [HDInsight-implementáció](/azure/hdinsight/hbase/apache-hbase-overview) kihasználja a HBase méretezhető automatikus horizontális táblák, erős konzisztenciát biztosít az olvasási és írási műveletek és automatikus feladatátvételt a kibővített architektúrát. A teljesítményt a memóriába való gyorsítótárazás növeli az olvasáshoz, és a nagy streaming-kapacitás az írásokhoz. A legtöbb esetben érdemes [hozzon létre egy virtuális hálózaton belül a HBase-fürtöt](/azure/hdinsight/hbase/apache-hbase-provision-vnet) , más HDInsight-fürtök és alkalmazások közvetlenül hozzáférhetnek a táblázatokat.
+A [HDInsight-implementáció](/azure/hdinsight/hbase/apache-hbase-overview) kihasználja a HBase táblák automatikus árnyalását, erős konzisztencia az olvasási és írási és automatikus feladatátvételt biztosít horizontális felskálázást architektúrájának. A teljesítményt a memóriába való gyorsítótárazás növeli az olvasáshoz, és a nagy streaming-kapacitás az írásokhoz. A legtöbb esetben érdemes [hozzon létre egy virtuális hálózaton belül, a HBase-fürt](/azure/hdinsight/hbase/apache-hbase-provision-vnet) így más HDInsight-fürtök és alkalmazások közvetlenül hozzáférhet a táblákat.
 
-## <a name="key-selection-criteria"></a>Kulcs kiválasztási feltételek
+## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
-A választási lehetőségek szűkítéséhez indítása ezen kérdések megválaszolásával:
+Így szűkítheti, első lépésként a kérdések megválaszolása:
 
-- Nem felügyelt, nagy sebességű, bármely típusú szöveges vagy bináris adatok felhőalapú tárolása kell? Ha igen, majd válassza ki a fájl tárolási lehetőségek közül.
+- Felügyelt, nagy sebességű, felhőalapú tárolás bármilyen szöveget vagy bináris adatot kell? Ha igen, majd válassza ki a fájl tárolási lehetőségek közül.
 
-- Szükséges optimalizált fájlok tárolására az párhuzamos analytics számítási feladatok és a magas teljesítmény/iops-értéket? Ha igen, majd válassza a olyan beállítás, amely van beállítva, hogy elemzés számítási feladat teljesítményére.
+- Optimalizált fájlok tárolásához szüksége párhuzamos elemzési és magas átviteli sebesség vagy iops-t? Ha igen, majd válassza ki az olyan beállítás, amely van beállítva, hogy elemzési számítási feladatok teljesítményére.
 
-- Strukturálatlan és félig strukturált adat tárolása egy séma nélküli adatbázisban kell? Ha igen, válassza ki a nem relációs lehetőségek közül. Beállítások indexelő és adatbázis-modellek összehasonlítása Attól függően, hogy milyen adatokat kell tárolni az elsődleges adatbázis-modellek a legnagyobb tényező lehet.
+- Szükség van egy séma nélküli adatbázisban strukturálatlan és részben strukturált adatok tárolására? Ha igen, válassza ki a nem relációs lehetőségek közül. Lehetőségek az indexelés és adatbázis-modellek összehasonlítása. Az elsődleges adatbázis modellek tárolni kívánt adatok típusától függően a legnagyobb tényező lehet.
 
-- Használhatja a szolgáltatást az adott régióban? Minden egyes Azure szolgáltatás regionális rendelkezésre állásának ellenőrzése. Lásd: [régiónként rendelkezésre álló termékek](https://azure.microsoft.com/regions/services/).
+- Az Ön régiójában is használhatja a szolgáltatást? Ellenőrizze az egyes Azure-szolgáltatás regionális elérhetősége. Lásd: [elérhető termékek régiók szerint](https://azure.microsoft.com/regions/services/).
 
-## <a name="capability-matrix"></a>Képesség mátrix
+## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a főbb változásai képességeit.
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
-### <a name="file-storage-capabilities"></a>Fájl tárolási képességeinek
+### <a name="file-storage-capabilities"></a>Fájl tárolási lehetőségek
 
-|  | Azure Data Lake Store | Az Azure Blob Storage tárolók |
+|  | Azure Data Lake Store | Az Azure Blob Storage-tárolók |
 | --- | --- | --- |
-| Cél | Optimalizált tárolási megoldás big data elemzés munkaterhelések |Általános célú objektum tárolására számos különböző tárolási forgatókönyvek |
-| Használati esetek | Kötegelt, streaming analytics és a machine learning adatok például a naplófájlok, IoT-adatokat, kattintson az adatfolyamokat, nagy adatkészletek | Szöveges vagy bináris adatok, például az alkalmazás bármilyen típusú biztonsági end, a biztonsági mentési adatokat, a adatfolyam-továbbításhoz és általános célú adatok tárolása media |
-| struktúra | Hierarchikus fájlrendszer | Egyszerű névtér objektum tároló |
-| Hitelesítés | Alapján [az Azure Active Directory-identitás](/azure/active-directory/active-directory-authentication-scenarios) | A közös titkokat alapján [Tárelérési kulcsok](/azure/storage/common/storage-create-storage-account#manage-your-storage-account) és [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1), és [szerepköralapú hozzáférés-vezérlést (RBAC)](/azure/security/security-storage-overview) |
-| Hitelesítési protokoll | OAuth 2.0-s. Hívások tartalmaznia kell egy érvényes Azure Active Directory által kibocsátott JWT (JSON web token) | Kivonat-alapú üzenethitelesítési kóddal (HMAC). Hívások tartalmaznia kell egy Base64-kódolású SHA-256 kivonatoló a HTTP-kérelmek egy része felett. |
-| Engedélyezés | POSIX hozzáférés-vezérlési lista (ACL). Fájl- és szintű Azure Active Directory identitások alapuló hozzáférés-vezérlési listák állítható be. | A fiók szintű hitelesítéshez használja [Tárelérési kulcsok](/azure/storage/common/storage-create-storage-account#manage-your-storage-account). A fiók, a tároló vagy a blob engedélyezési használjon [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1). |
+| Cél | A big data-elemzési célokra tárolás |Általános célú objektum tárolni a storage-forgatókönyvek széles választéka |
+| Használati esetek | Kötegelt, például a streaming analytics és a machine learning adat naplófájlokból, IoT-adatokat, kattintson az adatfolyamot, a nagyméretű adathalmazok | Bármilyen típusú szöveget vagy bináris adatot, például az alkalmazás biztonsági célból, biztonsági mentési adatokat, a streamelési és az általános célú adatok médiatárolónkba |
+| struktúra | Hierarchikus fájlrendszer | Objektumtároló strukturálatlan névtér esetében |
+| Hitelesítés | Alapján [az Azure Active Directory-identitásokkal](/azure/active-directory/active-directory-authentication-scenarios) | A közös titkos kulcsot alapján [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account) és [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1), és [szerepköralapú hozzáférés-vezérlés (RBAC)](/azure/security/security-storage-overview) |
+| Hitelesítési protokoll | OAuth 2.0. Hívások tartalmaznia kell egy Azure Active Directory által kiadott érvénytelen JWT (JSON webes jogkivonat) | Üzenet kivonat-alapú hitelesítési kód (HMAC). Hívások a Base64-kódolású SHA-256 kivonatoló tartalmaznia kell a HTTP-kérelem egy része felett. |
+| Engedélyezés | A POSIX hozzáférés-vezérlési listák (ACL). Fájl- és szintű hozzáférés-vezérlési listák az Azure Active Directory-identitások alapján állítható be. | A fiókszintű engedélyezési használja [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account). A fiók, tárolót vagy blobot engedélyezési használja [közös hozzáférési aláírási kulcsokat](/azure/storage/common/storage-dotnet-shared-access-signature-part-1). |
 | Naplózás | Érhető el.  |Elérhető |
-| Titkosítás inaktív állapotban | Átlátszó, kiszolgálóoldali | Átlátszó, kiszolgálóoldali; Ügyféloldali titkosítás |
-| Fejlesztői SDK-k | .NET, Java, Python, Node.js | .Net, Java, Python, Node.js, C++, Ruby |
-| Elemzés számítási feladat teljesítményére | Optimalizált párhuzamos analytics munkaterhelések teljesítményét, nagy mennyiségre és IOPS | Az analytics-feladatok nem optimalizált |
-| Méretkorlát | Nem határoz meg a fiókok méretének, a fájl méretét vagy a fájlok száma | Egyes korlátok dokumentált [Itt](/azure/azure-subscription-service-limits#storage-limits) |
-| Georedundancia | Helyileg redundáns (adatok többszörös lemásolását, egy Azure-régióban) | Helyileg redundáns (LRS), a globális redundáns (GRS), az írásvédett globálisan redundáns (RA-GRS). Lásd: [Itt](/azure/storage/common/storage-redundancy) további információ |
+| Titkosítás inaktív állapotban | Transzparens, kiszolgálóoldali | Átlátszó, kiszolgálóoldali; Ügyféloldali titkosítás |
+| Fejlesztői SDK-k | .NET, Java, Python, Node.js | .NET, Java, Python, Node.js, a C++, a Ruby |
+| Elemzési számítási feladat teljesítményére | Optimalizált teljesítménygyűjtés párhuzamos elemzési számítási feladatokhoz, nagy átviteli sebességű és IOPS | Nem optimalizált elemzési számítási feladatokhoz |
+| Blobméretének korlátjai | A fiókok méretének, a fájlok méretét vagy a fájlok száma korlátlan | Dokumentált konkrét korlátozások [Itt](/azure/azure-subscription-service-limits#storage-limits) |
+| Georedundancia | Helyileg redundáns (az adatok egy Azure-régióban. több példány) | Helyileg redundáns (LRS), globálisan georedundáns (GRS), az írásvédett globálisan redundáns (RA-GRS). Lásd: [Itt](/azure/storage/common/storage-redundancy) további információ |
 
-### <a name="nosql-database-capabilities"></a>NoSQL adatbázis képességek
+### <a name="nosql-database-capabilities"></a>Nosql-alapú adatbázis-funkcióiról
 
 |                                    |                                           Azure Cosmos DB                                           |                                                             HBase on HDInsight                                                             |
 |------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-|       Elsődleges adatbázis-modell       |                      Dokumentálja a tároló, a graph, a kulcs-érték tároló, a széles oszlop tároló                      |                                                             Széles oszlop tároló                                                              |
-|         Másodlagos indexek          |                                                 Igen                                                 |                                                                     Nem                                                                     |
-|        SQL nyelvi támogatás        |                                                 Igen                                                 |                                     Igen (használja a [Phoenix](http://phoenix.apache.org/) JDBC-illesztőt)                                      |
-|            Konzisztencia             |                   Az erős, kötött elavulás, munkamenet, egységes előtag, végleges                   |                                                                   Erős                                                                   |
+|       Elsődleges adatbázismodell       |                      Dokumentum-tároló, gráf, kulcs-érték tároló, széles oszloptár                      |                                                             Széles körű oszloptár                                                              |
+|         A másodlagos indexek          |                                                 Igen                                                 |                                                                     Nem                                                                     |
+|        SQL nyelvi támogatás        |                                                 Igen                                                 |                                     Igen (használatával a [Phoenix](https://phoenix.apache.org/) JDBC-illesztőprogram)                                      |
+|            Konzisztencia             |                   Erős, kötött elavulás, munkamenet, konzisztens előtag, végleges                   |                                                                   Erős                                                                   |
 | Natív integráció az Azure Functions |                        [Igen](/azure/cosmos-db/serverless-computing-database)                        |                                                                     Nem                                                                     |
-|   Automatikus globális terjesztési    |                          [Igen](/azure/cosmos-db/distribute-data-globally)                           | Nem [HBase fürt replikációs konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) végleges konzisztencia régiók között |
-|           Díjszabási modell            | Rugalmasan méretezhető kérelemegység (RUs) másodpercenként felszámított, igény szerint rugalmasan méretezhető tárolás |                              Perc árképzési HDInsight-fürthöz (horizontális skálázás csomópontok), tárolás                               |
+|   Automatikus globális terjesztés    |                          [Igen](/azure/cosmos-db/distribute-data-globally)                           | Nem [HBase-fürt replikációja konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) régióban, végleges konzisztencia |
+|           Díjszabási modell            | Másodpercalapú díjat számítunk fel, ha szükséges, rugalmasan méretezhető tárhelyért rugalmasan méretezhető kérelemegységet (RU) |                              Percenkénti díjszabás HDInsight-fürt (vízszintes méretezés a csomópontok), tárolás                               |
 

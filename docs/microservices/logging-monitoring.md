@@ -3,120 +3,120 @@ title: Naplózás és figyelés a mikroszolgáltatások
 description: Naplózás és figyelés a mikroszolgáltatások
 author: MikeWasson
 ms.date: 12/08/2017
-ms.openlocfilehash: 1da67047daa9ae87cda5dd7dd581d6081183c428
-ms.sourcegitcommit: 786bafefc731245414c3c1510fc21027afe303dc
+ms.openlocfilehash: b7206e2f35b9f227ff298f077ddafef1c6015b15
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2017
-ms.locfileid: "26652994"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428771"
 ---
-# <a name="designing-microservices-logging-and-monitoring"></a>Mikroszolgáltatások tervezése: naplózás és figyelés
+# <a name="designing-microservices-logging-and-monitoring"></a>Mikroszolgáltatások tervezése: naplózást és figyelést
 
-Bármely összetett alkalmazásban bármikor valami fog hiba lép fel. Egy mikroszolgáltatások alkalmazásban kell nyomon követnie, több tucatnyi vagy akár több száz szolgáltatások történéseiről. Naplózás és figyelés különösen fontos, hogy a rendszer átfogó képet biztosítson. 
+Bármely összetett alkalmazásban valamikor hiba fog hiba lép fel. A mikroszolgáltatás-alkalmazások, a nyomon követendő több tucat vagy akár több száz szolgáltatások történéseiről. Naplózás és figyelés különösen fontosak, hogy a rendszer holisztikus. 
 
 ![](./images/monitoring.png)
 
-Mikroszolgáltatások architektúra, akkor különösen kihívást jelenthet rögzítési ponthoz hibák vagy a teljesítmény szűk pontos okát. Egyetlen felhasználót span előfordulhat, hogy több szolgáltatásra. Szolgáltatások előfordulhat, hogy elérte a hálózati i/o-korlátok a fürtben található. Szolgáltatások közötti hívások láncolata ellennyomás okozhat a rendszer, ami nagy késleltetésű vagy egymásra épülő hibák. Továbbá általában nem tudja melyik csomópontján egy adott konténerben fog futni. Ugyanazon a csomóponton elhelyezett tárolók is lehet használják, a korlátozott CPU és memória. 
+A mikroszolgáltatási architektúrákban, különösen kihívást jelenthet kiszűrheti a hibák vagy a teljesítmény szűk pontos okát. Egyetlen felhasználói művelet több szolgáltatást előfordulhat, hogy kiterjednek. Szolgáltatások tapasztalhat a hálózati i/o-korlátok a fürtben. Szolgáltatások közötti hívások láncolatától ellennyomás a rendszer magas késést eredményez, vagy alapú egymásra épülő hibákat okozhat. Ezen kívül általában nem tudja melyik csomópont egy adott tároló fog futni. Ugyanazon a csomóponton elhelyezett tárolók korlátozott CPU és memória tagja is lehet. 
 
-Győződjön meg arról, mi történik az értelemben, hogy az alkalmazás kell kibocsátás telemetriai események. Ezek a metrikák és a szöveges naplók rendezheti. 
+Ahhoz, hogy az értelemben, hogy mi történik, az alkalmazás telemetrikus eseményeket kell kibocsátania. Ezek a metrikák és a szöveges naplók rendezheti. 
 
-*Metrikák* numerikus érték, amely elemzése. Használhatja őket megfigyelheti, a rendszer a valós idejű (vagy a közel valós időben), illetve időbeli teljesítménytrendek elemzéséhez. Mérőszámok közé tartozik:
+*Metrikák* numerikus érték, amely elemezhetők. Használhatja őket megfigyelését a rendszer a valós idejű (vagy a közel valós idejű), vagy a teljesítménytrendek elemzéséhez az idő függvényében. Metrikák a következők:
 
-- Csomópont-szintű rendszer metrika, beleértve a CPU, a memória, a hálózati, a lemez és a rendszer használata. Rendszer mérőszámok segítenek megérteni a fürt minden csomópontja erőforrás-elosztás és hibáinak elhárításában kiugró.
+- Csomópont-szintű rendszer metrikái, többek között a CPU, memória, hálózati, lemez és fájlrendszerhasználat. Rendszermérőszámokat könnyebben értheti meg a fürt egyes csomópontjaihoz tartozó erőforrás-elosztás és kiugró értékek a hibaelhárítás.
  
-- Kubernetes metrikákat. Szolgáltatások futnak-tárolókban, mert kell gyűjteni a processzorhasználatról, a tároló szintjén, nem csak a virtuális gép szinten. A Kubernetes cAdvisor (tároló Advisor) az ügynök által összegyűjtött statisztikai adatok a CPU, a memória, a fájlrendszer és a használt hálózati erőforrások minden egyes tároló. A kubelet démon cAdvisor erőforrás statisztikákat gyűjt, és elérhetővé teszi azokat a REST API-n keresztül.
+- Kubernetes-metrikákat. Mivel a szolgáltatások futnak a tárolók, kell gyűjteni a tároló szintjén, nem csak a virtuális gép szintjén. A Kubernetes cAdvisor (tároló Advisor) az ügynök által összegyűjtött statisztikai adatok a CPU, memória, a fájlrendszer és a használt hálózati erőforrások által a tárolók. A kubelet démon cAdvisor erőforrás statisztikákat gyűjt, és elérhetővé teszi azokat a REST API-n keresztül.
    
-- Alkalmazás metrikákat. Ez magában foglalja a metrikákat, amely kapcsolódik a szolgáltatás működésének megértése. Például a várólistán lévő bejövő HTTP-kérelmekre, a kérés várakozási ideje, az üzenet-várólista hossza vagy a másodpercenként feldolgozott tranzakciók száma száma.
+- Alkalmazásmetrikák. Ez magában foglalja a minden olyan metrikák, amely a szolgáltatás működésének megismerése. Ilyenek például a várólistán lévő bejövő HTTP-kérelmekre, késleltetése, üzenet-várólista hossza vagy a másodpercenként feldolgozott tranzakciók számát.
 
-- Függő szolgáltatások metrikákat. A fürtben található szolgáltatások kérhet például kezelt PaaS-szolgáltatások, a fürtön kívüli külső szolgáltatásokat. Az Azure-szolgáltatásokat is figyelhet használatával [Azure figyelő](/azure/monitoring-and-diagnostics/monitoring-overview). Harmadik féltől származó szolgáltatással is, vagy nem rendelkezhetnek bármely metrikákat. Ha nem, akkor konfigurálnia kell a saját alkalmazás metrikák késleltetés és a Hibaarány statisztikáinak nyomon követéséhez támaszkodnak.
+- Függő szolgáltatások mérőszámait. A fürtön belüli szolgáltatások, például a felügyelt PaaS-szolgáltatások a fürtön kívüli külső szolgáltatásokat hívhatja. Az Azure-szolgáltatásokat is figyelhet [Azure Monitor](/azure/monitoring-and-diagnostics/monitoring-overview). Harmadik féltől származó szolgáltatásokkal is, vagy előfordulhat, hogy biztosít bármely metrikák. Ha nem, saját nyomon követheti statisztika a késés és a hibák aránya, alkalmazásmetrikák támaszkodnak kell.
 
-*Naplók* bejegyzései az alkalmazás futása közben bekövetkező eseményekről. Ezek közé tartozik többek között a alkalmazásnaplók (nyomkövetési utasítások) vagy a webkiszolgáló naplóinak. Naplók esetében elsősorban akkor hasznos, a vizsgálatokhoz és a legfelső szintű alapprobléma elemzéséhez. 
+*Naplók* bejegyzései az alkalmazás futása közben előforduló eseményeket. Ezek közé tartozik többek között az alkalmazásnaplókat (nyomkövetési utasításokat) vagy a webkiszolgáló-naplókkal. Naplók elsősorban hasznosak lehetnek az eseményadatokhoz és a legfelső szintű alapprobléma elemzéséhez. 
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
-A cikk [megfigyelési és diagnosztikai](../best-practices/monitoring.md) egy alkalmazás általános bevált gyakorlat ismertetése. A következőkben adott mikroszolgáltatások architektúrájának környezetében gondolniuk.
+A cikk [Monitorozási és diagnosztikai](../best-practices/monitoring.md) egy általános ajánlott eljárásokat ismerteti. Az alábbiakban néhány adott tudnivaló a mikroszolgáltatási architektúra kontextusában gondolja.
 
-**Konfigurációs és felügyeleti**. A naplózás és figyelés felügyelt szolgáltatást használ, vagy hoz naplózásának és figyelésének összetevők a fürtben található tárolóként telepíteni? Ezek a beállítások több tárgyalását című témakör [technológia beállítások](#technology-options) alatt.
+**Konfigurálással és felügyelettel**. Fogja alkalmazni egy felügyelt szolgáltatás, naplózás és figyelés vagy naplózás és figyelés összetevők, a fürtben lévő tárolók üzembe helyezése? További leírását az alábbi lehetőségek közül, tekintse meg a szakasz [technológiákkal](#technology-options) alatt.
 
-**Adatfeldolgozást arány**. Mi az az átviteli sebesség, amellyel a rendszer fogadására képes, telemetriai események? Mi történik, ha adott aránya túllépi? Például a rendszer lehetséges, hogy sávszélesség-szabályozási ügyfelek, ebben az esetben telemetriai adatok nem vesztek el, vagy előfordulhat, hogy az adatok felbontásának. Ez a probléma néha csökkentheti a begyűjtött adatok mennyiségét csökkenti:
+**Betöltési arány**. Mi az az átviteli sebességet, amellyel a rendszer betöltheti a telemetria-eseményeinek? Mi történik, hogy aránya túllépi? Ha például a rendszer lehetséges, hogy ügyfelek forgalmának szabályozása, ebben az esetben telemetriai adat elvész, vagy, előfordulhat, hogy az adatok felbontásának. A probléma néha csökkentheti a gyűjtött adatok mennyisége csökkentésével:
 
-  - Metrikák összesítése statisztikákat, pl.: átlagos és a szórást, kiszámításával és statisztikai adatokat küldeni a felügyeleti rendszer.  
+  - Metrikák összesítés szerint kiszámításának statisztikákat, pl.: átlagos és a szórást, és a statisztikai adatokat küldeni a monitorozási rendszer.  
 
-  - Az adatok felbontásának &mdash; Ez azt jelenti, hogy az csak az események százalékát feldolgozni.
+  - Az adatok felbontásának &mdash; , az csak az események százalékos feldolgozni.
 
-  - Kötegelt az adatokat az állapotfigyelő szolgáltatás hálózati hívások számának csökkentése érdekében.
+  - Batch az adatokat a figyelési szolgáltatás hálózati hívások számának csökkentése érdekében.
 
-**Költség**. Lehet, hogy magas, különösen a nagy mennyiségük választásával dolgozhat fel, és tárolja a telemetriai adatokat. Bizonyos esetekben sikerült is lehet az alkalmazás futtatásának. Ebben az esetben előfordulhat, hogy csökkenteni kell a telemetriai adatok mennyiségének összesítése, egyszerűsítés, vagy az adatok kötegelés fent leírt módon. 
+**Költség**. Előfordulhat, hogy magas, különösen nagy mennyiségben feldolgozására, és tárolja a telemetriai adatokat. Bizonyos esetekben ez még akkor is túllépheti az alkalmazás futtatásával járó költségeket. Ebben az esetben előfordulhat, hogy csökkenteni kell a telemetriai adatok mennyisége összesítésével, egyszerűsítés, vagy az adatok kötegelés fent leírtak szerint. 
         
-**Adatok rögzített**. Hogyan pontos vannak a metrikák? Átlagok kiugró, főleg nagyobb méretezésnél elrejthetők. Is ha a mintavételi ráta értéke túl alacsony, azt is simítja ingadozásai az adatokat. Tűnhet, hogy a összes kérelem kapcsolatos végpont ugyanolyan késéssel, lehet, ha ténylegesen végzése sokkal hosszabb kérelmek jelentős része. 
+**Adathűséget**. Hogyan pontos vannak a metrikák? Kiugró értékek, különösen nagy mennyiségű átlagokat elrejtéséhez. Is ha a mintavételi ráta túl alacsony, azt is simítja ingadozása az adatokat. Jelenhet meg, hogy minden kérelemhez van kapcsolatban az azonos végpontok közötti késés, ha valójában egy jelentős része kérelmek vannak sokkal tovább tart. 
 
-**Késés**. Engedélyezi a valós idejű figyelés és a riasztások, telemetriai adatokat kell biztosítani gyorsan. Hogyan "valós idejű" van a figyelési irányítópulton megjelenő adatokat? Néhány másodperc régi? Tovább egy percnél?
+**Késés**. Engedélyezi a valós idejű figyelés és riasztások, a telemetriai adatok elérhetőnek kell lennie gyorsan. Hogyan "valós idejű" az a figyelési irányítópulton megjelenő adatokat? Néhány másodperc régi? Több mint egy perc?
 
-**Tárolás.** A naplókhoz lehet leghatékonyabb írni a naplóeseményeket a fürt rövid élettartamú tárhelyre, és küldje el a naplófájlok több állandó tároló az ügynök konfigurálása.  Adatok végül kívánja helyezni a hosszú távú, hogy az utólagos elemzés érhető el. Egy mikroszolgáltatások architektúra hozhat létre a telemetriai adatok nagy mennyiségű, így az adott adattárolás díja fontos szempont. Is gondolja át, hogyan fogja kérdezni az adatokat. 
+**Storage.** A naplók esetében lehet leghatékonyabb a naplózási eseményeket írni a fürt ideiglenes tároló, és a egy ügynök több állandó tárolókba naplófájlok szállításra való konfigurálásához.  Adatok idővel át hosszú távú tárolásra, hogy legyen elérhető utólagos elemzése. A mikroszolgáltatási architektúra hozhat létre nagy mennyiségű telemetriai adatot, így az adatok költségét fontos szempont. Is vegye figyelembe, hogyan fog kérdezni az adatokat. 
 
-**Irányítópult és a képi megjelenítés.** Kapunk egy átfogó képet, a rendszer az összes szolgáltatását, mind a fürt és a külső szolgáltatások között? Ha telemetriai adatok és a naplók egynél több helyre, az irányítópult megjelenítése az összes is összefüggéseket? A figyelési irányítópult megjelenítése kell legalább a következő információkat:
+**Irányítópult és a Vizualizáció.** Kapunk holisztikus a rendszer minden szolgáltatás, mind a fürt és a külső szolgáltatások között? Ha naplók és a telemetriai adatokat több helyre, is az irányítópult összes megjelenítése és összekapcsolását? A figyelési irányítópult kell megjelennie, legalább a következő információkat:
 
-- Általános erőforrás-elosztás kapacitás és a növekedési. Ez magában foglalja a tárolók, fájl rendszer metrikákat, hálózati és core foglalási száma.
-- Tároló metrikák korrelált a szolgáltatás szintjén.
-- Rendszer metrikák tárolók tartozzanak.
-- Hibákat és kiugró.
+- Általános erőforrás-elosztás kapacitás és a növekedés. Ez magában foglalja a tárolók, a fájl rendszermérőszámokat, a hálózati és a core foglalási számát.
+- Tárolómetrikák korrelált szolgáltatási szintű.
+- Rendszermérőszámokat tárolók is vonatkozhatnak.
+- Szolgáltatási hibák és a kiugró értékeket.
     
 
-## <a name="distributed-tracing"></a>Elosztott nyomkövetése
+## <a name="distributed-tracing"></a>Elosztott nyomkövetés
 
-Ahogy azt korábban említettük, az egyik kihívás a mikroszolgáltatások események áramló van szolgáltatásban ismertetése. Egy egyetlen művelet, vagy a tranzakció magában foglalhatja hívások vonatkozik több szolgáltatásra. Hozza létre újból a teljes feladatütemezési lépéseket, hogy egyes szolgáltatások propagálása kell egy *korrelációs azonosító* , amely úgy működik, mint ennek a műveletnek egyedi azonosítója. A korrelációs azonosító lehetővé teszi, hogy [nyomkövetés elosztott](http://microservices.io/patterns/observability/distributed-tracing.html) szolgáltatásban.
+Ahogy már említettük, a mikroszolgáltatások az egyik kihívás van szolgáltatások között az események áramlását ismertetése. Egy egyszeri művelet vagy egy tranzakció több szolgáltatásra meghívásával is járhat. Lépések teljes rekonstruálhassa az egyes szolgáltatások propagálása kell egy *korrelációs azonosító* , amely úgy működik, mint a művelet egyedi azonosítója. A korrelációs azonosító lehetővé teszi, hogy [elosztott nyomkövetési](https://microservices.io/patterns/observability/distributed-tracing.html) szolgáltatások között.
 
-Az első szolgáltatás, amely fogad egy ügyfél kérelmet kell létrehozni a korrelációs azonosítója. Ha a szolgáltatás hívást egy HTTP egy másik szolgáltatás, a korrelációs azonosító fejléc az helyezi el. Hasonlóképpen ha a szolgáltatás aszinkron üzenetet küld, helyezi el a korrelációs azonosító az üzenetbe. Alárendelt szolgáltatásokkal továbbra is a korrelációs azonosító propagálására, hogy azt a teljes rendszer áthaladó. Emellett minden kódot írja az alkalmazás metrikák vagy a napló események tartalmaznia kell a korrelációs azonosítója.
+Az első szolgáltatás, amely fogad egy ügyfél kérelmet kell létrehoznia a korrelációs azonosítót. Ha a szolgáltatás lehetővé teszi a HTTP-hívás egy másik szolgáltatás, a korrelációs azonosító a fejléc helyezi el. Hasonlóképpen ha a szolgáltatás aszinkron üzenetet küld, helyezi el a korrelációs Azonosítót az üzenet. Alárendelt szolgáltatásokkal továbbra is propagálása a korrelációs Azonosítót, hogy a teljes rendszeren keresztül biztosítani. Emellett az összes olyan kód, írja az alkalmazás metrikákkal vagy naplózási események tartalmaznia kell a korrelációs azonosítót.
 
-Hívások közötti kapcsolatot, ha például a végpontok közötti késés a teljes tranzakció, a sikeres tranzakciók másodpercenkénti száma és a sikertelen tranzakciók százaléka működési metrikák is kiszámíthatja. Többek között a korrelációs azonosító alkalmazásnaplók lehetővé teszi kiváltó okának elemzése végrehajtásához. Egy művelet meghiúsul, ha a log utasítások található összes a szolgáltatáshoz intézett hívások szereplő ugyanazt a műveletet. 
+Hívások közötti kapcsolatot, ha például a végpontok közötti késése a teljes tranzakció, a másodpercenkénti sikeres tranzakciók számát és százalékos arányát sikertelen tranzakciók üzemeltetési mérőszámokkal kiszámíthatja. Beleértve a korrelációs azonosítók alkalmazásnaplókat, lehetővé válik a hajtsa végre a problémák eredeti okának feltárását. Ha egy művelet meghiúsul, a log utasítások a szolgáltatás meghívja a műveletben részét képező összes is megtalálhatja. 
 
-Elosztott nyomkövetés végrehajtása során az alábbiakban néhány szempontok:
+Elosztott nyomkövetést megvalósításához az alábbiakban néhány szempontot:
 
-- Jelenleg nincs korrelációs azonosító szabványos HTTP-fejléc. A csoport értéket meg kell szabványosítására. A választott határozzák meg a naplózási/figyelési keretrendszer vagy a választott szolgáltatás háló.
+- Jelenleg nem korrelációs azonosítók nem szabványos HTTP-fejléc. A csapat egységesen kell ezeket egy egyéni fejléc értéke. A kiválasztott határozzák meg a naplózás és figyelés keretrendszer vagy szolgáltatás háló kiválasztását.
 
-- Aszinkron üzenetek Ha az üzenetkezelési infrastruktúra támogatja az üzenetek, hozzáadását metaadatok kell foglalni a korrelációs azonosító, a metaadatok. Ellenkező esetben adja hozzá az üzenet-séma részeként.
+- Aszinkron üzenetek az üzenetkezelési infrastruktúra támogatja a hozzáadásával metaadatok üzenetek, akkor tartalmaznia kell a korrelációs Azonosítót metaadatokként. Ellenkező esetben adja meg az üzenet-séma részeként.
 
-- Ahelyett, hogy egyetlen átlátszatlan azonosítót, előfordulhat, hogy küldjön egy *korrelációs környezet* , amely részletesebb információkat, például a hívó által hívott kapcsolatok tartalmazza. 
+- Ahelyett, hogy egyetlen nem átlátszó azonosítót, előfordulhat, hogy küldjön egy *korrelációs környezet* , amely részletesebb információkat, például a hívó által hívott kapcsolatokat tartalmaz. 
 
-- Az Azure Application Insights SDK automatikusan be HTTP-fejlécek korrelációs környezet esetében, és az Application Insights-logs magában foglalja a korrelációs azonosító. Ha úgy dönt, hogy az Application Insights épített korrelációs használatát, bizonyos szolgáltatások lehet szükség a korrelációs fejlécek, attól függően, hogy a használt könyvtárak explicit módon terjesztése. További információkért lásd: [az Application Insights Telemetria korrelációs](/azure/application-insights/application-insights-correlation).
+- Az Azure Application Insights SDK automatikusan korrelációs környezet kódtárba be HTTP-fejléceket, és az Application Insights-naplók a korrelációs Azonosítót tartalmaz. Ha úgy dönt, az Application Insights beépített korrelációs funkcióinak használatát, bizonyos szolgáltatások előfordulhat, hogy továbbra is explicit módon propagálni kell a korrelációs fejlécek, a használt kódtárak függően. További információkért lásd: [az Application Insights Telemetriai korreláció](/azure/application-insights/application-insights-correlation).
    
-- Ha használunk szolgáltatás rácsvonal Istio vagy linkerd, ezek a technológiák automatikusan generáljon korrelációs fejlécek HTTP-hívások révén a szolgáltatás háló proxyk legyenek átirányítva. Szolgáltatások továbbítsa a megfelelő fejléceket. 
+- Ha használunk szolgáltatás rácsvonal Istio vagy linkerd, ezek a technológiák automatikusan generáljon korrelációs fejlécek HTTP-hívások kerülnek a szolgáltatás háló proxyk. Szolgáltatások továbbítsa a megfelelő fejlécek. 
 
     - Istio: [elosztott kérelmek nyomkövetése](https://istio-releases.github.io/v0.1/docs/tasks/zipkin-tracing.html)
     
-    - linkerd: [környezeti fejléceket](https://linkerd.io/config/1.3.0/linkerd/index.html#http-headers)
+    - linkerd: [helyi fejlécek](https://linkerd.io/config/1.3.0/linkerd/index.html#http-headers)
     
-- Vegye figyelembe, hogyan fogja naplók összevonásakor. Érdemes lehet a naplókban korrelációs azonosító hozzáadásának a módját a csapatok szabványosítására. Strukturált vagy félig strukturált formátumban, például a JSON-NÁ, és adja meg egy közös mező ahhoz, hogy a korrelációs azonosítója.
+- Fontolja meg, hogyan fogja összesíteni a naplókat. Különböző csapatokkal való korrelációazonosítók bele naplók egységesítésére érdemes. Használhat egy strukturált és részben strukturált formátumban, például a JSON-t, és egy közös mezőt, amely tárolja a korrelációs azonosítót.
 
-## <a name="technology-options"></a>Technológia beállítások
+## <a name="technology-options"></a>Technológiai lehetőségek
 
-**Az Application Insights** egy felügyelt szolgáltatás, amely ingests és tárolja a telemetriai adatokat, és elemzésével, és az adatok kereséséhez eszközöket biztosít az Azure-ban. Az Application Insights használatához egy instrumentation csomag az alkalmazás telepítése. Ez a csomag az alkalmazás figyeli, és telemetriai adatokat küld az Application Insights szolgáltatással. Azt is le, hogy a gazdagép-környezetben telemetriai adatait. Az Application Insights biztosít, beépített korrelációs és függőségi nyomon követését. Lehetővé teszi a rendszer metrikákat, alkalmazás metrikák és az Azure szolgáltatás metrika, egyetlen helyen követik.
+**Az Application Insights** egy felügyelt szolgáltatás, az Azure-ban, amely feltölti és tárolja a telemetriai adatokat és eszközöket biztosít az adatok keresése és elemzésére. Az Application Insights használatához telepítenie egy kialakítási csomagot az alkalmazásban. Ez a csomag az alkalmazás figyeli, és telemetriai adatokat küld az Application Insights szolgáltatás. Azt is lekéri, hogy a gazdagép-környezetből a telemetriai adatokat. Az Application Insights biztosít beépített összefüggések keresésére és függőségi nyomkövetés. Segítségével nyomon követheti a rendszer metrikákat, alkalmazásmetrikák és Azure-szolgáltatási metrika, egy helyen.
 
-Vegye figyelembe, hogy az Application Insights azelőtt gyorsítja fel, ha a adatok meghaladja a maximálisan megengedettet; További információkért lásd: [korlátozza az Application Insights](/azure/azure-subscription-service-limits#application-insights-limits). Egyetlen művelettel hozhat létre több telemetriai események, ezért, ha az alkalmazás a forgalom nagy mennyiségű valószínű halmozódni beolvasása. Ez a probléma mérséklése érdekében a telemetriai adatok forgalom csökkentése érdekében mintavételi végezheti el. Mi a fontosabb: az, hogy a metrikákat kevésbé lesznek pontosak. További információkért lásd: [az Application Insightsban mintavételi](/azure/application-insights/app-insights-sampling). Az adatmennyiség csökkentése érdekében által előre összesítése metrikák &mdash; Ez azt jelenti, például átlag és szórás statisztikai értékek kiszámítása, és ezeket az értékeket a nyers telemetriaadatok helyett küld. A következő blogbejegyzés ismerteti egy Application Insights segítségével léptékű módjáról: [Azure figyelése és az elemzések léptékű](https://blogs.msdn.microsoft.com/azurecat/2017/05/11/azure-monitoring-and-analytics-at-scale/).
+Vegye figyelembe, hogy az Application Insights szabályozza, ha az adatátviteli sebessége meghaladja a maximális határértéket; További információkért lásd: [korlátozza az Application Insights](/azure/azure-subscription-service-limits#application-insights-limits). Egyetlen művelet több telemetriai események, előfordulhat, hogy létrehozása, ha az alkalmazás nagy mennyiségű forgalmat, valószínű, hogy leszabályozza. A probléma mérséklése érdekében elvégezhet a mintavétel a telemetriai forgalom csökkentése érdekében. A rendszer a kompromisszummal jár, hogy a metrikák kevésbé lesznek pontosak. További információkért lásd: [Application Insights-mintavétel](/azure/application-insights/app-insights-sampling). Is csökkenthető az adatmennyiség előre összesítése metrikák &mdash; azt jelenti, például átlag, és a szórást statisztikai értékek kiszámítása, és ezek az értékek helyett a nyers telemetriát küld. A következő blogbejegyzés ismerteti egy Application Insights használatával nagy mennyiségű megközelítése: [Azure Monitoring és a nagy méretű](https://blogs.msdn.microsoft.com/azurecat/2017/05/11/azure-monitoring-and-analytics-at-scale/).
 
-Ezenkívül győződjön meg arról, hogy tudomásul veszi a árképzési modellt az Application Insights, mert adatmennyiség alapján van szó. További információkért lásd: [kezelése az Application Insightsban tarifa- és adatok kötet](/azure/application-insights/app-insights-pricing). Ha az alkalmazás telemetriai nagy mennyiségű hoz létre, és nem kíván végrehajtani mintavételi vagy az adatok összesítését, majd az Application Insights nem lehet a megfelelő választás. 
+Emellett ellenőrizze, hogy megértette a díjszabási modell az Application Insights, mert, adatmennyiség alapján lesznek kiszámlázva. További információkért lásd: [az Application Insights árak és adatmennyiségek kezelése](/azure/application-insights/app-insights-pricing). Ha az alkalmazás egy igen nagy mennyiségű telemetriai adatokat hoz létre, és nem kívánja azt végre mintavétel vagy az adatok összesítését, majd az Application Insights nem lehet a megfelelő választás. 
 
-Az Application Insights nem felel meg a követelményeknek, ha az alábbiakban néhány javasolt különböző módszer népszerű nyílt forráskódú technológiák használata.
+Ha az Application Insights nem felel meg a követelményeknek, az alábbiakban néhány olyan népszerű nyílt forráskódú technológiákat használó javasolt módszert.
 
-A rendszer és a tároló metrika, fontolja meg a metrikák exportálása egy idősorozat adatbázis, mint **Prometheus** vagy **InfluxDB** a fürtön.
+A rendszer és a tároló mérőszámokat, fontolja meg a metrikák exportálása egy idősorozat-adatbázisba például **Prometheus** vagy **InfluxDB** a fürtben futó.
 
-- InfluxDB egy leküldéses rendszerbe. A metrikák leküldéses kell egy ügynököt. Használhat [Heapster][heapster], amely egy szolgáltatás, amely kubelet, a fürtre vonatkozó metrikákat gyűjtő összesíti az adatokat, és InfluxDB vagy más idősorozat tárolási megoldás leküldi. Az Azure Tárolószolgáltatás Heapster a fürt telepítés részeként telepíti. Másik lehetőségként [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/), amely egy olyan ügynök összegyűjtésére és metrikákat reporting. 
+- InfluxDB egy leküldéses rendszerbe. Küldje le a metrikákat kell egy ügynököt. Használhat [Heapster][heapster], egy szolgáltatás, amely a fürt szintű metrikákat gyűjt kubelet, azaz összesíti az adatokat, majd leküldi azt InfluxDB vagy egyéb idősorozat-tárolási megoldás. Az Azure Container Service Heapster a fürt telepítés részeként telepíti. Másik lehetőségként [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/), ez az ügynök gyűjtéséhez és jelentéskészítési metrikákat. 
 
-- Prometheus egy olyan lekérésalapú rendszer. A konfigurált helyeket metrikák rendszeresen scrapes. Prometheus is scrape metrikák cAdvisor vagy kube-állapot-metrikák állítja elő. [kube-állapot-metrikák] [ kube-state-metrics] metrikák gyűjti össze a Kubernetes API-kiszolgálóhoz, és elérhetővé teszi azokat Prometheus (vagy egy Prometheus ügyfél végpont kompatibilis kaparóként) szolgáltatás. Heapster összefoglalja, hogy Kubernetes hoz létre, és továbbítja őket a fogadó metrikákat, mivel a kube-állapot-metrikák hoz létre a saját metrikákat, és elérhetővé válnak végpont lekaparást keresztül. A rendszer metrika, használjon [csomópont exportáló](https://github.com/prometheus/node_exporter), vagyis a rendszer metrikáihoz Prometheus exportáló. Lebegőpontos pont adatait, de nem karakterlánc típusú adatok Prometheus támogatja, ezért indokolt rendszer metrikákat, de nem naplók.
+- Prometheus egy olyan pull-alapú rendszer. A konfigurált helyeket metrikák rendszeres időközönként scrapes. Prometheus is scrape metrikák cAdvisor vagy kube-állapot-metrikák alapján jön létre. [kube-állapot-metrics] [ kube-state-metrics] egy szolgáltatás, amely a mérőszámokat gyűjti össze a Kubernetes API-kiszolgálóhoz, és elérhetővé teszi azokat Prometheus (vagy egy Prometheus ügyfél végpont kompatibilis kaparóként). Heapster összesíti, hogy a Kubernetes állít elő, és továbbítja őket a fogadóba másolt metrikák, mivel kube-állapot-metrikák hoz létre a saját mérőszámokat, és elérhetővé teszi azokat a Pro automatizované získávání dat-végponton keresztül. Használja a rendszer mérőszámokat, [csomópont exportáló](https://github.com/prometheus/node_exporter), azaz a rendszer metrikákhoz Prometheus exportáló. Pont adatait, de nem karakterláncadatokat lebegőpontos Prometheus támogatja, így célszerű a rendszer metrikák naplókat azonban nem.
 
-- Például egy irányítópult eszközzel **Kibana** vagy **Grafana** megjelenítheti és áttekintheti az adatokat. Az irányítópult szolgáltatás is futtatható a fürt egy tároló belül.
+- Például egy irányítópult eszközzel **Kibana** vagy **Grafana** , az adatok megjelenítése és figyelése. Az irányítópult szolgáltatás is futtathatja a fürt egy tárolóban.
 
-Az alkalmazás naplóiban, érdemes lehet **Fluentd** és **Elasticsearch**. Fluentd egy nyílt forráskódú adatgyűjtő, Elasticsearch pedig egy dokumentum-adatbázis egy keresőmotor segítségével optimalizált. Ezzel a megközelítéssel minden szolgáltatás által a naplófájlok `stdout` és `stderr`, és Kubernetes ezekbe az adatfolyamokba ír a helyi fájlrendszerben. Fluentd gyűjti a naplókat, opcionálisan további metaadatokkal Kubernetes a következőképpen színesíti őket, és elküldi a naplók Elasticsearch. Kibana, Grafana vagy hasonló eszköz használatával hozzon létre egy irányítópultot Elasticsearch. A fürt, amely biztosítja, hogy egy Fluentd pod hozzá van rendelve minden csomóponton egy daemonset Fluentd futtatja. Beállíthatja, hogy Fluentd kubelet naplókat, valamint a tároló naplók gyűjtéséhez. A nagy mennyiségük naplók írása a helyi fájlrendszerben válhat a teljesítménybeli szűk keresztmetszetek, különösen akkor, ha több szolgáltatás ugyanazon a csomóponton futnak. Figyelje a késleltetés és a fájl rendszer lemezhasználat éles környezetben.
+Az alkalmazásnaplók, fontolja meg **Fluentd** és **Elasticsearch**. Fluentd egy nyílt forráskódú adatgyűjtő, és az Elasticsearch a dokumentum-adatbázis, amely arra optimalizáltuk, hogy a keresőmotor-kiszolgálóként. Ezt a módszert használja, minden egyes szolgáltatás naplókat küld `stdout` és `stderr`, és a Kubernetes ezekbe az adatfolyamokba ír a helyi fájlrendszerben. Fluentd összegyűjti a naplókat, igény szerint bővíti azokat a további metaadatokkal a Kubernetes és a naplókat küld az Elasticsearchbe. Kibana, a Grafana vagy egy hasonló eszköz használatával hozzon létre egy irányítópultot az elasticsearch számára. A daemonset a fürtben, amely biztosítja, hogy egy Fluentd pod hozzá van rendelve minden csomóponton fut Fluentd. Kubelet-naplók, valamint a tároló naplóinak gyűjtéséhez Fluentd konfigurálhatja. Nagy mennyiségben naplók írása a helyi fájlrendszerbe válhat teljesítménybeli szűk keresztmetszetek, különösen akkor, ha több szolgáltatás ugyanazon a csomóponton futnak. Figyelheti a késés és a fájl rendszer lemezhasználat éles környezetben.
 
-Egy Fluentd Elasticsearch a naplók előnye, hogy a szolgáltatások nem szükséges további könyvtár függőségeit. Minden szolgáltatás csak ír `stdout` és `stderr`, és a naplók exportálását történő Elasticsearch Fluentd kezeli. Megtudhatja, hogyan konfigurálhatja a naplózás infrastruktúrát is, a csoportok szolgáltatások írása nem szükséges. Egy feladat az éles környezet, a Elasticsearch fürt konfigurálásához, hogy a forgalom kezelésére méretezés. 
+Egy Fluentd az Elasticsearch a naplók előnye, hogy a szolgáltatások nem szükséges további könyvtár függőségeit. Minden egyes szolgáltatás csak ír `stdout` és `stderr`, és az Elasticsearch a naplók exportálása Fluentd kezeli. Megtudhatja, hogyan konfigurálhatja a naplózás infrastruktúra is, a csapatok szolgáltatások írása nem szükséges. Az egyik kihívás, hogy az Elasticsearch-fürt, éles környezet konfigurálása, úgy, hogy a méretezés a forgalom kezelésére. 
 
-Egy másik lehetőség egy elküldeni a naplókat az Operations Management Suite (OMS) szolgáltatáshoz. A [Naplóelemzési] [ log-analytics] naplóadatokat gyűjti be egy központi tárházban, és a szolgáltatás képes egyesíteni más Azure-szolgáltatásokkal, az alkalmazás által használt adatokat. További információkért lásd: [figyelése az Azure Tárolószolgáltatás-fürtöt a Microsoft Operations Management Suite (OMS)][k8s-to-oms].
+Egy másik lehetőség, hogy az Operations Management Suite (OMS) Log Analytics naplók küldése. A [Log Analytics] [ log-analytics] egy központi tárházba gyűjti naplóadatok szolgáltatást, és más Azure-szolgáltatások, az alkalmazás által használt adatokat blokktárolását. További információkért lásd: [monitorozása az Azure Container Service-fürt a Microsoft Operations Management Suite (OMS)][k8s-to-oms].
 
-## <a name="example-logging-with-correlation-ids"></a>Példa: Naplózás korrelációs azonosító
+## <a name="example-logging-with-correlation-ids"></a>Példa: Naplózás korrelációs azonosítók
 
-Mutatja be az egyes ebben a fejezetben bemutatott pontok, ez hogyan a csomag szolgáltatás megvalósítja naplózási kiterjesztett példát. A csomag szolgáltatáshoz készült géppel és használja a [Koa](http://koajs.com/) a Node.js webes keretrendszer. Nincsenek több Node.js naplózási szalagtárak választhat. A Microsoft kivételezett [Winston](https://github.com/winstonjs/winston), olyan népszerű naplózási könyvtár, amely megfelel a teljesítményének tesztelésekor azt.
+Egyes ebben a fejezetben ismertetett pontok megmutatják, Íme egy kiterjesztett példa hogyan a a csomag szolgáltatás biztosítja a naplózás. A csomag szolgáltatás íródott, a TypeScript, és használja a [Koa](https://koajs.com/) Node.js webes keretrendszer. Nincsenek számos Node.js naplózási függvénytárak közül választhat. Hogy kivételezett [Winston](https://github.com/winstonjs/winston), a teljesítményre vonatkozó követelmények teljesítése tesztelt, amikor egy elterjedt naplózási könyvtár.
 
-Foglalják magukban a megvalósítás részletei, hogy egy absztrakt meghatározott `ILogger` felület:
+A gyakorlati kivitelezés részleteinek tárolják, egy absztrakt meghatározott `ILogger` felületen:
 
 ```ts
 export interface ILogger {
@@ -128,7 +128,7 @@ export interface ILogger {
 }
 ```
 
-Íme egy `ILogger` a Winston könyvtár nagyságúra végrehajtására. A korrelációs azonosító konstruktor paramétert fogad, és az azonosító esetében minden napló üzenetbe. 
+Íme egy `ILogger` megvalósítása, amely a Winston könyvtárban. Konstruktor paramétereként a korrelációs Azonosítót vesz igénybe, és az azonosító kódtárba minden naplóüzenetre be. 
 
 ```ts
 class WinstonLogger implements ILogger {
@@ -155,7 +155,7 @@ class WinstonLogger implements ILogger {
 }
 ```
 
-A csomag szolgáltatásnak kell a korrelációs azonosító kinyerése a HTTP-kérelem. Például ha linkerd használ, a korrelációs azonosító található a `l5d-ctx-trace` fejléc. A HTTP-kérelem Koa, egy környezeti objektumot, amely lekérdezi a csővezeték-kérelemfeldolgozáshoz keresztül történő továbbítása van tárolva. A korrelációs azonosító beszerzése a környezetben, és a tranzakciónaplókat tartalmazó inicializálása egy köztes függvény azt adhatja meg. (Egy köztes Koa a függvény egyszerűen hajtsa végre az egyes kérelmek függvényből.)
+A csomag szolgáltatást kell a korrelációs Azonosítót kinyerése a HTTP-kérelem. Például ha linkerd használ, a korrelációs azonosító megtalálható a `l5d-ctx-trace` fejléc. A HTTP-kérelem Koa, a Context objektumot, amely a kérelemfeldolgozási folyamatot keresztülmegy van tárolva. A korrelációs Azonosítót a környezetből, és a naplózó inicializálása egy közbenső függvényt is meghatározzuk. (Egy közbenső Koa függvényt a egyszerűen függvény, amely lekéri az egyes kérések végrehajtása.)
 
 ```ts
 export type CorrelationIdFn = (ctx: Context) => string;
@@ -172,9 +172,9 @@ export function logger(level: string, getCorrelationId: CorrelationIdFn) {
 }
 ```
 
-A köztes meghívja a hívó által definiált függvény `getCorrelationId`, beolvasni a korrelációs. Ezután a naplózó példányát, és azt belül stashes `ctx.state`, amelyen egy kulcs-érték szótára Koa át az információkat a feldolgozási folyamaton keresztül. 
+A közbenső szoftver meghívja a hívó által megadott függvény `getCorrelationId`beolvasásához a korrelációs azonosítót. Majd létrehoz egy példányt a naplózó és stashes azt `ctx.state`, azaz egy kulcs-érték szótára Koa keresztül adatokat átadni. 
 
-A naplózó köztes kerül a folyamat indításakor:
+A naplózó közbenső kerül a folyamat indításakor:
 
 ```ts
 app.use(logger(Settings.logLevel(), function (ctx) {
@@ -182,7 +182,7 @@ app.use(logger(Settings.logLevel(), function (ctx) {
 }));
 ```
 
-Miután minden be van állítva, is könnyen naplózási utasítás hozzá a kódot. Például itt a lehetőség, amely megkeresi a csomagot. Két hív a `ILogger.info` metódust.
+Miután minden be van állítva, könnyebbé vált a naplózási utasítások hozzá a kódot. Például a itt módszer, amely megkeresi az egy csomagot. Két hív a `ILogger.info` metódust.
 
 ```ts
 async getById(ctx: any, next: any) {
@@ -205,10 +205,10 @@ async getById(ctx: any, next: any) {
 }
 ```
 
-Nem szükséges tartalmazza a korrelációs Azonosítót a naplózás utasításokat, mert a köztes függvény által automatikusan ezt. Ez megkönnyíti a naplózás kód tisztító, és csökkenti annak esélyét, hogy a fejlesztő felejtse el tartalmazza a korrelációs azonosítót. Ezért a naplózás utasítások használják az absztrakt `ILogger` felületet, lenne könnyen cserélje le a tranzakciónaplókat tartalmazó megvalósítása újabb.
+Nincs szükségünk, a naplózás utasításokat tartalmazza a korrelációs Azonosítót, mert, amely a közbenső szoftver függvény által automatikusan történik. Ez lehetővé teszi a naplózást kód tisztító, és csökkenti annak az esélyét, hogy a fejlesztő felejtse el tartalmazza a korrelációs azonosítót. És mivel minden, a naplózás kimutatások használata az absztrakt `ILogger` felületen, könnyű lenne később naplózó megvalósítása helyett.
 
 > [!div class="nextstepaction"]
-> [Folyamatos integrációt és kézbesítés](./ci-cd.md)
+> [A folyamatos integrációt és teljesítést](./ci-cd.md)
 
 <!-- links -->
 

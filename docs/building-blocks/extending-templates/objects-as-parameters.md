@@ -1,22 +1,22 @@
 ---
-title: Az objektum használata Azure Resource Manager-sablon egyik paraméterének
-description: Ismerteti, hogyan lehet Azure Resource Manager sablonok használata az objektumok paraméterekként bővítése
+title: Objektum használata paraméterként az Azure Resource Manager-sablon
+description: Ismerteti, hogyan lehet Azure Resource Manager-sablonok objektum használata paraméterként lehetőségeinek bővítése
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: 76f8b9d459f4ab3147b52762b7c26552ec92c7a3
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: 27bc4be02f202ae5d6a3c28553a8c8afe435f743
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847175"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429315"
 ---
-# <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Az objektum használata Azure Resource Manager-sablon egyik paraméterének
+# <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Objektum használata paraméterként az Azure Resource Manager-sablon
 
-Ha Ön [Azure Resource Manager-sablonok készítésének][azure-resource-manager-create-template], lehetősége van adja meg az erőforrás-tulajdonság értékeinek közvetlenül a sablonban vagy határozzon meg egy paramétert, majd adjon meg értékeket a telepítés során. Beleegyezik abba, hogy minden egyes tulajdonság értéke kisebb környezetekben a paraméter használható, de egy legfeljebb 255 paraméterek üzemelő példányonként. Miután nagyobb és összetettebb központi paraméterek kívül is futtathatja.
+Ha Ön [Azure Resource Manager-sablonok készítése][azure-resource-manager-create-template], lehetősége van adja meg az erőforrás-tulajdonság értékeinek közvetlenül a sablonban vagy adjon meg paramétert, majd adja meg az értékeket üzembe helyezés során. Nyugodtan mindegyik tulajdonság értékét a kisméretű környezetek egy paraméter használható, de egy legfeljebb 255 paraméterek száma üzemelő példányonként. Miután a nagyobb és összetettebb üzembe helyezések paraméterei tartományon kívül is futtathat.
 
-Egy probléma megoldásához módja egy objektum használata helyett értéket paraméterként. Ehhez a paraméter a sablonban megadott, és adjon meg egyetlen érték helyett egy JSON-objektum üzembe helyezése során. A paraméter használatával altulajdonságok, majd hivatkozzon a [ `parameter()` függvény] [ azure-resource-manager-functions] és pont operátort a sablonban.
+A probléma megoldásához egyik módja az objektum használata paraméterként egy érték helyett. Ehhez adja meg a paramétert a sablont, és adja meg a JSON-objektum egyetlen érték helyett üzembe helyezés során. Ezután hivatkozhat a altulajdonságokat a paraméter használatával a [ `parameter()` függvény] [ azure-resource-manager-functions] és a sablon pont operátort.
 
-Vessen egy pillantást egy példa egy virtuális hálózati erőforráshoz. Először adjuk meg a `VNetSettings` paraméter a sablon és a `type` való `object`:
+Vessünk egy pillantást egy példa, amely üzembe helyez egy virtuális hálózati erőforrás. Először tekintsük meg a `VNetSettings` paramétert a sablon és a `type` való `object`:
 
 ```json
 ...
@@ -24,10 +24,10 @@ Vessen egy pillantást egy példa egy virtuális hálózati erőforráshoz. Elő
     "VNetSettings":{"type":"object"}
 },
 ```
-A következő most adja meg az értékeket a `VNetSettings` objektum:
+Következő lépésként hozzunk adja meg az értékeket a `VNetSettings` objektum:
 
 > [!NOTE]
-> Paraméter értékének megadására, deploment közben, lásd: a **paraméterek** szakasza [megérteni a felépítését és Azure Resource Manager-sablonok szintaxisát][azure-resource-manager-authoring-templates]. 
+> Ismerje meg, hogyan deploment során adja meg a paraméterértékeket, tekintse meg a **paraméterek** szakaszában [struktúra és az Azure Resource Manager-sablonok szintaxisát][azure-resource-manager-authoring-templates]. 
 
 ```json
 "parameters":{
@@ -55,9 +55,9 @@ A következő most adja meg az értékeket a `VNetSettings` objektum:
 }
 ```
 
-Ahogy látja, az egyetlen ténylegesen paraméterrel három altulajdonságok: `name`, `addressPrefixes`, és `subnets`. Ezek altulajdonságok mindegyikének vagy értékre, vagy más altulajdonságok határozza meg. Az eredménye, hogy az egyetlen paramétert határoz meg a virtuális hálózati telepítéséhez szükséges összes értéket.
+Amint látható, az egyetlen ténylegesen paraméterrel három altulajdonságok: `name`, `addressPrefixes`, és `subnets`. Ezek altulajdonságok mindegyike vagy értéket vagy más altulajdonságok adja meg. Az eredménye, hogy az egyetlen paramétert adja meg a virtuális hálózat üzembe helyezéséhez szükséges összes értékét.
 
-Most tegyük rendelkezik egy pillantást a sablont, tekintse meg a többi bemutatja a `VNetSettings` objektummal:
+Most nézzük meg, hogy a sablon a `VNetSettings` objektumot használja:
 
 ```json
 ...
@@ -91,9 +91,9 @@ Most tegyük rendelkezik egy pillantást a sablont, tekintse meg a többi bemuta
     }
   ]
 ```
-Értékeit a `VNetSettings` objektum által a virtuális hálózati erőforrás használata szükséges tulajdonságot is vonatkozik a `parameters()` mindkét függvény a `[]` tömb indexelő és a pont operátort. Ezt a módszert akkor működik, ha szeretné az értékeket a paraméter objektum statikusan alkalmazása az erőforrás. Azonban ha a telepítés során a tulajdonságértékek tömb dinamikusan hozzárendelni kívánt használhatja egy [másolási ciklust][azure-resource-manager-create-multiple-instances]. A másolási ciklust használatához értékeket ad meg egy JSON-tömb erőforrás tulajdonság, és a másolási ciklust dinamikusan vonatkozik az értékeket az erőforrás-tulajdonságokat. 
+Értékét a `VNetSettings` objektum érvénybe lépnek a tulajdonságokat, a virtuális hálózati erőforrás használata szükséges a `parameters()` mindkét függvény a `[]` indexer, és a pont operátor a tömb. Ez a megközelítés akkor működik, ha csak át szeretné statikusan Objekt paraméter értékét az erőforrásra alkalmazni kívánt. Azonban ha dinamikusan üzembe helyezés során a tulajdonság egy olyan értéktömböt hozzárendelni kívánt használhatja egy [másolási ciklust][azure-resource-manager-create-multiple-instances]. A másolási ciklust használandó értékeket ad meg egy JSON-tömböt erőforrás tulajdonság és a másolási ciklust dinamikusan vonatkozik az értékeket az erőforrás-tulajdonságok. 
 
-Vegye figyelembe a dinamikus módszer használatakor az egyik megoldandó probléma van. Bemutatják a problémát, vessen egy pillantást a tulajdonságértékek tipikus tömb. Ebben a példában a tulajdonságok értékeit tárolják a változóban. Két tudunk értesítést tömbállandó Itt&mdash;olyan gyermektartománya `firstProperty` és nevű `secondProperty`. 
+Érdemes figyelembe vennie a dinamikus megközelítés használatakor egy probléma van. A probléma bemutatása érdekében vessünk egy pillantást egy tipikus tulajdonság értékek tömbje. Ebben a példában a tulajdonságok értékeit egy változó vannak tárolva. Figyelje meg, hogy van két Tárolótömböket Itt&mdash;gyermektartománya `firstProperty` és a egy nevű `secondProperty`. 
 
 ```json
 "variables": {
@@ -117,7 +117,7 @@ Vegye figyelembe a dinamikus módszer használatakor az egyik megoldandó probl�
 }
 ```
 
-Most vessen egy pillantást a módját a tulajdonságai, a változóban a másolási ciklust használatával érhetők el azt.
+Most vessünk egy pillantást a változó segítségével egy másolási ciklust tulajdonság el módja.
 
 ```json
 {
@@ -137,9 +137,9 @@ Most vessen egy pillantást a módját a tulajdonságai, a változóban a másol
 }
 ```
 
-A `copyIndex()` függvény az aktuális a ciklus ismétléseinek számától másolása, és használjuk, amely index mindegyik előálló egyidejűleg.
+A `copyIndex()` függvény az aktuális a ciklus ismétléseinek számától példányt adja vissza, és használjuk, amely index két tömb minden egyes egyszerre.
 
-Ez a két tömb hosszának esetén remekül működik. A probléma merül fel, ha hiba végrehajtott, és a két tömbnek különböző hosszúságú&mdash;ebben az esetben a sablon üzembe helyezése során érvényesítése sikertelen lesz. Egyetlen objektum összes tulajdonságának belefoglalja probléma elkerülheti, mert sokkal egyszerűbb, ha az érték nem hiányzik. Például Ismerkedjen meg a paraméter egy másik objektum mely minden eleme a `propertyObject` unióját a `firstProperty` és `secondProperty` a korábbi tömbök.
+Ez jól működik az, ha a két tömbök ugyanolyan hosszúságú. A probléma merül fel, ha már állított be, és a két tömbök különböző hosszúságú&mdash;ebben az esetben a sablon üzembe helyezése során érvényesítése sikertelen lesz. Mivel sokkal egyszerűbb, ha egy érték nem hiányzik, akkor a probléma elkerülése érdekében egyetlen objektumot, beleértve az összes tulajdonság által. Például, tekintsük át egy másik paraméter objektum mely minden eleme a `propertyObject` Pole je Uniója a `firstProperty` és `secondProperty` korábban a tömbök.
 
 ```json
 "variables": {
@@ -162,15 +162,15 @@ Ez a két tömb hosszának esetén remekül működik. A probléma merül fel, h
 }
 ```
 
-Figyelje meg a harmadik a tömb elemei? Hiányzik a `number` tulajdonságot, de a sokkal egyszerűbb, figyelje meg, hogy már nem fogadta, ha éppen szerzőként paraméterértékek ily módon.
+Figyelje meg, hogy a harmadik elem a tömbben található? Hiányzik a `number` tulajdonság, de vegye figyelembe, hogy korábban kihagyta, ha Ön szerzőként paraméter értékét így sokkal könnyebb a.
 
 ## <a name="using-a-property-object-in-a-copy-loop"></a>A másolási ciklust tulajdonság objektum használatával
 
-Ez a megközelítés válik még több akkor hasznos, ha a [soros másolási ciklust] kombinálva [azure-erőforrás-kezelő-létrehozása – több], különösen a gyermek erőforrásokat üzembe helyezi. 
+Ez a megközelítés akkor lesz még több hasznos, kombinálva a [soros másolási ciklust] [azure-resource-manager-létrehozása-több], különösen a gyermek-erőforrások üzembe helyezése. 
 
-Ennek vizsgáljuk meg a sablont, amely telepíti egy [hálózati biztonsági csoport (NSG)] [ nsg] két kapcsolatbiztonsági szabályait. 
+Ennek nézzük meg a sablont, amely üzembe helyez egy [hálózati biztonsági csoport (NSG)] [ nsg] két kapcsolatbiztonsági szabályait. 
 
-Vessen egy pillantást a paramétereket. Ha úgy tekintünk, a sablon megtanulhatja, hogy azt meghatározta nevű egy paraméter `networkSecurityGroupsSettings` , amely tartalmazza egy tömb nevű `securityRules`. A tömb két JSON olyan objektumokat tartalmaz, adja meg a biztonsági szabály beállításait egy számát.
+Először vessünk egy pillantást a paramétereket. Ha megnézzük a sablont, láthatjuk, hogy meghatároztuk nevű egy paraméter `networkSecurityGroupsSettings` , amely tartalmaz egy tömb nevű `securityRules`. A tömb két JSON-objektumok beállításainak biztonsági szabályok számát tartalmazza.
 
 ```json
 {
@@ -211,7 +211,7 @@ Vessen egy pillantást a paramétereket. Ha úgy tekintünk, a sablon megtanulha
   }
 ```
 
-Most vessen egy pillantást a sablont. Az első nevű erőforrás `NSG1` az NSG-t telepíti. A második nevű erőforrás `loop-0` két funkciókat hajtja végre: első, azt `dependsOn` az NSG-t, a telepítés nem indul el, amíg `NSG1` befejeződött, és ez az első a ciklus ismétléseinek számától szekvenciális. A harmadik erőforrás egy beágyazott sablont, amely a biztonsági szabályok objektum az az utolsó példában látható módon a paraméterértékeket telepít.
+Most vessünk egy pillantást sablont. Az első resource nevű `NSG1` az NSG-t telepíti. A második erőforrás nevű `loop-0` két funkciókat hajtja végre: először azt `dependsOn` az NSG-t, a telepítés nem indul el, amíg `NSG1` befejeződött, és az első példányát, a szekvenciális hurok. A harmadik erőforrás egy beágyazott sablont, amely üzembe helyezi a biztonsági szabályok használatával egy objektumot a paraméterértékeket, az utolsó példában látható módon.
 
 ```json
 {
@@ -242,7 +242,7 @@ Most vessen egy pillantást a sablont. Az első nevű erőforrás `NSG1` az NSG-
             "mode":"Incremental",
             "parameters":{},
             "template": {
-                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {},
                 "variables": {},
@@ -265,7 +265,7 @@ Most vessen egy pillantást a sablont. Az első nevű erőforrás `NSG1` az NSG-
         "properties": {
           "mode": "Incremental",
           "template": {
-            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
             "contentVersion": "1.0.0.0",
            "parameters": {},
             "variables": {},
@@ -297,29 +297,29 @@ Most vessen egy pillantást a sablont. Az első nevű erőforrás `NSG1` az NSG-
 }
 ```
 
-Megtudhatja, hogy hogyan adtuk meg, hogy a tulajdonság értékek részletes bemutatása a `securityRules` gyermek-erőforrás. A tulajdonságokat hivatkozott használatával a `parameter()` függvény, majd azt a pontot operátor használata hivatkozik a `securityRules` tömb indexelik ismétléseinek aktuális értéke. Végezetül használatával egy másik pont operátor hivatkoznak az objektum neve. 
+Vessünk hogyan adjuk meg a tulajdonság a közelebbről a `securityRules` gyermek-erőforrás. A tulajdonságokat hivatkozott használatával a `parameter()` függvény, utána pedig a pont operátor használata hivatkozhat a `securityRules` tömb, a jelenlegi érték meghaladja az iteráció által indexelt. Egy másik pont operátor, az objektum nevére hivatkozhatnak használjuk. 
 
-## <a name="try-the-template"></a>Próbálja meg a sablon
+## <a name="try-the-template"></a>A sablon kipróbálása
 
-Ha azt szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket: 
+Ha szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket: 
 
-1.  Navigáljon az Azure portálon, válassza a **+** ikonra, és keresse meg a **sablon-üzembehelyezés** erőforrás írja be, és válassza ki azt.
-2.  Keresse meg a **sablon-üzembehelyezés** lapon jelölje be a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni telepítési** panelen.
+1.  Nyissa meg az Azure Portalon, válassza a **+** ikonra, majd keresse meg a **sablonalapú telepítés** erőforrás írja be, és kattintson rá.
+2.  Keresse meg a **sablonalapú telepítés** lapon válassza ki a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni üzembehelyezési** panelen.
 3.  Válassza ki a **sablon szerkesztése** gombra.
-4.  Az üres sablon törlésére. 
+4.  Az üres sablon törlése. 
 5.  Másolja és illessze be a mintasablon a jobb oldali ablaktáblán.
 6.  Válassza ki a **mentése** gombra.
-7.  Amikor a rendszer visszairányítja a **egyéni telepítési** ablaktáblán válassza előbb a **paraméterek szerkesztése** gombra.
-8.  Az a **paraméterek szerkesztése** panelen, törölje a meglévő sablon.
-9.  Másolja és illessze be a fenti mintasablon paraméter.
-10. Válassza ki a **mentése** gomb, ami visszaadja, hogy a **egyéni telepítési** panelen.
-11. Az a **egyéni telepítési** panelen jelölje ki az előfizetését, vagy létrehozhat új vagy meglévő erőforráscsoportot használni, és jelöljön ki egy helyet. Tekintse át a használati feltételeket, és válassza ki a **elfogadom** jelölőnégyzetet.
+7.  Amikor a rendszer visszairányítja az **egyéni üzembehelyezési** panelen válassza a **paraméterek szerkesztése** gombra.
+8.  Az a **paraméterek szerkesztése** panelen, a meglévő sablon törlése.
+9.  Másolja és illessze be a paraméter mintasablon a fent.
+10. Válassza ki a **mentése** gombra, amely visszaadja, hogy a **egyéni üzembehelyezési** panelen.
+11. Az a **egyéni üzembehelyezési** panelen válassza ki az előfizetését, vagy új létrehozása vagy meglévő erőforráscsoport használata, és válasszon ki egy helyet. Tekintse át a feltételeket és kikötéseket, és válassza ki a **elfogadom** jelölőnégyzetet.
 12. Válassza ki a **beszerzési** gombra.
 
 ## <a name="next-steps"></a>További lépések
 
-* Ezek a technológiák megvalósítása után bővítheti a [tulajdonság objektum átalakító és adatgyűjtő](./collector.md). Az átalakító és adatgyűjtő technikák általános és a sablonok alapján lehet társítani.
-* Ezzel a módszerrel is implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure hivatkozás architektúrák](/azure/architecture/reference-architectures/). A sablonok milyen azt már megvalósított ezzel a módszerrel tekintheti meg.
+* Bővítheti, ezek a technológiák megvalósítása után egy [objektum tulajdonságátalakító és -gyűjtő](./collector.md). Az átalakító és adatgyűjtő technikák általános és a sablonok alapján lehet társítani.
+* Ez a módszer is implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). A sablonok megtekintéséhez, hogy ezt a technikát általunk megvalósított tekintheti meg.
 
 <!-- links -->
 [azure-resource-manager-authoring-templates]: /azure/azure-resource-manager/resource-group-authoring-templates

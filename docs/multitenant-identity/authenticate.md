@@ -1,49 +1,49 @@
 ---
-title: Hitelesítés a több-bérlős alkalmazásokhoz
-description: Hogyan egy több-bérlős alkalmazást az Azure ad-felhasználókat hitelesítheti
+title: Hitelesítés a több-bérlős alkalmazásokban
+description: Hogyan egy több-bérlős alkalmazás hitelesítheti a felhasználókat az Azure ad-ből
 author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: tailspin
 pnp.series.next: claims
-ms.openlocfilehash: e85817626675cec4d126921c19a31a0983ecd62d
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 70f4a96369c207740400b9dfe72e1e964507f729
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
-ms.locfileid: "26359255"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428125"
 ---
-# <a name="authenticate-using-azure-ad-and-openid-connect"></a>Hitelesítés az Azure AD használatával és az OpenID Connect
+# <a name="authenticate-using-azure-ad-and-openid-connect"></a>Hitelesítés az Azure AD-vel és az OpenID Connect
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
-A felmérések alkalmazás az OpenID Connect (OIDC) protokoll használatával hitelesíti a felhasználókat az Azure Active Directory (Azure AD). A felmérések alkalmazás, amelynek beépített köztes OIDC az ASP.NET Core használja. Az alábbi ábrán látható, hogy mi történik, ha a felhasználó bejelentkezik, magas szinten.
+A Surveys alkalmazás az OpenID Connect (OIDC) protokoll használatával hitelesíti a felhasználókat az Azure Active Directory (Azure AD). A Surveys alkalmazás használja az ASP.NET Core, amely beépített közbenső OIDC rendelkezik. Az alábbi ábrán látható, hogy mi történik, ha a felhasználó bejelentkezik, magas szinten.
 
-![Hitelesítési folyamat](./images/auth-flow.png)
+![A hitelesítési folyamatból](./images/auth-flow.png)
 
-1. Kattintás a "bejelentkezés" gombra az alkalmazásban. Ez a művelet az MVC-vezérlő kezeli.
+1. A felhasználó az alkalmazásban a "bejelentkezés" gombra kattint. Ez a művelet egy MVC-vezérlő kezeli.
 2. Az MVC-vezérlő értéket ad vissza egy **ChallengeResult** művelet.
-3. A köztes elfogja a **ChallengeResult** , és létrehoz egy 302-es választ, amely átirányítja a felhasználót az Azure AD bejelentkezési oldalára.
-4. A felhasználók hitelesítése az Azure ad-val.
-5. Az Azure AD egy azonosító tokent elküldi az alkalmazásnak.
-6. A köztes érvényesíti a azonosító jogkivonatot. Ezen a ponton a felhasználói most már hitelesítve az alkalmazáson belüli.
-7. A köztes átirányítja a felhasználói alkalmazás.
+3. A közbenső szoftver elfogja a **ChallengeResult** , és létrehoz egy 302 választ, amely átirányítja a felhasználót az Azure AD bejelentkezési oldalra.
+4. A felhasználó hitelesíti magát az Azure ad-ben.
+5. Az Azure AD elküldi az alkalmazás-azonosító jogkivonat.
+6. A közbenső szoftver az azonosító jogkivonat érvényesíti. Ezen a ponton a felhasználó mostantól az alkalmazáson belüli hitelesítését.
+7. A közbenső szoftver alkalmazásnak átirányítja a felhasználót.
 
-## <a name="register-the-app-with-azure-ad"></a>Az alkalmazás regisztrálása az Azure ad szolgáltatással
-OpenID Connect engedélyezéséhez a Szolgáltatottszoftver-szolgáltató regisztrálja az alkalmazást a saját Azure AD-bérlő belül.
+## <a name="register-the-app-with-azure-ad"></a>Az alkalmazás regisztrálása az Azure ad-vel
+OpenID Connect engedélyezéséhez az SaaS-szolgáltató regisztrálja az alkalmazás a saját Azure AD-bérlő belül.
 
-Az alkalmazás regisztrálásához kövesse [alkalmazások integrálása az Azure Active Directoryval](/azure/active-directory/active-directory-integrating-applications/), szakaszában [egy alkalmazás hozzáadása](/azure/active-directory/active-directory-integrating-applications/#adding-an-application).
+Az alkalmazás regisztrálásához kövesse [alkalmazások az Azure Active Directoryval való integrálását](/azure/active-directory/active-directory-integrating-applications/), a szakaszban [egy alkalmazás hozzáadása](/azure/active-directory/active-directory-integrating-applications/#adding-an-application).
 
-Lásd: [futtassa a felmérések alkalmazást](./run-the-app.md) a felmérések alkalmazására vonatkozó lépéseit. Vegye figyelembe a következőket:
+Lásd: [a Surveys alkalmazás futtatása](./run-the-app.md) lépései a Surveys alkalmazás számára. Vegye figyelembe a következőket:
 
-- Egy több-bérlős alkalmazást konfigurálnia kell a multi-központjaként beállítást explicit módon. Ez lehetővé teszi, hogy más szervezetek számára, az alkalmazás eléréséhez.
+- Egy több-bérlős alkalmazásban konfigurálnia kell a több-bérlős beállítás explicit módon. Ez lehetővé teszi, hogy más szervezetek számára az alkalmazás eléréséhez.
 
-- A válasz URL-címe: az URL-cím, ahol az Azure AD küldi a válaszokat OAuth 2.0-s. Az ASP.NET Core használata esetén ez egyezniük kell az elérési utat, amelyet megadtak a hitelesítési köztes (lásd a következő szakaszban), 
+- A válasz-URL az URL-címe, ahol az Azure AD elküldi az OAuth 2.0-válaszok. Az ASP.NET Core használata esetén ez meg kell felelnie a közbenső hitelesítési szoftver konfigurált elérési útja (lásd a következő szakaszban), 
 
-## <a name="configure-the-auth-middleware"></a>A hitelesítési köztes konfigurálása
-Ez a szakasz ismerteti a hitelesítési köztes konfigurálása az ASP.NET Core az OpenID Connect több-bérlős hitelesítéshez.
+## <a name="configure-the-auth-middleware"></a>A hitelesítési közbenső szoftver konfigurálása
+Ez a szakasz ismerteti a közbenső hitelesítési szoftver konfigurálása az ASP.NET Core OpenID-kapcsolattal több-bérlős hitelesítéshez.
 
-Az a [indítási osztály](/aspnet/core/fundamentals/startup), az OpenID Connect köztes hozzáadása:
+Az a [indítási osztályt](/aspnet/core/fundamentals/startup), az OpenID Connect közbenső szoftver hozzáadása:
 
 ```csharp
 app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
@@ -58,16 +58,16 @@ app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
 });
 ```
 
-Figyelje meg, hogy a beállításokat a konfigurációs beállításai futásidejű művelet. Ez a köztes beállítások jelenti:
+Figyelje meg, hogy néhány beállítás, megnyílik a futásidejű konfigurációs beállításai. Íme a közbenső szoftver beállítások jelenti:
 
-* **ClientId**. Az alkalmazás ügyfél-azonosító az Azure ad-ben az alkalmazás regisztrálásakor kapott.
-* **Szolgáltató**. Egy több-bérlős alkalmazáshoz állítsa ezt a beállítást `https://login.microsoftonline.com/common/`. Ez az az Azure AD közös végpont, amely lehetővé teszi a felhasználók bármely Azure AD-bérlő jelentkezzen be az URL-CÍMÉT. A közös végpont kapcsolatos további információkért lásd: [ebben a blogbejegyzésben](http://www.cloudidentity.com/blog/2014/08/26/the-common-endpoint-walks-like-a-tenant-talks-like-a-tenant-but-is-not-a-tenant/).
-* A **TokenValidationParameters**, beállíthatja **ValidateIssuer** false értékre. Ez azt jelenti, hogy az alkalmazás kell konfigurálnia a kibocsátó érték a Azonosítót jogkivonatban ellenőrzése. (A köztes továbbra is érvényesíti a jogkivonatot magát.) A kibocsátó ellenőrzésével kapcsolatos további információkért lásd: [kibocsátó érvényesítése](claims.md#issuer-validation).
-* **PostLogoutRedirectUri**. Adja meg a felhasználók a kijelentkezés után átirányítási URL-CÍMÉT. Ez legyen egy oldal, amely lehetővé teszi a névtelen kérelmek &mdash; általában a kezdőlap.
-* **SignInScheme**. Állítsa ezt a beállítást `CookieAuthenticationDefaults.AuthenticationScheme`. Ez a beállítás azt jelenti, hogy a felhasználó hitelesítése után a felhasználói jogcímeket kell tárolni helyileg egy cookie-ban. Ez a cookie, hogy a felhasználó bejelentkezett marad a böngésző-munkamenet során.
+* **ClientId**. Az alkalmazás ügyfél-azonosító, amely az Azure ad-ben az alkalmazás regisztrálásakor kapott.
+* **Szolgáltató**. Több-bérlős alkalmazás esetében állítsa ezt a beállítást `https://login.microsoftonline.com/common/`. Ez az az Azure AD közös végpont, amely lehetővé teszi a felhasználók bármilyen Azure AD-bérlővel, jelentkezzen be az URL-CÍMÉT. A közös végpontot kapcsolatos további információkért lásd: [ebben a blogbejegyzésben](https://www.cloudidentity.com/blog/2014/08/26/the-common-endpoint-walks-like-a-tenant-talks-like-a-tenant-but-is-not-a-tenant/).
+* A **TokenValidationParameters**állítsa be **ValidateIssuer** hamis értékre. Ez azt jelenti, hogy az alkalmazás felelős a kibocsátó értékét az azonosító jogkivonat érvényesítése. (A közbenső szoftver továbbra is érvényesíti a jogkivonatot magát.) A kibocsátó ellenőrzésével kapcsolatos további információkért lásd: [kibocsátó érvényesítése](claims.md#issuer-validation).
+* **PostLogoutRedirectUri**. Adja meg a felhasználók átirányítása után a kijelentkezési URL-címet. Ez lehet egy oldal, amely lehetővé teszi a névtelen kérelmek &mdash; általában a kezdőlapon.
+* **SignInScheme**. Állítsa a bestattempt értékre `CookieAuthenticationDefaults.AuthenticationScheme`. Ez a beállítás azt jelenti, hogy a felhasználó hitelesítése után a felhasználói jogcímeket a rendszer helyben tárolja egy cookie-ban. Ez a cookie módját a felhasználó bejelentkezve marad a böngésző-munkamenet során.
 * **Események.** Esemény visszahívások; Lásd: [hitelesítési események](#authentication-events).
 
-A hitelesítési cookie-k köztes is hozzáadhat a feldolgozási sor. A köztes írása egy cookie-t a felhasználói jogcímeket, és majd olvasása során a következő lapon terhelések a cookie-k felelős.
+A folyamat a hitelesítési cookie-k közbenső is hozzáadhat. A közbenső szoftver felelős a felhasználói jogcímeket a cookie-k írásakor, és a cookie-k során későbbi lapbetöltések olvassa.
 
 ```csharp
 app.UseCookieAuthentication(new CookieAuthenticationOptions {
@@ -82,8 +82,8 @@ app.UseCookieAuthentication(new CookieAuthenticationOptions {
 });
 ```
 
-## <a name="initiate-the-authentication-flow"></a>A hitelesítési folyamat kezdeményezéséhez
-A hitelesítési folyamat elindításához az ASP.NET mvc-ben, térjen vissza a **ChallengeResult** a a contoller:
+## <a name="initiate-the-authentication-flow"></a>A hitelesítési folyamat elindításához
+A hitelesítési folyamat elindításához az ASP.NET mvc-ben, adja vissza egy **ChallengeResult** származó a contoller:
 
 ```csharp
 [AllowAnonymous]
@@ -99,77 +99,77 @@ public IActionResult SignIn()
 }
 ```
 
-Ennek hatására a közbenső szoftvert 302-es (található) választ, amely átirányítja a hitelesítési végpontra.
+Ennek hatására a közbenső szoftvert választ 302 (található), amely átirányítja a felhasználókat a hitelesítési végpontra.
 
 ## <a name="user-login-sessions"></a>Felhasználói munkamenetek
-Ahogy azt korábban említettük, ha a felhasználó először jelentkezik be, a hitelesítési cookie-k köztes ír egy cookie-t a felhasználói jogcímeket. Ezt követően HTTP-kérések hitelesítése a cookie-k olvasásakor.
+Ahogy említettük, ha a felhasználó először jelentkezik be, a hitelesítési cookie-k közbenső ír egy cookie-t a felhasználói jogcímeket. Ezt követően a HTTP-kérések hitelesítése a cookie-k olvasása.
 
-Alapértelmezés szerint a cookie-k köztes ír egy [munkamenetcookie][session-cookie], mely lekérdezi törlése után a felhasználó bezárja a böngészőt. A felhasználó ezután felkeresi a webhelyet, amikor legközelebb rendelkeznek újból bejelentkezni. Azonban ha **IsPersistent** igaz értékű a **ChallengeResult**, a köztes ír egy állandó cookie-t, a böngésző bezárása után a felhasználó bejelentkezett marad. Beállíthatja, hogy a cookie lejárati; Lásd: [cookie-k beállítások szabályozása][cookie-options]. Állandó cookie-k a felhasználók kényelmesebb, de lehet, hogy egyes alkalmazások (szóbeli, egy banki alkalmazás) nem megfelelő Ha azt szeretné, hogy a felhasználót, hogy minden egyes bejelentkezés.
+Alapértelmezés szerint a cookie-k közbenső ír egy [munkamenetcookie-t][session-cookie], mely beolvasása törlése után a felhasználó bezárja a böngészőt. A következő alkalommal, amikor a felhasználó ezután felkeresi a webhelyet, akkor kell jelentkezzen be újra. Azonban ha **IsPersistent** true-ra a **ChallengeResult**, a közbenső szoftver ír egy állandó cookie-t, ezért a böngésző bezárása után a felhasználó bejelentkezve marad. Beállíthatja, hogy a cookie lejáratának; Lásd: [cookie beállításai szabályozása][cookie-options]. Maradandó cookie-k a felhasználók kényelmesebb, de lehet, hogy nem megfelelő alkalmazások (például, egy banki alkalmazás) Amennyiben azt szeretné, hogy a felhasználót, hogy jelentkezzen be minden alkalommal.
 
-## <a name="about-the-openid-connect-middleware"></a>Az OpenID Connect köztes kapcsolatos
-Az OpenID Connect köztes az ASP.NET elrejti a legtöbb protokoll részleteit. Ez a szakasz néhány megjegyzés, amely lehet hasznos, ha a protokoll folyamat ismertetése megvalósításával kapcsolatban.
+## <a name="about-the-openid-connect-middleware"></a>Tudnivalók az OpenID Connect közbenső szoftvert
+Az OpenID Connect közbenső szoftvert az ASP.NET elrejti a legtöbb protokoll részleteit. Ez a szakasz tartalmaz néhány megjegyzés, amely lehet hasznos, ha a protokoll folyamat ismertetése megvalósításával kapcsolatban.
 
-Első lépésként vizsgáljuk meg a hitelesítési folyamat tekintetében az ASP.NET (az alkalmazás és az Azure AD közötti OIDC protokoll folyamat részleteit figyelmen kívül hagyva). Az alábbi ábrán látható, a folyamat.
+Először is hozzunk vizsgálja meg a hitelesítési folyamat alapján (figyelmen kívül hagyja az alkalmazás és az Azure AD közötti OIDC protokoll folyamat részletei) az ASP.NET. Az alábbi ábrán látható a folyamat.
 
-![Bejelentkezés folyamata](./images/sign-in-flow.png)
+![Bejelentkezési folyamata](./images/sign-in-flow.png)
 
-Ezen a diagramon nincsenek két MVC-vezérlők. A fiók vezérlő bejelentkezési kéréseket kezeli, és az otthoni tartományvezérlő fel a kezdőlap szolgál.
+Ezen az ábrán két MVC-vezérlők vannak. A fiók vezérlő bejelentkezési kérelmet kezel, és a kezdőlapvezérlő kiszolgálja a kezdőlapon.
 
 A hitelesítési folyamat a következő:
 
-1. A felhasználó a "Bejelentkezés" gombra kattint, és a böngésző GET kérés küldése. Például: `GET /Account/SignIn/`.
+1. A felhasználó a "Sign-in" gombra kattint, és a böngészőben a GET-kérést küld. Például: `GET /Account/SignIn/`.
 2. A fiók vezérlő értéket ad vissza egy `ChallengeResult`.
-3. A OIDC köztes egy HTTP 302 választ, az Azure AD-átirányítás ad vissza.
-4. A böngészőben a hitelesítési kérést küld az Azure AD
-5. A felhasználó bejelentkezik az Azure AD és az Azure AD választ küld vissza hitelesítés.
-6. A OIDC köztes rendszerbiztonsági tag jogcímeket hoz létre, és a hitelesítési cookie-k köztes számára továbbítja azokat.
-7. A cookie-k köztes rendezi sorba a jogcímek rendszerbiztonsági tag, és beállítja egy cookie-t.
-8. A OIDC köztes az alkalmazás visszahívási URL-címre irányítja át.
-9. A böngésző követi az átirányítást, a cookie-k a kérelem küldése.
-10. A cookie-k köztes deserializes egy egyszerű jogcímek a cookie-k, és beállítja a `HttpContext.User` egyenlő a jogcímek rendszerbiztonsági tag. A kérelem az MVC-vezérlőhöz történik.
+3. A OIDC közbenső HTTP 302 választ, az Azure AD-átirányítás adja vissza.
+4. A böngészőben a hitelesítési kérést küld az Azure ad-ben
+5. A felhasználó bejelentkezik az Azure ad-hez, és az Azure AD választ küld vissza hitelesítést.
+6. A OIDC közbenső rendszerbiztonsági tag jogcímeket hoz létre, és továbbítja azt a hitelesítési cookie-k közbenső szoftver.
+7. A cookie-k közbenső szerializálja a jogcímtag, és beállítja a cookie-k.
+8. A OIDC közbenső átirányítja az alkalmazás visszahívási URL-CÍMÉT.
+9. A böngészőben a cookie-t küld a kérelemben szereplő átirányítási követi.
+10. A cookie-k közbenső deserializes egy egyszerű jogcímek a cookie-k, és beállítja a `HttpContext.User` a jogcímtag egyenlő. A kérelem egy MVC-vezérlő irányítja a rendszer.
 
 ### <a name="authentication-ticket"></a>Hitelesítési jegy
-Ha a hitelesítés sikeres, a OIDC köztes hitelesítési jegyre, amely tartalmaz, amely tárolja a felhasználói jogcímek jogcímek rendszerbiztonsági tag hoz létre. A jegy belül végezheti el a **AuthenticationValidated** vagy **TicketReceived** esemény.
+Ha a hitelesítés sikeres, a OIDC közbenső hitelesítési jegyre, amely tartalmazza a felhasználói jogcímeket tartalmazó jogcímeket rendszerbiztonsági tag hoz létre. A jegy belül hozzáférhet a **AuthenticationValidated** vagy **TicketReceived** esemény.
 
 > [!NOTE]
-> Az egész hitelesítési folyamat befejezéséig `HttpContext.User` továbbra is rendelkezik egy névtelen egyszerű **nem** a hitelesített felhasználó. A névtelen rendszerbiztonsági tag egy üres jogcímek gyűjteményt tartalmaz. Hitelesítés befejeződik, és az alkalmazás átirányítja a cookie-k köztes deserializes után a hitelesítési cookie-t és a készletek `HttpContext.User` a jogcímek rendszerbiztonsági tag, amely a hitelesített felhasználó jelöli.
+> Az egész hitelesítési folyamat befejezéséig `HttpContext.User` továbbra is fogja tárolni egy névtelen egyszerű **nem** a hitelesített felhasználó. A névtelen egyszerű egy üres jogcímek gyűjteménye van. Hitelesítés befejeződik, és az alkalmazás átirányítja a cookie-k közbenső deserializes után a hitelesítési cookie-k és a csoportok `HttpContext.User` a jogcímek egyszerű, amely a hitelesített felhasználó jelöli.
 > 
 > 
 
 ### <a name="authentication-events"></a>Hitelesítési események
-A hitelesítési folyamat során az OpenID Connect köztes események sorozatát riasztást:
+A hitelesítési folyamat során az OpenID Connect közbenső szoftvert események sorát vet fel:
 
-* **Redirecttoidentityprovider metódus**. A köztes átirányítja a felhasználókat a hitelesítési végpontra hívni a jogosultsággal. Ez az esemény segítségével módosíthatja az átirányítási URL-címet; például adja meg a kérelem paramétereit. Lásd: [hozzáadása a felügyeleti beleegyezést kérő üzenete](signup.md#adding-the-admin-consent-prompt) példát.
-* **AuthorizationCodeReceived**. Az engedélyezési kód hívása.
-* **TokenResponseReceived**. Neve a köztes lekérése egy hozzáférési jogkivonat a kiállító terjesztési hely, de előtt érvényességét. Csak hitelesítésikód-folyamata vonatkozik.
-* **TokenValidated**. Hívása után a köztes érvényesíti a azonosító jogkivonatot. Ezen a ponton az alkalmazás rendelkezik érvényesített, a felhasználóval kapcsolatos jogcímek egy készletét. Ezt az eseményt további érvényesítést hajt végre a rendszer a jogcímeket, illetve jogcímek átalakítására használható. Lásd: [jogcímek használata](claims.md).
-* **UserInformationReceived**. Ha a köztes lekérése a felhasználói adatok végpont a felhasználói profil neve. Csak hitelesítésikód-folyamata, és csak akkor vonatkozik `GetClaimsFromUserInfoEndpoint = true` a köztes beállításai.
-* **TicketReceived**. Hívható meg, ha a hitelesítés végbemegy. Ez az az utolsó esemény, feltéve, hogy a hitelesítés sikeres lesz. Után ez az esemény történik, a felhasználó jelentkezett be az alkalmazásba.
-* **AuthenticationFailed**. Meghívni, ha a hitelesítés sikertelen. Ez az esemény használatával kezeli a hitelesítési hibák &mdash; például úgy, hogy egy hibalap irányít át.
+* **RedirectToIdentityProvider**. Nevű jobb, előtt a közbenső szoftver a hitelesítési végpontra irányítja át. Használhatja ezt az eseményt az átirányítási URL-címet; Ha például a kérelem paramétereinek hozzáadása. Lásd: [hozzáadása a rendszergazda beleegyezést kérő](signup.md#adding-the-admin-consent-prompt) példaként.
+* **AuthorizationCodeReceived**. Az engedélyezési kódot meghívva.
+* **TokenResponseReceived**. Neve az a közbenső szoftver lekérése hozzáférési token az Identitásszolgáltató, de előtt érvényességét. Csak az engedélyezési kód folyamata vonatkozik.
+* **TokenValidated**. Miután a közbenső szoftver ellenőrzi az azonosító jogkivonat neve. Ezen a ponton az alkalmazás rendelkezik a felhasználóval kapcsolatos ellenőrzött jogcímek egy készletét. Ezt az eseményt a további ellenőrzéshez a jogcímek, vagy a jogcímek átalakítására használható. Lásd: [használata](claims.md).
+* **UserInformationReceived**. Ha a közbenső szoftver a felhasználói profil olvas be a felhasználói adatok végpont neve. Csak az engedélyezési kód folyamata, és csak akkor vonatkozik `GetClaimsFromUserInfoEndpoint = true` a közbenső szoftver beállítások között.
+* **TicketReceived**. Meghívva, ha a hitelesítés végbemegy. Ez az az utolsó esemény, feltéve, hogy a hitelesítés sikeres lesz. Ez az esemény történik, ha a felhasználó bejelentkezett az alkalmazásba.
+* **AuthenticationFailed**. Ha a hitelesítés sikertelen nevezik. Ez az esemény segítségével hitelesítési hibák kezelésére &mdash; például úgy, hogy egy hibalap átirányítása.
 
-Adja meg a visszahívások ezeket az eseményeket, állítsa be a **események** a köztes beállítást. Az eseménykezelők deklarálnia két különböző módja van: beágyazott lambda kifejezések, illetve az abból származó osztály **OpenIdConnectEvents**. A második megközelítést akkor ajánlott, ha az esemény visszahívások rendelkezik bármely jelentős logika, így azok nem megzavarhatják a indítási osztályt. A hivatkozás ezt a módszert használ.
+Adja meg visszahívások ezeket az eseményeket, állítsa be a **események** a közbenső szoftverek lehetőséget. Deklarálnia az eseménykezelőket két különböző módja van: lambdas, vagy az osztálynak a beágyazott **OpenIdConnectEvents**. A második megközelítéssel ajánlott, ha az esemény-visszahívások bármely jelentős logikát, így azok feleslegesen ne tűzdelje tele az indítási osztályt. Referenciaimplementáció ezt a módszert használja.
 
-### <a name="openid-connect-endpoints"></a>OpenID connect végpontok
-Az Azure AD által támogatott [OpenID Connect felderítési](https://openid.net/specs/openid-connect-discovery-1_0.html), amelynek az identitásszolgáltató (IDP) egy a JSON-metaadatok dokumentumot ad vissza egy [jól ismert végpont](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig). A metaadat-dokumentum tartalmaz információkat, mint:
+### <a name="openid-connect-endpoints"></a>OpenID connect-végpontok
+Az Azure AD támogatja [OpenID Connect-felderítési](https://openid.net/specs/openid-connect-discovery-1_0.html), viselkedésmintáit az identitásszolgáltató (IDP) adja vissza a JSON-metaadatok dokumentumok egy [jól ismert végpont](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig). A metaadat-dokumentum például tartalmaz információkat:
 
-* Az engedélyezési végpont URL-CÍMÉT. Ez azért, ahol az alkalmazás átirányítja a felhasználókat a felhasználó hitelesítésére.
-* A "munkamenet befejezése" végpont, ahol az alkalmazás jelentkezzen ki a felhasználó ugrik URL-CÍMÉT.
-* Az aláíró kulcsok, amelyet az ügyfél használ, amely azt lekérése az IDP OIDC jogkivonatok érvényesítésére beolvasása az URL-címe.
+* Az engedélyezési végpont URL-címe Ez az, ahol az alkalmazás átirányítja a felhasználókat a felhasználó hitelesítéséhez.
+* Az URL-címe az "a munkamenet befejezése" végpont, ahol az alkalmazás felhasználójának kijelentkeztetése ugrik.
+* Az aláíró kulcsok, amelyek az ügyfél használatával, amely lekéri az identitásszolgáltató OIDC jogkivonatok érvényesítésére lekérése az URL-címe.
 
-Alapértelmezés szerint a OIDC köztes meg tudja a metaadatok beolvasása. Állítsa be a **hatóság** a köztes, és a köztes hoz létre a metaadatok URL-CÍMÉT. (A metaadatainak URL-CÍMÉT úgy, hogy lehet felülbírálni a **MetadataAddress** lehetőséget.)
+Alapértelmezés szerint a OIDC közbenső meg tudja beolvasni a metaadatok. Állítsa be a **hatóság** opcióhoz a közbenső szoftver, és a közbenső szoftver hoz létre a metaadatok URL-CÍMÉT. (Beállításával felülbírálhatja a metaadatok URL-címe a **MetadataAddress** beállítás.)
 
-### <a name="openid-connect-flows"></a>OpenID connect adatfolyamok
-Alapértelmezés szerint a OIDC köztes hibrid folyamat használja az űrlap post válasz mód.
+### <a name="openid-connect-flows"></a>OpenID connect folyamatok
+Alapértelmezés szerint a OIDC közbenső hibrid folyamat használja az űrlap post Válaszmód.
 
-* *Hibrid folyamat* azt jelenti, hogy az ügyfél kérheti le egy azonosító jogkivonat és egy engedélyezési kód ugyanazon oda-vissza az engedélyezési kiszolgálóra.
-* *Űrlap post válasz mód* azt jelenti, hogy a hitelesítési kiszolgáló egy HTTP POST kérelem használja a azonosító token és engedélyezési kódot küldeni az alkalmazás. Az értékek a következők űrlap-urlencoded (tartalomtípus = "application/x-www-form-urlencoded").
+* *Hibrid folyamat* azt jelenti, hogy az ügyfél kérheti egy azonosító jogkivonat és a egy engedélyezési kód ugyanazon oda-vissza, az engedélyezési kiszolgáló.
+* *Űrlap post összesítéshez mód* azt jelenti, hogy az engedélyezési kiszolgáló HTTP-közzététel kérelmet használ az azonosító jogkivonat és engedélyezési kód küldése az alkalmazásnak. Az értékek a következők űrlap-kulcstárolókat (tartalomtípus = "application/x-www-form-urlencoded").
 
-A OIDC köztes átirányítja az engedélyezési végpont, amikor az átirányítási URL-címet tartalmazza az összes OIDC által igényelt lekérdezési karakterlánc paramétert. A hibrid folyamata:
+Ha a OIDC közbenső szoftver az engedélyezési végpontra irányítja, az átirányítási URL-cím tartalmazza az összes OIDC által igényelt, a lekérdezési karakterlánc paraméterei. A hibrid flow:
 
-* client_id. Ez az érték meg a **ClientId** beállítás
-* hatókör = "openid profil", ami azt jelenti, OIDC kérelmet, és azt szeretnénk, hogy a felhasználói profil.
-* response_type = "code id_token". Azt határozza meg a hibrid folyamata.
-* response_mode = "form_post". Azt határozza meg az űrlap post válasz.
+* client_id. Ez az érték meg a **ClientId** lehetőség
+* hatókör = "openid profile", ami azt jelenti, OIDC kérelmet, és szeretnénk, hogy a felhasználó profilját.
+* response_type = "code id_token". Azt határozza meg a hibrid folyamat.
+* response_mode = "form_post". Azt határozza meg a post válasz.
 
 Adjon meg egy másik folyamat, állítsa be a **ResponseType** tulajdonság a beállítások. Példa:
 

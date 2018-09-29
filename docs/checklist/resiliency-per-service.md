@@ -4,12 +4,12 @@ description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgált
 author: petertaylor9999
 ms.date: 03/02/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: f117a00b82df981134573018b55e70c3c29a6d46
-ms.sourcegitcommit: b38ba378c9d6110da2dfd50b4233fadd94604bb0
+ms.openlocfilehash: bf58ae6846423121c757b225640aa80577eef9fb
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/25/2018
-ms.locfileid: "47167421"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47429451"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -39,7 +39,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Hozzon létre egy külön tárfiókot a naplók számára.** Ne használja ugyanazt a tárfiókot a naplók és alkalmazásadatok. Ez segít megakadályozni a naplózás az alkalmazások teljesítményét csökkenti.
 
-**Teljesítmény figyelése.** A Teljesítményfigyelő szolgáltatás például [New relic-bővítménnyel](http://newrelic.com/) vagy [Application Insights](/azure/application-insights/app-insights-overview/) alkalmazások teljesítményének figyelése és a viselkedés terhelés alatt.  Alkalmazásteljesítmény-figyelő lehetővé teszi az alkalmazás valós idejű betekintést. Lehetővé teszi, hogy diagnosztizálhatja a problémákat, és a hibák alapvető okok elemzését.
+**Teljesítmény figyelése.** A Teljesítményfigyelő szolgáltatás például [New relic-bővítménnyel](https://newrelic.com/) vagy [Application Insights](/azure/application-insights/app-insights-overview/) alkalmazások teljesítményének figyelése és a viselkedés terhelés alatt.  Alkalmazásteljesítmény-figyelő lehetővé teszi az alkalmazás valós idejű betekintést. Lehetővé teszi, hogy diagnosztizálhatja a problémákat, és a hibák alapvető okok elemzését.
 
 ## <a name="application-gateway"></a>Application Gateway
 
