@@ -3,12 +3,12 @@ title: Azure Virtual Datacenter
 description: A Microsoft Azure Virtual Datacenter lehetséges erőforrásai
 keywords: Azure
 layout: LandingPage
-ms.openlocfilehash: 9b82122358085c37f89fb258034a4c9a91ecb054
-ms.sourcegitcommit: 8ec48a0e2c080c9e2e0abbfdbc463622b28de2f2
+ms.openlocfilehash: 5b5b6f58911e39ae1296722194b58c601b9baea8
+ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/18/2018
-ms.locfileid: "43324830"
+ms.lasthandoff: 09/28/2018
+ms.locfileid: "47428091"
 ---
 # <a name="azure-virtual-datacenter-and-the-enterprise-control-plane"></a>Az Azure Virtual Datacenter és a vállalati vezérlősík
 
@@ -17,9 +17,9 @@ Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az
 ## <a name="resources"></a>További források
 <table>
 <tr>
-    <td style="width: 64px; vertical-align: middle;"><a href="http://aka.ms/VDC/Concepts"><img src="../_images/virtual-datacenter.svg" alt="Virtual Datacenter eBook" /></a></td>
+    <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Concepts"><img src="../_images/virtual-datacenter.svg" alt="Virtual Datacenter eBook" /></a></td>
     <td>
-        <h3><a href="http://aka.ms/VDC/Concepts">Azure Virtual Datacenter: Alapfogalmak</a></h3>
+        <h3><a href="https://aka.ms/VDC/Concepts">Azure Virtual Datacenter: Alapfogalmak</a></h3>
         <p>Ez az e-könyv bemutatja, hogyan helyezhet üzembe vállalati számítási feladatokat az Azure-felhőplatformon a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett.</p>
     </td>
 </tr>
@@ -31,16 +31,16 @@ Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az
     </td>
 </tr>
 <tr>
-    <td style="width: 64px; vertical-align: middle;"><a href="http://aka.ms/VDC/Lift"><img src="./images/vdc-lift-and-shift.png" alt="Lift and Shift Guide" /></a></td>
+    <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Lift"><img src="./images/vdc-lift-and-shift.png" alt="Lift and Shift Guide" /></a></td>
     <td>
-        <h3><a href="http://aka.ms/VDC/Lift">Azure Virtual Datacenter: Átemelési útmutató </a></h3>
+        <h3><a href="https://aka.ms/VDC/Lift">Azure Virtual Datacenter: Átemelési útmutató </a></h3>
         <p>Ez a tanulmány bemutatja a folyamatot, amellyel a vállalat informatikai munkatársai és döntéshozói azonosíthatják az Azure-ba migrálni kívánt alkalmazásokat és kiszolgálókat, majd végrehajthatják a migrálást az átemelési módszerrel, amellyel minimalizálható a további szükséges fejlesztési költség, valamint és optimalizálhatók a felhőalapú üzemeltetési lehetőségek.</p>
     </td>
 </tr>
 <tr>
-    <td style="width: 64px; vertical-align: middle;"><a href="http://aka.ms/VDC/Deck"><img src="./images/vdc-deck.png" alt="Presentation Deck" /></a></td>
+    <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Deck"><img src="./images/vdc-deck.png" alt="Presentation Deck" /></a></td>
     <td>
-        <h3><a href="http://aka.ms/VDC/Deck">Virtual Datacenter: Prezentáció </a></h3>
+        <h3><a href="https://aka.ms/VDC/Deck">Virtual Datacenter: Prezentáció </a></h3>
         <p>Ez a prezentáció útmutatást ad az Azure virtuális adatközpont használatához, és bemutatja az eszközeit. Sorra veszi a virtuális adatközpontok céljait, az ügyfélszempontokat, az Azure-régiókat, a virtuális adatközpontok automatizálásának elemeit, az ipari és megbízható Azure virtuális adatközpontok listáját, végül pedig egy CIO-útmutatásra épülő akciótervet. Támogatási és képzési információkat is tartalmaz.</p>
     </td>
 </tr>
@@ -57,4 +57,4 @@ Az Azure Virtual Datacenter működését a következő négy összetevő teszi 
 Az Azure virtuálisadatközpont-modellben alkalmazhat elkülönítési szabályzatokat, a jól ismert fizikai adatközpontokhoz hasonlóbbá teheti a felhőt, továbbá elérheti a szükséges mértékű biztonságot és bizalmat. Ezt négy összetevő teszi lehetővé, amelyek minden vállalati informatikai csapat számára ismerősek: szoftveralapú hálózatkezelés, titkosítás, identitáskezelés és az Azure platform alapul szolgáló megfelelőségi szabványai és tanúsítványai. Ezek szükségesek ahhoz, hogy a virtuális adatközpont a meglévő infrastruktúra megbízható kiterjesztésévé váljon.
 
 
-Olvassa tovább az <a href="http://aka.ms/VDC/eBook">Azure Virtual Datacenter: Alapfogalmak</a> című e-könyvet.
+Olvassa tovább az <a href="https://aka.ms/VDC/eBook">Azure Virtual Datacenter: Alapfogalmak</a> című e-könyvet.
