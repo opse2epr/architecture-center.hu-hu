@@ -3,13 +3,13 @@ title: Forgatókönyvek és példák az előfizetés-irányítás
 description: Megvalósítása az Azure-előfizetés cégirányítási gyakori szituációhoz kínál példákat.
 author: rdendtler
 ms.date: 01/03/2017
-ms.author: rodend;karlku;tomfitz
-ms.openlocfilehash: 2c10b9a61be0cd7dadff6bfb327d938cc498c935
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.author: rodend
+ms.openlocfilehash: 51be0e1cdbcb3258102c9e4a4790764cada98d1e
+ms.sourcegitcommit: 9eecff565392273d11b8702f1fcecb4d75e27a15
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326671"
+ms.lasthandoff: 10/03/2018
+ms.locfileid: "48243665"
 ---
 # <a name="examples-of-implementing-azure-enterprise-scaffold"></a>Példák az Azure enterprise scaffold megvalósítása
 Ez a cikk példákat tartalmaz a vállalat hogyan valósíthat meg a javaslatok egy [Azure enterprise scaffold](azure-scaffold.md). Ajánlott eljárások a gyakori forgatókönyvek bemutatják egy kitalált, Contoso nevű vállalat használ.
