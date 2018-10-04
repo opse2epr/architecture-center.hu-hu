@@ -4,18 +4,43 @@ description: Referenciaarchitektúrák, tervek és részletes megvalósítási �
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 08/30/2018
-ms.openlocfilehash: bd04a866258fb2f6ff849a4f29492610d3545e1f
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.openlocfilehash: c96fc08aca97beb886fa96807d6f9cc5c09d0555
+ms.sourcegitcommit: 9eecff565392273d11b8702f1fcecb4d75e27a15
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040451"
+ms.lasthandoff: 10/03/2018
+ms.locfileid: "48243631"
 ---
 # <a name="azure-reference-architectures"></a>Azure-referenciaarchitektúrák
 
 A referenciaarchitektúrák forgatókönyv szerint vannak elrendezve, az egymáshoz kapcsolódó architektúrák pedig csoportosítva vannak. Minden architektúra tartalmaz ajánlott eljárásokat, valamint méretezhetőségre, rendelkezésre állásra, kezelhetőségre és biztonságra vonatkozó megfontolandó szempontokat. A legtöbb architektúra emellett üzembe helyezhető megoldást is tartalmaz.
 
-Ugrás ide: [Big data](#big-data-solutions) | [Webalkalmazások](#web-applications) | [N szintű alkalmazások](#n-tier-applications) | [Virtuális hálózatok](#virtual-networks) | [Active Directory](#extending-on-premises-active-directory-to-azure) | [Virtuális gépek számítási feladatai](#vm-workloads)
+Ugrás ide: [MI](#ai-and-machine-learning) | [Big Data](#big-data-solutions) | [N szintű alkalmazások](#n-tier-applications) | [Virtuális hálózatok](#virtual-networks) | [Active Directory](#extending-on-premises-active-directory-to-azure) | [Virtuális gépek számítási feladatai](#vm-workloads) | [Webalkalmazások](#web-applications)
+
+## <a name="ai-and-machine-learning"></a>MI és gépi tanulás
+
+<ul  class="panelContent cardsF">
+<!-- SQL Data Warehouse -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/batch-scoring-deep-learning.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/batch-ai.svg" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>A mélytanulási modellek kötegelt kiértékelése</h3>
+                        <p>A videókon neurális típusú transzfert alkalmazó kötegelt feladatok futtatásának automatizálása.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
 
 ## <a name="big-data-solutions"></a>Big data-megoldások
 
@@ -73,68 +98,6 @@ Ugrás ide: [Big data](#big-data-solutions) | [Webalkalmazások](#web-applicatio
                     <div class="cardText">
                         <h3>Streamek feldolgozása az Azure Stream Analyticsszel</h3>
                         <p>Teljes körű streamfeldolgozási folyamat, amely két adatstream rekordjait hasonlítja össze a gördülőátlag kiszámításához.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-</ul>
-
-## <a name="web-applications"></a>Webalkalmazások
-
-<ul  class="panelContent cardsF">
-<li style="display: flex; flex-direction: column;">
-    <a href="./app-service-web-app/basic-web-app.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Alapszintű webalkalmazás</h3>
-                        <p>Egy Azure App Service-t és Azure SQL Database-t használó webalkalmazás.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./app-service-web-app/scalable-web-app.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Nagymértékben skálázható webalkalmazás</h3>
-                        <p>Bevált módszerek a webalkalmazások méretezhetőségének javítására.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./app-service-web-app/multi-region.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Magas rendelkezésre állású webalkalmazás</h3>
-                        <p>A magas rendelkezésre állás elérése érdekében több régióban is futtathatja App Service-webalkalmazását.</p>
                     </div>
                 </div>
             </div>
@@ -541,3 +504,65 @@ Ugrás ide: [Big data](#big-data-solutions) | [Webalkalmazások](#web-applicatio
 </li>
 </ul>
 
+
+## <a name="web-applications"></a>Webalkalmazások
+
+<ul  class="panelContent cardsF">
+<li style="display: flex; flex-direction: column;">
+    <a href="./app-service-web-app/basic-web-app.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/app-service.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Alapszintű webalkalmazás</h3>
+                        <p>Egy Azure App Service-t és Azure SQL Database-t használó webalkalmazás.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./app-service-web-app/scalable-web-app.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/app-service.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Nagymértékben skálázható webalkalmazás</h3>
+                        <p>Bevált módszerek a webalkalmazások méretezhetőségének javítására.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./app-service-web-app/multi-region.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/app-service.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Magas rendelkezésre állású webalkalmazás</h3>
+                        <p>A magas rendelkezésre állás elérése érdekében több régióban is futtathatja App Service-webalkalmazását.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
