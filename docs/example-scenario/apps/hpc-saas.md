@@ -1,16 +1,16 @@
 ---
-title: Számítógéppel támogatott mérnöki (CAE-) SaaS-platformként az Azure-ban
-description: Ez a forgatókönyv bemutatja, ajánlott eljárások az Azure-on futtatott egy számítógéppel támogatott mérnöki (CAE-) szoftver--szolgáltatásként (SaaS) platform
+title: Számítógéppel támogatott mérnöki szolgáltatás az Azure-ban
+description: Adja meg a szoftver--szolgáltatásként (SaaS) platform számítógéppel támogatott mérnöki (CAE-) az Azure-ban.
 author: alexbuckgit
 ms.date: 08/22/2018
-ms.openlocfilehash: 4658faf1e8cc8ecbfc7881cef6319bb902adbbd4
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: d17ac218052c5b98e8790f1386be035618a2d957
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428635"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818683"
 ---
-# <a name="computer-aided-engineering-cae-saas-platform-on-azure"></a>Számítógéppel támogatott mérnöki (CAE-) SaaS-platformként az Azure-ban
+# <a name="a-computer-aided-engineering-service-on-azure"></a>Számítógéppel támogatott mérnöki szolgáltatás az Azure-ban
 
 A példaforgatókönyv azt szemlélteti, hogy az Azure nagy teljesítményű feldolgozási (HPC-) funkcióit épülő szoftverek,-szolgáltatásként nyújtott (SaaS) platform kézbesítési. Ebben a forgatókönyvben egy mérnöki szoftvermegoldás alapul. Az architektúra azonban fontos egyéb HPC-erőforrások, például a képrenderelés, összetett modellezés és pénzügyi kockázat számítása igénylő iparágakban.
 
@@ -20,11 +20,11 @@ A vállalat úgy kívánja bontsa ki a rajtuk található alkalmazások számár
 
 A vállalati célok a következők:
 
-* Gyorsítsa fel a termék tervezési és a tesztelési folyamat az Azure-ban kihasználhatja a HPC-képességek
-* A legújabb hardveres innovációknak használatával összetett szimulációk futtatásához minimalizálhatók a költségek egyszerűbb szimulációkhoz  
-* True-élettartam Vizualizáció engedélyezése és a egy webböngészőben, anélkül, hogy a csúcskategóriás műszaki munkaállomás megjelenítése
+* Kihasználhatja a HPC-képességek az Azure-ban, a termék tervezési és a tesztelési folyamat meggyorsítása érdekében.
+* Használja a legújabb hardveres innovációknak minimalizálhatók a költségek egyszerűbb szimulációkhoz összetett szimulációk futtatásához.
+* Igaz élettartam Vizualizáció engedélyezése, és egy webböngészőben, anélkül, hogy a csúcskategóriás műszaki munkaállomás megjelenítése.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ez az architektúra használatával egyéb forgatókönyvek a következők lehetnek:
 
@@ -45,8 +45,8 @@ Ez az architektúra használatával egyéb forgatókönyvek a következők lehet
 * [H-sorozatú virtual machineshez](/azure/virtual-machines/linux/sizes-hpc) gombfolyamatokkal nagy számítási igényű szimulációk, például a molekuláris modellezés és folyadékdinamika. A megoldás is kihasználja a technológiákkal, mint például a távoli közvetlen memória-hozzáféréses (RDMA) kapcsolat és InfiniBand hálózatok.
 * [NV-sorozat virtuális gépei](/azure/virtual-machines/windows/sizes-gpu) csúcskategóriás munkaállomás funkció mérnökök adjon egy standard webböngészőből. Ezek a virtuális gépek rendelkeznek az NVIDIA Tesla M60 gpu-kat, amely támogatja a speciális megjelenítés és különálló precíziós számítási feladatokat futtathat.
 * [Általános célú virtuális gépek](/azure/virtual-machines/linux/sizes-general) futó CentOS például webalkalmazások hagyományosabb munkaterhelések kezelésére.
-* [Az Application Gateway](/azure/application-gateway/) elosztja a terhelést a webkiszolgálók érkező kérelmeket.
-* [Az Azure Kubernetes Service (AKS)](/azure/aks/) szimulációkhoz, amelyeknek nincs szükségük a HPC- vagy GPU virtuális gépek nagy képességeit alacsonyabb költségekkel méretezhető számítási feladatok futtatására szolgál.
+* [Az Application Gateway](/azure/application-gateway/overview) elosztja a terhelést a webkiszolgálók érkező kérelmeket.
+* [Az Azure Kubernetes Service (AKS)](/azure/aks/intro-kubernetes) szimulációkhoz, amelyeknek nincs szükségük a HPC- vagy GPU virtuális gépek nagy képességeit alacsonyabb költségekkel méretezhető számítási feladatok futtatására szolgál.
 * [Altair PBS Works Suite](https://www.pbsworks.com/PBSProduct.aspx?n=PBS-Works-Suite&c=Overview-and-Capabilities) koordinálja a HPC munkafolyamat, biztosítva, hogy elegendő virtuálisgép-példányok érhetők el a jelenlegi terhelés kezeléséhez. Is felszabadítja a virtuális gépeket, ha igény szerinti alacsonyabb költségek csökkentése érdekében.
 * [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) tárolja a fájlokat, amelyek támogatják az ütemezett feladatok. 
 
@@ -75,9 +75,9 @@ Az alábbi szempontokat a költségek, a megoldás egy jelentős része lesz meg
 ## <a name="next-steps"></a>További lépések
 
 * Olvassa el a [Altair vásárlói beszámolónk][source-document]. Ebben a példaforgatókönyvben architektúráját verzióján alapul.
-* Tekintse át a többi [Big Compute-megoldások](https://azure.microsoft.com/en-us/solutions/big-compute/) elérhető az Azure-ban.
+* Tekintse át a többi [Big Compute-megoldások](https://azure.microsoft.com/solutions/big-compute) elérhető az Azure-ban.
 
 <!-- links -->
+[architecture]: ./media/architecture-hpc-saas.png
 [source-document]: https://customers.microsoft.com/story/altair-manufacturing-azure
-[architecture]: ./media/architecture-diagram-hpc-saas.png
 [calculator]: https://azure.com/e/3cb9ccdc893f41ffbcdb00c328178ccf

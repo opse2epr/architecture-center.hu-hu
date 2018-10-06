@@ -1,22 +1,22 @@
 ---
 title: A szabályozott iparágakban a Windows-webalkalmazás védelméhez
-description: Ez a forgatókönyv bevált, amellyel egy biztonságos, többrétegű webes alkalmazás a Windows Server az Azure-ban, hogy használja a méretezési csoportokat, Application Gateway, és a terheléselosztók.
+description: A Windows Server biztonságos, többrétegű webes alkalmazás készítése az Azure-ban a méretezési csoportok, Application Gateway, és terheléselosztókat.
 author: iainfoulds
 ms.date: 07/11/2018
-ms.openlocfilehash: 780b82791510b6ca06ef918b66d2547794dfcf87
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 584b5891f9b3d8e174c3eb29835a525ae4a4f156
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428754"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48819006"
 ---
 # <a name="secure-windows-web-application-for-regulated-industries"></a>A szabályozott iparágakban a Windows-webalkalmazás védelméhez
 
-Ez a mintaforgatókönyv olyan szabályozott iparágakban, hogy a többrétegű alkalmazások biztonságos alkalmazható. Ebben a forgatókönyvben egy előtérbeli ASP.NET-alkalmazások biztonságos módon csatlakozik egy védett háttérrendszeri Microsoft SQL Server-fürt.
+Ebben a példaforgatókönyvben kell alkalmazni a szabályozott iparágakban, hogy a többrétegű alkalmazások védelmét. Ebben a forgatókönyvben egy előtérbeli ASP.NET-alkalmazások biztonságos módon csatlakozik egy védett háttérrendszeri Microsoft SQL Server-fürt.
 
 Példaforgatókönyvek alkalmazás például operációs hely alkalmazások, betegek találkozókat, és gondoskodik a rekordok vagy vényköteles refills fut, és a rendezéshez. Hagyományosan szervezetek kellett karbantartása örökölt helyszíni alkalmazások és szolgáltatások az ilyen feladatokhoz szükséges. Méretezhető megoldás üzembe helyezéséhez a Windows Server az Azure-ban, a szervezetek is alkalmazások modernizálása és biztonságos módon telepítések vannak csökkentheti a helyszíni üzemeltetési költségeket és munkaterhelést.
 
-## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
@@ -30,28 +30,28 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 Ebben a forgatókönyvben egy ASP.NET- és Microsoft SQL Servert használó többrétegű szabályozott iparágakban alkalmazás ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
-1. A felhasználók az előtérbeli ASP.NET szabályozott iparágakban alkalmazást az Azure Application Gateway segítségével érik.
+1. Felhasználók az előtér-ASP.NET szabályozott iparágakban alkalmazás az Azure Application Gateway keresztül férhetnek hozzá.
 2. Az Application Gateway elosztja a forgalmat egy Azure-beli virtuálisgép-méretezési csoportban lévő Virtuálisgép-példányok között.
-3. Az ASP.NET-alkalmazás csatlakozik a Microsoft SQL Server-fürt a háttérrendszer szinten az Azure load balancer-n keresztül. Ezek háttér SQL Server példányai egy külön Azure virtuális hálózatban, védi a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat.
+3. Az ASP.NET-alkalmazás csatlakozik a Microsoft SQL Server-fürtöt a háttér-szinten keresztül egy Azure load balancert. A háttér-az SQL Server példányai egy külön Azure virtuális hálózatban, védi a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat.
 4. A terheléselosztó elosztja a forgalmat az SQL Server egy másik virtuálisgép-méretezési csoportban lévő Virtuálisgép-példányok között.
-5. Az Azure Blob Storage az SQL Server-fürt a háttérrendszer szintű Felhőbeli tanúsító funkcionál.  A kapcsolat a virtuális hálózaton belül a virtuális hálózati szolgáltatásvégpontot az Azure Storage engedélyezve van.
+5. Az Azure Blob Storage a háttér-szintű SQL Server-fürtöt Felhőbeli tanúsító funkcionál. A kapcsolat a virtuális hálózaton belül a virtuális hálózati szolgáltatásvégpontot az Azure Storage engedélyezve van.
 
 ### <a name="components"></a>Összetevők
 
 * [Az Azure Application Gateway] [ appgateway-docs] egy 7. rétegbeli webes forgalom terheléselosztó, amely alkalmazásbarát és terjeszthetnek a forgalmat az adott útválasztási szabályok alapján. Alkalmazásátjáró is képes kezelni az SSL-kiürítés, a továbbfejlesztett webkiszolgáló teljesítményét.
 * [Az Azure Virtual Network] [ vnet-docs] lehetővé teszi az erőforrások, például virtuális gépek biztonságosan kommunikálnak egymással, az internethez, és a helyszíni hálózatokkal. Virtuális hálózatok adja meg az elkülönítés és Szegmentálás, szűrő és útvonal-forgalom és helyek közötti kapcsolat engedélyezését. Két virtuális hálózat kombinálva a megfelelő NSG-k segítségével ebben a forgatókönyvben adja meg egy [demilitarizált zóna] [ dmz] (DMZ) és az alkalmazás-összetevők elkülönítését. A két hálózat virtuális hálózatok közötti társviszony együtt kapcsolódik.
-* [Azure-beli virtuálisgép-méretezési csoport] [ scaleset-docs] lehetővé teszi, hogy hozzon létre és manager azonos, load csoportja elosztott terhelésű virtuális gépek. A virtuálisgép-példányok száma automatikusan növelhető vagy csökkenthető a pillanatnyi igényeknek megfelelően vagy egy meghatározott ütemezés szerint. Ez a forgatókönyv - egyet az előtér az ASP.NET alkalmazás példányai, és a egy SQL Server fürt háttérbeli Virtuálisgép-példányokhoz két külön virtuálisgép-méretezési csoportok használhatók. PowerShell kívánt állapot configuration (DSC) vagy az Azure egyéni szkriptek futtatására szolgáló bővítmény a szükséges szoftverekkel és a konfigurációs beállítások VM-példányok kiépítéséhez használható.
+* [Azure-beli virtuálisgép-méretezési csoport] [ scaleset-docs] lehetővé teszi, hogy hozzon létre és manager azonos, load csoportja elosztott terhelésű virtuális gépek. A virtuálisgép-példányok száma automatikusan növelhető vagy csökkenthető a pillanatnyi igényeknek megfelelően vagy egy meghatározott ütemezés szerint. Ez a forgatókönyv - egyet az előtér-ASP.NET alkalmazás példányai, és a egy SQL Server fürt háttérbeli Virtuálisgép-példányokhoz két külön virtuálisgép-méretezési csoportok használhatók. PowerShell kívánt állapot configuration (DSC) vagy az Azure egyéni szkriptek futtatására szolgáló bővítmény a szükséges szoftverekkel és a konfigurációs beállítások VM-példányok kiépítéséhez használható.
 * [Azure-beli hálózati biztonsági csoportok] [ nsg-docs] tartalmaznak, amelyek engedélyezik vagy megtagadják a bejövő vagy kimenő hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján biztonsági szabályokból álló listát. Ebben a forgatókönyvben a virtuális hálózatok a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat az alkalmazás-összetevők közötti biztonságosak.
-* [Az Azure load balancer] [ loadbalancer-docs] osztja el a szabályok és az állapotmintákat megfelelően bejövő forgalmat. Egy terheléselosztót biztosít alacsony késéssel és nagy átviteli sebességet, és akár több milliónyi összes TCP és UDP-alkalmazás méretezhető. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttérrendszer SQL Server-fürt az előtér-alkalmazás szintről forgalom elosztása.
+* [Az Azure load balancer] [ loadbalancer-docs] osztja el a szabályok és az állapotmintákat megfelelően bejövő forgalmat. Egy terheléselosztót biztosít alacsony késéssel és nagy átviteli sebességet, és akár több milliónyi összes TCP és UDP-alkalmazás méretezhető. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttér SQL Server-fürt az előtér-alkalmazás szintről forgalom elosztása.
 * [Az Azure Blob Storage] [ cloudwitness-docs] működik az SQL Server-fürt Felhőbeli tanúsító helyét. A tanúsító szolgál a fürt működését és a egy dönthet arról, hogy a kvórum további szavazata szükséges döntéseket. Használatával a Felhőbeli tanúsító nincs szükség az működjön egy hagyományos tanúsító fájlmegosztást, egy további virtuális Gépre.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
 * * nix windows is könnyen helyettesíthető más operációs rendszerek különböző, az operációs rendszertől függ az infrastruktúra a.
 
-* [Az SQL Server for Linux] [ sql-linux] lecserélheti a háttérbeli adattárba.
+* [Az SQL Server for Linux] [ sql-linux] lecserélheti a háttér-tárolót.
 
-* [A cosmos DB] [ cosmos] egy másik alternatíva az adattároló.
+* [A cosmos DB](/azure/cosmos-db/introduction) egy másik alternatíva az adattároló.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -65,13 +65,13 @@ Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenő
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Ebben a forgatókönyvben a virtual machine scale sets az előtér- és háttérportokat összetevőket használ. A méretezési csoportok a frontend alkalmazásrétegek futtató Virtuálisgép-példányok száma automatikusan méretezheti az ügyfelek igényei szerint válaszul, vagy egy meghatározott ütemezés alapján. További információkért lásd: [az automatikus méretezés a virtual machine scale sets áttekintése][vmssautoscale-docs].
+Ebben a forgatókönyvben a virtual machine scale sets az előtér- és összetevőket használ. A méretezési csoportok az előtér-alkalmazás szinten futtató Virtuálisgép-példányok száma automatikusan méretezheti az ügyfelek igényei szerint válaszul, vagy egy meghatározott ütemezés alapján. További információkért lásd: [az automatikus méretezés a virtual machine scale sets áttekintése][vmssautoscale-docs].
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
-A virtuális hálózat hálózati biztonsági csoportok által védett, és a forgalom az előtér-alkalmazás szint be. A szabályok korlátozzák a forgalmat, hogy csak az előtérbeli alkalmazás szintű Virtuálisgép-példányok férhessenek hozzá a háttér adatbázis szint. Nincs kimenő internetes forgalom engedélyezve van az adatbázisszint. A támadás által elfoglalt tárterület csökkentéséhez nincs közvetlen Távoli szolgáltatásfelügyelet portjai nyitva. További információkért lásd: [Azure-beli hálózati biztonsági csoportok][nsg-docs].
+A virtuális hálózat hálózati biztonsági csoportok által védett, és a forgalom az előtér-alkalmazás szinten be. A szabályok korlátozzák a forgalmat, hogy csak az előtér-alkalmazás szintű Virtuálisgép-példányok férhessenek hozzá a háttér adatbázis szint. Nincs kimenő internetes forgalom engedélyezve van az adatbázisszint. A támadás által elfoglalt tárterület csökkentéséhez nincs közvetlen Távoli szolgáltatásfelügyelet portjai nyitva. További információkért lásd: [Azure-beli hálózati biztonsági csoportok][nsg-docs].
 
 Útmutató megtekintése a Payment Card Industry Data Security Standards (PCI DSS 3.2) üzembe helyezése [megfelelő infrastruktúra][pci-dss]. Biztonságos forgatókönyvek tervezésével kapcsolatos általános útmutatásért tekintse meg a [Azure Security dokumentációja][security].
 
@@ -102,27 +102,26 @@ Az üzembe helyezés befejeződik 15 – 20 percet is igénybe vehet.
 
 ## <a name="pricing"></a>Díjszabás
 
-Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált.  Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
+Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mindegyike a költségkalkulátor az előre konfigurált. Tekintse meg, hogyan díjszabását szeretné módosítani az adott használati esetekhez, módosítsa a megfelelő változókat egyezik a várt forgalomhoz.
 
 A méretezési csoport Virtuálisgép-példányain az alkalmazásokat futtató száma alapján három példa költség profilok adtunk meg.
 
-* [Kis][small-pricing]: a díjszabási példa két előtér- és két háttérbeli Virtuálisgép-példányok utal.
-* [Közepes][medium-pricing]: a díjszabási példa korrelációt keres a 20 előtérbeli és háttérbeli 5 Virtuálisgép-példányok között.
-* [Nagy][large-pricing]: a díjszabási példa korrelációt keres a 100 előtérbeli és háttérbeli 10 Virtuálisgép-példányok között.
+* [Kis][small-pricing]: a díjszabási példa korrelációt keres a két előtér-és két háttérbeli Virtuálisgép-példányok között.
+* [Közepes][medium-pricing]: 20 előtér- és 5 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
+* [Nagy][large-pricing]: 100 előtérrendszer, mind a 10 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Ebben a forgatókönyvben egy háttérbeli virtuális gép méretezési csoportot, amely a Microsoft SQL Server-fürt fut használja. Az Azure Cosmos DB is használható, méretezhető és biztonságos adatbázis-rétegből az alkalmazásadatok számára. Egy [Azure virtuális hálózati szolgáltatásvégpont] [ vnetendpoint-docs] lehetővé teszi, hogy csak a virtuális hálózatot a kritikus fontosságú Azure-szolgáltatási erőforrások védelmét. Ebben a forgatókönyvben a VNet végpontok engedélyezése az előtér-alkalmazás szint és a Cosmos DB közötti adatforgalom biztonságossá teheti. További információ a Cosmos DB: [Azure Cosmos DB áttekintő][azurecosmosdb-docs].
+Ebben a forgatókönyvben egy háttérbeli virtuális gép méretezési csoportot, amely a Microsoft SQL Server-fürt használja. A cosmos DB is használható, méretezhető és biztonságos adatbázis-rétegből az alkalmazásadatok számára. Egy [Azure virtuális hálózati szolgáltatásvégpont] [ vnetendpoint-docs] lehetővé teszi, hogy csak a virtuális hálózatot a kritikus fontosságú Azure-szolgáltatási erőforrások védelmét. Ebben a forgatókönyvben a VNet-végpontok engedélyezése az előtér-alkalmazás szint és a Cosmos DB közötti adatforgalom biztonságossá teheti. További információkért lásd az [Azure Cosmos DB áttekintése][docs-cosmos-db](/azure/cosmos-db/introduction).
 
-Akkor is megtekintheti egy alapos [referenciaarchitektúra az SQL Server általános N szintű alkalmazás][ntiersql-ra].
+Megtekintheti a részletes [referenciaarchitektúra általános SQL Server használatával N szintű alkalmazás][ntiersql-ra].
 
 <!-- links -->
 [appgateway-docs]: /azure/application-gateway/overview
-[architecture]: ./media/regulated-multitier-app/architecture-regulated-multitier-app.png
+[architecture]: ./media/architecture-regulated-multitier-app.png
 [autoscaling]: /azure/architecture/best-practices/auto-scaling
 [availability]: ../../checklist/availability.md
 [azureaz-docs]: /azure/availability-zones/az-overview
-[azurecosmosdb-docs]: /azure/cosmos-db/introduction
 [cloudwitness-docs]: /windows-server/failover-clustering/deploy-cloud-witness
 [loadbalancer-docs]: /azure/load-balancer/load-balancer-overview
 [nsg-docs]: /azure/virtual-network/security-overview
@@ -137,7 +136,6 @@ Akkor is megtekintheti egy alapos [referenciaarchitektúra az SQL Server által�
 [vnetendpoint-docs]: /azure/virtual-network/virtual-network-service-endpoints-overview
 [pci-dss]: /azure/security/blueprints/pcidss-iaaswa-overview
 [dmz]: /azure/virtual-network/virtual-networks-dmz-nsg
-[cosmos]: /azure/cosmos-db/
 [sql-linux]: /sql/linux/sql-server-linux-overview?view=sql-server-linux-2017
 
 [small-pricing]: https://azure.com/e/711bbfcbbc884ef8aa91cdf0f2caff72

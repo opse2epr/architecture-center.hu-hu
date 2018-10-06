@@ -4,12 +4,12 @@ description: A Microsoft Azure szolgáltatásban futó magas rendelkezésre áll
 author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
-ms.openlocfilehash: 2efcc591695e1c592053ea32832fe15e624df2e1
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.openlocfilehash: 9fae95c0c0d38a756c10f37864495caad5ebda3b
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "43016122"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48819057"
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Webalkalmazás futtatása több régióban
 [!INCLUDE [header](../../_includes/header.md)]
@@ -165,6 +165,6 @@ Ha az elsődleges adatbázis meghibásodik, hajtson végre manuális feladatátv
 [tm-monitoring]: /azure/traffic-manager/traffic-manager-monitoring
 [tm-ps]: /powershell/module/azurerm.trafficmanager
 [tm-routing]: /azure/traffic-manager/traffic-manager-routing-methods
-[tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager/v1_0/
-[traffic-manager]: https://azure.microsoft.com/services/traffic-manager/
+[tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager
+[traffic-manager]: https://azure.microsoft.com/services/traffic-manager
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/app-service-reference-architectures.vsdx

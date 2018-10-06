@@ -1,14 +1,14 @@
 ---
 title: E-kereskedelmi termék intelligens keresőmotort
-description: Látható egy példán keresztül, ahol az Azure Search egy e-kereskedelmi alkalmazásban világszínvonalú keresési funkciókat biztosít szolgál
+description: Adjon meg egy e-kereskedelmi alkalmazásban világszínvonalú keresési funkciókat.
 author: jelledruyts
 ms.date: 09/14/2018
-ms.openlocfilehash: 064567b4ad83551c59ad8c083540a69fb9f9afba
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: f18e9fd3705c24da71da747c46ab42f263fd06af
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428329"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818752"
 ---
 # <a name="intelligent-product-search-engine-for-e-commerce"></a>E-kereskedelmi termék intelligens keresőmotort
 
@@ -16,9 +16,9 @@ A példa forgatókönyv bemutatja, hogyan egy dedikált keresési szolgáltatás
 
 Keresés az elsődleges mechanizmusa keresztül, amely ügyfelek keresése és így alapvető fontosságú, hogy a keresési eredmények relevánsak, végső soron vásárolt termékek, a _szándékot_ , a keresési lekérdezést, és hogy a teljes körű felhasználói élményt keresése felel meg, hogy keresési eldobást azáltal, hogy közel azonnali eredmények, a nyelvi elemzés, a megfelelő földrajzi hely, a szűrés, értékkorlátozás, automatikus kiegészítéssel találatok kiemelését stb.
 
-Egy tipikus e-kereskedelmi webalkalmazás Imagine termék adatok egy relációs adatbázisban, például az SQL Server vagy az Azure SQL Database tárolja. Keresési lekérdezések gyakran kezeli az adatbázis parancsával `LIKE` lekérdezések vagy [teljes szöveges keresés] [ docs-sql-fts] funkciókat. Használatával [Azure Search] [ docs-search] ehelyett szabadítsa fel a lekérdezés feldolgozása az operatív adatbázis, és könnyen megkezdheti kihasználhatja ezeket a rögzített megvalósítása funkciókat biztosítanak a a lehetséges legjobb keresése rendelkező ügyfelek tapasztalható. És mivel az Azure Search-Platform--szolgáltatásként (PaaS) összetevő, nem kell aggódnia az infrastruktúra felügyeletével vagy egy keresési szakértői váljon.
+Egy tipikus e-kereskedelmi webalkalmazás Imagine termék adatok egy relációs adatbázisban, például az SQL Server vagy az Azure SQL Database tárolja. Keresési lekérdezések gyakran kezeli az adatbázis parancsával `LIKE` lekérdezések vagy [teljes szöveges keresés] [ docs-sql-fts] funkciókat. Használatával [Azure Search] [ docs-search] ehelyett szabadítsa fel a lekérdezés feldolgozása az operatív adatbázis, és könnyen megkezdheti kihasználhatja ezeket a rögzített megvalósítása funkciókat biztosítanak a a lehetséges legjobb keresése rendelkező ügyfelek tapasztalható. Is mivel az Azure Search egy platformszolgáltatás (PaaS) összetevő platformként, nem kell aggódnia az infrastruktúra felügyeletével vagy egy keresési szakértői váljon.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ezek használati esetek hasonló tervezési minták rendelkezik:
 
@@ -52,11 +52,11 @@ Ebben a forgatókönyvben egy elektronikus kereskedelmi megoldás, ahol a termé
 
 * Használhat **adatbázis-keresés** képességek, például az SQL Server teljes szöveges keresés, de a tranzakciós üzlet keresztül is feldolgozza a lekérdezések (megnőtt az igény a feldolgozási teljesítményt) és a keresési funkciókkal az adatbázisban korlátozott.
 * Sikerült üzemelteti a nyílt forráskódú [Apache Lucene] [ apache-lucene] (amely az Azure Search épül) az Azure-beli virtuális gépeken, majd ismét, hogy infrastruktúra--szolgáltatásként (IaaS) kezelése, és nem előnyeit, de az Azure Search Lucene felett biztosít számos funkciót.
-* Emellett érdemes lehet telepítése [Elasticsearch] [ elastic-marketplace] az Azure piactéren, amely egy alternatív és képes keresési termék külső szállítótól származó, de is ebben az esetben futtat egy IaaS számítási feladatok.
+* Emellett érdemes lehet telepítése [rugalmas keresés] [ elastic-marketplace] az Azure piactéren, amely egy alternatív és képes keresési termék külső szállítótól származó, de is ebben az esetben futtat egy IaaS számítási feladatok.
 
 Egyéb lehetőségek az adatréteg számára a következők:
 
-* [A cosmos DB] [ docs-cosmosdb] – a Microsoft globálisan elosztott, többmodelles adatbázis. Costmos DB futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű. Az Azure Search is támogatja a Cosmos DB-ből az adatokat közvetlenül az indexelés.
+* [A cosmos DB](/azure/cosmos-db/introduction) – a Microsoft globálisan elosztott, többmodelles adatbázis. Costmos DB futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű. Az Azure Search is támogatja a Cosmos DB-ből az adatokat közvetlenül az indexelés.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -102,21 +102,20 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 * [Közepes][medium-pricing]: Itt azt a webalkalmazást a két példánya méretezése vannak a `Standard S3` szint, a keresési szolgáltatás frissítése egy `Standard S1` szinthez, majd a használatával egy `Standard S6` SQL-adatbázis.
 * [Nagy][large-pricing]: négy példányát használjuk a legnagyobb profil egy `Premium P2V2` Web App, frissítse az Azure Bot service az a `Standard S1` szint (1.000.000 az üzeneteket a prémium szintű csatornák), használja, a 2egység`Standard S3`Azure Search szolgáltatást, és a egy `Premium P6` SQL-adatbázis.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Azure Search kapcsolatos további információkért látogasson el a [dokumentációs központban][docs-search], tekintse meg a [minták][search-samples], vagy tekintse meg a teljes körű [– bemutató webhely] [ search-demo] működés közben.
 
 <!-- links -->
-[architecture]: ./media/ecommerce-search/architecture-ecommerce-search.png
+[architecture]: ./media/architecture-ecommerce-search.png
 [docs-sql-fts]: /sql/relational-databases/search/query-with-full-text-search
 [docs-search]: /azure/search/search-what-is-azure-search
 [docs-sql-database]: /azure/sql-database/sql-database-technical-overview
 [docs-webapps]: /azure/app-service/app-service-web-overview
 [docs-botservice]: /azure/bot-service/
 [docs-cognitive]: /azure/cognitive-services/
-[docs-cosmosdb]: /azure/cosmos-db/
 [apache-lucene]: https://lucene.apache.org/
-[elastic-marketplace]: https://azuremarketplace.microsoft.com/en-us/marketplace/apps/elastic.elasticsearch
+[elastic-marketplace]: https://azuremarketplace.microsoft.com/marketplace/apps/elastic.elasticsearch
 [end-to-end-walkthrough]: https://github.com/Azure/fta-customerfacingapps/tree/master/ecommerce/articles
 [search-sla]: https://go.microsoft.com/fwlink/?LinkId=716855
 [search-tier]: /azure/search/search-sku-tier

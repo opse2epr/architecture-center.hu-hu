@@ -1,24 +1,24 @@
 ---
-title: Az SAP futtatása az Oracle-adatbázishoz az Azure éles környezetben
-description: Egy forgatókönyv példáján megjelenítése egy SAP éles üzembe helyezés az Azure-ban Oracle-adatbázishoz.
+title: Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
+description: Futtassa az SAP éles üzembe helyezés az Azure-ban Oracle-adatbázishoz.
 author: DharmeshBhagat
 ms.date: 9/12/2018
-ms.openlocfilehash: de70b79a408593c7a81f26170c7b71522e9cf3f1
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 4c0e054a9024cd50581acd5b472a09d6e98d2bed
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429604"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818570"
 ---
-# <a name="running-sap-in-production-using-an-oracle-database-on-azure"></a>Az SAP futtatása az Oracle-adatbázishoz az Azure éles környezetben
+# <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
 Kritikus fontosságú üzleti alkalmazások futtatásához használt SAP-rendszereinket. Bármilyen kimaradásról címmódosítás megszakítja a kulcsfontosságú folyamatokat, és a nagyobb költségek és elveszített bevétel okozhat. Ezen eredmények elkerülve szükséges egy SAP-infrastruktúra, amely magas rendelkezésre állású és rugalmas hibák esetén.
 
 Egy magas rendelkezésre állású SAP-környezet létrehozása szükséges, távolítsa el a rendszer-architektúra és a folyamatok hibáinak hibaérzékeny pontokat. A hibaérzékeny pontokat hely hibák, a rendszer összetevőinek hiba vagy akár emberi hiba okozhatja.
 
-A példaforgatókönyv azt szemlélteti, Windows vagy Linux rendszerű virtuális gépek (VM) az Azure-ban egy magas rendelkezésre állású (HA) Oracle database és a egy SAP üzemelő példányt.  Az SAP üzembe helyezés igényei alapján különböző méretű virtuális gépeket is használhatja.
+A példaforgatókönyv azt szemlélteti, Windows vagy Linux rendszerű virtuális gépek (VM) az Azure-ban egy magas rendelkezésre állású (HA) Oracle database és a egy SAP üzemelő példányt. Az SAP üzembe helyezés igényei alapján különböző méretű virtuális gépeket is használhatja.
 
-## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Vegye figyelembe az ebben a példában a következő forgatókönyvekhez:
 
@@ -42,7 +42,7 @@ Ebben a példában egy magas rendelkezésre állású konfiguráció egy Oracle 
 
 * [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) ebben a forgatókönyvben az Azure-beli virtuális Központ-küllő topológia létrehozásához használt.
 * [Virtuális gépek](/azure/virtual-machines/windows/overview) adja meg azokat a számítási erőforrásokat a megoldás minden egyes szinthez. A virtuális gépek minden egyes fürt van konfigurálva, egy [rendelkezésre állási csoport](/azure/virtual-machines/windows/regions-and-availability#availability-sets).
-* [Express Route](/azure/expressroute/expressroute-introduction) kiterjeszti a helyszíni hálózatot a kapcsolatszolgáltató által létrehozott egy privát kapcsolaton keresztül a Microsoft-felhőbe.
+* [Az ExpressRoute](/azure/expressroute/expressroute-introduction) kiterjeszti a helyszíni hálózatot a kapcsolatszolgáltató által létrehozott egy privát kapcsolaton keresztül a Microsoft-felhőbe.
 * [Hálózati biztonsági csoportok (NSG)](/azure/virtual-network/security-overview) egy virtuális hálózatban lévő erőforrásokra irányuló hálózati hozzáférés korlátozásához. Hálózati biztonsági csoportok biztonsági szabályokat, amelyek engedélyezik vagy megtagadják a hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján listáját tartalmazza. 
 * [Erőforráscsoportok](/azure/azure-resource-manager/resource-group-overview#resource-groups) logikai tárolóként szolgálnak az Azure-erőforrásokhoz.
 
@@ -72,7 +72,8 @@ Adtunk meg négy példa költség profilok kaphat forgalom mennyisége alapján:
 Nagy|180000|E32s_v3|5xP30, 1xP20|DS11_v2|1 x P10|6 x DS14_v2|1 x P10|[Nagy méretű](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42)|
 Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1 x P10|10 x DS14_v2|1 x P10|[Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b)|
 
-Megjegyzés: egy útmutató, díjszabás, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit. Nem tartalmazza a hálózati, biztonsági mentési tár, és a bejövő/kimenő adatforgalom díját.
+> [!NOTE]
+> A díjszabás egy útmutató, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit. Nem tartalmazza a hálózati, biztonsági mentési tár, és a bejövő/kimenő adatforgalom díját.
 
 * [Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c): az adatbázis-kiszolgáló 8 x vCPUs, 56 GB RAM és 112 GB-os ideiglenes tárterület,-továbbá öt 512 GB-os prémium szintű tárolólemezeket a VM-típus DS13_v2 egy kis rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Egy egyetlen VM-típus DS13_v2 az SAP-alkalmazáskiszolgáló 8 x vCPUs, 56 GB RAM és 400-GB ideiglenes tárhely, továbbá egy 128 GB-os prémium szintű storage lemezzel.
 
@@ -96,10 +97,10 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Más SAP éles környezetben használja az Azure-ban fut, tekintse át a következő SAP referenciaarchitektúrákat:
+Egyéb SAP számítási feladatok futtatása az Azure-ban kapcsolatos információkért tekintse át a következő referenciaarchitektúrákat:
 * [SAP NetWeaver a AnyDB](/azure/architecture/reference-architectures/sap/sap-netweaver) 
-* [SAP S/4hana-t](/azure/architecture/reference-architectures/sap/sap-s4hana)
-* [Nagyméretű Azure-példányokon futó SAP](/azure/architecture/reference-architectures/sap/hana-large-instances)
+* [SAP S/4HANA-T](/azure/architecture/reference-architectures/sap/sap-s4hana)
+* [SAP HANA nagyméretű példányok](/azure/architecture/reference-architectures/sap/hana-large-instances)
 
 <!-- links -->
-[architecture]: media/architecture-diagram-sap-production.png
+[architecture]: media/architecture-sap-production.png

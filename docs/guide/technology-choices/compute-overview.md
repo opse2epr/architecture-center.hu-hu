@@ -3,12 +3,12 @@ title: Az Azure számítási lehetőségeinek áttekintése
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
 ms.date: 06/13/2018
-ms.openlocfilehash: ceb70f8eeff42e6cadb8a63c2f36986f26322201
-ms.sourcegitcommit: 26b04f138a860979aea5d253ba7fecffc654841e
+ms.openlocfilehash: cb59c4472b183d9a14031497f0b6db673938c9a9
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/19/2018
-ms.locfileid: "36206891"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818819"
 ---
 # <a name="overview-of-azure-compute-options"></a>Az Azure számítási lehetőségeinek áttekintése
 
@@ -16,9 +16,9 @@ A *számítás* kifejezés azon számítási erőforrások futtatási modelljér
 
 ## <a name="overview"></a>Áttekintés
 
-Egy végén a **infrastruktúra,--szolgáltatás** (IaaS). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.  
+A spektrum egyik végén **infrastruktúra--szolgáltatásként** (IaaS). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.  
 
-A **PaaS** (szolgáltatásként nyújtott platform) egy olyan felügyelt üzemeltetési környezetet biztosít, amelyben az alkalmazásait virtuális gépek vagy hálózati erőforrások kezelése nélkül helyezheti üzembe. Például különálló virtuális gépek létrehozása helyett megadhat egy példányszámot, majd a szolgáltatás kiosztja, konfigurálja és kezeli a szükséges erőforrásokat. Az Azure App Service például egy PaaS-szolgáltatás.
+**Platformszolgáltatás (PaaS)** biztosít a felügyelt üzemeltetési környezetet, ahol telepítheti az alkalmazást anélkül, hogy a virtuális gépek vagy hálózati erőforrások kezelése. Például különálló virtuális gépek létrehozása helyett megadhat egy példányszámot, majd a szolgáltatás kiosztja, konfigurálja és kezeli a szükséges erőforrásokat. Az Azure App Service például egy PaaS-szolgáltatás.
 
 Az IaaS és a tiszta PaaS közötti spektrum különböző pontjain is találhatók szolgáltatások. Például az Azure virtuális gépek automatikusan skálázhatók a virtuális gépek méretezési csoportjaival. Ez az automatikus skálázási képesség nem csak szigorúan a PaaS-ra jellemző, de az ilyen felügyeleti funkciók általában PaaS-szolgáltatásokban találhatók.
 
@@ -31,10 +31,10 @@ Az IaaS nyújtja a legnagyobb irányítást, rugalmasságot és hordozhatóságo
 Az Azure-ban jelenleg a következő fő számítási lehetőségek érhetők el:
 
 - A [Virtual Machines](/azure/virtual-machines/) egy IaaS-szolgáltatás, amellyel virtuális gépeket helyezhet üzembe és kezelhet egy virtuális hálózaton (VNet).
-- [App Service](/azure/app-service/app-service-value-prop-what-is) felügyelt PaaS kínál webalkalmazások, mobilalkalmazásokból, RESTful API-k vagy automatizált üzleti folyamatok üzemeltetéséhez.
+- [App Service-ben](/azure/app-service/app-service-value-prop-what-is) felügyelt paas-megoldás kínál webalkalmazások, mobilalkalmazások háttérkomponenseit, RESTful API-kat vagy automatizált üzleti folyamatok üzemeltetésére.
 - A [Service Fabric](/azure/service-fabric/service-fabric-overview) egy elosztott rendszerplatform, amely számos környezetben futtatható, például az Azure-ban vagy a helyszínen. A Service Fabric mikroszolgáltatásokat vezényel számítógépfürtökön. 
 - Az [Azure Container Service](/azure/container-service/container-service-intro) segítségével tárolóalapú alkalmazások futtatására konfigurált virtuális gépek fürtjeit hozhatja létre, konfigurálhatja és kezelheti.
-- [Az Azure tároló példányok](/azure/container-instances/container-instances-overview) kínálnak a leggyorsabb és legegyszerűbb módja a tároló Azure rendszerben való futtatásra, anélkül, hogy a virtuális gépeket, és anélkül, hogy egy magasabb szintű szolgáltatást elfogadására.
+- [Az Azure Container Instances](/azure/container-instances/container-instances-overview) kínálnak a leggyorsabb és legegyszerűbb módon futtathatók tárolók az Azure-ban, és a egy magasabb szintű szolgáltatást kellene minden olyan virtuális gépek üzembe helyezése nélkül.
 - Az [Azure Functions](/azure/azure-functions/functions-overview) egy felügyelt FaaS-szolgáltatás.
 - Az [Azure Batch](/azure/batch/batch-technical-overview) egy felügyelt szolgáltatás, amellyel nagy méretű párhuzamos és nagy teljesítményű feldolgozási (HPC) alkalmazásokat futtathat.
 - A [Cloud Services](/azure/cloud-services/cloud-services-choose-me) egy felügyelt szolgáltatás, amellyel felhőalkalmazásokat futtathat. PaaS futtatási modellt használ. 
@@ -51,6 +51,6 @@ A számítási lehetőség kiválasztásakor a következő tényezőket érdemes
 
 ## <a name="next-steps"></a>További lépések
 
-Válassza ki az alkalmazás számítási szolgáltatás érdekében használjon a [Azure számítási szolgáltatások döntési fája](./compute-decision-tree.md)
+Az alkalmazás számítási szolgáltatás kiválasztása érdekében használjon a [döntési fát az Azure számítási szolgáltatások](./compute-decision-tree.md)
 
-Az Azure számítási lehetőségek részletes összehasonlítása, lásd: [feltételek kiválasztása az Azure számítási szolgáltatás](./compute-comparison.md).
+Az Azure számítási lehetőségeinek részletesebb összehasonlításáért lásd [számítási szolgáltatás Azure-beli kritériumai](./compute-comparison.md).

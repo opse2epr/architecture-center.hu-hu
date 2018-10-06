@@ -3,12 +3,12 @@ title: IoT és data analytics konstrukció iparág
 description: Használja az IoT-eszközökkel és adatelemzéssel átfogó felügyeletét és konstrukció projektek működésének biztosítása érdekében.
 author: alexbuckgit
 ms.date: 08/29/2018
-ms.openlocfilehash: 0f10ce25c0dc3529a22181e67bba0e63541cd4c8
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 7ab0de50b0eba1ab420e450f3408fe5dc45f04ac
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428369"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818496"
 ---
 # <a name="iot-and-data-analytics-in-the-construction-industry"></a>IoT és data analytics konstrukció iparág
 
@@ -19,15 +19,15 @@ Ebben a forgatókönyvben egy konstrukció gyártó járművek, mérőszámok é
 A vállalat egy felhőalapú "intelligens konstrukció" megoldás kiépítését. Kell egy átfogó építkezés-adatok összegyűjtése és a művelet és a különböző elemek, a hely karbantartási automatizálása. A vállalati célok a következők:
 
 * Integrálásához, és minden konstrukció elemzése a hely eszközöket és az adatokat a berendezések állásidő minimálisra csökkentése érdekében, és a lopás csökkentése érdekében.
-* Távolról, és automatikusan szabályozása konstrukció berendezések munkaerő hiány, végső soron kevesebb feldolgozó valamint engedélyezése sikeres alacsonyabb képzett dolgozók által okozott hatások mérsékléséhez.
-* A működési költségeket és munkaerő követelményei támogató infrastruktúra, minimalizálja a hatékonyság és a biztonság növelése mellett
+* Távolról, és automatikusan szabályozása konstrukció berendezések munkaerő hiány, végső soron kevesebb feldolgozó valamint engedélyezése sikeres alacsonyabb magasan képzett dolgozók által okozott hatások mérsékléséhez.
+* A működési költségeket és munkaerő követelményei támogató infrastruktúra, minimalizálja a termelékenység és a biztonság növelése mellett.
 * Egyszerű méretezés növeli a telemetriai adatok támogatásához az infrastruktúra.
-* Megfelel az összes releváns jogi követelmények által belföldi erőforrások kiépítése a rendszer rendelkezésre állását veszélyeztetése nélkül.  
+* Megfelel az összes releváns jogi követelmények által belföldi erőforrások kiépítése a rendszer rendelkezésre állását veszélyeztetése nélkül.
 * Nyílt forráskódú szoftvert használ a dolgozók eddigi tapasztalatai fordított befektetésének maximalizálása érdekében.
 
 Például az IoT Hub és a HDInsight a felügyelt Azure-szolgáltatások használata lehetővé teszi az ügyfél rövid idő alatt készíthet, és helyezhet üzembe átfogó megoldást egy alacsonyabb üzemeltetési költség. Ha további adatokat elemzést, a rendelkezésre álló lista tekintse át [teljes körűen felügyelt adatok elemzési szolgáltatások az Azure-ban][product-category].
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Fontolja meg a megoldást a következő esetekben használja:
 
@@ -51,24 +51,25 @@ Az adatok a következőképpen folyamatok a megoldáson keresztül:
 
 ### <a name="components"></a>Összetevők
 
-* [Az IoT Hub](/azure/iot-hub) eszközönkénti identitás- és más hely elemek a felhőalapú platform és a berendezés közötti biztonságos kétirányú kommunikációt központi üzenet kiszolgálókezelési. Az IoT Hub gyorsan gyűjtheti támogatunk minden egyes eszközhöz a data analytics folyamatba. 
-* [Az Azure Stream Analytics](/azure/stream-analytics) olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ebben a forgatókönyvben a Stream Analytics fogadnak, és IoT-eszközökről származó adatokat elemzi, és az Azure SQL Database tárolja az eredményeket. 
-* [Az Azure SQL Database](/azure/sql-database) az eredményeket az IoT-eszközök és a mérőszámok, amely tekinthet meg elemzők és a egy Azure-alapú webes alkalmazás felhasználók által elemzett adatait tartalmazza. 
-* [Az Azure Blob storage](/azure/storage/blobs) tárolók kép összegyűjtött adatok alapján az IoT hub-eszközöket. A rendszerkép-adatok a webalkalmazás-n keresztül is megtekinthetők.
-* [A TRAFFIC Manager](/azure/traffic-manager) szabályozza a különböző Azure-régiókban szolgáltatásvégpontokra érkező felhasználói forgalom elosztása.
-* [Load Balancer](/azure/load-balancer) adatok jelentkezés konstrukció berendezések eszközökről elosztja a Virtuálisgép-alapú webes szolgáltatások magas rendelkezésre állást biztosít.
+* [Az IoT Hub](/azure/iot-hub/about-iot-hub) eszközönkénti identitás- és más hely elemek a felhőalapú platform és a berendezés közötti biztonságos kétirányú kommunikációt központi üzenet kiszolgálókezelési. Az IoT Hub gyorsan gyűjtheti támogatunk minden egyes eszközhöz a data analytics folyamatba. 
+* [Az Azure Stream Analytics](/azure/stream-analytics/stream-analytics-introduction) olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ebben a forgatókönyvben a Stream Analytics fogadnak, és IoT-eszközökről származó adatokat elemzi, és az Azure SQL Database tárolja az eredményeket. 
+* [Az Azure SQL Database](/azure/sql-database/sql-database-technical-overview) az eredményeket az IoT-eszközök és a mérőszámok, amely tekinthet meg elemzők és a egy Azure-alapú webes alkalmazás felhasználók által elemzett adatait tartalmazza. 
+* [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) tárolók kép összegyűjtött adatok alapján az IoT hub-eszközöket. A rendszerkép-adatok a webalkalmazás-n keresztül is megtekinthetők.
+* [A TRAFFIC Manager](/azure/traffic-manager/traffic-manager-overview) szabályozza a különböző Azure-régiókban szolgáltatásvégpontokra érkező felhasználói forgalom elosztása.
+* [Load Balancer](/azure/load-balancer/load-balancer-overview) adatok jelentkezés konstrukció berendezések eszközökről elosztja a Virtuálisgép-alapú webes szolgáltatások magas rendelkezésre állást biztosít.
 * [Az Azure Virtual Machines](/azure/virtual-machines) futtatja a webes szolgáltatásokat, amelyek fogadják és adatbetöltést konstrukció eredményeit az Apache Cassandra-adatbázisba.
-* [Az Apache Cassandra](https://cassandra.apache.org/) későbbi feldolgozásra az Apache Spark a fejlesztés adatok tárolására használt elosztott NoSQL-adatbázis.
-* [Web Apps](/azure/app-service) lekérdezését, és megtekintheti a forrásadatok és képek segítségével végfelhasználói webes alkalmazást. Felhasználó is kezdeményezheti a kötegelt feladatok Apache Spark az alkalmazáson keresztül.
-* [Az Apache Spark on HDInsight](/azure/hdinsight/spark) támogatja a memórián belüli feldolgozást a big data elemző alkalmazások teljesítményének növelése érdekében. Ebben a forgatókönyvben a Spark futtatására szolgál összetett algoritmusokat az Apache Cassandra tárolt adatokon.
+* [Az Apache Cassandra](https://cassandra.apache.org) későbbi feldolgozásra az Apache Spark a fejlesztés adatok tárolására használt elosztott NoSQL-adatbázis.
+* [Web Apps](/azure/app-service/app-service-web-overview) lekérdezését, és megtekintheti a forrásadatok és képek segítségével végfelhasználói webes alkalmazást. Felhasználó is kezdeményezheti a kötegelt feladatok Apache Spark az alkalmazáson keresztül.
+* [Az Apache Spark on HDInsight](/azure/hdinsight/spark/apache-spark-overview) támogatja a memórián belüli feldolgozást a big data elemző alkalmazások teljesítményének növelése érdekében. Ebben a forgatókönyvben a Spark futtatására szolgál összetett algoritmusokat az Apache Cassandra tárolt adatokon.
+
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* [A cosmos DB](/azure/cosmos-db) egy alternatív NoSQL adatbázis-technológia. A cosmos DB biztosít [globális méretekben több főkiszolgálós támogatást](/azure/cosmos-db/multi-region-writers) a [több jól definiált konzisztenciaszintet](/azure/cosmos-db/consistency-levels) különböző ügyfél-követelmények teljesítéséhez. Ezen kívül támogatja az [Cassandra API](/azure/cosmos-db/cassandra-introduction). 
+* [A cosmos DB](/azure/cosmos-db/introduction) egy alternatív NoSQL adatbázis-technológia. A cosmos DB biztosít [globális méretekben több főkiszolgálós támogatást](/azure/cosmos-db/multi-region-writers) a [több jól definiált konzisztenciaszintet](/azure/cosmos-db/consistency-levels) különböző ügyfél-követelmények teljesítéséhez. Ezen kívül támogatja az [Cassandra API](/azure/cosmos-db/cassandra-introduction). 
 * [Az Azure Databricks](/azure/azure-databricks/what-is-azure-databricks) egy Azure-ra optimalizált Apache Spark-alapú elemzési platform. Integrálva van az Azure-ral, egyetlen kattintással beállítható, zökkenőmentes munkafolyamatokat és egy együttműködésen alapuló interaktív munkaterületet biztosít.
 * [Data Lake Storage](/azure/storage/data-lake-storage) alternatívája a Blob storage. Ebben az esetben a Data Lake Storage nem volt elérhető a célként megadott régióban.
 * [Web Apps](/azure/app-service) a webes szolgáltatások üzemeltetésére, az adatok feldolgozására konstrukció eredményeket is használható.
-* A valós idejű üzenetbetöltés, az adattárolás, az adatfolyam-feldolgozás, storage, az analitikus adatok és elemzési és jelentéskészítési számos technológiai lehetőségek érhetők el. Ezek a beállítások, képességek és fontosabb kritériumok áttekintését lásd: [Big data-architektúrák: valós idejű feldolgozás](/azure/architecture/data-guide/technology-choices/real-time-ingestion) a a [Azure-Adatarchitektúrához](/azure/architecture/data-guide/).
+* A valós idejű üzenetbetöltés, az adattárolás, az adatfolyam-feldolgozás, storage, az analitikus adatok és elemzési és jelentéskészítési számos technológiai lehetőségek érhetők el. Ezek a beállítások, képességek és fontosabb kritériumok áttekintését lásd: [Big data-architektúrák: valós idejű feldolgozás](/azure/architecture/data-guide/technology-choices/real-time-ingestion) a a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -81,17 +82,17 @@ Azure-támogatás a nyílt forráskódú technológiákat az ügyfél kihasznál
 Az alábbi szempontokat a hatékony felhasználhatóságot ebben a megoldásban a költségek jelentős részét.
 
 * Azure virtuális gépek költségeit költségráfordításokkal egyenes arányban növekszik, további példányokat felhasznált. Virtuális gépek felszabadított állapotban vannak, csak a tárolási költségekkel, és nem számítási költségeit. Ezek a gépek felszabadítva majd kell újra kiosztja, ha igény szerint magas.
-* [Az IoT Hub](https://azure.microsoft.com/pricing/details/iot-hub/) költségek alakítják üzembe helyezett IoT-egységet, valamint a szolgáltatási rétegben választása esetén a számát, amely meghatározza, hogy az engedélyezett egységenként naponta üzenetek száma. 
-* [Stream Analytics](https://azure.microsoft.com/pricing/details/stream-analytics/) díjszabása a szolgáltatásba az adatok feldolgozásához szükséges folyamatos átviteli egységek száma alapján.
+* [Az IoT Hub](https://azure.microsoft.com/pricing/details/iot-hub) költségek alakítják üzembe helyezett IoT-egységet, valamint a szolgáltatási rétegben választása esetén a számát, amely meghatározza, hogy az engedélyezett egységenként naponta üzenetek száma. 
+* [Stream Analytics](https://azure.microsoft.com/pricing/details/stream-analytics) díjszabása a szolgáltatásba az adatok feldolgozásához szükséges folyamatos átviteli egységek száma alapján.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Szeretné implementálhat hasonló architektúrával, olvassa el a [Komatsu vásárlói beszámolónk][customer-story].
 
-Útmutató a big data-architektúrák érhető el a [Azure-Adatarchitektúrához](/azure/architecture/data-guide/).
+Útmutató a big data-architektúrák érhető el a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 
 <!-- links -->
 [product-category]: https://azure.microsoft.com/product-categories/analytics/
 [customer-site]: https://home.komatsu/en/
 [customer-story]: https://customers.microsoft.com/story/komatsu-manufacturing-azure-iot-hub-japan
-[architecture]: ./media/architecture-diagram-big-data-with-iot.png
+[architecture]: ./media/architecture-big-data-with-iot.png

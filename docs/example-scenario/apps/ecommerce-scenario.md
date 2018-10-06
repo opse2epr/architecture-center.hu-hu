@@ -1,22 +1,22 @@
 ---
-title: E-kereskedelmi előtér-, az Azure-ban
-description: Az Azure-ban egy e-kereskedelmi helyek üzemeltetéséhez forgatókönyvét bevált
+title: Azure-beli E-kereskedelmi előtér
+description: A gazdagép egy Azure-beli e-kereskedelmi webhelyről.
 author: masonch
 ms.date: 7/13/18
-ms.openlocfilehash: 340f60628bf932489a9fbd11ac3ff1be723a685c
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 6ca85665a5bf63bf71f5badc16406db5df2a34c2
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428074"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48819091"
 ---
-# <a name="e-commerce-frontend-on-azure"></a>Azure-beli E-kereskedelmi frontend
+# <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 
-A példaforgatókönyv végigvezeti egy e-kereskedelem az Azure Platform –-szolgáltatásként (PaaS) eszközökkel előtér megvalósítását. Sok e-kereskedelmi webhelyekről szezonalitás és a forgalom változékonyságát idővel között. Esetén a termékek vagy szolgáltatások iránti igény lép, e kiszámítható módon vagy kiszámíthatatlanul, PaaS-eszközök használatával lehetővé teszi, hogy több vásárló és több tranzakció automatikus kezelésére. Emellett ebben a forgatókönyvben kihasználja a felhő gazdaságosságát szerint kell fizetnie kapacitásért fizet.
+A példaforgatókönyv végigvezeti implementálhat egy e-kereskedelmi előtér egy platformszolgáltatás (PaaS) eszközök, Azure-platform használatával. Sok e-kereskedelmi webhelyekről szezonalitás és a forgalom változékonyságát idővel között. Esetén a termékek vagy szolgáltatások iránti igény lép, e kiszámítható módon vagy kiszámíthatatlanul, PaaS-eszközök használatával lehetővé teszi, hogy több vásárló és több tranzakció automatikus kezelésére. Emellett ebben a forgatókönyvben kihasználja a felhő gazdaságosságát szerint kell fizetnie kapacitásért fizet.
 
 Ez a dokumentum segítségével különböző Azure PaaS-összetevőt, és ahhoz, hogy használt szempontokat ismerteti a együtt üzembe helyezünk egy mintaalkalmazást e-kereskedelmi *Relecloud koncertek*, egy online concert jegyeket kezelő platformot.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
@@ -25,7 +25,7 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 ## <a name="architecture"></a>Architektúra
 
-![Minta forgatókönyv-architektúrát egy e-kereskedelmi alkalmazásban][architecture-diagram]
+![Minta forgatókönyv-architektúrát egy e-kereskedelmi alkalmazásban][architecture]
 
 Ebben a forgatókönyvben a következő a vásárlási jegyek egy e-kereskedelmi webhelyről, az adatfolyam-gyűjteményre, a forgatókönyv segítségével mutatja be:
 
@@ -69,7 +69,7 @@ A webes szint és a funkciók más lehetőségek a következők:
 
 Egyéb lehetőségek az adatréteg számára a következők:
 
-* [A cosmos DB] [ docs-cosmosdb] – a Microsoft globálisan elosztott, többmodelles adatbázis. Ez a szolgáltatás futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű.
+* [A cosmos DB](/azure/cosmos-db/introduction): a Microsoft globálisan elosztott, többmodelles adatbázis. Ez a szolgáltatás futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -114,17 +114,17 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 * [Közepes][medium-pricing]: Ebben a példában díjszabása előzetes központi telepítés ennél kisebb méretű összetevőket jelöli. Itt azt becsülje meg a rendszert használ a hónap folyamán körülbelül 100 000 felhasználót. A várt forgalom az mérsékelt standard csomagot egyetlen alkalmazás szolgáltatáspéldány történik. Ezenkívül mérsékelt rétegből álló cognitive, és keresse meg a díjkalkulátorban feltüntetett szolgáltatással bővül.
 * [Nagy][large-pricing]: A díjszabási példa egy alkalmazás nagy adatmennyiség esetén: több millió felhasználó / hó terabájtnyi adatot áthelyezni sorrendje webszolgáltatásokban jelöli. Ezen a szinten használati magas teljesítményt a prémium szint fronted traffic Managerrel több régióban üzembe helyezett webalkalmazások szükség. Adatok a következőket tartalmazza: tárolás, adatbázisok és a CDN, megtörténik az terabájtnyi adatot.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 * [Többrégiós webalkalmazás a referencia-architektúra][multi-region-web-app]
 * [a tárolók hivatkozás példája eShop][microservices-ecommerce]
 
 <!-- links -->
+[architecture]: ./media/architecture-ecommerce-scenario.png
 [small-pricing]: https://azure.com/e/90fbb6a661a04888a57322985f9b34ac
 [medium-pricing]: https://azure.com/e/38d5d387e3234537b6859660db1c9973
 [large-pricing]: https://azure.com/e/f07f99b6c3134803a14c9b43fcba3e2f
 [app-service-reference-architecture]: ../../reference-architectures/app-service-web-app/basic-web-app.md
-[architecture-diagram]: ./media/architecture-diagram-ecommerce-solution.png
 [availability]: /azure/architecture/checklist/availability
 [circuit-breaker]: /azure/architecture/patterns/circuit-breaker
 [design-patterns-availability]: /azure/architecture/patterns/category/availability
@@ -136,7 +136,6 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 [docs-cdn]: /azure/cdn/cdn-overview
 [docs-container-instances]: /azure/container-instances/
 [docs-kubernetes-service]: /azure/aks/
-[docs-cosmosdb]: /azure/cosmos-db/
 [docs-functions]: /azure/azure-functions/functions-overview
 [docs-redis-cache]: /azure/redis-cache/cache-overview
 [docs-search]: /azure/search/search-what-is-azure-search
@@ -154,6 +153,6 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 [resiliency-app-service]: /azure/architecture/checklist/resiliency-per-service#app-service
 [resiliency]: /azure/architecture/checklist/resiliency
 [scalability]: /azure/architecture/checklist/scalability
-[secure-development]: https://www.microsoft.com/en-us/SDL/process/design.aspx
+[secure-development]: https://www.microsoft.com/SDL/process/design.aspx
 [sql-geo-replication]: /azure/sql-database/sql-database-geo-replication-overview
 [storage-geo-redudancy]: /azure/storage/common/storage-redundancy-grs

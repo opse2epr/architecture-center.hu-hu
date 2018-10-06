@@ -1,14 +1,14 @@
 ---
 title: CI/CD-folyamat a tárolóalapú számítási feladatokhoz
-description: Bevált forgatókönyv egy DevOps-folyamattal a Jenkins, a Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használó Node.js-webalkalmazások készítéséhez.
+description: A Node.js-webalkalmazás a Jenkins, az Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana fejlesztési és üzemeltetési folyamatot hozhat létre.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: d659916e3af0caa2128db25faab441a2af8f3f6a
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.openlocfilehash: 3212fae2c68eef3a5ed4963d28c0d97ac8f332e0
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389383"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818735"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI/CD-folyamat a tárolóalapú számítási feladatokhoz
 
@@ -18,7 +18,7 @@ Példaforgatókönyvek alkalmazás például egy automatizált fejlesztési kör
 
 Azure-szolgáltatások, például az Azure Kubernetes Service, Container Registry és Cosmos DB használatával vállalatok használhatja a legújabb, az alkalmazás fejlesztési technikákkal és eszközök segítségével egyszerűsítheti azok végrehajtási magas rendelkezésre állású.
 
-## <a name="related-use-cases"></a>Kapcsolódó alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
@@ -30,7 +30,7 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 ![Az Azure-összetevőket részt vesz egy fejlesztési és üzemeltetési környezetek a Jenkins az Azure Container Registry és Azure Kubernetes Service-architektúra áttekintése][architecture]
 
-Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrendszer fejlesztési és üzemeltetési folyamatot ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
+Ebben a forgatókönyvben a Node.js-webalkalmazás fejlesztési és üzemeltetési folyamatot ismerteti, és vissza adatbázis ér véget. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. A fejlesztők a Node.js webes alkalmazás forráskódjának módosítást hajt végre.
 2. Verziókövetési adattár, például a GitHub elkötelezett a kód megváltoztatására.
@@ -38,17 +38,17 @@ Ebben a forgatókönyvben egy Node.js-webalkalmazás és adatbázis-háttérrend
 4. A Jenkins készítése feladatot használ a dinamikus fordító-ügynökhöz az Azure Kubernetes Service egy tároló-létrehozási folyamat végrehajtásához.
 5. Egy tárolórendszerkép jön létre a kódot verziókövetési rendszerben, és ezután a rendszer továbbítja egy Azure Container Registrybe.
 6. Jenkins folyamatos üzembe helyezés (CD) keresztül a Kubernetes-fürtöt helyezünk üzembe a a frissített tárolórendszerkép.
-7. A Node.js-webalkalmazás Azure Cosmos DB, a háttérbeli használja. Cosmos DB és az Azure Kubernetes Service jelentéseket mérőszámok az Azure Monitor.
+7. A Node.js-webalkalmazás Cosmos DB használja, mint a háttérrendszerének. Cosmos DB és az Azure Kubernetes Service jelentéseket mérőszámok az Azure Monitor.
 8. A Grafana példány nyújt az alkalmazásteljesítmény alapján az Azure Monitor az adatok vizuális irányítópultokkal.
 
 ### <a name="components"></a>Összetevők
 
 * [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a forgatókönyvben a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
-* [Azure-beli Linux rendszerű virtuális gépek] [ azurevm-docs] az IaaS platform, a Jenkins és a Grafana példányok futtatásához használt.
-* [Az Azure Container Registry] [ azureacr-docs] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és az Azure platformon felgyorsíthatja az üzembe helyezéshez szükséges idő szerint replikálható a régiók.
-* [Az Azure Kubernetes Service] [ azureaks-docs] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
-* [Az Azure Cosmos DB] [ azurecosmosdb-docs] egy globálisan elosztott, többmodelles adatbázis, amely lehetővé teszi, hogy illeszkedjen az igényeihez különféle adatbázis és a konzisztencia modellek közül választhat. A Cosmos DB használatával az adatok globális replikálása, és van nem fürt felügyeleti vagy a replikációs összetevő telepítését és konfigurálását.
-* [Az Azure Monitor] [ azuremonitor-docs] segít a teljesítmény, a biztonság fenntartására és a trendek azonosítására. Figyelő által előállított metrikákat más erőforrásokat és eszközöket, mint a Grafana használhatják.
+* [Azure-beli Linux rendszerű virtuális gépek] [ docs-virtual-machines] az IaaS platform, a Jenkins és a Grafana példányok futtatásához használt.
+* [Az Azure Container Registry] [ docs-acr] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és az Azure platformon felgyorsíthatja az üzembe helyezéshez szükséges idő szerint replikálható a régiók.
+* [Az Azure Kubernetes Service] [ docs-aks] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
+* [Az Azure Cosmos DB] [ docs-cosmos-db] egy globálisan elosztott, többmodelles adatbázis, amely lehetővé teszi, hogy illeszkedjen az igényeihez különféle adatbázis és a konzisztencia modellek közül választhat. A Cosmos DB használatával az adatok globális replikálása, és van nem fürt felügyeleti vagy a replikációs összetevő telepítését és konfigurálását.
+* [Az Azure Monitor] [ docs-azure-monitor] segít a teljesítmény, a biztonság fenntartására és a trendek azonosítására. Figyelő által előállított metrikákat más erőforrásokat és eszközöket, mint a Grafana használhatják.
 * [Grafana] [ grafana] egy nyílt forráskódú megoldás lekérdezésére, megjelenítése, riasztás és metrikák ismertetése. Egy adatforrás beépülő modul az Azure Monitor lehetővé teszi, hogy a Grafana létrehozása az Azure Kubernetes Service-ben futó és a Cosmos DB használatával az alkalmazások teljesítményének figyelése vizuális irányítópultokkal.
 
 ### <a name="alternatives"></a>Alternatív megoldások
@@ -127,20 +127,20 @@ Adtunk három példa költség profilok tárolólemezképek tárolására és az
 * [Közepes][medium-pricing]: a díjszabási példa havonta 100 000 tároló buildek utal.
 * [Nagy][large-pricing]: a díjszabási példa havonta 1 000 000 tároló buildek utal.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernetes Service-ben tárolja, és a tárolóalapú alkalmazások futtatására. Az Azure Container Instances a tárolóalapú alkalmazások futtatása bármely vezénylési összetevők üzembe helyezése nélkül is használható. További információkért lásd: [Azure Container Instances áttekintésében][azureaci-docs].
+Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernetes Service-ben tárolja, és futtathatja a tárolóalapú alkalmazásokat. Az Azure Container Instances a tárolóalapú alkalmazások futtatása bármely vezénylési összetevők üzembe helyezése nélkül is használható. További információkért lásd: [Azure Container Instances áttekintésében][docs-aci].
 
 <!-- links -->
-[architecture]: ./media/devops-with-aks/architecture-devops-with-aks.png
+[architecture]: ./media/architecture-devops-with-aks.png
 [autoscaling]: ../../best-practices/auto-scaling.md
 [availability]: ../../checklist/availability.md
-[azureaci-docs]: /azure/container-instances/container-instances-overview
-[azureacr-docs]: /azure/container-registry/container-registry-intro
-[azurecosmosdb-docs]: /azure/cosmos-db/introduction
-[azureaks-docs]: /azure/aks/intro-kubernetes
-[azuremonitor-docs]: /azure/monitoring-and-diagnostics/monitoring-overview
-[azurevm-docs]: /azure/virtual-machines/linux/overview
+[docs-aci]: /azure/container-instances/container-instances-overview
+[docs-acr]: /azure/container-registry/container-registry-intro
+[docs-aks]: /azure/aks/intro-kubernetes
+[docs-azure-monitor]: /azure/monitoring-and-diagnostics/monitoring-overview
+[docs-cosmos-db]: /azure/cosmos-db/introduction
+[docs-virtual-machines]: /azure/virtual-machines/linux/overview
 [createsp]: /cli/azure/ad/sp#az-ad-sp-create
 [grafana]: https://grafana.com/
 [jenkins]: https://jenkins.io/

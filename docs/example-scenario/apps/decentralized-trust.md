@@ -1,14 +1,14 @@
 ---
 title: Az Azure-ban a bankok közötti decentralizált bizalmi kapcsolat
-description: Egy olyan forgatókönyvet, ahol a bankok consortiurm kommunikációs és egy központi adatbázisba menthetők nélkül megosztása egy megbízható környezetet hozhat létre
+description: Kommunikációs és egy központi adatbázisba menthetők nélkül megosztása egy megbízható környezetet hoz létre.
 author: vitoc
 ms.date: 09/09/2018
-ms.openlocfilehash: 6c0ff989ee8a2374576c33e9dd897c529427d27d
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 2e63c43e234cc002d8809a04700b21f8104f4caf
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534584"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818802"
 ---
 # <a name="decentralized-trust-between-banks-on-azure"></a>Az Azure-ban a bankok közötti decentralizált bizalmi kapcsolat
 
@@ -20,7 +20,7 @@ DLTs (elosztott Főkönyv technológiával), a bankok konzorcium hozhatnak létr
 
 Ez a példa bemutatja, hogyan Azure szolgáltatásokat, mint a virtuálisgép-méretezési készlet, virtuális hálózat, a Key Vault, a tárolás, a Load Balancer, és a figyelő is gyorsan üzembe helyezhető egy hatékony privát Ethereum PoA blockchain központi telepítésére vonatkozóan ahol tag bankok is a saját csomópontok létrehozásához.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ezek használati esetek hasonló tervezési minták rendelkezik:
 
@@ -32,7 +32,7 @@ Ezek használati esetek hasonló tervezési minták rendelkezik:
 
 ## <a name="architecture"></a>Architektúra
 
-![Decentralizált Bank megbízhatósági architektúra ábrája](./media/decentralized-trust/DecentralizedTrust.png)
+![Decentralizált Bank megbízhatósági architektúra ábrája](./media/architecture-decentralized-trust.png)
 
 Ebben a forgatókönyvben a háttér-összetevőket, amelyek szükségesek a magánhálózatot hozhat létre méretezhető, biztonságos és felügyelt, nagyvállalati blockchain belül két vagy több tagok konzorcium ismerteti. Ezek az összetevők kiépített hogyan részleteit (azt jelenti, különböző előfizetésekhez és erőforráscsoportokhoz belül), valamint a hálózati kapcsolati követelményeinek (vagyis a VPN- vagy ExpressRoute) a mérnökcsapatnak a szervezeti házirend alapján van hátra követelmények. A következő adatfolyamok:
 
@@ -102,20 +102,20 @@ A fenti díjszabás van egy consortium tag indítása és csatlakozás a blockch
 
 Ebben a forgatókönyvben egy példát látni, helyezzen üzembe a [Ethereum PoA blockchain bemutató alkalmazás] [ deploy] az Azure-ban, majd végigjárni a [a forgatókönyv a forráskód információs] [source].
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-További információ az Ethereum koncepció jogosultság megoldássablon használatát az Azure-ban, tekintse meg ezt rendelkezik [– használati útmutató][guide].
+További információ az Ethereum koncepció jogosultság megoldássablon használatát az Azure-ban, tekintse át ezt [– használati útmutató][guide].
 
 <!-- links -->
 [small-pricing]: https://azure.com/e/4e429d721eb54adc9a1558fae3e67990
 [medium-pricing]: https://azure.com/e/bb42cd77437744be8ed7064403bfe2ef
 [large-pricing]: https://azure.com/e/e205b443de3e4adfadf4e09ffee30c56
-[guide]: https://docs.microsoft.com/en-us/azure/blockchain-workbench/ethereum-poa-deployment
+[guide]: /azure/blockchain-workbench/ethereum-poa-deployment
 [deploy]: https://portal.azure.com/?pub_source=email&pub_status=success#create/microsoft-azure-blockchain.azure-blockchain-ethereumethereum-poa-consortium
 [source]: https://github.com/vitoc/creditscoreblockchain
-[monitor]: https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
+[monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
 [availability]: /azure/architecture/checklist/availability
 [scalability]: /azure/architecture/checklist/scalability
 [resiliency]: ../../resiliency/index.md
 [security]: /azure/security/
-[vault]: https://azure.microsoft.com/en-us/services/key-vault/
+[vault]: https://azure.microsoft.com/services/key-vault/

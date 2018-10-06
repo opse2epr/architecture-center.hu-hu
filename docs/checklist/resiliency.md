@@ -4,12 +4,12 @@ description: A feladatlista, amely rugalmasság aggályokat során tervezési ú
 author: petertaylor9999
 ms.date: 01/10/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 17612ee08e2329ea648fd21d6764e7bae1ca20e2
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 15ad749c12dc8a45c9e7e08376452685d8ad7c9b
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429094"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48819023"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -39,7 +39,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Használja a terheléselosztási kérések elosztása.** Terheléselosztás osztja el a kérelmeket az alkalmazás kifogástalan állapotú szolgáltatási példányai nem megfelelő állapotú példányokat eltávolításával a rotációból. Ha a szolgáltatás az Azure App Service vagy az Azure Cloud Services használ, már terhelésű az Ön számára. Azonban ha az alkalmazás Azure virtuális gépek, szüksége lesz a terheléselosztó üzembe helyezése. Tekintse meg a [Azure Load Balancer](/azure/load-balancer/load-balancer-overview/) kapcsolatos további részletek áttekintése.
 
-**Az Azure Application Gateway-átjárók több példány használatára konfigurálja.** Az alkalmazás követelményeitől függően egy [Azure Application Gateway](/azure/application-gateway/application-gateway-introduction/) előfordulhat, hogy lehet jobban megfelelnek az alkalmazás szolgáltatásokra irányuló kérések elosztása. Azonban az Application Gateway szolgáltatás egyetlen példánya nem által garantált SLA-t, hogy lehetséges legyen, hogy az alkalmazás sikertelen lehet, ha az Application Gateway-példány sikertelen lesz. Több közepes vagy nagy méretű Alkalmazásátjáró példány feltételei a szolgáltatás rendelkezésre állásának garantálása érdekében kiépítése a [SLA](https://azure.microsoft.com/support/legal/sla/application-gateway/v1_0/).
+**Az Azure Application Gateway-átjárók több példány használatára konfigurálja.** Az alkalmazás követelményeitől függően egy [Azure Application Gateway](/azure/application-gateway/application-gateway-introduction/) előfordulhat, hogy lehet jobban megfelelnek az alkalmazás szolgáltatásokra irányuló kérések elosztása. Azonban az Application Gateway szolgáltatás egyetlen példánya nem által garantált SLA-t, hogy lehetséges legyen, hogy az alkalmazás sikertelen lehet, ha az Application Gateway-példány sikertelen lesz. Több közepes vagy nagy méretű Alkalmazásátjáró példány feltételei a szolgáltatás rendelkezésre állásának garantálása érdekében kiépítése a [SLA](https://azure.microsoft.com/support/legal/sla/application-gateway/).
 
 **Rendelkezésre állási csoportok használata az alkalmazásrétegek esetében.** Helyezi el a-példányokat egy [rendelkezésre állási csoport] [ availability-sets] biztosít egy újabb [SLA](https://azure.microsoft.com/support/legal/sla/virtual-machines/). 
 

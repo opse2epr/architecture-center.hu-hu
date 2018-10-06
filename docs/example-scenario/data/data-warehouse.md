@@ -1,14 +1,14 @@
 ---
 title: Adattárház és analitika értékesítés és marketing
-description: Az Azure-beli adattárház segítségével több forrásból származó adatok egyesíthetők, és optimalizálhatja a data analytics.
+description: Több forrásból származó adatok egyesíthetők, és optimalizálhatja a data analytics.
 author: alexbuckgit
 ms.date: 09/15/2018
-ms.openlocfilehash: a6674279ee41167607db9c7def366afecb921939
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: f9ca9785b65f18098a91aedc1f3157f49456a6e1
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47427926"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818649"
 ---
 # <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárház és analitika értékesítés és marketing
 
@@ -22,7 +22,7 @@ A vállalat kell elemzési adatokat, modern megközelítését, így döntés a 
 * Több ezer, az ösztönző programok, a magas költségeknek, üzembe helyezése és karbantartása a helyszíni infrastruktúra nélkül is támogató nagymértékben párhuzamos módszerével adatok betöltéséhez.
 * Jelentősen csökkenti a gyűjtő és az adatok átalakításához szükséges idő, így összpontosíthat az adatok elemzéséhez.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ez a megközelítés is használhatja a következőket teszi lehetővé:
 
@@ -51,9 +51,9 @@ A vállalati adatforrások számos különböző platformokon rendelkezik:
 * Cosmos DB
 
 Ezek segítségével számos Azure-összetevők különböző adatforrásokból származó adatok betöltése:
-* [A BLOB storage-](/azure/storage/blobs) előtt az SQL Data Warehouse-bA be van töltve, adatok készíthetők elő forrás lesz használva.
+* [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) előtt az SQL Data Warehouse-bA be van töltve, adatok készíthetők elő forrás lesz használva.
 * [A Data Factory](/azure/data-factory) koordinálja az előkészített adatok átalakítása a leggyakoribb struktúra az SQL Data Warehouse-bA. A Data Factory [amikor az adatok betöltése az SQL Data Warehouse-bA a polybase](/azure/data-factory/connector-azure-sql-data-warehouse#use-polybase-to-load-data-into-azure-sql-data-warehouse) átviteli sebesség maximalizálása érdekében. 
-* [Az SQL Data Warehouse](/azure/sql-data-warehouse) egy elosztott rendszer tárolására és elemzésére a nagyméretű adathalmazok. A masszív párhuzamos feldolgozási (MPP) is teszi megfelelő a futó, nagy teljesítményű elemzési. Az SQL Data Warehouse segítségével [PolyBase](/sql/relational-databases/polybase/polybase-guide) gyorsan betölteni az adatokat Blob storage-ból.
+* [Az SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is) egy elosztott rendszer tárolására és elemzésére a nagyméretű adathalmazok. A masszív párhuzamos feldolgozási (MPP) is teszi megfelelő a futó, nagy teljesítményű elemzési. Az SQL Data Warehouse segítségével [PolyBase](/sql/relational-databases/polybase/polybase-guide) gyorsan betölteni az adatokat Blob storage-ból.
 * [Analysis Services](/azure/analysis-services) szemantikai modellt biztosít az adatok számára. A rendszer teljesítménye is azt növekedhet, ha az adatok elemzésének. 
 * [Power bi-ban](/power-bi) adatok elemzése és elemzéseket oszthat meg üzleti elemzési eszközök együttese. Power BI lekérdezhesse az Analysis Servicesben tárolt szemantikai modellt, vagy közvetlenül lekérdezheti azt az SQL Data warehouse-bA.
 * [Az Azure Active Directory (Azure AD)](/azure/active-directory) hitelesíti a felhasználókat, akik Power bi-ban az Analysis Services-kiszolgálóhoz csatlakozhat. A Data Factory használatával is az Azure AD egyszerű szolgáltatás-on keresztül hitelesítendő az SQL Data Warehouse vagy [-identitás az Azure-erőforrások](/azure/active-directory/managed-identities-azure-resources/overview).
@@ -76,28 +76,28 @@ Ezek segítségével számos Azure-összetevők különböző adatforrásokból 
 Ebben az architektúrában a technológiákat, a skálázhatóság és rendelkezésre állás, a vállalat követelményei ezáltal szabályozhatja a költségeket, miközben telepítve lettek kiválasztva.
 
 * A [nagymértékben párhuzamos feldolgozási architektúra](/azure/sql-data-warehouse/massively-parallel-processing-mpp-architecture) az SQL Data Warehouse a méretezhetőséget és teljesítményt biztosít.
-* Az SQL Data Warehouse rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/sql-data-warehouse/) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/sql-data-warehouse/sql-data-warehouse-best-practices).
+* Az SQL Data Warehouse rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/sql-data-warehouse) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/sql-data-warehouse/sql-data-warehouse-best-practices).
 * Elemzés a tevékenységet, alacsony, ha a vállalat is [igény szerinti méretezés az SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-manage-compute-overview), csökkentése, vagy akár a költségek csökkentése a számítás felfüggesztése.
 * Az Azure Analysis Services lehet [horizontálisan felskálázott](/azure/analysis-services/analysis-services-scale-out) feladatok esetén a válaszidők csökkentése érdekében. Is elkülönítheti a feldolgozása a lekérdezési készletből, így az ügyfél lekérdezések nem lassítsa le a feldolgozási műveletek. 
-* Az Azure Analysis Services is rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/analysis-services/v1_0/) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/analysis-services/analysis-services-bcdr).
+* Az Azure Analysis Services is rendelkezik [garantált SLA-kkal](https://azure.microsoft.com/support/legal/sla/analysis-services) és [ajánlott eljárások a magas rendelkezésre állás elérésének](/azure/analysis-services/analysis-services-bcdr).
 * A [biztonsági modellt az SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-manage-security) kapcsolatbiztonság, biztosít [hitelesítési és engedélyezési](/azure/sql-data-warehouse/sql-data-warehouse-authentication) az Azure AD-n keresztül vagy az SQL Server-hitelesítés és titkosítás. [Az Azure Analysis Services](/azure/analysis-services/analysis-services-manage-users) használja az Azure AD identity management és a felhasználók hitelesítéséhez. 
 
 ## <a name="pricing"></a>Díjszabás
 
 Tekintse át a [díjszabása a minta egy adatraktározási forgatókönyv] [ calculator] keresztül az Azure díjkalkulátorát. Állítsa be az értékek megtekintéséhez, hogyan érinti az igényeinek a költségeit.
 
-* [Az SQL Data Warehouse](https://azure.microsoft.com/pricing/details/sql-data-warehouse/gen2/) lehetővé teszi, hogy egymástól függetlenül méretezheti a számítási és tárolási szintek. A számítási erőforrások számlázása óránként történik, és igény szerint ezeket az erőforrásokat szüneteltetheti vagy méretezhetők. Tárolási erőforrások számlázása terabájt, így növeli a költségeket, akkor több adatot képes feldolgozni.
-* [A Data Factory](https://azure.microsoft.com/pricing/details/data-factory/) költségeket olvasási és írási műveletek, a megfigyelési műveleteket és a egy számítási végrehajtott vezénylési tevékenységek száma. A Data Factory költségeket minden további adatfolyam és mindegyikhez által feldolgozott adatok mennyisége növekszik.
-* [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services/) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
-* [Power bi-ban](https://powerbi.microsoft.com/pricing/) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded/) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.  
+* [Az SQL Data Warehouse](https://azure.microsoft.com/pricing/details/sql-data-warehouse/gen2) lehetővé teszi, hogy egymástól függetlenül méretezheti a számítási és tárolási szintek. A számítási erőforrások számlázása óránként történik, és igény szerint ezeket az erőforrásokat szüneteltetheti vagy méretezhetők. Tárolási erőforrások számlázása terabájt, így növeli a költségeket, akkor több adatot képes feldolgozni.
+* [A Data Factory](https://azure.microsoft.com/pricing/details/data-factory) költségeket olvasási és írási műveletek, a megfigyelési műveleteket és a egy számítási végrehajtott vezénylési tevékenységek száma. A Data Factory költségeket minden további adatfolyam és mindegyikhez által feldolgozott adatok mennyisége növekszik.
+* [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
+* [Power bi-ban](https://powerbi.microsoft.com/pricing) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.
 
 ## <a name="next-steps"></a>További lépések
 
 * Tekintse át a [automatizált vállalati bi-ban az Azure-referenciaarchitektúra](/azure/architecture/reference-architectures/data/enterprise-bi-adf), amely ismerteti, hogyan telepíthető egy példányát az Azure-ban ez az architektúra tartalmazza.
 * Olvassa el a [Maritz motiváció megoldások vásárlói beszámolónk][source-document]. Történet ügyféladatok kezeléséhez hasonló megközelítést ismerteti.
-* Az adatfolyamatok, adattárházak, online elemzésfeldolgozási (OLAP) és big Data típusú adatok átfogó architekturális útmutatást találhat a [Azure-Adatarchitektúrához](/azure/architecture/data-guide/).
+* Az adatfolyamatok, adattárházak, online elemzésfeldolgozási (OLAP) és big Data típusú adatok átfogó architekturális útmutatást találhat a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 
 <!-- links -->
 [source-document]: https://customers.microsoft.com/story/maritz
 [calculator]: https://azure.com/e/b798fb70c53e4dd19fdeacea4db78276
-[architecture]: ./media/architecture-diagram-data-warehouse.png
+[architecture]: ./media/architecture-data-warehouse.png

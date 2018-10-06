@@ -4,12 +4,12 @@ description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgált
 author: petertaylor9999
 ms.date: 03/02/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: bf58ae6846423121c757b225640aa80577eef9fb
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 50808a837132e905cc89c3c43d40852a04f4885c
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429451"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48819193"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -43,7 +43,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 ## <a name="application-gateway"></a>Application Gateway
 
-**Legalább két példányt üzembe helyezhető.** Helyezze üzembe az Application Gateway legalább két példánnyal. Egyetlen példány egy meghibásodási pont. Két vagy több példány üzemeltetéséhez a redundancia és a méretezhetőség. Ahhoz, hogy megfeleljen a [SLA](https://azure.microsoft.com/support/legal/sla/application-gateway/v1_0/), legalább két közepes vagy nagy méretű példánnyal kell kiépítenie.
+**Legalább két példányt üzembe helyezhető.** Helyezze üzembe az Application Gateway legalább két példánnyal. Egyetlen példány egy meghibásodási pont. Két vagy több példány üzemeltetéséhez a redundancia és a méretezhetőség. Ahhoz, hogy megfeleljen a [SLA](https://azure.microsoft.com/support/legal/sla/application-gateway), legalább két közepes vagy nagy méretű példánnyal kell kiépítenie.
 
 ## <a name="cosmos-db"></a>Cosmos DB
 
