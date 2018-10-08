@@ -1,22 +1,22 @@
 ---
 title: Webalkalmazás-figyelés az Azure-ban
-description: Ebben a példaforgatókönyvben fontos, hogy az Azure App Service-ben üzemeltetett alkalmazások figyelni szeretné a szervezetek számára.
+description: Figyelheti az Azure App Service-ben üzemeltetett webalkalmazásban.
 author: adamboeglin
 ms.date: 09/12/2018
-ms.openlocfilehash: 5ca4d397f44e52e0e5b64f1e04622dbf2c33d2d1
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.openlocfilehash: 644ba0ab90de438e2d5cba3df89fb8a896ad37dd
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534589"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818621"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-figyelés az Azure-ban
 
-Platform--szolgáltatásként (PaaS) ajánlatok az Azure-ban kezelhet számítási erőforrásokat az Ön számára, és bizonyos értelemben módosítsa a központi telepítésének figyelése hogyan. Az Azure több figyelési szolgáltatásokat, amelyek mindegyike hajt végre egy adott szerepkör tartalmaz. Ezek a szolgáltatások együtt, a gyűjtéséhez, elemzéséhez és az alkalmazások és az Azure-erőforrások használata származó telemetriai adatok alapján átfogó megoldást nyújthat.
+Platform a platformszolgáltatás (PaaS) ajánlatok az Azure-ban kezelheti a számítási erőforrásokat, az Ön számára, és bizonyos értelemben módosítása hogyan, központi telepítésének figyelése. Az Azure több figyelési szolgáltatásokat, amelyek mindegyike hajt végre egy adott szerepkör tartalmaz. Ezek a szolgáltatások együtt, a gyűjtéséhez, elemzéséhez és az alkalmazások és az Azure-erőforrások használata származó telemetriai adatok alapján átfogó megoldást nyújthat.
 
 Ebben a forgatókönyvben oldja meg a figyelési szolgáltatásokat használhatja, és a egy adatfolyam modell több adatforráshoz való használatra ismerteti. Esetén, a figyelés, a számos eszközöket és szolgáltatásokat az Azure-környezetek működik. Ebben a forgatókönyvben lehetőséget választjuk azonnal elérhető szolgáltatások pontosan, mert azok könnyen feldolgozható. A cikk későbbi részében más figyelési lehetőségek ismertetése.
 
-## <a name="potential-use-cases"></a>A lehetséges alkalmazási helyzetek
+## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
@@ -30,21 +30,21 @@ Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
 
 Ebben a forgatókönyvben egy alkalmazás és az adatszint egy felügyelt Azure-környezet használja. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
-1. Felhasználó alkalmazás használja.
-1. Böngésző és az App Service telemetriát küldik.
-1. Az Azure Application Insights összegyűjti és elemzi az alkalmazás állapotával, teljesítményével és használati adatokat.
-1. A fejlesztők és rendszergazdák állapotával, teljesítményével és használati adatokat tekintheti át.
-1. Az SQL Database telemetriai adatokat küldenek.
-1. Az Azure Monitor gyűjti és elemzi az infrastruktúra-mérőszámok és kvóták.
-1. A log Analytics gyűjti és elemzi a naplókat és mérőszámokat.
-1. A fejlesztők és rendszergazdák állapotával, teljesítményével és használati adatokat tekintheti át.
+1. A felhasználó kommunikál az alkalmazást.
+2. A böngésző és az app service telemetriát küldik.
+3. Az Application Insights összegyűjti és elemzi az alkalmazás állapotával, teljesítményével és használati adatokat.
+4. A fejlesztők és rendszergazdák állapotával, teljesítményével és használati adatokat tekintheti át.
+5. Az Azure SQL Database telemetriai adatokat küldenek.
+6. Az Azure Monitor gyűjti és elemzi az infrastruktúra-mérőszámok és kvóták.
+7. A log Analytics gyűjti és elemzi a naplókat és mérőszámokat.
+8. A fejlesztők és rendszergazdák állapotával, teljesítményével és használati adatokat tekintheti át.
 
 ### <a name="components"></a>Összetevők
 
-- [Az Azure App Service] [ Azure App Service] egy PaaS szolgáltatás, fejlesztésére és üzemeltetésére alkalmazásokat a felügyelt virtuális gépeken. A mögöttes számítási infrastruktúra, amelyen az alkalmazások futtatása van kezelve. Az App Service erőforrás-használati kvóták és, alkalmazásmetrikák figyelését teszi lehetővé az naplózása diagnosztikai adatokat, és a riasztások a metrikák alapján. Még jobb létrehozásához használhatja az Application Insights [rendelkezésre állási tesztek] [ availability tests] a különféle régiókból származó alkalmazás teszteléséhez.
-- [Az Application Insights] [ Application Insights] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás a fejlesztők számára, és támogatja a több platformra. Az alkalmazás figyeli, észleli a teljesítményproblémákat és hibákat például alkalmazás rendellenességeket, és telemetriai adatokat küld az Azure Portalon.  Az Application Insights használható naplózási, elosztott nyomkövetést és egyéni metrikákat is.
-- [Az Azure Monitor] [ Azure Monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics and logs] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [A log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
-- [Log Analytics] [ Log Analytics] segítségével összehasonlíthatja a használati és teljesítményadatokat Application Insights által gyűjtött és az adatok között az Azure-erőforrások, amelyek támogatják az alkalmazást. Ebben a példában a [Azure Log Analytics-ügynököket] [ Azure Log Analytics agent] paranccsal küldje le az SQL Server-naplók a Log analyticsbe. Lekérdezések és adatok megtekintése az Azure portal Log Analytics panel írhat.
+- [Az Azure App Service](/azure/app-service/) egy PaaS szolgáltatás, fejlesztésére és üzemeltetésére alkalmazásokat a felügyelt virtuális gépeken. A mögöttes számítási infrastruktúra, amelyen az alkalmazások futtatása van kezelve. Az App Service erőforrás-használati kvóták és, alkalmazásmetrikák figyelését teszi lehetővé az naplózása diagnosztikai adatokat, és a riasztások a metrikák alapján. Még jobb létrehozásához használhatja az Application Insights [rendelkezésre állási tesztek] [ availability-tests] a különféle régiókból származó alkalmazás teszteléséhez.
+- [Az Application Insights] [ application-insights] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás a fejlesztők számára, és támogatja a több platformra. Az alkalmazás figyeli, észleli a teljesítményproblémákat és hibákat például alkalmazás rendellenességeket, és telemetriai adatokat küld az Azure Portalon. Az Application Insights használható naplózási, elosztott nyomkövetést és egyéni metrikákat is.
+- [Az azure Monitor] [Az azure Monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [A log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
+- [A log Analytics] [A log Analytics] segít correlate a használati és között az Azure-erőforrások, amelyek támogatják az alkalmazás konfigurációs-és teljesítményadatokat az Application Insights által gyűjtött teljesítményadatokat. Ebben a példában a [Azure Log Analytics-ügynököket] [ Azure Log Analytics agent] paranccsal küldje le az SQL Server-naplók a Log analyticsbe. Lekérdezések és adatok megtekintése az Azure portal Log Analytics panel írhat.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -52,11 +52,11 @@ Ajánlott eljárás, hogy az Application Insights hozzáadása a kódhoz: fejles
 
 A futásidejű ellenőrzés egy másik egyszerű megoldást a kezdéshez. A gyűjtött telemetria konfigurációs fájlok keresztül kell szabályozni. Például hozzáadhatja a futtatókörnyezet módszereket, amelyek lehetővé teszik például eszközök [Application Insights Állapotfigyelőt] [ Application Insights Status Monitor] az SDK-k üzembe helyezését a helyes mappát, és adja hozzá a megfelelő konfigurációkat, a kezdéshez figyelés.
 
-Például az Application Insightsba, a Log Analytics eszközt biztosít [adatelemzés egyszerre][analyzing data across sources], összetett lekérdezések létrehozásáról és [proaktív értesítéseket küldő] [ sending proactive alerts] által megadott feltételek alapján. A telemetriát is megtekintheti [az Azure Portalon][the Azure portal]. A log Analytics értéket ad hozzá meglévő figyelési szolgáltatásokat például [Azure Monitor] [ Azure Monitor] és a helyszíni környezetre is figyelheti.
+Például az Application Insightsba, a Log Analytics eszközt biztosít [adatelemzés egyszerre][analyzing data across sources], összetett lekérdezések létrehozásáról és [proaktív értesítéseket küldő] [ sending proactive alerts] által megadott feltételek alapján. A telemetriát is megtekintheti [az Azure Portalon][the Azure portal]. A log Analytics értékét hozzáadja a meglévő figyelési szolgáltatásokat, például az [Azure Monitor] [Azure Monitor], és a helyszíni környezetekben is figyelheti.
 
-Az Application Insights és a Log Analytics használat [Azure Log Analytics lekérdezési nyelv][Azure Log Analytics Query Language]. Is [erőforrások közötti lekérdezések](https://azure.microsoft.com/blog/query-across-resources/) egyetlen lekérdezést az Application Insights és a Log Analytics által összegyűjtött telemetriai adatok elemzéséhez.
+Az Application Insights és a Log Analytics használat [Azure Log Analytics lekérdezési nyelv][Azure Log Analytics Query Language]. Is [erőforrások közötti lekérdezések](https://azure.microsoft.com/blog/query-across-resources) egyetlen lekérdezést az Application Insights és a Log Analytics által összegyűjtött telemetriai adatok elemzéséhez.
 
-Az Azure Monitor, az Application Insights és összes Küldés a Log Analytics [riasztások](/azure/monitoring-and-diagnostics/monitoring-overview-alerts). Például az Azure Monitor riasztások a CPU-kihasználtság, miközben az Application Insights-riasztások alkalmazásszintű mérőszámokat, például a kiszolgáló válaszideje a platform-szintű metrikákat. Az Azure Monitor riasztások az új események az Azure-tevékenységnapló, míg a Log Analytics kiadhatnak konfigurálta a használatára a szolgáltatások mérőszámok vagy esemény adatokkal kapcsolatos riasztások. [Riasztások (előnézet)](/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts) van egy új, egyesített riasztási tapasztalattal az Azure-ban, amely egy másik besorolást.
+Az Azure Monitor, az Application Insights és összes Küldés a Log Analytics [riasztások](/azure/monitoring-and-diagnostics/monitoring-overview-alerts). Például az Azure Monitor riasztások a CPU-kihasználtság, miközben az Application Insights-riasztások alkalmazásszintű mérőszámokat, például a kiszolgáló válaszideje a platform-szintű metrikákat. Az Azure Monitor riasztások az új események az Azure-tevékenységnapló, míg a Log Analytics kiadhatnak konfigurálta a használatára a szolgáltatások mérőszámok vagy esemény adatokkal kapcsolatos riasztások. [Az Azure monitorban riasztásokat egyesített](/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts) van egy új, egyesített riasztási tapasztalattal az Azure-ban, amely egy másik besorolást.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
@@ -72,13 +72,13 @@ Ez a cikk bemutatja a népszerű szolgáltatások kényelmesen elérhető figyel
 
 Ebben a forgatókönyvben a PaaS-megoldások figyeli a nagy része, mert kényelmesen kezeléséhez rendelkezésre állását és méretezhetőségét, és élvezik szolgáltatásiszint-szerződések (SLA) összpontosít. Például App Services tartalmaz egy garantált [SLA] [ SLA] a rendelkezésre állás érdekében.
 
-Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány kérelmek másodpercenkénti feldolgozási.  Ha a kérés korlátot túllépi, üzenet szabályozás tapasztalhat.  Ennek megelőzése érdekében megvalósítása [szűrés] [ message-filtering] vagy [mintavételi] [ message-sampling] adatátviteli sebesség csökkentése érdekében
+Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány kérelmek másodpercenkénti feldolgozási. Ha a kérés korlátot túllépi, üzenet szabályozás tapasztalhat. Ennek megelőzése érdekében megvalósítása [szűrés] [ message-filtering] vagy [mintavételi] [ message-sampling] adatátviteli sebesség csökkentése érdekében
 
 Magas rendelkezésre állási szempontok futtatja, az alkalmazás azonban olyan a fejlesztő feladata. Skála kapcsolatos információkért lásd a [méretezési szempontok](#scalability-considerations) az alapszintű webalkalmazás referenciaarchitektúrája szakaszát. Alkalmazás üzembe helyezését követően beállíthatja-tesztek [a rendelkezésre állás monitorozása] [ monitor its availability] Application Insights használatával.
 
 ### <a name="security"></a>Biztonság
 
-Bizalmas információkat és megfelelőségi követelmények hatással az adatgyűjtés, megőrzés és -tárolás. Tudjon meg többet [Application Insights] [ Application Insights] és [Log Analytics] [ Log Analytics] telemetriai adatok kezeléséhez.
+Bizalmas információkat és megfelelőségi követelmények hatással az adatgyűjtés, megőrzés és -tárolás. Tudjon meg többet [Application Insights] [ application-insights] és [Log Analytics] [ log-analytics] telemetriai adatok kezeléséhez.
 
 A következő biztonsági szempontokat is lehet alkalmazni:
 
@@ -86,14 +86,14 @@ A következő biztonsági szempontokat is lehet alkalmazni:
 - Fontolja meg az adatok megőrzésével. Például az Application Insights telemetriai adatait 90 napig megőrzi. Archivált adatok hosszabb ideig a Microsoft Power bi-ban, a folyamatos exportálás vagy a REST API segítségével szeretne hozzáférni. A Storage-díjak érvényesek.
 - Azure-erőforrások adatokat, és kik tekinthetik meg egy adott alkalmazásból származó telemetriai adatok való hozzáférés szabályozásához való hozzáférés korlátozásához. A telemetria figyelése hozzáférés zárolása érdekében olvassa el [erőforrások, szerepkörök és hozzáférés-vezérlés az Application Insights][Resources, roles, and access control in Application Insights].
 - Érdemes lehet az alkalmazás kódja meg, hogy a felhasználók hozzáadása, amely korlátozza az alkalmazás adatbetöltést verzió vagy címke jelölők olvasási/írási hozzáférést. Az Application Insights nincs nem szabályozza az egyes adatelemek után a rendszer elküldte őket az erőforrás, így ha egy felhasználó hozzáfér minden adat, az összes adat hozzáféréssel rendelkeznek az egyedi erőforrásokat.
-- Adjon hozzá [cégirányítási] [ governance] mechanizmusok szabályzat kényszerítése, vagy az Azure-erőforrások vezérlők költség, szükség esetén. Például, például a házirendek és a szerepköralapú hozzáférés-vezérlés biztonsági figyelés a Log Analytics használatához, vagy használjon [Azure Policy] [ Azure Policy] hozhat létre, rendelhet hozzá, és kezelhet szabályzatdefiníciókat.
-- Figyelheti a potenciális biztonsági problémákat, és a egy helyen jeleníti meg az Azure-erőforrások biztonsági állapotát, érdemes lehet [az Azure Security Center][Azure Security Center].
+- Adjon hozzá [cégirányítási](/azure/security/governance-in-azure) mechanizmusok szabályzat kényszerítése, vagy az Azure-erőforrások vezérlők költség, szükség esetén. Például, például a házirendek és a szerepköralapú hozzáférés-vezérlés biztonsági figyelés a Log Analytics használatához, vagy használjon [Azure Policy](/azure/azure-policy/azure-policy-introduction) hozhat létre, rendelhet hozzá, és kezelhet szabályzatdefiníciókat.
+- Figyelheti a potenciális biztonsági problémákat, és a egy helyen jeleníti meg az Azure-erőforrások biztonsági állapotát, érdemes lehet [az Azure Security Center](/azure/security-center/security-center-intro).
 
 ## <a name="pricing"></a>Díjszabás
 
-Költségek figyelése adhat hozzá akár meglepően gyors, ezért ügyeljen arra, hogy vegye figyelembe, hogy díjszabás meghozni, megismerheti, mit figyel, és ellenőrizze az egyes szolgáltatásokhoz kapcsolódó díjak. Az Azure Monitor biztosítja [alapmetrikák] [ basic metrics] költségek figyelése során ingyenesen [Application Insights] [ Application Insights] és [ Log Analytics] [ Log Analytics] betöltött adatok mennyiségét és a tesztek futtatása száma alapján.
+Költségek figyelése is gyorsan összeadódhatnak, ezért érdemes meghozni díjszabás, megismerheti, mit figyel, és ellenőrizze az egyes szolgáltatásokhoz kapcsolódó díjak. Az Azure Monitor biztosítja [alapmetrikák] [ basic metrics] költségek figyelése [Application insights] [az Application Insights] ingyenesen és [Log Analytics] [ log-analytics] betöltött adatok mennyiségét és a tesztek futtatása száma alapján.
 
-Segít megismerkedni, használja a [díjkalkulátor] [ pricing calculator] alapján. Ha szeretné látni, hogyan díjszabását szeretné módosítani az adott használati esetekhez, egyezik a várt üzembe helyezési a különböző beállításainak módosítására.
+Segít megismerkedni, használja a [díjkalkulátor] [ pricing] alapján. Ha szeretné látni, hogyan díjszabását szeretné módosítani az adott használati esetekhez, egyezik a várt üzembe helyezési a különböző beállításainak módosítására.
 
 Hibakeresés közben és után az alkalmazás közzététele az Azure portal Application insights telemetria érkezik. Tesztelési célokra és a díjak elkerülése érdekében a korlátozott mennyiségű telemetriai van kialakítva. További mutatók hozzáadásához a telemetriai adatok korlátot is növelheti. Tekintse meg a részletesebb vezérléshez [Application Insights-mintavétel][Sampling in Application Insights].
 
@@ -118,14 +118,13 @@ Tekintse meg ezeket az erőforrásokat, amelyek segítségével a saját figyel�
 [Az Azure Application Insights futásidejű kivételek észlelése és diagnosztizálása][Find and diagnose run-time exceptions with Azure Application Insights]
 
 <!-- links -->
-[architecture]: ./media/architecture-diagram-app-monitoring.png
-[Azure App Service]: https://azure.microsoft.com/documentation/services/app-service
-[availability tests]: /azure/application-insights/app-insights-monitor-web-app-availability
-[Application Insights]: /azure/application-insights/app-insights-overview
-[Azure Monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
-[metrics and logs]: /azure/monitoring-and-diagnostics/monitoring-supported-metrics
+[architecture]: ./media/architecture-app-monitoring.png
+[availability-tests]: /azure/application-insights/app-insights-monitor-web-app-availability
+[application-insights]: /azure/application-insights/app-insights-overview
+[azure-monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
+[metrics]: /azure/monitoring-and-diagnostics/monitoring-supported-metrics
 [A log Analytics és az egyéb szolgáltatások]: /azure/log-analytics/log-analytics-azure-storage
-[Log Analytics]: /azure/log-analytics/log-analytics-overview
+[log-analytics]: /azure/log-analytics/log-analytics-overview
 [Azure Log Analytics agent]: https://blogs.msdn.microsoft.com/sqlsecurity/2017/12/28/azure-log-analytics-oms-agent-now-collects-sql-server-audit-logs/
 [Application Insights SDKs]: /azure/application-insights/app-insights-asp-net
 [Application Insights Status Monitor]: https://azure.microsoft.com/updates/application-insights-status-monitor-and-sdk-updated/
@@ -143,11 +142,8 @@ Tekintse meg ezeket az erőforrásokat, amelyek segítségével a saját figyel�
 [SLA]: https://azure.microsoft.com/support/legal/sla/app-service/v1_4/
 [monitor its availability]: /azure/application-insights/app-insights-monitor-web-app-availability
 [Resources, roles, and access control in Application Insights]: /azure/application-insights/app-insights-resources-roles-access-control
-[governance]: /azure/security/governance-in-azure
-[Azure Policy]: /azure/azure-policy/azure-policy-introduction
-[Azure Security Center]: /azure/security-center/security-center-intro
 [basic metrics]: /azure/monitoring-and-diagnostics/monitoring-supported-metrics
-[pricing calculator]: https://azure.microsoft.com/pricing/calculator/#log-analyticsc126d8c1-ec9c-4e5b-9b51-4db95d06a9b1
+[pricing]: https://azure.microsoft.com/pricing/calculator/#log-analyticsc126d8c1-ec9c-4e5b-9b51-4db95d06a9b1
 [Sampling in Application Insights]: /azure/application-insights/app-insights-sampling
 [Live Metrics Stream]: /azure/application-insights/app-insights-live-stream
 [Basic web application reference architecture]: /azure/architecture/reference-architectures/app-service-web-app/basic-web-app#scalability-considerations
