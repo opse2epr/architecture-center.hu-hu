@@ -3,12 +3,12 @@ title: Tervezés a változás szolgálatában
 description: A fejlődést szem előtt tartó tervezés kulcsfontosságú a folyamatos innováció szempontjából.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: bbd5699e257663514cf7bb8b856fe35f51799c73
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: df5a2d0756295a9632b3ea336527b2fbfb35318c
+ms.sourcegitcommit: f6be2825bf2d37dfe25cfab92b9e3973a6b51e16
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325706"
+ms.lasthandoff: 10/08/2018
+ms.locfileid: "48858146"
 ---
 # <a name="design-for-evolution"></a>Tervezzen a fejlődést szem előtt tartva
 
@@ -18,7 +18,7 @@ Idővel minden sikeres alkalmazás változásokon esik át, aminek például hib
 
 Ez a probléma nem korlátozódik a monolitikus alkalmazásokra. Egy alkalmazás, hiába választható szét különböző szolgáltatásokra, továbbra is mutathatja azt a fajta szoros összekapcsolódást, ami merevvé és törékennyé teszi a rendszert. Ha azonban a szolgáltatásokat a fejlődés szem előtt tartásával tervezik, a csapatok előállhatnak innovatív megoldásokkal, és folyamatosan gondoskodhatnak az új funkciók bevezetéséről. 
 
-A mikroszolgáltatások a fejlődésközpontú tervezés megvalósításának egyre népszerűbb módjává válnak, mert választ nyújtanak az itt említett problémák többségére.
+Mikroszolgáltatás-alapú népszerű révén megvalósítható az evolúciós tervezési egyre, mivel azok cím az itt felsorolt szempontok nagy része.
 
 ## <a name="recommendations"></a>Javaslatok
 
