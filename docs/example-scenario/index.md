@@ -5,228 +5,79 @@ author: david-stanford
 ms:date: 08/01/2018
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 8783a49b8b93a117563e5507ef41e5ad100ca5a6
-ms.sourcegitcommit: 20953a7bed708713e4c972d390a2910505e80f08
+ms.openlocfilehash: 63a566126168dba382792967b3625bd6e085c054
+ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "44040400"
+ms.lasthandoff: 10/05/2018
+ms.locfileid: "48818836"
 ---
 # <a name="azure-example-scenarios"></a>Azure-példaforgatókönyvek
 
-Ezek a példaforgatókönyvek a való életből vett ügyfélpéldákon alapulnak. Arra szolgálnak, hogy felgyorsítsák és elősegítsék a saját használati esetek kidolgozását. Minden megoldás tartalmazza az architektúra diagramját, ismertet néhány alternatívát, amelyeket saját üzleti igényei szerint használhat, valamint a megoldás hozzávetőleges árát.  A legtöbb emellett egy olyan módszert is tartalmaz, amellyel egyszerűen üzembe helyezheti a megoldást a saját Azure-fiókjában.
+A példaforgatókönyvek konkrét építészeti és üzleti problémák Azure-ban történő megoldásának folyamatát mutatják be.  Az egyes forgatókönyvek valódi fogyasztói példán alapulnak, és abból a célból készültek, hogy gyors, könnyen olvasható segítséget nyújtsanak a megvalósítás felgyorsításában.
 
-Tovább: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios) 
+Az egyes forgatókönyveken belül architektúradiagramokat, streameket és az összetevők részletes leírását találja.  Emellett megismerhet alternatív technológiákat, amelyek jobban igazodhatnak üzleti igényeihez, továbbá megismerheti a megoldás hozzávetőleges árát és a megoldás éles környezetben történő futtatásakor megfontolandó szempontokat.  Sok forgatókönyv tartalmaz egy olyan metódust is, amelynek segítségével könnyedén üzembe helyezheti a megoldást Azure-fiókjában.
 
-## <a name="ai-scenarios"></a>MI-használati forgatókönyvek
+Tovább: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios)
 
-<ul  class="panelContent cardsF">
-<!-- SQL Data Warehouse -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./ai/intelligent-apps-image-processing.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
+<ul class="panelContent cardsL">
+    <li>
+        <div class="cardSize">
+            <div class="cardPadding">
                 <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/cognitive.png" />
-                        </div>
-                    </div>
                     <div class="cardText">
-                        <h3>Képfeldolgozás</h3>
-                        <p>Képek elemzése a Cognitive Services használatával a biztosítási iparágban.</p>
+                        <h3>Új forgatókönyvek</h3>
+                        <a class="barLink" href="/azure/architecture/example-scenario/apps/decentralized-trust" data-linktype="absolute-path">Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/wordpress" data-linktype="absolute-path">Nagymértékben skálázható és biztonságos WordPress-webhely</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/data/data-warehouse" data-linktype="absolute-path">Adattárházak és elemzések értékesítési és marketingterületen</a>
                     </div>
                 </div>
             </div>
         </div>
-    </a>
-</li>
+    </li>
+    <li>
+        <div class="cardSize">
+            <div class="cardPadding">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Legnépszerűbb forgatókönyvek</h3>
+                        <a class="barLink" href="/azure/architecture/example-scenario/ai/intelligent-apps-image-processing" data-linktype="absolute-path">Képbesorolás biztosítási követelésekhez</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/apps/commerce-chatbot" data-linktype="absolute-path">Beszélgető csevegőrobot szállodai foglalásokhoz</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/regulated-multitier-app" data-linktype="absolute-path">Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="cardSize">
+            <div class="cardPadding">
+                <div class="card">
+                    <div class="cardText">
+                        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRy0ZnoKOXdVBqaBz653YPElUNjlNMEpPMDNSSU1aWEIxMFNFNlY2T0E3NC4u" data-linktype="external">
+                            <div class="cardSize cardsF">
+                                <div class="cardPadding">
+                                    <div class="card">
+                                        <div class="cardImageOuter">
+                                            <div class="cardImage">
+                                                <img src="https://docs.microsoft.com/en-us/media/common/i_feedback.svg" alt="" data-linktype="external">
+                                            </div>
+                                        </div>
+                                        <div class="cardText">
+                                            <h3 class="x-hidden-focus">Küldje be egy új forgatókönyv ötletét!</h3>
+                                            <p>Van egy forgatókönyve, amelyet szeretne, ha létrehoznánk?</p>
+                                            <p>Szeretne saját forgatókönyvet létrehozni?</p>
+                                            <p>Itt küldheti be ötletét.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
 </ul>
 
-## <a name="application-scenarios"></a>Alkalmazáshasználati helyzetek
-
-<ul  class="panelContent cardsF">
-<li style="display: flex; flex-direction: column;">
-    <a href="./apps/commerce-chatbot.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Kereskedelmi csevegőrobot</h3>
-                        <p>Egy hotel portásaként üzembe állított beszélgető csevegőrobot.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./apps/devops-dotnet-webapp.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>DevOps VSTS-sel</h3>
-                        <p>VSTS-t használó DevOps-folyamat. </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./apps/devops-with-aks.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/jenkins.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>DevOps AKS-szel</h3>
-                        <p>Tárolókat és a Jenkinst használó DevOps-folyamat.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./apps/ecommerce-scenario.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/app-service.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Elektronikus kereskedelmi előtér</h3>
-                        <p>Jegyek vásárlására szolgáló elektronikus kereskedelmi előtér.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./apps/sap-dev-test.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/sap.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>SAP fejlesztési és tesztelési környezetekhez</h3>
-                        <p>SAP üzembe helyezése fejlesztési és tesztelési környezetekhez.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-</ul>
-
-## <a name="data-scenarios"></a>Adathasználati forgatókönyvek
-
-<ul  class="panelContent cardsF">
-<li style="display: flex; flex-direction: column;">
-    <a href="./data/ecommerce-order-processing.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/data-guide.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Elektronikus kereskedelmi rendelésfeldolgozás</h3>
-                        <p>Skálázható rendelésfeldolgozási folyamat.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<!-- ExpressRoute -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./data/fraud-detection.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/data-guide.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Csalások észlelése</h3>
-                        <p>Csalások valós idejű, a mobiltelefonos metaadatok elemzésén alapuló észlelése.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-</ul>
-
-## <a name="infrastructure-scenarios"></a>Infrastruktúrahasználati forgatókönyvek
-
-<ul class="panelContent cardsF">
-<!-- Azure AD -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./infrastructure/regulated-multitier-app.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/windows.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Szabályozott többrétegű alkalmazás</h3>
-                        <p>Többrétegű alkalmazások biztonságossá tétele a szabályozásalapú iparágak számára.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li style="display: flex; flex-direction: column;">
-    <a href="./infrastructure/video-rendering.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/linux-penguin.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>HPC videórenderelés</h3>
-                        <p>3D renderelés HPC-megoldás használatával.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-</ul>
+[!INCLUDE [notes](./articles.md)]
