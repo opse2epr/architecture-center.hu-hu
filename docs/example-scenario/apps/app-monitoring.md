@@ -1,16 +1,16 @@
 ---
-title: Webalkalmazás-figyelés az Azure-ban
-description: Figyelheti az Azure App Service-ben üzemeltetett webalkalmazásban.
+title: Webalkalmazás-monitorozás az Azure-ban
+description: Monitorozhatja az Azure App Service-szel üzemeltetett webalkalmazásokat.
 author: adamboeglin
 ms.date: 09/12/2018
-ms.openlocfilehash: 644ba0ab90de438e2d5cba3df89fb8a896ad37dd
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: b1beb5cf5e29ab1ceb760bf95eab85d819b69342
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818621"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876851"
 ---
-# <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-figyelés az Azure-ban
+# <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
 Platform a platformszolgáltatás (PaaS) ajánlatok az Azure-ban kezelheti a számítási erőforrásokat, az Ön számára, és bizonyos értelemben módosítása hogyan, központi telepítésének figyelése. Az Azure több figyelési szolgáltatásokat, amelyek mindegyike hajt végre egy adott szerepkör tartalmaz. Ezek a szolgáltatások együtt, a gyűjtéséhez, elemzéséhez és az alkalmazások és az Azure-erőforrások használata származó telemetriai adatok alapján átfogó megoldást nyújthat.
 
@@ -43,8 +43,8 @@ Ebben a forgatókönyvben egy alkalmazás és az adatszint egy felügyelt Azure-
 
 - [Az Azure App Service](/azure/app-service/) egy PaaS szolgáltatás, fejlesztésére és üzemeltetésére alkalmazásokat a felügyelt virtuális gépeken. A mögöttes számítási infrastruktúra, amelyen az alkalmazások futtatása van kezelve. Az App Service erőforrás-használati kvóták és, alkalmazásmetrikák figyelését teszi lehetővé az naplózása diagnosztikai adatokat, és a riasztások a metrikák alapján. Még jobb létrehozásához használhatja az Application Insights [rendelkezésre állási tesztek] [ availability-tests] a különféle régiókból származó alkalmazás teszteléséhez.
 - [Az Application Insights] [ application-insights] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás a fejlesztők számára, és támogatja a több platformra. Az alkalmazás figyeli, észleli a teljesítményproblémákat és hibákat például alkalmazás rendellenességeket, és telemetriai adatokat küld az Azure Portalon. Az Application Insights használható naplózási, elosztott nyomkövetést és egyéni metrikákat is.
-- [Az azure Monitor] [Az azure Monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [A log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
-- [A log Analytics] [A log Analytics] segít correlate a használati és között az Azure-erőforrások, amelyek támogatják az alkalmazás konfigurációs-és teljesítményadatokat az Application Insights által gyűjtött teljesítményadatokat. Ebben a példában a [Azure Log Analytics-ügynököket] [ Azure Log Analytics agent] paranccsal küldje le az SQL Server-naplók a Log analyticsbe. Lekérdezések és adatok megtekintése az Azure portal Log Analytics panel írhat.
+- [Az Azure Monitor] [ azure-monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [Log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
+- [Log Analytics] [ log-analytics] segítségével összehasonlíthatja a használati és teljesítményadatokat Application Insights által gyűjtött és az adatok között az Azure-erőforrások, amelyek támogatják az alkalmazást. Ebben a példában a [Azure Log Analytics-ügynököket] [ Azure Log Analytics agent] paranccsal küldje le az SQL Server-naplók a Log analyticsbe. Lekérdezések és adatok megtekintése az Azure portal Log Analytics panel írhat.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -91,7 +91,7 @@ A következő biztonsági szempontokat is lehet alkalmazni:
 
 ## <a name="pricing"></a>Díjszabás
 
-Költségek figyelése is gyorsan összeadódhatnak, ezért érdemes meghozni díjszabás, megismerheti, mit figyel, és ellenőrizze az egyes szolgáltatásokhoz kapcsolódó díjak. Az Azure Monitor biztosítja [alapmetrikák] [ basic metrics] költségek figyelése [Application insights] [az Application Insights] ingyenesen és [Log Analytics] [ log-analytics] betöltött adatok mennyiségét és a tesztek futtatása száma alapján.
+Költségek figyelése is gyorsan összeadódhatnak, ezért érdemes meghozni díjszabás, megismerheti, mit figyel, és ellenőrizze az egyes szolgáltatásokhoz kapcsolódó díjak. Az Azure Monitor biztosítja [alapmetrikák] [ basic metrics] költségek figyelése során ingyenesen [Application Insights] [ application-insights-pricing] és [ Log Analytics] [ log-analytics] betöltött adatok mennyiségét és a tesztek futtatása száma alapján.
 
 Segít megismerkedni, használja a [díjkalkulátor] [ pricing] alapján. Ha szeretné látni, hogyan díjszabását szeretné módosítani az adott használati esetekhez, egyezik a várt üzembe helyezési a különböző beállításainak módosítására.
 
@@ -123,9 +123,10 @@ Tekintse meg ezeket az erőforrásokat, amelyek segítségével a saját figyel�
 [application-insights]: /azure/application-insights/app-insights-overview
 [azure-monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
 [metrics]: /azure/monitoring-and-diagnostics/monitoring-supported-metrics
-[A log Analytics és az egyéb szolgáltatások]: /azure/log-analytics/log-analytics-azure-storage
+[Log Analytics és az egyéb szolgáltatások]: /azure/log-analytics/log-analytics-azure-storage
 [log-analytics]: /azure/log-analytics/log-analytics-overview
 [Azure Log Analytics agent]: https://blogs.msdn.microsoft.com/sqlsecurity/2017/12/28/azure-log-analytics-oms-agent-now-collects-sql-server-audit-logs/
+[application-insights-pricing]: https://azure.microsoft.com/pricing/details/application-insights/
 [Application Insights SDKs]: /azure/application-insights/app-insights-asp-net
 [Application Insights Status Monitor]: https://azure.microsoft.com/updates/application-insights-status-monitor-and-sdk-updated/
 [analyzing data across sources]: /azure/log-analytics/log-analytics-dashboards
