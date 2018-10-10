@@ -3,12 +3,12 @@ title: Az Apache Cassandra használatával N szintű alkalmazás
 description: Annak az ismertetése, hogyan kell Linux rendszerű virtuális gépeket futtatni N szintű architektúrához a Microsoft Azure-ban.
 author: MikeWasson
 ms.date: 05/03/2018
-ms.openlocfilehash: 9c186527a7f7980a5232186a52f9b0089612226f
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 2c5a80309e5d4d180cc83422de0b462c8dffcd90
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429048"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876919"
 ---
 # <a name="n-tier-application-with-apache-cassandra"></a>Az Apache Cassandra használatával N szintű alkalmazás
 
@@ -92,7 +92,7 @@ A magas rendelkezésre állás érdekében a több Azure-régióban a Cassandra 
 
 Ssh hozzáférés a nyilvános internetről való engedélyezze az alkalmazás számítási feladatait futtató virtuális gépek. Ehelyett minden ssh hozzáférési ezeken a virtuális gépeken a jumpboxon keresztül kell származnia. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox engedélyezi ssh-forgalmat az internetről, de csak az ismert, biztonságos IP-címeket.
 
-A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
+A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-címet] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
 
 A jumpbox védelmére, adja hozzá egy NSG-szabályt, amely engedélyezi az ssh-kapcsolatokat csak a nyilvános IP-címkészletekről. Konfigurálja az ssh forgalom engedélyezésére a felügyeleti alhálózatról a többi alhálózathoz NSG-t.
 
@@ -154,7 +154,7 @@ Ha Linux rendszerű virtuális gépeket szeretne üzembe helyezni egy N szintű 
 
 1. Navigáljon a fenti előfeltételek 1. lépése során klónozott adattár `virtual-machines\n-tier-linux` mappájához.
 
-2. A paraméterfájl egy alapértelmezett rendszergazdai felhasználónevet és jelszót határoz meg az üzemelő példány minden egyes virtuális gépéhez. Ezeket módosítania kell, mielőtt üzembe helyezné a referenciaarchitektúrát. Nyissa meg az `n-tier-linux.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mezők tartalmát az új beállításokra.   Mentse a fájlt.
+2. A paraméterfájl egy alapértelmezett rendszergazdai felhasználónevet és jelszót határozza a központi telepítésben lévő mindegyik virtuális gép. Ezeket módosítania kell, mielőtt üzembe helyezné a referenciaarchitektúrát. Nyissa meg az `n-tier-linux.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mezők tartalmát az új beállításokra.   Mentse a fájlt.
 
 3. Helyezze üzembe a referenciaarchitektúrát az **azbb** parancssori eszköz használatával az alább látható módon.
 
@@ -195,7 +195,7 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [operations-management-suite]: https://www.microsoft.com/server-cloud/operations-management-suite/overview.aspx
 [plan-network]: /azure/virtual-network/virtual-network-vnet-plan-design-arm
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-[nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
+[nyilvános IP-címet]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
 [ref-arch-repo]: https://github.com/mspnp/reference-architectures
 [vm-sla]: https://azure.microsoft.com/support/legal/sla/virtual-machines

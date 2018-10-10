@@ -5,12 +5,12 @@ author: telmosampaio
 ms.date: 06/19/2018
 pnp.series.title: Implement a hub-spoke network topology with shared services in Azure
 pnp.series.prev: hub-spoke
-ms.openlocfilehash: 283251d5b11f76985405410c5c237e5a64ee98fe
-ms.sourcegitcommit: 71cbef121c40ef36e2d6e3a088cb85c4260599b9
+ms.openlocfilehash: 0238c5d6f28bacbc32268d4586b30395de36384b
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/14/2018
-ms.locfileid: "39060795"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876868"
 ---
 # <a name="implement-a-hub-spoke-network-topology-with-shared-services-in-azure"></a>Közös szolgáltatásokkal küllős hálózati topológia implementálása az Azure-ban
 
@@ -18,7 +18,7 @@ Ez a referenciaarchitektúra épül, amely a [küllős] [ guidance-hub-spoke] re
 
 ![[0]][0]
 
-*Töltse le az ][visio-download]architektúra [Visio-fájlját*
+*Töltse le az architektúra [Visio-fájlját][visio-download]*
 
 Ez a topológia előnyei a következők:
 
@@ -93,7 +93,7 @@ Ezenkívül vegye figyelembe, mely szolgáltatások vannak megosztva az agyban. 
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo]. Az üzembe helyezés az előfizetésben hoz létre a következő erőforrás-csoportok:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo]. Az üzembe helyezés a következő erőforráscsoportokat hozza létre az előfizetésben:
 
 - eseményközpont-ad-rg
 - eseményközpont-nva-rg
@@ -102,7 +102,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-
 - spoke1-vnet-rg
 - spoke2-művele-rg
 
-A sablon alkalmazásparaméter-fájlok tekintse meg ezeket a neveket, így módosítja őket, ha a paraméter fájlok frissítése az egyeztetéshez.
+A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse.
 
 ### <a name="prerequisites"></a>Előfeltételek
 
@@ -116,7 +116,7 @@ Ez a lépés telepíti a szimulált helyszíni adatközpont Azure virtuális há
 
 2. Nyissa meg az `onprem.json` fájlt. 
 
-3. Keresse meg az összes példányát `Password` és `adminPassword`. Adja meg az értékeket a felhasználónevet és jelszót a paraméterek, és mentse a fájlt. 
+3. Keresse meg az összes példányát `UserName`, `adminUserName`,`Password`, és `adminPassword`. Adja meg az értékeket a felhasználónevet és jelszót a paraméterek, és mentse a fájlt. 
 
 4. Futtassa az alábbi parancsot:
 
@@ -211,16 +211,16 @@ Ebben a lépésben üzembe helyezi az NVA a `dmz` alhálózat.
 
 Az agyi virtuális hálózat, a szimulált helyszíni környezetből conectivity teszteléséhez.
 
-1. Az Azure portal használatával keresse meg a virtuális gép nevű `jb-vm1` a a `onprem-jb-rg` erőforráscsoportot.
+1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
-2. Kattintson a `Connect` a virtuális géphez távoli asztali kapcsolat megnyitásához. A megadott jelszó használata a `onprem.json` alkalmazásparaméter-fájlt.
+2. Kattintson a `Connect` parancsra egy, a virtuális gépre irányuló távoli asztali munkamenet megnyitásához. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
 3. Nyisson meg egy PowerShell-konzolt a virtuális gépen, és a `Test-NetConnection` parancsmaggal győződjön meg arról, hogy képes-e csatlakozni a jumpbox virtuális Géphez az agyi virtuális hálózat.
 
    ```powershell
    Test-NetConnection 10.0.0.68 -CommonTCPPort RDP
    ```
-A kimenet az alábbihoz hasonlóan kell kinéznie:
+A kimenetnek a következőképpen kell kinéznie:
 
 ```powershell
 ComputerName     : 10.0.0.68
