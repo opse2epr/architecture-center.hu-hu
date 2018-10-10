@@ -3,12 +3,12 @@ title: Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati 
 description: Az Azure-ban egy ELT munkafolyamat automatizálása az Azure Data Factory használatával
 author: MikeWasson
 ms.date: 07/01/2018
-ms.openlocfilehash: ffd75ba8c57a9afbc6abad61f21f738c644c9bc8
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.openlocfilehash: f004c02da93335e74b07b9720236832ad7f744db
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142281"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876902"
 ---
 # <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
 
@@ -70,7 +70,7 @@ Az SQL Server 2016 kezdve használhatja [időbeli verziózású táblák](/sql/r
 > [!NOTE]
 > Az SQL Server korábbi verzióit használhatja [adatváltozás-rögzítési](/sql/relational-databases/track-changes/about-change-data-capture-sql-server) (CDC). Ez a megközelítés akkor időbeli verziózású táblák,-nál kevesebb kényelmes, mert rendelkezik egy különálló módosítási táblából, és kötetblokkok változásait a napló sorszáma, nem pedig egy időbélyeg. 
 
-Historikus táblák dimenzió az adatokat, amelyek idővel hasznosak. A ténytáblák általában egy nem módosítható tranzakció, például egy rendelést a táblagépükről, ebben az esetben a rendszer verziójának előzményei tartja értelmetlen képviseli. Ehelyett a tranzakciók általában rendelkeznek egy oszlopot, amely a tranzakció dátuma, amelyek használhatók a küszöbértékek jelöli. Például a Wide World Importers OLTP adatbázis a Sales.Invoices és Sales.InvoiceLines tábla rendelkezik egy `LastEditedWhen` mező, amely alapértelmezés szerint a `sysdatetime()`. 
+Historikus táblák dimenzió az adatokat, amelyek idővel hasznosak. A ténytáblák általában egy nem módosítható tranzakció, például egy rendelést a táblagépükről, ebben az esetben a rendszer verziójának előzményei tartja értelmetlen képviseli. Ehelyett a tranzakciók általában rendelkeznek egy oszlopot, amely a tranzakció dátuma, amelyek használhatók a küszöbértékek jelöli. Ha például a Wide World Importers OLTP-adatbázisban, a Sales.Invoices és Sales.InvoiceLines táblát kell egy `LastEditedWhen` mező, amely alapértelmezés szerint a `sysdatetime()`. 
 
 Itt látható az általános folyamat az ELT folyamatok:
 

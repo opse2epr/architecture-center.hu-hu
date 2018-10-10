@@ -4,12 +4,12 @@ description: A Microsoft Azure szolgáltatásban futó magas rendelkezésre áll
 author: MikeWasson
 ms.date: 11/23/2016
 cardTitle: Run in multiple regions
-ms.openlocfilehash: 9fae95c0c0d38a756c10f37864495caad5ebda3b
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 5493deea871f25fb6ea3531a22d92d83916930b1
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819057"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876817"
 ---
 # <a name="run-a-web-application-in-multiple-regions"></a>Webalkalmazás futtatása több régióban
 [!INCLUDE [header](../../_includes/header.md)]
@@ -96,7 +96,7 @@ A Traffic Manager automatikusan elvégzi a feladatok átadását, ha az elsődle
 
 Részletek: [A Traffic Manager monitorozásának ismertetése][tm-monitoring].
 
-A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a szolgáltatás meghibásodik, az ügyfelek a leállás ideje alatt nem érhetik el az alkalmazást. Tekintse át a [Traffic Manager szolgáltatói szerződést (SLA)][tm-sla], és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, akkor a biztonság érdekében érdemes lehet hozzáadni egy másik forgalomkezelési szolgáltatást a feladat-visszavételhez. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a saját kanonikus nevének (CNAME) rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson. Ezt a lépést manuálisan kell elvégezni. Amíg a DNS-módosítások érvénybe nem lépnek, az alkalmazás nem lesz elérhető.
+A Traffic Manager a rendszer egyik lehetséges meghibásodási pontja. Ha a szolgáltatás meghibásodik, az ügyfelek a leállás ideje alatt nem érhetik el az alkalmazást. Tekintse át a [Traffic Manager szolgáltatói szerződést (SLA)][tm-sla], és döntse el, hogy a Traffic Manager egyedüli használata elegendő-e vállalata magas rendelkezésre állásra vonatkozó követelményeihez. Ha nem, fontolja meg egy másik forgalomkezelési tartalékként. Ha az Azure Traffic Manager szolgáltatás meghibásodik, módosítsa a saját kanonikus nevének (CNAME) rekordját a DNS-ben úgy, hogy a többi forgalomkezelő szolgáltatásra mutasson. Ezt a lépést manuálisan kell elvégezni. Amíg a DNS-módosítások érvénybe nem lépnek, az alkalmazás nem lesz elérhető.
 
 ### <a name="sql-database"></a>SQL Database
 Az SQL Database helyreállítási időkorlátjának (RPO) és becsült helyreállítási idejének (ERT) ismertetése [Az Azure SQL Database üzletmenet-folytonossági funkcióinak áttekintése][sql-rpo] című cikkben található. 

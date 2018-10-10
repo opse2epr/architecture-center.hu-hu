@@ -1,20 +1,20 @@
 ---
-title: Az Azure-ban a bankok közötti decentralizált bizalmi kapcsolat
-description: Kommunikációs és egy központi adatbázisba menthetők nélkül megosztása egy megbízható környezetet hoz létre.
+title: Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
+description: Megbízható kommunikációs és adatmegosztó környezetet hozhat létre anélkül, hogy egy központosított adatbázisra kellene hagyatkoznia.
 author: vitoc
 ms.date: 09/09/2018
-ms.openlocfilehash: 2e63c43e234cc002d8809a04700b21f8104f4caf
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: fe27f885635ce5ae4ce368992affa1a85d7af416
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818802"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876757"
 ---
-# <a name="decentralized-trust-between-banks-on-azure"></a>Az Azure-ban a bankok közötti decentralizált bizalmi kapcsolat
+# <a name="decentralized-trust-between-banks-on-azure"></a>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
 
 Ebben a példaforgatókönyvben hasznos bankok vagy bármely más intézményekkel, az információk megosztásához egy központi adatbázisba menthetők nélkül megbízható környezetet kíván. Jelen példában bemutatunk néhányat kredit pontszám információk között bankok karbantartása kontextusában a forgatókönyvet, de az architektúra alkalmazható a szervezetek konzorcium, ahová az egyik ellenőrzött információk megosztása bármilyen forgatókönyvhöz egy központi rendszer használata nélkül egy másik futott, egy egyetlen fél.
 
-Bankok, pénzügyi rendszeren belül hagyományosan, központosított források kredit ütemezéseiket információ az egyéni felhasználók számára kredit pontszám és előzmények támaszkodnak. Egy központi módszer a működési kockázatokat, és néha egy szükségtelen külső koncentráció mutat be.
+Bankok, pénzügyi rendszeren belül hagyományosan, központosított források kredit ütemezéseiket információ egy személy kredit pontszám és előzmények támaszkodnak. Egy központi módszer a működési kockázatokat, és néha egy szükségtelen külső koncentráció mutat be.
 
 DLTs (elosztott Főkönyv technológiával), a bankok konzorcium hozhatnak létre, amelyek hatékonyabban, kevesebb ki van téve a támadásokkal szemben, és erre a célra egy új platformra, innovatív struktúrákat megoldásához hagyományos implementálhatók decentralizált rendszer az adatvédelmi, a sebesség és a költség kihívásokat.
 

@@ -3,12 +3,12 @@ title: Objektum használata paraméterként az Azure Resource Manager-sablon
 description: Ismerteti, hogyan lehet Azure Resource Manager-sablonok objektum használata paraméterként lehetőségeinek bővítése
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: 27bc4be02f202ae5d6a3c28553a8c8afe435f743
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: dd53c55a26b2452c375d8d1e1a98886b15febaeb
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429315"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876756"
 ---
 # <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Objektum használata paraméterként az Azure Resource Manager-sablon
 
@@ -27,7 +27,7 @@ Vessünk egy pillantást egy példa, amely üzembe helyez egy virtuális hálóz
 Következő lépésként hozzunk adja meg az értékeket a `VNetSettings` objektum:
 
 > [!NOTE]
-> Ismerje meg, hogyan deploment során adja meg a paraméterértékeket, tekintse meg a **paraméterek** szakaszában [struktúra és az Azure Resource Manager-sablonok szintaxisát][azure-resource-manager-authoring-templates]. 
+> Ismerje meg, hogyan adja meg a paraméterértékeket üzembe helyezés során, tekintse meg a **paraméterek** szakaszában [struktúra és az Azure Resource Manager-sablonok szintaxisát] [ azure-resource-manager-authoring-templates] . 
 
 ```json
 "parameters":{

@@ -1,16 +1,16 @@
 ---
-title: Az API-alapú architektúra az Azure-ban örökölt webalkalmazás migrálása
-description: Az Azure API Management segítségével korszerűsítheti az örökölt webalkalmazást.
+title: Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban
+description: Modernizálhatja régi webalkalmazásait az Azure API Management használatával.
 author: begim
 ms.date: 09/13/2018
-ms.openlocfilehash: 88b0c2ab77a503ad27745ebfd85bbe00636aec13
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 1aa7ea6dc895146e13677dd9867fb2530f0a8f04
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818545"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876789"
 ---
-# <a name="migrating-a-legacy-web-application-to-an-api-based-architecture-on-azure"></a>Az API-alapú architektúra az Azure-ban örökölt webalkalmazás migrálása
+# <a name="migrating-a-legacy-web-application-to-an-api-based-architecture-on-azure"></a>Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban
 
 Egy e-kereskedelmi cég, az utazási iparág modernizálhatja van a régi böngésző alapú szoftververmeket. Míg a meglévő stack csak a monolitikus, néhány [SOAP-alapú HTTP-szolgáltatások] [ soap] létezik a legutóbbi projektből. Néhány belső szellemi tulajdon, amely már fejlesztik a bevételi lehetőségekről további bevételi létrehozásának fontolgatják.
 
@@ -33,7 +33,7 @@ Az új felhasználói felület platform (PaaS) alkalmazás az Azure-ban üzemelt
 ### <a name="components-and-security"></a>Összetevők és biztonság
 
 1. A meglévő helyszíni webes alkalmazás továbbra is közvetlenül a a meglévő helyszíni webszolgáltatások felhasználása.
-2. A meglévő HTTP-szolgáltatások és a meglévő webes alkalmazás közötti hívások változatlan marad. Hívásokat a rendszer belső a vállalati hálózathoz.
+2. A meglévő HTTP-szolgáltatások és a meglévő webes alkalmazás közötti hívások változatlan marad. Hívásokat a rendszer belső, a vállalati hálózathoz.
 3. A bejövő hívások a meglévő belső szolgáltatások létrejönnek az Azure-ból:
     * A biztonsági csapat, lehetővé teszi az APIM-példányra átadni a vállalati tűzfalon keresztül a meglévő helyszíni szolgáltatásokhoz érkező forgalom [biztonságos átvitel (HTTPS és SSL) használatával][apim-ssl].
     * Az üzemeltetési csapat lehetővé teszi a szolgáltatások csak az APIM-példányra a bejövő hívások. Ennek a követelménynek úgy [engedélyezési-lista az IP-címet az APIM-példány] [ apim-whitelist-ip] a vállalati hálózat határain belül.

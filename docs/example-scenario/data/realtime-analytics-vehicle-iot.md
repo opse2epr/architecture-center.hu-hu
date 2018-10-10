@@ -1,16 +1,16 @@
 ---
-title: Adatfeldolgozást és a valós idejű autógyártás IoT-adatok feldolgozása
-description: Adatok betöltése és feldolgozása valós idejű jármű IoT használatával.
+title: Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
+description: Valós idejű járműadatokat tölthet be és dolgozhat fel az IoT használatával.
 author: meeral
 ms.date: 09/12/2018
-ms.openlocfilehash: 68f50468c082059a67cdc898615cc21cfffeed9d
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 663332185f64987215384a1d4af4b7ed9b50847c
+ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818700"
+ms.lasthandoff: 10/09/2018
+ms.locfileid: "48876885"
 ---
-# <a name="ingestion-and-processing-of-real-time-automotive-iot-data"></a>Adatfeldolgozást és a valós idejű autógyártás IoT-adatok feldolgozása
+# <a name="ingestion-and-processing-of-real-time-automotive-iot-data"></a>Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
 
 Ebben a példaforgatókönyvben összeállít egy valós idejű adatfeldolgozást és -feldolgozási adatfolyamat kell fogadni és feldolgozni az üzenetet az IoT-eszközök (az általános érzékelők) a big Data típusú adatok elemzési platform az Azure-ban. Járműtelemetria telematika adatfeldolgozást és -feldolgozási rendszerek a következők csatlakoztatott autó-megoldásokat hozhat létre. Ebben a forgatókönyvben az autó-telematika adatfeldolgozást és -feldolgozási rendszerek alapul. Azonban a kialakítási minták számos iparágban érzékelők segítségével felügyelheti és figyelheti a komplex rendszerek például okosépületek, kommunikációs, gyártási, kereskedelmi és egészségügyi iparágak szempontjából is.
 
@@ -44,7 +44,7 @@ Egy tipikus big data típusú adatfeldolgozást folyamat végrehajtása a adatá
 IoT-eszközök által létrehozott események (adatok vagy üzenetek) vannak betöltött, feldolgozása, és ott további elemzés, bemutatót és művelet, a következő Azure-összetevők használatával:
 * [Az Apache Kafka on HDInsight](/azure/hdinsight/kafka/apache-kafka-introduction) a feldolgozási réteg van. A Kafka-témakörbe, a Kafka producer API használatával történő írja az adatokat.
 * [Az Azure Databricks](/services/databricks) az Adatátalakítási és elemzési rétegben található. Databricks-jegyzetfüzeteket megvalósítása a Kafka-fogyasztók API-t az adatok beolvasása a Kafka-témakört.
-* [Az Azure Cosmos DB](/services/cosmos-db), [Azure SQL Dataabase](/azure/sql-database/sql-database-technical-overview), és a storage kiszolgálórétegbe, ahol az Azure Databricks adatösszekötők keresztül adatokat írni az Azure SQL Data Warehouse.
+* [Az Azure Cosmos DB](/services/cosmos-db), [Azure SQL Database](/azure/sql-database/sql-database-technical-overview), és a storage kiszolgálórétegbe, ahol az Azure Databricks adatösszekötők keresztül adatokat írni az Azure SQL Data Warehouse.
 * [Az Azure SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is) egy elosztott rendszer tárolására és elemzésére a nagyméretű adathalmazok. A masszív párhuzamos feldolgozási (MPP) is teszi megfelelő a futó, nagy teljesítményű elemzési.
 * [Power bi-ban](https://docs.microsoft.com/power-bi) adatok elemzése és elemzéseket oszthat meg üzleti elemzési eszközök együttese. Power BI lekérdezhesse az Analysis Servicesben tárolt szemantikai modellt, vagy közvetlenül lekérdezheti azt az SQL Data warehouse-bA.
 * [Az Azure Active Directory (Azure AD)](/azure/active-directory) hitelesíti a felhasználókat, amikor csatlakozik [Azure Databricks](https://azure.microsoft.com/services/databricks). Ha szeretné készítünk egy adatkockát [Analysis Services](/azure/analysis-services) alapján a modellt az Azure SQL Data Warehouse-adatok alapján, sikerült használjuk aad-ben a Power bi-ban Analysis Services-kiszolgálóhoz való csatlakozáshoz. A Data Factory segítségével is az Azure AD egyszerű szolgáltatás vagy a Felügyeltszolgáltatás-identitás (MSI) az SQL Data Warehouse hitelesítéséhez.
