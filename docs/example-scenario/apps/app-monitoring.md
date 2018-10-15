@@ -3,12 +3,12 @@ title: Webalkalmazás-monitorozás az Azure-ban
 description: Monitorozhatja az Azure App Service-szel üzemeltetett webalkalmazásokat.
 author: adamboeglin
 ms.date: 09/12/2018
-ms.openlocfilehash: b1beb5cf5e29ab1ceb760bf95eab85d819b69342
-ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
+ms.openlocfilehash: ea57ba50f4e9390d5527587752c3bebad01b6139
+ms.sourcegitcommit: 42797fffb82bbbf86f6deb1da52c61d456be631e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/09/2018
-ms.locfileid: "48876851"
+ms.lasthandoff: 10/13/2018
+ms.locfileid: "49313216"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
@@ -43,7 +43,7 @@ Ebben a forgatókönyvben egy alkalmazás és az adatszint egy felügyelt Azure-
 
 - [Az Azure App Service](/azure/app-service/) egy PaaS szolgáltatás, fejlesztésére és üzemeltetésére alkalmazásokat a felügyelt virtuális gépeken. A mögöttes számítási infrastruktúra, amelyen az alkalmazások futtatása van kezelve. Az App Service erőforrás-használati kvóták és, alkalmazásmetrikák figyelését teszi lehetővé az naplózása diagnosztikai adatokat, és a riasztások a metrikák alapján. Még jobb létrehozásához használhatja az Application Insights [rendelkezésre állási tesztek] [ availability-tests] a különféle régiókból származó alkalmazás teszteléséhez.
 - [Az Application Insights] [ application-insights] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás a fejlesztők számára, és támogatja a több platformra. Az alkalmazás figyeli, észleli a teljesítményproblémákat és hibákat például alkalmazás rendellenességeket, és telemetriai adatokat küld az Azure Portalon. Az Application Insights használható naplózási, elosztott nyomkövetést és egyéni metrikákat is.
-- [Az Azure Monitor] [ azure-monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [Log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
+- [Az Azure Monitor] [ azure-monitor] alapszinten infrastruktúrát biztosít a [metrikák és naplók] [ metrics] a legtöbb szolgáltatás az Azure-ban. Többféle módon, beleértve a diagramkészítési őket az Azure Portalon, a hozzájuk férni a REST API-n keresztül vagy a lekérdezési őket a metrikák használhatja a PowerShell vagy parancssori felület használatával. Az Azure Monitor is kínál az adatok közvetlenül [A log Analytics és az egyéb szolgáltatások], ahol lekérdezheti és más helyszíni vagy felhőbeli forrásokból származó adatokat kombinálni.
 - [Log Analytics] [ log-analytics] segítségével összehasonlíthatja a használati és teljesítményadatokat Application Insights által gyűjtött és az adatok között az Azure-erőforrások, amelyek támogatják az alkalmazást. Ebben a példában a [Azure Log Analytics-ügynököket] [ Azure Log Analytics agent] paranccsal küldje le az SQL Server-naplók a Log analyticsbe. Lekérdezések és adatok megtekintése az Azure portal Log Analytics panel írhat.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
@@ -99,7 +99,7 @@ Hibakeresés közben és után az alkalmazás közzététele az Azure portal App
 
 Üzembe helyezés után megtekintheti a [élő metrikák Stream] [ Live Metrics Stream] teljesítménymutatók. Ezeket az adatokat nem tárolja---valós idejű metrikák---jelenik meg, de a telemetriát is gyűjtés és elemzés később. Nem jár az élő Stream adatokat.
 
-A Log Analyticset a szolgáltatásba betöltött GB-onként számlázzuk. Az adatok az Azure Log Analytics szolgáltatásba betöltött minden hónap első 5 GB ingyenes érhető el, és a díjmentes első 31 nap Log Analytics-munkaterület az adatok megőrződnek.
+A Log Analyticset a szolgáltatásba betöltött GB-onként számlázzuk. Az adatok az Azure Log Analytics szolgáltatásba betöltött minden hónap első 5 GB ingyenes érhető el, és a díjmentes első 31 nap Log Analytics-munkaterület az adatok megőrződnek. 
 
 ## <a name="next-steps"></a>További lépések
 
@@ -123,7 +123,7 @@ Tekintse meg ezeket az erőforrásokat, amelyek segítségével a saját figyel�
 [application-insights]: /azure/application-insights/app-insights-overview
 [azure-monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
 [metrics]: /azure/monitoring-and-diagnostics/monitoring-supported-metrics
-[Log Analytics és az egyéb szolgáltatások]: /azure/log-analytics/log-analytics-azure-storage
+[A log Analytics és az egyéb szolgáltatások]: /azure/log-analytics/log-analytics-azure-storage
 [log-analytics]: /azure/log-analytics/log-analytics-overview
 [Azure Log Analytics agent]: https://blogs.msdn.microsoft.com/sqlsecurity/2017/12/28/azure-log-analytics-oms-agent-now-collects-sql-server-audit-logs/
 [application-insights-pricing]: https://azure.microsoft.com/pricing/details/application-insights/
