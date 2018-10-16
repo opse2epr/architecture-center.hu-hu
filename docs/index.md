@@ -4,12 +4,12 @@ description: Az Azure Architecture Center a Microsoft Azure-alapú megoldások l
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 09/28/2018
-ms.openlocfilehash: d83adab02344e3a6ebd3fc703c563730c14f67e0
-ms.sourcegitcommit: 9eecff565392273d11b8702f1fcecb4d75e27a15
+ms.openlocfilehash: 8da4c9ea487d199debfd6283f8b55c0254db0fd6
+ms.sourcegitcommit: 07d221123d5df7ec9985b3084176c6019e413465
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/03/2018
-ms.locfileid: "48243597"
+ms.lasthandoff: 10/16/2018
+ms.locfileid: "49347109"
 ---
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
@@ -169,7 +169,7 @@ ms.locfileid: "48243597"
     </li>
     <!-- design patterns -->
     <li>
-        <a href="/azure/architecture/microservices">
+        <a href="/azure/architecture/patterns">
             <div class="cardSize">
                 <div class="cardPadding">
                     <div class="card">
