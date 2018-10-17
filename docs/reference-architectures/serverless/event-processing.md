@@ -1,4 +1,16 @@
-# <a name="event-processing-using-azure-functions"></a>Események feldolgozása az Azure Functions használatával
+---
+title: Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
+description: A referenciaarchitektúra bemutatja a kiszolgáló nélküli eseményfogadás és feldolgozás
+author: MikeWasson
+ms.date: 10/16/2018
+ms.openlocfilehash: 2bb7600fbed95e4b9368cf342c0bc6a75c5f8755
+ms.sourcegitcommit: 113a7248b9793c670b0f2d4278d30ad8616abe6c
+ms.translationtype: MT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 10/16/2018
+ms.locfileid: "49349938"
+---
+# <a name="serverless-event-processing-using-azure-functions"></a>Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 
 Ez a referenciaarchitektúra bemutatja, egy kiszolgáló nélküli, eseményvezérelt architektúra, amely egy adatfolyam betölti, feldolgozza az adatokat és az eredményeket egy háttér-adatbázisba írja. Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
