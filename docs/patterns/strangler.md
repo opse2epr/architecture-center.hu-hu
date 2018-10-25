@@ -1,54 +1,55 @@
 ---
-title: Strangler minta
-description: Növekményesen áttelepítése egy korábbi rendszer fokozatosan cseréje nehezen funkció az új alkalmazásokkal és szolgáltatásokkal.
+title: Leépítő minta
+description: Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: d03e8a1ef9077b6e00ea5a17423bf7e09b68111a
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 0bf0b76a69f947419da83edd894a04dbea02371b
+ms.sourcegitcommit: 2ae794de13c45cf24ad60d4f4dbb193c25944eff
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24540985"
+ms.lasthandoff: 10/25/2018
+ms.locfileid: "50001881"
 ---
-# <a name="strangler-pattern"></a>Strangler minta
+# <a name="strangler-pattern"></a>Leépítő minta
 
-Növekményesen áttelepítése egy korábbi rendszer fokozatosan cseréje nehezen funkció az új alkalmazásokkal és szolgáltatásokkal. Lecseréli a korábbi rendszer szolgáltatásait, mert az új rendszer végül lecseréli a régi rendszerre a Funkciók, a régi rendszerre strangling, és lehetővé téve az leszerelése. 
+Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél. A korábbi rendszer funkcióinak lecserélésével idővel az új rendszer felváltja a régi rendszer összes funkcióját, leépítve a régi rendszert, és lehetővé téve annak leszerelését. 
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Mivel volt épülő rendszerek élettartamát a fejlesztői eszközök, üzemeltetési technológia, és még akkor is, függvényében egyre válhat elavult. Új szolgáltatások és funkciók hozzáadása, ezek az alkalmazások összetettsége jelentősen növekedhet, így nehezebb karbantartása, vagy adja hozzá az új szolgáltatások.
+A rendszerek öregedésével az azok alapjául szolgáló fejlesztési eszközök, üzemeltetési technológia és a rendszerarchitektúrák is jelentősen elavulttá válhatnak. Új szolgáltatások és funkciók hozzáadásával ezen alkalmazások összetettsége jelentősen nőhet, így a karbantartásuk, illetve a további funkciók hozzáadása nehezebb lesz.
 
-Egy összetett rendszer teljes csere hatalmas vállalkozás is lehet. Gyakran szüksége lesz egy fokozatos áttelepítés új rendszerre, miközben megőrzi a régi rendszerre funkciókat, amelyek még nem lettek áttelepítve kezelésére. Azonban az alkalmazás két külön verzióit futtató azt jelenti, hogy az ügyfelek tudni, hogy hol találhatók az adott szolgáltatások. Minden alkalommal, amikor egy szolgáltatás vagy szolgáltatás áttelepítése, ügyfelek frissítenie kell a helyre mutasson.
+Egy összetett rendszer teljes cseréje hatalmas feladat lehet. Gyakran fokozatosan kell áttérni az új rendszerre a régi rendszer megtartása mellett a még nem migrált funkciók kezelése céljából. Egy alkalmazás két különálló verziójának futtatásakor azonban az ügyfeleknek tudniuk kell, hol találhatóak az egyes funkciók. Funkciók vagy szolgáltatások migrálásakor az ügyfeleket minden alkalommal frissíteni kell, hogy az új helyre mutassanak.
 
 ## <a name="solution"></a>Megoldás
 
-Növekményesen cserélje funkció nehezen új alkalmazásokhoz és szolgáltatásokhoz. Hozzon létre egy homlokzati, amely elfogja a beérkező kéréseket a háttérrendszer örökölt címen. A homlokzati ezeket a kérelmeket, vagy az örökölt alkalmazást vagy az új szolgáltatások irányítja. Meglévő szolgáltatások telepíthetők át az új rendszerre fokozatosan, és a felhasználók továbbra is használhatják az ugyanazon a felületen érzékelte, hogy az áttelepítési megtörtént.
+Fokozatosan cserélje le az egyes funkciókat új alkalmazásokra és szolgáltatásokra. Egy előtérrendszer létrehozásával elfoghatja a korábbi háttérrendszernek címzett kérelmeket. Az előtérrendszer ezeket a kérelmeket a korábbi alkalmazáshoz vagy az új szolgáltatásokhoz irányítja. A meglévő szolgáltatások fokozatosan migrálhatóak az új rendszerre, és a fogyasztók továbbra is ugyanazt a felületet használhatják anélkül, hogy bármit érzékelnének a migrálásból.
 
 ![](./_images/strangler.png)  
 
-Ez a minta segítségével az áttelepítésből minimálisra, és fejlesztési részéről az erőfeszítés eloszlatva idő. Biztonságosan útválasztási a felhasználók a megfelelő alkalmazás homlokzati hozzáadhat funkció az új rendszerre bármilyen ütemben van lehetősége, miközben gondoskodik az örökölt alkalmazás továbbra is működik. Idővel szolgáltatások áttelepítése az új rendszerre, a korábbi rendszer van végül "strangled" és már nem szükséges. Ez a folyamat befejeződése után a korábbi rendszer biztonságosan lehet visszavonni.
+Ez a minta segít minimálisra csökkenteni a migrálással járó kockázatokat, és időben jobban elosztja a fejlesztési folyamatot. Miközben az előtérrendszer biztonságosan a megfelelő alkalmazáshoz irányítja a felhasználókat, tetszés szerint ütemezve adhat funkciókat az új rendszerhez a korábbi alkalmazás működésének fenntartása mellett. A funkciók új rendszerre való migrálása idővel „leépíti” a régi rendszer funkcionalitását, és nem lesz rá többet szükség. A folyamat befejeződése után a régi rendszer biztonságosan megszüntethető.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-- Fontolja meg az új és a korábbi rendszerek által esetleg használt szolgáltatásaikat és adataikat tárolók kezelése. Győződjön meg arról, hogy mindkét hozzáférhet az ezen erőforrások-mellé.
-- Struktúra új alkalmazások és szolgáltatások oly módon, hogy azok könnyen megszerezhetik, és lecseréli a jövőben strangler áttelepítéseket.
-- Bármikor az áttelepítés akkor fejeződött be, amikor a strangler homlokzati fog eltűnik vagy be egy adapter esetében a hagyományos fejleszteni.
-- Ellenőrizze, hogy a homlokzati összhangban van-e az áttelepítés.
-- Ellenőrizze, hogy a homlokzati egyetlen pont, hibát vagy a teljesítménybeli szűk keresztmetszetek nem válik.
+- Fontolja meg, hogyan kívánja kezelni azokat a szolgáltatásokat és adattárakat, amelyeket esetlegesen az új és a régi rendszer is használhat. Biztosítsa, hogy a két rendszer egyidejűleg hozzáférhessen ezekhez az erőforrásokhoz.
+- Úgy alakítsa ki az új alkalmazások és szolgáltatások szerkezetét, hogy könnyen elfoghatóak és lecserélhetőek legyenek a jövőbeli leépítési migrálások során.
+- A migrálás befejeződése után a leépítési előtérrendszer megszüntethető, vagy régebbi ügyfelek adapterévé alakítható.
+- Gondoskodjon róla, hogy az előtérrendszer lépést tartson a migrálással.
+- Ügyeljen rá, hogy az előtérrendszer ne váljon kritikus meghibásodási ponttá, és ne képezhessen teljesítménybeli szűk keresztmetszetet.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ezt a mintát használja, egy háttér-alkalmazás egy új architektúra fokozatosan áttelepítésekor.
+Ezt a mintát háttéralkalmazások új architektúrákra való fokozatos migrálásához használhatja.
 
-Ez a minta nem alkalmasak lehetnek:
+Nem érdemes ezt a mintát használni, ha:
 
-- Ha a kérelmeket a háttér-rendszer elfogta nem.
-- Azon kisebb rendszerekhez nagybani helyettesítő összetettsége alacsony.
+- A háttérrendszernek küldött kérelmek nem foghatók el.
+- Kisebb rendszerek esetében, ahol a teljes körű lecserélés összetettsége alacsony.
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Víruskereső sérülés réteg minta](./anti-corruption-layer.md)
-- [Átjáró útválasztás minta](./gateway-routing.md)
+- A Martin Fowler blogbejegyzés [StranglerApplication](https://www.martinfowler.com/bliki/StranglerApplication.html)
+- [Sérülésgátló réteg minta](./anti-corruption-layer.md)
+- [Átjáró-útválasztási minta](./gateway-routing.md)
 
 
  

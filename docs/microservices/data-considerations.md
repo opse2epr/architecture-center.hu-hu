@@ -1,90 +1,90 @@
 ---
-title: Mikroszolgáltatások adatok szempontjai
-description: Mikroszolgáltatások adatok szempontjai
+title: Az adatok mikroszolgáltatások kapcsolatos szempontok
+description: Az adatok mikroszolgáltatások kapcsolatos szempontok
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: 9bd7a8424309b5753b42cfb70559836288a3ce9d
-ms.sourcegitcommit: c7f46b14ad7d55cf553b2d0b01045c9c25aefcdb
+ms.date: 10/23/2018
+ms.openlocfilehash: 5ef2578820c3e02ac2293a5fcb5581bdccf96966
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/09/2017
-ms.locfileid: "26587756"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962840"
 ---
-# <a name="designing-microservices-data-considerations"></a>Mikroszolgáltatások tervezése: adatok kapcsolatos szempontok
+# <a name="designing-microservices-data-considerations"></a>Mikroszolgáltatások tervezése: az adatok kapcsolatos szempontok
 
-Ez a fejezet mikroszolgáltatások architektúra adatok kezelésével kapcsolatos szempontokat ismerteti. Minden mikroszolgáltatási kezeli a saját adatok, mert adatintegritást és az adatok konzisztenciájának áttekinthet kritikus.
+Ez a fejezet a mikroszolgáltatási architektúrákban adatkezelési szempontokat ismerteti. Mivel minden mikroszolgáltatás kezeli a saját adatai, a adatintegritásának és adatkonzisztencia kritikus kihívásokat is.
 
 ![](./images/data-considerations.png)
 
-Egy alapszintű mikroszolgáltatások lényege, hogy minden egyes szolgáltatás kezeli a saját adatok. Két szolgáltatást nem kell ugyanazt a tárolóban. Ehelyett minden a szolgáltatás felelős a saját személyes adattároló, amely más szolgáltatások nem tud közvetlenül hozzáférni.
+A mikroszolgáltatások egyik alapelve, hogy mindegyik szolgáltatás a saját adatait felügyeli. Két szolgáltatást kell ossza meg a tárolóban. Ehelyett minden egyes szolgáltatás a saját személyes adattár, amely más szolgáltatások közvetlenül nem férnek hozzá felelős.
 
-Ez a szabály oka közötti szolgáltatásokat, amelyek okozhat, ha a szolgáltatások megosztani az azonos alapjául szolgáló adatok sémák nem szándékos kapcsoló elkerülése érdekében. Ha az adatok séma módosítva lett, a módosítás minden szolgáltatásban, amely támaszkodik, hogy az adatbázis össze kell hangolni. Minden szolgáltatás adattár elkülönítésével azt is korlátozza a módosítás következményeivel, és valóban független központi telepítések agilitást megőrzése. Egy másik oka az, hogy minden egyes mikroszolgáltatási előfordulhat, hogy a saját adatok modellek, a lekérdezések, vagy olvasási/írási kombinációját. Minden team képességét az adott szolgáltatáshoz adattárolás optimalizálása érdekében a megosztott tároló használata korlátozza. 
+Ez a szabály az az oka, hogy kerülje a szolgáltatások, amelyek okozhat, ha a szolgáltatások megosztása az azonos mögöttes adatsémák véletlen összekapcsolását. Az adatséma változás történik, ha a módosítást kell koordinált összes támaszkodik, hogy az adatbázis-szolgáltatás között. Minden egyes szolgáltatás adattárát elkülönítésével azt is módosítása hatókörének korlátozása, és valóban független üzembe helyezések rugalmasságának megőrzése. Egy másik oka, hogy mindegyik mikroszolgáltatás előfordulhat, hogy rendelkezik a saját adatmodellt, a lekérdezések, vagy olvasási/írási mintákat. A megosztott tárolóban használata korlátozza az egyes csapatok lehetővé teszi az adott szolgáltatáshoz adatok a tárolási költségek optimalizálására. 
 
 ![](../guide/architecture-styles/images/cqrs-microservices-wrong.png)
 
-Ezt a megközelítést vezet természetes [polyglot adatmegőrzési](https://martinfowler.com/bliki/PolyglotPersistence.html) &mdash; több adatok tárolási technológiákat belül egyetlen alkalmazás használatát. Egy szolgáltatási dokumentum-adatbázis a séma-a-olvasási képességek lehet szükség. Egy másik módosítania kell a hivatkozási integritás egy RDBMS által biztosított. Minden csoport, így a szolgáltatás a legjobb választás. Az általános elvet polyglot adatmegőrzési kapcsolatban bővebben lásd: [használjon a legjobb adatok tárolásához a feladat](../guide/design-principles/use-the-best-data-store.md). 
+Ezt a megközelítést vezet természetes módon [polyglot-adatmegőrzés](https://martinfowler.com/bliki/PolyglotPersistence.html) &mdash; több egy alkalmazáson belül adattárolási technológiák használatát. Egy szolgáltatás szükség lehet a dokumentum-adatbázis az olvasási séma képességeit. Egy másik szükség lehet a RDBMS által biztosított hivatkozási integritást. Minden egyes csapat díjmentes, hogy a szolgáltatás a legjobb választás. Az általános elvet polyglot-adatmegőrzés kapcsolatos további információkért lásd: [a feladathoz legmegfelelőbb adattárat használja](../guide/design-principles/use-the-best-data-store.md). 
 
 > [!NOTE]
-> Azt megosztása ugyanazon fizikai adatbázis-kiszolgáló szolgáltatások rendben. A probléma akkor fordul elő, amikor szolgáltatások megosztása ugyanazon séma, vagy olvasási és írási ugyanazokat a adatbázistáblák.
+> Ez nem okoz gondot szolgáltatások ugyanazon fizikai adatbázis-kiszolgáló megosztásához. A probléma akkor fordul elő, amikor a szolgáltatások megosztani ugyanazzal a sémával vagy olvasási és írási ugyanazokat az adatbázistáblák.
 
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-Ez a megközelítés elosztott némi kihívást adatok kezelésének merülhetnek fel. Első lépésként lehet redundancia az adattároló, az azonos elem több helyen jelennek meg adatok között. Például adatok előfordulhat, hogy lehet egy tranzakció részeként tárolja, majd az elemzés, reporting, vagy a máshol tárolt. Ismétlődik vagy particionált adatok adatintegritást és konzisztencia vezethet. Adatok kapcsolatok span több szolgáltatásra, amikor a hagyományos technikák kényszeríteni a kapcsolatok nem használhat.
+Ez a megközelítés elosztott áttekinthet néhány problémát, adatkezelési merülnek fel. Először is előfordulhatnak redundancia különböző adattárakban, és az azonos elem több helyen jelennek meg adatok. Például adatok előfordulhat, hogy lehet egy tranzakció részeként tárolja, majd Analytics, a jelentésben, vagy archiválása máshol tárolt. Ismétlődik vagy particionált adatok is az adatok integritásának megőrzése, és a konzisztencia problémákat okozhat. Adatkapcsolatok span több szolgáltatást, amikor kényszeríteni a kapcsolatokat a hagyományos felügyeleti technikák nem használható.
 
-Hagyományos modellezési használja a szabály az "egy kapcsolattény egyetlen helyen." Minden entitás pontosan egyszer jelenik meg a sémában. Egyéb entitások hivatkoznak rá tárolására, de nem ismétlődő. A nyilvánvaló a hagyományos megközelítés előnye, hogy frissítések válnak, egyetlen helyen, és elkerülhetők a problémák az adatok konzisztenciájának. Mikroszolgáltatások architektúra esetén meg kell figyelembe venni, hogyan frissítések továbbítódnak szolgáltatásban, és kezelése a végleges konzisztencia, amikor adatok nélkül az erős konzisztencia több helyen jelennek meg. 
+A hagyományos modellezési használja a szabály az "egy tény egy helyen." Minden entitás pontosan egyszer jelenik meg a sémában. Más entitások hivatkozásokat tartalmaznak, de nem másolhatja. A nyilvánvaló hagyományos megközelítés előnye, hogy egyetlen helyen, és elkerülhetők a problémák az adatok konzisztenciájának végrehajtott frissítések. A mikroszolgáltatási architektúrákban akkor fontolja meg, hogyan frissítések szolgáltatás lépnek, és hogyan kezelje az erős konzisztencia nélkül több helyen jelenik meg adat végleges konzisztencia. 
 
-## <a name="approaches-to-managing-data"></a>Az adatkezelés megközelítése
+## <a name="approaches-to-managing-data"></a>Módszerek az adatok kezelése
 
-Nincs egyetlen módszert alkalmaz, amely minden esetben helyes van, de az alábbiakban néhány általános irányelveket mikroszolgáltatások architektúra adatok kezeléséhez.
+Nincs egyetlen módszer, amely minden esetben helyes van, de Íme néhány általános irányelveket a mikroszolgáltatási architektúrákban adatok kezeléséhez.
 
-- Vezessék be a végleges konzisztencia, ahol csak lehetséges. Ismerje meg a helyek, a rendszer, ahol az erős konzisztencia vagy ACID-tranzakciókat és a helyeken, ahol a végleges konzisztencia elfogadható kell.
+- Ahol lehetséges, támogassa a végső konzisztenciát. Ismerje meg a helyek, a rendszer, ahol erős konzisztencia vagy ACID-tranzakciókat, és a helyeket, ahol a végleges konzisztencia fogadható el kell.
 
-- Ha módosítania kell az erős konzisztencia biztosítja, egy szolgáltatás jelöl egy adott entitás, amely fel van fedve egy API-n keresztül igazság forrását. Egyéb szolgáltatások előfordulhat, hogy rendelkezik, saját az adatok másolatát, vagy az adatok, idővel konzisztenssé váljanak a törzsadatok, de nem tekinthető igazság forrását egy részét. Tegyük fel az elektronikus kereskedelmi rendszer rendelés ügyfélszolgálata és a javaslási szolgáltatása. A javaslat szolgáltatás események sorrendben szolgáltatásból előfordulhat, hogy figyelésére, de az ügyfél a vételár kérelmek esetén a rendelés szolgáltatás, nem a javaslat szolgáltatást, a teljes tranzakció előzmények.
+- Erős konzisztencia megvalósulásának van szüksége, amikor egy szolgáltatás jelöl az adott entitások, amelyek egy API-n keresztül közvetlenül hiteles forráshoz. Egyéb szolgáltatások olyan saját maguk az adatok másolatát, vagy az adatok, idővel konzisztenssé váljanak a törzsadatok, de nem veszi figyelembe a hiteles forrásaként egy részét. Képzeljünk el például egy e-kereskedelmi rendszerben egy rendelés ügyfélszolgálat és a egy szolgáltatás. A szolgáltatás-események előfordulhat, hogy figyelése a rendelés szolgáltatásból, de az ügyfél kéri a visszatérítés, hogy a rendelés szolgáltatás, nem a javaslat szolgáltatás, amely rendelkezik a teljes tranzakció előzmények.
 
-- Az egyes tranzakciókra vonatkozóan, használjon minták például [Feladatütemező ügynök felügyelő](../patterns/scheduler-agent-supervisor.md) és [Compensating tranzakció](../patterns/compensating-transaction.md) és konzisztens adatok több szolgáltatásban.  Előfordulhat, hogy kell tárolni egy további adat, amely több szolgáltatásra, több szolgáltatás között részleges hiba elkerülése érdekében kiterjedő munkaegység állapotát rögzíti. Munkaelem például tárolása tartós várólista, amíg folyamatban van egy több tranzakció. 
+- Tranzakció, használjon minták például [Feladatütemező ügynök felügyeleti](../patterns/scheduler-agent-supervisor.md) és [kompenzáló tranzakció](../patterns/compensating-transaction.md) és konzisztens adatokat több szolgáltatás között.  Szükség lehet tárolásához egy további adat, amely egy, több szolgáltatást, többek között több szolgáltatást részleges hiba elkerülése érdekében kiterjedő munkaegység állapotát rögzíti. Például, hogy egy munkaelemet az tartós üzenetsor amíg folyamatban van egy több lépésből álló tranzakció. 
 
-- Csak a szolgáltatás igénylő adatainak tárolására. A szolgáltatás csak módosítania kell a tartomány entitás információt egy részét. Például a szállítási, amelyet a környezetben, azt kell tudni, hogy mely ügyfelek egy adott kézbesítési társítva. Nem szükséges az ügyfél számlázási címét, de &mdash; , amely kezeli a fiók, amelyet a környezetben. Itt gondosan gondolat a tartományhoz, és egy DDD megközelítéssel segítségével. 
+- Store csak a szolgáltatás szükséges adatokat. Szolgáltatás előfordulhat, hogy elegendő információ egy tartományi entitás egy része. Például a szállítási, amelyet a környezetben, azt kell tudni, hogy melyik ügyfél egy adott kézbesítési társítva. Az ügyfél számlázási cím nincs szükségünk, de &mdash; , amely a fiók, amelyet környezet kezeli. A tartomány gondosan mértékegységeként és DDD módszerével, itt is segítségével. 
 
-- Vegye figyelembe, hogy a szolgáltatások következetes és lazán összekapcsolt-e. Ha két szolgáltatást folyamatosan cserél információt egymással, chatty API-k, ami esetleg a szolgáltatás határok újbóli egyesítése két szolgáltatás vagy funkció újrabontása.
+- Vegye figyelembe, hogy a szolgáltatások-e következetes és lazán összekapcsoltak. Ha a két szolgáltatás folyamatosan cserél információt egymással, forgalmas API-kat, így szükség lehet újrarajzolja a szolgáltatások határait egyesítése a két szolgáltatás vagy funkció újrabontás.
 
-- Használjon egy [eseményvezérelt architektúra stílus](../guide/architecture-styles/event-driven.md). A architektúra stílusát, a szolgáltatás közzéteszi a egy eseményt, amikor az nyilvános modellek és entitások módosultak. Érintett szolgáltatások ezeket az eseményeket is kérheti. Azt jelzi, például egy másik szolgáltatás használhatja-e az adatok lekérdezése több megfelelő materializált nézet létrehozásához az eseményeket. 
+- Használja az [eseményvezérelt architektúra stílusának](../guide/architecture-styles/event-driven.md). Ezt az architektúrastílust, a szolgáltatás egy eseményt, amikor a nyilvános modellek és entitások mértékben tesz közzé. Az érintett szolgáltatások előfizethetnek ezeket az eseményeket. Ha például egy másik szolgáltatás használatával az események hozhatnak létre, amely több lehetővé teszi az adatok materializált nézet. 
 
-- Egy szolgáltatás események birtokló közzé kell tennie egy séma, amely segítségével automatizálhatja a szerializálása és deszerializálása események, gyártók és előfizetők közötti szoros kapcsoló elkerülése érdekében. Távolítsa el a JSON-séma vagy a keretrendszer például [Microsoft Bond](https://github.com/Microsoft/bond), Protobuf vagy Avro.  
+- Egy szolgáltatás, amely a tulajdonában lévő események tegyen közzé egy sémát, amely segítségével automatizálhatja a szerializálásához és deszerializálásához az események között a kiadók és -előfizetők szoros összekapcsolódást elkerülése érdekében. Gondolja át, JSON-sémájában vagy keretrendszert, például [Microsoft Bond](https://github.com/Microsoft/bond), Protopuf, vagy avro-hoz.  
  
-- Nagy adatmennyiség esetén események keresztmetszetet jelenthet a rendszer, ezért fontolja meg az összesítés használatával, vagy a teljes terhelés csökkentésére kötegelés. 
+- Nagy adatmennyiség esetén események a rendszer szűk keresztmetszetté válik, ezért érdemes az összesítést használ, vagy a teljes terhelés csökkentésére, kötegelés. 
 
-## <a name="drone-delivery-choosing-the-data-stores"></a>Dron kézbesítési: Az adattároló kiválasztása 
+## <a name="drone-delivery-choosing-the-data-stores"></a>Drone Delivery: Az adattárak kiválasztása 
 
-Csak néhány szolgáltatások használatát, még a szállítás, amelyet a környezetben mutatja be, az ebben a szakaszban tárgyalt pontok számos. 
+A szállítási korlátozott környezet mellett csak pár szolgáltatásokat is mutatja be a jelen szakaszban tárgyalt pontok számos. 
 
-Amikor egy felhasználó egy új kézbesítési ütemezi, az ügyfél kérésében tartalmazza a mindkét a kézbesítési, például a felvétel és dropoff helyeket, és a csomag, például a méret és a súlyozást. Ez az információ munkaegység, amely a adatfeldolgozást szolgáltatás küld az Event Hubs határozza meg. Fontos, hogy a munkaegység marad az állandó tároló közben a Feladatütemező szolgáltatás végrehajtja a munkafolyamatot, hogy a kézbesítési kérelmek nem elvesznek. A munkafolyamat több leírását lásd: [adatfeldolgozást és a munkafolyamat](./ingestion-workflow.md). 
+Amikor egy felhasználó egy új szállítási ütemezi, az ügyfél kérése a mindkét kézbesítését, például a begyűjtés és dropoff helyeken, adatait és a csomag, például a méret és a súlyozást is tartalmaz. Ez az információ munka, amely a szolgáltatás elküldi az Event Hubs egy egységet határozza meg. Fontos, hogy a munkahelyi mértékegység marad állandó tárolóban a Scheduler szolgáltatás a munkafolyamat végrehajtása közben, hogy nincsenek kézbesítési kérelmek elvesznek. A munkafolyamat több tárgyalását lásd: [adatfeldolgozás és munkafolyamatok](./ingestion-workflow.md). 
 
-A különböző háttér-szolgáltatások különböző részei a kérelemben szereplő információk érdeklik és is rendelkezik különböző olvasási és írási profilok. 
+A különböző háttérrendszerekhez érdeklik a különböző részeit az adatokat a kérésben és is rendelkezik különböző olvasási és írási profilok. 
 
 ### <a name="delivery-service"></a>Kézbesítési szolgáltatás
 
-A kézbesítési szolgáltatás kapcsolatos minden jelenleg ütemezett kézbesítését vagy a folyamatban lévő adatait tárolja. A dronok származó eseményeket figyeli, és nyomon követi a folyamatban lévő kézbesítések állapotát. Is küld a tartományhoz események kézbesítési állapotának frissítése.
+A kézbesítési szolgáltatás minden teljesítés jelenleg ütemezett kapcsolatos és folyamatban lévő információkat tárolja. Figyeli a drónok-eseményfolyam megtekintéséhez a, és nyomon követi a folyamatban lévő kézbesítések állapotát. Tartományi események kézbesítési állapotának frissítése is elküldi.
 
-Valószínű, hogy a felhasználók gyakran abban az esetben ellenőrizze a kézbesítési állapotát, amíg a csomag vár. A kézbesítési szolgáltatás, ezért a tárolóban, amely emeli ki átviteli (olvasási és írási) keresztül hosszú távú tárolás szükséges. Emellett a kézbesítési szolgáltatás nem végez semmilyen összetett lekérdezéseknél, illetve elemzési, egyszerűen kéri le a legfrissebb állapotát egy adott szállítási. A szállítási csoport számára a nagy írási és olvasási teljesítményt Azure Redis Cache választott. A Redis tárolt információk viszonylag rövid élettartamú. A szállítási végrehajtása után a kézbesítési előzmények szolgáltatás a rendszer rekord.
+Valószínű, hogy a felhasználók gyakran abban az esetben ellenőrizze a kézbesítési állapotát, amíg a csomag várnak. Ezért a kézbesítési szolgáltatás igényel, amelyek kiemelik átviteli (olvasási és írási) keresztül hosszú távú tárolás a tárolóban. Emellett a kézbesítési szolgáltatás nem hajt végre semmilyen összetettebb lekérdezések vagy az analysis, egyszerűen lekéri a legfrissebb állapotát egy adott szállítási. A kézbesítés service csapatának Azure Redis Cache választotta, a magas olvasási és írási teljesítmény. A redis tárolt adatok viszonylag rövid életű. A kézbesítési befejezése után a a szállítás előzményei szolgáltatás a rendszerben.
 
-### <a name="delivery-history-service"></a>Kézbesítési előzmények szolgáltatás
+### <a name="delivery-history-service"></a>Előzmények szolgáltatásra
 
-A szállítási előzmények szolgáltatás figyeli a kézbesítési állapoteseményeit a kézbesítési szolgáltatásból. Ezek az adatok hosszú távú tárolás tárolja. Nincsenek két különböző használati esetek a korábbi adatok, amelyek különböző adattárolási követelmények. 
+A szállítás előzményei szolgáltatás figyeli a kézbesítési szolgáltatás eseményeit, szállítási állapot. A hosszú távú tárolás tárolja ezeket az adatokat. Nincsenek két különböző használati esetek korábbi adatok, amelyek eltérő tárolási követelményekkel rendelkeznek. 
 
-Az első forgatókönyv összesítése van az adatok az üzleti optimalizálás, vagy a szolgáltatások minőségének javítása érdekében a adatelemzés céljából. Vegye figyelembe, hogy a kézbesítési előzmények szolgáltatás nem hajtja végre a tényleges adatok elemzése. Csak felelős adatfeldolgozást és tárolására. Ebben a forgatókönyvben a tárolót kell optimalizálni adatelemzés adatokat, a séma-a-olvasási megközelítés adatforrások számos olyan számos keresztül. [Azure Data Lake Store](/azure/data-lake-store/) jó alkalmas ebben a forgatókönyvben. Data Lake Store a Hadoop elosztott fájlrendszerrel (HDFS) kompatibilis Apache Hadoop fájl rendszer, és a teljesítmény adatok analytics forgatókönyvek van beállítva. 
+Az első forgatókönyv összesíti az adatokat a data-elemzések, optimalizálhatja az üzleti vagy a szolgáltatás minőségének javítása érdekében. Vegye figyelembe, hogy a szállítás előzményei szolgáltatás nem hajtja végre a tényleges adatok elemzése. Csak feladata a feldolgozási és tárolási. A jelen esetben a storage kell optimalizálni adatelemzés keresztül adatokat, egy olvasási séma megközelítést befogadására, adatforrások különböző nagy készletét. [Az Azure Data Lake Store](/azure/data-lake-store/) van egy jó választás a ebben a forgatókönyvben. Data Lake Store az Apache Hadoop-fájlrendszer az a Hadoop elosztott fájlrendszer (HDFS) kompatibilis, és a nagy teljesítményt nyújtson az adatelemzési forgatókönyvekben. 
 
-A más forgatókönyv van így a felhasználók egy kézbesítési előzményeinek keresse meg a szállítási befejezése után. Azure Data Lake különösen nincs optimalizálva ehhez a forgatókönyvhöz. Az optimális teljesítmény érdekében a Microsoft azt javasolja, Data Lake dátum szerint particionálva mappákban idősorozat adatok tárolására. (Lásd: [hangolása Azure Data Lake Store a teljesítmény](/azure/data-lake-store/data-lake-store-performance-tuning-guidance)). Struktúra azonban nem optimális gyűjtéséhez az egyes rekordok azonosítóját. Csak is tudja a timestamp,-azonosító szerinti keresés igényel, a teljes gyűjteményt vizsgálatát. Emiatt a küldési előzményeinek szolgáltatás is tárolja a korábbi adatok egy részét Cosmos DB gyorsabb kereséshez. A rekordok nem kell ahhoz, hogy határozatlan ideig maradjanak az Cosmos-Adatbázisba. Régebbi kézbesítések archiválhatók &mdash; tegyük fel például, egy hónap után. Ezt megteheti az alkalmi kötegelt folyamat futtatásával.
+A bármilyen más forgatókönyvhöz van így a felhasználók a kézbesítési befejeződése után keresse ki egy kézbesítési előzményeit. Az Azure Data Lake különösen nincs optimalizálva az ebben a forgatókönyvben. Az optimális teljesítmény érdekében a Microsoft azt javasolja, a Data Lake dátum alapján particionált mappákban idősorozat-adatok tárolására. (Lásd: [a teljesítmény hangolása az Azure Data Lake Store](/azure/data-lake-store/data-lake-store-performance-tuning-guidance)). Struktúra viszont nem optimális által az egyes rekordok keresése Ha is tudja a timestamp, a keresés azonosító alapján szükséges, vizsgálata a teljes gyűjteményt. Ezért a szállítás előzményei szolgáltatás is tárolja a korábbi adatok egy részét Cosmos DB-ben a gyorsabb keresés. A rekordok nem kell a Cosmos DB-ben határozatlan ideig marad. Régebbi kézbesítések archiválhatók &mdash; egy hónap után mondja ki. Ezt megteheti egy alkalmi kötegfolyamat futtatásával.
 
-### <a name="package-service"></a>Csomag szolgáltatás
+### <a name="package-service"></a>Szolgáltatási csomag
 
-A csomag szolgáltatás csomagokat kapcsolatos információkat tárolja. A csomag tárolási követelményei a következők: 
+A csomag szolgáltatás az összes olyan csomagot adatait tárolja. A csomag tárolási követelményei a következők: 
 
 - Hosszú távú tároláshoz.
-- Nagy írási teljesítményt igénylő, a csomagok nagy mennyiségű kezelésére képes.
-- Támogatja az egyszerű lekérdezések csomagazonosító. Nincs bonyolult illesztésekre vagy a hivatkozási integritás követelményei.
+- Nagy mennyiségű, csomagok, nagy írási teljesítményt igénylő kezelésére képes.
+- Támogatja az egyszerű lekérdezések csomagazonosítót. Nem bonyolult illesztésekre vagy a hivatkozásintegritás.
 
-Mivel a csomagban található adat nem relációs, egy Dokumentumközpontú adatbázis megfelelő, és Cosmos DB a szilánkos gyűjtemények segítségével nagyon nagy átviteli sebesség érhető el. A csoport, amely a csomag szolgáltatásban működik, és melyik ismeri a átlagos verem (MongoDB, Express.js, AngularJS és Node.js), a a [MongoDB API](/azure/cosmos-db/mongodb-introduction) Cosmos-adatbázis számára. Amely lehetővé teszi, hogy kihasználja a meglévő tapasztalataikat a MongoDB, amely egy olyan felügyelt Azure szolgáltatás Cosmos DB előnyei lekérése közben.
+Mivel a csomag adatai nem relációs, dokumentum-orientált adatbázis megfelelő, és Cosmos DB nagyon nagy átviteli sebességet érhet el horizontálisan skálázott gyűjtemények használatával. A csoport, amely a csomag szolgáltatás működik tisztában van-e a MEAN-verem (MongoDB, szolgáló Express.js, AngularJS és Node.js), így azok válassza ki a [MongoDB API-val](/azure/cosmos-db/mongodb-introduction) Cosmos DB-hez készült. Amely lehetővé teszi a MongoDB, ez egy felügyelt Azure-szolgáltatás a Cosmos DB előnyeit beolvasása közben meglévő élményt kiaknázását.
 
 > [!div class="nextstepaction"]
-> [Értekezleteire kommunikáció](./interservice-communication.md)
+> [Szolgáltatások közötti kommunikáció](./interservice-communication.md)

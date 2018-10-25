@@ -1,122 +1,122 @@
 ---
-title: Mikroszolgáltatások értekezleteire kommunikáció
-description: Mikroszolgáltatások értekezleteire kommunikáció
+title: Szolgáltatások közötti kommunikáció a mikroszolgáltatások
+description: Szolgáltatások közötti kommunikáció a mikroszolgáltatások
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: aff2fb7b2be25ca32d6224cee15363880cfb1488
-ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
+ms.date: 10/23/2018
+ms.openlocfilehash: 19a54ffc362a1fc88c3255c9346bd697a319b143
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/29/2017
-ms.locfileid: "27549127"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962959"
 ---
-# <a name="designing-microservices-interservice-communication"></a>Mikroszolgáltatások tervezése: Interservice kommunikáció
+# <a name="designing-microservices-interservice-communication"></a>Mikroszolgáltatások tervezése: szolgáltatások közötti kommunikáció
 
-Mikroszolgáltatások közötti kommunikáció hatékony és nagy teljesítményű kell lennie. A sok kisméretű szolgáltatások közötti kommunikáció során egyetlen tranzakció végrehajtásához kihívást is lehet. Ebben a fejezetben úgy tekintünk között szinkron API-k és aszinkron üzenetkezelési mellékhatásokkal is. Ezután úgy tekintünk, néhány a kihívásokat tervezésének rugalmas értekezleteire kommunikációra és a szerepkör, amely a szolgáltatás rácsvonal játszhatja le.
+Mikroszolgáltatások közötti kommunikáció hatékony és robusztus kell lennie. Sok kis szolgáltatások egyetlen tranzakció végrehajtásához használja ez kihívást jelenthet. Ebben a fejezetben áttekintjük az aszinkron üzenetkezelés és szinkron API-k érvényesíthető kompromisszumokat. Ezután hogy tekintsen meg néhányat a rugalmas közötti kommunikációt eredményezhet, és a szerepkör, amely a szolgáltatás rácsvonal lejátszható kialakításának is kihívást jelent.
 
 ![](./images/interservice-communication.png)
 
-## <a name="challenges"></a>Kihívásai 
+## <a name="challenges"></a>Problémák 
 
-Az alábbiakban néhány fő kihívása szolgáltatások közötti kommunikációs eredő. Szolgáltatás rácsvonalak, ez a fejezet ismerteti úgy tervezték, hogy ezek a kihívások számos kezelni.
+Íme néhány fő kihívása merül fel a szolgáltatások közötti kommunikációt. Szolgáltatás rácsvonalak, ebben a fejezetben ismertetett számos, ezek a kihívások kezelésére tervezték.
 
-**Rugalmasság.** Lehetséges, hogy több tucatnyi vagy akár több száz bármely adott mikroszolgáltatási példányai. Egy példányát minden számos oka lehet sikertelen. Csomópont-szintű hiba, például hardverhiba vagy egy virtuális gép újraindítása lehet. Egy példány lehet, hogy összeomlás, vagy egyszerre az által, és nem lehet új kérelmeket feldolgozni. Ezek az események bármelyike okozhatja hálózati hívás sikertelen lesz. Két tervezési mintáról olvashat, amelyek rugalmasabb teheti a hálózati szolgáltatások közötti hívások van:
+**Rugalmasság.** Lehetséges, hogy több tucat vagy akár több száz bármely adott mikroszolgáltatás-példányok. Egy példány nem sikerül, számtalan. Csomópont-szintű hiba, például egy hardverhiba vagy a virtuális gép újraindítását is lehet. Egy példány lehet, hogy az összeomlási, vagy kihasznált, a kérelmek és az új kérések feldolgozása nem sikerült. Ezek az események bármelyikét okozhatja hálózati hívása sikertelen. Nincsenek elősegítheti a hálózati szolgáltatások közötti hívások rugalmasabb két kialakítási minta:
 
-- **[Próbálja meg újra](../patterns/retry.md)**. Hálózati hívása sikertelen lehet, hogy megbizonyosodjon önmagában átmeneti hiba miatt. Helyett nem végleges, az a hívó érdemes újra megpróbálnia a művelet bizonyos számú alkalommal, vagy amíg a konfigurált időkorlát lejárta általában. Azonban ha egy művelet nem idempotent, újrapróbálkozások okozhat, nem kívánt hatásai. Az eredeti hívás sikeres lehet, de a hívó soha nem kap választ. Ha a hívó újrapróbálkozik, a művelet lehet, hogy hívható meg kétszer. Általában nincs biztonságos, majd ismételje meg a POST vagy javítás módszerek, mert ezek nem garantált, hogy az idempotent lehet.
+- **[Ismételje meg](../patterns/retry.md)**. Egy hálózati hívások meghiúsulhatnak, ami újbóli próbálkozással megszűnik önmagában átmeneti hiba miatt. Helyett tudnának sikertelen, az a hívó kell próbálja megismételni a műveletet egy bizonyos szám, ahányszor, vagy amíg a beállított időkorlát lejárta általában. Azonban ha egy művelet nem idempotens, az újrapróbálkozások okozhat, nem kívánt mellékhatásokkal. Az eredeti hívás sikeres lehet, de a hívó soha nem kap választ. A hívó újrapróbálkozik, ha a művelet kétszer is érvényesíthetők. Általában nem biztonságos az újrapróbálkozás POST és PATCH metódusokat, mert ezek nem garantált, hogy idempotensek legyenek.
 
-- **[Áramköri megszakító](../patterns/circuit-breaker.md)**. Túl sok sikertelen kérelem a szűk keresztmetszetek, függőben lévő kérelmek gyűlik össze a várólista okozhat. Ezek a blokkolt kérelmek olyan kritikus rendszererőforrásokat akadályozhatnak, mint a memória, szálak, adatbázis-kapcsolatok stb., ezáltal pedig kaszkádolt meghibásodásokhoz vezethetnek. Az áramköri megszakító mintát megakadályozhatja, hogy a szolgáltatás ismételten közben, valószínűleg sikertelen művelet. 
+- **[Áramkör-megszakító](../patterns/circuit-breaker.md)**. Túl sok sikertelen kérelem okozhat a szűk keresztmetszet, mert függőben lévő kérelmek halmozódnak az üzenetsorban. Ezek a blokkolt kérelmek olyan kritikus rendszererőforrásokat akadályozhatnak, mint a memória, szálak, adatbázis-kapcsolatok stb., ezáltal pedig kaszkádolt meghibásodásokhoz vezethetnek. Az áramkör-megszakítási minta megakadályozhatja, hogy a szolgáltatás próbáljon többször végrehajtani egy műveletet, amely nagy eséllyel lesz sikertelen. 
 
-**Terheléselosztás**. Ha a szolgáltatás "A" hívja service "B", a kérelem egy futó példány szolgáltatás "B" kell elérnie. A Kubernetes a `Service` erőforrástípust biztosít egy stabil IP-címet három munkaállomás-csoporttal csoportja. A szolgáltatás IP-címre a hálózati forgalom iptable szabályok segítségével lekérdezi egy pod továbbítja. Alapértelmezés szerint egy véletlenszerű pod van kiválasztva. (Lásd alább) szolgáltatás rácsvonal biztosíthat intelligensebb terheléselosztási algoritmusok megfigyelt késést és más metrikák alapján.
+**Terheléselosztás**. Service "A" "B" szolgáltatást hív meg, ha a kérelem egy futó példány a "B" szolgáltatás kell elérnie. A Kubernetes a `Service` erőforrástípus egy stabil IP-címet biztosít a podok csoportja. A szolgáltatás IP-címet a hálózati forgalom iptable szabályok segítségével lekérdezi továbbítani podot. Alapértelmezés szerint egy véletlenszerű pod van kiválasztva. A szolgáltatás rácsvonal (lásd alább) biztosíthat intelligens terheléselosztási algoritmusok megfigyelt várakozási ideje vagy egyéb mérőszámok alapján.
 
-**Nyomkövetés elosztott**. Egy tranzakció lehet, hogy span több szolgáltatásra. Amely teheti rögzített általános teljesítménye és a rendszer állapotának figyelésére. Akkor is, ha minden szolgáltatások készítsenek-naplók és a metrikák nélkül alkalmazássá őket, hogy bármilyen módon korlátozott használat vannak. A fejezet [naplózás és figyelés](./logging-monitoring.md) megbeszélések arról elosztott nyomkövetés, de azt említse meg itt a kérdés.
+**Elosztott nyomkövetési**. Egy tranzakció több szolgáltatást magában foglalhat. Amely megnehezítheti annak visszakövetését általános teljesítményt és a rendszer állapotának figyeléséhez. Akkor is, ha minden szolgáltatás állít elő, naplókat és mérőszámokat, anélkül, hogy bármilyen módon összekapcsolása őket, csak korlátozottan használhatók legyenek. A fejezet [naplózást és figyelést](./logging-monitoring.md) előadások többet is megtudhat az elosztott nyomkövetést, de azt díjszabásunkban itt, kihívást.
 
-**Service versioning**. Egy csoport szolgáltatás új verzióját telepíti, ha el kell kerülni, szolgáltatások vagy külső ügyfelek esetében, függnek tőle. Emellett érdemes egy adott verzióra különböző verzióinak a szolgáltatás-párhuzamos és útvonal-kérelmek futtatásához. Lásd: [API Versioning](./api-design.md#api-versioning) ennek a problémának a további leírását.
+**Service versioning**. Ha egy csapat helyez üzembe egy szolgáltatás egy új verzióját, el kell kerülni, használhatatlanná tévő szolgáltatások vagy külső a tőle függő ügyfeleket. Emellett érdemes egy szolgáltatást egymás mellett, és átirányíthatja a kéréseket több verziójának futtatására egy meghatározott verzióra. Lásd: [API-k verziókezelése](./api-design.md#api-versioning) további beszélgetéshez, a problémát.
 
-**TLS-titkosítás és a kölcsönös TLS hitelesítés**. Biztonsági okokból érdemes lehet a TLS-szolgáltatások közötti forgalom titkosításához és TLS kölcsönös hitelesítés hitelesítéshez használni kívánt hívókat.
+**A TLS-titkosítás és a kölcsönös TLS hitelesítés**. Biztonsági okokból érdemes a TLS-szolgáltatások közötti forgalom titkosításához, és használja a TLS kölcsönös hitelesítés hívóit hitelesítéséhez.
 
-## <a name="synchronous-versus-asynchronous-messaging"></a>Szinkron és aszinkron üzenetkezelési
+## <a name="synchronous-versus-asynchronous-messaging"></a>A szinkron és aszinkron üzenetkezelés
 
-Nincsenek két alapvető üzenetkezelési mintát, mikroszolgáltatások létrehozására használhat más mikroszolgáltatások folytatott kommunikációhoz. 
+Nincsenek két alapvető üzenetkezelési mintát, amely mikroszolgáltatások más mikroszolgáltatások folytatott kommunikációhoz használható. 
 
-1. Szinkron kommunikációt. Ebben a mintában a szolgáltatás hívja az API-t, amely egy másik szolgáltatás elérhetővé teszi, például a http- vagy gRPC protokoll használatát. Ez a beállítás nem egy aszinkron üzenettovábbítási mintának, mert a hívó a fogadó válaszára várakozik. 
+1. Szinkron kommunikációt. Ebben a mintában egy szolgáltatás meghív egy API, amely egy másik szolgáltatás, például a HTTP- vagy gRPC protokoll használatát. Ez a beállítás egy szinkron üzenetkezelési minta azért a hívó megvárja a címzett válaszát. 
 
-2. Aszinkron üzenettovábbítási. Ebben a mintában a szolgáltatás üzenetet küld a válaszra való várakozás nélkül, és egy vagy több szolgáltatás aszinkron módon feldolgozni az üzenetet.
+2. Aszinkron üzenettovábbítási. Ebben a mintában egy szolgáltatás üzenetet küld a válaszra való várakozás nélkül, és a egy vagy több szolgáltatás aszinkron módon feldolgozni az üzenetet.
 
-Fontos aszinkron i/o- és egy aszinkron protokoll megkülönböztetésére. Aszinkron I/O azt jelenti, hogy a hívó szál nincs letiltva, amíg az i/o-végzi. Amely fontos a teljesítmény, de egy megvalósítási részletes architektúrája tekintetében. Egy aszinkron protokoll azt jelenti, hogy a küldő nem várja meg a választ. HTTP egy szinkron protokoll, annak ellenére, hogy a HTTP-ügyfelek használhatják aszinkron i/o kérelmet küld. 
+Fontos, aszinkron i/o- és a egy aszinkron protokoll megkülönböztetésére. Aszinkron I/O azt jelenti, hogy a hívó szálat az I/O végrehajtása során nincs letiltva. Amely fontos a teljesítmény, de egy implementálási részlete az architektúra szempontjából. Egy aszinkron protokoll azt jelenti, hogy a küldő nem várniuk a válaszra. HTTP egy szinkron protokoll, annak ellenére, hogy egy HTTP-alapú aszinkron i/o használhatja a kérelem elküldésekor. 
 
-Nincsenek mellékhatásokkal minden típus. Kérelem-válasz egy jól érthető összeállítást,, így a több mint egy üzenetkezelési rendszerek tervezése természetes tervezése az API-k érezhetik. Azonban aszinkron üzenetkezelési előnye is van bizonyos mikroszolgáltatások architektúra nagyon hasznosak lehetnek:
+Mindegyik minta hátrányai is vannak. Kérés/válasz nem egy jól érthető paradigm, ezért a API-k tervezése úgy természetesebb, mint a üzenetkezelési rendszerek tervezése során. Aszinkron üzenetkezelés azonban van néhány előnyeit, amelyek a mikroszolgáltatási architektúrákban nagyon hasznosak lehetnek:
 
-- **Kapcsolási csökkenteni**. Az üzenet küldője nem kell tudnia a fogyasztó. 
+- **Kapcsolási csökkentett**. Az üzenet küldője nem kell tudnia a fogyasztó. 
 
-- **Több előfizető**. Egy pub/sub modellt használ, több felhasználóból is kérheti események. Lásd: [eseményvezérelt architektúra stílus](/azure/architecture/guide/architecture-styles/event-driven).
+- **Több előfizető**. A közzétételi és előfizetési modell használatával, több fogyasztó előfizethetnek események fogadására. Lásd: [eseményvezérelt architektúra stílusának](/azure/architecture/guide/architecture-styles/event-driven).
 
-- **Hiba elkülönítési**. Ha a fogyasztó nem sikerül, a küldő továbbra is küldhet üzeneteket. Az üzenetek fog felvenni, ha a fogyasztó állítja helyre. Ez a lehetőség akkor különösen hasznos mikroszolgáltatások architektúra esetén, mert minden egyes szolgáltatás saját életciklus. A szolgáltatás elérhetetlenné válik, vagy egy adott időpontban lecserél egy újabb verzióra. Aszinkron üzenetkezelési időszakos állásidő képes kezelni. Szinkron API-k, másrészt megkövetelése az alárendelt szolgáltatás elérhető legyen, vagy a művelet sikertelen lesz. 
+- **Hiba elkülönítési**. Ha a feldolgozó meghibásodik, a küldő továbbra is küldhet üzeneteket. Az üzenetek fog felvenni, amikor helyreállítja a felhasználói. Ez a lehetőség különösen hasznos a mikroszolgáltatási architektúrákban, mert minden szolgáltatásnak van saját életciklusát. Egy szolgáltatás elérhetetlenné válnak, vagy egy adott időpontban egy újabb verzióra kell cserélni. Aszinkron üzenetkezelés időszakos állásidő képes kezelni. Szinkron API-k, másrészt megkövetelése az alárendelt szolgáltatás elérhető legyen, vagy a művelet sikertelen lesz. 
  
-- **Válaszkészsége**. Egy fölérendelt szolgáltatás gyorsabb válaszolhatnak, ha várja meg az alárendelt szolgáltatásokkal. Ez különösen fontos mikroszolgáltatások architektúra. Ha (A B kiszolgálóra, amely meghívja a C, és így tovább) hívásokról függőségei láncolata, vár a szinkron hívások adhat hozzá késés mennyiségű nem fogadható el.
+- **Válaszképességét**. Egy felsőbb szintű szolgáltatás gyorsabban választ is, ha várja meg az alárendelt szolgáltatásokkal. Ez különösen hasznos a mikroszolgáltatási architektúrákban. Ha (szolgáltatás egy hívás B, amely meghívja a C, és így tovább) szolgáltatásfüggőségek láncolata, a szinkron hívások vár adhat hozzá késés elfogadhatatlan mennyiségű.
 
-- **Terheléskiegyenlítés**. A várólista működhet, és a munkaterhelés szinten puffert, hogy a fogadók a saját díj üzenetek feldolgozásához. 
+- **Terheléskiegyenlítés**. Egy üzenetsor képes pufferként a terhelés kiegyenlítése érdekében, hogy a fogadók a saját ütemben üzenetek feldolgozásához. 
 
-- **Munkafolyamatok**. Várólisták segítségével kezelheti a munkafolyamat jelölőnégyzet-mutat, az üzenet a munkafolyamat minden lépése után.
+- **A munkafolyamatok**. Üzenetsorok ellenőrzőpontos az üzenetet a munkafolyamat minden lépése után egy munkafolyamatot kezeléséhez használható.
 
-Van azonban is használatával hatékonyan aszinkron üzenetkezelési némi kihívást.
+Vannak azonban is áttekinthet néhány problémát, gyakorlatilag az aszinkron üzenetkezelés használatával.
 
-- **Az üzenetkezelési infrastruktúra kapcsoló**. Egy adott üzenetkezelési infrastruktúra használatával, hogy az infrastrukturális szoros kapcsoló okozhat. Akkor nehezebben fogok tudni váltani egy másik üzenetkezelési infrastruktúra később lesz.
+- **Az üzenetkezelési infrastruktúra a csatolási**. Egy adott üzenetkezelési infrastruktúrát használó szoros összekapcsolódást okozhat az infrastruktúrát. Később átválthat egy másik üzenetküldési infrastruktúra nehéz lesz.
 
-- **Késés**. Végpontok közötti késés művelet válhat, ha az üzenet-várólistákból feltöltve.  
+- **Késés**. Egy művelet végpontok közötti késés magas, ha az üzenet-várólistákból megtelnek válhat.  
 
-- **Költség**. Magas teljesítmények, jelentős hatással lehet a az üzenetkezelési infrastruktúra költségét.
+- **Költség**. Nagy sebességű jelentős hatással lehet a az üzenetkezelési infrastruktúra költségét.
 
-- **Összetettség**. Aszinkron üzenetkezelési kezelése értéke nem egy jelentéktelen feladat. Duplikált üzenetek, például való másolásával vagy azáltal, hogy a műveletek az idempotent kell kezelni. Egyúttal rögzített kérés-válasz szemantika használatával aszinkron üzenetkezelési végrehajtásához. Visszajelzés küldése szüksége van egy másik várólistához, valamint olyan módon, és választ üzeneteket összefüggéseket.
+- **Összetettség**. Aszinkron üzenetkezelés kezelése nem egy jelentéktelen feladat. Ismétlődő üzenetek, például megszüntetéséhez másolásával vagy azáltal, hogy a művelet idempotens kell kezelnie. Emellett akkor is nehezen megvalósíthatók kérés-válasz szemantika aszinkron üzenetküldés segítségével. Visszajelzés küldése szüksége van egy másik üzenetsornak, és vesse össze a kérés-és válaszüzenetek lehetővé.
 
-- **Átviteli sebesség**. Ha üzenetek szükséges *szemantikáját várólistára*, a várólista szűk keresztmetszetet jelenthet a rendszerben. Minden üzenet megköveteli, hogy legalább egy várólista működését, és egy created műveletet. Ezenkívül várólista szemantikáját általában valamilyen zárolás belül az üzenetkezelési infrastruktúra szükséges. Ha a várólista egy felügyelt szolgáltatás, előfordulhat további késést, mert a várólista külső a fürt virtuális hálózathoz. Ezek a problémák mérséklésére vonatkozó útmutatások kötegelés üzenetek által, de, amely növeli a kódot. Ha az üzenetek nem feltétlenül szükséges várólista szemantikáját, valószínűleg létre tudja esemény használandó *adatfolyam* helyett a sor. További információkért lásd: [architekturális stílus eseményvezérelt](../guide/architecture-styles/event-driven.md).  
+- **Átviteli sebesség**. Ha üzeneteket kell *szemantika várólistára*, az üzenetsor szűk keresztmetszetté válhat a rendszerben. A szükséges minden üzenetet legalább egy várólista működését és a egy sorból. Továbbá várólista szemantika általában valamilyen zárolás belül az üzenetkezelési infrastruktúra szükséges. Ha egy felügyelt szolgáltatás, az üzenetsor előfordulhat késést, mert a várólista külső a fürt virtuális hálózathoz. A kötegelés üzenetek csökkentheti ezeket a problémákat, de, amely bonyolultabbá teszi a kód. Ha az üzenetek üzenetsorba szemantika nem igényelnek, fogja tudni használni az esemény *stream* helyett egy üzenetsorba. További információkért lásd: [architekturális stílus eseményvezérelt](../guide/architecture-styles/event-driven.md).  
 
-## <a name="drone-delivery-choosing-the-messaging-patterns"></a>Dron kézbesítési: Az üzenetkezelési mintát kiválasztása
+## <a name="drone-delivery-choosing-the-messaging-patterns"></a>Drone Delivery: Az üzenetkezelési minták kiválasztása
 
-E szempontok figyelembe vételével a fejlesztői csapat végzett a következő tervezési döntések ütköznek azokkal a dron továbbítási alkalmazást hozhat létre a
+Ezeket a szempontokat szem előtt a fejlesztői csapat hozni a következő tervezési szempontokat a Drone Delivery alkalmazás
 
-- Az adatfeldolgozást szolgáltatás közzétesz egy nyilvános REST API ütemezése, frissítésére, vagy szakítsa meg a kézbesítések használó ügyfélalkalmazások.
+- A szolgáltatás nyilvános REST API-t használó ügyfélalkalmazások ütemezése, frissítenie vagy megszakítja a szállítások tesz elérhetővé.
 
-- Az adatfeldolgozást szolgáltatás Event Hubs aszinkron üzeneteket küldhet a Feladatütemező szolgáltatás használja. Aszinkron üzenetek is végre kell hajtani a terhelés-simítás adatfeldolgozást szükséges. Hogyan működnek együtt a adatfeldolgozást és a Feladatütemező szolgáltatás a részletekért lásd: [adatfeldolgozást és a munkafolyamat][ingestion-workflow].
+- A szolgáltatás az Event Hubs aszinkron üzeneteket küldeni a Scheduler szolgáltatás használ. Aszinkron üzenetekkel is végre kell hajtani a terhelés-kiegyenlítés szükséges támogatunk. A betöltési és a Scheduler szolgáltatás együttműködését a részletekért lásd: [adatfeldolgozás és munkafolyamatok][ingestion-workflow].
 
-- Összes fiókot, a kézbesítési, a csomag, a dron és a külső átviteli szolgáltatások teszi közzé a belső REST API-k. A Feladatütemező szolgáltatás meghívja az ezen API-k egy felhasználói kérelem végrehajtásához. Egy szinkron API-k használatára szükség, hogy a Feladatütemező kell az alárendelt szolgáltatások kapott választ. Az alsóbb rétegbeli szolgáltatásai bármelyikének hibája miatt azt jelenti, hogy a teljes művelet sikertelen volt. Azonban lehetséges probléma a mértékű késés, a háttér-szolgáltatások meghívásával bevezetett. 
+- Minden fiók, a kézbesítési, a csomag, a Drónos és a külső átviteli szolgáltatások belső REST API-k elérhetővé tehet. A Scheduler szolgáltatás ezen API-k számára, egy felhasználói kérelem hív meg. Egy szinkron API-k oka, hogy az ütemező kell az alsóbb rétegbeli minden kapott választ. Hiba történt az alsóbb rétegbeli szolgáltatások azt jelenti, hogy a teljes művelet sikertelen volt. Azonban egy potenciális problémát, a késés, a háttérszolgáltatások meghívásával bevezetett mennyiségét. 
 
-- Ha bármely alárendelt szolgáltatás nem átmeneti hiba, a teljes tranzakció sikertelenként kell megjelölni. Ebben az esetben kezelni, a Feladatütemező szolgáltatás aszinkron üzenetet küld a felügyelő, hogy a felügyelő ütemezhet kompenzációs tranzakciók a fejezetben leírtak [adatfeldolgozást és a munkafolyamat] [ ingestion-workflow].   
+- Ha bármely alárendelt szolgáltatás nem átmeneti hiba, a teljes tranzakció kell megjelölve lennie nem sikerült. Ebben az esetben kezelése érdekében a Scheduler szolgáltatás aszinkron üzenetet küld a felügyelő, hogy a felügyelő ütemezheti a kompenzáló tranzakciók, a fejezetben leírtak szerint [adatfeldolgozás és munkafolyamatok] [ ingestion-workflow].   
 
-- A kézbesítési szolgáltatás közzétesz egy nyilvános API, amellyel az ügyfelek a szállítási állapotának beolvasása. A fejezet [API átjáró](./gateway.md), hogyan egy API-átjáró az ügyféltől a mögöttes szolgáltatás elrejtése is tárgyaljuk, így az ügyfél nem szükséges tudni, hogy mely szolgáltatások elérhetővé mely API-k. 
+- A kézbesítési szolgáltatás elérhetővé teszi a nyilvános API-t, amellyel az ügyfelek egy kézbesítési állapotának lekéréséhez. A fejezet [API-átjáró](./gateway.md), bemutatjuk, hogyan API-átjáró elrejtheti az ügyféltől az alapul szolgáló szolgáltatások, így az ügyfél nem kell tudnia a mely szolgáltatások mely API-k elérhetővé. 
 
-- Míg egy dron útban, akkor a dron szolgáltatás események, amelyek tartalmazzák a dron aktuális hely és az állapot küld. A kézbesítési szolgáltatás figyeli a ezeket az eseményeket egy kézbesítési állapotának nyomon követése érdekében.
+- Bár egy drónt útban, a Drone szolgáltatás küld eseményeket, amelyek tartalmazzák a drone aktuális helyét és állapotát. A kézbesítési szolgáltatás egy kézbesítési állapotának nyomon követése érdekében ezeket az eseményeket figyeli.
 
-- A kézbesítési állapotának megváltozásakor a kézbesítési szolgáltatás például küld-e a kézbesítési állapot eseményt `DeliveryCreated` vagy `DeliveryCompleted`. Minden szolgáltatás fizethet ezeket az eseményeket. Az aktuális terv a kézbesítési szolgáltatás csak előfizető, de lehet más előfizetők később. Az események kódhiba például egy valós idejű elemzési szolgáltatás. És a válaszra való várakozás a Feladatütemező nem kell, mert további előfizetők hozzáadása nem befolyásolja a fő munkafolyamat elérési útját.
+- Ha a szállítási állapota, a kézbesítési szolgáltatás például küld-e egy kézbesítési állapot esemény `DeliveryCreated` vagy `DeliveryCompleted`. Bármely szolgáltatás előfizethetnek ezeket az eseményeket. A jelenlegi kialakítás a kézbesítési szolgáltatás nem az egyetlen előfizető, de lehet más előfizetőkkel később. Például egy valós idejű elemzési szolgáltatás az események előfordulhat, hogy lépjen. És az ütemező nem kell várniuk a válaszra, mert az több előfizetők hozzáadása nem befolyásolja a munkafolyamat fő elérési útja.
 
 ![](./images/drone-communication.png)
 
-Figyelje meg, hogy kézbesítési állapoteseményeit származó dron hely események. Például ha egy csomag csökken egy dron eléri a kézbesítési hely, a kézbesítési szolgáltatás fordítja le ez a DeliveryCompleted esemény. Ez az tekintetében tartomány modellek számbavétele példát. A fentebb leírt módon dron felügyeleti külön kötött környezetben tartozik. A dron események átadja egy dron fizikai helyét. Kézbesítési eseményeket, másrészt a kézbesítési, amely a különböző üzleti egységek bekövetkező változások jelölik.
+Figyelje meg, hogy a kézbesítési állapotesemények drón helyét események származnak. Például ha csökken a csomag egy drónt eléri egy kézbesítési hely, a kézbesítési szolgáltatás fordítja le ez egy DeliveryCompleted esemény. Itt látható egy példa vélekedést tartománymodellek tekintetében. A fentebb leírt módon Drónos felügyeleti körülhatárolt kontextus egy külön tartozik. A drone eseményeket továbbítja egy drónt fizikai helyét. A kézbesítési esemény, másrészt egy kézbesítési, amely egy másik üzleti entitás állapotának változása képviseli.
 
-## <a name="using-a-service-mesh"></a>A szolgáltatás háló használatával
+## <a name="using-a-service-mesh"></a>A szolgáltatás rácsvonal használatával
 
-A *háló szolgáltatás* van, amely kezeli a szolgáltatások közötti kommunikáció software réteg. Az előző szakaszban felsorolt fontos szempont számos megoldására, és helyezze át a problémák elhagyja a mikroszolgáltatások magukat, és egy megosztott rétegbe felelősséget szolgáltatás rácsvonalak úgy lettek kialakítva. A szolgáltatás háló, amely elfogja a fürt mikroszolgáltatások közötti hálózati kommunikációhoz proxyként funkcionál. 
+A *háló szolgáltatás* szoftver rétege, amely kezeli a szolgáltatások közötti kommunikációt. Szolgáltatás rácsvonalak úgy tervezték, számos, az az előző szakaszban felsorolt problémák megoldása érdekében, és ezek a problémák távolabbi magukat a mikroszolgáltatás-alapú és a egy megosztott rétegre felelősséget áthelyezni. A szolgáltatás háló proxyként működik, amely elfogja a mikroszolgáltatások a fürt közötti hálózati kommunikáció. 
 
 > [!NOTE]
-> Szolgáltatás háló látható egy példa a [diplomata mintát](../patterns/ambassador.md) &mdash; egy segítő szolgáltatás által a hálózati kérelmek, az alkalmazás nevében. 
+> Szolgáltatás háló egyik példája a [Nagykövet minta](../patterns/ambassador.md) &mdash; segítő szolgáltatása, amely az alkalmazás nevében hálózati kéréseket küld. 
 
-Most, a fő lehetőség közül választhat a Kubernetes szolgáltatás rácsvonal [linkerd](https://linkerd.io/) és [Istio](https://istio.io/). Mindkét technológiát vannak fejlesztik gyorsan. Jelenleg a korábban megírt ebben az útmutatóban Istio legújabb kiadásának 0,2, így továbbra is nagyon új. Azonban az linkerd és Istio is rendelkezik közös bizonyos funkciókat tartalmazza: 
+Most, a fő lehetőség áll rendelkezésre a Kubernetes szolgáltatás rácsvonal [linkerd](https://linkerd.io/) és [Istio](https://istio.io/). Mindkét technológiát gyorsan fejlődő. Azonban néhány linkerd és Istio is rendelkező közös funkciók: 
 
-- Terheléselosztás munkamenet szinten, a megfigyelt késések vagy a függőben lévő kérelmek száma alapján. A réteg-4 terheléselosztás Kubernetes által biztosított keresztül javíthatja a teljesítményt. 
+- Terheléselosztás a munkamenet szintjén, a megfigyelt késéseket vagy a szálankénti függőben lévő kérelmek száma alapján. Ezzel javítható a teljesítmény a 4. réteg terheléselosztását Kubernetes által biztosított keresztül. 
 
-- Réteg-7 útválasztási URL-címe, állomásfejléc, API-verzió vagy más alkalmazásszintű szabályok alapján.
+- 7. rétegbeli útválasztási URL-cím, állomásfejlécet, API-verzió vagy egyéb alkalmazásszintű szabályok alapján.
 
-- Próbálja meg újra a sikertelen kérelmek. Egy szolgáltatás háló HTTP hibakódok megértette, és automatikusan újra a sikertelen kérelmek. Beállíthatja, hogy a maximális számú újrapróbálkozást, a határidőn ahhoz, hogy a maximális késleltetés kötött együtt. 
+- Próbálkozzon újra a sikertelen kérelmek. A szolgáltatás rácsvonal tisztában van azzal a HTTP-hibakódok, és automatikusan újra a sikertelen kérelmek. Beállíthatja a maximális újrapróbálkozások számát, és a egy bizonyos időkorláton annak érdekében, hogy a maximális várakozási kötve. 
 
-- Kör legfrissebb. Ha példány következetesen sikertelen kérelmek, a szolgáltatás háló fog ideiglenesen megjelölése nem érhető el. A leállási idő után újra megpróbálja a a példányt. Konfigurálhatja az áramköri megszakító különböző feltételek, például az egymást követő hibák száma alapján  
+- Áramkör-megszakítás. Ha egy példány folyamatosan sikertelen kérelmek, a szolgáltatás háló fogja ideiglenesen megjelölése nem érhető el. A leállási idő elteltével újra megpróbálja a a példányt. Beállíthatja, hogy az áramkör-megszakító különféle feltételek, például az egymást követő hibák száma alapján  
 
-- Szolgáltatás háló értekezleteire indított, például a kérést, a késés, a hiba és annak sikeressége díjszabás és a válasz méretek kapcsolatos metrikákat rögzíti. Szolgáltatás háló is lehetővé teszi, hogy elosztott nyomkövetés korrelációs adatokat az egyes ugrások hozzáadásával a kérelemben.
+- Szolgáltatás háló eredményezhet hívássorozatot indított, például a kérés kötet, a késés, a hiba és a sikeres és a válaszok mérete metrikákat rögzíti. A szolgáltatás háló is lehetővé teszi az elosztott nyomkövetést korrelációs adatokat az egyes ugrások hozzáadásával a kérelemben.
 
 - Szolgáltatások közötti hívások kölcsönös TLS hitelesítés.
 
-Kell-e a szolgáltatás háló? Elosztott rendszer megnövelik értéke alapértékekkel kényszerítő. Ha nem rendelkezik a szolgáltatás rácsvonal, szüksége lesz figyelembe kell venni a fejezet elején említett kihívásai mindegyikének. Megoldható problémák, mint például az újra gombra, áramköri megszakító és elosztott nyomkövetési szolgáltatás rácsvonal nélkül, de a szolgáltatás háló helyezi át a problémák kívül az egyes szolgáltatások és egy dedikált rétegbe. Szolgáltatás rácsvonalak, másrészt viszonylag új technológia, amely még lejáró. A telepítő és a fürt konfigurációjának telepítése egy szolgáltatás háló hozzáadja összetettségét. Előfordulhatnak teljesítményre gyakorolt hatása, mivel a kérelmek most beolvasása keresztül történik a háló proxy, és mivel a felesleges szolgáltatások futnak a fürt minden csomópontján. Hajtsa végre az alapos teljesítmény kell, és terheléses tesztelés szolgáltatás rácsvonal éles környezetben üzembe helyezése előtt.
+Szükség van egy szolgáltatás háló? Adnak hozzá egy elosztott rendszer értéke természetesen meggyőző. Ha egy szolgáltatás háló nem rendelkezik, vegye figyelembe, egyes fejezet elején említett kihívást kell. Megoldható problémák, mint például az újrapróbálkozási, áramkör-megszakító és a egy szolgáltatás háló nélkül elosztott nyomkövetést, de a szolgáltatás rácsvonal helyezi át ezen kívül az egyes szolgáltatásokat és a egy dedikált rétegre vonatkozik. Másrészről szolgáltatás rácsvonalak olyan viszonylag új technológia, amely továbbra is a lejáró. A szolgáltatás-háló üzembe helyezése bonyolultabbá teszi a telepítés és a fürt konfigurációját. Előfordulhatnak teljesítményre gyakorolt hatása, mivel a kérelmek most már van irányítva a szolgáltatás háló proxyn keresztül, és mivel a felesleges szolgáltatások futnak a fürt minden csomópontján. Érdemes tegye alapos teljesítmény és a terheléses tesztelés éles környezetben a szolgáltatás-háló üzembe helyezése előtt.
 
 > [!div class="nextstepaction"]
-> [API-Tervező](./api-design.md)
+> [API-tervezés](./api-design.md)
 
 <!-- links -->
 

@@ -1,120 +1,87 @@
 ---
-title: API-átjárókkal
-description: Mikroszolgáltatások átjárói API
+title: API-átjárók
+description: A mikroszolgáltatás-alapú API-átjárókat
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: 6483d416363e24f4084d6b856847a740bf4054d9
-ms.sourcegitcommit: a8453c4bc7c870fa1a12bb3c02e3b310db87530c
+ms.date: 10/23/2018
+ms.openlocfilehash: 41554e6abf4db61d1fa6e501419425d331495afc
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/29/2017
-ms.locfileid: "27549178"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962823"
 ---
-# <a name="designing-microservices-api-gateways"></a>Mikroszolgáltatások tervezése: API átjárók
+# <a name="designing-microservices-api-gateways"></a>Mikroszolgáltatások tervezése: API-átjárókat
 
-Mikroszolgáltatások architektúra esetén előfordulhat, hogy módosításának ügyfél egynél több előtér-szolgáltatás. Megadott ezt a tényt, hogyan nem ügyfelet, hogy milyen végpontok hívására? Mi történik, ha az új szolgáltatások új vagy meglévő szolgáltatások átkerült vannak? Hogyan tegye kezeli a szolgáltatások SSL lezárást, hitelesítési és más okok? Egy *API átjáró* ezekkel a kihívásokkal megoldására segítségével. 
+A mikroszolgáltatási architektúra, az ügyfél egynél több előtér-szolgáltatás előfordulhat, hogy dolgozhat. Adja meg a tény, hogyan nem ügyfél, hogy milyen végpontok hívása? Mi történik, ha új szolgáltatások jelennek meg, vagy a meglévő szolgáltatások vannak újratervezhetők? Hogyan tegye kezelni a szolgáltatások SSL megszüntetése, hitelesítés és az egyéb problémákat? Egy *API-átjáró* ezek a kihívások megoldására segítségével. 
 
 ![](./images/gateway.png)
 
-## <a name="what-is-an-api-gateway"></a>Mi az az API-átjáró?
+## <a name="what-is-an-api-gateway"></a>Mi az API-átjáró?
 
-Az API-átjáró ügyfelek és a szolgáltatások közötti helyezkedik el. Úgy működik, mint egy fordított proxy services ügyfelek útválasztási kérelmeit. Több területet különböző feladatokat, mint a hitelesítés, az SSL-lezárást és sebességkorlátozást azt is végrehajthatja. Ha nem telepít egy átjárót, az ügyfelek kell kérelmet küldeni közvetlenül előtér-szolgáltatásokat. Van azonban néhány jelentkezik, mintha közvetlenül az ügyfelek számára szolgáltatásokat érintő lehetséges problémákat:
+API-átjáró helyezkedik el, az ügyfelek és a szolgáltatások között. Fordított proxy, útválasztási szolgáltatások ügyfelektől érkező kérelmek funkcionál. Emellett végrehajthatnak, például a hitelesítést, az SSL-lezárást és a sebességkorlátozás különböző általános feladatok. Ha nem telepít egy átjárót, az ügyfelek kell küldenie kérések közvetlenül előtér-szolgáltatásokat. Vannak azonban bizonyos adatokhoz hozzáférést biztosító szolgáltatások közvetlenül az ügyfelek kapcsolatos lehetséges problémákat:
 
-- Összetett Ügyfélkód eredményezhet. Az ügyfél kell nyomon követésére több végpontot, és rugalmas módon kijavíthassa a hibákat. 
-- Az ügyfél és a háttérkiszolgáló közötti hoz létre. Az ügyfélnek tudnia kell, hogyan vannak kiválasztott az adott szolgáltatást. Amelyről nehezebb megőrzése az ügyfél és is nehezebben azonosítóterületen szolgáltatásokhoz.
-- Egy művelettel több szolgáltatás hívásainak lehet szükség. Hogy több hálózati eredmény is kerekíteni között az ügyfél és a kiszolgáló hozzáadása jelentős késés való adatváltások számát. 
-- Minden egyes nyilvánosan elérhető szolgáltatás vonatkozik, például a hitelesítés, az SSL és az ügyfél sebesség korlátozása kell kezelni. 
-- Szolgáltatások elérhetővé kell tenni egy ügyfél-barát protokoll, például a http- vagy WebSocket. Ez korlátozza, hogy a választott [kommunikációs protokollokat](./interservice-communication.md). 
-- Azokat a szolgáltatásokat, nyilvános végpontok egy potenciális támadási felületet, és a megerősített kell lennie.
+- Összetett Ügyfélkód eredményezhet. Az ügyfél kell nyomon követheti, több végpontot, és rugalmas módon hibáinak a kezelése. 
+- Az ügyfél és a háttérkiszolgáló közötti hoz létre. Az ügyfélnek tudnia kell, hogyan vannak bontjuk le az egyes szolgáltatásokat. Így nehezebb karbantartása az ügyfél és a is nehezebb újrabontása szolgáltatásokhoz.
+- Egyetlen művelet több hívások lehet szükség. Hogy több hálózati eredményt is kerek lelassítja az ügyfél és a kiszolgáló jelentős késleltetés hozzáadása között. 
+- Minden egyes nyilvános szolgáltatás például a hitelesítés, az SSL és az ügyfél sebességkorlátozással aggályokat kell kezelnie. 
+- Szolgáltatások elérhetővé kell tenni például HTTP vagy a WebSocket protokoll ügyfél-barát. Ezzel a megoldással a kiválasztott [kommunikációs protokollok](./interservice-communication.md). 
+- Nyilvános végpontokkal rendelkező szolgáltatások egy potenciális támadási felületet, és a megerősített kell lennie.
 
-Átjáró segítségével a következő problémák az ügynökök szolgáltatások leválasztásával. Átjárók számos különböző funkciót hajthat végre, és előfordulhat, hogy nem kell az összes. A függvény a következő kialakítási minta sorolhatók:
+Az átjáró a következő problémák ügyfeleket a szolgáltatásoktól leválasztásával segítségével. Átjárók hajthat végre számos különböző függvényt, és előfordulhat, hogy nem kell azokat. A functions a következő tervezési minták sorolhatók:
 
-[Átjáró útválasztási](../patterns/gateway-routing.md). Az átjáró használatára, egy vagy több háttérbeli szolgáltatások használata réteg 7 útválasztási kérelem továbbításához fordított proxy. Az átjáró egy végpontot biztosít az ügyfelek számára, és segít használata leválasztja az ügyfelek szolgáltatásokból. 
+[Átjáró útválasztási](../patterns/gateway-routing.md). Az átjáró használatára, irányíthatja a fordított proxy kéri, hogy egy vagy több háttérszolgáltatások 7. rétegbeli útválasztási használatával. Az átjáró egyetlen végpontot biztosít az ügyfelek számára, és különítse el a ügyfeleket a szolgáltatásoktól segítségével. 
 
-[Átjáró összesítési](../patterns/gateway-aggregation.md). Segítségével az átjáró több egyes kérelmeket az egy kérelemhez. Ebben a mintában érvényes, ha egy művelettel több háttér-Services-hívások szükségesek. Az ügyfél egy kérést küld az átjárót. Az átjáró kiszállítja kéréseket a különböző háttér-szolgáltatások és aggregálja az eredményeket, majd elküldi az ügyfélnek. Ez segít csökkenteni az ügyfél és a háttérkiszolgáló közötti chattiness. 
+[Átjáró-összesítési](../patterns/gateway-aggregation.md). Az átjáró használatával egyetlen több egyéni kérést összesíteni. Ez a minta akkor érvényes, ha egyetlen művelet több háttérszolgáltatással hívásainak igényel. Az ügyfél egy kérést küld az átjárónak. Az átjáró továbbítja a kéréseket a különböző háttérrendszerekhez, majd összesíti az eredményeket és elküldi őket az ügyfélnek. Ez segít csökkenteni az ügyfél és a háttérkiszolgáló közötti forgalmat. 
 
-[Átjáró kiszervezésével](../patterns/gateway-offloading.md). Az átjáró használatához kiszervezéséhez funkció az egyes szolgáltatások az átjáróra, különösen több területet vonatkozik. Egy helyen ahelyett, hogy ezek kivitelezésével felelős így minden szolgáltatás konszolidálhatják ezeket a funkciókat a hasznos lehet. Ez különösen igaz szolgáltatások megfelelően, például a hitelesítési és engedélyezési megvalósításához speciális ismeretek szükségesek. 
+[Átjáró-kiürítés](../patterns/gateway-offloading.md). Az átjáró használatával kiszervezheti az átjáróhoz, az egyes szolgáltatások funkcióit különösen az általános problémákat. Ezek a függvények kialakíthattunk egy helyen, ahelyett minden szolgáltatás felelős azok megvalósítását, hasznos lehet. Ez különösen igaz funkciók megvalósításához, például a hitelesítési és engedélyezési speciális ismeretek szükségesek. 
 
-Az alábbiakban néhány olyan funkciót, amely egy átjáró kiszervezett sikerült:
+Íme néhány példa, amely az átjáró kiszervezhető:
 
-- SSL-lezárást
+- SSL leállítása
 - Hitelesítés
-- IP-engedélyezése
-- Ügyfél sebessége (sávszélesség-szabályozás) korlátozása
+- IP-címei engedélyezési listára helyezhetők
+- Ügyfél sebessége (szabályozás) korlátozása
 - Naplózás és figyelés
-- Gyorsítótár válasz
+- Válasz-gyorsítótárazás
 - Web application firewall (Webalkalmazási tűzfal)
 - A GZIP-tömörítés
 - Statikus tartalom karbantartása
 
 ## <a name="choosing-a-gateway-technology"></a>Egy átjáró technológia kiválasztása
 
-Íme néhány lehetőség egy API-átjáró megvalósítása az alkalmazásban.
+Íme néhány lehetőség a API-átjáró implementálása az alkalmazásban.
 
-- **Fordított proxykiszolgáló**. Nginx és a haproxy esetén támogatja a szolgáltatások, mint a hálózati terheléselosztást, SSL, népszerű fordított proxy-kiszolgálót, és 7 útválasztási réteg. Mindkettő ingyenes, nyílt forráskódú termékek, további lehetőségeket biztosítanak, és a beállítások támogató fizetett verzióval. Nginx és a haproxy esetén is gazdag szolgáltatáskészletek és nagy teljesítményű mindkét érett terméket. A külső modulok vagy egyéni parancsfájlok írásával a Lua őket kiterjesztheti. Nginx NginScript néven parancsfájl-kezelési JavaScript-alapú modul is támogatja.
+- **Fordított proxy server**. Nginx HAProxy népszerű fordított proxy kiszolgálók, amelyek támogatják a terheléselosztást, SSL-t, funkciókat és útválasztási 7. réteg. Mindkettő ingyenes, nyílt forráskódú termékek, további alkalmazásszolgáltatások biztosítása érdekében, és a támogatási lehetőségek fizetős kiadásra. Nginx-et és a HAProxy olyan gazdag szolgáltatáskészleteket és nagy teljesítményű mindkét érett termékhez. Külső modulról, illetve egyéni szkriptek Lua őket bővítheti. Az Nginx NginScript nevű parancsfájl-kezelési JavaScript-alapú modul is támogat.
 
-- **Háló érkező szolgáltatásvezérlővel**. Ha például linkerd vagy Istio szolgáltatás rácsvonal használ, fontolja meg a biztosított szolgáltatásokat is a érkező vezérlő által az adott szolgáltatás háló. Például a Istio érkező vezérlő támogatja a réteg 7 útválasztási, HTTP átirányításokat, az újrapróbálkozások és egyéb szolgáltatásokat. 
+- **Szolgáltatás háló bejövőforgalom-vezérlőjéhez**. Ha például linkerd vagy Istio szolgáltatás rácsvonal használ, fontolja meg az a Funkciók, az adott szolgáltatás háló a bejövőforgalom-vezérlőjéhez által biztosított. Például a Istio bejövőforgalom-vezérlőjéhez támogatja, 7. rétegbeli útválasztási, HTTP átirányítások, az újrapróbálkozások és egyéb funkciókkal. 
 
-- [Az Azure Alkalmazásátjáró](/azure/application-gateway/). Alkalmazásátjáró egy felügyelt terheléselosztási szolgáltatást, amely útválasztási réteg-7- és SSL-lezárást hajthatnak végre. Webalkalmazási tűzfal (WAF) is biztosít.
+- [Az Azure Application Gateway](/azure/application-gateway/). Egy felügyelt terheléselosztási szolgáltatás, amely a 7. rétegbeli útválasztási és SSL-lezárást végezheti el. Webalkalmazási tűzfal (WAF) is tartalmazza.
 
-- [Az Azure API Management](/azure/api-management/). Az API Management az API-k közzétételéhez külső és belső ügyfeleknek olyan azonnal használható megoldás. Jól lehet egy nyilvánosan elérhető API, beleértve a sebességkorlátozást, listázása IP fehér és hitelesítés használata az Azure Active Directory vagy az egyéb identitás-szolgáltatóktól funkciókat biztosít. A terheléselosztást, API Management nem végrehajtani, így például az Alkalmazásátjáró vagy fordított proxy terheléselosztó együtt kell használni.
+- [Az Azure API Management](/azure/api-management/). Az API Management egy kulcsrakész közzé API-kat a külső és belső ügyfelek számára az. Egy nyilvánosan elérhető API-t, beleértve a sebességkorlátozást, IP-fehér listázása és hitelesítés az Azure Active Directory vagy az egyéb identitás-szolgáltatóktól felügyelete esetén hasznosak funkciókat biztosít. Az API Management végre bármely terheléselosztást, így például az Application Gateway vagy fordított terheléselosztó együtt kell használni. Az API Management használatával az Application Gateway szolgáltatással kapcsolatos további információkért lásd: [az API Management integrálása belső vnet-en az Application Gatewayen](/azure/api-management/api-management-howto-integrate-internal-vnet-appgateway).
 
 Átjáró technológia kiválasztásakor vegye figyelembe a következőket:
 
-**Szolgáltatások**. A felsorolt lehetőségek mindenekelőtt réteg 7 útválasztást támogatnak, de egyéb funkciók változhatnak támogatása. Attól függően, hogy a szükséges szolgáltatások egynél több átjáró központi telepítését. 
+**Szolgáltatások**. A felsorolt lehetőségek felett támogatja a 7. rétegbeli útválasztási, de egyéb funkciói eltérnek támogatása. Attól függően, a szükséges szolgáltatások egynél több átjáró központi telepítését. 
 
-**Központi telepítési**. Az Azure Application Gateway és API-kezelés a felügyelt szolgáltatások. Nginx és a haproxy esetén általában a fürtben található tárolók fog futni, de a fürtön kívüli dedikált virtuális gépek számára is telepíthető. Ez az átjáró többi részét a munkaterhelésből elkülöníti megoldás, ám magasabb kezelési terhelés mellett.
+**Üzembe helyezés**. Az Azure Application Gateway és az API Management a felügyelt szolgáltatások. Nginx-et és a HAProxy általában a fürtben lévő tárolók fog futni, de is telepíthetők a fürtön kívüli dedikált virtuális gépek. Az átjáró többi részét a munkaterhelésből elkülöníti, de magasabb felügyeleti többletterhelést okoz.
 
-**Felügyeleti**. Szolgáltatások frissítése, vagy új szolgáltatással bővül, az átjáró útválasztási szabályok esetleg frissítenie kell. Vegye figyelembe, hogyan fogja kezelni ezt a folyamatot. Hasonló feltételek vonatkoznak, SSL-tanúsítványok, IP-whitelists és egyéb konfigurációs aspektusainak kezelése.
+**Felügyelet**. Szolgáltatások frissülnek, vagy új szolgáltatással bővül, az átjáró útválasztási szabályokat lehet kell frissíteni kell. Fontolja meg, hogyan fogja kezelni ezt a folyamatot. SSL-tanúsítványok, IP-listáinak és egyéb aspektusait konfiguráció kezelése hasonló szempontok vonatkoznak.
 
-## <a name="deployment-considerations"></a>Telepítési szempontok
+## <a name="deploying-nginx-or-haproxy-to-kubernetes"></a>Nginx-et vagy a HAProxy Kubernetes üzembe helyezése
 
-### <a name="deploying-nginx-or-haproxy-to-kubernetes"></a>Nginx vagy haproxy esetén történő telepítésének Kubernetes
+Telepítheti az Nginx vagy HAProxy Kubernetes egy [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) vagy [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) , amely meghatározza, hogy az nginx-et vagy a HAProxy tárolórendszerképet. Egy ConfigMap használatával tárolja a konfigurációs fájlt a proxy, és csatlakoztassa a ConfigMap kötetként. Hozzon létre az átjáró egy Azure Load Balanceren keresztül elérhetővé terheléselosztó típusú szolgáltatást. 
 
-Mint Kubernetes Nginx vagy haproxy esetén telepítheti egy [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) vagy [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) , amely megadja, hogy a Nginx vagy haproxy esetén tároló-lemezképet. Egy ConfigMap a konfigurációs fájl tárolása a proxy, és csatlakoztassa a ConfigMap kötetként. Hozzon létre teszi közzé az átjárón keresztül az Azure Load Balancer terheléselosztó típusú szolgáltatást. 
+Alternatív, hogy hozzon létre egy Bejövőforgalom-vezérlőt. Bejövőforgalom-vezérlőt egy Kubernetes-erőforrás, amely telepít egy terheléselosztót vagy fordított proxykiszolgáló. Számos implementáció létezik, például a HAProxy és az nginx-et. Bejövő forgalmi nevű külön erőforrást Bejövőforgalom-vezérlőt, például az útválasztási szabályokat és a TLS-tanúsítványok beállításait határozza meg. Ezzel a módszerrel nem kell összetett konfigurációs fájlokat, amelyek egy adott proxy server technológiára jellemző kezelése.
 
-<!-- - Configure a readiness probe that serves a static file from the gateway (rather than routing to another service). -->
+Az átjáró nem a potenciális szűk keresztmetszetet vagy rendszerkritikus meghibásodási pontot a rendszer, így mindig a magas rendelkezésre állás érdekében legalább két replika üzembe. Szükség lehet további, a replikák horizontális terhelésétől függően. 
 
-A másik lehetőség az érkező vezérlőhöz létrehozásához. Az érkező vezérlőhöz, amely telepít egy terheléselosztót vagy fordított proxykiszolgáló Kubernetes erőforrás. Több megvalósítások létezik, például a Nginx és a haproxy esetén. Egy érkező nevű külön erőforrás érkező vezérlő, például az útválasztási szabályokat és a TLS-tanúsítványok beállításokat határoz meg. Ezzel a módszerrel nem kell összetett konfigurációs fájlok egy adott proxykiszolgáló server technológiára jellemző kezelése. Érkező tartományvezérlők továbbra is Kubernetes szolgáltatása beta írásának időpontjában, és a szolgáltatás továbbra is fejleszteni.
+Emellett fontolja meg az átjáró fut a fürtben található csomópontok külön készlete. Ez a módszer előnyei a következők:
 
-Az átjáró egy potenciális szűk vagy az kritikus hibapont a rendszerben, ezért mindig telepíteni a magas rendelkezésre állás érdekében legalább két replika. Szükség lehet további, a replikák horizontális terhelésétől függően. 
+- Elszigetelés. Minden bejövő forgalom csomópontokhoz, amelyek el lehet különíteni a háttérszolgáltatások készletét kerül.
 
-Figyelembe venni az átjáró fut a dedikált meg a fürtben lévő csomópontok. Ezt a módszert használja a következő előnyöket nyújtja:
+- Stabil konfiguráció. Ha az átjáró hibásan van konfigurálva, a teljes alkalmazás elérhetetlenné válhat. 
 
-- Elszigetelés. Minden bejövő forgalom kerül el lehet különíteni a háttér-szolgáltatások csomópontok készletét.
-
-- Stabil konfigurációs. Ha az átjáró helytelenül van konfigurálva, a teljes alkalmazás elérhetetlenné válnának. 
-
-- Teljesítmény. Érdemes lehet egy meghatározott Virtuálisgép-konfiguráció használata az átjáró teljesítményének javítására szolgál.
-
-<!-- - Load balancing. You can configure the external load balancer so that requests always go to a gateway node. That can save a network hop, which would otherwise happen whenever a request lands on a node that isn't running a gateway pod. This consideration applies mainly to large clusters, where the gateway runs on a relatively small fraction of the total nodes. In Azure Container Service (ACS), this approach currently requires [ACS Engine](https://github.com/Azure/acs-engine)) which allows you to create multiple agent pools. Then you can deploy the gateway as a DaemonSet to the front-end pool. -->
-
-### <a name="azure-application-gateway"></a>Azure Application Gateway
-
-Csatlakozás az Azure-ban Kubernetes fürtre Alkalmazásátjáró:
-
-1. A fürt virtuális hálózatot hozzon létre egy üres alhálózatot.
-2. Alkalmazás-átjáró üzembe helyezéséhez.
-3. Hozzon létre egy Kubernetes szolgáltatás típus =[NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport). Ez a szolgáltatás minden egyes csomóponton mutatja meg, hogy az elérhető a fürtön kívül. A terheléselosztó nem hoz létre.
-5. A hozzárendelt portszámot a szolgáltatáshoz tartozó lekérdezése.
-6. Vegyen fel egy Application Gateway ahol:
-    - A háttérkészlet az ügynök virtuális gépeket tartalmaz.
-    - A HTTP-beállítással a port számát.
-    - 80/443-as porton figyeli a átjáró figyelő
-    
-Állítsa be a példányszám 2 vagy több, a magas rendelkezésre állás.
-
-### <a name="azure-api-management"></a>Azure API Management 
-
-Az API Management Kubernetes fürt az Azure-ban való csatlakozáshoz:
-
-1. A fürt virtuális hálózatot hozzon létre egy üres alhálózatot.
-2. Az adott alhálózat API Management központi telepítését.
-3. Terheléselosztó típusú Kubernetes szolgáltatás létrehozása. Használja a [belső terheléselosztó](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) létrehozni a belső terheléselosztót, egy internetre irányuló terheléselosztót helyett az alapértelmezett jegyzet.
-4. A privát IP-cím keresése a belső terheléselosztó kubectl vagy az Azure parancssori felület használatával.
-5. Az API Management segítségével hozzon létre egy API-t, amely a saját IP-címet a terheléselosztó irányítja.
-
-Fontolja meg az API Management kombinálásával fordított proxy, hogy Nginx, haproxy esetén vagy Azure Application Gateway. Az Alkalmazásátjáró API Management használatával kapcsolatos információkért lásd: [API Management integrálható egy belső virtuális Hálózatot az Alkalmazásátjáró](/azure/api-management/api-management-howto-integrate-internal-vnet-appgateway).
+- Teljesítmény. Előfordulhat, hogy szeretné egy adott Virtuálisgép-konfigurációt használja a megfelelő teljesítmény biztosítása érdekében az átjáró.
 
 > [!div class="nextstepaction"]
 > [Naplózás és figyelés](./logging-monitoring.md)

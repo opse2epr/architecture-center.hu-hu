@@ -2,131 +2,136 @@
 title: Mikroszolgáltatások határainak azonosítása
 description: Mikroszolgáltatások határainak azonosítása
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: d35b92ffd97c4fda5d6599340925ce3dfea7f15b
-ms.sourcegitcommit: a5e549c15a948f6fb5cec786dbddc8578af3be66
+ms.date: 10/23/2018
+ms.openlocfilehash: 679696818d50b70a5116916bd9198a390abfd7fe
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/06/2018
-ms.locfileid: "33673402"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962789"
 ---
-# <a name="designing-microservices-identifying-microservice-boundaries"></a>Mikroszolgáltatások tervezése: mikroszolgáltatási határok azonosítása
+# <a name="designing-microservices-identifying-microservice-boundaries"></a>Mikroszolgáltatások tervezése: mikroszolgáltatások határainak azonosítása
 
-Mi az a mikroszolgáltatási megfelelő a mérete? Gyakran hallott valami hatását, "túl nagy, és nem túl kicsi" &mdash; , és ez biztosan megfelelő, amíg nincs nagyon hasznos a gyakorlatban. De ha egy gondosan tervezett tartománymodell, sokkal könnyebben mikroszolgáltatások létrehozására vonatkozó ok.
+Mi az a megfelelő méretű, a mikroszolgáltatások? Gyakran Hallott valamit a hatását, "túl nagy és túl kicsi" &mdash; , és bár ez természetesen megfelelő, nem a gyakorlatban nagyon hasznos. De ha elindítja a gondosan megtervezett tartományi modell, sokkal egyszerűbb mikroszolgáltatás-alapú vonatkozó döntések meghozatalát.
 
 ![](./images/bounded-contexts.png)
 
-## <a name="from-domain-model-to-microservices"></a>A tartomány modell mikroszolgáltatások
+## <a name="from-domain-model-to-microservices"></a>A tartományi modellben mikroszolgáltatások
 
-Az a [előző fejezetben](./domain-analysis.md), meghatározott a dron továbbítási alkalmazást hozhat létre a kötött környezetek készlete. Azt tekintett jobban meg ezeket a kötött környezetben, amelyet szállítási környezetben futhat, és az entitások, összesítések, készletének azonosított és, hogy a tartományi szolgáltatásoktól, amelyet a környezetben.
+Az a [előző fejezetben](./domain-analysis.md), a Drone Delivery alkalmazás kapcsolódó kontextusokat készletét meghatározott. A kapcsolódó kontextusokat, ezek a szállítási korlátozott környezet egyik jobban megvizsgálta és azonosítja az entitásokban, az összesítések, és a tartományi szolgáltatásokat, amelyek korlátozott környezet.
 
-Most még készen áll a modell az alkalmazás tervét. Íme egy megközelítés, amely segítségével a modell mikroszolgáltatások származik.
+Most már készen állunk nyissa meg a tartományi modellben alkalmazás-tervezés. Itt látható, amely mikroszolgáltatások származtassa a tartományi modellben használható.
 
-1. A kötött környezetben kezdődik. A funkció egy mikroszolgáltatási általában nem kell fedik egynél több kötött környezetben. Definíció a kötött környezetben a határ az egyes tartományokhoz-modell jelöli meg. Ha talál meg, hogy egy mikroszolgáltatási együtt keveri-e másik tartományba modellek, ez a jele, hogy visszalép, és a tartomány elemzés pontosítsa szeretne.
+1. Kezdje egy körülhatárolt kontextus. A funkció a mikroszolgáltatások általában nem kell span egynél több körülhatárolt kontextus. Definíció szerint egy körülhatárolt kontextus egy adott modell határait jelöli meg. Ha azt tapasztalja, hogy mikroszolgáltatások együtt eredményét-e ugyanaz a tartományi modellekkel, lépjen vissza és finomíthatja a tartományelemzés szükség lehet, hogy ez.
 
-2. Ezután nézze meg a tartomány modell összesíti. Aggregátumok gyakran esetén használható jól mikroszolgáltatások létrehozására. Egy jól megtervezett összesítést mutat egy tetszetős mikroszolgáltatási jellemzői számos, mint:
+2. Ezután tekintse meg az összesítések, a tartományi modellben. Összesítések között gyakran érdemes mikroszolgáltatásokat. Egy jól megtervezett összesítés szolgáltatásnak számos egy jól megtervezett mikroszolgáltatás jellemzői, például:
 
-    - Összesítő üzleti követelmények, nem pedig például az adatok elérése vagy az üzenetkezelési technikai problémákat származik.  
-    - Összesítő magas működési Kohéziós kell rendelkeznie.
-    - Egy összesítésnek az adatmegőrzési szegélyére.
-    - Aggregátumok lazán kell lennie. 
+    - Összesítés üzleti követelmények, nem pedig például az adatok elérése vagy az üzenetkezelési a technikai problémák származik.  
+    - Összesítés magas működési kohézióval kell rendelkezniük.
+    - Összesítés az adatmegőrzés szegélyére.
+    - Összesítések lazán kell lennie. 
     
-3. Tartományi szolgáltatások esetén is használható jól mikroszolgáltatások létrehozására. Tartományi szolgáltatások több összesítések állapotmentes műveletek legyenek. Egy tipikus példája az olyan munkafolyamatot, amely magában foglalja a több mikroszolgáltatások létrehozására. Példa erre a dron továbbítási alkalmazást hozhat létre a lesz látható.
+3. Tartományi szolgáltatások között is érdemes mikroszolgáltatásokat. Tartományi szolgáltatások állapot nélküli műveletek, amelyek között több összesítések. Egy tipikus példája egy munkafolyamatot, amely magában foglalja a több mikroszolgáltatás-alapú. Példa erre a Drone Delivery alkalmazás lesz látható.
 
-4. Mindemellett érdemes lehet megfontolnia nem funkcionális követelményeinek. Nézze meg a tényezőket, mint a csapat mérete, adattípusok, technológiák, méretezhetőségi követelményeinek, rendelkezésre állási követelmények és biztonsági követelményeinek. Ezek a tényezők vezethet, hogy további egy mikroszolgáltatási felbontása két vagy több kisebb szolgáltatás, vagy ellenkező tegye, és több mikroszolgáltatások egy egységgé kombinálják. 
+4. Végül vegye figyelembe a nem funkcionális követelményeket. Tekintse meg a tényezők, például a csapat mérete, adattípusok, technológiák, méretezhetőségi követelményeinek, rendelkezésre állással és biztonsági követelményeket. Ezek a tényezők vezethet, hogy tovább bontható fel a mikroszolgáltatások két vagy több kisebb servicesbe, vagy ennek az ellenkezője tegye, és néhány a mikroszolgáltatások egyesítése egy. 
 
 Miután azonosította a mikroszolgáltatások az alkalmazásban, ellenőrizze a kialakítás az alábbi feltételek alapján:
 
-- Minden szolgáltatás egyetlen felelősségi rendelkezik.
-- Nincsenek chatty hívások nem szolgáltatások között. Ha a felosztás két szolgáltatások funkciókat hatására túlságosan chatty is, ezeket a funkciókat tartozó ugyanazt a szolgáltatást a hiba lehet.
-- Egyes szolgáltatások nem elég nagy, hogy azt épül fel egy kis csoport egymástól függetlenül működik-e.
-- Nincsenek, amely szükséges két vagy több zárolás lépésben telepítendő szolgáltatások közötti függőségek. Mindig lehetővé kell tenni bármely egyéb szolgáltatások üzembe helyezésével szolgáltatás központi telepítése.
-- Szolgáltatások szorosan nem összekapcsolt, és egymástól függetlenül lehet fejleszteni.
-- A szolgáltatás határok nem hoz létre az adatok konzisztenciájának vagy integritási kapcsolatos problémák. Néha fontos funkciók üzembe egy egyetlen mikroszolgáltatási adatkonzisztencia karbantartásához. Említett, vegye figyelembe, hogy tényleg szüksége van az erős konzisztencia. Stratégiák a végleges konzisztencia címzési egy elosztott rendszerben, és a szolgáltatások gyakran decomposing előnyeit járó a végleges konzisztencia kezelése kihívásaival.
+- Minden szolgáltatás egyetlen felelősséget rendelkezik.
+- Nincsenek forgalmas hívások nem szolgáltatások között. Ha felosztása két szolgáltatás funkciókat okoz, ha túlságosan forgalmas meg, ezek a függvények az egyazon szolgáltatáshoz tartozó szokásostól eltérő lehet.
+- Egyes szolgáltatások általában elég kis méretűek, hogy azt is lehet fejlesztőcsapata által készített egy kis egymástól függetlenül működik.
+- Nincsenek két vagy több szolgáltatás zárolási lépésben telepíteni fog igénylő közötti függőségek. Mindig kell egy szolgáltatás telepíthető bármilyen egyéb szolgáltatás újbóli telepítése nélkül.
+- Szolgáltatások nem szorosan összekapcsolt, és egymástól függetlenül tovább lehessen fejleszteni.
+- A szolgáltatások határait nem hoz létre a problémák adatkonzisztencia vagy -integritást. Egyes esetekben fontos funkciók üzembe egyetlen mikroszolgáltatást adatkonzisztencia karbantartásához. Ezzel együtt az üzemeltetés, vegye figyelembe, hogy valóban szükséges-e konzisztenciát. Végleges konzisztencia az elosztott rendszerekben címzéshez stratégiák, és a szolgáltatások gyakran decomposing előnyei nyomósabbak a végleges konzisztencia kezelése kihívást.
 
-Mindenekelőtt fontos gyakorlati, és ne feledje, hogy tartományi-központú kialakítás iteratív folyamat. Ha kétségei vannak, a kiindulási pont további coarse-grained mikroszolgáltatások létrehozására. Egy mikroszolgáltatási felosztása két kisebb szolgáltatás még újrabontása funkciók között több meglévő mikroszolgáltatások könnyebb.
+Mindenekelőtt fontos pragmatikus, és ne feledje, hogy tartományvezérelt tervezési iteratív folyamat. Ha kétségei vannak, indítsa el a további coarse-grained mikroszolgáltatásokat. Egyszerűbb, mint a funkció számos meglévő mikroszolgáltatások túlnyúló újrabontás mikroszolgáltatások felosztása két kisebb szolgáltatásra.
   
-## <a name="drone-delivery-defining-the-microservices"></a>Dron kézbesítési: A mikroszolgáltatások meghatározása
+## <a name="drone-delivery-defining-the-microservices"></a>Drone Delivery: A mikroszolgáltatások meghatározó
 
-Visszahívása, hogy a fejlesztői csapat a négy összesítések kellett azonosított &mdash; kézbesítési, a csomag, a dron és a fiók &mdash; és két tartományi szolgáltatásokban, az ütemező és a felügyelő. 
+Idézze, hogy a fejlesztői csapat kellett azonosítja a négy összesítések &mdash; kézbesítési, a csomag, a Drone és a fiók &mdash; és a két tartomány szolgáltatás, az ütemező és a felügyelő. 
 
-Kézbesítési és csomag esetén mikroszolgáltatások nyilvánvaló használható. Az ütemező és a felügyelő koordinálja a tevékenységét más mikroszolgáltatások, érdemes a tartományi szolgáltatások, mikroszolgáltatások végrehajtásához.  
+Teljesítés és a Csomagmegosztás deduplikációra nyilvánvaló mikroszolgáltatás-alapú. Az ütemező és a felügyelő koordinálja a tevékenységét más mikroszolgáltatás-alapú, ezért érdemes megvalósítani a ezeket domain servicesben mikroszolgáltatásokat.  
 
-Dron és fiók is érdekes, mert más kötött környezetekhez tartoznak. Egy beállítást a dron hívni az ütemező és fiókot, amelyet környezetek közvetlenül. Egy másik lehetőség, ha dron és a fiók mikroszolgáltatások belül a szállítási, amelyet a környezetben. Ezek mikroszolgáltatások volna résidőkiosztással API-k vagy az adatok sémákat, amely a szállítási környezetben érdemesebb jelentkezik, mintha a kötött környezetek között.
+Drónos és fiókot is érdekes, mert egyéb kapcsolódó kontextusokat tartoznak. Az egyik lehetőség az ütemező a Drone meghívásához és fiókot, amelyet környezetek közvetlenül. Egy másik lehetőség, a Drone és a fiók mikroszolgáltatások belül a szállítási korlátozott környezet létrehozásához. Ilyen mikroszolgáltatásokból lenne résidőkiosztással között a kapcsolódó kontextusokat, API-k és adatsémák, amely a szállítási címhez tartozó környezeti érdemesebb teszi elérhetővé.
 
-A dron és a fiókot, amelyet részleteit környezetek Ez az útmutató túlmutató vannak, ezért létrehoztunk utánzatait szolgáltatások számukra a hivatkozás megvalósításában. De az alábbiakban néhány tényezőket kell figyelembe venni ebben a helyzetben:
+A Drone, valamint a fiók, amelyet környezetekben ez az útmutató nem terjed vannak, így azok utánzatként funkcionáló szolgáltatások referenciaimplementáció létrehoztunk. De Íme néhány tényező ebben a helyzetben érdemes figyelembe venni:
 
-- Mi az a hálózata terhet hívása közvetlenül be a másik kötött környezetet? 
+- Mi az a hálózati többletterhelést okoz, közvetlenül a többi körülhatárolt kontextus-be irányuló hívás? 
 
-- Az adatok séma a más kötött környezet megfelelő-e ebben a környezetben, vagy azt jobban kell rendelkeznie a kötött környezet igényeinek megfelelő séma? 
+- Ideális a sémát a többi körülhatárolt kontextus az ebben a környezetben, vagy jobban szeretné, hogy egy sémát, amely a körülhatárolt kontextus személyre szabott? 
 
-- A másik kötött környezetet egy olyan korábbi rendszer? Ha igen, létrehozhat egy szolgáltatás, amely úgy működik, mint egy [elleni sérülés réteg](../patterns/anti-corruption-layer.md) lefordítani az örökölt rendszer és a modern alkalmazások között. 
+- Az a többi körülhatárolt kontextus egy korábbi rendszer? Ha tehát, előfordulhat, hogy létrehoz egy szolgáltatást, amely indextáblaként egy [sérülésgátló réteg](../patterns/anti-corruption-layer.md) az átalakításra a régi rendszer és a modern alkalmazás között. 
 
-- Mi az a csoport struktúra? Az egyszerű, a másik kötött környezetet felelős csapat kommunikálni? Ha nem, egy szolgáltatás, amely a két környezet közötti közvetítő létrehozása segíthet csoportközi kommunikációs költségeinek csökkentése érdekében.
+- Mi az a csapat struktúra? Az egyszerű, a többi körülhatárolt kontextus felelős csapat kommunikálni? Ha nem, egy szolgáltatás, amely a két környezet közötti közvetítő létrehozása segíthet közötti kommunikáció költségeinek csökkentése érdekében.
 
-Amennyiben azt nem veszi figyelembe nem működési vonatkozó követelményei. Az alkalmazás átviteli követelmények gondolat, a fejlesztői csapat lezárását hozzon létre egy külön adatfeldolgozást mikroszolgáltatási választásával dolgozhat fel ügyfélkérelmek felelős. A mikroszolgáltatási megvalósítandó [Terheléskiegyenlítés](../patterns/queue-based-load-leveling.md) által a bejövő kérések üzembe egy puffer feldolgozásra. A Feladatütemező a kérelmek beolvassa a pufferből, és a munkafolyamat végrehajtásához. 
+Az eddigi azt még nem tekinthető minden olyan nem funkcionális követelmények. Az alkalmazás átviteli sebességet megkövetelő mértékegységeként, a fejlesztői csapat úgy döntött, hogy hozzon létre egy külön Adatbetöltési mikroszolgáltatás, amely az ügyfél kérelmek feldolgozására. A mikroszolgáltatások megvalósítandó [Terheléskiegyenlítés](../patterns/queue-based-load-leveling.md) feldolgozásra a pufferbe írja a bejövő kérelmek. Az ütemező beolvassa a kérelmeket a buffer szolgáltatásból származó és a munkafolyamat végrehajtása. 
 
-Nem funkcionális követelményeinek a csapata egy további szolgáltatás létrehozásához vezetett. Az összes szolgáltatást, amennyiben az ütemezés és a valós idejű csomagok rendelkezik folyamattal kapcsolatos törölték. De a rendszer is minden szállítási előzmények tárolása a hosszú távú tárolás, az adatok elemzésére. A csapat számít, így ez a kézbesítési szolgáltatás feladata. Azonban az adattárolási követelmények eltérőek meglehetősen korábbi elemzéshez és üzenetsoroktól műveletek (lásd: [adatok szempontok](./data-considerations.md)). Ezért úgy döntött, a csapat külön kézbesítési előzmények szolgáltatás, amely a kézbesítési szolgáltatás DeliveryTracking események figyelését, és az eseményeket írni az hosszú távú tárolás létrehozása.
+Nem funkcionális követelmények a csapata egy kiegészítő szolgáltatás létrehozásához vezetett. A szolgáltatásokhoz, amennyiben az ütemezés és a csomagok továbbítása valós időben a folyamat lett. De a rendszer is kell tárolnia minden szállítás előzményei a data-elemzéshez hosszú távú tároláshoz. A csapata tekintett feladata a Licenctovábbítási szolgáltatása, ami. De az adattárolási követelmények is igen különböző az előzményadatokat és átvitel közben az operations (lásd: [adatok szempontok](./data-considerations.md)). Ezért a csapat úgy döntött, hogy hozzon létre egy külön szállítás előzményei szolgáltatás, amely DeliveryTracking események kézbesítés a szolgáltatás figyelésére, és írja az események, hosszú távú tároláshoz.
 
-Az alábbi ábrán a Tervező ezen a ponton:
+Az alábbi ábrán látható ezen a ponton a terv:
  
 ![](./images/microservices.png)
 
-## <a name="choosing-a-compute-option"></a>A számítási lehetőség kiválasztása
+## <a name="choosing-a-compute-option"></a>Számítási lehetőség kiválasztása
 
-A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. Egy mikroszolgáltatások architektúra két megközelítés különösen népszerű:
+A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. A mikroszolgáltatási architektúrában a két módszer különösen népszerű:
 
-- A szolgáltatás az orchestrator dedikált csomópontok (VM) szolgáltatás kezeli.
-- Egy kiszolgáló nélküli architektúra függvények használatával szolgáltatásként (FaaS). 
+- A szolgáltatás az orchestrator által felügyelt dedikált csomópontok (virtuális gépek) futó szolgáltatásokat.
+- A functions egy kiszolgáló nélküli architektúra használatával szolgáltatásként (FaaS). 
 
-Ezek nem csak a beállítások, amíg azok mindkét bevált módszerekkel mikroszolgáltatások létrehozására. Egy alkalmazás tartalmazhat mindkét megközelítés.
+Bár ezek nem az egyetlen lehetőség, mind a mikroszolgáltatások megközelítéseket. Egy alkalmazás tartalmazhat mindkét módszerénél.
 
-### <a name="service-orchestrators"></a>Szolgáltatás orchestrators
+### <a name="service-orchestrators"></a>Szolgáltatás vezénylők
 
-Az orchestrator telepítésére és kezelésére a szolgáltatások kapcsolódó feladatokat végzi. Ezek a feladatok közé tartozik a csomópontok, szolgáltatások, a nem megfelelő szolgáltatások újraindítása állapotának figyelése szolgáltatásokban helyezi, és töltse be a hálózati forgalom terheléselosztása között szolgáltatáspéldány, a szolgáltatásészlelés, egy szolgáltatás példányának számának méretezését, és alkalmazása frissíteni a konfigurációt. Népszerű orchestrators Kubernetes, a DC/OS, a Docker Swarm és a Service Fabric tartalmazza. 
+Az orchestrator szolgáltatások használatával történő üzembe helyezéséről kapcsolódó feladatokat végzi. Ezek a feladatok közé tartozik például a szolgáltatások csomópontok,-szolgáltatások újraindítása a nem megfelelő állapotú szolgáltatások állapotának figyelése, terheléselosztási hálózati forgalom elosztását a szolgáltatáspéldány, a szolgáltatásészlelés, a szolgáltatáspéldányok számának méretezése és alkalmazása konfiguráció frissítéseit. Népszerű szervezőeszközökkel helyezheti őket a Kubernetes, a Service Fabric, DC/OS és Docker Swarm közé tartozik.
 
-- [Az Azure Tárolószolgáltatás](/azure/container-service/) (ACS) az Azure-szolgáltatások, amely lehetővé teszi egy éles használatra kész Kubernetes, DC/OS- vagy Docker Swarm-fürt központi telepítése.
+Az Azure platformon vegye figyelembe a következő beállításokat:
 
-- [(Az Azure Tárolószolgáltatás) AKS](/azure/aks/) egy felügyelt Kubernetes szolgáltatás. AKS rendelkezések Kubernetes és tesz elérhetővé a Kubernetes API-végpontok, de használja, és kezeli a Kubernetes vezérlő vezérlősík hajt végre az automatikus frissítések automatikus javítás, automatikus skálázás és egyéb kezelési feladatok. Az eltolásokat tekintheti AKS, hogy a "Kubernetes API-k szolgáltatásként." Írásának időpontjában AKS még mindig preview. Azonban várható, hogy AKS lesz-e az előnyben részesített módja Kubernetes futtassa az Azure-ban. 
+- [Az Azure Kubernetes Service](/azure/aks/) (AKS) egy olyan felügyelt Kubernetes szolgáltatás. Az AKS rendelkezések Kubernetes és közzéteszi a Kubernetes API-végpontokat, de üzemelteti, és felügyeli a Kubernetes vezérlősík hajt végre automatikus frissítésekre és automatikus javításokat, automatikus skálázást és más felügyeleti feladatokat. Is felfoghatók AKS, hogy a "Kubernetes API-k szolgáltatás." 
 
-- [A Service Fabric](/azure/service-fabric/) egy elosztott rendszerek platformja csomagolása, üzembe helyezése és kezelése mikroszolgáltatások létrehozására. Mikroszolgáltatások létrehozására is telepíthető a Service Fabric, tárolók, bináris végrehajtható fájlok, vagy mint [Reliable Services](/azure/service-fabric/service-fabric-reliable-services-introduction). A Reliable Services programozási modell használatával szolgáltatások használhatja közvetlenül a Service Fabric programozási API-kat a rendszer, a jelentés állapotának lekérdezése, konfigurációs és a kód módosítására értesítések fogadása és egyéb szolgáltatások felderítése. A Service Fabric legfontosabb különbséget a használatával állapot-nyilvántartó szolgáltatások erős összpontosít [megbízható gyűjtemények](/azure/service-fabric/service-fabric-reliable-services-reliable-collections).
+- [A Service Fabric](/azure/service-fabric/) csomagolása, üzembe helyezése és kezelése a mikroszolgáltatások egy elosztott rendszerplatform. Mikroszolgáltatások Service Fabric telepíthetők, tárolók, bináris végrehajtható fájlok, vagy mint [Reliable Services](/azure/service-fabric/service-fabric-reliable-services-introduction). A Reliable Services programozási modell révén szolgáltatások közvetlenül a Service Fabric programozási API-kat a rendszer, a jelentés állapotának lekérdezése, konfigurálásról és a kód módosításait az értesítések fogadásához és egyéb szolgáltatások észlelését. A Service Fabric legfontosabb különbséget az állapotalapú szolgáltatások használatával erős koncentrálhat [a Reliable Collections](/azure/service-fabric/service-fabric-reliable-services-reliable-collections).
+
+- [Az Azure Container Service](/azure/container-service/) (ACS) egy Azure-szolgáltatás, amely lehetővé teszi egy üzemkész DC/OS, Docker Swarm vagy Kubernetes-fürt üzembe helyezése. 
+
+  > [!NOTE]
+  > Kubernetes ACS által támogatott, bár javasoljuk az AKS az Azure-on futó Kubernetes. Az AKS továbbfejlesztett felügyeleti funkciók és a költséget biztosít.
 
 ### <a name="containers"></a>Containers
 
-Egyes esetekben személyek szolgáltatással kapcsolatban tárolók és mikroszolgáltatások létrehozására az ugyanaz, mintha. Amíg, amely nem igaz értékű &mdash; nem szükséges tárolók mikroszolgáltatások létrehozására &mdash; tárolók rendelkezik néhány előnyről szempontjából különösen mikroszolgáltatások, például:
+Más személyek beszélni tárolók és mikroszolgáltatások ugyanaz, mintha. Bár ez nem igaz &mdash; nem szükséges tárolók, mikroszolgáltatások &mdash; tárolók rendelkezik, amely különösen a mikroszolgáltatások, mint például előnyöket:
 
-- **Hordozhatóság**. A tároló lemezkép csomag egy különálló futtató anélkül, hogy telepítse a szalagtárak vagy más függőségek. Amely megkönnyíti az központi telepítéséhez. Tárolók megkezdődött, és így akkor is léptetési mentése új példányok további terhelés kezelése érdekében vagy csomóponthibák helyreállítása gyorsan, leállt. 
+- **Hordozhatóság**. Tárolórendszerkép csomag egy különálló futtató anélkül, hogy kódtárakat vagy egyéb függőségek telepítése. Így azok egyszerűen üzembe helyezhetők. Tárolók indíthatók és úgy regisztrálhat új példányokat további terhelés kezeléséhez, illetve a csomóponthibák gyorsan, leállt. 
 
-- **Sűrűség**. Tárolók olyan egyszerűsített képest a futó virtuális gépek esetén, mert ugyanazt az operációs rendszer-erőforrások. Amely lehetővé teszi a csomag több tároló alakzatot egy egycsomópontos, amely akkor különösen akkor hasznos, ha az alkalmazás számos kis szolgáltatásból áll.
+- **Sűrűségű**. Tárolók olyan egyszerűsített képest a futó virtuális gép, mert ugyanazt az operációs rendszer-erőforrásokat. Amely lehetővé teszi, hogy több tároló telepítését egyetlen csomópont, amely akkor különösen hasznos, ha az alkalmazást több kis szolgáltatásra áll.
 
-- **Erőforrás-elkülönítést**. Korlátozhatja a memória- és elérhető a tárolóhoz, így győződjön meg arról, hogy egy elszabadult folyamat nem lefoglalhat a gazdagép-erőforrások mennyiségét. Tekintse meg a [válaszfal mintát](../patterns/bulkhead.md) további információt.
+- **Erőforrás-elkülönítést**. Korlátozhatja a mennyi memóriát és CPU, amely elérhető egy tárolóba, amely segít annak biztosításában, hogy egy elszabadult folyamat nem lefoglalhat gazdagép-erőforrásokat. Tekintse meg a [válaszfal minta](../patterns/bulkhead.md) további információt.
 
-### <a name="serverless-functions-as-a-service"></a>Kiszolgáló nélküli (funkciók szolgáltatásként)
+### <a name="serverless-functions-as-a-service"></a>Kiszolgáló nélküli (Functions szolgáltatás)
 
-Egy kiszolgáló nélküli architektúrával nem a virtuális gépek vagy a virtuális hálózati infrastruktúra kezeléséhez. Ehelyett telepít kódot és az üzemeltetési szolgáltatás kezeli, ezt a kódot és egy virtuális Gépet, és futtatnia kell. Ez a megközelítés általában kis részletes funkciók, amelyek koordinált eseményvezérelt használó alkalmazást. Várólista elhelyezte alatt álló üzenet például előfordulhat, hogy vált egy függvényt, amely beolvassa a várólistából, és feldolgozza az üzenetet.
+Az egy [kiszolgáló nélküli](https://azure.microsoft.com/solutions/serverless/) architektúra, nem kell felügyelnie a virtuális gépek vagy a virtuális hálózati infrastruktúra. Ehelyett kell telepíteni, kód és az üzemeltetési szolgáltatás kezeli a kód üzembe egy virtuális Gépet az alakzatot, és futtassa a jelentést. Ez a megközelítés általában kis részletes funkciók, amelyek koordinált eseményalapú eseményindítókat használó alkalmazást. Ha például egy üzenetet egy üzenetsorba való elhelyezni kívánt is kiválthatják a függvény, amely az üzenetsorból olvas, és feldolgozza az üzenetet.
 
-[Az Azure Functions] [ functions] egy kiszolgáló nélküli számítási szolgáltatás, amely támogatja a különböző függvény eseményindítók, beleértve a HTTP-kérelmekre, Service Bus-üzenetsorok, és az Event Hubs eseményeket. Teljes listáját lásd: [Azure Functions eseményindítók és kötések fogalmak][functions-triggers]. Fontolja meg is [Azure esemény rács][event-grid], ez az útválasztási szolgáltatás kezelt esemény az Azure-ban.
+[Az Azure Functions] [ functions] egy kiszolgáló nélküli számítási szolgáltatás, amely támogatja a különböző függvény eseményindítók, beleértve a HTTP-kérelmekre, Service Bus-üzenetsorok és az Event Hubs-események. Teljes listáját lásd: [Azure Functions eseményindítók és kötések fogalmak][functions-triggers]. Emellett érdemes lehet [Azure Event Grid][event-grid], ez egy felügyelt esemény-útválasztó szolgáltatás az Azure-ban.
 
-### <a name="orchestrator-or-serverless"></a>Az orchestrator vagy kiszolgáló nélküli?
+### <a name="orchestrator-or-serverless"></a>Az orchestrator vagy a kiszolgáló nélküli?
 
-Az alábbiakban néhány tényezők választás az orchestrator megközelítés és a kiszolgáló nélküli megközelítés során figyelembe kell venni.
+Az alábbiakban néhány szempontot figyelembe kell venni egy orchestrator-módszert és a egy kiszolgáló nélküli megközelítés közötti választáshoz.
 
-**Kezelhetőségi** egy kiszolgáló nélküli alkalmazást könnyen kezelhető, mivel a platform kezeli az összes a számítási erőforrásokat meg. Az orchestrator kivonatolja a kezelése és konfigurálása a fürt egyes funkcióit, amíg azt nem teljesen elrejtése az alapul szolgáló virtuális gépeket. Az orchestrator szüksége lesz kell vennie, például terheléselosztás, Processzor- és memóriahasználatról, és a hálózati terhelést.
+**Kezelhetőségi** kiszolgáló nélküli alkalmazás a könnyen kezelhető, mert a platform kezeli az összes a számítási erőforrásokat az Ön számára. Az orchestrator felügyelete és a egy fürt konfigurálása bizonyos aspektusainak kivonatolja, amíg azt nem teljesen rejt el az alapul szolgáló virtuális gépeket. Az orchestrator-kell kapcsolatos problémák, például a terheléselosztás, a CPU és memória-felhasználás, és a hálózati terhelés.
 
-**Rugalmasság és a Vezérlés**. Egy orchestrator lehetővé teszi az ellenőrzése alatt tartja a konfigurálása és kezelése, a szolgáltatások és a fürt nagy mennyiségű. Mi a fontosabb nagyobb fokú összetettségével. Egy kiszolgáló nélküli architektúrával akkor feladták vezérlő bizonyos fokú mivel ezek az adatok azért.
+**Rugalmasság és irányítás**. Az orchestrator felett konfigurálása és kezelése a szolgáltatások és a fürt nagy fokú biztosítja. Az egyensúlyt a további összetettséget. Kiszolgáló nélküli architektúrával adjon be néhány magas fokú felügyeletet mivel ezeket az adatokat emeli ki.
 
-**Hordozhatóság**. Az itt felsorolt orchestrators (Kubernetes, a DC/OS, Docker Swarm és a Service Fabric) összes futtatható helyi vagy több nyilvános felhőkben. 
+**Hordozhatóság**. Az itt felsorolt vezénylők (Kubernetes, DC/OS, Docker Swarm és a Service Fabric) is futtathatja a helyszíni vagy több nyilvános felhőkben. 
 
-**Alkalmazások integrálása**. Ez hozható létre olyan összetett alkalmazás használatával egy kiszolgáló nélküli architektúra kihívást jelenthet. Az Azure-ban egy lehetőség [Azure Logic Apps](/azure/logic-apps/) Azure Functions készletét. Ez a megközelítés példáért lásd: [hozzon létre egy függvényt, amely az Azure Logic Apps](/azure/azure-functions/functions-twitter-email).
+**Alkalmazásintegráció**. Ez egy-egy kiszolgáló nélküli architektúra használatával összetett alkalmazások kihívást jelenthet. Az Azure-ban egy lehetőség [Azure Logic Apps](/azure/logic-apps/) az Azure Functions egy készletét. Erre a megközelítésre példa: [Azure Logic Apps szolgáltatással integrálható függvények létrehozása](/azure/azure-functions/functions-twitter-email).
 
-**Költség**. Az egy orchestrator kell fizetnie a a fürt futó virtuális gépeket. Egy kiszolgáló nélküli alkalmazást, a kell fizetnie csak a tényleges számítási erőforrások használatának. Mindkét esetben kell számításba a további szolgáltatások, például a tárolás, az adatbázisok és az üzenetkezelési szolgáltatások költségét.
+**Költség**. Az orchestrator-fizet a virtuális gépek, amelyek a fürtön futtatják. Az egy kiszolgáló nélküli alkalmazást akkor kell fizetnie csak a tényleges számítási erőforrások felhasználásának. Mindkét esetben kell figyelembe vennie a költség, a további szolgáltatások, például a tárolás, adatbázisok és üzenetküldési szolgáltatások.
 
-**Méretezhetőség**. Az Azure Functions automatikusan méretezi kielégítéséhez, a bejövő események száma alapján. Az orchestrator, az ki lehet terjeszteni a fürtben futó szolgáltatás példányainak számát. A fürt további virtuális gépek hozzáadásával is méretezheti.
+**Méretezhetőség**. Az Azure Functions automatikusan méretezi az igényeknek, a bejövő események száma alapján. Az orchestrator-horizontálisan növelje a fürtben futó szolgáltatás példányainak számát. A fürthöz további virtuális gépek hozzáadásával is méretezheti.
 
-Az útmutató elsősorban használ Kubernetes, de volt használjuk az Azure Functions egy szolgáltatás, nevezetesen a kézbesítési előzmények szolgáltatás. Az Azure Functions remekül beválik, ha az adott szolgáltatáshoz, volt, mert az egy eseményvezérelt munkaterhelés. Az Event Hubs eseményindító használatával függvényt, a szolgáltatás szükséges kód mennyisége minimális. A kézbesítési előzmények szolgáltatás is nem a fő munkafolyamat azon része, is fut a Kubernetes fürtön kívüli nem befolyásolják a végpont felhasználó által kezdeményezett műveletek. 
+Referenciaimplementáció elsősorban használja a Kubernetes, de fejeződött használjuk az Azure Functions egy szolgáltatáshoz, azaz a szállítás előzményei szolgáltatás. Az Azure Functions remekül beválik, ha az adott szolgáltatáshoz, volt, mert egy eseményvezérelt munkaterhelés. A függvény meghívása egy Event Hubs-trigger használatával, a szolgáltatás szükséges minimális mennyiségű kódot. Emellett a szállítás előzményei szolgáltatás nem képezi részét a fő munkafolyamat, a Kubernetes-fürt-on kívül futnak, nem befolyásolja a felhasználó által kezdeményezett műveletek végpontok közötti késését. 
 
 > [!div class="nextstepaction"]
-> [Adathozzáféréssel kapcsolatos szempontok](./data-considerations.md)
+> [Az adatok kapcsolatos szempontok](./data-considerations.md)
 
 <!-- links -->
 

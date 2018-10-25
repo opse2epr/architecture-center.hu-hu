@@ -1,123 +1,123 @@
 ---
-title: CI/CD-jét mikroszolgáltatások
-description: Folyamatos integrációt és mikroszolgáltatások folyamatos szállítási
+title: CI/CD-mikroszolgáltatások
+description: A folyamatos integrációt és teljesítést mikroszolgáltatások
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: 7d8a81b7bc236e50d722a68a0115b9220d4e094f
-ms.sourcegitcommit: 786bafefc731245414c3c1510fc21027afe303dc
+ms.date: 10/23/2018
+ms.openlocfilehash: b411e687a111e55a5821d4fdc66975e80f73584b
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2017
-ms.locfileid: "26653062"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962857"
 ---
-# <a name="designing-microservices-continuous-integration"></a>Mikroszolgáltatások tervezése: folyamatos integrációt
+# <a name="designing-microservices-continuous-integration"></a>Mikroszolgáltatások tervezése: folyamatos integráció
 
-Folyamatos integrációt és folyamatos kézbesítési (CI/CD) a kulcsfontosságú követelmény az mikroszolgáltatások sikeres megvalósításához. Egy jó CI/CD folyamat nélkül, nem érhető el a agilitást, amely mikroszolgáltatások készletéről. A CI/CD kapcsolatban felmerülő kihívások mikroszolgáltatások némelyike erednek több kódbázis és a különböző szolgáltatásokat a heterogén buildkörnyezeteket. Ez a fejezet ismerteti, a kihívás, és azt javasolja, hogy az egyes módszerek a problémára.
+Folyamatos integráció és folyamatos készregyártás (CI/CD) egy kulcsfontosságú követelmény az sikeres a mikroszolgáltatás-alapú eléréséhez. Egy jó CI/CD-folyamat nélkül, nem éri el a rugalmasságot, mellyel a mikroszolgáltatások garantálniuk. Néhány a mikroszolgáltatások a CI/CD kapcsolatban felmerülő kihívások merülnek fel, több kódbázissal és életciklusainak buildkörnyezeteket, a különböző szolgáltatások esetében nem. Ez a fejezet a kihívásokat ismerteti, és javasolja a probléma néhány olyan módszert.
 
 ![](./images/ci-cd.png)
 
-Gyorsabb kiadás ciklusok a legnagyobb okai a mikroszolgáltatások architektúra elfogadására. 
+Gyorsabb kiadási ciklusokhoz a legnagyobb okai a mikroszolgáltatási architektúra elfogadására. 
 
-Egy tisztán egységes alkalmazásban nincs kimenete az alkalmazás futtatható fájlját egy összeállítási folyamat. Minden fejlesztési munkahelyi hírcsatornák be ez az adatcsatorna esetén. Egy magas prioritású hiba található, ha egy javítást kell lehet integrált, tesztelni, és közzé, amely késleltetheti-e a kiadás az új funkciók. IGAZ, hogy ezek a problémák csökkentheti jól faktorált modulokat, és használja a szolgáltatás ágak kódmódosításokat hatás minimalizálása érdekében. De, ha az alkalmazás növekszik összetettebb, és további szolgáltatások lesznek hozzáadva, egy monolit kiadás folyamatát jobban rideg, és valószínűleg törés válnak. 
+A tisztán monolitikus alkalmazások esetén nincs egy egyetlen build folyamatot, amelynek a kimenete az alkalmazás futtatható. Minden fejlesztési munka hírcsatornák a folyamatba. Ha egy magas prioritású hiba található, a javítás kell lennie integrált, tesztelését és kiadását, amely késleltetheti-e új funkciók megjelenésével. IGAZ, hogy ezek a problémák csökkentheti jól faktorált modulokat, és a szolgáltatás ágak használatával kódmódosításokat minimalizálása érdekében. Azonban, ha az alkalmazás összetettebb növekszik, és további szolgáltatások lesznek hozzáadva, mikroszolgáltatásokká kiadási folyamata általában törékennyé teszi és valószínűleg érvényteleníteni válik. 
 
-Következő mikroszolgáltatások alapvetően soha nem kell egy hosszú kiadás vonat, ahol minden csoport rendelkezik sorában lekérdezni. A szolgáltatás "A" módosítások szolgáltatásban való egyesíthetők, "B" várakozás nélkül is megjelenhetnek egy frissítés bármikor, épülő csapat tesztelése és telepítése. A CI/CD folyamat fontos, hogy ez lehetséges. A kiadási folyamat kell automatizált és nagymértékben megbízható, így frissítéseinek telepítéséhez a kockázata, így a lehető legkisebb. Ha naponta vagy naponta több alkalommal felszabadítása vannak üzemi környezetben, regresszió vagy szolgáltatás zavarokat nagyon ritkán fordul elő kell lennie. Egy időben Ha egy hibás frissítés telepítve, rendelkeznie kell gyorsan állíthatja vissza, illetve egy korábbi verzióját a szolgáltatás előregörgetéseket megbízható módot.
+A mikroszolgáltatások filozófia a következő soha nem kell egy hosszú kibocsátási train, ahol minden egyes csapat beolvasása a sor van. "A" módosításait a szolgáltatás részeként történik, hogy a "B" várakozás nélkül is megjelenhetnek egy tetszőleges időpontban, frissítési szolgáltatás hangolt tesztelését és üzembe helyezve. A CI/CD-folyamat fontos a megoldáson. Úgy, hogy a frissítések telepítése a kockázatát, így a lehető legkisebb a kibocsátási folyamat automatizált és nagy megbízhatóságú, kell lennie. Ha naponta vagy naponta több alkalommal felszabadítása vannak az éles környezetbe, regressziót vagy szolgáltatáskimaradás nagyon ritkán kell lennie. Egyszerre egy rossz frissítés üzembe helyezése, ha rendelkeznie kell egy megbízható módszerre gyorsan visszaállni vagy előregörgethet egy korábbi verzióját, a szolgáltatás.
 
 ![](./images/cicd-monolith.png)
 
-Ha a döntésről bővebben CI/CD, azt vannak valóban van szó több kapcsolódó folyamatokhoz: folyamatos integrációt, a folyamatos és a folyamatos üzembe helyezést.
+Amikor a CI/CD, valóban beszélünk számos kapcsolódó folyamatok: folyamatos integráció, a folyamatos teljesítés és a folyamatos üzembe helyezés.
 
-- Folyamatos integrációt azt jelenti, hogy kódmódosításokat gyakran egyesülnek a főágba automatizált build használatával győződjön meg arról, hogy a főágba kód mindig kiváló minőségben folyamatok tesztelése.
+- Folyamatos integráció, hogy a kód módosítása gyakran egyesítve a fő ágat, automatizált összeállítási, és győződjön meg arról, hogy kódot a fő ág mindig gyártási minőségű folyamatok tesztelése jelenti.
 
-- Folyamatos kézbesítési azt jelenti, hogy a kód módosítására, amelyek megfelelnek a CI-folyamat automatikusan közzétett hasonló környezethez. Az éles környezetbe telepítés manuális jóváhagyásra lehet szükség, de egyébként automatikus. A célja, hogy a kód mindig legyen *készen* való telepítése éles környezetben.
+- Folyamatos készregyártás, az azt jelenti, hogy a kód módosítása, hogy a CI folyamat automatikusan közzéteszi az utolsóig üzemi környezetben. Az élő éles környezetben való üzembe helyezés manuális jóváhagyásra lehet szükség, de egyébként automatizált. Az a célja, hogy a kód mindig legyen *készen* helyezheti éles üzembe.
 
-- Folyamatos üzembe helyezés, az azt jelenti, hogy a kód módosítására, amelyek megfelelnek a CI/CD folyamat automatikusan telepítve éles környezetben.
+- Folyamatos üzembe helyezés azt jelenti, kódmódosítás, hogy a CI/CD-folyamat automatikusan telepített éles környezetbe.
 
-Kontextusában Kubernetes és mikroszolgáltatások létrehozására a CI szakasz aggasztanak létrehozása és tesztelése tároló képek és kérdez le ezeket a képeket tároló beállításjegyzékbeli, hogy. A telepítési fázisban pod specifikációk frissítése a legújabb éles kép átvételéhez.
+Kubernetes- és mikroszolgáltatás-alapú környezetében a Konfigurációelem fázis üzemidejére létrehozása és tesztelése a tárolórendszerképek és ezen rendszerképek leküldése egy tároló-beállításjegyzéket. A központi telepítési fázisban a pod vonatkozó műszaki adatok frissülnek, hogy folytattuk a munkát a legújabb termelési rendszerképet.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-- **Sok kisméretű független kódbázis**. Minden team saját szolgáltatása, és a saját build összeállításáért felelős. Egyes szervezeteknél csoportokat használhat külön adattárakban. Ez a helyzet, ahol csoportok között megoszlik hogyan hozhat létre a rendszer ismerete, és a szervezet senki sem tudja, hogy a teljes alkalmazás központi telepítéséről vezethet. Például mi történik, a vész-helyreállítási forgatókönyv, ha szeretné gyorsan üzembe helyezhet egy új fürtre?   
+- **Sok kis független kódbázissal**. Minden egyes csapat felelős a saját szolgáltatás, amelynek a saját build folyamat létrehozásához. Egyes szervezetekben a csapat a előfordulhat, hogy külön kódtárházak. Ez a helyzet, ahol az ismeretek, hogyan hozhat létre a rendszer a csapatok között megoszlik, és a szervezet senki sem tudja, hogy a teljes alkalmazás üzembe helyezése vezethet. Például mi történik, a vész-helyreállítási helyzetekre, ha gyorsan üzembe helyezhet egy új fürtre van szüksége?   
 
-- **Több nyelv és keretrendszer**. Minden egyes csapattal, a saját vegyesen technológiák használatával nehézkes lehet, amely a teljes szervezetben egyetlen build folyamatot létrehozni. A létrehozási folyamat kellően rugalmas ahhoz, hogy minden team módosíthatja azt a nyelvet vagy keretrendszert az általuk választott kell lennie. 
+- **Több nyelv és keretrendszer**. Az egyes csapata a saját technológiák vegyítése használatával nehézkes lehet a szervezet egészében működő egyetlen buildelési folyamat létrehozásához. A létrehozási folyamat kellően rugalmas ahhoz, hogy minden egyes csapat tesztkörnyezetéhez, az általuk választott nyelvet vagy keretrendszert kell lennie. 
 
-- **Integráció és a betöltés tesztelés**. A saját tempójában frissítések felszabadítása csapatok azt kihívást jelenthet robusztus-végpontok tesztelése, különösen ha szolgáltatások függőségi viszonyban vannak más szolgáltatások tervezéséhez. Ezenkívül egy teljes éles fürt futtató lehet költséges, így nem valószínű, hogy minden team fogja tudni futtatni a saját teljes fürt éles méretezik csak teszteléshez. 
+- **Integráció és a load testing**. Csapatok számára a saját tempójában frissítéseket ad ki ez kihívást jelenthet robusztus – teljes körű tesztelés, különösen ha szolgáltatások függőségekkel rendelkezik más szolgáltatások tervezéséhez. Ezen felül egy teljes éles fürtöt futtat költséges lehet, ezért nem valószínű, hogy minden egyes csapat fogja tudni a saját teljes fürtöt futtat, éles skálázását követve rugalmasan méretezhető, csak teszteléshez. 
 
-- **Kiadáskezelés**. Minden csoport lehetővé teszi egy frissítés telepítését üzemi környezetben kell rendelkeznie. Ez nem jelenti azt, hogy minden csapattag ehhez engedélyekkel rendelkezik-e. Azonban rendelkezik egy központosított Kiadáskezelő szerepkör csökkentheti a sebesség, a központi telepítések. A további, hogy a CI/CD folyamat automatikus, és megbízható, kevesebb e kell lennie egy központi hatóság szükség. Említett, előfordulhat, hogy eltérő házirendek a fő funkció frissítések kisebb hibák javításával és felszabadítása. Decentralizált alatt nem jelenti azt nulla irányítás kell lennie.
+- **Kiadáskezelés**. Minden team kell az éles környezetbe helyezheti üzembe az alkalmazásokat egy frissítést. Ez nem jelenti azt, hogy minden csapattag engedélyekkel rendelkezik-e. Azonban egy központosított Kiadáskezelő szerepkör kellene csökkentheti a központi telepítések adatról van szó. A további, hogy a CI/CD-folyamat automatikus, és megbízható, a kevésbé ott kell lennie egy központi hatóság szüksége. Ugyanakkor előfordulhat, hogy kisebb hibajavítások és a főbb funkciókat frissítések kiadása különböző házirendeket. Folyamatban decentralizált jelenti azt, hogy nulla cégirányítási kell lennie.
 
-- **Tároló kép versioning**. A fejlesztési és tesztelési ciklus során a CI/CD folyamat sok tároló lemezképet fog létrehozni. Csak a kiadásban a zel olyanokat is, majd közül csak az adott kiadás jelöltek fogja lekérni leküldött éles környezetben. Törölje a jelet versioning stratégiát, megállapításához, hogy mely képek üzemi jelenleg telepítve vannak, és vissza lehet vonni egy korábbi verzióját szükség kell. 
+- **Tároló-lemezkép versioning**. A fejlesztési és tesztelési ciklus során a CI/CD-folyamat számos tárolórendszerképek fog létrehozni. Csak a kiadásban a deduplikációra olyanokat is, majd csak néhányat ezen kiadás jelöltek fog első leküldött éles környezetbe. Egy világos verziókezelési stratégiát kell, hogy tudja, melyik képek az éles környezetben jelenleg telepítve vannak, és vissza lehet vonni egy korábbi verziót, ha szükséges. 
 
-- **Frissítheti a szolgáltatást**. Amikor új verzióra frissít egy szolgáltatás, azt nem szabad törés attól függő más szolgáltatások. Ha így tesz, a működés közbeni frissítés, egy adott időn belül verzióit vegyesen futtatásakor lesz. 
+- **Szolgáltatási hírek**. Amikor új verzióra frissít egy szolgáltatás, azt más a tőle függő szolgáltatások nem szünet. Ha így tesz, a működés közbeni frissítés, bizonyos idő különböző verzióit vegyesen futtatásakor lesz. 
  
-Ezek a kihívások alapvető feszültség tükrözik. Másrészről szükséges működjön, a lehető függetlenül. Néhány koordinációs, másrészt van szükség, hogy egy személy teheti a feladatokat, például az integráció a teszt, az új fürtön a teljes megoldás újbóli vagy rossz frissítés visszaállítása. 
+Ezek a kihívások alapvető feszültség tükrözik. Csapatok, másrészt kell működjön, egymástól függetlenül, amennyire csak lehetséges. Néhány koordinálása, másrészt van szükség, hogy egyetlen személy teheti a feladatokat, mint egy integrációs teszt futtatása, újbóli üzembe helyezés a teljes megoldás egy új fürtre vagy egy rossz frissítés visszaállítása. 
  
-## <a name="cicd-approaches-for-microservices"></a>CI/CD megközelítés használatos mikroszolgáltatások
+## <a name="cicd-approaches-for-microservices"></a>A mikroszolgáltatásokat megközelíti a CI/CD
 
-Ajánlott minden szolgáltatás-csoport containerize azok összeállító környezetet. Ebben a tárolóban kell rendelkeznie az összes build eszköz a kód összetevők, a szolgáltatás létrehozásához szükséges. Gyakran a nyelv és keretrendszer hivatalos Docker kép is megtalálhatja. Akkor `docker run` vagy a Docker Compose a build futtatásához. 
+Ajánlott minden service csapata igény szerint tárolóalapúvá alakíthatja az összeállító környezetet. Ez a tároló az összes szükséges hozhat létre a szolgáltatásukhoz kód összetevők build eszköz rendelkezhet. Gyakran a nyelv és keretrendszer hivatalos Docker-rendszerképet is megtalálhatja. Ezt követően használhatja `docker run` vagy a Docker Compose, a build futtatásához. 
 
-Ezzel a megközelítéssel nagyon egyszerű, egy új build környezet beállítása. Egy fejlesztő, akinek szeretne készíteni a kód nem kell telepítenie a build eszközöket, de egyszerűen futtatja a tároló kép. Lehet, hogy ennél is fontosabb, a build kiszolgáló beállítható úgy, hogy ugyanazt végzi. Ezzel a módszerrel nem kell ezekhez az eszközökhöz a build-kiszolgálóra telepítse, vagy eszközök ütköző verzióinak kezelése. 
+Ezzel a módszerrel nagyon egyszerű, egy új build-környezetet. Fejlesztőként szeretne a kód felépítéséhez nem kell telepítenie a build-eszközöket, de egyszerűen futtatja a tároló rendszerképét. Talán még fontosabb, a build kiszolgáló beállítható úgy, a végre ugyanezt. Ezzel a módszerrel, nem kell telepíteni ezeket az eszközöket a build-kiszolgálóba, vagy az eszközök ütköző verziók kezelése. 
 
-A helyi fejlesztéshez és teszteléshez használja a Docker belül egy tárolót a szolgáltatás futtatásához. Ez a folyamat részeként szükség lehet más tárolókat utánzatait szolgáltatások vagy a helyi tesztelés szükséges teszt adatbázisok futtatásához. Ezekhez a tárolókhoz koordinálja a Docker Compose használatával, vagy helyileg történő futtatása Kubernetes Minikube segítségével. 
+Helyi fejlesztési és tesztelési a Docker használatával futtatni a szolgáltatást a tárolókon belül. Ez a folyamat részeként szükség lehet más utánzatként funkcionáló szolgáltatások vagy helyi teszteléshez szükséges tesztelési adatbázisok rendelkező tárolók futtatásához. Ezek a tárolók összehangolása a Docker Compose használatával, vagy helyileg történő futtatása a Kubernetes Minikube használatával. 
 
-Amikor készen áll a kód, nyisson meg egy lekérési kérelmet és egyesítési fő be. Ez feladatot indít el a build kiszolgálón:
+Amikor készen áll a kód, nyisson meg egy pull-kérelem és egyesítés főágba be. Ez feladatot indít el a build-kiszolgálón:
 
-1. A kód eszközök felépítéséhez. 
-2. A kód egység tesztek futtatásához.
-3. A tároló lemezképet létre.
-4. Tesztelje a tároló kép működési tesztek futtatása a futó tárolóba. Ez a lépés is tényleges hibákat a Docker-fájlban, például egy hibás belépési ponthoz.
-5. Küldje le a lemezképet tároló beállításjegyzékbeli.
-6. A tesztfürthöz frissítése az új lemezkép integrációs tesztek futtatásához.
+1. A kód eszközöket hozhat létre. 
+2. Egység tesztek futtatásához a kódot.
+3. A tárolólemezkép létrehozásához.
+4. Ellenőrizze a tároló rendszerképét a funkcionális tesztek futtatása a futó tárolót. Ebben a lépésben a Docker-fájl, például a rossz belépési pont hibáinak használhatják fel őket.
+5. A rendszerkép leküldése egy tároló-beállításjegyzéket.
+6. A test-fürt frissítése az új lemezkép integrációs tesztek futtatásához.
 
-Ha a kép készen éles környezetben, frissítse a telepítési fájlok a legújabb kép, bármely Kubernetes konfigurációs fájlokat adja meg szükség szerint. Az éles fürt követően telepítse a frissítést.
+Amikor a lemezkép készen áll, éles környezetben, frissítse az üzembe helyezési fájlokat a legújabb rendszerképet, beleértve a Kubernetes konfigurációs fájlok megadásához szükség szerint. Ezután alkalmazza a frissítést az éles fürtöt.
 
-Az alábbiakban néhány javaslatot adja meg a megfelelő központi telepítések további megbízható:
+Az alábbiakban néhány javaslat megbízhatóbb végzett központi telepítések:
  
-- Adja meg a teljes szervezetre kiterjedő egyezmények tároló címkék, versioning és elnevezési szabályai a fürthöz (három munkaállomás-csoporttal, szolgáltatások és így tovább) üzembe helyezett erőforrás. Amely megkönnyítheti a telepítési problémák elemzéséhez. 
+- Adja meg a szervezeti szintű szabályai tároló címkék, verziószámozása és a fürthöz (podok, szolgáltatások és így tovább) üzembe helyezett erőforrások elnevezési szabályainak. Amely megkönnyítheti a üzembe helyezési problémák diagnosztizálásához. 
 
-- Hozzon létre két külön nyilvántartó, egy fejlesztési/tesztelési és egy üzemi. Lemezkép nem leküldéses a termelési beállításjegyzék, amíg készen áll az éles üzembe helyezés. Ha ez az eljárás egyesíthető szemantikai versioning tároló képek, csökkentheti az esélyét, hogy véletlenül telepítése egy olyan verzióra, a kiadáshoz nem engedélyezett.
+- Hozzon létre két külön tároló-beállításjegyzékek, egyet a fejlesztési-tesztelési és éles környezetben. Nem rendszerkép leküldése a termelési beállításjegyzék, amíg készen áll az éles üzembe helyezés. Ha ez az eljárás kombinálva a tárolórendszerképek Szemantikus verziószámozást, csökkentheti az esélye, hogy véletlenül üzembe helyezése egy olyanra, amely a kiadás nem lett jóváhagyva.
 
-## <a name="updating-services"></a>Frissítési szolgáltatások
+## <a name="updating-services"></a>Szolgáltatás frissítése
 
-Nincsenek olyan szolgáltatás, amely már szerepel a termelési frissítési különböző stratégiákat. Itt három közös beállításokat tárgyaljuk: működés közbeni frissítés, kék, zöld telepítési és Kanári kiadás.
+Számos különféle stratégiát, amely már éles környezetben a szolgáltatás frissítése. Itt három általános beállítások tárgyaljuk: a működés közbeni frissítés, a kék-zöld üzembe helyezés és a canary kiadás.
 
-### <a name="rolling-update"></a>Működés közbeni frissítés 
+### <a name="rolling-update"></a>A működés közbeni frissítés 
 
-A működés közbeni frissítés a szolgáltatás új példányának telepítése, és az új példányok megkezdése kérelmek azonnal. Az új példányok kapja meg, mert a rendszer eltávolítja a korábbi példányok.
+A működés közbeni frissítés a szolgáltatás új példányok üzembe helyezésekor, és az új példányok, indítsa el azonnal a kérelmek fogadására. Az új példányok merülnek fel, mint az előző példányok törlődnek.
 
-Működés közbeni frissítés esetén Kubernetes az alapértelmezett viselkedés, a központi telepítés pod spec frissítésekor. A központi telepítés tartományvezérlő létrehoz egy új ReplicaSet esetében a frissített három munkaállomás-csoporttal. Majd méretezés során az új ReplicaSet le a régit, a kívánt replikaszám fenntartásához méretezés közben. Amíg az új címkék készen áll az nem törli a régi három munkaállomás-csoporttal. Kubernetes tartja a frissítési előzményeket, így kubectl használatával állítsa vissza egy frissítés szükség esetén. 
+Működés közbeni frissítései az alapértelmezett viselkedést, a Kubernetes üzembe helyezéséhez a pod specifikációja frissítésekor. A központi telepítési vezérlő hoz létre egy új ReplicaSet a frissített podok számára. Ezután a méretezés során az új ReplicaSet vertikális leskálázást a régit, a kívánt replikáinak száma fenntartása közben. Régi podok azzal nem törli, amíg készen áll az újakat. Kubernetes előzményeket a frissítést, így a kubectl használatával visszavonhat egy frissítést szükség esetén. 
 
-Ha a szolgáltatás indítása sok feladat hajt végre, megadhat egy készenléti mintavételt. A készenléti mintavételi jelentést készít, megkezdheti a forgalom fogadására a tároló esetén. Kubernetes nem forgalmat küldeni fogyasztanak, amíg a mintavétel sikeresnek jelzi. 
+Ha a szolgáltatás egy hosszú indítási feladat végez, meghatározhatja egy készenlét. A végrehajtandó készenléti teszt jelenti a forgalmat fogadó megkezdheti a tároló esetén. Kubernetes nem küldhetnek forgalmat a pod, amíg a mintavétel sikeres befejezést jelent. 
 
-A működés közbeni frissítések az egyik kihívás, hogy a frissítési folyamat alatt vegyesen a régi és új verzióinak futtatását és forgalom fogadására. Ebben az időszakban a kérelem sikerült beolvasása irányítja át a két egyikét. Előfordulhat, hogy vagy nem problémákhoz vezethet, attól függően, hogy a két verziója közötti különbségek hatókör. 
+Egy igazi kihívást a működés közbeni frissítés, hogy a frissítési folyamat alatt vegyesen a régi és új verziókat futtató és forgalmat fogadó. Ebben az időszakban bármilyen kérést sikerült irányítva a két verzió valamelyikéhez. Előfordulhat, hogy, amely, vagy nem problémát okozhatnak, a két verziója közötti különbségek függően. 
 
-### <a name="blue-green-deployment"></a>Kék-zöld központi telepítés
+### <a name="blue-green-deployment"></a>Kék-zöld üzembe helyezés
 
-A kék-zöld telepítésében központi telepítése mellett az előző verzió új verziója. Után az új verzió ellenőrzéséhez át kell váltania az új verzió egyszerre korábbi verziójából származó összes forgalmat. A kapcsoló után figyelheti az alkalmazást a problémákat. Ha valamilyen hiba, a régi verzióról kicserélheti. Ha nem jelez problémákat, törölheti a régi verzióját.
+A kék-zöld üzembe helyezés helyezi üzembe az új verziót az előző verzió mellett. Ellenőrizze, hogy az új verziót, akkor váltson egyszerre az előző verzióhoz képest az új verzió minden forgalmat. A váltás után az alkalmazás kapcsolatos problémákat figyeli. Ha hiba lép fel, kicserélheti az a korábbi verzióra. Ha nem talált nincs probléma, törölheti a régi verzióját.
 
-Hagyományos egységes vagy N szintű alkalmazással kék, zöld telepítési általában azt jelentette, hogy két azonos környezet kiépítési. Lenne az új verzió telepítése az átmeneti környezetben való használatra, majd ügyfél forgalmát átirányítja az átmeneti &mdash; például által csere VIP-címek.
+Egy hagyományos monolitikus vagy N szintű alkalmazáshoz a kék-zöld üzembe helyezés általában kizárólag két azonos környezet kiépítése. Szeretné az új verzió üzembe helyezése átmeneti környezetben, akkor az átmeneti ügyfél forgalom átirányítása &mdash; például virtuális IP-CÍMEK felcserélésével címek.
 
-A Kubernetes nem kell kiépíteni egy külön fürt kék-zöld központi telepítések elvégzéséhez. Ehelyett kihasználhatja a választók. Hozzon létre egy új központi telepítési erőforrást egy új pod spec és egy másik címkék. Hozza létre a központi telepítés, a korábbi központi telepítés törölhessék vagy módosíthassák a rá mutató szolgáltatás nélkül. Miután az új három munkaállomás-csoporttal futnak, a szolgáltatás választó megfelelően az új központi telepítési frissítheti. 
+A Kubernetes nem kell tennie a kék-zöld üzembe önálló fürt üzembe helyezése. Ehelyett kihasználhatja a választók. Hozzon létre egy új központi telepítési erőforrás egy új pod specifikációja és címkék külön készletét. Hozza létre a központi telepítés nélkül a korábbi központi telepítés törlését vagy módosítását a szolgáltatás, amely azt mutat. Miután az új podok is futnak, frissítheti a szolgáltatás választóra felel meg az új központi telepítés. 
 
-A kék-zöld központi telepítések előnye, hogy a szolgáltatás minden a három munkaállomás-csoporttal vált egy időben. Után a szolgáltatás frissítve lett, új kérések beolvasása irányítása az új verzióra. Egyik hátránya, hogy a frissítés során futtatja kétszer, számos három munkaállomás-csoporttal a szolgáltatás (az aktuális és a következő). Ha a három munkaállomás-csoporttal van szükség a CPU és memória-erőforrásokat számos, szükség lehet terjessze ki a fürt ideiglenesen az erőforrás-felhasználás kezelésére. 
+Kék-zöld üzembe előnye, hogy a szolgáltatás minden podok átvált egy időben. A szolgáltatás frissítése után minden új kérés van irányítva az új verzióra. Egyik hátránya, hogy a frissítés során futtatja kétszer, számos podok a szolgáltatáshoz (az aktuális és a következő). Ha a podok sok CPU és memória-erőforrások, szükség lehet horizontális felskálázása a fürt ideiglenesen az erőforrás-használat kezelésére. 
 
-### <a name="canary-release"></a>Kanári kiadás
+### <a name="canary-release"></a>Canary kiadás
 
-Egy Kanári kiadásban megkezdik frissített verzióját egy kis ügyfelek számára. Az új szolgáltatás működését majd mielőtt végrehajtaná az összes ügyfél figyelheti. Ez lehetővé teszi egy lassú bevezetés szabályozott módon tegye, tekintse át az adatok Valóságosak, és a problémák előtt az összes ügyfelet érintenének.
+Canary kiadás, a bevezetés során fokozatosan egy frissített verziót egy kis mennyiségű ügyfelet. Az új service viselkedését majd mielőtt megvalósítaná minden ügyfélnek figyeli. Ez lehetővé teszi egy lassú bevezetés, mégpedig szabályozott módon tegye, tekintse át az adatokon, és helyszíni problémák előtt az összes érintett felhasználókat.
 
-Kanári kiadási nem kezeléséhez kék-zöld vagy a működés közbeni frissítés, mint összetett, mert a szolgáltatás különböző verzióihoz való dinamikusan kell továbbítani kérelmek. Kubernetes konfigurálhatja egy szolgáltatás span két replikakészletekhez (minden verzió egyet), és módosítsa kézzel a replikát számát. Azonban ez a megközelítés ahelyett, hogy coarse-grained, három munkaállomás-csoporttal keresztül kiegyensúlyozza Kubernetes betöltése módjával. Például ha tíz replikák összesen, akkor is csak az eltolás mértékét megadó 10 %-os lépésekben forgalmat. Szolgáltatás rácsvonal használ, ha a szolgáltatás háló útválasztási szabályokat segítségével kifinomultabb Kanári kiadási stratégia megvalósításához. Íme néhány forrás, amelyek segíthetnek:
+Canary kiadás meg kell dinamikusan irányíthatja a kérelmeket a szolgáltatás különböző verzióit azért bonyolultabb, mint kék-zöld vagy a működés közbeni frissítés kezeléséhez. A Kubernetes konfigurálhatja egy szolgáltatás span két replikakészletekhez (egy minden verzió esetében) és a replika számát manuálisan módosíthatja. Azonban ez a megközelítés inkább coarse-grained, Kubernetes betöltése módja miatt elosztja a podok között. Például ha tíz replikák összesen, akkor is csak áthelyezni a forgalmat 10 %-os lépésekben. Egy szolgáltatás háló használja, ha a szolgáltatás háló útválasztási szabályok segítségével canary kiadás ennél kifinomultabb stratégiát megvalósítása. Az alábbiakban néhány forrásanyagot, amelyek hasznosak lehetnek:
 
-- Szolgáltatás háló nélkül Kubernetes: [Kanári központi telepítések](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments)
-- Linkerd: [irányítása dinamikus](https://linkerd.io/features/routing/)
-- Istio: [Kanári üzembe helyezése Istio](https://istio.io/blog/canary-deployments-using-istio.html)
+- Kubernetes szolgáltatás háló nélkül: [Tesztcsoportos központi telepítések](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments)
+- Linkerd: [dinamikus alkalmazáskérelmek irányítása](https://linkerd.io/features/routing/)
+- Istio: [Istio használatával Tesztcsoportos központi telepítések](https://istio.io/blog/canary-deployments-using-istio.html)
 
 ## <a name="conclusion"></a>Összegzés
 
-Az elmúlt években egy tengeri változás történt az iparág, egy mozdulattal épület *rekord rendszerek* az épület *engagement rendszerek*.
+Az utóbbi években, egy tenger változás történt az iparág létrehozását egy adatátviteli *rekord rendszerek* az épület *együttműködés rendszerek*.
 
-Rekord rendszereket hagyományos vissza office-kezelési alkalmazások. Ezek a rendszerek középpontjában van gyakran helyezkedik el, amely a igazság egyetlen forrása egy RDBMS. A kifejezés "engagement rendszer" követel Geoffrey Moore annak 2011 dokumentum *rendszerek az Engagement és a jövőben vállalati informatikai*. Bevonási rendszereket alkalmazások kommunikáció és az együttműködési összpontosít. Valós idejű személyek szolgáltatáshoz csatlakozik. Rendelkezésre álló 24/7 kell lenniük. Új szolgáltatások rendszeresen új, anélkül, hogy az alkalmazás offline állapotba helyezése. Felhasználók várhatóan több és kevesebb türelmet nem várt késedelmeket vagy leállás.
+Rekord rendszereket hagyományos háttérrendszerhez adatkezelési alkalmazások. Ezek a rendszerek középpontjában van gyakran helyezkedik el egy relációsadatbázis-kezelő rendszer, amely az egyetlen hiteles forrásaként. A 2011 tanulmányában "engagement rendszer" kifejezés igényért az Geoffrey Moore, *rendszerek az Engagement és a jövőben nagyvállalati informatikai*. Együttműködés rendszereket összpontosított kommunikációs és együttműködési alkalmazásokat. Valós idejű személyek csatlakoznak. Rendelkezésre álló 24/7 kell lenniük. Új funkciók jelennek meg rendszeresen, az alkalmazás offline állapotba helyezése nélkül. Felhasználók várhatóan további és kevesebb nem várt késedelem és leállás, kis türelmet.
 
-A fogyasztó címtérben jobb felhasználói élményt mérhető üzleti értéke lehet. Ennyi idő alatt, amely a felhasználó kapcsolatba lép egy alkalmazással is lefordítása közvetlenül bevétel. És abban a tartományban, üzleti rendszerek, felhasználók elvárásainak megváltoztak. Ha ezek a rendszerek célja a kommunikáció és az együttműködés elősegítése, akkor szükséges, azok a felhasználók felé néző alkalmazások köteg.
+A felhasználói térben jobb felhasználói élményt rendelkezhet mérhető üzleti értéket. Az, hogy mennyi ideig felhasználó folytat egy alkalmazással a előfordulhat, hogy közvetlenül a bevétel fordítja le. És abban a tartományban, üzleti rendszereket, a felhasználói elvárásoknak megváltoztak. Ezek a rendszerek az a célja, hogy a kommunikációs és együttműködési alakíthatott ki, ha azok a felhasználók felé néző alkalmazások köteg kell végrehajtaniuk.
 
-Mikroszolgáltatások a változó fekvő választ. Decomposing egy egységes alkalmazás lazán összekapcsolt szolgáltatások egy csoporthoz, azt is szabályozhatja a kiadási ciklus minden szolgáltatás, és állásidő vagy megtörje a módosítások nélkül gyakori frissítések engedélyezése. Mikroszolgáltatások létrehozására is hozzájárulhat a méretezhetőséget, hiba elkülönítési és rugalmasság. Eközben felhőplatformokkal van így könnyebben létrehozása és futtatása mikroszolgáltatások létrehozására, az automatizált üzembe helyezést számítási erőforrásokat, a tároló orchestrators egy szolgáltatás, valamint eseményvezérelt kiszolgáló nélküli környezetekben.
+Mikroszolgáltatások a változó fekvő választ. Által decomposing a monolitikus alkalmazásokat felbonthatja lazán kapcsolódó szolgáltatásokra, azt is szabályozhatja az egyes szolgáltatásokat a kiadási ciklus, és lehetővé teszi a gyakori frissítések nélkül állásidő és a használhatatlanná tévő változásai. Mikroszolgáltatások a méretezhetőség, a hiba elkülönítési és a rugalmasság is segítenek. Eközben felhőplatformjain vannak így könnyebben hozhat létre és futtassa a mikroszolgáltatások, a számítási erőforrások automatikus üzembe helyezést, a szolgáltatás, valamint az eseményvezérelt, kiszolgáló nélküli környezetben tárolóvezénylőt.
 
-De azt látja, mint mikroszolgáltatások architektúrák lehetőség van-e nagy mennyiségű kihívást. A sikeres, kell elindítania teli kialakítást. Meg kell helyezni, gondosan meg kell hogy elemzése a tartományhoz, technológiák kiválasztása, adatok modellezését, API-k tervezésekor, és egy összetett DevOps kulturális környezet létrehozása. Reméljük, hogy ez az útmutató, és az ahhoz mellékelt [megvalósítása hivatkozhat](https://github.com/mspnp/microservices-reference-implementation), az út megvilágítására hozzájárult. 
+De mivel úgy tapasztaltuk, kihívások rengeteg lehetőség van mikroszolgáltatás-architektúrákat. A művelet sikeres elvégzéséhez kell elindítania egy alapos terv. A tartomány elemzése, technológiák kiválasztása, modellezési adatok, API-k tervezése és készítése egy fejlett DevOps-kultúra tanulmányozásakor kell tenni. Reméljük, hogy ez az útmutató és a kísérő [megvalósítási hivatkozhat](https://github.com/mspnp/microservices-reference-implementation), a szállítás megvilágítására segített. 
 
