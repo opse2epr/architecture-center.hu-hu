@@ -351,6 +351,10 @@ items:
       href: reference-architectures/data/enterprise-bi-adf.md
     - name: Streamek feldolgozása az Azure Stream Analyticsszel
       href: reference-architectures/data/stream-processing-stream-analytics.md
+  - name: Vállalati integráció
+    items:
+    - name: Egyszerű vállalati integráció
+      href: reference-architectures/enterprise-integration/simple-enterprise-integration.md
   - name: Hibrid hálózatok
     items:
     - name: Áttekintés
@@ -537,9 +541,9 @@ items:
       href: cloud-adoption/appendix/azure-scaffold.md
     - name: Azure Enterprise-szerkezet implementálása
       href: cloud-adoption/appendix/azure-scaffold-examples.md
-ms.openlocfilehash: a79c29c0673de7eb14371d60377dd589cdf78720
-ms.sourcegitcommit: 42797fffb82bbbf86f6deb1da52c61d456be631e
+ms.openlocfilehash: bb4f5188f3f85561a08331a15c797a15c375157f
+ms.sourcegitcommit: 2ae794de13c45cf24ad60d4f4dbb193c25944eff
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/13/2018
-ms.locfileid: "49313199"
+ms.lasthandoff: 10/25/2018
+ms.locfileid: "50001915"
