@@ -4,12 +4,12 @@ description: A feladatlista, amely rendelkezésre állási problémák során te
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist
-ms.openlocfilehash: cea5baf8c37bf793c5de60f6c2be809629df072b
-ms.sourcegitcommit: 2154e93a0a075e1f7425a6eb11fc3f03c1300c23
+ms.openlocfilehash: a09a8f77865bf127ae0a73e0da7e1d3fb8508826
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/30/2018
-ms.locfileid: "39352627"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962891"
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlisták
 
@@ -41,7 +41,7 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Használja a platform átmeneti és üzemi funkcióit.** . Például az Azure App Service támogatja [üzembe helyezési pontok](/azure/app-service/web-sites-staged-publishing), amelyek segítségével előtt sikeressége az éles környezetben üzembe helyezésének ütemezése. Az Azure Service Fabric támogatja a [a működés közbeni frissítés](/azure/service-fabric/service-fabric-application-upgrade) alkalmazás szolgáltatásokhoz.
 
-**Helyezze a virtuális gépek (VM) egy rendelkezésre állási csoportban.** Rendelkezésre állás maximalizálása érdekében hozzon létre minden egyes Virtuálisgép-szerepkör több példányát, és helyezze el ezek a példányok ugyanazt a rendelkezésre állási csoportban. Ha több virtuális gép kiszolgálása különböző szerepköröket, például különböző alkalmazásrétegek, hozzon létre egy rendelkezésre állási csoport minden virtuális gép szerepkör rendelkezik. Például hozzon létre egy rendelkezésre állási csoportot a webes szint és a egy másik, az adatréteg számára.
+**Helyezze a virtuális gépek (VM) egy rendelkezésre állási csoportban.** Rendelkezésre állás maximalizálása érdekében hozzon létre minden egyes Virtuálisgép-szerepkör több példányát, és helyezze el ezek a példányok ugyanazt a rendelkezésre állási csoportban. Ha több virtuális gépet, amely szolgálja ki a különböző szerepkörökhöz, például különböző alkalmazásrétegek, hozzon létre egy rendelkezésre állási csoportot minden egyes Virtuálisgép-szerepkör. Például hozzon létre egy rendelkezésre állási csoportot a webes szint és a egy másik, az adatréteg számára.
 
 ## <a name="data-management"></a>Adatkezelés
 

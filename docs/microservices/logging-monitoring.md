@@ -2,13 +2,13 @@
 title: Naplózás és figyelés a mikroszolgáltatások
 description: Naplózás és figyelés a mikroszolgáltatások
 author: MikeWasson
-ms.date: 12/08/2017
-ms.openlocfilehash: b7206e2f35b9f227ff298f077ddafef1c6015b15
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.date: 10/23/2018
+ms.openlocfilehash: c2a935f51c57936977fb4402de2113938351069c
+ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428771"
+ms.lasthandoff: 10/24/2018
+ms.locfileid: "49962874"
 ---
 # <a name="designing-microservices-logging-and-monitoring"></a>Mikroszolgáltatások tervezése: naplózást és figyelést
 
@@ -18,19 +18,19 @@ Bármely összetett alkalmazásban valamikor hiba fog hiba lép fel. A mikroszol
 
 A mikroszolgáltatási architektúrákban, különösen kihívást jelenthet kiszűrheti a hibák vagy a teljesítmény szűk pontos okát. Egyetlen felhasználói művelet több szolgáltatást előfordulhat, hogy kiterjednek. Szolgáltatások tapasztalhat a hálózati i/o-korlátok a fürtben. Szolgáltatások közötti hívások láncolatától ellennyomás a rendszer magas késést eredményez, vagy alapú egymásra épülő hibákat okozhat. Ezen kívül általában nem tudja melyik csomópont egy adott tároló fog futni. Ugyanazon a csomóponton elhelyezett tárolók korlátozott CPU és memória tagja is lehet. 
 
-Ahhoz, hogy az értelemben, hogy mi történik, az alkalmazás telemetrikus eseményeket kell kibocsátania. Ezek a metrikák és a szöveges naplók rendezheti. 
+Ahhoz, hogy az értelemben, hogy mi történik, az alkalmazás telemetriai kell gyűjteni.  Telemetria osztható *naplók* és *metrikák*. [Az Azure Monitor](/azure/monitoring-and-diagnostics/monitoring-overview) összegyűjti a naplókat és metriocs is az Azure platformon keresztül.
 
-*Metrikák* numerikus érték, amely elemezhetők. Használhatja őket megfigyelését a rendszer a valós idejű (vagy a közel valós idejű), vagy a teljesítménytrendek elemzéséhez az idő függvényében. Metrikák a következők:
+**Naplók** szöveges rekord az alkalmazás futása közben bekövetkező eseményekről. Ezek közé tartozik többek között az alkalmazásnaplókat (nyomkövetési utasításokat) vagy a webkiszolgáló-naplókkal. Naplók elsősorban hasznosak lehetnek az eseményadatokhoz és a legfelső szintű alapprobléma elemzéséhez. 
 
-- Csomópont-szintű rendszer metrikái, többek között a CPU, memória, hálózati, lemez és fájlrendszerhasználat. Rendszermérőszámokat könnyebben értheti meg a fürt egyes csomópontjaihoz tartozó erőforrás-elosztás és kiugró értékek a hibaelhárítás.
- 
-- Kubernetes-metrikákat. Mivel a szolgáltatások futnak a tárolók, kell gyűjteni a tároló szintjén, nem csak a virtuális gép szintjén. A Kubernetes cAdvisor (tároló Advisor) az ügynök által összegyűjtött statisztikai adatok a CPU, memória, a fájlrendszer és a használt hálózati erőforrások által a tárolók. A kubelet démon cAdvisor erőforrás statisztikákat gyűjt, és elérhetővé teszi azokat a REST API-n keresztül.
-   
-- Alkalmazásmetrikák. Ez magában foglalja a minden olyan metrikák, amely a szolgáltatás működésének megismerése. Ilyenek például a várólistán lévő bejövő HTTP-kérelmekre, késleltetése, üzenet-várólista hossza vagy a másodpercenként feldolgozott tranzakciók számát.
+**Metrikák** numerikus érték, amely elemezhetők. Használhatja őket megfigyelését a rendszer a valós idejű (vagy a közel valós idejű), vagy a teljesítménytrendek elemzéséhez az idő függvényében. Metrikák is subcategorized tovább a következő lehet:
 
-- Függő szolgáltatások mérőszámait. A fürtön belüli szolgáltatások, például a felügyelt PaaS-szolgáltatások a fürtön kívüli külső szolgáltatásokat hívhatja. Az Azure-szolgáltatásokat is figyelhet [Azure Monitor](/azure/monitoring-and-diagnostics/monitoring-overview). Harmadik féltől származó szolgáltatásokkal is, vagy előfordulhat, hogy biztosít bármely metrikák. Ha nem, saját nyomon követheti statisztika a késés és a hibák aránya, alkalmazásmetrikák támaszkodnak kell.
+- **Csomópont-szintű** mérőszámokat, például a CPU, memória, hálózati, lemez és fájlrendszerhasználat. Rendszermérőszámokat könnyebben értheti meg a fürt egyes csomópontjaihoz tartozó erőforrás-elosztás és kiugró értékek a hibaelhárítás.
 
-*Naplók* bejegyzései az alkalmazás futása közben előforduló eseményeket. Ezek közé tartozik többek között az alkalmazásnaplókat (nyomkövetési utasításokat) vagy a webkiszolgáló-naplókkal. Naplók elsősorban hasznosak lehetnek az eseményadatokhoz és a legfelső szintű alapprobléma elemzéséhez. 
+- **Tároló** metrikákat. Ha tárolókon belüli szolgáltatások futnak, kell gyűjteni a tároló szintjén, nem csak a virtuális gép szintjén. A tárolók számítási feladatainak Azure Kubernetes Service (AKS) monitorozása az Azure Monitor is beállítása. További információkért lásd: [tárolók áttekintése az Azure Monitor](/azure/monitoring/monitoring-container-insights-overview). Más tárolóvezénylőt, használja a [Tárolómonitorozási megoldás a Log Analyticsben](/azure/log-analytics/log-analytics-containers).
+
+- **Alkalmazás** metrikákat. Ez magában foglalja a minden olyan metrikák, amely a szolgáltatás működésének megismerése. Ilyenek például a várólistán lévő bejövő HTTP-kérelmekre, a kérés várakozási ideje vagy üzenet-várólista hossza számát. Alkalmazásokat is létrehozhat egyéni metrikákat, amelyek a megadott tartományhoz, például az üzleti tranzakciók percenként feldolgozott számát. Használat [Application Insights](/azure/application-insights/app-insights-overview) , alkalmazásmetrikák engedélyezése. 
+
+- **Függő szolgáltatások** metrikákat. Szolgáltatások meghívhatja a külső szolgáltatások vagy a végpontot, például a felügyelt PaaS-szolgáltatások vagy SaaS-szolgáltatásokhoz. Harmadik féltől származó szolgáltatásokkal is, vagy előfordulhat, hogy biztosít bármely metrikák. Ha nem, saját nyomon követheti statisztika a késés és a hibák aránya, alkalmazásmetrikák támaszkodnak kell.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
