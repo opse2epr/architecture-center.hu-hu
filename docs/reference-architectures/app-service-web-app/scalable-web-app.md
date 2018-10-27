@@ -5,14 +5,14 @@ author: MikeWasson
 pnp.series.title: Azure App Service
 pnp.series.prev: basic-web-app
 pnp.series.next: multi-region-web-app
-ms.date: 11/23/2016
+ms.date: 10/25/2018
 cardTitle: Improve scalability
-ms.openlocfilehash: 6459acebfa25491332e2118b9e8fe51d5fc79ff3
-ms.sourcegitcommit: 5d99b195388b7cabba383c49a81390ac48f86e8a
+ms.openlocfilehash: 208413a49fe4a3f9ca308fa1a939ba426e7fa636
+ms.sourcegitcommit: 065fa8ecb37c8be1827da861243ad6a33c75c99d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/10/2018
-ms.locfileid: "37958806"
+ms.lasthandoff: 10/26/2018
+ms.locfileid: "50136692"
 ---
 # <a name="improve-scalability-in-a-web-application"></a>Méretezhetőség javítása egy webalkalmazásban
 
@@ -22,20 +22,20 @@ Ez a referenciaarchitektúra az Azure App Service-webalkalmazások méretezhető
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-## <a name="architecture"></a>Architektúra  
+## <a name="architecture"></a>Architektúra
 
 Ez az architektúra az [Alapszintű webalkalmazás][basic-web-app] témakörében bemutatott architektúrára épít. A következő összetevőket tartalmazza:
 
 * **Erőforráscsoport**. Az [erőforráscsoport][resource-group] az Azure-erőforrások logikai tárolója.
-* **[Webalkalmazás][app-service-web-app]** és **[API-alkalmazás][app-service-api-app]**. A tipikus modern alkalmazás általában tartalmaz egy webhelyet és egy vagy több RESTful webes API-t. A webes API-t a böngészőügyfelek használják az AJAX-on keresztül, valamint a natív ügyfélalkalmazások vagy a kiszolgálóoldali alkalmazások. A webes API-k tervezésének szempontjait lásd: [API-tervezési segédlet][api-guidance].    
-* **WebJob**. Az [Azure WebJobs][webjobs] használatával hosszan futó feladatokat futtathat a háttérben. A WebJob-feladat futtatható ütemezés szerint, folyamatosan vagy egy olyan eseményindító hatására, amilyen például egy üzenetet elhelyezése az üzenetsorban. A WebJob-feladat háttérfolyamatként fut az App Service-alkalmazások környezetében.
-* **Üzenetsor**. Az itt látható architektúrában az alkalmazás úgy teszi várakozási sorba a feladatokat, hogy üzenetet helyez el egy [Azure Queue Storage][queue-storage]-üzenetsorban. Az üzenet aktivál egy függvényt a WebJob-feladatban. Választhatja a Service Bus-üzenetsorok használatát is. A két lehetőség összehasonlítását lásd: [Azure-üzenetsorok és Service Bus-üzenetsorok összehasonlítása][queues-compared].
+* **[Webalkalmazás][app-service-web-app]**. A tipikus modern alkalmazás általában tartalmaz egy webhelyet és egy vagy több RESTful webes API-t. A webes API-t a böngészőügyfelek használják az AJAX-on keresztül, valamint a natív ügyfélalkalmazások vagy a kiszolgálóoldali alkalmazások. A webes API-k tervezésének szempontjait lásd: [API-tervezési segédlet][api-guidance].
+* **Függvényalkalmazásnak**. Használat [Függvényalkalmazások] [ functions] a háttérfeladatok futtatásához. Funkciók, például egy időzítő esemény vagy egy üzenetsor elhelyezni kívánt üzenet-triggerek által kerül meghívásra. Állapot-nyilvántartó hosszan futó feladatokat, használja a [Durable Functions][durable-functions].
+* **Üzenetsor**. Az itt látható architektúrában az alkalmazás úgy teszi várakozási sorba a feladatokat, hogy üzenetet helyez el egy [Azure Queue Storage][queue-storage]-üzenetsorban. Az üzenet aktivál egy függvényalkalmazást. Választhatja a Service Bus-üzenetsorok használatát is. A két lehetőség összehasonlítását lásd: [Azure-üzenetsorok és Service Bus-üzenetsorok összehasonlítása][queues-compared].
 * **Gyorsítótár**. A félig statikus adatok tárolására az [Azure Redis Cache][azure-redis] használható.  
 * <strong>CDN</strong>. Az [Azure Content Delivery Network][azure-cdn] (CDN) a nyilvánosan elérhető tartalmak gyorsítótárazására használható a kisebb késés és a gyorsabb tartalomkézbesítés biztosítása érdekében.
-* **Adattárolás**. A relációs adatok esetében az [Azure SQL Database][sql-db] használata javasolt. A nem relációs adatokhoz érdemes fontolóra venni egy olyan NoSQL-tároló alkalmazását, amilyen például a [Cosmos DB][cosmosdb].
+* **Adattárolás**. A relációs adatok esetében az [Azure SQL Database][sql-db] használata javasolt. Nem relációs adatok esetén fontolja meg [Cosmos DB][cosmosdb].
 * **Azure Search**. Az [Azure Search][azure-search] használatával olyan keresési funkciók adhatók hozzá, mint például a keresési javaslatok, az intelligens keresés és a nyelvspecifikus keresés. Az Azure Search általában egy másik adattárral együtt használatos, különösen akkor, ha az elsődleges adattár megköveteli a szigorú konzisztenciát. Ennek a megközelítésnek megfelelően a mérvadó adatokat a másik adattárban kell tárolni, a keresési indexet pedig az Azure Search-ben. Az Azure Search továbbá egyetlen, különböző adattárakból összeállított keresési index létrehozására is használható.  
-* **E-mail/SMS**. Az e-mailek és SMS-üzenetek küldése esetében érdemes egy külső szolgáltatást használni, amilyen például a SendGrid vagy a Twilio, semmint közvetlenül az alkalmazásba beépíteni ezt a funkciót.
 * **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+* **Az Application gateway**. [Az Application Gateway](/azure/application-gateway/) egy 7. rétegbeli terheléselosztó. Ebben az architektúrában, a web front end irányítja a HTTP-kérelmekre. Az Application Gateway is biztosít egy [webalkalmazási tűzfal](/azure/application-gateway/waf-overview) (WAF) az alkalmazás, amely védi a gyakori támadások és biztonsági rések. 
 
 ## <a name="recommendations"></a>Javaslatok
 
@@ -48,11 +48,6 @@ A webalkalmazást és a webes API-t külön App Service-alkalmazásokként javas
 > Az Alapszintű, a Standard és a Prémium csomagok esetében a csomagban szereplő virtuális gépek példányai után kell fizetni, és nem alkalmazásonként. Lásd: [Az App Service árképzése][app-service-pricing]
 > 
 > 
-
-Ha használni kívánja az App Service Mobile Apps *Easy Tables* vagy *Easy APIs* funkcióit, külön App Service-alkalmazást kell létrehoznia erre a célra.  Ezen funkciók működéséhez egy speciális alkalmazás-keretrendszer szükséges.
-
-### <a name="webjobs"></a>WebJobs
-Az erőforrás-igényes WebJob-feladatokat érdemes egy külön App Service-csomag üres App Service-alkalmazásába telepíteni. Ez dedikált példányokat biztosít a WebJob-feladathoz. Lásd: [Útmutató a háttérfeladatokhoz][webjobs-guidance].  
 
 ### <a name="cache"></a>Gyorsítótár
 A teljesítmény és a méretezhetőség növelhető azzal, ha bizonyos adatok gyorsítótárazását az [Azure Redis Cache][azure-redis] végzi. A következő esetekben érdemes megfontolni a Redis Cache használatát:
@@ -86,6 +81,8 @@ A modern alkalmazások gyakran nagy mennyiségű adatot dolgoznak fel. A felhőn
 | Alapszintű lekérdezést igénylő, nem relációs adatok rugalmas sémával |Termékkatalógus |Dokumentum-adatbázis, például Azure Cosmos DB, MongoDB vagy Apache CouchDB |
 | Részletesebb lekérdezés támogatását, szigorú sémát és/vagy nagy mértékű következetességet igénylő relációs adatok |Termékleltár |Azure SQL Database |
 
+ Lásd: [A megfelelő adattároló kiválasztása][datastore].
+
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
 Az Azure App Service egyik fő előnye az alkalmazások skálázásának lehetősége a terhelés alapján. A következő szempontokat kell szem előtt tartani az alkalmazás skálázásának tervezésekor.
@@ -93,7 +90,7 @@ Az Azure App Service egyik fő előnye az alkalmazások skálázásának lehető
 ### <a name="app-service-app"></a>App Service-alkalmazás
 Ha a megoldás több App Service-alkalmazást tartalmaz, érdemes megfontolni a külön App Service-csomagokba történő telepítésüket. Ez a megoldás lehetővé teszi az egymástól függetlenül történő méretezésüket, mivel külön példányokon futnak. 
 
-Hasonlóképpen hasznos lehet egy WebJob-feladatot a saját csomagjában elhelyezni, így a háttérfeladatok nem azokon a példányokon futnak, amelyek a HTTP-kérelmeket kezelik.  
+Hasonlóképpen vegyük egy függvényalkalmazás üzembe a saját csomagjában, hogy a háttérben futó feladatok ne futtassa azokon a példányokon, amely HTTP-kérelmeket kezelik. Ha a háttérfeladatok időszakosan futtatni, fontolja meg egy [használatalapú csomag][functions-consumption-plan], óránként történik, hanem végrehajtások száma alapján történik, amely. 
 
 ### <a name="sql-database"></a>SQL Database
 A *horizontális skálázás* alkalmazásával növelhető az SQL-adatbázis méretezhetősége. A horizontális skálázás az adatbázis horizontális particionálását jelenti. A horizontális skálázás lehetővé teszi az adatbázis [Elastic Database-eszközökkel][sql-elastic] történő horizontális felskálázását. A horizontális skálázás lehetséges előnyei a következők:
@@ -133,7 +130,6 @@ A [transzparens adattitkosítás][sql-encryption] használatával titkosítható
 [azure-redis]: https://azure.microsoft.com/services/cache/
 [azure-search]: https://azure.microsoft.com/documentation/services/search/
 [azure-search-scaling]: /azure/search/search-capacity-planning
-[background-jobs]: ../../best-practices/background-jobs.md
 [basic-web-app]: basic-web-app.md
 [basic-web-app-scalability]: basic-web-app.md#scalability-considerations
 [caching-guidance]: ../../best-practices/caching.md
@@ -142,6 +138,10 @@ A [transzparens adattitkosítás][sql-encryption] használatával titkosítható
 [cdn-guidance]: ../../best-practices/cdn.md
 [cors]: /azure/app-service-api/app-service-api-cors-consume-javascript
 [cosmosdb]: /azure/cosmos-db/
+[datastore]: ../..//guide/technology-choices/data-store-overview.md
+[durable-functions]: /azure/azure-functions/durable-functions-overview
+[functions]: /azure/azure-functions/functions-overview
+[functions-consumption-plan]: /azure/azure-functions/functions-scale#consumption-plan
 [queue-storage]: /azure/storage/storage-dotnet-how-to-use-queues
 [queues-compared]: /azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted
 [resource-group]: /azure/azure-resource-manager/resource-group-overview#resource-groups
@@ -151,6 +151,4 @@ A [transzparens adattitkosítás][sql-encryption] használatával titkosítható
 [tm]: https://azure.microsoft.com/services/traffic-manager/
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/app-service-reference-architectures.vsdx
 [web-app-multi-region]: ./multi-region.md
-[webjobs-guidance]: ../../best-practices/background-jobs.md
-[webjobs]: /azure/app-service/app-service-webjobs-readme
 [0]: ./images/scalable-web-app.png "Azure-beli webalkalmazás továbbfejlesztett méretezhetőséggel"
