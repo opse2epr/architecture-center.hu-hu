@@ -3,12 +3,12 @@ title: Kiszolgáló nélküli webalkalmazás
 description: Látható, a kiszolgáló nélküli webalkalmazás és webes API referencia-architektúra
 author: MikeWasson
 ms.date: 10/16/2018
-ms.openlocfilehash: c2b46a60a57381ac3fd3f77cffe53b2dab2dacd6
-ms.sourcegitcommit: 113a7248b9793c670b0f2d4278d30ad8616abe6c
+ms.openlocfilehash: 9ce80aa904b7a04f78127438f9898244c979c2b5
+ms.sourcegitcommit: 69fc16f2b3bd3e3ffeff5bba277a4204e125cf78
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/16/2018
-ms.locfileid: "49349955"
+ms.lasthandoff: 10/26/2018
+ms.locfileid: "50150267"
 ---
 # <a name="serverless-web-application"></a>Kiszolgáló nélküli webalkalmazás 
 
@@ -148,20 +148,13 @@ Hitelesítés konfigurálása:
 
 - A függvény alkalmazás Azure AD-hitelesítés engedélyezéséhez. További információkért lásd: [hitelesítése és engedélyezése Azure App Service-ben][app-service-auth].
 
-- Szabályzat hozzáadása és az API Management az előzetes engedélyezéshez érvényesítésével azonosítsa a hozzáférési jogkivonat a kérelem:
-
-    ```xml
-    <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-        <openid-config url="https://login.microsoftonline.com/[Azure AD tenant ID]/.well-known/openid-configuration" />
-        <required-claims>
-            <claim name="aud">
-                <value>[Application ID]</value>
-            </claim>
-        </required-claims>
-    </validate-jwt>
-    ```
+- Adja hozzá a [ellenőrzése jwt-szabályzatot] [ apim-validate-jwt] és az API Management az előzetes engedélyezéshez érvényesítésével azonosítsa a hozzáférési jogkivonat a kérelemben.
 
 További részletekért tekintse meg a [GitHub információs][readme].
+
+Azt javasoljuk, hogy hozzon létre külön alkalmazásregisztrációk az Azure ad-ben az ügyfél alkalmazás és a háttérbeli API-k. Támogatás az ügyféloldali alkalmazás számára az API-t. Ez a megközelítés lehetővé teszi több API-k és az ügyfelek és az egyes engedélyei. 
+
+Az API használatához [hatókörök] [ scopes] alkalmazásokat adni, kérhet egy felhasználó milyen engedélyekkel részletesen szabályozhatja. API-k Előfordulhat például, `Read` és `Write` hatókörök és a egy adott ügyfél-alkalmazás kérheti a felhasználót, hogy engedélyezze `Read` csak engedélyeket.
 
 ### <a name="authorization"></a>Engedélyezés
 
@@ -275,11 +268,21 @@ Azt is megteheti a titkos alkalmazáskulcsok tárolhatja a Key Vaultban. Ez lehe
 
 ## <a name="devops-considerations"></a>Fejlesztési és üzemeltetési szempontok
 
+### <a name="deployment"></a>Környezet
+
+Az a függvényalkalmazás üzembe helyezésére, javasoljuk hogy [csomagfájlok] [ functions-run-from-package] ("futtatása csomagból"). Ezzel a megközelítéssel, egy zip-fájl feltöltése a Blob Storage tárolóba, és a Functions futtatókörnyezete csatlakoztatja a zip-fájl csak olvasható fájlrendszerként. Ez a atomi művelet, amely csökkenti annak az esélyét, hogy a sikertelen üzembe helyezés inkonzisztens állapotban hagyja az alkalmazást. Ritkán használt kezdési idejének, különösen a Node.js-alkalmazások, azt is növeli, mert az összes fájl egyszerre.
+
 ### <a name="api-versioning"></a>API-verziószámozás
 
-Egy API-ját egy szolgáltatás és -ügyfelek vagy ügyfél között. Verziókezelés támogatja az API-szerződés. Ha egy API-t használhatatlanná tévő változást, vezessen be egy új API-verzió. Helyezze üzembe az új verzió-párhuzamos egy külön függvényalkalmazásban az eredeti verzióval. Ez lehetővé teszi a meglévő ügyfelek áttelepítését az új API ügyfélalkalmazások megszakítása nélkül. Végül, a korábbi verziót is kivezetjük. API-k verziókezelése kapcsolatos további információkért lásd: [Versioning webes RESTful API][api-versioning].
+API-k: olyan szerződés egy szolgáltatás és az ügyfelek között. Ebben az architektúrában az API-szerződés az API Management rétegben van meghatározva. Az API Management támogatja a két különböző, de egymást kiegészítő [versioning fogalmak][apim-versioning]:
 
-API-módosítás ne sérüljenek frissítések központi telepítése az új verzió ugyanaz a Függvényalkalmazás az előkészítési pont. Ellenőrizze a telepítés sikeres volt, és majd felcserélheti a manuálisan előkészített verzió éles verziójával.
+- *Verziók* lehetővé teszi az API-fogyasztókat, válassza ki az igényeinek, mint a v1 és v2-alapú API-verziót. 
+
+- *Változatok* API-rendszergazdák nem kompatibilitástörő változások API-ban, és telepítheti majd a változásokat az API-fogyasztókat tájékoztatni a módosításokat a módosítási napló engedélyezése.
+
+Ha egy API-ban módosítása kompatibilitástörő, tegyen közzé egy új verziót az API Management szolgáltatásban. Helyezze üzembe az új verzió-párhuzamos egy külön függvényalkalmazásban az eredeti verzióval. Ez lehetővé teszi a meglévő ügyfelek áttelepítését az új API ügyfélalkalmazások megszakítása nélkül. Végül, a korábbi verziót is kivezetjük. Az API Management támogatja több [verziókezelési séma][apim-versioning-schemes]: URL-cím, HTTP-fejléc vagy lekérdezési karakterláncot. További információ az API-k verziókezelése általában látják [Versioning webes RESTful API][api-versioning].
+
+API-módosítás ne sérüljenek frissítések központi telepítése az új verzió ugyanaz a Függvényalkalmazás az előkészítési pont. Ellenőrizze a telepítés sikeres volt, és majd felcserélheti a manuálisan előkészített verzió éles verziójával. Egy változat közzé az API Management szolgáltatásban.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
@@ -292,6 +295,9 @@ Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub inform
 [apim-ip]: /azure/api-management/api-management-faq#is-the-api-management-gateway-ip-address-constant-can-i-use-it-in-firewall-rules
 [api-geo]: /azure/api-management/api-management-howto-deploy-multi-region
 [apim-scale]: /azure/api-management/api-management-howto-autoscale
+[apim-validate-jwt]: /azure/api-management/api-management-access-restriction-policies#ValidateJWT
+[apim-versioning]: /azure/api-management/api-management-get-started-publish-versions
+[apim-versioning-schemes]: /azure/api-management/api-management-get-started-publish-versions#choose-a-versioning-scheme
 [app-service-auth]: /azure/app-service/app-service-authentication-overview
 [app-service-ip-restrictions]: /azure/app-service/app-service-ip-restrictions
 [app-service-security]: /azure/app-service/app-service-security
@@ -311,8 +317,10 @@ Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub inform
 [functions-cold-start]: https://blogs.msdn.microsoft.com/appserviceteam/2018/02/07/understanding-serverless-cold-start/
 [functions-https]: /azure/app-service/app-service-web-tutorial-custom-ssl#enforce-https
 [functions-proxy]: /azure-functions/functions-proxies
+[functions-run-from-package]: /azure/azure-functions/run-functions-from-deployment-package
 [functions-scale]: /azure/azure-functions/functions-scale
 [functions-timeout]: /azure/azure-functions/functions-scale#consumption-plan
+[functions-zip-deploy]: /azure/azure-functions/deployment-zip-push
 [graph]: https://developer.microsoft.com/graph/docs/concepts/overview
 [key-vault-web-app]: /azure/key-vault/tutorial-web-application-keyvault
 [microservices-domain-analysis]: ../../microservices/domain-analysis.md
@@ -321,6 +329,7 @@ Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub inform
 [partition-key]: /azure/cosmos-db/partition-data
 [pipelines]: /azure/devops/pipelines/index
 [ru]: /azure/cosmos-db/request-units
+[scopes]: /azure/active-directory/develop/v2-permissions-and-consent
 [static-hosting]: /azure/storage/blobs/storage-blob-static-website
 [static-hosting-preview]: https://azure.microsoft.com/blog/azure-storage-static-web-hosting-public-preview/
 [storage-https]: /azure/storage/common/storage-require-secure-transfer
