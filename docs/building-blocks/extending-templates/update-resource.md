@@ -2,13 +2,13 @@
 title: Az Azure Resource Manager-sablon egy erőforrás frissítése
 description: Ismerteti, hogyan lehet egy erőforrás frissítése az Azure Resource Manager-sablonok bővítése
 author: petertay
-ms.date: 06/09/2017
-ms.openlocfilehash: f235f0b4d54d65ccc2fa67876916e922d75f6d07
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.date: 10/31/2018
+ms.openlocfilehash: dc97534e658c9728ac617b4e52031e2553600458
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429038"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251821"
 ---
 # <a name="update-a-resource-in-an-azure-resource-manager-template"></a>Az Azure Resource Manager-sablon egy erőforrás frissítése
 
@@ -122,16 +122,13 @@ Vessünk egy pillantást az erőforrás-objektumokat a `firstVNet` erőforrás e
 
 ## <a name="try-the-template"></a>A sablon kipróbálása
 
-Ha szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket:
+Egy példa sablon érhető el az [GitHub][github]. A sablon üzembe helyezéséhez futtassa a következő [Azure CLI-vel] [ cli] parancsokat:
 
-1.  Nyissa meg az Azure Portalon, válassza a **+** ikonra, majd keresse meg a **sablonalapú telepítés** erőforrás írja be, és kattintson rá.
-2.  Keresse meg a **sablonalapú telepítés** lapon válassza ki a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni üzembehelyezési** panelen.
-3.  Válassza ki a **szerkesztése** ikonra.
-4.  Az üres sablon törlése.
-5.  Másolja és illessze be a mintasablon a jobb oldali ablaktáblán.
-6.  Válassza ki a **mentése** gombra.
-7.  Vissza a **egyéni üzembehelyezési** panelen, de ezúttal ott bizonyos legördülő listák. Válassza ki az előfizetését, vagy létrehozhat új vagy meglévő erőforráscsoport használata, és válassza ki azt a helyet. Tekintse át a használati feltételeket, majd válassza ki a **elfogadom** gombra.
-8.  Válassza ki a **beszerzési** gombra.
+```bash
+az group create --location <location> --name <resource-group-name>
+az group deployment create -g <resource-group-name> \
+    --template-uri https://raw.githubusercontent.com/mspnp/template-examples/master/example1-update/deploy.json
+```
 
 Miután a telepítés véget ért, nyissa meg az erőforráscsoportot a portálon megadott. Megjelenik egy nevű virtuális hálózatot `firstVNet` és a egy hálózati Adaptert `nic1`. Kattintson a `firstVNet`, majd kattintson a `subnets`. Megjelenik a `firstSubnet` , amely eredetileg létrehozták, és megjelenik a `secondSubnet` hozzáadott a `updateVNet` erőforrás. 
 
@@ -145,4 +142,7 @@ Az eredeti `firstVNet` helyett a rendszer frissítette újra létre kell hozni. 
 
 ## <a name="next-steps"></a>További lépések
 
-* Ezzel a technikával implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). Hozzon létre saját architektúra, vagy üzembe helyezésére a referenciaarchitektúrák azt is használhatja.
+* Ismerje meg, hogyan telepítsék központilag az erőforrás, például e jelen-e a paraméter értékét egy feltétel alapján. Lásd: [erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon](./conditional-deploy.md).
+
+[cli]: /cli/azure/?view=azure-cli-latest
+[github]: https://github.com/mspnp/template-examples

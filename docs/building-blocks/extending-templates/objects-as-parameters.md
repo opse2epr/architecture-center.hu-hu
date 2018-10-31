@@ -2,13 +2,13 @@
 title: Objektum használata paraméterként az Azure Resource Manager-sablon
 description: Ismerteti, hogyan lehet Azure Resource Manager-sablonok objektum használata paraméterként lehetőségeinek bővítése
 author: petertay
-ms.date: 06/09/2017
-ms.openlocfilehash: dd53c55a26b2452c375d8d1e1a98886b15febaeb
-ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
+ms.date: 10/30/2018
+ms.openlocfilehash: c1955823b3474efa0abea1d9634add5f13d02eda
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/09/2018
-ms.locfileid: "48876756"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251889"
 ---
 # <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Objektum használata paraméterként az Azure Resource Manager-sablon
 
@@ -301,25 +301,21 @@ Vessünk hogyan adjuk meg a tulajdonság a közelebbről a `securityRules` gyerm
 
 ## <a name="try-the-template"></a>A sablon kipróbálása
 
-Ha szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket: 
+Egy példa sablon érhető el az [GitHub][github]. A sablon üzembe helyezéséhez, klónozza az adattárat, és futtassa a következő [Azure CLI-vel] [ cli] parancsokat:
 
-1.  Nyissa meg az Azure Portalon, válassza a **+** ikonra, majd keresse meg a **sablonalapú telepítés** erőforrás írja be, és kattintson rá.
-2.  Keresse meg a **sablonalapú telepítés** lapon válassza ki a **létrehozása** gombra. Ezzel a gombbal megnyithatja a **egyéni üzembehelyezési** panelen.
-3.  Válassza ki a **sablon szerkesztése** gombra.
-4.  Az üres sablon törlése. 
-5.  Másolja és illessze be a mintasablon a jobb oldali ablaktáblán.
-6.  Válassza ki a **mentése** gombra.
-7.  Amikor a rendszer visszairányítja az **egyéni üzembehelyezési** panelen válassza a **paraméterek szerkesztése** gombra.
-8.  Az a **paraméterek szerkesztése** panelen, a meglévő sablon törlése.
-9.  Másolja és illessze be a paraméter mintasablon a fent.
-10. Válassza ki a **mentése** gombra, amely visszaadja, hogy a **egyéni üzembehelyezési** panelen.
-11. Az a **egyéni üzembehelyezési** panelen válassza ki az előfizetését, vagy új létrehozása vagy meglévő erőforráscsoport használata, és válasszon ki egy helyet. Tekintse át a feltételeket és kikötéseket, és válassza ki a **elfogadom** jelölőnégyzetet.
-12. Válassza ki a **beszerzési** gombra.
+```bash
+git clone https://github.com/mspnp/template-examples.git
+cd template-examples/example3-object-param
+az group create --location <location> --name <resource-group-name>
+az group deployment create -g <resource-group-name> \
+    --template-uri https://raw.githubusercontent.com/mspnp/template-examples/master/example3-object-param/deploy.json \
+    --parameters deploy.parameters.json
+```
 
 ## <a name="next-steps"></a>További lépések
 
-* Bővítheti, ezek a technológiák megvalósítása után egy [objektum tulajdonságátalakító és -gyűjtő](./collector.md). Az átalakító és adatgyűjtő technikák általános és a sablonok alapján lehet társítani.
-* Ez a módszer is implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). A sablonok megtekintéséhez, hogy ezt a technikát általunk megvalósított tekintheti meg.
+- Ismerje meg, hogyan hozhat létre egy sablont, amely végighalad a objektum tömböt és egy JSON-sémájában alakítja azt. Lásd: [egy tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon](./collector.md)
+
 
 <!-- links -->
 [azure-resource-manager-authoring-templates]: /azure/azure-resource-manager/resource-group-authoring-templates
@@ -327,3 +323,5 @@ Ha szeretné, ez a sablon kísérletezhet, kövesse az alábbi lépéseket:
 [azure-resource-manager-create-multiple-instances]: /azure/azure-resource-manager/resource-group-create-multiple
 [azure-resource-manager-functions]: /azure/azure-resource-manager/resource-group-template-functions-resource
 [nsg]: /azure/virtual-network/virtual-networks-nsg
+[cli]: /cli/azure/?view=azure-cli-latest
+[github]: https://github.com/mspnp/template-examples

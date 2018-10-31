@@ -4,12 +4,12 @@ description: Útmutatás a gyorsítótárazáshoz a teljesítmény és a mérete
 author: dragon119
 ms.date: 05/24/2017
 pnp.series.title: Best Practices
-ms.openlocfilehash: 4db85df7331c805af6acbe0673dbcb993a895e03
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: e1c47c735bd618fc46fef3f1ee234f83d3b15bdf
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429468"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251991"
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -288,7 +288,7 @@ További információkért lásd [az Azure Redis Cache ASP.NET munkamenetállapo
 Hasonlóképpen, az Azure Redis Cache kimeneti gyorsítótár-szolgáltatója az ASP.NET-webalkalmazások által létrehozott HTTP-válaszok mentését is lehetővé teszi. Az Azure Redis Cache kimeneti gyorsítótár-szolgáltatójának használatával csökkenthető az összetett HTML-kimeneteket renderelő alkalmazások válaszideje. A hasonló válaszokat visszaadó alkalmazáspéldányok a gyorsítótárban lévő megosztott kimeneti töredékeket használhatják a HTML-kimenet újbóli létrehozása helyett. További információkért lásd [az Azure Redis Cache ASP.NET-es kimeneti gyorsítótár-szolgáltatóját](/azure/redis-cache/cache-aspnet-output-cache-provider/) ismertető cikket.
 
 ## <a name="building-a-custom-redis-cache"></a>Egyéni Redis-gyorsítótár kiépítése
-Az Azure Redis Cache a háttérbeli Redis-kiszolgálók előtérrendszereként funkcionál. Az Azure Redis Cache jelenleg rögzített számú konfigurációt támogat, de nem támogatja a Redis-fürtözést. Ha olyan speciális konfigurációra van szükség, amelyet az Azure Redis Cache nem támogat (például 53 GB-nál nagyobb méretű gyorsítótárra), az Azure-beli virtuális gépek segítségével saját Redis-kiszolgálókat is létrehozhat és üzemeltethet.
+Az Azure Redis Cache a háttérbeli Redis-kiszolgálók előtérrendszereként funkcionál. Ha olyan speciális konfigurációra van szükség, amelyet az Azure Redis Cache nem támogat (például 53 GB-nál nagyobb méretű gyorsítótárra), az Azure-beli virtuális gépek segítségével saját Redis-kiszolgálókat is létrehozhat és üzemeltethet.
 
 Ez a folyamat meglehetősen összetett lehet, hiszen ha replikációt szeretne végrehajtani, akkor esetenként több virtuális gépet is létre kell hoznia, amelyek a fő- és alárendelt csomópontok szerepét töltik be. Továbbá, ha fürtöt kíván létrehozni, akkor több fő- és alárendelt kiszolgálóra lesz szüksége. Egy magas szintű rendelkezésre állást és méretezhetőséget biztosító, minimális méretű fürtözött replikációs topológia legalább hat virtuális gépből, azaz három pár fő- és alárendelt kiszolgálóból áll (egy fürtben legalább három főcsomópontnak kell lennie).
 

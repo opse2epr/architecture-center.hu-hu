@@ -1,26 +1,26 @@
 ---
-title: Feltételesen telepítése Azure Resource Manager-sablonok az erőforráshoz
-description: Ismerteti, hogyan lehet a paraméter értékét egy erőforrás dependending feltételesen telepítése Azure Resource Manager sablonok bővítése
+title: Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
+description: Ismerteti, hogyan lehet feltételes üzembe egy erőforrás dependending paraméter értékét az Azure Resource Manager-sablonok bővítése
 author: petertay
-ms.date: 06/09/2017
-ms.openlocfilehash: e911e7dc41b4f71ebfaf13a00f8cdbb5b4e2578b
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.date: 10/30/2018
+ms.openlocfilehash: 2c74e17a5f38f9225b696640a23b55b1285276bb
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24538393"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251838"
 ---
-# <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Feltételesen telepítése Azure Resource Manager-sablonok az erőforráshoz
+# <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
 
-Léteznek olyan forgatókönyvek, amelyben kell terveznie a sablon telepítéséhez egy erőforrást egy paraméterérték megtalálható-e feltétel alapján. A sablon például telepíthet egy virtuális hálózatot és paramétereit, és adja meg azokat a társviszony-létesítéshez más virtuális hálózatokat tartalmaz. Már nincs megadva a társviszony-létesítéshez paraméterértékeket, ha nem szeretné, hogy Resource Manager telepítéséhez a társviszony-létesítési erőforrás.
+Van néhány olyan forgatókönyvet, amelyben kell terveznie a sablon üzembe helyezéséhez egy erőforrást, egy feltételt, például a jelen-e a paraméter értéke alapján. A sablon például üzembe helyezése egy virtuális hálózatot és tartalmazza a paraméterek használatával adja meg a más virtuális hálózatok társviszony-létesítéshez. Ha már nem a társviszony-létesítéshez paraméterértékeket, a társviszony-létesítési erőforrások üzembe helyezése erőforrás-kezelő nem szeretné.
 
-Ehhez használja a [ `condition` elem] [ azure-resource-manager-condition] az erőforráskészlet a paramétertömb hosszának teszteléséhez. Az érték nulla, ha vissza `false` megakadályozzák a telepítést, de minden nullánál nagyobb értéket visszaadnia `true` való központi telepítésének engedélyezése.
+Ehhez használja a [feltétel elem] [ azure-resource-manager-condition] teszteléséhez a paramétertömböt hossza az erőforrásban. Ha az érték nulla, lépjen vissza `false` megakadályozzák a telepítést, de az összes nullánál nagyobb értéket ad vissza `true` való központi telepítésének engedélyezése.
 
-## <a name="example-template"></a>Példa sablon
+## <a name="example-template"></a>Példasablon
 
-Azt mutatja be, hogy ez egy példa sablon vizsgáljuk meg. A sablon által a [ `condition` elem] [ azure-resource-manager-condition] a vezérlő telepítése a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrás. Ezt az erőforrást hoz létre a társviszony-létesítés között két Azure virtuális hálózat ugyanabban a régióban.
+Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon által a [feltétel elem] [ azure-resource-manager-condition] a vezérlő üzembe helyezéséhez a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrás. Ezt az erőforrást hoz létre, egy társviszony-létesítés két Azure virtuális hálózat ugyanabban a régióban között.
 
-Vessen egy pillantást a sablon minden szakasza.
+Vessünk egy pillantást a sablon minden szakasza.
 
 A `parameters` elem definiálja nevű egyetlen paraméter `virtualNetworkPeerings`: 
 
@@ -35,22 +35,25 @@ A `parameters` elem definiálja nevű egyetlen paraméter `virtualNetworkPeering
     }
   },
 ```
-A `virtualNetworkPeerings` paraméter egy `array` és a következő sémával rendelkezik:
+A `virtualNetworkPeerings` paraméter egy `array` , és rendelkezik a következő mintát követik:
 
 ```json
 "virtualNetworkPeerings": [
     {
-        "remoteVirtualNetwork": {
-            "name": "my-other-virtual-network"
-        },
-        "allowForwardedTraffic": true,
-        "allowGatewayTransit": true,
-        "useRemoteGateways": false
+      "name": "firstVNet/peering1",
+      "properties": {
+          "remoteVirtualNetwork": {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks','secondVNet')]"
+          },
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": true,
+          "useRemoteGateways": false
+      }
     }
 ]
 ```
 
-A paraméter tulajdonságait adja meg a [társviszony-létesítési virtuális hálózatok kapcsolatos beállítások][vnet-peering-resource-schema]. A következőkhöz nyújtunk a értékek ezekhez a tulajdonságokhoz amikor azt adja meg a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrás a `resources` szakasz:
+A tulajdonságok a paraméterben adja meg a [társviszony-létesítés virtuális hálózatok kapcsolatos beállítások][vnet-peering-resource-schema]. Biztosítunk, amellyel az értékeket ezekhez a tulajdonságokhoz adja meg, hogy amikor a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrást a `resources` szakaszban:
 
 ```json
 "resources": [
@@ -60,7 +63,7 @@ A paraméter tulajdonságait adja meg a [társviszony-létesítési virtuális h
       "name": "[concat('vnp-', copyIndex())]",
       "condition": "[greater(length(parameters('virtualNetworkPeerings')), 0)]",
       "dependsOn": [
-        "virtualNetworks"
+        "firstVNet", "secondVNet"
       ],
       "copy": {
           "name": "iterator",
@@ -92,13 +95,13 @@ A paraméter tulajdonságait adja meg a [társviszony-létesítési virtuális h
     }
 ]
 ```
-Nincsenek elolvashatja, melyek az a sablon részében. Először a rendszerbe állítandó tényleges erőforrás egy beágyazott sablon típusú `Microsoft.Resources/deployments` , amely tartalmazza a saját sablon, amely ténylegesen telepít a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings`.
+Van néhány dolog bevezetése a sablont ezen részében. Először a tényleges erőforrás üzembe-e egy beágyazott sablon típusú `Microsoft.Resources/deployments` , amely tartalmazza a saját sablont, amely Végezetül ténylegesen telepíti a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings`.
 
-A `name` a beágyazott a sablon köszönhetően egyedi aktuális ismétléseinek számától hozzáfűzésével a `copyIndex()` előtaggal `vnp-`. 
+A `name` a beágyazott sablont készítette egyedi az aktuális ismétlése összetűzésének a `copyIndex()` előtagot `vnp-`. 
 
-A `condition` elem megadhatja, hogy az erőforrás feldolgozott, ha a `greater()` függvény eredménye `true`. Ide, ha tesztel a `virtualNetworkPeerings` paraméter tömb `greater()` nullánál. Ha van, az eredmény `true` és a `condition` meggyőződött. Ellenkező esetben van `false`.
+A `condition` elem azt határozza meg, hogy legyen-e az erőforrás feldolgozott mikor a `greater()` függvény `true`. Itt, ha tesztel a `virtualNetworkPeerings` paraméternek tömb `greater()` , mint nulla. Ha igen, az eredmény `true` és a `condition` teljesült. Ellenkező esetben rendelkezik `false`.
 
-Azt adja meg a következő a `copy` hurok. Ez egy `serial` ciklust, amely azt jelenti, hogy a hurok sorrendben történik, az egyes erőforrások csak az utolsó Várakozás erőforrás van telepítve. A `count` tulajdonság határozza meg a hurok megismétli száma. Itt, általában állapotúra kell állítani az eltelt a `virtualNetworkPeerings` tömb, mert azt telepíteni kívánja az erőforrást meghatározó paraméter-objektumokat. Azonban nézzük meg, ha érvényesítése sikertelen lesz, ha a tömb nem üres, mert a Resource Manager azt észleli, hogy azt próbál hozzáférni, amelyek nem léteznek tulajdonságok. A Microsoft oldható meg, azonban. Vessen egy pillantást a változók kell:
+Ezután azt adja meg a `copy` ciklus. Ez egy `serial` ciklust, amely azt jelenti, hogy a hurok sorrendben történik, az egyes erőforrások csak az utolsó Várakozás az erőforrás üzembe helyezve. A `count` tulajdonság határozza meg, hogy hányszor a hurok ismétlődik. Itt, általában azt értékre kell állítania azt a hosszát a `virtualNetworkPeerings` tömböt, mert a konfigurációsparaméter-objektumokat adja meg a telepíteni kívánt erőforrást tartalmaz. Azonban ha még a nem érvényesítése sikertelen lesz, ha a tömb üres, mert a Resource Manager azt észleli, hogy tudjuk elérni kívánt tulajdonságok, amelyek nem léteznek. Hogy oldható meg, azonban. Vessünk egy pillantást a változókat, szüksége lesz:
 
 ```json
   "variables": {
@@ -113,17 +116,29 @@ Azt adja meg a következő a `copy` hurok. Ez egy `serial` ciklust, amely azt je
   },
 ```
 
-A `workaround` változó tartalmazza a két tulajdonság, nevű `true` és nevű `false`. A `true` tulajdonság értékének kiértékeli a `virtualNetworkPeerings` paramétertömb. A `false` tulajdonság kiértékeli, beleértve az erőforrás-kezelő vár, hogy elnevezett tulajdonságok üres objektumra&mdash;vegye figyelembe, hogy `false` van ténylegesen egy tömb, ahogy a `virtualNetworkPeerings` paraméter értéke, amely eleget tesz a érvényesítése. 
+A `workaround` változó tartalmazza a két tulajdonság, egy nevű `true` és a egy nevű `false`. A `true` tulajdonság kifejezés értékét adja vissza a `virtualNetworkPeerings` Pole parametru. A `false` tulajdonság egy üres objektumot, beleértve a Resource Manager vár, hogy elnevezett tulajdonságok kiértékelése &mdash; vegye figyelembe, hogy `false` van ténylegesen egy tömb, ugyanúgy, mint a `virtualNetworkPeerings` paraméter értéke, amely eleget tesz a érvényesítése. 
 
-A `peerings` változó használja a `workaround` ismét vizsgálatával, ha a változó hossza a `virtualNetworkPeerings` paramétertömb érték nagyobb, mint nulla. Ha igen, a `string` értékelődik ki `true` és a `workaround` a változó evalutes a `virtualNetworkPeerings` paramétertömb. Ellenkező esetben az eredmény `false` és a `workaround` változó értéke az a tömb első eleme üres objektum.
+A `peerings` változót használ a `workaround` ismét vizsgálatával, ha a változó hossza a `virtualNetworkPeerings` Pole parametru értéke nagyobb, mint nulla. Ha igen, a `string` értékelődik ki `true` és a `workaround` változó értéke a `virtualNetworkPeerings` Pole parametru. Ellenkező esetben való kiértékelése által `false` és a `workaround` változó kiértékeli a tömb első eleme az üres objektumhoz.
 
-Most, hogy azt az érvényesítési probléma dolgozott, egyszerűen adható meg a központi telepítése a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrás a beágyazott sablonban, hogy a `name` és `properties` a a `virtualNetworkPeerings` paramétertömb. Láthatja, ez csak a `template` beágyazva elem a `properties` elem az erőforrás.
+Most, hogy megkönnyítsük már az érvényesítési probléma, azt is egyszerűen adja meg a központi a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings` erőforrás átadása, a beágyazott sablonban a `name` és `properties` származó a `virtualNetworkPeerings` Pole parametru. Láthatja, ez az a `template` beágyazott elem a `properties` elem az erőforrás.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="try-the-template"></a>A sablon kipróbálása
 
-* Ezzel a technikával meg van valósítva a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure hivatkozás architektúrák](/azure/architecture/reference-architectures/). Ezek segítségével hozzon létre egy saját architektúra, vagy telepítse a referencia-architektúrák egyikét használhatja.
+Egy példa sablon érhető el az [GitHub][github]. A sablon üzembe helyezéséhez futtassa a következő [Azure CLI-vel] [ cli] parancsokat:
+
+```bash
+az group create --location <location> --name <resource-group-name>
+az group deployment create -g <resource-group-name> \
+    --template-uri https://raw.githubusercontent.com/mspnp/template-examples/master/example2-conditional/deploy.json
+```
+
+## <a name="next-steps"></a>További lépések
+
+* Objektumok használata helyett skaláris értékek sablon paraméterekként. Lásd: [objektum használata paraméterként az Azure Resource Manager-sablon](./objects-as-parameters.md)
 
 <!-- links -->
 [azure-resource-manager-condition]: /azure/azure-resource-manager/resource-group-authoring-templates#resources
 [azure-resource-manager-variable]: /azure/azure-resource-manager/resource-group-authoring-templates#variables
 [vnet-peering-resource-schema]: /azure/templates/microsoft.network/virtualnetworks/virtualnetworkpeerings
+[cli]: /cli/azure/?view=azure-cli-latest
+[github]: https://github.com/mspnp/template-examples

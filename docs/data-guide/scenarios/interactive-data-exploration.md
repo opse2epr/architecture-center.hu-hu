@@ -3,12 +3,12 @@ title: Interaktív adatfeltárás
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 2e3d61fa5e1903c7fee6ebc84db3fa7c28d515cb
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: be27df79d445cf9949318e4483ce0f95c26b6e09
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325117"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251872"
 ---
 # <a name="interactive-data-exploration"></a>Interaktív adatfeltárás
 
@@ -82,7 +82,7 @@ További információkért lásd: [analitikus adattárak](../technology-choices/
 ### <a name="analytics-and-reporting"></a>Elemzések és jelentéskészítés
 
 - **Jupyter**. A Jupyter Notebooks böngészőalapú felületet biztosít a futó kód például az R, Python vagy a Scala nyelvek. Adatok kötegelt feldolgozásához R Server vagy a Spark használata esetén, vagy a táblák lekérdezése a sémát a Spark SQL használatával, a Jupyter lehet megfelelő választás az olyan, az adatok lekérdezéséhez. A Spark használata esetén a szabványos Spark dataframe API vagy a Spark SQL API-t, valamint beágyazott SQL-utasítások használhatja az adatok lekérdezése és állítja elő a Vizualizációk.
-- **Részletezés**. Ha szeretne végezni az ad-hoc adatfeltárás, [Apache Drill](https://drill.apache.org/) egy séma nélküli SQL-lekérdezési motor. A séma nincs szükség, mert a számos különféle adatforrásból származó adatokat lekérdezheti, és a motor automatikusan tisztában van az adatok struktúráját.
+- **Részletezés**. Ha szeretne végezni az ad-hoc adatfeltárás, [Apache Drill](https://drill.apache.org/) egy séma nélküli SQL-lekérdezési motor. A séma nincs szükség, mert a számos különféle adatforrásból származó adatokat lekérdezheti, és a motor automatikusan tisztában van az adatok struktúráját.  Az Azure Blob Storage-tárolókat, részletezés is használhatja a [Azure Blob Storage beépülő modul](https://drill.apache.org/docs/azure-blob-storage-plugin/). Ez lehetővé teszi a Blob Storage szolgáltatásban tárolt adatok irányuló lekérdezések futtatása az adatok áthelyezése nélkül. 
 - **Interaktív Hive-ügyfelek**. Ha egy interaktív Hive-fürtön az adatok lekérdezéséhez, használhatja a Hive-nézet az Ambari fürt irányítópultja, a Beeline parancssori eszköz vagy egy ODBC-alapú eszközt (a Hive ODBC illesztőprogram segítségével), például a Microsoft Excel- vagy Power bi-ban.
 
 További információkért lásd: [adatelemzési és jelentéskészítési technológia](../technology-choices/analysis-visualizations-reporting.md).

@@ -5,20 +5,18 @@ keywords: cloud services összehasonlítása, cloud services képest, multicloud
 author: lbrader
 ms.date: 11/30/2017
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: a48f2eacfac601d65fec8c87b007156f5a413d26
-ms.sourcegitcommit: 065fa8ecb37c8be1827da861243ad6a33c75c99d
+ms.openlocfilehash: 33b67f57c8c725cfb68c400b4e2b67102e5d4872
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/26/2018
-ms.locfileid: "50136675"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251957"
 ---
 # <a name="aws-to-azure-services-comparison"></a>AWS – az Azure-szolgáltatások összehasonlítása
 
 Ez a cikk segít megérteni, hogyan hasonlítsa össze a Microsoft Azure-szolgáltatások az Amazon Web Services (AWS). Akár az Azure és AWS multicloud megoldás megtervezése, akár az Azure-ba való migrálás, összehasonlíthatja az összes kategória szolgáltatások az Azure és AWS informatikai képességeit.
 
 Az alábbi táblázatban felsorolt egyes AWS-szolgáltatások több Azure-szolgáltatások vannak. Az Azure-szolgáltatások egy másik hasonló, de mélységének és szélességének képességei eltérőek lehetnek.
-
-[Az Azure és AWS Cloud Service Map PDF letöltése](https://aka.ms/awsazureguide)
 
 ## <a name="azure-and-aws-for-multicloud-solutions"></a>Az Azure és AWS multicloud megoldások
 

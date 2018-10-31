@@ -2,13 +2,13 @@
 title: Tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
 description: Ismerteti, hogyan lehet egy tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
 author: petertay
-ms.date: 06/09/2017
-ms.openlocfilehash: 2c2fd93c977b82bed05ebe0ae68233a700df0f4f
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.date: 10/30/2018
+ms.openlocfilehash: ad5b3a71f516ec12fee311e25c43f434f9f306ed
+ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428584"
+ms.lasthandoff: 10/30/2018
+ms.locfileid: "50251787"
 ---
 # <a name="implement-a-property-transformer-and-collector-in-an-azure-resource-manager-template"></a>Tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon
 
@@ -99,7 +99,7 @@ A paraméterek néznek ki:
   },
 ```
 
-A sablon is meghatároz egy nevű változó `instance`. A tényleges tranform, hajtja végre a `source` objektumot be a szükséges JSON-sémája:
+A sablon is meghatároz egy nevű változó `instance`. Hajtja végre, a tényleges átalakítás a `source` objektumot a szükséges JSON-sémájában be:
 
 ```json
   "variables": {
@@ -126,7 +126,8 @@ A sablon is meghatároz egy nevű változó `instance`. A tényleges tranform, h
 Végül a `output` a sablon fűzi össze az összegyűjtött átalakítások, a `state` az aktuális átalakítás végzi paraméter a `instance` változó:
 
 ```json
-  "outputs": {
+    "resources": [],
+    "outputs": {
     "collection": {
       "type": "array",
       "value": "[concat(parameters('state'), variables('instance'))]"
@@ -264,7 +265,7 @@ Hiányol, mivel ez az URI-JÁNAK a **gyűjtő sablon** , amelyek a társított s
     "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[variables('linkedTemplateUri')]",
+            "uri": "[variables('collectorTemplateUri')]",
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -288,25 +289,36 @@ Végül a `Microsoft.Network/networkSecurityGroups` erőforrás közvetlenül re
       "name": "networkSecurityGroup1",
       "location": "[resourceGroup().location]",
       "properties": {
-        "securityRules": "[reference('firstResource').outputs.result.value]"
+        "securityRules": "[reference('collector').outputs.result.value]"
       }
     }
   ],
   "outputs": {
       "instance":{
           "type": "array",
-          "value": "[reference('firstResource').outputs.result.value]"
+          "value": "[reference('collector').outputs.result.value]"
       }
 
   }
 ```
 
-## <a name="next-steps"></a>További lépések
+## <a name="try-the-template"></a>A sablon kipróbálása
 
-* Ezzel a technikával implementálva van a [építőelemeket sablonprojekt](https://github.com/mspnp/template-building-blocks) és a [Azure-referenciaarchitektúrák](/azure/architecture/reference-architectures/). Hozzon létre saját architektúra, vagy üzembe helyezésére a referenciaarchitektúrák azt is használhatja.
+Egy példa sablon érhető el az [GitHub][github]. A sablon üzembe helyezéséhez, klónozza az adattárat, és futtassa a következő [Azure CLI-vel] [ cli] parancsokat:
+
+```bash
+git clone https://github.com/mspnp/template-examples.git
+cd template-examples/example4-collector
+az group create --location <location> --name <resource-group-name>
+az group deployment create -g <resource-group-name> \
+    --template-uri https://raw.githubusercontent.com/mspnp/template-examples/master/example4-collector/deploy.json \
+    --parameters deploy.parameters.json
+```
 
 <!-- links -->
 [objects-as-parameters]: ./objects-as-parameters.md
 [resource-manager-linked-template]: /azure/azure-resource-manager/resource-group-linked-templates
 [resource-manager-variables]: /azure/azure-resource-manager/resource-group-template-functions-deployment
 [nsg]: /azure/virtual-network/virtual-networks-nsg
+[cli]: /cli/azure/?view=azure-cli-latest
+[github]: https://github.com/mspnp/template-examples
