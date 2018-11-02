@@ -2,16 +2,16 @@
 title: Magas rendelkezésre állású hibrid hálózati architektúra megvalósítása
 description: A jelen cikk azt ismerteti, hogyan lehet kiépíteni egy helyek közötti biztonságos hálózati architektúrát, amely a VPN-átjáróval feladatátvételt biztosító ExpressRoute használatával összekapcsolt Azure-beli virtuális hálózatból és helyszíni hálózatból áll.
 author: telmosampaio
-ms.date: 11/28/2016
+ms.date: 10/22/2017
 pnp.series.title: Connect an on-premises network to Azure
 pnp.series.prev: expressroute
 cardTitle: Improving availability
-ms.openlocfilehash: 31ed1dbf59c4fa2b7fa86b9ceb2fed7b36e75c8c
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 31bf471dbff3661face7d94fbec0973d81541ec7
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428822"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916413"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute-with-vpn-failover"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával
 

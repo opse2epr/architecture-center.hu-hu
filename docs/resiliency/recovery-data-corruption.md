@@ -1,56 +1,56 @@
 ---
-title: Adatsérülés vagy véletlen törlés helyreállítása
-description: 'A következő cikket: az adatok sérülésének adatok vagy a véletlen adattörlés és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése alapos ismerete'
+title: Helyreállítás adatsérülés vagy véletlen törlés
+description: A helyreállítás adatsérülés adatok vagy véletlen törlés és a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási adatbázisból ismertető cikk
 author: MikeWasson
-ms.date: 01/10/2018
-ms.openlocfilehash: b0716de39fe69d607b9a63e51356d28bbcdbfeae
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.date: 11/11/2018
+ms.openlocfilehash: 1f3dd448ac6172727481c437fb8a113f25d83464
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012426"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916269"
 ---
-# <a name="recover-from-data-corruption-or-accidental-deletion"></a>Adatsérülés vagy véletlen törlés helyreállítása 
+# <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés 
 
-Ha az adatok beolvasása sérült, vagy véletlenül törölt egy robusztus üzletmenet folytonosságát biztosító terve részeként nehézségekkel egy tervet. A következő helyreállítási információt után adatok sérült, vagy véletlenül törölt alkalmazáshibák vagy a kezelő hibája miatt.
+Ha az adatok beolvasása sérült vagy véletlenül törölt egy robusztus üzletmenet folytonosságát biztosító terve részeként tapasztalja csomagot. Az alábbiakban látható helyreállítási információk után adatok sérült vagy véletlenül törölt alkalmazáshibák vagy operátor hiba miatt.
 
 ## <a name="virtual-machines"></a>Virtuális gépek
 
-Az alkalmazáshibák vagy véletlen törlés elleni védelem Azure virtuális gépek (VM), használjon [Azure biztonsági mentés](/azure/backup/). Azure biztonsági mentés lehetővé teszi a több virtuális gép lemezre összhangban legyenek biztonsági mentések létrehozását. Emellett a mentési tárolóhoz az biztosítása érdekében származó régió régiók replikálható.
+Azure Virtual Machines (VM) az alkalmazáshibák vagy véletlen törlés elleni védelme, használja a [Azure Backup](/azure/backup/). Az Azure Backup lehetővé teszi több virtuális gép lemezeinek konzisztensek legyenek biztonsági mentések létrehozását. Emellett a Backup-tárolóban adja meg a helyreállítási régióban elmaradásából-régiók közötti replikálható.
 
-## <a name="storage"></a>Tárolás
+## <a name="storage"></a>Storage
 
-Az Azure Storage automatikus replikák keresztül adatrugalmasság biztosít. Azonban ez nem akadályozza alkalmazáskód vagy hibás adatokból felhasználók véletlenül vagy szándékosan. Speciális módszerek, például másolja az adatokat a másodlagos tárolóját az audit napló állásuk alkalmazás- vagy hiba adatok hűség karbantartása szükséges. 
+Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatikus replikációval. Azonban ez nem akadályozza alkalmazáskód vagy a felhasználók hibás adatokból, hogy véletlenül vagy kártételi. Fejlett technikák, például az adatok másolásának auditálási naplóba kerülnek a másodlagos tárolóhelyre karbantartása adathűséget alkalmazás vagy felhasználó hiba esetén van szükség. 
 
-- **Blokkblobokat**. Hozzon létre minden egyes blokkblob pont időponthoz kötött pillanatképet. További információkért lásd: [egy pillanatképet készíteni egy Blob](/rest/api/storageservices/creating-a-snapshot-of-a-blob). Minden egyes pillanatkép van csak szó, a szükséges a különbségek belül a blob tárolására, mert az utolsó pillanatkép-állapot tárolásához. A pillanatképek függnek a létezik-e az eredeti blob, alapulnak, ezért egy másik blob vagy akár egy másik tárfiókhoz a másolási műveletek használata javasolt. Ez biztosítja, hogy a biztonsági mentési adatok megfelelően védett véletlen törlése ellen. Használhat [AzCopy](/azure/storage/common/storage-use-azcopy) vagy [Azure PowerShell](/azure/storage/common/storage-powershell-guide-full) a BLOB másolása másik tárolási fiókot.
+- **Blokkblobok**. Minden egyes blokkblob időponthoz pillanatkép létrehozása. További információkért lásd: [létrehozása egy pillanatképet egy Blobról](/rest/api/storageservices/creating-a-snapshot-of-a-blob). Minden pillanatkép csak díjkötelesek a különbségek a blobon belüli tárolására, mivel az utolsó pillanatkép állapota szükséges tárhelyet. A pillanatképek függenek létezik-e az eredeti blob azok alapulnak, így célszerű a másolási műveletek egy másik blob vagy akár egy másik tárfiókba. Ez biztosítja, hogy a biztonsági mentési adatokat megfelelően védett véletlen törlése ellen. Használhat [AzCopy](/azure/storage/common/storage-use-azcopy) vagy [Azure PowerShell-lel](/azure/storage/common/storage-powershell-guide-full) a blobok másolása egy másik tárfiókba.
 
-- **Fájlok**. Használjon [pillanatképek megosztása](/azure/storage/files/storage-snapshots-files), vagy másolja a fájlokat egy másik tárfiókhoz AzCopy vagy a PowerShell segítségével.
+- **Fájlok**. Használjon [megosztási pillanatképek](/azure/storage/files/storage-snapshots-files), vagy az AzCopy és a PowerShell használatával a fájlok másolása egy másik tárfiókba.
 
-- **Táblák**. AzCopy segítségével a tábla adatainak exportálása egy másik régióban másik tárolási fiókot.
+- **Táblák**. Az AzCopy segítségével egy másik régióban egy másik tárfiókba történő táblák adatainak exportálása.
 
 ## <a name="database"></a>Adatbázis
 
 ### <a name="azure-sql-database"></a>Azure SQL Database 
 
-SQL-adatbázis automatikusan elvégzi az adatbázis teljes biztonsági mentés hetente kombinációja, a különbözeti adatbázis óránkénti, és a tranzakció jelentkezhetnek biztonsági mentések minden öt - tíz perc az üzleti adatvesztés elleni védelméhez. Használja a időpontban visszaállítást a restore egy adatbázis egy korábbi időpontra. További információkért lásd:
+Az SQL Database automatikusan végrehajtja az adatbázis teljes biztonsági mentését hetente, különbözeti adatbázis biztonsági mentését óránként, és a tranzakciós jelentkezzen biztonsági mentések minden öt - tíz percet üzleti adatai védelméről adatvesztéssel szemben. Időponthoz visszaállítás, visszaállítás adatbázist használnak egy korábbi időpontra. További információkért lásd:
 
-- [Automatikus adatbázis biztonsági mentését használó Azure SQL-adatbázis helyreállítása](/azure/sql-database/sql-database-recovery-using-backups)
+- [Automatikus biztonsági adatbázismentés használatával Azure SQL-adatbázis helyreállítása](/azure/sql-database/sql-database-recovery-using-backups)
 
-- [Az Azure SQL Database üzletmenet áttekintése](/azure/sql-database/sql-database-business-continuity)
+- [Az Azure SQL Database üzletmenet-folytonossági funkcióinak áttekintése](/azure/sql-database/sql-database-business-continuity)
 
-### <a name="sql-server-on-vms"></a>SQL Server virtuális gépeken
+### <a name="sql-server-on-vms"></a>Az SQL Server virtuális gépeken
 
-Virtuális gépeken futó SQL Server, a rendszer két lehetőség közül választhat: hagyományos biztonsági mentések és a naplóküldésben. Hagyományos biztonsági mentések lehetővé teszi adott visszaállítása időpontra, de a helyreállítási folyamat lassú. Hagyományos biztonsági másolatok visszaállítása szükséges kezdődő, és egy kezdeti teljes biztonsági mentést, és minden biztonsági másolatának után, majd alkalmazza. A második lehetőség a Naplók biztonsági másolatainak helyreállítását (például úgy, hogy két órával) késleltetése munkamenet naplóküldő konfigurálása. Ez lehetővé teszi egy ablakot, ahol az elsődleges végrehajtott hibák elhárítása.
+A virtuális gépeken futó SQL Server, két lehetőség van: a hagyományos biztonsági mentéseket és a naplóküldésben. A hagyományos biztonsági mentések lehetővé teszi, hogy egy adott időpontra való visszaállítása, de a helyreállítási folyamat lassú. A hagyományos biztonsági másolatok visszaállítását végzni kezdve egy kezdeti biztonsági mentés, és ezután alkalmazása után, amely minden biztonsági szükséges. A második lehetőség egy munkamenet (például úgy, hogy két óra) naplók biztonsági másolatainak a visszaállítás késleltetése naplóküldő konfigurálásához. Ez lehetővé teszi a hibák az elsődleges végzett ablakot.
 
 ### <a name="azure-cosmos-db"></a>Azure Cosmos DB
 
-Azure Cosmos-adatbázis rendszeres időközönként automatikusan biztonsági mentések vesz igénybe. Biztonsági mentések külön-külön tárolják egy másik tárhelyre, és azokat a biztonsági mentések globálisan replikálva vannak a rugalmasságot regionális vészhelyzetek ellen. Ha véletlenül törli az adatbázis vagy a gyűjteményt, a támogatási jegy fájlt, vagy visszaállíthatja az adatokat a legutóbbi automatikus biztonsági mentés az Azure támogatási hívás. További információkért lásd: [automatikus online biztonsági mentés és helyreállítás Azure Cosmos DB](/azure/cosmos-db/online-backup-and-restore).
+Az Azure Cosmos DB automatikusan fogadja a biztonsági mentések rendszeres időközönként. Biztonsági másolatai külön egy másik tárolási szolgáltatás, és ezeket a biztonsági mentéseket globálisan replikálva vannak a regionális katasztrófa szembeni ellenálló-képesség. Ha véletlenül törli az adatbázis vagy -gyűjteményben, küldjön egy támogatási jegyet, vagy hívja a legutóbbi automatikus biztonsági mentés visszaállíthatja az adatokat az Azure ügyfélszolgálatától. További információkért lásd: [automatikus online biztonsági mentés és visszaállítás az Azure Cosmos DB](/azure/cosmos-db/online-backup-and-restore).
 
-### <a name="azure-database-for-mysql-azure-database-for-postresql"></a>MySQL, Azure-adatbázis PostreSQL az Azure-adatbázis
+### <a name="azure-database-for-mysql-azure-database-for-postresql"></a>Azure Database for MySQL, Azure Database for Postgresql
 
-Ha Azure-adatbázis MySQL vagy az Azure-adatbázishoz a PostreSQL, az adatbázis-szolgáltatás automatikusan révén a szolgáltatás biztonsági másolatot, ötpercenként. Az automatikus biztonsági mentési szolgáltatás használatával állítsa vissza a kiszolgáló és az adatbázisok be egy új kiszolgálót egy korábbi-időpontban. További információkért lásd:
+Ha használja az Azure Database MySQL vagy az Azure Database for Postgresql, az adatbázis-szolgáltatás automatikusan lehetővé teszi a szolgáltatás biztonsági másolatának öt percenként. Az automatikus biztonsági mentési szolgáltatás használatával állítsa vissza a kiszolgáló és az összes hozzá tartozó adatbázisok be egy új kiszolgálót egy korábbi-időponthoz. További információkért lásd:
 
-- [Készítsen biztonsági másolatot, és egy kiszolgálóhoz az Azure-adatbázis visszaállítása a MySQL az Azure portál használatával](/azure/mysql/howto-restore-server-portal)
+- [Hogyan biztonsági mentése és visszaállítása egy kiszolgálót az Azure Database for MySQL-hez az Azure portal használatával](/azure/mysql/howto-restore-server-portal)
 
 - [Egy Azure Database for PostgreSQL-kiszolgáló biztonsági mentése és visszaállítása az Azure Portal használatával](/azure/postgresql/howto-restore-server-portal)
 

@@ -3,17 +3,17 @@ title: Cache-Aside
 description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból
 keywords: tervezési minta
 author: dragon119
-ms.date: 06/23/2017
+ms.date: 11/01/2018
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - performance-scalability
-ms.openlocfilehash: d4d7c9dcd612c780e3e494509a57b6b4a0144423
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.openlocfilehash: 4c93ed02ff28e79cedc26f83364592baba96821d
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012460"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916372"
 ---
 # <a name="cache-aside-pattern"></a>Gyorsítótár-feltöltési minta
 
@@ -70,7 +70,7 @@ Nem érdemes ezt a mintát használni, ha:
 
 A Microsoft Azure-ban az Azure Redis Cache használatával létrehozhat elosztott gyorsítótárakat, amelyek megoszthatók egy alkalmazás több példánya között. 
 
-Egy Azure Redis Cache-példányhoz való csatlakozáshoz hívja meg a `Connect` statikus metódust, és adja meg a kapcsolati karakterláncot. A metódus egy `ConnectionMultiplexer` értéket ad vissza, amely a kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés egy szálbiztos módszert biztosít egyetlen csatlakoztatott példány inicializálásához.
+A következő kód példák használja a [StackExchange.Redis] ügyfél, amely egy Redis ügyféloldali kódtára a .NET-hez írt. Egy Azure Redis Cache-példányhoz való csatlakozáshoz hívja meg a `ConnectionMultiplexer.Connect` statikus metódust, és adja meg a kapcsolati sztringet. A metódus egy `ConnectionMultiplexer` értéket ad vissza, amely a kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés egy szálbiztos módszert biztosít egyetlen csatlakoztatott példány inicializálásához.
 
 ```csharp
 private static ConnectionMultiplexer Connection;
@@ -85,7 +85,7 @@ private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionM
 public static ConnectionMultiplexer Connection => lazyConnection.Value;
 ```
 
-A következő példakódban szereplő `GetMyEntityAsync` metódus az Azure Redis Cache-en alapuló gyorsítótár-feltöltési minta egy megvalósítását mutatja be. Ez a módszer egy objektum a read-through megközelítéssel a gyorsítótárból kéri le.
+A `GetMyEntityAsync` metódus az az alábbi példakód a gyorsítótár-feltöltési minta megvalósítását mutatja be. Ez a metódus lekér egy objektumot a gyorsítótárból a visszaolvasási módszer használatával.
 
 A metódus egy egész számból álló azonosítót használ kulcsként az objektumok azonosításához. A `GetMyEntityAsync` metódus megkísérel lekérdezni egy elemet a gyorsítótárból ezzel a kulccsal. Ha a metódus talál egyező elemet, akkor visszaadja. Ha nincs egyezés a gyorsítótárban, a `GetMyEntityAsync` metódus lekérdezi az objektumot az adattárból, hozzáadja a gyorsítótárhoz, majd visszaadja. Az adatokat az adattárból ténylegesen beolvasó kód itt nem látható, mert az az adattártól függően változhat. Figyelje meg, hogy a gyorsítótárazott elem úgy van konfigurálva, hogy elévüljön, és ne váljon elavulttá, ha máshol frissítik.
 
@@ -126,7 +126,7 @@ public async Task<MyEntity> GetMyEntityAsync(int id)
 }
 ```
 
->  A példák az Azure Redis Cache API használatával férnek hozzá a tárolóhoz és kérdeznek le adatokat a gyorsítótárból. További információ: [A Microsoft Azure Redis Cache használata](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Webalkalmazás létrehozása a Redis Cache használatával](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
+>  A példák a Redis Cache használatával a áruház és a gyorsítótárban lévő információk lekéréséhez. További információ: [A Microsoft Azure Redis Cache használata](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Webalkalmazás létrehozása a Redis Cache használatával](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
 
 Az alább látható `UpdateEntityAsync` metódus azt mutatja be, hogyan érvényteleníthető egy objektum a gyorsítótárban, ha egy alkalmazás módosítja az értékét. A kód frissíti az eredeti adattárat, majd eltávolítja a gyorsítótárazott elemet a gyorsítótárból.
 
@@ -155,3 +155,6 @@ Az alábbi információk segíthetnek a minta megvalósításakor:
 - [Gyorsítótárazási útmutató](https://docs.microsoft.com/azure/architecture/best-practices/caching). További információkat biztosít arról, hogyan gyorsítótárazhat adatokat a felhőalapú megoldásokban, valamint a gyorsítótárak kialakítása előtt megfontolandó szempontokról.
 
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A felhőalapú alkalmazások általában több adattárból származó adatokat használnak. Az adatkonzisztencia felügyelete és fenntartása ebben a környezetben a rendszer kritikus fontosságú tényezője, különösen az egyidejűségi és rendelkezésre állási problémák miatt. Ez az ismertető az elosztott adatok esetében felmerülő konzisztenciaproblémákat mutatja be, és összefoglalja, hogyan biztosíthatják az alkalmazások az adatok rendelkezésre állását a végleges konzisztencia megvalósításával.
+
+
+[StackExchange.Redis]: https://github.com/StackExchange/StackExchange.Redis

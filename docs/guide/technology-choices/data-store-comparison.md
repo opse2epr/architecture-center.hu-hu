@@ -2,12 +2,13 @@
 title: Az adattár kiválasztásának kritériumai
 description: Az Azure számítási lehetőségeinek áttekintése
 author: MikeWasson
-ms.openlocfilehash: 70f746f80c29623004620d83eb38747777df7f84
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.date: 06/01/2018
+ms.openlocfilehash: f8996cdeb937a28b3f3056da3921a3f89dd36b1a
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252873"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916430"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -25,7 +26,7 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 - **Adatkapcsolatok**. Az adatoknak támogatniuk kell-e az egy-a-többhöz vagy a több-a-többhöz kapcsolatokat? Maguk a kapcsolatok fontos részét képezik az adatoknak? Szükség lesz-e az adatok egyesítésére vagy egyéb típusú kombinálására ugyanazon vagy más külső adatkészletekből származó adatokkal? 
 - **Konzisztenciamodell**. Mennyire fontos, hogy az egy csomóponton végzett frissítések más csomópontokon is megjelenjenek, mielőtt további módosításokat lehetne eszközölni? Elfogadható-e a végleges konzisztencia? Szüksége van-e ACID-garanciákra az egyes tranzakciókhoz?
 - **A séma rugalmassága**. Milyen sémát fog alkalmazni az adatokon? Rögzített sémát, esetleg írási séma vagy olvasási séma megközelítést fog használni?
-- **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, a rekordok zárolására és pesszimista feldolgozási vezérlő lehet szükség. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
+- **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, rekordzárolási és pesszimista egyidejűségi vezérlőkre lehet szükség. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
 - **Adatáthelyezés**. A megoldásnak végre kell-e hajtania ETL-feladatokat az adatok másik tárolóba vagy adattárházba történő áthelyezéséhez?
 - **Az adatok életciklusa**. Az adatok egyszer írhatók és többször olvashatók? Áthelyezhetők-e ritkán használt vagy offline tárhelyre?
 - **Egyéb támogatott funkciók**. Szüksége van-e bármilyen más konkrét funkcióra, például sémaérvényesítésre, összesítésre, indexelésre, teljes szöveges keresésre, esetleg MapReduce-feladatra vagy egyéb lekérdezési képességekre?
@@ -312,7 +313,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
     <td>
         <ul>
             <li>Több forrásból származó előzményadatok.</li>
-            <li>Általában a denormalizált egy &quot;csillag&quot; vagy &quot;snowflake&quot; séma-, tény-és dimenziótáblák álló.</li>
+            <li>Általában egy &quot;csillag&quot; vagy &quot;snowflake&quot; séma, amely tény- és dimenziótáblákból áll.</li>
             <li>Általában ütemezés szerint töltődik fel új adatokkal.</li>
             <li>A dimenziótáblák gyakran egy entitás több korábbi verzióját is tartalmazzák, amit <em>lassan változó dimenziónak</em> nevezünk.</li>
         </ul>
@@ -331,12 +332,12 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
 <tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Műveletek (95-99 %) egy túlságosan hányadát írási műveletek.</li>
+            <li>Egy elsöprő időarány, amíg a műveletek (95 – 99 %) írási műveletek.</li>
             <li>A rekordok hozzáfűzése általában időrend szerint történik.</li>
             <li>A frissítések ritkák.</li>
             <li>A törlések tömegesen fordulnak elő, céljaik általában egybefüggő blokkok vagy rekordok.</li>
             <li>Az olvasási kérések lehetnek az elérhető memóriánál nagyobb méretűek.</li>
-            <li>Az&#39;s gyakori, hogy mi történjen, párhuzamosan több olvasása.</li>
+            <li>Ez&#39;s gyakran több olvasási és egy időben történnek.</li>
             <li>A rendszer az adatokat szakaszosan olvassa be időrend szerint növekvő vagy csökkenő sorrendben.</li>
         </ul>
     </td>

@@ -2,13 +2,13 @@
 title: SQL Servert használó N szintű alkalmazás
 description: Egy többrétegű architektúra megvalósítása az Azure-ban, a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel módja.
 author: MikeWasson
-ms.date: 07/19/2018
-ms.openlocfilehash: d5f46570464916af892afcf492127402181a5df5
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.date: 09/13/2018
+ms.openlocfilehash: 6ddad853240b9a51ac904c06783a5c0b56dedec5
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429145"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916515"
 ---
 # <a name="n-tier-application-with-sql-server"></a>SQL Servert használó N szintű alkalmazás
 
@@ -110,7 +110,7 @@ Ha az alkalmazás olvasási műveleteinek száma lényegesen több, mint az ír�
 
 Az alkalmazás számítási feladatait futtató virtuális gépek nyilvános internetről való RDP-hozzáférését ne engedélyezze. Az ilyen virtuális gépek RDP-hozzáférésének ehelyett a jumpboxon keresztül kell történnie. A rendszergazda először bejelentkezik a jumpboxba, majd azon keresztül bejelentkezik a többi virtuális gépbe. A jumpbox engedélyezi az internetről érkező RDP-forgalmat, de csak az ismert, biztonságos IP-címekről.
 
-A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-cím] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
+A jumpbox rendelkezik a minimális teljesítménykövetelményei, ezért kattintson egy kisméretű Virtuálisgép-méretet. Hozzon létre egy [nyilvános IP-címet] a jumpbox számára. Helyezze a jumpboxot a többi virtuális géppel megegyező virtuális hálózatba, de egy külön felügyeleti alhálózaton legyen.
 
 A jumpbox védelmére, adja hozzá egy NSG-szabályt, amely RDP-kapcsolatok kizárólag a nyilvános IP-címkészletekről engedélyezi. Állítsa be az NSG-t a többi alhálózathoz is úgy, hogy engedélyezzék a felügyeleti alhálózatból érkező RDP-forgalmat.
 
@@ -254,7 +254,7 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [operations-management-suite]: https://www.microsoft.com/server-cloud/operations-management-suite/overview.aspx
 [plan-network]: /azure/virtual-network/virtual-network-vnet-plan-design-arm
 [private-ip-space]: https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-[nyilvános IP-cím]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
+[nyilvános IP-címet]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [puppet]: https://puppetlabs.com/blog/managing-azure-virtual-machines-puppet
 [sql-alwayson]: https://msdn.microsoft.com/library/hh510230.aspx
 [sql-alwayson-force-failover]: https://msdn.microsoft.com/library/ff877957.aspx

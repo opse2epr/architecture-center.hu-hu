@@ -1,157 +1,157 @@
 ---
-title: Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése
-description: Megtudhatja, hogyan telepíthetők át az alkalmazás Azure Cloud Services Azure Service Fabric.
+title: Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása
+description: Hogyan telepíthet át egy alkalmazást az Azure Cloud Services az Azure Service Fabric.
 author: MikeWasson
-ms.date: 04/27/2017
-ms.openlocfilehash: b9ecbc88ae74da99a0ff3bb8814a9cb3422f79d5
-ms.sourcegitcommit: f665226cec96ec818ca06ac6c2d83edb23c9f29c
+ms.date: 04/11/2018
+ms.openlocfilehash: a1b4e005b2dab67d8107f4002468e1d7622ae342
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/16/2018
-ms.locfileid: "31012688"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916447"
 ---
-# <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Az Azure Cloud Services alkalmazás Azure Service Fabric áttelepítése 
+# <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása 
 
 [![GitHub](../_images/github.png) Mintakód][sample-code]
 
-Ez a cikk ismerteti, hogy egy alkalmazás áttelepítése Azure Cloud Services Azure Service Fabric. Az architektúra döntések összpontosít, és ajánlott eljárások. 
+Ez a cikk ismerteti, hogy egy alkalmazás áttelepítés az Azure Cloud Services az Azure Service Fabric. Ez a architekturális döntések összpontosít, és ajánlott eljárásokat. 
 
-Ebben a projektben azt egy felmérések nevű Felhőszolgáltatás alkalmazás használatába és használatát. Ez a Service Fabric. A cél volt a lehető legkevesebb módosítások az alkalmazás áttelepítéséhez. Egy újabb cikkben azt fogja az alkalmazás optimalizálása a Service Fabric egy mikroszolgáltatások architektúra elfogadásával.
+Ehhez a projekthez és amelyet a lépések a Cloud Services-alkalmazás Surveys nevű ültették át a Service fabric. A cél volt a alkalmazás, néhány módosítással a lehető áttelepítéséhez. Egy újabb a cikkben azt optimalizálja az alkalmazást a Service Fabric által a mikroszolgáltatási architektúra bevezetésének.
 
-A cikk elolvasása előtt kell a Service Fabric és mikroszolgáltatások architektúrák alapjait általában működésének megértése. Lásd az alábbi cikkeket:
+A cikk elolvasása előtt lesz a Service Fabric- és mikroszolgáltatás-architektúrák alapjait általában megismeréséhez. Lásd az alábbi cikkeket:
 
 - [Az Azure Service Fabric áttekintése][sf-overview]
-- [Miért egy mikroszolgáltatások közelítik meg az alkalmazások?][sf-why-microservices]
+- [Miért érdemes a mikroszolgáltatás-alapú megközelítést választani alkalmazások?][sf-why-microservices]
 
 
-## <a name="about-the-surveys-application"></a>A felmérések alkalmazással kapcsolatos
+## <a name="about-the-surveys-application"></a>Tudnivalók a Surveys alkalmazás
 
-A 2012-ben a minták és gyakorlatok csoport létrehozása felmérésekkel, egy könyv nevű alkalmazás [több-bérlős alkalmazások fejlesztése a felhő][tailspin-book]. A címjegyzék-alkalmazásával, amely tervez, és megvalósítja az felmérések alkalmazás Dejójáték nevű fiktív vállalat ismerteti.
+A 2012-ben a minták és gyakorlatok csoport létrehozása nevű könyvekhez Surveys, nevű alkalmazás [több-bérlős alkalmazások fejlesztése a felhőhöz][tailspin-book]. A könyv tervez, és implementálja a Surveys alkalmazás Tailspin nevű fiktív vállalat ismerteti.
 
-Felmérések egy több-bérlős alkalmazás, amely lehetővé teszi az ügyfelek felmérések létrehozásához. Miután az ügyfél előfizet az alkalmazást, az ügyfél szervezetében tagjai létrehozását és felmérések közzétételét és az eredményeket elemzéshez gyűjtése. Az alkalmazás egy nyilvános webhely, ahol személyek is igénybe vehet egy felmérés tartalmazza. További információk az eredeti Dejójáték forgatókönyv [Itt][tailspin-scenario].
+Felmérések egy több-bérlős alkalmazásban, amely lehetővé teszi az ügyfelek számára, hogy felmérések létrehozása. Után az alkalmazás regisztrál egy ügyfél, az ügyfél a szervezet tagjai létrehozása és közzététele felmérések, és az elemzési eredmények gyűjtése. Az alkalmazás egy nyilvános webhely, ahol személyek is igénybe vehet egy kérdőív tartalmaz. További információ az eredeti Tailspin forgatókönyv [Itt][tailspin-scenario].
 
-Most Dejójáték szeretné a felmérések alkalmazást, a mikroszolgáltatások architektúrára épülő Azure-on futó Service Fabric használatával. Az alkalmazás már üzembe van helyezve a Felhőszolgáltatások alkalmazásként, mert a Dejójáték egy több fázisban megközelítés fogad el:
+Most Tailspin szeretne áthelyezni a Surveys alkalmazás mikroszolgáltatási architektúrára, az Azure-ban futó Service Fabric használatával. Az alkalmazás a Cloud Services-alkalmazás már telepítve van, mert a Tailspin a többfázisú megközelítés fogad el:
 
-1.  Port a felhőszolgáltatások, hogy a Service Fabric, ugyanakkor minimalizálja a módosításokat.
-2.  Az alkalmazás optimalizálása a Service Fabric egy mikroszolgáltatások architektúra áthelyezésével.
+1.  Port a cloud services, Service fabric, miközben minimálisra csökkentik a módosításokat.
+2.  A Service fabric, az alkalmazás optimalizálása a mikroszolgáltatási architektúra való váltással.
 
-Ez a cikk ismerteti az első fázisban. Egy újabb cikk ismerteti, a második fázisa. Valós projektben valószínű, hogy mindkét szakaszból átfedésben lenne. A Service Fabric eljárás, miközben is kezdenie Újratervezés micro-szolgáltatások az alkalmazást. Később, előfordulhat, hogy pontosítsa az architektúra emellett esetleg felosztásával coarse-grained szolgáltatások kisebb-szolgáltatás.  
+Ez a cikk bemutatja az első fázisa. Egy újabb cikk azt ismerteti, a második fázisa. A való életből vett projektben akkor valószínű, hogy mindkét szakaszok átfedésben lenne. A Service Fabric-re portol, miközben is el Újratervezés mikroszolgáltatások az alkalmazást. Később, előfordulhat, hogy finomíthatja az architektúra emellett talán értékkel való osztásának coarse-grained szolgáltatások kisebb szolgáltatásba.  
 
-Az alkalmazás kódja megtalálható [GitHub][sample-code]. A tárház tartalmaz, a Cloud Services alkalmazás és a Service Fabric-verzió. 
+Az alkalmazás kódja megtalálható [GitHub][sample-code]. Ebben a tárházban a Cloud Services-alkalmazás és a Service Fabric-verziót is tartalmazza. 
 
-> A felhőalapú szolgáltatás nem az eredeti alkalmazás frissített verzióját a *több-bérlős alkalmazások fejlesztése* címjegyzék-alkalmazásával.
+> A felhőszolgáltatások, az eredeti alkalmazás frissített verzióját a *több-bérlős alkalmazások fejlesztése* címjegyzék-alkalmazásával.
 
-## <a name="why-microservices"></a>Miért mikroszolgáltatások létrehozására?
+## <a name="why-microservices"></a>Miért érdemes Mikroszolgáltatásokat?
 
-Egy részletes ismertető a mikroszolgáltatások nem ez a cikk terjed, de itt Dejójáték reméli mikroszolgáltatások-architektúra mozgatásával megszerezni előnyöket nyújtja:
+Mikroszolgáltatások veszik górcső alá nem ez a cikk terjed, de Íme néhány a Tailspin reméli beszerezni a mikroszolgáltatási architektúra helyezi át a szolgáltatásokat:
 
-- **Alkalmazásfrissítések**. Szolgáltatások egymástól függetlenül, telepíthető, így egy alkalmazás frissítése egy növekményes módszert is igénybe vehet.
-- **Rugalmasság és a hibatűrés elkülönítési**. Ha nem sikerül egy szolgáltatás, más szolgáltatásokkal tovább futnak.
+- **Alkalmazásfrissítések**. Szolgáltatások egymástól függetlenül, telepíthető, így egy alkalmazás frissítéséhez, egy növekményes módszert is igénybe vehet.
+- **Rugalmasság és a tartalék elkülönítési**. Ha egy szolgáltatás meghibásodik, más szolgáltatások tovább futnak.
 - **Méretezhetőség**. A szolgáltatások egymástól függetlenül skálázhatók.
-- **Rugalmasság**. Üzleti forgatókönyvek, nem egy technológia csomagokat, így könnyebben szolgáltatások áttelepítése új technológiákat, a keretrendszer vagy tárolók körül szolgáltatást tervezték.
-- **Gyors fejlesztési**. Egyes szolgáltatások kevesebb mint egy egységes alkalmazás kódot, a kód alap könnyebb megismerkedett, okát, és teszteléséhez.
-- **Kis méretű, célzott csapatok**. Az alkalmazás számos kis szolgáltatás bontani, mert minden egyes szolgáltatás épül fel egy kis célzott csoportnak.
+- **Rugalmasság**. Szolgáltatások köré üzleti forgatókönyvek esetén nem elegyét, ami megkönnyíti az új technológiák, keretrendszerek, vagy adattárakon szolgáltatások áttelepítése.
+- **Rugalmas fejlesztés**. Egyes szolgáltatások kevesebb, mint a monolitikus alkalmazásoké kód, így a kód alap egyszerűbb való megértéséhez, OK, és tesztelése.
+- **Kis méretű, célzott csapatok**. Az alkalmazást több kis szolgáltatásra bontani, mert a is egy kis célzott fejlesztőcsapata által készített minden szolgáltatáshoz.
 
-## <a name="why-service-fabric"></a>Miért Service Fabric?
+## <a name="why-service-fabric"></a>Miért érdemes a Service Fabric?
       
-A Service Fabric remekül beválik, ha egy mikroszolgáltatások architektúrája miatt a szükséges elosztott rendszer szolgáltatások többsége a Service Fabric, beleértve a beépített:
+A Service Fabric jó megoldás lehet a mikroszolgáltatási architektúra, azért, mert a Service Fabric, beleértve az elosztott rendszerekben szolgáltatásait a legtöbb beépített:
 
-- **Felügyeleti fürt**. A Service Fabric automatikusan kezeli a csomópontok feladatátvételét hiba, állapotfigyelést és egyéb fürt felügyeleti funkciót.
-- **Horizontális skálázás**. Amikor csomópontot ad hozzá a Service Fabric-fürt, az alkalmazás automatikusan arányosan, ahogy a szolgáltatásokat az új csomópontok különböző pontjain.
+- **A fürt felügyeleti**. A Service Fabric automatikusan kezeli a csomópontok feladatátvételét hiba, szolgáltatásállapot-figyelést és más fürt felügyeleti funkcióit.
+- **Horizontális skálázás**. Ha csomópontot ad hozzá egy Service Fabric-fürtöt, az alkalmazás automatikusan skálázza a kapacitást, módon szolgáltatásokat az új csomópontok között oszlanak meg.
 - **A szolgáltatásészlelés**. A Service Fabric egy olyan felderítési szolgáltatást nyújt, amellyel feloldható egy elnevezett szolgáltatás végpontja.
-- **Állapot nélküli és állapotalapú szolgáltatással**. Állapotalapú szolgáltatások használata [megbízható gyűjtemények][sf-reliable-collections], amely egy gyorsítótár-vagy várólista végrehajthatók, és lehet particionálni.
-- **Alkalmazás-életciklus kezelésének**. Szolgáltatások frissítése egymástól függetlenül és az alkalmazás leállítása nélkül.
-- **Vezénylési szolgáltatás** gépet fürtön belül.
-- **Magasabb sűrűség** optimalizálási hálózatierőforrás-fogyasztás. Egyetlen csomópont, rendelkezhet több szolgáltatásra.
+- **Állapot nélküli és állapotalapú szolgáltatások**. Állapotalapú szolgáltatások használatát [a reliable collections][sf-reliable-collections], amely egy gyorsítótárban vagy üzenetsor helye is igénybe vehet, és lehet particionálni.
+- **Alkalmazáséletciklus-kezelés**. Szolgáltatások egymástól függetlenül, az alkalmazás leállás nélkül frissíthetők.
+- **Vezénylési szolgáltatás** Vezényel számítógépfürtökön.
+- **Nagyobb sűrűsége** az erőforrás-használat optimalizálására. Egyetlen csomópont több szolgáltatást is üzemeltethet.
 
-A Service Fabric használják különböző szolgáltatások, a Microsoft Azure SQL Database, a Cosmos DB, az Azure Event Hubs és mások számára, beleértve a bevált platformmá elosztott felhőalapú alkalmazások így. 
+A Service Fabric egy elosztott felhőalkalmazások létrehozásához már bizonyítottan megbízható platformra így számos Microsoft-szolgáltatás, beleértve az Azure SQL Database, Cosmos DB, az Azure Event Hubs és mások, használatára szolgál. 
 
-## <a name="comparing-cloud-services-with-service-fabric"></a>A Service Fabric felhőalapú szolgáltatások összehasonlítása
+## <a name="comparing-cloud-services-with-service-fabric"></a>Cloud Services és a Service Fabric összehasonlítása
 
-A következő táblázat összefoglalja néhány fontos Cloud Services és a Service Fabric-alkalmazások közötti különbséget. Részletesebb leírását, lásd: [áttelepítése előtt Cloud Services és a Service Fabric közötti különbségekről további alkalmazások][sf-compare-cloud-services].
+Az alábbi táblázatban összefoglaltuk a Cloud Services és a Service Fabric-alkalmazások közötti különbség. Részletesebb, lásd: [való migrálás előtt a Cloud Services és a Service Fabric közötti különbségekről további alkalmazások][sf-compare-cloud-services].
 
 |        | Cloud Services | Service Fabric |
 |--------|---------------|----------------|
 | Alkalmazás összeállítása | Szerepkörök| Szolgáltatások |
-| Sűrűség |Egy szerepkörpéldány virtuális gépenként | Az egyetlen csomópont több szolgáltatás |
-| Csomópontok minimális száma | 2 / szerepkör | az üzemi környezetek fürtönként 5 |
-| Állapotkezelés | Állapot nélküli | Stateless vagy állapotalapú alkalmazások és szolgáltatások |
-| Hosting | Azure | Felhőalapú vagy helyszíni |
+| Sűrűség |Egy szerepkörpéldány virtuális gépenként | Az egyetlen csomópont több szolgáltatást |
+| Csomópontok minimális száma | 2 / szerepkör | fürtönként, éles környezetekben üzemelő példányok 5 |
+| Állapotkezelés | Állapot nélküli | Állapot nélküli vagy állapotalapú |
+| Hosting | Azure | Felhőalapú vagy helyszíni. |
 | Webes üzemeltetés | IIS** | Self-hosting |
-| Üzemi modell | [Klasszikus telepítési modell][azure-deployment-models] | [Erőforrás-kezelő][azure-deployment-models]  |
-| Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szervizcsomagok |
-| Alkalmazás frissítése | Virtuális IP-címek felcserélése vagy működés közbeni frissítés | Működés közbeni frissítés |
-| Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Automatikus Virtuálisgép-méretezési készlet horizontális felskálázása |
+| Üzemi modell | [Klasszikus üzemi modellben][azure-deployment-models] | [Erőforrás-kezelő][azure-deployment-models]  |
+| Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szolgáltatási csomagok |
+| Alkalmazás frissítése | Virtuális IP-címek felcserélése vagy működés közbeni frissítés | A működés közbeni frissítés |
+| Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Az automatikus Virtuálisgép-méretezési csoportok horizontális felskálázás |
 | Hibakeresés | Helyi emulátor | Helyi fürt |
 
 
-\* Állapotalapú alkalmazások és szolgáltatások használatát szolgáltatások [megbízható gyűjtemények] [ sf-reliable-collections] állapot tárolására replikák között, amelyek minden olvasási helyi a fürt csomópontjaihoz. Írás a megbízhatóság csomópontok replikálódnak. Állapotmentes szolgáltatások rendelkezhet külső állapotot, egy adatbázist, vagy más külső tárolási.
+\* Állapotalapú szolgáltatások használatát [a reliable collections] [ sf-reliable-collections] -állapotának tárolására replikák között, hogy olvasások helyi a fürt csomópontjaihoz. Írási műveletek replikálódnak a megbízhatóság csomópontok között. Állapotmentes szolgáltatások rendelkezhet külső állapotuk, adatbázis vagy más külső tárolási használatával.
 
-** Feldolgozói szerepkörök saját maguk is tárolhatja, ASP.NET Web API OWIN használatával.
+** Feldolgozói szerepkörök is üzemeltethető helyi ASP.NET Web API OWIN-t használ.
 
-## <a name="the-surveys-application-on-cloud-services"></a>Az felmérések alkalmazást, a Cloud Services csomag
+## <a name="the-surveys-application-on-cloud-services"></a>A Surveys alkalmazás a Cloud Services
 
-Az alábbi ábrán az a Cloud Services felmérések alkalmazás architektúráját mutatja be. 
+Az alábbi ábrán a Surveys alkalmazás futtatása a Cloud Services architektúráját mutatja be. 
 
 ![](./images/tailspin01.png)
 
-Az alkalmazás két webes és feldolgozói szerepkörök áll.
+Az alkalmazás két webes és feldolgozói szerepkör áll.
 
-- A **Tailspin.Web** webes szerepkör egy ASP.NET-webhely Dejójáték a felhasználók által használt létrehozásához és kezeléséhez felmérések futtatja. Az ügyfelek is alkalmas erre a webhelyre iratkozzon fel az alkalmazás és az előfizetések kezelése. Végezetül Dejójáték rendszergazdái azt a bérlők listáját és kezeli a bérlői adatforgalom. 
+- A **Tailspin.Web** webes szerepkör futtatja az ASP.NET-webhely Tailspin ügyfelek által használt hozhat létre és kezelhet felmérések. Ügyfelek is használhatja ezt a webhelyet az alkalmazás regisztráljon, és előfizetéseiket. Végül Tailspin rendszergazdák használhatják azt bérlők listájának megtekintéséhez, és a bérlői adatok kezeléséhez. 
 
-- A **Tailspin.Web.Survey.Public** webes szerepkör futtatja egy ASP.NET-webhely, ahol személyek Dejójáték ügyfelek közzététele felmérések vehet igénybe. 
+- A **Tailspin.Web.Survey.Public** webes szerepkör futtatja az ASP.NET-webhely, ahol személyek is igénybe vehet a felmérések, amelyek a Tailspin ügyfelek közzététele. 
 
-- A **Tailspin.Workers.Survey** feldolgozói szerepkör háttérbeli feldolgozás. A webes szerepkörök munkaelemek helyezze a várólista-kiszolgálóra, és a feldolgozói szerepkör feldolgozza az elemeket. Két háttérfeladatok meghatározott: felmérés exportálása megválaszolja az Azure SQL Database, és kiszámításának statisztikája megtekintheti a válaszokat.
+- A **Tailspin.Workers.Survey** feldolgozói szerepkör háttérbeli feldolgozásra. A webes szerepkörök munkaelemek helyezzen be egy üzenetsort, és a feldolgozói szerepkör feldolgozza az elemeket. Két háttérfeladatokat vannak definiálva: felmérés exportálása válaszok az Azure SQL Database és a számítási statisztikája felmérés válaszokat.
 
-Cloud Services mellett a felmérések alkalmazás használja a néhány más Azure-szolgáltatásokkal:
+Mellett a Cloud Services a Surveys alkalmazás egyes más Azure-szolgáltatásokat használja:
 
-- **Az Azure Storage** tároló felmérésekkel, felmérésekkel válaszok és bérlői kapcsolatos információkat.
+- **Az Azure Storage** store felmérések, surveys válaszokat és bérlői kapcsolatos információkat.
 
-- **Azure Redis Cache** gyorsítótárazza a gyorsabb olvasási hozzáférés az Azure Storage tárolt adatok egy részét. 
+- **Az Azure Redis Cache** egyes gyorsabb olvasási hozzáféréssel az Azure Storage, tárolt adatok gyorsítótárazásához. 
 
-- **Az Azure Active Directory** (az Azure AD) segítségével hitelesíti az ügyfelek és Dejójáték rendszergazdák.
+- **Az Azure Active Directory** hitelesítésére az ügyfelek és a Tailspin rendszergazdák (Azure AD).
 
-- **Az Azure SQL Database** elemzés felmérés válaszait tárolásához. 
+- **Az Azure SQL Database** tárolására elemzés céljából a felmérés válaszokat. 
 
 ## <a name="moving-to-service-fabric"></a>A Service Fabric áthelyezése
 
-Ahogy azt korábban említettük, a cél az ebben a fázisban a minimálisan szükséges változtatásokat a Service Fabric lett áttelepíti. Ebből a célból létrehozott minden felhőalapú szolgáltatás szerepkör az eredeti alkalmazásban megfelelő állapotmentes szolgáltatásokhoz:
+Ahogy már említettük, a cél az ebben a fázisban a minimálisan szükséges módosításokat a Service Fabric volt áttelepítés. Ebből a célból létrehozott minden egyes felhőszolgáltatási szerepkör az eredeti alkalmazás megfelelő állapotmentes szolgáltatások:
 
 ![](./images/tailspin02.png)
 
-Szándékosan Ez az architektúra nagyon hasonlít az eredeti alkalmazást. A diagram azonban néhány fontos különbség elrejti. Ez a cikk a többi azt fogja megismerkedhet ezen eltérésekhez. 
+Ez az architektúra szándékosan nagyon hasonlít az eredeti alkalmazás. A diagram elrejti a azonban néhány fontos eltérés. Ez a cikk a többi azt vizsgáljuk meg ezeket a különbségeket. 
 
 
-## <a name="converting-the-cloud-service-roles-to-services"></a>A felhőszolgáltatás szerepköreit konvertálása szolgáltatások
+## <a name="converting-the-cloud-service-roles-to-services"></a>A cloud service szerepkörök konvertálása szolgáltatások
 
-Ahogy azt korábban említettük, a Microsoft minden felhő szerepkör-szolgáltatás a Service Fabric-szolgáltatás át. Mivel a felhőszolgáltatás szerepköreit állapotmentes, ebben a szakaszban azt végrehajtott állapotmentes szolgáltatások létrehozására a Service Fabric logika. 
+Ahogy már említettük, hogy minden egyes felhőszolgáltatási szerepkör Service Fabric-szolgáltatás át. Mivel a felhőszolgáltatásokhoz tartozó szerepkörök állapot nélküli, ebben a szakaszban azt kézenfekvő választás a Service Fabric állapotmentes szolgáltatások létrehozásához. 
 
-Az áttelepítés azt leírt lépéseket követte [útmutató a webes és feldolgozói szerepkörök konvertálása a Service Fabric állapotmentes szolgáltatások][sf-migration]. 
+Az áttelepítés, hogy követte a lépéseket leírt [útmutató a webes és feldolgozói szerepkörök a Service Fabric állapotmentes szolgáltatások konvertálása][sf-migration]. 
 
 ### <a name="creating-the-web-front-end-services"></a>A webes előtér-szolgáltatás létrehozása
 
-A Service Fabric szolgáltatás egy folyamatot, a Service Fabric-futtatókörnyezet által létrehozott belül fut. A webes előtér, amely azt jelenti, hogy a szolgáltatás nem fut az IIS belül. Ehelyett a szolgáltatás egy webkiszolgálót kell tárolni. Ezt a módszert nevezik *önálló üzemeltető*, mert a kódot, amely belül a folyamat fut gazdaként a web server. 
+A Service Fabric segítségével a szolgáltatás fut a folyamat hozta létre a Service Fabric-futtatókörnyezet. Egy előtér-webkiszolgáló, az azt jelenti, hogy a szolgáltatás nem fut az IIS belül. Ehelyett a szolgáltatás egy webkiszolgáló kell futtatni. Ezt a módszert nevezik *helyi üzemeltetés*, mert a kódot, amely a folyamat fut a web server gazdagép funkcionál. 
 
-Önálló gazdagép követelmény azt jelenti, hogy a Service Fabric-szolgáltatás nem használható az ASP.NET MVC vagy ASP.NET Web Forms keretrendszerre, mivel ezen keretrendszerek IIS-t igényelnek, és nem támogatják az önálló üzemeltető. Az önálló üzemeltetési lehetőségek a következők:
+Az a követelmény integrációsmodul azt jelenti, Service Fabric-szolgáltatás nem használható az ASP.NET MVC- vagy ASP.NET Web Forms, mert ezek a keretrendszerek IIS-t igényelnek, és nem támogatja a helyi tároló. A helyi üzemeltetési lehetőségek a következők:
 
-- [Az ASP.NET Core][aspnet-core], önálló üzemeltetett használatával a [vércse] [ kestrel] webkiszolgáló. 
-- [ASP.NET webes API-k][aspnet-webapi], önálló üzemeltetett használatával [OWIN][owin].
-- Többek között külső keretrendszerek [Nancy](http://nancyfx.org/).
+- [ASP.NET Core][aspnet-core], saját üzemeltetésű használatával a [Kestrel] [ kestrel] webkiszolgáló. 
+- [ASP.NET webes API-k][aspnet-webapi], saját üzemeltetésű használatával [OWIN][owin].
+- Külső keretrendszereket, mint például [Nancy](http://nancyfx.org/).
 
-Az eredeti felmérések alkalmazást ASP.NET MVC használja. ASP.NET MVC a Service Fabric önálló nem futhat, mert azt az alább áttelepítési lehetőségek figyelembe venni:
+Az eredeti Surveys alkalmazás ASP.NET MVC használ. ASP.NET MVC a Service Fabric helyi nem futhat, mert azt az alábbi áttelepítési lehetőségek figyelembe venni:
 
-- A webes szerepkörök az ASP.NET Core, amely lehet önálló központi portot.
-- A webhely átalakítása egy egyoldalas alkalmazás (SPA), amely meghívja a webes API-k megvalósított ASP.NET Web API használatával. Ez igényelt volna az előtér-webkiszolgáló teljes újratervezése.
-- Tartsa a meglévő ASP.NET MVC-kódot, és telepítheti a Windows Server tárolóban lévő IIS Service Fabric. Ez a megközelítés igényelnének kevéssé vagy egyáltalán ne kód módosítása. 
+- A webes szerepkörök, az ASP.NET Core, amely lehet helyi portot.
+- A webhely átalakítása egy egyoldalas alkalmazás (SPA), amely meghívja a webes API-k ASP.NET Web API használatával implementált. Ez a következőkre lenne szükség a webes kezelőfelület teljes újratervezése.
+- Tartani a meglévő ASP.NET MVC-kódot, és a egy Windows Server-tárolót az IIS telepítése Service Fabricre. Ez a megközelítés kellene vagy kód módosítása nélkül. 
 
-Az első lehetőség, az ASP.NET Core eljárás engedélyezett, hogy az ASP.NET Core a legújabb funkciók előnyeit. Az átalakítás végrehajtásához igazolnia követni leírt lépések [áttelepítése az ASP.NET MVC az ASP.NET Core MVC][aspnet-migration]. 
+Az első lehetőség, az ASP.NET Core, portolása engedélyezett számunkra, hogy az ASP.NET Core a legújabb funkciók előnyeinek kihasználása. Ehhez a konvertálási, hogy követte a lépéseket, ismertetett [áttelepítése az ASP.NET MVC, ASP.NET Core MVC][aspnet-migration]. 
 
 > [!NOTE]
-> Ha az ASP.NET Core használ vércse, helyezze elé, biztonsági okokból az internetről érkező forgalmat fog kezelni vércse fordított proxykiszolgálójaként. További információkért lásd: [vércse web server ASP.NET Core implementációjában][kestrel]. A szakasz [az alkalmazás telepítése](#deploying-the-application) ajánlott az Azure-telepítés ismerteti.
+> A Kestrel az ASP.NET Core használatakor egy fordított proxy forgalom az internetről, biztonsági okokból kezeléséhez a Kestrel elé helyezze. További információkért lásd: [Kestrel web server implementáció, az ASP.NET Core][kestrel]. A szakasz [az alkalmazás üzembe helyezése](#deploying-the-application) ismerteti az Azure az üzembe helyezés javasolt.
 
-### <a name="http-listeners"></a>HTTP-figyelője
+### <a name="http-listeners"></a>HTTP-figyelők
 
-A felhőalapú szolgáltatások egy webes vagy feldolgozói szerepkör HTTP-végponttal mutatja is deklarálni kell legyen a [szolgáltatásdefiníciós fájl][cloud-service-endpoints]. A webes szerepkörnek rendelkeznie kell legalább egy végpontot.
+A Cloud Services, egy webes vagy feldolgozói szerepkör tesz közzé egy HTTP-végpontot a deklarálásával a [szolgáltatásdefiníciós fájl][cloud-service-endpoints]. Webes szerepkör legalább egy végponttal rendelkeznie kell.
 
 ```xml
 <!-- Cloud service endpoint -->
@@ -160,7 +160,7 @@ A felhőalapú szolgáltatások egy webes vagy feldolgozói szerepkör HTTP-vég
 </Endpoints>
 ```
 
-Hasonlóképpen a Service Fabric-végpontok egy szolgáltatás jegyzékfájlban deklarált: 
+Ehhez hasonlóan a Service Fabric-végpontok a szolgáltatás jegyzékfájlban deklarált: 
 
 ```xml
 <!-- Service Fabric endpoint -->
@@ -169,23 +169,23 @@ Hasonlóképpen a Service Fabric-végpontok egy szolgáltatás jegyzékfájlban 
 </Endpoints>
 ```
 
-Egy felhőalapú szolgáltatás szerepkör eltérően azonban a Service Fabric-szolgáltatások is elhelyezhető belül ugyanahhoz a csomóponthoz. Minden szolgáltatás, ezért egy különálló porttal kell figyelni. A cikk későbbi részében mutatjuk hogyan beolvasása irányított ügyfélkéréseket a 80-as port vagy a 443-as portot a szolgáltatás a megfelelő porthoz.
+Egy felhőalapú szolgáltatás szerepkör eltérően azonban a Service Fabric-szolgáltatások is elhelyezhető ugyanazon a csomóponton belül. Ezért minden szolgáltatás egy különálló porttal kell figyelnie. Ez a cikk későbbi részében mutatjuk meg, hogyan ügyfélkérelmek a 80-as portot vagy a 443-as porton van irányítva a szolgáltatás a megfelelő porthoz.
 
-Egy szolgáltatás, explicit módon létre kell hoznia figyelői végpontok. A hiba oka, hogy a Service Fabric független kommunikációs verem kapcsolatban-e. További információkért lásd: [egy szolgáltatás előtér-webkiszolgáló az ASP.NET Core segítségével az alkalmazás összeállítása][sf-aspnet-core].
+Egy szolgáltatás, explicit módon létre kell hoznia figyelői végpontok. A hiba oka, hogy a Service Fabric a független kapcsolatos kommunikáció implementációt. További információkért lásd: [előtérrendszereket hozhat létre web service használata az ASP.NET Core alkalmazás][sf-aspnet-core].
 
-## <a name="packaging-and-configuration"></a>Csomagolás és konfigurálása
+## <a name="packaging-and-configuration"></a>Formátumokat támogató csomagolási és konfiguráció
 
- Egy felhőalapú szolgáltatás a következő konfigurációs és a csomag fájlokat tartalmazza:
+ Egy felhőalapú szolgáltatás a következő konfigurációs és a csomagmegosztás fájlokat tartalmazza:
 
 | Fájl | Leírás |
 |------|-------------|
-| Szolgáltatás definíciós (.csdef) | A felhőszolgáltatás konfigurálása az Azure-ban használt beállításokat. Határozza meg a szerepköröket, végpontok, indítási feladatok és a konfigurációs beállítások neveit. |
-| Szolgáltatás konfigurációs (.cscfg) | Egy központi telepítési beállításokat, beleértve a szerepkörpéldányok számát, a végpont portszámok és a konfigurációs beállítások értékeit. 
-| Szolgáltatás csomagba (.cspkg) | Tartalmazza az alkalmazás kódjában és konfigurációk és a szolgáltatásdefiníciós fájlban.  |
+| szolgáltatás definíciós (.csdef) | A felhőszolgáltatás konfigurálása az Azure által használt beállításokat. A szerepkörök, a végpontok, az indítási feladatok és a konfigurációs beállítások neveit határozza meg. |
+| szolgáltatás konfigurációs (.cscfg) | Egy központi telepítési beállítások, beleértve a szerepkörpéldányok számát, a végpont portszámokat és a konfigurációs beállítások értékeit. 
+| Felhőszolgáltatás csomagjához (.cspkg) | Az alkalmazás kódja és konfigurációkat, és a szolgáltatásdefiníciós fájlt tartalmazza.  |
 
-Van egy .csdef fájl a teljes alkalmazás esetében. Több különböző környezetekben, például helyi .cscfg-fájlok, tesztelési vagy éles lehet. Ha a szolgáltatás fut, a .cscfg, de a .csdef nem frissíthető. További információkért lásd: [Mi a felhőalapú szolgáltatás modell, és hogyan tegye csomag azt?][cloud-service-config]
+Van egy .csdef fájl a teljes alkalmazás esetében. Több különböző környezetek, például a local .cscfg-fájlok, tesztelési vagy éles rendelkezhet. Ha a szolgáltatás fut, a .cscfg, de a .csdef nem frissítheti. További információkért lásd: [Mi a Cloud Service-modell, és hogyan tegye Becsomagolhatja azt?][cloud-service-config]
 
-A Service Fabric rendelkezik egy hasonló osztás szolgáltatás közötti *definition* és szolgáltatás *beállítások*, de a struktúra részletesebb. Szeretné megtudni, a Service Fabric konfigurációs modell, segít megérteni, hogyan lesz csomagolva a Service Fabric-alkalmazás. Ez a struktúra:
+A Service Fabric rendelkezik egy hasonló osztás szolgáltatás közötti *definíció* és a szolgáltatás *beállítások*, de a struktúra még finomabban szabályozható. Tudni, hogy a Service Fabric konfigurációs modell, ez segít megérteni, hogyan a Service Fabric-alkalmazás van csomagolva. A struktúra a következő:
 
 ```
 Application package
@@ -195,104 +195,104 @@ Application package
     - Data package (optional)
 ```
 
-Az alkalmazáscsomag, akkor telepíteni. Egy vagy több szolgáltatás csomagokat tartalmaz. A szolgáltatáscsomagot a kódot, a konfiguráció és az adatok csomagot tartalmaz. A kódcsomag a szolgáltatások bináris fájljait tartalmazza, és a konfigurációs csomag konfigurációs beállításait tartalmazza. Ez a modell lehetővé teszi a teljes alkalmazás üzembe helyezésével egyedi szolgáltatások frissítésére. Lehetővé teszi a frissítés csak a konfigurációs beállításokat, ismételt üzembe helyezéssel a kódot, vagy a szolgáltatás újraindítása nélkül.
+Az alkalmazáscsomag, üzembe helyezése. Egy vagy több szolgáltatási csomagot tartalmazza. A service-csomag kódját, konfiguráció és adatok csomagot tartalmaz. A kódcsomag tartalmazza a szolgáltatások bináris fájljait, és a konfigurációs csomagot konfigurációs beállításait tartalmazza. Ez a modell lehetővé teszi, hogy frissítse az egyes szolgáltatásokat a teljes alkalmazás újbóli telepítése nélkül. Ezenkívül lehetővé teszi az újbóli üzembe helyezés a kódot, vagy a szolgáltatás újraindítása nélkül csak a konfigurációs beállítások frissítése.
 
-A Service Fabric-alkalmazás a következő konfigurációs fájlokat tartalmazza:
+Service Fabric-alkalmazás a következő konfigurációs fájlokat tartalmazza:
 
 | Fájl | Hely | Leírás |
 |------|----------|-------------|
-| ApplicationManifest.xml | Alkalmazáscsomag | Határozza meg a szolgáltatásokat, amelyeket az alkalmazás összeállítása. |
-| ServiceManifest.xml | Szolgáltatáscsomag| Egy vagy több szolgáltatást ismerteti. |
-| Settings.XML | Konfigurációs csomag | A szolgáltatások a szolgáltatás csomagban meghatározott konfigurációs beállításait tartalmazza. |
+| ApplicationManifest.xml | Alkalmazáscsomag | Meghatározza a szolgáltatások, az alkalmazás alkotó. |
+| ServiceManifest.xml | Szolgáltatási csomag| Egy vagy több szolgáltatást ismerteti. |
+| Settings.XML | Konfigurációs csomag feltöltése | A szolgáltatások, a service csomagban meghatározott konfigurációs beállításait tartalmazza. |
 
-További információkért lásd: [egy alkalmazás a Service Fabric modell][sf-application-model].
+További információkért lásd: [minta Service Fabric-alkalmazásokhoz][sf-application-model].
 
-A különböző konfigurációs beállítások több környezetek támogatásához a következő módszert használja, leírt [alkalmazás paramétereinek több környezet kezelése][sf-multiple-environments]:
+Támogatja a különböző konfigurációs beállítások több környezethez, használja a következő módon, ismertetett [kezelése több környezethez alkalmazásparamétereket][sf-multiple-environments]:
 
-1. A szolgáltatás Setting.xml fájlban adja meg a beállítást.
-2. Az alkalmazás jegyzékében egy felülbírálást a beállítás határozza meg.
-3. Környezet beállításokat alkalmazásparaméter-fájlokat kell helyezni.
+1. A szolgáltatás a Setting.xml fájlban adja meg a beállítást.
+2. Az alkalmazásjegyzék határoz meg egy felülbírálást a beállítást.
+3. Környezet-specifikus beállításokat helyezzen alkalmazásparaméter-fájlokat.
 
 
-## <a name="deploying-the-application"></a>Az alkalmazás telepítése
+## <a name="deploying-the-application"></a>Az alkalmazás üzembe helyezése
 
-Azure Cloud Services egy olyan felügyelt szolgáltatás, mivel a Service Fabric futtatókörnyezettel. Service Fabric-fürtök hozhat létre, sok környezetben, beleértve az Azure és a helyszínen. Ez a cikk azt összpontosítani üzembe helyezése az Azure-bA. 
+Mivel az Azure Cloud Services egy felügyelt szolgáltatás, a Service Fabric-futtatókörnyezet a. Sok környezetben, beleértve az Azure és helyszíni Service Fabric-fürtöket hozhat létre. Ebben a cikkben koncentrálunk üzembe helyezése az Azure-bA. 
 
-Az alábbi ábrán látható javasolt üzembe helyezési forgatókönyv:
+Az alábbi ábrán látható az üzembe helyezés javasolt:
 
 ![](./images/tailspin-cluster.png)
 
-A Service Fabric-fürt központi telepítése egy [Virtuálisgép-méretezési készlet][vm-scale-sets]. Méretezési csoportok az Azure számítási erőforrás üzembe helyezését, és az azonos virtuális gépek kezelésére használható. 
+A Service Fabric-fürtöt helyezünk üzembe egy [Virtuálisgép-méretezési csoportot][vm-scale-sets]. A méretezési csoportok olyan Azure Compute-üzembe helyezéséhez és az azonos virtuális gépek kezelésére használható erőforrások. 
 
-Ahogy azt korábban említettük, a vércse webkiszolgáló fordított proxy biztonsági okokból szükséges. Ez az ábra mutatja [Azure Application Gateway][application-gateway], vagyis az Azure-szolgáltatások, amelyek különböző réteg 7 terheléselosztási képességeket biztosít. Fordított proxyszolgáltatásként működik, az ügyfélkapcsolatok leállítását és a kérelmek háttérvégpontokhoz való továbbítását végzi. Egy másik fordított proxy megoldással, például az nginx használhatja.  
+Ahogy említettük, a Kestrel webkiszolgáló fordított biztonsági okokból szükséges. Ez a diagram bemutatja [Azure Application Gateway][application-gateway], vagyis egy Azure-szolgáltatás, amely számos 7. rétegbeli terheléselosztási lehetőséget nyújt. Fordított proxyszolgáltatásként működik, az ügyfélkapcsolatok leállítását és a kérelmek háttérvégpontokhoz való továbbítását végzi. Használhat egy másik fordított proxy megoldással, például az nginx-et.  
 
-### <a name="layer-7-routing"></a>7 útválasztási. réteg
+### <a name="layer-7-routing"></a>Útválasztás 7. réteg
 
-Az a [eredeti felmérések alkalmazás](https://msdn.microsoft.com/library/hh534477.aspx#sec21), a 80-as porton figyel egy webes szerepkör, és a 443-as porton figyel a webes szerepkör. 
+Az a [eredeti Surveys alkalmazás](https://msdn.microsoft.com/library/hh534477.aspx#sec21), a 80-as porton figyel egy webes szerepkör és a webes szerepkör 443-as porton figyel. 
 
-| Nyilvános webhely | Felmérés felügyeleti webhely |
+| Nyilvános webhely | Felmérés felügyeleti hely |
 |-------------|------------------------|
 | `http://tailspin.cloudapp.net` | `https://tailspin.cloudapp.net` |
 
-Egy másik lehetőség, hogy használja a réteg 7 útválasztást. Ezt a módszert használja, az URL-cím elérési útja eltér a háttérben futó különböző portszámokat beolvasása irányítja. Például a nyilvános webhely használhatja kezdetű URL-cím elérési utak `/public/`. 
+Egy másik lehetőség, hogy 7. rétegbeli útválasztási. Ebben a megközelítésben különböző URL-cím elérési első irányítja a rendszer a háttérben különböző portszámokat. Például a nyilvános hely előfordulhat, hogy használja a kezdetű URL-cím elérési utak `/public/`. 
 
-A réteg 7 útválasztáshoz lehetőségek a következők:
+A 7. rétegbeli útválasztási lehetőségek a következők:
 
-- Alkalmazásátjáró használja. 
+- Application Gateway használatára. 
 
-- A hálózati virtuális készülék (NVA), például az nginx használja.
+- Egy hálózati virtuális készüléket (nva-t), például az nginx-et használja.
 
-- Egy egyéni átjáró írható állapotmentes szolgáltatások.
+- Egyéni az átjáró az állapotmentes szolgáltatás írási.
 
-Vegye figyelembe ezt a módszert használja, ha két vagy több szolgáltatás nyilvános HTTP végpontokon rendelkezik, de szeretné, hogy egy hely egy egyetlen tartománynév jelennek meg.
+Fontolja meg ezt a módszert, ha már rendelkezik két vagy több szolgáltatások nyilvános HTTP-végpontokat, de rendezhet egy hely egy egyetlen tartomány nevét.
 
-> Egy közelítik meg, hogy azt *nem* ajánlott engedélyezi, hogy a Service Fabric keresztül kérelmek küldésére külső ügyfelek [fordított proxy][sf-reverse-proxy]. Bár ez lehetséges, a fordított proxy szolgáltatások közötti kommunikációs számára készült. Nyissa meg a külső ügyfeleknek közzététele *bármely* szolgáltatás fut, amely HTTP-végponttal rendelkezik a fürtben.
+> Egy megközelítést, amiben *nem* ajánlott engedélyezi-e a révén a Service Fabric-kérelmeket küldjön a külső ügyfelek [fordított proxy][sf-reverse-proxy]. Bár ez nem lehetséges, a fordított proxy a szolgáltatások közötti kommunikációs szól. Tesz elérhetővé külső ügyfeleknek megnyitással *bármely* szolgáltatás fut a fürtben, amely rendelkezik egy HTTP-végpontot.
 
-### <a name="node-types-and-placement-constraints"></a>Csomóponttípusok és elhelyezési korlátozás
+### <a name="node-types-and-placement-constraints"></a>Csomóponttípusok és elhelyezési korlátozások
 
-A fent látható, a szolgáltatások futnak a csomóponton. Azonban szerint is csoportosíthatók-szolgáltatások, hogy bizonyos szolgáltatásokat csak az adott csomóponton a fürtön belül. Ezt a módszert használja az okai:
+A fenti központi telepítésben lévő összes szolgáltatás az összes csomóponton fut. Azonban is csoportosíthatók. szolgáltatások, így bizonyos szolgáltatások csak az adott csomóponton futnak. Ez a módszer használatának előnyei a következők:
 
-- Egyes szolgáltatások futtatnak különböző Virtuálisgép-típusokon. Például bizonyos szolgáltatásokat lehet, hogy számítási igényű vagy Feldolgozóegységekkel igényelnek. A Service Fabric-fürt Virtuálisgép-típusokon vegyesen lehet.
-- Különítse el a háttér-szolgáltatásaihoz, biztonsági okokból az előtér-szolgáltatásokat. Az előtér-szolgáltatások fog futni, a csomópontok egy készletét, és a háttérszolgáltatások ugyanabban a fürtben lévő különböző csomópontokon fog futni.
-- Különböző méretkövetelményekhez. Egyes szolgáltatások módosítania kell további csomópontján, mint más szolgáltatások futtatásához. Például ha megadja az előtér-csomópontok és a háttér-csomópontok, minden is méretezhető egymástól függetlenül.
+- Egyes szolgáltatások futtatása a virtuális gépek különböző típusairól. Például bizonyos szolgáltatások előfordulhat, hogy nagy számítási igényű vagy gpu-k igényelnek. A Service Fabric-fürt virtuális gép különböző vegyesen használhat.
+- Különítse el a háttér-szolgáltatásaikhoz, biztonsági okokból az előtér-szolgáltatásokat. Az összes előtér-szolgáltatásokat a csomópontok egy készletét fog futni, és a háttérszolgáltatások ugyanabban a fürtben lévő különböző csomópontokon fog futni.
+- Különböző méretezési igényeknek. Egyes szolgáltatások igényelhet, mint a más szolgáltatások további csomópontokon való futtatáshoz. Például, ha megadja az előtérbeli és háttérbeli csomópontok, egyes egymástól függetlenül skálázhatók.
 
-Az alábbi ábrán látható, amely elválasztja az előtér- és szolgáltatások fürt:
+Az alábbi ábrán látható, amely elválasztja az előtérbeli és háttérbeli szolgáltatások fürt:
 
 ![](././images/node-placement.png)
 
 Ez a megközelítés megvalósításához:
 
-1.  Ha a fürt létrehozása két vagy több csomópont típust határoznak meg. 
-2.  Az egyes szolgáltatásokhoz, használjon [placement Constraints korlátozásokat] [ sf-placement-constraints] a szolgáltatás hozzárendelése csomóponttípus.
+1.  A fürt létrehozásakor két vagy több csomópont típust határoznak meg. 
+2.  Az egyes szolgáltatások használata [elhelyezési korlátozások] [ sf-placement-constraints] rendelhet a szolgáltatás a csomópont típusa.
 
-Központi telepítésekor az Azure-ba, az egyes csomóponttípusok telepítve van egy külön Virtuálisgép-méretezési készlet. A Service Fabric-fürt minden csomópont esetében is. További információkért lásd: [Service Fabric csomóponttípusok és a virtuálisgép-méretezési csoportok közötti kapcsolat][sf-node-types].
+Az Azure-ba történő telepítésekor mindegyik csomóponttípus külön Virtuálisgép-méretezési készlet van telepítve. A Service Fabric-fürt minden csomópont típus átnyúlik. További információkért lásd: [Service Fabric-csomóponttípusok és virtuálisgép-méretezési csoportok közötti kapcsolat][sf-node-types].
 
-> Ha egy fürtben több csomóponttípus, egy csomóponttípus van kijelölve a *elsődleges* csomóponttípus. A Service Fabric futásidejű szolgáltatás, a fürt felügyeleti szolgáltatás, például az elsődleges csomóponttípusok futtatható. Az elsődleges csomóponttípusok éles környezetben legalább 5-csomópont kiépítéséhez. A más típusú csomópont rendelkeznie kell legalább 2 csomópontok.
+> Ha egy fürtben több csomóponttípus, csomóponttípussal elsődlegesként lett megjelölve a *elsődleges* typ uzlu. A Service Fabric futásidejű szolgáltatások, például a fürtszolgáltatás felügyeleti futtassa az elsődleges csomóponttípushoz. Az éles környezetben az elsődleges csomóponttípusnak legalább 5 csomópontok kiépítésére. A csomóponttípus rendelkeznie kell legalább 2 csomópontot.
 
-## <a name="configuring-and-managing-the-cluster"></a>A fürt kezelése és konfigurálása
+## <a name="configuring-and-managing-the-cluster"></a>Konfigurálása és a fürt kezelése
 
-Fürtök védetté kell tennie, hogy jogosulatlan felhasználók csatlakozzon a fürthöz. Javasoljuk, hogy az Azure AD segítségével hitelesíti az ügyfeleket, és az-csomópontok biztonsági X.509-tanúsítványokat. További információkért lásd: [Service Fabric-fürt biztonsági forgatókönyvek][sf-security].
+Fürtök kell biztosítani, hogy megakadályozza a jogosulatlan felhasználók csatlakozzanak a fürtön. Javasoljuk, hogy Azure AD használata az ügyfelek és a csomópont és csomópont közötti biztonsághoz X.509 tanúsítványok hitelesítéséhez. További információkért lásd: [Service Fabric-fürtök biztonsági forgatókönyveit][sf-security].
 
-Egy nyilvános HTTPS-végpont konfigurálásához lásd: [adja meg az erőforrásokat. a szolgáltatás jegyzékben][sf-manifest-resources].
+Egy nyilvános HTTPS-végpont beállítása: [erőforrások meghatározása szolgáltatásjegyzékben][sf-manifest-resources].
 
-Az alkalmazás horizontális virtuális gépek felvétele a fürtbe. VM skálázási készletekben támogatási automatikus skálázást alapján teljesítményszámlálók automatikus méretezése szabályokkal. További információkért lásd: [bejövő vagy kimenő automatikus méretezése szabályok használatával a Service Fabric-fürt méretezése][sf-auto-scale].
+Az alkalmazás horizontális virtuális gépek felvétele a fürtbe. Virtuálisgép-méretezési csoportok támogatása automatikus skálázást a teljesítményszámlálók alapján automatikus skálázási szabályok használatával. További információkért lásd: [és leskálázása automatikus skálázási szabályok használatával a Service Fabric-fürt skálázása][sf-auto-scale].
 
-A fürt futása közben, akkor kell gyűjteni a egy központi helyen található minden csomópontot. További információkért lásd: [Naplógyűjtéshez Azure Diagnostics használatával][sf-logs].   
+A fürt futása közben meg kell gyűjteni a központi helyet minden csomópontján. További információkért lásd: [naplók gyűjtése az Azure Diagnostics használatával][sf-logs].   
 
 
 ## <a name="conclusion"></a>Összegzés
 
-A Service Fabric felmérések alkalmazás eljárás lett meglehetősen egyszerű. Összefoglalva, hogy a következő volt:
+A Service Fabric a Surveys alkalmazás portolása volt viszonylag egyszerű. Összefoglalva, amiket a következőket:
 
-- A szerepkörök konvertálva állapotmentes szolgáltatásokhoz.
-- Az előtér-webkiszolgálók alakítja át az ASP.NET Core.
-- A csomag- és konfigurációs fájljait megváltozott a Service Fabric-modellbe.
+- Konvertálja a szerepkörök állapotmentes szolgáltatások.
+- ASP.NET Core webes előtérrendszerek alakítja.
+- A Service Fabric-modellt a csomagolás és a konfigurációs fájlok módosult.
 
-Emellett a telepítési állapotról Felhőszolgáltatások egy Virtuálisgép-méretezési csoportban futó Service Fabric-fürt.
+Emellett a központi telepítés változása: Cloud Services – egy Virtuálisgép-méretezési csoportban futó Service Fabric-fürtön.
 
 ## <a name="next-steps"></a>További lépések
 
-Most, hogy a felmérések alkalmazás legelterjedtebb sikeresen megtörtént, a Dejójáték szeretné kihasználni a Service Fabric-szolgáltatások, például független szolgáltatástelepítés és versioning. Ismerje meg, hogyan Dejójáték kiválasztott ezek a szolgáltatások számára, hogy kihasználja a Service Fabric funkciók részletesebb architektúrát [Azonosítóterületen egy Azure Service Fabric-alkalmazás átemelt Azure Cloud Services csomag][refactor-surveys]
+Most, hogy a Surveys alkalmazás sikeresen már Tailspin szeretné a Service Fabric segédanyaghoz, például a független szolgáltatás üzembe helyezését és verziókezelését. Ismerje meg, hogyan a Tailspin szétbontása ezek a szolgáltatások kihasználásához ezeket a Service Fabric a funkciókat az egy részletesebb architektúra [újrabontása az Azure Service Fabric-alkalmazás migrálása az Azure Cloud Services][refactor-surveys]
 
 <!-- links -->
 

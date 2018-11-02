@@ -2,14 +2,14 @@
 title: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechanizmushoz
 description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechanizmus beállításához.
 author: dragon119
-ms.date: 07/13/2016
+ms.date: 08/13/2018
 pnp.series.title: Best Practices
-ms.openlocfilehash: c5a9bc99c4693f35c38dabcf07b3465add6a8cb1
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 801bcc6e7a296cc9d68a46231461a6b37ebd7de5
+ms.sourcegitcommit: ca5283af555189e830eed7884c83d058fa7ebaa0
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429550"
+ms.lasthandoff: 11/01/2018
+ms.locfileid: "50757807"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -33,7 +33,7 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 | **[SQL Database with ADO.NET](#sql-database-using-adonet)** |[Polly](#transient-fault-handling-with-polly) |Deklaratív és szoftveres |Önálló utasítások vagy kódblokkok |Egyéni |
 | **[SQL Database with Entity Framework](#sql-database-using-entity-framework-6)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
 | **[SQL Database with Entity Framework Core](#sql-database-using-entity-framework-core)** |Natív, az ügyfél része |Szoftveres |Alkalmazástartományonként globális |None |
-| **[Tároló](#azure-storage)** |Natív, az ügyfél része |Szoftveres |Ügyfél- és különálló műveletek |TraceSource |
+| **[Tárolás](#azure-storage)** |Natív, az ügyfél része |Szoftveres |Ügyfél- és különálló műveletek |TraceSource |
 
 > [!NOTE]
 > Az Azure beépített a legtöbb ismételje meg a mechanizmusok, ott jelenleg nem lehet alkalmazni, ha a különböző típusú hiba vagy kivétel eltérő újrapróbálkozási szabályzatok. Az optimális teljesítményt és a rendelkezésre állást biztosító szabályzatot kell konfigurálnia. A szabályzat finomhangolásához elemezze a naplófájlokat, hogy megállapítsa, milyen típusú átmeneti hibák szoktak történni. 
@@ -56,7 +56,7 @@ Az Azure Active Directory beépített újrapróbálkozási mechanizmussal rendel
 
 A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
 
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
 | Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
 | Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
@@ -560,7 +560,7 @@ A Polly kódtárt alkalmazva implementálhatja az újrapróbálkozást az SQL Da
 
 A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
 
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működési elv** |
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
 | Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
 | Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
@@ -709,7 +709,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzat alap�
 
 A következő kezdőbeállításokat javasoljuk az újrapróbálkozási műveletekhez. Az újrapróbálkozási kísérletek közötti késleltetés nem adható meg (rögzített, és egy exponenciális sorozat részeként jön létre). Ha nem hoz létre egyéni újrapróbálkozási stratégiát, csak a maximális értékeket adhatja meg, az itt látható módon. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
 
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működési elv** |
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
 | Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |3<br />750 ms |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 750 ms késleltetés<br />3. kísérlet – 750 ms késleltetés |
 | Háttér<br /> vagy kötegelt |30 másodperc |Exponenciális |MaxRetryCount<br />MaxDelay |5<br />12 másodperc |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 1 mp. késleltetés<br />3. kísérlet – kb. 3 mp. késleltetés<br />4. kísérlet – kb. 7 mp. késleltetés<br />5. kísérlet – 12 mp. késleltetés |
@@ -912,7 +912,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzatok ala
 
 A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.  
 
-| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működési elv** |
+| **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási szabályzat** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
 | Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |Lineáris |maxAttempt<br />deltaBackoff |3<br />500 ms |1. kísérlet – 500 ms késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
 | Háttér<br />vagy kötegelt |30 másodperc |Exponenciális |maxAttempt<br />deltaBackoff |5<br />4 másodperc |1. kísérlet – kb. 3 mp. késleltetés<br />2. kísérlet – kb. 7 mp. késleltetés<br />3. kísérlet – kb. 15 mp. késleltetés |

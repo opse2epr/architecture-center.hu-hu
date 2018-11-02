@@ -2,12 +2,13 @@
 title: A megfelelő adattároló kiválasztása
 description: Az Azure-beli adattárak kiválasztása – áttekintés
 author: MikeWasson
-ms.openlocfilehash: 4836ae1997f86d35d8ab8aa66bbc63b4ef826d23
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.date: 06/01/2018
+ms.openlocfilehash: e9053ec4601e5743d83465f31a883032ea854d6a
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252634"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916281"
 ---
 # <a name="choose-the-right-data-store"></a>A megfelelő adattároló kiválasztása
 
@@ -74,7 +75,7 @@ Kapcsolódó Azure-szolgáltatás: [Cosmos DB][cosmosdb]
 
 A gráfadatbázisok kétféle típusú információt tárolnak: csomópontokat és éleket. A csomópontok entitásokként is felfoghatók. Az élek a csomópontok közötti kapcsolatokat határozzák meg. Mind a csomópontok, mind az élek rendelkezhetnek olyan tulajdonságokkal, amelyek a táblák oszlopaihoz hasonlóan információt nyújtanak az adott csomópontról vagy élről. A szegélyeknek is lehet iránya, amely a kapcsolat természetét jelöli.
 
-A gráfadatbázisok célja az, hogy az alkalmazások számára lehetővé tegyék a csomópontok és élek hálózatát bejáró lekérdezések végrehajtását, illetve hogy elemezzék az entitások közötti kapcsolatokat. Az alábbi ábrán látható, hogy a szervezetek személyzeti adatbázis strukturált, mint egy grafikonon. Az entitások az alkalmazottak és a részlegek, az élek pedig a jelentéskészítési kapcsolatokat jelzik, valamint azt, hogy melyik alkalmazott melyik részlegen dolgozik. Ezen a gráfon az éleken látható nyilak a kapcsolatok irányát jelzik.
+A gráfadatbázisok célja az, hogy az alkalmazások számára lehetővé tegyék a csomópontok és élek hálózatát bejáró lekérdezések végrehajtását, illetve hogy elemezzék az entitások közötti kapcsolatokat. Az alábbi ábrán látható gráfként strukturálva egy vállalat személyzeti adatbázisa. Az entitások az alkalmazottak és a részlegek, az élek pedig a jelentéskészítési kapcsolatokat jelzik, valamint azt, hogy melyik alkalmazott melyik részlegen dolgozik. Ezen a gráfon az éleken látható nyilak a kapcsolatok irányát jelzik.
  
 ![](./images/graph.png)
 
