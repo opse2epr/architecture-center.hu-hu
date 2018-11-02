@@ -2,13 +2,13 @@
 title: Jenkins-kiszolgáló futtatása az Azure-on
 description: Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
 author: njray
-ms.date: 01/21/18
-ms.openlocfilehash: 5f9c54e71a8750e88de1ae633ccc1316f8375d3a
-ms.sourcegitcommit: 0de300b6570e9990e5c25efc060946cb9d079954
+ms.date: 04/30/2018
+ms.openlocfilehash: 89839b0f1c9624176a7b51dca53713070c88b154
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/03/2018
-ms.locfileid: "32323924"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916380"
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -65,7 +65,7 @@ A Jenkins-feladatok az Azure-erőforrásokhoz való hozzáférésének biztosít
 
 Az [RBAC][rbac] segítségével tovább szabályozható a felhasználók vagy egyszerű szolgáltatások hozzáférése az Azure-erőforrásokhoz a hozzárendelt szerepköreik alapján. A beépített és az egyéni szerepkörök egyaránt támogatottak. A szerepkörök segítségével emellett biztonságossá tehető a folyamat, továbbá biztosítható, hogy a felhasználók vagy ügynökök felelősségi körei megfelelően legyenek kiosztva és engedélyezve. Emellett az RBAC beállításával korlátozható az Azure-objektumok elérése is. A felhasználók például kizárólag egy adott erőforráscsoport objektumainak használatára korlátozhatók.
 
-### <a name="storage"></a>Tárolás
+### <a name="storage"></a>Storage
 
 Az Azure Marketplace áruházból telepíthető Jenkins [Windows Azure Storage beépülő modul][storage-plugin] segítségével tárolhatók a más buildekkel és tesztekkel megosztható build-összetevők. Mielőtt ez a beépülő modul használható lenne a Jenkins-feladatokkal, konfigurálni kell egy Azure Storage-fiókot.
 
