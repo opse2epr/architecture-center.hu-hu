@@ -2,13 +2,13 @@
 title: Számítási szolgáltatás Azure-beli kritériumai
 description: Az Azure számítási szolgáltatások összehasonlítása több szempontból között
 author: MikeWasson
-ms.date: 06/13/2018
-ms.openlocfilehash: b7a5b08e1d9a9eba33003b3d478a61388a496272
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.date: 08/08/2018
+ms.openlocfilehash: dbd5314c4c77e83f5b45ef0b49e83860479c8f92
+ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "43016192"
+ms.lasthandoff: 11/02/2018
+ms.locfileid: "50916373"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Számítási szolgáltatás Azure-beli kritériumai
 
@@ -28,7 +28,7 @@ A *számítás* kifejezés azon számítási erőforrások futtatási modelljér
 
 Megjegyzések
 
-1. <span id="note1">Használatalapú csomag használata esetén. App Service-csomag használata esetén a függvények az App Service-csomag részeként kiosztott virtuális gépeken futnak. Lásd: [A megfelelő Azure Functions szolgáltatási csomag kiválasztása][function-plans].</span>
+1. <span id="note1">Használatalapú csomag használata esetén. App Service-csomag használata esetén a függvények az App Service-csomag részeként kiosztott virtuális gépeken futnak. Lásd: A megfelelő Azure Functions szolgáltatási csomag kiválasztása][function-plans].</span>
 2. <span id="note2">Magasabb SLA két vagy több példánnyal.</span>
 3. <span id="note3">Éles környezetben ajánlott.</span>
 4. <span id="note4">Leskálázható nullára a feladat befejezése után.</span>
