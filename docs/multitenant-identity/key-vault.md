@@ -5,12 +5,12 @@ author: MikeWasson
 ms:date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
-ms.openlocfilehash: b6d2e431da85f7c304747df2f804f1714596bfc6
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: a47b8835df1c970ac7c50af78aae73116d6a12b4
+ms.sourcegitcommit: d59e2631fb08665bc30f6b65bfc7e1b75935cbd5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429179"
+ms.lasthandoff: 11/05/2018
+ms.locfileid: "51021950"
 ---
 # <a name="use-azure-key-vault-to-protect-application-secrets"></a>Azure Key Vault használata az alkalmazás titkainak védelmére
 
@@ -221,25 +221,25 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
 ### <a name="update-the-user-secrets"></a>A felhasználó titkos kódok frissítése
 A Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.Web projektet, és válassza ki **felhasználói titkok kezelése**. A secrets.json fájlban törölje a meglévő JSON, és illessze be a következő:
 
-    ```
-    {
-      "AzureAd": {
-        "ClientId": "[Surveys web app client ID]",
-        "ClientSecret": "[Surveys web app client secret]",
-        "PostLogoutRedirectUri": "https://localhost:44300/",
-        "WebApiResourceId": "[App ID URI of your Surveys.WebAPI application]",
-        "Asymmetric": {
-          "CertificateThumbprint": "[certificate thumbprint. Example: 105b2ff3bc842c53582661716db1b7cdc6b43ec9]",
-          "StoreName": "My",
-          "StoreLocation": "CurrentUser",
-          "ValidationRequired": "false"
-        }
-      },
-      "KeyVault": {
-        "Name": "[key vault name]"
-      }
+```json
+{
+  "AzureAd": {
+    "ClientId": "[Surveys web app client ID]",
+    "ClientSecret": "[Surveys web app client secret]",
+    "PostLogoutRedirectUri": "https://localhost:44300/",
+    "WebApiResourceId": "[App ID URI of your Surveys.WebAPI application]",
+    "Asymmetric": {
+      "CertificateThumbprint": "[certificate thumbprint. Example: 105b2ff3bc842c53582661716db1b7cdc6b43ec9]",
+      "StoreName": "My",
+      "StoreLocation": "CurrentUser",
+      "ValidationRequired": "false"
     }
-    ```
+  },
+  "KeyVault": {
+    "Name": "[key vault name]"
+  }
+}
+```
 
 Cserélje le a [szögletes zárójelek] bejegyzést a megfelelő értékekkel.
 
@@ -258,7 +258,7 @@ Mentse a frissített secrets.json fájlt.
 
 Ezután a Megoldáskezelőben kattintson a jobb gombbal a Tailspin.Surveys.WebApi projektet, és válassza ki **felhasználói titkok kezelése**. Törölje a meglévő JSON, és illessze be a következőket:
 
-```
+```json
 {
   "AzureAd": {
     "ClientId": "[Surveys.WebAPI client ID]",

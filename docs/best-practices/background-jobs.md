@@ -2,17 +2,15 @@
 title: Útmutató a háttérfeladatokhoz
 description: Útmutatás a felhasználói felülettől függetlenül futó háttérfeladatokhoz.
 author: dragon119
-ms.date: 05/24/2017
-pnp.series.title: Best Practices
-ms.openlocfilehash: 57fd7a6cc400b53e51e08fb5a1377dce4ae61327
-ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
+ms.date: 11/05/2018
+ms.openlocfilehash: 0c48121a0d5cff33893a8f242c70f4a275c46f73
+ms.sourcegitcommit: d59e2631fb08665bc30f6b65bfc7e1b75935cbd5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50251923"
+ms.lasthandoff: 11/05/2018
+ms.locfileid: "51021933"
 ---
 # <a name="background-jobs"></a>Háttérfeladatok
-[!INCLUDE [header](../_includes/header.md)]
 
 Számos különböző típusú alkalmazásban van szükség olyan háttérfeladatokra, amelyek a felhasználói felülettől függetlenül futnak. Ilyenek lehetnek a kötegelt feladatok, az intenzív feldolgozási feladatok és a hosszú futású folyamatok, például a munkafolyamatok. A háttérfeladatok felhasználói beavatkozás nélkül hajthatók végre – az alkalmazás a feladat elindítását követően folytathatja a felhasználók interaktív kéréseinek feldolgozását. Ez segít csökkenteni az alkalmazás felhasználói felületének terhelését, ami javíthatja a rendelkezésre állást és csökkentheti az interaktív válaszidőket.
 
@@ -74,8 +72,7 @@ A háttérfeladatokat futtathatja számos különböző Azure platformszolgálta
 * [**Azure Web Apps és WebJobs**](#azure-web-apps-and-webjobs). A WebJobs használatával egy webalkalmazás kontextusában egyéni feladatokat hajthat végre számos különböző típusú szkript vagy végrehajtható program alapján.
 * [**Azure Virtual Machines**](#azure-virtual-machines). Ha Windows-szolgáltatással rendelkezik, vagy a Windows Feladatütemezőt szeretné használni, általános érdemes a háttérfeladatokat egy dedikált virtuális gépen futtatnia.
 * [**Azure Batch**](#azure-batch). A Batch platformszolgáltatás számításigényes munkák futtatását ütemezi virtuális gépek felügyelt gyűjteményében. Automatikusan képes méretezni a számítási erőforrásokat.
-* [**Azure Container Service**](#azure-container-service). Az Azure Container Service egy tárolóüzemeltetési környezetet biztosít az Azure-ban. 
-* [**Azure Cloud Services**](#azure-cloud-services). Ezzel a szolgáltatással háttérfeladatként futó szerepkörökben is írhat kódot.
+* [**Az Azure Kubernetes Service** ](#azure-kubernetes-service) (AKS). Az Azure Kubernetes Service egy felügyelt üzemeltetési környezetet kínál a Kubernetes az Azure-ban. 
 
 Az alábbi szakaszok részletesebben ismertetik ezeket a lehetőségeket, és olyan szempontokat is tartalmaznak, amelyek alapján kiválaszthatja az Önnek megfelelő lehetőséget.
 
@@ -110,11 +107,8 @@ Az Azure WebJobs-feladatok a következő jellemzőkkel rendelkeznek:
 * Alapértelmezés szerint a WebJobs-feladatok a webalkalmazással együtt méreteződnek. Az **is_singleton** konfigurációs tulajdonság **true** (igaz) értékre állításával azonban konfigurálhatja úgy a feladatokat, hogy egyetlen példányon fussanak. Az egypéldányos WebJobs-feladatok az olyan tevékenységekhez hasznosak, amelyeket nem szeretne méretezni vagy egyidejűleg több példányban futtatni, például újraindexeléshez, adatelemzéshez és hasonló feladatokhoz.
 * A feladatok a webalkalmazás teljesítményére gyakorolt hatásának minimalizálása érdekében az esetleges hosszabb futású vagy erőforrás-igényesebb WebJobs-feladatok futtatásához célszerű létrehozni egy üres Azure Web App-példányt egy új App Service-csomag keretében.
 
-### <a name="more-information"></a>További információ
-* Az [Azure WebJobs ajánlott forrásanyagai](/azure/app-service-web/websites-webjobs-resources) között számos hasznos forrásanyagot, letöltést és mintát talál a WebJobshoz.
-
 ### <a name="azure-virtual-machines"></a>Azure-alapú virtuális gépek
-A háttérfeladatok esetenként lehetnek úgy is implementálva, hogy az megakadályozza az üzembe helyezésüket az Azure Web Apps vagy a Cloud Services szolgáltatásban, vagy az is előfordulhat, hogy ezek az alternatívák valamiért nem a legmegfelelőbbek. Tipikus példák erre a Windows-szolgáltatások, valamint a külső fejlesztők által készített segédprogramok és végrehajtható programok. További példák lehetnek az alkalmazást futtató környezettől eltérő végrehajtási környezethez írt programok. Például rendelkezhet egy olyan Unix- vagy Linux-programmal, amelyet egy Windows- vagy .NET-alkalmazásból kíván végrehajtatni. Az Azure-beli virtuális gépek esetében számos különféle operációs rendszer közül választhat, és a szolgáltatásokat és a végrehajtható fájlokat az adott virtuális gépen futtathatja.
+A háttérfeladatok implementálható úgy, hogy megakadályozza, hogy az Azure Web Apps üzembe helyezve, vagy ezek a beállítások nem a legmegfelelőbbek. Tipikus példák erre a Windows-szolgáltatások, valamint a külső fejlesztők által készített segédprogramok és végrehajtható programok. További példák lehetnek az alkalmazást futtató környezettől eltérő végrehajtási környezethez írt programok. Például rendelkezhet egy olyan Unix- vagy Linux-programmal, amelyet egy Windows- vagy .NET-alkalmazásból kíván végrehajtatni. Az Azure-beli virtuális gépek esetében számos különféle operációs rendszer közül választhat, és a szolgáltatásokat és a végrehajtható fájlokat az adott virtuális gépen futtathatja.
 
 Ha segítségre van szüksége azzal kapcsolatban, hogy mikor érdemes a Virtual Machinest választania tekintse meg [az Azure App Service, a Cloud Services és a Virtual Machines összehasonlítását](/azure/app-service-web/choose-web-site-cloud-service-vm/). A virtuális gépek beállításokkal kapcsolatos további információkért lásd: [méretek a Windows virtuális gépek az Azure-ban](/azure/virtual-machines/windows/sizes). A Virtual Machines használata esetén elérhető operációs rendszerekkel és előre elkészített rendszerképekkel kapcsolatos további információért lásd [az Azure Virtual Machines-piacteret](https://azure.microsoft.com/gallery/virtual-machines/).
 
@@ -133,8 +127,9 @@ Amikor azt fontolgatja, hogy a háttérfeladatokat egy Azure-beli virtuális gé
 * Az Azure Portal nem biztosít eszközöket a feladatok monitorozásához és a meghiúsult feladatok automatikus újraindításához – bár az [Azure Resource Manager parancsmagjai](https://msdn.microsoft.com/library/mt125356.aspx) lehetővé teszik a virtuális gép alapvető állapotának monitorozását és a virtuális gép kezelését. A számítási csomópontok folyamatainak és szálainak kezeléséhez azonban nem állnak rendelkezésre eszközök. Általában a virtuális gépek használata esetén további erőfeszítésekre van szükség egy olyan mechanizmus megvalósításához, amely rendszerállapot-adatokat gyűjt a feladatból és a virtuális gép operációs rendszeréről. Erre megfelelő megoldást nyújthat a [System Center Azure-hoz készült felügyeleti csomagjának](https://www.microsoft.com/download/details.aspx?id=50013) használata.
 * Érdemes fontolóra venni HTTP-végpontokon keresztül elérhetővé tett monitorozási mintavételezők létrehozását. Az ilyen mintavételezők kódja állapotellenőrzéseket hajthat végre, valamint működéssel kapcsolatos adatokat és statisztikákat gyűjthet – vagy összeállíthatja a hibainformációkat, és visszaküldheti egy felügyeleti alkalmazásnak. További információért lásd az [állapot végponti monitorozását végző mintát](../patterns/health-endpoint-monitoring.md).
 
-#### <a name="more-information"></a>További információ
-* [Virtual Machines](https://azure.microsoft.com/services/virtual-machines/) az Azure-on
+További információkért lásd:
+
+* [Virtuális gépek](https://azure.microsoft.com/services/virtual-machines/)
 * [Azure Virtual Machines – gyakori kérdések](/azure/virtual-machines/virtual-machines-linux-classic-faq?toc=%2fazure%2fvirtual-machines%2flinux%2fclassic%2ftoc.json)
 
 ### <a name="azure-batch"></a>Azure Batch 
@@ -149,15 +144,15 @@ A Batch nagyszerűen működik a belsőleg párhuzamos számítási feladatokkal
 
 Az Azure Batch-feladatok csomópontok (virtuális gépek) készletein futnak. Az egyik megközelítésben a készletek csak szükség esetén vannak lefoglalva, majd a feladat befejezése után törlődnek. Ez maximális kihasználtságot biztosít, mivel a csomópontok nincsenek üresjáratban, azonban a feladatnak meg kell várnia a csomópontok lefoglalását. Alternatív megoldásként előre is létrehozhat egy készletet. Ez a megközelítés minimálisra csökkenti a feladatok indításához szükséges időt, azonban előfordulhat, hogy egyes csomópontok tétlenül várakoznak. További információért lásd [a készletek és a számítási csomópontok élettartamát](/azure/batch/batch-api-basics#pool-and-compute-node-lifetime).
 
-#### <a name="more-information"></a>További információ 
+További információkért lásd:
 
-* [Belsőleg párhuzamos számítási feladatok futtatása a Batch használatával](/azure/batch/batch-technical-overview) 
+* [Mi az Azure Batch?](/azure/batch/batch-technical-overview) 
 * [Nagy léptékű párhuzamos számítási megoldások fejlesztése a Batch segítségével](/azure/batch/batch-api-basics) 
 * [Batch- és HPC-megoldások nagyméretű számítási feladatokhoz](/azure/batch/batch-hpc-solutions)
 
-### <a name="azure-container-service"></a>Azure Container Service 
+### <a name="azure-kubernetes-service"></a>Azure Kubernetes Service
 
-Az Azure Container Service használatával virtuális gépek fürtjeit konfigurálhatja és kezelheti az Azure-ban tárolóalapú alkalmazások futtatásához. Lehetővé teszi a választást, hogy Docker Swarmot, DC/OS-t vagy Kubernetest használhasson a vezényléshez. 
+Az Azure Kubernetes Service (AKS) felügyeli az üzemeltetett Kubernetes környezetet, amelynek segítségével könnyedén üzembe és kezelhet tárolóalapú alkalmazásokat. 
 
 A tárolók hasznosak lehetnek a háttérfeladatok futtatásához. Többek között a következő előnyöket kínálják: 
 
@@ -168,92 +163,15 @@ A tárolók hasznosak lehetnek a háttérfeladatok futtatásához. Többek köz�
 
 #### <a name="considerations"></a>Megfontolandó szempontok
 
-- A tárolóvezénylők kezelésének ismeretét igényli. Ez a fejlesztői és üzemeltetési csapat készségeitől függően akár problémát is okozhat.  
-- A Container Service IaaS-környezetben fut. A virtuális gépekből álló fürtöket dedikált virtuális hálózatokon belül osztja ki. 
+- A tárolóvezénylők kezelésének ismeretét igényli. Ez a fejlesztői és üzemeltetési csapat készségeitől függően akár problémát is okozhat.
 
-#### <a name="more-information"></a>További információ 
+További információkért lásd:
 
-* [Bevezetés a Docker Azure Container Service-t használó tárolóüzemeltetési megoldásaiba](/azure/container-service/container-service-intro) 
+* [A tárolók az Azure-ban – áttekintés](https://azure.microsoft.com/overview/containers/) 
 * [A privát Docker-tárolójegyzékek bemutatása](/azure/container-registry/container-registry-intro) 
 
-### <a name="azure-cloud-services"></a>Azure Cloud Services 
-A háttérfeladatokat webes szerepkörökben vagy egy külön feldolgozói szerepkörben hajthatja végre. Amikor a feldolgozói szerepkör használatát mérlegeli, a méretezhetőségi és rugalmassági követelményeket, a feladatok élettartamát, a kiadási ütemezést, a biztonságot, a hibatűrést, a versengést, az összetettséget és a logikai architektúrát mind vegye számításba. További információért lásd a [számításierőforrás-konszolidálási mintát](../patterns/compute-resource-consolidation.md).
-
-A Cloud Services-szerepkörökben a háttérfeladatok többféleképpen implementálhatók:
-
-* Hozza létre a **RoleEntryPoint** osztály egy implementációját a szerepkörben, és annak a metódusaival hajtsa végre a háttérfeladatokat. A feladatok a WaIISHost.exe környezetében futnak. A **CloudConfigurationManager** osztály **GetSetting** metódusának használatával tudják betölteni a konfigurációs beállításokat. További információért lásd az [életciklus](#lifecycle) ismertetését.
-* Indítási feladatok segítségével hajtsa végre a háttérfeladatokat az alkalmazás indításakor. A feladatok háttérben futásának kényszerítéséhez állítsa a **taskType** tulajdonságot a **background** (háttérben) értékre (ha ezt nem teszi meg, az alkalmazásindítási folyamat leáll, és megvárja a feladat befejezését). További információért lásd az [Azure-beli indítási feladatok futtatásának](/azure/cloud-services/cloud-services-startup-tasks) ismertetését.
-* A WebJobs SDK használatával indítási feladatként inicializált WebJobs-feladatokként implementálhatja a háttérfeladatokat. További információért lásd a [.NET WebJobs-feladat az Azure App Service-ben történő létrehozását](/azure/app-service-web/websites-dotnet-webjobs-sdk-get-started).
-* Egy indítási feladat segítségével telepítsen egy Windows-szolgáltatást, amely végrehajt egy vagy több háttérfeladatot. Annak érdekében, hogy a szolgáltatás a háttérben fusson, állítsa a **taskType** tulajdonságot **background** (háttérben) értékre. További információért lásd az [Azure-beli indítási feladatok futtatásának](/azure/cloud-services/cloud-services-startup-tasks) ismertetését.
-
-A háttérfeladatok webes szerepkörben való futtatásának fő előnye az üzemeltetési költségek csökkenése, mivel így nincs szükség további szerepköröket üzembe helyezésére.
-
-A háttérfeladatok feldolgozói szerepkörben való futtatása több előnyt is biztosít:
-
-* Lehetővé teszi a szerepkörtípusok külön méretezését. Például esetleg az aktuális terhelés kiszolgálására a webes szerepkör több példányára van szükség, a háttérfeladatokat végrehajtó feldolgozói szerepkörből azonban kevesebbre. A háttérfeladat számítási példányainak a felhasználói felületi szerepköröktől való elkülönített méretezésével csökkenthetők az üzemeltetési költségek, miközben elfogadható teljesítmény biztosítható.
-* Leveszi a háttérfeladatok feldolgozása által jelentett többletterhelést a webes szerepkörről. A felhasználói felületet biztosító webes szerepkör rugalmas maradhat, ami akár azt is jelentheti, hogy kevesebb példány szükséges adott mennyiségű felhasználói kérés kezeléséhez.
-* Lehetővé teszi a kockázatok elkülönítésének megvalósítását. Mindegyik szerepkörtípus egyértelműen meghatározott és kapcsolódó feladatok adott készletét valósíthatja meg. Ezáltal könnyebbé válik a kód megtervezése és karbantartása, mivel az egyes szerepkörök kódja és funkciója kevésbé függ egymástól.
-* Emellett segít elkülöníteni a bizalmas folyamatokat és adatokat. Például a felhasználói felületet implementáló webes szerepköröknek nincs szükségük hozzáférésre a feldolgozói szerepkör által kezelt és szabályozott adatokhoz. Ez hasznos lehet a biztonság megerősítése szempontjából, különösen a [Gatekeeper-minta](../patterns/gatekeeper.md) és a hasonló minták alkalmazása esetén.  
-
-#### <a name="considerations"></a>Megfontolandó szempontok
-Amikor megválasztja, hogyan és hol fogja a háttérfeladatokat üzembe helyezni a Cloud Services webes és feldolgozói szerepkörei segítségével, vegye figyelembe a következő szempontokat:
-
-* A háttérfeladatok meglévő webes szerepkörben való futtatásával költségeket takaríthat meg, ha nem szükséges kizárólag ezekhez a feladatokhoz futtatnia egy külön feldolgozói szerepkört. Azonban ez valószínűleg befolyásolja az alkalmazás teljesítményét és rendelkezésre állását, amennyiben versengés van a feldolgozási és egyéb erőforrásokért. A külön feldolgozói szerepkör használata mentesíti a webes szerepkört a hosszan futó vagy erőforrás-igényes háttérfeladatok hatásaitól.
-* Ha a háttérfeladatokat a **RoleEntryPoint** osztály használatával teszi elérhetővé, ezt könnyen áthelyezheti egy másik szerepkörre. Például ha az osztályt egy webes szerepkörben hozza létre, majd később úgy dönt, hogy a feladatokat egy feldolgozói szerepkörben szükséges futtatni, a **RoleEntryPoint** osztály implementációját áthelyezheti a feldolgozói szerepkörre.
-* Az indítási feladatok célja egy program vagy szkript végrehajtása. A háttérfeladatok végrehajtható programként való üzembe helyezése nehezebb feladat lehet, különösen ha ehhez függő szerelvényeket is üzembe kell helyezni. Az indítási feladatok használata esetén könnyebb egy szkriptet létrehozni és használni a háttérfeladat definiálására.
-* A háttérfeladatok meghiúsulását okozó kivételek hatásai eltérőek lehetnek, attól függően, hogyan lettek elérhetővé téve:
-  * Ha a **RoleEntryPoint** osztályt használó megközelítést alkalmazza, a meghiúsult feladatok újraindítják a szerepkört, és így a feladat is automatikusan újraindul. Ez kihatással lehet az alkalmazás rendelkezésre állására. Ennek megelőzése érdekében gondoskodjon róla, hogy a **RoleEntryPoint** osztály és az összes háttérfeladat robusztus kivételkezelési képességekkel rendelkezzen. Ahol ez szükséges, a meghiúsuló feladatokat programkód használatával indítsa újra, és csak akkor adjon vissza hibát a szerepkör újraindításához, ha nem lehet szabályosan helyreállítani a hibát a kódon belül.
-  * Indítási feladatok használatakor az Ön feladata gondoskodni a feladat-végrehajtás kezeléséről és a hibák ellenőrzéséről.
-* Az indítási feladatok kezelése és monitorozása nehezebb, mint a **RoleEntryPoint** osztályt használó megközelítés. Az Azure WebJobs SDK azonban tartalmaz egy irányítópultot, amely megkönnyíti az indítási feladatokon keresztül inicializált WebJobs-feladatok kezelését.
-
-#### <a name="lifecycle"></a>Életciklus 
- Ha úgy dönt, hogy a webes és feldolgozói szerepköröket használó Cloud Services-alkalmazások háttérfeladatait a **RoleEntryPoint** osztály alkalmazásával valósítja meg, az osztály megfelelő használatához fontos megértenie annak életciklusát.
-
-A webes és feldolgozói szerepkörök eltérő szakaszok során haladnak végig az indításuk, futtatásuk és leállításuk folyamán. A **RoleEntryPoint** osztály események sorát teszi közzé, hogy jelezze, mikor következnek be ezek a szakaszok. Ezeknek az eseményeknek a használatával inicializálhatja, futtathatja és állíthatja le az egyéni háttérfeladatokat. A teljes ciklus a következő:
-
-* Az Azure betölti a szerepkör-szerelvényt, és keres benne egy, a **RoleEntryPoint** osztályból származó osztályt.
-* Ha megtalálja ezt az osztályt, meghívja a **RoleEntryPoint.OnStart()** függvényt. Ennek a metódusnak a felülbírásával inicializálhatja a háttérfeladatokat.
-* Az **OnStart** metódus befejeztével az Azure meghívja az **Application_Start()** függvényt az alkalmazás globális fájljában, ha ez megtalálható (például a Global.asax fájl egy, az ASP.NET-et futtató webes szerepkör esetében).
-* Az Azure meghívja a **RoleEntryPoint.Run()** függvényt egy új előtérbeli szálon, amely az **OnStart()** függvénnyel párhuzamosan lesz végrehajtva. Ennek a metódusnak a felülbírásával indíthatja el a háttérfeladatokat.
-* A Run metódus befejeztével az Azure először meghívja az **Application_End()** függvényt az alkalmazás globális fájljában, ha ez megtalálható, majd meghívja a **RoleEntryPoint.OnStop()** függvényt. Az **OnStop** metódus felülbírálásával leállíthatja a háttérfeladatokat, eltávolíthatja a fölöslegessé vált erőforrásokat és objektumokat, valamint lezárhatja azokat a kapcsolatokat, amelyeket a feladatok esetleg használtak.
-* Az Azure feldolgozói szerepköri gazdafolyamata leáll. Ezen a ponton a szerepkör újraindul.
-
-További részletekért és a **RoleEntryPoint** osztály metódusainak alkalmazási példájáért lásd a [számításierőforrás-konszolidálási mintát](../patterns/compute-resource-consolidation.md).
-
-#### <a name="implementation-considerations"></a>Implementálási szempontok
-
-Amikor azt fontolgatja, hogy a háttérfeladatokat egy webes vagy egy feldolgozói szerepkörben valósítsa-e meg, vegye figyelembe a következő szempontokat:
-
-* Az alapértelmezett **Run** metódus implementálása a **RoleEntryPoint** osztályban tartalmazza a **Thread.Sleep(Timeout.Infinite)** meghívását, amely folyamatosan aktívan tartja a szerepkör. Ha felülbírálja a **Run** metódust (ami általában szükséges a háttérfeladatok végrehajtásához), nem szabad hagynia, hogy a kód kilépjen a metódusból, hacsak nem szeretné újraindítani a szerepkörpéldányt.
-* A **Run** metódus tipikus megvalósításában a kód elindítja ez egyes háttérfeladatokat, egy ciklus pedig rendszeres időközönként ellenőrzi azok állapotát. Újraindítja a meghiúsult feladatokat, és figyeli a megszakítási tokeneket, amelyek jelzik, ha egy adott feladat befejeződött.
-* Ha valamelyik háttérfeladat nem kezelt kivételt jelez, a feladatot újra kell indítani, miközben biztosítani kell, hogy a szerepkörben lévő többi háttérfeladat tovább futhasson. Azonban ha a kivételt a feladaton kívüli objektumok sérülése okozta, például a megosztott tárolóé, a kivételt a **RoleEntryPoint** osztálynak kezelnie kell, minden feladatot meg kell szakítani, és a **Run** metódust hagyni kell befejeződni. Az Azure ezután újraindítja a szerepkört.
-* Az **OnStop** metódus használatával szüneteltetheti vagy leállíthatja a háttérfeladatokat, és eltávolíthatja a fölöslegessé vált erőforrásokat. Ez akár a hosszú futású vagy többlépéses feladatok leállítását is jelentheti. Az adatinkonzisztencia elkerülése érdekében rendkívül fontos végiggondolni, hogy ez miként kivitelezhető. Ha egy szerepkörpéldány a felhasználó által kezdeményezett leállítástól eltekintve bármely más okból leáll, az **OnStop** metódust futtató kódnak öt percen belül be kell fejeződnie, mielőtt a rendszer kényszeríti a leállását. Gondoskodjon róla, hogy a kód ennyi idő alatt be tud fejeződni, vagy hogy ne okozzon problémát, ha nem tud végigfutni.  
-* Az Azure Load Balancer akkor kezdi a szerepkörpéldányra irányítani a forgalmat, amikor a **RoleEntryPoint.OnStart** metódus a **true** (igaz) értéket adja vissza. Ennek okán érdemes lehet a teljes inicializálási kódot az **OnStart** metódusba rakni, hogy a sikeresen nem inicializáló szerepkörpéldányokra ne érkezzen forgalom.
-* A **RoleEntryPoint** osztály metódusain felül indítási feladatokat is alkalmazhat. Az Azure Load Balancerben módosítani kívánt beállítások inicializálásához indítási feladatokat érdemes használni, mivel ezek a feladatok az előtt mennek végbe, hogy a szerepkör bármilyen kérést fogadna. További információért lásd az [Azure-beli indítási feladatok futtatásának](/azure/cloud-services/cloud-services-startup-tasks/) ismertetését.
-* Ha valamelyik indítási feladatban hiba van, előfordulhat, hogy folyamatos újraindulásra kényszeríti a szerepkört. Ez megakadályozhatja, hogy a virtuális IP-címet visszaállítsa egy korábban előkészített verzióra, mivel a váltáshoz kizárólagos hozzáférés szükséges a szerepkörhöz. Ez pedig nem szerezhető be a szerepkör újraindítása közben. A probléma megoldása:
-  
-  * Adja hozzá a következő kódot a szerepkör **OnStart** és **Run** metódusának az elejéhez:
-    
-    ```C#
-    var freeze = CloudConfigurationManager.GetSetting("Freeze");
-    if (freeze != null)
-    {
-      if (Boolean.Parse(freeze))
-      {
-        Thread.Sleep(System.Threading.Timeout.Infinite);
-      }
-    }
-    ```
-    
-  * Adja hozzá a **Freeze** (Rögzítés) beállítás definícióját logikai értékként a szerepkör ServiceDefinition.csdef és ServiceConfiguration.\*.cscfg fájljához, és állítsa **false** (hamis) értékre. Ha a szerepkör ismételt újraindítási módba lép, állítsa a beállítást **true** (igaz) értékre, hogy ezzel rögzítse a szerepkör végrehajtását, és lehetővé tegye az átváltását egy előző verzióra.
-
-#### <a name="more-information"></a>További információ
-* [Számításierőforrás-konszolidálási minta](../patterns/compute-resource-consolidation.md)
-* [Ismerkedés az Azure WebJobs SDK-val](/azure/app-service-web/websites-dotnet-webjobs-sdk-get-started/)
-
-
 ## <a name="partitioning"></a>Particionálás
-Ha úgy dönt, hogy a háttérfeladatokat egy meglévő számítási példányon belül (például egy webalkalmazásban, webes szerepkörben, meglévő feldolgozói szerepkörben vagy virtuális gépben) kezeli, végig kell gondolnia, milyen hatással lesz ez a számítási példány minőségi attribútumaira és magára a háttérfeladatra. Három tényező segít eldönteni, hogy érdemes-e a feladatokat a meglévő számítási példányokkal közösen elhelyezni, vagy inkább ki kell szervezni azokat külön számítási példányokba:
+Ha úgy dönt, hogy a háttérfeladatokat egy meglévő számítási példányon belül, meg kell fontolnia, hogy ez hatással lesz a számítási példány és a háttérfeladatra minőségi attribútumaira. Három tényező segít eldönteni, hogy érdemes-e a feladatokat a meglévő számítási példányokkal közösen elhelyezni, vagy inkább ki kell szervezni azokat külön számítási példányokba:
 
 * **Rendelkezésre állás**: A háttérfeladatok esetében nem feltétlenül szükséges ugyanolyan rendelkezésre állás, mint az alkalmazás egyéb részei, különösen a felhasználói felület és a felhasználói beavatkozás során közvetlenül érintett egyéb részek esetében. Mivel a műveletek várakoztathatók, a háttérfeladatok jobban elviselhetik a késéseket, a csatlakozási hibákból eredő újrapróbálkozásokat és a rendelkezésre állást befolyásoló egyéb tényezőket. Azonban elegendő kapacitással kell rendelkezni a kérések felgyülemlésének megakadályozásához, ami blokkolhatja az üzenetsorokat, és egészében érintheti az alkalmazás működését.
 * **Méretezhetőség**: A háttérfeladatok nagy valószínűséggel különböző méretezhetőségi követelményekkel rendelkeznek, mint a felhasználói felület és az alkalmazás interaktív részei. A használati csúcsok esetén szükség lehet a felhasználói felület felskálázására, a függőben lévő háttérfeladatokat azonban kevésbé terhelt időszakokban kevesebb számítási példány használatával is el lehet végezni.
@@ -285,9 +203,8 @@ Több feladat és lépés koordinálása kihívást jelenthet, létezik azonban 
 ## <a name="resiliency-considerations"></a>Rugalmassággal kapcsolatos szempontok
 A háttérfeladatoknak rugalmasnak kell lenniük, hogy megbízható szolgáltatásokat tudjanak biztosítani az alkalmazásnak. A háttérfeladatok tervezése és kialakítása során vegye figyelembe a következő szempontokat:
 
-* A háttérfeladatoknak zökkenőmentesen kell tudniuk kezelni a szerepkörök vagy a szolgáltatások újraindítását anélkül, hogy az adatok sérülnének vagy inkonzisztencia keletkezne az alkalmazásban. A hosszan futó vagy többlépéses feladatok esetében érdemes lehet *ellenőrzőpontokat* alkalmazni, aminek során a feladatok állapotát menti egy állandó tárolóban vagy üzenetekként egy üzenetsorban, ha az a megfelelőbb. Például megőrizheti az állapotadatokat egy üzenetben az üzenetsorban, majd fokozatosan frissítheti ezt az állapotadatot a tevékenység előrehaladtával, így hiba esetén a feladatot a legutolsó sikeres ellenőrzőponttól kell csak végrehajtani, és nem a legelejétől. Azure Service Bus-üzenetsorok használata esetén üzenet-munkamenetek használatával ugyanezt a forgatókönyvet valósíthatja meg. A munkamenetek segítségével mentheti és visszaállíthatja az alkalmazás feldolgozási állapotát, a [SetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.setstate?view=azureservicebus-4.0.0) és a [GetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.getstate?view=azureservicebus-4.0.0) metódus alkalmazásával. A megbízható többlépéses folyamatok és munkafolyamatok tervezésével kapcsolatos további információért lásd a [feladatütemező ügynök felügyeleti mintáját](../patterns/scheduler-agent-supervisor.md).
-* Ha webes vagy feldolgozói szerepköröket használ több háttérfeladat futtatásához, a **Run** metódus felülbírálását úgy alakítsa ki, hogy az monitorozza a meghiúsult vagy elakadt feladatokat, és indítsa újra azokat. Ahol ez nem praktikus, és feldolgozói szerepkört használ, a feldolgozói szerepkör újraindítását kikényszerítheti a **Run** metódusból való kilépéssel.
-* Ha üzenetsorokat használ a háttérfeladatokkal folytatott kommunikációhoz, az üzenetsorok használhatók pufferként, amelyek tárolják a feladatoknak küldött kéréseket, amíg az alkalmazás a szokottnál magasabb terheléssel működik. Így a feladatok kevésbé forgalmas időszakokban utolérhetik a felhasználói felületet. Ez azt is jelenti, hogy a szerepkör újraindítása nem blokkolja a felhasználói felületet. További információért lásd az [üzenetsor-alapú terheléskiegyenlítési mintát](../patterns/queue-based-load-leveling.md). Ha egyes feladatok fontosabbak a többinél, vegye fontolóra az [elsőbbségi üzenetsor mintájának](../patterns/priority-queue.md) alkalmazását, amellyel biztosítható, hogy ezek a feladatok a kevésbé fontosak előtt fussanak.
+* A háttérfeladatok kezelésére anélkül, hogy az adatok sérülnének vagy inkonzisztencia keletkezne az alkalmazás újraindítása képesnek kell lennie. A hosszan futó vagy többlépéses feladatok esetében érdemes lehet *ellenőrzőpontokat* alkalmazni, aminek során a feladatok állapotát menti egy állandó tárolóban vagy üzenetekként egy üzenetsorban, ha az a megfelelőbb. Például megőrizheti az állapotadatokat egy üzenetben az üzenetsorban, majd fokozatosan frissítheti ezt az állapotadatot a tevékenység előrehaladtával, így hiba esetén a feladatot a legutolsó sikeres ellenőrzőponttól kell csak végrehajtani, és nem a legelejétől. Azure Service Bus-üzenetsorok használata esetén üzenet-munkamenetek használatával ugyanezt a forgatókönyvet valósíthatja meg. A munkamenetek segítségével mentheti és visszaállíthatja az alkalmazás feldolgozási állapotát, a [SetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.setstate?view=azureservicebus-4.0.0) és a [GetState](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.messagesession.getstate?view=azureservicebus-4.0.0) metódus alkalmazásával. A megbízható többlépéses folyamatok és munkafolyamatok tervezésével kapcsolatos további információért lásd a [feladatütemező ügynök felügyeleti mintáját](../patterns/scheduler-agent-supervisor.md).
+* Ha üzenetsorokat használ a háttérfeladatokkal folytatott kommunikációhoz, az üzenetsorok használhatók pufferként, amelyek tárolják a feladatoknak küldött kéréseket, amíg az alkalmazás a szokottnál magasabb terheléssel működik. Így a feladatok kevésbé forgalmas időszakokban utolérhetik a felhasználói felületet. Azt is jelenti, hogy újraindítása nem blokkolja a felhasználói felületen. További információért lásd az [üzenetsor-alapú terheléskiegyenlítési mintát](../patterns/queue-based-load-leveling.md). Ha egyes feladatok fontosabbak a többinél, vegye fontolóra az [elsőbbségi üzenetsor mintájának](../patterns/priority-queue.md) alkalmazását, amellyel biztosítható, hogy ezek a feladatok a kevésbé fontosak előtt fussanak.
 * Az üzenetek vagy a folyamatüzenetek által inicializált háttérfeladatokat úgy kell kialakítani, hogy kezeljék az inkonzisztenciákat, például a soron kívül érkező üzeneteket, a sorozatosan hibát okozó üzeneteket (más néven *ártalmas üzeneteket*) és a többször kézbesített üzeneteket. A következőket ajánljuk figyelmébe:
   * A meghatározott sorrendben feldolgozandó üzenetek, például amelyek meglévő adatértékek alapján módosítják az adatokat (például egy érték hozzáadása egy meglévő értékhez) esetleg nem a küldés eredeti sorrendjében érkeznek meg. Vagy az is előfordulhat, hogy az egyes példányok különböző terhelése okán a háttérfeladat különböző példányai különböző sorrendben kezelik azokat. A meghatározott sorrendben feldolgozandó üzeneteknek ezért érdemes tartalmazniuk egy sorszámot, kulcsot vagy valamilyen egyéb jelölőt, amelynek segítségével a háttérfeladatok gondoskodhatnak róla, hogy a feldolgozás a megfelelő sorrendben történjen. Az Azure Service Bus használata esetén üzenet-munkamenetek használatával garantálhatja a megfelelő kézbesítési sorrendet. Általában azonban, ha ez lehetséges, hatékonyabb újratervezni a folyamatot úgy, hogy ne számítson az üzenetek sorrendje.
   * A háttérfeladatok általában betekintenek az üzenetekbe az üzenetsorban, ami ideiglenesen elrejti azokat a többi üzenetfogyasztó elől. Ezután a háttérfeladat törli az üzeneteket azok sikeres feldolgozását követően. Ha a háttérfeladat meghiúsul, miközben egy üzenetet dolgoz fel, az üzenet újból megjelenik az üzenetsorban a betekintés időtúllépésének lejártával. A feladat egy másik példánya fogja feldolgozni, vagy ugyanez a példány a következő feldolgozási ciklusban. Ha az üzenet következetesen hibát okoz a fogyasztóban, az blokkolja a feladatot, az üzenetsort és végül magát az alkalmazást is, amikor az üzenetsor megtelik. Ezért kritikus fontosságú az ártalmas üzenetek észlelése és eltávolítása az üzenetsorból. Az Azure Service Bus használata esetén a hibát okozó üzenetek automatikusan vagy manuálisan áthelyezhetők a feldolgozatlan üzenetek társított üzenetsorába.
@@ -297,31 +214,20 @@ A háttérfeladatoknak rugalmasnak kell lenniük, hogy megbízható szolgáltat�
 ## <a name="scaling-and-performance-considerations"></a>A méretezéssel és a teljesítménnyel kapcsolatos szempontok
 A háttérfeladatoknak elegendő teljesítményt kell biztosítania, hogy ne blokkolhassák az alkalmazást vagy okozhassanak inkonzisztenciát, ha a rendszer terhelése miatt késéssel működnek. Általában a teljesítmény a háttérfeladatot futtató számítási példányok skálázásával javítható. A háttérfeladatok tervezése és kialakítása során vegye figyelembe a következő szempontokat a skálázás és a teljesítmény kapcsán:
 
-* Az Azure támogatja az automatikus skálázást (a kiterjesztést és a szűkítést egyaránt) az aktuális igény és terhelés alapján – vagy egy előre meghatározott ütemezés szerint a Web Apps, a Cloud Services webes és feldolgozói szerepkörei, valamint a Virtual Machinesben üzemelő környezetek esetében. Ennek a szolgáltatásnak a használatával biztosítható, hogy az alkalmazás egésze elegendő teljesítménybeli kapacitással rendelkezzen, ugyanakkor a futtatási költségek minimalizálhatók legyenek.
-* Azokban az esetekben, ahol a háttérfeladatok a Cloud Services-alkalmazás más részeitől (például a felhasználói felülettől vagy az olyan összetevőktől, mint az adatelérési réteg) eltérő teljesítménybeli kapacitásokkal rendelkeznek, a háttérfeladatok egy külön feldolgozói szerepkörben való együttes futtatásával a felhasználói felület és a háttérfeladatok egymástól függetlenül méretezhetők a terhelés kezelése érdekében. Ha több háttérfeladat egymástól jelentősen eltérő teljesítménybeli kapacitásokkal rendelkezik, vegye fontolóra azok külön feldolgozói szerepkörökbe való elosztásának és az egyes szerepkörtípusok egymástól független skálázásának a lehetőségét. Vegye figyelembe azonban, hogy ebben az esetben a futtatási költségek magasabbak lesznek, mint ha a feladatokat kevesebb szerepkörben egyesítené.
-* A szerepkörök egyszerű skálázása nem feltétlenül elégséges a terhelés következtében fellépő teljesítményvesztés elkerüléséhez. Emellett a tároló-üzenetsorokat és egyéb erőforrásokat is méretezni kellhet, hogy a teljes feldolgozási lánc egyetlen pontja se válhasson szűk keresztmetszetté. Vegye figyelembe továbbá az egyéb korlátokat is, például a tároló, valamint az alkalmazás és a háttérfeladatok által használt egyéb szolgáltatások maximális teljesítményét is.
+* Az Azure támogatja az automatikus skálázást (horizontális felskálázás és szűkítést) alapján aktuális igény és terhelés vagy egy előre meghatározott ütemezés szerint, a Web Apps és a virtuális gépek központi telepítések. Ennek a szolgáltatásnak a használatával biztosítható, hogy az alkalmazás egésze elegendő teljesítménybeli kapacitással rendelkezzen, ugyanakkor a futtatási költségek minimalizálhatók legyenek.
+* Ahol a háttérfeladatok egy eltérő teljesítménybeli képességek más részeitől (például a felhasználói felületen vagy összetevők, például az adatelérési réteg) alkalmazások, a háttérfeladatok együtt egy külön számítási szolgáltatás lehetővé teszi, hogy a felhasználói felület és a háttér a feladatok egymástól független méretezését, a terhelés kezelése érdekében. Ha több háttérfeladatokat jelentősen eltérő teljesítménybeli kapacitásokkal rendelkezik, fontolja meg őket osztani, és egyes egymástól függetlenül skálázási. Vegye azonban figyelembe, hogy ez megnövelheti a futtatási költségek.
+* A számítási erőforrások egyszerű skálázása nem feltétlenül elégséges a terhelés következtében fellépő teljesítményvesztés elkerüléséhez. Emellett a tároló-üzenetsorokat és egyéb erőforrásokat is méretezni kellhet, hogy a teljes feldolgozási lánc egyetlen pontja se válhasson szűk keresztmetszetté. Vegye figyelembe továbbá az egyéb korlátokat is, például a tároló, valamint az alkalmazás és a háttérfeladatok által használt egyéb szolgáltatások maximális teljesítményét is.
 * A háttérfeladatokat méretezhetően kell kialakítani. Például képesnek kell lenniük dinamikusan észlelni a használatban lévő üzenetsorok számát, hogy a megfelelő üzenetsort figyelhessék, és maguk is a megfelelő üzenetsorba küldjék az üzeneteket.
 * Alapértelmezés szerint a WebJobs-feladatok együtt méreteződnek a társított Azure Web Apps-példánnyal. Azonban ha azt szeretné, hogy a WebJobs-feladat csak egy példányban fusson, létrehozhat egy Settings.job fájlt, amely tartalmazza az **{"is_singleton": true}** JSON-adatot. Ez kényszeríti az Azure-t, hogy a WebJobs-feladatot csak egy példányban futtassa, még ha a kapcsolódó webalkalmazásnak több példánya van is. Ez hasznos módszer lehet az olyan ütemezett feladatokhoz, amelyeket csak egy példányban lehet futtatni.
 
 ## <a name="related-patterns"></a>Kapcsolódó minták
-* [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx)
-* [Útmutató az automatikus méretezéshez](https://msdn.microsoft.com/library/dn589774.aspx)
 * [Kompenzáló tranzakció mintája](../patterns/compensating-transaction.md)
 * [Versengő felhasználók mintája](../patterns/competing-consumers.md)
 * [Compute-particionálási útmutató](https://msdn.microsoft.com/library/dn589773.aspx)
-* [Számításierőforrás-konszolidálási minta](https://msdn.microsoft.com/library/dn589778.aspx)
 * [Gatekeeper-minta](../patterns/gatekeeper.md)
 * [Vezetőválasztási minta](../patterns/leader-election.md)
 * [Csövek és szűrők mintája](../patterns/pipes-and-filters.md)
 * [Elsőbbségi üzenetsor mintája](../patterns/priority-queue.md)
 * [Üzenetsor-alapú terheléskiegyenlítési minta](../patterns/queue-based-load-leveling.md)
 * [Feladatütemező ügynök felügyeleti mintája](../patterns/scheduler-agent-supervisor.md)
-
-## <a name="more-information"></a>További információ
-* [Háttérfeladatok végrehajtása](https://msdn.microsoft.com/library/ff803365.aspx)
-* [Azure Cloud Services-szerepkörök életciklusa](https://channel9.msdn.com/Series/Windows-Azure-Cloud-Services-Tutorials/Windows-Azure-Cloud-Services-Role-Lifecycle) (videó)
-* [Mi az Azure WebJobs SDK?](https://docs.microsoft.com/azure/app-service-web/websites-dotnet-webjobs-sdk)
-* [Háttérfeladatok futtatása WebJobs-feladatokkal](https://docs.microsoft.com/azure/app-service-web/web-sites-create-web-jobs)
-* [Azure-üzenetsorok és Service Bus-üzenetsorok összehasonlítása](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted)
-* [A diagnosztika engedélyezése a Cloud Servicesben](https://docs.microsoft.com/azure/cloud-services/cloud-services-dotnet-diagnostics)
 
