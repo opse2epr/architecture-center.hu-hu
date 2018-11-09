@@ -6,12 +6,12 @@ ms.date: 05/02/2018
 pnp.series.title: Identity management
 pnp.series.prev: azure-ad
 pnp.series.next: adds-forest
-ms.openlocfilehash: 1e19d03998a18d997c2840f573e7bc79b24efbbc
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: a96f13f8c7f3e79c6e5d50f17e662176257fdab3
+ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47427972"
+ms.lasthandoff: 11/07/2018
+ms.locfileid: "51263712"
 ---
 # <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 
@@ -46,7 +46,7 @@ Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a
 
 Határozza meg a [virtuális gép méretkövetelményeit][vm-windows-sizes] a hitelesítési kérelmek várt mérete alapján. Kiindulópontként használja az AD DS-t helyszínen üzemeltető gépek specifikációit, és egyeztesse őket az Azure-beli virtuális gépek méreteivel. Telepítés után monitorozza a kihasználtságot, és a virtuális gép tényleges terhelése alapján vertikálisan skálázza fel vagy le a kapacitást. További információ az AD DS-tartományvezérlők méretezéséről: [Az Active Directory Domain Services kapacitásának tervezése][capacity-planning-for-adds].
 
-Hozzon létre egy külön virtuális adatlemezt az Active Directoryhoz tartozó adatbázis, naplók és SYSVOL tárolásához. Ezeket ne ugyanazon a lemezen tárolja, amelyen az operációs rendszer van. Vegye figyelembe, hogy a virtuális géphez csatolt adatlemezek alapértelmezés szerint visszaírt gyorsítótárazást használnak. A gyorsítótárazás ezen formája azonban ütközhet az AD DS követelményeivel. Ezért az adatlemez *Host Cache Preference* (Gazdagép gyorsítótár-beállítása) beállítást állítsa *None* (Nincs) értékre. További információ: [A Windows Server AD DS-adatbázis és SYSVOL elhelyezése][adds-data-disks].
+Hozzon létre egy külön virtuális adatlemezt az Active Directoryhoz tartozó adatbázis, naplók és SYSVOL tárolásához. Ezeket ne ugyanazon a lemezen tárolja, amelyen az operációs rendszer van. Vegye figyelembe, hogy a virtuális géphez csatolt adatlemezek alapértelmezés szerint visszaírt gyorsítótárazást használnak. A gyorsítótárazás ezen formája azonban ütközhet az AD DS követelményeivel. Ezért az adatlemez *Host Cache Preference* (Gazdagép gyorsítótár-beállítása) beállítást állítsa *None* (Nincs) értékre. További információkért lásd: [központi telepítése Windows Server Active Directory az Azure Virtual Machinesben irányelvek][adds-data-disks].
 
 Helyezzen üzembe tartományvezérlőként legalább két, AD DS-t futtató virtuális gépet, és adja hozzá őket egy [rendelkezésre állási csoporthoz][availability-set].
 
@@ -169,7 +169,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 [implementing-a-secure-hybrid-network-architecture]: ../dmz/secure-vnet-hybrid.md
 [implementing-a-secure-hybrid-network-architecture-with-internet-access]: ../dmz/secure-vnet-dmz.md
 
-[adds-data-disks]: https://msdn.microsoft.com/library/azure/jj156090.aspx#BKMK_PlaceDB
+[adds-data-disks]: https://msdn.microsoft.com/en-us/library/mt674703.aspx
 [ad-ds-operations-masters]: https://technet.microsoft.com/library/cc779716(v=ws.10).aspx
 [ad-ds-ports]: https://technet.microsoft.com/library/dd772723(v=ws.11).aspx
 [availability-set]: /azure/virtual-machines/virtual-machines-windows-create-availability-set

@@ -2,23 +2,25 @@
 title: Enterprise BI és SQL Data Warehouse
 description: A relációs adatok az üzleti elemzéseket kaphat az Azure tárolja a helyszíni
 author: MikeWasson
-ms.date: 07/01/2018
-ms.openlocfilehash: e3542e40b4b6d1f604f93bb21528f34ba7f22fc6
-ms.sourcegitcommit: 58d93e7ac9a6d44d5668a187a6827d7cd4f5a34d
+ms.date: 11/06/2018
+ms.openlocfilehash: 8eb93db4c88eb89cc4797e77b3d7e4eda09e9b9c
+ms.sourcegitcommit: 77d62f966d910cd5a3d11ade7ae5a73234e093f2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/02/2018
-ms.locfileid: "37142335"
+ms.lasthandoff: 11/09/2018
+ms.locfileid: "51293273"
 ---
 # <a name="enterprise-bi-with-sql-data-warehouse"></a>Enterprise BI és SQL Data Warehouse
 
-Ez a referenciaarchitektúra valósít meg egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kinyerési, betöltési, átalakítási) folyamat, amely helyez át adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-ba, és átalakítja az adatokat az elemzéshez. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra valósít meg egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kinyerési, betöltési, átalakítási) folyamat, amely helyez át adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-ba, és átalakítja az adatokat az elemzéshez. 
+
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][github-folder]
 
 ![](./images/enterprise-bi-sqldw.png)
 
 **A forgatókönyv**: egy a szervezet rendelkezik a helyszíni SQL Server-adatbázisban tárolt nagy OLTP adatkészlet. A szervezet célja az SQL Data Warehouse használata a Power BI segítségével történő elemzését. 
 
-Ez a referenciaarchitektúra egyszeri vagy igény szerinti feladat lett tervezve. Adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, ha automatizált munkafolyamatokat az Azure Data Factory használatát javasoljuk. Egy referencia-architektúra, amely a Data Factory használja, lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus](./enterprise-bi-adf.md).
+Ez a referenciaarchitektúra egyszeri vagy igény szerinti feladat lett tervezve. Adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, ha automatizált munkafolyamatokat az Azure Data Factory használatát javasoljuk. Egy referencia-architektúra, amely a Data Factory használja, lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
 ## <a name="architecture"></a>Architektúra
 
@@ -187,232 +189,21 @@ További információkért lásd: [adatbázis-szerepkörök és a felhasználók
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][ref-arch-repo-folder]. A következőket helyezi üzembe:
+A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github-folder]. A következőket helyezi üzembe:
 
   * Windows virtuális gép egy helyszíni adatbázis-kiszolgáló szimulálásához. Ez magában foglalja az SQL Server 2017-ben és a kapcsolódó eszközök, Power BI Desktop együtt.
   * Azure storage-fiókkal, amely biztosít a Blob storage, az SQL Server-adatbázisból exportált adatok tárolásához.
   * Egy Azure SQL Data Warehouse-példányhoz.
   * Az Azure Analysis Services-példányt.
 
-### <a name="prerequisites"></a>Előfeltételek
-
-[!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
-
-### <a name="deploy-the-simulated-on-premises-server"></a>A szimulált helyszíni kiszolgáló üzembe helyezése
-
-Egy virtuális Gépet először egy szimulált helyszíni kiszolgálóként, amely tartalmazza az SQL Server 2017-ben és a kapcsolódó eszközök helyezünk üzembe. Ez a lépés is betölti a [Wide World Importers OLTP adatbázis] [ wwi] az SQL Server.
-
-1. Keresse meg a `data\enterprise_bi_sqldw\onprem\templates` mappában található az adattárban.
-
-2. Az a `onprem.parameters.json` fájlt, cserélje le a tartozó értékeket `adminUsername` és `adminPassword`. Értékeit is módosíthatja a `SqlUserCredentials` szakaszban felel meg a felhasználónevet és jelszót. Megjegyzés: a `.\\` a felhasználónév tulajdonságban előtaggal.
-    
-    ```bash
-    "SqlUserCredentials": {
-      "userName": ".\\username",
-      "password": "password"
-    }
-    ```
-
-3. Futtatás `azbb` a helyszíni kiszolgáló üzembe helyezése az alább látható módon.
-
-    ```bash
-    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.parameters.json --deploy
-    ```
-
-    Adja meg, amely támogatja az SQL Data Warehouse és az Azure Analysis Services egy régiót. Lásd: [az Azure-termékek régiók szerint](https://azure.microsoft.com/global-infrastructure/services/)
-
-4. Az üzembe helyezés eltarthat 20 – 30 percet, amely tartalmazza a futó a [DSC](/powershell/dsc/overview) szkriptet az eszközök telepítésére, és állítsa vissza az adatbázist. Az üzembe helyezés az Azure Portalon ellenőrizze az erőforrások az erőforráscsoportban lévő áttekintésével. Megtekintheti a `sql-vm1` virtuális gép és az összes kapcsolódó erőforrás.
-
-### <a name="deploy-the-azure-resources"></a>Az Azure-erőforrások üzembe helyezése
-
-Ebben a lépésben együtt egy Storage-fiókot látja el az SQL Data Warehouse és az Azure Analysis Services esetén. Ha azt szeretné, ezt a lépést az előző lépés párhuzamosan is futtathatja.
-
-1. Keresse meg a `data\enterprise_bi_sqldw\azure\templates` mappában található az adattárban.
-
-2. Futtassa a következő Azure CLI-paranccsal hozzon létre egy erőforráscsoportot. Egy másik erőforráscsoportban található, mint az előző lépésben üzembe helyezése, de válassza ki az ugyanabban a régióban. 
-
-    ```bash
-    az group create --name <resource_group_name> --location <region>  
-    ```
-
-3. Futtassa a következő Azure CLI-parancsot az Azure-erőforrások üzembe helyezéséhez. Cserélje le a csúcsos zárójelben látható paraméter értékét. 
-
-    ```bash
-    az group deployment create --resource-group <resource_group_name> \
-     --template-file azure-resources-deploy.json \
-     --parameters "dwServerName"="<server_name>" \
-     "dwAdminLogin"="<admin_username>" "dwAdminPassword"="<password>" \ 
-     "storageAccountName"="<storage_account_name>" \
-     "analysisServerName"="<analysis_server_name>" \
-     "analysisServerAdmin"="user@contoso.com"
-    ```
-
-    - A `storageAccountName` paraméter kell követnie a [elnevezési szabályok](../../best-practices/naming-conventions.md#naming-rules-and-restrictions) tárfiókok esetében.
-    - Az a `analysisServerAdmin` paramétert, használja az Azure Active Directory egyszerű felhasználónév (UPN).
-
-4. Az üzembe helyezés az Azure Portalon ellenőrizze az erőforrások az erőforráscsoportban lévő áttekintésével. A storage-fiók, Azure SQL Data Warehouse-példányhoz és Analysis Services-példányt kell megjelennie.
-
-5. Az Azure portal használatával a tárfiók hozzáférési kulcs lekérése. A megnyitáshoz válassza ki a tárfiókot. A **Beállítások** területen válassza a **Hozzáférési kulcsok** elemet. Másolja az elsődleges kulcs értékét. Ez a következő lépésben fogja használni.
-
-### <a name="export-the-source-data-to-azure-blob-storage"></a>Az adatok exportálása az Azure Blob storage 
-
-Ebben a lépésben fog futtatni egy PowerShell-parancsprogram, amely a BCP segítségével exportál az SQL database egybesimított fájlokba, a virtuális gépen, és ezután másolja ki ezeket a fájlokat az Azure Blob Storage-bA az AzCopy használatával.
-
-1. A távoli asztal használatával csatlakozhat a szimulált helyszíni virtuális gép.
-
-2. Bejelentkezés a virtuális géppel, futtassa az alábbi parancsokat a PowerShell-ablakból.  
-
-    ```powershell
-    cd 'C:\SampleDataFiles\reference-architectures\data\enterprise_bi_sqldw\onprem'
-
-    .\Load_SourceData_To_Blob.ps1 -File .\sql_scripts\db_objects.txt -Destination 'https://<storage_account_name>.blob.core.windows.net/wwi' -StorageAccountKey '<storage_account_key>'
-    ```
-
-    Az a `Destination` paramétert, cserélje le `<storage_account_name>` a korábban létrehozott tárfiók nevét. Az a `StorageAccountKey` paramétert, a hozzáférési kulcsot használja a tárfiók.
-
-3. Az Azure Portalon győződjön meg arról, hogy a forrásadatok a Blob storage másolták ellenőrizheti, hogy a tárfiók, a Blob szolgáltatás kiválasztásával, és nyissa meg a `wwi` tároló. Megjelenik a mintametódus használ táblák listáját `WorldWideImporters_Application_*`.
-
-### <a name="run-the-data-warehouse-scripts"></a>A data warehouse parancsfájlok futtatása
-
-1. A távoli asztali munkamenetből indítsa el az SQL Server Management Studio (SSMS). 
-
-2. Connect to SQL Data Warehouse
-
-    - Kiszolgáló típusa: adatbázis-kezelő
-    
-    - Kiszolgálónév: `<dwServerName>.database.windows.net`, ahol `<dwServerName>` amikor központilag telepítette az Azure-erőforrások megadott név. Ez a név kaphat az Azure Portalról.
-    
-    - Hitelesítés: SQL Server-hitelesítés. Amikor központilag telepítette az Azure-erőforrások, a megadott hitelesítő adatokat a `dwAdminLogin` és `dwAdminPassword` paramétereket.
-
-2. Keresse meg a `C:\SampleDataFiles\reference-architectures\data\enterprise_bi_sqldw\azure\sqldw_scripts` mappa a virtuális gépen. Ebben a mappában számsorrendben, a parancsfájlok végrehajtásának `STEP_1` keresztül `STEP_7`.
-
-3. Válassza ki a `master` adatbázisban az ssms-ben, és nyissa meg a `STEP_1` parancsfájlt. Módosítsa az értéket a következő sort a jelszót, majd hajtsa végre a parancsprogramot.
-
-    ```sql
-    CREATE LOGIN LoaderRC20 WITH PASSWORD = '<change this value>';
-    ```
-
-4. Válassza ki a `wwi` adatbázisban az ssms-ben. Nyissa meg a `STEP_2` szkriptet, és hajtsa végre a parancsfájlt. Ha hibaüzenetet kap, ellenőrizze, hogy a szkript futtatásakor a `wwi` adatbázist, és nem `master`.
-
-5. Nyisson meg egy új kapcsolatot az SQL Data Warehouse használatával a `LoaderRC20` megadott felhasználónevet és a jelszót a `STEP_1` parancsfájlt.
-
-6. Ez a kapcsolat használatával nyissa meg a `STEP_3` parancsfájlt. A parancsfájlban állítsa be a következő értékeket:
-
-    - Titkos kulcs: A hozzáférési kulcsot használja a tárfiók.
-    - HELY: A tárfiók nevére az alábbiak szerint alkalmazza: `wasbs://wwi@<storage_account_name>.blob.core.windows.net`.
-
-7. Ugyanazt a kapcsolatot, használja a szkriptek végrehajtása `STEP_4` keresztül `STEP_7` egymás után. Győződjön meg arról, hogy minden parancsprogram a következő futtatása előtt sikeresen lefutott.
-
-Az SMSS, kell megjelennie egy készletét `prd.*` a táblák a `wwi` adatbázis. Annak ellenőrzéséhez, hogy létrejött-e az adatokat, a következő lekérdezés futtatásával: 
-
-```sql
-SELECT TOP 10 * FROM prd.CityDimensions
-```
-
-## <a name="build-the-analysis-services-model"></a>Az Analysis Services-modell létrehozása
-
-Ebben a lépésben létrehoz egy táblázatos modellhez, amely adatokat importál az adatraktárba. A modell telepíti majd az Azure Analysis Servicesbe.
-
-1. A távoli asztali munkamenetből indítsa el az SQL Server Data Tools 2015.
-
-2. Válassza a **File** (Fájl) > **New** (Új) > **Project** (Projekt) lehetőséget.
-
-3. Az a **új projekt** párbeszédpanelen, a **sablonok**válassza **üzleti intelligencia** > **Analysis Services**  >  **Analysis Services rendszerbeli táblázatos projekt**. 
-
-4. Adja a projektnek, és kattintson a **OK**.
-
-5. Az a **táblázatos modell tervezője** párbeszédpanelen válassza **integrált munkaterület** és **kompatibilitási szint** való `SQL Server 2017 / Azure Analysis Services (1400)`. Kattintson az **OK** gombra.
-
-6. Az a **Táblázatosmodell-tallózóban** ablakban kattintson a jobb gombbal a projektre, majd válassza ki **importálás adatforrásból**.
-
-7. Válassza ki **Azure SQL Data Warehouse** kattintson **Connect**.
-
-8. A **kiszolgáló**, adja meg az Azure SQL Data Warehouse-kiszolgáló teljes nevét. A **adatbázis**, adja meg `wwi`. Kattintson az **OK** gombra.
-
-9. A következő párbeszédpanelen válasszon **adatbázis** hitelesítést, és adja meg az Azure SQL Data Warehouse-felhasználónevet és jelszót, majd kattintson **OK**.
-
-10. Az a **kezelő** párbeszédpanelen jelölje be a jelölőnégyzeteket **prd. CityDimensions**, **prd. DateDimensions**, és **prd. SalesFact**. 
-
-    ![](./images/analysis-services-import.png)
-
-11. Kattintson a **terhelés**. Feldolgozás befejeződése után kattintson a **Bezárás**. Meg kell jelennie az adatok egy táblázatos nézetben.
-
-12. Az a **Táblázatosmodell-tallózóban** ablakban kattintson a jobb gombbal a projektre, majd válassza ki **modellnézet** > **diagramnézet**.
-
-13. Húzza a **[prd. SalesFact]. [WWI város ID]**  mezőt a **[prd. CityDimensions]. [WWI város ID]**  mező egy kapcsolat létrehozásához.  
-
-14. Húzza a **[prd. SalesFact]. [Invoice Date Key]**  mezőt a **[prd. DateDimensions]. [Date]**  mező.  
-    ![](./images/analysis-services-relations.png)
-
-15. Az a **fájl** menüben válassza a **összes mentése**.  
-
-16. A **Megoldáskezelőben**, kattintson a jobb gombbal a projektre, és válassza ki **tulajdonságok**. 
-
-17. A **kiszolgáló**, adja meg az Azure Analysis Services-példány URL-CÍMÉT. Ezt az értéket kaphat az Azure Portalról. A portálon, válassza ki az Analysis Services-erőforrást, az Áttekintés ablaktábláján kattintson, és keresse meg a **kiszolgálónév** tulajdonság. Hasonló lesz `asazure://westus.asazure.windows.net/contoso`. Kattintson az **OK** gombra.
-
-    ![](./images/analysis-services-properties.png)
-
-18. A **Megoldáskezelőben**, kattintson a jobb gombbal a projektre, és válassza ki **telepítés**. Ha a rendszer kéri, jelentkezzen be Azure. Feldolgozás befejeződése után kattintson a **Bezárás**.
-
-19. Az Azure Portalon az Azure Analysis Services-példány részleteinek megtekintéséhez. Győződjön meg arról, hogy a modell a modellek listája látható.
-
-    ![](./images/analysis-services-models.png)
-
-## <a name="analyze-the-data-in-power-bi-desktop"></a>Elemezheti az adatokat a Power BI Desktopban
-
-Ebben a lépésben használandó Power BI-jelentés létrehozása az adatokból az Analysis Servicesben.
-
-1. A távoli asztali munkamenetből indítsa el a Power BI Desktopban.
-
-2. Kattintson az üdvözlő Scren **adatok lekérése**.
-
-3. Válassza ki **Azure** > **Azure Analysis Services-adatbázis**. Kattintson a **csatlakoztatása**
-
-    ![](./images/power-bi-get-data.png)
-
-4. Adja meg az Analysis Services-példány URL-CÍMÉT, majd kattintson a **OK**. Ha a rendszer kéri, jelentkezzen be Azure.
-
-5. Az a **kezelő** párbeszédpanelen bontsa ki a táblázatos projektet, üzembe helyezett, válassza ki a létrehozott, és kattintson a létrehozott modellt **OK**.
-
-2. Az a **Vizualizációk** panelen válassza a **-ig halmozott sávdiagram** ikonra. A jelentés nézetben méretezze át a Vizualizáció nagyobb legyen.
-
-6. Az a **mezők** ablaktáblán bontsa ki a **prd. CityDimensions**.
-
-7. A csomóponthúzási **prd. CityDimensions** > **WWI város azonosító** , a **tengely** is.
-
-8. A csomóponthúzási **prd. CityDimensions** > **Város** , a **jelmagyarázat** is.
-
-9. Az a **mezők** ablaktáblán bontsa ki a **prd. SalesFact**.
-
-10. A csomóponthúzási **prd. SalesFact** > **kivételével adó** , a **érték** is.
-
-    ![](./images/power-bi-visualization.png)
-
-11. A **Látványelemszint szűrői**válassza **WWI város azonosító**.
-
-12. Állítsa be a **szűrőtípus** való `Top N`, és állítsa be **elemek megjelenítése** való `Top 10`.
-
-13. A csomóponthúzási **prd. SalesFact** > **kivételével adó** , a **idővel** is
-
-    ![](./images/power-bi-visualization2.png)
-
-14. Kattintson a **szűrő alkalmazása**. A Vizualizáció a felső 10 összes értékesítés város szerint jeleníti meg.
-
-    ![](./images/power-bi-report.png)
-
-A Power BI Desktop kapcsolatos további információkért lásd: [Ismerkedés a Power BI Desktop](/power-bi/desktop-getting-started).
 
 ## <a name="next-steps"></a>További lépések
 
-- Ez a referenciaarchitektúra kapcsolatos további információkért látogasson el a [GitHub-adattár][ref-arch-repo-folder].
-- További információ a [az Azure építőelemei][azbb-repo].
+- Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
 <!-- links -->
 
-[azure-cli-2]: /azure/install-azure-cli
-[azbb-repo]: https://github.com/mspnp/template-building-blocks
-[azbb-wiki]: https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks
+[adf-ra]: ./enterprise-bi-adf.md
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw
-[ref-arch-repo]: https://github.com/mspnp/reference-architectures
-[ref-arch-repo-folder]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw
 [wwi]: /sql/sample/world-wide-importers/wide-world-importers-oltp-database
+

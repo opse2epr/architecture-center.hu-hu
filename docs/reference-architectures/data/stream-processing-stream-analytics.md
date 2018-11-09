@@ -1,18 +1,20 @@
 ---
-title: Az Azure Stream Analytics feldolgozási Stream
+title: Streamek feldolgozása az Azure Stream Analyticsszel
 description: Hozzon létre egy teljes körű adatfolyam-feldolgozási folyamat az Azure-ban
 author: MikeWasson
-ms.date: 08/09/2018
-ms.openlocfilehash: 82887bdd45f811ac733ead18c1f256098e575253
-ms.sourcegitcommit: c4106b58ad08f490e170e461009a4693578294ea
+ms.date: 11/06/2018
+ms.openlocfilehash: e16547ccdcb81007e154e341f09be555ac82d1a1
+ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/10/2018
-ms.locfileid: "40025552"
+ms.lasthandoff: 11/07/2018
+ms.locfileid: "51263762"
 ---
-# <a name="stream-processing-with-azure-stream-analytics"></a>Az Azure Stream Analytics feldolgozási Stream
+# <a name="stream-processing-with-azure-stream-analytics"></a>Streamek feldolgozása az Azure Stream Analyticsszel
 
-Ez a referenciaarchitektúra bemutatja egy teljes körű stream-feldolgozási folyamat. A folyamat adatokat két forrásból fogadnak, utal. a két adatfolyam rekordokat, és kiszámítja a gördülő átlagát között egy olyan időkeretet. Az eredmények tárolása további elemzés céljából. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja egy teljes körű stream-feldolgozási folyamat. A folyamat adatokat két forrásból fogadnak, utal. a két adatfolyam rekordokat, és kiszámítja a gördülő átlagát között egy olyan időkeretet. Az eredmények tárolása további elemzés céljából. 
+
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][github]. 
 
 ![](./images/stream-processing-asa/stream-processing-asa.png)
 
@@ -37,6 +39,8 @@ Az architektúra a következőkben leírt összetevőkből áll.
 ## <a name="data-ingestion"></a>Adatfeldolgozás
 
 Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik. 
+
+[1] <span id="note1">Donovan, Brian; Munka, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
 
 Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el. 
 
@@ -209,162 +213,7 @@ Interestingly ennek hatására oldal, ahol egyre növekszik a Stream Analytics-f
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](https://github.com/mspnp/reference-architectures/tree/master/data). 
+A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github]. 
 
-### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [referenciaarchitektúrákat](https://github.com/mspnp/reference-architectures) GitHub-adattárban.
-
-2. Telepítés [Docker](https://www.docker.com/) futtatásához az adatgenerálást.
-
-3. Telepítés [az Azure CLI 2.0](/cli/azure/install-azure-cli?view=azure-cli-latest).
-
-4. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
-
-    ```
-    az login
-    ```
-
-### <a name="download-the-source-data-files"></a>Az adatok forrásfájlok letöltéséhez
-
-1. Hozzon létre egy könyvtárat nevű `DataFile` alatt a `data/streaming_asa` könyvtárat a GitHub-adattárat a.
-
-2. Nyisson meg egy webböngészőt, és navigáljon a https://uofi.app.box.com/v/NYCtaxidata/folder/2332219935.
-
-3. Kattintson a **letöltése** gombra ezen az oldalon a megfelelő évnek a taxi-adatok egy zip-fájl letöltéséhez.
-
-4. Bontsa ki a zip-fájlt a `DataFile` könyvtár.
-
-    > [!NOTE]
-    > Ez a tömörített fájl más zip-fájlokat tartalmazza. A gyermek zip-fájlokat nem csomagolja ki.
-
-A directory-struktúra az alábbiakhoz hasonlóan kell kinéznie:
-
-```
-/data
-    /streaming_asa
-        /DataFile
-            /FOIL2013
-                trip_data_1.zip
-                trip_data_2.zip
-                trip_data_3.zip
-                ...
-```
-
-### <a name="deploy-the-azure-resources"></a>Az Azure-erőforrások üzembe helyezése
-
-1. A rendszerhéj vagy a Windows-parancssort futtassa a következő parancsot, és kövesse a bejelentkezési kérések jelenhetnek:
-
-    ```bash
-    az login
-    ```
-
-2. Lépjen abba a mappába `data/streaming_asa` a GitHub-adattárban
-
-    ```bash
-    cd data/streaming_asa
-    ```
-
-2. Futtassa az alábbi parancsokat az Azure-erőforrások üzembe helyezéséhez:
-
-    ```bash
-    export resourceGroup='[Resource group name]'
-    export resourceLocation='[Location]'
-    export cosmosDatabaseAccount='[Cosmos DB account name]'
-    export cosmosDatabase='[Cosmod DB database name]'
-    export cosmosDataBaseCollection='[Cosmos DB collection name]'
-    export eventHubNamespace='[Event Hubs namespace name]'
-
-    # Create a resource group
-    az group create --name $resourceGroup --location $resourceLocation
-
-    # Deploy resources
-    az group deployment create --resource-group $resourceGroup \
-      --template-file ./azure/deployresources.json --parameters \
-      eventHubNamespace=$eventHubNamespace \
-      outputCosmosDatabaseAccount=$cosmosDatabaseAccount \
-      outputCosmosDatabase=$cosmosDatabase \
-      outputCosmosDatabaseCollection=$cosmosDataBaseCollection
-
-    # Create a database 
-    az cosmosdb database create --name $cosmosDatabaseAccount \
-        --db-name $cosmosDatabase --resource-group $resourceGroup
-
-    # Create a collection
-    az cosmosdb collection create --collection-name $cosmosDataBaseCollection \
-        --name $cosmosDatabaseAccount --db-name $cosmosDatabase \
-        --resource-group $resourceGroup
-    ```
-
-3. Az Azure Portalon keresse meg a létrehozott erőforráscsoportot.
-
-4. A Stream Analytics-feladat panel megnyitásához.
-
-5. Kattintson a **Start** elindítani a feladatot. Válassza ki **most** kimenetként, kezdő időpont. Várjon, amíg a feladat elindításához.
-
-### <a name="run-the-data-generator"></a>Futtassa az adatgenerátor
-
-1. Az Event Hub-kapcsolati karakterláncok beolvasása. Ezek az Azure Portalról, vagy a következő CLI-parancsok futtatásával kaphat:
-
-    ```bash
-    # RIDE_EVENT_HUB
-    az eventhubs eventhub authorization-rule keys list \
-        --eventhub-name taxi-ride \
-        --name taxi-ride-asa-access-policy \
-        --namespace-name $eventHubNamespace \
-        --resource-group $resourceGroup \
-        --query primaryConnectionString
-
-    # FARE_EVENT_HUB
-    az eventhubs eventhub authorization-rule keys list \
-        --eventhub-name taxi-fare \
-        --name taxi-fare-asa-access-policy \
-        --namespace-name $eventHubNamespace \
-        --resource-group $resourceGroup \
-        --query primaryConnectionString
-    ```
-
-2. Lépjen abba a könyvtárba `data/streaming_asa/onprem` a GitHub-adattárban
-
-3. Frissítse az értékeket a fájlban `main.env` módon:
-
-    ```
-    RIDE_EVENT_HUB=[Connection string for taxi-ride event hub]
-    FARE_EVENT_HUB=[Connection string for taxi-fare event hub]
-    RIDE_DATA_FILE_PATH=/DataFile/FOIL2013
-    MINUTES_TO_LEAD=0
-    PUSH_RIDE_DATA_FIRST=false
-    ```
-
-4. Futtassa a következő parancsot a Docker-rendszerkép létrehozásához.
-
-    ```bash
-    docker build --no-cache -t dataloader .
-    ```
-
-5. Lépjen vissza a szülőkönyvtárban `data/stream_asa`.
-
-    ```bash
-    cd ..
-    ```
-
-6. Futtassa a következő parancsot beírva futtassa a Docker-rendszerképet.
-
-    ```bash
-    docker run -v `pwd`/DataFile:/DataFile --env-file=onprem/main.env dataloader:latest
-    ```
-
-A kimenet a következőhöz hasonlóan kell kinéznie:
-
-```
-Created 10000 records for TaxiFare
-Created 10000 records for TaxiRide
-Created 20000 records for TaxiFare
-Created 20000 records for TaxiRide
-Created 30000 records for TaxiFare
-...
-```
-
-Lehetővé teszik a program futtatása legalább 5 percnek, azaz a meghatározott a Stream Analytics lekérdezési ablak. A Stream Analytics-feladat megfelelően fut-e, nyissa meg az Azure Portalt, és keresse meg a Cosmos DB-adatbázist. Nyissa meg a **adatkezelő** panel és a dokumentumok megtekintése. 
-
-[1] <span id="note1">Donovan, Brian; Munka, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
+[github]: https://github.com/mspnp/reference-architectures/tree/master/data/streaming_asa
