@@ -6,7 +6,7 @@ author: lbrader
 ms.date: 11/06/2018
 ms.openlocfilehash: abf3d8afb21fbf6d49423c0759613eeae6b53849
 ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/07/2018
 ms.locfileid: "51263830"
