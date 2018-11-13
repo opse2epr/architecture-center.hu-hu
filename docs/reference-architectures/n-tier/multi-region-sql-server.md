@@ -3,16 +3,14 @@ title: Többrégiós N szintű alkalmazás magas rendelkezésre állás érdeké
 description: Virtuális gépek üzembe helyezése több régióban az Azure-on a magas rendelkezésre állás és rugalmasság érdekében.
 author: MikeWasson
 ms.date: 07/19/2018
-pnp.series.title: Windows VM workloads
-pnp.series.prev: n-tier
-ms.openlocfilehash: 34dd47175e7fd0002cba577ad6c1034968ed4098
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
-ms.translationtype: HT
+ms.openlocfilehash: 3b1c419182322b2fa0b555230465f41562e8e6c1
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819125"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527626"
 ---
-# <a name="multi-region-n-tier-application-for-high-availability"></a>Többrégiós N szintű alkalmazás magas rendelkezésre állás érdekében
+# <a name="n-tier-application-in-multiple-azure-regions-for-high-availability"></a>N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
 Ez a referenciaarchitektúra néhány bevált eljárást mutat be egy N szintű alkalmazás több Azure-régióban való futtatásához a magas rendelkezésre állás eléréséhez és egy robusztus vészhelyreállítási infrastruktúra kiépítéséhez. 
 
