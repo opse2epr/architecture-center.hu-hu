@@ -3,14 +3,14 @@ title: Enterprise BI és SQL Data Warehouse
 description: A relációs adatok az üzleti elemzéseket kaphat az Azure tárolja a helyszíni
 author: MikeWasson
 ms.date: 11/06/2018
-ms.openlocfilehash: d5b680346267a17b5016b8897dc03ddcf18a7fe9
-ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
-ms.translationtype: HT
+ms.openlocfilehash: 2822cf6d2a75d521f182c267f4bf2bac462d2b7f
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51263813"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527711"
 ---
-# <a name="enterprise-bi-with-sql-data-warehouse"></a>Enterprise BI és SQL Data Warehouse
+# <a name="enterprise-bi-in-azure-with-sql-data-warehouse"></a>Vállalati bi-ban az Azure SQL Data Warehouse-ban
 
 Ez a referenciaarchitektúra valósít meg egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kinyerési, betöltési, átalakítási) folyamat, amely helyez át adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-ba, és átalakítja az adatokat az elemzéshez. 
 
@@ -199,7 +199,7 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 
 ## <a name="next-steps"></a>További lépések
 
-- Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [az automatikus vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory] [adf = ra].
+- Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
 <!-- links -->
 
