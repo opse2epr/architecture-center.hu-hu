@@ -345,6 +345,8 @@ items:
     items:
     - name: A mélytanulási modellek kötegelt kiértékelése
       href: reference-architectures/ai/batch-scoring-deep-learning.md
+    - name: A Python-modellek valós idejű pontozása
+      href: reference-architectures/ai/realtime-scoring-python.md
   - name: Big Data
     items:
     - name: Enterprise BI és SQL Data Warehouse
@@ -383,18 +385,6 @@ items:
       href: reference-architectures/identity/adds-forest.md
     - name: Az AD FS kiterjesztése az Azure-ra
       href: reference-architectures/identity/adfs.md
-  - name: N szintű alkalmazások
-    items:
-    - name: SQL Servert használó N szintű alkalmazás
-      href: reference-architectures/n-tier/n-tier-sql-server.md
-    - name: Többrégiós N szintű alkalmazás
-      href: reference-architectures/n-tier/multi-region-sql-server.md
-    - name: Cassandrát használó N szintű alkalmazás
-      href: reference-architectures/n-tier/n-tier-cassandra.md
-    - name: Linux rendszerű virtuális gép üzembe helyezése
-      href: reference-architectures/n-tier/linux-vm.md
-    - name: Windows rendszerű virtuális gép üzembe helyezése
-      href: reference-architectures/n-tier/windows-vm.md
   - name: Hálózati DMZ
     items:
     - name: Szegélyhálózat (DMZ) az Azure és a helyszíni hely között
@@ -419,8 +409,18 @@ items:
       href: reference-architectures/serverless/event-processing.md
   - name: Virtuális gépek számítási feladatai
     items:
+    - name: Egyetlen linuxos virtuális gép
+      href: reference-architectures/n-tier/linux-vm.md
+    - name: Egyetlen windowsos virtuális gép
+      href: reference-architectures/n-tier/windows-vm.md
     - name: Jenkins server
       href: reference-architectures/jenkins/index.md
+    - name: SQL Servert használó N szintű alkalmazás
+      href: reference-architectures/n-tier/n-tier-sql-server.md
+    - name: Többrégiós N szintű alkalmazás
+      href: reference-architectures/n-tier/multi-region-sql-server.md
+    - name: Cassandrát használó N szintű alkalmazás
+      href: reference-architectures/n-tier/n-tier-cassandra.md
     - name: SharePoint Server 2016
       href: reference-architectures/sharepoint/index.md
   - name: Webalkalmazások
@@ -543,9 +543,9 @@ items:
       href: cloud-adoption/appendix/azure-scaffold.md
     - name: Azure Enterprise-szerkezet implementálása
       href: cloud-adoption/appendix/azure-scaffold-examples.md
-ms.openlocfilehash: 087c1573a34735dd33b1c52a83bf4a11322540a1
-ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
+ms.openlocfilehash: 8df93c4b01953902e56a1cd2aab1231b3de3ae52
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51263796"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527677"
