@@ -3,12 +3,12 @@ title: Enterprise BI és SQL Data Warehouse
 description: A relációs adatok az üzleti elemzéseket kaphat az Azure tárolja a helyszíni
 author: MikeWasson
 ms.date: 11/06/2018
-ms.openlocfilehash: 8eb93db4c88eb89cc4797e77b3d7e4eda09e9b9c
-ms.sourcegitcommit: 77d62f966d910cd5a3d11ade7ae5a73234e093f2
+ms.openlocfilehash: d5b680346267a17b5016b8897dc03ddcf18a7fe9
+ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51293273"
+ms.lasthandoff: 11/07/2018
+ms.locfileid: "51263813"
 ---
 # <a name="enterprise-bi-with-sql-data-warehouse"></a>Enterprise BI és SQL Data Warehouse
 
@@ -199,7 +199,7 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 
 ## <a name="next-steps"></a>További lépések
 
-- Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
+- Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [az automatikus vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory] [adf = ra].
 
 <!-- links -->
 
