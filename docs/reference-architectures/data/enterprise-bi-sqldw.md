@@ -5,7 +5,7 @@ author: MikeWasson
 ms.date: 11/06/2018
 ms.openlocfilehash: 8eb93db4c88eb89cc4797e77b3d7e4eda09e9b9c
 ms.sourcegitcommit: 77d62f966d910cd5a3d11ade7ae5a73234e093f2
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 11/09/2018
 ms.locfileid: "51293273"

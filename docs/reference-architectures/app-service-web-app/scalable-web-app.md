@@ -2,19 +2,15 @@
 title: Méretezhető webalkalmazás
 description: A Microsoft Azure-ban futó webalkalmazás méretezhetőségének javítása.
 author: MikeWasson
-pnp.series.title: Azure App Service
-pnp.series.prev: basic-web-app
-pnp.series.next: multi-region-web-app
 ms.date: 10/25/2018
-cardTitle: Improve scalability
-ms.openlocfilehash: 208413a49fe4a3f9ca308fa1a939ba426e7fa636
-ms.sourcegitcommit: 065fa8ecb37c8be1827da861243ad6a33c75c99d
+ms.openlocfilehash: dd1fa30b6ac8d978ad0151c8753951d848d60664
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/26/2018
-ms.locfileid: "50136692"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527609"
 ---
-# <a name="improve-scalability-in-a-web-application"></a>Méretezhetőség javítása egy webalkalmazásban
+# <a name="improve-scalability-in-an-azure-web-application"></a>Azure-webalkalmazások méretezhetőség javítása
 
 Ez a referenciaarchitektúra az Azure App Service-webalkalmazások méretezhetőségének és teljesítményének javítására szolgáló bevált eljárásokat mutat be.
 

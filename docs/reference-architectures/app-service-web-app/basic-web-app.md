@@ -3,16 +3,14 @@ title: Alapszintű webalkalmazás
 description: A Microsoft Azure-ban futó alapszintű webalkalmazásokhoz javasolt architektúra.
 author: MikeWasson
 ms.date: 12/12/2017
-cardTitle: Basic web application
-ms.openlocfilehash: 570ee23341bb956a4430f1dc91f30b5194d4b4f0
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 06c37d5d87befa553a9efbe14acea24db57ae8f8
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429046"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527728"
 ---
-# <a name="basic-web-application"></a>Alapszintű webalkalmazás
-[!INCLUDE [header](../../_includes/header.md)]
+# <a name="basic-web-application-in-azure"></a>Alapszintű webalkalmazás az Azure-ban
 
 Ez a referenciaarchitektúra bevált eljárásokat mutat be az [Azure App Service][app-service]-t és az [Azure SQL Database][sql-db]-t használó webalkalmazásokhoz. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 

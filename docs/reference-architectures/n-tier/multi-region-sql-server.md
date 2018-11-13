@@ -7,7 +7,7 @@ pnp.series.title: Windows VM workloads
 pnp.series.prev: n-tier
 ms.openlocfilehash: 34dd47175e7fd0002cba577ad6c1034968ed4098
 ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 10/05/2018
 ms.locfileid: "48819125"

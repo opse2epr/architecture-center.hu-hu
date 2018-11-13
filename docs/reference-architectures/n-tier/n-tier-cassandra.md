@@ -3,14 +3,14 @@ title: Az Apache Cassandra használatával N szintű alkalmazás
 description: Annak az ismertetése, hogyan kell Linux rendszerű virtuális gépeket futtatni N szintű architektúrához a Microsoft Azure-ban.
 author: MikeWasson
 ms.date: 09/13/2018
-ms.openlocfilehash: 2eceb0b5d939c0aa2cc9fc3209d0f86449fdd72b
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
-ms.translationtype: MT
+ms.openlocfilehash: c28dc653f025e8805adacbe1000da9bd3af708e7
+ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
+ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916566"
+ms.lasthandoff: 11/11/2018
+ms.locfileid: "51527643"
 ---
-# <a name="n-tier-application-with-apache-cassandra"></a>Az Apache Cassandra használatával N szintű alkalmazás
+# <a name="linux-n-tier-application-in-azure-with-apache-cassandra"></a>Az Azure-ban az Apache Cassandra használatával Linux N szintű alkalmazás
 
 Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek és a egy N szintű alkalmazáshoz, az Apache Cassandra használatával Linux rendszeren az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
 

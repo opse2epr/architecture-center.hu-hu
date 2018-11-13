@@ -3,68 +3,68 @@ title: Gépi tanulás nagy léptékben
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: 4e584da18893ac7405fa00863fe034e45b2e3903
-ms.sourcegitcommit: 7ced70ebc11aa0df0dc0104092d3cc6ad5c28bd6
+ms.openlocfilehash: a44785b61faec8a45160fa2895fbc03e2c580a77
+ms.sourcegitcommit: 9293350ab66fb5ed042ff363f7a76603bf68f568
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 05/11/2018
-ms.locfileid: "34062816"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51577140"
 ---
 # <a name="machine-learning-at-scale"></a>Gépi tanulás nagy léptékben
 
-Gépi tanulás (ML) matematikai algoritmusok alapuló prediktív modellek betanítása használt módszer. Gépi tanulás elemzi az ismeretlen értékeinek adatmezők közötti kapcsolatokat.
+Machine learning (gépi tanulás) a technikával matematikai algoritmusokon alapuló prediktív modelleket taníthat be. Machine learning elemzi az ismeretlen értékeinek datová Pole közötti kapcsolatokat.
 
-A következő iteratív folyamat létrehozása és telepítése a gépi tanulási modell:
+A következő iteratív folyamat létrehozása és telepítése a machine learning-modellek:
 
-* Adatszakértőkön adatokba a forrás közötti kapcsolatok meghatározásához *szolgáltatások* és előre jelzett *címkék*.
-* Az adatelemzők betanítása, és keresse meg az optimális előrejelzés megfelelő algoritmusokat alapuló modellek ellenőrzése.
-* Az optimális modell éles környezetben, a rendszer egy webes szolgáltatás, vagy valamilyen egyéb beágyazott függvény.
-* Új adatokat kell összegyűjteni, mert a rendszer rendszeres időközönként retrained a modell hatékonyságának növelése érdekében.
+* Az adatszakértők, ismerje meg az adatforrás közötti kapcsolatok meghatározása *funkciók* és előrejelzett *címkék*.
+* Az adatszakértők betanítása és alapján keresse meg az optimális előrejelzéshez megfelelő algoritmusokat modellek ellenőrzése.
+* Az optimális modell üzembe lett helyezve, éles környezetben, egy webszolgáltatás, vagy valamilyen egyéb beágyazott függvényt.
+* Ahogy gyűlnek az adatok új, akkor a modell rendszeres időközönként retrained, a hatékonyság javítása érdekében.
 
-Gépi tanulás léptékű címek két különböző méretezhetőség vonatkozik. Az első van betanítása a modell tanítását kell még betanítani a fürt kibővített képességeit igényelnek nagy méretű adatkészletekhez. A második központok operationalizating oly módon, hogy méretezhető, az azt használó alkalmazások követelményeinek megismert modell. Általában ez érhető el, a prediktív képességeit, majd kiterjeszthető webszolgáltatásként üzembe helyezésével.
+Gépi tanulás nagy mennyiségű címek két különböző méretezhetőségi problémákat. Az első van képzés a modell betanításához egy fürt horizontális felskálázhatóságát igénylő nagy méretű adatkészleteken. A második központok operationalizating a megismert modellt úgy, hogy a videólejátszást az alkalmazások által felhasználható, rugalmasan méretezheti. Általában ez történik a prediktív képességeket, majd kiterjeszthető webszolgáltatásként üzembe helyezésével.
 
-Gépi tanulási léptékű az előnye, hogy azt is létrehozhat hatékony, prediktív képességek, mert jobb modellek általában több adatot eredménye van. Ha egy modell betanítása, azt egy állapotmentes, magas-performant, kibővített webszolgáltatás telepíthető központilag. 
+A Machine learning ipari méretekben az előny, hogy azt is tudott hatékony, prediktív képességeket, hatékonyabb modelleket általában több adatot eredménye, mert rendelkezik. Miután a modell tanítása, egy állapot nélküli,-nagy teljesítményű, horizontális felskálázás webszolgáltatás telepíthető. 
 
-## <a name="model-preparation-and-training"></a>Minta előkészítése és a képzési
+## <a name="model-preparation-and-training"></a>A modellekre előkészítési és -képzés
 
-A modell előkészítése és a képzési fázis során adatszakértőkön ismerheti meg az adatokat, például a Python és az R nyelv interaktív használatával:
+A modell előkészítése és képzési fázis során az adatszakértők ismerje meg az adatokat interaktív módon a például a Python és az R nyelv használatával:
 
-* Bontsa ki a minták áruházakból nagy mennyiségű adat.
-* Keresse meg és kezeli a kiugró, az ismétlődések és a hiányzó értékeket adatot.
-* Korrelációk és az adatokat statisztikai elemzések és a képi megjelenítés lévő kapcsolatok meghatározásához.
-* Új számított funkciókat, amelyek javítják a predictiveness statisztikai kapcsolatok létrehozása.
-* Vonat ML modellek prediktív algoritmusok alapján.
-* Ellenőrizze a betanítás során lett futtatásában adatokkal betanított modellek.
+* Bontsa ki a minták nagy mennyiségű adattárakból származó.
+* Keresse meg és kezelje a kiugró értékek, az ismétlődések és a hiányzó értékek törölje.
+* Összefüggéseket és az adatokat statisztikai elemzéssel és vizualizációs kapcsolatokat határozzák meg.
+* Hozzon létre új számított funkciók, amelyek javítják a predictiveness statisztikai kapcsolatok.
+* Train gépi Tanulási modellek alapján prediktív algoritmusait.
+* Ellenőrizze, hogy a betanítás során lett adókról adatok felhasználásával betanított modellek.
 
-Az interaktív elemzések elvégzéséhez és a modellezési fázis támogatásához a adatplatform engedélyeznie kell az adatszakértőkön át a különböző eszközök használatával adatokba. Emellett egy összetett gépi tanulási modell a tanítási megkövetelheti az sok nagy mennyiségű adatot, intenzív feldolgozása elegendő erőforrás a modell betanítási kiterjesztése az alapvető fontosságú.
+Támogatja a interaktív elemzés és modellezés fázis, a data platform engedélyezni kell az adatszakértők adatfeltárás segítségével számos különféle eszközzel. Ezenkívül egy összetett gépi tanulási modell a betanítási lehet szükség nagy mennyiségű adat, az intenzív feldolgozási rengeteg, így elegendő erőforrás a modell betanítása bővítési elengedhetetlen.
 
-## <a name="model-deployment-and-consumption"></a>Minta központi telepítés és használat
+## <a name="model-deployment-and-consumption"></a>Modell üzembe helyezés és használat
 
-Amikor egy modell telepítésre kész, egy webszolgáltatás be vannak ágyazva, és a felhőbe, a peremhálózati eszköz, vagy egy vállalati ML végrehajtási környezeten belül telepíteni. Ez a telepítési folyamat operationalization nevezzük.
+Amikor egy modell telepítésre kész, beágyazott webszolgáltatásként, és a felhőben, az edge-eszközöket, vagy egy vállalati gépi Tanulási végrehajtási környezetben telepített. Ez a telepítési folyamat operacionalizálás nevezzük.
 
 ## <a name="challenges"></a>Problémák
 
-Gépi tanulási léptékű néhány kihívást hoz létre:
+A Machine learning ipari méretekben néhány kihívásokat hoz létre:
 
-- Általában szüksége nagy mennyiségű adatot kell még betanítani a modellt, különösen a részletes tanulási modellek.
-- Elő kell készíteni a big data készletek a modell betanítása még megkezdése előtt.
-- A modell betanítási fázisban kell hozzáférést, a big Data típusú adatok. Esetében gyakori, a modell betanítási ugyanazon big Data típusú adatok fürt, például a Spark, adatok előkészítése használt használatával végrehajtani. 
-- Ahhoz hasonló forgatókönyvek esetén mély tanulási nem csak szükség van-e a fürt, amely képes biztosítani a CPU-n a horizontális, de a fürtnek szüksége lesz a GPU-engedélyezett csomópontok állnak.
+- Rendszerint nagy mennyiségű adatot egy modell, különösen a deep learning-modellek betanításához.
+- Ezen big data jellegű adatkészletek előkészítése a modell még megkezdése előtt kell.
+- A modell a betanítási fázisban a big data-tárakat kell elérniük. Szokás hajtsa végre a modell képzést nyújt a big Data típusú adatok fürtön, például a Spark-, adat-előkészítési szolgálja ki. 
+- Forgatókönyvek, például a mély tanulás nem csak szüksége lesz egy fürtöt, amely képes biztosítani a processzorok horizontális felskálázás, de a fürt kell GPU-kompatibilis csomópontok állnak.
 
-## <a name="machine-learning-at-scale-in-azure"></a>Gépi tanulási léptékű az Azure-ban
+## <a name="machine-learning-at-scale-in-azure"></a>A Machine learning ipari méretekben az Azure-ban
 
-Előtt annak eldöntése, amely a ML szolgáltatások használandó képzési és operationalization, ha a modell betanításához minden szüksége van, vagy ha egy előre elkészített modell képes igényeinek fontolja meg. Sok esetben egy előre elkészített modell használata csak egy függetlenül attól, hogy egy webes szolgáltatás hívása, vagy egy meglévő modell betöltése az ML-tár használatával. Néhány lehetőségek a következők: 
+Mielőtt mellett dönt, amelyek Machine Learning services képzési és operacionalizálás, fontolja meg a akár a modell betanításához minden van szüksége, vagy ha egy előre létrehozott modellt is megfelelnek az elvárásainak. Sok esetben egy előre elkészített modellel: mindössze egy webes szolgáltatás hívása, vagy egy meglévő modell betöltése egy gépi Tanulási kódtár használatával. Egyes lehetőségek a következők: 
 
-- Microsoft kognitív szolgáltatás által biztosított webes szolgáltatásait használják.
-- A kognitív eszközkészlet által biztosított pretrained Neurális hálózat modellek használata.
-- Az iOS-alkalmazások Core gépi tanulás által biztosított szerializált modellek beágyazása. 
+- A Microsoft Cognitive Services által kínált webes szolgáltatásait használják.
+- A Cognitive Toolkit nyújtotta Neurális hálózat imagenet modellek használata.
+- Ágyazza be a szerializált modell egy iOS-alkalmazások alapvető gépi tanulás által biztosított. 
 
-Egy előre elkészített modell nem felelnek meg az adatok vagy adott esetben, ha az Azure-ban a választható lehetőségek Azure Machine Learning, HDInsight Spark MLlib és MMLSpark, kognitív eszközkészlet és SQL Machine Learning szolgáltatás. Ha úgy dönt, hogy egy egyéni modellt használja, egy folyamatot, amely tartalmazza a modell betanítási és operationalization kell tervezésekor. 
+Előre összeállított modellek az adatok vagy a forgatókönyv nem fér el, ha az Azure-ban lehet például az Azure Machine Learning, HDInsight Spark MLlib és MMLSpark, az Azure Databricks, a Cognitive Toolkit és SQL Machine Learning-szolgáltatások. Ha úgy dönt, hogy a egyéni modell, egy folyamatot, amely tartalmazza a modell betanítása és operacionalizálás kell alakítja ki. 
 
-![Az Azure-ban modell beállításai](./images/machine-learning-model-training-and-deployment.png)
+![Modell beállításai az Azure-ban](./images/machine-learning-model-training-and-deployment.png)
 
-Az Azure ML technológia lehetőségek listáját az alábbi témakörökben található:
+Az Azure-ban gépi Tanulási technológia választási listája a következő témakörökben talál:
 
-- [Egy kognitív technológia kiválasztása](../technology-choices/cognitive-services.md)
-- [A gépi tanulási technológiával kiválasztása](../technology-choices/data-science-and-machine-learning.md)
-- [Technológia feldolgozása természetes nyelv kiválasztása](../technology-choices/natural-language-processing.md)
+- [A cognitive services technológia kiválasztása](../technology-choices/cognitive-services.md)
+- [A gépi tanulási technológia kiválasztása](../technology-choices/data-science-and-machine-learning.md)
+- [A természetes nyelvi feldolgozási technológia kiválasztása](../technology-choices/natural-language-processing.md)
