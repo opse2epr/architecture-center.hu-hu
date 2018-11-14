@@ -3,22 +3,22 @@ title: Webalkalmazás-monitorozás az Azure-ban
 description: Monitorozhatja az Azure App Service-szel üzemeltetett webalkalmazásokat.
 author: adamboeglin
 ms.date: 09/12/2018
-ms.openlocfilehash: ea57ba50f4e9390d5527587752c3bebad01b6139
-ms.sourcegitcommit: 42797fffb82bbbf86f6deb1da52c61d456be631e
+ms.openlocfilehash: ba008035c37d1d4e2d2f823463344e4941c0b4c4
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/13/2018
-ms.locfileid: "49313216"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610753"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
-Platform a platformszolgáltatás (PaaS) ajánlatok az Azure-ban kezelheti a számítási erőforrásokat, az Ön számára, és bizonyos értelemben módosítása hogyan, központi telepítésének figyelése. Az Azure több figyelési szolgáltatásokat, amelyek mindegyike hajt végre egy adott szerepkör tartalmaz. Ezek a szolgáltatások együtt, a gyűjtéséhez, elemzéséhez és az alkalmazások és az Azure-erőforrások használata származó telemetriai adatok alapján átfogó megoldást nyújthat.
+Az Azure platform a platformszolgáltatás (PaaS) ajánlatok kezelheti a számítási erőforrásokat az Ön számára, és központi telepítésének figyelése hogyan befolyásolja. Az Azure több figyelési szolgáltatásokat, amelyek mindegyike hajt végre egy adott szerepkör tartalmaz. Ezek a szolgáltatások együtt, a gyűjtéséhez, elemzéséhez és az alkalmazások és az Azure-erőforrások fizetnek származó telemetriai adatok alapján átfogó megoldást nyújthat.
 
 Ebben a forgatókönyvben oldja meg a figyelési szolgáltatásokat használhatja, és a egy adatfolyam modell több adatforráshoz való használatra ismerteti. Esetén, a figyelés, a számos eszközöket és szolgáltatásokat az Azure-környezetek működik. Ebben a forgatókönyvben lehetőséget választjuk azonnal elérhető szolgáltatások pontosan, mert azok könnyen feldolgozható. A cikk későbbi részében más figyelési lehetőségek ismertetése.
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 - A telemetria figyelése webalkalmazás beállítása futási.
 - Az Azure-ban üzembe helyezett alkalmazás előtér- és telemetria gyűjtése.
@@ -48,7 +48,7 @@ Ebben a forgatókönyvben egy alkalmazás és az adatszint egy felügyelt Azure-
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
-Ajánlott eljárás, hogy az Application Insights hozzáadása a kódhoz: fejlesztés a [Application Insights SDK-k][Application Insights SDKs], és testre szabhatja alkalmazásonként. A legtöbb alkalmazás-keretrendszerek ezek nyílt forráskódú SDK-k érhetők el. Bővítését és összegyűjtötte az adatokat, az SDK-Ink választékából mind a tesztelési és éles üzemelő példányok használatát beépítheti a fejlesztési folyamatot. A fő követelmény, az alkalmazás egy közvetlen vagy közvetett üzemel, a Applications Insights betöltési végpontjához az internetre irányuló címmel rendelkező üzemeltetett rendelkezik. Ezután telemetriát adhat hozzá, vagy egy meglévő eszköztelemetria-gyűjtést bővítését.
+Ajánlott eljárás az Application Insights hozzáadása a kódját fejlesztés során a [Application Insights SDK-k][Application Insights SDKs], és testre szabása alkalmazásonként. A legtöbb alkalmazás-keretrendszerek ezek nyílt forráskódú SDK-k érhetők el. Bővítését és összegyűjtötte az adatokat, az SDK-Ink választékából mind a tesztelési és éles üzemelő példányok használatát beépítheti a fejlesztési folyamatot. A fő követelmény, az alkalmazás egy közvetlen vagy közvetett üzemel, a Applications Insights betöltési végpontjához az internetre irányuló címmel rendelkező üzemeltetett rendelkezik. Ezután telemetriát adhat hozzá, vagy egy meglévő eszköztelemetria-gyűjtést bővítését.
 
 A futásidejű ellenőrzés egy másik egyszerű megoldást a kezdéshez. A gyűjtött telemetria konfigurációs fájlok keresztül kell szabályozni. Például hozzáadhatja a futtatókörnyezet módszereket, amelyek lehetővé teszik például eszközök [Application Insights Állapotfigyelőt] [ Application Insights Status Monitor] az SDK-k üzembe helyezését a helyes mappát, és adja hozzá a megfelelő konfigurációkat, a kezdéshez figyelés.
 
@@ -72,7 +72,7 @@ Ez a cikk bemutatja a népszerű szolgáltatások kényelmesen elérhető figyel
 
 Ebben a forgatókönyvben a PaaS-megoldások figyeli a nagy része, mert kényelmesen kezeléséhez rendelkezésre állását és méretezhetőségét, és élvezik szolgáltatásiszint-szerződések (SLA) összpontosít. Például App Services tartalmaz egy garantált [SLA] [ SLA] a rendelkezésre állás érdekében.
 
-Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány kérelmek másodpercenkénti feldolgozási. Ha a kérés korlátot túllépi, üzenet szabályozás tapasztalhat. Ennek megelőzése érdekében megvalósítása [szűrés] [ message-filtering] vagy [mintavételi] [ message-sampling] adatátviteli sebesség csökkentése érdekében
+Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány kérelmek másodpercenkénti feldolgozási. Ha a kérés korlátot túllépi, üzenet szabályozás tapasztalhat. Szabályozás elkerülése megvalósítása [szűrés] [ message-filtering] vagy [mintavételi] [ message-sampling] adatátviteli sebesség csökkentése érdekében
 
 Magas rendelkezésre állási szempontok futtatja, az alkalmazás azonban olyan a fejlesztő feladata. Skála kapcsolatos információkért lásd a [méretezési szempontok](#scalability-considerations) az alapszintű webalkalmazás referenciaarchitektúrája szakaszát. Alkalmazás üzembe helyezését követően beállíthatja-tesztek [a rendelkezésre állás monitorozása] [ monitor its availability] Application Insights használatával.
 
@@ -97,7 +97,7 @@ Segít megismerkedni, használja a [díjkalkulátor] [ pricing] alapján. Ha sze
 
 Hibakeresés közben és után az alkalmazás közzététele az Azure portal Application insights telemetria érkezik. Tesztelési célokra és a díjak elkerülése érdekében a korlátozott mennyiségű telemetriai van kialakítva. További mutatók hozzáadásához a telemetriai adatok korlátot is növelheti. Tekintse meg a részletesebb vezérléshez [Application Insights-mintavétel][Sampling in Application Insights].
 
-Üzembe helyezés után megtekintheti a [élő metrikák Stream] [ Live Metrics Stream] teljesítménymutatók. Ezeket az adatokat nem tárolja---valós idejű metrikák---jelenik meg, de a telemetriát is gyűjtés és elemzés később. Nem jár az élő Stream adatokat.
+Üzembe helyezés után megtekintheti a [élő metrikák Stream] [ Live Metrics Stream] teljesítménymutatók. Ezeket az adatokat nem tárolja &mdash; tekinti meg a valós idejű metrikák &mdash; , de a telemetriát is gyűjtés és elemzés később. Nem jár az élő Stream adatokat.
 
 A Log Analyticset a szolgáltatásba betöltött GB-onként számlázzuk. Az adatok az Azure Log Analytics szolgáltatásba betöltött minden hónap első 5 GB ingyenes érhető el, és a díjmentes első 31 nap Log Analytics-munkaterület az adatok megőrződnek. 
 
