@@ -1,14 +1,14 @@
 ---
-title: Hatékonyan skálázható és biztonságos WordPress webhelyek az Azure-ban
-description: Hatékonyan skálázható és biztonságos WordPress-webhelyek media események hozhat létre.
+title: Nagymértékben skálázható és biztonságos WordPress-webhelyek az Azure-ban
+description: Nagymértékben skálázható és biztonságos WordPress-webhelyeket hozhat létre médiaeseményekhez.
 author: david-stanford
 ms.date: 09/18/2018
-ms.openlocfilehash: f7dd73524b2b63cd7d38e8e03bfd4b8edac251a9
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 6ff39d09fa301c8c68ce2a644cc489c0e87a22fa
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818479"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610607"
 ---
 # <a name="highly-scalable-and-secure-wordpress-website"></a>Hatékonyan skálázható és biztonságos WordPress-webhely létrehozása
 
@@ -16,7 +16,7 @@ Ebben a példaforgatókönyvben olyan vállalatok, amelyek rendelkeznie kell a W
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Media a forgalom megnövekedésénél kiváltó események.
 * A tartalomkezelő rendszer WordPress használó blogok.

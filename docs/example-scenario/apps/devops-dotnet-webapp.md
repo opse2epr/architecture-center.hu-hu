@@ -1,16 +1,16 @@
 ---
-title: CI/CD-folyamat az Azure DevOps
-description: Készítés és kiadás .NET-alkalmazás Azure Web Apps Azure DevOps használatával.
+title: CI-/CD-folyamat az Azure DevOps-szal
+description: .NET-alkalmazást hozhat létre, és közzéteheti az Azure Web Appsben az Azure DevOps használatával.
 author: christianreddington
 ms.date: 07/11/18
-ms.openlocfilehash: 80890784d4c97aac418cef4e49f9075dbef10b8a
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 97f16b2d3d9c15bc6f5db6fad4c9d8097243ad3d
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818938"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610787"
 ---
-# <a name="cicd-pipeline-with-azure-devops"></a>CI/CD-folyamat az Azure DevOps
+# <a name="cicd-pipeline-with-azure-devops"></a>CI-/CD-folyamat az Azure DevOps-szal
 
 Fejlesztési és üzemeltetési a fejlesztési, minőségbiztosítási és IT-üzemeltetési integrációt. Fejlesztési és üzemeltetési egységes kulturális környezet és a folyamatok rengeteg szükséges szoftvereket.
 
@@ -109,7 +109,7 @@ Tekintse át a biztonsági szempontok a megfelelő [App Service webalkalmazás r
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Tekintse át a [jellemző tervezési minták a rugalmassághoz] [ design-patterns-resiliency] , és vegye fontolóra a megfelelő helyen.
+Vegye fontolóra a [jellemző tervezési minták a rugalmassághoz] [ design-patterns-resiliency] ahol lehetséges.
 
 Számos annak [ajánlott eljárások az App Service] [ resiliency-app-service] a az Azure Architecture Centert.
 

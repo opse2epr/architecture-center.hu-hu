@@ -1,16 +1,16 @@
 ---
-title: Képek besorolása a biztosítási kárigényekben, az Azure-ban
-description: Képfeldolgozás, az Azure-alkalmazásokat hozhat létre.
+title: Képbesorolás biztosítási követelésekhez az Azure-ban
+description: Képfeldolgozást építhet be Azure-alkalmazásaiba.
 author: david-stanford
 ms.date: 07/05/2018
-ms.openlocfilehash: 31d328f8e5e27ea255024b7f461f2bfaeffc3ca7
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 9640f8b5454891ed00f669bada9f7c9c69b89734
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818534"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610532"
 ---
-# <a name="image-classification-for-insurance-claims-on-azure"></a>Képek besorolása a biztosítási kárigényekben, az Azure-ban
+# <a name="image-classification-for-insurance-claims-on-azure"></a>Képbesorolás biztosítási követelésekhez az Azure-ban
 
 Ebben a forgatókönyvben fontos ideális, dolgozhassa fel.
 
@@ -20,10 +20,10 @@ Azure-szolgáltatások például a Computer Vision API és az Azure Functions ha
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Divat webhely-rendszerképek besorolása.
-* Játékok pillanatképeiért küldött telemetriai adatok besorolását.
+* Játékok pillanatképeiért küldött telemetriai adatok besorolása.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -56,9 +56,9 @@ Ebben a forgatókönyvben egy webes vagy mobilalkalmazásaiba háttér-összetev
 
 Ebben a példában a forgatókönyvben használt összetevőket a legtöbb felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezt a korlátot mellett van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
 
-A cosmos DB nem automatikus skálázás kiosztott kérelemegységek (RU) tekintetében. A követelmények becsléséhez tekintse át [kérelemegységek](/azure/cosmos-db/request-units) dokumentációban. Megismerheti a teljes mértékben kihasználhatja a Cosmos DB méretezése, hogyan [kulcsok particionálása](/azure/cosmos-db/partition-data) munkahelyi a cosmos DB.
+A cosmos DB nem automatikus skálázási kiosztott kérelemegységek (RU) tekintetében. A követelmények becsléséhez tekintse át [kérelemegységek](/azure/cosmos-db/request-units) dokumentációban. Megismerheti a teljes mértékben kihasználhatja a Cosmos DB méretezése, hogyan [kulcsok particionálása](/azure/cosmos-db/partition-data) munkahelyi a cosmos DB.
 
-NoSQL-adatbázisok gyakran kereskedelmi konzisztencia (abban az értelemben, a CAP-tétel), a rendelkezésre állás, a méretezhetőség és a particionálást. Ebben a példában a forgatókönyvben egy kulcs-érték típusú adatok modellt használja, és a tranzakció-konzisztencia ritkán van szükség, mivel a legtöbb műveletek atomi definíció szerint. További útmutatást [a megfelelő adattároló kiválasztása](../../guide/technology-choices/data-store-overview.md) érhető el az Azure Architecture Centert.  Ha a magas konzisztencia igényel, akkor [a konzisztenciaszint kiválasztása](/azure/cosmos-db/consistency-levels) a cosmos DB.
+NoSQL-adatbázisok gyakran kereskedelmi konzisztencia (abban az értelemben, a CAP-tétel), a rendelkezésre állás, a méretezhetőség és a particionálást. Ebben a példában a forgatókönyvben egy kulcs-érték típusú adatok modellt használja, és a tranzakció-konzisztencia ritkán van szükség, mivel a legtöbb műveletek atomi definíció szerint. További útmutatást [a megfelelő adattároló kiválasztása](../../guide/technology-choices/data-store-overview.md) érhető el az Azure Architecture Centert. Ha a magas konzisztencia igényel, akkor [a konzisztenciaszint kiválasztása](/azure/cosmos-db/consistency-levels) a cosmos DB.
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
@@ -86,9 +86,9 @@ Három példa költség-profilok forgalom mennyisége alapján biztosítunk (fel
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-A képzési ebben a forgatókönyvben, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].
+A képzési, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].
 
-Ebben a példaforgatókönyvben az éles környezetben üzembe helyezése előtt tekintse át az Azure Functions [ajánlott eljárások][functions-best-practices].
+Ebben a példaforgatókönyvben az éles környezetben üzembe helyezése előtt tekintse át az ajánlott eljárásokat, [optimalizálás, teljesítményének és megbízhatóságának az Azure Functions][functions-best-practices].
 
 <!-- links -->
 [architecture]: ./media/architecture-intelligent-apps-image-processing.png

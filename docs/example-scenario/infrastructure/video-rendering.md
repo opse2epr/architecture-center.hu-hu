@@ -1,16 +1,16 @@
 ---
-title: 3D videó megjelenítése az Azure-ban
-description: Natív HPC számítási feladatok futtatása az Azure-ban az Azure Batch szolgáltatás.
+title: 3D-s videórenderelés az Azure-ban
+description: Natív HPC számítási feladatokat futtathat az Azure-ban az Azure Batch szolgáltatás használatával.
 author: adamboeglin
 ms.date: 07/13/2018
-ms.openlocfilehash: 1206fa7d931fca635118929d433abe232ec5ca9a
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 1ffdaa5467fec73a01b8caa18b71c2bc4e49abbe
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818629"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610685"
 ---
-# <a name="3d-video-rendering-on-azure"></a>3D videó megjelenítése az Azure-ban
+# <a name="3d-video-rendering-on-azure"></a>3D-s videórenderelés az Azure-ban
 
 Videó 3D renderelési az időigényes, amely jelentős mennyiségű Processzor időtartama igényel. Egyetlen gépen, létrehozni bloberőforrásokhoz videofájl származó statikus objektumokat is órákig vagy akár napokig eltarthat hossza és a videót, akkor állít elő összetettségétől függően. Számos vállalat vagy költséges, csúcskategóriás fogja megvásárolni ezeket a feladatokat, vagy be, amely is küldhetők be feladatok a nagy renderelő farmokat asztali számítógépeket. Azonban az Azure Batch előnyeit kihasználva Ez a teljesítmény érhetőek el, ha szükséges, és leállításakor magát, ha nem, akkor minden tőkebefektetés nélkül.
 
@@ -18,7 +18,7 @@ A Batch lehetővé teszi egy egységes felügyeleti élmény és a feladatüteme
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben ezek hasonló használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * 3D modellezés
 * Vizuális FX (VFX) megjelenítési

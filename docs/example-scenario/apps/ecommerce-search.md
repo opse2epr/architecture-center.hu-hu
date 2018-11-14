@@ -1,32 +1,32 @@
 ---
-title: E-kereskedelmi termék intelligens keresőmotort
-description: Adjon meg egy e-kereskedelmi alkalmazásban világszínvonalú keresési funkciókat.
+title: Intelligens termékkereső motor az e-kereskedelem számára
+description: Világszínvonalú keresési élményt nyújthat egy e-kereskedelmi alkalmazásban.
 author: jelledruyts
 ms.date: 09/14/2018
-ms.openlocfilehash: f18e9fd3705c24da71da747c46ab42f263fd06af
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: a57477c26665b4560671550f6fdd81c2d9505e71
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818752"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610668"
 ---
-# <a name="intelligent-product-search-engine-for-e-commerce"></a>E-kereskedelmi termék intelligens keresőmotort
+# <a name="intelligent-product-search-engine-for-e-commerce"></a>Intelligens termékkereső motor az e-kereskedelem számára
 
 A példa forgatókönyv bemutatja, hogyan egy dedikált keresési szolgáltatás használatával így jelentősen növelhető a relevancia alapján végzett keresés eredményeit az e-kereskedelmi ügyfelei számára.
 
-Keresés az elsődleges mechanizmusa keresztül, amely ügyfelek keresése és így alapvető fontosságú, hogy a keresési eredmények relevánsak, végső soron vásárolt termékek, a _szándékot_ , a keresési lekérdezést, és hogy a teljes körű felhasználói élményt keresése felel meg, hogy keresési eldobást azáltal, hogy közel azonnali eredmények, a nyelvi elemzés, a megfelelő földrajzi hely, a szűrés, értékkorlátozás, automatikus kiegészítéssel találatok kiemelését stb.
+Keresés az elsődleges mechanizmusa keresztül, amely ügyfelek keresése és így alapvető fontosságú, hogy a keresési eredmények relevánsak, végső soron vásárolt termékek, a _szándékot_ , a keresési lekérdezést, és hogy a teljes körű felhasználói élményt keresése amelyek keresési eldobást azáltal, hogy közel azonnali eredmények, nyelvi elemzés, megfelelő földrajzi hely, szűrés, értékkorlátozás, automatikus kiegészítés, a találatok kiemelése, stb.
 
 Egy tipikus e-kereskedelmi webalkalmazás Imagine termék adatok egy relációs adatbázisban, például az SQL Server vagy az Azure SQL Database tárolja. Keresési lekérdezések gyakran kezeli az adatbázis parancsával `LIKE` lekérdezések vagy [teljes szöveges keresés] [ docs-sql-fts] funkciókat. Használatával [Azure Search] [ docs-search] ehelyett szabadítsa fel a lekérdezés feldolgozása az operatív adatbázis, és könnyen megkezdheti kihasználhatja ezeket a rögzített megvalósítása funkciókat biztosítanak a a lehetséges legjobb keresése rendelkező ügyfelek tapasztalható. Is mivel az Azure Search egy platformszolgáltatás (PaaS) összetevő platformként, nem kell aggódnia az infrastruktúra felügyeletével vagy egy keresési szakértői váljon.
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ezek használati esetek hasonló tervezési minták rendelkezik:
+Egyéb alkalmazási helyzetek a következők:
 
 * Ingatlan listaelemek vagy tárolja a felhasználói fizikai hely közelében található.
 * Hírek helyen cikkek keresése, vagy további magasabb prioritást jelent a sportközvetítések eredményeket, keres _legutóbbi_ információkat.
 * A nagyméretű adattárak való kereséssel _Dokumentumközpontú_ cégek vagy szervezetek házirend döntéshozók és közjegyzőkkel.
 
-Végső soron _bármely_ alkalmazás, amely valamilyen keresési funkciók nem egy dedikált keresési szolgáltatás előnyeit.
+Végső soron _bármely_ keresési funkciók valamilyen alkalmazás egy dedikált keresési szolgáltatás is kihasználhatják.
 
 ## <a name="architecture"></a>Architektúra
 

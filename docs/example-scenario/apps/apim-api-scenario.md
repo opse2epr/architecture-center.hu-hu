@@ -3,12 +3,12 @@ title: Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure
 description: Modernizálhatja régi webalkalmazásait az Azure API Management használatával.
 author: begim
 ms.date: 09/13/2018
-ms.openlocfilehash: 1aa7ea6dc895146e13677dd9867fb2530f0a8f04
-ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
+ms.openlocfilehash: f468b3c6dc1c58e03555613b152882316ae2a017
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/09/2018
-ms.locfileid: "48876789"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610583"
 ---
 # <a name="migrating-a-legacy-web-application-to-an-api-based-architecture-on-azure"></a>Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban
 
@@ -17,10 +17,10 @@ Egy e-kereskedelmi cég, az utazási iparág modernizálhatja van a régi böng�
 A projekt célok közé tartozik a címzési műszaki adósságot, folyamatos karbantartást javítása és felgyorsítja a kevesebb regresszió hibák funkcióinak fejlesztését. A projekt elkerülése érdekében a kockázat, az egyes lépésekhez párhuzamosan iteratív folyamat használja:
 
 * A fejlesztői csapat fogja korszerűsítheti a alkalmazás háttérben álló virtuális gépeken üzemeltetett relációs adatbázis.
-* A belső fejlesztésű fejlesztőcsapat fog kiírni, új üzleti funkció, amely új HTTP API-k keresztül lesz közzétéve.
+* A belső fejlesztésű fejlesztőcsapat ír üzleti funkciókat új HTTP API-k keresztül lesz közzétéve.
 * A szerződés fejlesztői csapat új böngészőalapú felhasználói Felületet, amely az Azure-ban üzemeltetett fog létrehozni.
 
-Új alkalmazás szolgáltatásai fázisában kézbesítése történik. Csatlakoznak az *fokozatosan cserélje le* a meglévő ügyfél-kiszolgáló böngészőalapú felhasználói felületi funkciók (üzemeltethető a helyszínen) e-kereskedelmi cég ma használja, amelyen a.
+Új alkalmazás szolgáltatásai fázisában kézbesítése történik. Ezek a szolgáltatások fokozatosan lecseréli a meglévő ügyfél-kiszolgáló böngészőalapú felhasználói felületi funkciók (üzemeltethető a helyszínen) e-kereskedelmi cég ma használja, amelyen a.
 
 A felügyeleti csoport nem szeretné feleslegesen korszerűsítéséhez. Szeretnének is, hogy a hatókör és a költségek kézben. Ehhez akkor döntött, megőrizheti a meglévő SOAP HTTP-szolgáltatások. Ezek kíván minimalizálása érdekében a módosításokat a meglévő felhasználói felületre. [Az Azure API Management (APIM)] [ apim] alkalmazhatja a projekt követelményeket és korlátokat számos megoldása érdekében.
 
@@ -85,7 +85,8 @@ Előre jelzett költségek megtekintése és testreszabása az üzemelő példá
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Tekintse meg a széles körű Azure API Management [dokumentációja és referencia cikkeket.][apim]
+Tekintse át a széles körű Azure API Management [dokumentációja és referencia cikkek][apim].
+
 
 <!-- links -->
 [architecture]: ./media/architecture-apim-api-scenario.png

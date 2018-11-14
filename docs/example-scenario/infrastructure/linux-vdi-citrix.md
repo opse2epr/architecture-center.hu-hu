@@ -1,14 +1,14 @@
 ---
-title: Linux rendszerű virtuális asztalok Citrix-szel
-description: A Citrix használata az Azure-ban Linux rendszerű asztali számítógépeken hozhat létre a VDI-környezetben.
+title: Linux rendszerű virtuális asztali környezetek a Citrix-szel
+description: VDI-környezetet hozhat létre Linux rendszerű asztali környezetekhez a Citrix használatával az Azure-ban.
 author: miguelangelopereira
 ms.date: 09/12/2018
-ms.openlocfilehash: 374d59f7a528bd89870baa601a49a30ea00a08f1
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 383642b05926c5a09abf0b2f95fef10539d95aec
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819142"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610651"
 ---
 # <a name="linux-virtual-desktops-with-citrix"></a>Linux rendszerű virtuális asztalok Citrix-szel
 
@@ -96,7 +96,7 @@ Központi telepítési információkat talál a hivatalos [Citrix dokumentáció
 
 ## <a name="pricing"></a>Díjszabás
 
-- A Citrix XenDestop licenceket nem szerepelnek az Azure szolgáltatási díjak.
+- A Citrix XenDesktop-licencek nem szerepelnek az Azure szolgáltatási díjak.
 - A Citrix NetScaler licenc használatalapú díjszabási modellel tartalmazza.
 - A fenntartott példányok használatával jelentősen csökkenti a megoldás a számítási költségeket.
 - A lehetőség nem része az ExpressRoute költségeit.

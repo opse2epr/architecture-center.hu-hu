@@ -1,16 +1,16 @@
 ---
-title: Valós idejű csalásészlelés az Azure-ban
-description: Rosszindulatú tevékenység valós időben észlelheti az Azure Event Hubs és a Stream Analytics használatával.
+title: Csalások valós idejű észlelése az Azure-ban
+description: Valós időben észlelheti a csaló szándékú tevékenységeket az Azure Event Hubs és a Stream Analytics használatával.
 author: alexbuckgit
 ms.date: 07/05/2018
-ms.openlocfilehash: 4de988731aa1c5b0e4c0ba06fa5aed59e2bb7d81
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: bd9eb4d572651c4e57a0043226860623cd8d17e1
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818666"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610617"
 ---
-# <a name="real-time-fraud-detection-on-azure"></a>Valós idejű csalásészlelés az Azure-ban
+# <a name="real-time-fraud-detection-on-azure"></a>Csalások valós idejű észlelése az Azure-ban
 
 Ebben a példaforgatókönyvben a csalárd tranzakciókat vagy más rendellenes tevékenység észleli a valós idejű adatok elemzése kívánó szervezetek számára fontos.
 
@@ -22,7 +22,7 @@ Ez a minta egy része, egy szélesebb körű adatok feldolgozási architektúra 
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Észleli a csaló mobiltelefon meghívja a távközlési forgatókönyvekben.
 * Rosszindulatú hitelkártya-tranzakciók a banki intézmények azonosítása.
@@ -63,7 +63,7 @@ Más rendelkezésre állási lehetőségekért lásd: a [rendelkezésre állási
 
 Ez a forgatókönyv összetevőinek kapacitású adatfeldolgozást és nagy mértékben párhuzamosított valós idejű elemzési lettek kialakítva. Azure Event hubs szolgáltatás rugalmasan méretezhető, fogadására és feldolgozására másodpercenként több millió alacsony késleltetéssel képes. Az Event Hubs képes [automatikus vertikális felskálázás](/azure/event-hubs/event-hubs-auto-inflate) használati igényeknek átviteli egységek számát. Az Azure Stream Analytics képes a streamelési adatok több forrásból származó nagy mennyiségű elemzéséhez. Szerint növelje meg a Stream Analytics vertikálisan felskálázhatja [folyamatos átviteli egységek](/azure/stream-analytics/stream-analytics-streaming-unit-consumption) lefoglalva a folyamatos átviteli feladatok végrehajtásához.
 
-Általános tervezési méretezhető forgatókönyvet, tekintse át a [méretezési ellenőrzőlista] [ scalability] az Azure Architecture Centert a.
+Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 

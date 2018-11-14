@@ -1,16 +1,16 @@
 ---
-title: Azure-ban (CFD) szimuláció futtatja a numerikus áramlástani
-description: Hajtsa végre a numerikus áramlástani (CFD) szimulációk Azure-ban.
+title: Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
+description: Számítási folyadékdinamikai (CFD) szimulációkat hajthat végre az Azure-ban.
 author: mikewarr
 ms.date: 09/20/2018
-ms.openlocfilehash: 5734e6fe707e3beb5e23f2ad2b4344ba289803bb
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: f32e055838d6c62584130f61a0d92b06cc46ec63
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818575"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610634"
 ---
-# <a name="running-computational-fluid-dynamics-cfd-simulations-on-azure"></a>Azure-ban (CFD) szimuláció futtatja a numerikus áramlástani
+# <a name="running-computational-fluid-dynamics-cfd-simulations-on-azure"></a>Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
 
 Folyadékdinamika (CFD) számítási szimulációkat szükséges speciális hardver-és jelentős számítási időért. Ahogy fürt használati növekszik, szimuláció időpontokat, és átfogó grid használata növekszik, a tartalék kapacitás és a hosszú várakozási idők problémák vezető. Fizikai hardver hozzáadása költséges lehet, és előfordulhat, hogy nem igazodnak a használati mutatkozó csúcsokhoz és völgyekhez, amely egy üzleti halad át. Az Azure előnyeit kihasználva számos, ezek a kihívások szükségességéből nem jár munkavállalónkénti együtt.
 
@@ -20,7 +20,7 @@ Egyszerűbb létrehozását, felügyeleti és HPC-fürtök optimalizálása, Azu
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben ezek iparágakban, ahol CFD alkalmazások használható, vegye figyelembe:
+Egyéb releváns ágazatok CFD alkalmazásokhoz a következők:
 
 * Repüléstechnikai
 * Autóipar

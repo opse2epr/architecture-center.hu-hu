@@ -1,16 +1,16 @@
 ---
-title: IoT és data analytics konstrukció iparág
-description: Használja az IoT-eszközökkel és adatelemzéssel átfogó felügyeletét és konstrukció projektek működésének biztosítása érdekében.
+title: IoT és adatelemzés az építőiparban
+description: IoT-eszközök és adatelemzés használatával biztosíthatja az építési projektek átfogó felügyeletét és működését.
 author: alexbuckgit
 ms.date: 08/29/2018
-ms.openlocfilehash: 7ab0de50b0eba1ab420e450f3408fe5dc45f04ac
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 74868191687e63a54a69fdacb7276983d98faf74
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818496"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610923"
 ---
-# <a name="iot-and-data-analytics-in-the-construction-industry"></a>IoT és data analytics konstrukció iparág
+# <a name="iot-and-data-analytics-in-the-construction-industry"></a>IoT és adatelemzés az építőiparban
 
 Ebben a példaforgatókönyvben megoldások, amelyek számos IoT-eszközökről származó adatok integrálása egy átfogó adatok elemzési architektúrát automatizálhatja a döntéshozatalhoz és a szervezetek számára fontos. Lehetséges alkalmazások konstrukció, adatbányászati, gyártási vagy egyéb iparági megoldások használata esetén a nagy mennyiségű IoT-alapú adatok számos bemeneti adatait tartalmazza.
 
@@ -29,7 +29,7 @@ Például az IoT Hub és a HDInsight a felügyelt Azure-szolgáltatások haszná
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Fontolja meg a megoldást a következő esetekben használja:
+Egyéb alkalmazási helyzetek a következők:
 
 * Fejlesztés, adatbányászati vagy berendezés gyártási forgatókönyvek
 * Eszköz adatok tárolására és elemzésére szolgáló nagyméretű gyűjteménye
@@ -47,7 +47,7 @@ Az adatok a következőképpen folyamatok a megoldáson keresztül:
 4. Nyers adatok gyűjtött van az Azure blob storage-ba közvetlenül az IoT hubról küldött, és azonnal elérhető megtekintése és elemzése.
 5. Az IoT Hub-n keresztül gyűjtött adatok közel valós időben az Azure Stream Analytics-feladat által feldolgozott és egy Azure SQL database tárolja.
 6. A fejlesztés az intelligens felhő webalkalmazás elemzők és a végfelhasználók megtekintése és elemzése, érzékelőadatok és képanyag érhető el. 
-7. Batch-feladatok a webalkalmazás felhasználók által kezdeményezett igény szerinti. A kötegelt feldolgozást a HDInsight Apache Spark fut, és elemzi az új adatokat tárolja a Cassandra-fürt. 
+7. Batch-feladatok a webalkalmazás felhasználók által kezdeményezett igény szerinti. A kötegelt feldolgozást a HDInsight Apache Spark fut, és elemzi az új adatokat tárolja a Cassandra-fürt. 
 
 ### <a name="components"></a>Összetevők
 

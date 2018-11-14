@@ -1,16 +1,16 @@
 ---
-title: Méretezhető Rendelésfeldolgozó az Azure-ban
-description: Azure Cosmos DB használatával nagy mértékben skálázható rendelés feldolgozási folyamat létrehozása.
+title: Skálázható rendelésfeldolgozás az Azure-ban
+description: Nagymértékben skálázható rendelésfeldolgozó folyamatot hozhat létre az Azure Cosmos DB használatával.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: fe642ffde733914389c36c5be50f35d242a22edf
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 1c3bb2cc33be74f5ff8ee0513de4c3f7df70aa37
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818513"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610855"
 ---
-# <a name="scalable-order-processing-on-azure"></a>Méretezhető Rendelésfeldolgozó az Azure-ban
+# <a name="scalable-order-processing-on-azure"></a>Skálázható rendelésfeldolgozás az Azure-ban
 
 Ebben a példaforgatókönyvben fontos szervezetek számára szükséges egy hatékonyan méretezhető és rugalmas architektúra online megrendelések feldolgozása. Lehetséges alkalmazások közé tartozik az e-kereskedelmi, és a pénztári, megrendelések teljesítése, és leltár-foglalási és követési kiskereskedelmi. 
 
@@ -20,7 +20,7 @@ Azure-szolgáltatások például a Cosmos DB és a HDInsight használata segíth
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * E-kereskedelmi vagy kiskereskedelem pénztári háttérrendszerekhez.
 * Leltárkezelő rendszerei.
@@ -93,7 +93,7 @@ Ebben a példaforgatókönyvben alapján ez az architektúra által készített 
 
 Egyéb kapcsolódó erőforrások a következők:
 * _[Adatigényes alkalmazások tervezése](https://dataintensive.net)_  Martin Kleppmann (O'Reilly média, 2017.) szerint.
-* _[Tartomány modellezési végzett működési: Kiszolgálókon Tartományvezérelt tervezési és az F # Software köszönhetően](https://pragprog.com/book/swdddf/domain-modeling-made-functional)_  Scott Wlaschin (pragmatikus programozók LLC, 2018.) szerint.
+* _[Tartomány modellezési végzett működési: Kiszolgálókon szoftver köszönhetően Tartományvezérelt tervezési és F# ](https://pragprog.com/book/swdddf/domain-modeling-made-functional)_  Scott Wlaschin (pragmatikus programozók LLC, 2018.) szerint.
 * Más [a használati esetek Cosmos DB][docs-cosmos-db-use-cases]
 * [Valós idejű feldolgozása architektúra](/azure/architecture/data-guide/big-data/real-time-processing) a a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 

@@ -1,16 +1,16 @@
 ---
-title: Adattárház és analitika értékesítés és marketing
-description: Több forrásból származó adatok egyesíthetők, és optimalizálhatja a data analytics.
+title: Adattárházak és elemzések értékesítési és marketingterületen
+description: Egyesítheti több forrásból származó adatait, és optimalizálhatja az adatelemzést.
 author: alexbuckgit
 ms.date: 09/15/2018
-ms.openlocfilehash: f9ca9785b65f18098a91aedc1f3157f49456a6e1
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: e4c0a37f61f3edfb1f29d26df546f02d31fd40f7
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818649"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610702"
 ---
-# <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárház és analitika értékesítés és marketing
+# <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárházak és elemzések értékesítési és marketingterületen
 
 A példaforgatókönyv azt szemlélteti, hogy nagy mennyiségű, több forrásból származó adatok integrálása egy egységes elemzési platform az Azure-ban. Ebben a forgatókönyvben egy értékesítési és marketingmegoldásainak alapul, de a kialakítási minták számos iparágban a nagyméretű adathalmazok, például az e-kereskedelmi, kereskedelmi és egészségügyi fejlett analitikai igénylő szempontjából releváns.
 
@@ -24,7 +24,7 @@ A vállalat kell elemzési adatokat, modern megközelítését, így döntés a 
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ez a megközelítés is használhatja a következőket teszi lehetővé:
+Ez a módszer is használható:
 
 * A data warehouse-adattárházat egy egyetlen hiteles az adatok forrásaként kell létesíteni.
 * Relációs adatforrások integrálható más strukturálatlan adatkészletek.

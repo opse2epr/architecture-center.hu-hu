@@ -1,14 +1,14 @@
 ---
-title: Az SAP-feladatokat az Azure-ban fejlesztési/tesztelési enviroments
-description: A fejlesztési-tesztelési környezet az SAP-feladatokat hozhat létre.
+title: Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek
+description: Fejlesztési és tesztelési környezetet hozhat létre SAP számítási feladatokhoz.
 author: AndrewDibbins
 ms.date: 7/11/18
-ms.openlocfilehash: ca571fae159277fcb132111daa9a7c9086a3e690
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 1cfd15b0287a1979ae5ad60e41a0b1627a2e115c
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818717"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610804"
 ---
 # <a name="devtest-environments-for-sap-workloads-on-azure"></a>Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek
 
@@ -22,14 +22,14 @@ Ez a példa bemutatja, hogyan lehet létrehozni egy fejlesztési-tesztelési kö
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * A nem kritikus SAP nem termelési számítási feladatokhoz (védőfal, fejlesztési, tesztelési, minőségbiztosítási)
 * A nem kritikus fontosságú SAP számítási feladata
 
 ## <a name="architecture"></a>Architektúra
 
-![Az SAP-feladatokat a fejlesztési-tesztelési enviroments architektúra diagramja](media/architecture-sap-dev-test.png)
+![Az SAP-feladatokat a fejlesztési és tesztelési környezetek architektúra diagramja](media/architecture-sap-dev-test.png)
 
 Ez a forgatókönyv azt mutatja be, az SAP-rendszer önálló adatbázis és SAP-alkalmazáskiszolgáló az egyetlen virtuális gép üzembe helyezése. A áramlanak keresztül az adatok a forgatókönyv a következő:
 

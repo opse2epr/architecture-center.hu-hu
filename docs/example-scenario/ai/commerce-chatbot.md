@@ -1,16 +1,16 @@
 ---
-title: Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
-description: Létrehozhat egy természetes nyelvi csevegőrobotot kereskedelmi alkalmazások az Azure Bot Service.
+title: Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
+description: Beszélgető csevegőrobotot hozhat létre kereskedelmi alkalmazásokhoz az Azure Bot Service segítségével.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 826aa36da5f30a871abd90fd8ab2b202ffdf93f0
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: a922a75d621672fcac95296b1d99112d68c91107
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819704"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610770"
 ---
-# <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Az Azure-beli szállodai foglalások természetes nyelvi csevegőrobot
+# <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
 
 Ebben a példaforgatókönyvben olyan vállalatok, amelyek a természetes nyelvi csevegőrobot beépíthetik kell alkalmazható. Ebben a forgatókönyvben egy C# csevegőrobot egy Szálloda láncot, amely lehetővé teszi az ügyfelek számára, hogy ellenőrizze a rendelkezésre állás és a egy webes vagy mobilalkalmazás segítségével könyv vendéglátóipar szolgál.
 
@@ -20,11 +20,11 @@ Azure-szolgáltatások például a Bot Service és Language Understanding vagy S
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
-* Éttermek elvihető menüben, és a sorrend food megtekintése
-* Szálloda elérhetőségének ellenőrzése és szobát
-* Rendelkezésre álló fényképek keresse meg és nyomatrendelés
+* Egy étterem elvihető menü megtekintése és élelmiszer rendezése
+* Szálloda rendelkezésre állásának ellenőrzése és a egy hely foglalása
+* Keresés a rendelkezésre álló fényképek, és rendelése
 
 ## <a name="architecture"></a>Architektúra
 
@@ -96,7 +96,7 @@ Ez a forgatókönyv segítségével megismerheti a legtöbb összpontosított te
 
 ### <a name="deploy-infrastructure-components"></a>Infrastruktúra-összetevők telepítése
 
-Az infrastruktúra-összetevőket az Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
+Az infrastruktúra-összetevőket a Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
 1. Kattintson a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fcommerce-chatbot.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
@@ -149,7 +149,8 @@ Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt ü
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Az interaktív oktatóanyagok az Azure Bot Service kihasználva készletének, tekintse meg a [oktatóanyag csomópont] [ botservice-docs] dokumentáció.
+Az Azure Bot Service az interaktív oktatóanyagok készletének, tekintse meg a [oktatóanyag szakasz] [ botservice-docs] dokumentáció.
+
 
 <!-- links -->
 [aadb2c-docs]: /azure/active-directory-b2c/active-directory-b2c-overview

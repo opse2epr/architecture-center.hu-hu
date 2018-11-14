@@ -1,14 +1,14 @@
 ---
-title: Azure-beli E-kereskedelmi előtér
-description: A gazdagép egy Azure-beli e-kereskedelmi webhelyről.
+title: E-kereskedelmi előtérrendszer az Azure-ban
+description: E-kereskedelmi webhelyet üzemeltethet az Azure-ban.
 author: masonch
 ms.date: 7/13/18
-ms.openlocfilehash: 6ca85665a5bf63bf71f5badc16406db5df2a34c2
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 7baaf4d2986a00ab72b60a540bcd9d864893b109
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819091"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610821"
 ---
 # <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 
@@ -18,7 +18,7 @@ Ez a dokumentum segítségével különböző Azure PaaS-összetevőt, és ahhoz
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Olyan alkalmazást épít ki, amely rugalmas méretezési szolgáltatás a felhasználók kezeléséhez a különböző időpontokban kell rendelkeznie.
 * Olyan alkalmazást épít ki, amelyek célja, hogy a világ különböző pontjain különböző Azure-régióban a magas rendelkezésre állású kezeljen.

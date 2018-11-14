@@ -1,16 +1,16 @@
 ---
-title: Számítógéppel támogatott mérnöki szolgáltatás az Azure-ban
-description: Adja meg a szoftver--szolgáltatásként (SaaS) platform számítógéppel támogatott mérnöki (CAE-) az Azure-ban.
+title: CAE-szolgáltatás az Azure-ban
+description: SaaS-platformot biztosíthat CAE-projektekhez az Azure-ban.
 author: alexbuckgit
 ms.date: 08/22/2018
-ms.openlocfilehash: d17ac218052c5b98e8790f1386be035618a2d957
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 8bdf7198223f7194d0cd717949699bb3a508674e
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818683"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610549"
 ---
-# <a name="a-computer-aided-engineering-service-on-azure"></a>Számítógéppel támogatott mérnöki szolgáltatás az Azure-ban
+# <a name="a-computer-aided-engineering-service-on-azure"></a>CAE-szolgáltatás az Azure-ban
 
 A példaforgatókönyv azt szemlélteti, hogy az Azure nagy teljesítményű feldolgozási (HPC-) funkcióit épülő szoftverek,-szolgáltatásként nyújtott (SaaS) platform kézbesítési. Ebben a forgatókönyvben egy mérnöki szoftvermegoldás alapul. Az architektúra azonban fontos egyéb HPC-erőforrások, például a képrenderelés, összetett modellezés és pénzügyi kockázat számítása igénylő iparágakban.
 
@@ -26,7 +26,7 @@ A vállalati célok a következők:
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ez az architektúra használatával egyéb forgatókönyvek a következők lehetnek:
+Egyéb alkalmazási helyzetek a következők:
 
 * Genomikai kutatás
 * Időjárás-szimuláció
@@ -37,7 +37,7 @@ Ez az architektúra használatával egyéb forgatókönyvek a következők lehet
 ![A Szolgáltatottszoftver-megoldás, amely lehetővé teszi a HPC-képességek architektúrája][architecture]
 
 * A felhasználók NV-sorozat virtuális gépeken (VM) egy böngészőből egy HTML5-alapú RDP kapcsolat használatakor a [Apache Guacamole szolgáltatás](https://guacamole.apache.org/). Virtuálisgép-példány hatékony gpu-k képmegjelenítési, valamint által biztosított együttműködési környezettel feladatok adja meg. A felhasználók saját tervek szerkesztése és az eredmények megtekintése a nagy teljesítményű számítástechnikai mobileszközök vagy hordozható számítógépeken való hozzáférés nélkül. Az ütemező felhasználó által definiált heurisztika alapuló további virtuális gépeket indít el.
-* Egy asztali CAD-munkamenetben a felhasználók elküldhetik a számítási feladatok végrehajtásához a rendelkezésre álló HPC-fürtcsomópontokon. Ilyen számítási feladat például feszültségelemzés vagy a folyadékdinamikai számítások, így nincs szükség helyszíni dedikált számítási fürtök feladatait. Ezek a fürtcsomópontok beállítható úgy, hogy a terhelés vagy üzenetsor mélységtől függ az aktív felhasználói igény szerinti számítási erőforrások automatikus méretezése.
+* Egy asztali CAD-munkamenetben a felhasználók elküldhetik a számítási feladatok végrehajtásához a rendelkezésre álló HPC-fürtcsomópontokon. Ilyen számítási feladat például feszültségelemzés vagy a folyadékdinamikai számítások, így nincs szükség helyszíni dedikált számítási fürtök feladatait. Ezek a fürtcsomópontok automatikus skálázásra a terhelés vagy üzenetsor mélységtől függ az aktív felhasználói igény szerinti számítási erőforrások konfigurálható.
 * Az Azure Kubernetes Service (AKS) segítségével a végfelhasználók számára elérhető webes erőforrások üzemeltetéséhez.
 
 ### <a name="components"></a>Összetevők

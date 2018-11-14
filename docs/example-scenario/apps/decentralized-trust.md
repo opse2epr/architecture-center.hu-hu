@@ -3,12 +3,12 @@ title: Bankok közötti nem központosított megbízhatósági kapcsolatok az Az
 description: Megbízható kommunikációs és adatmegosztó környezetet hozhat létre anélkül, hogy egy központosított adatbázisra kellene hagyatkoznia.
 author: vitoc
 ms.date: 09/09/2018
-ms.openlocfilehash: fe27f885635ce5ae4ce368992affa1a85d7af416
-ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
+ms.openlocfilehash: bc472bc5bafc3eb20e583f41d71ed783725a039e
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/09/2018
-ms.locfileid: "48876757"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610566"
 ---
 # <a name="decentralized-trust-between-banks-on-azure"></a>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
 
@@ -18,17 +18,17 @@ Bankok, pénzügyi rendszeren belül hagyományosan, központosított források 
 
 DLTs (elosztott Főkönyv technológiával), a bankok konzorcium hozhatnak létre, amelyek hatékonyabban, kevesebb ki van téve a támadásokkal szemben, és erre a célra egy új platformra, innovatív struktúrákat megoldásához hagyományos implementálhatók decentralizált rendszer az adatvédelmi, a sebesség és a költség kihívásokat.
 
-Ez a példa bemutatja, hogyan Azure szolgáltatásokat, mint a virtuálisgép-méretezési készlet, virtuális hálózat, a Key Vault, a tárolás, a Load Balancer, és a figyelő is gyorsan üzembe helyezhető egy hatékony privát Ethereum PoA blockchain központi telepítésére vonatkozóan ahol tag bankok is a saját csomópontok létrehozásához.
+Ez a példa bemutatja, hogyan Azure szolgáltatásokat, mint a virtuálisgép-méretezési csoportok, virtuális hálózat, a Key Vault, a tárolás, a Load Balancer, és a figyelő is gyorsan üzembe helyezhető egy hatékony privát Ethereum PoA blockchain központi telepítésére vonatkozóan ahol tag bankok is a saját csomópontok létrehozásához.
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ezek használati esetek hasonló tervezési minták rendelkezik:
+Egyéb alkalmazási helyzetek a következők:
 
 * A lefoglalt költségvetése multinacionális Corporation különböző üzleti egységek közötti áthelyezését
 * Határokon átnyúló
 * Kereskedelmi pénzügyi forgatókönyvek
 * Használata esetén a különböző vállalatok hűségprogramok használatán keresztül rendszerek
-* Ellátási lánccal kapcsolatos ökoszisztémáknál és még sok más
+* Ellátási lánccal kapcsolatos ökoszisztémáknál
 
 ## <a name="architecture"></a>Architektúra
 
@@ -44,7 +44,7 @@ Ebben a forgatókönyvben a háttér-összetevőket, amelyek szükségesek a mag
 
 ### <a name="components"></a>Összetevők
 
-* Virtual Machine Scale Sets belüli virtuális gépek biztosít az igény szerinti számítási létesítmény az a blockchain érvényesítő folyamatok üzemeltetésére
+* Virtuális gépek virtuálisgép-méretezési csoportokon belül biztosít az igény szerinti számítási létesítmény az a blockchain érvényesítő folyamatok üzemeltetésére
 * A Key Vault titkos kulcsai minden érvényesítő része lesz a biztonságos tárolási létesítmény
 * Terheléselosztó osztja el a távoli Eljáráshívás társviszony-létesítéshez, és irányítási DApp kérelmek
 * Állandó üzemeltető tárolót a hálózati információkat és a koordináló bérlési
@@ -70,9 +70,9 @@ Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenő
 
 ### <a name="scalability"></a>Méretezhetőség
 
-A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazhatnak egy előre beállított időn belül. Ebben a forgatókönyvben koncepció jogosultság használ, ahol ilyen méretezhetőség jobban kezelheti, mint a koncepció-az-végzett munka. A koncepció jogosultság-alapú hálózatokon caiq résztvevők ismertek és felügyelt, alkalmassá téve azt több privát blockchain konzorcium szervezet számára, hogy tudja, hogy egy másik. Például average paraméterek idő, tranzakció / perc letiltása, és a számítási erőforrás-használat az egyéni Irányítópult segítségével egyszerűen figyelhető. Erőforrások is kell beállítani, hogy ennek megfelelően a méretezési követelmények alapján.
+A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazhatnak egy előre beállított időn belül. Ebben a forgatókönyvben koncepció jogosultság használ, ahol ilyen méretezhetőség jobban kezelheti, mint a koncepció-az-végzett munka. A koncepció jogosultság&ndash;alapján hálózatok, a consensus résztvevők ismertek és kezelt, alkalmassá téve azt több privát blockchain konzorcium szervezet számára, hogy tudja, hogy egy másik. Például average paraméterek idő, tranzakció / perc letiltása, és a számítási erőforrás-használat az egyéni Irányítópult segítségével egyszerűen figyelhető. Erőforrások is kell beállítani, hogy ennek megfelelően a méretezési követelmények alapján.
 
-Általános tervezési méretezhető forgatókönyvet, tekintse át a [méretezési ellenőrzőlista] [ scalability] az Azure Architecture Centert a.
+Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
@@ -82,7 +82,7 @@ A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazh
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Az Ethereum PoA blockchain is maga biztosít bizonyos fokú rugalmasság az érvényesítési csomópontot is üzembe helyezhetők különböző régiókban. Az Azure rendelkezik üzembe helyezéseket több mint 54 régiókban világszerte. A blockchain, mint ahogyan az ebben a forgatókönyvben a rugalmasság növelésére együttműködés egyedi és frissítése lehetőségeket biztosít. Az ezzel járó rugalmasságot, a hálózat nem csupán biztosít az egyetlen központosított fél, de minden tagjainak. A koncepció-az-szolgáltató alapú blockchain lehetővé teszi, hogy a hálózat rugalmasságának biztosításával, hogy még a tervezett és szándékos.
+Az Ethereum PoA blockchain is maga biztosít bizonyos fokú rugalmasság az érvényesítési csomópontot is üzembe helyezhetők különböző régiókban. Az Azure rendelkezik üzembe helyezéseket több mint 54 régiókban világszerte. A blockchain, mint ahogyan az ebben a forgatókönyvben a rugalmasság növelésére együttműködés egyedi és frissítése lehetőségeket biztosít. Az ezzel járó rugalmasságot, a hálózat nem csupán biztosít az egyetlen központosított fél, de minden tagjainak. A koncepció jogosultság&ndash;alapján blockchain lehetővé teszi, hogy a hálózat rugalmasságának biztosításával, hogy még a tervezett és szándékos.
 
 Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
 
@@ -100,7 +100,7 @@ A fenti díjszabás van egy consortium tag indítása és csatlakozás a blockch
 
 ## <a name="next-steps"></a>További lépések
 
-Ebben a forgatókönyvben egy példát látni, helyezzen üzembe a [Ethereum PoA blockchain bemutató alkalmazás] [ deploy] az Azure-ban, majd végigjárni a [a forgatókönyv a forráskód információs] [source].
+Ebben a forgatókönyvben egy példát látni, helyezzen üzembe a [Ethereum PoA blockchain bemutató alkalmazás] [ deploy] az Azure-ban. Tekintse át a [a forgatókönyv a forráskód információs][source].
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 

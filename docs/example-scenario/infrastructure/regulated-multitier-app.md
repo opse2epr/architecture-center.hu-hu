@@ -1,16 +1,16 @@
 ---
-title: A szabályozott iparágakban a Windows-webalkalmazás védelméhez
-description: A Windows Server biztonságos, többrétegű webes alkalmazás készítése az Azure-ban a méretezési csoportok, Application Gateway, és terheléselosztókat.
+title: Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára
+description: Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.
 author: iainfoulds
 ms.date: 07/11/2018
-ms.openlocfilehash: 584b5891f9b3d8e174c3eb29835a525ae4a4f156
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: c7137988bd9b5e26718b4fe0955a3dca3dc638b8
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819006"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610719"
 ---
-# <a name="secure-windows-web-application-for-regulated-industries"></a>A szabályozott iparágakban a Windows-webalkalmazás védelméhez
+# <a name="secure-windows-web-application-for-regulated-industries"></a>Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára
 
 Ebben a példaforgatókönyvben kell alkalmazni a szabályozott iparágakban, hogy a többrétegű alkalmazások védelmét. Ebben a forgatókönyvben egy előtérbeli ASP.NET-alkalmazások biztonságos módon csatlakozik egy védett háttérrendszeri Microsoft SQL Server-fürt.
 
@@ -18,7 +18,7 @@ Példaforgatókönyvek alkalmazás például operációs hely alkalmazások, bet
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Alkalmazástelepítések alapú modernizálásánál megfelelő választás a következő biztonságos felhőalapú környezetben.
 * Csökkenti a hagyományos helyszíni alkalmazások és szolgáltatások kezelése.

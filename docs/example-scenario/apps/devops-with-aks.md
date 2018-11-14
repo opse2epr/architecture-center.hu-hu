@@ -1,16 +1,16 @@
 ---
-title: CI/CD-folyamat a tárolóalapú számítási feladatokhoz
-description: A Node.js-webalkalmazás a Jenkins, az Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana fejlesztési és üzemeltetési folyamatot hozhat létre.
+title: CI-/CD-folyamat tárolóalapú számítási feladatokhoz
+description: DevOps-folyamatot hozhat létre egy Node.Js-webalkalmazáshoz a Jenkins, az Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használatával.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 3212fae2c68eef3a5ed4963d28c0d97ac8f332e0
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: db8de674ee2789c5b41cebebee5745ecc8544122
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818735"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610838"
 ---
-# <a name="cicd-pipeline-for-container-based-workloads"></a>CI/CD-folyamat a tárolóalapú számítási feladatokhoz
+# <a name="cicd-pipeline-for-container-based-workloads"></a>CI-/CD-folyamat tárolóalapú számítási feladatokhoz
 
 Ebben a példaforgatókönyvben olyan vállalatok, amelyek fejlesztése korszerűsítheti a tárolók és a DevOps-munkafolyamatokba használatával szeretne alkalmazható. Ebben a forgatókönyvben egy Node.js-webalkalmazás összeállítása és a Jenkins által üzembe helyezett egy Azure Container Registry és Azure Kubernetes Service-ben. Globálisan elosztott adatbázis-rétegből, az Azure Cosmos DB-hez használható. Figyelheti, és az alkalmazás teljesítményproblémáinak elhárítása, az Azure Monitor integrálható a Grafana példány és az irányítópult.
 
@@ -20,7 +20,7 @@ Azure-szolgáltatások, például az Azure Kubernetes Service, Container Registr
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, vegye figyelembe:
+Egyéb alkalmazási helyzetek a következők:
 
 * Modernizálhatja megközelítés tárolóalapú mikroszolgáltatások fejlesztési eljárásaikat alkalmazás.
 * Felgyorsítható az alkalmazások fejlesztése és üzembe helyezési életciklusának.

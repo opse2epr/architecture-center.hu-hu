@@ -1,14 +1,14 @@
 ---
 title: Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
 description: Valós idejű járműadatokat tölthet be és dolgozhat fel az IoT használatával.
-author: meeral
+author: msdpalam
 ms.date: 09/12/2018
-ms.openlocfilehash: 663332185f64987215384a1d4af4b7ed9b50847c
-ms.sourcegitcommit: 62945777e519d650159f0f963a2489b6bb6ce094
+ms.openlocfilehash: 6562e3277e6b6eb38993132284ad43542ef4c0d3
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/09/2018
-ms.locfileid: "48876885"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610736"
 ---
 # <a name="ingestion-and-processing-of-real-time-automotive-iot-data"></a>Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
 
@@ -23,7 +23,7 @@ Ebben a példában a bemutatóban az imagine egy autó gyártóvállalat cég, a
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Ebben a forgatókönyvben a következő használati esetek, a fenti célok mellett vegye figyelembe, adatfeldolgozást és -feldolgozási rendszerek telematika létrehozásakor:
+Egyéb alkalmazási helyzetek a következők:
 
 * Járműtelemetria karbantartási emlékeztetők és riasztási.
 * Helyalapú szolgáltatások a vehicle utasok (azaz SOS).
@@ -65,7 +65,7 @@ Ebben az architektúrában a technológiák a méretezési csoport szükség fel
 * Felügyelt [HDInsight Kafka](/azure/hdinsight/kafka/apache-kafka-introduction) tartalmaz egy 99,9 %-os SLA-t integrálva van az Azure Managed Disks
 * [Az Azure Databricks](/azure/azure-databricks/what-is-azure-databricks) a kezdetektől fogva a teljesítmény- és költséghatékonyságot a felhőben van optimalizálva. A Databricks futtatókörnyezete az Apache Spark számítási feladatokat, amelyek a teljesítmény növelése és az Azure-ban, akár 10 – 100 x csökkentheti a költségeket ad hozzá több főbb képességei többek között:
 * Az Azure Databricks mélyen integrálható az Azure-adatbázisok és a tárolók: [Azure SQL Data Warehouse](/azure/sql-data-warehouse), [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db), [Azure Data Lake Storage](https://azure.microsoft.com/services/storage/data-lake-storage), és [ Az Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs)
-    * Automatikus méretezés és automatikus – Bezárás automatikusan a költségek csökkentése érdekében a Spark-fürtök számára.
+    * Automatikus skálázás és autotermination a Spark-fürtök automatikusan csökkentheti minimálisra a költségeket.
     * Teljesítményoptimalizálás, beleértve a gyorsítótárazás, az indexelés és speciális lekérdezés optimalizálása, amelynek a jobb teljesítmény érdekében, akár 10 – 100 x hagyományos Apache Spark-telepítések felhőbeli vagy helyszíni környezetben keresztül.
     * Az integráció az Azure Active Directoryval lehetővé teszi, hogy teljes Azure-alapú megoldásokat futtasson az Azure Databricks használatával.
     * Az Azure Databricks szerepköralapú hozzáférés lehetővé teszi, hogy a notebookok, fürtök, feladatok és részletes felhasználói engedélyeket.
