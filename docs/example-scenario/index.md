@@ -1,22 +1,22 @@
 ---
-title: Azure-példaforgatókönyv
+title: Azure-példaforgatókönyvek
 description: Konkrét üzleti esetekre megoldást nyújtó példaforgatókönyvek
 author: david-stanford
-ms:date: 08/01/2018
+ms:date: 11/01/2018
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 63a566126168dba382792967b3625bd6e085c054
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: 01b2db150c66eaa7f8911361dd39786f53c39c07
+ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48818836"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51610498"
 ---
 # <a name="azure-example-scenarios"></a>Azure-példaforgatókönyvek
 
-A példaforgatókönyvek konkrét építészeti és üzleti problémák Azure-ban történő megoldásának folyamatát mutatják be.  Az egyes forgatókönyvek valódi fogyasztói példán alapulnak, és abból a célból készültek, hogy gyors, könnyen olvasható segítséget nyújtsanak a megvalósítás felgyorsításában.
+A példaforgatókönyvek azt mutatják be, hogyan lehet megbirkózni adott üzleti vagy technikai kihívásokkal az Azure segítségével. A forgatókönyvek valódi fogyasztói példán alapulnak, és gyors, könnyen áttekinthető segítséget nyújtanak az implementáció felgyorsításában.
 
-Az egyes forgatókönyveken belül architektúradiagramokat, streameket és az összetevők részletes leírását találja.  Emellett megismerhet alternatív technológiákat, amelyek jobban igazodhatnak üzleti igényeihez, továbbá megismerheti a megoldás hozzávetőleges árát és a megoldás éles környezetben történő futtatásakor megfontolandó szempontokat.  Sok forgatókönyv tartalmaz egy olyan metódust is, amelynek segítségével könnyedén üzembe helyezheti a megoldást Azure-fiókjában.
+A forgatókönyvekben megtalálja az architektúradiagramokat, az adatfolyamokat és a technikai összetevők részletes leírását. A megoldás éles környezetben történő futtatásakor megfontolandó szempontokat, a megoldás költségtényezőit és a hasonló problémák megoldására szolgáló egyéb lehetőségeket is áttekintheti. Sok forgatókönyv azt a módszert is tartalmazza, amellyel könnyedén üzembe helyezheti a megoldást saját Azure-előfizetésében.
 
 Tovább: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios)
 
