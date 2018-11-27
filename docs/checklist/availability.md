@@ -4,12 +4,12 @@ description: A feladatlista, amely rendelkezésre állási problémák során te
 author: dragon119
 ms.date: 01/10/2018
 ms.custom: checklist
-ms.openlocfilehash: a09a8f77865bf127ae0a73e0da7e1d3fb8508826
-ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
+ms.openlocfilehash: 5a819c5612fba9623c239bcc43f9004cd97dfb76
+ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/24/2018
-ms.locfileid: "49962891"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52305893"
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlisták
 
@@ -43,6 +43,8 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Helyezze a virtuális gépek (VM) egy rendelkezésre állási csoportban.** Rendelkezésre állás maximalizálása érdekében hozzon létre minden egyes Virtuálisgép-szerepkör több példányát, és helyezze el ezek a példányok ugyanazt a rendelkezésre állási csoportban. Ha több virtuális gépet, amely szolgálja ki a különböző szerepkörökhöz, például különböző alkalmazásrétegek, hozzon létre egy rendelkezésre állási csoportot minden egyes Virtuálisgép-szerepkör. Például hozzon létre egy rendelkezésre állási csoportot a webes szint és a egy másik, az adatréteg számára.
 
+**Az Azure Site Recovery virtuális gépeket replikálni.** A rendelkezésre állás maximalizálása a virtuális gépek replikálása egy másik Azure-régióban [Site Recovery][site-recovery]. Győződjön meg arról, hogy a virtuális gépek összes replikálódnak a szintek az alkalmazás. Egy a forrásrégióban bekövetkező szolgáltatáskimaradás esetén is átadja a feladatokat a virtuális gépek a más régióba percen belül.
+
 ## <a name="data-management"></a>Adatkezelés
 
 **Az Azure Storage-adatok georeplikálása**. Az Azure Storage szolgáltatásban az adatok automatikus replikációja belül az egy kínai adatközpont. Még magasabb rendelkezésre állás érdekében használja az írásvédett georedundáns tárolás (-RAGRS), amely egy másodlagos régióba replikálja az adatokat, és az adatokat a másodlagos helyen csak olvasható hozzáférést biztosít. Az adatok a tartós még egy teljes regionális kimaradás vagy vészhelyzet esetén. További információkért lásd: [Azure Storage replikáció](/azure/storage/storage-redundancy).
@@ -52,6 +54,8 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 **Az optimista egyidejűség és a végleges konzisztencia**. Tranzakció, hogy a erőforrások zárolása (pesszimista egyidejűségi) keresztüli elérésének letiltása gyenge teljesítményhez vezethetnek, és jelentősen csökkentheti a rendelkezésre állást. Ezeket a problémákat az elosztott rendszerek különösen akuttá válhat. Sok esetben gondos tervezés és technikák, például a particionálás minimalizálhatja az előforduló ütköző frissítésének esélyét. Ahol az adatokat a rendszer replikálja, vagy külön-külön frissített áruházbeli olvasható, az adatok csak akkor végül konzisztens. Azonban az előnyöket általában sokkal nyomósabbak a tranzakciók azonnali konzisztencia biztosításához a rendelkezésre állási gyakorolt hatást.
 
 **Rendszeres biztonsági mentéssel és időponthoz visszaállítással**. Automatikusan és rendszeresen biztonsági másolatokat, amely máshol nem őrződnek meg, és ellenőrizze a megbízhatóan visszaállíthatja az adatokat és a magának az alkalmazásnak kell hiba fordul elő. Győződjön meg arról, hogy a biztonsági mentések felel meg a helyreállítási időkorlátot (RPO). Adatreplikálás nem áll egy biztonsági mentési funkcióval, mivel az emberi hiba vagy rosszindulatú műveleteket is az adatok sérültek minden replika között. Lehet, hogy a biztonsági mentési folyamat biztonságos az úton lévő és a storage-ban tárolt adatok védelméhez. Adatbázisok és a egy adattár részeit általában visszaállíthatja egy korábbi időpontra időben tranzakciós naplók használatával. További információkért lásd: [helyreállítás adatsérülés vagy véletlen törlés](../resiliency/recovery-data-corruption.md)
+
+**Az Azure Site Recovery Virtuálisgép-lemezek replikálásához.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi egy RPO sorrendjében perc. 
 
 ## <a name="errors-and-failures"></a>Hibák és hibák
 
@@ -71,13 +75,16 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Figyelheti a fájlrendszer állapotának ellenőrzése funkciók megvalósítása.** Az állapotát és a egy alkalmazás teljesítményének idővel romoljon, anélkül, hogy észrevehető, amíg nem sikerül. Mintavételezők megvalósításához, vagy ellenőrizze a végrehajtott rendszeresen az alkalmazáson kívüli funkciók. Az ellenőrzések egyszerű: az alkalmazás egészére, az alkalmazás egyes részei, az alkalmazás által használt egyes szolgáltatások, vagy az egyes összetevők válaszidő mérése is lehet. Ellenőrizze a funkciókat hajthatja végre a folyamatokat, így biztosíthatja azok érvényes eredményeket, mérheti a késés és rendelkezésre állásának ellenőrzése és információk nyerhetők a rendszer.
 
-**Feladatátvétel és a tartalék rendszerek rendszeresen tesztelje.** Változások a rendszerek és az operations befolyásolhatják a feladatátvétel és a tartalék függvények, de a hatás nem észlelhető, mindaddig, amíg a fő rendszer meghibásodik, vagy túlterhelt válik. Tesztelje előtt szükség van a meghiúsult lépések kompenzációjához futásidőben élő probléma.
+**Feladatátvétel és a tartalék rendszerek rendszeresen tesztelje.** Változások a rendszerek és az operations befolyásolhatják a feladatátvétel és a tartalék függvények, de a hatás nem észlelhető, mindaddig, amíg a fő rendszer meghibásodik, vagy túlterhelt válik. Tesztelje előtt szükség van a meghiúsult lépések kompenzációjához futásidőben élő probléma. Ha használ [Azure Site Recovery] [ site-recovery] virtuális gépek replikálásához vészhelyreállítási próbákat rendszeres időközönként feladatátvételi teszt elvégzésével. További információkért lásd: [vészhelyreállítási gyakorlatának futtatása az Azure-bA][site-recovery-test].
 
 **Tesztelje a monitorozási rendszerek.** Az Automatikus feladatátvétel és a tartalék rendszerek, és manuális képi megjelenítés, a rendszer állapotának és teljesítményének irányítópultok használatával, az összes függő monitorozási és rendszerállapot megfelelően működik-e. Ha ezek az elemek meghibásodik, a kritikus információk tévesztés, vagy pontatlan adatokat, az operátornak előfordulhat, hogy nem valósíthat meg, hogy a rendszer sérült vagy meghibásodott.
 
 **Hosszan futó munkafolyamatok az előrehaladását úgy követheti nyomon, és ismételje meg a hiba esetén.** Hosszan futó munkafolyamatok gyakran több lépésből állnak. Győződjön meg arról, hogy az egyes lépések egymástól független, és annak esélyét, hogy a teljes munkafolyamatot állítható vissza kell minimalizálása érdekében újból próbálkozhat, vagy, hogy több kompenzáló tranzakciók kell végrehajtani. Figyelheti és kezelheti a hosszan futó munkafolyamatok előrehaladását egy minta megvalósításával [Feladatütemező ügynök felügyeleti mintáját](../patterns/scheduler-agent-supervisor.md).
 
-**Vész-helyreállítási terv.** Hozzon létre egy elfogadott, teljes körűen tesztelve bármilyen rendszer rendelkezésre állását esetlegesen befolyásoló hiba helyreállítási tervet. Válassza ki a többhelyes vészhelyreállítás recovery architektúrájáról alapvető fontosságú alkalmazásokhoz. A konkrét tulajdonost, a vész-helyreállítási terv, beleértve az automatizálási és tesztelési azonosításához. Győződjön meg arról a csomag létezik jól dokumentált, és automatizálhatják a lehető legnagyobb mértékben. Hozzon létre egy biztonsági mentési stratégia az összes hivatkozást és a tranzakciós adatok, és rendszeresen Tesztelje ezeket a biztonsági másolatokat a helyreállítását. A terv, és hajtsa végre a rendszeres vészhelyreállítási szimulációk miként ellenőrzi és javítja a terv létszámmal betanításához.
+**Vész-helyreállítási terv.** Hozzon létre egy elfogadott, teljes körűen tesztelve bármilyen rendszer rendelkezésre állását esetlegesen befolyásoló hiba helyreállítási tervet. Válassza ki a többhelyes vészhelyreállítás recovery architektúrájáról alapvető fontosságú alkalmazásokhoz. A konkrét tulajdonost, a vész-helyreállítási terv, beleértve az automatizálási és tesztelési azonosításához. Győződjön meg arról a csomag létezik jól dokumentált, és automatizálhatják a lehető legnagyobb mértékben. Hozzon létre egy biztonsági mentési stratégia az összes hivatkozást és a tranzakciós adatok, és rendszeresen Tesztelje ezeket a biztonsági másolatokat a helyreállítását. A terv, és hajtsa végre a rendszeres vészhelyreállítási szimulációk miként ellenőrzi és javítja a terv létszámmal betanításához. Ha használ [Azure Site Recovery] [ site-recovery] virtuális gépek replikálása egy teljesen automatizált helyreállítási terv feladatátvételi percek alatt a teljes alkalmazás létrehozása.
 
 <!-- links -->
 [availability-sets]:/azure/virtual-machines/virtual-machines-windows-manage-availability/
+[site-recovery]: /azure/site-recovery/
+[site-recovery-test]: /azure/site-recovery/site-recovery-test-failover-to-azure
+

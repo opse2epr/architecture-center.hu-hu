@@ -4,12 +4,12 @@ description: A feladatlista, amely rugalmasság aggályokat során tervezési ú
 author: petertaylor9999
 ms.date: 01/10/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 15ad749c12dc8a45c9e7e08376452685d8ad7c9b
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.openlocfilehash: ce538a0b234a5b120415980e983096f567f9cf86
+ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819023"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52305944"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -43,6 +43,8 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Rendelkezésre állási csoportok használata az alkalmazásrétegek esetében.** Helyezi el a-példányokat egy [rendelkezésre állási csoport] [ availability-sets] biztosít egy újabb [SLA](https://azure.microsoft.com/support/legal/sla/virtual-machines/). 
 
+**Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc.
+
 **Vegye figyelembe, hogy az alkalmazás üzembe helyezése több régióban.** Ha az alkalmazás egyetlen régióban üzembe, az esemény ritkán fordul elő a teljes régió elérhetetlenné válik, az alkalmazás még nem lesz elérhető. Lehet, hogy ez elfogadhatatlan az alkalmazás szolgáltatásiszint-szerződés feltételei szerint. Ha igen, fontolja meg az alkalmazás és a hozzá tartozó szolgáltatások telepítése több régióban. Egy többrégiós üzembe helyezés az egy aktív-aktív minta (kérelmek elosztásával aktív példányok) vagy egy aktív-passzív minta (tartja "meleg" példány számára fenntartott, abban az esetben, ha az elsődleges példány sikertelen). Azt javasoljuk, hogy több-példányok üzembe helyezésekor az alkalmazásszolgáltatások között regionális párokról. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure párosított régiói](/azure/best-practices-availability-paired-regions).
 
 **Az Azure Traffic Manager használatával irányíthatja a forgalmat az alkalmazás különböző régiókban.**  [Az Azure Traffic Manager] [ traffic-manager] terheléselosztás, a DNS szintjén végzi, és átirányítja a forgalmat alapján különböző régiók a [forgalom-útválasztást] [ traffic-manager-routing] metódus azt adja meg, és az alkalmazás végpontok állapotát. Nélkül Traffic Manager, pedig csak egyetlen régióban, amely korlátozza a skálázási, növeli az egyes felhasználók közel valós idejű és régióra kiterjedő szolgáltatáskimaradás esetén alkalmazás állásidőt okoz az üzembe helyezéshez.
@@ -64,7 +66,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 ## <a name="data-management"></a>Adatkezelés
 
-**Ismerje meg az alkalmazás-adatforrások replikációs módszereket.** Az alkalmazásadatok különböző adatforrások lesz tárolva, és a különböző rendelkezésre állási követelmények vonatkoznak. A replikációs módszereket az egyes Azure-ban, az adattárolás kiértékelése többek között [Azure Tárreplikáció](/azure/storage/storage-redundancy/) és [SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/) annak biztosítására, hogy az alkalmazás adatokat követelmények teljesülnek.
+**Ismerje meg az alkalmazás-adatforrások replikációs módszereket.** Az alkalmazásadatok különböző adatforrások lesz tárolva, és a különböző rendelkezésre állási követelmények vonatkoznak. A replikációs módszereket az egyes Azure-ban, az adattárolás kiértékelése többek között [Azure Tárreplikáció](/azure/storage/storage-redundancy/) és [SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/) annak biztosítására, hogy az alkalmazás adatokat követelmények teljesülnek. Azure virtuális gépek replikálása [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. 
 
 **Győződjön meg arról, hogy nincs egyetlen felhasználói fiók rendelkezik-e éles és a biztonsági mentési adatokhoz való hozzáférés.** A biztonsági mentések integritása sérül, ha egy egyetlen felhasználói fiók éles és a biztonsági mentési források írási engedéllyel rendelkezik. Egy rosszindulatú felhasználó szándékosan sikerült törölni a teljes adatmennyiséget, míg az átlagos felhasználók sikerült véletlenül törlést kezdeményezni. Tervezze alkalmazását úgy korlátozhatja az egyes felhasználói fiókok engedélyeket, így csak azok a felhasználók írási hozzáférést igénylő írási hozzáféréssel rendelkezik, és csak olyan éles vagy a biztonsági mentés, de nem mindkettőt.
 
@@ -87,7 +89,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 ## <a name="testing"></a>Tesztelés
 
-**Hajtsa végre a feladatátvétel és feladat-visszavétel az alkalmazás tesztelése.** Ha még nem lett teljes körűen tesztelve feladatátvétel és feladat-visszavételt, nem lehet biztos, hogy az alkalmazás a függő szolgáltatások térjen vissza szinkronizált módon a vészhelyreállítás során. Győződjön meg arról, hogy az alkalmazás függő szolgáltatások feladatátvétel és a megfelelő sorrendben sikertelen.
+**Hajtsa végre a feladatátvétel és feladat-visszavétel az alkalmazás tesztelése.** Ha még nem lett teljes körűen tesztelve feladatátvétel és feladat-visszavételt, nem lehet biztos, hogy az alkalmazás a függő szolgáltatások térjen vissza szinkronizált módon a vészhelyreállítás során. Győződjön meg arról, hogy az alkalmazás függő szolgáltatások feladatátvétel és a megfelelő sorrendben sikertelen. Ha használ [Azure Site Recovery] [ site-recovery] virtuális gépek replikálásához vészhelyreállítási próbákat rendszeres időközönként feladatátvételi teszt elvégzésével. További információkért lásd: [vészhelyreállítási gyakorlatának futtatása az Azure-bA][site-recovery-test].
 
 **Hajtsa végre a hibabeszúrás az alkalmazás tesztelése.** Az alkalmazás nem sikerül, számos különféle oka lehet, például a lejárt tanúsítványok, az erőforrásokat a virtuális gép és a tárolási hibák Erőforrásfogyás. Tesztelheti alkalmazását szimuláló vagy valódi hibák elindítása az éles környezetben, a lehető legközelebb környezetben. Például tanúsítványok törlése, mesterségesen használják a rendszer erőforrásait, vagy egy tárolási forrás törlése. Ellenőrizze az alkalmazás minden típusú hibák, önálló és kombinált helyreállítás lehetőségét is. Ellenőrizze, hogy hibák nem propagálása vagy kaszkádolás révén a rendszer.
 
@@ -176,6 +178,8 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 [resource-manager]: /azure/azure-resource-manager/resource-group-overview/
 [retry-pattern]: ../patterns/retry.md
 [retry-service-guidance]: ../best-practices/retry-service-specific.md
+[site-recovery]: /azure/site-recovery/
+[site-recovery-test]: /azure/site-recovery/site-recovery-test-failover-to-azure
 [traffic-manager]: /azure/traffic-manager/traffic-manager-overview/
 [traffic-manager-routing]: /azure/traffic-manager/traffic-manager-routing-methods/
 [vmss-autoscale]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview/

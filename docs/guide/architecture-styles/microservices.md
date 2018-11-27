@@ -2,17 +2,17 @@
 title: Mikroszolgáltatási architektúrastílus
 description: Ismerteti a mikroszolgáltatási architektúrák előnyeit, kihívásait és ajánlott eljárásait az Azure-ban
 author: MikeWasson
-ms.date: 08/30/2018
-ms.openlocfilehash: fb23ac3e408f3a202d925a1bf684bc30d423f218
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.date: 11/13/2018
+ms.openlocfilehash: 4e5d50f829323829c953977257e690354566ebf6
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325443"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295531"
 ---
 # <a name="microservices-architecture-style"></a>Mikroszolgáltatási architektúrastílus
 
-A mikroszolgáltatási architektúra kisebb, autonóm szolgáltatások gyűjteményéből áll. Mindegyik szolgáltatás önálló, és egyetlen üzleti képességet valósít meg. A mikroszolgáltatási architektúrák Azure-ban való létrehozásáról részletes útmutatót a [Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban](../../microservices/index.md) című szakaszban talál.
+A mikroszolgáltatási architektúra kisebb, autonóm szolgáltatások gyűjteményéből áll. Mindegyik szolgáltatás önálló, és egyetlen üzleti képességet valósít meg. 
 
 ![](./images/microservices-logical.svg)
  
@@ -111,39 +111,9 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 - Különítse el a hibákat. Használjon rugalmassági stratégiákat, hogy megelőzze a szolgáltatásban fellépő hibák halmozódását. Lásd: [Rugalmassági minták][resiliency-patterns] és [Rugalmas alkalmazások tervezése][resiliency-overview].
 
-## <a name="microservices-using-azure-container-service"></a>Az Azure Container Service-t használó mikroszolgáltatások 
+## <a name="next-steps"></a>További lépések
 
-Az [Azure Container Service](/azure/container-service/) egy Docker-fürt konfigurálására és kiosztására használható. Az Azure Container Service számos népszerű tárolóvezénylőt támogat, például a Kubernetes, DC/OS és Docker Swarm tárolóvezénylőket.
-
-![](./images/microservices-acs.png)
- 
-**Nyilvános csomópontok**. Ezek a csomópontok nyilvános terheléselosztón keresztül érhetők el. Az API-átjáró ezeken a csomópontokon üzemel.
-
-**Háttércsomópontok**. Ezek a csomópontok olyan szolgáltatásokat futtatnak, amelyeket az ügyfelek az API-átjárón keresztül érnek el. Ezek a csomópontok nem fogadnak közvetlenül internetes forgalmat. A háttércsomópontok egynél több virtuálisgép-készletet tartalmazhatnak, amelyek közül mindegyik különböző hardverprofillal rendelkezik. Létrehozhat például egy külön készletet az általános számítási feladatoknak, a magas CPU-használatú számítási feladatoknak és a nagy memóriaigényű számítási feladatoknak. 
-
-**Felügyeleti virtuális gépek**. Ezek a virtuális gépek a tárolóvezénylők főcsomópontjait futtatják. 
-
-**Hálózatkezelés**. A nyilvános csomópontok, a háttércsomópontok és a felügyeleti virtuális gépek külön alhálózatra kerülnek, ugyanazon a virtuális hálózaton (VNeten) belül. 
-
-**Terheléselosztók**.  A kifelé irányuló terheléselosztó a nyilvános csomópontok előtt helyezkedik el. Internetes kérelmeket oszt ki a nyilvános csomópontoknak. Egy másik terheléselosztó a felügyeleti virtuális gépek elé lesz elhelyezve, hogy engedélyezze a Secure Shell- (SSH-) forgalom felügyeleti virtuális gépekre irányítását, NAT-szabályok használatával.
-
-A megbízhatóság és skálázhatóság érdekében minden szolgáltatást több virtuális gépen replikál a rendszer. Mivel azonban a szolgáltatások is viszonylag egyszerűek (egy monolitikus alkalmazáshoz képest), egy virtuális gépen általában több szolgáltatás van elhelyezve. A magasabb sűrűség jobb erőforrás-használatot tesz lehetővé. Ha egy adott szolgáltatás nem használ sok erőforrást, nem szükséges egy teljes virtuális gépet a szolgáltatás futtatásához rendelnie.
-
-Az alábbi ábrán három csomópont látható, amelyek négy különböző szolgáltatást futtatnak (ezeket különböző alakzatok jelölik). Figyelje meg, hogy minden szolgáltatás legalább két példánnyal rendelkezik. 
- 
-![](./images/microservices-node-density.png)
-
-## <a name="microservices-using-azure-service-fabric"></a>Az Azure Service Fabric szolgáltatást használó mikroszolgáltatások
-
-Az alábbi ábrán az [Azure Service Fabric](/azure/service-fabric/) szolgáltatást használó mikroszolgáltatási architektúra látható.
-
-![](./images/service-fabric.png)
-
-A Service Fabric-fürt egy vagy több virtuálisgép-méretezési csoportra van telepítve. Előfordulhat, hogy a fürtben egynél több virtuálisgép-méretezési csoporttal rendelkezik, hogy többféle virtuálisgép-típust használhasson. Egy külső terheléselosztóval rendelkező API-átjáró helyezkedik el a Service Fabric-fürt előtt, az ügyfélkérelmek fogadásához.
-
-A Service Fabric-futtatókörnyezet végzi a fürt kezelését, beleértve a szolgáltatások elhelyezését, a csomópont feladatátvételét és az állapotmonitorozást. A futtatókörnyezet a fürtcsomópontokon van telepítve. A fürtkezelő virtuális gépeknek nincs külön csoportja.
-
-A szolgáltatások a Service Fabricbe épített fordított proxy használatával kommunikálnak egymással. A Service Fabric egy olyan felderítési szolgáltatást nyújt, amellyel feloldható egy elnevezett szolgáltatás végpontja.
+A mikroszolgáltatási architektúrák Azure-ban való létrehozásáról részletes útmutatót a [Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban](../../microservices/index.md) című szakaszban talál.
 
 
 <!-- links -->

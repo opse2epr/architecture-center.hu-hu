@@ -3,12 +3,12 @@ title: A big data-architektúrastílus
 description: Ismerteti az Azure-alapú big data-architektúrák előnyeit, kihívásait és ajánlott eljárásait
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 073a1a88f1aaca7f09bd1f47ba79216b0727ca24
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: 107ea7ad4e97a891236596291b0cee41a72eb865
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325371"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295565"
 ---
 # <a name="big-data-architecture-style"></a>A big data-architektúrastílus
 
@@ -124,6 +124,10 @@ A szürke dobozok az IoT-rendszer azon összetevőit jelölik, amelyek nem kapcs
 - Egyes IoT-megoldások lehetővé teszik **parancs- és vezérlő üzenetek** küldését az eszközöknek.
 
 > Ez a szakasz az IoT nagyon általános áttekintését tartalmazza, amely mellett még nagyon sok apró részletet és kihívást jelentő tényezőt kell figyelembe venni. Részletesebb referenciaarchitektúrát és ismertetőt a [Microsoft Azure IoT referenciaarchitektúráját][iot-ref-arch] tartalmazó dokumentumban talál (letölthető PDF-fájl).
+
+## <a name="next-steps"></a>További lépések
+
+- Tudjon meg többet [big data-architektúrák](../../data-guide/big-data/index.md).
 
  <!-- links -->
 

@@ -4,12 +4,12 @@ description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgált
 author: petertaylor9999
 ms.date: 03/02/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 50808a837132e905cc89c3c43d40852a04f4885c
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.openlocfilehash: 53a37595bd6e70fa3a43e9a72b2ae47d2225009f
+ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916702"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52305927"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -139,6 +139,8 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Mindössze az egyes alkalmazásrétegek külön rendelkezésre állási csoportban.** Az N szintű alkalmazáshoz ne helyezzen virtuális gépet a különböző szintek az azonos rendelkezésre állási csoportba. Virtuális gépet egy rendelkezésre állási csoportban vannak elhelyezve a tartalék tartományok között, és frissítési tartományok (UD). Azonban a redundancia élvezheti a tartalék és frissítési tartománnyal, a rendelkezésre állási csoportban lévő összes virtuális Géphez kell tudni az azonos ügyfélkérelmek kezelését.
 
+**Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc. Vészhelyreállítási próba annyiszor azt szeretné, az éles alkalmazás vagy a folyamatban lévő replikáció befolyásolása nélkül végezhet. További információkért lásd: [vészhelyreállítási gyakorlatának futtatása az Azure-bA][site-recovery-test].
+
 **Válassza ki a megfelelő Virtuálisgép-méret, teljesítmény-követelmények alapján.** Amikor helyez át egy meglévő számítási feladatok Azure-ba, indítsa el a Virtuálisgép-méretet, amely a leginkább egyezik a helyszíni kiszolgálókhoz. Ezután mérheti a CPU, memória és a lemez iops-t a valós számítási feladat teljesítményét, és módosítsa a méretet, ha szükséges. Ezzel biztosíthatja az alkalmazás egy felhőalapú környezetben a várt módon viselkedik. Is ha több hálózati adapter van szüksége, vegye figyelembe a hálózati adapter korlát méreteire vonatkoztatva.
 
 **A felügyelt lemezek használata a virtuális merevlemezeket.** [A Managed Disks] [ managed-disks] megbízhatóságnak-beli virtuális gépek rendelkezésre állási csoportban, mert a lemezei kellőképpen különítve egymástól a kritikus hibapontok elkerülése érdekében. Felügyelt lemezek is, nem a storage-fiókban létrehozott virtuális merevlemezek, az IOPS-korlátok vonatkoznak. További információkért lásd: [Azure-beli Windows virtuális gépek rendelkezésre állásának kezelése][vm-manage-availability].
@@ -166,6 +168,8 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 [diagnostics-logs]: /azure/monitoring-and-diagnostics/monitoring-overview-of-diagnostic-logs/
 [managed-disks]: /azure/storage/storage-managed-disks-overview
 [search-optimization]: /azure/search/search-performance-optimization/
+[site-recovery]: /azure/site-recovery/
+[site-recovery-test]: /azure/site-recovery/site-recovery-test-failover-to-azure
 [sql-backup]: /azure/sql-database/sql-database-automated-backups/
 [sql-restore]: /azure/sql-database/sql-database-recovery-using-backups/
 [vm-manage-availability]: /azure/virtual-machines/windows/manage-availability#use-managed-disks-for-vms-in-an-availability-set

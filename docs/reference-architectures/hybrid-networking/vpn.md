@@ -7,12 +7,12 @@ pnp.series.title: Connect an on-premises network to Azure
 pnp.series.next: expressroute
 pnp.series.prev: ./index
 cardTitle: VPN
-ms.openlocfilehash: 6e705c40663eff421e79067f916a1ebad6e72822
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.openlocfilehash: a494ff952dd6c8be3b38c2ca7f6740a44b5b30e1
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916549"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295667"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-a-vpn-gateway"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával
 
@@ -413,7 +413,7 @@ Az alábbi javaslatok segítenek megállapítani, hogy van-e probléma a virtuá
 
     ![[3]][3]
 
-    Az eredményeket hasonlítsa össze a VPN-átjáró számára elérhető sávszélességgel (az alapszintű és a standard termékváltozat esetében 100 Mb/s, illetve 200 Mb/s nagy teljesítményű termékváltozat esetében):
+    Meg kell az eredményeket hasonlítsa össze a rendelkezésre álló sávszélesség VPN-átjáróhoz (a 100 MB/s VpnGw3 termékváltozat 1,25 GB/s, az alapszintű Termékváltozat esetén):
 
     ![[4]][4]
 

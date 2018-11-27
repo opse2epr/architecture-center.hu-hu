@@ -3,12 +3,12 @@ title: Naplózás és figyelés a mikroszolgáltatások
 description: Naplózás és figyelés a mikroszolgáltatások
 author: MikeWasson
 ms.date: 10/23/2018
-ms.openlocfilehash: c2a935f51c57936977fb4402de2113938351069c
-ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
+ms.openlocfilehash: 9d385a141edb34b2b0f4badb7dfcaf53baac2666
+ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/24/2018
-ms.locfileid: "49962874"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52305910"
 ---
 # <a name="designing-microservices-logging-and-monitoring"></a>Mikroszolgáltatások tervezése: naplózást és figyelést
 
@@ -18,7 +18,7 @@ Bármely összetett alkalmazásban valamikor hiba fog hiba lép fel. A mikroszol
 
 A mikroszolgáltatási architektúrákban, különösen kihívást jelenthet kiszűrheti a hibák vagy a teljesítmény szűk pontos okát. Egyetlen felhasználói művelet több szolgáltatást előfordulhat, hogy kiterjednek. Szolgáltatások tapasztalhat a hálózati i/o-korlátok a fürtben. Szolgáltatások közötti hívások láncolatától ellennyomás a rendszer magas késést eredményez, vagy alapú egymásra épülő hibákat okozhat. Ezen kívül általában nem tudja melyik csomópont egy adott tároló fog futni. Ugyanazon a csomóponton elhelyezett tárolók korlátozott CPU és memória tagja is lehet. 
 
-Ahhoz, hogy az értelemben, hogy mi történik, az alkalmazás telemetriai kell gyűjteni.  Telemetria osztható *naplók* és *metrikák*. [Az Azure Monitor](/azure/monitoring-and-diagnostics/monitoring-overview) összegyűjti a naplókat és metriocs is az Azure platformon keresztül.
+Ahhoz, hogy az értelemben, hogy mi történik, az alkalmazás telemetriai kell gyűjteni.  Telemetria osztható *naplók* és *metrikák*. [Az Azure Monitor](/azure/monitoring-and-diagnostics/monitoring-overview) összegyűjti a naplókat és a metrikák az Azure platformon keresztül.
 
 **Naplók** szöveges rekord az alkalmazás futása közben bekövetkező eseményekről. Ezek közé tartozik többek között az alkalmazásnaplókat (nyomkövetési utasításokat) vagy a webkiszolgáló-naplókkal. Naplók elsősorban hasznosak lehetnek az eseményadatokhoz és a legfelső szintű alapprobléma elemzéséhez. 
 
