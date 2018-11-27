@@ -3,16 +3,16 @@ title: Kiszolgáló nélküli webalkalmazás
 description: Látható, a kiszolgáló nélküli webalkalmazás és webes API referencia-architektúra
 author: MikeWasson
 ms.date: 10/16/2018
-ms.openlocfilehash: d1af03811bda6267fd40ee17823ac8357829f988
-ms.sourcegitcommit: 949b9d3e5a9cdee1051e6be700ed169113e914ae
+ms.openlocfilehash: 9263c8bec794e4b2bb9f397289b23307eb02f0c7
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "50983396"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295684"
 ---
 # <a name="serverless-web-application"></a>Kiszolgáló nélküli webalkalmazás 
 
-Ez a referenciaarchitektúra bemutatja a kiszolgáló nélküli webalkalmazás. Az alkalmazást a statikus tartalmat szolgáltat az Azure Blob Storage-ból, és a egy API-t az Azure Functions használatával valósítja meg. Az API beolvassa az adatokat a Cosmos DB és az eredményeket adja vissza a webalkalmazáshoz. Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
+Ez a referenciaarchitektúra bemutatja egy [kiszolgáló nélküli](https://azure.microsoft.com/solutions/serverless/) webes alkalmazás. Az alkalmazást a statikus tartalmat szolgáltat az Azure Blob Storage-ból, és a egy API-t az Azure Functions használatával valósítja meg. Az API beolvassa az adatokat a Cosmos DB és az eredményeket adja vissza a webalkalmazáshoz. Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
 ![](./_images/serverless-web-app.png)
  
