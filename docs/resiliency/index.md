@@ -4,12 +4,12 @@ description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezé
 author: MikeWasson
 ms.date: 07/29/2018
 ms.custom: resiliency
-ms.openlocfilehash: b925748e1d3d4a8d490bbd5d7cb76f3961ffcfb2
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.openlocfilehash: 73600650dc96fe85ad59e286079a3523ef25d055
+ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916600"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52305961"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -174,7 +174,9 @@ Az Azure számos funkciót kínál, amellyel az alkalmazások számára biztosí
 
 **Rendelkezésre állási csoportok**. A helyi hardverhibák, például lemezek vagy hálózati kapcsolók meghibásodása elleni védelem érdekében helyezzen üzembe két vagy több virtuális gépet egy rendelkezésre állási csoportban. Egy rendelkezésre állási csoport két vagy több *tartalék tartományból* áll, amelyek közös áramforrással és hálózati kapcsolóval rendelkeznek. A rendelkezésre állási csoportban található virtuális gépek el vannak osztva a tartalék tartományok között, ezért ha hardverhiba merül fel az egyik tartalék tartományban, a hálózati forgalom átirányítható a többi tartalék tartományban található virtuális gépekre. További információt a rendelkezésre állási csoportokról [a Windows rendszerű virtuális gépek rendelkezésre állásának az Azure-ban történő kezelését](/azure/virtual-machines/windows/manage-availability) ismertető cikkben talál.
 
-**Rendelkezésre állási zónák**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. 
+**Rendelkezésre állási zónák**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben.
+
+**Azure Site Recovery**.  Replikálhatja az Azure-beli virtuális gépeket egy másik Azure-régióba az üzletmenet-folytonosság és a vészhelyreállítás érdekében. Időszakos vészhelyreállítási tesztekkel biztosíthatja a követelményeknek való megfelelést. A rendszer a megadott beállításokkal replikálja a virtuális gépet a kiválasztott régióba, így Ön visszaállíthatja alkalmazásait, ha a forrásrégióban leállás történne. További információt az [Azure-beli virtuális gépek ASR használatával történő replikálását ismertető részben][site-recovery] talál.
 
 **Párosított régiók**. Annak érdekében, hogy védelmet nyújtson egy alkalmazás számára regionális kimaradás esetén, helyezze üzembe az alkalmazást egyszerre több régióban, és az Azure Traffic Manager használatával ossza el az internetes forgalmat a különböző régiók között. Minden egyes Azure-régió párban áll egy másikkal. Ezek együtt egy [régiópárt](/azure/best-practices-availability-paired-regions) alkotnak. Dél-Brazília kivételével a régiópárok azonos földrajzi helyen találhatók, hogy adóügyi és törvényi szempontból megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
@@ -202,9 +204,11 @@ Mindegyik újrapróbálkozás növeli a teljes késést. Túl sok sikertelen ké
 * Skálázzon fel horizontálisan egy Azure App Service alkalmazást több példányra. Az App Service automatikusan elosztja a terhelést a példányok között. Lásd: [Alapszintű webalkalmazás][ra-basic-web].
 * Az [Azure Traffic Managerrel][tm] ossza el a forgalmat végpontok között.
 
-**Adatok replikálása**. Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik. Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával. 
+**Adatok replikálása**. Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik. Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával.
 
-A rendelkezésre állás maximalizálása érdekében a replikákat több régióban is el lehet helyezni. Ez azonban növeli az adatok replikálásával járó késést. A régiók közötti replikálás általában aszinkron módon történik, ami végleges konzisztenciájú modellt jelent, valamint azt, hogy egy replika meghibásodása adatveszteséggel járhat. 
+A rendelkezésre állás maximalizálása érdekében a replikákat több régióban is el lehet helyezni. Ez azonban növeli az adatok replikálásával járó késést. A régiók közötti replikálás általában aszinkron módon történik, ami végleges konzisztenciájú modellt jelent, valamint azt, hogy egy replika meghibásodása adatveszteséggel járhat.
+
+Az [Azure Site Recoveryvel][site-recovery] Azure-beli virtuális gépeket replikálhat egy régióból egy másikba. A Site Recovery folyamatosan végzi az adatok replikálását a célrégióba. Ha az elsődleges helyen kimaradás történik, a rendszer átadja a feladatokat a másodlagos helynek
 
 **Leállás nélküli teljesítménycsökkenés**. Ha egy szolgáltatás meghibásodik, és nincs feladatátvételi útvonal, az alkalmazás képes lehet leállás nélküli teljesítménycsökkenéssel tovább futni, továbbra is elfogadható felhasználói élményt nyújtva. Például:
 
@@ -355,3 +359,4 @@ A cikk lényeges pontjai a következők:
 [tm]: https://azure.microsoft.com/services/traffic-manager/
 [tm-failover]: /azure/traffic-manager/traffic-manager-monitoring
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager
+[site-recovery]:/azure/site-recovery/azure-to-azure-quickstart/

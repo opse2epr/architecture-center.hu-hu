@@ -3,12 +3,12 @@ title: Nincs gyorsítótárazás – kizárási minta
 description: Ugyanazon adatok ismételt beolvasása csökkentheti a teljesítményt és a méretezhetőséget.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: f94a9f3f9166e87949a0e60af818cd89796dc3e2
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: ec19cde567fb63248c121328322e834d99c841e8
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428947"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295582"
 ---
 # <a name="no-caching-antipattern"></a>Nincs gyorsítótárazás – kizárási minta
 
@@ -59,7 +59,7 @@ A legnépszerűbb gyorsítótárazási stratégia az *igény szerinti* vagy *gyo
 - Olvasáskor az alkalmazás megpróbálja beolvasni az adatokat a gyorsítótárból. Ha nincsenek a gyorsítótárban, az alkalmazás lekéri az adatokat az adatforrásból, majd hozzáadja őket a gyorsítótárhoz.
 - Íráskor az alkalmazás közvetlenül az adatforrásba írja a módosítást, a régi értéket pedig eltávolítja a gyorsítótárból. Amikor legközelebb szükség van rá, a rendszer lekéri, majd hozzáadja a gyorsítótárhoz az adatokat.
 
-Ez a módszer a gyakran módosuló adatokhoz alkalmas. Itt van az előző példa, a [Cache-Aside][cache-aside] minta használatára frissítve.  
+Ez a módszer a gyakran módosuló adatokhoz alkalmas. Itt van az előző példa, a [Cache-Aside][cache-aside-pattern] minta használatára frissítve.  
 
 ```csharp
 public class CachedPersonRepository : IPersonRepository

@@ -3,12 +3,12 @@ title: Válasszon egy megoldást a helyszíni hálózat Azure-hoz való csatlako
 description: Referenciaarchitektúrákat hasonlít össze egy helyszíni hálózat az Azure-hoz való csatlakoztatásához.
 author: telmosampaio
 ms.date: 07/02/2018
-ms.openlocfilehash: 0cc07d3b7d45accf9f99ce32914b0ef065d62f32
-ms.sourcegitcommit: 776b8c1efc662d42273a33de3b82ec69e3cd80c5
+ms.openlocfilehash: a9e2a212d65530e714635bbfae3a57766e77c3a6
+ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/12/2018
-ms.locfileid: "38987478"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52295486"
 ---
 # <a name="connect-an-on-premises-network-to-azure"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz
 
@@ -28,7 +28,7 @@ Ez az architektúra olyan hibrid alkalmazások esetében megfelelő, ahol a hely
 
 - Helyszíni VPN-eszközt igényel.
 - Bár a Microsoft 99,9%-os rendelkezésre állást biztosít minden VPN-átjáróhoz, az [SLA](https://azure.microsoft.com/support/legal/sla/vpn-gateway/) csak a VPN-átjáróra vonatkozik, az átjáróval létesített hálózati kapcsolatra nem.
-- Azure VPN Gateway-en keresztül létesített VPN-kapcsolat jelenleg legfeljebb 200 Mbps sávszélességet támogat. Előfordulhat, hogy az Azure virtuális hálózatot particionálnia kell több VPN-kapcsolat között, ha várhatóan át fogja lépni ezt az átviteli sebességet.
+- Az Azure VPN Gatewayen keresztül létesített VPN-kapcsolat jelenleg legfeljebb 1,25 Gbps sávszélességet támogat. Előfordulhat, hogy az Azure virtuális hálózatot particionálnia kell több VPN-kapcsolat között, ha várhatóan át fogja lépni ezt az átviteli sebességet.
 
 **Referenciaarchitektúra**
 
