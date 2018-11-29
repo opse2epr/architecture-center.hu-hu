@@ -3,87 +3,87 @@ title: Kötegelt feldolgozás
 description: ''
 author: zoinerTejada
 ms:date: 02/12/2018
-ms.openlocfilehash: d6843bf4e20c3eb26e61cfa09300ad533e969c2e
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.openlocfilehash: eecee13e9b22b0382a0128e1c6ab8b960cbd4fea
+ms.sourcegitcommit: 16bc6a91b6b9565ca3bcc72d6eb27c2c4ae935e4
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
-ms.locfileid: "30301141"
+ms.lasthandoff: 11/28/2018
+ms.locfileid: "52550478"
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
-Big Data típusú adatok forgatókönyve az inaktív adatok kötegelt feldolgozása. Ebben a forgatókönyvben az adatok tárolására, vagy az alkalmazás saját magát vagy egy vezénylési munkafolyamat betöltődik. Az adatfeldolgozás majd egy parallelized feladat, és a vezénylési munkafolyamat is kezdeményezheti helyben. A feldolgozási tartalmazhatják több iteratív lépés előtt az átalakítani kívánt eredmények be vannak töltve az analitikus adatok tárolóba, amely lekérdezhetők, elemzés és a jelentéskészítési összetevőket.
+Big Data típusú adatok gyakran előfordul az inaktív adatok kötegelt feldolgozására. Ebben a forgatókönyvben a forrásadatok betöltött adatok tárolására, az alkalmazás saját maga vagy egy vezénylési munkafolyamat. Az adatok feldolgozása majd helyben egy párhuzamos feladatot, amely a vezénylési munkafolyamat által is kezdeményezhető. A feldolgozás tartalmazhat több iteratív lépést előtt az átalakított eredmények töltődnek be egy analitikus adattárba, amely lekérdezhetők, elemzési és jelentéskészítési összetevőket.
 
-Például a webkiszolgáló naplói mappába másolt előfordulhat, hogy, és majd feldolgozásra éjszaka a webkiszolgáló tevékenységének napi jelentések készítése.
+Például a webkiszolgáló naplóinak előfordulhat, hogy egy mappába másolta és feldolgozása történhet az majd éjjelente napi jelentések webes tevékenység.
 
 ![](./images/batch-pipeline.png)
 
-## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
+## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
-Kötegfeldolgozási lehetőségeket, egyszerű adatátalakítást jóval összetettebb ETL (extract-átalakítási-betöltés)-feldolgozási folyamat különböző használatban van. A big Data típusú adatok környezetben kötegfeldolgozási előfordulhat, hogy hatnak a nagyon nagy méretű adatkészletekhez, ahol a számítási jelentős időt vesz igénybe. (Lásd például: [Lambda architektúra](../big-data/index.md#lambda-architecture).) Kötegfeldolgozási általában további interaktív adatkutatási vezet, a modellezési használatra kész adatokat biztosít a gépi tanulás, vagy a adatokat ír az adattároló, amely elemzés és -megjelenítésre van optimalizálva.
+Kötegelt feldolgozás esetben egyszerű adatátalakítások egy teljes (kinyerési, átalakítási, betöltési) ETL-folyamat különféle használatban van. A big data-környezetben a kötegelt feldolgozás előfordulhat, hogy hatnak a rendkívül nagy méretű adatkészleteket, ahol a számítási jelentős időt vesz igénybe. (Lásd a [Lambda architektúra](../big-data/index.md#lambda-architecture).) Kötegelt feldolgozás általában vezet, további interaktív feltárása, a modellezési használatra kész adatokat biztosít a machine Learning, vagy az adatokat ír egy adattár, amely elemzési és vizualizációs van optimalizálva.
 
-Egy példa a köteges feldolgozás van átalakítása egyszerű, félig strukturált CSV- vagy JSON-fájlok számos olyan formátumra sematizált és strukturált, amely készen áll a további lekérdezése. Általában az adatok alakul a nyers formátumok adatfeldolgozást (például a fürt megosztott kötetei szolgáltatás) használatos bináris formátum, amelyek több performant lekérdezése, mert az adat tárolása oszlopos formátumot, és gyakran biztosítanak az indexek és az adatok beágyazott statisztikája.
+Egy példa a kötegelt feldolgozás olyan formátumra sematikus strukturált és strukturálatlan, amely készen áll a további lekérdezési formálja át a strukturálatlan, részben strukturált CSV vagy JSON-fájlok nagy készletét. Általában az adatok lesz konvertálva (például a CSV-) támogatunk használt nyers formátumokból bináris formátum, amelyek több nagy teljesítményű lekérdezéshez, mivel tárolja az adatokat oszlopos formátumot, és gyakran biztosítanak az indexek és az adatok beágyazott statisztikája.
 
 ## <a name="challenges"></a>Problémák
 
-- **Adatok formázása és kódolás**. A legbonyolultabb problémák hibakeresési fordulhat elő, ha a fájlok használata érvénytelen formátumú vagy kódolást. Például forrásfájlok előfordulhat, hogy az UTF-16 és UTF-8 kódolását, vagy váratlan elválasztó karaktert (hely és a lapon) tartalmaz, vagy használni nem várt karakter. Egy másik közös: tartalmazó lapokat, szóközök és vesszővel válassza el egymástól, amelyeket az elválasztó karakterként szöveg mezők. Adatok betöltése és értelmezése logika vajon elég rugalmas az észlelésére, és ezek a problémák kezelésére kell lennie.
+- **Adatok formázása és a kódolási**. A legnehezebb problémák hibakeresése fordulhat elő, ha a fájlok az váratlan formátumúak vagy kódolást. Például forrásfájlok előfordulhat, hogy használja az UTF-16 és UTF-8 kódolást, tartalmaz váratlan elválasztó karaktereket (szóköz vagy lap), vagy váratlan karaktereket. Egy másik gyakori példa szöveges mezők, amelyek tartalmazzák a lapok, szóközök és vesszővel válassza el egymástól, amelyeket az elválasztó karakterként értelmez. Adatok betöltése és elemzési logika kellően rugalmas ahhoz, hogy ezek a problémák észlelésével és kell lennie.
 
-- **Időszeletek megvalósításában.** Gyakran a forrásadatok el van helyezve a mappahierarchiában, amely tükrözi a feldolgozási windows év, hónap, nap, óra, és így tovább szerint vannak rendezve. Bizonyos esetekben adatok előfordulhat, hogy az ügyfélszámítógépekre érkeznek késői. Tegyük fel például, hogy a webkiszolgáló nem, és a naplókat. március 7. március 9-ig feldolgozásra a mappában nem végződhet. Ezek csak figyelmen kívül hagyja, mert túl későn fontosságúak? Az alárendelt feldolgozási logikai kezelni tud a soron rekordok?
+- **Vezénylésével időszeletek.** Gyakran a forrásadatok kerül a mappahierarchiában, amely tükrözi a feldolgozási windows, év, hónap, nap, óra és így tovább szerint vannak rendezve. Bizonyos esetekben adatokat az késői lehet, hogy érkezik. Tegyük fel, hogy egy webkiszolgáló meghibásodik, és a naplókat. március 7. végül nem a feldolgozáshoz. március 9. amíg a mappát. Vannak, csak figyelmen kívül, mert azok már túl késő? Az alárendelt feldolgozási logika out soron kívüli rekordok képes kezelni?
 
 ## <a name="architecture"></a>Architektúra
 
-A kötegelt architektúrákban rendelkezik a következő logikai összetevők, a fenti ábrán is látható.
+A kötegelt feldolgozási architektúra rendelkezik a következő logikai összetevőit, a fenti ábrán látható.
 
-- **Adattárolás.** Általában egy elosztott szolgáltatásfájl-tároló, amely a különböző formátumokban nagy fájlok jelentős mennyiségű tára szolgálhatnak. Általános az ilyen tároló gyakran nevezik data lake. 
+- **Adattárolás.** Általában egy elosztott fájltároló, amely számos formátumú és nagy nagy mennyiségű vagy a. Általános az ilyen típusú tároló gyakran nevezik data lake. 
 
-- **Kötegfeldolgozási.** A big Data típusú adatok nagy mennyiségű jellege gyakran azt jelenti, hogy a megoldások kell feldolgozni az adatfájlok hosszan futó kötegelt feladatok segítségével szűréséhez, összesített és ellenkező esetben az adatok előkészítése az analysis. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. 
+- **Kötegelt feldolgozás.** A nagy mennyiségű jellegét a big Data típusú adatok gyakran azt jelenti, hogy megoldásokat kell feldolgozniuk az adatfájlokat, hosszan futó kötegelt feladatok használatával történő szűréséhez, összesítéséhez és ellenkező esetben az adatok elemzésre való előkészítését. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. 
 
-- **Analitikai adatokat tároló.** Adatok előkészítése az elemzési és a feldolgozott adatok szolgáljanak strukturált formátuma nem kérdezhetők le analitikai eszközeivel sok big data-megoldások tervezték. 
+- **Analitikai adattár.** Számos big data-megoldás előkészíti az adatokat az elemzésre, és ezután bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel strukturált formátumban lettek kialakítva. 
 
-- **Elemzési és jelentéskészítési.** A legtöbb big data-megoldások célja az adatok elemzési és jelentéskészítési betekintést. 
+- **Elemzés és jelentéskészítés.** A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. 
 
-- **Vezénylési.** Kötegfeldolgozási, általában néhány vezénylési szükség, áttelepítése vagy az adatait átmásolja az adatokat tároló, a batch-feldolgozás, analitikai adatok, és jelentéskészítés rétegek.
+- **Vezénylési.** A kötegelt feldolgozásra, általában néhány vezénylési szükség áttelepítése vagy az adatok másolása az adatok tárolóba, kötegelt feldolgozás, analitikai adattár, és a reporting rétegek.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-A következő technológiákat lehetőségek kötegfeldolgozási megoldások Azure-ban a használata ajánlott.
+A következő technológiákat használata akkor javasolt lehetőségek a kötegelt feldolgozási megoldásokat az Azure-ban.
 
 ### <a name="data-storage"></a>Adattárolás
 
-- **Az Azure Storage-Blob tárolók**. Meglévő Azure üzleti folyamatok már igénybe az Azure blob-tároló, így ez nagy adattároló jó választás.
-- **Az Azure Data Lake Store**. Azure Data Lake Store bármilyen méretű fájlt, és a széles körű biztonsági beállítások, az gyakorlatilag korlátlan tárterületet biztosít, így jól funkcionálnak a rendkívül nagy méretű big data-megoldások, amely egy központi tárolóban igényel a heterogén formátumú adatok.
+- **Az Azure Storage-Blobtárolók**. Számos meglévő Azure üzleti folyamat már használatba az Azure blob storage, ami megfelelő választás az olyan big data store-ban.
+- **Az Azure Data Lake Store**. Az Azure Data Lake Store bármilyen méretű fájlt, és a széles körű biztonsági beállítások, az gyakorlatilag korlátlan tárhelyet kínál, így a megfelelő választás az olyan rendkívül nagy méretű big data-megoldás, amely egy központi tárolóban igényel a heterogén formátumú adatokat.
 
 További információkért lásd: [adattárolás](../technology-choices/data-storage.md).
 
 ### <a name="batch-processing"></a>Kötegelt feldolgozás
 
-- **U-SQL**. U-SQL Ez a lekérdezés feldolgozása az Azure Data Lake Analytics nyelvét. SQL deklaratív természetét a C# eljárási bővítési egyesíti, és kihasználja a párhuzamos végrehajtás engedélyezése a nagy méretű adatok hatékony kezelésére.
-- **Hive**. Hive a legtöbb Hadoop terjesztéseket, beleértve a HDInsight a támogatott SQL-szerű nyelven. Feldolgozott adatok a HDFS-kompatibilis áruházból, például az Azure blob storage és az Azure Data Lake Store használható.
-- **A Pig**. A Pig egy deklaratív nagy adatfeldolgozási Hadoop terjesztések, beleértve a HDInsight-ben használt nyelvhez. Különösen célszerű strukturálatlan és félig strukturált adatok feldolgozására.
-- **Spark**. A Spark-motor számos különböző nyelveken, többek között a Java, Scala és Python nyelven írt kötegfeldolgozási programok támogatja. Spark párhuzamosan adatfeldolgozásra történő egy felosztott architektúrában több munkavégző csomópontokhoz használ.
+- **U-SQL**. U-SQL az Azure Data Lake Analytics által használt nyelv Lekérdezésfeldolgozás. Eljárási bővíthetőségét kombinálja az SQL deklaratív jellegét a C#, és kihasználja a párhuzamosság engedélyezéséhez a hatékony feldolgozás az adatok nagy mennyiségben.
+- **Hive-**. Hive egy SQL-szerű nyelv által támogatott legtöbb Hadoop disztribúciók, például a HDInsight. Bármely HDFS-kompatibilis többek között az Azure blob storage és az Azure Data Lake Store áruházból származó adatok feldolgozására használható.
+- **A Pig**. A Pig egy deklaratív big data típusú adatfeldolgozást számos Hadoop disztribúciók, például a HDInsight-ben használt nyelvhez. Ez különösen hasznos, amely strukturálatlan vagy részben strukturált adatok feldolgozására.
+- **A Spark**. A Spark-motort támogatja a kötegelt feldolgozás programot, számos nyelvet – például a Java, Scala és Python nyelven írt. Spark párhuzamosan dolgozza fel az adatokat, egy felosztott architektúrában több munkavégző csomóponton használ.
 
-További információkért lásd: [kötegfeldolgozási](../technology-choices/batch-processing.md).
+További információkért lásd: [kötegelt feldolgozás](../technology-choices/batch-processing.md).
 
-### <a name="analytical-data-store"></a>Analitikai adatokat tároló
+### <a name="analytical-data-store"></a>Analitikai adattár
 
-- **Az SQL Data Warehouse**. Az SQL Data Warehouse egy olyan felügyelt szolgáltatás SQL Server adatbázis technológiák alapján, és nagy méretű adatraktározás számítási feladatainál támogatása optimalizált.
-- **Spark SQL**. Spark SQL az API-k, amely támogatja a létrehozása dataframes és -táblázatot, amely az SQL-szintaxis használatával lehet lekérdezni a Spark épül.
-- **A HBase**. A HBase a kis késleltetésű NoSQL tárolóban, vagy félig strukturált adatok lekérdezése egy nagy teljesítményű, rugalmas lehetőséget is kínál.
-- **Hive**. Hasznosak lehetnek a köteges feldolgozás alatt álló, Hive elméleti szinten hasonló egy tipikus relációs adatbázis-kezelő rendszer egy adatbázis-architektúra lehetőséget biztosít. Fejlesztések a Hive-lekérdezések teljesítményét innovációinak keresztül, például a Tez-motor és, hogy Hive táblák használható hatékonyan forrásként bizonyos esetekben elemzési lekérdezések Stinger kezdeményezésére közepét.
+- **Az SQL Data Warehouse**. Az Azure SQL Data Warehouse az SQL Server adatbázis-technológiákon alapuló, és nagy léptékű adattárház számítási feladatok támogatására optimalizált felügyelt szolgáltatás.
+- **A Spark SQL**. Spark SQL API-k, Spark, amely támogatja a dataframes és táblákat, amelyek az SQL-szintaxissal lekérdezhetők épülő.
+- **A HBase**. A HBase, kis késésű NoSQL-alapú tárolót, amely a strukturált és részben strukturált adatok lekérdezéséhez egy nagy teljesítményű és rugalmas lehetőséget kínál.
+- **Hive-**. Azonfelül hasznos a kötegelt feldolgozáshoz, Hive kínál egy adatbázis-architektúrát, amely egy tipikus relációsadatbázis-kezelő rendszer tárolókéhoz hasonló. Fejlesztések azzal kapcsolatban, a Hive-lekérdezés teljesítményének innovációkat keresztül, mint a Tez-motor és Stinger kezdeményezési középérték, hogy Hive-táblákat is hatékonyan használható forrásként az elemzési lekérdezéseknél, bizonyos esetekben.
 
-További információkért lásd: [analitikai adattárolókhoz](../technology-choices/analytical-data-stores.md).
+További információkért lásd: [analitikus adattárak](../technology-choices/analytical-data-stores.md).
 
 ### <a name="analytics-and-reporting"></a>Elemzések és jelentéskészítés
 
-- **Az Azure Analysis Services**. Sok big data-megoldások hagyományos vállalati üzleti intelligencia architektúrák emulálni (más néven a kocka) központi online analitikus feldolgozási (OLAP) adatmodell-ot a jelentéseket, irányítópultok, és interaktív "részletekbe menően" Analysis-alapú lehet. Az Azure Analysis Services többdimenziós és táblázatos modellek az igénynek a kielégítése létrehozását támogatja.
-- **Power BI**. A Power BI lehetővé teszi, hogy az adatelemzők, az adatok interaktív képi megjelenítéseket készíthet, az OLAP-modell, vagy közvetlenül az analitikus adatok áruházból adatmodellekben alapján.
-- **A Microsoft Excel**. Microsoft Excel a világ a legszélesebb körben használt szoftverek alkalmazáshoz, és számos olyan adatok elemzése és a képi megjelenítés lehetőségeket kínál. Adatelemzők használható Excel dokumentum adatmodelleket építhetnek analitikai adatok áruházakból, illetve OLAP adatmodellekben interaktív kimutatások és diagramokat az adatok lekérése.
+- **Az Azure Analysis Services**. Számos big data-megoldás a hagyományos vállalati üzleti intelligencia architektúrák emulációjához fel (gyakran nevezik adatkocka) egy olyan központi online elemzésfeldolgozási (OLAP) modell a jelentéseket, irányítópultokat, és interaktív "részletekbe menően vizsgálhatja az" elemzés alapján. Az Azure Analysis Services támogatja a táblázatos modellek erre.
+- **Power BI**. A Power BI lehetővé teszi, hogy az adatelemzők interaktív vizualizációkat adatmodellek az OLAP-modell vagy közvetlenül egy analitikai adattár létrehozása.
+- **A Microsoft Excel**. A Microsoft Excel a leggyakrabban használt alkalmazások a világ egyik, és számos olyan adatok elemzési és vizualizációs funkciókat kínál. Az adatelemzők az Excel dokumentum adatmodellek analitikai adatokat hozhat létre, vagy adatokat lekérni az OLAP-adatmodelleket, interaktív kimutatásokat és diagramokat.
 
-További információkért lásd: [elemzési és jelentéskészítési](../technology-choices/analysis-visualizations-reporting.md).
+További információkért lásd: [elemzések és jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md).
 
 ### <a name="orchestration"></a>Adat-előkészítés
 
-- **Az Azure Data Factory**. Az Azure Data Factory folyamatok használható tevékenységek, ismétlődő historikus windows az ütemezett sorrendje határozza meg. Ezek a tevékenységek adatok másolási műveleteket, valamint az igény szerinti HDInsight-fürtök; Hive, Pig, MapReduce vagy Spark feladatok is kezdeményezhető. U-SQL feladatok Azure dátum Lake Analytics; és tárolt eljárások az Azure SQL Data Warehouse vagy az Azure SQL Database.
-- **Oozie** és **Sqoop**. Oozie szolgáló feladat automation motor az Apache Hadoop-ökoszisztéma és adatok másolási műveleteket, valamint a Hive, Pig és MapReduce feladatokat dolgoz fel adatokat és a Sqoop feladatok, másolja az adatokat HDFS és SQL-adatbázisok között kezdeményezheti használható.
+- **Az Azure Data Factory**. Az Azure Data Factory-folyamatok ismétlődő historikus windows az ütemezett tevékenységek sorozatát meghatározására használható. Ezek a tevékenységek kezdeményezheti a másolási műveletek, valamint igény szerinti HDInsight-fürtök; Hive, Pig, MapReduce vagy Spark-feladatok Az Azure dátum Lake Analyticsben; U-SQL-feladatok és az Azure SQL Data Warehouse vagy az Azure SQL Database tárolt eljárásokat.
+- **Az Oozie** és **Sqoop**. Oozie szolgáló feladat automatizálási motor az Apache Hadoop-ökoszisztéma és kezdeményezése a másolási műveletek, valamint a Hive, Pig és MapReduce-feladatok adatok feldolgozását és másolhat adatokat a HDFS- és SQL-adatbázisok közötti Sqoop feladatok is használható.
 
-További információkért lásd: [orchestration-feldolgozási folyamat](../technology-choices/pipeline-orchestration-data-movement.md)
+További információkért lásd: [vezénylési folyamat](../technology-choices/pipeline-orchestration-data-movement.md)
