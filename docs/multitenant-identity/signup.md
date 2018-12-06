@@ -2,16 +2,16 @@
 title: Regisztráció és a bérlők felvétele több-bérlős alkalmazásokban
 description: Hogyan kell előkészíteni bérlők egy több-bérlős alkalmazásban
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: claims
 pnp.series.next: app-roles
-ms.openlocfilehash: 512fd37080b99a7e6249db70f0d2bc673cf87978
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 541a4dd9abb2168eef4a60a0ec99e1e7c06049b5
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429162"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902476"
 ---
 # <a name="tenant-sign-up-and-onboarding"></a>Bérlői feliratkozás és előkészítés
 

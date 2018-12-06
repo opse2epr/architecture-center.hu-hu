@@ -1,46 +1,46 @@
 ---
-title: A több-bérlős alkalmazások engedélyezési
-description: Egy több-bérlős alkalmazásban engedélyezési végrehajtása
+title: Hitelesítés a több-bérlős alkalmazásokban
+description: Engedélyezési végrehajtása egy több-bérlős alkalmazásban
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: app-roles
 pnp.series.next: web-api
-ms.openlocfilehash: 321dc52a3e6f803a032288c2341e490cdba8c20a
-ms.sourcegitcommit: 9a2d56ac7927f0a2bbfee07198d43d9c5cb85755
+ms.openlocfilehash: bbf702fe6651625a1aeceff7e4e321dd08c38544
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/22/2018
-ms.locfileid: "36327653"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902493"
 ---
-# <a name="role-based-and-resource-based-authorization"></a>Szerepkör- és erőforrás-alapú engedélyezési
+# <a name="role-based-and-resource-based-authorization"></a>Szerepkör- és erőforrás-alapú hitelesítés
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
-A [Útmutató végrehajtása] ASP.NET Core-alkalmazás. Ebben a cikkben megnézzük, engedélyezési, két általános módszer az engedélyt az ASP.NET Core megadott API-k használatával.
+A [megvalósítási hivatkozhat] ASP.NET Core-alkalmazás. Ebben a cikkben áttekintjük engedélyezési, két általános megközelítése az engedélyt az ASP.NET Core API-k használatával.
 
-* **Szerepkör-alapú engedélyezési**. A felhasználóhoz rendelt szerepkörök alapján műveletet engedélyezése. Például bizonyos műveleteket kell egy rendszergazdai szerepkört.
-* **Erőforrás-alapú engedélyezési**. Egy adott erőforrás alapján művelet engedélyezése. Például minden erőforrás van tulajdonosa. A tulajdonos törlése az erőforrás; más felhasználók nem.
+* **Szerepkör-alapú hitelesítést**. A felhasználóhoz hozzárendelt szerepkörök alapján művelet engedélyezése. Ha például bizonyos műveleteket rendszergazdai szerepkör van szükség.
+* **Erőforrás-alapú hitelesítést**. Engedélyező a művelet egy adott erőforrás alapján. Ha például minden erőforrás van tulajdonosa. A tulajdonos törölheti az erőforrást; nem végezhető el más felhasználók.
 
-A tipikus app vegyesen is megfelelő. Például egy erőforrás törlése, a felhasználónak kell lennie az erőforrás tulajdonosa *vagy* egy rendszergazdával.
+A tipikus app vegyesen is fogja alkalmazni. Ha például egy erőforrás törlése a felhasználónak kell lennie az erőforrás tulajdonosa *vagy* rendszergazda.
 
-## <a name="role-based-authorization"></a>Szerepköralapú hitelesítés
-A [Dejójáték felmérések] [ Tailspin] alkalmazás határozza meg a következő szerepkörök:
+## <a name="role-based-authorization"></a>Szerepkör-alapú hitelesítést
+A [Tailspin Surveys] [ Tailspin] alkalmazás határozza meg a következő szerepkörök:
 
-* Rendszergazda. Minden CRUD-műveleteknek a bármely felmérés, amely arra a bérlőre tartozik hajthat végre.
-* Létrehozó. Új felmérések hozhat létre.
-* Olvasó. Bármely felmérések arra a bérlőre tartozó olvashatja
+* Rendszergazda. Bármely felmérés a bérlőhöz tartozó összes CRUD-műveletek hajthat végre.
+* Létrehozó. Hozhat létre új felmérések
+* Olvasó. Olvashatja a bérlőhöz tartozó bármely felmérések
 
-Szerepkörök alkalmazása *felhasználók* az alkalmazás. Egy felhasználó felmérések alkalmazás, egy rendszergazda, a létrehozó vagy az olvasó.
+Szerepkörök a alkalmazni *felhasználók* az alkalmazás. A Surveys alkalmazás egy felhasználó, egy rendszergazda, a létrehozó vagy a reader.
 
-Bemutatja, hogyan határozhatja meg és kezelheti a szerepkörök tárgyalását lásd: [Alkalmazási szerepkörök].
+Bemutatja, hogyan határozhatja meg és kezelheti a szerepköröket, lásd: [Alkalmazási szerepkörök].
 
-Hogyan kezelheti a szerepkörök, függetlenül az engedélyezési kód alábbihoz hasonlóan fog megjelenni. Az ASP.NET Core rendelkezik nevű absztrakciós [engedélyezési házirendek][policies]. Ezzel a szolgáltatással engedélyezési házirendek definiálása a kódban és a tartományvezérlő műveletek majd alkalmazza azokat a házirendeket. A házirendet a rendszer leválasztja a tartományvezérlő.
+Függetlenül attól, hogyan kezelheti a szerepköröket az engedélyezési kódot fog hasonlítani. ASP.NET Core rendelkezik nevű absztrakciós [engedélyezési házirendek][policies]. Ezzel a funkcióval engedélyezési házirendeket határozhat meg a kódot, és majd alkalmazhatja őket vezérlő műveleteket hajthat végre. A szabályzat különválik a vezérlő.
 
 ### <a name="create-policies"></a>Szabályzatok létrehozása
-Adja meg a házirendet, először létre kell hoznia egy osztály, amely megvalósítja az `IAuthorizationRequirement`. A legegyszerűbb kapcsolattípusokból származhatnak, amelyek `AuthorizationHandler`. Az a `Handle` metódus, vizsgálja meg a megfelelő jogcím(ek).
+Meghatározhat egy olyan szabályzatot, először hozzon létre egy osztályt, amely megvalósítja `IAuthorizationRequirement`. A legegyszerűbb származtassa `AuthorizationHandler`. Az a `Handle` metódus, vizsgálja meg a megfelelő jogcím.
 
-Íme egy példa a Dejójáték felmérések alkalmazásból:
+Íme egy példa a Tailspin Surveys-alkalmazás:
 
 ```csharp
 public class SurveyCreatorRequirement : AuthorizationHandler<SurveyCreatorRequirement>, IAuthorizationRequirement
@@ -57,9 +57,9 @@ public class SurveyCreatorRequirement : AuthorizationHandler<SurveyCreatorRequir
 }
 ```
 
-Ez az osztály a felhasználót, hogy hozzon létre egy új felmérés kapcsolatos követelmények meghatározása. A felhasználó a SurveyAdmin vagy SurveyCreator szerepkörrel kell.
+Ez az osztály határozza meg a felhasználót, hogy hozzon létre egy új felmérés vonatkozó követelmény. A felhasználónak kell lennie a SurveyAdmin vagy SurveyCreator szerepkörben.
 
-Az indítási osztály, amely tartalmaz egy vagy több követelmények elnevezett házirend definiálásához. Ha több követelmények, a felhasználónak meg kell felelnie *minden* kell követelmény. Az alábbi kód meghatároz két házirendek:
+Az indítási osztályt határoz meg egy nevesített szabályzatot, amely tartalmaz egy vagy több követelménynek. Ha több követelmények, a felhasználónak meg kell felelnie *minden* követelmény, hogy engedélyezni kell. A következő kódot a két szabályzat határozza meg:
 
 ```csharp
 services.AddAuthorization(options =>
@@ -84,10 +84,10 @@ services.AddAuthorization(options =>
 });
 ```
 
-Ezt a kódot is meghatározza a hitelesítési séma, amely közli az ASP.NET mely hitelesítési köztes kell futtatnia, ha a hitelesítés sikertelen. Ebben az esetben azt adjon meg a cookie-k hitelesítési köztes, mert a cookie-k hitelesítési köztes is átirányítja a felhasználót egy "Tiltott" lapon. A tiltott lap helyének megadása a `AccessDeniedPath` választás, a cookie-k köztes; lásd: [A hitelesítési köztes konfigurálása].
+Ez a kód beállítja a hitelesítési sémát, amely közli az ASP.NET, mely hitelesítési közbenső kell futnia, ha a hitelesítés sikertelen. Ebben az esetben azt adja meg cookie-k közbenső hitelesítési szoftver, mert a cookie-k közbenső hitelesítési szoftver is átirányítja a felhasználót egy "Tiltott" lap. A tiltott lap helye van megadva a `AccessDeniedPath` első számú megoldás a cookie-k közbenső; lásd: [A közbenső hitelesítési szoftver konfigurálása].
 
-### <a name="authorize-controller-actions"></a>A tartományvezérlő műveletek engedélyezése
-Végül egy műveletet az MVC-vezérlőhöz engedélyezéséhez, állítsa be ezt a házirendet a `Authorize` attribútum:
+### <a name="authorize-controller-actions"></a>Vezérlő műveletek engedélyezése
+Végül az MVC-vezérlő művelet engedélyezéséhez, állítsa be ezt a házirendet a `Authorize` attribútum:
 
 ```csharp
 [Authorize(Policy = PolicyNames.RequireSurveyCreator)]
@@ -98,29 +98,29 @@ public IActionResult Create()
 }
 ```
 
-Az ASP.NET korábbi verziójában állíthat a **szerepkörök** az attribútum a tulajdonság:
+Az ASP.NET korábbi verzióiban, így állíthatja be a **szerepkörök** az attribútum a tulajdonság:
 
 ```csharp
 // old way
 [Authorize(Roles = "SurveyCreator")]
 ```
 
-Ez az ASP.NET Core továbbra is támogatja, de azt hátrányokkal engedélyezési házirendek képest:
+Ez továbbra is támogatja az ASP.NET Core, de azt hátrányokkal engedélyezési házirendek képest:
 
-* Egy adott jogcímtípushoz feltételezi. Házirendek bármely jogcímtípus ellenőrizheti. Szerepköröket használják, csak a jogcím típusának.
-* A szerepkör neve nem változtatható be az attribútumot. Egyetlen helyen, van az engedélyezési logikai házirendekkel, így a frissítés, vagy még akkor is, load a konfigurációs beállítások.
-* Szabályzatok lehetővé összetettebb felhasználását engedélyezési döntésekhez (pl. elavulnak > = 21), amelyek nem fejezhetők egyszerű szerepkör tagsága.
+* Azt feltételezi, hogy egy adott jogcímtípushoz. Házirendek bármilyen jogcímtípust kereshet. Ezek a jogcím olyan típusú.
+* A szerepkör neve nem változtatható, az attribútumot. Szabályzatok az engedélyezési logika érhető el minden egy helyen tudhatja, megkönnyítve a frissítés vagy a terhelést a konfigurációs beállítások.
+* Szabályzatok lehetővé teszik a bonyolult felhasználását engedélyezési döntésekhez (pl. kor > = 21), amelyek nem fejezhetők egyszerű szerepköri tagság szerint.
 
 ## <a name="resource-based-authorization"></a>Erőforrás-alapú engedélyezési
-*Erőforrás-alapú engedélyezési* akkor fordul elő, amikor az engedélyezési művelet által érintett adott erőforrás függ. A Dejójáték felmérések alkalmazás minden felmérés van egy tulajdonost és nulla-a-többhöz közreműködők.
+*Erőforrás-alapú engedélyezési* következik be, a hitelesítést egy adott erőforrás-művelet által érintett függ. A Tailspin Surveys alkalmazás minden felmérés van tulajdonosa és nulla-a-többhöz közreműködő.
 
-* A tulajdonos olvasása, frissítése, közzétételét és a felmérés visszavonni.
-* A tulajdonos közreműködők rendelhet a felmérés.
-* A közreműködők olvashatja, és frissítse a felmérés.
+* A tulajdonos olvasása, frissítése, közzététel és közzétételének visszavonása a kérdőív kitöltését.
+* A tulajdonos közreműködők rendelhet a kérdőív kitöltését.
+* A közreműködők olvashatja, és frissítse a kérdőív kitöltését.
 
-Ne feledje, hogy "tulajdonos" és "közreműködő" nem alkalmazási szerepköröknek; Ezek felmérésekre, az alkalmazás adatbázisban tárolódnak. Ellenőrizze, hogy a felhasználó törölhet egy felmérés, például az alkalmazás ellenőrzi, hogy a felhasználó adott felmérés tulajdonosaként.
+Vegye figyelembe, hogy "tulajdonos" és "közreműködő" ne legyenek; alkalmazás-szerepkörök az alkalmazás-adatbázis felmérésekre tárolódnak. Annak ellenőrzéséhez, hogy a felhasználók törölhetik a felmérés, például az alkalmazás ellenőrzi, hogy a felhasználó a tulajdonos, a felmérést.
 
-Az ASP.NET Core valósítja meg az erőforrás-alapú engedélyezési által származó **AuthorizationHandler** és felülírása a **kezelni** metódust.
+Az ASP.NET Core, szerint alkalmazza az erőforrás-alapú hitelesítést kapcsolatból származtatott kapcsolatot **AuthorizationHandler** és felülírása a **kezelni** metódust.
 
 ```csharp
 public class SurveyAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Survey>
@@ -131,7 +131,7 @@ public class SurveyAuthorizationHandler : AuthorizationHandler<OperationAuthoriz
 }
 ```
 
-Figyelje meg, hogy ez az osztály erős típusmegadású felmérés objektumok.  Az osztály rögzítése DI indításakor:
+Figyelje meg, hogy ez az osztály van listaobjektum felmérés objektumokhoz.  Az osztály regisztráljon DI indításakor:
 
 ```csharp
 services.AddSingleton<IAuthorizationHandler>(factory =>
@@ -140,7 +140,7 @@ services.AddSingleton<IAuthorizationHandler>(factory =>
 });
 ```
 
-Hitelesítési ellenőrzések elvégzéséhez használja a **IAuthorizationService** felület, amely akkor is szúrjon be a tartományvezérlőket. Az alábbi kód ellenőrzi, hogy egy felhasználó egy felmérés olvashatja:
+Hitelesítési ellenőrzések elvégzéséhez, használja a **IAuthorizationService** illesztőt, amely akkor is behelyezése a tartományvezérlőket. Az alábbi kód ellenőrzi-e egy felhasználó egy kérdőív olvashat:
 
 ```csharp
 if (await _authorizationService.AuthorizeAsync(User, survey, Operations.Read) == false)
@@ -149,10 +149,10 @@ if (await _authorizationService.AuthorizeAsync(User, survey, Operations.Read) ==
 }
 ```
 
-Mivel jelenleg adjon át egy `Survey` objektum, meghívják a hívás a `SurveyAuthorizationHandler`.
+Mivel adjuk át egy `Survey` objektumot, a hívás meghívja a `SurveyAuthorizationHandler`.
 
-Az engedélyezési kód egy jó módszer, hogy a felhasználói szerepkör- és erőforrás-alapú engedélyeket, majd ellenőrizze a kért műveletet a összesítés meg összesített összes.
-Íme egy példa a felmérések alkalmazásból. Az alkalmazás több Engedélytípusok határozza meg:
+Az engedélyezési kódot jó módszer, hogy a felhasználói szerepkör- és erőforrás-alapú engedélyeket, majd az ellenőrzési összesített állítsa be a kívánt műveletet ellen összesített minden.
+Íme egy példa a Surveys alkalmazással. Az alkalmazás több Engedélytípusok határozza meg:
 
 * Adminisztratív körzet
 * Közreműködő
@@ -160,7 +160,7 @@ Az engedélyezési kód egy jó módszer, hogy a felhasználói szerepkör- és 
 * Tulajdonos
 * Olvasó
 
-Az alkalmazás azt is meghatározza, hogy a lehetséges műveletkészlet felméréséről:
+Az alkalmazás is felmérések lehetséges műveletek egy csoportját határozza meg:
 
 * Létrehozás
 * Olvasás
@@ -169,7 +169,7 @@ Az alkalmazás azt is meghatározza, hogy a lehetséges műveletkészlet felmér
 * Közzététel
 * Unpublsh
 
-Az alábbi kód létrehoz egy adott felhasználó és felmérés engedélyeinek a listáját. Figyelje meg, hogy ez a kód ellenőrzi, hogy az alkalmazás szerepkörökhöz, mind a tulajdonos/közreműködő mezőket a felmérés.
+Az alábbi kód létrehoz egy adott felhasználó és a felmérés vonatkozó engedélyek listája. Figyelje meg, hogy ez a kód megvizsgálja a felhasználó alkalmazás-szerepkörök, mind a tulajdonosa vagy közreműködője mezőket a kérdőív kitöltését.
 
 ```csharp
 public class SurveyAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Survey>
@@ -218,9 +218,9 @@ public class SurveyAuthorizationHandler : AuthorizationHandler<OperationAuthoriz
 }
 ```
 
-Egy több-bérlős alkalmazásban gondoskodnia kell arról, hogy engedélyek nem "nyilvánosságra kerüljenek" más bérlőket adatokat. A felmérések alkalmazás közreműködői engedély lehetővé teszi a keresztül bérlők &mdash; valaki más bérlőhöz közreműködőként rendelhet. A más Engedélytípusok korlátozódnak, a felhasználó bérlői erőforrásokhoz. Ezt a követelményt kényszerítéséhez a kód ellenőrzi a bérlő azonosítója az engedély megadása előtt. (A `TenantId` rendeli, a felmérést létrehozásakor mezőben.)
+Egy több-bérlős alkalmazásban gondoskodnia kell arról, hogy engedélyeket nem "nyilvánosságra kerüljenek" egy másik bérlő adatai. A Surveys alkalmazás közreműködői engedélye engedélyezett bérlők között &mdash; valaki más bérlők közreműködője is hozzárendelhet. Annak a felhasználónak a bérlőhöz tartozó erőforrásokhoz a többi Engedélytípusok korlátozódnak. Ezt a követelményt kényszerítéséhez a kód ellenőrzi a bérlő azonosítója az engedély megadása előtt. (A `TenantId` módon rendeli hozzá a felmérés létrehozásakor mezőben.)
 
-A következő lépés, hogy ellenőrizze a műveletet (olvasás, frissítés, törlés, stb.) a engedélyekkel szemben. A felmérések alkalmazás megvalósítja a ebben a lépésben egy keresési tábla funkciók használatával:
+A következő lépés, hogy ellenőrizze a műveletet (olvasás, update, delete stb.) ellen az engedélyeket. A Surveys alkalmazás ebben a lépésben egy keresési táblázat a functions használatával valósítja meg:
 
 ```csharp
 static readonly Dictionary<OperationAuthorizationRequirement, Func<List<UserPermissionType>, bool>> ValidateUserPermissions
@@ -252,7 +252,7 @@ static readonly Dictionary<OperationAuthorizationRequirement, Func<List<UserPerm
 
 [Alkalmazási szerepkörök]: app-roles.md
 [policies]: /aspnet/core/security/authorization/policies
-[Útmutató végrehajtása]: tailspin.md
-[A hitelesítési köztes konfigurálása]: authenticate.md#configure-the-auth-middleware
+[megvalósítási hivatkozhat]: tailspin.md
+[A közbenső hitelesítési szoftver konfigurálása]: authenticate.md#configure-the-auth-middleware
 [sample application]: https://github.com/mspnp/multitenant-saas-guidance
 [web-api]: web-api.md

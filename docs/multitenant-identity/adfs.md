@@ -2,16 +2,16 @@
 title: Összevonás az ügyfél AD FS szolgáltatásával
 description: Hogyan az ügyfél-val összevont a több-bérlős alkalmazás AD FS-sel
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: 4b54f031d13449e4d87075af5606967da8b5d3df
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: fec10ca0e067b3b51bf9dba70d66ceb12423787d
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428924"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902697"
 ---
 # <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
@@ -34,7 +34,7 @@ A megbízhatósági kapcsolatban van a három fő szerepkörök:
 * Az SaaS-szolgáltatónak az AD FS a a [erőforráspartner], amely a fiókpartner megbízik, és megkapja a felhasználói jogcímeket.
 * Az alkalmazás az SaaS-szolgáltatónak az AD FS megbízható függő entitásonkénti (RP) van konfigurálva.
   
-  ![Összevonási megbízhatósági kapcsolat](./images/federation-trust.png)
+  ![összevonási megbízhatósági kapcsolat](./images/federation-trust.png)
 
 > [!NOTE]
 > Ez a cikk feltételezzük az OpenID connect hitelesítési protokoll alkalmazás használja. Egy másik lehetőség, hogy a WS-Federation használja.
