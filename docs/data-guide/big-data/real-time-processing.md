@@ -2,13 +2,13 @@
 title: Valós idejű feldolgozás
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 1499fecc20dcbf51472b92bb588b91db0fb58a7f
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.date: 02/12/2018
+ms.openlocfilehash: ccd098ab0d5393231eeb26eb1c56c52cdcb78fbe
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295599"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52901611"
 ---
 # <a name="real-time-processing"></a>Valós idejű feldolgozás
 

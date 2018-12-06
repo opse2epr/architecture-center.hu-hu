@@ -1,95 +1,95 @@
 ---
-title: Egy kognitív technológia kiválasztása
+title: A cognitive services technológia kiválasztása
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 055769188fbd6742b94094ee18766293812849fa
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.date: 02/12/2018
+ms.openlocfilehash: 0551bf05cb47cb3972b0d5f2e5226e23cbdacc68
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847781"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902546"
 ---
-# <a name="choosing-a-microsoft-cognitive-services-technology"></a>A Microsoft kognitív technológia kiválasztása
+# <a name="choosing-a-microsoft-cognitive-services-technology"></a>A Microsoft cognitive services technológia kiválasztása
 
-Microsoft kognitív szolgáltatások felhőalapú API-k segítségével is mesterséges intelligencia (AI) alkalmazások és adatok zajlik. Jelentenek az pretrained modellek, amelyek az adatok és a nem modell betanítási beavatkozást igénylő alkalmazás használatra kész. A Microsoft által fejlesztett a kognitív szolgáltatások AI és kutatási vonja össze, és kihasználhatják a legújabb mély tanulási algoritmus. HTTP REST kapcsolatokon használják fel. Emellett a SDK-k esetén sok közös alkalmazás fejlesztési keretrendszerek érhetők el.
+A Microsoft cognitive services olyan felhőalapú API-k használható a mesterséges intelligenciát (AI) használó alkalmazások és adatok elkezdenek beérkezni. Megadják Önnek imagenet modellek, amelyek az adatok nem és az Ön részéről nincs modell betanítása igénylő alkalmazás használatra kész. A Microsoft által fejlesztett a cognitive services mesterséges Intelligencia és kutatási csapata, és kihasználhatja a legújabb deep learning-algoritmusok. Ezek a HTTP REST-felületeihez keresztül használjuk fel. Emellett az SDK-k számos gyakori alkalmazási fejlesztési keretrendszerek érhető el.
 
-A kognitív szolgáltatások a következők:
+A cognitive services a következők:
 
 * Szövegelemzés
-* Számítógép stratégiai
+* Számítógépes látástechnológia
 * Videóelemzés
-* A beszédfelismerés és létrehozása
-* Természetes nyelvű ismertetése
-* Intelligens keresési
+* Beszédfelismerés, beszédfelismerési és beszédgenerálási
+* Beszédfelismerés
+* Intelligens keresést
 
-Főbb előnyei:
+Fő előnyök:
 
-* Az-a-legkorszerűbb AI számára elérhető minimális fejlesztési.
-* Egyszerű integráció alkalmazásokba HTTP REST-felületek használatával.
-* Beépített támogatása az Azure Data Lake Analytics kognitív szolgáltatások fel.
+* Minimális fejlesztési tevékenységi állapot-az-a legújabb AI-szolgáltatások számára.
+* Könnyen integrálható az alkalmazásokba via HTTP REST-felületeihez.
+* Beépített támogatást nyújt, a cognitive Servicest az Azure Data Lake Analytics felhasználása.
 
 Szempontok:
 
-* Csak a weben keresztül érhető el. Internetkapcsolat általában szükség. Egy kivétel ez alól az egyéni stratégiai szolgáltatás, amelynek betanított modell előrejelzés eszközök és az IoT-peremhálózaton exportálhatja.
-* Jelentős testreszabási támogatják, de az elérhető szolgáltatások nem követelményeinek. a prediktív elemzés minden. Előfordulhat, hogy megfelelően.
+* Csak a weben keresztül érhető el. Internetkapcsolat általában szükség. Egy kivétel ez alól a Custom Vision Service, amelynek segítségével exportálhatja az előrejelzéshez az eszközökön és az IoT edge betanított modell.
+* Jelentős testreszabási támogatják, az elérhető szolgáltatások előfordulhat, hogy nem kockázatiszint összes prediktív elemzési.
 
-## <a name="what-are-your-options-when-choosing-amongst-the-cognitive-services"></a>Mik azok a beállítások között a kognitív szolgáltatások kiválasztásakor?
-Az Azure nincsenek kognitív szolgáltatások több tucatnyi elérhető. Ezek az aktuális átjáróra a listában egy könyvtárban támogatják-e a funkcionális terület szerint érhető el:
+## <a name="what-are-your-options-when-choosing-amongst-the-cognitive-services"></a>Mik azok a beállítások többek között a cognitive services kiválasztásakor?
+Az Azure-ban érhetők el a Cognitive Services tucat. Ezek jelenlegi listája támogatja a funkcionális terület szerint osztályozva könyvtár érhető el:
 - [Vision](https://azure.microsoft.com/services/cognitive-services/directory/vision/)
-- [Beszéd](https://azure.microsoft.com/services/cognitive-services/directory/speech/)
+- [Beszédfelismerés](https://azure.microsoft.com/services/cognitive-services/directory/speech/)
 - [Knowledge](https://azure.microsoft.com/services/cognitive-services/directory/know/)
 - [Search](https://azure.microsoft.com/services/cognitive-services/directory/search/)
 - [Nyelv](https://azure.microsoft.com/services/cognitive-services/directory/lang/)
 
-## <a name="key-selection-criteria"></a>Kulcs kiválasztási feltételek
+## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
-A választási lehetőségek szűkítéséhez indítása ezen kérdések megválaszolásával:
+Így szűkítheti, első lépésként a kérdések megválaszolása:
 
-- Milyen típusú adatok akkor foglalkoznak? Szűkítenie a lehetőségeit dolgozunk a bemeneti adatok típusa alapján. Például, ha a bemeneti szöveg, jelölje be az a szöveg egy bemeneti típussal rendelkező szolgáltatásokból. 
+- Milyen típusú adatokat, foglalkoznak? Szűkítenie a lehetőségeit, dolgozik, a bemeneti adatok típusa alapján. Ha a bemeneti szöveg, például válassza ki a szolgáltatásokból, amelyek egy bemeneti szöveg típusát. 
 
-- Rendelkezik a modell betanításához az adatokat? Ha igen, fontolja meg az egyéni szolgáltatások, amelyek lehetővé teszik a mögöttes adatokat ad meg, a pontosságot és teljesítmény modellek betanítása. 
+- Rendelkezik a modell betanításához az adatokat? Ha igen, fontolja meg az egyéni szolgáltatásokról, amelyek lehetővé teszik az adatokat ad meg, a nagyobb pontosság és a teljesítmény az alapul szolgáló modelleket taníthat be. 
 
-## <a name="capability-matrix"></a>Képesség mátrix
+## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a főbb változásai képességeit. 
+A következő táblázat összefoglalja a fő különbségeket, a képességek. 
 
-### <a name="uses-prebuilt-models"></a>Használja az előre elkészített modellek
+### <a name="uses-prebuilt-models"></a>Használja az előre összeállított modellek
 
-|                                                   |             A bemeneti típus              |                                                                                Fő előnyt                                                                                |
+|                                                   |             Bemenet típusa              |                                                                                Legfontosabb előnyök                                                                                |
 |---------------------------------------------------|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|                Szövegelemzések API                 |                Szöveg                 |                                                       Értékelje ki a céggel kapcsolatos véleményeket, és szeretné tudni, hogy a felhasználók milyen témaköröket.                                                        |
-|                Entitás Linking API                 |                Szöveg                 |                                               Tegye hatékonyabbá alkalmazása adatkapcsolatait elnevezett entitásfelismeréssel és -egyértelműsítéssel.                                               |
+|                Szövegelemzések API                 |                Szöveg                 |                                                       Kiértékelheti a közhangulatot és különböző témákat, hogy a felhasználók szándékainak megértésére.                                                        |
+|                Entitáskapcsolási API                 |                Szöveg                 |                                               Tegye hatékonyabbá alkalmazása adatkapcsolatait elnevezett entitásfelismeréssel és -egyértelműsítéssel.                                               |
 | Language Understanding Intelligent Service (LUIS, intelligens hangfelismerési szolgáltatás) |                Szöveg                 |                                                          Megtaníthatja alkalmazásait, hogy értsék a felhasználói parancsokat.                                                          |
-|                 Kérdések és válaszok készítő szolgáltatás                 |                Szöveg                 |                                             Gyakran ismételt kérdések formázott adatait conversational, egyszerűen lépjen válaszok átalakítást.                                              |
-|              Nyelvi elemzési API              |                Szöveg                 |                                                            Összetett nyelvi fogalmak egyszerűsítése, és a következő szöveg elemzése.                                                             |
+|                 A QnA Maker szolgáltatás                 |                Szöveg                 |                                             Formázott – gyakori kérdések információkat, könnyen átlátható válaszokat nyerhet ki.                                              |
+|              Linguistic Analysis API              |                Szöveg                 |                                                            Egyszerűsítheti a bonyolult nyelvi szerkezeteket és szövegelemzést.                                                             |
 |           Knowledge Exploration szolgáltatás           |                Szöveg                 |                                          Strukturált adatokon természetes nyelvi bemenetekkel végezhet interaktív kereséseket.                                          |
-|              Webes nyelvi modell API               |                Szöveg                 |                                                         A webalkalmazás skálázása adatokkal betanítása prediktív nyelvi modellek használata.                                                         |
-|              Academic Knowledge API               |                Szöveg                 |                                        Koppintson a rengeteg hasznos academic tartalom a Microsoft által a Bing Academic Graph be.                                         |
-|               Bing Autosuggest API                |                Szöveg                 |                                                        Adja meg az alkalmazás intelligens automatikus kiegészítési beállítások keres.                                                        |
-|               Bing Spell Check API                |                Szöveg                 |                                                             Észleli, és javítsa ki a helyesen adta-e hibák az alkalmazásban.                                                             |
-|                Translator Text API                |                Szöveg                 |                                                                           Gépi fordítással.                                                                            |
-|                Javaslatok API                |                Szöveg                 |                                                             Előre jelezni, és szeretné, hogy az ügyfelek elemek javasoljuk.                                                              |
-|              Bing Entity Search API               |       Szöveg (webes keresési lekérdezés)       |                                                           Határozza meg és kiegészítheti a webes entitás adatait.                                                           |
-|               Bing Képkeresési API               |       Szöveg (webes keresési lekérdezés)       |                                                                            Keresse meg a képeket.                                                                             |
-|               Bing Hírkeresési API                |       Szöveg (webes keresési lekérdezés)       |                                                                             Keresse meg a híreket.                                                                              |
-|               Bing Videókeresési API               |       Szöveg (webes keresési lekérdezés)       |                                                                            Keresse meg a videók.                                                                             |
-|                Bing Webes keresési API                |       Szöveg (webes keresési lekérdezés)       |                                                        Kifinomult keresés a webes dokumentumok milliárdjaiban.                                                        |
-|                  Bing Speech API                  |           Szöveg- vagy beszéd            |                                                                  Beszéd szöveggé alakítani, és vissza.                                                                   |
-|              Beszélőfelismerés API              |               Beszéd                |                                                       Beszéd segítségével azonosíthatja, és egyes hangszórók hitelesítéséhez.                                                        |
-|               Beszédfordító API               |               Beszéd                |                                                                   Hajtsa végre a valós idejű beszéd fordítását.                                                                   |
-|                Computer Vision API                |    Képet (vagy a videó keretek)    | Alkalmas lemezképek végrehajthatóként adatait, automatikusan létrehozása fényképek leírása, címkék származnia, celebrities ismeri fel, bontsa ki a szöveget és pontos miniatűrök létrehozása. |
-|                 Tartalommoderátor                 |        Szöveg, képek vagy videó        |                                                               Automatizált lemezképet, a szöveg és a videó moderálás.                                                                |
-|                    Emotion API                    | Képek (fényképek a emberi témák) |                                                              A tartomány érzelmek emberi témák azonosításához.                                                               |
-|                     Face API                      | Képek (fényképek a emberi témák) |                                                       Arcok felismerése, azonosítása, elemzése, rendszerezése és megjelölése a képeken.                                                       |
-|                   Videóindexelő                   |                Videó                |                        Véleményeket, Beszélgetés szövegének beszéd átalakítás, például video insights, amelyek beszéd átalakítás, lapokat és érzelmek ismeri fel, és bontsa ki a kulcsszavak.                         |
+|              Webes nyelvi modell API               |                Szöveg                 |                                                         Használja a webes méretezésű adatokkal tanított prediktív nyelvi modellek.                                                         |
+|              Academic Knowledge API               |                Szöveg                 |                                        Koppintson a tudományos tartalmát, a Bing által a Microsoft Academic Graph gazdag.                                         |
+|               Bing Autosuggest API                |                Szöveg                 |                                                        Adja meg az alkalmazás intelligens automatikus kiegészítési lehetőségeket a keres.                                                        |
+|               Bing Spell Check API                |                Szöveg                 |                                                             Észlelheti és kijavíthatja a helyesírási hibákat az alkalmazásban.                                                             |
+|                Translator Text API                |                Szöveg                 |                                                                           Gépi fordítás.                                                                            |
+|                Javaslatok API                |                Szöveg                 |                                                             Előre jelezni, és javasolhat bizonyosan.                                                              |
+|              Bing Entity Search API               |       Szöveg (webes keresési lekérdezés)       |                                                           Azonosítsa, és az Entitásadatok webes bővítésével.                                                           |
+|               Bing Image Search API               |       Szöveg (webes keresési lekérdezés)       |                                                                            Kereshet a lemezképeket.                                                                             |
+|               Bing News Search API                |       Szöveg (webes keresési lekérdezés)       |                                                                             Hírek keresése.                                                                              |
+|               Bing Video Search API               |       Szöveg (webes keresési lekérdezés)       |                                                                            Videók keresése.                                                                             |
+|                Bing Web Search API                |       Szöveg (webes keresési lekérdezés)       |                                                        Kifinomult keresés a webes dokumentumok milliárdjaiban.                                                        |
+|                  Bing Speech API                  |           Szöveg és beszéd            |                                                                  Beszéddé alakíthatja az írott szöveget, majd vissza.                                                                   |
+|              Beszélőfelismerés API              |               Beszéd                |                                                       Beszéd használata azonosíthatja és hitelesítheti az egyes beszélőket.                                                        |
+|               Translator Speech API               |               Beszéd                |                                                                   Hajtsa végre a valós idejű beszédfordítás.                                                                   |
+|                Computer Vision API                |    Képek (vagy a videó keretek)    | Rendszerképekből döntéstámogató információkat nyerhet ki, automatikusan hozzon létre fényképek leírása, címkék célosztályából, hírességek, szöveg kinyerése és pontos miniatűrök létrehozása. |
+|                 Tartalommoderátor                 |        Szöveg, képek vagy videó        |                                                               Automatizált kép, szöveg és videomoderálás.                                                                |
+|                    Emotion API                    | Képek (fényképek az emberi témák) |                                                              Az emberek alkalmazását a tartomány érzelmeket azonosít.                                                               |
+|                     Face API                      | Képek (fényképek az emberi témák) |                                                       Arcok felismerése, azonosítása, elemzése, rendszerezése és megjelölése a képeken.                                                       |
+|                   Video Indexer                   |                Videó                |                        Videóelemzések hangulatát, átirat-beszéd átalakítás, például fordítása speech, arcokat és érzelmeket azonosíthat ismeri fel és kulcsszavakkal.                         |
 
-### <a name="trained-with-custom-data-you-provide"></a>A megadott egyéni adatok betanítása
+### <a name="trained-with-custom-data-you-provide"></a>A megadott egyéni adatok betanított
 
-| | A bemeneti típus | Fő előnyt |
+| | Bemenet típusa | Legfontosabb előnyök |
 | --- | --- | --- |
-| Egyéni vizuális szolgáltatás | Képet (vagy a videó keretek) | Saját számítógép stratégiai modellek testreszabása. |
-| Egyéni beszédszolgáltatás | Beszéd | Beszéd nevéből felismert tartománynév használatával például a beszéd stílus, háttérzaj és szóhasználatának kapcsolatos. | 
-| Egyéni döntési szolgáltatás | Webes tartalmat (például RSS-hírcsatorna) | Használja a gépi tanulási válasszák ki a megfelelő tartalmat a kezdőlap |
-| Bing Custom Search API | Szöveg (webes keresési lekérdezés) | Kereskedelmi szintű keresési eszköz. |
+| Egyéni vizuális szolgáltatás | Képek (vagy a videó keretek) | Testre szabhatja a saját számítógépes látástechnológiai modelljeit. |
+| Custom Speech Service | Beszéd | Kiküszöbölheti a beszédfelismerést akadályozó tényezők például a különféle stílusú, háttérzajból és szókincsből eredőket. | 
+| Egyéni döntési szolgáltatás | Webes tartalom (például az RSS-hírcsatorna) | Machine learning segítségével automatikusan kiválasztja a megfelelő tartalmat a kezdőlap |
+| Bing Custom Search API | Szöveg (webes keresési lekérdezés) | Kereskedelmi színvonalú keresési eszköz egyéni keresési. |
 

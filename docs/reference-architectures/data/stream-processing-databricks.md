@@ -1,16 +1,16 @@
 ---
-title: Az Azure Databricks feldolgozó Stream
+title: Streamek feldolgozása az Azure Databricksszel
 description: Egy teljes körű stream-feldolgozási folyamat létrehozása az Azure Databricks használatával
 author: petertaylor9999
-ms.date: 11/01/2018
-ms.openlocfilehash: a7e9df57572c9b3a3b0e4f418f148449aa40b04c
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.date: 11/30/2018
+ms.openlocfilehash: 0640e900c212d2b75cc9cdd5bec3a4f7c050490d
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295761"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902833"
 ---
-# <a name="stream-processing-with-azure-databricks"></a>Az Azure Databricks feldolgozó Stream
+# <a name="stream-processing-with-azure-databricks"></a>Streamek feldolgozása az Azure Databricksszel
 
 Ez a referenciaarchitektúra bemutatja egy teljes körű [adatfolyam-feldolgozás](/azure/architecture/data-guide/big-data/real-time-processing) folyamat. Ez a típusú folyamat négy fázisból áll: a betöltési, folyamat, tároló, és elemzés és jelentéskészítés. A referenciaarchitektúra a folyamat adatokat két forrásból fogadnak, illesztést hajt végre az egyes adatfolyamokkal kapcsolódó bejegyzések, bővíti az eredményt és kiszámítja az átlagos valós időben. Az eredmények tárolása további elemzés céljából. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
 
@@ -269,7 +269,7 @@ A StreamingMetricsListener módszerei által meghívott az Apache Spark-futtató
 
 ### <a name="latency-and-throughput-for-streaming-queries"></a>Lekérdezések folyamatos átviteli teljesítmény és a késés 
 
-```
+```shell
 taxijob_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
 | project  mdc_inputRowsPerSecond_d, mdc_durationms_triggerExecution_d  
@@ -277,7 +277,7 @@ taxijob_CL
 ``` 
 ### <a name="exceptions-logged-during-stream-query-execution"></a>Stream-lekérdezés végrehajtása során naplózott kivételek
 
-```
+```shell
 taxijob_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
 | where Level contains "Error" 
@@ -285,7 +285,7 @@ taxijob_CL
 
 ### <a name="accumulation-of-malformed-fare-and-ride-data"></a>Helytelen formátumú diszkont és indításáról adatok felhalmozódása
 
-```
+```shell
 SparkMetric_CL 
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
 | render timechart 
@@ -298,7 +298,8 @@ SparkMetric_CL
 ```
 
 ### <a name="job-execution-to-trace-resiliency"></a>Nyomkövetési rugalmasság feladat futtatása
-```
+
+```shell
 SparkMetric_CL 
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
 | render timechart 
@@ -307,11 +308,11 @@ SparkMetric_CL
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](https://github.com/mspnp/reference-architectures/tree/master/data). 
+Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](https://github.com/mspnp/azure-databricks-streaming-analytics). 
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [referenciaarchitektúrákat](https://github.com/mspnp/reference-architectures) GitHub-adattárban.
+1. Klónozza, ágaztassa vagy töltse le a [adatfolyam-feldolgozó az Azure Databricks](https://github.com/mspnp/azure-databricks-streaming-analytics) GitHub-adattárban.
 
 2. Telepítés [Docker](https://www.docker.com/) futtatásához az adatgenerálást.
 
@@ -320,7 +321,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
 4. Telepítés [a Databricks parancssori felület](https://docs.databricks.com/user-guide/dev-tools/databricks-cli.html).
 
 5. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
-    ```
+    ```shell
     az login
     ```
 6. Telepítse a Java ide Környezethez, a következő források:
@@ -330,7 +331,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
 
 ### <a name="download-the-new-york-city-taxi-and-neighborhood-data-files"></a>A New York City taxi és hálózatok adatfájlok le
 
-1. Hozzon létre egy könyvtárat nevű `DataFile` alatt a `data/streaming_azuredatabricks` könyvtárat a helyi fájlrendszerben.
+1. Hozzon létre egy könyvtárat nevű `DataFile` a helyi fájlrendszer a klónozott Github-adattár gyökérkönyvtárában található.
 
 2. Nyisson meg egy webböngészőt, és navigáljon a https://uofi.app.box.com/v/NYCtaxidata/folder/2332219935.
 
@@ -343,15 +344,13 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
 
     A directory-struktúra az alábbiakhoz hasonlóan kell kinéznie:
 
-    ```
-    /data
-        /streaming_azuredatabricks
-            /DataFile
-                /FOIL2013
-                    trip_data_1.zip
-                    trip_data_2.zip
-                    trip_data_3.zip
-                    ...
+    ```shell
+    /DataFile
+        /FOIL2013
+            trip_data_1.zip
+            trip_data_2.zip
+            trip_data_3.zip
+            ...
     ```
 
 5. Nyisson meg egy webböngészőt, és navigáljon a https://www.zillow.com/howto/api/neighborhood-boundaries.htm. 
@@ -368,10 +367,10 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
     az login
     ```
 
-2. Lépjen abba a mappába `data/streaming_azuredatabricks` a GitHub-adattárban
+2. Lépjen abba a mappába, nevű `azure` a GitHub-adattárban található:
 
     ```bash
-    cd data/streaming_azuredatabricks
+    cd azure
     ```
 
 3. Futtassa az alábbi parancsokat az Azure-erőforrások üzembe helyezéséhez:
@@ -390,7 +389,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
 
     # Deploy resources
     az group deployment create --resource-group $resourceGroup \
-        --template-file ./azure/deployresources.json --parameters \
+        --template-file deployresources.json --parameters \
         eventHubNamespace=$eventHubNamespace \
         databricksWorkspaceName=$databricksWorkspaceName \
         cosmosDatabaseAccount=$cosmosDatabaseAccount \
@@ -439,7 +438,7 @@ Ezeket az értékeket a titkos kulcsok, amely belekerül a későbbi szakaszokba
 4. Az a **adja meg a tábla létrehozásához CQL parancsot** területén adja meg `neighborhoodstats` mellett a szövegmezőben `newyorktaxi`.
 
 5. Az alábbi szövegmezőbe írja be a következőket:
-```
+```shell
 (neighborhood text, window_end timestamp, number_of_rides bigint,total_fare_amount double, primary key(neighborhood, window_end))
 ```
 6. Az a **átviteli sebesség (1000 – 1 000 000 RU/s)** szövegmezőbe írja be az értéket `4000`.
@@ -451,17 +450,17 @@ Ezeket az értékeket a titkos kulcsok, amely belekerül a későbbi szakaszokba
 Először adja meg a titkos kulcsok EventHub:
 
 1. Használatával a **Azure Databricks parancssori felület** telepítette a 2. lépésben előfeltétel, az Azure Databricks titkos hatókör létrehozása:
-    ```
+    ```shell
     databricks secrets create-scope --scope "azure-databricks-job"
     ```
 2. Adja hozzá a titkos kulcsot a taxi indításáról EventHub:
-    ```
+    ```shell
     databricks secrets put --scope "azure-databricks-job" --key "taxi-ride"
     ```
     Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **taxi-indításáról-eh** értéket a **eventHubs** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Mentse és vi kilép.
 
 3. Adja hozzá a titkos kulcsot a taxi diszkont EventHub:
-    ```
+    ```shell
     databricks secrets put --scope "azure-databricks-job" --key "taxi-fare"
     ```
     Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **taxi-diszkont-eh** értéket a **eventHubs** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Mentse és vi kilép.
@@ -471,13 +470,13 @@ Először adja meg a titkos kulcsok EventHub:
 1. Nyissa meg az Azure Portalon, és keresse meg a 3. lépésében megadott erőforráscsoportot a **üzembe helyezése az Azure-erőforrások** szakaszban. Kattintson az Azure Cosmos DB-fiók.
 
 2. Használatával a **Azure Databricks parancssori felület**, adja hozzá a titkos kulcsot, a Cosmos DB-felhasználónév:
-    ```
+    ```shell
     databricks secrets put --scope azure-databricks-job --key "cassandra-username"
     ```
 Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **felhasználónév** értéket a **CosmosDb** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Mentse és vi kilép.
 
 3. Ezután adja hozzá a titkos kulcsot, a Cosmos DB-jelszó:
-    ```
+    ```shell
     databricks secrets put --scope azure-databricks-job --key "cassandra-password"
     ```
 
@@ -493,7 +492,7 @@ Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **titkos** ért�
     dbfs mkdirs dbfs:/azure-databricks-jobs
     ```
 
-2. Adatok/streaming_azuredatabricks/adatfájlját keresse meg, és adja meg a következőket:
+2. Keresse meg a `DataFile` könyvtárat, és írja be a következőket:
     ```bash
     dbfs cp ZillowNeighborhoods-NY.zip dbfs:/azure-databricks-jobs
     ```
@@ -502,37 +501,37 @@ Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **titkos** ért�
 
 Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára és az elsődleges kulcsot. A munkaterület-azonosító a **munkaterület azonosítója** értéket a **logAnalytics** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Az elsődleges kulcs a **titkos** a kimeneti szakaszban. 
 
-1. Nyissa meg a data\streaming_azuredatabricks\azure\AzureDataBricksJob\src\main\resources\com\microsoft\pnp\azuredatabricksjob\log4j.properties log4j naplózás beállításához. A következő két érték szerkesztése:
-    ```
+1. Log4j naplózás beállításához nyissa meg a `\azure\AzureDataBricksJob\src\main\resources\com\microsoft\pnp\azuredatabricksjob\log4j.properties`. A következő két érték szerkesztése:
+    ```shell
     log4j.appender.A1.workspaceId=<Log Analytics workspace ID>
     log4j.appender.A1.secret=<Log Analytics primary key>
     ```
 
-2. Egyéni naplózás beállításához nyissa meg a data\streaming_azuredatabricks\azure\azure-databricks-monitoring\scripts\metrics.properties. A következő két érték szerkesztése:
-    ``` 
+2. Egyéni naplózás beállításához nyissa meg a `\azure\azure-databricks-monitoring\scripts\metrics.properties`. A következő két érték szerkesztése:
+    ```shell
     *.sink.loganalytics.workspaceId=<Log Analytics workspace ID>
     *.sink.loganalytics.secret=<Log Analytics primary key>
     ```
 
 ### <a name="build-the-jar-files-for-the-databricks-job-and-databricks-monitoring"></a>Hozhat létre a .jar fájlokat a Databricks-feladat és a Databricks-figyelés
 
-1. A Java IDE használatával importálhatja a nevű Maven-projektfájlból **pom.xml** gyökerében található a **data/streaming_azuredatabricks** könyvtár. 
+1. A Java IDE használatával importálhatja a nevű Maven-projektfájlból **pom.xml** gyökérkönyvtárában található. 
 
 2. Hajtsa végre a tiszta buildjének kiépítéséhez. A build kimenete nevű fájlt a **azure-databricks-feladat – 1.0-SNAPSHOT.jar** és **azure-databricks-figyelés – 0.9.jar**. 
 
 ### <a name="configure-custom-logging-for-the-databricks-job"></a>A Databricks-feladat az egyéni naplózás konfigurálása
 
 1. Másolás a **azure-databricks-figyelés – 0.9.jar** fájlt a következő parancs beírásával a Databricks fájlrendszerhez a **a Databricks parancssori felület**:
-    ```
+    ```shell
     databricks fs cp --overwrite azure-databricks-monitoring-0.9.jar dbfs:/azure-databricks-job/azure-databricks-monitoring-0.9.jar
     ```
 
-2. Másolja az egyéni naplózás tulajdonságai a data\streaming_azuredatabricks\azure\azure-databricks-monitoring\scripts\metrics.properties a Databricks fájlrendszerhez a következő parancs beírásával:
-    ```
+2. Az egyéni naplózási tulajdonságok másolásához `\azure\azure-databricks-monitoring\scripts\metrics.properties` a databricks fájlrendszerrel a következő parancs beírásával:
+    ```shell
     databricks fs cp --overwrite metrics.properties dbfs:/azure-databricks-job/metrics.properties
     ```
 
-3. Bár még a Databricks-fürt nevét, még nem úgy döntött, válasszon ki egyet. A fürt neve alatt fogja meg a Databricks fájlrendszerbeli elérési út. Másolja a inicializálása a data\streaming_azuredatabricks\azure\azure-databricks-monitoring\scripts\spark.metrics a Databricks fájlrendszerhez a következő parancs beírásával:
+3. Bár még a Databricks-fürt nevét, még nem úgy döntött, válasszon ki egyet. A fürt neve alatt fogja meg a Databricks fájlrendszerbeli elérési út. Másolja a inicializációs szkriptet `\azure\azure-databricks-monitoring\scripts\spark.metrics` a databricks fájlrendszerrel a következő parancs beírásával:
     ```
     databricks fs cp --overwrite spark-metrics.sh dbfs:/databricks/init/<cluster-name>/spark-metrics.sh
     ```
@@ -576,7 +575,7 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
 5. Adja meg **com.microsoft.pnp.TaxiCabReader** a a **Main osztály** mező.
 
 6. Az argumentumok mezőben adja meg a következőket:
-    ```
+    ```shell
     -n jar:file:/dbfs/azure-databricks-jobs/ZillowNeighborhoods-NY.zip!/ZillowNeighborhoods-NY.shp --taxi-ride-consumer-group taxi-ride-eh-cg --taxi-fare-consumer-group taxi-fare-eh-cg --window-interval "1 minute" --cassandra-host <Cosmos DB Cassandra host name from above> 
     ``` 
 
@@ -629,11 +628,11 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
 
 ### <a name="run-the-data-generator"></a>Futtassa az adatgenerátor
 
-1. Lépjen abba a könyvtárba `data/streaming_azuredatabricks/onprem` a GitHub-adattárában.
+1. Lépjen abba a könyvtárba nevű `onprem` a GitHub-adattárában.
 
 2. Frissítse az értékeket a fájlban **main.env** módon:
 
-    ```
+    ```shell
     RIDE_EVENT_HUB=[Connection string for the taxi-ride event hub]
     FARE_EVENT_HUB=[Connection string for the taxi-fare event hub]
     RIDE_DATA_FILE_PATH=/DataFile/FOIL2013
@@ -648,7 +647,7 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
     docker build --no-cache -t dataloader .
     ```
 
-4. Lépjen vissza a szülőkönyvtárban `data/stream_azuredatabricks`.
+4. Lépjen vissza a szülőkönyvtárat.
 
     ```bash
     cd ..

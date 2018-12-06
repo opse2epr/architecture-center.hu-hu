@@ -2,120 +2,120 @@
 title: Online tranzakciófeldolgozás (OLTP)
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 8650b919fc1a59240343015493a1fe41c8729a72
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.date: 02/12/2018
+ms.openlocfilehash: be24bc173359539785385de4a188e7536f6d2ffe
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30848699"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902756"
 ---
 # <a name="online-transaction-processing-oltp"></a>Online tranzakciófeldolgozás (OLTP)
 
-A felügyeleti használ a számítógéprendszerek tranzakciós adatok hivatkozik, Online tranzakciófeldolgozási (OLTP). Az OLTP rendszerek regisztrálhatna üzleti fordulnak elő a szervezet napi működését, és támogatja az adatokba, így következtetéseket lekérdezését.
+Tranzakciós adatok használ a számítógéprendszerek kezelését a neve, Online tranzakciófeldolgozási (OLTP). OLTP rendszerek regisztrálhatna üzleti fordulnak elő a szervezet napi működését, és ezeket az adatokat a következtetések levonásához lekérdezését támogatja.
 
 ## <a name="transactional-data"></a>Tranzakciós adatok
 
-Tranzakciós adatok, amely nyomon követi a kapcsolati, a szervezetek tevékenységekkel kapcsolatos információkat. A kapcsolati jellemzően üzleti tranzakciók, például az ügyfelektől, szállítók, a leltározást, végrehajtott rendeléseket és a szolgáltatások kézbesíteni való áthaladás termékek kifizetéseket kapott. Tranzakciós események, amelyek megfelelnek a tranzakciók magukat, általában a egy time dimenzió, bizonyos számértékeket és egyéb adatok mutató hivatkozásokat tartalmaz. 
+Tranzakciós adatok, amely nyomon követi a kapcsolati, a szervezet tevékenységekkel kapcsolatos információk. Ezek a kapcsolati jellemzően üzleti tranzakciók, például az ügyfelektől, a szállítók, termékek, szolgáltatások fogadott vagy a leltár-, végrehajtott rendelések Mozgatott kifizetéseket kapott. Tranzakciós események, amelyek magukat a tranzakciók képviselnek, általában tartalmaznak egy time dimenzió, bizonyos számértékeket és egyéb adatok mutató hivatkozásokat. 
 
-Tranzakciók általában kell lenniük *atomi* és *konzisztens*. Atomicity azt jelenti, hogy a teljes tranzakció mindig sikeres vagy sikertelen munka egy egységként, soha nem egy félig kitöltött állapotban marad. A tranzakció nem hajtható végre, ha az adatbázis-rendszer kell visszaállítása volt meg, hogy a tranzakció részeként műveleteket. A hagyományos RDBMS a visszaállítás automatikusan történik, a tranzakció nem hajtható végre, ha. Konzisztencia azt jelenti, hogy tranzakciók mindig hagyja meg az adatokat állapota érvénytelen. (Ezek a atomicity és konzisztencia nagyon kötetlen leírását. Nincsenek formális definíciója ezeket a tulajdonságokat, például a [sav](https://en.wikipedia.org/wiki/ACID).)
+Tranzakciók általában kell lennie *atomi* és *konzisztens*. Atomitást azt jelenti, hogy a teljes tranzakció mindig sikeres vagy sikertelen lesz a munka egy egységként, és soha nem egy félig kitöltött állapotban marad. A tranzakció nem hajtható végre, ha az adatbázis-rendszer vissza kell görgetni a tranzakció részeként már végrehajtott lépéseket. A hagyományos RDBMS a visszaállítás automatikusan megtörténik, ha egy tranzakció nem hajtható végre. Konzisztencia azt jelenti, hogy tranzakciók mindig hagyja meg az adatok érvényes állapotban. (Ezek a atomitást és konzisztencia nagyon informális leírását. Nincsenek formális definíciók ezeket a tulajdonságokat, mint például [ACID](https://en.wikipedia.org/wiki/ACID).)
 
-Tranzakciós adatbázisok is támogatja az erős konzisztencia, különböző zárolási, például pesszimista zárolás használatával gondoskodjon arról, hogy minden adatot a vállalati keretén belül kifejezetten konzisztens tranzakciókhoz, a felhasználók és a folyamatok. 
+Tranzakciós adatbázisok támogathat erős konzisztencia használatával különféle zárolási pesszimista zárolással, például annak biztosításához, hogy az összes adat a vállalati kontextusában erősen konzisztens tranzakciók, minden felhasználó és folyamat számára. 
 
-A leggyakoribb üzembe helyezési architektúrája tranzakciós adatait használó az adatréteg tároló 3-rétegű architektúra. A 3-rétegű architektúra jellemzően a bemutatási szint, üzleti logikai rétegből és adatok tárolási réteg áll. A kapcsolódó központi telepítési architektúrája a [N szintű](/azure/architecture/guide/architecture-styles/n-tier) architektúra, amely több közel-Rétegek kezelése üzleti logikát.
+A leggyakoribb üzembe helyezési architektúra által használt tranzakciós adatait az adatréteg store a 3 szintű architektúrában. A 3-rétegű architektúra általában egy bemutatási, üzleti logikai rétegből és adatokat tároló szint áll. Egy kapcsolódó üzembe helyezési architektúra a [N szintű](/azure/architecture/guide/architecture-styles/n-tier) architektúra, amely előfordulhat, hogy több közel-csomagok kezelése üzleti logikát.
 
-## <a name="typical-traits-of-transactional-data"></a>Tipikus jellemzők tranzakciós adatok
+## <a name="typical-traits-of-transactional-data"></a>Tipikus képességekre vonatkozó tranzakciós adatok
 
 Tranzakciós adatok általában a következő jellemzőkkel rendelkezik:
 
 | Követelmény | Leírás |
 | --- | --- |
-| Normalizálási | Magas normalizált |
-| Séma | Írás, erősen kényszerített séma|
-| Konzisztencia | Az erős konzisztencia sav biztosítja, hogy |
-| Integritás | Integritása magas szintű |
+| Normalizálási | Magas normalized |
+| Séma | Séma, erősen kényszerítése|
+| Konzisztencia | Garantálja a konzisztenciát, ACID |
+| Integritás | Nagy fokú integritása |
 | Használja a tranzakciók | Igen |
-| Zárolási stratégia | Pesszimista vagy optimista|
-| Updateable | Igen |
+| Zárolási stratégia | A pesszimista vagy optimista|
+| Frissíthető | Igen |
 | Appendable | Igen |
-| Számítási feladat | Nagy mennyiségű írási műveletekről, mérsékelt olvassa be |
-| Indexelés | Elsődleges és másodlagos indexek |
-| Datum mérete | Kis, közepes méretű |
+| Számítási feladat | Mérsékelt nagy írási beolvasása |
+| Indexelés | Az elsődleges és másodlagos indexek |
+| Datum mérete | Kis és közepes méretű |
 | Modell | Relációs |
-| Adatok alakzat | A táblázatos |
-| Lekérdezés rugalmasságot | Rugalmas |
-| Méretezés | Kis (MB) és nagy (néhány több TB-nyi) | 
+| Adatalakzat | Táblázatos |
+| Rugalmas lekérdezés | Rendkívül rugalmas |
+| Méretezés | Kis (MB) és nagy (több TB-osra bővül) | 
 
-## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
+## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
-Ha hatékony feldolgozni, és üzleti tranzakciók tárolja, és azonnal elérhetővé tétele az ügyfélalkalmazások konzisztens módon van szüksége, válassza a OLTP. Használja az ebbe az architektúrába, ha bármilyen anyagi feldolgozási késedelem hatással lenne egy negatív az üzleti mindennapi műveleteinek.
+Válassza ki a OLTP, ha hatékony feldolgozására és tárolhatja az üzleti tranzakciók, és azonnal elérhetővé tétele az ügyfélalkalmazások konzisztens módon kell. Akkor használja ezt az architektúrát, ha bármilyen képzés résztvevői hasznos képességekkel feldolgozási késedelem negatív hatással lenne a mindennapos az üzleti.
 
-OLTP rendszerek hatékonyan feldolgozni, és a tranzakciók, valamint a lekérdezés tranzakciós adatok tárolására készültek. A cél hatékonyan feldolgozási és tárolása az egyes tranzakciók által az OLTP rendszerek részben úgy érhető el, adatok normalizálási &mdash; Ez azt jelenti, hogy ossza az adatok kisebb csoportjai, amelyek kevesebb redundáns. Támogatja a hatékonyságát, mivel lehetővé teszi, hogy az OLTP rendszerek nagyszámú tranzakciók egymástól függetlenül feldolgozni, és elkerülhető a felesleges feldolgozási szükséges redundáns adatok mellett adatok integritásának fenntartása.
+OLTP rendszerek hatékonyan dolgozza fel, és a tranzakciók, valamint lekérdezési tranzakciós adatok tárolására tervezték. A cél az, hogy hatékonyan feldolgozása, és tárolja az egyes tranzakciók szerint az OLTP rendszerek részben kapcsolódással adatok normalizálási &mdash; , felosztani az adatokat, amelyek kisebb redundáns szeletekre. Támogatja a hatékonyságot az OLTP rendszerek nagy számú tranzakció egymástól függetlenül feldolgozni, mert, és ezzel elkerülheti a további feldolgozás szükséges zajok mellett a redundáns adatok adatok integritásának fenntartása.
 
 ## <a name="challenges"></a>Problémák
-Végrehajtási és az OLTP rendszerek használata néhány kihívást hozhat létre:
+Végrehajtási és az OLTP rendszerek használatával hozhat létre néhány kihívásokat:
 
-- Az OLTP rendszerek megfelelőek nem mindig összesítések kezelése keresztül nagy mennyiségű adat, bár kivételek, például egy tervezett jól az SQL Server-alapú megoldás. Az adatok, támaszkodó összesített számítások az egyes tranzakciók több mint több millió, alapján Analytics nagyon erőforrás-igényes az OLTP rendszerek. Lassú hajtható végre, és lehet el egy slow-down következtében letiltásával más tranzakciók az adatbázisban.
-- Ha elemzés végrehajtása, és az adatok magas normalizált jelentéskészítés, a lekérdezések általában összetett, mert irányuló legtöbb lekérdezésnek kell deszerializálni optimalizálására illesztések használatával az adatok. Emellett az OLTP rendszerek adatbázis-objektumok elnevezési szabályai általában tömör és állapotára. A nagyobb normalizálási alapján tömör elnevezési konvenciók kialakulhat nehezebben OLTP rendszerek üzleti felhasználók DBA vagy az adatok a fejlesztők az nélkül lekérdezéséhez.
-- Lassú a lekérdezési teljesítményt, attól függően, hogy a tárolt tranzakciók száma tranzakciók előzményeinek határozatlan ideig tárolja, és túl sok adat tárolása táblában vezethet. A gyakori megoldás, hogy az OLTP rendszerben (például az aktuális pénzügyi év) megfelelő ablakban karbantartása és egyéb rendszerekre, például egy adatpiacot korábbi adatok továbbítása vagy [adatraktár](./data-warehousing.md).
+- OLTP rendszerek általában nem mindig jó az összesítések kezelése keresztül nagy mennyiségű adatot, bár vannak kivételek, például egy jól megtervezett SQL Server-alapú megoldás. Elemzés, adatokra támaszkodó összesített számítások az egyes tranzakciók több mint egy millió, olyan rendkívül erőforrás-igényes az OLTP rendszerek. Lassú végrehajtásához, és képes lehet egy slow-down okozhat más tranzakciók az adatbázis blokkolásával.
+- Ha analytics vezető, és az adatok nagymértékben normalizáltak reporting, a lekérdezések általában összetett, mert irányuló legtöbb lekérdezésnek kell megszüntetéséhez normalizálása összekapcsolások használatával az adatokat. Ezenkívül elnevezési konvenciói az adatbázis-objektumok OLTP-rendszerekben általában tömör és állapotára. A nagyobb normalizálási tömör elnevezési konvenciók szolgáltatással párosítva az üzleti felhasználók lekérdezéséhez, a DBA vagy adatok fejlesztő segítsége nélkül megnehezíti OLTP rendszerek.
+- Lassú lekérdezések teljesítményét, a tárolt tranzakciók számától függően a korábbi tranzakciók határozatlan ideig tárolja, és a táblában túl sok adat tárolására vezethet. A leggyakoribb megoldás az, hogy egy megfelelő idő (például az aktuális pénzügyi év) ablakban az OLTP rendszerek karbantartása és más rendszerekre, például egy data martba korábbi adatok kiszervezése vagy [adatraktár](./data-warehousing.md).
 
-## <a name="oltp-in-azure"></a>OLTP az Azure-ban
+## <a name="oltp-in-azure"></a>Az Azure-ban tárolt OLTP-k
 
-Alkalmazások, mint az üzemeltetett webhelyek [App Service Web Apps](/azure/app-service/app-service-web-overview), az App Service-ben futó REST API-k vagy hordozható vagy asztali alkalmazások az OLTP rendszerek általában a REST API-t a közvetítő keresztül kommunikálnak.
+Például a webhelyeken üzemeltetett alkalmazások [App Service Web Apps](/azure/app-service/app-service-web-overview), az App Service-ben futó REST API-k vagy mobil- vagy asztali alkalmazások az OLTP rendszerek általában egy REST API-közvetítő segítségével kommunikálnak.
 
-A gyakorlatban a munkaterhelések többségéhez nincsenek tisztán OLTP. Nincs általában egy analitikai összetevője. Emellett nincs valós idejű jelentéskészítést, például a jelentések futtatása ellen a műveleti rendszerfiókok iránti kereslet. Ez más néven a HTAP (hibrid tranzakciós és Analytical Processing). További információkért lásd: [Online Analytical Processing (OLAP)](./online-analytical-processing.md).
+A gyakorlatban a legtöbb számítási feladatok nem állnak tisztán OLTP. Nincs általában egy analitikai összetevőnek. Emellett nincs valós idejű jelentéskészítést, például a jelentések futtatása ellen a műveleti rendszerfiókok iránti kereslet. Ez is nevezik HTAP (hibrid tranzakciós és analitikai feldolgozása). További információkért lásd: [Online Analytical Processing (OLAP)](./online-analytical-processing.md).
 
-Az Azure a következő adatokat tároló összes felel meg a OLTP alapvető követelményei és a tranzakciós adatokat:
+Az Azure-ban mind a következő adattárakat felel meg az OLTP alapvető követelményei és a tranzakciós adatok kezelésére:
 
 - [Azure SQL Database](/azure/sql-database/)
-- [SQL Server egy Azure virtuális gépen](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview?toc=%2Fazure%2Fvirtual-machines%2Fwindows%2Ftoc.json)
+- [Az SQL Server Azure virtuális gépként](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview?toc=%2Fazure%2Fvirtual-machines%2Fwindows%2Ftoc.json)
 - [Azure Database for MySQL](/azure/mysql/)
 - [Azure Database for PostgreSQL](/azure/postgresql/)
 
-## <a name="key-selection-criteria"></a>Kulcs kiválasztási feltételek
+## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
-A választási lehetőségek szűkítéséhez indítása ezen kérdések megválaszolásával:
+Így szűkítheti, első lépésként a kérdések megválaszolása:
 
-- A saját kiszolgálóit kezelése helyett egy felügyelt szolgáltatás van szüksége?
+- Szeretne egy felügyelt szolgáltatás, hanem a saját kiszolgálók kezelése?
 
-- Rendelkezik a megoldás a Microsoft SQL Server, MySQL vagy PostgreSQL kompatibilitás adott függőségek? Az alkalmazás az adatokat tárolja, dönthet úgy, az illesztőprogramokat az támogatja-e az adattár való kommunikáció vagy adatbázis szolgál arról, hogy mely teszi feltételek alapján korlátozhatja.
+- Rendelkezik a megoldás a Microsoft SQL Server, MySQL, illetve PostgreSQL kompatibilitás adott függőségek? Az alkalmazás korlátozhatják az illesztőprogramokat támogatja az adattárban való kommunikációhoz, illetve arról, hogy mely adatbázissal rendelkezik teszi feltételezések alapján is tárolja az adatokat.
 
-- Ezek a írási átviteli követelmények különösen nagy? Ha igen, válassza ki, amely a táblák biztosít. 
+- Az írási átviteli sebességet megkövetelő különösen magas vannak? Ha igen, válasszon olyan beállítás, amely a táblák biztosít. 
 
-- A megoldás több-bérlős van? Ha igen, vegye figyelembe a kapacitás-készletek, ahol több adatbázis-példány tárolt erőforrások helyett adatbázisonként rögzített erőforrások rugalmas készletek támogatott beállításokat. Ez segít jobban kapacitás el az összes adatbázis-példány, és lehetővé teszi a megoldás költséghatékonyabb.
+- A megoldás több-bérlős rendszer? Ha igen, fontolja meg a beállításokat, amelyek támogatják a kapacitás-készletek, ahol több adatbázis-példány felhasználhatja a rugalmas készletek az erőforrások fix erőforrások adatbázisonként helyett. Ez segít jobban minden adatbázis-példány között oszthatja el a kapacitás, és lehetővé teszi a megoldás költséghatékonyabb.
 
-- Az adatokat, így több régióba kis késéssel nem kell? Ha igen, válassza ki, amely támogatja az olvasható másodlagos másodpéldányokra.
+- Az adatok, így több régióban is alacsony késleltetéssel nem kell? Ha igen, válasszon egy beállítást, amely támogatja az olvasható másodlagos replikával.
 
-- Nem az adatbázis kell magas rendelkezésre állású grafikus földrajzi régiók között? Ha igen, válassza ki, amely támogatja a földrajzi replikációját. Is gondolja át a beállításokat, amelyek támogatják az Automatikus feladatátvétel az elsődleges replikáról egy másodlagos replikára.
+- Nem az adatbázis kell magas rendelkezésre állású geo-kép régióban? Ha igen, válasszon egy beállítást, amely támogatja a földrajzi replikáció. Is figyelembe kell venni a beállításokat, amelyek támogatják az Automatikus feladatátvétel az elsődleges replikáról egy másodlagos replikára.
 
-- Rendelkezik-e az adatbázis konkrét igényeinek? Ha igen, ellenőrizze a beállításokat, például sorszintű biztonság van, az adatok maszkolása és az átlátható adattitkosítás képességeket biztosítják.
+- Rendelkezik-e az adatbázis konkrét igényeinek? Ha igen, vizsgálja meg a beállításokat, amelyek biztosítanak, mint például a sorszintű biztonság, adatmaszkolást és átlátható adattitkosítást.
 
-## <a name="capability-matrix"></a>Képesség mátrix
+## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a főbb változásai képességeit.
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek 
 
-|                              | Azure SQL Database | SQL Server egy Azure virtuális gépen | Azure Database for MySQL | Azure Database for PostgreSQL |
+|                              | Azure SQL Database | Az SQL Server Azure virtuális gépként | Azure Database for MySQL | Azure Database for PostgreSQL |
 |------------------------------|--------------------|----------------------------------------|--------------------------|-------------------------------|
-|      Van a felügyelt      |        Igen         |                   Nem                   |           Igen            |              Igen              |
+|      A felügyelt szolgáltatás      |        Igen         |                   Nem                   |           Igen            |              Igen              |
 |       A platformon fut       |        –         |         Windows, Linux, Docker         |           –            |              –              |
-| Programozható <sup>1</sup> |   T-SQL, .NET, R   |         T-SQL, .NET, R, Python         |  T-SQL, .NET, R, Python  |              SQL              |
+| Programozhatóság <sup>1</sup> |   T-SQL HASZNÁLATÁVAL, LEGYEN AZ .NET, R   |         T-SQL használatával, legyen az .NET, R, Python         |  T-SQL használatával, legyen az .NET, R, Python  |              SQL              |
 
-[1] nem beleértve az ügyfél illesztőprogram használatát, amely lehetővé teszi számos programozási nyelvek csatlakozhat, és az OLTP adattár használata.
+[1] nem többek között az ügyfelek illesztőprogram támogatása, amely lehetővé teszi számos programozási nyelvet való csatlakozáshoz, és az OLTP-adattárban.
 
-### <a name="scalability-capabilities"></a>Méretezhetőség képességek
+### <a name="scalability-capabilities"></a>Skálázhatósági képességeket.
 
-| | Azure SQL Database | SQL Server egy Azure virtuális gépen| Azure Database for MySQL | Azure Database for PostgreSQL|
+| | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- |
-| Maximális adatbázis példány mérete | [4 TB](/azure/sql-database/sql-database-resource-limits) | 256 TB | [1 TB](/azure/mysql/concepts-limits) | [1 TB](/azure/postgresql/concepts-limits) |
-| Támogatja a kapacitás készletek  | Igen | Igen | Nem | Nem |
-| Támogatja a fürtök kibővítési  | Nem | Igen | Nem | Nem |
-| Dinamikus méretezhetőség (felskálázott)  | Igen | Nem | Igen | Igen |
+| Maximális példányméret | [4 TB](/azure/sql-database/sql-database-resource-limits) | 256 TB | [1 TB](/azure/mysql/concepts-limits) | [1 TB](/azure/postgresql/concepts-limits) |
+| Kapacitás-készleteket támogat  | Igen | Igen | Nem | Nem |
+| Támogatja a fürtök horizontális felskálázás  | Nem | Igen | Nem | Nem |
+| A dinamikus méretezhetőség (vertikális felskálázási)  | Igen | Nem | Igen | Igen |
 
-### <a name="analytic-workload-capabilities"></a>Elemzési munkaterhelés képességek
+### <a name="analytic-workload-capabilities"></a>Elemzési számítási feladatok képességek
 
-| | Azure SQL Database | SQL Server egy Azure virtuális gépen| Azure Database for MySQL | Azure Database for PostgreSQL|
+| | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- | 
 | Historikus táblák | Igen | Igen | Nem | Nem |
 | A memóriában (memóriaoptimalizált) táblák | Igen | Igen | Nem | Nem |
@@ -124,25 +124,25 @@ A következő táblázat összefoglalja a főbb változásai képességeit.
 
 ### <a name="availability-capabilities"></a>Rendelkezésre állás
 
-| | Azure SQL Database | SQL Server egy Azure virtuális gépen| Azure Database for MySQL | Azure Database for PostgreSQL|
+| | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- | 
-| Olvasható másodlagos adatbázis | Igen | Igen | Nem | Nem | 
+| Olvasható másodlagos példánnyal | Igen | Igen | Nem | Nem | 
 | Földrajzi replikáció | Igen | Igen | Nem | Nem | 
 | Másodlagos automatikus feladatátvétel | Igen | Nem | Nem | Nem|
 | Adott időpontnak megfelelő helyreállítás | Igen | Igen | Igen | Igen |
 
 ### <a name="security-capabilities"></a>Biztonsági képességei
 
-|                                                                                                             | Azure SQL Database | SQL Server egy Azure virtuális gépen | Azure Database for MySQL | Azure Database for PostgreSQL |
+|                                                                                                             | Azure SQL Database | Az SQL Server Azure virtuális gépként | Azure Database for MySQL | Azure Database for PostgreSQL |
 |-------------------------------------------------------------------------------------------------------------|--------------------|----------------------------------------|--------------------------|-------------------------------|
 |                                             Sorszintű biztonság                                              |        Igen         |                  Igen                   |           Igen            |              Igen              |
 |                                                Adatmaszkolás                                                 |        Igen         |                  Igen                   |            Nem            |              Nem               |
 |                                         Transzparens adattitkosítás                                         |        Igen         |                  Igen                   |           Igen            |              Igen              |
-|                                  Hozzáférés korlátozása IP-címek                                   |        Igen         |                  Igen                   |           Igen            |              Igen              |
-|                                  Hozzáférés korlátozása, hogy csak a virtuális hálózat hozzáférés engedélyezése                                  |        Igen         |                  Igen                   |            Nem            |              Nem               |
+|                                  Adott IP-címek való hozzáférés korlátozása                                   |        Igen         |                  Igen                   |           Igen            |              Igen              |
+|                                  Korlátozhatja a hozzáférést, csak a virtuális hálózatok közötti hozzáférés engedélyezése                                  |        Igen         |                  Igen                   |            Nem            |              Nem               |
 |                                    Hitelesítés Azure Active Directory-fiókkal                                    |        Igen         |                  Igen                   |            Nem            |              Nem               |
 |                                       Active Directory-alapú hitelesítés                                       |         Nem         |                  Igen                   |            Nem            |              Nem               |
 |                                         Multi-Factor Authentication                                         |        Igen         |                  Igen                   |            Nem            |              Nem               |
-| Támogatja a [mindig titkosítja.](/sql/relational-databases/security/encryption/always-encrypted-database-engine) |        Igen         |                  Igen                   |           Igen            |              Nem               |
+| Támogatja a [Always Encrypted](/sql/relational-databases/security/encryption/always-encrypted-database-engine) |        Igen         |                  Igen                   |           Igen            |              Nem               |
 |                                                 Magánhálózati IP                                                  |         Nem         |                  Igen                   |           Igen            |              Nem               |
 

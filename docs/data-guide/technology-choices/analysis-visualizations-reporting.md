@@ -2,13 +2,13 @@
 title: Egy data analytics kiválasztása és jelentéskészítési technológia
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 05e33a3da0933036a604d2bc4cc5a20ae70fe772
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.date: 02/12/2018
+ms.openlocfilehash: a5e793c9caf50daca4ef7e40c49e54f25f04e856
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428314"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902416"
 ---
 # <a name="choosing-a-data-analytics-technology-in-azure"></a>Egy data analytics technológia kiválasztása az Azure-ban
 
@@ -43,7 +43,7 @@ Jupyter-notebookok elemzése, jelenítenek meg, és a egy BI/reporting eszközze
 
 ### <a name="microsoft-azure-notebooks"></a>A Microsoft Azure-jegyzetfüzetek
 
-[Az Azure notebookok](https://notebooks.azure.com/) Jupyter Notebooks-alapú egy online szolgáltatás, amely lehetővé teszi az adatszakértők, létrehozása, futtatása és megosztása a felhő alapú tárak Jupyter-Notebookjait. Azure notebookok végrehajtási környezetet biztosít a Python 2, Python 3, F # és az R, és számos diagramkészítési kódtárakat biztosít az adatai, például a ggplot, matplotlib, bokeh és seaborn megjelenítéséhez.
+[Az Azure notebookok](https://notebooks.azure.com/) Jupyter Notebooks-alapú egy online szolgáltatás, amely lehetővé teszi az adatszakértők, létrehozása, futtatása és megosztása a felhő alapú tárak Jupyter-Notebookjait. Azure notebookok végrehajtási környezetet biztosít a Python 2, a Python 3, F#, és az R, és számos diagramkészítési kódtárakat biztosít az adatai, például a ggplot, matplotlib, bokeh és seaborn megjelenítéséhez.
 
 Azure notebookok Jupyter notebookok egy HDInsight-fürtön futó, amely csatlakozik a fürt alapértelmezett tárfiókot, eltérően nem biztosít adatokat. Meg kell [adatok betöltése](https://notebooks.azure.com/Microsoft/libraries/samples/html/Getting%20to%20your%20Data%20in%20Azure%20Notebooks.ipynb) többféle módon, az ilyen online forrásból származó adatokat tölti le, az Azure BLOB vagy Table Storage használata, az SQL-adatbázishoz szeretne csatlakozni vagy a Másolás varázslóval az adatok betöltése az Azure Data Factoryhoz.
 
@@ -86,7 +86,7 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | Képességek beágyazása | Igen | Nem | Nem | Nem |
 | Adatok automatikus frissítése | Igen | Nem | Nem | Nem |
 | Számos nyílt forráskódú csomag való hozzáférés | Nem | Igen <sup>3</sup> | Igen <sup>3</sup> | Igen <sup>4</sup> |
-| Adatok átalakítása és tisztítását beállításai | [A Power Query](https://powerbi.microsoft.com/blog/getting-started-with-power-query-part-i/), R | 40 nyelvek, többek között a Python, R, Julia és Scala | mint 20 interprety, beleértve a Python, JDBC és R | A Python, F #, R |
+| Adatok átalakítása és tisztítását beállításai | [A Power Query](https://powerbi.microsoft.com/blog/getting-started-with-power-query-part-i/), R | 40 nyelvek, többek között a Python, R, Julia és Scala | mint 20 interprety, beleértve a Python, JDBC és R | Python, F#, R |
 | Díjszabás | Az ingyenes Power BI Desktop (szerzői műveletek), lásd: [díjszabás](https://powerbi.microsoft.com/pricing/) beállítások üzemeltetéséhez | Ingyenes | Ingyenes | Ingyenes |
 | Többfelhasználós együttműködés | [Igen](/power-bi/service-how-to-collaborate-distribute-dashboards-reports) | Igen (megosztása vagy például a többfelhasználós kiszolgálóval [JupyterHub](https://github.com/jupyterhub/jupyterhub)) | Igen | Igen (a megosztás) |
 
@@ -96,5 +96,5 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 [2] kereshet a [Maven tárházból](https://search.maven.org/) a Közösség által biztosított csomagok.
 
-[3] Python-csomagokat a pip vagy conda használatával telepíthető. R-csomagok CRAN vagy a GitHub is telepíthető. Csomagok F #-környezetben keresztül nuget.org használatával telepíthető a [Paket Függőségkezelő](https://fsprojects.github.io/Paket/).
+[3] Python-csomagokat a pip vagy conda használatával telepíthető. R-csomagok CRAN vagy a GitHub is telepíthető. A csomagok F# keresztül nuget.org használatával telepítheti a [Paket Függőségkezelő](https://fsprojects.github.io/Paket/).
 

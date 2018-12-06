@@ -2,42 +2,42 @@
 title: Természetes nyelvek feldolgozása
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 0afd8ac9a8a2e56f79ade0b2e10328630866c03c
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.date: 02/12/2018
+ms.openlocfilehash: 32f2a5e3a0baddc765fb36ccc42fe2626faa5eba
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
-ms.locfileid: "30297971"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52901439"
 ---
 # <a name="natural-language-processing"></a>Természetes nyelvek feldolgozása
 
-Természetes nyelvű feldolgozás (NLP) olyan feladatokhoz, mint a céggel kapcsolatos véleményeket elemzés, témakör észlelési, nyelvi észlelési, kulcs kifejezés kivonása és dokumentum kategorizálási szolgál.
+Természetes nyelvi feldolgozást (NLP) olyan feladatokhoz, mint a hangulatelemzés, témafelismerés, nyelv észlelése, kulcsszókeresést és kategorizálási dokumentum szolgál.
 
 ![](./images/nlp-pipeline.png)
 
-## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
+## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
-NLP segítségével dokumentumok, például címkézése a bizalmas dokumentumok besorolását vagy kéretlen információk küldésére. További feldolgozási vagy keresési NLP kimenete használható. Egy másik NLP a rendeltetése, hogy összesítse a szöveg a dokumentumban található entitások azonosításával. Ezeket az entitásokat is használható a címke dokumentumok kulcsszavak, amely lehetővé teszi, hogy a Keresés és a tartalom alapján lekérése. Entitások témakörökre összesítéseket minden a dokumentumban található Fontos témakörök ismertetik a lehet kombinálni. Az észlelt témakörök a dokumentumokat navigációs kategorizálását, vagy operációs rendszer megadott a kijelölt téma kapcsolódó dokumentumok használható. Egy másik a NLP használata céggel kapcsolatos véleményeket, annak ellenőrzéséhez, a pozitív vagy negatív hangvételt érhet el, a dokumentum szövege pontozása céljából. Ezek a módszerek sok technikák feldolgozására, például a természetes nyelv használata: 
+NLP használhatja például a bizalmas dokumentumok címkézés a dokumentumok besorolását vagy kéretlen információk küldésére. NLP kimenetét további feldolgozás vagy keresési használható. Nlp-vel egy másik használatát, hogy szöveges összegzés szempontja a dokumentumban található entitások azonosítása. Ezeket az entitásokat is használható a címke dokumentumokhoz kulcsszavas, amely lehetővé teszi, hogy a Keresés és a tartalom alapján lekéréséhez. Entitások témakörök ikonjával állapotösszegzéseket, amelyek a jelen dokumentum fontos témakörök ismertetik azokat lehet kombinálni. Észlelt témaköreit használhatók, így a Navigálás a dokumentumok csoportosítására vagy kapcsolódó dokumentumokat adott a kijelölt téma számbavétele. Nlp-vel egy másik használatát, hogy pontozása szövege hangulatát, annak ellenőrzéséhez, a dokumentum pozitív vagy negatív képviselő hangvételét. Ezek a módszerek természetes nyelvi feldolgozás, mint például a számos módszerek használatáról: 
 
-- **Jogkivonatokat létrehozó**. A szöveg bontani szavakat vagy kifejezéseket.
-- **Származó és Lemmatizálás**. Így azaz, hogy a különböző szavak normalizálása űrlapok van leképezve a kanonikus szót jelentéssel bír. Például "fut" és "Itt futott" térkép "futtatni." 
-- **Entitás kibontási**. A szöveg témái azonosítása.
-- **Rész melyik észlelési**. Azonosító szöveg művelet, főnév, participle, művelet kifejezés és így tovább.
-- **Határ észlelési mondatában**. Annak ellenőrzése, hogy teljes mondatokat bekezdést belül.
+- **Jogkivonatokat létrehozó**. Szöveg felosztása szavakat vagy kifejezéseket.
+- **Amely szerint és morfológiai**. Normalizálása, így azt, hogy a különböző szavak jelentése megegyezik a canonical szót leképezése űrlapok. Például "fut" és "futott" leképezés "futtatásához." 
+- **Entitások kinyeréséhez**. A szövegben témák azonosítása.
+- **Rész melyik észlelési**. Azonosító szöveg egy művelet, főnév, participle, művelet kifejezés és így tovább.
+- **Határ észlelési Mondatkezdő**. Annak ellenőrzése, hogy teljes mondatokból bekezdést belül.
 
-Használata NLP információinak és kibontani szabad formátumú szöveg, a kiindulási pont esetén általában a nyers objektum storage például az Azure Storage vagy az Azure Data Lake Store-ban tárolt dokumentumokhoz. 
+NLP használatával szabad formátumú szöveges információinak és kinyerése, a kiindulási pont esetén általában a objektum storage például az Azure Storage vagy az Azure Data Lake Store-ban tárolt nyers dokumentumokat. 
 
 ## <a name="challenges"></a>Problémák
 
-- Feldolgozására szabad formátumú szöveg dokumentumok gyűjteménye általában számításilag erőforrás-igényesek, valamint intenzív idő alatt.
-- Nélkül egy szabványos dokumentum formátuma nem nagyon nehéz feladat, szabad formátumú szöveg-feldolgozást használó adott tények kibontani a dokumentum következetesen pontos eredmények elérése érdekében. Például, gondolja át, hogy a szöveg megjelenítése számla&mdash;nehézkes hozhat létre egy folyamatot, amely helyesen kibontja a számla számát és a számla dátum számlák tetszőleges számú szállítók között lehet.
+- Szabad formátumú szöveges dokumentumok gyűjteményét feldolgozása általában nagy számítási erőforrás-igényesek, valamint időigényes folyamatban van.
+- Szabványos dokumentumformátuma nélkül lehet nagyon nehéz szabad formátumú szöveges-feldolgozást használó konkrét tényekre kibontani a dokumentumot folyamatosan pontos eredmények elérése érdekében. Például, gondolja át, hogy egy szöveges ábrázolása a számla&mdash;hozhat létre olyan folyamat, amely megfelelően kinyeri a számla száma és a számla dátuma számlák szállítók bármennyi nehézkes lehet.
 
 ## <a name="architecture"></a>Architektúra
 
-A NLP megoldás szabad formátumú szöveg feldolgozás bekezdést tartalmazó dokumentumokon végzett történik. Általános architektúrája lehet egy [kötegfeldolgozási](../big-data/batch-processing.md) vagy [valós idejű stream feldolgozási](../big-data/real-time-processing.md) architektúra.
+A megoldás nlp-vel a szabad formátumú szöveges feldolgozás tájékoztató bekezdéseket adjon hozzá szöveget tartalmazó dokumentumokon történik. Az általános architektúrát lehet egy [kötegelt feldolgozás](../big-data/batch-processing.md) vagy [valós idejű adatfolyam-feldolgozás](../big-data/real-time-processing.md) architektúra.
 
-Tényleges feldolgozását a kívánt eredmény függ, de a folyamat szempontjából NLP olyan kötegelt vagy a valós idejű módon lehet alkalmazni. Például véleményeket analysis használható szöveg blokkok szemben a céggel kapcsolatos véleményeket pontszám létrehozásához. Ez sikerült végezhető kötegfolyamat futtatásával az tárolójában, vagy kisebb kivonatokból üzenetküldési szolgáltatáson keresztül áramló adatok valós idejű adatok alapján.
+A tényleges feldolgozását a kívánt eredmény alapján változik, de tekintetében a folyamatban, nlp-vel a batch vagy a valós idejű el lesznek érvényesek. Például hangulatelemzés használható elleni blokkolja a szöveg egy véleménypontszámot előállításához. Ez sikerült hajtható végre olyan kötegelt feldolgozást futtat a storage-ban, vagy kisebb adattömbökben az adatok áramlása az üzenetküldő szolgáltatás használatával valós idejű adatok.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 

@@ -2,16 +2,16 @@
 title: Hitelesítés a több-bérlős alkalmazásokban
 description: Hogyan egy több-bérlős alkalmazás hitelesítheti a felhasználókat az Azure ad-ből
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: tailspin
 pnp.series.next: claims
-ms.openlocfilehash: 70f4a96369c207740400b9dfe72e1e964507f729
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 58ccf75cd34f8efec17898c85295587da282cf45
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428125"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902714"
 ---
 # <a name="authenticate-using-azure-ad-and-openid-connect"></a>Hitelesítés az Azure AD-vel és az OpenID Connect
 

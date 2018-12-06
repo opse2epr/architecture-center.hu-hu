@@ -1,57 +1,57 @@
 ---
-title: Gyorsítótár számára a hozzáférést jogkivonatok egy több-bérlős alkalmazásban
-description: A háttérrendszer webes API hívásához gyorsítótárazási hozzáférési jogkivonatok
+title: Gyorsítótár számára a hozzáférést tokenek egy több-bérlős alkalmazásban
+description: A háttérbeli webes API-k hívásához hozzáférési jogkivonatok gyorsítótárazása
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: web-api
 pnp.series.next: adfs
-ms.openlocfilehash: cffc15686ef9d77fafb40982efdbcd4a79f5aaf2
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.openlocfilehash: 950b638e629ad97e24b05e781da844bc110bad91
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
-ms.locfileid: "26359239"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52901711"
 ---
 # <a name="cache-access-tokens"></a>Hozzáférési jogkivonatok gyorsítótárazása
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
-Akkor is elérheti az OAuth jogkivonat, mert ahhoz szükséges, hogy a jogkivonat végpontjához HTTP-kérelem viszonylag drága. Ezért is érdemes gyorsítótár jogkivonatokat, amikor csak lehetséges. A [Azure AD Authentication Library] [ ADAL] (ADAL) automatikusan gyorsítótárazza az Azure AD, beleértve a frissítési jogkivonatokat kapott jogkivonatok.
+Ez viszonylag drága kaphat OAuth hozzáférési token, mert a HTTP-kérést, hogy a jogkivonat-végpont szükséges. Ezért, fontos gyorsítótár jogkivonatok, amikor csak lehetséges. A [Azure AD Authentication Library] [ ADAL] (ADAL) automatikusan gyorsítótárazza az Azure ad-ből, többek között a frissítési biztonsági jogkivonat kapott jogkivonatok.
 
-Adal-t egy alapértelmezett token gyorsítótár-megvalósítással biztosít. Azonban ez a token gyorsítótár natív ügyfél-alkalmazásokhoz készült, és **nem** webalkalmazások alkalmas:
+Adal-t biztosít egy alapértelmezett tokengyorsítótárral implementációja. Azonban ez a token gyorsítótár natív ügyfélalkalmazások szól, és van **nem** webalkalmazások alkalmas:
 
-* Ez nem egy statikus példányt, és nem többszálú futtatásra.
-* Mivel az összes felhasználó tokenek az ugyanazon szótár kísérhet, nem méretezhető nagy a felhasználók számára.
-* Egy farm webkiszolgáló között nem lehet megosztani.
+* Egy statikus példány, de nem alkalmasak a többszálú futtatásra.
+* Mivel az összes felhasználó tokenek az ugyanazon szótár lépnek, nem méretezhető nagyszámú felhasználó.
+* Egy farm webkiszolgálók között is megoszthatja.
 
-Ehelyett inkább egy egyéni jogkivonatok gyorsítótárát, amely az ADAL származik `TokenCache` osztály azonban egy kiszolgálói környezet alkalmas, és biztosít a kívánatos jogkivonatokat a különböző felhasználók elkülönítését.
+Ehelyett is meg kell valósítania az ADAL származó egyéni tokengyorsítótárral `TokenCache` osztály azonban egy kiszolgálói környezet számára megfelelő, és a jogkivonatok különböző felhasználók elkülönítését kívánatos szinten biztosítja.
 
-A `TokenCache` osztály tárol tokenek kibocsátó, az erőforrás, az ügyfél-azonosító és a felhasználói indexelik dictionary. Egy egyéni jogkivonat gyorsítótára kell írni a ehhez a szótárhoz egy biztonsági, például a Redis gyorsítótár.
+A `TokenCache` osztály tartalmazó jogkivonatok, kibocsátó, erőforrás, ügyfél-azonosító és felhasználó által indexelt tárolja. Egy egyéni tokengyorsítótárral tento slovník kell írni a háttértárban, például a Redis Cache-gyorsítótárhoz.
 
-A Dejójáték felmérések alkalmazásban a `DistributedTokenCache` osztály megvalósít a jogkivonatok gyorsítótárát. Ez a megvalósítás a [IDistributedCache] [ distributed-cache] absztrakciós az ASP.NET Core. Ezzel a módszerrel bármely `IDistributedCache` egy biztonsági tár végrehajtására használható.
+A Tailspin Surveys-alkalmazás a `DistributedTokenCache` osztálya határozza meg a jogkivonatok gyorsítótárát. Ez a megvalósítás a [IDistributedCache] [ distributed-cache] absztrakciós az ASP.NET Core. Ezzel a módszerrel bármilyen `IDistributedCache` végrehajtására használhatók a háttértárban.
 
-* Alapértelmezés szerint a felmérések alkalmazást használja a Redis gyorsítótár.
-* Egypéldányos webkiszolgáló, használhatja az ASP.NET Core [memórián belüli gyorsítótárral][in-memory-cache]. (Ez történik akkor is helyben fut az alkalmazás fejlesztése során jó választás.)
+* Alapértelmezés szerint a Surveys alkalmazás használja a Redis Cache-gyorsítótárhoz.
+* Egypéldányos webkiszolgálókhoz, használhatja az ASP.NET Core [memórián belüli gyorsítótár][in-memory-cache]. (Ez történik akkor is jó választás az alkalmazást helyileg futtatja a fejlesztés során.)
 
-`DistributedTokenCache`kulcs/érték párok biztonsági tárolójában tárolja a gyorsítótárazott adatokat. A kulcs a felhasználói Azonosítót és az ügyfél-azonosító, így a biztonsági tár tárolja a felhasználó vagy Windows-ügyfélen egyedi kombinációjához külön gyorsítótárazott adatokat.
+`DistributedTokenCache` a gyorsítótár adatait tárolja, kulcs-érték párokat a háttértárban. A kulcs a felhasználói azonosító és az ügyfél-Azonosítót, így a háttértárban minden ügyfél-vagy felhasználói egyéni kombinációja külön gyorsítótár adatait tartalmazza.
 
-![Jogkivonat gyorsítótára](./images/token-cache.png)
+![Jogkivonatok gyorsítótárát](./images/token-cache.png)
 
-A biztonsági tár felhasználó particionálva van. Az egyes HTTP-kérelem a jogkivonatok az adott felhasználó olvasni a biztonsági tár és betölti a `TokenCache` szótárban. Ha a Redis szolgál a biztonsági tár kiszolgálófarm összes server-példány olvasása/írása az azonos gyorsítótárába, és sok felhasználó méretezi ezt a módszert használja.
+Felhasználó által particionálása a háttértárban. Minden egyes HTTP-kérelem a tokenek számára, hogy a felhasználó a háttértárban olvasása és betölti a `TokenCache` szótárban. A Redis a háttértárban használatos, ha minden kiszolgálópéldány kiszolgálófarm olvasást/írást, az azonos gyorsítótárába, és ez a megközelítés méretezhető sok felhasználó.
 
 ## <a name="encrypting-cached-tokens"></a>Gyorsítótárazott jogkivonatok titkosítása
-A jogkivonatok bizalmas adatokat, mert azok egy felhasználó erőforrásokhoz való hozzáférés engedélyezése. (Továbbá eltérően a jelszó, nem csak tárolhatja a token kivonatát.) Ezért kiemelten fontos annak védelme jogkivonatok illetéktelen kezekbe. A Redis-biztonsági gyorsítótár jelszóval védett, de ha valaki beszerzi a jelszót, azok az lehetett beolvasni a gyorsítótárazott hozzáférési jogkivonatok mindegyikét. Emiatt a `DistributedTokenCache` minden, ami ír a biztonsági tár titkosítja. Titkosítási történik, az ASP.NET Core segítségével [adatvédelem] [ data-protection] API-k.
+Jogkivonatok olyan bizalmas adatokat, mert, a felhasználó erőforrásokhoz való hozzáférést. (Ezenkívül ellentétben a felhasználó jelszava, nem csak tárolhatja a jogkivonat kivonata.) Ezért rendkívül fontos jogkivonatok védelmét az illetéktelen kezekbe kerüljenek. A Redis-alapú gyorsítótár jelszóval védett, de ha valaki megszerzi a jelszót, azok az sikerült beolvasni minden, a gyorsítótárazott hozzáférési jogkivonatok. Éppen ezért a `DistributedTokenCache` mindent, ami a háttértárban ír titkosítja. Titkosítási történik az ASP.NET Core használatával [adatvédelem] [ data-protection] API-k.
 
 > [!NOTE]
-> Ha telepíti az Azure-webhelyek, a titkosítási kulcsok biztonsági másolat a hálózati tároláshoz és az összes gép szinkronizálását (lásd: [felügyeleti és-élettartam][key-management]). Alapértelmezés szerint kulcsok nem titkosítását, ha fut az Azure-webhelyek, azonban úgy is [engedélyezheti a titkosítást, X.509 tanúsítvánnyal][x509-cert-encryption].
+> Ha telepíti az Azure webhelyek, a titkosítási kulcsok biztonsági másolat a hálózati tároláshoz és szinkronizálja az összes gép (lásd: [felügyeleti és-élettartam][key-management]). Alapértelmezés szerint kulcsok nem titkosíthatók az Azure webhelyek fut, de Ön is [engedélyezze a titkosítást, X.509 tanúsítvánnyal][x509-cert-encryption].
 > 
 > 
 
-## <a name="distributedtokencache-implementation"></a>DistributedTokenCache végrehajtása
-A `DistributedTokenCache` származik-az ADAL [TokenCache] [ tokencache-class] osztály.
+## <a name="distributedtokencache-implementation"></a>DistributedTokenCache megvalósítása
+A `DistributedTokenCache` származik az ADAL [TokenCache] [ tokencache-class] osztály.
 
-A konstruktor a `DistributedTokenCache` osztály egy kulcs az aktuális felhasználó hoz létre, és betölti a gyorsítótár a biztonsági store-ból:
+A konstruktor a `DistributedTokenCache` osztály létrehoz egy kulcsot az aktuális felhasználó számára, és a gyorsítótár tölt be a háttértárban:
 
 ```csharp
 public DistributedTokenCache(
@@ -71,7 +71,7 @@ public DistributedTokenCache(
 }
 ```
 
-A kulcs hozta létre hozzáfűzésével a felhasználói Azonosítót és az ügyfél-azonosítót. Mindkét esetben készít a jogcímek a felhasználó megtalálható `ClaimsPrincipal`:
+A kulcs jön létre elkülönített változó összefűzésével előállítjuk a felhasználói Azonosítót és az ügyfél-azonosítót. Mindkét megnyílik a jogcímeket a felhasználó megtalálható `ClaimsPrincipal`:
 
 ```csharp
 private static string BuildCacheKey(ClaimsPrincipal claimsPrincipal)
@@ -84,7 +84,7 @@ private static string BuildCacheKey(ClaimsPrincipal claimsPrincipal)
 }
 ```
 
-A gyorsítótár adatainak betöltése olvasni a szerializált blob a biztonsági és hívás `TokenCache.Deserialize` gyorsítótárazott adatokat a blob alakítani.
+A gyorsítótár-adatok betöltése, olvassa el a szerializált blob a háttértárban, majd hívást `TokenCache.Deserialize` alakítható át a blob adatok gyorsítótárazásához.
 
 ```csharp
 private void LoadFromCache()
@@ -97,7 +97,7 @@ private void LoadFromCache()
 }
 ```
 
-Amikor a gyorsítótár-hozzáféréshez adal-t, akkor következik be egy `AfterAccess` esemény. Ha a gyorsítótárazott adatokat megváltozott, a `HasStateChanged` tulajdonság értéke igaz. Ebben az esetben frissíteni a biztonsági tár a változásnak, és utána állítsa be `HasStateChanged` false értékre.
+Minden alkalommal, amikor adal-t a gyorsítótár eléréséhez, aktiválódik egy `AfterAccess` esemény. Ha az adatok gyorsítótárazása megváltozott, a `HasStateChanged` tulajdonság igaz értékű. Ebben az esetben a háttértárban a változás tükrözése érdekében frissíteni, és állítsa `HasStateChanged` hamis értékre.
 
 ```csharp
 public void AfterAccessNotification(TokenCacheNotificationArgs args)
@@ -126,15 +126,15 @@ public void AfterAccessNotification(TokenCacheNotificationArgs args)
 }
 ```
 
-TokenCache küld két esemény:
+TokenCache két olyan eseményeket küld:
 
-* `BeforeWrite`. Hívni a azonnal adal-t a gyorsítótárba ír. Ezzel a feldolgozási stratégia megvalósításához
-* `BeforeAccess`. Hívni a azonnal ADAL beolvassa a gyorsítótárból. Itt is betöltheti a gyorsítótárban a legújabb verzióra.
+* `BeforeWrite`. Nevű azonnal, mielőtt az adal-t a gyorsítótárba ír. Ezzel egy párhuzamossági stratégiát megvalósítása
+* `BeforeAccess`. Nevű azonnal, mielőtt az adal-t beolvassa a gyorsítótárból. Itt is betöltheti a gyorsítótár a legújabb verzió beszerzéséhez.
 
-Ebben az esetben döntöttünk nem két eseményekből kezelése érdekében.
+Ebben az esetben azt úgy döntött, hogy nem ezeket az eseményeket két kezelni.
 
-* Párhuzamossági, az utolsó írás wins. Ez OK, mert, hogy jogkivonatok tárolják egymástól függetlenül minden felhasználót + ügyfél, így ütközés csak akkor fordulhat elő, ha ugyanazon felhasználó kellett két egyidejű munkamenetek.
-* Olvasását, a gyorsítótár halasztása minden kérelemnél betölteni azt. Kérések rövid élettartamú használata. Adott időpont módosításakor a gyorsítótár lekérdezi a következő kérés felveszi az új érték.
+* Egyidejűségi, az utolsó írás a wins. Ez nem jelent gondot, mert jogkivonatok tárolják egymástól függetlenül minden felhasználó + ügyfél, így ütközés csak történnek, ha ugyanaz a felhasználó két egyidejű munkamenetek.
+* Az olvashatóság érdekében a gyorsítótár halasztása minden kérelemnél töltünk be. Kérelmek rövid élettartamú. Ha a gyorsítótár az adott lekérdezi módosítanak, a következő kérelmet kiesik az új értéket.
 
 [**Tovább**][client-assertion]
 

@@ -1,74 +1,74 @@
 ---
-title: Adatsorozat időadatok
+title: Idősorozat-adatok
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 80ff6c45988062afcb0eb92cc79e640d39dbb21f
-ms.sourcegitcommit: 51f49026ec46af0860de55f6c082490e46792794
+ms.date: 02/12/2018
+ms.openlocfilehash: 9664940729430b08d7be52564e4971ec5e2b94d8
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2018
-ms.locfileid: "30298107"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52901966"
 ---
 # <a name="time-series-solutions"></a>Idősorozattal kapcsolatos megoldások
 
-Adatsorozat időadatok olyan értékek idő szerint vannak rendezve. Idő adatsorozat közé tartoznak az érzékelő adatokat, a rendszer a díjak, kattintson a adatfolyam adatok és telemetriai. Idő adatsorozat adatok elemzése a múltbeli trendek, a valós idejű riasztásokat vagy a prediktív modellezési.
+Idősorozat-adatok az idő szerint rendezve értékek egy halmazát. Idősorozat-adatok belefoglalása érzékelőadatokat, tőzsdei árfolyamok idő kattintson a streamadatokat, és Alkalmazáshasználati. Idősorozat-adatok elemezhetők a korábbi trendek, valós idejű riasztások és prediktív modellezés céljára.
 
 ![Time Series Insights](./images/time-series-insights.png) 
 
-Adatsorozat időadatok jelöli, hogy egy eszköz vagy folyamat idővel hogyan változik. Az adatok egy Timestamp típusú, de ennél is fontosabb, idő megjelenítése, vagy az adatok elemzése a lényeges tengely. Adatsorozat időadatok általában idő szerinti sorrendben megérkeznek, és általában a rendszer az adatbázis frissítése helyett egy INSERT utasítás. Ebből kifolyólag módosítása mérése történik adott idő alatt, amely lehetővé teszi, az előző verziókkal való kereséséhez és előre jelezni jövőbeli változás. Ilyen adatsorozat időadatok legjobb formájában jelenik meg pont vagy sor diagramok.
+Az idősorozat-adatok mutatják be, hogy hogyan változik az idők során egy adategység vagy folyamat. Az adatok rendelkezik időbélyeget, de ami még fontosabb, ideje a legtöbb jelentéssel bíró tengely megjelenítése vagy az adatok elemzése. Idősorozat-adatok általában időrendben érkezik, és általában az adatbázis-frissítés helyett egy insert számít. Emiatt a változás az idő múlásával mérése lehetővé téve keresse ki az előző verziókkal való és előre jelezni a jövőbeli módosítása. Idősorozat-adatok a pontdiagram- vagy vonaldiagramon diagramok, legjobb vizualizálja.
 
-![Egy sor diagramon ábrázolt adatsorozat időadatok](./images/time-series-chart.png)
+![Vonaldiagram vizualizálja idősorozat-adatok](./images/time-series-chart.png)
 
-Néhány példa a idő adatsor a következők:
+Néhány példa idősorozat-adatok a következők:
 
-- A rendszer árak rögzített időbeli trendeket észleléséhez.
-- Kiszolgáló teljesítményét, például CPU használati, i/o terhelés, memóriahasználat és a hálózati sávszélességet.
-- Az érzékelők ipari berendezés, amely függőben lévő berendezések hibákhoz és eseményindító riasztási értesítések észleléséhez használható a telemetriai adatokat.
-- Az illesztőprogram pontszám valós idejű car telemetriai adatokat, többek között a sebességét, fékezés és gyorsítás keresztül egy olyan időkeretet, egy összesített kockázat létrehozásához.
+- Megfigyelheti a szabályszerűségeket az idő múlásával rögzíti a tőzsdei árfolyamok.
+- Kiszolgáló teljesítményt, például a CPU kihasználtsága, i/o terhelés, memóriahasználat és hálózati sávszélesség-használatot.
+- Ipari berendezés, amely függőben lévő berendezések meghibásodása és az eseményindító riasztási értesítések észleléséhez használható érzékelő telemetriáját.
+- Valós idejű autó telemetriai adatokat, többek között a sebesség, fékezés és gyorsítás időkeretben előállításához egy összesített kockázati pontszám az illesztőprogramhoz.
 
-Az egyes ezekben az esetekben láthatja, hogyan idő egy tengely, lényeges. Az események megjelenítése a ahhoz, azok érkező jellemzője, kulcs idő adatsorozat adatainak, amíg a természetes historikus rendezést. Ez eltér olyan szabványos online Tranzakciófeldolgozási adatok adatcsatorna esetén, ahol adatok bármilyen sorrendben megadott, illetve bármikor frissíteni összegyűjtött adatokat.
+Az egyes ezekben az esetekben láthatja, hogyan ideje egy tengelyként lényeges. Kulcsfontosságú jellemzője az idősorozat-adatok, az események megjelenítése abban a sorrendben, amelyben érkeztek nem, mert van egy természetes historikus rendezése. Ez eltér a normál OLTP adatfolyamatokat állíthat össze az adatokat is lehet a megadott bármilyen sorrendben, és bármikor frissíteni rögzített adatokat.
 
-## <a name="when-to-use-this-solution"></a>Ez a megoldás használatával
+## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
-Idő adatsorozat megoldás választása kell betöltik az adatokat, amelyek stratégiai értéke egy meghatározott időtartamra vonatkozóan módosítások köré szerveződik, és elsősorban az új adatok beszúrása és ritkán frissítése, ha egyáltalán. Ez az információ segítségével rendellenességek észlelését, megjelenítheti a trendeket, és hasonlítsa össze az előzményadatok, többek között az aktuális adatok. Ez a architektúra típus is legmegfelelőbb prediktív modellezési és előrejelzési eredményeivel, mert a korábbi módosítások rekord adott idő alatt, amely tetszőleges számú előrejelzési modellek alkalmazhatók. 
+Válassza ki egy time series megoldás kell kiolvasni az adatokat, amelyek stratégiai értéke egy időszakon belül módosítások köré szerveződik, és Ön elsősorban az új adatok beszúrása, és csak ritkán frissítése, ha egyáltalán. Ez az információ segítségével rendellenességek észlelése, a trendek képi megjelenítését, és összehasonlíthatja az aktuális adatokat előzményadatok, többek között. Az ilyen típusú architektúra azért is prediktív modellezés és előrejelzési eredményeivel, a legmegfelelőbb változások Előzményrekord alkalmazhatók bármely előrejelzési modellek száma idővel rendelkezik. 
 
-A time series használja az alábbi előnyökkel jár:
+Időbeli adatsorok használatával az alábbi előnyökkel jár:
 
-* Egy eszköz vagy folyamat idővel hogyan változik egyértelműen jelöli.
-* A segítségével gyorsan észlelni a kapcsolódó források értékre változik, így rendellenességek észlelését, és a trendek feltörekvő egyértelműen kiemeléséhez.
+* Egyértelműen jelöli, hogy egy eszköz vagy folyamat változik az idő múlásával.
+* Segítségével gyorsan észlelheti a kapcsolódó források értékre változik, így a rendellenességeket és újonnan megjelenő trendeket egyértelműen kitűnjön.
 * A legalkalmasabb prediktív modellezési és előrejelzését.
 
 ### <a name="internet-of-things-iot"></a>Eszközök internetes hálózata (IoT)
 
-Az IoT-eszközök által összegyűjtött adatok természetes alkalmasnak idő adatsorozat tárolási és elemzése. A bejövő adatokat beszúrni, és ritkán, ha valaha is, frissítve. Az adatok megjelölve, és szúrja be a sorrendben érkezett, és ezeket az adatokat általában a időrendben sorolja fel, hogy a felhasználók felderítéséhez a trendeket, helyszíni rendellenességek észlelését, és olvassa el a prediktív elemzési jelenik meg.
+IoT-eszközök által gyűjtött adatok a természetesen illeszkednek a time series tárolási és elemzése. A bejövő adatok beszúrásakor és ritkán, ha minden eddiginél frissítve. Az adatok az idő megjelölve, és beilleszti érkezett a sorrendben, és ezeket az adatokat általában trendek, azonosíthatja a rendellenességeket, és használja a információkat prediktív elemzési felhasználók időrendi sorrendben jelennek meg.
 
-További információkért lásd: [az eszközök internetes hálózatát](../big-data/index.md#internet-of-things-iot).
+További információkért lásd: [IOT-](../big-data/index.md#internet-of-things-iot).
 
 ### <a name="real-time-analytics"></a>Valós idejű elemzések
 
-Adatok legtöbbször a Time series idő-és nagybetűket &mdash; Ez azt jelenti, hogy azt kell lennie, amelyre a gyors, valós idejű követni a trendeket, vagy hozzon létre riasztást. Ezekben az esetekben insights késedelmes okozhat állásidő és üzleti hatást. Emellett gyakran szükség van, különböző forrásokból, például az érzékelők különböző adatai közötti összefüggések keresésére.
+Idősorozat-adatok gyakran az idő-és nagybetűket &mdash; , vagyis azt kell lennie, amelyre a gyors, valós idejű felhasználva azonosíthatja a trendeket, vagy riasztást. Ezekben az esetekben insights az késleltetések okozhat állásidő és üzleti hatás. Emellett gyakran szükség van egy számos különböző forrásokból, például érzékelőktől származó adatok korrelációját.
 
-Ideális esetben kellene lennie, amely a bejövő adatok valós idejű kezelésének és az összes magas pontosság és nagy részletességű feldolgozza az adatfolyam feldolgozása réteg. Ez nem mindig lehetséges, attól függően, hogy az adatfolyam-továbbítási architektúra és az adatfolyam pufferelés és az adatfolyam feldolgozása rétegek összetevői. Szükség lehet a idő adatsorok pontossági feláldozása csökkenti azt. Feldolgozási idő windows (néhány másodpercig, például), a késleltetett ehhez a feldolgozási réteg számításokhoz időben engedélyezése. Előfordulhat, hogy felbontásának kell, és az adatok összesítő hosszabb ideig, például több hónapon keresztül összegyűjtött adatokat a megjelenítendő nagyításához megjelenítésekor.
+Ideális esetben egy adatfolyam-feldolgozási réteg, amely képes kezelni a bejövő adatokat valós időben, és feldolgozza az összes, a nagy pontosságú és nagy pontossággal kell. Ez nem mindig lehetséges, a streamelési architektúra és a streampufferelésnek és adatfolyam-feldolgozás rétegek összetevői függően. Szükség lehet néhány az idősorozat-adatok pontosságát lecsökken csökkentésével azt. Ehhez feldolgozása a késleltetett idő windows (néhány másodpercig, a példában), lehetővé téve a feldolgozási réteg időben számítások végrehajtásához. Előfordulhat, hogy felbontásának kell, és az adatok összesítésének hosszabb ideig, például a több hónapon keresztül rögzített adatok megjelenítéséhez nagyításához megjelenítésekor.
 
 ## <a name="challenges"></a>Problémák
 
-* Adatsorozat időadatok legtöbbször nagyon nagy mennyiségű, különösen az IoT-forgatókönyvek esetén. Tárolására, indexelő, lekérdezése, elemzése és idő adatsor megjelenítése kihívást jelenthet. 
-* Nagy sebességű tárolási megfelelő kombinációja keressenek meg és hatékony számítási műveletek kezelésére valós idejű elemzés, ugyanakkor minimalizálja a piacra és a teljes idő komoly kihívást beruházási költség.
+* Idősorozat-adatok gyakran rendkívül nagy mennyiségű, különösen az IoT-forgatókönyveket. Tárolására, az indexelés, lekérdezés, elemzése és jelenítenek idősorozat-adatok kihívást jelenthet. 
+* Ez kihívást jelenthet, keresse meg a nagy sebességű tárolási kombinációjával és hatékony kezelésére valós idejű elemzési, ugyanakkor minimalizálja a piacra és a teljes idő műveletek beruházási költség.
 
 ## <a name="architecture"></a>Architektúra
 
-Számos forgatókönyvben, például az adatsorozat időadatok, IoT, például az adatok rögzített valós időben. Például egy [valós idejű feldolgozással](../big-data/real-time-processing.md) architektúrájának megfelelő. 
+Az idősorozat-adatok, például az IoT-érintő számos forgatókönyv az adatok rögzített valós időben. Ennek megfelelően egy [valós idejű feldolgozás](../big-data/real-time-processing.md) architektúra alkalmas. 
 
-Egy vagy több adatforrás adatait a réteg által pufferelés adatfolyamba van okozhatnak [IoT-központ](/azure/iot-hub/), [Event Hubs](/azure/event-hubs/), vagy [hdinsight Kafka](/azure/hdinsight/kafka/apache-kafka-introduction). Ezt követően az adatok a rétegben adatfolyam feldolgozása, amelyek igény szerint is kiosztják a machine learning a prediktív elemzési szolgáltatás feldolgozott adatokat dolgoz fel. A feldolgozott adatok tárolása az analitikus adatok, például a [HBase](/azure/hdinsight/hbase/apache-hbase-overview), [Azure Cosmos DB](/azure/cosmos-db/), Azure Data Lake, vagy a Blob Storage tárolóban. Az elemzés és a reporting alkalmazást vagy szolgáltatást, mint a Power bi-ban vagy OpenTSDB (Ha a HBase-ben tárolt) segítségével elemzési idő adatsorozat adatainak megjelenítéséhez.
+Egy vagy több adatforrásokból származó adatok betöltődnek az adatfolyam-réteg által pufferelés [az IoT Hub](/azure/iot-hub/), [az Event Hubs](/azure/event-hubs/), vagy [a HDInsight alatt futó Kafka](/azure/hdinsight/kafka/apache-kafka-introduction). Ezután az adatok feldolgozása, amelyek igény szerint is kiosztják a feldolgozott adatokat egy gépi tanulási prediktív elemzési szolgáltatás feldolgozási streamrétegében. A feldolgozott adatok tárolva van egy analitikai adattár, például [HBase](/azure/hdinsight/hbase/apache-hbase-overview), [Azure Cosmos DB](/azure/cosmos-db/), az Azure Data Lake, vagy a Blob Storage. Az elemzések és jelentéskészítés az alkalmazás vagy szolgáltatás, mint a Power bi-ban vagy az OpenTSDB, (ha az a HBase tárolja) az elemzéshez idősoros adatainak megjelenítéséhez használható.
 
-Egy másik lehetőség [Azure idő adatsorozat Insights](/azure/time-series-insights/). Idő adatsorozat Insights egy olyan teljes körűen felügyelt szolgáltatás idő adatsorozat adatok. Ebben az architektúrában idő adatsorozat elemzések a szerepköröket, az adatfolyam feldolgozása, adattároló, és az elemzések és jelentéskészítési hajt végre. Adatfolyam-adatokat az IoT-központ vagy az Event Hubs, és tárolja, a folyamatok, elemzi, és közel valós időben jeleníti meg az adatokat fogad. Előre nem összesíti az adatokat, de a nyers események tárolja.
+Egy másik lehetőség [Azure Time Series Insights](/azure/time-series-insights/). A Time Series Insights egy teljes körűen felügyelt szolgáltatás, az idősorozat-adatok. Ebben az architektúrában a Time Series Insights a szerepkörök adatfolyam-feldolgozás, adattár, és az elemzési és jelentéskészítési hajt végre. Streamelési adatok az IoT Hub vagy az Event Hubs, és tárolja, a folyamatokat, elemzi, és közel valós időben jeleníti meg az adatokat fogad. Előre nem összesíti az adatokat, de a nyers események tárolja.
 
-Idő adatsorozat Insights egy séma adaptív, ami azt jelenti, hogy nem kell minden adatok előkészítése való származtatás insights indításához tegye. Ez lehetővé teszi vizsgálatát, hasonlítsa össze és adatforrások különböző zökkenőmentesen összefüggéseket. Emellett biztosítja az SQL-szerű szűrők és az összesítések, képes létrehozni, megjelenítheti, hasonlítsa össze, és különböző idő adatsorozat kombinációját, tűz leképezések és mentése és megosztása lekérdezések képes átfedő. 
+A Time Series Insights séma, az adaptív, ami azt jelenti, hogy nem kell tennie minden olyan adat-előkészítés indítása a Származtatás insights. Ez lehetővé teszi, hogy ismerje meg, összehasonlítása és a egy számos különféle adatforrásból zökkenőmentes összekapcsolását. SQL-szerű szűrőket is biztosít, és összesítések, képes létrehozni, megjelenítése, hasonlítsa össze, és átfedő különböző time series minták, fűtés térképek és mentése és megosztása a lekérdezések lehetővé teszi. 
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-- [Data Storage](../technology-choices/data-storage.md)
-- [Elemzés, képi megjelenítések és jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md)
-- [Analitikai adatokat tároló](../technology-choices/analytical-data-stores.md)
+- [Adattárolás](../technology-choices/data-storage.md)
+- [Elemzés, a Vizualizációk és a jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md)
+- [Analitikus adattárak](../technology-choices/analytical-data-stores.md)
 - [Az adatfolyam feldolgozása](../technology-choices/stream-processing.md)

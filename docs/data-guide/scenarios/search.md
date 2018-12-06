@@ -1,39 +1,39 @@
 ---
-title: A keresés szabad formátumú szöveg feldolgozása
+title: Szabad formátumú szöveges keresés feldolgozása
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: e53730bd2e179c82399e0f92b6c5ce7f451a2f46
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.date: 02/12/2018
+ms.openlocfilehash: 2e61713dccb6064968bfb906fb17b0bd62ae013d
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
-ms.locfileid: "29291837"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902025"
 ---
-# <a name="processing-free-form-text-for-search"></a>A keresés szabad formátumú szöveg feldolgozása
+# <a name="processing-free-form-text-for-search"></a>Szabad formátumú szöveges keresés feldolgozása
 
-Támogatja a keresést, a szabad formátumú szöveg feldolgozási Indexalapú bekezdést tartalmazó dokumentumokat.
+Támogatja a keresést, a szabad formátumú szöveges feldolgozási végezhetők tájékoztató bekezdéseket adjon hozzá szöveget tartalmazó dokumentumokat.
 
-Szöveges keresés működését hozhat létre, egy speciális indexet, amely a dokumentumok gyűjteménye elleni-e a kockában. Egy ügyfélalkalmazás elküld egy, amely tartalmazza a keresett kifejezéseket. A lekérdezés egy eredményhalmaz álló dokumentumok mennyire minden egyes dokumentum megfelel a keresési feltételek szerint rendezett listáját adja vissza. Az eredménykészlet is tartalmazhatják, amelyben a dokumentum megfelel a feltételeknek, a környezettel, amely lehetővé teszi az alkalmazások, jelölje ki a megfelelő kifejezést a dokumentumban. 
+Szöveges keresés működése hozhat létre, egy speciális index, amely a kockában dokumentumok-gyűjteményeken. Egy ügyfélalkalmazás elküld egy lekérdezést, amely tartalmazza a keresési feltételeket. A lekérdezés visszaad egy eredményhalmazt, álló dokumentumok arról, hogy minden egyes dokumentum felel meg a keresési feltételek szerint rendezett listája. Az eredményhalmaz is, amelyben a dokumentum felel meg a feltételeket, a környezetet, amely lehetővé teszi az alkalmazás számára, jelölje ki a megfelelő kifejezést a dokumentum. 
 
 ![](./images/search-pipeline.png)
 
-Szabad formátumú szöveg feldolgozási eredményezhet nagy mennyiségű adat zajos szöveg hasznos, végrehajthatóként adatait. Az eredmények biztosíthat strukturálatlan dokumentumok jól meghatározott, így bármikor lekérdezhető struktúrában.
+Szabad formátumú szöveges feldolgozási hasznos, gyakorlatban hasznosítható zajos szöveges adatok nagy mennyiségű adatokat hozhat létre. Az eredményeket egy jól definiált, így bármikor lekérdezhető struktúra biztosíthat strukturálatlan dokumentumokat.
 
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-- Feldolgozására szabad formátumú szöveg dokumentumok gyűjteménye általában számításilag intenzív, valamint időt igénybe vevő.
-- Ahhoz, hogy a keresett hatékonyan szabad formátumú szöveg, a search-index támogatnia kell az intelligens egyeztetésű keresési feltételeket, amelyek rendelkeznek egy hasonló konstrukció alapján. Például felel meg a keresési indexek beépített Lemmatizálás és nyelvi származó, hogy a "Futtatás" lekérdezések a dokumentumok, amelyek tartalmazzák a "Futtatás" és "fut".
+- Szabad formátumú szöveges dokumentumok gyűjteményét feldolgozása általában nagy számítási igényes, valamint időt igénybe vevő.
+- Annak érdekében, hogy a szabad formátumú szöveges hatékony keresést, a search-index támogatnia kell az intelligens keresés a feltételeket, amelyek hasonló konstrukció alapján. Például a keresési indexek beépített morfológiai és a nyelvi származtató, hogy a lekérdezések a "Futtatás" egyezni fog dokumentumok, amelyek tartalmazzák a "futott" és "fut".
 
 ## <a name="architecture"></a>Architektúra
 
-A legtöbb esetben a forrás szövegfájlok töltődnek be a objektum tárhelyen, többek között az Azure Storage vagy az Azure Data Lake Store. Kivétel által használt SQL Server vagy az Azure SQL adatbázis teljes szöveges keresés. Ebben az esetben a dokumentum adatok betöltése az adatbázis által kezelt táblákba. Miután tárolja, a dokumentumok feldolgozása hozza létre az indexet a kötegben.
+A legtöbb esetben a forrás szöveget a dokumentumok betöltésével objektum storage például az Azure Storage vagy az Azure Data Lake Store-bA. Kivétel teljes szöveges keresést az SQL Server-vagy Azure SQL Database használata. Ebben az esetben a dokumentum-adatok betöltése az adatbázis által felügyelt táblákba. Tárolt, miután a dokumentumok feldolgozása történik a batch az index létrehozásához.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-A keresési index létrehozását a választható lehetőségek Azure Search Elasticsearch és HDInsight Solr. Ezek a technológiák mindegyikének feltöltheti egy keresési indexszel, a dokumentumok a gyűjteményből. Az Azure Search biztosít, amely automatikusan feltöltheti az Excel és a PDF formátum egyszerű szöveges kezdve dokumentumok index indexelők. A HDInsight Apache Solr indexelheti számos különböző, beleértve az egyszerű szöveges, a Word és PDF bináris fájljait. Az index összeállított, ha az ügyfelek hozzáférhetnek a REST API segítségével a keresési felület. 
+Azure Search az Elasticsearch és a Solr HDInsight a search-index létrehozására vonatkozó lehetőségek között. Ezek a technológiák mindegyike fel lehet tölteni egy keresési index dokumentumok gyűjteményét. Az Azure Search indexelők, amely képes automatikusan feltölti az indexet a dokumentumokra és egyszerű szövegként a Excel és a PDF formátum biztosít. A HDInsight az Apache Solr indexelésére használhatja, számos különböző, például egyszerű szöveges, Word és PDF bináris fájlokat. Az index jön létre, ha az ügyfelek hozzáférhetnek a REST API segítségével a search felületén. 
 
-Ha az SQL Server vagy az Azure SQL Database szöveg adatai, a teljes szöveges keresés az adatbázisba részét képező is használhatja. Az adatbázis tölti fel az index a szöveg, bináris vagy XML-adatok ugyanabban az adatbázisban tárolja. Ügyfelek keresése a T-SQL-lekérdezések használatával. 
+Ha a szöveges adatokat az SQL Server vagy az Azure SQL Database, a teljes szöveges keresés, a database-be épített is használhatja. Az adatbázis tölti fel. az index a szöveg, bináris vagy ugyanabban az adatbázisban tárolt XML-adataiban. Ügyfelek keresése a T-SQL lekérdezések használatával. 
 
-További információkért lásd: [adattárolókhoz keresési](../technology-choices/search-options.md).
+További információkért lásd: [keresés az adattárak](../technology-choices/search-options.md).

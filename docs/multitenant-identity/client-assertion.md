@@ -1,30 +1,30 @@
 ---
-title: Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével
-description: Hogyan használható az ügyfél helyességi feltétel az Azure AD hozzáférési jogkivonatok segítségével.
+title: Ügyféltény használatával hozzáférési tokenek beszerzése az Azure ad-ből
+description: Hogyan ügyféltény hozzáférési tokenek beszerzése az Azure ad-ből.
 author: MikeWasson
-ms:date: 07/21/2017
+ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: adfs
 pnp.series.next: key-vault
-ms.openlocfilehash: 9fe1ee2ec5a540edc41c3a310476507f8d862f0c
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 58eed82c982fe1c6cba0f04b237d92d117a26fd4
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24540281"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902263"
 ---
-# <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a>Ügyfél helyességi feltétel használja az Azure AD hozzáférési jogkivonatok segítségével
+# <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a>Ügyféltény használatával hozzáférési tokenek beszerzése az Azure ad-ből
 
-[![GitHub](../_images/github.png) példakód][sample application]
+[![GitHub](../_images/github.png) Mintakód][sample application]
 
 ## <a name="background"></a>Háttér
-Ha hitelesítésikód-folyamata vagy hibrid folyamata a OpenID Connect, az ügyfél egy engedélyezési kódot, a hozzáférési token adatcseréihez használható. Ezzel a lépéssel az ügyfél számára hitelesíti magát a kiszolgáló rendelkezik.
+OpenID Connect hitelesítési kódfolyamat vagy hibrid folyamatot használ, amikor az ügyfél hozzáférési jogkivonatot engedélyezési kódjának adatcseréihez használható. Ezzel a lépéssel az ügyfél rendelkezik, hitelesítse magát a kiszolgálót.
 
 ![Titkos ügyfélkulcs](./images/client-secret.png)
 
-Az ügyfél hitelesítés egyik módja egy titkos ügyfélkulcsot használatával van. Meg az [Dejójáték felmérések] [ Surveys] alkalmazás alapértelmezés szerint van konfigurálva.
+Az ügyfél hitelesítésére egy úgy, hogy egy ügyfél titkos kulcs használatával. Hogy a [Tailspin Surveys] [ Surveys] alkalmazás alapértelmezés szerint van konfigurálva.
 
-Íme egy példa az ügyfél a kiállító terjesztési hely, egy hozzáférési jogkivonatot kérő kérést. Megjegyzés: a `client_secret` paraméter.
+Íme egy példa az ügyfél az Identitásszolgáltató hozzáférési jogkivonatot kér kérést. Megjegyzés: a `client_secret` paraméter.
 
 ```
 POST https://login.microsoftonline.com/b9bd2162xxx/oauth2/token HTTP/1.1
@@ -37,13 +37,13 @@ resource=https://tailspin.onmicrosoft.com/surveys.webapi
   &code=PG8wJG6Y...
 ```
 
-A titkos kulcsot érték csak egy karakterlánc, ezért meg kell győződnie, hogy ne szivárgás lépett fel az értéket. Az ajánlott eljárás az adatok megőrzése a titkos ügyfélkulcs verziókezelő kívül. Központi telepítésekor az Azure-ba, tárolja a titkos kulcsot egy [Alkalmazásbeállítás][configure-web-app].
+A titkos kulcs csak egy karakterlánc,, ezért ügyeljen arra, hogy nem szivárogtatnak ki az értéket kell. Az ajánlott eljárás, hogy a titkos ügyfélkulcsot verziókövetés tartományon kívül. Az Azure-ba történő telepítésekor tárolhatja a titkos kulcsot egy [Alkalmazásbeállítás][configure-web-app].
 
-Bárki, aki hozzáféréssel rendelkezik az Azure-előfizetés megtekinthetik azonban az alkalmazás beállításaiban. További mindig fennáll a még titkos kulcsok ellenőrzi a verziókövetési rendszerrel (például az üzembe helyezési parancsfájlok), őket e-mailben megosztott és így tovább lehetőséget sem ad.
+Azonban az Azure-előfizetés segítségével bárki megtekintheti az alkalmazásbeállításokat. További mindig van egy kísértésnek, ellenőrizze a titkos kulcsok (például az üzembehelyezési szkriptek) forrásvezérlőben, e-mailben megosztani őket, és így tovább.
 
-Használhatja a fokozott biztonság érdekében [ügyfél helyességi feltétel] helyett egy ügyfélkulcsot. Az ügyfél helyességi feltétel az ügyfél használ egy X.509 tanúsítvány igazolásához a token kérés érkezett az ügyfél. Az ügyféltanúsítvány a webkiszolgálón telepítve van. Általában akkor könnyebb lesz a tanúsítvány való hozzáférésének korlátozásához, mint annak érdekében, hogy senki sem véletlenül tárja fel a titkos ügyfélkulcsot. A webalkalmazásban tanúsítványok konfigurálásával kapcsolatos további információkért lásd: [tanúsítványok használata az Azure-webhelyek alkalmazásokban][using-certs-in-websites]
+A fokozott biztonság érdekében használhat [ügyféltény] ügyfélkódot helyett. A ügyféltény, az ügyfél használatával egy X.509 tanúsítvány igazolja, hogy az ügyfél származik a jogkivonat kérése. Az ügyféltanúsítvány a webkiszolgálón telepítve van. Általában a könnyebb lesz a tanúsítvány való hozzáférés korlátozásához, mint annak érdekében, hogy senki sem véletlenül tárja fel az ügyfél titkos kulcs. Webalkalmazás-ban történő tanúsítványkonfigurálással kapcsolatos további információkért lásd: [tanúsítványok használata az Azure Websites-alkalmazások][using-certs-in-websites]
 
-Kérelmek használatával az ügyfél helyességi feltétel a következő:
+A következő kérés ügyféltény használatával:
 
 ```
 POST https://login.microsoftonline.com/b9bd2162xxx/oauth2/token HTTP/1.1
@@ -57,16 +57,16 @@ resource=https://tailspin.onmicrosoft.com/surveys.webapi
   &code= PG8wJG6Y...
 ```
 
-Figyelje meg, hogy a `client_secret` paraméter már nincs használatban. Ehelyett a `client_assertion` paraméter egy JWT jogkivonatot tartalmaz, amely alá volt írva, az ügyféltanúsítvány használatával. A `client_assertion_type` paraméter határozza meg a helyességi feltétel &mdash; Ez esetben JWT jogkivonat. A kiszolgáló ellenőrzi a JWT jogkivonat. A JWT jogkivonat nem érvényes, ha a jogkivonatkérelem hibát ad vissza.
+Figyelje meg, hogy a `client_secret` paraméter nincs többé használatban. Ehelyett a `client_assertion` paraméter tartalmazza a JWT jogkivonat, amely az ügyféltanúsítvány használatával lett aláírva. A `client_assertion_type` paraméter meghatározza a helyességi feltétel &mdash; az ebben az esetben JWT jogkivonat. A kiszolgáló ellenőrzi a JWT jogkivonat. A JWT jogkivonat nem érvényes, ha a jogkivonat kérése hibát ad vissza.
 
 > [!NOTE]
-> X.509 tanúsítvány nincsenek ügyfél helyességi feltétel; csak formája a Microsoft összpontosítania, azt itt mivel Azure AD által támogatott.
+> X.509-tanúsítványokat amelyek nem csak formájában ügyféltény; fogunk összpontosítani, itt, mert az Azure AD által támogatott.
 > 
 > 
 
-Futás közben a webalkalmazás beolvassa a tanúsítványt a tanúsítványtárolóból. A tanúsítvány telepítenie kell a webalkalmazás ugyanazon a számítógépen.
+Futási időben a webalkalmazás beolvassa a tanúsítványt a tanúsítványtárolóból. A tanúsítvány telepítenie kell a webalkalmazás ugyanazon a gépen.
 
-A felmérések alkalmazás tartalmazza, amely létrehoz egy segítőosztály egy [ClientAssertionCertificate](/dotnet/api/microsoft.identitymodel.clients.activedirectory.clientassertioncertificate) , amely képes továbbadni a [AuthenticationContext.AcquireTokenSilentAsync](/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokensilentasync) metódus származó jogkivonat beszerzése Az Azure AD.
+A Surveys alkalmazás tartalmaz, amely létrehoz egy segítőosztály egy [ClientAssertionCertificate](/dotnet/api/microsoft.identitymodel.clients.activedirectory.clientassertioncertificate) , amely átadható a [AuthenticationContext.AcquireTokenSilentAsync](/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokensilentasync) származó jogkivonat beszerzésére metódus Azure ad-ben.
 
 ```csharp
 public class CertificateCredentialService : ICredentialService
@@ -96,14 +96,14 @@ public class CertificateCredentialService : ICredentialService
 }
 ```
 
-Ügyfél helyességi feltétel felmérések alkalmazása beállításával kapcsolatos információkért lásd: [használja az Azure Key Vault alkalmazás titkos kulcsok védelme ] [ key vault].
+A Surveys alkalmazás ügyféltény beállításával kapcsolatos további információkért lásd: [Azure Key Vault használata a titkos alkalmazáskulcsok védelme ] [ key vault].
 
-[**Következő**][key vault]
+[**Tovább**][key vault]
 
 <!-- Links -->
 [configure-web-app]: /azure/app-service-web/web-sites-configure/
 [azure-management-portal]: https://portal.azure.com
-[ügyfél helyességi feltétel]: https://tools.ietf.org/html/rfc7521
+[ügyféltény]: https://tools.ietf.org/html/rfc7521
 [key vault]: key-vault.md
 [Setup-KeyVault]: https://github.com/mspnp/multitenant-saas-guidance/blob/master/scripts/Setup-KeyVault.ps1
 [Surveys]: tailspin.md

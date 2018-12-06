@@ -3,12 +3,12 @@ title: Az Azure-alkalmazások vészhelyreállítása
 description: Technikai áttekintése és részletes információk a vész-helyreállítási a Microsoft Azure-alkalmazások tervezéséhez.
 author: adamglick
 ms.date: 09/12/2018
-ms.openlocfilehash: 4f879445154e37502bbeeeb90939737b6072e6ec
-ms.sourcegitcommit: 25bf02e89ab4609ae1b2eb4867767678a9480402
+ms.openlocfilehash: ff5da8a3d2612d7c122ec8ed87979eddf778dbf0
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/14/2018
-ms.locfileid: "45584799"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902850"
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások vészhelyreállítása
 
@@ -16,7 +16,7 @@ A vészhelyreállítás (DR) összpontosít történő helyreállítás egy vég
 
 Üzleti és technológiai tulajdonosok meg kell határoznia egy katasztrófa során mekkora funkció is szükséges. Ezt a szintű funkcióit is igénybe vehet néhány űrlapok: teljesen elérhetetlenné, korlátozott funkciókkal vagy késleltetett feldolgozási részben elérhető vagy teljes körűen elérhető.
 
-Rugalmasság és a magas rendelkezésre állású stratégiák célja, hogy ideiglenes meghibásodás kezelésére.  Ez a csomag végrehajtása magában foglalja a személyeket, folyamatokat és támogató alkalmazások, amelyek lehetővé teszik a rendszer folytatja a működését. Tartalmaznia kell a csomag próba során hibák, és győződjön meg, hogy a csomag-adatbázisok a helyreállítás tesztelésére megbízható-e. 
+Rugalmasság és a magas rendelkezésre állású stratégiák ideiglenes meghibásodás kezelésére szolgálnak.  Ez a csomag végrehajtása magában foglalja a személyeket, folyamatokat és támogató alkalmazások, amelyek lehetővé teszik a rendszer folytatja a működését. Tartalmaznia kell a csomag próba során hibák, és győződjön meg, hogy a csomag-adatbázisok a helyreállítás tesztelésére megbízható-e. 
 
 ## <a name="azure-disaster-recovery-features"></a>Azure vész-helyreállítási szolgáltatás
 
@@ -27,7 +27,7 @@ Az Azure számos régióban, a világ különböző pontjain található adatkö
 
 ## <a name="azure-site-recovery"></a>Azure Site Recovery
 
-[Az Azure Site Recovery](/azure/site-recovery/) nyújt egy egyszerű módja az Azure-beli virtuális gépek replikálása régiók között. Minimumal munkaterhelést, mert nem kell a másodlagos régió minden olyan további erőforrások kiosztása rendelkezik. Ha engedélyezi a replikációt, a Site Recovery automatikusan létrehozza a szükséges erőforrásokat a célrégióban a forrás virtuális gép beállításai alapján. Automatizált folyamatos replikációt biztosít, és lehetővé teszi, hogy alkalmazás feladatátvételt egyetlen kattintással. Is futtathatja vészhelyreállítási próbák anélkül, hogy ez hatással lenne az éles számítási feladatokra vagy a folyamatban lévő replikáció, feladatátvétel tesztelésével. 
+[Az Azure Site Recovery](/azure/site-recovery/) nyújt egy egyszerű módja az Azure-beli virtuális gépek replikálása régiók között. Minimális kezelési terhelés mellett, mert nem kell a másodlagos régió minden olyan további erőforrások kiosztása rendelkezik. Ha engedélyezi a replikációt, a Site Recovery automatikusan létrehozza a szükséges erőforrásokat a célrégióban a forrás virtuális gép beállításai alapján. Automatizált folyamatos replikációt biztosít, és lehetővé teszi, hogy alkalmazás feladatátvételt egyetlen kattintással. Is futtathatja vészhelyreállítási próbák anélkül, hogy ez hatással lenne az éles számítási feladatokra vagy a folyamatban lévő replikáció, feladatátvétel tesztelésével. 
 
 ## <a name="azure-traffic-manager"></a>Azure Traffic Manager
 Régióspecifikus hiba történik, amikor a forgalom kell átirányítása a szolgáltatások vagy telepítések egy másik régióban. Akkor a leghatékonyabb, kezelni a szolgáltatások, például az Azure Traffic Manager, amely automatizálja a feladatátvételt egy másik régióba érkező felhasználói forgalom, ha az elsődleges régió nem sikerül. A Traffic Manager – alapok megértése fontos egy hatékony Vészhelyreállítási stratégia tervezésekor.
@@ -305,7 +305,7 @@ Az alábbi témakörök ismertetik a katasztrófa utáni helyreállítás adott 
 | Azure Database for MySQL | [Az Azure Database for MySQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/mysql/concepts-business-continuity) |
 | Azure Database for PostgreSQL | [Az Azure Database for PostgreSQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/postgresql/concepts-business-continuity)
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
-| Cosmos DB | [Az Azure Cosmos DB az üzletmenet folytonosságának automatikus regionális feladatátvétel](/azure/cosmos-db/regional-failover)
+| Cosmos DB | [Automatikus régiónkénti feladatátvétel az üzletmenet folytonossága érdekében az Azure Cosmos DB-ben](/azure/cosmos-db/regional-failover)
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
 |Storage | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
 | SQL Database | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |

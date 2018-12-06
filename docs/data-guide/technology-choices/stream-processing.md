@@ -2,13 +2,13 @@
 title: Egy adatfolyam-feldolgozási technológia kiválasztása
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: b78ebe253e927eece38930ba7f6186f485a956f7
-ms.sourcegitcommit: fdcacbfdc77370532a4dde776c5d9b82227dff2d
+ms.date: 02/12/2018
+ms.openlocfilehash: 2e0d142bc5cd462703ef1ca4530a2104efdf3be3
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/24/2018
-ms.locfileid: "49962914"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902627"
 ---
 # <a name="choosing-a-stream-processing-technology-in-azure"></a>Egy adatfolyam-feldolgozó az Azure-ban technológia kiválasztása
 

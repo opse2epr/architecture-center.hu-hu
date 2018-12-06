@@ -2,13 +2,13 @@
 title: A Surveys alkalmazás futtatása
 description: A Surveys mintaalkalmazás futtatása helyileg
 author: MikeWasson
-ms:date: 07/21/2017
-ms.openlocfilehash: d4fa8122794740e6935293147d999b26d9485d90
-ms.sourcegitcommit: c704d5d51c8f9bbab26465941ddcf267040a8459
+ms.date: 07/21/2017
+ms.openlocfilehash: cc43f713886692167550336dbdcecdfbfc835bc3
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 07/24/2018
-ms.locfileid: "39229099"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902668"
 ---
 # <a name="run-the-surveys-application"></a>A Surveys alkalmazás futtatása
 
@@ -299,7 +299,7 @@ Amikor egy bérlő regisztrál, a bérlői rendszergazda AD hozzá kell rendelni
 
 5.  Kattintson a **felhasználók és csoportok**.
 
-4.  Kattintson a **felhasználó hozzáadása**.
+4.  Kattintson a **Felhasználó hozzáadása** parancsra.
 
 5.  Ha rendelkezik Azure AD Premium szolgáltatással, kattintson a **felhasználók és csoportok**. Ellenkező esetben kattintson a **felhasználók**. (A prémium szintű Azure AD szerepkör hozzárendelése egy csoporthoz szükséges.)
 

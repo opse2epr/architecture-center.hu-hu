@@ -2,140 +2,140 @@
 title: Egy adatátviteli technológia kiválasztása
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 53dcf8a69ad8ae100dbdbb230a9280efd419342a
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.date: 02/12/2018
+ms.openlocfilehash: d5fbdc3a49ab16be2626b772ffd1af782963a2f0
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252753"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52902680"
 ---
-# <a name="transferring-data-to-and-from-azure"></a>Azure érkező vagy oda irányuló adatátvitel
+# <a name="transferring-data-to-and-from-azure"></a>Adatátvitel, és az Azure-ból
 
-Az adatoknak az Azure-ban érkező vagy oda irányuló igényeitől függően több lehetőség áll rendelkezésre.
+Való adatátvitel, és az Azure-beli igényeitől függően több lehetőség áll rendelkezésre.
 
-## <a name="physical-transfer"></a>Fizikai átviteli
+## <a name="physical-transfer"></a>Fizikai átvitel
 
-Adatok átviteléhez az Azure fizikai hardver használata esetén a jó kapcsolót, ha:
+Fizikai hardvert használja az adatok átviteléhez az Azure-bA egy megfelelő beállítást:
 
-- A hálózat, a lassú vagy nem megbízható.
-- További hálózati sávszélesség első megfizethetetlenné.
-- Szervezeti házirend vagy biztonsági nem kimenő kapcsolatok engedélyezése a bizalmas adatok meghatározásakor. 
+- Az hálózat, a lassú vagy nem megbízható.
+- További hálózati sávszélesség első költségekkel járnának.
+- Biztonsági vagy a szervezeti szabályzatok nem kimenő kapcsolatok engedélyezése bizalmas adatok esetén. 
 
-Ha az elsődleges szempont mennyi ideig tart a adatátvitelt, érdemes lehet egy tesztet annak ellenőrzéséhez, hogy hálózati átviteli ténylegesen lassabb, mint a fizikai átviteli futtatásához.
+Ha az elsődleges szempont, akkor mennyi ideig tart az adatátvitel, érdemes ellenőrizni, hogy hálózati átvitelt ténylegesen lassabb, mint a fizikai átviteli a vizsgálat futtatása.
 
-Azure-bA fizikailag szállításához két fő lehetőség áll rendelkezésre:
-- **Az Azure Import/Export**. A [Azure Import/Export szolgáltatás](/azure/storage/common/storage-import-export-service) lehetővé teszi, hogy biztonságosan átviteli nagy mennyiségű adatok Azure Blob Storage-vagy Azure fájlok által belső SATA merevlemez vagy értékpapír mobilalkalmazások számára egy Azure-adatközpontban. Ez a szolgáltatás használhatja, ha az adatok átvitele Azure Storage merevlemez-meghajtók és ezek szállított Önnek a helyszíni feltöltését.
+Adatok az Azure fizikailag szállítására két fő lehetőség van:
+- **Az Azure Import/Export**. A [Azure Import/Export szolgáltatás](/azure/storage/common/storage-import-export-service) segítségével biztonságosan nagy mennyiségű adatot továbbít az Azure Blob Storage vagy az Azure Files belső SATA HDD vagy Sdd szállításával az Azure-adatközpontba. Adatátvitel Azure Storage-ból merevlemezekre, és ezek szállításra Önnek betöltésére, a helyszínen is használhatja ezt a szolgáltatást.
 
-- **Az Azure Data mező**. [Az Azure Data mező](https://azure.microsoft.com/services/storage/databox/) van egy Microsoft által biztosított készülék, amely az Azure Import/Export szolgáltatás hasonlóan működik. A Microsoft meg egy védett, biztonságos, valamint a védett átviteli készüléknek, és kezeli a végpont logisztikai, amely a portálon keresztül nyomon követheti. Az Azure Data mező szolgáltatás egyik előnye használat megkönnyítése érdekében. Vásároljon több merevlemez-meghajtók, készítse elő azokat, és minden egyes fájlok átvitele nem szükséges. Az Azure Data mező iparágvezető a Azure partnerek számára, hogy könnyebben zökkenőmentesen kihasználja a termékeiket a felhőbe offline átviteli számos támogatja. 
+- **Az Azure Data Box**. [Az Azure Data Box](https://azure.microsoft.com/services/storage/databox/) egy Microsoft által biztosított berendezés, amely az Azure Import/Export szolgáltatás hasonlóan működik. A Microsoft jogvédett, biztonságos, és feltörhetetlen berendezést letöltésként érhető el, és kezeli a teljes körű logisztika, amely a portálon keresztül nyomon követheti. Az Azure Data Box szolgáltatás egyik előnye a könnyű használatra. Nem kell több merevlemezeket vásárolni, készítse elő azokat, és minden egyes fájlok átvitele. Az Azure Data Box-szolgáltatás piacvezető Azure-partnerek könnyebb zökkenőmentesen használhatják a termékeiket a felhőbe offline átviteli számos támogatja. 
 
-## <a name="command-line-tools-and-apis"></a>A parancssori eszközök és API-k
+## <a name="command-line-tools-and-apis"></a>Parancssori eszközök és API-k
 
-Vegye figyelembe ezeket a beállításokat, ha azt szeretné, hogy a parancsprogram-alapú és programozott adatátvitel.
+Vegye figyelembe ezeket a beállításokat, ha azt szeretné, hogy parancsfájlok és programozás alapú adatátvitelt.
 
-- **Azure parancssori felület (CLI)**. A [Azure CLI](/azure/hdinsight/hdinsight-upload-data#commandline) , amely lehetővé teszi, hogy az Azure-szolgáltatások kezelése, majd töltse fel az adatok Azure Storage-platformok eszköz. 
+- **Azure parancssori felület (CLI)**. A [Azure CLI-vel](/azure/hdinsight/hdinsight-upload-data#commandline) egy platformfüggetlen eszköz, amely lehetővé teszi az Azure-szolgáltatások kezelését, és az Azure Storage-adatok feltöltése. 
 
-- **AzCopy**. Használja az AzCopy egy [Windows](/azure/storage/common/storage-use-azcopy?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) vagy [Linux](/azure/storage/common/storage-use-azcopy-linux?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) parancssori adatok könnyen másolása és az Azure Blob, a fájl és a Table storage optimális teljesítménnyel. AzCopy támogatja az egyidejű és párhuzamossági, valamint a másolási művelet megszakadt, ha folytatni. Egyúttal gyorsabb, mint a legtöbb más beállítások. A programozott hozzáférést a [Microsoft Azure Storage adatátviteli könyvtár](/azure/storage/common/storage-use-data-movement-library) van az azcopyt működtető alapvető keretrendszert. Ez a .NET Core tárként valósul meg. 
+- **Az AzCopy**. Az AzCopy használata egy [Windows](/azure/storage/common/storage-use-azcopy?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) vagy [Linux](/azure/storage/common/storage-use-azcopy-linux?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) parancssori az optimális teljesítmény érdekében az Azure Blob, fájl és Table storage szolgáltatásba vagy onnan egyszerűen adatmásolás céljából. AzCopy támogatja az egyidejűség és a párhuzamosság és másolási műveletek során megszakad folytatódhasson. Emellett akkor is gyorsabb, mint a legtöbb más lehetőségek. Programozott hozzáférés a [a Microsoft Azure Storage adatátviteli könyvtár](/azure/storage/common/storage-use-data-movement-library) az azcopyt működtető alapvető keretrendszer. .NET Core kódtárként nyújtja. 
 
-- **PowerShell**. A [ `Start-AzureStorageBlobCopy` PowerShell-parancsmag](/powershell/module/azure.storage/start-azurestorageblobcopy?view=azurermps-5.0.0) lehetősége van a Windows rendszergazdák, akik a PowerShell segítségével.  
+- **PowerShell**. A [ `Start-AzureStorageBlobCopy` PowerShell-parancsmag](/powershell/module/azure.storage/start-azurestorageblobcopy?view=azurermps-5.0.0) lehetőség van a Windows rendszergazdák számára, aki a PowerShell segítségével.  
 
-- **AdlCopy**. [AdlCopy](/azure/data-lake-store/data-lake-store-copy-data-azure-storage-blob) lehetővé teszi az adatok másolása az Azure Storage blobs szolgáltatásban a Data Lake Store. Is használható két Azure Data Lake Store-fiókok közötti másolásához. Azonban nem használható adatok másolása Data Lake Store Storage blobs szolgáltatásban.
+- **Az AdlCopy**. [Az AdlCopy](/azure/data-lake-store/data-lake-store-copy-data-azure-storage-blob) lehetővé teszi, hogy az adatok másolása az Azure Storage-Blobokból a Data Lake Store-bA. Is használható két Azure Data Lake Store-fiókok közötti adatokat másolja. Azonban nem használható az adatok másolása az Data Lake Store a Storage-blobokat.
 
-- **Ból a Distcp**. Ha Data Lake Store-hozzáféréssel rendelkező HDInsight-fürtöt, használhatja például a Hadoop-ökoszisztémával eszközök [ból a Distcp](/azure/data-lake-store/data-lake-store-copy-data-wasb-distcp) használatával adatait átmásolhatja egy HDInsight-fürt storage (WASB) érkező vagy oda irányuló Data Lake Store-fiók.
+- **A Distcp**. Ha a Data Lake Store-hozzáféréssel rendelkező HDInsight-fürt, például a Hadoop-ökoszisztéma eszközök használhatja [Distcp](/azure/data-lake-store/data-lake-store-copy-data-wasb-distcp) másolhat adatokat egy HDInsight-fürt storage (WASB) és a egy Data Lake Store-fiókba.
 
-- **Sqoop**. [Sqoop](/azure/hdinsight/hadoop/hdinsight-use-sqoop) Apache projektet és a Hadoop ökoszisztémájának részeként. Az előre telepítve van az összes HDInsight-fürtök. Lehetővé teszi a HDInsight-fürtök és a relációs adatbázisok például SQL, Oracle, MySQL stb közötti adatátvitelt. Sqoop kapcsolódó eszközeit, beleértve az importálás és exportálás gyűjteménye. Sqoop működik együtt a HDInsight-fürtök Azure Storage blobsba vagy a kapcsolt Data Lake Store-tároló.
+- **Sqoop**. [Sqoop](/azure/hdinsight/hadoop/hdinsight-use-sqoop) egy Apache-projecttel, a Hadoop-ökoszisztéma része. Ez előtelepítve minden HDInsight-fürtön. Lehetővé teszi egy HDInsight-fürtöt és például az SQL, Oracle, MySQL és egyéb relációs adatbázisok közötti adatátvitelt. Sqoop kapcsolódó eszközöket, beleértve az importálás és exportálás gyűjteménye. Sqoop együttműködik a HDInsight-fürtöket az Azure Storage BLOB vagy a Data Lake Store csatolt storage használatával.
 
-- **A PolyBase**. [A PolyBase](/sql/relational-databases/polybase/get-started-with-polybase) technológia, amely a T-SQL nyelv keresztül fér hozzá az adatbázison kívül adatokat. SQL Server 2016-lehetővé teszi lekérdezéseket futtathat a külső adatokat a Hadoop vagy importálási/exportálási adatok Azure Blob Storage-ból. Az Azure SQL Data Warehouse akkor is importálási/exportálási adatok Azure Blob Storage-ból, és az Azure Data Lake Store. A PolyBase jelenleg a leggyorsabb eljárás az SQL Data Warehouse-adatok importálása a.
+- **A PolyBase**. [A PolyBase](/sql/relational-databases/polybase/get-started-with-polybase) technológiája, amely az adatbázison kívül adatokhoz fér hozzá a a T-SQL nyelv használatával. Az SQL Server 2016 lehetővé teszi a Hadoop a külső adatok lekérdezések futtatására vagy Azure Blob Storage-ból adatok importálása és exportálása. Az Azure SQL Data Warehouse akkor is importálási/exportálási adatok Azure Blob Storage-ból és az Azure Data Lake Store. A PolyBase jelenleg a leggyorsabb eljárás a adatok importálása az SQL Data Warehouse-bA.
 
-- **Hadoop parancssori**. Ha egy HDInsight-fürt átjárócsomópontjába lévő adatok, használhatja a `hadoop -copyFromLocal` parancs futtatásával másolja a fürthöz csatlakoztatott tárolási, például az Azure Storage-blobba vagy az Azure Data Lake Store. A Hadoop parancs használatához meg kell először a átjárócsomópontjához csatlakozik. A csatlakozás után egy fájlt tölthet tárhelyre.
+- **Hadoop parancssor**. Ha egy HDInsight-fürt fő csomópontjának lévő adatok, használhatja a `hadoop -copyFromLocal` parancsot, hogy az adatok másolása a fürt csatlakoztatott tárolókba, például az Azure Storage-blobból vagy Azure Data Lake Store. Annak érdekében, hogy a Hadoop parancsot használja, először csatlakoznia kell a fő csomópontot. Ha csatlakoztatva van, feltölthet egy fájlt a storage.
 
 ## <a name="graphical-interface"></a>Grafikus felület
 
-Vegye figyelembe az alábbiakat, ha csak néhány fájlt, vagy adatobjektumainak átadó és automatizálható a folyamat nem szükséges.
+Vegye figyelembe a következő beállításokat, ha csak át néhány fájlt, vagy objektumok, és automatizálja a folyamatot nem kell.
 
-- **Az Azure Storage Explorer**. [Az Azure Tártallózó](https://azure.microsoft.com/features/storage-explorer/) platformfüggetlen eszköz, amellyel kezelheti az Azure storage-fiókok tartalmát. Ez lehetővé teszi, töltse le, kezelését és feltöltését blobokat, fájlok, várólisták, táblák és Azure Cosmos DB entitások. Segítségével az Blob storage szolgáltatással kezelheti a blobok és mappákat, valamint le- és feltöltése a BLOB storage-fiókok és a helyi rendszer és a Blob-tároló között.
+- **Az Azure Storage Explorer**. [Az Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/) platformfüggetlen eszköz, amely lehetővé teszi az Azure-tárfiókok tartalmának kezeléséhez. Lehetővé teszi, hogy feltöltése, letöltése és kezelése a blobok, fájlok, üzenetsorok, táblák és az Azure Cosmos DB-entitásokat. Használhatja a Blob storage-blobok és mappák kezelése, valamint feltöltése és tölthet le blobokat a helyi fájlrendszerben és a Blob storage vagy tárfiókok között.
 
-- **Azure-portálon**. A Blob storage és a Data Lake Store egy webes felületet biztosít az fájlok felfedezése és a feltöltése az új fájlokat egyenként. Ez az jó választás, ha nem szeretné telepíteni az olyan eszközöket, vagy parancsok segítségével gyorsan megismerheti a fájlokat, vagy egyszerűen csak töltse fel az új adatbázisra skálázhatja kiadását.
+- **Az Azure portal**. A Blob storage és a Data Lake Store egy webes felületet biztosít az fájlok felfedezése és a feltöltése az új fájlokat egyenként. Ez a beállítást akkor jó választás, ha nem szeretné, hogy telepítse minden olyan eszközt, vagy nem ad ki parancsokat gyorsan megismerheti a fájlokat, vagy egyszerűen csak töltse fel újakat néhány.
 
 ## <a name="data-pipeline"></a>Adatfolyamat
 
-**Az Azure Data Factory**. [Az Azure Data Factory](/azure/data-factory/) egy felügyelt szolgáltatás, ajánlott rendszeresen közti fájlátvitelre szolgáló több Azure-szolgáltatásokat, helyszíni vagy a kettő kombinációja megfelelő. Azure Data Factory használatával hozhat létre és ütemezése az adatvezérelt munkafolyamatok (más néven folyamatok), amely különálló adattároló származó adatok. feldolgozhatók és átalakíthatók az adatok különböző számítási szolgáltatások használatával (például Azure HDInsight Hadoop, Spark, Azure Data Lake Analytics és Azure Machine Learning), Munkafolyamatokat az adatvezérelt [koordinálása](../technology-choices/pipeline-orchestration-data-movement.md) és adatmozgatást és a data transformation automatizálása.
+**Az Azure Data Factory**. [Az Azure Data Factory](/azure/data-factory/) legjobb felügyelt szolgáltatást rendszeresen közti fájlátvitelre szolgáló Azure-szolgáltatások, a helyszíni vagy a kettő kombinációját számos olyan. Azure Data Factory használatával hozhat létre és ütemezhet, adatvezérelt munkafolyamatokat (folyamatokat is nevezik) különböző adattárolókból adatokat beolvasó. feldolgozhatók és átalakíthatók az adatok különböző számítási szolgáltatások használatával (például Azure HDInsight Hadoop, Spark, Azure Data Lake Analytics és Azure Machine Learning), Az adatvezérelt munkafolyamatokat hozhat létre [replikálásával segít a vállalatnak](../technology-choices/pipeline-orchestration-data-movement.md) és automatizálja az adatok áthelyezését és átalakítását.
 
-## <a name="key-selection-criteria"></a>Kulcs kiválasztási feltételek
+## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
-Adatok átvitel forgatókönyvek esetén válassza ki az igényeinek megfelelő rendszer ezen kérdések megválaszolásával:
+Adatok átvitele forgatókönyvek esetén válassza ki a az igényeinek megfelelő rendszert ezen kérdések megválaszolásával:
 
-- Szüksége átadhat nagyon nagy mennyiségű adat, ahol az interneten keresztül kapcsolat időt vesz igénybe túl hosszú, így nem megbízható, vagy túl drága lehet? Ha igen, érdemes lehet fizikai átviteli.
+- Szükséges átviteli nagyon nagy mennyiségű adatot, ahol az interneten keresztül kapcsolat állna túl hosszú, így nem megbízható hálózathatáron vagy túl költséges lehet? Ha igen, érdemes lehet fizikai átvitel.
 
-- Szeretné parancsfájl-az átviteli feladatok, így az újrafelhasználható? Ha igen, válassza ki a parancssori kapcsolók és az Azure Data Factory.
+- Parancsfájl-az átviteli feladatok, így azok újrafelhasználható inkább? Ha igen, válassza ki a parancssori kapcsolók és az Azure Data Factory.
 
-- Nagyon nagy mennyiségű adat átvitele a hálózaton keresztül kell? Ha igen, válasszon olyan beállítást, amely a big Data típusú adatok van optimalizálva.
+- Szükséges egy nagyon nagy mennyiségű adat átvitele a hálózaton keresztül? Ha igen, válassza ki az olyan beállítás, amely a big Data típusú adatok van optimalizálva.
 
-- Szüksége átadhat adatokat vagy egy relációs adatbázisban a? Ha igen, válassza ki, amely egy vagy több rendszerű relációs adatbázisokat támogatja. Vegye figyelembe, hogy mindegyik lehetőség is szükséges Hadoop-fürthöz.
+- Szükséges-adatok áthelyezésénél relációs adatbázisból? Ha igen, válasszon olyan beállítás, amely egy vagy több relációs adatbázisokat támogatja. Vegye figyelembe, hogy a beállítások egy része emellett szükséges egy Hadoop-fürtöt.
 
-- Kell-e egy automatikus folyamat vagy munkafolyamat vezénylési? Ha igen, érdemes lehet az Azure Data Factory.
+- Szükség van egy automatizált adatfeldolgozási folyamat vagy munkafolyamat vezénylési? Ha igen, fontolja meg az Azure Data Factoryban.
 
-## <a name="capability-matrix"></a>Képesség mátrix
+## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a főbb változásai képességeit.
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
-### <a name="physical-transfer"></a>Fizikai átviteli
+### <a name="physical-transfer"></a>Fizikai átvitel
 
-| | Az Azure Import/Export szolgáltatás | Azure Data Box |
+| | Azure Import/Export szolgáltatás | Azure Data Box |
 | --- | --- | --- |
-| Űrlap tényező | Belső SATA merevlemez vagy értékpapír | Biztonságos, hamisíthatatlan, egyetlen hardver készülék |
-| A Microsoft felügyeli szállítási logisztikai | Nem | Igen |
-| Integrálható a partner termékek | Nem | Igen |
+| Helyigény | Belső SATA HDD vagy Sdd | Biztonságos, hamisíthatatlan, egyetlen hardver készülék |
+| A Microsoft felügyeli a szállítási címhez tartozó logisztika | Nem | Igen |
+| Partnerek termékei integrálható | Nem | Igen |
 | Egyéni készülék | Nem | Igen |
 
-### <a name="command-line-tools"></a>A parancssori eszközök
+### <a name="command-line-tools"></a>Parancssori eszközök
 
 **Hadoop/HDInsight**
 
-| | Ból a Distcp | Sqoop | Hadoop parancssori felület |
+| | A Distcp | Sqoop | Hadoop-CLI |
 | --- | --- | --- | --- |
-| A big Data típusú adatok optimalizált | Igen | Igen |  Igen |
+| Big Data-optimalizált | Igen | Igen |  Igen |
 | Relációs adatbázis másolása |  Nem | Igen | Nem |
 | Relációs adatbázis másolása |  Nem | Igen | Nem |
-| A Blob storage másolása |  Igen | Igen | Igen |
-| A Blob storage másolása | Igen |  Igen | Nem |
-| Data Lake Store-bA másolása | Igen | Igen | Igen |
-| Másolja a Data Lake Store-ból | Igen | Igen | Nem |
+| Másolja a Blob storage |  Igen | Igen | Igen |
+| A Blob storage-ból | Igen |  Igen | Nem |
+| Data Lake Store másolása | Igen | Igen | Igen |
+| A Data Lake Store másolása | Igen | Igen | Nem |
 
-**Más**
+**Egyéb**
 
-| | Azure CLI | AzCopy | PowerShell | AdlCopy | PolyBase |
+| | Azure CLI | AzCopy | PowerShell | Az AdlCopy | PolyBase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kompatibilis platformokon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | SQL Server, az Azure SQL-adatraktár | 
-| A big Data típusú adatok optimalizált | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>2</sup> |
+| Kompatibilis platformon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | Az SQL Server, az Azure SQL Data warehouse-bA | 
+| Big Data-optimalizált | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>2</sup> |
 | Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen | 
 | Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen | 
-| A Blob storage másolása | Igen | Igen | Igen | Nem | Igen | 
-| A Blob storage másolása | Igen | Igen | Igen | Igen | Igen |
-| Data Lake Store-bA másolása | Nem | Nem | Igen | Igen |  Igen | 
-| Másolja a Data Lake Store-ból | Nem | Nem | Igen | Igen | Igen | 
+| Másolja a Blob storage | Igen | Igen | Igen | Nem | Igen | 
+| A Blob storage-ból | Igen | Igen | Igen | Igen | Igen |
+| Data Lake Store másolása | Nem | Nem | Igen | Igen |  Igen | 
+| A Data Lake Store másolása | Nem | Nem | Igen | Igen | Igen | 
 
 
-[1] AdlCopy megfelelően lett optimalizálva, az adatoknak a big Data Lake Analytics-fiók használata esetén.
+[1] az AdlCopy a Data Lake Analytics-fiók használatakor a big Data típusú adatok átvitele van optimalizálva.
 
-[2] PolyBase [növelhető a teljesítmény](/sql/relational-databases/polybase/polybase-guide#performance) terjesztése a számítási és a Hadoop és használatával [PolyBase kibővített csoportok](/sql/relational-databases/polybase/polybase-scale-out-groups) SQL Server-példány és a Hadoop-csomópontjai közötti párhuzamos adatforgalom engedélyezéséhez.
+[2] PolyBase [növelhető a teljesítmény](/sql/relational-databases/polybase/polybase-guide#performance) számítási leküldése a Hadoop és a használatával [PolyBase kibővített csoportok](/sql/relational-databases/polybase/polybase-scale-out-groups) az SQL Server példányai és a Hadoop-csomópontjai közötti párhuzamos adatátvitel engedélyezése.
 
 ### <a name="graphical-interface-and-azure-data-factory"></a>Grafikus felület és az Azure Data Factory
 
-| | Azure Storage Explorer | Azure-portálon * | Azure Data Factory |
+| | Azure Storage Explorer | Az Azure portal * | Azure Data Factory |
 | --- | --- | --- | --- |
-| A big Data típusú adatok optimalizált | Nem | Nem | Igen | 
+| Big Data-optimalizált | Nem | Nem | Igen | 
 | Relációs adatbázis másolása | Nem | Nem | Igen |
 | Relációs adatbázis másolása | Nem | Nem | Igen |
-| A Blob storage másolása | Igen | Nem | Igen |
-| A Blob storage másolása | Igen | Nem | Igen |
-| Data Lake Store-bA másolása | Nem | Nem | Igen |
-| Másolja a Data Lake Store-ból | Nem | Nem | Igen |
-| Töltse fel a Blob-tároló | Igen | Igen | Igen |
-| Data Lake Store feltöltése | Igen | Igen | Igen |
-| Adatátviteli levezényelni | Nem | Nem | Igen |
-| Egyéni adatátalakítást | Nem | Nem | Igen |
-| Díjszabási modell | Ingyenes | Ingyenes | Használati / kell fizetnie |
+| Másolja a Blob storage | Igen | Nem | Igen |
+| A Blob storage-ból | Igen | Nem | Igen |
+| Data Lake Store másolása | Nem | Nem | Igen |
+| A Data Lake Store másolása | Nem | Nem | Igen |
+| Feltöltése a Blob storage | Igen | Igen | Igen |
+| A Data Lake Store feltöltése | Igen | Igen | Igen |
+| Összehangolhatja a adatátvitel | Nem | Nem | Igen |
+| Egyéni adatátalakítások | Nem | Nem | Igen |
+| Díjszabási modell | Ingyenes | Ingyenes | Fizessen a használat |
 
-\* Azure-portálon ebben az esetben azt jelenti, hogy a Blob-tároló és a Data Lake Store feltárása web-alapú eszközökkel.
+\* Az Azure portal ebben az esetben azt jelenti, a webes adatvizsgálati eszközök használata a Blob storage és a Data Lake Store.
 

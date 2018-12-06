@@ -1,99 +1,99 @@
 ---
-title: Data-megoldások biztonságossá tétele
+title: Adatmegoldások védelme
 description: ''
 author: zoinerTejada
-ms:date: 02/12/2018
-ms.openlocfilehash: 57897c31a8abdcd801874bf92d60360f7a80d1fa
-ms.sourcegitcommit: 90cf2de795e50571d597cfcb9b302e48933e7f18
+ms.date: 02/12/2018
+ms.openlocfilehash: 453897d1dde205ec8eb094df06ec66da43f7de7b
+ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/14/2018
-ms.locfileid: "29291956"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52901643"
 ---
-# <a name="securing-data-solutions"></a>Data-megoldások biztonságossá tétele
+# <a name="securing-data-solutions"></a>Adatmegoldások védelme
 
-Számos a felhőben, így az adatok érhető el különösen akkor, ha működik a helyszíni adattárolókhoz, kizárólag az átállás okozhat egyes probléma, amely szerint ehhez az adatokat, majd a biztonság használandó új módszereket megnövekedett kisegítő.
+Több a felhőben, így az adatok elérhető különösen akkor, ha működik a helyszíni adattárolókból; kizárólag az átállás okozhat néhány probléma, amely nagyobb kisegítő lehetőségek, hogy az adatok és új módon biztonságossá tenni.
 
-## <a name="challenges"></a>Kihívásai
+## <a name="challenges"></a>Problémák
 
-* A figyelés és a biztonsági események számos naplók tárolt elemzése központosítása.
-* Végrehajtási titkosítási és engedélyezési felügyeleti az alkalmazások és szolgáltatások között.
-* Győződjön meg arról, hogy a központi identity management works összes a megoldás-összetevő e helyszíni vagy a felhőben.
+* A figyelési és elemzési számos naplókat tárolja a biztonsági események központosítása.
+* A végrehajtási titkosítási és engedélyezési felügyeleti alkalmazásai és szolgáltatásai között.
+* Annak biztosítása e összes a megoldás-összetevőket, központosított, amely identitás-felügyeleti funkcióit a helyszíni vagy a felhőben.
 
 ## <a name="data-protection"></a>Adatvédelem
 
-Adatok védelmével kapcsolatos első lépése a védendő elemeket azonosítja. Törölje a jelet, egyszerű és pontos tájékoztatást adjon irányelveket azonosítása, védheti meg és figyelheti a legfontosabb adategységeket bárhol azok fejlesztéséhez. Eszközök, amelyek a szervezet kritikus vagy a nyereségességre nézve le aránytalanul nagy hatással lehet a legerősebb védelem létrehozásához. Ezek a nagy értékű eszközökhöz vagy HVAs nevezzük. Szigorú elemzést HVA életciklusának és biztonsági függőségi, és megfelelő biztonsági vezérlők és a feltételek létrehozásához. Ehhez hasonlóan azonosítása bizalmas eszközök és technológiák és biztonsági vezérlők alkalmazhatja folyamatok meghatározása.
+Az első lépés az adatok védelmével, hogy mit szeretne védeni azonosítja. Egyértelmű, egyszerű és pontos tájékoztatást adjon a szabályokat, azonosítása, védheti meg és figyelheti a legfontosabb adategységek bárhol azok fejleszthet. Az eszközök, amelyek aránytalanul nagy hatással lehet a szervezet üzleti szempontból alapvető vagy nyereségességét a legerősebb védelem létesíteni. Ezek a nagy értékű eszközöket, vagy HVAs nevezzük. Az életciklus-kezelés és a biztonsági függőségek HVA szigorú elemzéseket végezhet, és megfelelő biztonsági vezérlők és feltételek. Ehhez hasonlóan azonosítása és besorolása az érzékeny eszközökre, és meghatározott technológiákat és folyamatokat automatikus alkalmazásához a biztonsági vezérlőket.
 
-Után meg kell védenie adatok azonosítása, fontolja meg, hogyan kíván védelemmel ellátni a adatok *aktívan* és az adatok *átvitel*.
+Miután az adatok védelme érdekében szüksége lett azonosítva, fontolja meg, hogyan fogja megvédeni az adatokat *inaktív* és az adatok *átvitel*.
 
-* **Inaktív adat**: fizikai adathordozóra, hogy mágneses statikusan meglévő adatot vagy optikai lemezt, a helyszínen vagy a felhőben.
-* **Adatokat átvitel közben**: miközben adatátvitel összetevők, a helyek vagy a programok, például több, mint a hálózati szolgáltatás között (a felhőbe helyszíni és fordítva) buszhoz között, vagy egy bemeneti/kimeneti folyamat során.
+* **Az inaktív adatok**: fizikai adathordozón, hogy mágneses statikusan meglévő adatot vagy optikai lemezt, a helyszínen vagy a felhőben.
+* **Az átvitt adatok**: összetevők, helyeket vagy programok, például több, mint a hálózati szolgáltatás között (a felhőbe helyszíni és fordítva) bus között, vagy egy bemeneti/kimeneti folyamat során átvitt adatok, miközben.
 
-Inaktív vagy az átvitel során az adatok védelmének kapcsolatos további információkért lásd: [Azure Adatbiztonság és -titkosítás gyakorlati tanácsok](/azure/security/azure-security-data-encryption-best-practices).
+Inaktív és átvitel közben az adatok védelmének kapcsolatos további információkért lásd: [Azure által nyújtott Adatbiztonság és titkosítás ajánlott eljárások](/azure/security/azure-security-data-encryption-best-practices).
 
 ## <a name="access-control"></a>Access Control
 
-Központi helyet foglalnak el a felhőben tárolt adatainak védelme az Identitáskezelés és a hozzáférés-vezérlést. A különböző és a felhőszolgáltatások típusát, valamint a növekvő időben népszerűvé vált a [hibrid felhő](../scenarios/hybrid-on-premises-and-cloud.md), vannak-érdemes követnie, amikor a identitás és hozzáférés-vezérlés több kulcs eljárásokat:
+A felhőbeli adatok védelmére központ az Identitáskezelés és hozzáférés-vezérlés kombinációját. A különböző és a felhőszolgáltatások, valamint a növekvő népszerűsége [hibrid felhő](../scenarios/hybrid-on-premises-and-cloud.md), nincsenek számos kulcsfontosságú eljárások esetén identitás és hozzáférés-vezérlés, kövesse:
 
 * Az Identitáskezelés központosítása.
 * Egyszeri bejelentkezés (SSO) engedélyezése.
-* Jelszó management központi telepítését.
+* Jelszókezelés üzembe helyezése.
 * Kényszeríteni a többtényezős hitelesítés (MFA) a felhasználók számára.
-* Használjon szerepköralapú hozzáférés-vezérlést (RBAC).
-* Feltételes hozzáférési házirendek úgy kell beállítani, amely a felhasználói identitás klasszikus fogalmát javítja a felhasználó helye, eszköztípus, javítási szintje és így tovább kapcsolatos további tulajdonságokkal.
-* Vezérlő helye, ahol erőforrások jönnek létre resource manager használatával.
-* Aktívan figyeli, hogy gyanús tevékenységek
+* Használata szerepköralapú hozzáférés-vezérlés (RBAC).
+* Feltételes hozzáférési szabályzatok kell konfigurálni, amely javítja a felhasználói identitást a klasszikus fogalmát további tulajdonságokkal kapcsolatos felhasználói hely, eszköztípus, előírt biztonsági javítási szintje és így tovább.
+* Szabályozhatja a helyek, ahol jönnek létre erőforrások resource manager használatával.
+* Aktív monitorozása a gyanús tevékenységek esetén
 
-További információkért lásd: [Azure Identitáskezelés és a hozzáférés szabályozásához ajánlott biztonsági eljárások](/azure/security/azure-security-identity-management-best-practices).
+További információkért lásd: [Azure identitáskezelési és hozzáférés-vezérlés ajánlott biztonsági eljárások](/azure/security/azure-security-identity-management-best-practices).
 
 ## <a name="auditing"></a>Naplózás
 
-Az identitást és a figyelés azt már korábban említettük, a szolgáltatásokat és alkalmazásokat, amelyek használatával a felhő kell kell biztonsági eseményeket létrehozni, amely a figyelheti. Ezek az események figyelésével elsődleges feladat kezeli a naplókat, ahhoz, hogy a problémák elkerülése érdekében, és a múltbeli kiépítettektől eltérő hibakeresést mennyiségét. Az egyes felhőalapú alkalmazások, amelyek a legtöbb készítése a naplózási és telemetriai bizonyos fokú sok mozgó elemeket tartalmazhat. A központi és -elemző kezelése és a nagy mennyiségű információ értelmezhető használata.
+Az identitás- és hozzáférés figyelése a fent említettük, nem a szolgáltatásokat és alkalmazásokat a felhőben használt kell kell létrehozni a biztonsággal kapcsolatos eseményeket, amelyek segítségével figyelheti. Az elsődleges vonatkozó kérdést állít be ezen események figyelése annak érdekében, hogy az esetleges problémák elkerülése érdekében, vagy korábbi kiépítettektől hibaelhárítása a naplók mennyiségét kezeli. Felhőalapú alkalmazások általában a részek, amely a legtöbb készítése a naplózás és a telemetria bizonyos fokú tartalmaznak. Segítségével központi megfigyelési és elemzési kezelését és a nagy mennyiségű olyan információt, jelentéssel bírnak.
 
 További információkért lásd: [Azure-naplózás és a naplózási](/azure/security/azure-log-audit).
 
 
 
-## <a name="securing-data-solutions-in-azure"></a>Az Azure data-megoldások biztonságossá tétele
+## <a name="securing-data-solutions-in-azure"></a>Adatmegoldások védelme az Azure-ban
 
 ### <a name="encryption"></a>Titkosítás
 
-**Virtuális gépek**. Használjon [Azure Disk Encryption](/azure/security/azure-security-disk-encryption) a csatlakoztatott lemezek a Windows vagy Linux rendszerű virtuális gépek titkosításához. Ez a megoldás integrálódik az [Azure Key Vault](/azure/key-vault/) a lemez-titkosítási kulcsok és titkos kódokat, és szabályozhatja. 
+**Virtuális gépek**. Használat [az Azure Disk Encryption](/azure/security/azure-security-disk-encryption) a Windows vagy Linux rendszerű virtuális gépekhez csatolt lemezek titkosítása. Ez a megoldás integrálódik [Azure Key Vault](/azure/key-vault/) ellenőrzése és a lemeztitkosítási kulcsokat és titkos kódokat. 
 
-**Azure Storage**. Használjon [Azure Storage szolgáltatás titkosítási](/azure/storage/common/storage-service-encryption) titkosítani az adatokat az Azure tárolás közben. Titkosítási, visszafejtési és kulcskezelés rendszer teljesen átlátható a felhasználók számára. Adatok is védve legyenek az átvitel során az Azure Key Vault ügyféloldali titkosítás használatával. További információkért lásd: [ügyféloldali titkosítás és a Microsoft Azure tárolás az Azure Key Vault](/azure/storage/common/storage-client-side-encryption).
+**Azure Storage**. Használat [Azure Storage Service Encryption](/azure/storage/common/storage-service-encryption) automatikusan az Azure Storage-ban az inaktív adatok titkosításához. Titkosítási, visszafejtési és kulcskezelési teljes mértékben átlátható a felhasználók számára. Adatok is lehetővé teszi az átvitel során az ügyféloldali titkosítás az Azure Key Vault segítségével. További információkért lásd: [ügyféloldali titkosítás és a Microsoft Azure Storage for Azure Key Vault](/azure/storage/common/storage-client-side-encryption).
 
-**SQL-adatbázis** és **Azure SQL Data Warehouse**. Használjon [átlátható adattitkosítási](/sql/relational-databases/security/encryption/transparent-data-encryption-azure-sql) (TDE) valós idejű titkosítási és visszafejtési az adatbázist, a társított biztonsági másolatok és a tranzakciós naplófájlok végrehajtásához az alkalmazások módosítása nélkül. SQL-adatbázis is használható [mindig titkosítja](/azure/sql-database/sql-database-always-encrypted-azure-key-vault) ügyfél és kiszolgáló között, és miközben használatban van az adatok mozgása során a kiszolgálón, inaktív bizalmas adatok védelme érdekében. Az Azure Key Vault segítségével a mindig titkosított titkosítási kulcsok tárolásához. 
+**Az SQL Database** és **Azure SQL Data Warehouse**. Használat [transzparens adattitkosítás](/sql/relational-databases/security/encryption/transparent-data-encryption-azure-sql) (TDE) az alkalmazások módosítása nélkül az adatbázisok, az azokhoz kapcsolódó biztonsági mentési és a tranzakciós naplófájlokat az valós idejű titkosítását és visszafejtését végrehajtásához. Az SQL Database segítségével is [Always Encrypted](/azure/sql-database/sql-database-always-encrypted-azure-key-vault) során adatátviteli ügyfél és kiszolgáló közötti, és az adatok használata közben a kiszolgálón, az inaktív bizalmas adatok védelme érdekében. Az Azure Key Vault használatával az Always Encrypted titkosítási kulcsok tárolásához. 
 
 ### <a name="rights-management"></a>Rights management
 
-[Az Azure Rights Management](/information-protection/understand-explore/what-is-azure-rms) egy felhőalapú szolgáltatás, amely biztonságos fájlok és e-mailek titkosítási, identitáskezelési és engedélyezési házirendeket használ. Több eszköz is használható – telefonokon, táblagépeken és számítógépeken. Információk védhetők a szervezeten belül, mind a szervezeten kívüli mert is védettek maradnak az adatokat, akkor is, ha elhagyják a szervezet területét.
+[Az Azure Rights Management](/information-protection/understand-explore/what-is-azure-rms) egy felhőalapú szolgáltatás, amely biztonságos fájlok és e-mailek titkosítási, identitáskezelési és engedélyezési házirendeket használ. Több eszközön működik – például telefonokon, táblagépeken és számítógépeken. Információk védelme biztosítható a szervezeten belül, mind a szervezeten kívüli mert is védettek maradnak az adatokat, akkor is, ha elhagyják a szervezet területét.
 
 ### <a name="access-control"></a>Hozzáférés-vezérlés
 
-Használjon [szerepköralapú hozzáférés-vezérlés](/azure/active-directory/role-based-access-control-what-is) (RBAC) Azure-erőforrások való hozzáférés korlátozása a felhasználói szerepkörök alapján. Ha a helyszíni Active Directory használ, akkor [szinkronizálása az Azure ad-val](/azure/active-directory/active-directory-hybrid-identity-design-considerations-directory-sync-requirements) biztosít a felhasználók a helyszíni identitás alapján felhő megadásával.
+Használat [szerepköralapú hozzáférés-vezérlés](/azure/active-directory/role-based-access-control-what-is) (RBAC) az Azure-erőforrásokhoz való hozzáférés korlátozása a felhasználói szerepkörök alapján. Ha a helyszíni Active Directory használ, [szinkronizálja az Azure AD-val](/azure/active-directory/active-directory-hybrid-identity-design-considerations-directory-sync-requirements) biztosít egy felhőalapú identitás-azonosítót fog kérni a helyszíni alapján.
 
-Használjon [feltételes hozzáférés az Azure Active Directoryban](/azure/active-directory/active-directory-conditional-access-azure-portal) szabályozza a hozzáférést a megadott feltételek alapján a környezetben futó alkalmazások érvényesítését. Például a házirend-utasítás sikerült formájában: _alvállalkozói megpróbált hozzáférni a felhőalapú alkalmazások, amelyek nem megbízható hálózatokon, ha majd blokkolja a hozzáférést_. 
+Használat [feltételes hozzáférés az Azure Active Directory](/azure/active-directory/active-directory-conditional-access-azure-portal) az alkalmazásokhoz a környezetben a meghatározott feltételek alapján való hozzáférést a vezérlők kényszerítésére. A szabályzat Vegyünk példának formájában: _elérésekor alvállalkozók vannak a felhőalapú alkalmazások a nem megbízható hálózatokhoz, majd letiltja a hozzáférést_. 
 
-[Az Azure AD Privileged Identity Management](/azure/active-directory/active-directory-privileged-identity-management-configure) kezelése, szabályozása és figyelése, és milyen típusú feladatok vannak végrehajtásához a rendszergazda jogosultságokkal a felhasználók segítséget. Ez egy fontos lépés korlátozza, aki a szervezet végezhet el a jogosultságokhoz kötött műveletek az Azure ad-ben, az Azure, az Office 365 vagy az SaaS-alkalmazások esetén figyelőjével továbbá a hozzájuk tartozó tevékenység.
+[Az Azure AD Privileged Identity Management](/azure/active-directory/active-directory-privileged-identity-management-configure) segítségével szabályozhatja, kezelhetők és figyelheti a felhasználók és milyen feladatokat számos vannak végrehajtása a rendszergazdai jogosultságokat. Ez egy fontos lépés a vállalatnál ki is végrehajthasson privilegizált műveleteket az Azure AD-ben korlátozza az Azure, Office 365-höz, vagy SaaS-alkalmazások, valamint figyelő tevékenységeik.
 
 ### <a name="network"></a>Network (Hálózat)
 
-Az adatok védelmére átvitel, mindig használjon SSL/TLS amikor adatcsere különböző helyek között. Előfordulhat, hogy a teljes kommunikációs csatornát a helyszíni közötti elkülönítése, és a felhőalapú infrastruktúra használatával vagy a virtuális magánhálózat (VPN) kell vagy [ExpressRoute](/azure/expressroute/). További információkért lásd: [kiterjesztése a felhőbe a helyszíni megoldás](../scenarios/hybrid-on-premises-and-cloud.md).
+Az átvitt adatok védelme érdekében mindig használja az SSL/TLS különböző helyek közötti adatcsere során. Előfordulhat, hogy a teljes kommunikációs csatornát a helyszíni közötti azonosíthatók, és virtuális magánhálózati (VPN) felhőalapú infrastruktúra használatával kell vagy [ExpressRoute](/azure/expressroute/). További információkért lásd: [a felhő helyszíni Adatmegoldások kiterjesztése](../scenarios/hybrid-on-premises-and-cloud.md).
 
-Használjon [hálózati biztonsági csoportok](/azure/virtual-network/virtual-networks-nsg) (NSG-k) a potenciális támadási számának csökkentése érdekében. A hálózati biztonsági csoport egy biztonsági szabályokból álló listát tartalmaz, amelyek engedélyezik vagy megtagadják a bejövő vagy kimenő hálózati forgalmat a forrás vagy a cél IP-címe, illetve portok vagy protokollok alapján. 
+Használat [hálózati biztonsági csoportok](/azure/virtual-network/virtual-networks-nsg) (NSG-ket) a potenciális támadási vektorok számának csökkentése. A hálózati biztonsági csoport egy biztonsági szabályokból álló listát tartalmaz, amelyek engedélyezik vagy megtagadják a bejövő vagy kimenő hálózati forgalmat a forrás vagy a cél IP-címe, illetve portok vagy protokollok alapján. 
 
-Használjon [virtuális hálózati Szolgáltatásvégpontok](/azure/virtual-network/virtual-network-service-endpoints-overview) az Azure SQL- vagy Azure tárolási erőforrások biztonságba helyezése, hogy csak a virtuális hálózati forgalmát férhetnek hozzá ezekhez az erőforrásokhoz.
+Használat [virtuális hálózati Szolgáltatásvégpontok](/azure/virtual-network/virtual-network-service-endpoints-overview) védheti meg Azure Storage vagy az Azure SQL-erőforrásokat, így csak a virtuális hálózatból érkező forgalom is elérheti ezeket az erőforrásokat.
 
-Virtuális gépek az Azure Virtual Network (VNet) belül biztonságosan kommunikálhat más Vnetekről használatával [virtuális hálózati társviszony-létesítés](/azure/virtual-network/virtual-network-peering-overview). A társított virtuális hálózatok közti hálózati adatforgalom nem nyilvános. A virtuális hálózatok közötti forgalom a Microsoft gerinchálózatán belül marad.
+Az Azure Virtual Network (VNet) belüli virtuális gépek biztonságosan kommunikálhat más virtuális hálózatok használatával [virtuális hálózatok közötti társviszony](/azure/virtual-network/virtual-network-peering-overview). A társított virtuális hálózatok közti hálózati adatforgalom nem nyilvános. A virtuális hálózatok közötti forgalom a Microsoft gerinchálózatán belül marad.
 
 További információkért lásd: [Azure hálózati biztonság](/azure/security/azure-network-security)
 
 ### <a name="monitoring"></a>Figyelés
 
-[Az Azure Security Center](/azure/security-center/security-center-intro) automatikusan gyűjti, elemzi és integrálja az Azure-erőforrások, a hálózati és az összekapcsolt partneri megoldások, például a tűzfal megoldások valós fenyegetések észlelése és a vakriasztások számának csökkentése érdekében naplóadatait. 
+[Az Azure Security Center](/azure/security-center/security-center-intro) automatikusan gyűjti, elemzi és integrálja az Azure-erőforrások, a hálózati és a csatlakoztatott partneri megoldások, például tűzfal-megoldások, a valós fenyegetések észlelése és csökkenti a vakriasztások naplóadatait. 
 
-[Naplófájl Analytics](/azure/log-analytics/log-analytics-overview) központosított hozzáférést biztosít a a naplók és segítségével elemezheti az adatokat, és hozzon létre egyéni riasztások.
+[Log Analytics](/azure/log-analytics/log-analytics-overview) a naplók központosított hozzáférést biztosít, és segítségével elemezheti az adatokat, és egyéni riasztásokat is létrehozhat.
 
-[Az Azure SQL adatbázis Fenyegetésészlelés](/azure/sql-database/sql-database-threat-detection) észleli a rendellenes tevékenységek jelző szokatlan és potenciálisan káros kísérletek eléréséhez, vagy adatbázisok kihasználására. Biztonsági tisztviselő vagy más kijelölt rendszergazdák adatbázis gyanús tevékenységekről az azonnali értesítések fogadására azok bekövetkezésekor. Minden értesítés részletesen bemutatja a gyanús tevékenység, illetve további vizsgálata, és a fenyegetések mérséklésére javasolja.
+[Az Azure SQL Database Threat Detection](/azure/sql-database/sql-database-threat-detection) észleli az adatbázisokat elérni vagy kiaknázni a szokatlan és vélhetően kárt okozó kísérleteket jelző rendellenes tevékenységek. Biztonsági tisztviselők, vagy más kijelölt rendszergazdák a bekövetkezésük kaphatnak a gyanús adatbázis-tevékenységekről az azonnali értesítések. Minden értesítés biztosít a gyanús tevékenység részleteit, és hogyan további vizsgálata és a fenyegetés javasolja.
 
 
