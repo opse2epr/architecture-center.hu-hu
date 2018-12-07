@@ -3,12 +3,13 @@ title: Valós idejű pontozási Python Scikit-ismerje meg, és a Deep Learning-m
 description: Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python-modelleket az Azure-ra előrejelzéseket valós idejű webszolgáltatásként.
 author: njray
 ms.date: 11/09/2018
-ms.openlocfilehash: ff385e232c69e46b0afc6b15e73983bd856b9b2b
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.custom: azcat-ai
+ms.openlocfilehash: e233906e669bdedfd1675f05f3f832950ecc34ec
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902578"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004760"
 ---
 # <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a Deep Learning-modellek az Azure-ban
 

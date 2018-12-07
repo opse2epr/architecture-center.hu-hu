@@ -3,12 +3,13 @@ title: Webalkalmazás-monitorozás az Azure-ban
 description: Monitorozhatja az Azure App Service-szel üzemeltetett webalkalmazásokat.
 author: adamboeglin
 ms.date: 09/12/2018
-ms.openlocfilehash: ba008035c37d1d4e2d2f823463344e4941c0b4c4
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: azcat
+ms.openlocfilehash: 1c08c6a999ef652c26447e8be39cb1052d790175
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610753"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004849"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
