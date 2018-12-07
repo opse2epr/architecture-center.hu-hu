@@ -1,16 +1,17 @@
 ---
-title: Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek
+title: Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz az Azure-ban
 description: Fejlesztési és tesztelési környezetet hozhat létre SAP számítási feladatokhoz.
 author: AndrewDibbins
 ms.date: 7/11/18
-ms.openlocfilehash: 1cfd15b0287a1979ae5ad60e41a0b1627a2e115c
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: fasttrack
+ms.openlocfilehash: 84665bfeb6ada568c631e1db72b97269d79f2e60
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610804"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004681"
 ---
-# <a name="devtest-environments-for-sap-workloads-on-azure"></a>Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek
+# <a name="devtest-environments-for-sap-workloads-on-azure"></a>Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz az Azure-ban
 
 Ez a példa bemutatja, hogyan lehet létrehozni egy fejlesztési-tesztelési környezetet az SAP NetWeaver az olyan Windows vagy Linux-környezet az Azure-ban. A használt adatbázisa AnyDB, az SAP kifejezés bármely támogatott adatbázis-kezelő (amely nem az SAP HANA). Ez az architektúra nem éles környezetekhez lett kialakítva, mert csak egyetlen virtuális géphez (VM) üzemel, és annak méretét is módosítható a szervezet igényeinek megfelelően.
 

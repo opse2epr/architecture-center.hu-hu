@@ -3,12 +3,13 @@ title: 3D-s videórenderelés az Azure-ban
 description: Natív HPC számítási feladatokat futtathat az Azure-ban az Azure Batch szolgáltatás használatával.
 author: adamboeglin
 ms.date: 07/13/2018
-ms.openlocfilehash: 1ffdaa5467fec73a01b8caa18b71c2bc4e49abbe
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: fasttrack
+ms.openlocfilehash: 7dacefd5179c426912dd97af9af7b5a39505392d
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610685"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004830"
 ---
 # <a name="3d-video-rendering-on-azure"></a>3D-s videórenderelés az Azure-ban
 

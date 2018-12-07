@@ -2,14 +2,14 @@
 title: Rendelkezésre állási ellenőrzőlisták
 description: A feladatlista, amely rendelkezésre állási problémák során tervezési útmutatást nyújt.
 author: dragon119
-ms.date: 01/10/2018
+ms.date: 11/26/2018
 ms.custom: checklist
-ms.openlocfilehash: 5a819c5612fba9623c239bcc43f9004cd97dfb76
-ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
+ms.openlocfilehash: de1a2ea6d21737dc39f248527f194a1c74209a59
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52305893"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004688"
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlisták
 

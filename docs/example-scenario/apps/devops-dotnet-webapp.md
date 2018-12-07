@@ -3,12 +3,13 @@ title: CI-/CD-folyamat az Azure DevOps-szal
 description: .NET-alkalmazást hozhat létre, és közzéteheti az Azure Web Appsben az Azure DevOps használatával.
 author: christianreddington
 ms.date: 07/11/18
-ms.openlocfilehash: 97f16b2d3d9c15bc6f5db6fad4c9d8097243ad3d
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: fasttrack
+ms.openlocfilehash: 98e3f93bf541422577ad27690537275e8c01e5aa
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610787"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004984"
 ---
 # <a name="cicd-pipeline-with-azure-devops"></a>CI-/CD-folyamat az Azure DevOps-szal
 

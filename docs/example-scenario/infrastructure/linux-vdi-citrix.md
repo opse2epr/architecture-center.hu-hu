@@ -3,12 +3,13 @@ title: Linux rendszerű virtuális asztali környezetek a Citrix-szel
 description: VDI-környezetet hozhat létre Linux rendszerű asztali környezetekhez a Citrix használatával az Azure-ban.
 author: miguelangelopereira
 ms.date: 09/12/2018
-ms.openlocfilehash: 383642b05926c5a09abf0b2f95fef10539d95aec
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: fasttrack
+ms.openlocfilehash: d48163638da05fa075814d3a255ca783610741f8
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610651"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004780"
 ---
 # <a name="linux-virtual-desktops-with-citrix"></a>Linux rendszerű virtuális asztalok Citrix-szel
 

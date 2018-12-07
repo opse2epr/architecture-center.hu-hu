@@ -2,14 +2,14 @@
 title: Rugalmasságra vonatkozó ellenőrzőlista az Azure-szolgáltatásokhoz
 description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgáltatásokat biztosító ellenőrzőlista.
 author: petertaylor9999
-ms.date: 03/02/2018
+ms.date: 11/26/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 53a37595bd6e70fa3a43e9a72b2ae47d2225009f
-ms.sourcegitcommit: 1b5411f07d74f0a0680b33c266227d24014ba4d1
+ms.openlocfilehash: 08f31723be5efdcd79f8e6b1ab86d7cbd92c79a2
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52305927"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004993"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 

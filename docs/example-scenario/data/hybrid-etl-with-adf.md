@@ -1,16 +1,17 @@
 ---
-title: Hibrid ETL a meglévő helyszíni SSIS és az Azure Data Factory
-description: Hibrid ETL a meglévő helyszíni SQL Server Integration Services (SSIS)-telepítések és az Azure Data Factory
+title: Hibrid ETL meglévő helyszíni SSIS-sel és Azure Data Factoryval
+description: Hibrid ETL meglévő helyszíni SQL Server Integration Services- (SSIS-) környezetekkel és Azure Data Factoryval
 author: alhieng
 ms.date: 9/20/2018
-ms.openlocfilehash: c4c0cfd63ef1d6c620eb36e16622ad9ffb7b5d80
-ms.sourcegitcommit: 16bc6a91b6b9565ca3bcc72d6eb27c2c4ae935e4
+ms.custom: tsp-team
+ms.openlocfilehash: 62a458d19576a12b7e2c86619d39e18f4a0748e7
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/28/2018
-ms.locfileid: "52552608"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004582"
 ---
-# <a name="hybrid-etl-with-existing-on-premises-ssis-and-azure-data-factory"></a>Hibrid ETL a meglévő helyszíni SSIS és az Azure Data Factory
+# <a name="hybrid-etl-with-existing-on-premises-ssis-and-azure-data-factory"></a>Hibrid ETL meglévő helyszíni SSIS-sel és Azure Data Factoryval
 
 Szervezetek számára, amelyek az SQL Server-adatbázisok migrálása a felhőbe is vegye figyelembe, áttekintse költségmegtakarítást, teljesítménynövekedést, további rugalmasságot és méretezhető. Azonban finomhangolásával meglévő kinyerési, átalakítási és betöltési (ETL) folyamat készült SQL Server Integration Services (SSIS) lehet egy áttelepítési roadblock. Egyéb esetben az adatok betöltése a folyamathoz az szükséges összetett logikát és/vagy az adott eszköz összetevői, amelyek még nem támogatott az Azure Data Factory v2 (ADF). A gyakran használt SSIS többek között az intelligens keresési és intelligens csoportosítási átalakítások, a módosítási adatok rögzítése (CDC), a lassú módosítása dimenziók (. SCD) és a Data Quality Services (DQS).
 
@@ -29,7 +30,7 @@ Számos lehetséges helyi használati esetek az alábbiak:
 * Egy adatbázis-elemzés hálózati útválasztó naplók betöltése.
 * Foglalkoztatás adatok az emberi erőforrások előkészítése az analitikai jelentés.
 * Termék- és értékesítési adatok betöltése az értékesítési előrejelzésére egy data warehouse-bA.
-* Be- vagy működési tárolók vagy adatok adattárházakkal, amelyeknél a Pénzügy és könyvelés automatizálása.
+* Automatizálás betöltése vagy a tárolók vagy adatok adattárházakkal, amelyeknél a Pénzügy és könyvelés.
 
 ## <a name="architecture"></a>Architektúra
 

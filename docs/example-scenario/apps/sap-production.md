@@ -3,12 +3,13 @@ title: Éles SAP számítási feladatok futtatása egy Oracle-adatbázis haszná
 description: Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.
 author: DharmeshBhagat
 ms.date: 9/12/2018
-ms.openlocfilehash: 75942b4d9b18b7bbe7a162826bcf4fe9ece22dce
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.custom: fasttrack
+ms.openlocfilehash: e345760c69c4d3cc26fe6d4d7cb8a93d183a5818
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610906"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004968"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 

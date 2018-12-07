@@ -1,16 +1,17 @@
 ---
-title: A Service Fabric használatával próbált felbontani, monolitikus alkalmazások
-description: Nagy, monolitikus alkalmazások mikroszolgáltatásokra bontható fel.
+title: A Service Fabric használata monolitikus alkalmazások felbontásához
+description: A nagy méretű monolitikus alkalmazásokat mikroszolgáltatásokra bonthatja fel.
 author: timomta
 ms.date: 09/20/2018
-ms.openlocfilehash: 9194ddd53a6d78f49fea2f7bb36fbc8721a502ea
-ms.sourcegitcommit: b2a4eb132857afa70201e28d662f18458865a48e
+ms.custom: fasttrack
+ms.openlocfilehash: 438d2eabff39356a7593f2da798a74eebe94553a
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/05/2018
-ms.locfileid: "48819705"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004628"
 ---
-# <a name="using-service-fabric-to-decompose-monolithic-applications"></a>A Service Fabric használatával próbált felbontani, monolitikus alkalmazások
+# <a name="using-service-fabric-to-decompose-monolithic-applications"></a>A Service Fabric használata monolitikus alkalmazások felbontásához
 
 Ebben a példában a forgatókönyvben azt végig egy megközelítés a [Service Fabric](/azure/service-fabric/service-fabric-overview) decomposing meg nehézkessé monolitikus alkalmazáshoz tartozó platform. Itt azt gondolja át, egy IIS/ASP.NET webhely decomposing egy alkalmazásba, iteratív megközelítés mikroszolgáltatásokból álló, több felügyelhető.
 

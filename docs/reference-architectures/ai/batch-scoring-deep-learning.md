@@ -4,12 +4,13 @@ description: Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus á
 author: jiata
 ms.date: 10/02/2018
 ms.author: jiata
-ms.openlocfilehash: 1f3f3d3882b2b30eb29acd26c9eab9ff128028e2
-ms.sourcegitcommit: 9eecff565392273d11b8702f1fcecb4d75e27a15
+ms.custom: azcat-ai
+ms.openlocfilehash: 7d2c2846c1e6b3546958817b100ed024b347102e
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/03/2018
-ms.locfileid: "48243758"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53005030"
 ---
 # <a name="batch-scoring-on-azure-for-deep-learning-models"></a>Kötegelt pontozási az Azure-on deep learning-modellek
 

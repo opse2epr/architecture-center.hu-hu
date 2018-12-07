@@ -6,12 +6,13 @@ ms.author: mattfarm
 ms.reviewer: jonfan, estfan, LADocs
 ms.topic: article
 ms.date: 12/03/2018
-ms.openlocfilehash: 6a4d7ce81dfae48f760693a4fc875d5ad59abe3a
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.custom: integration-services
+ms.openlocfilehash: a55d697342eadc72a7e4690b24224bdb35b968c5
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52919125"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004812"
 ---
 # <a name="enterprise-integration-on-azure-using-message-queues-and-events"></a>Vállalati integráció az Azure-üzenetsorok és események használata
 

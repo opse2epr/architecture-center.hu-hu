@@ -7,12 +7,13 @@ ms.author: mattfarm
 ms.reviewer: jonfan, estfan, LADocs
 ms.topic: article
 ms.date: 12/03/2018
-ms.openlocfilehash: c8aa3f8b736fabd1a6701778f22a7eec9bf46ee7
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.custom: integration-services
+ms.openlocfilehash: 9873fae61f9cb33b8707cf10e352f4b941fe5e74
+ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52919129"
+ms.lasthandoff: 12/06/2018
+ms.locfileid: "53004940"
 ---
 # <a name="basic-enterprise-integration-on-azure"></a>Alapszintű vállalati integráció az Azure-ban
 
