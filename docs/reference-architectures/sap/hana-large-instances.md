@@ -1,20 +1,22 @@
 ---
 title: Nagyméretű Azure-példányokon futó SAP HANA futtatása
+titleSuffix: Azure Reference Architectures
 description: Bevált eljárások az SAP HANA futtatásához magas rendelkezésre állású környezetben az nagyméretű Azure-példányokon.
 author: lbrader
 ms.date: 05/16/2018
-ms.openlocfilehash: d9d619dd7fb17c7cf0a66ce73c1e067ec97a2401
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: c21a5ac83d8d8ee9a9b9d7edad07288c85544994
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429706"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120155"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a>Nagyméretű Azure-példányokon futó SAP HANA futtatása
 
-Ez a referenciaarchitektúra az Azure-ban (nagyméretű példányok) SAP HANA futtatásához magas rendelkezésre állás és vészhelyreállítás (DR) bevált eljárásokat mutat be. HANA nagyméretű példányok nevű, ezt az ajánlatot a fizikai kiszolgálók Azure-régióban üzemel. 
+Ez a referenciaarchitektúra az Azure-ban (nagyméretű példányok) SAP HANA futtatásához magas rendelkezésre állás és vészhelyreállítás (DR) bevált eljárásokat mutat be. HANA nagyméretű példányok nevű, ezt az ajánlatot a fizikai kiszolgálók Azure-régióban üzemel.
 
-![0][0]
+![Nagyméretű példányok az Azure használatával SAP HANA-architektúra](./images/sap-hana-large-instances.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
@@ -27,28 +29,30 @@ Ez az architektúra a következő infrastruktúra-összetevőkből áll.
 
 - **Virtuális hálózat**. A [Azure Virtual Network] [ vnet] szolgáltatás biztonságosan köti össze az Azure-erőforrások egymáshoz, és van felosztva, külön [alhálózatok] [ subnet] az egyes rétegekhez. SAP alkalmazási rétegekben vannak üzembe helyezve az előzménylistákat az Azure gépeken (VM) a HANA-adatbázis elhelyezkedhet a nagyméretű példányok réteg csatlakozni.
 
-- **Virtuális gépek**. A SAP alkalmazás réteg és a megosztott szolgáltatások réteg virtuális gépek használhatók. Ez utóbbi tartalmazza a jumpbox nagyméretű HANA-példányok beállítása és más virtuális gépek hozzáférést biztosítanak a rendszergazdák által használt. 
+- **Virtuális gépek**. A SAP alkalmazás réteg és a megosztott szolgáltatások réteg virtuális gépek használhatók. Ez utóbbi tartalmazza a jumpbox nagyméretű HANA-példányok beállítása és más virtuális gépek hozzáférést biztosítanak a rendszergazdák által használt.
 
 - **Nagyméretű HANA-példány**. A [fizikai kiszolgáló] [ physical] certified a t futtatja SAP HANA SAP HANA szabott adatközpont integrációja (TDI) szabványoknak való megfelelést. Ez az architektúra két HANA nagyméretű példányok használ: egy elsődleges és másodlagos számítási egység. Az adatok rétege magas rendelkezésre állást biztosítunk HANA rendszer replikációs (HSR) keresztül.
 
-- **Magas rendelkezésre állású párként**. Nagyméretű HANA-példányokhoz panelek egy csoportját együtt felügyelt alkalmazás redundancia és megbízhatóság biztosításához. 
+- **Magas rendelkezésre állású párként**. Nagyméretű HANA-példányokhoz panelek egy csoportját együtt felügyelt alkalmazás redundancia és megbízhatóság biztosításához.
 
-- **(A Microsoft vállalati peremhálózati) MSEE**. MSEE egy szolgáltatáskapcsolati pont kapcsolati vagy ExpressRoute-kapcsolatcsoport segítségével a peremhálózatban. 
+- **(A Microsoft vállalati peremhálózati) MSEE**. MSEE egy szolgáltatáskapcsolati pont kapcsolati vagy ExpressRoute-kapcsolatcsoport segítségével a peremhálózatban.
 
 - **Hálózati adapterek (NIC)**. Ahhoz, hogy a kommunikáció, a nagyméretű HANA-példányt kiszolgáló alapértelmezés szerint négy virtuális hálózati adapter biztosít. Ez az architektúra egy hálózati adapter közötti kommunikáció, egy második hálózati adapter szükséges HSR, egy külső hálózati adapter nagyméretű HANA-példány tárolás és a egy negyedik a fürtszolgáltatás magas rendelkezésre állású használja az iSCSI-csomópontok csatlakoztatásához szükséges.
-    
+
 - **A hálózati fájlrendszerben (NFS) storage**. A [NFS] [ nfs] server támogatja a védett adatok megőrzése nagyméretű HANA-példány biztosító hálózati fájlmegosztáson.
 
-- **Az ExpressRoute.** [Az ExpressRoute] [ expressroute] a javasolt az Azure hálózati szolgáltatás a helyszíni hálózat és az Azure virtuális hálózatok, amelyek nem a nyilvános interneten haladnak át közötti magánhálózati kapcsolatokat hozhat létre. Az Azure virtuális gépek HANA nagyméretű példányok egy másik az ExpressRoute-kapcsolat használatával csatlakozni. Az ExpressRoute-kapcsolat az Azure virtuális hálózat és a nagyméretű HANA-példányok között a Microsoft ajánlat részeként van beállítva.
+- **Az ExpressRoute**. [Az ExpressRoute] [ expressroute] a javasolt az Azure hálózati szolgáltatás a helyszíni hálózat és az Azure virtuális hálózatok, amelyek nem a nyilvános interneten haladnak át közötti magánhálózati kapcsolatokat hozhat létre. Az Azure virtuális gépek HANA nagyméretű példányok egy másik az ExpressRoute-kapcsolat használatával csatlakozni. Az ExpressRoute-kapcsolat az Azure virtuális hálózat és a nagyméretű HANA-példányok között a Microsoft ajánlat részeként van beállítva.
 
 - **Átjáró**. Az ExpressRoute-átjárót az Azure virtuális hálózat, az SAP alkalmazásrétegre a nagyméretű HANA-példány hálózati használt kapcsolódásra szolgál. Használja a [nagy teljesítményű és Ultranagy teljesítményű] [ sku] Termékváltozat.
 
-- **A vészhelyreállítás (DR)**. Kérésre a tárreplikáció támogatott, és akkor konfigurálhatók, hogy az elsődleges kiszolgálóról a [DR hely] [ DR-site] egy másik régióban található.  
- 
+- **A vészhelyreállítás (DR)**. Kérésre a tárreplikáció támogatott, és akkor konfigurálhatók, hogy az elsődleges kiszolgálóról a [DR hely] [ DR-site] egy másik régióban található.
+
 ## <a name="recommendations"></a>Javaslatok
+
 Követelmények is eltérőek lehetnek, ezért ezeket a javaslatokat kiindulópontként.
 
 ### <a name="hana-large-instances-compute"></a>Nagyméretű HANA-példányok számítási
+
 [Nagyméretű példányok] [ physical] fizikai kiszolgálókat az Intel EX E7 CPU architektúra alapján, és a egy nagyméretű szolgáltatáspéldányban konfigurálva –, egy meghatározott készletének kiszolgálók vagy a többi panelen. Egy számítási egység egyenlő egy kiszolgáló vagy panelen, és a egy stamp tevődik össze több kiszolgálóhoz vagy a többi panelen. Egy nagyméretű szolgáltatáspéldányban kiszolgálók nem megosztott, és egy ügyfél központi telepítését az SAP HANA futtatása dedikált.
 
 SKU-k különböző HANA nagyméretű példányokhoz, 20 TB-ig egyetlen példányra (60 TB-os horizontális felskálázás) memóriát az S/4HANA vagy egyéb SAP HANA számítási feladatainak támogatása érhetők el. [Két osztályba] [ classes] kiszolgálók érhetők el:
@@ -62,13 +66,15 @@ Például a S72 Termékváltozat 768 GB RAM, a tárolás és 2 Intel Xeon proces
 A Microsoft segíti a nagyméretű példány beállítása, de a felelőssége, hogy az operációs rendszer konfigurációs beállításainak ellenőrzése. Ellenőrizze, hogy tekintse át a pontos Linux kiadásban a legújabb SAP-megjegyzések.
 
 ### <a name="storage"></a>Storage
-A tárolási elrendezés az SAP Hana TDI a ajánlása szerint van megvalósítva. Nagyméretű HANA-példányok egy adott tárolási konfigurációt, a standard szintű TDI leírásában kapható. Azonban további tárterületet 1 TB-os lépésekben vásárolhat. 
+
+A tárolási elrendezés az SAP Hana TDI a ajánlása szerint van megvalósítva. Nagyméretű HANA-példányok egy adott tárolási konfigurációt, a standard szintű TDI leírásában kapható. Azonban további tárterületet 1 TB-os lépésekben vásárolhat.
 
 Üzleti szempontból kritikus környezetek, például a gyors helyreállítás követelményeinek kielégítése érdekében NFS használt, és nem közvetlenül csatlakoztatott tárolók. Az NFS-tároló kiszolgáló nagyméretű HANA-példányokhoz több-bérlős környezetben, ahol a bérlők elkülönített és védi a számítási, hálózati és tárolási elkülönítési üzemel.
 
 Támogatja a magas rendelkezésre állás az elsődleges helyen, használjon másik tárolási elrendezést. A több gazdagép kibővített, például a storage van osztva. Egy másik magas rendelkezésre állású lehetőség például a HSR-beli alkalmazásalapú replikáció. A Vészhelyreállítás azonban egy pillanatkép-alapú tárreplikáció használnak.
 
 ### <a name="networking"></a>Hálózat
+
 Ez az architektúra és a fizikai, mind a virtuális hálózatokat használ. A virtuális hálózat része az Azure IaaS és a egy különálló HANA nagyméretű példányok fizikai hálózaton keresztül kapcsolódik [ExpressRoute][expressroute]] Kapcsolatcsoportok. Létesítmények közötti átjáró csatlakozik a helyszíni hely a számítási feladatokat az Azure virtuális hálózatban.
 
 Nagyméretű HANA-példányokhoz hálózatok különítve egymástól a biztonság. Különböző régiókban levő példányok nem kommunikálnak egymással, a dedikált tárreplikáció kivételével. Azonban a HSR használatához régiók közötti kommunikáció szükség. [IP-útválasztási táblázatok] [ ip] vagy proxyk engedélyezése több régiót HSR használható.
@@ -78,6 +84,7 @@ Minden Azure virtuális hálózatok, amelyek egy adott régióban nagyméretű H
 HANA nagyméretű példányok az ExpressRoute üzembe helyezés során alapértelmezés szerint tartalmazza. A telepítő egy adott hálózati elrendezés szükséges, beleértve a szükséges cím CIDR-tartományok és az útválasztási tartomány. További információkért lásd: [SAP HANA (nagyméretű példányok) infrastruktúra és kapcsolódás az Azure-ban][HLI-infrastructure].
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
+
 A kisebbre vagy nagyobbra méretezhetők, a nagyméretű HANA-példányok rendelkezésre álló kiszolgálók számos méretek közül választhat. Kategóriába sorolt [i. típus és II. típusú] [ classes] és a különböző számítási feladatokhoz igazított. Válasszon, amely a következő három év növelhető az alkalmazások és szolgáltatások-méretet. Egy éves kötelezettségvállalás is elérhetők.
 
 Egy több gazdagépet bővítő telepítés BW/4HANA-telepítések általában használják, egyfajta adatbázis particionálási stratégia. A horizontális felskálázáshoz tervezze meg a telepítés előtt HANA táblák elhelyezését. -Infrastruktúra szempontból több gazdagép csatlakozik egy megosztott tároló kötet, abban az esetben, ha meghiúsul egy számítási munkavégző csomópontja között a HANA system, amely lehetővé teszi, hogy gyors átvétel készenléti gazdagépek.
@@ -86,7 +93,7 @@ S/4hana-t és az SAP Business Suite on HANA az egyetlen panelen lehet méretezve
 
 Előzmények nélküli forgatókönyvek esetén a [SAP gyors Szimbólumméretező] [ quick-sizer] HANA épülő SAP-szoftverek végrehajtásának memóriaigényének kiszámításához érhető el. HANA memóriakövetelményei növelje az adatmennyiség növekedésével. A rendszer aktuális memóriafogyasztás alapjaként használni a jövőbeli fogyasztás előrejelzésére szolgáló, és a egy a nagyméretű HANA-példányok méretei képezze le az igény szerinti.
 
-Ha már rendelkezik az SAP üzemelő példányok, SAP biztosít a jelentések segítségével ellenőrizze a meglévő rendszerek által használt adatokat, majd számítja ki a memória a HANA-példány. Például tekintse meg az alábbi SAP-megjegyzések: 
+Ha már rendelkezik az SAP üzemelő példányok, SAP biztosít a jelentések segítségével ellenőrizze a meglévő rendszerek által használt adatokat, majd számítja ki a memória a HANA-példány. Például tekintse meg az alábbi SAP-megjegyzések:
 
 - SAP-Jegyzetnek [1793345] [ sap-1793345] – SAP Suite on HANA méretezése
 - SAP-Jegyzetnek [1872170] [ sap-1872170] -Suite on HANA, és S/4 HANA méretezési jelentés
@@ -106,19 +113,21 @@ Működik együtt az SAP, a rendszerintegrátor, vagy a Microsoft megfelelően t
 
 Magas rendelkezésre állás érdekében egy magas rendelkezésre ÁLLÁS pár egynél több példány üzembe helyezése, és a HSR használata egy szinkron módban adatveszteség és állásidő minimalizálása érdekében. Mellett egy helyi, kétcsomópontos magas rendelkezésre állású összeállításban HSR támogatja a többrétegű replikációs, ahol egy külön Azure-régióban egy harmadik csomóponton regisztrálja a fürtözött HSR pár replikációs célhelye, a másodlagos replikára. Ez képezi egy replikációs lánckapcsolt. A feladatátvételt, hogy a DR-csomópont manuális folyamat során a rendszer.
 
-HANA nagyméretű példányok HSR automatikus feladatátvétellel beállításakor beállítása a Microsoft-kezelési csapatunk kérheti egy [STONITH eszköz] [ stonith] a meglévő kiszolgálói számára. 
+HANA nagyméretű példányok HSR automatikus feladatátvétellel beállításakor beállítása a Microsoft-kezelési csapatunk kérheti egy [STONITH eszköz] [ stonith] a meglévő kiszolgálói számára.
 
 ## <a name="disaster-recovery-considerations"></a>Vészhelyreállítási szempontok
+
 Ez az architektúra támogatja [vész-helyreállítási] [ hli-dr] HANA nagyméretű példányok különböző Azure-régiók között. A nagyméretű HANA-példányokhoz DR támogatásához két módja van:
 
 - Tárolóreplikáció. Elsődleges tároló tartalma folyamatosan replikálódnak a távoli DR adattároló rendszerek, amelyek a kijelölt kiszolgálón DR HANA nagyméretű példányok elérhető. A storage-bA a HANA-adatbázis nem betölti a memóriába. A DR-beállítás esetén egyszerűbb felügyeleti szempontból. Annak megállapításához, hogy ez-e a megfelelő stratégiát, érdemes lehet az adatbázis betöltési idő, szemben a rendelkezésre állási SLA-t. Tárreplikáció emellett lehetővé teszi időpontban a helyreállítás végrehajtásához. Ha többcélú (költség optimalizált) DR be van állítva, meg kell vásárolnia a DR helyen azonos méretű tárhely. A Microsoft biztosít bontaniuk [tárolási pillanatkép és a feladatátvételi parancsfájl] [ scripts] HANA feladatátvételi a HANA nagyméretű példányok ajánlat részeként.
 
-- Többrétegű HSR (ahol a HANA-adatbázis alakzatot memória van betöltve) DR régióban egy harmadik replikával. Ezt a beállítást támogatja a helyreállítás gyorsabb, de nem támogatja a időponthoz helyreállítás. HSR egy másodlagos rendszert igényel. A DR hely HANA-rendszerreplikálást proxyk, például az nginx-et vagy az IP-táblák kezeli. 
+- Többrétegű HSR (ahol a HANA-adatbázis alakzatot memória van betöltve) DR régióban egy harmadik replikával. Ezt a beállítást támogatja a helyreállítás gyorsabb, de nem támogatja a időponthoz helyreállítás. HSR egy másodlagos rendszert igényel. A DR hely HANA-rendszerreplikálást proxyk, például az nginx-et vagy az IP-táblák kezeli.
 
 > [!NOTE]
-> Ez a referenciaarchitektúra az költségek optimalizálhatja egypéldányos környezetben futtatja. Ez [költség optimalizált forgatókönyv](https://blogs.sap.com/2016/07/19/new-whitepaper-for-high-availability-for-sap-hana-cost-optimized-scenario/) a nem éles HANA feladat ellátására alkalmas. 
+> Ez a referenciaarchitektúra az költségek optimalizálhatja egypéldányos környezetben futtatja. Ez [költség optimalizált forgatókönyv](https://blogs.sap.com/2016/07/19/new-whitepaper-for-high-availability-for-sap-hana-cost-optimized-scenario/) a nem éles HANA feladat ellátására alkalmas.
 
 ## <a name="backup-considerations"></a>Biztonsági másolat szempontjai
+
 Több rendelkezésre álló lehetőségek közül választhat az üzleti követelmények alapján, [biztonsági mentési és helyreállítási][hli-backup].
 
 | Ez a beállítás                   | Szakemberek számára                                                                                                   | Hátrányok                                                       |
@@ -130,11 +139,13 @@ Több rendelkezésre álló lehetőségek közül választhat az üzleti követe
 | Egyéb biztonsági mentési eszközök | Georedundáns biztonsági másolat helyét.                                                                             | További licencelési költségeit.                                |
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
-Nagyméretű HANA-példányokhoz erőforrások, például a CPU, memória, hálózati sávszélességet és tárolóhelyet, SAP, HANA Studio, az SAP HANA vezérlőpultja, SAP-megoldás Manager és más natív Linux-eszközök használatával figyelheti. Nagyméretű HANA-példányokhoz nem biztosítja a beépített monitorozási eszközökkel. A Microsoft kínál forrásanyagok [hibaelhárításához és monitorozásához] [ hli-troubleshoot] a szervezet elvárásainak, és a Microsoft támogatási csapatunk segítségére a technikai problémák elhárítása. 
 
-Ha további számítási képesség, be kell szereznie egy nagyobb Termékváltozat. 
+Nagyméretű HANA-példányokhoz erőforrások, például a CPU, memória, hálózati sávszélességet és tárolóhelyet, SAP, HANA Studio, az SAP HANA vezérlőpultja, SAP-megoldás Manager és más natív Linux-eszközök használatával figyelheti. Nagyméretű HANA-példányokhoz nem biztosítja a beépített monitorozási eszközökkel. A Microsoft kínál forrásanyagok [hibaelhárításához és monitorozásához] [ hli-troubleshoot] a szervezet elvárásainak, és a Microsoft támogatási csapatunk segítségére a technikai problémák elhárítása.
+
+Ha további számítási képesség, be kell szereznie egy nagyobb Termékváltozat.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
+
 - Alapértelmezés szerint a HANA nagyméretű példányok használják a tárolás titkosítása a TDE (transzparens adattitkosítás) inaktív adatok alapján.
 
 - Nagyméretű HANA-példányok és a virtuális gépek között átvitt adatok nincsenek titkosítva. Az adatátvitel titkosítását, az alkalmazás-specifikus titkosítást. Tekintse meg az SAP-Jegyzetnek [2159014] [ sap-2159014] – gyakori kérdések: SAP HANA biztonsági.
@@ -150,12 +161,13 @@ Ha további számítási képesség, be kell szereznie egy nagyobb Termékválto
 További információkért lásd: [SAP HANA biztonsági – áttekintés][sap-security]. () Egy SAP Service Marketplace-fiók megadása kötelező a hozzáféréshez)
 
 ## <a name="communities"></a>Közösségek
+
 A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a sikeres üzembe helyezésben. A következőket ajánljuk figyelmébe:
 
-* [A Microsoft Platform Blog futó SAP-alkalmazások][running-sap-blog]
-* [Azure közösségi támogatás][azure-forum]
-* [Az SAP közösségi][sap-community]
-* [A stack Overflow SAP][stack-overflow]
+- [A Microsoft Platform Blog futó SAP-alkalmazások][running-sap-blog]
+- [Azure közösségi támogatás][azure-forum]
+- [Az SAP közösségi][sap-community]
+- [A stack Overflow SAP][stack-overflow]
 
 [azure-forum]: https://azure.microsoft.com/support/forums/
 [azure-large-instances]: /azure/virtual-machines/workloads/sap/hana-overview-architecture
@@ -199,6 +211,4 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 [swd]: https://help.sap.com/doc/saphelp_nw70ehp2/7.02.16/en-us/48/8fe37933114e6fe10000000a421937/frameset.htm
 [type]: /azure/virtual-machines/workloads/sap/hana-installation
 [vnet]: /azure/virtual-network/virtual-networks-overview
-[0]: ./images/sap-hana-large-instances.png "Nagyméretű példányok az Azure használatával SAP HANA-architektúra"
-
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/sap-reference-architectures.vsdx

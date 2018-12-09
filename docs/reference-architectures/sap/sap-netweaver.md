@@ -1,33 +1,36 @@
 ---
 title: SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
+titleSuffix: Azure Reference Architectures
 description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendszerű Azure-ban magas rendelkezésre állású.
 author: lbrader
 ms.date: 08/03/2018
-ms.openlocfilehash: 3a8c59b63d55dea520f807efbe72ff56e678ec8e
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seodec18
+ms.openlocfilehash: 4014d5736527a2f29692720d199b4a1aa8f76020
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916583"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120186"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
 Ez a referenciaarchitektúra bevált eljárásokat SAP NetWeaver környezetben futó Windows Azure-ban magas rendelkezésre állású mutat be. Az adatbázis AnyDB, a bármely támogatott adatbázis-kezelő mellett az SAP HANA SAP kifejezés. Ez az architektúra, amely a szervezet igényeinek megfelelően módosíthatja adott virtuális gép (VM) méretek van telepítve.
 
-![](./images/sap-netweaver.png)
+![SAP NetWeaver (Windows) az Azure virtuális gépeken AnyDB a referencia-architektúra](./images/sap-netweaver.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-> [!NOTE] 
+> [!NOTE]
 > A referenciaarchitektúra üzembe helyezéséhez SAP-termékek és más, nem a Microsoft által gyártott termékek megfelelő licence szükséges.
 
 ## <a name="architecture"></a>Architektúra
+
 Az architektúra a következő infrastruktúra és a kulcs szoftver összetevőkből áll.
 
 **Virtuális hálózat**. Az Azure Virtual Network szolgáltatás Azure-erőforrások biztonságosan csatlakozik egymáshoz. Ebben az architektúrában a virtuális hálózat egy helyszíni környezetben, az agyban telepített VPN-átjárón keresztül csatlakozik egy [küllős](../hybrid-networking/hub-spoke.md). A küllő a virtuális hálózat, a SAP-alkalmazások és az Adatbázisréteg.
 
 **Alhálózatok**. A virtuális hálózat minden szint külön alhálózatra van felosztva: alkalmazáshoz (SAP NetWeaver), adatbázis, a megosztott szolgáltatások (jumpbox) és az Active Directory.
-    
+
 **Virtuális gépek**. Ez az architektúra virtuális gépeket használ az alkalmazásrétegek és adatbázisszinten, az alábbiak szerint csoportosítva:
 
 - **SAP NetWeaver**. Az alkalmazásrétegek Windows virtuális gépeket használ, és futtatja az SAP Central Services és SAP-alkalmazáskiszolgálókhoz. A virtuális gépeket, hogy futási központi szolgáltatások magas rendelkezésre állás érdekében az SIOS DataKeeper Cluster Edition által támogatott Windows Server feladatátvevő fürtként vannak konfigurálva.
@@ -35,7 +38,7 @@ Az architektúra a következő infrastruktúra és a kulcs szoftver összetevők
 - **Jumpbox**. Más néven bástyagazdagép. Ez a biztonságos virtuális gép a hálózat, amely a rendszergazdák használhatják a más virtuális gépekhez való csatlakozáshoz.
 - **A Windows Server Active Directory-tartományvezérlők**. A tartományvezérlők minden olyan virtuális gépek és a tartomány felhasználói szolgálnak.
 
-**Terheléselosztók**. [Az Azure Load Balancer](/azure/load-balancer/load-balancer-overview) példányok az alkalmazás szinten alhálózaton lévő virtuális gépek forgalom elosztására használhatók. Az adatszinten magas rendelkezésre állású elérhető beépített SAP terheléselosztók, az Azure Load Balancer vagy más mechanizmusok, attól függően, az adatbázis-kezelő használatával. További információkért lásd: [SAP NetWeaver az Azure Virtual Machines DBMS üzembe](/azure/virtual-machines/workloads/sap/dbms-guide). 
+**Terheléselosztók**. [Az Azure Load Balancer](/azure/load-balancer/load-balancer-overview) példányok az alkalmazás szinten alhálózaton lévő virtuális gépek forgalom elosztására használhatók. Az adatszinten magas rendelkezésre állású elérhető beépített SAP terheléselosztók, az Azure Load Balancer vagy más mechanizmusok, attól függően, az adatbázis-kezelő használatával. További információkért lásd: [SAP NetWeaver az Azure Virtual Machines DBMS üzembe](/azure/virtual-machines/workloads/sap/dbms-guide).
 
 **Rendelkezésre állási csoportok**. Az SAP Web Dispatcher, SAP-alkalmazáskiszolgáló és (A) SCS virtuális gépek, a szerepkörök külön vannak csoportosítva [rendelkezésre állási csoportok](/azure/virtual-machines/windows/tutorial-availability-sets), és a felhasznált szerepkörönként legalább két virtuális gépet. Ez lehetővé teszi a virtuális gépek magasabb szintű támogatásra jogosult [szolgáltatói szerződést](https://azure.microsoft.com/support/legal/sla/virtual-machines) (SLA).
 
@@ -45,9 +48,10 @@ Az architektúra a következő infrastruktúra és a kulcs szoftver összetevők
 
 **Átjáró**. Az átjáró kiterjeszti a helyszíni hálózat az Azure virtual Networkhöz. [Az ExpressRoute](/azure/architecture/reference-architectures/hybrid-networking/expressroute) az ajánlott Azure-szolgáltatás, amely nem a nyilvános interneten haladnak át, magánhálózati kapcsolatokat hozhat létre, de egy [Site-to-Site](/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-portal) kapcsolat is használható.
 
-**Azure Storage**. Tartós tároláshoz a virtuális gépek virtuális merevlemez (VHD), amelyekkel [Azure Storage](/azure/storage/storage-standard-storage) megadása kötelező. Azt is használja [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy feladatátvételi fürt művelet végrehajtásához. 
+**Azure Storage**. Tartós tároláshoz a virtuális gépek virtuális merevlemez (VHD), amelyekkel [Azure Storage](/azure/storage/storage-standard-storage) megadása kötelező. Azt is használja [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy feladatátvételi fürt művelet végrehajtásához.
 
 ## <a name="recommendations"></a>Javaslatok
+
 Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak.
 
 ### <a name="sap-web-dispatcher-pool"></a>Az SAP Web Dispatcher-készlet
@@ -68,7 +72,7 @@ Virtuális gépek megosztott lemezfürt konfigurálásához használja [Windows 
 
 További információkért lásd: "3. Fontos frissítés SAP ügyfelek futó ASCS SIOS az Azure-ban a"következő [SAP alkalmazások futtatása Microsoft platformon](https://blogs.msdn.microsoft.com/saponsqlserver/2017/05/04/sap-on-azure-general-update-for-customers-partners-april-2017/).
 
-Kezelje a fürtszolgáltatás egy másik úgy, hogy egy fájl megosztási fürtöt a Windows Server feladatátvevő fürt megvalósítását. [SAP](https://blogs.sap.com/2018/03/19/migration-from-a-shared-disk-cluster-to-a-file-share-cluster/) nemrég módosította a szolgáltatások központi telepítési minta a /sapmnt globális könyvtárak keresztül UNC elérési út elérésére. Ez a változás [nincs szükség](https://blogs.msdn.microsoft.com/saponsqlserver/2017/08/10/high-available-ascs-for-windows-on-file-share-shared-disk-no-longer-required/) SIOS vagy más megosztott lemez megoldások központi szolgáltatások virtuális gépeken. Győződjön meg arról, hogy a /sapmnt UNC megosztást továbbra is ajánlott [magas rendelkezésre állású](https://blogs.sap.com/2017/07/21/how-to-create-a-high-available-sapmnt-share/). Ehhez a központi Services-példánytól függ használatával Windows Server feladatátvevő fürt az [kibővíthető fájlkiszolgáló](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS) és a [a közvetlen tárolóhelyek](https://blogs.sap.com/2018/03/07/your-sap-on-azure-part-5-ascs-high-availability-with-storage-spaces-direct/) (S2D) szolgáltatást a Windows Server 2016-ban. 
+Kezelje a fürtszolgáltatás egy másik úgy, hogy egy fájl megosztási fürtöt a Windows Server feladatátvevő fürt megvalósítását. [SAP](https://blogs.sap.com/2018/03/19/migration-from-a-shared-disk-cluster-to-a-file-share-cluster/) nemrég módosította a szolgáltatások központi telepítési minta a /sapmnt globális könyvtárak keresztül UNC elérési út elérésére. Ez a változás [nincs szükség](https://blogs.msdn.microsoft.com/saponsqlserver/2017/08/10/high-available-ascs-for-windows-on-file-share-shared-disk-no-longer-required/) SIOS vagy más megosztott lemez megoldások központi szolgáltatások virtuális gépeken. Győződjön meg arról, hogy a /sapmnt UNC megosztást továbbra is ajánlott [magas rendelkezésre állású](https://blogs.sap.com/2017/07/21/how-to-create-a-high-available-sapmnt-share/). Ehhez a központi Services-példánytól függ használatával Windows Server feladatátvevő fürt az [kibővíthető fájlkiszolgáló](https://blogs.msdn.microsoft.com/saponsqlserver/2017/11/14/file-server-with-sofs-and-s2d-as-an-alternative-to-cluster-shared-disk-for-clustering-of-an-sap-ascs-instance-in-azure-is-generally-available/) (SOFS) és a [a közvetlen tárolóhelyek](https://blogs.sap.com/2018/03/07/your-sap-on-azure-part-5-ascs-high-availability-with-storage-spaces-direct/) (S2D) szolgáltatást a Windows Server 2016-ban.
 
 ### <a name="availability-sets"></a>Rendelkezésre állási csoportok
 
@@ -159,7 +163,7 @@ Az erőforrások és az SAP-infrastruktúra szolgáltatási teljesítményéhez 
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [biztonsági útmutató ABAP SAP NetWeaver alkalmazáskiszolgáló](https://help.sap.com/doc/7b932ef4728810148a4b1a83b0e91070/1610 001/en-US/frameset.htm?4dde53b3e9142e51e10000000a42189c.html) és [SAP NetWeaver alkalmazás Server Java biztonsági útmutató](https://help.sap.com/doc/saphelp_snc_uiaddon_10/1.0/en-US/57/d8bfcf38f66f48b95ce1f52b3f5184/frameset.htm).
+Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [biztonsági útmutató ABAP SAP NetWeaver alkalmazáskiszolgáló](https://help.sap.com/viewer/864321b9b3dd487d94c70f6a007b0397/7.4.19) és [SAP NetWeaver alkalmazás Server Java biztonsági útmutató](https://help.sap.com/doc/saphelp_snc_uiaddon_10/1.0/en-US/57/d8bfcf38f66f48b95ce1f52b3f5184/frameset.htm).
 
 A további hálózati biztonság érdekében vegye fontolóra egy [hálózati DMZ](../dmz/secure-vnet-hybrid.md), amely egy hálózati virtuális berendezésen használatával az alhálózat elé tűzfal létrehozása az Web Dispatcher.
 

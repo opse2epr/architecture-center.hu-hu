@@ -1,20 +1,22 @@
 ---
 title: Streamek feldolgozása az Azure Databricksszel
-description: Egy teljes körű stream-feldolgozási folyamat létrehozása az Azure Databricks használatával
+titleSuffix: Azure Reference Architectures
+description: Hozzon létre egy teljes körű stream-feldolgozási folyamat az Azure-ban az Azure Databricks használatával.
 author: petertaylor9999
 ms.date: 11/30/2018
-ms.openlocfilehash: 0640e900c212d2b75cc9cdd5bec3a4f7c050490d
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.custom: seodec18
+ms.openlocfilehash: 822a3c448dcc2bdd4ae77ef2a2b7a9ffad633440
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902833"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120322"
 ---
-# <a name="stream-processing-with-azure-databricks"></a>Streamek feldolgozása az Azure Databricksszel
+# <a name="create-a-stream-processing-pipeline-with-azure-databricks"></a>Az Azure Databricks egy adatfolyam-feldolgozási folyamat létrehozása
 
-Ez a referenciaarchitektúra bemutatja egy teljes körű [adatfolyam-feldolgozás](/azure/architecture/data-guide/big-data/real-time-processing) folyamat. Ez a típusú folyamat négy fázisból áll: a betöltési, folyamat, tároló, és elemzés és jelentéskészítés. A referenciaarchitektúra a folyamat adatokat két forrásból fogadnak, illesztést hajt végre az egyes adatfolyamokkal kapcsolódó bejegyzések, bővíti az eredményt és kiszámítja az átlagos valós időben. Az eredmények tárolása további elemzés céljából. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja egy teljes körű [adatfolyam-feldolgozás](/azure/architecture/data-guide/big-data/real-time-processing) folyamat. Ez a típusú folyamat négy fázisból áll: a betöltési, folyamat, tároló, és elemzés és jelentéskészítés. A referenciaarchitektúra a folyamat adatokat két forrásból fogadnak, illesztést hajt végre az egyes adatfolyamokkal kapcsolódó bejegyzések, bővíti az eredményt és kiszámítja az átlagos valós időben. Az eredmények tárolása további elemzés céljából. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
-![](./images/stream-processing-databricks.png)
+![Adatfolyam-feldolgozó az Azure Databricks a referencia-architektúra](./images/stream-processing-databricks.png)
 
 **A forgatókönyv**:-i taxik vállalati minden taxi út adatokat gyűjt. Ebben a forgatókönyvben feltételezzük adatküldés két külön eszközökre. A taxi rendelkezik, amely minden egyes indításáról információt küld a mérő &mdash; begyűjtést és dropoff helyeket, időtartama és távolság. Egy különálló eszköz fogad az ügyfelektől származó kifizetések és vitel kapcsolatos adatokat küldi. A taxi vállalati részlege azt szeretné, kiszámítja az átlagos tipp mérföld alapuló, valós idejű, az egyes helyek száma, a helyszíni ridership trendeket.
 
@@ -34,15 +36,15 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 ## <a name="data-ingestion"></a>Adatfeldolgozás
 
-Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz, négyéves időszakban (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik. 
+Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz, négyéves időszakban (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
 
-Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el. 
+Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el.
 
-Az Event Hubs használ [partíciók](/azure/event-hubs/event-hubs-features#partitions) szegmentálása az adatokat. A partíciók lehetővé teszik a fogyasztó a párhuzamos mindegyik partíció beolvasása. Ha az adatok küldése az Event Hubsba, a partíciós kulcs explicit módon is megadhat. Ellenkező esetben rekordok partíciókra Ciklikus időszeleteléses módon vannak hozzárendelve. 
+Az Event Hubs használ [partíciók](/azure/event-hubs/event-hubs-features#partitions) szegmentálása az adatokat. A partíciók lehetővé teszik a fogyasztó a párhuzamos mindegyik partíció beolvasása. Ha az adatok küldése az Event Hubsba, a partíciós kulcs explicit módon is megadhat. Ellenkező esetben rekordok partíciókra Ciklikus időszeleteléses módon vannak hozzárendelve.
 
 Ebben a forgatókönyvben ledolgozni adatokat, és diszkont adatokat kell megtörténhet a azonos Partícióazonosító egy adott taxi cab-fájl. Ez lehetővé teszi a Databricks párhuzamosság foka alkalmazza, ha azt a két adatfolyam utal. Egy rekordot a partíció *n* a indításáról, az adatok egy rekordot a partíció egyezni fog *n* diszkont adatok.
 
-![](./images/stream-processing-databricks-eh.png)
+![Az Azure Databricks és Event Hubs streamfeldolgozási ábrája](./images/stream-processing-databricks-eh.png)
 
 Az adatgenerátor a common data model mindkét bejegyzéstípusokat rendelkezik egy `PartitionKey` összefűzésén tulajdonságot `Medallion`, `HackLicense`, és `VendorId`.
 
@@ -84,13 +86,13 @@ using (var client = pool.GetObject())
 
 ### <a name="event-hubs"></a>Event Hubs
 
-Az Event Hubs átviteli kapacitásának mérése [átviteli egységek](/azure/event-hubs/event-hubs-features#throughput-units). Automatikus skálázási egy eseményközpontba engedélyezésével is [automatikus feltöltésről](/azure/event-hubs/event-hubs-auto-inflate), amely automatikusan méretezi az átviteli egységek alapján a forgalom, akár a beállított maximális értéket. 
+Az Event Hubs átviteli kapacitásának mérése [átviteli egységek](/azure/event-hubs/event-hubs-features#throughput-units). Automatikus skálázási egy eseményközpontba engedélyezésével is [automatikus feltöltésről](/azure/event-hubs/event-hubs-auto-inflate), amely automatikusan méretezi az átviteli egységek alapján a forgalom, akár a beállított maximális értéket.
 
 ## <a name="stream-processing"></a>Stream-feldolgozás
 
 Az Azure Databricksben adatfeldolgozási feladatok hajtja végre. A feladat hozzá van rendelve, és a egy fürtön. A feladat lehet a Java és a egy Spark írt egyéni kód [notebook](https://docs.databricks.com/user-guide/notebooks/index.html).
 
-Ez a referenciaarchitektúra a feladat egy Java archív a Java- és Scala-ben írt osztályok. A Java-archívumot egy Databricks-feladat megadásakor az osztály a Databricks-fürt által végrehajtási van megadva. Itt a **fő** módszere a **com.microsoft.pnp.TaxiCabReader** osztály tartalmazza az adatok feldolgozási logikáját. 
+Ez a referenciaarchitektúra a feladat egy Java archív a Java- és Scala-ben írt osztályok. A Java-archívumot egy Databricks-feladat megadásakor az osztály a Databricks-fürt által végrehajtási van megadva. Itt a **fő** módszere a **com.microsoft.pnp.TaxiCabReader** osztály tartalmazza az adatok feldolgozási logikáját.
 
 ### <a name="reading-the-stream-from-the-two-event-hub-instances"></a>A két event hub-példányok érkező adatfolyam olvasása
 
@@ -116,9 +118,9 @@ val rideEventHubOptions = EventHubsConf(rideEventHubConnectionString)
 
 ### <a name="enriching-the-data-with-the-neighborhood-information"></a>Az adatokat a helyek adatokat a bővítése
 
-A indításáról adatok mentése a kivételezést szélességi és hosszúsági koordinátáit tartalmazza, és ki a helyek legördülő. Ezeket a koordinátákat hasznosak, amíg azok könnyen fel nem elemzés céljából. Ezért ezeket az adatokat a helyek adatokat, olvasási renderelésre egy [alakzatfájl](https://en.wikipedia.org/wiki/Shapefile). 
+A indításáról adatok mentése a kivételezést szélességi és hosszúsági koordinátáit tartalmazza, és ki a helyek legördülő. Ezeket a koordinátákat hasznosak, amíg azok könnyen fel nem elemzés céljából. Ezért ezeket az adatokat a helyek adatokat, olvasási renderelésre egy [alakzatfájl](https://en.wikipedia.org/wiki/Shapefile).
 
-Alakzatfájl formátuma bináris és nem egyszerűen elemzett, de a [GeoTools](http://geotools.org/) kódtár biztosít eszközöket a alakzatfájl formátumot használó térinformatikai adatok. Ebben a könyvtárban van használatban a **com.microsoft.pnp.GeoFinder** határozza meg az hálózatok nevét, a kivételezést alapján be és ki koordináták drop osztály. 
+Alakzatfájl formátuma bináris és nem egyszerűen elemzett, de a [GeoTools](http://geotools.org/) kódtár biztosít eszközöket a alakzatfájl formátumot használó térinformatikai adatok. Ebben a könyvtárban van használatban a **com.microsoft.pnp.GeoFinder** határozza meg az hálózatok nevét, a kivételezést alapján be és ki koordináták drop osztály.
 
 ```scala
 val neighborhoodFinder = (lon: Double, lat: Double) => {
@@ -223,7 +225,6 @@ databricks secrets put --scope "azure-databricks-job" --key "taxi-ride"
 
 A kódban, titkos kulcsok az Azure Databricks-n keresztül elért [titkok segédprogramok](https://docs.databricks.com/user-guide/dev-tools/dbutils.html#secrets-utilities).
 
-
 ## <a name="monitoring-considerations"></a>Felügyeleti szempontok
 
 Az Azure Databricks az Apache Spark alapul, és mindkettő használja [log4j](https://logging.apache.org/log4j/2.x/) , a naplózáshoz standardní knihovna. Az Apache Spark által biztosított alapértelmezett naplózása mellett ez a referenciaarchitektúra küld naplókat és mérőszámokat [Azure Log Analytics](/azure/log-analytics/).
@@ -267,48 +268,49 @@ spark.streams.addListener(new StreamingMetricsListener())
 
 A StreamingMetricsListener módszerei által meghívott az Apache Spark-futtatókörnyezet, amikor egy strukturált streamelési esemény bekövetkezésekor a küldő jelentkezzen üzenetek és mérőszámok az Azure Log Analytics-munkaterületet. A következő lekérdezéseket a munkaterület segítségével az alkalmazás figyelése:
 
-### <a name="latency-and-throughput-for-streaming-queries"></a>Lekérdezések folyamatos átviteli teljesítmény és a késés 
+### <a name="latency-and-throughput-for-streaming-queries"></a>Lekérdezések folyamatos átviteli teljesítmény és a késés
 
 ```shell
 taxijob_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
-| project  mdc_inputRowsPerSecond_d, mdc_durationms_triggerExecution_d  
+| project  mdc_inputRowsPerSecond_d, mdc_durationms_triggerExecution_d
 | render timechart
-``` 
+```
+
 ### <a name="exceptions-logged-during-stream-query-execution"></a>Stream-lekérdezés végrehajtása során naplózott kivételek
 
 ```shell
 taxijob_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
-| where Level contains "Error" 
+| where Level contains "Error"
 ```
 
 ### <a name="accumulation-of-malformed-fare-and-ride-data"></a>Helytelen formátumú diszkont és indításáról adatok felhalmozódása
 
 ```shell
-SparkMetric_CL 
+SparkMetric_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
-| render timechart 
+| render timechart
 | where name_s contains "metrics.malformedrides"
 
-SparkMetric_CL 
+SparkMetric_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
-| render timechart 
-| where name_s contains "metrics.malformedfares" 
+| render timechart
+| where name_s contains "metrics.malformedfares"
 ```
 
 ### <a name="job-execution-to-trace-resiliency"></a>Nyomkövetési rugalmasság feladat futtatása
 
 ```shell
-SparkMetric_CL 
+SparkMetric_CL
 | where TimeGenerated > startofday(datetime(<date>)) and TimeGenerated < endofday(datetime(<date>))
-| render timechart 
-| where name_s contains "driver.DAGScheduler.job.allJobs" 
+| render timechart
+| where name_s contains "driver.DAGScheduler.job.allJobs"
 ```
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](https://github.com/mspnp/azure-databricks-streaming-analytics). 
+Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](https://github.com/mspnp/azure-databricks-streaming-analytics).
 
 ### <a name="prerequisites"></a>Előfeltételek
 
@@ -353,7 +355,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
             ...
     ```
 
-5. Nyisson meg egy webböngészőt, és navigáljon a https://www.zillow.com/howto/api/neighborhood-boundaries.htm. 
+5. Nyisson meg egy webböngészőt, és navigáljon a https://www.zillow.com/howto/api/neighborhood-boundaries.htm.
 
 6. Kattintson a **New York-i helyek határait** letölteni a fájlt.
 
@@ -399,7 +401,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
 
 4. A kimenet az üzembe helyezés befejezése után a konzol íródik. A kimenetben keresse meg a következő JSON-ra:
 
-```JSON
+```json
 "outputs": {
         "cosmosDb": {
           "type": "Object",
@@ -425,6 +427,7 @@ Ez a referenciaarchitektúra egy üzemelő példánya érhető el az [GitHub](ht
         }
 },
 ```
+
 Ezeket az értékeket a titkos kulcsok, amely belekerül a későbbi szakaszokban a Databricks titkos kódokhoz való. Megőrizheti azok biztonságát mindaddig, amíg szakaszt hozzáadhatja őket.
 
 ### <a name="add-a-cassandra-table-to-the-cosmos-db-account"></a>A Cosmos DB-fiók egy Cassandra-tábla hozzáadása
@@ -433,14 +436,14 @@ Ezeket az értékeket a titkos kulcsok, amely belekerül a későbbi szakaszokba
 
 2. Az a **áttekintése** panelen kattintson a **tábla hozzáadása**.
 
-3. Ha a **tábla hozzáadása** panel nyílik meg, adja meg `newyorktaxi` a a **Kulcstér neve** szövegmezőben. 
+3. Ha a **tábla hozzáadása** panel nyílik meg, adja meg `newyorktaxi` a a **Kulcstér neve** szövegmezőben.
 
 4. Az a **adja meg a tábla létrehozásához CQL parancsot** területén adja meg `neighborhoodstats` mellett a szövegmezőben `newyorktaxi`.
 
-5. Az alábbi szövegmezőbe írja be a következőket:
-```shell
-(neighborhood text, window_end timestamp, number_of_rides bigint,total_fare_amount double, primary key(neighborhood, window_end))
-```
+5. Az alábbi mezőbe írja be a következőket:
+    ```shell
+    (neighborhood text, window_end timestamp, number_of_rides bigint,total_fare_amount double, primary key(neighborhood, window_end))
+    ```
 6. Az a **átviteli sebesség (1000 – 1 000 000 RU/s)** szövegmezőbe írja be az értéket `4000`.
 
 7. Kattintson az **OK** gombra.
@@ -499,7 +502,7 @@ Miután hajtja végre, a vi-szerkesztő megnyitása. Adja meg a **titkos** ért�
 
 ### <a name="add-the-azure-log-analytics-workspace-id-and-primary-key-to-configuration-files"></a>Az Azure Log Analytics-munkaterület Azonosítójára és az elsődleges kulcs hozzáadása a konfigurációs fájlok
 
-Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára és az elsődleges kulcsot. A munkaterület-azonosító a **munkaterület azonosítója** értéket a **logAnalytics** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Az elsődleges kulcs a **titkos** a kimeneti szakaszban. 
+Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára és az elsődleges kulcsot. A munkaterület-azonosító a **munkaterület azonosítója** értéket a **logAnalytics** kimeneti szakasz 4. lépésében a *üzembe helyezése az Azure-erőforrások* szakaszban. Az elsődleges kulcs a **titkos** a kimeneti szakaszban.
 
 1. Log4j naplózás beállításához nyissa meg a `\azure\AzureDataBricksJob\src\main\resources\com\microsoft\pnp\azuredatabricksjob\log4j.properties`. A következő két érték szerkesztése:
     ```shell
@@ -515,9 +518,9 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
 
 ### <a name="build-the-jar-files-for-the-databricks-job-and-databricks-monitoring"></a>Hozhat létre a .jar fájlokat a Databricks-feladat és a Databricks-figyelés
 
-1. A Java IDE használatával importálhatja a nevű Maven-projektfájlból **pom.xml** gyökérkönyvtárában található. 
+1. A Java IDE használatával importálhatja a nevű Maven-projektfájlból **pom.xml** gyökérkönyvtárában található.
 
-2. Hajtsa végre a tiszta buildjének kiépítéséhez. A build kimenete nevű fájlt a **azure-databricks-feladat – 1.0-SNAPSHOT.jar** és **azure-databricks-figyelés – 0.9.jar**. 
+2. Hajtsa végre a tiszta buildjének kiépítéséhez. A build kimenete nevű fájlt a **azure-databricks-feladat – 1.0-SNAPSHOT.jar** és **azure-databricks-figyelés – 0.9.jar**.
 
 ### <a name="configure-custom-logging-for-the-databricks-job"></a>A Databricks-feladat az egyéni naplózás konfigurálása
 
@@ -532,13 +535,13 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
     ```
 
 3. Bár még a Databricks-fürt nevét, még nem úgy döntött, válasszon ki egyet. A fürt neve alatt fogja meg a Databricks fájlrendszerbeli elérési út. Másolja a inicializációs szkriptet `\azure\azure-databricks-monitoring\scripts\spark.metrics` a databricks fájlrendszerrel a következő parancs beírásával:
-    ```
+    ```shell
     databricks fs cp --overwrite spark-metrics.sh dbfs:/databricks/init/<cluster-name>/spark-metrics.sh
     ```
 
 ### <a name="create-a-databricks-cluster"></a>Databricks-fürt létrehozása
 
-1. A Databricks munkaterületen kattintson a "Fürt", majd kattintson a "létrehozása a fürt". Adja meg a 3. lépésében létrehozott fürt neve a **a Databricks-feladat az egyéni naplózás konfigurálása** című fenti szakaszban. 
+1. A Databricks munkaterületen kattintson a "Fürt", majd kattintson a "létrehozása a fürt". Adja meg a 3. lépésében létrehozott fürt neve a **a Databricks-feladat az egyéni naplózás konfigurálása** című fenti szakaszban.
 
 2. Válassza ki a **standard** fürt üzemmód.
 
@@ -552,9 +555,9 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
 
 7. Állítsa be **min. feldolgozók** való **2**.
 
-8. Kapcsolja ki **automatikus skálázás engedélyezéséhez**. 
+8. Kapcsolja ki **automatikus skálázás engedélyezéséhez**.
 
-9. Alább a **automatikus Bezárás** párbeszédpanelen kattintson a **Init parancsfájlok**. 
+9. Alább a **automatikus Bezárás** párbeszédpanelen kattintson a **Init parancsfájlok**.
 
 10. Adja meg **dbfs: / databricks/init/< fürtnév > / spark-metrics.sh**, és cserélje le a fürt neve a < fürtnév > 1. lépésben létrehozott.
 
@@ -576,50 +579,51 @@ Ebben a szakaszban van szüksége a Log Analytics-munkaterület Azonosítójára
 
 6. Az argumentumok mezőben adja meg a következőket:
     ```shell
-    -n jar:file:/dbfs/azure-databricks-jobs/ZillowNeighborhoods-NY.zip!/ZillowNeighborhoods-NY.shp --taxi-ride-consumer-group taxi-ride-eh-cg --taxi-fare-consumer-group taxi-fare-eh-cg --window-interval "1 minute" --cassandra-host <Cosmos DB Cassandra host name from above> 
-    ``` 
+    -n jar:file:/dbfs/azure-databricks-jobs/ZillowNeighborhoods-NY.zip!/ZillowNeighborhoods-NY.shp --taxi-ride-consumer-group taxi-ride-eh-cg --taxi-fare-consumer-group taxi-fare-eh-cg --window-interval "1 minute" --cassandra-host <Cosmos DB Cassandra host name from above>
+    ```
 
 7. A függő kódtárak telepítéséhez az alábbi lépéseket:
-    
+
     1. A Databricks felhasználói felületén kattintson a a **otthoni** gombra.
-    
+
     2. Az a **felhasználók** legördülő, a felhasználói fiók nevére kattintva nyissa meg a fiók munkaterület beállításait.
-    
+
     3. A legördülő nyílra, a fiók neve melletti jelölőnégyzetet, kattintson a **létrehozása**, majd kattintson a **könyvtár** megnyitásához a **új könyvtár** párbeszédpanel.
-    
+
     4. Az a **forrás** legördülő vezérlőt, jelölje be **Maven-koordináta**.
-    
-    5. Alatt a **telepítése Maven-összetevőkben** fejléc adja meg `com.microsoft.azure:azure-eventhubs-spark_2.11:2.3.5` a a **koordinálja** szövegmezőben. 
-    
+
+    5. Alatt a **telepítése Maven-összetevőkben** fejléc adja meg `com.microsoft.azure:azure-eventhubs-spark_2.11:2.3.5` a a **koordinálja** szövegmezőben.
+
     6. Kattintson a **könyvtár létrehozása** megnyitásához a **összetevők** ablak.
-    
+
     7. A **állapotának a futó fürtök** ellenőrizze a **automatikusan csatolja az összes fürt** jelölőnégyzetet.
-    
+
     8. Ismételje meg az 1-7 a lépéseket a `com.microsoft.azure.cosmosdb:azure-cosmos-cassandra-spark-helper:1.0.0` Maven-koordináta.
-    
+
     9. Ismételje meg az 1 – 6. lépéseket a `org.geotools:gt-shapefile:19.2` Maven-koordináta.
-    
+
     10. Kattintson a **speciális beállítások**.
-    
-    11. Adja meg `http://download.osgeo.org/webdav/geotools/` a a **tárház** szövegmezőben. 
-    
+
+    11. Adja meg `http://download.osgeo.org/webdav/geotools/` a a **tárház** szövegmezőben.
+
     12. Kattintson a **könyvtár létrehozása** megnyitásához a **összetevők** ablak. 
-    
+
     13. A **állapotának a futó fürtök** ellenőrizze a **automatikusan csatolja az összes fürt** jelölőnégyzetet.
 
 8. A 7. lépésben létrehozott 6. lépés végén található a feladathoz hozzáadja a függő kódtárak hozzáadása:
+
     1. Az Azure Databricks-munkaterületet, kattintson a **feladatok**.
 
-    2. A feladat nevére, a 2. lépésben létrehozott a **hozzon létre egy Databricks-feladat** szakaszban. 
-    
-    3. Mellett a **függő kódtárak** területén kattintson a **Hozzáadás** megnyitásához a **függő könyvtár hozzáadása** párbeszédpanel. 
-    
+    2. A feladat nevére, a 2. lépésben létrehozott a **hozzon létre egy Databricks-feladat** szakaszban.
+
+    3. Mellett a **függő kódtárak** területén kattintson a **Hozzáadás** megnyitásához a **függő könyvtár hozzáadása** párbeszédpanel.
+
     4. A **könyvtár a** kiválasztása **munkaterület**.
-    
-    5. Kattintson a **felhasználók**, majd a felhasználónevét, majd kattintson a `azure-eventhubs-spark_2.11:2.3.5`. 
-    
+
+    5. Kattintson a **felhasználók**, majd a felhasználónevét, majd kattintson a `azure-eventhubs-spark_2.11:2.3.5`.
+
     6. Kattintson az **OK** gombra.
-    
+
     7. Ismételje meg az 1 – 6. lépéseket `spark-cassandra-connector_2.11:2.3.1` és `gt-shapefile:19.2`.
 
 9. Mellett **fürt:**, kattintson a **szerkesztése**. Ekkor megnyílik a **fürt konfigurálása** párbeszédpanel. Az a **fürttípus** legördülő menüben válassza **meglévő fürt**. Az a **válassza ki a fürt** legördülő menüben válassza ki a létrehozott fürtöt a **hozzon létre egy Databricks-fürt** szakaszban. Kattintson a **megerősítése**.

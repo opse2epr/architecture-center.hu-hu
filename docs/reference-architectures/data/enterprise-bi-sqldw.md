@@ -1,24 +1,26 @@
 ---
-title: Enterprise BI és SQL Data Warehouse
-description: A relációs adatok az üzleti elemzéseket kaphat az Azure tárolja a helyszíni
+title: Vállalati üzleti intelligencia
+titleSuffix: Azure Reference Architectures
+description: A relációs adatok az üzleti elemzéseket kaphat az Azure a helyszínen tárolja.
 author: MikeWasson
 ms.date: 11/06/2018
-ms.openlocfilehash: 2822cf6d2a75d521f182c267f4bf2bac462d2b7f
-ms.sourcegitcommit: 877777094b554559dc9cb1f0d9214d6d38197439
+ms.custom: seodec18
+ms.openlocfilehash: 656bf6f1bd342856fd8a2d2aa0b62a9dd4d4f87f
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/11/2018
-ms.locfileid: "51527711"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120084"
 ---
 # <a name="enterprise-bi-in-azure-with-sql-data-warehouse"></a>Vállalati bi-ban az Azure SQL Data Warehouse-ban
 
-Ez a referenciaarchitektúra valósít meg egy [ELT](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) (kinyerési, betöltési, átalakítási) folyamat, amely helyez át adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-ba, és átalakítja az adatokat az elemzéshez. 
+Ez a referenciaarchitektúra valósít meg egy [kinyerése, betöltése és átalakítási (ELT)](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) folyamatot, amely helyez át adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-ba, és átalakítja az adatokat az elemzéshez.
 
-Az architektúra egy referenciaimplementációt érhető el az [GitHub][github-folder]
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][github-folder].
 
-![](./images/enterprise-bi-sqldw.png)
+![Az Azure SQL Data Warehouse-ban Enteprise bi architektúra ábrája](./images/enterprise-bi-sqldw.png)
 
-**A forgatókönyv**: egy a szervezet rendelkezik a helyszíni SQL Server-adatbázisban tárolt nagy OLTP adatkészlet. A szervezet célja az SQL Data Warehouse használata a Power BI segítségével történő elemzését. 
+**A forgatókönyv**: egy a szervezet rendelkezik a helyszíni SQL Server-adatbázisban tárolt nagy OLTP adatkészlet. A szervezet célja az SQL Data Warehouse használata a Power BI segítségével történő elemzését.
 
 Ez a referenciaarchitektúra egyszeri vagy igény szerinti feladat lett tervezve. Adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, ha automatizált munkafolyamatokat az Azure Data Factory használatát javasoljuk. Egy referencia-architektúra, amely a Data Factory használja, lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
@@ -34,7 +36,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 **A BLOB Storage-**. A BLOB storage segítségével egy átmeneti területre, másolja az adatokat, mielőtt betöltené azokat az SQL Data Warehouse-bA.
 
-**Azure SQL Data Warehouse**. [Az SQL Data Warehouse](/azure/sql-data-warehouse/) egy elosztott rendszer analytics végre, a nagy mennyiségű adat. Támogatja a nagy olyan párhuzamos feldolgozási (MPP), épp ezért kiválóan alkalmas nagy teljesítményű elemzési futtatásához. 
+**Azure SQL Data Warehouse**. [Az SQL Data Warehouse](/azure/sql-data-warehouse/) egy elosztott rendszer analytics végre, a nagy mennyiségű adat. Támogatja a nagy olyan párhuzamos feldolgozási (MPP), épp ezért kiválóan alkalmas nagy teljesítményű elemzési futtatásához.
 
 ### <a name="analysis-and-reporting"></a>Elemzés és jelentéskészítés
 
@@ -46,10 +48,10 @@ Jelenleg az Azure Analysis Services rendszerbeli táblázatos modellek, de nem t
 
 ### <a name="authentication"></a>Hitelesítés
 
-**Az Azure Active Directory** (Azure AD) hitelesíti a felhasználók, akik a Power bi-ban az Analysis Services-kiszolgálóhoz csatlakozhat.
+**Az Azure Active Directory (Azure AD)** hitelesíti a felhasználókat, akik Power bi-ban az Analysis Services-kiszolgálóhoz csatlakozhat.
 
 ## <a name="data-pipeline"></a>Adatfolyamat
- 
+
 Ez a referenciaarchitektúra használja a [WorldWideImporters](/sql/sample/world-wide-importers/wide-world-importers-oltp-database) mintaadatbázis adatforrásként. Az adatfolyamatok rendelkezik a következő szakaszokban:
 
 1. Az adatok exportálása az SQL Serverről egybesimított fájlokba (bcp segédprogram).
@@ -58,10 +60,11 @@ Ez a referenciaarchitektúra használja a [WorldWideImporters](/sql/sample/world
 4. Alakítsa át az adatokat egy csillag sémában (T-SQL).
 5. A szemantikai modell betöltése az Analysis Services (SQL Server Data Tools).
 
-![](./images/enterprise-bi-sqldw-pipeline.png)
- 
+![A nagyvállalati BI folyamat ábrája](./images/enterprise-bi-sqldw-pipeline.png)
+
 > [!NOTE]
-> A lépéseket 1 &ndash; 3, fontolja meg a Redgate Data Platform Studio használatával. A Data Platform Studio a legmegfelelőbb kompatibilitási javításokat és optimalizálásokat alkalmazza, így ez a leggyorsabb mód az SQL Data Warehouse használatának megkezdésére. További információkért lásd: [adatok betöltése a Redgate Data Platform Studio](/azure/sql-data-warehouse/sql-data-warehouse-load-with-redgate). 
+> A lépéseket 1 &ndash; 3, fontolja meg a Redgate Data Platform Studio használatával. A Data Platform Studio a legmegfelelőbb kompatibilitási javításokat és optimalizálásokat alkalmazza, így ez a leggyorsabb mód az SQL Data Warehouse használatának megkezdésére. További információkért lásd: [adatok betöltése a Redgate Data Platform Studio](/azure/sql-data-warehouse/sql-data-warehouse-load-with-redgate).
+>
 
 A következő szakaszok ismertetik ezen szakaszokban részletesebben.
 
@@ -71,7 +74,7 @@ A [bcp](/sql/tools/bcp-utility) (tömeges másolási funkciójával) segédprogr
 
 **Javaslatok**
 
-Ha lehetséges ütemezheti az éles környezetben az erőforrás-versengés minimalizálása érdekében csúcsidőn adatkinyerés. 
+Ha lehetséges ütemezheti az éles környezetben az erőforrás-versengés minimalizálása érdekében csúcsidőn adatkinyerés.
 
 Kerülje a BCP használatával fut a kiszolgálón. Ehelyett futtassa azt egy másik gépről. Írás a fájlok egy helyi meghajtóra. Győződjön meg arról, hogy rendelkezik-e elegendő i/o-erőforrások kezeli az egyidejű írások. A legjobb teljesítmény érdekében dedikált gyors tárolóeszközöket exportálja a fájlokat.
 
@@ -83,11 +86,11 @@ A [AzCopy](/azure/storage/common/storage-use-azcopy) segédprogram készült nag
 
 **Javaslatok**
 
-A storage-fiók létrehozása az adatok helye közelében található régiókban. A tárfiók és az SQL Data Warehouse-példányhoz ugyanabban a régióban helyezhet üzembe. 
+A storage-fiók létrehozása az adatok helye közelében található régiókban. A tárfiók és az SQL Data Warehouse-példányhoz ugyanabban a régióban helyezhet üzembe.
 
-Az AzCopy ugyanarra a gépre, amely az éles számítási feladatok nem futtatható, mert a Processzor- és i/o-felhasználás megzavarhatja az éles környezetbeli számítási feladatokra. 
+Az AzCopy ugyanarra a gépre, amely az éles számítási feladatok nem futtatható, mert a Processzor- és i/o-felhasználás megzavarhatja az éles környezetbeli számítási feladatokra.
 
-A feltöltés először használatával megtekintheti a feltöltési sebesség például teszteléséhez. Az AzCopy a /NC beállítás használatával adja meg az egyidejű másolási műveletek száma. Indítsa el az alapértelmezett értékkel, majd ezt a beállítást, a teljesítmény hangolására kísérletezhet. Alacsony sávszélességű környezetben túl sok az egyidejű művelet túlterhelhetik futó a hálózati kapcsolat, és megakadályozza a műveletek sikeres befejezését.  
+A feltöltés először használatával megtekintheti a feltöltési sebesség például teszteléséhez. Az AzCopy a /NC beállítás használatával adja meg az egyidejű másolási műveletek száma. Indítsa el az alapértelmezett értékkel, majd ezt a beállítást, a teljesítmény hangolására kísérletezhet. Alacsony sávszélességű környezetben túl sok az egyidejű művelet túlterhelhetik futó a hálózati kapcsolat, és megakadályozza a műveletek sikeres befejezését.
 
 Az AzCopy helyez át adatokat tároló a nyilvános interneten keresztül. Ha ez nem elég gyors, érdemes beállítani egy [ExpressRoute](/azure/expressroute/) kapcsolatcsoport. Az ExpressRoute egy szolgáltatása, amely az adatok egy dedikált privát kapcsolaton keresztül irányítja az Azure-bA. Egy másik lehetőség, ha túl lassú, a hálózati kapcsolatot, fizikailag tehetnek elérhetővé az adatokat egy Azure-adatközpontba lemezen. További információkért lásd: [, és az Azure-ból történő adatátvitel](/azure/architecture/data-guide/scenarios/data-transfer).
 
@@ -95,7 +98,7 @@ A másolási művelet során AzCopy létrehoz egy ideiglenes journal-fájlt, ame
 
 ### <a name="load-data-into-sql-data-warehouse"></a>Adatok betöltése az SQL Data Warehouse-ba
 
-Használat [PolyBase](/sql/relational-databases/polybase/polybase-guide) betölteni a blob storage-ból a data warehouse-bA. A PolyBase úgy tervezték, kihasználhatja az SQL Data Warehouse, ami lehetővé teszi az adatok betöltése az SQL Data Warehouse leggyorsabban MPP (nagymértékben párhuzamos feldolgozási) architektúráját. 
+Használat [PolyBase](/sql/relational-databases/polybase/polybase-guide) betölteni a blob storage-ból a data warehouse-bA. A PolyBase úgy tervezték, kihasználhatja az SQL Data Warehouse, ami lehetővé teszi az adatok betöltése az SQL Data Warehouse leggyorsabban MPP (nagymértékben párhuzamos feldolgozási) architektúráját.
 
 Az adatok betöltése két lépésből áll:
 
@@ -114,7 +117,7 @@ A PolyBase gzip formátumban tömörített fájlok olvashatja. Azonban csak egye
 
 Vegye figyelembe a következő korlátozások vonatkoznak:
 
-- A PolyBase támogatja egy oszlop maximális mérete `varchar(8000)`, `nvarchar(4000)`, vagy `varbinary(8000)`. Ha olyan adat, amely meghaladja a ezeket a korlátokat, az egyik lehetőség az felosztása az adatok adattömbökre exportálni, és ezután szétbontani importálás után az adattömböket. 
+- A PolyBase támogatja egy oszlop maximális mérete `varchar(8000)`, `nvarchar(4000)`, vagy `varbinary(8000)`. Ha olyan adat, amely meghaladja a ezeket a korlátokat, az egyik lehetőség az felosztása az adatok adattömbökre exportálni, és ezután szétbontani importálás után az adattömböket.
 
 - A polybase egy rögzített sor lezárójele \n vagy új sor. Ez problémákat okozhat, ha a forrásadatok soremelés karakter jelenik meg.
 
@@ -154,7 +157,7 @@ Javasoljuk, hogy élő kapcsolat, mert nincs szükség a Power BI-modellben az a
 
 **Javaslatok**
 
-Ne közvetlenül az adatraktáron irányítópult-lekérdezések futtatása a BI-ban. A BI-irányítópultok szükséges nagyon alacsony válaszidők, amely közvetlen, előfordulhat, hogy az adatraktár-lekérdezéseket az nem felel meg. Emellett az irányítópult frissítése vonja le a rendszer a lekérdezést, ami hatással lehet a teljesítmény számát. 
+Ne közvetlenül az adatraktáron irányítópult-lekérdezések futtatása a BI-ban. A BI-irányítópultok szükséges nagyon alacsony válaszidők, amely közvetlen, előfordulhat, hogy az adatraktár-lekérdezéseket az nem felel meg. Emellett az irányítópult frissítése vonja le a rendszer a lekérdezést, ami hatással lehet a teljesítmény számát.
 
 Az Azure Analysis Services célja annak érdekében, hogy a lekérdezés, BI-irányítópult, ezért az ajánlott eljárás lekérdezés Analysis Services a Power bi-BÓL.
 
@@ -168,7 +171,7 @@ Az SQL Data Warehouse a számítási erőforrások igény szerinti horizontális
 
 A termelési számítási feladatokhoz, javasoljuk, hogy a Standard csomag az Azure Analysis Services, mivel támogatja a particionálást és a DirectQuery. A szinteken belül a példány mérete határozza meg, a memória és a feldolgozási teljesítményt. A feldolgozási teljesítményt mértékegysége a lekérés-feldolgozó egység (qpu-ra). Válassza ki a megfelelő méret a QPU-használat figyeléséhez. További információkért lásd: [kiszolgáló metrikáinak monitorozása](/azure/analysis-services/analysis-services-monitor).
 
-Nagy terhelés alatt lekérdezési teljesítmény is válnak teljesítményűre lekérdezés párhuzamosság miatt. Analysis Services horizontálisan készletet hoz létre egy replikák a lekérdezések feldolgozásához, hogy egyidejűleg több lekérdezést is elvégezhető. Az adatmodell mindig feldolgozási munka az elsődleges kiszolgálón történik. Alapértelmezés szerint az elsődleges kiszolgáló lekérdezéseket is kezeli. Igény szerint is kijelölhet feldolgozás, kizárólag az elsődleges kiszolgálót, hogy a lekérdezési készletből kezeli az összes lekérdezés. Ha nagy feldolgozási követelmények, meg kell külön a feldolgozás, a lekérdezési készletből. Ha a lekérdezési terhelés, és viszonylag könnyű feldolgozása, az elsődleges kiszolgálón is felvehet a lekérdezési készletből. További információkért lásd: [kibővített Azure Analysis Services](/azure/analysis-services/analysis-services-scale-out). 
+Nagy terhelés alatt lekérdezési teljesítmény is válnak teljesítményűre lekérdezés párhuzamosság miatt. Analysis Services horizontálisan készletet hoz létre egy replikák a lekérdezések feldolgozásához, hogy egyidejűleg több lekérdezést is elvégezhető. Az adatmodell mindig feldolgozási munka az elsődleges kiszolgálón történik. Alapértelmezés szerint az elsődleges kiszolgáló lekérdezéseket is kezeli. Igény szerint is kijelölhet feldolgozás, kizárólag az elsődleges kiszolgálót, hogy a lekérdezési készletből kezeli az összes lekérdezés. Ha nagy feldolgozási követelmények, meg kell külön a feldolgozás, a lekérdezési készletből. Ha a lekérdezési terhelés, és viszonylag könnyű feldolgozása, az elsődleges kiszolgálón is felvehet a lekérdezési készletből. További információkért lásd: [kibővített Azure Analysis Services](/azure/analysis-services/analysis-services-scale-out).
 
 Ami felesleges feldolgozási mennyisége csökkentése érdekében fontolja meg a partíciók osztani a táblázatos modell logikai részekre. Mindegyik partíció külön-külön lehet feldolgozni. További információkért lásd: [partíciók](/sql/analysis-services/tabular-models/partitions-ssas-tabular).
 
@@ -191,11 +194,10 @@ További információkért lásd: [adatbázis-szerepkörök és a felhasználók
 
 A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github-folder]. A következőket helyezi üzembe:
 
-  * Windows virtuális gép egy helyszíni adatbázis-kiszolgáló szimulálásához. Ez magában foglalja az SQL Server 2017-ben és a kapcsolódó eszközök, Power BI Desktop együtt.
-  * Azure storage-fiókkal, amely biztosít a Blob storage, az SQL Server-adatbázisból exportált adatok tárolásához.
-  * Egy Azure SQL Data Warehouse-példányhoz.
-  * Az Azure Analysis Services-példányt.
-
+- Windows virtuális gép egy helyszíni adatbázis-kiszolgáló szimulálásához. Ez magában foglalja az SQL Server 2017-ben és a kapcsolódó eszközök, Power BI Desktop együtt.
+- Azure storage-fiókkal, amely biztosít a Blob storage, az SQL Server-adatbázisból exportált adatok tárolásához.
+- Egy Azure SQL Data Warehouse-példányhoz.
+- Az Azure Analysis Services-példányt.
 
 ## <a name="next-steps"></a>További lépések
 
@@ -206,4 +208,3 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 [adf-ra]: ./enterprise-bi-adf.md
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw
 [wwi]: /sql/sample/world-wide-importers/wide-world-importers-oltp-database
-

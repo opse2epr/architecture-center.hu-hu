@@ -1,20 +1,22 @@
 ---
 title: Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
+titleSuffix: Azure Reference Architectures
 description: A referenciaarchitektúra bemutatja a kiszolgáló nélküli eseményfogadás és feldolgozás
 author: MikeWasson
 ms.date: 10/16/2018
-ms.openlocfilehash: 76c8b9c1244c987c96e38e50ecad7814cc49cd88
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.custom: seodec18
+ms.openlocfilehash: 1a3c73ca35f7e849211837dee33a530d786c827f
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295650"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119897"
 ---
 # <a name="serverless-event-processing-using-azure-functions"></a>Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 
 Ez a referenciaarchitektúra bemutatja egy [kiszolgáló nélküli](https://azure.microsoft.com/solutions/serverless/), eseményvezérelt architektúra, amely feltölti az adatfolyamot, feldolgozza az adatokat, és a egy háttér-adatbázisba írja az eredményeket. Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
-![](./_images/serverless-event-processing.png)
+![A referenciaarchitektúra az Azure Functions használatával kiszolgáló nélküli eseményfeldolgozáshoz](./_images/serverless-event-processing.png)
 
 ## <a name="architecture"></a>Architektúra
 
@@ -49,16 +51,16 @@ A Cosmos DB átviteli kapacitás mérése [kérelemegység] [ ru] (RU). Annak é
 
 Íme néhány remek partíciókulcs jellemzői:
 
-- A kulcs értéke lemezterület mérete nagy. 
+- A kulcs értéke lemezterület mérete nagy.
 - Az egyenletes eloszlás a per kulcs értékét, elkerülve a billentyűparancsok olvasási/írási művelet lesz.
-- Nem minden egyetlen kulcs értékét a tárolt adatok maximális túl fogja lépni a fizikai partíciók maximális mérete (10 GB). 
-- A partíciókulcs a dokumentum nem fognak változni. A meglévő dokumentumot a partíciós kulcs nem frissíthető. 
+- Nem minden egyetlen kulcs értékét a tárolt adatok maximális túl fogja lépni a fizikai partíciók maximális mérete (10 GB).
+- A partíciókulcs a dokumentum nem fognak változni. A meglévő dokumentumot a partíciós kulcs nem frissíthető.
 
 Ez a referenciaarchitektúra esetben a függvény, amely adatokat küld eszközönként pontosan egy dokumentum tárolja. A függvény folyamatosan frissíti a dokumentumok legújabb Eszközállapot upsert művelet használatával. Eszközazonosító azért ebben a forgatókönyvben egy remek partíciókulcs lesz írási műveletek egyenletesen vannak elosztva a kulcsokat, és az egyes partíciók méretét szigorúan csak korlátozott lesz, mert nincs külön dokumentumot minden egyes kulcs értékét. Partíciókulcsok kapcsolatos további információkért lásd: [particionálási és horizontális az Azure Cosmos DB][cosmosdb-scale].
 
 ## <a name="resiliency-considerations"></a>Rugalmassággal kapcsolatos szempontok
 
-Az Event Hubs-eseményindító a Functions használatakor a feldolgozási ciklus belül kivételeket. Ha egy nem kezelt kivétel lép fel, a Functions futtatókörnyezete nem próbálkozik újra az üzeneteket. Nem lehet feldolgozni egy üzenetet, ha az üzenet helyezzen egy feldolgozatlan üzenetek sorhoz. Vizsgálja meg az üzeneteket, és meghatározhatja a javítási művelet sávon kívüli folyamat alkalmazásával. 
+Az Event Hubs-eseményindító a Functions használatakor a feldolgozási ciklus belül kivételeket. Ha egy nem kezelt kivétel lép fel, a Functions futtatókörnyezete nem próbálkozik újra az üzeneteket. Nem lehet feldolgozni egy üzenetet, ha az üzenet helyezzen egy feldolgozatlan üzenetek sorhoz. Vizsgálja meg az üzeneteket, és meghatározhatja a javítási művelet sávon kívüli folyamat alkalmazásával.
 
 A következő kód bemutatja, hogyan az adatfeldolgozási függvény kivételek elkapja, és a kézbesítetlen levelek várólistája alakzatot állapotba állítja a feldolgozatlan üzenetek.
 
@@ -99,9 +101,9 @@ public static async Task RunAsync(
 
 Figyelje meg, hogy a függvény használja a [a Queue storage kimeneti kötésének] [ queue-binding] elemek elhelyezése az üzenetsorban.
 
-A fent látható kód kivételeket is naplózza az Application Insightsba. A kulcs és a sorrend partíciószám segítségével feldolgozatlan üzenetek összekapcsolását a kivételekkel a naplókban. 
+A fent látható kód kivételeket is naplózza az Application Insightsba. A kulcs és a sorrend partíciószám segítségével feldolgozatlan üzenetek összekapcsolását a kivételekkel a naplókban.
 
-A kézbesíthetetlen levelek sorában lévő üzenetek elegendő információt kell rendelkeznie, így hiba összefüggésében értelmezni lehet. Ebben a példában a `DeadLetterMessage` osztály tartalmazza a kivétel üzenetét, az eredeti eseményadatokat és a deszerializált eseményüzenet (ha elérhető). 
+A kézbesíthetetlen levelek sorában lévő üzenetek elegendő információt kell rendelkeznie, így hiba összefüggésében értelmezni lehet. Ebben a példában a `DeadLetterMessage` osztály tartalmazza a kivétel üzenetét, az eredeti eseményadatokat és a deszerializált eseményüzenet (ha elérhető).
 
 ```csharp
 public class DeadLetterMessage
@@ -128,7 +130,7 @@ Az üzembe helyezés itt látható egy adott Azure-régióban található. A vé
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub információs][readme]. 
+Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub információs][readme].
 
 <!-- links -->
 

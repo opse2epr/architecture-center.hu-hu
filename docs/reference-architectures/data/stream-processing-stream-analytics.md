@@ -1,22 +1,24 @@
 ---
 title: Streamek feldolgozása az Azure Stream Analyticsszel
-description: Hozzon létre egy teljes körű adatfolyam-feldolgozási folyamat az Azure-ban
+titleSuffix: Azure Reference Architectures
+description: Hozzon létre egy teljes körű adatfolyam-feldolgozási folyamat az Azure-ban.
 author: MikeWasson
 ms.date: 11/06/2018
-ms.openlocfilehash: e16547ccdcb81007e154e341f09be555ac82d1a1
-ms.sourcegitcommit: 02ecd259a6e780d529c853bc1db320f4fcf919da
+ms.custom: seodec18
+ms.openlocfilehash: 44eaf51f2180be250defbeb0d141ab24f7f17d4b
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51263762"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119931"
 ---
-# <a name="stream-processing-with-azure-stream-analytics"></a>Streamek feldolgozása az Azure Stream Analyticsszel
+# <a name="create-a-stream-processing-pipeline-with-azure-stream-analytics"></a>Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozása
 
-Ez a referenciaarchitektúra bemutatja egy teljes körű stream-feldolgozási folyamat. A folyamat adatokat két forrásból fogadnak, utal. a két adatfolyam rekordokat, és kiszámítja a gördülő átlagát között egy olyan időkeretet. Az eredmények tárolása további elemzés céljából. 
+Ez a referenciaarchitektúra bemutatja egy teljes körű [adatfolyam-feldolgozás](/azure/architecture/data-guide/big-data/real-time-processing) folyamat. A folyamat adatokat két forrásból fogadnak, utal. a két adatfolyam rekordokat, és kiszámítja a gördülő átlagát között egy olyan időkeretet. Az eredmények tárolása további elemzés céljából.
 
-Az architektúra egy referenciaimplementációt érhető el az [GitHub][github]. 
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
-![](./images/stream-processing-asa/stream-processing-asa.png)
+![Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozásához a referencia-architektúra](./images/stream-processing-asa/stream-processing-asa.png)
 
 **A forgatókönyv**:-i taxik vállalati minden taxi út adatokat gyűjt. Ebben a forgatókönyvben feltételezzük adatküldés két külön eszközökre. A taxi rendelkezik, amely minden egyes indításáról információt küld a mérő &mdash; begyűjtést és dropoff helyeket, időtartama és távolság. Egy különálló eszköz fogad az ügyfelektől származó kifizetések és vitel kapcsolatos adatokat küldi. A taxi vállalat úgy kívánja kiszámítja az átlagos tipp kiszolgálónként mérföld alapuló, valós idejű, sorrendben felhasználva azonosíthatja a trendeket.
 
@@ -34,21 +36,25 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 **A Microsoft Power BI**. A Power BI egy üzleti elemzési eszközök az üzleti elemzések készítése adatelemzéshez együttese. Ebben az architektúrában az adatokat a Cosmos DB betölti. Ez lehetővé teszi a felhasználók teljes készletének összegyűjtött előzményadatok elemzésére. Az eredményeket közvetlenül a Stream Analytics a Power BI az adatok valós idejű nézet sikerült is folyamatos átvitelére. További információkért lásd: [valós idejű streamelés a Power BI](/power-bi/service-real-time-streaming).
 
-**Az Azure Monitor**. [Az Azure Monitor](/azure/monitoring-and-diagnostics/) teljesítmény-mérőszámokat a megoldásban üzembe helyezett Azure-szolgáltatásokkal gyűjti. Ezek az irányítópult vizualizációjával betekintést nyerhet a megoldás állapotát. 
+**Az Azure Monitor**. [Az Azure Monitor](/azure/monitoring-and-diagnostics/) teljesítmény-mérőszámokat a megoldásban üzembe helyezett Azure-szolgáltatásokkal gyűjti. Ezek az irányítópult vizualizációjával betekintést nyerhet a megoldás állapotát.
 
 ## <a name="data-ingestion"></a>Adatfeldolgozás
 
-Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik. 
+<!-- markdownlint-disable MD033 MD034 -->
+
+Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
 
 [1] <span id="note1">Donovan, Brian; Munka, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
 
-Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el. 
+<!-- markdownlint-enable MD033 MD034 -->
 
-Az Event Hubs használ [partíciók](/azure/event-hubs/event-hubs-features#partitions) szegmentálása az adatokat. A partíciók lehetővé teszik a fogyasztó a párhuzamos mindegyik partíció beolvasása. Ha az adatok küldése az Event Hubsba, a partíciós kulcs explicit módon is megadhat. Ellenkező esetben rekordok partíciókra Ciklikus időszeleteléses módon vannak hozzárendelve. 
+Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el.
+
+Az Event Hubs használ [partíciók](/azure/event-hubs/event-hubs-features#partitions) szegmentálása az adatokat. A partíciók lehetővé teszik a fogyasztó a párhuzamos mindegyik partíció beolvasása. Ha az adatok küldése az Event Hubsba, a partíciós kulcs explicit módon is megadhat. Ellenkező esetben rekordok partíciókra Ciklikus időszeleteléses módon vannak hozzárendelve.
 
 Ez az adott esetben ledolgozni adatokat, és diszkont adatokat kell megtörténhet a azonos Partícióazonosító egy adott taxi cab-fájl. Ez lehetővé teszi a Stream Analytics párhuzamosság foka alkalmazza, ha azt a két adatfolyam utal. Egy rekordot a partíció *n* a indításáról, az adatok egy rekordot a partíció egyezni fog *n* diszkont adatok.
 
-![](./images/stream-processing-asa/stream-processing-eh.png)
+![Az Azure Stream Analytics és az Event Hubs streamfeldolgozási ábrája](./images/stream-processing-asa/stream-processing-eh.png)
 
 Az adatgenerátor a common data model mindkét bejegyzéstípusokat rendelkezik egy `PartitionKey` tulajdonság, amely az összefűzés, `Medallion`, `HackLicense`, és `VendorId`.
 
@@ -139,7 +145,7 @@ Step3 AS (
 
 Ez a lekérdezés illeszt rekordokat konfigurálásában a megfelelő rekordokat (Medallion, HackLicense, VendorId és PickupTime) egyedi azonosítására alkalmas mezőket. A `JOIN` utasítást is tartalmaz a partícióazonosító. Ahogy említettük, ez kihasználja a tény, hogy megfelelő rekordokat mindig rendelkezzenek a partíció ugyanazzal az Azonosítóval ebben a forgatókönyvben.
 
-A Stream Analytics, illesztések vannak *historikus*, azaz a rekordok tartományhoz csatlakoztatott idő adott időtartamon belül. Ellenkező esetben a feladat lehet, hogy várnia kell, határozatlan ideig az egyezést. A [DATEDIFF](https://msdn.microsoft.com/azure/stream-analytics/reference/join-azure-stream-analytics) függvény meghatározza, hogy milyen két egyező rekordot is választhatók el egymástól, időben egyezést. 
+A Stream Analytics, illesztések vannak *historikus*, azaz a rekordok tartományhoz csatlakoztatott idő adott időtartamon belül. Ellenkező esetben a feladat lehet, hogy várnia kell, határozatlan ideig az egyezést. A [DATEDIFF](https://msdn.microsoft.com/azure/stream-analytics/reference/join-azure-stream-analytics) függvény meghatározza, hogy milyen két egyező rekordot is választhatók el egymástól, időben egyezést.
 
 A feladat utolsó lépésében kiszámítja az átlagos tipp egy lépést, 5 perces ugróablak szerint csoportosítva.
 
@@ -159,29 +165,29 @@ Az itt látható architektúrában csak a Stream Analytics-feladat eredményeine
 
 ### <a name="event-hubs"></a>Event Hubs
 
-Az Event Hubs átviteli kapacitásának mérése [átviteli egységek](/azure/event-hubs/event-hubs-features#throughput-units). Automatikus skálázási egy eseményközpontba engedélyezésével is [automatikus feltöltésről](/azure/event-hubs/event-hubs-auto-inflate), amely automatikusan méretezi az átviteli egységek alapján a forgalom, akár a beállított maximális értéket. 
+Az Event Hubs átviteli kapacitásának mérése [átviteli egységek](/azure/event-hubs/event-hubs-features#throughput-units). Automatikus skálázási egy eseményközpontba engedélyezésével is [automatikus feltöltésről](/azure/event-hubs/event-hubs-auto-inflate), amely automatikusan méretezi az átviteli egységek alapján a forgalom, akár a beállított maximális értéket.
 
 ### <a name="stream-analytics"></a>Stream Analytics
 
 A Stream Analytics a számítási erőforrások hozzárendelt feladathoz a folyamatos átviteli egységek mérése történik. Stream Analytics-feladatok méretezése legjobb, ha a feladat is méretezésnek megfelelően. Ezzel a módszerrel Stream Analytics juttathatja el a feladatot több számítási csomóponton.
 
-Az Event Hubs-bemenet, használja a `PARTITION BY` kulcsszó a Stream Analytics-feladat particionálásához. Az adatok eloszlása az Event Hubs-partíciók alapján részekre. 
+Az Event Hubs-bemenet, használja a `PARTITION BY` kulcsszó a Stream Analytics-feladat particionálásához. Az adatok eloszlása az Event Hubs-partíciók alapján részekre.
 
 Ablakkezelési függvényekről és társításokról, historikus szükséges további SU. Amikor lehetséges, használjon `PARTITION BY` úgy, hogy az egyes partíciók külön dolgozza fel. További információkért lásd: [ismertetése és módosítása a folyamatos átviteli egységek](/azure/stream-analytics/stream-analytics-streaming-unit-consumption#windowed-aggregates).
 
 Ha nem lehetséges a teljes Stream Analytics-feladat párhuzamosíthatja, próbálja meg a feladat felosztása több lépést, egy vagy több párhuzamos lépéseket tartalmazó indítása. Ezzel a módszerrel az első lépéseket is futtatható egyszerre. Ez a referenciaarchitektúra: például a
 
-- 1. és 2 egyszerűek `SELECT` utasításokat, amelyek ugyanazon a partíción belül időtartományban. 
+- 1. és 2 egyszerűek `SELECT` utasításokat, amelyek ugyanazon a partíción belül időtartományban.
 - 3. lépés a particionált csatlakozzon két bemeneti streamekhez keresztül hajtja végre. Ebben a lépésben kihasználja a tény, hogy a megfelelő rekordokat megosztani ugyanazzal a partíciókulccsal, és így garantáltan minden egyes bemeneti Stream partíció ugyanazzal az Azonosítóval rendelkezik.
 - 4. lépés összesítések összes partíciót. Ez a lépés nem méretezésnek megfelelően.
 
 A Stream Analytics használata [feladatábra](/azure/stream-analytics/stream-analytics-job-diagram-with-metrics) hány partíciók rendelt minden lépése a feladat megtekintéséhez. Az alábbi ábrán ez a referenciaarchitektúra a feladat diagramja:
 
-![](./images/stream-processing-asa/job-diagram.png)
+![Feladatábra](./images/stream-processing-asa/job-diagram.png)
 
 ### <a name="cosmos-db"></a>Cosmos DB
 
-A Cosmos DB átviteli kapacitás mérése [kérelemegység](/azure/cosmos-db/request-units) (RU). Annak érdekében, hogy az elmúlt 10 000-et egy Cosmos DB-tárolók skálázása RU, meg kell adnia egy [partíciókulcs](/azure/cosmos-db/partition-data) amikor létrehozza a tárolót, és a partíciókulcs tartalmazza minden egyes dokumentum. 
+A Cosmos DB átviteli kapacitás mérése [kérelemegység](/azure/cosmos-db/request-units) (RU). Annak érdekében, hogy az elmúlt 10 000-et egy Cosmos DB-tárolók skálázása RU, meg kell adnia egy [partíciókulcs](/azure/cosmos-db/partition-data) amikor létrehozza a tárolót, és a partíciókulcs tartalmazza minden egyes dokumentum.
 
 Ez a referenciaarchitektúra az új dokumentumok létrehozásának csak egyszer perc (a szórási ablak időköz), így az átviteli sebességet megkövetelő meglehetősen kicsi. Éppen ezért hiba esetén nem kell hozzárendelni az ebben a forgatókönyvben egy partíciókulcsot.
 
@@ -199,13 +205,13 @@ A referenciaarchitektúra egy egyéni irányítópult, amelyen telepítve van az
 
 Az alábbi képen az irányítópult látható, miután a Stream Analytics-feladat futásának időtartama: körülbelül egy óra alatt.
 
-![](./images/stream-processing-asa/asa-dashboard.png)
+![A Taxi Rides irányítópult képernyőképe](./images/stream-processing-asa/asa-dashboard.png)
 
-A panel bal alsó mutatja, hogy a SU-használat a Stream Analytics-feladat az első 15 perc során megnő, és ezután itt megáll. Ez a lehetőség egy tipikus mintája a feladat eléri egy stabil állapotot. 
+A panel bal alsó mutatja, hogy a SU-használat a Stream Analytics-feladat az első 15 perc során megnő, és ezután itt megáll. Ez a lehetőség egy tipikus mintája a feladat eléri egy stabil állapotot.
 
-Figyelje meg, hogy az Event Hubs szabályozza a kéréseket, a felső jobb oldali panelen látható. Alkalmanként szabályozott kérelmet nem áll egy probléma, mivel az Event hubs szolgáltatás ügyfél-SDK automatikusan újrapróbálkozik, ha sávszélesség-szabályozási hibaüzenet kap. Azonban ha egységes szabályozási hibákat lát, az azt jelenti az event hubs átviteli egységeket kell. A következő diagram is mutatja egy tesztfuttatás, az Event Hubs használatával az automatikus feltöltési funkció, amely automatikusan méretezhető az átviteli egységek igény szerint. 
+Figyelje meg, hogy az Event Hubs szabályozza a kéréseket, a felső jobb oldali panelen látható. Alkalmanként szabályozott kérelmet nem áll egy probléma, mivel az Event hubs szolgáltatás ügyfél-SDK automatikusan újrapróbálkozik, ha sávszélesség-szabályozási hibaüzenet kap. Azonban ha egységes szabályozási hibákat lát, az azt jelenti az event hubs átviteli egységeket kell. A következő diagram is mutatja egy tesztfuttatás, az Event Hubs használatával az automatikus feltöltési funkció, amely automatikusan méretezhető az átviteli egységek igény szerint.
 
-![](./images/stream-processing-asa/stream-processing-eh-autoscale.png)
+![Képernyőkép az Event Hubs automatikus skálázás](./images/stream-processing-asa/stream-processing-eh-autoscale.png)
 
 Az automatikus feltöltési engedélyezve lett 06:35 kapcsolatos megjelölni. A p, dobja el a szabályozott kérelmeinek száma, az Event Hubs automatikusan átméreteződik legfeljebb 3 átviteli egységek láthatja.
 
@@ -213,7 +219,6 @@ Interestingly ennek hatására oldal, ahol egyre növekszik a Stream Analytics-f
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github]. 
-
+A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github].
 
 [github]: https://github.com/mspnp/reference-architectures/tree/master/data/streaming_asa

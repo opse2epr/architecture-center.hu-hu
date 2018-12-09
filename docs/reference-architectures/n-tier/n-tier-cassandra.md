@@ -1,52 +1,54 @@
 ---
 title: Az Apache Cassandra használatával N szintű alkalmazás
-description: Annak az ismertetése, hogyan kell Linux rendszerű virtuális gépeket futtatni N szintű architektúrához a Microsoft Azure-ban.
+titleSuffix: Azure Reference Architectures
+description: Futtassa a Linux rendszerű virtuális gépek az N szintű architektúra a Microsoft Azure-ban Apache Cassandra.
 author: MikeWasson
 ms.date: 11/12/2018
-ms.openlocfilehash: ec2d6f8310e5b7ae5b135aa0e16f14f572149f7f
-ms.sourcegitcommit: 9293350ab66fb5ed042ff363f7a76603bf68f568
+ms.custom: seodec18
+ms.openlocfilehash: bbd1029fe17b5d88d54246127c5d8983a573b012
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51577174"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120169"
 ---
 # <a name="linux-n-tier-application-in-azure-with-apache-cassandra"></a>Az Azure-ban az Apache Cassandra használatával Linux N szintű alkalmazás
 
-Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek és a egy N szintű alkalmazáshoz, az Apache Cassandra használatával Linux rendszeren az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek (VM) és a egy N szintű alkalmazáshoz, az Apache Cassandra használatával Linux rendszeren az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
-![[0]][0]
+![N szintű architektúrához a Microsoft Azure](./images/n-tier-cassandra.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-## <a name="architecture"></a>Architektúra 
+## <a name="architecture"></a>Architektúra
 
 Az architektúra a következő összetevőkből áll:
 
-* **Erőforráscsoport.** Az [erőforráscsoportok][resource-manager-overview] az erőforrások csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők.
+- **Erőforráscsoport**. Az [erőforráscsoportok][resource-manager-overview] az erőforrások csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők.
 
-* **Virtuális hálózat (VNet) és alhálózatok.** Minden Azure VM egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez. 
+- **Virtuális hálózat (VNet) és alhálózatok**. Minden Azure VM egy alhálózatokra osztható virtuális hálózatban van üzembe helyezve. Hozzon létre egy külön alhálózatot minden egyes szinthez.
 
-* **NSG-k**. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható három rétegű architektúrában például az adatbázisszint az üzleti szint és a felügyeleti alhálózaton, de nem a webes kezelőfelület érkező forgalmat fogad.
+- **NSG-k**. Használjon [hálózati biztonsági csoportokat][nsg] (NSG-ket) a hálózati forgalom korlátozására a virtuális hálózaton belül. Az itt látható három rétegű architektúrában például az adatbázisszint az üzleti szint és a felügyeleti alhálózaton, de nem a webes kezelőfelület érkező forgalmat fogad.
 
-* **A DDoS Protection**. Bár az Azure platform lehetővé teszi, hogy alapvető védelmet az elosztott szolgáltatásmegtagadási (DDoS-) támadások ellen, javasoljuk a [DDoS Protection Standard][ddos], amely továbbfejlesztett DDoS-támadás kockázatcsökkentése szolgáltatások. Lásd: [biztonsági szempontok](#security-considerations).
+- **A DDoS Protection**. Bár az Azure platform lehetővé teszi, hogy alapvető védelmet az elosztott szolgáltatásmegtagadási (DDoS-) támadások ellen, javasoljuk a [DDoS Protection Standard][ddos], amely továbbfejlesztett DDoS-támadás kockázatcsökkentése szolgáltatások. Lásd: [biztonsági szempontok](#security-considerations).
 
-* **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [Windows virtuális gépek futtatása az Azure-beli](./windows-vm.md) és [Linux rendszerű virtuális gép futtatása az Azure-ban](./linux-vm.md).
+- **Virtuális gépek**. Javaslatok a virtuális gépek konfigurálása, lásd: [Windows virtuális gépek futtatása az Azure-beli](./windows-vm.md) és [Linux rendszerű virtuális gép futtatása az Azure-ban](./linux-vm.md).
 
-* **Rendelkezésre állási csoportok.** Hozzon létre egy [rendelkezésre állási csoport] [ azure-availability-sets] mindegyik réteghez, és az egyes szintek, amelyek a virtuális gépek így magasabb szintű támogatásra jogosult legalább két virtuális gép kiépítése [szolgáltatói szerződést (SLA)] [ vm-sla].
+- **Rendelkezésre állási csoportok**. Hozzon létre egy [rendelkezésre állási csoport] [ azure-availability-sets] mindegyik réteghez, és az egyes szintek, amelyek a virtuális gépek így magasabb szintű támogatásra jogosult legalább két virtuális gép kiépítése [szolgáltatói szerződést (SLA)] [ vm-sla].
 
-* **Az Azure Load Balancer terheléselosztók.** A [terheléselosztók] [ load-balancer] beérkező internetes kérelmeket a Virtuálisgép-példányok elosztása. Használja a [nyilvános load balancer] [ load-balancer-external] terjeszteni a bejövő internetes forgalom webes szinten és a egy [belső load balancer] [ load-balancer-internal] , elosztja a hálózati forgalmat a webes szintről az üzleti szint.
+- **Azure-terheléselosztók**. A [terheléselosztók] [ load-balancer] beérkező internetes kérelmeket a Virtuálisgép-példányok elosztása. Használja a [nyilvános load balancer] [ load-balancer-external] terjeszteni a bejövő internetes forgalom webes szinten és a egy [belső load balancer] [ load-balancer-internal] , elosztja a hálózati forgalmat a webes szintről az üzleti szint.
 
-* **Nyilvános IP-cím**. A nyilvános load balancer az internetes forgalmat fogadó nyilvános IP-cím szükséges.
+- **Nyilvános IP-cím**. A nyilvános load balancer az internetes forgalmat fogadó nyilvános IP-cím szükséges.
 
-* **Jumpbox.** Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-t engedélyezni kell az ssh adatforgalmat.
+- **Jumpbox**. Más néven [bástyagazdagép]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-t engedélyezni kell az ssh adatforgalmat.
 
-* **Apache Cassandra-adatbázis**. Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével.
+- **Apache Cassandra-adatbázis**. Magas rendelkezésre állást biztosít az adatszinten a replikáció és a feladatátvétel engedélyezésével.
 
-* **Azure DNS**. [Az Azure DNS] [ azure-dns] DNS-tartományok egy üzemeltetési szolgáltatás. A Microsoft Azure infrastruktúráját használja a névfeloldást biztosít. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
+- **Azure DNS**. [Az Azure DNS] [ azure-dns] DNS-tartományok egy üzemeltetési szolgáltatás. A Microsoft Azure infrastruktúráját használja a névfeloldást biztosít. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak. 
+Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a javaslatokat tekintse kiindulópontnak.
 
 ### <a name="vnet--subnets"></a>Virtuális hálózat/alhálózatok
 
@@ -64,10 +66,10 @@ Adja meg a terheléselosztó a virtuális gépek felé irányuló közvetlen há
 
 ### <a name="network-security-groups"></a>Network security groups (Hálózati biztonsági csoportok)
 
-A szintek közötti forgalmat NSG-szabályokkal korlátozhatja. Ha például a fenti három rétegű architektúrában a webes szint nem kommunikál közvetlenül az adatbázisszint. Ennek kényszerítése érdekében az adatbázisszintnek blokkolnia kell a webes szint alhálózatáról érkező bejövő forgalmat.  
+A szintek közötti forgalmat NSG-szabályokkal korlátozhatja. Ha például a fenti három rétegű architektúrában a webes szint nem kommunikál közvetlenül az adatbázisszint. Ennek kényszerítése érdekében az adatbázisszintnek blokkolnia kell a webes szint alhálózatáról érkező bejövő forgalmat.
 
-1. Megtagadási az összes bejövő forgalmat a virtuális hálózatról. (A szabályban használja a `VIRTUAL_NETWORK` címkét.) 
-2. Az üzleti szint alhálózatáról érkező forgalom engedélyezéséhez.  
+1. Megtagadási az összes bejövő forgalmat a virtuális hálózatról. (A szabályban használja a `VIRTUAL_NETWORK` címkét.)
+2. Az üzleti szint alhálózatáról érkező forgalom engedélyezéséhez.
 3. Az adatbázisszint alhálózatán érkező forgalom engedélyezéséhez. Ez a szabály lehetővé teszi, hogy szükség van az adatbázis-replikáció és feladatátvételi adatbázis-beli virtuális gépek közötti kommunikációt.
 4. Forgalom ssh (22-es port) a jumpbox alhálózatáról származó. Ez lehetővé teszi, hogy a rendszergazdák csatlakozni tudjanak az adatbázisszinthez a jumpboxból.
 
@@ -75,18 +77,17 @@ A szintek közötti forgalmat NSG-szabályokkal korlátozhatja. Ha például a f
 
 ### <a name="cassandra"></a>Cassandra
 
-Éles környezetben ajánlott a [DataStax Enterprise][datastax] használata, de ezek a javaslatok bármely Cassandra-kiadásra is vonatkoznak. További információk a DataStax futtatásáról az Azure-ban: [A DataStax Enterprise üzembehelyezési útmutatója az Azure-hoz][cassandra-in-azure]. 
+Éles környezetben ajánlott a [DataStax Enterprise][datastax] használata, de ezek a javaslatok bármely Cassandra-kiadásra is vonatkoznak. További információk a DataStax futtatásáról az Azure-ban: [A DataStax Enterprise üzembehelyezési útmutatója az Azure-hoz][cassandra-in-azure].
 
-Helyezze a virtuális gépeket egy rendelkezésre állási csoport Cassandra-fürtjére annak érdekében, hogy a Cassandra-replikák több tartalék és frissítési tartományon legyenek elosztva. A tartalék és a frissítési tartományokról további információkért lásd a [virtuális gépek rendelkezésre állásának kezelésével][azure-availability-sets] foglalkozó témakört. 
+Helyezze a virtuális gépeket egy rendelkezésre állási csoport Cassandra-fürtjére annak érdekében, hogy a Cassandra-replikák több tartalék és frissítési tartományon legyenek elosztva. A tartalék és a frissítési tartományokról további információkért lásd a [virtuális gépek rendelkezésre állásának kezelésével][azure-availability-sets] foglalkozó témakört.
 
-Rendelkezésre állási csoportonként konfiguráljon három tartalék tartományt (ez a maximum) és 18 frissítési tartományt. Így a legmagasabb számú olyan frissítési tartománya lehet, amelyet a tartalék tartományokon még egyenletesen lehet elosztani.   
+Rendelkezésre állási csoportonként konfiguráljon három tartalék tartományt (ez a maximum) és 18 frissítési tartományt. Így a legmagasabb számú olyan frissítési tartománya lehet, amelyet a tartalék tartományokon még egyenletesen lehet elosztani.
 
 Konfigurálja a csomópontokat állvány-kompatibilis üzemmódban. Képezze le a tartalék tartományokat állványokra a `cassandra-rackdc.properties` fájlban.
 
 A fürt előtt nincs szükség terheléselosztóra. Az ügyfél közvetlenül csatlakozik a fürt egyik csomópontjához.
 
 A magas rendelkezésre állás érdekében a több Azure-régióban a Cassandra üzembe helyezése. Csomópontok minden régióban állvány-kompatibilis üzemmódban a tartalék vannak konfigurálva, és frissítési tartományokba, az a régión belüli rugalmasság.
-
 
 ### <a name="jumpbox"></a>Jumpbox
 
@@ -121,10 +122,10 @@ A terheléselosztó [állapotmintákat][health-probes] használ a virtuálisgép
 
 Az alábbiakban néhány javaslat olvasható a terheléselosztó állapot-mintavételére vonatkozóan:
 
-* A mintavételek a HTTP-t vagy a TCP-t tesztelhetik. Ha a virtuális gépek HTTP-kiszolgálót futtatnak, HTTP-mintavételt hozzon létre. Egyéb esetben TCP-mintavételt hozzon létre.
-* A HTTP-mintavétel esetében adjon meg elérési utat egy HTTP-végponthoz. A mintavétel 200-as HTTP-választ vár erről a megadott elérési útról. Ez lehet a gyökérútvonal („/”) vagy egy állapotmonitorozó végpont, amely valamilyen egyéni logikát alkalmaz az alkalmazás állapotának ellenőrzésére. A végpontnak engedélyeznie kell a névtelen HTTP-kérelmeket.
-* A mintavétel [ismert IP-címről érkezik:][health-probe-ip] 168.63.129.16. Győződjön meg arról, hogy nem tiltja a bejövő és kimenő forgalmat az IP-címről valamelyik tűzfalszabályzatban vagy NSG-szabályok a.
-* Az állapotminták állapotának megtekintéséhez használjon [állapotminta-naplókat][health-probe-log]. Engedélyezze a naplózást az Azure Portalon minden egyes terheléselosztóra vonatkozóan. A naplókat a rendszer az Azure Blob Storage-ba írja. A naplók megmutatják, hány virtuális gépet nincsenek rájuk vonatkozó hálózati forgalom meghiúsult mintavételi válaszok miatt.
+- A mintavételek a HTTP-t vagy a TCP-t tesztelhetik. Ha a virtuális gépek HTTP-kiszolgálót futtatnak, HTTP-mintavételt hozzon létre. Egyéb esetben TCP-mintavételt hozzon létre.
+- A HTTP-mintavétel esetében adjon meg elérési utat egy HTTP-végponthoz. A mintavétel 200-as HTTP-választ vár erről a megadott elérési útról. Ez lehet a gyökérútvonal („/”) vagy egy állapotmonitorozó végpont, amely valamilyen egyéni logikát alkalmaz az alkalmazás állapotának ellenőrzésére. A végpontnak engedélyeznie kell a névtelen HTTP-kérelmeket.
+- A mintavétel [ismert IP-címről érkezik:][health-probe-ip] 168.63.129.16. Győződjön meg arról, hogy nem tiltja a bejövő és kimenő forgalmat az IP-címről valamelyik tűzfalszabályzatban vagy NSG-szabályok a.
+- Az állapotminták állapotának megtekintéséhez használjon [állapotminta-naplókat][health-probe-log]. Engedélyezze a naplózást az Azure Portalon minden egyes terheléselosztóra vonatkozóan. A naplókat a rendszer az Azure Blob Storage-ba írja. A naplók megmutatják, hány virtuális gépet nincsenek rájuk vonatkozó hálózati forgalom meghiúsult mintavételi válaszok miatt.
 
 A feladatátvételi funkciók a Cassandra-fürt az alkalmazás és a replikák száma használt függ. További információk a konzisztenciaszintekről és azok használatáról a Cassandrában: [Adatkonzisztencia konfigurálása][cassandra-consistency] és [Cassandra: Hány csomóponttal folyik kommunikáció a Quorum esetében?][cassandra-consistency-usage] Az adatok elérhetősége a Cassandrában az alkalmazás által használt konzisztenciaszinttől és a replikációs mechanizmustól függ. További információ a replikációról a Cassandrában: [Adatok replikációja a NoSQL-adatbázisokban – Ismertetés][cassandra-replication].
 
@@ -142,7 +143,7 @@ A bejövő internetes forgalom esetében a terheléselosztó szabályai határoz
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder]. 
+Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHubon][github-folder].
 
 ### <a name="prerequisites"></a>Előfeltételek
 
@@ -158,13 +159,14 @@ Ha Linux rendszerű virtuális gépeket szeretne üzembe helyezni egy N szintű 
 
 3. Üzembe helyezés a referencia architektúra használatával a **azbb** eszközt az alább látható módon.
 
-   ```bash
+   ```azurecli
    azbb -s <your subscription_id> -g <your resource_group_name> -l <azure region> -p n-tier-linux.json --deploy
    ```
 
 A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
 
 <!-- links -->
+
 [dmz]: ../dmz/secure-vnet-dmz.md
 [multi-vm]: ./multi-vm.md
 [naming conventions]: /azure/guidance/guidance-naming-conventions
@@ -193,9 +195,8 @@ A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő
 [nyilvános IP-címet]: /azure/virtual-network/virtual-network-ip-addresses-overview-arm
 [vm-sla]: https://azure.microsoft.com/support/legal/sla/virtual-machines
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/vm-reference-architectures.vsdx
-[0]: ./images/n-tier-cassandra.png "N szintű architektúra a Microsoft Azure használatával"
 
-[resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview 
+[resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
 [vmss]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-overview
 [load-balancer]: /azure/load-balancer/load-balancer-get-started-internet-arm-cli
 [load-balancer-hashing]: /azure/load-balancer/load-balancer-overview#load-balancer-features

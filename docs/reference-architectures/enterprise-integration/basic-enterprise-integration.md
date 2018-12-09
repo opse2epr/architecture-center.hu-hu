@@ -1,25 +1,25 @@
 ---
-title: Azure integrációs szolgáltatásait használó vállalati integráció
-description: Ez az architektúra útmutató bemutatja, hogyan implementálható egy egyszerű vállalati integrációs minta Azure Logic Apps és az Azure API Management használatával
+title: Az Azure alapszintű vállalati integráció
+titleSuffix: Azure Reference Architectures
+description: Javasolt architektúra megvalósítása az Azure Logic Apps és az Azure API Management egyszerű vállalati integráció mintát.
 services: logic-apps
 author: mattfarm
-ms.author: mattfarm
 ms.reviewer: jonfan, estfan, LADocs
 ms.topic: article
 ms.date: 12/03/2018
 ms.custom: integration-services
-ms.openlocfilehash: 9873fae61f9cb33b8707cf10e352f4b941fe5e74
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 36419706714b8516a309cf634649a4b44a9bc136
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004940"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120203"
 ---
 # <a name="basic-enterprise-integration-on-azure"></a>Alapszintű vállalati integráció az Azure-ban
 
 Ez a referenciaarchitektúra használ [Azure integrációs szolgáltatások] [ integration-services] vállalati háttérrendszerre hívásainak vezénylésére. A háttérrendszerekhez szoftver feltétlenül tartalmazzák a szoftverszolgáltatások (SaaS) rendszerek, az Azure-szolgáltatásokkal, mint, és a vállalat meglévő webszolgáltatások.
 
-Az Azure integrációs szolgáltatások gyűjteménye, alkalmazások és adatok integrálása-szolgáltatások. Ez az architektúra két ezeket a szolgáltatásokat használja: [Logic Apps] [ logic-apps] előkészíthető a munkafolyamatokat, és [az API Management] [ apim] katalógus létrehozása az API-k. Ez az architektúra olyan alapszintű integrációs forgatókönyvek, ahol a sématelepítési munkafolyamatot a Háttérszolgáltatásokhoz szinkron hívások elegendő. A kifinomultabb architektúra használatával [várólisták és események](./queues-events.md) Ez a alapvető architektúra épül. 
+Az Azure integrációs szolgáltatások gyűjteménye, alkalmazások és adatok integrálása-szolgáltatások. Ez az architektúra két ezeket a szolgáltatásokat használja: [Logic Apps] [ logic-apps] előkészíthető a munkafolyamatokat, és [az API Management] [ apim] katalógus létrehozása az API-k. Ez az architektúra olyan alapszintű integrációs forgatókönyvek, ahol a sématelepítési munkafolyamatot a Háttérszolgáltatásokhoz szinkron hívások elegendő. A kifinomultabb architektúra használatával [várólisták és események](./queues-events.md) Ez a alapvető architektúra épül.
 
 ![Architekturális diagramja – egyszerű vállalati integráció](./_images/simple-enterprise-integration.png)
 
@@ -33,13 +33,13 @@ Az architektúra a következő összetevőkből áll:
 
 - **Az Azure API Management**. [Az API Management] [ apim] közzétételéhez katalógusok HTTP API-k, előléptetni újbóli és a egy felügyelt szolgáltatás. Az API Management kapcsolódó két összetevőből áll:
 
-    - **API-átjáró**. Az API-átjáró fogadja el a HTTP-hívások, és továbbítja a háttérben. 
+  - **API-átjáró**. Az API-átjáró fogadja el a HTTP-hívások, és továbbítja a háttérben.
 
-    - **Fejlesztői portál**. Az Azure API Management minden példányának hozzáférést biztosít egy [fejlesztői portál][apim-dev-portal]. Ezen a portálon hozzáférést biztosít a fejlesztők dokumentáció és Kódminták az API-k meghívására szolgáló. API-k a fejlesztői portálon is tesztelheti.
+  - **Fejlesztői portál**. Az Azure API Management minden példányának hozzáférést biztosít egy [fejlesztői portál][apim-dev-portal]. Ezen a portálon hozzáférést biztosít a fejlesztők dokumentáció és Kódminták az API-k meghívására szolgáló. API-k a fejlesztői portálon is tesztelheti.
 
-    Ebben az architektúrában összetett API-k által épített [importálása logic apps] [ apim-logic-app] API-k formájában. A meglévő webszolgáltatásokat is importálhat [OpenAPI importálása] [ apim-openapi] (Swagger) specifikációk vagy [SOAP API importálása] [ apim-soap] WSDL-fájlból előírásoknak. 
+  Ebben az architektúrában összetett API-k által épített [importálása logic apps] [ apim-logic-app] API-k formájában. A meglévő webszolgáltatásokat is importálhat [OpenAPI importálása] [ apim-openapi] (Swagger) specifikációk vagy [SOAP API importálása] [ apim-soap] WSDL-fájlból előírásoknak.
 
-    Az API-átjáró segítségével különítse el a háttér-előtér-ügyfélről. Például azt is újraírási URL-címek, vagy átalakíthatja kérelmek, mielőtt elérnék a háttérrendszer. Például a hitelesítést, az eltérő eredetű erőforrások megosztása (CORS) támogatásával és a válaszok gyorsítótárazását számos általános megfontolások is kezeli.
+  Az API-átjáró segítségével különítse el a háttér-előtér-ügyfélről. Például azt is újraírási URL-címek, vagy átalakíthatja kérelmek, mielőtt elérnék a háttérrendszer. Például a hitelesítést, az eltérő eredetű erőforrások megosztása (CORS) támogatásával és a válaszok gyorsítótárazását számos általános megfontolások is kezeli.
 
 - **Azure DNS**. [Az Azure DNS] [ dns] DNS-tartományok egy üzemeltetési szolgáltatás. Az Azure DNS névfeloldás biztosít a Microsoft Azure-infrastruktúra használatával. A tartományok Azure-ban üzemelteti, azonos hitelesítő adatokkal, API-kkal, eszközökkel és számlázási használata más Azure-szolgáltatások DNS-rekordok is kezelheti. Egyéni tartománynév, amilyen a contoso.com használatához hozzon létre az egyéni tartománynév leképezése az IP-cím DNS-rekordjait. További információkért lásd: [egyéni tartománynév beállítása az API Management][apim-domain].
 
@@ -55,7 +55,7 @@ Használja az API Management alapszintű, Standard vagy prémium szintű csomag 
 
 Az Azure API Management minden példányához tartozik egy alapértelmezett tartománynevet, amely altartománya, `azure-api.net` & használva, például `contoso.azure-api.net`. Célszerű beállítani egy [egyéni tartomány] [ apim-domain] a szervezet számára.
 
-### <a name="logic-apps"></a>Logic Apps 
+### <a name="logic-apps"></a>Logic Apps
 
 A Logic Apps a legalkalmasabb forgatókönyvek, amelyek nem igényelnek közel valós idejű választ, mint például az aszinkron vagy félig hosszú ideig futó API-hívások. Ha kis késleltetésre szükség, például az a hívás, amely letiltja a felhasználói felületet, használja egy másik technológia. Például használja az Azure Functions vagy a webes API-k üzembe helyezését az Azure App Service. Az API Management segítségével előtér-az API-t az API-fogyasztókat.
 
@@ -83,7 +83,6 @@ Az API Management-szolgáltatás méretezése javaslatok:
 
 A prémium szintű méretezhető API Management-példány több Azure-régiók között. Ez lehetővé teszi az API Management jogosult magasabb SLA, és lehetővé teszi több régióban a felhasználók közel szolgáltatások kiépítése.
 
-
 A Logic Apps, kiszolgáló nélküli modell azt jelenti, hogy a rendszergazdák nem kell a szolgáltatás méretezhetősége tervezése. A szolgáltatás automatikusan méretezi magát, hogy megfeleljenek az igényeknek.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
@@ -99,9 +98,9 @@ Az API Management a prémium szint két vagy több régióban üzembe helyezheti
 
 Rendszeresen [biztonsági mentése] [ apim-backup] az API Management-konfigurációt. A biztonsági másolat Store egy helyet, vagy az Azure-régióban, amely eltér a régió, ahol a szolgáltatás üzembe helyezése. Alapján a [RTO][rto], vészhelyreállítási stratégia kiválasztása:
 
-* A vész-helyreállítási esemény egy új API Management-példány üzembe helyezése, az új példányt a biztonsági másolat visszaállítása és szolgáltatással átirányíthassa a DNS-rekordokat.
+- A vész-helyreállítási esemény egy új API Management-példány üzembe helyezése, az új példányt a biztonsági másolat visszaállítása és szolgáltatással átirányíthassa a DNS-rekordokat.
 
-* Az API Management szolgáltatás passzív példánya ne egy másik Azure-régióban. Rendszeresen állítsa vissza a biztonsági mentések példányhoz, az aktív szolgáltatás szinkronban tartja. Egy vész-helyreállítási esemény során a szolgáltatás helyreállításához meg kell csak szolgáltatással átirányíthassa a DNS-rekordokat. Ez a megközelítés további költséget áll, mert után kell fizetni, a passzív példányra, de csökkenti a helyreállítási ideje. 
+- Az API Management szolgáltatás passzív példánya ne egy másik Azure-régióban. Rendszeresen állítsa vissza a biztonsági mentések példányhoz, az aktív szolgáltatás szinkronban tartja. Egy vész-helyreállítási esemény során a szolgáltatás helyreállításához meg kell csak szolgáltatással átirányíthassa a DNS-rekordokat. Ez a megközelítés további költséget áll, mert után kell fizetni, a passzív példányra, de csökkenti a helyreállítási ideje.
 
 A logic apps esetében javasoljuk, hogy a konfiguráció a kódot, megközelítést, biztonsági mentése és visszaállítása. Mivel a logic apps kiszolgáló nélküli, gyorsan létrehozhatja őket az Azure Resource Manager-sablonok. Mentés a sablonok verziókövetési rendszerben, a sablonok integrálása a folyamatos integráció/folyamatos készregyártás (CI/CD) folyamatot. A vész-helyreállítási esemény helyezheti üzembe a sablont egy új régióban.
 
@@ -113,13 +112,13 @@ Hozzon létre külön erőforráscsoportok éles környezetben, fejlesztési, é
 
 Amikor erőforrásokat rendel erőforráscsoportok, vegye figyelembe a következőket:
 
-* **Életciklus**. Általánosságban elmondható helyezze ugyanabba az erőforráscsoportba az azonos életciklussal rendelkező erőforrások.
+- **Életciklus**. Általánosságban elmondható helyezze ugyanabba az erőforráscsoportba az azonos életciklussal rendelkező erőforrások.
 
-* **Hozzáférés**. A csoportokban található erőforrások hozzáférési házirendeket alkalmazza, használhatja [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC).
+- **Hozzáférés**. A csoportokban található erőforrások hozzáférési házirendeket alkalmazza, használhatja [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC).
 
-* **Számlázási**. Megtekintheti az erőforráscsoport költségeinek összesítése.
+- **Számlázási**. Megtekintheti az erőforráscsoport költségeinek összesítése.
 
-* **Az API Management tarifacsomag**. A fejlesztői csomag használata a fejlesztési-tesztelési környezetet. A költségek csökkentésére üzem előtti tesztelés során, egy replikát, az éles környezet üzembe helyezése, a tesztek futtatásához, és majd állítsa le.
+- **Az API Management tarifacsomag**. A fejlesztői csomag használata a fejlesztési-tesztelési környezetet. A költségek csökkentésére üzem előtti tesztelés során, egy replikát, az éles környezet üzembe helyezése, a tesztek futtatásához, és majd állítsa le.
 
 ### <a name="deployment"></a>Környezet
 
@@ -133,9 +132,9 @@ Minden alkalommal, amikor a logikai alkalmazás konfigurációjának módosítá
 
 Az API Management két különálló, de egymást kiegészítő versioning fogalmak támogatja:
 
-* *Verziók* engedélyezi, választhat egy API-verzió alapján saját igényeinek megfelelő, például, v1, v2, beta vagy éles üzemi API-fogyasztókat.
+- *Verziók* engedélyezi, választhat egy API-verzió alapján saját igényeinek megfelelő, például, v1, v2, beta vagy éles üzemi API-fogyasztókat.
 
-* *Változatok* API-rendszergazdák nem kompatibilitástörő változások API-ban, és telepítheti majd a változásokat az API-fogyasztókat tájékoztatni a módosításokat a módosítási napló engedélyezése.
+- *Változatok* API-rendszergazdák nem kompatibilitástörő változások API-ban, és telepítheti majd a változásokat az API-fogyasztókat tájékoztatni a módosításokat a módosítási napló engedélyezése.
 
 Győződjön meg arról, egy változat fejlesztői környezetben, és ezt a módosítást, más környezetekben üzembe helyezése a Resource Manager-sablonok használatával. További információkért lásd: [az API több verziójának közzététele][apim-versions]
 
@@ -150,29 +149,29 @@ Használat [Azure Monitor] [ monitor] az API Management és a Logic Apps a műve
 
 Minden szolgáltatás van még ezeket a beállításokat:
 
-* Mélyebb elemzésre és dashboarding küldése a Logic Apps naplók [Azure Log Analytics][logic-apps-log-analytics].
+- Mélyebb elemzésre és dashboarding küldése a Logic Apps naplók [Azure Log Analytics][logic-apps-log-analytics].
 
-* Fejlesztési és üzemeltetési figyelés az Azure Application Insights beállítása az API Management.
+- Fejlesztési és üzemeltetési figyelés az Azure Application Insights beállítása az API Management.
 
-* Az API Management támogatja a [Power BI megoldássablon az egyéni API-analytics][apim-pbi]. Ez a megoldássablon használhatja a saját elemzési megoldás létrehozásához. Az üzleti felhasználók a Power BI jelentések elérhetővé teszi.
+- Az API Management támogatja a [Power BI megoldássablon az egyéni API-analytics][apim-pbi]. Ez a megoldássablon használhatja a saját elemzési megoldás létrehozásához. Az üzleti felhasználók a Power BI jelentések elérhetővé teszi.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
 Bár ez a lista nem teljes mértékben ismerteti az összes ajánlott biztonsági eljárások, az alábbiakban néhány biztonsági szempontot, amely kifejezetten ebben az architektúrában a alkalmazni:
 
-* Az Azure API Management szolgáltatást egy rögzített nyilvános IP-címmel rendelkezik. Korlátozza a hozzáférést az API Management csak az IP-címét, a Logic Apps-végpontok hívása. További információkért lásd: [bejövő IP-címek korlátozása][logic-apps-restrict-ip].
+- Az Azure API Management szolgáltatást egy rögzített nyilvános IP-címmel rendelkezik. Korlátozza a hozzáférést az API Management csak az IP-címét, a Logic Apps-végpontok hívása. További információkért lásd: [bejövő IP-címek korlátozása][logic-apps-restrict-ip].
 
-* Ahhoz, hogy a felhasználók rendelkeznek a megfelelő hozzáférési szintekkel, a szerepköralapú hozzáférés-vezérlés (RBAC) használja.
+- Ahhoz, hogy a felhasználók rendelkeznek a megfelelő hozzáférési szintekkel, a szerepköralapú hozzáférés-vezérlés (RBAC) használja.
 
-* Biztonságos nyilvános, az API Management API-végpontokat, OAuth vagy OpenID Connect használatával. A biztonságos nyilvános API-végpontokat, egy identitásszolgáltató konfigurálása, és adjon hozzá egy JSON webes jogkivonat (JWT) érvényesség-ellenőrzési szabályzat. További információkért lásd: [OAuth 2.0 segítségével az Azure Active Directory és az API Management API-k védelme][apim-oauth].
+- Biztonságos nyilvános, az API Management API-végpontokat, OAuth vagy OpenID Connect használatával. A biztonságos nyilvános API-végpontokat, egy identitásszolgáltató konfigurálása, és adjon hozzá egy JSON webes jogkivonat (JWT) érvényesség-ellenőrzési szabályzat. További információkért lásd: [OAuth 2.0 segítségével az Azure Active Directory és az API Management API-k védelme][apim-oauth].
 
-* Csatlakoztassa a háttérszolgáltatások az API Management kölcsönös tanúsítványok használatával.
+- Csatlakoztassa a háttérszolgáltatások az API Management kölcsönös tanúsítványok használatával.
 
-* Az API Management API-k a HTTPS kényszerítése.
+- Az API Management API-k a HTTPS kényszerítése.
 
 ### <a name="storing-secrets"></a>Titkos kódok tárolása
 
-Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati sztringekat a forrásvezérlőben. Ha ezekre az értékekre szükség, biztonságos, majd központilag telepítenie ezeket az értékeket a megfelelő módszerek. 
+Soha ne tároljon jelszavakat, hozzáférési kulcsokat és kapcsolati sztringekat a forrásvezérlőben. Ha ezekre az értékekre szükség, biztonságos, majd központilag telepítenie ezeket az értékeket a megfelelő módszerek.
 
 Ha egy logikai alkalmazást, amely nem hozható létre összekötő belül bizalmas értéket igényel, tárolja ezeket az értékeket az Azure Key Vaultban, és hivatkozni tudjon rájuk a Resource Manager-sablonból. Használja a központi telepítési sablon paramétereit és paraméterfájlt az egyes környezetekhez. További információkért lásd: [biztonságos paraméterek és a egy munkafolyamaton belül bemenetek][logic-apps-secure].
 
@@ -203,7 +202,7 @@ A nagyobb megbízhatóság és skálázhatóság használatával üzenetsorokat 
 [apim-monitor]: /azure/api-management/api-management-howto-use-azure-monitor
 [apim-oauth]: /azure/api-management/api-management-howto-protect-backend-with-aad
 [apim-openapi]: /azure/api-management/import-api-from-oas
-[apim-pbi]: http://aka.ms/apimpbi
+[apim-pbi]: https://aka.ms/apimpbi
 [apim-pricing]: https://azure.microsoft.com/pricing/details/api-management/
 [apim-properties]: /azure/api-management/api-management-howto-properties
 [apim-sla]: https://azure.microsoft.com/support/legal/sla/api-management/

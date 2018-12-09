@@ -1,47 +1,44 @@
 ---
 title: Helyszíni hálózat csatlakoztatása az Azure-hoz VPN használatával
-description: A jelen cikk azt ismerteti, hogyan lehet implementálni egy helyek közötti biztonságos hálózati architektúrát, amely a VPN használatával összekapcsolt Azure-beli virtuális hálózatból és helyszíni hálózatból áll.
+titleSuffix: Azure Reference Architectures
+description: Az Azure virtuális hálózat és a egy helyszíni hálózathoz egy VPN-nel csatlakoztatott kiterjedő helyek közötti biztonságos hálózati architektúra megvalósítása.
 author: RohitSharma-pnp
 ms.date: 10/22/2018
-pnp.series.title: Connect an on-premises network to Azure
-pnp.series.next: expressroute
-pnp.series.prev: ./index
-cardTitle: VPN
-ms.openlocfilehash: a494ff952dd6c8be3b38c2ca7f6740a44b5b30e1
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.openlocfilehash: a1bb2e250cb261e1a56abfb58b099fd078c068e5
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295667"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120441"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-a-vpn-gateway"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával
 
-Ez a referenciaarchitektúra bemutatja, hogyan lehet kibővíteni a helyszíni hálózatot az Azure-ra helyek közötti virtuális magánhálózat (VPN) használatával. A forgalom a helyszíni hálózat és egy Azure Virtual Network (VNet) között egy IPsec VPN-alagúton halad át. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja, hogyan lehet kibővíteni a helyszíni hálózatot az Azure-ra helyek közötti virtuális magánhálózat (VPN) használatával. A forgalom a helyszíni hálózat és egy Azure Virtual Network (VNet) között egy IPsec VPN-alagúton halad át. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
-![[0]][0]
+![A helyszíni és Azure infrastruktúrákat áthidaló hibrid hálózat](./images/vpn.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-## <a name="architecture"></a>Architektúra 
+## <a name="architecture"></a>Architektúra
 
 Az architektúra a következőkben leírt összetevőkből áll.
 
-* **Helyszíni hálózat**. A cégen belül futó helyi magánhálózat.
+- **Helyszíni hálózat**. A cégen belül futó helyi magánhálózat.
 
-* **VPN-berendezés**. A helyszíni hálózat számára külső kapcsolatot biztosító eszköz vagy szolgáltatás. A VPN-berendezés lehet hardvereszköz vagy valamilyen szoftvermegoldás, amilyen például a Windows Server 2012 Útválasztás és távelérés szolgáltatása (Routing and Remote Access Service, RRAS). A támogatott VPN-berendezések listájáért és azok Azure-hoz való csatlakoztatásra történő konfigurálásával kapcsolatos információkért tekintse meg a kiválasztott eszközre vonatkozó utasításokat az [Információk a helyek közötti VPN Gateway-kapcsolatok VPN-eszközeiről][vpn-appliance] című cikkben.
+- **VPN-berendezés**. A helyszíni hálózat számára külső kapcsolatot biztosító eszköz vagy szolgáltatás. A VPN-berendezés lehet hardvereszköz vagy valamilyen szoftvermegoldás, amilyen például a Windows Server 2012 Útválasztás és távelérés szolgáltatása (Routing and Remote Access Service, RRAS). A támogatott VPN-berendezések listájáért és azok Azure-hoz való csatlakoztatásra történő konfigurálásával kapcsolatos információkért tekintse meg a kiválasztott eszközre vonatkozó utasításokat az [Információk a helyek közötti VPN Gateway-kapcsolatok VPN-eszközeiről][vpn-appliance] című cikkben.
 
-* **Virtuális hálózat (VNet)**. A felhőalapú alkalmazás és az Azure VPN-átjáró összetevői ugyanazon a [virtuális hálózaton][azure-virtual-network] találhatók.
+- **Virtuális hálózat (VNet)**. A felhőalapú alkalmazás és az Azure VPN-átjáró összetevői ugyanazon a [virtuális hálózaton][azure-virtual-network] találhatók.
 
-* **Azure VPN Gateway**. A [VPN Gateway][azure-vpn-gateway] szolgáltatás lehetővé teszi, hogy VPN-berendezésen keresztül csatlakoztassa a virtuális hálózatot a helyszíni hálózathoz. További információért tekintse át a [helyszíni hálózat és a Microsoft Azure Virtual Network csatlakoztatásával][connect-to-an-Azure-vnet] foglalkozó cikket. A VPN-átjáró az alábbi elemeket tartalmazza:
-  
-  * **Virtuális hálózati átjáró**. Egy, a virtuális hálózathoz virtuális VPN-berendezést biztosító erőforrás. Ez felelős az adatforgalom helyszíni hálózatról virtuális hálózatra való irányításáért.
-  * **Helyi hálózati átjáró**. A helyszíni VPN-készülék absztrakciója. A felhőalkalmazásról a helyszíni hálózatra irányuló hálózati forgalom ezen az átjárón halad át.
-  * **Kapcsolat**. A kapcsolat olyan tulajdonságokkal rendelkezik, amelyek megadják a kapcsolat típusát (IPSec) és a helyszíni VPN-berendezéssel megosztott kulcsot a forgalom titkosításához.
-  * **Átjáró-alhálózat**. A virtuális hálózati átjáró a saját alhálózatán található, amelynek számos, az alább található Javaslatok szakaszban leírt követelménynek meg kell felelnie.
+- **Azure VPN Gateway**. A [VPN Gateway][azure-vpn-gateway] szolgáltatás lehetővé teszi, hogy VPN-berendezésen keresztül csatlakoztassa a virtuális hálózatot a helyszíni hálózathoz. További információért tekintse át a [helyszíni hálózat és a Microsoft Azure Virtual Network csatlakoztatásával][connect-to-an-Azure-vnet] foglalkozó cikket. A VPN-átjáró az alábbi elemeket tartalmazza:
 
-* **Felhőalkalmazás**. Az Azure-ban üzemeltetett alkalmazás. Több réteget is foglalhat magában, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
+  - **Virtuális hálózati átjáró**. Egy, a virtuális hálózathoz virtuális VPN-berendezést biztosító erőforrás. Ez felelős az adatforgalom helyszíni hálózatról virtuális hálózatra való irányításáért.
+  - **Helyi hálózati átjáró**. A helyszíni VPN-készülék absztrakciója. A felhőalkalmazásról a helyszíni hálózatra irányuló hálózati forgalom ezen az átjárón halad át.
+  - **Kapcsolat**. A kapcsolat olyan tulajdonságokkal rendelkezik, amelyek megadják a kapcsolat típusát (IPSec) és a helyszíni VPN-berendezéssel megosztott kulcsot a forgalom titkosításához.
+  - **Átjáró-alhálózat**. A virtuális hálózati átjáró a saját alhálózatán található, amelynek számos, az alább található Javaslatok szakaszban leírt követelménynek meg kell felelnie.
 
-* **Belső terheléselosztó**. A rendszer a VPN-átjáróról érkező hálózati forgalmat egy belső terheléselosztón keresztül irányítja a felhőalkalmazásba. A terheléselosztó az alkalmazás előtérbeli alhálózatán található.
+- **Felhőalkalmazás**. Az Azure-ban üzemeltetett alkalmazás. Több réteget is foglalhat magában, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
+
+- **Belső terheléselosztó**. A rendszer a VPN-átjáróról érkező hálózati forgalmat egy belső terheléselosztón keresztül irányítja a felhőalkalmazásba. A terheléselosztó az alkalmazás előtérbeli alhálózatán található.
 
 ## <a name="recommendations"></a>Javaslatok
 
@@ -56,12 +53,11 @@ Hozzon létre egy *GatewaySubnet* nevű alhálózatot /27 címtartománnyal. Ez 
 1. A virtuális hálózat címterében lévő változó biteket állítsa 1-re, egészen az átjáró-alhálózat által használt bitekig, majd a többit állítsa 0-ra.
 2. Alakítsa át az eredményül kapott biteket decimálisra, és fejezze ki címtérként, az előtag hosszúságát pedig állítsa az átjáró-alhálózat hosszúságára.
 
-Egy 10.20.0.0/16 IP-címtartományú virtuális hálózat esetében például az 1. lépés alkalmazása a következő eredményt adja: 10.20.0b11111111.0b11100000.  Ha ezt átváltja decimálisra, és címtérként fejezi ki, a következőt kapja: 10.20.255.224/27. 
+Egy 10.20.0.0/16 IP-címtartományú virtuális hálózat esetében például az 1. lépés alkalmazása a következő eredményt adja: 10.20.0b11111111.0b11100000.  Ha ezt átváltja decimálisra, és címtérként fejezi ki, a következőt kapja: 10.20.255.224/27.
 
 > [!WARNING]
 > Ne telepítsen virtuális gépet az átjáró-alhálózatba. Arra is ügyeljen, hogy ne rendeljen NSG-t ehhez az alhálózathoz, különben az átjáró nem fog működni.
-> 
-> 
+>
 
 ### <a name="virtual-network-gateway"></a>Virtuális hálózati átjáró
 
@@ -77,15 +73,13 @@ A támogatott VPN-berendezések listáját az [Információk a helyek közötti 
 
 > [!NOTE]
 > Az átjáró létrehozása után az átjárótípusok között csak az átjáró törlésével és újbóli létrehozásával válthat.
-> 
-> 
+>
 
 Válassza ki az Azure VPN-átjáró azon termékváltozatát, amely leginkább megfelel a teljesítménybeli követelményeknek. További informayion, lásd: [átjáró-termékváltozatok][azure-gateway-skus]
 
 > [!NOTE]
 > Az alapszintű SKU nem kompatibilis az Azure ExpressRoute-tal. A [termékváltozat][changing-SKUs] az átjáró létrehozása után is módosítható.
-> 
-> 
+>
 
 A díjat az átjáró üzemképes állapotának és rendelkezésre állásának időtartama számoljuk fel. Információk: [A VPN Gateway díjszabása][azure-gateway-charges].
 
@@ -103,9 +97,9 @@ Nyissa meg a felhőalkalmazás által igényelt portokat a helyszíni hálózatb
 
 A kapcsolatot tesztelve ellenőrizze a következőket:
 
-* A helyszíni VPN-berendezés megfelelően irányítja-e a forgalmat a felhőalkalmazásba az Azure VPN-átjárón keresztül.
-* A virtuális hálózat megfelelően visszairányítja-e a forgalmat a helyszíni hálózatba.
-* A tiltott forgalom mindkét irányba megfelelően blokkolva van-e.
+- A helyszíni VPN-berendezés megfelelően irányítja-e a forgalmat a felhőalkalmazásba az Azure VPN-átjárón keresztül.
+- A virtuális hálózat megfelelően visszairányítja-e a forgalmat a helyszíni hálózatba.
+- A tiltott forgalom mindkét irányba megfelelően blokkolva van-e.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
@@ -123,7 +117,7 @@ Ha biztosítania kell, hogy az Azure VPN-átjáró folyamatosan el tudja érni a
 
 Ha a vállalat több helyszíni hellyel rendelkezik, hozzon létre [többhelyes kapcsolatokat][vpn-gateway-multi-site] egy vagy több Azure virtuális hálózathoz. Ehhez a megközelítéshez dinamikus (útvonalalapú) útválasztásra van szükség, ezért ügyeljen arra, hogy a helyszíni VPN-átjáró támogassa ezt a szolgáltatást.
 
-További információk a szolgáltatói szerződésekről: [A VPN Gateway szolgáltatói szerződése][sla-for-vpn-gateway]. 
+További információk a szolgáltatói szerződésekről: [A VPN Gateway szolgáltatói szerződése][sla-for-vpn-gateway].
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
@@ -133,7 +127,7 @@ A kapcsolati problémákra vonatkozó információk rögzítéséhez használja 
 
 Monitorozza az Azure VPN-átjáró működési naplóit az Azure Portalon elérhető auditnaplók segítségével. A helyi hálózati átjáróhoz, az Azure hálózati átjáróhoz és a kapcsolathoz külön naplók érhetők el. Ezzel az információval nyomon követhetők az átjáró módosításai, és hasznosak lehetnek, ha egy korábban funkcionáló átjáró működése valamiért leáll.
 
-![[2]][2]
+![Auditnaplók az Azure Portalon](../_images/guidance-hybrid-network-vpn/audit-logs.png)
 
 Monitorozza a kapcsolatokat, és kövesse nyomon a hibaeseményeket. Az információ rögzítéséhez és jelentéséhez használhat olyan monitorozási csomagokat, mint amilyen például a [Nagios][nagios].
 
@@ -143,8 +137,7 @@ Minden VPN-átjáróhoz hozzon létre különböző megosztott kulcsot. Egy erő
 
 > [!NOTE]
 > Az Azure Key Vault jelenleg nem használható az Azure VPN-átjáró kulcsainak előzetes megosztására.
-> 
-> 
+>
 
 Győződjön meg arról, hogy a helyszíni VPN-készülék [az Azure VPN-átjáróval kompatibilis][vpn-appliance-ipsec] titkosítási módszert alkalmaz. A házirendalapú útválasztás esetében az Azure VPN-átjáró az AES256, az AES128 és a 3DES titkosítási algoritmust támogatja. Az útvonalalapú átjárók az AES256 és 3DES titkosítási algoritmust támogatják.
 
@@ -154,11 +147,9 @@ Ha a virtuális hálózaton lévő alkalmazás adatokat küld az internetre, ér
 
 > [!NOTE]
 > A kényszerített bújtatás hatással lehet az Azure-szolgáltatásokhoz (például a Storage Service-hez) és a Windows licenckezelőhöz való kapcsolódásra.
-> 
-> 
+>
 
-
-## <a name="troubleshooting"></a>Hibaelhárítás 
+## <a name="troubleshooting"></a>Hibaelhárítás
 
 Általános információk a VPN-nel kapcsolatos gyakori hibák elhárításáról: [VPN-nel kapcsolatos gyakori hibák elhárítása][troubleshooting-vpn-errors].
 
@@ -176,7 +167,7 @@ Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezé
 
         - Inability to connect, possibly due to an incorrect IP address specified for the Azure VPN gateway in the RRAS VPN network interface configuration.
 
-        ```
+        ```console
         EventID            : 20111
         MachineName        : on-prem-vm
         Data               : {41, 3, 0, 0}
@@ -208,7 +199,7 @@ Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezé
 
         - The wrong shared key being specified in the RRAS VPN network interface configuration.
 
-        ```
+        ```console
         EventID            : 20111
         MachineName        : on-prem-vm
         Data               : {233, 53, 0, 0}
@@ -232,15 +223,15 @@ Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezé
         Container          :
         ```
 
-    Az alábbi PowerShell-paranccsal lekérheti a RRAS szolgáltatáson keresztül megkísérelt csatlakozásra vonatkozó eseménynapló-adatokat is: 
+    Az alábbi PowerShell-paranccsal lekérheti a RRAS szolgáltatáson keresztül megkísérelt csatlakozásra vonatkozó eseménynapló-adatokat is:
 
-    ```
+    ```powershell
     Get-EventLog -LogName Application -Source RasClient | Format-List -Property *
     ```
 
     Ha nem sikerül a csatlakozás, ez a napló az alábbihoz hasonló hibákat fog tartalmazni:
 
-    ```
+    ```console
     EventID            : 20227
     MachineName        : on-prem-vm
     Data               : {}
@@ -264,13 +255,13 @@ Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezé
 
     Előfordulhat, hogy a VPN-berendezés nem megfelelően irányítja a forgalmat az Azure VPN Gatewayen keresztül. Egy [PsPing][psping] eszközhöz hasonló eszközzel ellenőrizheti a kapcsolatot és az útválasztást a VPN-átjárón. Ha például tesztelni szeretné a csatlakozást egy helyszíni gép és egy, a virtuális hálózaton található webkiszolgáló között, futtassa az alábbi parancsot (a `<<web-server-address>>` helyére írja a webkiszolgáló címét):
 
-    ```
+    ```console
     PsPing -t <<web-server-address>>:80
     ```
 
     Ha a helyszíni gép át tudja irányítani a forgalmat a webkiszolgálóra, az alábbihoz hasonló kimenetnek kell megjelennie:
 
-    ```
+    ```console
     D:\PSTools>psping -t 10.20.0.5:80
 
     PsPing v2.01 - PsPing - ping, latency, bandwidth measurement utility
@@ -290,7 +281,7 @@ Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezé
 
     Ha a helyi számítógép nem tud kommunikálni a megadott céllal, az alábbihoz hasonló üzenetek jelennek meg:
 
-    ```
+    ```console
     D:\PSTools>psping -t 10.20.1.6:80
 
     PsPing v2.01 - PsPing - ping, latency, bandwidth measurement utility
@@ -320,7 +311,7 @@ Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-�
 
     Az Azure VPN-átjáró által tárolt megosztott kulcsot az alábbi Azure CLI-paranccsal tekintheti meg:
 
-    ```
+    ```azurecli
     azure network vpn-connection shared-key show <<resource-group>> <<vpn-connection-name>>
     ```
 
@@ -330,13 +321,13 @@ Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-�
 
     Az alhálózati adatokat a következő Azure CLI-paranccsal tekintheti meg:
 
-    ```
+    ```azurecli
     azure network vnet subnet show -g <<resource-group>> -e <<vnet-name>> -n GatewaySubnet
     ```
 
     Ügyeljen arra, hogy ne legyen *Hálózati biztonsági csoport azonosítója* nevű adatmező. Az alábbi példa bemutatja egy olyan *GatewaySubnet*-példány eredményeit, amelyhez hozzá van rendelve egy NSG (*VPN-Gateway-Group*). Emiatt előfordulhat, hogy az átjáró hibásan működik, ha vannak szabályok meghatározva az NSG-hez.
 
-    ```
+    ```console
     C:\>azure network vnet subnet show -g profx-prod-rg -e profx-vnet -n GatewaySubnet
         info:    Executing command network vnet subnet show
         + Looking up virtual network "profx-vnet"
@@ -353,7 +344,7 @@ Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-�
 
     Ellenőrizze az összes, a virtuális gépeket tartalmazó alhálózatokhoz társított NSG-szabályt. Az alábbi Azure CLI-paranccsal megtekintheti az összes NSG-szabályt:
 
-    ```
+    ```azurecli
     azure network nsg show -g <<resource-group>> -n <<nsg-name>>
     ```
 
@@ -361,13 +352,13 @@ Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-�
 
     A következő Azure PowerShell-paranccsal ellenőrizheti az Azure VPN-kapcsolat aktuális állapotát. A `<<connection-name>>` paraméter a virtuális hálózati átjárót és a helyi átjárót társító Azure VPN-kapcsolat neve.
 
-    ```
+    ```powershell
     Get-AzureRmVirtualNetworkGatewayConnection -Name <<connection-name>> - ResourceGroupName <<resource-group>>
     ```
 
     Az alábbi kódrészletek kiemelik azt a kimenetet, amely az átjáró csatlakoztatásakor (első példa) és leválasztásakor (második példa) jön létre:
 
-    ```
+    ```powershell
     PS C:\> Get-AzureRmVirtualNetworkGatewayConnection -Name profx-gateway-connection -ResourceGroupName profx-prod-rg
 
     AuthorizationKey           :
@@ -385,7 +376,7 @@ Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-�
     ...
     ```
 
-    ```
+    ```powershell
     PS C:\> Get-AzureRmVirtualNetworkGatewayConnection -Name profx-gateway-connection2 -ResourceGroupName profx-prod-rg
 
     AuthorizationKey           :
@@ -411,11 +402,11 @@ Az alábbi javaslatok segítenek megállapítani, hogy van-e probléma a virtuá
 
     Ennek az ellenőrzési módja a helyszínen futó VPN-berendezéstől függ. Ha például a Windows Server 2012 RRAS szolgáltatását használja, a teljesítményfigyelő segítségével nyomon követheti a VPN-kapcsolaton keresztül fogadott és küldött adatok mennyiségét. A *Távelérés (RAS) áttekintése* objektum segítségével válassza ki a *Fogadott bájtok/mp* és a *Küldési sebesség (bájt/s)* számlálókat:
 
-    ![[3]][3]
+    ![Teljesítményszámlálók a VPN-hálózati forgalom figyelésére](../_images/guidance-hybrid-network-vpn/RRAS-perf-counters.png)
 
     Meg kell az eredményeket hasonlítsa össze a rendelkezésre álló sávszélesség VPN-átjáróhoz (a 100 MB/s VpnGw3 termékváltozat 1,25 GB/s, az alapszintű Termékváltozat esetén):
 
-    ![[4]][4]
+    ![Példa VPN hálózat teljesítménye ábra](../_images/guidance-hybrid-network-vpn/RRAS-perf-graph.png)
 
 - **Győződjön meg arról, hogy az alkalmazásterheléshez megfelelő számban és méretben telepített virtuális gépeket.**
 
@@ -427,21 +418,22 @@ Az alábbi javaslatok segítenek megállapítani, hogy van-e probléma a virtuá
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-
-**Előfeltételek.** Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
+**Előfeltételek**. Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
 
 A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
+<!-- markdownlint-disable MD033 -->
+
 1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fvpn%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
-2. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket: 
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-hybrid-vpn-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
+2. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:
+   - Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-hybrid-vpn-rg` karakterláncot.
+   - Válassza ki a régiót a **Hely** legördülő listából.
+   - Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
+   - Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
+   - Kattintson a **Vásárlás** gombra.
 3. Várjon, amíg az üzembe helyezés befejeződik.
 
-
+<!-- markdownlint-enable MD033 -->
 
 <!-- links -->
 
@@ -489,7 +481,3 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 [virtualNetworkGateway-parameters]: https://github.com/mspnp/hybrid-networking/vpn/parameters/virtualNetworkGateway.parameters.json
 [azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/
 [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
-[0]: ./images/vpn.png "Helyszíni és Azure infrastruktúrákat áthidaló hibrid hálózat"
-[2]: ../_images/guidance-hybrid-network-vpn/audit-logs.png "Auditnaplók az Azure Portalon"
-[3]: ../_images/guidance-hybrid-network-vpn/RRAS-perf-counters.png "Teljesítményszámlálók a VPN-hálózati forgalom monitorozásához"
-[4]: ../_images/guidance-hybrid-network-vpn/RRAS-perf-graph.png "Példa VPN-hálózat teljesítménye ábra"

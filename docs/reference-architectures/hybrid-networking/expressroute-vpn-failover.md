@@ -1,49 +1,48 @@
 ---
-title: Magas rendelkezésre állású hibrid hálózati architektúra megvalósítása
-description: A jelen cikk azt ismerteti, hogyan lehet kiépíteni egy helyek közötti biztonságos hálózati architektúrát, amely a VPN-átjáróval feladatátvételt biztosító ExpressRoute használatával összekapcsolt Azure-beli virtuális hálózatból és helyszíni hálózatból áll.
+title: Helyszíni hálózat csatlakoztatása az Azure-hoz
+titleSuffix: Azure Reference Architectures
+description: Az Azure virtuális hálózat és a egy helyszíni hálózat VPN-átjáróval feladatátvételt biztosító ExpressRoute használatával összekapcsolt kiterjedő magas rendelkezésre állású és biztonságos helyek közötti hálózati architektúra megvalósítása.
 author: telmosampaio
 ms.date: 10/22/2017
-pnp.series.title: Connect an on-premises network to Azure
-pnp.series.prev: expressroute
-cardTitle: Improving availability
-ms.openlocfilehash: 31bf471dbff3661face7d94fbec0973d81541ec7
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seodec18
+ms.openlocfilehash: d44c046f2351d6103a01108574e0295302f0ba11
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916413"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119948"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute-with-vpn-failover"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával
 
-Ez a referenciaarchitektúra azt mutatja be, hogy hogyan kapcsolható össze egy helyszíni hálózat egy Azure-beli virtuális hálózattal az ExpressRoute segítségével, amely helyek közötti virtuális magánhálózatot (VPN) biztosít feladatátvételi kapcsolatként. A helyszíni hálózat és az Azure-beli virtuális hálózat közötti forgalom egy ExpressRoute-kapcsolaton keresztül halad át. Ha az ExpressRoute-kapcsolatcsoportban megszakad a kapcsolat, a forgalmat egy IPSec VPN-alagúton keresztül továbbítja a rendszer. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra azt mutatja be, hogy hogyan kapcsolható össze egy helyszíni hálózat egy Azure-beli virtuális hálózattal az ExpressRoute segítségével, amely helyek közötti virtuális magánhálózatot (VPN) biztosít feladatátvételi kapcsolatként. A helyszíni hálózat és az Azure-beli virtuális hálózat közötti forgalom egy ExpressRoute-kapcsolaton keresztül halad át. Ha az ExpressRoute-kapcsolatcsoportban megszakad a kapcsolat, a forgalmat egy IPSec VPN-alagúton keresztül továbbítja a rendszer. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
-Vegye figyelembe, hogy ha az ExpressRoute-kapcsolatcsoport nem áll rendelkezésre, a VPN-útválasztás csak a magánhálózati társviszony-létesítésen alapuló kapcsolatokat fogja kezelni. A nyilvános és a Microsoft társviszony-létesítésen alapuló kapcsolatok az interneten fognak továbbítódni. 
+Vegye figyelembe, hogy ha az ExpressRoute-kapcsolatcsoport nem áll rendelkezésre, a VPN-útválasztás csak a magánhálózati társviszony-létesítésen alapuló kapcsolatokat fogja kezelni. A nyilvános és a Microsoft társviszony-létesítésen alapuló kapcsolatok az interneten fognak továbbítódni.
 
-![[0]][0]
+![Referenciaarchitektúra az ExpressRoute és VPN-átjáró használatával magas rendelkezésre állású hibrid hálózati architektúra](./images/expressroute-vpn-failover.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-## <a name="architecture"></a>Architektúra 
+## <a name="architecture"></a>Architektúra
 
 Az architektúra a következőkben leírt összetevőkből áll.
 
-* **Helyszíni hálózat**. A cégen belül futó helyi magánhálózat.
+- **Helyszíni hálózat**. A cégen belül futó helyi magánhálózat.
 
-* **VPN-berendezés**. A helyszíni hálózat számára külső kapcsolatot biztosító eszköz vagy szolgáltatás. A VPN-berendezés lehet hardvereszköz vagy valamilyen szoftvermegoldás, amilyen például a Windows Server 2012 Útválasztás és távelérés szolgáltatása (Routing and Remote Access Service, RRAS). A támogatott VPN-berendezések listáját és az egyes VPN-berendezések Azure-hoz való csatlakoztatásra történő konfigurálásával kapcsolatos információkat az [Információk a helyek közötti VPN Gateway-kapcsolatok VPN-eszközeiről][vpn-appliance] című cikkben találja.
+- **VPN-berendezés**. A helyszíni hálózat számára külső kapcsolatot biztosító eszköz vagy szolgáltatás. A VPN-berendezés lehet hardvereszköz vagy valamilyen szoftvermegoldás, amilyen például a Windows Server 2012 Útválasztás és távelérés szolgáltatása (Routing and Remote Access Service, RRAS). A támogatott VPN-berendezések listáját és az egyes VPN-berendezések Azure-hoz való csatlakoztatásra történő konfigurálásával kapcsolatos információkat az [Információk a helyek közötti VPN Gateway-kapcsolatok VPN-eszközeiről][vpn-appliance] című cikkben találja.
 
-* **ExpressRoute-kapcsolatcsoport**. A kapcsolatszolgáltató által biztosított 2. vagy 3. rétegbeli kapcsolatcsoport, amely a peremhálózati útválasztókon keresztül kapcsolja össze a helyszíni hálózatot az Azure-ral. A kapcsolatcsoport a kapcsolatszolgáltató által felügyelt hardveres infrastruktúrát használja.
+- **ExpressRoute-kapcsolatcsoport**. A kapcsolatszolgáltató által biztosított 2. vagy 3. rétegbeli kapcsolatcsoport, amely a peremhálózati útválasztókon keresztül kapcsolja össze a helyszíni hálózatot az Azure-ral. A kapcsolatcsoport a kapcsolatszolgáltató által felügyelt hardveres infrastruktúrát használja.
 
-* **ExpressRoute virtuális hálózati átjáró**. Az ExpressRoute virtuális hálózati átjáró lehetővé teszi, hogy a virtuális hálózat csatlakozni tudjon a helyszíni hálózattal létesített kapcsolathoz használt ExpressRoute-kapcsolatcsoporthoz.
+- **ExpressRoute virtuális hálózati átjáró**. Az ExpressRoute virtuális hálózati átjáró lehetővé teszi, hogy a virtuális hálózat csatlakozni tudjon a helyszíni hálózattal létesített kapcsolathoz használt ExpressRoute-kapcsolatcsoporthoz.
 
-* **VPN virtuális hálózati átjáró**. A VPN virtuális hálózati átjáró a helyszíni hálózaton található VPN-berendezéshez való csatlakozást teszi lehetővé a virtuális hálózat számára. A VPN virtuális hálózati átjáró úgy van konfigurálva, hogy kizárólag a VPN-berendezésen keresztül fogadjon el kéréseket a helyszíni hálózattól. További információért tekintse át a [helyszíni hálózat és a Microsoft Azure Virtual Network csatlakoztatásával][connect-to-an-Azure-vnet] foglalkozó cikket.
+- **VPN virtuális hálózati átjáró**. A VPN virtuális hálózati átjáró a helyszíni hálózaton található VPN-berendezéshez való csatlakozást teszi lehetővé a virtuális hálózat számára. A VPN virtuális hálózati átjáró úgy van konfigurálva, hogy kizárólag a VPN-berendezésen keresztül fogadjon el kéréseket a helyszíni hálózattól. További információért tekintse át a [helyszíni hálózat és a Microsoft Azure Virtual Network csatlakoztatásával][connect-to-an-Azure-vnet] foglalkozó cikket.
 
-* **VPN-kapcsolat**. A kapcsolat olyan tulajdonságokkal rendelkezik, amelyek megadják a kapcsolat típusát (IPSec) és a helyszíni VPN-berendezéssel megosztott kulcsot a forgalom titkosításához.
+- **VPN-kapcsolat**. A kapcsolat olyan tulajdonságokkal rendelkezik, amelyek megadják a kapcsolat típusát (IPSec) és a helyszíni VPN-berendezéssel megosztott kulcsot a forgalom titkosításához.
 
-* **Azure Virtual Network (VNet)**. Mindegyik virtuális hálózat egy adott Azure-régióban található, és több alkalmazásréteget is üzemeltethet. Az alkalmazásrétegek alhálózatokkal szegmentálhatók az egyes virtuális hálózatokban.
+- **Azure Virtual Network (VNet)**. Mindegyik virtuális hálózat egy adott Azure-régióban található, és több alkalmazásréteget is üzemeltethet. Az alkalmazásrétegek alhálózatokkal szegmentálhatók az egyes virtuális hálózatokban.
 
-* **Átjáró-alhálózat**. A virtuális hálózati átjárók ugyanazon az alhálózaton találhatók.
+- **Átjáró-alhálózat**. A virtuális hálózati átjárók ugyanazon az alhálózaton találhatók.
 
-* **Felhőalkalmazás**. Az Azure-ban üzemeltetett alkalmazás. Több réteget is foglalhat magában, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
+- **Felhőalkalmazás**. Az Azure-ban üzemeltetett alkalmazás. Több réteget is foglalhat magában, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
 
 ## <a name="recommendations"></a>Javaslatok
 
@@ -53,7 +52,7 @@ Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a
 
 Az ExpressRoute és a VPN virtuális hálózati átjárót ugyanazon a virtuális hálózaton hozza létre. Ez azt jelenti, hogy ugyanazon a *GatewaySubnet* nevű alhálózaton kell osztozniuk.
 
-Ha a virtuális hálózat már tartalmaz egy *GatewaySubnet* nevű alhálózatot, gondoskodjon róla, hogy az /27 vagy nagyobb címtérrel rendelkezzen. Ha a meglévő alhálózat túl kicsi, távolítsa el az alábbi PowerShell-paranccsal: 
+Ha a virtuális hálózat már tartalmaz egy *GatewaySubnet* nevű alhálózatot, gondoskodjon róla, hogy az /27 vagy nagyobb címtérrel rendelkezzen. Ha a meglévő alhálózat túl kicsi, távolítsa el az alábbi PowerShell-paranccsal:
 
 ```powershell
 $vnet = Get-AzureRmVirtualNetworkGateway -Name <yourvnetname> -ResourceGroupName <yourresourcegroup>
@@ -99,32 +98,38 @@ Az Azure-biztonsággal kapcsolatos általános szempontokat [a Microsoft Cloud S
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-**Előfeltételek.** Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
+**Előfeltételek**. Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
 
 A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
+<!-- markdownlint-disable MD033 -->
+
 1. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute-vpn-failover%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
-2. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:   
-   * Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-hybrid-vpn-er-rg` karakterláncot.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
+
+2. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:
+   - Az **Erőforráscsoport** neve már meg van adva a paraméterfájlban, ezért válassza az **Új létrehozása** lehetőséget és a szövegmezőbe írja az `ra-hybrid-vpn-er-rg` karakterláncot.
+   - Válassza ki a régiót a **Hely** legördülő listából.
+   - Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
+   - Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
+   - Kattintson a **Vásárlás** gombra.
+
 3. Várjon, amíg az üzembe helyezés befejeződik.
+
 4. Kattintson az alábbi gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Freference-architectures%2Fmaster%2Fhybrid-networking%2Fexpressroute-vpn-failover%2Fazuredeploy-expressRouteCircuit.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
+
 5. Várja meg, amíg a hivatkozás megnyílik az Azure Portalon, majd kövesse az alábbi lépéseket:
-   * Válassza az **Erőforráscsoport** szakasz **Meglévő használata** elemét, és írja be az `ra-hybrid-vpn-er-rg` karakterláncot a szövegmezőbe.
-   * Válassza ki a régiót a **Hely** legördülő listából.
-   * Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
-   * Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
-   * Kattintson a **Vásárlás** gombra.
+   - Válassza az **Erőforráscsoport** szakasz **Meglévő használata** elemét, és írja be az `ra-hybrid-vpn-er-rg` karakterláncot a szövegmezőbe.
+   - Válassza ki a régiót a **Hely** legördülő listából.
+   - Ne szerkessze a **Sablon gyökér szintű URI-je** vagy a **Paraméter gyökér szintű URI-je** szövegmezőt.
+   - Tekintse át a használati feltételeket, majd kattintson az **Elfogadom a fenti feltételeket** lehetőségre.
+   - Kattintson a **Vásárlás** gombra.
+
+<!-- markdownlint-enable MD033 -->
 
 <!-- links -->
 
 [windows-vm-ra]: ../virtual-machines-windows/index.md
 [linux-vm-ra]: ../virtual-machines-linux/index.md
-
-
 [resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
 [vpn-appliance]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [azure-vpn-gateway]: /azure/vpn-gateway/vpn-gateway-about-vpngateways
@@ -136,4 +141,3 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 [guidance-vpn]: ./vpn.md
 [best-practices-security]: /azure/best-practices-network-security
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-architectures.vsdx
-[0]: ./images/expressroute-vpn-failover.png "ExpressRoute és VPN-átjáró használatával megvalósított magas rendelkezésre állású hibrid hálózat architektúrája"

@@ -1,26 +1,26 @@
 ---
-title: Kötegelt pontozási az Azure-on deep learning-modellek
-description: Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkalmazandó egy videót, az Azure Batch AI segítségével
+title: A mélytanulási modellek kötegelt kiértékelése
+titleSuffix: Azure Reference Architectures
+description: Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkalmazandó egy videót, az Azure Batch AI segítségével.
 author: jiata
 ms.date: 10/02/2018
-ms.author: jiata
 ms.custom: azcat-ai
-ms.openlocfilehash: 7d2c2846c1e6b3546958817b100ed024b347102e
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 0396903a39d00a4131df65872a63f4b3fde8dce7
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53005030"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119880"
 ---
 # <a name="batch-scoring-on-azure-for-deep-learning-models"></a>Kötegelt pontozási az Azure-on deep learning-modellek
 
 Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkalmazandó egy videót, az Azure Batch AI segítségével. *Átviteli stílus* deep learning-módszer, amely egy másik képet stílusát egy meglévő kép composes. Ez az architektúra bármilyen forgatókönyvhöz kötegelt pontozási használatával deep learninget használó is általánosítva. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
- 
-![](./_images/batch-ai-deep-learning.png)
+
+![Az Azure Batch AI segítségével mély tanulási modelleket architektúra diagramja](./_images/batch-ai-deep-learning.png)
 
 **A forgatókönyv**: A media szervezete egy videót, amelynek stílusát, így jelenik meg szeretne, például egy adott festmény. A szervezet szeretne tudni a stílus alkalmazása időben, és automatizált módon zajlik a videó minden keretet. További ismereteket a Neurális stílus átviteli algoritmusok, lásd: [kép stílus átvitel használata Konvolúciós Neurális hálózatokkal] [ image-style-transfer] (PDF).
 
-| Style-lemezképet: | A videó bemeneti/tartalom: | Kimeneti videót: | 
+| Style-lemezképet: | A videó bemeneti/tartalom: | Kimeneti videót: |
 |--------|--------|---------|
 | <img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/style_image.jpg" width="300"> | [<img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/input_video_image_0.jpg" width="300" height="300">](https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/input_video.mp4 "A videó bemeneti") *kattintson ide a megtekintéshez videó* | [<img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/output_video_image_0.jpg" width="300" height="300">](https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/output_video.mp4 "A videó kimeneti") *kattintson ide a megtekintéshez videó* |
 
@@ -36,6 +36,7 @@ Ez a referenciaarchitektúra a számítási feladatokat az Azure storage-ban új
 1. Töltse le a létrehozott keretek, és vissza a képek, videó több.
 
 ## <a name="architecture"></a>Architektúra
+
 Ez az architektúra a következő összetevőkből áll.
 
 ### <a name="compute"></a>Compute
@@ -63,7 +64,7 @@ Ez a referenciaarchitektúra egy fa a Képanyag-orangutan használja. Letölthet
 3. A videó felosztása egyes keretek a FFmpeg segítségével. A keretek egymástól függetlenül, párhuzamosan kerül feldolgozásra.
 4. Az AzCopy használatával az egyes keretek másolhatja a blobtárolóba.
 
-Ezen a ponton a videoanyagokat Neurális stílus adatátvitelhez használható formátumban van. 
+Ezen a ponton a videoanyagokat Neurális stílus adatátvitelhez használható formátumban van.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
@@ -75,7 +76,7 @@ Az összes régióban alapértelmezés szerint nem engedélyezettek a GPU-kkal. 
 
 ### <a name="parallelizing-across-vms-vs-cores"></a>Virtuális gépek és magok közötti párhuzamosan futtatni
 
-Batch-feladat egy stílust átviteli folyamat fut, amikor a feladatok elsősorban a GPU-n futó virtuális gépek között méretezésnek megfelelően kell. Két módszer lehetségesek: egyetlen GPU rendelkező virtuális gépeken nagyobb méretű fürtöt létrehozni, vagy hozzon létre egy kisebb fürtöt használó virtuális gépek sok gpu-kkal. 
+Batch-feladat egy stílust átviteli folyamat fut, amikor a feladatok elsősorban a GPU-n futó virtuális gépek között méretezésnek megfelelően kell. Két módszer lehetségesek: egyetlen GPU rendelkező virtuális gépeken nagyobb méretű fürtöt létrehozni, vagy hozzon létre egy kisebb fürtöt használó virtuális gépek sok gpu-kkal.
 
 Ilyen számítási feladatok esetében két lesz hasonló teljesítményt. Virtuális gépenként több gpu-kkal kevesebb virtuális gépek használatával segíthet csökkenteni az adatok áthelyezését. A számítási feladatonként adatmennyiség viszont nem nagyon nagy, ezért nem vizsgálja meg, mennyi szabályozás blob Storage.
 
@@ -97,7 +98,7 @@ Forgatókönyvek a több bizalmas adatok győződjön meg arról, hogy a kulcsok
 
 ### <a name="data-encryption-and-data-movement"></a>Adattitkosítás és -adatok áthelyezése
 
-Ez a referenciaarchitektúra stílus átvitelt használ példaként szolgál a kötegelt pontozási a folyamatot. További adatok bizalmas forgatókönyvek esetén az adatok a storage-ban kell lennie titkosítása. Minden alkalommal adat áthelyezik az egyik helyről a következő, az SSL használatával biztonságossá tétele az adatátvitel. További információkért lásd: [Azure Storage biztonsági útmutatóját][storage-security]. 
+Ez a referenciaarchitektúra stílus átvitelt használ példaként szolgál a kötegelt pontozási a folyamatot. További adatok bizalmas forgatókönyvek esetén az adatok a storage-ban kell lennie titkosítása. Minden alkalommal adat áthelyezik az egyik helyről a következő, az SSL használatával biztonságossá tétele az adatátvitel. További információkért lásd: [Azure Storage biztonsági útmutatóját][storage-security].
 
 ### <a name="securing-data-in-a-virtual-network"></a>A virtuális hálózatban az adatok védelme
 
@@ -109,26 +110,25 @@ A forgatókönyvek, ahol több felhasználó van, győződjön meg arról, hogy 
 
 - Az RBAC használatával csak a számukra szükséges erőforrásokhoz való felhasználói hozzáférés korlátozására.
 - Két különböző storage-fiókok kiépítéséhez. Az első fiók Store a bemeneti és kimeneti adatokat. A külső felhasználók is hozzáférést kell biztosítani ehhez a fiókhoz. Store végrehajtható parancsfájlokat, és a kimeneti naplófájlokat a fiókban. A külső felhasználók nem kell a hozzáférést a fiókjához. Ez biztosítja, hogy a külső felhasználók nem módosítható a végrehajtható fájl (a kártevő kód beszúrása), és nem fér hozzá a logfiles, amelyek bizalmas információkat tartalmazhat.
-- Rosszindulatú felhasználók DDOS a feladat-várólistában vagy beszúrása a feladat-várólistában lévő helytelen formátumú ártalmas üzenetek okoz a rendszer zárolja, vagy üzenetmozgatót hibákat okoz. 
+- Rosszindulatú felhasználók DDOS a feladat-várólistában vagy beszúrása a feladat-várólistában lévő helytelen formátumú ártalmas üzenetek okoz a rendszer zárolja, vagy üzenetmozgatót hibákat okoz.
 
 ## <a name="monitoring-and-logging"></a>Monitorozás és naplózás
 
 ### <a name="monitoring-batch-ai-jobs"></a>Batch AI-feladatok figyelése
 
-A feladat futtatásakor fontos nyomon követheti, és győződjön meg arról, hogy a dolgok várt módon működik. Azonban ez több aktív csomópontból álló fürtben figyelése kihívást jelenthet. 
+A feladat futtatásakor fontos nyomon követheti, és győződjön meg arról, hogy a dolgok várt módon működik. Azonban ez több aktív csomópontból álló fürtben figyelése kihívást jelenthet.
 
-Megtapasztalhatja, a fürt általános állapotát, lépjen a Batch AI panel az Azure Portal vizsgálhatja meg a fürt csomópontjainak állapotát. Ha egy csomópont nem aktív, vagy egy feladat sikertelen volt, a hibanaplókat blob storage-bA lesznek mentve, és is elérhetők az Azure portálon a feladatok panelen. 
+Megtapasztalhatja, a fürt általános állapotát, lépjen a Batch AI panel az Azure Portal vizsgálhatja meg a fürt csomópontjainak állapotát. Ha egy csomópont nem aktív, vagy egy feladat sikertelen volt, a hibanaplókat blob storage-bA lesznek mentve, és is elérhetők az Azure portálon a feladatok panelen.
 
 Figyelés is lehet további bővített naplók csatlakozik az Application Insights vagy a Batch AI-fürtöt és a feladatok állapotának lekérdezéséhez külön folyamatokba futtatja.
 
 ### <a name="logging-in-batch-ai"></a>A Batch AI-naplózás
 
-A Batch AI automatikusan projekttárolóba összes stdout/stderr társítása a blob storage-fiókhoz. Egy tárolási navigációs eszköz, például a Storage Explorer használatával való navigáláshoz naplófájlokat egy sokkal könnyebb élményt biztosít. 
+A Batch AI automatikusan projekttárolóba összes stdout/stderr társítása a blob storage-fiókhoz. Egy tárolási navigációs eszköz, például a Storage Explorer használatával való navigáláshoz naplófájlokat egy sokkal könnyebb élményt biztosít.
 
-Ez a referenciaarchitektúra üzembe helyezési lépései is bemutatja, hogyan állíthat be egy több egyszerű naplózási rendszerben, hogy a különböző feladatok között a naplók ugyanabba a könyvtárba a blobtárolókban található lesznek mentve, ahogy az alábbi.
-Ezek a naplók segítségével figyelheti, mennyi ideig tart minden egyes rendszerképek és feldolgozni. Ekkor kap egy jobban érti, hogyan optimalizálható a folyamat tovább.
+Ez a referenciaarchitektúra üzembe helyezési lépései is bemutatja, hogyan állíthat be egy több egyszerű naplózási rendszerben, hogy a különböző feladatok között a naplók ugyanabba a könyvtárba a blobtárolókban található lesznek mentve, ahogy az alábbi. Ezek a naplók segítségével figyelheti, mennyi ideig tart minden egyes rendszerképek és feldolgozni. Ekkor kap egy jobban érti, hogyan optimalizálható a folyamat tovább.
 
-![](./_images/batch-ai-logging.png)
+![Bejelentkezés az Azure Batch AI szolgáltatással képernyőképe](./_images/batch-ai-logging.png)
 
 ## <a name="cost-considerations"></a>Költségekkel kapcsolatos szempontok
 
@@ -143,6 +143,8 @@ Automatikus méretezés nem lehet megfelelő kötegelt feladatok számához egym
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lépéseket a [GitHub-adattárat][deployment].
+
+<!-- links -->
 
 [azcopy]: /azure/storage/common/storage-use-azcopy-linux
 [batch-ai]: /azure/batch-ai/

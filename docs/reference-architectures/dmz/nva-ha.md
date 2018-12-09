@@ -1,40 +1,41 @@
 ---
-title: Magas rendelkezésre állású virtuális hálózati berendezések telepítése
-description: Tudnivalók a magas rendelkezésre állású virtuális berendezések üzembe helyezéséről.
+title: Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
+titleSuffix: Azure Reference Architectures
+description: Magas rendelkezésre állású virtuális berendezések üzembe helyezéséről.
 author: telmosampaio
 ms.date: 12/06/2016
+ms.custom: seodec18
 pnp.series.title: Network DMZ
 pnp.series.prev: secure-vnet-dmz
 cardTitle: Deploy highly available network virtual appliances
-ms.openlocfilehash: 556ec1e78960d64cce3bf803fc46c9146ce2584d
-ms.sourcegitcommit: f4069cf68456b5c74acb1b890dc4e45e11f12b59
+ms.openlocfilehash: 1ab0786d18c9fffdcf7ad54e36df60a5f05935ca
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/04/2018
-ms.locfileid: "43675831"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119965"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
-Ez a cikk a magas rendelkezésre állású hálózati virtuális berendezések (network virtual appliance, NVA) Azure-ban való üzembe helyezésének módját ismerteti. Az NVA-kat általában a szegélyhálózatokról, más néven DMZ-kről a más hálózatok és alhálózatok felé irányuló hálózati forgalom szabályozására használják. Az DMZ Azure-ban történő implementálásával kapcsolatos további tudnivalókért lásd a [Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-security] foglalkozó cikket. A cikk csak bejövő, csak kimenő, valamint bejövő és kimenő forgalmú példaarchitektúrákat is tartalmaz. 
+Ez a cikk a magas rendelkezésre állású hálózati virtuális berendezések (network virtual appliance, NVA) Azure-ban való üzembe helyezésének módját ismerteti. Az NVA-kat általában a szegélyhálózatokról, más néven DMZ-kről a más hálózatok és alhálózatok felé irányuló hálózati forgalom szabályozására használják. Az DMZ Azure-ban történő implementálásával kapcsolatos további tudnivalókért lásd a [Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-security] foglalkozó cikket. A cikk csak bejövő, csak kimenő, valamint bejövő és kimenő forgalmú példaarchitektúrákat is tartalmaz.
 
-<strong>Előfeltételek:</strong> A jelen cikk feltételezi, hogy az olvasó alapszinten érti az Azure-hálózatok, az [Azure-terheléselosztók][lb-overview] és a [felhasználó által definiált útvonalak][udr-overview] (UDR-ek) működését. 
-
+**Előfeltételek:** A jelen cikk feltételezi, hogy az olvasó alapszinten érti az Azure-hálózatok, az [Azure-terheléselosztók][lb-overview] és a [felhasználó által definiált útvonalak][udr-overview] (UDR-ek) működését.
 
 ## <a name="architecture-diagrams"></a>Architektúra-diagramok
 
-Az NVA-k számos különböző architektúrában helyezhetők üzembe egy DMZ-n. A következő ábra például [egyetlen NVA][nva-scenario] bejövő forgalomhoz való használatát illusztrálja. 
+Az NVA-k számos különböző architektúrában helyezhetők üzembe egy DMZ-n. A következő ábra például [egyetlen NVA][nva-scenario] bejövő forgalomhoz való használatát illusztrálja.
 
 ![[0]][0]
 
 Ebben az architektúrában az NVA biztonságos hálózati határt biztosít az összes bejövő és kimenő hálózati forgalom ellenőrzésével, és csak azt a forgalmat engedi át, amely megfelel a hálózati biztonsági szabályoknak. Az a tény azonban, hogy az összes hálózati forgalom az NVA-n halad keresztül, azt eredményezi, hogy az NVA rendszerkritikus meghibásodási pontot képez a hálózatban. Ha az NVA leáll, akkor nincs más útvonal a hálózati forgalom számára, és a háttérbeli alhálózatok nem lesznek elérhetők.
 
-Az NVA magas rendelkezésre állásúvá tételéhez helyezzen üzembe több NVA-t egy rendelkezésre állási csoport részeként.    
+Az NVA magas rendelkezésre állásúvá tételéhez helyezzen üzembe több NVA-t egy rendelkezésre állási csoport részeként.
 
 A következő architektúrák bemutatják a magas rendelkezésre állású NVA-khoz szükséges erőforrásokat és konfigurációkat:
 
 | Megoldás | Előnyök | Megfontolandó szempontok |
 | --- | --- | --- |
-| [Bejövő forgalom 7-es rétegű NVA-kkal][ingress-with-layer-7] |Az összes NVA-csomópont aktív |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel</br> Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz </br> Csak az Azure-on kívülről származó forgalom kezelésére használható |
+| [Bejövő forgalom 7-es rétegű NVA-kkal][ingress-with-layer-7] |Az összes NVA-csomópont aktív |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/> Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz <br/> Csak az Azure-on kívülről származó forgalom kezelésére használható |
 | [Kimenő forgalom 7-es rétegű NVA-kkal][egress-with-layer-7] |Az összes NVA-csomópont aktív | Kapcsolatok leállítására és forráshálózati címfordítás (source network address translation, SNAT) implementálására képes NVA-t igényel
 | [Bejövő és kimenő forgalom 7-es rétegű NVA-kkal][ingress-egress-with-layer-7] |Az összes csomópont aktív<br/>Képes kezelni az Azure-ból eredő forgalmat |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/>Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz |
 | [PIP-UDR kapcsoló][pip-udr-switch] |Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok) |Aktív-passzív<br/>Feladatátvételi folyamatot igényel |
@@ -63,7 +64,7 @@ Ebben az architektúrában az Azure-ból származó összes forgalom át van ir�
 
 ## <a name="ingress-egress-with-layer-7-nvas"></a>Bejövő és kimenő forgalom 7-es rétegű NVA-kkal
 
-A két előző architektúrában külön DMZ tartozott a bejövő és a kimenő forgalomhoz. A következő architektúra bemutatja, hogyan kell létrehozni olyan DMZ-t, amely egyaránt használható a bejövő és kimenő 7-es rétegű forgalomhoz (például HTTP-hez vagy HTTPS-hez): 
+A két előző architektúrában külön DMZ tartozott a bejövő és a kimenő forgalomhoz. A következő architektúra bemutatja, hogyan kell létrehozni olyan DMZ-t, amely egyaránt használható a bejövő és kimenő 7-es rétegű forgalomhoz (például HTTP-hez vagy HTTPS-hez):
 
 ![[4]][4]
 
@@ -74,27 +75,29 @@ Ebben az architektúrában az NVA-k az alkalmazásátjáróról érkező kérelm
 
 ## <a name="pip-udr-switch-with-layer-4-nvas"></a>PIP-UDR kapcsoló 4-es rétegű NVA-kkal
 
-Az alábbi szakasz egy aktív és egy passzív NVA-val rendelkező architektúrát mutat be. Ez az architektúra mind a bejövő, mind a kimenő 4-es rétegű forgalmat kezeli: 
+Az alábbi szakasz egy aktív és egy passzív NVA-val rendelkező architektúrát mutat be. Ez az architektúra mind a bejövő, mind a kimenő 4-es rétegű forgalmat kezeli:
 
 ![[3]][3]
 
-Ez az architektúra hasonlít a cikkben elsőként bemutatott architektúrára. Az egyetlen NVA-t tartalmazott, amely a 4-es rétegű beérkező kérelmek fogadását és szűrését végezte. Ez az architektúra mindezt egy második passzív NVA-val egészíti ki a magas rendelkezésre állás érdekében. Ha az aktív NVA meghibásodik, a passzív NVA aktiválódik, és az UDR, valamint a PIP úgy módosul, hogy az imént aktivált NVA hálózati adaptereire mutasson. Az UDR és a PIP ezen módosításai manuálisan vagy egy automatizált folyamattal is elvégezhetők. Az automatizált folyamat jellemzően egy démon, vagy egy másik Azure-beli figyelőszolgáltatás, amely végrehajtja az aktív NVA állapotvizsgálatát, majd átkapcsolja az UDR-t és a PIP-et, amikor az NVA meghibásodását észleli. 
+Ez az architektúra hasonlít a cikkben elsőként bemutatott architektúrára. Az egyetlen NVA-t tartalmazott, amely a 4-es rétegű beérkező kérelmek fogadását és szűrését végezte. Ez az architektúra mindezt egy második passzív NVA-val egészíti ki a magas rendelkezésre állás érdekében. Ha az aktív NVA meghibásodik, a passzív NVA aktiválódik, és az UDR, valamint a PIP úgy módosul, hogy az imént aktivált NVA hálózati adaptereire mutasson. Az UDR és a PIP ezen módosításai manuálisan vagy egy automatizált folyamattal is elvégezhetők. Az automatizált folyamat jellemzően egy démon, vagy egy másik Azure-beli figyelőszolgáltatás, amely végrehajtja az aktív NVA állapotvizsgálatát, majd átkapcsolja az UDR-t és a PIP-et, amikor az NVA meghibásodását észleli.
 
 A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható, amely egy magas rendelkezésre állású démont biztosít. A ZooKeeper-fürtön belül egy csomópontkvórum kiválaszt egy vezetőt. Ha a vezető meghibásodik, akkor a többi csomópont választást tart egy új vezető kinevezésére. A jelen architektúra esetében a vezető csomópont végrehajtja a démont, amely lekérdezi az NVA üzemállapoti végpontját. Ha az NVA nem válaszol az állapotvizsgálatra, akkor a démon aktiválja a passzív NVA-t. Ezt követően a démon lehívja az Azure REST API-t a PIP eltávolításához a meghibásodott NVA-ból, majd csatolja azt az újonnan aktivált NVA-hoz. A démon ezután módosítja az UDR-t, hogy az újonnan aktivált NVA belső IP-címére mutasson.
 
 > [!NOTE]
-> Ne vegyen fel ZooKeeper-csomópontokat olyan alhálózatba, amely csak olyan útvonalon keresztül érhető el, amely tartalmazza az NVA-t. Ha mégis így tesz, a ZooKeeper-csomópontok nem lesznek érhetők az NVA meghibásodásakor. Ha a démon bármilyen okból sikertelen, akkor nem fogja tudni használni a ZooKeeper-csomópontokat a probléma diagnosztizálására. 
+> Ne vegyen fel ZooKeeper-csomópontokat olyan alhálózatba, amely csak olyan útvonalon keresztül érhető el, amely tartalmazza az NVA-t. Ha mégis így tesz, a ZooKeeper-csomópontok nem lesznek érhetők az NVA meghibásodásakor. Ha a démon bármilyen okból sikertelen, akkor nem fogja tudni használni a ZooKeeper-csomópontokat a probléma diagnosztizálására.
 
 <!--### Solution Deployment-->
 
-<!-- instructions for deploying this solution here --> 
+<!-- instructions for deploying this solution here -->
 
 ## <a name="next-steps"></a>További lépések
-* Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-prem] 7-es rétegű NVA-k használatával.
-* Megtudhatja, hogyan [implementálhat DMZ-t az Azure és az internet között][dmz-internet] 7-es rétegű NVA-k használatával.
-* [Az Azure-ban a hálózati virtuális berendezés hibák elhárítása](/azure/virtual-network/virtual-network-troubleshoot-nva)
+
+- Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-prem] 7-es rétegű NVA-k használatával.
+- Megtudhatja, hogyan [implementálhat DMZ-t az Azure és az internet között][dmz-internet] 7-es rétegű NVA-k használatával.
+- [Az Azure-ban a hálózati virtuális berendezés hibák elhárítása](/azure/virtual-network/virtual-network-troubleshoot-nva)
 
 <!-- links -->
+
 [cloud-security]: /azure/best-practices-network-security
 [dmz-on-prem]: ./secure-vnet-hybrid.md
 [dmz-internet]: ./secure-vnet-dmz.md
@@ -108,6 +111,7 @@ A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható,
 [zookeeper]: https://zookeeper.apache.org/
 
 <!-- images -->
+
 [0]: ./images/nva-ha/single-nva.png "Egyetlen NVA-ból álló architektúra"
 [1]: ./images/nva-ha/l7-ingress.png "7-es rétegű bejövő forgalom"
 [2]: ./images/nva-ha/l7-ingress-egress.png "7-es rétegű kimenő forgalom"
