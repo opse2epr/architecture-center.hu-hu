@@ -1,13 +1,15 @@
 ---
-title: Válasszon egy megoldást a helyszíni Active Directory az Azure-ban való integrálásához.
-description: Összehasonlítja a referenciaarchitektúrákat a helyszíni Active Directory Azure-ban való integrálásához.
+title: Helyszíni Active Directory integrálása az Azure-ban
+titleSuffix: Azure Reference Architectures
+description: Referenciaarchitektúrák összehasonlítása a helyszíni Active Directory Azure-ban való integrálásához.
 ms.date: 07/02/2018
-ms.openlocfilehash: ee71d27c08274a873b165bad2dc84f9079e5b9d3
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 905dedda6de1a107f55b2f7651441780a685aea7
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428686"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119863"
 ---
 # <a name="choose-a-solution-for-integrating-on-premises-active-directory-with-azure"></a>Válasszon egy megoldást a helyszíni Active Directory Azure-ban való integráláshoz.
 
@@ -15,21 +17,21 @@ Ez a cikk a helyszíni Active Directory (AD) környezet Azure-hálózattal való
 
 Számos vállalat használja az Active Directory Domain Services (AD DS) szolgáltatásokat a felhasználókhoz, számítógépekhez, alkalmazásokhoz vagy egyéb, biztonsági határral védett erőforrásokhoz társított identitások hitelesítésére. A címtár- és identitásszolgáltatások általában helyszíni üzemeltetésűek, ám ha az alkalmazás üzemeltetése részben a helyszínen, részben pedig az Azure-ban történik, akkor késés léphet fel a hitelesítési kérések az Azure-ból a helyszínre történő küldése során. A késés csökkenthető a címtár- és identitásszolgáltatások Azure-beli implementálásával.
 
-Az Azure két megoldást kínál a címtár- és identitásszolgáltatások Azure-beli implementációjához: 
+Az Azure két megoldást kínál a címtár- és identitásszolgáltatások Azure-beli implementációjához:
 
-* Az [Azure AD] [ azure-active-directory] használatával létrehozhat egy Active Directory-tartományt a felhőben, és csatlakoztathatja azt a helyszíni Active Directory-tartományhoz. [Az Azure AD Connect] [ azure-ad-connect] integrálja a helyszíni címtárakat az Azure AD-vel.
+- Az [Azure AD] [ azure-active-directory] használatával létrehozhat egy Active Directory-tartományt a felhőben, és csatlakoztathatja azt a helyszíni Active Directory-tartományhoz. [Az Azure AD Connect] [ azure-ad-connect] integrálja a helyszíni címtárakat az Azure AD-vel.
 
-* Kiterjesztheti meglévő helyszíni Active Directory-infrastruktúráját az Azure-ba, ha egy olyan virtuális gépet helyez üzembe az Azure-ban, amely tartományvezérlőként futtatja az AD DS-t. Ez az architektúra általában akkor használatos, amikor a helyszíni hálózatot és az Azure-beli virtuális hálózatot (VNet) VPN- vagy ExpressRoute-kapcsolat köti össze. Ennek az architektúrának több változata is lehetséges: 
+- Kiterjesztheti meglévő helyszíni Active Directory-infrastruktúráját az Azure-ba, ha egy olyan virtuális gépet helyez üzembe az Azure-ban, amely tartományvezérlőként futtatja az AD DS-t. Ez az architektúra általában akkor használatos, amikor a helyszíni hálózatot és az Azure-beli virtuális hálózatot (VNet) VPN- vagy ExpressRoute-kapcsolat köti össze. Ennek az architektúrának több változata is lehetséges:
 
-    - Létrehozhat egy tartományt az Azure-ban, és csatlakoztathatja azt a helyszíni AD-erdőhöz.
-    - Létrehozhat egy külön erdőt az Azure-ban, amelyet a helyszíni erdő tartományai megbízhatónak tekintenek.
-    - Replikálhatja az Active Directory összevonási szolgáltatások (AD FS) egy üzemelő példányát az Azure-ba. 
+  - Létrehozhat egy tartományt az Azure-ban, és csatlakoztathatja azt a helyszíni AD-erdőhöz.
+  - Létrehozhat egy külön erdőt az Azure-ban, amelyet a helyszíni erdő tartományai megbízhatónak tekintenek.
+  - Replikálhatja az Active Directory összevonási szolgáltatások (AD FS) egy üzemelő példányát az Azure-ba.
 
 A következő szakaszokban a felsorolt lehetőségek részletes leírása szerepel.
 
 ## <a name="integrate-your-on-premises-domains-with-azure-ad"></a>Helyszíni tartományok integrálása az Azure AD-be
 
-Az Azure Active Directory (Azure AD) használatával hozzon létre egy tartományt az Azure-ban, és csatlakoztassa azt egy helyszíni Active Directory-tartományhoz. 
+Az Azure Active Directory (Azure AD) használatával hozzon létre egy tartományt az Azure-ban, és csatlakoztassa azt egy helyszíni Active Directory-tartományhoz.
 
 Az Azure AD-címtár nem a helyszíni címtár kiterjesztése,  hanem egy ugyanazon objektumokat és identitásokat tartalmazó másolat. Az elemeken a helyszínen elvégzett módosításokat a rendszer átmásolja az Azure AD-be, az Azure AD-ben végrehajtott módosításokat azonban nem replikálja a helyszíni tartományra.
 
@@ -37,15 +39,15 @@ Az Azure AD-t egy helyszíni címtár használata nélkül is használhatja. Ebb
 
 **Előnyök**
 
-* Nem kell fenntartania AD-infrastruktúrát a felhőben. Az Azure AD fenntartását és felügyeletét teljes mértékben a Microsoft végzi.
-* Az Azure AD ugyanazokat az azonosító adatokat biztosítja, amelyek a helyszínen is elérhetők.
-* A hitelesítés az Azure-ban is megtörténhet, ezáltal a külső alkalmazásoknak és a felhasználóknak ritkábban kell kapcsolatba lépniük a helyszíni tartománnyal.
+- Nem kell fenntartania AD-infrastruktúrát a felhőben. Az Azure AD fenntartását és felügyeletét teljes mértékben a Microsoft végzi.
+- Az Azure AD ugyanazokat az azonosító adatokat biztosítja, amelyek a helyszínen is elérhetők.
+- A hitelesítés az Azure-ban is megtörténhet, ezáltal a külső alkalmazásoknak és a felhasználóknak ritkábban kell kapcsolatba lépniük a helyszíni tartománnyal.
 
 **Problémák**
 
-* Az identitásszolgáltatások a felhasználókra és a csoportokra korlátozódnak. Nincs lehetőség a szolgáltatás- és számítógépes fiókok hitelesítésére.
-* Az Azure AD-címtár folyamatos szinkronizálásához konfigurálnia kell a kapcsolatot a helyszíni tartománnyal. 
-* Előfordulhat, hogy az alkalmazásokat újra kell írni az Azure AD-n keresztüli hitelesítés engedélyezéséhez.
+- Az identitásszolgáltatások a felhasználókra és a csoportokra korlátozódnak. Nincs lehetőség a szolgáltatás- és számítógépes fiókok hitelesítésére.
+- Az Azure AD-címtár folyamatos szinkronizálásához konfigurálnia kell a kapcsolatot a helyszíni tartománnyal. 
+- Előfordulhat, hogy az alkalmazásokat újra kell írni az Azure AD-n keresztüli hitelesítés engedélyezéséhez.
 
 **Referenciaarchitektúra**
 
@@ -59,15 +61,15 @@ Fontolja meg ezt a lehetőséget, ha az AD DS azon funkcióit szeretné használ
 
 **Előnyök**
 
-* Hozzáférést biztosít a helyszínen is elérhető azonosító adatokhoz.
-* Felhasználói, szolgáltatás- és számítógépes fiókok hitelesítését a helyszíni környezetben és az Azure-ban is elvégezheti.
-* Nincs szükség külön AD-erdő kezelésére. Az Azure-beli tartomány a helyi erdőhöz is tartozhat.
-* A helyszíni csoportszabályzat-objektumok által meghatározott csoportszabályzatot az Azure-beli tartományra is alkalmazhatja.
+- Hozzáférést biztosít a helyszínen is elérhető azonosító adatokhoz.
+- Felhasználói, szolgáltatás- és számítógépes fiókok hitelesítését a helyszíni környezetben és az Azure-ban is elvégezheti.
+- Nincs szükség külön AD-erdő kezelésére. Az Azure-beli tartomány a helyi erdőhöz is tartozhat.
+- A helyszíni csoportszabályzat-objektumok által meghatározott csoportszabályzatot az Azure-beli tartományra is alkalmazhatja.
 
 **Problémák**
 
-* Saját magának kell elvégeznie az AD DS-kiszolgálók és a tartomány üzembe helyezését és kezelését a felhőben.
-* A felhőbeli tartománykiszolgálók és helyszínen futó kiszolgálók között előfordulhat némi szinkronizálási késés.
+- Saját magának kell elvégeznie az AD DS-kiszolgálók és a tartomány üzembe helyezését és kezelését a felhőben.
+- A felhőbeli tartománykiszolgálók és helyszínen futó kiszolgálók között előfordulhat némi szinkronizálási késés.
 
 **Referenciaarchitektúra**
 
@@ -81,13 +83,13 @@ Az architektúra gyakori használati módjai például a felhőben tárolt objek
 
 **Előnyök**
 
-* Helyszíni és külön, csak az Azure-hoz tartozó identitásokat is megvalósíthat.
-* Nem kell replikációt végezni a helyszíni AD-erdőből az Azure-ba.
+- Helyszíni és külön, csak az Azure-hoz tartozó identitásokat is megvalósíthat.
+- Nem kell replikációt végezni a helyszíni AD-erdőből az Azure-ba.
 
 **Problémák**
 
-* A helyszíni identitások Azure-beli hitelesítéshez több, a helyszíni AD-kiszolgálókhoz való hálózati ugrásra van szükség.
-* Saját AD DS-kiszolgálókat és erdőt kell üzembe helyeznie a felhőben, és az erdők között megfelelő megbízhatósági kapcsolatokat kell létesítenie.
+- A helyszíni identitások Azure-beli hitelesítéshez több, a helyszíni AD-kiszolgálókhoz való hálózati ugrásra van szükség.
+- Saját AD DS-kiszolgálókat és erdőt kell üzembe helyeznie a felhőben, és az erdők között megfelelő megbízhatósági kapcsolatokat kell létesítenie.
 
 **Referenciaarchitektúra**
 
@@ -99,20 +101,20 @@ Replikáljon az Active Directory összevonási szolgáltatások (AD FS) egy üze
 
 Az architektúra gyakori használati módjai a következők:
 
-* Partnerszervezetek felhasználóinak hitelesítése és engedélyezése.
-* A felhasználói hitelesítés engedélyezése a vállalati tűzfalon kívül futó webböngészőkből.
-* A felhasználók hitelesített külső eszközökről, például mobileszközökről történő csatlakozásának engedélyezése. 
+- Partnerszervezetek felhasználóinak hitelesítése és engedélyezése.
+- A felhasználói hitelesítés engedélyezése a vállalati tűzfalon kívül futó webböngészőkből.
+- A felhasználók hitelesített külső eszközökről, például mobileszközökről történő csatlakozásának engedélyezése. 
 
 **Előnyök**
 
-* Kihasználhatja a jogcímbarát alkalmazások előnyeit.
-* Lehetővé teszi, hogy megbízzon a külső partnerekben a hitelesítés tekintetében.
-* Nagy hitelesítésiprotokoll-készletekkel is kompatibilis.
+- Kihasználhatja a jogcímbarát alkalmazások előnyeit.
+- Lehetővé teszi, hogy megbízzon a külső partnerekben a hitelesítés tekintetében.
+- Nagy hitelesítésiprotokoll-készletekkel is kompatibilis.
 
 **Problémák**
 
-* Saját kezűleg kell üzembe helyeznie AD DS, AD FS és AD FS webalkalmazás-proxy kiszolgálóit az Azure-ban.
-* Az architektúra konfigurálása bonyolult lehet.
+- Saját kezűleg kell üzembe helyeznie AD DS, AD FS és AD FS webalkalmazás-proxy kiszolgálóit az Azure-ban.
+- Az architektúra konfigurálása bonyolult lehet.
 
 **Referenciaarchitektúra**
 

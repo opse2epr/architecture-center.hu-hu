@@ -1,18 +1,20 @@
 ---
 title: Jenkins-kiszolgáló futtatása az Azure-on
-description: Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
+titleSuffix: Azure Reference Architectures
+description: Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
 author: njray
 ms.date: 04/30/2018
-ms.openlocfilehash: 89839b0f1c9624176a7b51dca53713070c88b154
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seodec18
+ms.openlocfilehash: 9dc4eb27f6c2bc8896770a2d0cd01b738c18c593
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916380"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120271"
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
-Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on. Az architektúra emellett az Azure Monitor használatával monitorozza a Jenkins-kiszolgáló állapotát. [**A megoldás üzembe helyezése**.](#deploy-the-solution)
+Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on. Az architektúra emellett az Azure Monitor használatával monitorozza a Jenkins-kiszolgáló állapotát. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![Az Azure-ban futó Jenkins-kiszolgáló][0]
 
@@ -26,28 +28,27 @@ Ez a dokumentum a Jenkins támogatásához szükséges alapvető Azure-művelete
 
 Az architektúra az alábbi összetevőkből áll:
 
-- **Erőforráscsoport.** Az [erőforráscsoportok][rg] Azure-objektumok csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat Azure-objektumokat, a számlázási költségeket pedig erőforráscsoportonként tarthatja számon. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében.
+- **Erőforráscsoport**. Az [erőforráscsoportok][rg] Azure-objektumok csoportosítására használhatók, így élettartamuk, tulajdonosuk vagy egyéb jellemzőik alapján kezelhetők. Az erőforráscsoportok segítségével csoportosan helyezhet üzembe és monitorozhat Azure-objektumokat, a számlázási költségeket pedig erőforráscsoportonként tarthatja számon. Az erőforrásokat törölheti is készletenként. Ez nagyon hasznos tesztkörnyezetek esetében.
 
 - **Jenkins-kiszolgáló**. Egy, a [Jenkins][azure-market] automatizáló kiszolgálóként való futtatására üzembe helyezett virtuális gép, amely Jenkins-főkiszolgálóként szolgál. Ez a referenciaarchitektúra [az Azure-hoz készült Jenkins megoldássablonját][solution] használja, amely egy Linux (Ubuntu 16.04 LTS) rendszerű virtuális gépre van telepítve az Azure-ban. Az egyéb Jenkins-ajánlatok az Azure Marketplace áruházban érhetők el.
 
   > [!NOTE]
   > A virtuális gépre telepített Nginx fordított proxyként szolgál a Jenkinshez. A Nginx konfigurálásával engedélyezhető az SSL a Jenkins-kiszolgáló számára.
-  > 
-  > 
+  >
 
 - **Virtuális hálózat**. A [virtuális hálózatok][vnet] összekapcsolják az Azure-erőforrásokat, és biztosítják azok logikai elkülönítését. Ebben az architektúrában a Jenkins-kiszolgáló egy virtuális hálózatban fut.
 
 - **Alhálózatok**. A Jenkins-kiszolgáló egy [alhálózatba][subnet] van különítve, így a hálózati forgalom könnyebben felügyelhető és elkülöníthető anélkül, hogy ez befolyásolná a teljesítményt.
 
-- <strong>NSG-k</strong>. A [hálózati biztonsági csoportok][nsg] (NSG-k) használatával korlátozható az internetről a virtuális hálózat adott alhálózatára irányuló hálózati forgalom.
+- **NSG-k**. A [hálózati biztonsági csoportok][nsg] (NSG-k) használatával korlátozható az internetről a virtuális hálózat adott alhálózatára irányuló hálózati forgalom.
 
 - **Felügyelt lemezek**. A [felügyelt lemezek][managed-disk] olyan perzisztens virtuális merevlemezek (VHD), amelyek alkalmazástárolóként, valamint a Jenkins-kiszolgáló állapotának fenntartásához és vészhelyreállításhoz használhatók. Az adatlemezeket az Azure Storage tárolja. A jobb teljesítmény érdekében [Prémium szintű Storage-tárolók][premium] használata ajánlott.
 
 - **Azure Blob Storage**. A [Windows Azure Storage beépülő modulja][configure-storage] az Azure Blob Storage segítségével tárolja a létrehozott és más Jenkins-buildekkel megosztott build-összetevőket.
 
-- <strong>Azure Active Directory (Azure AD)</strong>. Az [Azure AD][azure-ad] támogatja a felhasználók hitelesítését, így lehetővé teszi az egyszeri bejelentkezés beállítását. Az Azure AD [szolgáltatásnevei][service-principal] [szerepköralapú hozzáférés-vezérlés][rbac] (RBAC) segítségével határozzák meg a munkafolyamat egyes szerepkör-engedélyezéseire vonatkozó szabályzatokat és engedélyeket. Mindegyik egyszerű szolgáltatás társítva van egy Jenkins-feladattal.
+- **Azure Active Directory (Azure AD)**. Az [Azure AD][azure-ad] támogatja a felhasználók hitelesítését, így lehetővé teszi az egyszeri bejelentkezés beállítását. Az Azure AD [szolgáltatásnevei][service-principal] [szerepköralapú hozzáférés-vezérlés][rbac] (RBAC) segítségével határozzák meg a munkafolyamat egyes szerepkör-engedélyezéseire vonatkozó szabályzatokat és engedélyeket. Mindegyik egyszerű szolgáltatás társítva van egy Jenkins-feladattal.
 
-- **Azure Key Vault.** A titkosítást igénylő Azure-erőforrások üzembe helyezéséhez használt titkok és titkosítási kulcsok kezeléséhez ez az architektúra a [Key Vault][key-vault] szolgáltatást használja. A folyamatban foglalt alkalmazással társított titkok tárolásával kapcsolatos további segítségért lásd még a Jenkinshez készült [Azure Credentials][configure-credential] beépülő modult.
+- **Azure Key Vault**. A titkosítást igénylő Azure-erőforrások üzembe helyezéséhez használt titkok és titkosítási kulcsok kezeléséhez ez az architektúra a [Key Vault][key-vault] szolgáltatást használja. A folyamatban foglalt alkalmazással társított titkok tárolásával kapcsolatos további segítségért lásd még a Jenkinshez készült [Azure Credentials][configure-credential] beépülő modult.
 
 - **Azure figyelési szolgáltatások**. Ez a szolgáltatás a Jenkinst futtató Azure-beli virtuális gépet [monitorozza][monitor]. Ez az üzemelő példány monitorozza a virtuális gép állapotát és processzorkihasználtságát, valamint riasztásokat küld ezekkel kapcsolatban.
 
@@ -73,25 +74,25 @@ Az Azure Marketplace áruházból telepíthető Jenkins [Windows Azure Storage b
 
 Az Azure-hoz készült Jenkins megoldássablon több Azure beépülő modult telepít. Az Azure DevOps csapata hozza létre és tartja karban a megoldássablont és az alábbi beépülő modulokat, amelyek az Azure Marketplace áruházban elérhető egyéb Jenkins ajánlatokkal és a helyszínen telepített Jenkins főkiszolgálókkal is használhatók:
 
--   Az [Azure AD beépülő modul][configure-azure-ad] használatával a Jenkins-kiszolgáló támogatja a felhasználók egyszeri bejelentkeztetését az Azure AD alapján.
+- Az [Azure AD beépülő modul][configure-azure-ad] használatával a Jenkins-kiszolgáló támogatja a felhasználók egyszeri bejelentkeztetését az Azure AD alapján.
 
--   Az [Azure VM Agents][configure-agent] beépülő modul egy Azure Resource Manager-sablon használatával Jenkins-ügynököket hoz létre Azure-beli virtuális gépeken.
+- Az [Azure VM Agents][configure-agent] beépülő modul egy Azure Resource Manager-sablon használatával Jenkins-ügynököket hoz létre Azure-beli virtuális gépeken.
 
--   Az [Azure Credentials][configure-credential] beépülő modul segítségével tárolhatók az egyszerű Azure-szolgáltatások a Jenkinsben használt hitelesítő adatai.
+- Az [Azure Credentials][configure-credential] beépülő modul segítségével tárolhatók az egyszerű Azure-szolgáltatások a Jenkinsben használt hitelesítő adatai.
 
--   A [Windows Azure Storage beépülő modul][configure-storage] build-összetevőket tölt fel, vagy build-függőségeket tölt le az [Azure Blob Storage-ból][blob].
+- A [Windows Azure Storage beépülő modul][configure-storage] build-összetevőket tölt fel, vagy build-függőségeket tölt le az [Azure Blob Storage-ból][blob].
 
 Emellett javasoljuk, hogy tekintse át az Azure-erőforrásokkal használható Azure beépülő modulok egyre bővülő listáját. A legfrissebb lista megtekintéséhez keresse fel a [Jenkins beépülő modulok indexét][index], és keressen rá az Azure kifejezésre. Például a következő beépülő modulok érhetőek el az üzembe helyezéshez:
 
--   Az [Azure Container Agents][container-agents] segítségével a tárolókat ügynökként futtathatja a Jenkinsben.
+- Az [Azure Container Agents][container-agents] segítségével a tárolókat ügynökként futtathatja a Jenkinsben.
 
--   A [Kubernetes Continuous Deploy](https://aka.ms/azjenkinsk8s) erőforrás-konfigurációkat helyez üzembe egy Kubernetes-fürtön.
+- A [Kubernetes Continuous Deploy](https://aka.ms/azjenkinsk8s) erőforrás-konfigurációkat helyez üzembe egy Kubernetes-fürtön.
 
--   Az [Azure Container Service][acs] konfigurációkat helyez üzembe az Azure Container Service szolgáltatásban a Kubernetes, a DC/OS with Marathon vagy a Docker Swarm használatával.
+- Az [Azure Container Service][acs] konfigurációkat helyez üzembe az Azure Container Service szolgáltatásban a Kubernetes, a DC/OS with Marathon vagy a Docker Swarm használatával.
 
--   Az [Azure Functions][functions] üzembe helyezi a projektet az Azure Functionsben.
+- Az [Azure Functions][functions] üzembe helyezi a projektet az Azure Functionsben.
 
--   Az [Azure App Service][app-service] az Azure App Service-be végzi az üzembe helyezést.
+- Az [Azure App Service][app-service] az Azure App Service-be végzi az üzembe helyezést.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
@@ -105,20 +106,19 @@ A virtuális gépek skálázása általában költségesebb, mint a tárolóké.
 
 Emellett az Azure Storage használatával oszthatja meg a folyamat következő szakaszában más build-ügynökök által esetleg használt build-összetevőket.
 
-### <a name="scaling-the-jenkins-server"></a>A Jenkins-kiszolgáló skálázása 
+### <a name="scaling-the-jenkins-server"></a>A Jenkins-kiszolgáló skálázása
 
-A Jenkins-kiszolgáló virtuális gépét a virtuális gép méretének módosításával skálázhatja. Az [Azure-hoz készült Jenkins megoldássablon][azure-market] alapértelmezés szerint a DS2 v2 méretet (két processzorral, 7 GB) adja meg. Ez a méret egy kisebb vagy közepes csapat számítási feladatait képes kezelni. A virtuális gép méretének módosításához válasszon egy másik alternatívát a kiszolgáló kiépítésekor. 
+A Jenkins-kiszolgáló virtuális gépét a virtuális gép méretének módosításával skálázhatja. Az [Azure-hoz készült Jenkins megoldássablon][azure-market] alapértelmezés szerint a DS2 v2 méretet (két processzorral, 7 GB) adja meg. Ez a méret egy kisebb vagy közepes csapat számítási feladatait képes kezelni. A virtuális gép méretének módosításához válasszon egy másik alternatívát a kiszolgáló kiépítésekor.
 
 A megfelelő kiszolgálóméret a számítási feladatok várható méretétől függ. A Jenkins-közösség által fenntartott [választási útmutató][selection-guide] segítségével azonosíthatja a követelményeknek leginkább megfelelő konfigurációt. Az Azure számos [méretet biztosít a Linux rendszerű virtuális gépekhez][sizes-linux], amelyek bármely igényt képesek kiszolgálni. A Jenkins-főkiszolgáló skálázásával kapcsolatos információkért tekintse meg a Jenkins-közösség [bevált gyakorlatait][best-practices], amelyek a Jenkins-főkiszolgáló skálázására is kitérnek.
-
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
 A Jenkins-kiszolgálók esetében a rendelkezésre állás azt jelenti, hogy képesek helyreállítani a munkafolyamattal kapcsolatos állapotinformációkat, például a teszteredményekét, valamint a felhasználói kódtárakat vagy egyéb összetevőket. A kritikus munkafolyamat-állapotokat vagy -összetevőket karban kell tartani, hogy a Jenkins-kiszolgáló leállása esetén helyre lehessen állítani a munkafolyamatot. A rendelkezésre állásra vonatkozó követelmények felméréséhez két általános mérőszámot érdemes figyelembe vennie:
 
--   A Helyreállítási időre vonatkozó célkitűzés (RTO) adja meg, hogy mennyi ideig üzemelhet a rendszer a Jenkins nélkül.
+- A Helyreállítási időre vonatkozó célkitűzés (RTO) adja meg, hogy mennyi ideig üzemelhet a rendszer a Jenkins nélkül.
 
--   A Helyreállítási pont-célkitűzés (RPO) határozza meg az elfogadható adatveszteség mértékét, ha a szolgáltatás leállása érinti a Jenkinst.
+- A Helyreállítási pont-célkitűzés (RPO) határozza meg az elfogadható adatveszteség mértékét, ha a szolgáltatás leállása érinti a Jenkinst.
 
 A gyakorlatban az RTO és az RPO a redundanciát és a biztonsági mentést jelölik. A rendelkezésre állás nem hardveres helyreállítás kérdése, az ugyanis az Azure részét képezi, hanem a Jenkins-kiszolgáló állapota fenntartásának biztosítását jelenti. A Microsoft [szolgáltatói szerződést][sla] (SLA) kínál az egyes virtuálisgép-példányokhoz. Amennyiben ez az SLA nem felel meg az üzemidővel kapcsolatos elvárásainak, mindenképp gondoskodjon egy vészhelyreállítási tervről, vagy vegye fontolóra egy [több főkiszolgálós Jenkins-kiszolgáló][multi-master] üzembe helyezését (a jelen dokumentum erre nem tér ki).
 
@@ -128,19 +128,19 @@ Vegye fontolóra vészhelyreállítási [szkriptek][disaster] alkalmazását az 
 
 Az alábbi eljárások segítenek növelni a Jenkins-kiszolgáló biztonságát, mivel alapállapotában nem biztonságos.
 
--   Konfiguráljon egy biztonságos megoldást a Jenkins-kiszolgálóra való bejelentkezéshez. Ez az architektúra HTTP-t és nyilvános IP-címet használ, de a HTTP alapértelmezés szerint nem biztonságos. Vegye fontolóra a [HTTPS beállítását a biztonságos bejelentkezéshez használt Nginx-kiszolgálón][nginx].
+- Konfiguráljon egy biztonságos megoldást a Jenkins-kiszolgálóra való bejelentkezéshez. Ez az architektúra HTTP-t és nyilvános IP-címet használ, de a HTTP alapértelmezés szerint nem biztonságos. Vegye fontolóra a [HTTPS beállítását a biztonságos bejelentkezéshez használt Nginx-kiszolgálón][nginx].
 
     > [!NOTE]
     > Ha SSL-t ad a kiszolgálóhoz, hozzon létre egy NSG-szabályt a Jenkins-alhálózaton a 443-as port megnyitásához. További információért olvassa el [a portok a virtuális gépek számára az Azure Portallal való megnyitását][port443] ismertető cikket.
-    > 
+    >
 
--   Gondoskodjon róla, hogy a Jenkins konfigurációja meggátolja a webhelyközi kérések hamisítást (A Jenkins felügyelete \> A globális biztonság konfigurálása). Ez a Microsoft Jenkins Server alapértelmezett beállítása.
+- Gondoskodjon róla, hogy a Jenkins konfigurációja meggátolja a webhelyközi kérések hamisítást (A Jenkins felügyelete \> A globális biztonság konfigurálása). Ez a Microsoft Jenkins Server alapértelmezett beállítása.
 
--   Konfiguráljon csak olvasási hozzáférést a Jenkins-irányítópulthoz a [Matrix Authorization Strategy beépülő modul][matrix] használatával.
+- Konfiguráljon csak olvasási hozzáférést a Jenkins-irányítópulthoz a [Matrix Authorization Strategy beépülő modul][matrix] használatával.
 
--   Telepítse az [Azure Credentials][configure-credential] beépülő modult az Azure-objektumok, a folyamatban érintett ügynökök és a külső felek által készített összetevők titkainak a Key Vaulttal való kezeléséhez.
+- Telepítse az [Azure Credentials][configure-credential] beépülő modult az Azure-objektumok, a folyamatban érintett ügynökök és a külső felek által készített összetevők titkainak a Key Vaulttal való kezeléséhez.
 
--   Az RBAC használatával a feladatok futtatásához szükséges minimális hozzáférést konfigurálhat a szolgáltatásnévhez. Ezzel csökkenthető a nem engedélyezett feladatok által okozott károk hatóköre.
+- Az RBAC használatával a feladatok futtatásához szükséges minimális hozzáférést konfigurálhat a szolgáltatásnévhez. Ezzel csökkenthető a nem engedélyezett feladatok által okozott károk hatóköre.
 
 A Jenkins-feladatoknak sokszor van szüksége titkokra a hitelesítést igénylő Azure-szolgáltatások, például az Azure Container Service eléréséhez. Használja a [Key Vaultot][key-vault] az [Azure Credential beépülő modullal][configure-credential] ezeknek a titkoknak a biztonságos kezeléséhez. Használja a Key Vaultot az egyszerű szolgáltatások hitelesítő adatainak, jelszavainak, tokenjeinek és egyéb titkainak tárolásához.
 
@@ -158,9 +158,9 @@ Az Azure számos különféle szolgáltatást nyújt az infrastruktúra átfogó
 
 A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a sikeres üzembe helyezésben. A következőket ajánljuk figyelmébe:
 
--   [A Jenkins-közösség blogja](https://jenkins.io/node/)
--   [Az Azure fórum](https://azure.microsoft.com/support/forums/)
--   [Stack Overflow Jenkins](https://stackoverflow.com/tags/jenkins/info)
+- [A Jenkins-közösség blogja](https://jenkins.io/node/)
+- [Az Azure fórum](https://azure.microsoft.com/support/forums/)
+- [Stack Overflow Jenkins](https://stackoverflow.com/tags/jenkins/info)
 
 A Jenkins-közösség további bevált gyakorlataiért látogasson el a [Jenkins bevált gyakorlatait ismertető oldalra][jenkins-best].
 
@@ -170,15 +170,15 @@ Az architektúra üzembe helyezéséhez kövesse [az Azure-hoz készült Jenkins
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-- A referenciaarchitektúra használatához Azure-előfizetés szükséges. 
+- A referenciaarchitektúra használatához Azure-előfizetés szükséges.
 - Egyszerű Azure-szolgáltatások létrehozásához rendszergazdai jogosultság szükséges az üzembe helyezett Jenkins-kiszolgálóval társított Azure AD-bérlőn.
 - A jelen utasítások feltételezik, hogy a Jenkins-rendszergazda egyben Azure-felhasználó is, aki legalább Közreműködői jogosultságokkal rendelkezik.
 
 ### <a name="step-1-deploy-the-jenkins-server"></a>1. lépés: A Jenkins-kiszolgáló üzembe helyezése
 
-1.  Nyissa meg a [Jenkins Azure Marketplace-beli rendszerképét][azure-market] a webböngészőben, és az oldal bal oldalán válassza a **LETÖLTÉS MOST** lehetőséget.
+1. Nyissa meg a [Jenkins Azure Marketplace-beli rendszerképét][azure-market] a webböngészőben, és az oldal bal oldalán válassza a **LETÖLTÉS MOST** lehetőséget.
 
-2.  Tekintse át a díjszabás részleteit, és válassza a **Folytatás**, majd a **Létrehozás** lehetőséget a Jenkins-kiszolgáló Azure Portalon történő konfigurálásához.
+2. Tekintse át a díjszabás részleteit, és válassza a **Folytatás**, majd a **Létrehozás** lehetőséget a Jenkins-kiszolgáló Azure Portalon történő konfigurálásához.
 
 Részletes utasításokért lásd [a Jenkins-kiszolgáló Azure-beli linuxos virtuális gépen az Azure Portalról való létrehozását][create-jenkins] ismertető szakaszt. Ehhez a referenciaarchitektúrához elegendő a kiszolgálót rendszergazdai bejelentkezéssel telepíteni és beüzemelni. Ezután konfigurálhatja, hogy más szolgáltatásokat is futtasson.
 
@@ -261,4 +261,4 @@ Töltse le és futtassa a vészhelyreállítási szkripteket a [GitHubról][disa
 [subnet]: /azure/virtual-network/virtual-network-manage-subnet
 [vm-agent]: https://wiki.jenkins.io/display/JENKINS/Azure+VM+Agents+plugin
 [vnet]: /azure/virtual-network/virtual-networks-overview
-[0]: ./images/jenkins-server.png 
+[0]: ./images/jenkins-server.png

@@ -1,16 +1,17 @@
 ---
-title: Válasszon egy megoldást a helyszíni hálózat Azure-hoz való csatlakoztatásához
-description: Referenciaarchitektúrákat hasonlít össze egy helyszíni hálózat az Azure-hoz való csatlakoztatásához.
+title: Helyszíni hálózat csatlakoztatása az Azure-hoz
+titleSuffix: Azure Reference Architectures
+description: Referenciaarchitektúrák összehasonlítása egy helyszíni hálózat az Azure-hoz való csatlakoztatásához.
 author: telmosampaio
 ms.date: 07/02/2018
-ms.openlocfilehash: a9e2a212d65530e714635bbfae3a57766e77c3a6
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.openlocfilehash: de509b6d95805f4fc871f6dbd76a87d2c0bec6f1
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295486"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53119914"
 ---
-# <a name="connect-an-on-premises-network-to-azure"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz
+# <a name="choose-a-solution-for-connecting-an-on-premises-network-to-azure"></a>Válasszon egy megoldást a helyszíni hálózat Azure-hoz való csatlakoztatásához
 
 Ez a cikk a helyszíni hálózat egy Azure-beli virtuális hálózathoz (VNethez) történő csatlakoztatásának lehetőségeit hasonlítja össze. Mindegyik lehetőséghez elérhető egy referenciaarchitektúra.
 
@@ -75,11 +76,9 @@ Ez az architektúra olyan hibrid alkalmazásokhoz megfelelő, amelyek az Express
 
 - [Hibrid hálózat ExpressRoute-tal és VPN-feladatátvétellel](./expressroute-vpn-failover.md)
 
-
 ## <a name="hub-spoke-network-topology"></a>Küllős hálózati topológia
 
 A küllős hálózati topológiával elkülöníthetők a számítási feladatok, ugyanakkor megoszthatók az olyan szolgáltatások, mint az identitáskezelés és a biztonság. Az agy egy virtuális hálózat (VNet) az Azure-ban, amely központi kapcsolódási pontként szolgál a helyszíni hálózathoz. A küllők az agyhoz kapcsolódó virtuális hálózatok. A közös szolgáltatások üzembe helyezése az agyon történik, az egyes számítási feladatokat a küllőkön vannak.
-
 
 **Referenciaarchitektúrák**
 

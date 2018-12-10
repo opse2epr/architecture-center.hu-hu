@@ -1,20 +1,22 @@
 ---
 title: Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
-description: Bevált módszerek a magas rendelkezésre állású SharePoint Server 2016-farm létrehozására az Azure-ban.
+titleSuffix: Azure Reference Architectures
+description: Ajánlott architektúra magas rendelkezésre állású SharePoint Server 2016-farm Azure-ban való üzembe helyezéséhez.
 author: njray
 ms.date: 07/26/2018
-ms.openlocfilehash: 5db146956134f9b297b520d666d8dabbc8793caf
-ms.sourcegitcommit: 77d62f966d910cd5a3d11ade7ae5a73234e093f2
+ms.custom: seodec18
+ms.openlocfilehash: 6cc8255f95cb4944ff3ef138ad5edf2e5bbea4b4
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51293264"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120101"
 ---
-# <a name="run-a-high-availability-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
+# <a name="run-a-highly-available-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 
-A jelen referenciaarchitektúra bevált módszereket mutat be a magas rendelkezésre állású SharePoint Server 2016-farmok Azure-ban való létrehozására a MinRole topológia és az SQL Server Always On rendelkezésre állási csoportok használatával. A SharePoint-farm egy biztonságos virtuális hálózaton lesz üzembe helyezve, amelynek nincs internetes végpontja vagy jelenléte. [**A megoldás üzembe helyezése**.](#deploy-the-solution) 
+A jelen referenciaarchitektúra bevált módszereket mutat be a magas rendelkezésre állású SharePoint Server 2016-farmok Azure-ban való üzembe helyezésére a MinRole topológia és az SQL Server Always On rendelkezésre állási csoportok használatával. A SharePoint-farm egy biztonságos virtuális hálózaton lesz üzembe helyezve, amelynek nincs internetes végpontja vagy jelenléte. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
-![](./images/sharepoint-ha.png)
+![Magas rendelkezésre állású Azure-beli SharePoint Server 2016-farm referenciaarchitektúrája](./images/sharepoint-ha.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
@@ -26,15 +28,15 @@ Az architektúra az alábbi összetevőkből áll:
 
 - **Erőforráscsoportok**. Az [erőforráscsoport][resource-group] egy tároló, amely kapcsolódó Azure-erőforrásokat tárol. A rendszer egy erőforráscsoportot használ a SharePoint-kiszolgálókhoz, és egy másik erőforráscsoportot a virtuális gépektől független infrastruktúra-összetevőkhöz, például a virtuális hálózathoz és a terheléselosztókhoz.
 
-- **Virtuális hálózat (VNet)**. A rendszer a virtuális gépeket egy egyedi intranetes címterülettel rendelkező virtuális hálózaton helyezi üzembe. A virtuális hálózat további alhálózatokra oszlik. 
+- **Virtuális hálózat (VNet)**. A rendszer a virtuális gépeket egy egyedi intranetes címterülettel rendelkező virtuális hálózaton helyezi üzembe. A virtuális hálózat további alhálózatokra oszlik.
 
 - **Virtuális gépek (VM-ek)**. A rendszer üzembe helyezi a virtuális gépeket a virtuális hálózaton, és statikus magánhálózati IP-címeket rendel az összes virtuális géphez. Az IP-címek gyorsítótárazásával kapcsolatos problémák és a címek újraindítás utáni megváltozásának megelőzéséhez az SQL Servert és a SharePoint Server 2016-ot futtató virtuális gépeken javasolt a statikus IP-címek használata.
 
-- **Rendelkezésre állási csoportok**. Helyezze az egyes SharePoint-szerepkörökhöz tartozó virtuális gépeket külön [rendelkezésre állási csoportokba][availability-set], és helyezzen üzembe legalább két virtuális gépet minden szerepkörhöz. A virtuális gépek így magasabb szintű szolgáltatói szerződésre (SLA-ra) jogosultak. 
+- **Rendelkezésre állási csoportok**. Helyezze az egyes SharePoint-szerepkörökhöz tartozó virtuális gépeket külön [rendelkezésre állási csoportokba][availability-set], és helyezzen üzembe legalább két virtuális gépet minden szerepkörhöz. A virtuális gépek így magasabb szintű szolgáltatói szerződésre (SLA-ra) jogosultak.
 
-- **Belső terheléselosztó**. A [terheléselosztó][load-balancer] elosztja a helyszíni hálózatról érkező SharePoint-kérés forgalmát a SharePoint-farm előtér-webkiszolgálói között. 
+- **Belső terheléselosztó**. A [terheléselosztó][load-balancer] elosztja a helyszíni hálózatról érkező SharePoint-kérés forgalmát a SharePoint-farm előtér-webkiszolgálói között.
 
-- **Hálózati biztonsági csoportok (NSG-k)**. A virtuális gépeket tartalmazó összes alhálózaton létrejön egy [hálózati biztonsági csoport][nsg]. Az NSG-ket használja a hálózati forgalom korlátozására a virtuális hálózaton belül, hogy el lehessen különíteni az alhálózatokat. 
+- **Hálózati biztonsági csoportok (NSG-k)**. A virtuális gépeket tartalmazó összes alhálózaton létrejön egy [hálózati biztonsági csoport][nsg]. Az NSG-ket használja a hálózati forgalom korlátozására a virtuális hálózaton belül, hogy el lehessen különíteni az alhálózatokat.
 
 - **Átjáró**. Az átjáró kapcsolatot biztosít a helyszíni hálózat és az Azure-beli virtuális hálózat között. A kapcsolat ExpressRoute- vagy helyek közötti VPN-átjárót használhat. További információ: [Helyszíni hálózat csatlakoztatása az Azure-hoz][hybrid-ra].
 
@@ -42,11 +44,11 @@ Az architektúra az alábbi összetevőkből áll:
 
   A SharePoint Server 2016 támogatja az [Azure Active Directory Domain Services](/azure/active-directory-domain-services/) használatát is. Az Azure AD Domain Services felügyelt tartományi szolgáltatásokat biztosít, hogy az Azure-ban ne legyen szükség tartományvezérlők üzembe helyezésére és felügyeletére.
 
-- **SQL Server Always On rendelkezésre állási csoport**. Az SQL Server-adatbázisok magas rendelkezésre állása érdekében javasoljuk a [SQL Server Always On rendelkezésre állási csoportok][sql-always-on] használatát. A rendszer két virtuális gépet használ az SQL Serverhez. Az egyik az elsődleges adatbázis-replikát tartalmazza, a másik pedig a másodlagos replikát. 
+- **SQL Server Always On rendelkezésre állási csoport**. Az SQL Server-adatbázisok magas rendelkezésre állása érdekében javasoljuk a [SQL Server Always On rendelkezésre állási csoportok][sql-always-on] használatát. A rendszer két virtuális gépet használ az SQL Serverhez. Az egyik az elsődleges adatbázis-replikát tartalmazza, a másik pedig a másodlagos replikát.
 
 - **Csomóponttöbbséget használó virtuális gép**. Ez a virtuális gép lehetővé teszi, hogy a feladatátvevő fürt kvórumot hozzon létre. További információ: [A feladatátvevő fürtök kvórumkonfigurációinak ismertetése][sql-quorum].
 
-- **SharePoint-kiszolgálók**. A SharePoint-kiszolgálók töltik be a webes előtér, a gyorsítótárazás, alkalmazás és a keresés szerepköröket. 
+- **SharePoint-kiszolgálók**. A SharePoint-kiszolgálók töltik be a webes előtér, a gyorsítótárazás, alkalmazás és a keresés szerepköröket.
 
 - **Jumpbox**. Más néven [bástyagazdagép][bastion-host]. A hálózaton található biztonságos virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox olyan NSG-vel rendelkezik, amely csak a biztonságos elemek listáján szereplő nyilvános IP-címekről érkező távoli forgalmat engedélyezi. Az NSG-nek engedélyeznie kell a távoli asztali (RDP) forgalmat.
 
@@ -60,7 +62,7 @@ Javasoljuk, hogy különítse el az erőforráscsoportokat kiszolgálói szerepk
 
 ### <a name="virtual-network-and-subnet-recommendations"></a>Virtuális hálózatra és alhálózatra vonatkozó javaslatok
 
-Minden SharePoint-szerepkörhöz használjon egy alhálózatot, plusz egy alhálózatot az átjáróhoz, és egyet a jumpboxhoz. 
+Minden SharePoint-szerepkörhöz használjon egy alhálózatot, plusz egy alhálózatot az átjáróhoz, és egyet a jumpboxhoz.
 
 Az átjáró-alhálózatnak a *GatewaySubnet* névvel kell rendelkeznie. Rendeljen hozzá egy címteret az átjáró-alhálózathoz a virtuális hálózat címterének végéről. További információ: [Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával][hybrid-vpn-ra].
 
@@ -74,28 +76,28 @@ Ehhez az architektúrához legalább 44 mag szükséges:
 - 1 csomóponttöbbség, Standard_DS1_v2 méret = 1 mag
 - 1 felügyeleti kiszolgáló, Standard_DS1_v2 méret = 1 mag
 
-Győződjön meg arról, hogy az Azure-előfizetésnek elegendő virtuálisgép-magkvóta áll rendelkezésére, különben az üzembe helyezés sikertelen lesz. Lásd: [Az Azure-előfizetések és -szolgáltatások korlátozásai, kvótái és megkötései][quotas]. 
+Győződjön meg arról, hogy az Azure-előfizetésnek elegendő virtuálisgép-magkvóta áll rendelkezésére, különben az üzembe helyezés sikertelen lesz. Lásd: [Az Azure-előfizetések és -szolgáltatások korlátozásai, kvótái és megkötései][quotas].
 
-A keresési indexelő kivételével az összes SharePoint-szerepkörhöz javasoljuk a [Standard_DS3_v2][vm-sizes-general] virtuálisgép-méret használatát. A keresési indexelőnek legalább [Standard_DS13_v2][vm-sizes-memory] méretűnek kell lennie. Teszteléshez a referenciaarchitektúra paraméterfájljai a kisebb, DS3_v2 méretet adják meg a keresési indexelő szerepkörhöz. Éles környezetek esetén frissítse a paraméterfájlokat a DS13 vagy nagyobb méret használatára. További információkat a [SharePoint Server 2016 hardver- és szoftverkövetelményeit][sharepoint-reqs] ismertető cikkben találhat. 
+A keresési indexelő kivételével az összes SharePoint-szerepkörhöz javasoljuk a [Standard_DS3_v2][vm-sizes-general] virtuálisgép-méret használatát. A keresési indexelőnek legalább [Standard_DS13_v2][vm-sizes-memory] méretűnek kell lennie. Teszteléshez a referenciaarchitektúra paraméterfájljai a kisebb, DS3_v2 méretet adják meg a keresési indexelő szerepkörhöz. Éles környezetek esetén frissítse a paraméterfájlokat a DS13 vagy nagyobb méret használatára. További információkat a [SharePoint Server 2016 hardver- és szoftverkövetelményeit][sharepoint-reqs] ismertető cikkben találhat.
 
-SQL Servert futtató virtuális gépekhez legalább 4 mag és 8 GB RAM szükséges. A referenciaarchitektúra paraméterfájljai a DS3_v2 méretet adják meg. Előfordulhat, hogy éles környezet esetén nagyobb virtuálisgép-méretet kell megadnia. További információkat [a tárolás és az SQL Server kapacitástervezésével és konfigurálásával (SharePoint Server)](/sharepoint/administration/storage-and-sql-server-capacity-planning-and-configuration#estimate-memory-requirements) kapcsolatos cikkben olvashat. 
- 
+SQL Servert futtató virtuális gépekhez legalább 4 mag és 8 GB RAM szükséges. A referenciaarchitektúra paraméterfájljai a DS3_v2 méretet adják meg. Előfordulhat, hogy éles környezet esetén nagyobb virtuálisgép-méretet kell megadnia. További információkat [a tárolás és az SQL Server kapacitástervezésével és konfigurálásával (SharePoint Server)](/sharepoint/administration/storage-and-sql-server-capacity-planning-and-configuration#estimate-memory-requirements) kapcsolatos cikkben olvashat.
+
 ### <a name="nsg-recommendations"></a>NSG-kre vonatkozó javaslatok
 
-Javasoljuk, hogy legyen egy NSG minden egyes virtuális gépeket tartalmazó alhálózathoz, hogy el lehessen különíteni az alhálózatokat. Ha alhálózat-elkülönítést szeretne konfigurálni, adjon meg olyan NSG-szabályokat, amelyek minden egyes alhálózatnál meghatározzák az engedélyezett vagy tiltott bejövő és kimenő adatforgalmat. További információ: [Hálózati forgalom szűrése hálózati biztonsági csoportokkal][virtual-networks-nsg]. 
+Javasoljuk, hogy legyen egy NSG minden egyes virtuális gépeket tartalmazó alhálózathoz, hogy el lehessen különíteni az alhálózatokat. Ha alhálózat-elkülönítést szeretne konfigurálni, adjon meg olyan NSG-szabályokat, amelyek minden egyes alhálózatnál meghatározzák az engedélyezett vagy tiltott bejövő és kimenő adatforgalmat. További információ: [Hálózati forgalom szűrése hálózati biztonsági csoportokkal][virtual-networks-nsg].
 
-Ne rendeljen NSG-ket az átjáró-alhálózathoz, különben az átjáró nem fog működni. 
+Ne rendeljen NSG-ket az átjáró-alhálózathoz, különben az átjáró nem fog működni.
 
 ### <a name="storage-recommendations"></a>Tárolásra vonatkozó javaslatok
 
 A farmon található virtuális gépek tárolókonfigurációjának egyeznie kell a helyszíni üzemelő példányoknál használt megfelelő ajánlott eljárásokkal. A SharePoint-kiszolgálóknak külön lemezzel kell rendelkezniük a naplók számára. A keresési index szerepköröket üzemeltető SharePoint-kiszolgálóknak további lemezterületre van szükségük a keresési index tárolásához. Az SQL Server esetén a szabványos eljárás az adatok és a naplók elkülönítése. Adjon hozzá további lemezeket az adatbázis biztonsági másolatainak tárolásához, és használjon egy külön lemezt a [tempdb][tempdb] számára.
 
-A legjobb megbízhatóság érdekében javasoljuk az [Azure Managed Disks][managed-disks] használatát. A felügyelt lemezek biztosítják, hogy a rendelkezésre állási csoportban elkülönüljenek egymástól a virtuális gépek lemezei a kritikus hibapontok elkerülése érdekében. 
+A legjobb megbízhatóság érdekében javasoljuk az [Azure Managed Disks][managed-disks] használatát. A felügyelt lemezek biztosítják, hogy a rendelkezésre állási csoportban elkülönüljenek egymástól a virtuális gépek lemezei a kritikus hibapontok elkerülése érdekében.
 
 > [!NOTE]
 > A referenciaarchitektúra Resource Manager-sablonja jelenleg nem használ felügyelt lemezeket. Tervezzük a sablont frissítését a felügyelt lemezek használatára.
 
-A SharePointot és az SQL Servert futtató virtuális gépeknél használjon Prémium felügyelt lemezeket. A csomóponttöbbséget használó kiszolgáló, a tartományvezérlők és a felügyeleti kiszolgáló esetén használhat Standard felügyelt lemezeket. 
+A SharePointot és az SQL Servert futtató virtuális gépeknél használjon Prémium felügyelt lemezeket. A csomóponttöbbséget használó kiszolgáló, a tartományvezérlők és a felügyeleti kiszolgáló esetén használhat Standard felügyelt lemezeket.
 
 ### <a name="sharepoint-server-recommendations"></a>SharePoint Serverre vonatkozó javaslatok
 
@@ -113,10 +115,9 @@ A SharePoint-farm konfigurálása előtt győződjön meg arról, hogy minden sz
 
 Ne felejtse el megtervezni a keresési architektúrát, hogy meg tudjon felelni a lemezteljesítmény minimális támogatási követelményének (200 MB/s). Lásd: [Vállalati keresési architektúra megtervezése a SharePoint Server 2013 rendszerben][sharepoint-search]. Kövesse a [SharePoint Server 2016 bejárásának ajánlott eljárásaira][sharepoint-crawling] vonatkozó útmutatást is.
 
-Továbbá a keresési összetevő adatait tárolja egy külön tárolóköteten vagy nagy teljesítményű partíción. A terhelés csökkentéséhez és a teljesítmény növeléséhez konfigurálja az architektúrához szükséges objektum-gyorsítótár felhasználói fiókjait. A Windows Server operációsrendszer-fájljait, a SharePoint Server 2016 programfájljait és a diagnosztikai naplókat ossza el három külön tárolókötet vagy normál teljesítményű partíció között. 
+Továbbá a keresési összetevő adatait tárolja egy külön tárolóköteten vagy nagy teljesítményű partíción. A terhelés csökkentéséhez és a teljesítmény növeléséhez konfigurálja az architektúrához szükséges objektum-gyorsítótár felhasználói fiókjait. A Windows Server operációsrendszer-fájljait, a SharePoint Server 2016 programfájljait és a diagnosztikai naplókat ossza el három külön tárolókötet vagy normál teljesítményű partíció között.
 
 További információk a javaslatokról: [Az első üzembe helyezés rendszergazdai- és szolgáltatásfiókjai a SharePoint Server 2016 rendszerben][sharepoint-accounts].
-
 
 ### <a name="hybrid-workloads"></a>Hibrid számítási feladatok
 
@@ -132,11 +133,11 @@ Emellett azt is javasoljuk, hogy adjon hozzá a fürthöz egy figyelő IP-címet
 
 Az ajánlott virtuálisgép-méretekért és az Azure-ban futó SQL Server teljesítményével kapcsolatos egyéb javaslatokért lásd: [Az SQL Server teljesítményéhez kapcsolódó ajánlott eljárások Azure-beli virtuális gépeken][sql-performance]. Kövesse az [A SharePoint Server 2016-farmon futó SQL Serverre vonatkozó ajánlott eljárások][sql-sharepoint-best-practices] útmutatását is.
 
-Javasoljuk, hogy a csomóponttöbbséget használó kiszolgálót ne azon a számítógépen helyezze el, amelyen a replikációs partnerek találhatók. A kiszolgáló lehetővé teszi, hogy a másodlagos replikációs partnerkiszolgáló a magas biztonsági üzemmódú munkamenetben felismerje, mikor kell automatikus feladatátvételt kezdeményeznie. A két partnerrel ellentétben a csomóponttöbbséget használó kiszolgáló nem az adatbázist szolgálja ki, hanem az automatikus feladatátvételt támogatja. 
+Javasoljuk, hogy a csomóponttöbbséget használó kiszolgálót ne azon a számítógépen helyezze el, amelyen a replikációs partnerek találhatók. A kiszolgáló lehetővé teszi, hogy a másodlagos replikációs partnerkiszolgáló a magas biztonsági üzemmódú munkamenetben felismerje, mikor kell automatikus feladatátvételt kezdeményeznie. A két partnerrel ellentétben a csomóponttöbbséget használó kiszolgáló nem az adatbázist szolgálja ki, hanem az automatikus feladatátvételt támogatja.
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-A meglévő kiszolgálók vertikális felskálázásához egyszerűen módosítsa a virtuális gép méretét. 
+A meglévő kiszolgálók vertikális felskálázásához egyszerűen módosítsa a virtuális gép méretét.
 
 A SharePoint Server 2016 [MinRoles][minroles] képességével horizontálisan felskálázhatja a kiszolgálókat a kiszolgáló szerepköre alapján, valamint el is távolíthat kiszolgálókat egy adott szerepkörből. Amikor kiszolgálókat ad hozzá egy szerepkörhöz, megadhatja bármelyik önálló szerepkört vagy a kombinált szerepkörök egyikét. Ha azonban a keresési szerepkörhöz ad hozzá kiszolgálókat, a keresési topológiát is újra kell konfigurálnia a PowerShell használatával. A szerepköröket át is alakíthatja a MinRoles használatával. További információ: [MinRole-kiszolgálófarmok kezelése a SharePoint Server 2016-ban][sharepoint-minrole].
 
@@ -152,7 +153,7 @@ A regionális meghibásodással szembeni védelemhez hozzon létre egy külön v
 
 A kiszolgálók, kiszolgálófarmok és helyek működtetéséhez és karbantartásához kövesse a SharePoint-műveletekre vonatkozó ajánlott eljárásokat. További információ: [A SharePoint Server 2016 műveletei][sharepoint-ops].
 
-Az SQL Server SharePoint-környezetben való felügyeletekor megfontolandó feladatok eltérhetnek az adatbázis-alkalmazásoknál jellemzően megfontolt feladatoktól. Az ajánlott eljárás az SQL-adatbázisok hetente történő teljes körű biztonsági mentése, növekményes éjszakai biztonsági mentésekkel. Készítsen biztonsági másolatot a tranzakciónaplókról 15 percenként. Egy másik eljárás az SQL Server karbantartási feladatainak megvalósítása az adatbázisokon, miközben letiltja a beépített SharePoint karbantartási feladatokat. További információ: [A tárolás és az SQL Server kapacitástervezése és konfigurálása][sql-server-capacity-planning]. 
+Az SQL Server SharePoint-környezetben való felügyeletekor megfontolandó feladatok eltérhetnek az adatbázis-alkalmazásoknál jellemzően megfontolt feladatoktól. Az ajánlott eljárás az SQL-adatbázisok hetente történő teljes körű biztonsági mentése, növekményes éjszakai biztonsági mentésekkel. Készítsen biztonsági másolatot a tranzakciónaplókról 15 percenként. Egy másik eljárás az SQL Server karbantartási feladatainak megvalósítása az adatbázisokon, miközben letiltja a beépített SharePoint karbantartási feladatokat. További információ: [A tárolás és az SQL Server kapacitástervezése és konfigurálása][sql-server-capacity-planning].
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -175,7 +176,7 @@ Az üzembe helyezés a következő erőforráscsoportokat hozza létre az előfi
 - ra-onprem-sp2016-rg
 - ra-sp2016-network-rg
 
-A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse. 
+A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse.
 
 A paraméterfájlok több helyen nem módosítható jelszót tartalmaznak. Módosítsa ezeket az értékeket az üzembe helyezés előtt.
 
@@ -183,7 +184,7 @@ A paraméterfájlok több helyen nem módosítható jelszót tartalmaznak. Módo
 
 [!INCLUDE [ref-arch-prerequisites.md](../../../includes/ref-arch-prerequisites.md)]
 
-### <a name="deploy-the-solution"></a>A megoldás üzembe helyezése 
+### <a name="deployment-steps"></a>A központi telepítés lépései
 
 1. Futtassa az alábbi parancsot egy szimulált helyszíni hálózat üzembe helyezéséhez.
 
@@ -203,12 +204,13 @@ A paraméterfájlok több helyen nem módosítható jelszót tartalmaznak. Módo
     azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure1.json --deploy
     ```
 
-4. Futtassa az alábbi parancsot a feladatátvevő fürt és a rendelkezésreállási csoport létrehozásához. 
+4. Futtassa az alábbi parancsot a feladatátvevő fürt és a rendelkezésreállási csoport létrehozásához.
 
     ```bash
     azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure2-cluster.json --deploy
+    ```
 
-5. Run the following command to deploy the remaining VMs.
+5. Futtassa az alábbi parancsot a fennmaradó virtuális gépek üzembe helyezéséhez.
 
     ```bash
     azbb -s <subscription_id> -g ra-onprem-sp2016-rg -l <location> -p azure3.json --deploy
@@ -230,7 +232,7 @@ Ezen a ponton ellenőrizze, hogy tud-e létesíteni TCP-kapcsolatot az SQL Serve
 
 A kimenetnek a következőképpen kell kinéznie:
 
-```powershell
+```console
 ComputerName     : 10.0.3.100
 RemoteAddress    : 10.0.3.100
 RemotePort       : 1433
@@ -239,7 +241,7 @@ SourceAddress    : 10.0.0.132
 TcpTestSucceeded : True
 ```
 
-Ha ez nem sikerül, az Azure Portal segítségével indítsa újra az `ra-sp-sql-vm2` nevű virtuális gépet. Amikor a virtuális gép újraindult, futtassa ismét a `Test-NetConnection` parancsot. A virtuális gép újraindítása után előfordulhat, hogy várnia kell körülbelül egy percet ahhoz, hogy a csatlakozás sikeres legyen. 
+Ha ez nem sikerül, az Azure Portal segítségével indítsa újra az `ra-sp-sql-vm2` nevű virtuális gépet. Amikor a virtuális gép újraindult, futtassa ismét a `Test-NetConnection` parancsot. A virtuális gép újraindítása után előfordulhat, hogy várnia kell körülbelül egy percet ahhoz, hogy a csatlakozás sikeres legyen.
 
 Most pedig végezze el az üzembe helyezést az alábbi módon.
 
@@ -265,17 +267,17 @@ Most pedig végezze el az üzembe helyezést az alábbi módon.
 
 1. Az [Azure Portalon][azure-portal] keresse meg az `ra-onprem-sp2016-rg` erőforráscsoportot.
 
-2. Az erőforrások listájában válassza ki a `ra-onpr-u-vm1` nevű virtuálisgép-erőforrást. 
+2. Az erőforrások listájában válassza ki a `ra-onpr-u-vm1` nevű virtuálisgép-erőforrást.
 
 3. Csatlakozzon a virtuális géphez a [Csatlakozás virtuális géphez][connect-to-vm] című részben ismertetett módon. Felhasználónév: `\onpremuser`.
 
-5.  Ha létrejött a távoli kapcsolat a virtuális géppel, nyisson meg egy böngészőt a virtuális gépen, és navigáljon a következő helyre: `http://portal.contoso.local`.
+4. Ha létrejött a távoli kapcsolat a virtuális géppel, nyisson meg egy böngészőt a virtuális gépen, és navigáljon a következő helyre: `http://portal.contoso.local`.
 
-6.  A **Windows rendszerbiztonság** mezőben jelentkezzen be a SharePoint portálra a `contoso.local\testuser` felhasználónévvel.
+5. A **Windows rendszerbiztonság** mezőben jelentkezzen be a SharePoint portálra a `contoso.local\testuser` felhasználónévvel.
 
 Ez a bejelentkezés a helyszíni hálózat által használt Fabrikam.com tartományból nyit alagutat a SharePoint portál által használt contoso.local tartomány felé. Amikor megnyílik a SharePoint-hely, a legfelső szintű bemutatówebhely fog megjelenni.
 
-**_A referenciaarchitektúra készítésében közreműködtek:_** &mdash;  Joe Davies, Bob Fox, Neil Hodgkinson, Paul Stork
+**_A referenciaarchitektúra készítésében közreműködtek:_** &mdash; Joe Davies, Bob Fox, Neil Hodgkinson, Paul Stork
 
 <!-- links -->
 
