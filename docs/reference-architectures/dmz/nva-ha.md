@@ -3,17 +3,14 @@ title: Magas rendelkezésre állású virtuális hálózati berendezések üzemb
 titleSuffix: Azure Reference Architectures
 description: Magas rendelkezésre állású virtuális berendezések üzembe helyezéséről.
 author: telmosampaio
-ms.date: 12/06/2016
+ms.date: 12/08/2018
 ms.custom: seodec18
-pnp.series.title: Network DMZ
-pnp.series.prev: secure-vnet-dmz
-cardTitle: Deploy highly available network virtual appliances
-ms.openlocfilehash: 1ab0786d18c9fffdcf7ad54e36df60a5f05935ca
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: d3f9017db1bbf9741b10db16eb5a3dbab78f1160
+ms.sourcegitcommit: 7d21aec9d9de0004ac777c1d1e364f53aac2350d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119965"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53120752"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
@@ -39,6 +36,7 @@ A következő architektúrák bemutatják a magas rendelkezésre állású NVA-k
 | [Kimenő forgalom 7-es rétegű NVA-kkal][egress-with-layer-7] |Az összes NVA-csomópont aktív | Kapcsolatok leállítására és forráshálózati címfordítás (source network address translation, SNAT) implementálására képes NVA-t igényel
 | [Bejövő és kimenő forgalom 7-es rétegű NVA-kkal][ingress-egress-with-layer-7] |Az összes csomópont aktív<br/>Képes kezelni az Azure-ból eredő forgalmat |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/>Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz |
 | [PIP-UDR kapcsoló][pip-udr-switch] |Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok) |Aktív-passzív<br/>Feladatátvételi folyamatot igényel |
+| [PIP-UDR SNAT](#pip-udr-nvas-without-snat) | Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok)<br/>Nincs szükség a bejövő kéréseket SNAT konfigurálása |Aktív-passzív<br/>Feladatátvételi folyamatot igényel<br/>Tesztelés és a feladatátvételi logika futtatása a virtuális hálózaton kívül |
 
 ## <a name="ingress-with-layer-7-nvas"></a>Bejövő forgalom 7-es rétegű NVA-kkal
 
@@ -79,16 +77,37 @@ Az alábbi szakasz egy aktív és egy passzív NVA-val rendelkező architektúr�
 
 ![[3]][3]
 
+> [!TIP]
+> Ez az architektúra teljes körű megoldást érhető el a [GitHub][pnp-ha-nva].
+
 Ez az architektúra hasonlít a cikkben elsőként bemutatott architektúrára. Az egyetlen NVA-t tartalmazott, amely a 4-es rétegű beérkező kérelmek fogadását és szűrését végezte. Ez az architektúra mindezt egy második passzív NVA-val egészíti ki a magas rendelkezésre állás érdekében. Ha az aktív NVA meghibásodik, a passzív NVA aktiválódik, és az UDR, valamint a PIP úgy módosul, hogy az imént aktivált NVA hálózati adaptereire mutasson. Az UDR és a PIP ezen módosításai manuálisan vagy egy automatizált folyamattal is elvégezhetők. Az automatizált folyamat jellemzően egy démon, vagy egy másik Azure-beli figyelőszolgáltatás, amely végrehajtja az aktív NVA állapotvizsgálatát, majd átkapcsolja az UDR-t és a PIP-et, amikor az NVA meghibásodását észleli.
 
 A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható, amely egy magas rendelkezésre állású démont biztosít. A ZooKeeper-fürtön belül egy csomópontkvórum kiválaszt egy vezetőt. Ha a vezető meghibásodik, akkor a többi csomópont választást tart egy új vezető kinevezésére. A jelen architektúra esetében a vezető csomópont végrehajtja a démont, amely lekérdezi az NVA üzemállapoti végpontját. Ha az NVA nem válaszol az állapotvizsgálatra, akkor a démon aktiválja a passzív NVA-t. Ezt követően a démon lehívja az Azure REST API-t a PIP eltávolításához a meghibásodott NVA-ból, majd csatolja azt az újonnan aktivált NVA-hoz. A démon ezután módosítja az UDR-t, hogy az újonnan aktivált NVA belső IP-címére mutasson.
 
-> [!NOTE]
-> Ne vegyen fel ZooKeeper-csomópontokat olyan alhálózatba, amely csak olyan útvonalon keresztül érhető el, amely tartalmazza az NVA-t. Ha mégis így tesz, a ZooKeeper-csomópontok nem lesznek érhetők az NVA meghibásodásakor. Ha a démon bármilyen okból sikertelen, akkor nem fogja tudni használni a ZooKeeper-csomópontokat a probléma diagnosztizálására.
+Ne vegyen fel ZooKeeper-csomópontokat olyan alhálózatba, amely csak olyan útvonalon keresztül érhető el, amely tartalmazza az NVA-t. Ha mégis így tesz, a ZooKeeper-csomópontok nem lesznek érhetők az NVA meghibásodásakor. Ha a démon bármilyen okból sikertelen, akkor nem fogja tudni használni a ZooKeeper-csomópontokat a probléma diagnosztizálására.
 
-<!--### Solution Deployment-->
+A teljes megoldás, beleértve a mintakódot, olvassa el a fájlokat a [GitHub-adattár][pnp-ha-nva].
 
-<!-- instructions for deploying this solution here -->
+## <a name="pip-udr-nvas-without-snat"></a>A PIP-UDR nva-k SNAT
+
+Ez az architektúra két Azure-beli virtuális gépek futtatásához az NVA tűzfala egy aktív-passzív konfigurációt, amely támogatja az Automatikus feladatátvétel, de nem szükséges a forrás hálózati cím címfordítás (SNAT) használja.
+
+![PIP-UDR nva-k nélkül SNAT-architektúra](./images/nva-ha/pip-udr-without-snat.png)
+
+> [!TIP]
+> Ez az architektúra teljes körű megoldást érhető el a [GitHub][ha-nva-fo].
+
+Ez a megoldás Azure ügyfelek, akik SNAT nem lehet konfigurálni a bejövő kérelmekre a saját NVA tűzfalak lett tervezve. SNAT elrejti az eredeti forrás ügyfél IP-címe. Ha be kell jelentkeznie az eredeti IP-címek vagy az nva-k mögött belül más többrétegű biztonsági összetevők használni őket, ez a megoldás egyszerű megközelítést kínál.
+
+A következő ugrás címét az aktív NVA tűzfal virtuális gép hálózati adapteréhez IP-címét állítsa által automatizált UDR táblabejegyzéseket feladatátvétele. Az automatikus feladatátvételi logika használatával létrehozott függvényalkalmazás szolgáltatásban üzemeltetett [Azure Functions](/azure/azure-functions/). A feladatátvételi kódja fut, mint belül az Azure Functions egy kiszolgáló nélküli függvény. Üzembe helyezés kényelmesen, költségkímélő és könnyen kezelése és testreszabása. Emellett a függvényalkalmazás üzemeltetett belül az Azure Functions, így egy csoporttól sem a virtuális hálózaton. Ha a virtuális hálózatot milyen hatással vannak az NVA-tűzfalak, a függvényalkalmazás továbbra is futtatható önállóan. Tesztelés azért pontosabb, valamint az ugyanazon útvonalat használja, mint a bejövő ügyfélkérelmek a virtuális hálózaton kívül történik.
+
+Az nva-t tűzfal rendelkezésre állásának ellenőrzéséhez a függvénykódot alkalmazás mintavételek a két módszer egyikével:
+
+- Az Azure-beli virtuális gépek állapotának figyelésével az nva-t tűzfal üzemeltetéséhez.
+
+- Tesztelésével nyitott portot a tűzfalon a háttér-webkiszolgálóhoz van-e. Ezt a beállítást, a az nva-n egy szoftvercsatorna tesztelése a függvény-alkalmazás kódjához PIP-n keresztül kell közzétennie.
+
+Válassza a mintavétel a függvényalkalmazás konfigurálásakor használni kívánt típusát. A teljes megoldás, beleértve a mintakódot, olvassa el a fájlokat a [GitHub-adattár][ha-nva-fo].
 
 ## <a name="next-steps"></a>További lépések
 
@@ -109,6 +128,8 @@ A fenti ábrán egy például szolgáló [ZooKeeper][zookeeper]-fürt látható,
 [pip-udr-switch]: #pip-udr-switch-with-layer-4-nvas
 [udr-overview]: /azure/virtual-network/virtual-networks-udr-overview/
 [zookeeper]: https://zookeeper.apache.org/
+[pnp-ha-nva]: https://github.com/mspnp/ha-nva
+[ha-nva-fo]: https://aka.ms/ha-nva-fo
 
 <!-- images -->
 

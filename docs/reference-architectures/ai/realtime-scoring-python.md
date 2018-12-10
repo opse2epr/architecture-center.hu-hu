@@ -1,23 +1,24 @@
 ---
-title: Valós idejű pontozási Python Scikit-ismerje meg, és a Deep Learning-modellek az Azure-ban
+title: A Python-modellek valós idejű pontozása
+titleSuffix: Azure Reference Architectures
 description: Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python-modelleket az Azure-ra előrejelzéseket valós idejű webszolgáltatásként.
 author: njray
 ms.date: 11/09/2018
 ms.custom: azcat-ai
-ms.openlocfilehash: e233906e669bdedfd1675f05f3f832950ecc34ec
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: e2312d1d1d2444f9915f4e6aa067c1487e096d3e
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004760"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120356"
 ---
-# <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a Deep Learning-modellek az Azure-ban
+# <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a deep learning-modellek az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python modelleket webszolgáltatásként, hogy a valós idejű előrejelzéseket végezzen. Két esetben terjed ki: reguláris Python-modellek és a konkrét követelmények, deep learning-modellek üzembe helyezésének telepítése. Mindkét forgatókönyvet használja az architektúra látható.
 
 Ez az architektúra két hivatkozás megvalósításait érhetők el a Githubon, egyet-egyet [rendszeres Python modellek] [ github-python] és a egy [deep learning-modellek] [ github-dl].
 
-![](./_images/python-model-architecture.png)
+![Az Azure-ban a Python-modellek a valós idejű pontozás architektúra diagramja](./_images/python-model-architecture.png)
 
 ## <a name="scenarios"></a>Forgatókönyvek
 
@@ -29,33 +30,33 @@ Ebben a forgatókönyvben az adatok egy részét Stack Overflow kérdés, amely 
 
 Az architektúra az alkalmazás folyamata a következőképpen történik:
 
-1.  Az ügyfél a kódolt kérdés adatokkal HTTP POST-kérelmet küld.
+1. Az ügyfél a kódolt kérdés adatokkal HTTP POST-kérelmet küld.
 
-2.  A Flask-alkalmazás kibontja a kérdést a kérelemből.
+2. A Flask-alkalmazás kibontja a kérdést a kérelemből.
 
-3.  A kérdés küld a scikit-featurization és pontozás adatfolyamat-modell további.
+3. A kérdés küld a scikit-featurization és pontozás adatfolyamat-modell további.
 
-4.  A megfelelő – gyakori kérdések a kérdéseket a pontszámok irányíthatja át, JSON-objektum és az ügyfél számára.
+4. A megfelelő – gyakori kérdések a kérdéseket a pontszámok irányíthatja át, JSON-objektum és az ügyfél számára.
 
 Íme egy Képernyőkép a PéldaAlkalmazás, amely az eredményeket fel:
 
-![](./_images/python-faq-matches.png)
+![A PéldaAlkalmazás képernyőképe](./_images/python-faq-matches.png)
 
-**2. példa: Képek besorolása.** Ez a forgatókönyv bemutatja, hogyan modell üzembe helyezése Konvolúciós Neurális hálózat (CNN) webszolgáltatásként, amely előrejelzéseket meg képeket. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" képfájlok hivatkozik. Cnn-EK nagyon hatékonyak a számítógépes látástechnológiai olyan feladatokhoz, mint a képek besorolása és objektumfelismeréshez. Ebben a forgatókönyvben a keretrendszereket, TensorFlow, a Keras (háttérrendszerrel a tensorflow-hoz) és a PyTorch lett tervezve. Azonban azt is általánosítva bármilyen forgatókönyvhöz, amely valós idejű előrejelzéseket deep learning-modellek segítségével.
+**2. forgatókönyv: A besorolási kép**. Ez a forgatókönyv bemutatja, hogyan modell üzembe helyezése Konvolúciós Neurális hálózat (CNN) webszolgáltatásként, amely előrejelzéseket meg képeket. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" képfájlok hivatkozik. Cnn-EK nagyon hatékonyak a számítógépes látástechnológiai olyan feladatokhoz, mint a képek besorolása és objektumfelismeréshez. Ebben a forgatókönyvben a keretrendszereket, TensorFlow, a Keras (háttérrendszerrel a tensorflow-hoz) és a PyTorch lett tervezve. Azonban azt is általánosítva bármilyen forgatókönyvhöz, amely valós idejű előrejelzéseket deep learning-modellek segítségével.
 
 Ez a forgatókönyv ResNet-152 előre betanított modell előre jelezni az eseménykategóriát épít – 1 K (1000 osztályok) adatkészlet tanított használ (lásd az alábbi ábrát) lemezkép tartozik. Ezek az előrejelzések egy REST API-végpont használatával valós időben történik.
 
-![](./_images/python-example-predictions.png)
+![Előrejelzés – példa](./_images/python-example-predictions.png)
 
 Deep learning-modellhez az alkalmazás folyamata a következőképpen történik:
 
-1.  Az ügyfél a kódolt kép adatokkal HTTP POST-kérelmet küld.
+1. Az ügyfél a kódolt kép adatokkal HTTP POST-kérelmet küld.
 
-2.  A Flask-alkalmazás kibontja a lemezképet a kérelemből.
+2. A Flask-alkalmazás kibontja a lemezképet a kérelemből.
 
-3.  A rendszerkép üzenetfájlrekordok, és a modell pontozása küldött.
+3. A rendszerkép üzenetfájlrekordok, és a modell pontozása küldött.
 
-4.  A pontértéket irányíthatja át, JSON-objektum, és az ügyfél számára.
+4. A pontértéket irányíthatja át, JSON-objektum, és az ügyfél számára.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -71,7 +72,7 @@ Ez az architektúra a következő összetevőkből áll.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
-Valós idejű pontozási architektúrák az átviteli teljesítmény válik domináns veszi figyelembe. Python-modellek rendszeres általánosan elfogadott, hogy a processzorok elegendőek a számítási feladatok kezelésére. 
+Valós idejű pontozási architektúrák az átviteli teljesítmény válik domináns veszi figyelembe. Python-modellek rendszeres általánosan elfogadott, hogy a processzorok elegendőek a számítási feladatok kezelésére.
 
 Azonban deep learning számítási feladatokhoz, amikor sebessége szűk keresztmetszetet gpu-k általánosan biztosítja jobban [teljesítmény] [ gpus-vs-cpus] processzorok képest. Megfelelő processzorokat használata GPU-teljesítményét, nagy mennyiségű processzor-fürt általában van szükség.
 
@@ -91,11 +92,11 @@ Betekintést nyerhet az AKS-teljesítmény, használja a [-tárolókhoz az Azure
 
 Az alkalmazás üzembe helyezése közben figyelheti az AKS-fürtöt, győződjön meg arról, hogy a várt módon működik, a csomópontokon működnek, és minden podok is futnak. Bár használhatja a [kubectl] [ kubectl] is beolvasni a pod állapotát, a Kubernetes parancssori eszköz tartalmaz egy webes irányítópultot, a fürt állapota és a felügyeleti alapszintű figyeléséhez.
 
-![](./_images/python-kubernetes-dashboard.png)
+![A Kubernetes-irányítópult képernyőképe](./_images/python-kubernetes-dashboard.png)
 
 A fürt és a csomópontok általános állapotának megtekintéséhez nyissa meg a **csomópontok** a Kubernetes-irányítópult szakaszában. Ha egy csomópont inaktív vagy nem sikerült, megjelenítheti a hibanaplókat, onnan hivatkozó oldalakon találhat. Hasonlóképpen, nyissa meg a **Podok** és **központi telepítések** szakaszokban talál információt a podok számát és a központi telepítés állapotát.
 
-### <a name="aks-logs"></a>AKS-naplók 
+### <a name="aks-logs"></a>AKS-naplók
 
 Az AKS automatikusan naplóz minden stdout/stderr a podok a fürt naplóit. Tekintse át ezeket a kubectl használatával és a is csomópont-szintű eseményeit, és a naplókat. További információkért lásd: a telepítés lépéseit.
 
@@ -121,10 +122,12 @@ Használat [RBAC] [ rbac] üzembe helyezett Azure-erőforrásokhoz való hozzáf
 
 ## <a name="deployment"></a>Környezet
 
-Ez a referenciaarchitektúra üzembe helyezéséhez kövesse a GitHub-adattárak leírt lépéseket követve: 
+Ez a referenciaarchitektúra üzembe helyezéséhez kövesse a GitHub-adattárak leírt lépéseket követve:
 
-  - [Rendszeres Python-modell][github-python]
-  - [Deep learning-modellek][github-dl]
+- [Rendszeres Python-modell][github-python]
+- [Deep learning-modellek][github-dl]
+
+<!-- links -->
 
 [aad-auth]: /azure/aks/aad-integration
 [acr]: /azure/container-registry/
@@ -151,4 +154,3 @@ Ez a referenciaarchitektúra üzembe helyezéséhez kövesse a GitHub-adattárak
 [scikit]: https://pypi.org/project/scikit-learn/
 [security-center]: /azure/security-center/security-center-intro
 [vm]: /azure/virtual-machines/
-

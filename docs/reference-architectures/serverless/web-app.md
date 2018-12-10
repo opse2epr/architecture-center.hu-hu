@@ -1,25 +1,27 @@
 ---
 title: Kiszolgáló nélküli webalkalmazás
-description: Látható, a kiszolgáló nélküli webalkalmazás és webes API referencia-architektúra
+titleSuffix: Azure Reference Architectures
+description: Ajánlott architektúra, kiszolgáló nélküli webalkalmazás és webes API-t.
 author: MikeWasson
 ms.date: 10/16/2018
-ms.openlocfilehash: 9263c8bec794e4b2bb9f397289b23307eb02f0c7
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.custom: seodec18
+ms.openlocfilehash: ee735ac4f23cc2a819e2322bd9c4fb3b5adf5f3b
+ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295684"
+ms.lasthandoff: 12/08/2018
+ms.locfileid: "53120308"
 ---
-# <a name="serverless-web-application"></a>Kiszolgáló nélküli webalkalmazás 
+# <a name="serverless-web-application-on-azure"></a>Kiszolgáló nélküli webalkalmazás az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja egy [kiszolgáló nélküli](https://azure.microsoft.com/solutions/serverless/) webes alkalmazás. Az alkalmazást a statikus tartalmat szolgáltat az Azure Blob Storage-ból, és a egy API-t az Azure Functions használatával valósítja meg. Az API beolvassa az adatokat a Cosmos DB és az eredményeket adja vissza a webalkalmazáshoz. Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
-![](./_images/serverless-web-app.png)
- 
+![Kiszolgáló nélküli webalkalmazás a referencia-architektúra](./_images/serverless-web-app.png)
+
 A kiszolgáló nélküli kifejezés két különálló, de kapcsolódó jelentéssel rendelkezik:
 
-- **Háttérmodul-szolgáltatás** (BaaS). Háttérbeli felhőszolgáltatásokat, például adatbázisok és a storage, az API-k, amelyek lehetővé teszik ügyfélalkalmazások számára ezek a szolgáltatások való közvetlen csatlakozáshoz adja meg. 
-- **A Functions szolgáltatás** (FaaS). Ebben a modellben egy "függvény" olyan kódot, amely a felhőben üzemel, és fut egy teljesen kivonatolja a kódot futtató kiszolgálók üzemeltetési környezet. 
+- **Háttérmodul-szolgáltatás** (BaaS). Háttérbeli felhőszolgáltatásokat, például adatbázisok és a storage, az API-k, amelyek lehetővé teszik ügyfélalkalmazások számára ezek a szolgáltatások való közvetlen csatlakozáshoz adja meg.
+- **A Functions szolgáltatás** (FaaS). Ebben a modellben egy "függvény" olyan kódot, amely a felhőben üzemel, és fut egy teljesen kivonatolja a kódot futtató kiszolgálók üzemeltetési környezet.
 
 Mindkét definíciók rendelkezik közös a ötlete, amellyel a fejlesztők és a fejlesztési és üzemeltetési munkatársai nem szükséges központi telepítése, konfigurálása és -kiszolgálók kezelése. Ez a referenciaarchitektúra Azure Functions használatával FaaS összpontosít, bár a webes tartalmat szolgáltató az Azure Blob Storage-ból példaként szolgál a háttérkomponens-szolgáltatás. A FaaS néhány fontos jellemzői a következők:
 
@@ -30,7 +32,8 @@ Mindkét definíciók rendelkezik közös a ötlete, amellyel a fejlesztők és 
 Ha külső eseményindító történik, például egy HTTP-kérelem vagy egy üzenetsorba érkező üzeneteket a függvények végrehajtása történik. Ez lehetővé teszi egy [eseményvezérelt architektúra stílusának] [ event-driven] természetes, kiszolgáló nélküli architektúrák. Munka az architektúra összetevői közötti koordinációhoz, üzenetközvetítők vagy pub/sub minták használata javasolt. Az Azure-ban üzenetkezelési technológiák közötti választással kapcsolatos útmutatásért lásd: [kézbesíti az üzeneteket az Azure-szolgáltatások közötti választás][azure-messaging].
 
 ## <a name="architecture"></a>Architektúra
-Az architektúra a következőkben leírt összetevőkből áll.
+
+Az architektúra az alábbi összetevőkből áll:
 
 **A BLOB Storage-**. Statikus tartalmak, például HTML, CSS és JavaScript-fájlok, az Azure Blob Storage tárolása és kiszolgálása ügyfeleknek használatával [statikus webhelyüzemeltetésre][static-hosting]. Az összes dinamikus interakció a háttérrendszeri API-k hívása JavaScript-kód történik. Nincs kiszolgálóoldali kód megjeleníteni a weblapot. Index dokumentumok és egyéni 404-es hibalapok statikus webhelyüzemeltetésre támogatja.
 
@@ -49,7 +52,7 @@ Az API Management is használható például általános megfontolások megvaló
 - Az OAuth-jogkivonatok hitelesítés ellenőrzése
 - Eltérő eredetű kérelmek (CORS) engedélyezése
 - Válaszok gyorsítótárazásának
-- Monitorozási és naplózási kéréseket  
+- Monitorozási és naplózási kéréseket
 
 Ha már nincs szüksége az összes az API Management által biztosított funkciókat, egy másik lehetőség, hogy használja [Functions-proxyk][functions-proxy]. Ez a funkció az Azure Functions lehetővé teszi, hogy egyetlen API-felületet több függvényalkalmazásra háttér-funkciók útvonalak létrehozásával meghatározhatja. Függvényproxykat korlátozott átalakításokat is elvégezheti a HTTP-kérés és válasz. Azonban nem biztosítanak azonos gazdag csoportházirend-alapú képességeit az API Management.
 
@@ -65,7 +68,7 @@ Ha már nincs szüksége az összes az API Management által biztosított funkci
 
 ### <a name="function-app-plans"></a>Függvényalkalmazás-csomagok
 
-Az Azure Functions támogatja a két üzemeltetési modell. Az a **használatalapú csomag**, számítási teljesítmény lefoglalása automatikusan történik meg, amikor a kódja fut.  Az a **App Service-ben** csomag, a virtuális gépek lefoglalásának a kódot. Az App Service-csomag határozza meg, hogy a virtuális gépek számát és a Virtuálisgép-méretet. 
+Az Azure Functions támogatja a két üzemeltetési modell. Az a **használatalapú csomag**, számítási teljesítmény lefoglalása automatikusan történik meg, amikor a kódja fut.  Az a **App Service-ben** csomag, a virtuális gépek lefoglalásának a kódot. Az App Service-csomag határozza meg, hogy a virtuális gépek számát és a Virtuálisgép-méretet.
 
 Vegye figyelembe, hogy az App Service-csomag nem feltétlenül *kiszolgáló nélküli*, a fent megadott definíció szerint. A programozási modell megegyezik, azonban &mdash; függvény ugyanazt a kódot futtathatja a használatalapú és App Service-csomag.
 
@@ -79,9 +82,9 @@ Vegye figyelembe, hogy az App Service-csomag nem feltétlenül *kiszolgáló né
 
 ### <a name="function-app-boundaries"></a>Függvény alkalmazás határok
 
-A *függvényalkalmazás* végrehajtásához egy vagy több szükséges gazdaszolgáltatást *funkciók*. Függvényalkalmazás segítségével számos funkciót csoportosíthat egy logikai egységként. A functions belül egy függvényalkalmazást, ossza meg az ugyanazon alkalmazás beállításait, futtatási csomagot, és a központi telepítés életciklusa. Minden függvény alkalmazás rendelkezik a saját állomásnevet.  
+A *függvényalkalmazás* végrehajtásához egy vagy több szükséges gazdaszolgáltatást *funkciók*. Függvényalkalmazás segítségével számos funkciót csoportosíthat egy logikai egységként. A functions belül egy függvényalkalmazást, ossza meg az ugyanazon alkalmazás beállításait, futtatási csomagot, és a központi telepítés életciklusa. Minden függvény alkalmazás rendelkezik a saját állomásnevet.
 
-Függvényalkalmazások csoport funkciók, amelyek életciklusa és beállításokat használja. Másik függvényalkalmazás a függvények, amelyek nem azonos életciklussal üzemeltetve lesz. 
+Függvényalkalmazások csoport funkciók, amelyek életciklusa és beállításokat használja. Másik függvényalkalmazás a függvények, amelyek nem azonos életciklussal üzemeltetve lesz.
 
 Fontolja meg a mikroszolgáltatási megközelítést, ahol a minden függvényalkalmazáshoz egy mikroszolgáltatásban valószínűleg álló számos kapcsolódó funkciókat jelenti. A mikroszolgáltatási architektúrában a szolgáltatások laza összekapcsolással és magas működési kohézióval kell rendelkeznie. *Lazán* összefüggő azt jelenti, hogy egy szolgáltatás anélkül, hogy más szolgáltatások egyszerre frissítendő módosíthatja. *Javul* jelenti, hogy egy szolgáltatás egyetlen, jól definiált céllal rendelkezik. Ezek ötleteket további ismertetéséhez lásd: [mikroszolgáltatások tervezése: tartományelemzés][microservices-domain-analysis].
 
@@ -94,13 +97,13 @@ Ha például a `GetStatus` függvény a referenciaimplementációt a használja 
 ```csharp
 [FunctionName("GetStatusFunction")]
 public static Task<IActionResult> Run(
-    [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, 
+    [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
     [CosmosDB(
         databaseName: "%COSMOSDB_DATABASE_NAME%",
         collectionName: "%COSMOSDB_DATABASE_COL%",
         ConnectionStringSetting = "COSMOSDB_CONNECTION_STRING",
         Id = "{Query.deviceId}",
-        PartitionKey = "{Query.deviceId}")] dynamic deviceStatus, 
+        PartitionKey = "{Query.deviceId}")] dynamic deviceStatus,
     ILogger log)
 {
     ...
@@ -111,7 +114,7 @@ Kötések használata esetén nem kell közvetlenül a szolgáltatást, amely eg
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-**Függvények**. A használatalapú csomag esetében a HTTP-eseményindítóval skálázható alapján, a forgalmat. Az egyidejű függvény példányok száma korlátozva van, de minden példány egyszerre egynél több kérést is feldolgozni. Az App Service-csomag a HTTP-eseményindítóval méretezi a Virtuálisgép-példányok, rögzített érték vagy teljesítményigényektől függ az automatikus skálázási szabályok száma szerint. További információ: [Azure Functions méretezése és üzemeltetése][functions-scale]. 
+**Függvények**. A használatalapú csomag esetében a HTTP-eseményindítóval skálázható alapján, a forgalmat. Az egyidejű függvény példányok száma korlátozva van, de minden példány egyszerre egynél több kérést is feldolgozni. Az App Service-csomag a HTTP-eseményindítóval méretezi a Virtuálisgép-példányok, rögzített érték vagy teljesítményigényektől függ az automatikus skálázási szabályok száma szerint. További információ: [Azure Functions méretezése és üzemeltetése][functions-scale].
 
 **A cosmos DB**. A Cosmos DB átviteli kapacitás mérése [kérelemegység] [ ru] (RU). Egy 1 – RU átviteli sebesség egy 1 KB méretű dokumentum beolvasásához szükséges átviteli felel meg. Annak érdekében, hogy az elmúlt 10 000-et egy Cosmos DB-tárolók skálázása RU, meg kell adnia egy [partíciókulcs] [ partition-key] amikor hozza létre a tárolót, és a partíciókulcs tartalmazza minden egyes dokumentum létrehozott. Partíciókulcsok kapcsolatos további információkért lásd: [particionálási és horizontális az Azure Cosmos DB][cosmosdb-scale].
 
@@ -136,10 +139,10 @@ A `GetStatus` API-referencia megvalósítása az Azure AD-kérések hitelesíté
 Ebben az architektúrában az ügyfélalkalmazás egy egyoldalas alkalmazás (SPA), amely futtatja a böngészőben. Így az implicit engedélyezési folyamat megfelelő ügyfélalkalmazás az ilyen típusú ügyfélkódot vagy az engedélyezési kódot, rejtett, nem vezetnek. (Lásd: [melyik OAuth 2.0-s folyamat használjam?] [oauth-flow]). Itt látható a teljes folyamat:
 
 1. A felhasználó a "Bejelentkezés" hivatkozásra a webalkalmazás kattint.
-1. A böngészőben a rendszer átirányítja az Azure AD bejelentkezési oldal. 
+1. A böngészőben a rendszer átirányítja az Azure AD bejelentkezési oldal.
 1. A felhasználó bejelentkezik.
 1. Az Azure AD vissza az ügyfélalkalmazás, beleértve a hozzáférési jogkivonatot az URL-cím töredék irányítja át.
-1. A webalkalmazás az API-t hív meg, ha a hozzáférési jogkivonat szerepel a hitelesítési fejlécet. Az Alkalmazásazonosítót, a hozzáférési jogkivonatot a jogcím a célközönség (aud) zajlik. 
+1. A webalkalmazás az API-t hív meg, ha a hozzáférési jogkivonat szerepel a hitelesítési fejlécet. Az Alkalmazásazonosítót, a hozzáférési jogkivonatot a jogcím a célközönség (aud) zajlik.
 1. A háttérrendszeri API érvényesíti a hozzáférési jogkivonatot.
 
 Hitelesítés konfigurálása:
@@ -152,30 +155,30 @@ Hitelesítés konfigurálása:
 
 További részletekért tekintse meg a [GitHub információs][readme].
 
-Azt javasoljuk, hogy hozzon létre külön alkalmazásregisztrációk az Azure ad-ben az ügyfél alkalmazás és a háttérbeli API-k. Támogatás az ügyféloldali alkalmazás számára az API-t. Ez a megközelítés lehetővé teszi több API-k és az ügyfelek és az egyes engedélyei. 
+Azt javasoljuk, hogy hozzon létre külön alkalmazásregisztrációk az Azure ad-ben az ügyfél alkalmazás és a háttérbeli API-k. Támogatás az ügyféloldali alkalmazás számára az API-t. Ez a megközelítés lehetővé teszi több API-k és az ügyfelek és az egyes engedélyei.
 
 Az API használatához [hatókörök] [ scopes] alkalmazásokat adni, kérhet egy felhasználó milyen engedélyekkel részletesen szabályozhatja. API-k Előfordulhat például, `Read` és `Write` hatókörök és a egy adott ügyfél-alkalmazás kérheti a felhasználót, hogy engedélyezze `Read` csak engedélyeket.
 
 ### <a name="authorization"></a>Engedélyezés
 
-Számos alkalmazásban a háttérrendszeri API ellenőriznie kell, hogy egy felhasználó jogosult-e egy adott művelet végrehajtásához szükséges engedéllyel. Azt javasoljuk, hogy használjon [jogcímalapú engedélyezési][claims], amelyben a felhasználó adatai van az identitásszolgáltató (esetünkben az Azure AD) által közölt és használt engedélyezési döntésekhez. 
+Számos alkalmazásban a háttérrendszeri API ellenőriznie kell, hogy egy felhasználó jogosult-e egy adott művelet végrehajtásához szükséges engedéllyel. Azt javasoljuk, hogy használjon [jogcímalapú engedélyezési][claims], amelyben a felhasználó adatai van az identitásszolgáltató (esetünkben az Azure AD) által közölt és használt engedélyezési döntésekhez.
 
-Egyes jogcímek biztosított belül az azonosító jogkivonat, amely az Azure AD és az ügyfél ad vissza. Ezeket a jogcímeket a belül a függvényalkalmazás az X-MS-CLIENT-egyszerű a kérelemben szereplő tartományfejléc megvizsgálásával kérheti le. Egyéb jogcímek használata [Microsoft Graph] [ graph] lekérdezése az Azure ad-ben (szükséges felhasználói beleegyezés bejelentkezés során). 
+Egyes jogcímek biztosított belül az azonosító jogkivonat, amely az Azure AD és az ügyfél ad vissza. Ezeket a jogcímeket a belül a függvényalkalmazás az X-MS-CLIENT-egyszerű a kérelemben szereplő tartományfejléc megvizsgálásával kérheti le. Egyéb jogcímek használata [Microsoft Graph] [ graph] lekérdezése az Azure ad-ben (szükséges felhasználói beleegyezés bejelentkezés során).
 
-Például ha egy alkalmazás az Azure ad-ben regisztrálja, meghatározhatja egy alkalmazás-szerepkörök készletét regisztrációs alkalmazásjegyzékben. Amikor egy felhasználó bejelentkezik az alkalmazásba, az Azure AD tartalmaz egy "szerepkör" jogcím az egyes szerepkörökhöz, amelyek a felhasználó megkapta-e (beleértve a csoporttagság örökölt szerepkörök). 
+Például ha egy alkalmazás az Azure ad-ben regisztrálja, meghatározhatja egy alkalmazás-szerepkörök készletét regisztrációs alkalmazásjegyzékben. Amikor egy felhasználó bejelentkezik az alkalmazásba, az Azure AD tartalmaz egy "szerepkör" jogcím az egyes szerepkörökhöz, amelyek a felhasználó megkapta-e (beleértve a csoporttagság örökölt szerepkörök).
 
-A referenciaimplementációt, a függvény ellenőrzi, hogy a hitelesített felhasználó tagja a `GetStatus` alkalmazás-szerepkörökhöz. Ha nem, a függvény egy HTTP jogosulatlan (401-es) választ ad vissza. 
+A referenciaimplementációt, a függvény ellenőrzi, hogy a hitelesített felhasználó tagja a `GetStatus` alkalmazás-szerepkörökhöz. Ha nem, a függvény egy HTTP jogosulatlan (401-es) választ ad vissza.
 
 ```csharp
 [FunctionName("GetStatusFunction")]
 public static Task<IActionResult> Run(
-    [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, 
+    [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
     [CosmosDB(
         databaseName: "%COSMOSDB_DATABASE_NAME%",
         collectionName: "%COSMOSDB_DATABASE_COL%",
         ConnectionStringSetting = "COSMOSDB_CONNECTION_STRING",
         Id = "{Query.deviceId}",
-        PartitionKey = "{Query.deviceId}")] dynamic deviceStatus, 
+        PartitionKey = "{Query.deviceId}")] dynamic deviceStatus,
     ILogger log)
 {
     log.LogInformation("Processing GetStatus request.");
@@ -219,16 +222,16 @@ Ez a referenciaarchitektúra a a webalkalmazás és az API nem osztoznak az azon
 
 Ebben a példában a **engedélyezése – hitelesítő adatok** attribútum **igaz**. Ez engedélyezi a böngésző (beleértve a cookie-k) hitelesítő adatok küldése a kérelemmel. Ellenkező esetben alapértelmezés szerint a böngésző nem küld egy eltérő eredetű kérelem hitelesítő adatokat.
 
-> [!NOTE] 
+> [!NOTE]
 > Legyen nagyon körültekintő beállítással kapcsolatos **engedélyezése – hitelesítő adatok** való **igaz**, mert azt jelenti, hogy egy webhely is küldhetnek a felhasználó hitelesítő adatait az API-t, a felhasználó nevében, nem a felhasználó nem is tud. Meg kell bíznia az engedélyezett forrása.
 
 ### <a name="enforce-https"></a>HTTPS kényszerítése
 
 A maximális biztonság érdekében van szükség a kérelem folyamata során HTTPS:
 
-- **CDN**. Az Azure CDN a HTTPS támogatja a `*.azureedge.net` altartomány alapértelmezés szerint. A CDN-t az egyéni tartománynevek a HTTPS engedélyezéséhez tekintse [oktatóanyag: HTTPS konfigurálása Azure CDN egyéni tartományon][cdn-https]. 
+- **CDN**. Az Azure CDN a HTTPS támogatja a `*.azureedge.net` altartomány alapértelmezés szerint. A CDN-t az egyéni tartománynevek a HTTPS engedélyezéséhez tekintse [oktatóanyag: HTTPS konfigurálása Azure CDN egyéni tartományon][cdn-https].
 
-- **Statikus webhely üzemeltetése**. Engedélyezze a "[biztonságos átvitelre van szükség][storage-https]" lehetőséget a tárfiók. Ha ez a beállítás engedélyezve van, a storage-fiókot csak lehetővé teszi a biztonságos HTTPS-kapcsolatok érkező kérelmeket. 
+- **Statikus webhely üzemeltetése**. Engedélyezze a "[biztonságos átvitelre van szükség][storage-https]" lehetőséget a tárfiók. Ha ez a beállítás engedélyezve van, a storage-fiókot csak lehetővé teszi a biztonságos HTTPS-kapcsolatok érkező kérelmeket.
 
 - **Az API Management**. Az API-k csak a HTTPS protokoll használatára konfigurálja. Az Azure Portalon, vagy egy Resource Manager-sablon segítségével konfigurálható:
 
@@ -250,15 +253,15 @@ A maximális biztonság érdekében van szükség a kérelem folyamata során HT
     }
     ```
 
-- **Az Azure Functions**. Engedélyezze a "[csak HTTPS][functions-https]" beállítást. 
+- **Az Azure Functions**. Engedélyezze a "[csak HTTPS][functions-https]" beállítást.
 
 ### <a name="lock-down-the-function-app"></a>A függvényalkalmazás zárolását
 
 A függvény összes hívást végre kell hajtania az API-átjáró. Akkor érhető el, a következőképpen:
 
-- Egy függvény kulcs megkövetelése a függvényalkalmazás konfigurálása. Az API Management-átjáró a függvény kulcsot fogja tartalmazni, amikor meghívja a függvényalkalmazás. Ez megakadályozza, hogy az ügyfelek a függvény közvetlenül, az átjáró kihagyásával. 
+- Egy függvény kulcs megkövetelése a függvényalkalmazás konfigurálása. Az API Management-átjáró a függvény kulcsot fogja tartalmazni, amikor meghívja a függvényalkalmazás. Ez megakadályozza, hogy az ügyfelek a függvény közvetlenül, az átjáró kihagyásával.
 
-- Az API Management gateway rendelkezik egy [statikus IP-cím][apim-ip]. Az Azure-függvényt, hogy csak a statikus IP-címről indított hívások korlátozása. További információkért lásd: [Azure App Service statikus IP-korlátozások][app-service-ip-restrictions]. (Ez a funkció csak a Standard szintű szolgáltatások esetében érhető el.) 
+- Az API Management gateway rendelkezik egy [statikus IP-cím][apim-ip]. Az Azure-függvényt, hogy csak a statikus IP-címről indított hívások korlátozása. További információkért lásd: [Azure App Service statikus IP-korlátozások][app-service-ip-restrictions]. (Ez a funkció csak a Standard szintű szolgáltatások esetében érhető el.)
 
 ### <a name="protect-application-secrets"></a>Titkos alkalmazáskulcsok védelme
 
@@ -276,7 +279,7 @@ Az a függvényalkalmazás üzembe helyezésére, javasoljuk hogy [csomagfájlok
 
 API-k: olyan szerződés egy szolgáltatás és az ügyfelek között. Ebben az architektúrában az API-szerződés az API Management rétegben van meghatározva. Az API Management támogatja a két különböző, de egymást kiegészítő [versioning fogalmak][apim-versioning]:
 
-- *Verziók* lehetővé teszi az API-fogyasztókat, válassza ki az igényeinek, mint a v1 és v2-alapú API-verziót. 
+- *Verziók* lehetővé teszi az API-fogyasztókat, válassza ki az igényeinek, mint a v1 és v2-alapú API-verziót.
 
 - *Változatok* API-rendszergazdák nem kompatibilitástörő változások API-ban, és telepítheti majd a változásokat az API-fogyasztókat tájékoztatni a módosításokat a módosítási napló engedélyezése.
 
@@ -286,7 +289,7 @@ API-módosítás ne sérüljenek frissítések központi telepítése az új ver
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub információs][readme]. 
+Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub információs][readme].
 
 <!-- links -->
 
