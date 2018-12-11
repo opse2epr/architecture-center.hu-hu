@@ -5,12 +5,12 @@ description: A Microsoft Azure-ban futó webalkalmazás méretezhetőség javít
 author: MikeWasson
 ms.date: 10/25/2018
 ms.custom: seodec18
-ms.openlocfilehash: 8d68f62260f3e2dfd4f88418238f2e2a241d1c9d
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: ab38864e7135777f205b39d0a86897559fc061b9
+ms.sourcegitcommit: e7f8676bbffe500fc4d6deb603b7c0b7ba1884a6
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120127"
+ms.lasthandoff: 12/10/2018
+ms.locfileid: "53179297"
 ---
 # <a name="improve-scalability-in-an-azure-web-application"></a>Azure-webalkalmazások méretezhetőség javítása
 
@@ -32,7 +32,7 @@ Ez az architektúra az [Alapszintű webalkalmazás][basic-web-app] témakörébe
 - **CDN**. Az [Azure Content Delivery Network][azure-cdn] (CDN) a nyilvánosan elérhető tartalmak gyorsítótárazására használható a kisebb késés és a gyorsabb tartalomkézbesítés biztosítása érdekében.
 - **Adattárolás**. A relációs adatok esetében az [Azure SQL Database][sql-db] használata javasolt. Nem relációs adatok esetén fontolja meg [Cosmos DB][cosmosdb].
 - **Azure Search**. Az [Azure Search][azure-search] használatával olyan keresési funkciók adhatók hozzá, mint például a keresési javaslatok, az intelligens keresés és a nyelvspecifikus keresés. Az Azure Search általában egy másik adattárral együtt használatos, különösen akkor, ha az elsődleges adattár megköveteli a szigorú konzisztenciát. Ennek a megközelítésnek megfelelően a mérvadó adatokat a másik adattárban kell tárolni, a keresési indexet pedig az Azure Search-ben. Az Azure Search továbbá egyetlen, különböző adattárakból összeállított keresési index létrehozására is használható.
-- **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. A tartományok Azure-ban üzemelteti, DNS-rekordok az azonos hitelesítő adatokkal, API-kkal, eszközökkel és az egyéb Azure services.f számlázási információkkal kezelheti
+- **Azure DNS**. Az [Azure DNS][azure-dns] egy üzemeltetési szolgáltatás, amely a Microsoft Azure infrastruktúráját használja a DNS-tartományok névfeloldásához. Ha tartományait az Azure-ban üzemelteti, DNS-rekordjait a többi Azure-szolgáltatáshoz is használt hitelesítő adatokkal, API-kkal, eszközökkel és számlázási információkkal kezelheti.
 - **Az Application gateway**. [Az Application Gateway](/azure/application-gateway/) egy 7. rétegbeli terheléselosztó. Ebben az architektúrában, a web front end irányítja a HTTP-kérelmekre. Az Application Gateway is biztosít egy [webalkalmazási tűzfal](/azure/application-gateway/waf-overview) (WAF) az alkalmazás, amely védi a gyakori támadások és biztonsági rések.
 
 ## <a name="recommendations"></a>Javaslatok
