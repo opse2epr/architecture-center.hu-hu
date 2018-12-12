@@ -2,13 +2,13 @@
 title: Tervezési minták felhőkhöz
 description: Tervezési minták felhőkhöz a Microsoft Azure-ban
 keywords: Azure
-ms.date: 06/23/2017
-ms.openlocfilehash: 308e9bc784fc791d04adcecaae64bf258edeb20b
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.date: 12/10/2018
+ms.openlocfilehash: 26ee59ef15fc63bb5e823cd85f610cd9ad01177a
+ms.sourcegitcommit: 9a15af3a25f25b8730968d32cbb006434b183e18
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326197"
+ms.lasthandoff: 12/11/2018
+ms.locfileid: "53234050"
 ---
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
@@ -104,6 +104,7 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 |              [Materialized View](./materialized-view.md)              |                                        Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez.                                        |
 |              [Pipes and Filters](./pipes-and-filters.md)              |                                                        Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.                                                        |
 |                 [Priority Queue](./priority-queue.md)                 |                                 Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat.                                  |
+| [Közzétevő/előfizető](./publisher-subscriber.md) | Engedélyezheti egy alkalmazás számára, hogy több érdeklődő fogyasztó számára aszinkron módon, a küldők és a fogadók összekapcsolása nélkül jelentsen be eseményeket. |
 |      [Queue-Based Load Leveling](./queue-based-load-leveling.md)      |                                               Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket.                                               |
 |                          [Retry](./retry.md)                          |               Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.                |
 |     [Scheduler Agent Supervisor](./scheduler-agent-supervisor.md)     |                                                              Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon.                                                               |
