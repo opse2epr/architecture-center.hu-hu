@@ -7,12 +7,12 @@ ms.reviewer: jonfan, estfan, LADocs
 ms.topic: article
 ms.date: 12/03/2018
 ms.custom: integration-services
-ms.openlocfilehash: 989bcbde4d79b6874272353fa158fe1a8a1cb389
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 6357cb5015c8f10c0f4a8aa1b310ddbb38367004
+ms.sourcegitcommit: a0a9981e7586bed8d876a54e055dea1e392118f8
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119404"
+ms.lasthandoff: 12/11/2018
+ms.locfileid: "53233863"
 ---
 # <a name="enterprise-integration-on-azure-using-message-queues-and-events"></a>Vállalati integráció az Azure-üzenetsorok és események használata
 
@@ -28,7 +28,7 @@ Ez a verzió, az architektúra két összetevőből, amelyek segítségével a r
 
 - **[Az Azure Service Bus][service-bus]**. Service Bus az egy biztonságos, megbízható közvetítő.
 
-- **[Az Azure Event Grid][event-grid]**. Event Grid-esemény-útválasztó szolgáltatás. Eseménykezelési közzétételi/feliratkozási (pub/sub) modellt használ.
+- **[Az Azure Event Grid][event-grid]**. Event Grid-esemény-útválasztó szolgáltatás. Használja a [közzétételi/előfizetési](../../patterns/publisher-subscriber.md) (pub/sub) modellt alkalmaznak eseménykezelési.
 
 Egy közvetítő aszinkron kommunikációt biztosít számos előnnyel jár a háttérszolgáltatásoknak küldött közvetlen, szinkron hívások keresztül:
 
