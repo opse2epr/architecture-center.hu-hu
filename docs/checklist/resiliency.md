@@ -1,15 +1,16 @@
 ---
 title: Rugalmasságra vonatkozó ellenőrzőlista
+titleSuffix: Azure Design Review Framework
 description: A feladatlista, amely rugalmasság aggályokat során tervezési útmutatást nyújt.
 author: petertaylor9999
 ms.date: 11/26/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: a949259537d1d5d8e03b05877a6a3d75c2195b77
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 1201e2045c6a5f7be9c8286cd192559a8d66d169
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004930"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53307452"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -23,50 +24,52 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Hajtsa végre a hibaállapot-elemzést (FMA) az alkalmazáshoz.** FMA egy olyan folyamat, amellyel a rugalmasság korai tervezési szakaszában az alkalmazásba. További információkért lásd: [hibaállapot elemzése][fma]. Az FMA célja a következők:  
 
-* Azonosítsa, hogy milyen típusú hibákat tapasztalhat az alkalmazás.
-* Rögzítse a potenciális hatásokat és nem sikerült az alkalmazás a különböző típusú hatását.
-* Stratégiák azonosítása.
+- Azonosítsa, hogy milyen típusú hibákat tapasztalhat az alkalmazás.
+- Rögzítse a potenciális hatásokat és nem sikerült az alkalmazás a különböző típusú hatását.
+- Stratégiák azonosítása.
   
-
-**Telepítse a szolgáltatások több példányát.** Ha az alkalmazás egy szolgáltatás egyetlen példánya függ, a meghibásodási pontot hoz létre. Üzembe helyezett példányban több növeli a rugalmasságot és méretezhetőséget is. A [Azure App Service](/azure/app-service/app-service-value-prop-what-is/), jelölje be egy [App Service-csomag](/azure/app-service/azure-web-sites-web-hosting-plans-in-depth-overview/) , amelynek keretében több példányt. Az Azure Cloud Services, konfigurálja az összes, használja a szerepkörök [több példány](/azure/cloud-services/cloud-services-choose-me/#scaling-and-management). A [Azure Virtual Machines (VM)](/azure/virtual-machines/virtual-machines-windows-about/?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json), győződjön meg arról, hogy a virtuális gép architektúra tartalmaz-e egynél több virtuális gép és minden virtuális gép szerepel egy [rendelkezésre állási csoport][availability-sets].   
+**Telepítse a szolgáltatások több példányát.** Ha az alkalmazás egy szolgáltatás egyetlen példánya függ, a meghibásodási pontot hoz létre. Üzembe helyezett példányban több növeli a rugalmasságot és méretezhetőséget is. A [Azure App Service](/azure/app-service/app-service-value-prop-what-is/), jelölje be egy [App Service-csomag](/azure/app-service/azure-web-sites-web-hosting-plans-in-depth-overview/) , amelynek keretében több példányt. Az Azure Cloud Services, konfigurálja az összes, használja a szerepkörök [több példány](/azure/cloud-services/cloud-services-choose-me/#scaling-and-management). A [Azure Virtual Machines (VM)](/azure/virtual-machines/virtual-machines-windows-about/?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json), győződjön meg arról, hogy a virtuális gép architektúra tartalmaz-e egynél több virtuális gép és minden virtuális gép szerepel egy [rendelkezésre állási csoport][availability-sets].
 
 **Az automatikus skálázás használatával a terhelés növekedése esetén válaszolhat.** Ha az alkalmazás nincs konfigurálva a terhelés növekedése automatikus skálázáshoz, lehetséges, hogy az alkalmazás szolgáltatások sikertelen lesz, ha azok a felhasználói kérelmek legyen telített. További részletekért tekintse meg a következőket:
 
-* Általános: [méretezési ellenőrzőlista](./scalability.md)
-* Az Azure App Service: [példányszám manuális vagy automatikus méretezése][app-service-autoscale]
-* A cloud Services: [automatikus méretezése egy felhőalapú szolgáltatás][cloud-service-autoscale]
-* Virtuális gépek: [automatikus méretezés és virtuálisgép-méretezési csoportokban][vmss-autoscale]
+- Általános frissítések: [Méretezési ellenőrzőlista](./scalability.md)
+- Az Azure App Service: [Példányszám manuális vagy automatikus méretezése][app-service-autoscale]
+- A cloud Services: [Cloud service automatikus méretezése][cloud-service-autoscale]
+- Virtuális gépek: [Az automatikus méretezés és virtuálisgép-méretezési csoportokban][vmss-autoscale]
 
 **Használja a terheléselosztási kérések elosztása.** Terheléselosztás osztja el a kérelmeket az alkalmazás kifogástalan állapotú szolgáltatási példányai nem megfelelő állapotú példányokat eltávolításával a rotációból. Ha a szolgáltatás az Azure App Service vagy az Azure Cloud Services használ, már terhelésű az Ön számára. Azonban ha az alkalmazás Azure virtuális gépek, szüksége lesz a terheléselosztó üzembe helyezése. Tekintse meg a [Azure Load Balancer](/azure/load-balancer/load-balancer-overview/) kapcsolatos további részletek áttekintése.
 
 **Az Azure Application Gateway-átjárók több példány használatára konfigurálja.** Az alkalmazás követelményeitől függően egy [Azure Application Gateway](/azure/application-gateway/application-gateway-introduction/) előfordulhat, hogy lehet jobban megfelelnek az alkalmazás szolgáltatásokra irányuló kérések elosztása. Azonban az Application Gateway szolgáltatás egyetlen példánya nem által garantált SLA-t, hogy lehetséges legyen, hogy az alkalmazás sikertelen lehet, ha az Application Gateway-példány sikertelen lesz. Több közepes vagy nagy méretű Alkalmazásátjáró példány feltételei a szolgáltatás rendelkezésre állásának garantálása érdekében kiépítése a [SLA](https://azure.microsoft.com/support/legal/sla/application-gateway/).
 
-**Rendelkezésre állási csoportok használata az alkalmazásrétegek esetében.** Helyezi el a-példányokat egy [rendelkezésre állási csoport] [ availability-sets] biztosít egy újabb [SLA](https://azure.microsoft.com/support/legal/sla/virtual-machines/). 
+**Rendelkezésre állási csoportok használata az alkalmazásrétegek esetében.** Helyezi el a-példányokat egy [rendelkezésre állási csoport] [ availability-sets] biztosít egy újabb [SLA](https://azure.microsoft.com/support/legal/sla/virtual-machines/).
 
 **Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc.
 
-**Vegye figyelembe, hogy az alkalmazás üzembe helyezése több régióban.** Ha az alkalmazás egyetlen régióban üzembe, az esemény ritkán fordul elő a teljes régió elérhetetlenné válik, az alkalmazás még nem lesz elérhető. Lehet, hogy ez elfogadhatatlan az alkalmazás szolgáltatásiszint-szerződés feltételei szerint. Ha igen, fontolja meg az alkalmazás és a hozzá tartozó szolgáltatások telepítése több régióban. Egy többrégiós üzembe helyezés az egy aktív-aktív minta (kérelmek elosztásával aktív példányok) vagy egy aktív-passzív minta (tartja "meleg" példány számára fenntartott, abban az esetben, ha az elsődleges példány sikertelen). Azt javasoljuk, hogy több-példányok üzembe helyezésekor az alkalmazásszolgáltatások között regionális párokról. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure párosított régiói](/azure/best-practices-availability-paired-regions).
+**Vegye figyelembe, hogy az alkalmazás üzembe helyezése több régióban.** Ha az alkalmazás egyetlen régióban üzembe, az esemény ritkán fordul elő a teljes régió elérhetetlenné válik, az alkalmazás még nem lesz elérhető. Lehet, hogy ez elfogadhatatlan az alkalmazás szolgáltatásiszint-szerződés feltételei szerint. Ha igen, fontolja meg az alkalmazás és a hozzá tartozó szolgáltatások telepítése több régióban. Egy többrégiós üzembe helyezés az egy aktív-aktív minta (kérelmek elosztásával aktív példányok) vagy egy aktív-passzív minta (tartja "meleg" példány számára fenntartott, abban az esetben, ha az elsődleges példány sikertelen). Azt javasoljuk, hogy több-példányok üzembe helyezésekor az alkalmazásszolgáltatások között regionális párokról. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions).
 
 **Az Azure Traffic Manager használatával irányíthatja a forgalmat az alkalmazás különböző régiókban.**  [Az Azure Traffic Manager] [ traffic-manager] terheléselosztás, a DNS szintjén végzi, és átirányítja a forgalmat alapján különböző régiók a [forgalom-útválasztást] [ traffic-manager-routing] metódus azt adja meg, és az alkalmazás végpontok állapotát. Nélkül Traffic Manager, pedig csak egyetlen régióban, amely korlátozza a skálázási, növeli az egyes felhasználók közel valós idejű és régióra kiterjedő szolgáltatáskimaradás esetén alkalmazás állásidőt okoz az üzembe helyezéshez.
 
 **A terheléselosztókkal és a traffic Manager-példányok állapotadat-mintavételek tesztelése és konfigurálása.** Győződjön meg arról, hogy az állapotfigyelő logikát ellenőrzi a rendszer kritikus fontosságú részei, és megfelelően válaszol-e az állapot-mintavételei.
 
-* Az állapot-mintavételei a [Azure Traffic Manager] [ traffic-manager] és [Azure Load Balancer] [ load-balancer] kiszolgálása egy adott funkciót. A Traffic Manager, az állapotminta határozza meg, feladatátvételt egy másik régióba. A load Balancer meghatározza, hogy e virtuális gép eltávolítása a rotációból.      
-* A Traffic Manager mintavétel az állapot végponti ellenőrizni kell a kritikus fontosságú függőségek, amelyek egy régión belül vannak telepítve, és amelyek meghibásodása indíthat el egy feladatátvételt egy másik régióba.  
-* A load Balancer üzemállapoti végpontját jelentse a virtuális gép állapotát. Más rétegek vagy a külső szolgáltatások nem tartalmazzák a. Ellenkező esetben hiba, amely a virtuális gép kívül történik, hogy távolítsa el a virtuális Gépet a rotációból a terheléselosztó miatt.
-* Végrehajtási egészségügyi figyelés az alkalmazásban, tekintse át [állapot végponti Monitorozását végző minta](https://msdn.microsoft.com/library/dn589789.aspx).
+- Az állapot-mintavételei a [Azure Traffic Manager] [ traffic-manager] és [Azure Load Balancer] [ load-balancer] kiszolgálása egy adott funkciót. A Traffic Manager, az állapotminta határozza meg, feladatátvételt egy másik régióba. A load Balancer meghatározza, hogy e virtuális gép eltávolítása a rotációból.
+
+- A Traffic Manager mintavétel az állapot végponti ellenőrizni kell a kritikus fontosságú függőségek, amelyek egy régión belül vannak telepítve, és amelyek meghibásodása indíthat el egy feladatátvételt egy másik régióba.
+
+- A load Balancer üzemállapoti végpontját jelentse a virtuális gép állapotát. Más rétegek vagy a külső szolgáltatások nem tartalmazzák a. Ellenkező esetben hiba, amely a virtuális gép kívül történik, hogy távolítsa el a virtuális Gépet a rotációból a terheléselosztó miatt.
+
+- Végrehajtási egészségügyi figyelés az alkalmazásban, tekintse át [állapot végponti Monitorozását végző minta](../patterns/health-endpoint-monitoring.md).
 
 **Külső szolgáltatások figyelésére.** Ha az alkalmazás függőségeit a harmadik féltől származó szolgáltatásokkal, határozza meg, hol és hogyan meghiúsulhat, ezek a külső szolgáltatások és milyen hatással ezekre a hibákra lesz az alkalmazás a. Egy külső szolgáltatás nem tartalmazhatnak monitorozást és diagnosztikát, ezért fontos, hogy ezek közül a meghívásához és összefüggésbe hozva azokat az alkalmazás állapotát az és a diagnosztikai naplózás egy egyedi azonosító segítségével. A monitorozási és diagnosztikai bevált gyakorlatokat további információkért lásd: [figyelési és diagnosztikai útmutató][monitoring-and-diagnostics-guidance].
 
 **Győződjön meg arról, hogy bármely harmadik fél szolgáltatásának felhasznált biztosít SLA-t.** Ha az alkalmazás külső szolgáltatásra támaszkodik, de a harmadik féltől származó formájában, szolgáltatásiszint-szerződésben garantált rendelkezésre állási garancia biztosítja, az alkalmazás rendelkezésre állás is nem garantálható. Az SLA csak olyan jól, a legkevesebb szabad az alkalmazás-összetevő.
 
-**Rugalmassági minták távoli műveletek végrehajtása a megfelelő.** Ha az alkalmazása függ a távoli szolgáltatások közötti kommunikációt, hajtsa végre a [tervezési minták](../patterns/category/resiliency.md) számára, mint például az átmeneti hibák kezelése [újrapróbálkozási minta][retry-pattern], és [Áramkör-megszakító minta][circuit-breaker]. 
+**Rugalmassági minták távoli műveletek végrehajtása a megfelelő.** Ha az alkalmazása függ a távoli szolgáltatások közötti kommunikációt, hajtsa végre a [tervezési minták](../patterns/category/resiliency.md) számára, mint például az átmeneti hibák kezelése a [újrapróbálkozási minta](../patterns/retry.md) és a [áramkör-megszakító a minta](../patterns/circuit-breaker.md).
 
 **Amikor csak lehetséges aszinkron műveletek végrehajtására.** A szinkron műveletek is tudják kisajátítani az erőforrásokat, és egyéb műveletek blokkolható, amíg a hívó megvárja, amíg a folyamat befejezéséhez. Tervezze meg, amikor csak lehetséges aszinkron műveletek lehetővé teszik az alkalmazás egyes részei. Az aszinkron programozásba megvalósítása a C# további információkért lásd: [aszinkron programozás az async és await][asynchronous-c-sharp].
 
 ## <a name="data-management"></a>Adatkezelés
 
-**Ismerje meg az alkalmazás-adatforrások replikációs módszereket.** Az alkalmazásadatok különböző adatforrások lesz tárolva, és a különböző rendelkezésre állási követelmények vonatkoznak. A replikációs módszereket az egyes Azure-ban, az adattárolás kiértékelése többek között [Azure Tárreplikáció](/azure/storage/storage-redundancy/) és [SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/) annak biztosítására, hogy az alkalmazás adatokat követelmények teljesülnek. Azure virtuális gépek replikálása [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. 
+**Ismerje meg az alkalmazás-adatforrások replikációs módszereket.** Az alkalmazásadatok különböző adatforrások lesz tárolva, és a különböző rendelkezésre állási követelmények vonatkoznak. A replikációs módszereket az egyes Azure-ban, az adattárolás kiértékelése többek között [Azure Tárreplikáció](/azure/storage/storage-redundancy/) és [SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/) annak biztosítására, hogy az alkalmazás adatokat követelmények teljesülnek. Azure virtuális gépek replikálása [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként.
 
 **Győződjön meg arról, hogy nincs egyetlen felhasználói fiók rendelkezik-e éles és a biztonsági mentési adatokhoz való hozzáférés.** A biztonsági mentések integritása sérül, ha egy egyetlen felhasználói fiók éles és a biztonsági mentési források írási engedéllyel rendelkezik. Egy rosszindulatú felhasználó szándékosan sikerült törölni a teljes adatmennyiséget, míg az átlagos felhasználók sikerült véletlenül törlést kezdeményezni. Tervezze alkalmazását úgy korlátozhatja az egyes felhasználói fiókok engedélyeket, így csak azok a felhasználók írási hozzáférést igénylő írási hozzáféréssel rendelkezik, és csak olyan éles vagy a biztonsági mentés, de nem mindkettőt.
 
@@ -77,9 +80,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 **Fontolja meg egy, a georedundáns tárfiók típusa.** Egy Azure Storage-fiókban tárolt adatok mindig replikálódik helyileg. Vannak azonban van egy Tárfiók üzembe helyezésekor választhat replikációs néhány stratégiát. Válassza ki [Azure írásvédett Georedundáns Társzolgáltatási (RA-GRS)](/azure/storage/storage-redundancy/#read-access-geo-redundant-storage) védelme érdekében az alkalmazás adatait a ritka esetben, ha egy teljes régió elérhetetlenné válik.
 
 > [!NOTE]
-> A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup][azure-backup].   
->
->
+> A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup][azure-backup].
 
 ## <a name="security"></a>Biztonság
 
@@ -97,15 +98,15 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 ## <a name="deployment"></a>Környezet
 
-**A dokumentum a kibocsátási folyamat az alkalmazáshoz.** Nélkül részletes kibocsátási folyamat dokumentációja az operátornak előfordulhat, hogy egy rossz frissítés üzembe helyezése vagy az alkalmazás nem megfelelően konfigurálja. Egyértelműen határozza meg és dokumentálja a kibocsátási folyamat, és győződjön meg arról, hogy azt a teljes üzemeltetési csapat rendelkezésére. 
+**A dokumentum a kibocsátási folyamat az alkalmazáshoz.** Nélkül részletes kibocsátási folyamat dokumentációja az operátornak előfordulhat, hogy egy rossz frissítés üzembe helyezése vagy az alkalmazás nem megfelelően konfigurálja. Egyértelműen határozza meg és dokumentálja a kibocsátási folyamat, és győződjön meg arról, hogy azt a teljes üzemeltetési csapat rendelkezésére.
 
-**Az alkalmazás üzembe helyezési folyamat automatizálható.** Ha a munkatársak szükség az alkalmazás manuális telepítése, emberi hiba okozhat az üzembe helyezés sikertelen lesz. 
+**Az alkalmazás üzembe helyezési folyamat automatizálható.** Ha a munkatársak szükség az alkalmazás manuális telepítése, emberi hiba okozhat az üzembe helyezés sikertelen lesz.
 
 **Tervezze meg a kibocsátási folyamat rendelkezésre állásának maximalizálása érdekében.** A kiadási folyamathoz szükséges szolgáltatások üzembe helyezése során offline állapotba, ha az alkalmazás nem lehet ismét online állapotú lesz. Használja a [kék vagy zöld](https://martinfowler.com/bliki/BlueGreenDeployment.html) vagy [canary kiadás](https://martinfowler.com/bliki/CanaryRelease.html) üzembe helyezési módszer alkalmazását az éles környezetben való üzembe helyezéséhez. Az alábbi eljárások mindkettőben éles kódban mellett a kiadás kód üzembe helyezése, így a felhasználók kiadási kód átirányíthatóak éles kódban, hogy hiba esetén.
 
 **Jelentkezzen be, és az alkalmazás-KözpontiTelepítés naplózása.** Ha szakaszos üzembe helyezési technikák, például a kék és zöld vagy a tesztcsoportos kiadások, az alkalmazás az éles környezetben futó egynél több verziója lesz. Probléma történjen, ha fontos meghatározni, hogy az alkalmazás melyik verzióját okozza a problémát. A lehető legtöbb verzióspecifikus adatok rögzítése egy hatékony naplózás stratégia megvalósításához.
 
-**A visszaállítási terven üzembe helyezéshez rendelkeznie.** Akkor lehet, hogy az alkalmazás központi telepítésének sikertelen volt, és miatt az alkalmazás már nem érhető el. Tervezze meg a visszaállítási folyamat lépjen vissza a legutóbbi ismert helyes verzióját, és minimalizálják az állásidőt. 
+**A visszaállítási terven üzembe helyezéshez rendelkeznie.** Akkor lehet, hogy az alkalmazás központi telepítésének sikertelen volt, és miatt az alkalmazás már nem érhető el. Tervezze meg a visszaállítási folyamat lépjen vissza a legutóbbi ismert helyes verzióját, és minimalizálják az állásidőt.
 
 ## <a name="operations"></a>Műveletek
 
@@ -121,7 +122,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Győződjön meg arról, hogy az alkalmazás nem fut be elleni [az Azure-előfizetés korlátaival](/azure/azure-subscription-service-limits/).** Az Azure-előfizetések korlátokkal rendelkeznek az egyes erőforrástípusok, például az erőforráscsoportok száma, a magok számát és a storage-fiókok száma.  Ha az alkalmazás követelményeinek meghaladja az Azure-előfizetés korlátai, hozzon létre egy másik Azure előfizetéssel, és üzembe helyezése elegendő erőforrás létezik.
 
-**Győződjön meg arról, hogy az alkalmazás nem fut be elleni [szolgáltatási korlátok](/azure/azure-subscription-service-limits/).** Egyes Azure-szolgáltatások használati korlátokkal rendelkeznek &mdash; például a storage, a átviteli sebesség, a kapcsolatok, a kérések száma másodpercenként és egyéb mérőszámok száma korlátozza. Az alkalmazás sikertelen lesz, ha megkísérli a erőforrások meghaladják a beállított ezeket a korlátokat. Ez a szolgáltatás sávszélesség-szabályozási és a lehetséges állásidő az érintett felhasználók eredményez. Az adott szolgáltatás és a az alkalmazás követelményeitől függően gyakran elkerülheti ezeket a korlátokat (például egy másik tarifacsomag kiválasztása) vertikális felskálázásával vagy horizontális felskálázását (új erőforráspéldányok hozzáadását jelenti).  
+**Győződjön meg arról, hogy az alkalmazás nem fut be elleni [szolgáltatási korlátok](/azure/azure-subscription-service-limits/).** Egyes Azure-szolgáltatások használati korlátokkal rendelkeznek &mdash; például a storage, a átviteli sebesség, a kapcsolatok, a kérések száma másodpercenként és egyéb mérőszámok száma korlátozza. Az alkalmazás sikertelen lesz, ha megkísérli a erőforrások meghaladják a beállított ezeket a korlátokat. Ez a szolgáltatás sávszélesség-szabályozási és a lehetséges állásidő az érintett felhasználók eredményez. Az adott szolgáltatás és a az alkalmazás követelményeitől függően gyakran elkerülheti ezeket a korlátokat (például egy másik tarifacsomag kiválasztása) vertikális felskálázásával vagy horizontális felskálázását (új erőforráspéldányok hozzáadását jelenti).
 
 **A kiszolgálóalkalmazás tárolási követelményei az Azure storage méretezhetőségi és teljesítménycéljai úgy tervezze meg.** Az Azure storage célja előre meghatározott méretezhetőségi és teljesítménycéljai belül működik, így tervezése az alkalmazás felhasználja az ezen célok belül. Ha ezeken a célokon túllépi az alkalmazás storage szabályozás fog tapasztalni. A probléma megoldásához, további Tárfiókok kiépítése. Ha a Tárfiók korlát együtt futtatja, további Azure-előfizetések kiépítése, majd további Tárfiókok van. További információkért lásd: [Azure Storage méretezhetőségi és Teljesítménycéljai](/azure/storage/storage-scalability-targets/).
 
@@ -129,7 +130,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Állapítsa meg, az alkalmazás adott számítási stabil vagy ingadozó idővel.** Ha a munkaterhelés időbeli ingadozik, használja az Azure Virtuálisgép-méretezési csoportok automatikus méretezése Virtuálisgép-példányok számát. Ellenkező esetben meg kell manuálisan növelheti vagy csökkentheti a virtuális gépek számát. További információkért lásd: a [virtuálisgép-méretezési csoportok – áttekintés](/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-overview/).
 
-**Válassza ki a megfelelő szolgáltatási rétegben az Azure SQL Database.** Ha az alkalmazás az Azure SQL Database, győződjön meg arról, hogy kiválasztotta a megfelelő szolgáltatási rétegben. Ha egy csomagot, amely nem tudja kezelni az alkalmazás adatbázis-tranzakciós egységek (DTU) követelmények választ, az adatok használata szabályozva lesz. A megfelelő service-csomag kiválasztásával további információkért lásd: [SQL Database beállításai és teljesítménye: Mi érhető el az egyes szolgáltatásszinteken](/azure/sql-database/sql-database-service-tiers/).
+**Válassza ki a megfelelő szolgáltatási rétegben az Azure SQL Database.** Ha az alkalmazás az Azure SQL Database, győződjön meg arról, hogy kiválasztotta a megfelelő szolgáltatási rétegben. Ha egy csomagot, amely nem tudja kezelni az alkalmazás adatbázis-tranzakciós egységek (DTU) követelmények választ, az adatok használata szabályozva lesz. A megfelelő service-csomag kiválasztásával további információkért lásd: [SQL Database beállításai és teljesítménye: Az egyes szolgáltatásszinteken elérhető ismertetése](/azure/sql-database/sql-database-service-tiers/).
 
 **Hozzon létre egy Azure-támogatási folytatott interakcióra szolgáló folyamat.** Ha a folyamat részleggel [az Azure-támogatás](https://azure.microsoft.com/support/plans/) van előtt, forduljon az ügyfélszolgálathoz az igények növekedésével – nincs beállítva, állásidő lesz kell hosszan tartó, a támogatási folyamat akkor nyit meg először. A folyamat ügyfélszolgálaton és a problémák továbbítása problémák kezdettől fogva az alkalmazás rugalmasság részeként tartalmazza.
 
@@ -155,7 +156,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Használjon erőforrászárat a kritikus fontosságú erőforrások, például virtuális gépeket.** Erőforrás-zárolások megakadályozza, hogy az operátor véletlenül töröl egy erőforrást. További információkért lásd: [zárolhat erőforrásokat az Azure Resource Managerrel](/azure/azure-resource-manager/resource-group-lock-resources/)
 
-**Válassza ki a regionális párokról.** Ha két régióban is üzembe helyeznek, régiókat azonos regionális párokból érdemes választani. Széles körű leállás esetén minden párból az egyik régió helyreállítása előnyt élvez. Egyes szolgáltatások, például a Georedundáns tárolás adja meg a replikálás automatikus, a párosított régióba. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure párosított régiói](/azure/best-practices-availability-paired-regions)
+**Válassza ki a regionális párokról.** Ha két régióban is üzembe helyeznek, régiókat azonos regionális párokból érdemes választani. Széles körű leállás esetén minden párból az egyik régió helyreállítása előnyt élvez. Egyes szolgáltatások, például a Georedundáns tárolás adja meg a replikálás automatikus, a párosított régióba. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions)
 
 **Erőforráscsoportok függvény és életciklus rendszerezheti.**  Általában egy erőforráscsoport tartalmaznia kell az azonos életciklussal rendelkező erőforrások. Ez megkönnyíti a központi telepítések felügyeletéhez szükséges, a tesztkörnyezetek törlését és a adhatnak hozzáférési jogokat csökkenti annak az esélyét, hogy éles környezet véletlenül törölték vagy módosították. Hozzon létre külön erőforráscsoportok éles környezetben, fejlesztési, és tesztelési környezetek. A több régióból álló üzemelő külön erőforráscsoportok minden olyan régió esetében az erőforrások üzembe. Ez megkönnyíti az ismételt üzembe helyezése több régióban anélkül, hogy befolyásolná a többi régió(k).
 
@@ -163,7 +164,6 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 - [Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz](./resiliency-per-service.md)
 - [Hibaállapot elemzése](../resiliency/failure-mode-analysis.md)
-
 
 <!-- links -->
 [app-service-autoscale]: /azure/monitoring-and-diagnostics/insights-how-to-scale/
@@ -176,7 +176,6 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 [load-balancer]: /azure/load-balancer/load-balancer-overview/
 [monitoring-and-diagnostics-guidance]: ../best-practices/monitoring.md
 [resource-manager]: /azure/azure-resource-manager/resource-group-overview/
-[retry-pattern]: ../patterns/retry.md
 [retry-service-guidance]: ../best-practices/retry-service-specific.md
 [site-recovery]: /azure/site-recovery/
 [site-recovery-test]: /azure/site-recovery/site-recovery-test-failover-to-azure

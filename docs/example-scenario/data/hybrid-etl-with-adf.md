@@ -4,12 +4,12 @@ description: Hibrid ETL meglévő helyszíni SQL Server Integration Services- (S
 author: alhieng
 ms.date: 9/20/2018
 ms.custom: tsp-team
-ms.openlocfilehash: 62a458d19576a12b7e2c86619d39e18f4a0748e7
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: cc6c2bfe85dc0d1eb8ad29e044611f1e435810c3
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004582"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53306789"
 ---
 # <a name="hybrid-etl-with-existing-on-premises-ssis-and-azure-data-factory"></a>Hibrid ETL meglévő helyszíni SSIS-sel és Azure Data Factoryval
 
@@ -30,7 +30,7 @@ Számos lehetséges helyi használati esetek az alábbiak:
 * Egy adatbázis-elemzés hálózati útválasztó naplók betöltése.
 * Foglalkoztatás adatok az emberi erőforrások előkészítése az analitikai jelentés.
 * Termék- és értékesítési adatok betöltése az értékesítési előrejelzésére egy data warehouse-bA.
-* Automatizálás betöltése vagy a tárolók vagy adatok adattárházakkal, amelyeknél a Pénzügy és könyvelés.
+* Automatizálás betöltését, operatív adatok tárolóba vagy adattárházba a Pénzügy és könyvelés.
 
 ## <a name="architecture"></a>Architektúra
 

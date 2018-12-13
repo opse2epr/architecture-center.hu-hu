@@ -1,40 +1,41 @@
 ---
-title: Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára
+title: Biztonságos webes alkalmazások létrehozása az Azure-beli Windows virtuális gépek
 description: Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.
 author: iainfoulds
-ms.date: 07/11/2018
-ms.openlocfilehash: c7137988bd9b5e26718b4fe0955a3dca3dc638b8
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.date: 12/06/2018
+ms.custom: seodec18
+ms.openlocfilehash: 4e4d2117fbc46eda46f7ef276a71739e3a79270e
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610719"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53307061"
 ---
-# <a name="secure-windows-web-application-for-regulated-industries"></a>Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára
+# <a name="building-secure-web-applications-with-windows-virtual-machines-on-azure"></a>Biztonságos webes alkalmazások létrehozása a Windows virtual machines az Azure-ban
 
-Ebben a példaforgatókönyvben kell alkalmazni a szabályozott iparágakban, hogy a többrétegű alkalmazások védelmét. Ebben a forgatókönyvben egy előtérbeli ASP.NET-alkalmazások biztonságos módon csatlakozik egy védett háttérrendszeri Microsoft SQL Server-fürt.
+Ebben a forgatókönyvben a biztonságos és többszintű webalkalmazások a Microsoft Azure-on futó architektúra és kialakítás útmutatást nyújt. Ebben a példában az ASP.NET-alkalmazások biztonságos módon csatlakozik egy védett háttér-Microsoft SQL Server-fürt virtuális gépek használatával.
 
-Példaforgatókönyvek alkalmazás például operációs hely alkalmazások, betegek találkozókat, és gondoskodik a rekordok vagy vényköteles refills fut, és a rendezéshez. Hagyományosan szervezetek kellett karbantartása örökölt helyszíni alkalmazások és szolgáltatások az ilyen feladatokhoz szükséges. Méretezhető megoldás üzembe helyezéséhez a Windows Server az Azure-ban, a szervezetek is alkalmazások modernizálása és biztonságos módon telepítések vannak csökkentheti a helyszíni üzemeltetési költségeket és munkaterhelést.
+Hagyományosan szervezetek kellett karbantartása örökölt helyszíni alkalmazások és szolgáltatások biztonságos infrastruktúrát biztosít. Ezek a Windows Server az alkalmazások biztonságos az Azure-beli üzembe helyezésével, szervezetek korszerűsítheti a telepítések és csökkentheti a helyszíni üzemeltetési költségeket és munkaterhelést.
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
-Egyéb alkalmazási helyzetek a következők:
+Néhány példa, ahol az ebben a forgatókönyvben alkalmazhatja:
 
 * Alkalmazástelepítések alapú modernizálásánál megfelelő választás a következő biztonságos felhőalapú környezetben.
-* Csökkenti a hagyományos helyszíni alkalmazások és szolgáltatások kezelése.
+* Csökkenti a kezelési terhelést örökölt helyszíni alkalmazások és szolgáltatások.
 * Betegek healthcare javítása és a élményük az új alkalmazás-platformokat.
 
 ## <a name="architecture"></a>Architektúra
 
 ![Az Azure-összetevőket Windows Server alkalmazás többrétegű szabályozott iparágakban részt architektúrájának áttekintése][architecture]
 
-Ebben a forgatókönyvben egy ASP.NET- és Microsoft SQL Servert használó többrétegű szabályozott iparágakban alkalmazás ismerteti. A áramlanak keresztül az adatok a forgatókönyv a következő:
+Ebből a forgatókönyvből megtudhatja csatlakozik egy háttér-adatbázishoz, mindkét Windows Server 2016-on futó előtér-webalkalmazást. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
-1. Felhasználók az előtér-ASP.NET szabályozott iparágakban alkalmazás az Azure Application Gateway keresztül férhetnek hozzá.
+1. Felhasználók keresztül az Azure Application Gateway az előtérbeli ASP.NET-alkalmazás elérésére.
 2. Az Application Gateway elosztja a forgalmat egy Azure-beli virtuálisgép-méretezési csoportban lévő Virtuálisgép-példányok között.
-3. Az ASP.NET-alkalmazás csatlakozik a Microsoft SQL Server-fürtöt a háttér-szinten keresztül egy Azure load balancert. A háttér-az SQL Server példányai egy külön Azure virtuális hálózatban, védi a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat.
+3. Az alkalmazás a Microsoft SQL Server-fürtöt a háttér-szinten az Azure load balancer keresztül csatlakozik. A háttér-az SQL Server példányai egy külön Azure virtuális hálózatban, védi a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat.
 4. A terheléselosztó elosztja a forgalmat az SQL Server egy másik virtuálisgép-méretezési csoportban lévő Virtuálisgép-példányok között.
-5. Az Azure Blob Storage a háttér-szintű SQL Server-fürtöt Felhőbeli tanúsító funkcionál. A kapcsolat a virtuális hálózaton belül a virtuális hálózati szolgáltatásvégpontot az Azure Storage engedélyezve van.
+5. Az Azure Blob Storage úgy működik, mint egy [felhőbeli tanúsító] [ cloud-witness] a háttér-szintű SQL Server-fürt számára. A kapcsolat a virtuális hálózaton belül a virtuális hálózati szolgáltatásvégpontot az Azure Storage engedélyezve van.
 
 ### <a name="components"></a>Összetevők
 
@@ -47,7 +48,7 @@ Ebben a forgatókönyvben egy ASP.NET- és Microsoft SQL Servert használó töb
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* * nix windows is könnyen helyettesíthető más operációs rendszerek különböző, az operációs rendszertől függ az infrastruktúra a.
+* A Linux és Windows felcserélhetők óta az infrastruktúra nem függ az operációs rendszer.
 
 * [Az SQL Server for Linux] [ sql-linux] lecserélheti a háttér-tárolót.
 
@@ -61,7 +62,7 @@ Ebben a forgatókönyvben a VM-példányokon rendelkezésre állási zónában �
 
 Az adatbázisszint Always On rendelkezésre állási csoportok használatára konfigurálható. Ez az SQL Server-konfigurációval a fürtön belül több elsődleges adatbázis nyolc másodlagos adatbázisok van konfigurálva. Ha a probléma akkor fordul elő, az elsődleges adatbázissal, a fürt átadja a feladatokat egy másodlagos adatbázis, amely lehetővé teszi az alkalmazás továbbra is elérhetők. További információkért lásd: [áttekintése az Always On rendelkezésre állási csoportokat az SQL Server][sqlalwayson-docs].
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
+Több rendelkezésre állási útmutatóért lásd: a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
 ### <a name="scalability"></a>Méretezhetőség
 
@@ -112,9 +113,9 @@ A méretezési csoport Virtuálisgép-példányain az alkalmazásokat futtató s
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-Ebben a forgatókönyvben egy háttérbeli virtuális gép méretezési csoportot, amely a Microsoft SQL Server-fürt használja. A cosmos DB is használható, méretezhető és biztonságos adatbázis-rétegből az alkalmazásadatok számára. Egy [Azure virtuális hálózati szolgáltatásvégpont] [ vnetendpoint-docs] lehetővé teszi, hogy csak a virtuális hálózatot a kritikus fontosságú Azure-szolgáltatási erőforrások védelmét. Ebben a forgatókönyvben a VNet-végpontok engedélyezése az előtér-alkalmazás szint és a Cosmos DB közötti adatforgalom biztonságossá teheti. További információkért lásd az [Azure Cosmos DB áttekintése][docs-cosmos-db](/azure/cosmos-db/introduction).
+Ebben a forgatókönyvben egy háttérbeli virtuális gép méretezési csoportot, amely a Microsoft SQL Server-fürt használja. A cosmos DB is használható, méretezhető és biztonságos adatbázis-rétegből az alkalmazásadatok számára. Egy [Azure virtuális hálózati szolgáltatásvégpont] [ vnetendpoint-docs] lehetővé teszi, hogy csak a virtuális hálózatot a kritikus fontosságú Azure-szolgáltatási erőforrások védelmét. Ebben a forgatókönyvben a VNet-végpontok engedélyezése az előtér-alkalmazás szint és a Cosmos DB közötti adatforgalom biztonságossá teheti. További információkért lásd: a [Azure Cosmos DB áttekintő](/azure/cosmos-db/introduction).
 
-Megtekintheti a részletes [referenciaarchitektúra általános SQL Server használatával N szintű alkalmazás][ntiersql-ra].
+Részletes megvalósítási útmutatók, tekintse át a [referenciaarchitektúra az SQL Server használatával N szintű alkalmazások][ntiersql-ra].
 
 <!-- links -->
 [appgateway-docs]: /azure/application-gateway/overview
@@ -137,7 +138,7 @@ Megtekintheti a részletes [referenciaarchitektúra általános SQL Server haszn
 [pci-dss]: /azure/security/blueprints/pcidss-iaaswa-overview
 [dmz]: /azure/virtual-network/virtual-networks-dmz-nsg
 [sql-linux]: /sql/linux/sql-server-linux-overview?view=sql-server-linux-2017
-
+[cloud-witness]: /windows-server/failover-clustering/deploy-cloud-witness
 [small-pricing]: https://azure.com/e/711bbfcbbc884ef8aa91cdf0f2caff72
 [medium-pricing]: https://azure.com/e/b622d82d79b34b8398c4bce35477856f
 [large-pricing]: https://azure.com/e/1d99d8b92f90496787abecffa1473a93

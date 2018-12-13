@@ -1,19 +1,20 @@
 ---
 title: Rendelkezésre állási ellenőrzőlisták
+titleSuffix: Azure Design Review Framework
 description: A feladatlista, amely rendelkezésre állási problémák során tervezési útmutatást nyújt.
 author: dragon119
 ms.date: 11/26/2018
 ms.custom: checklist
-ms.openlocfilehash: de1a2ea6d21737dc39f248527f194a1c74209a59
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 37e61b35d73007b9bac1ebaecfbf42792ae3903b
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004688"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53307231"
 ---
 # <a name="availability-checklist"></a>Rendelkezésre állási ellenőrzőlisták
 
-Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és üzemel, és az egyik a [szoftverminőség alappillérei](../guide/pillars.md). Az alábbi ellenőrzőlista használatával tekintse át az alkalmazásarchitektúra egy rendelkezésre állási szempontból. 
+Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és üzemel, és az egyik a [szoftverminőség alappillérei](../guide/pillars.md). Az alábbi ellenőrzőlista használatával tekintse át az alkalmazásarchitektúra egy rendelkezésre állási szempontból.
 
 ## <a name="application-design"></a>Alkalmazás-tervezés
 
@@ -29,7 +30,7 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Szabályosan csökkeni alkalmazások tervezéséről.** Az alkalmazás terhelésének haladhatja meg a kapacitás egy, vagy további alkatrészek, így csökken a rendelkezésre állás és a kapcsolatok meghiúsultak. Méretezés igény kielégítése érdekében ez segíthet, de egy más tényezők, például az erőforrások elérhetőségét és a költségek által megszabott felső határértéket elérheti. Amikor egy alkalmazás eléri egy erőforráskorlátot, hogy minimalizálja a felhasználó a megfelelő műveletet kell vennie. Például egy e-kereskedelmi rendszerben-e a feldolgozási sorrendben alrendszer törzs vagy meghiúsul, akkor ideiglenesen letiltható miközben lehetővé teszi az egyéb funkciókat, például a termékkatalógus tallózása. Érdemes lehet elhalasztani a kérelmeket az sikertelen alrendszer, így például továbbra is a vásárlók nyújthatnak be rendelést, de mentésével későbbi feldolgozás céljából, ha a rendelések alrendszer ismét elérhető.
 
-**Gyors burst események szabályosan kezelésére.** A legtöbb alkalmazás idővel munkaterhelésű kezeléséhez szükséges. Automatikus méretezés segít a terhelés kezeléséhez, de eltarthat egy kis ideig további példányok online állapotba kerül, és a kérelmek kezelésére. Megakadályozza, hogy a tevékenység hirtelen és váratlan adatlöketekkel az alkalmazás túlterhel: tervezzen, használja a szolgáltatások várólista kérelmeket, és a leállás nélküli teljesítménycsökkenés, amikor várólisták, amelyek közel teljes kapacitás. Győződjön meg arról, hogy nincs elegendő teljesítményt és kapacitást kiürítési az üzenetsorokhoz és a szálankénti függőben lévő kérések kezelésére nem burst körülmények között érhető el. További információkért lásd: a [üzenetsor-alapú terheléskiegyenlítési mintát](https://msdn.microsoft.com/library/dn589783.aspx).
+**Gyors burst események szabályosan kezelésére.** A legtöbb alkalmazás idővel munkaterhelésű kezeléséhez szükséges. Automatikus méretezés segít a terhelés kezeléséhez, de eltarthat egy kis ideig további példányok online állapotba kerül, és a kérelmek kezelésére. Megakadályozza, hogy a tevékenység hirtelen és váratlan adatlöketekkel az alkalmazás túlterhel: tervezzen, használja a szolgáltatások várólista kérelmeket, és a leállás nélküli teljesítménycsökkenés, amikor várólisták, amelyek közel teljes kapacitás. Győződjön meg arról, hogy nincs elegendő teljesítményt és kapacitást kiürítési az üzenetsorokhoz és a szálankénti függőben lévő kérések kezelésére nem burst körülmények között érhető el. További információkért lásd: a [terhelés üzenetsor-alapú terheléskiegyenlítési minta](../patterns/queue-based-load-leveling.md).
 
 ## <a name="deployment-and-maintenance"></a>Üzembe helyezése és karbantartása
 
@@ -55,7 +56,7 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Rendszeres biztonsági mentéssel és időponthoz visszaállítással**. Automatikusan és rendszeresen biztonsági másolatokat, amely máshol nem őrződnek meg, és ellenőrizze a megbízhatóan visszaállíthatja az adatokat és a magának az alkalmazásnak kell hiba fordul elő. Győződjön meg arról, hogy a biztonsági mentések felel meg a helyreállítási időkorlátot (RPO). Adatreplikálás nem áll egy biztonsági mentési funkcióval, mivel az emberi hiba vagy rosszindulatú műveleteket is az adatok sérültek minden replika között. Lehet, hogy a biztonsági mentési folyamat biztonságos az úton lévő és a storage-ban tárolt adatok védelméhez. Adatbázisok és a egy adattár részeit általában visszaállíthatja egy korábbi időpontra időben tranzakciós naplók használatával. További információkért lásd: [helyreállítás adatsérülés vagy véletlen törlés](../resiliency/recovery-data-corruption.md)
 
-**Az Azure Site Recovery Virtuálisgép-lemezek replikálásához.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi egy RPO sorrendjében perc. 
+**Az Azure Site Recovery Virtuálisgép-lemezek replikálásához.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi egy RPO sorrendjében perc.
 
 ## <a name="errors-and-failures"></a>Hibák és hibák
 
@@ -63,7 +64,7 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Az átmeneti hibák által okozott sikertelen műveletek újrapróbálása.** Tervezze meg a hozzáféréshez minden szolgáltatásokhoz és erőforrásokhoz, ha nem eleve támogatják automatikus kapcsolat újrapróbálkozási újrapróbálkozási stratégiát. Használja a stratégia, amely tartalmaz egy növekvő késleltetés számának hibák növeli, hogy az erőforrás terhelve és, hogy szabályosan helyreállítani, és várólistára került kérelmeket kezeli az újrapróbálkozások között. A nagyon rövid késések folyamatos újrapróbálkozások valószínűleg elmérgesítik azokat a problémát. További információkért tekintse meg [az adott szolgáltatásokra vonatkozó újrapróbálkozási útmutatást](../best-practices/retry-service-specific.md).
 
-**Áramköri, ezáltal pedig kaszkádolt meghibásodásokhoz elkerülése érdekében hajtja végre.** Előfordulhat, hogy olyan helyzetekben, amelyben átmeneti vagy más hibák, és a egy szolgáltatást, a teljes hiba súlyossága a részleges kapcsolódási vártnál sokkal normál való visszatéréshez. , ha egy szolgáltatás nagyon elfoglalt, a rendszer egy része sikertelen lehet, hogy hiba egész hibasorozatot indíthat, és váljon kritikus rendszererőforrásokat akadályozhatnak, mint például a memória, szálak, az alakzatot tartásával blokkolva sok művelet eredményez és adatbázis-kapcsolatok. Ahelyett, hogy nem valószínű, hogy sikeres művelet újrapróbálása folyamatosan, az alkalmazás kell gyorsan fogad el, hogy a művelet sikertelen volt, és ez a hiba kezelésére. Az áramkör-megszakító minta használatával meghatározott ideig adott műveletek esetében kérelmek elutasítása. További információkért lásd: [áramkör-megszakító minta](../patterns/circuit-breaker.md).
+**Áramköri, ezáltal pedig kaszkádolt meghibásodásokhoz elkerülése érdekében hajtja végre.** Előfordulhat, hogy olyan helyzetekben, amelyben átmeneti vagy más hibák, és a egy szolgáltatást, a teljes hiba súlyossága a részleges kapcsolódási vártnál sokkal normál való visszatéréshez. , ha egy szolgáltatás nagyon elfoglalt, a rendszer egy része sikertelen lehet, hogy hiba egész hibasorozatot indíthat, és váljon kritikus rendszererőforrásokat akadályozhatnak, mint például a memória, szálak, az alakzatot tartásával blokkolva sok művelet eredményez és adatbázis-kapcsolatok. Ahelyett, hogy nem valószínű, hogy sikeres művelet újrapróbálása folyamatosan, az alkalmazás kell gyorsan fogad el, hogy a művelet sikertelen volt, és ez a hiba kezelésére. Az áramkör-megszakító minta használatával meghatározott ideig adott műveletek esetében kérelmek elutasítása. További információkért lásd: a [áramkör-megszakító minta](../patterns/circuit-breaker.md).
 
 **Compose, vagy több összetevő térhet vissza.** Tervezhet alkalmazásokat érintő művelet és a meglévő kapcsolatok nélkül több példány üzemeltetéséhez, ahol csak lehetséges. Több példány üzemeltetéséhez kérelmek közöttük, terjesztése és felismeri és elkerülheti a kérések küldését sikertelen példányok, annak érdekében, hogy a rendelkezésre állás maximalizálása érdekében.
 
@@ -79,7 +80,7 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 
 **Tesztelje a monitorozási rendszerek.** Az Automatikus feladatátvétel és a tartalék rendszerek, és manuális képi megjelenítés, a rendszer állapotának és teljesítményének irányítópultok használatával, az összes függő monitorozási és rendszerállapot megfelelően működik-e. Ha ezek az elemek meghibásodik, a kritikus információk tévesztés, vagy pontatlan adatokat, az operátornak előfordulhat, hogy nem valósíthat meg, hogy a rendszer sérült vagy meghibásodott.
 
-**Hosszan futó munkafolyamatok az előrehaladását úgy követheti nyomon, és ismételje meg a hiba esetén.** Hosszan futó munkafolyamatok gyakran több lépésből állnak. Győződjön meg arról, hogy az egyes lépések egymástól független, és annak esélyét, hogy a teljes munkafolyamatot állítható vissza kell minimalizálása érdekében újból próbálkozhat, vagy, hogy több kompenzáló tranzakciók kell végrehajtani. Figyelheti és kezelheti a hosszan futó munkafolyamatok előrehaladását egy minta megvalósításával [Feladatütemező ügynök felügyeleti mintáját](../patterns/scheduler-agent-supervisor.md).
+**Hosszan futó munkafolyamatok az előrehaladását úgy követheti nyomon, és ismételje meg a hiba esetén.** Hosszan futó munkafolyamatok gyakran több lépésből állnak. Győződjön meg arról, hogy az egyes lépések egymástól független, és annak esélyét, hogy a teljes munkafolyamatot állítható vissza kell minimalizálása érdekében újból próbálkozhat, vagy, hogy több kompenzáló tranzakciók kell végrehajtani. Figyelheti és kezelheti a hosszan futó munkafolyamatok előrehaladását egy minta megvalósításával [Feladatütemező ügynök felügyeleti mintájának](../patterns/scheduler-agent-supervisor.md).
 
 **Vész-helyreállítási terv.** Hozzon létre egy elfogadott, teljes körűen tesztelve bármilyen rendszer rendelkezésre állását esetlegesen befolyásoló hiba helyreállítási tervet. Válassza ki a többhelyes vészhelyreállítás recovery architektúrájáról alapvető fontosságú alkalmazásokhoz. A konkrét tulajdonost, a vész-helyreállítási terv, beleértve az automatizálási és tesztelési azonosításához. Győződjön meg arról a csomag létezik jól dokumentált, és automatizálhatják a lehető legnagyobb mértékben. Hozzon létre egy biztonsági mentési stratégia az összes hivatkozást és a tranzakciós adatok, és rendszeresen Tesztelje ezeket a biztonsági másolatokat a helyreállítását. A terv, és hajtsa végre a rendszeres vészhelyreállítási szimulációk miként ellenőrzi és javítja a terv létszámmal betanításához. Ha használ [Azure Site Recovery] [ site-recovery] virtuális gépek replikálása egy teljesen automatizált helyreállítási terv feladatátvételi percek alatt a teljes alkalmazás létrehozása.
 
@@ -87,4 +88,3 @@ Rendelkezésre állás az időarány, amíg, ameddig a rendszer működik és ü
 [availability-sets]:/azure/virtual-machines/virtual-machines-windows-manage-availability/
 [site-recovery]: /azure/site-recovery/
 [site-recovery-test]: /azure/site-recovery/site-recovery-test-failover-to-azure
-

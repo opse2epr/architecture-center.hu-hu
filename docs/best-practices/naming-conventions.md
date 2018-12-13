@@ -1,42 +1,42 @@
 ---
 title: Az Azure-erőforrások elnevezési konvenciói
-description: Az Azure-erőforrások elnevezési konvenciói. A virtuális gépek, tárfiókok, hálózatok, virtuális hálózatok, alhálózatok és egyéb Azure-entitások elnevezése
+titleSuffix: Best practices for cloud applications
+description: Virtuális gépek, tárfiókok, hálózatok, virtuális hálózatok, alhálózatok és egyéb Azure-entitások elnevezése javaslatok.
 author: telmosampaio
 ms.date: 10/19/2018
-pnp.series.title: Best Practices
-ms.openlocfilehash: 891fa774442ab7ec8f65eb7d8c405fa533db4760
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seodec18
+ms.openlocfilehash: 4f934102acea24e8e1070ed6a25d63927f0bd252
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916532"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53307078"
 ---
-# <a name="naming-conventions"></a>Elnevezési konvenciók
+# <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
-[!INCLUDE [header](../_includes/header.md)]
-
-Ez a cikk az Azure-erőforrások elnevezési szabályainak és korlátozásainak összegzését, valamint az elnevezési konvenciókkal kapcsolatos alapvető javaslatokat tartalmazza.  Ezeket a javaslatokat kiindulópontként használhatja saját, egyéni igényeire szabott konvencióinak létrehozásához.
+Ez a cikk az Azure-erőforrások elnevezési szabályainak és korlátozásainak összegzését, valamint az elnevezési konvenciókkal kapcsolatos alapvető javaslatokat tartalmazza. Ezeket a javaslatokat kiindulópontként használhatja saját, egyéni igényeire szabott konvencióinak létrehozásához.
 
 A Microsoft Azure-erőforrások nevének megválasztása a következő okokból fontos:
 
-* Az utólagos névváltoztatás körülményes.
-* A neveknek meg kell felelniük az adott erőforrástípusra vonatkozó követelményeknek.
+- Az utólagos névváltoztatás körülményes.
+- A neveknek meg kell felelniük az adott erőforrástípusra vonatkozó követelményeknek.
 
 Egységes elnevezési konvenciók használata esetén az erőforrások könnyebben megtalálhatók. Emellett azt is jelezheti, hogy az adott erőforrás milyen szerepkört tölt be a megoldáson belül.
 
 A jól működő elnevezési konvenciók titka, hogy minden alkalmazásra és az egész vállalatra egységesen vonatkozzanak.
 
 ## <a name="naming-subscriptions"></a>Előfizetések elnevezése
-Az Azure-előfizetések elnevezésekor részletes nevek használatával egyértelműen jelezhető az egyes előfizetések kontextusa és célja.  Sok előfizetést tartalmazó környezetekben az egységes elnevezési konvenciók segítik a tájékozódást.
+
+Az Azure-előfizetések elnevezésekor részletes nevek használatával egyértelműen jelezhető az egyes előfizetések kontextusa és célja. Sok előfizetést tartalmazó környezetekben az egységes elnevezési konvenciók segítik a tájékozódást.
 
 Az előfizetések elnevezésének ajánlott mintája a következő:
 
 `<Company> <Department (optional)> <Product Line (optional)> <Environment>`
 
-* A vállalat általában minden előfizetés esetén azonos. Egyes vállalatok szervezeti felépítésében azonban leányvállalatok is szerepelhetnek. Ezeket a vállalatokat egy központi informatikai csoport felügyelheti. Ilyen esetekben a vállalatok elkülöníthetők az anyavállalat (*Contoso*) és a leányvállalat (*Northwind*) nevének használatával.
-* Szervezeti egység nevét, amely tartalmazza a felhasználók csoport a szervezeten belül. Ez a névtérben nem kötelező.
-* A termékvonal egy termék vagy szolgáltatás neve, amelyet a részlegen belül hoznak létre vagy szolgáltatnak. Ez belső szolgáltatások és alkalmazások esetén általában nem kötelező. Határozottan javasolt azonban a használata olyan nyilvános szolgáltatások esetén, ahol egyszerű elkülöníthetőségre és azonosításra van szükség (például a számlázási rekordok könnyű elkülöníthetőségére).
-* A környezet (pl. fejlesztési, minőségbiztosítási vagy éles környezet) az alkalmazások vagy szolgáltatások üzembehelyezési életciklusára utal.
+- A vállalat általában minden előfizetés esetén azonos. Egyes vállalatok szervezeti felépítésében azonban leányvállalatok is szerepelhetnek. Ezeket a vállalatokat egy központi informatikai csoport felügyelheti. Ilyen esetekben a vállalatok elkülöníthetők az anyavállalat (*Contoso*) és a leányvállalat (*Northwind*) nevének használatával.
+- Szervezeti egység nevét, amely tartalmazza a felhasználók csoport a szervezeten belül. Ez a névtérben nem kötelező.
+- A termékvonal egy termék vagy szolgáltatás neve, amelyet a részlegen belül hoznak létre vagy szolgáltatnak. Ez belső szolgáltatások és alkalmazások esetén általában nem kötelező. Határozottan javasolt azonban a használata olyan nyilvános szolgáltatások esetén, ahol egyszerű elkülöníthetőségre és azonosításra van szükség (például a számlázási rekordok könnyű elkülöníthetőségére).
+- A környezet (pl. fejlesztési, minőségbiztosítási vagy éles környezet) az alkalmazások vagy szolgáltatások üzembehelyezési életciklusára utal.
 
 | Vállalat | Részleg | Termékvonal vagy szolgáltatás | Környezet | Teljes név |
 | --- | --- | --- | --- | --- |
@@ -45,16 +45,16 @@ Az előfizetések elnevezésének ajánlott mintája a következő:
 | Contoso |IT |InternalApps |Production |Contoso IT InternalApps Production |
 | Contoso |IT |InternalApps |Dev |Contoso IT InternalApps Dev |
 
-A nagyobb vállalatok előfizetéseinek további információkért lásd: [Azure enterprise scaffold - előíró előfizetés-irányítás][scaffold].
+A nagyobb vállalatok előfizetéseinek további információkért lásd: [Azure enterprise scaffold - előíró előfizetés-irányítás](/azure/architecture/cloud-adoption/appendix/azure-scaffold).
 
 ## <a name="use-affixes-to-avoid-ambiguity"></a>Elő- és utótagok használata a félreérthetőség elkerülése érdekében
 
-Az Azure-erőforrások elnevezésekor közös előtagok vagy utótagok használata javasolt az erőforrás típusának és kontextusának azonosításához.  A típusra, a metaadatokra és a kontextusra vonatkozó információk programozott módon elérhetők, de a közös elő- és utótagok használatával egyszerűsíthető a vizuális azonosítás.  Ha elő- és utótagokat is beépít az elnevezési konvenciókba, fontos egyértelműen megadni, hogy az adott toldalék a szó elejére (előtag) vagy a szó végére (utótag) kerül-e.
+Az Azure-erőforrások elnevezésekor közös előtagok vagy utótagok használata javasolt az erőforrás típusának és kontextusának azonosításához. A típusra, a metaadatokra és a kontextusra vonatkozó információk programozott módon elérhetők, de a közös elő- és utótagok használatával egyszerűsíthető a vizuális azonosítás. Ha elő- és utótagokat is beépít az elnevezési konvenciókba, fontos egyértelműen megadni, hogy az adott toldalék a szó elejére (előtag) vagy a szó végére (utótag) kerül-e.
 
 Vegyük példaként egy számítási motort futtató szolgáltatás két lehetséges nevét:
 
-* SvcCalculationEngine (előtag)
-* CalculationEngineSvc (utótag)
+- SvcCalculationEngine (előtag)
+- CalculationEngineSvc (utótag)
 
 Az elő- és utótagok az adott erőforrások különböző aspektusaira utalhatnak. Az alábbi táblázat néhány általános példát mutat be.
 
@@ -70,7 +70,7 @@ Ha vállalata vagy projektjei számára egy adott elnevezési konvenciót fejles
 
 ## <a name="naming-rules-and-restrictions"></a>Elnevezési szabályok és korlátozások
 
-Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyos elnevezési korlátokat, és meghatározza a hatókört. Az elnevezési konvencióknak vagy mintáknak meg kell felelniük az adott elnevezési szabályoknak és a hatókörnek.  Például egy virtuális gép neve leképezhető DNS-névvé (ezáltal az egész Azure-ban egyedinek kell lennie), de egy VNET nevének hatóköre csak arra az erőforráscsoportra terjed ki, amelyen belül létrehozták.
+Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyos elnevezési korlátokat, és meghatározza a hatókört. Az elnevezési konvencióknak vagy mintáknak meg kell felelniük az adott elnevezési szabályoknak és a hatókörnek. Például egy virtuális gép neve leképezhető DNS-névvé (ezáltal az egész Azure-ban egyedinek kell lennie), de egy VNET nevének hatóköre csak arra az erőforráscsoportra terjed ki, amelyen belül létrehozták.
 
 Általában nem ajánlott a speciális karakterek (`-` vagy `_`) használata a nevek első és utolsó karaktereként. Ezek a karakterek a legtöbb érvényesítési szabállyal ütköznek.
 
@@ -78,7 +78,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket, amelyek megfelelnek a következő reguláris kifejezésre dokumentált [Itt](/rest/api/resources/resourcegroups/createorupdate).  |`<service short name>-<environment>-rg` |`profx-prod-rg` |
+|Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket, amelyek megfelelnek a következő reguláris kifejezésre dokumentált [Itt](/rest/api/resources/resourcegroups/createorupdate). |`<service short name>-<environment>-rg` |`profx-prod-rg` |
 |Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek |`"key" : "value"` |`"department" : "Central IT"` |
 
@@ -126,10 +126,9 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 | --- | --- | --- | --- | --- | --- | --- |
 |Container Registry | Globális |5 – 50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karakterek |`<service short name>registry` |`app1registry` |
 
-
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 
-Az Azure Resource Manager támogatja a tetszőleges szöveges sztringek használatát az entitások címkézésekor a környezet azonosítása és az automatizálás megkönnyítése érdekében.  Ha például a címke `"sqlVersion"="sql2014ee"` azonosíthatóak a virtuális gépeken futó SQL Server 2014 Enterprise Edition. A címkék a választott elnevezési konvenciókkal együtt kiegészíthetik és pontosíthatják a környezeti információkat.
+Az Azure Resource Manager támogatja a tetszőleges szöveges sztringek használatát az entitások címkézésekor a környezet azonosítása és az automatizálás megkönnyítése érdekében. Ha például a címke `"sqlVersion"="sql2014ee"` azonosíthatóak a virtuális gépeken futó SQL Server 2014 Enterprise Edition. A címkék a választott elnevezési konvenciókkal együtt kiegészíthetik és pontosíthatják a környezeti információkat.
 
 > [!TIP]
 > A címkék használatának másik előnye, hogy több erőforráscsoportra is érvényesek, ezáltal lehetővé teszik az eltérő környezetekben lévő entitások összekötését.
@@ -140,12 +139,12 @@ Az erőforrások címkézéséről [Az Azure-erőforrások címkék használatá
 
 A címkéket például a következő esetekben szokták gyakran használni:
 
-* **Számlázás** – Erőforrások csoportosítása és társítása számlázási vagy költséghelyi elszámolási kódokkal.
-* **Szolgáltatás környezetének azonosítása** – Több erőforráscsoportban található erőforrások csoportjainak azonosítása gyakori műveletekhez és csoportosításhoz.
-* **Hozzáférés-vezérlési és biztonsági környezet** – Rendszergazdai szerepkör azonosítása portfólió, rendszer, szolgáltatás, alkalmazás, példány stb. alapján.
+- **Számlázási**. Erőforrások csoportosítása és társítása számlázási vagy költséghelyi biztonsági kódokat.
+- **Szolgáltatás környezetének azonosítása**. Több erőforráscsoportban található erőforrások csoportjainak azonosítása gyakori műveletekhez és csoportosítás.
+- **Hozzáférés-vezérlési és biztonsági környezet**. Rendszergazdai szerepkör azonosítása portfólió, rendszer, szolgáltatás, alkalmazás, példány stb alapján.
 
 > [!TIP]
-> Használjon minél több címkét.  Jobb, ha elsőként egy alapszintű címkézési sémát használ, amelyet később az igényeihez igazíthat, mintha az egészet utólag kell elvégeznie.
+> Címke korai, címkét. Jobb, ha elsőként egy alapszintű címkézési sémát használ, amelyet később az igényeihez igazíthat, mintha az egészet utólag kell elvégeznie.
 
 Néhány gyakori címkézési módszer bemutatása példákkal:
 
@@ -169,12 +168,12 @@ Különösen nagyobb topológiák esetén a virtuális gépek jól átgondolt el
 
 ### <a name="storage-accounts-and-storage-entities"></a>Tárfiókok és tárolóentitások
 
-A tárfiókokra két elsődleges használati eset vonatkozik: virtuális gépek lemezeinek biztonsági mentése, valamint adatok tárolása blobokban, üzenetsorokban és táblákban.  A virtuális gépek lemezeihez használt tárfiókoknak követniük kell azt az elnevezési konvenciót, amely a szülő virtuális géphez társítja őket (és mivel a csúcskategóriás virtuális gépek termékváltozataihoz több tárfiókra is szükség lehet, használjon numerikus utótagot).
+Nincsenek tárfiókok két elsődleges használati eset: a virtuális gépek lemezeinek biztonsági mentése, valamint adatok tárolása a blobokhoz, üzenetsorokhoz és táblákhoz. A virtuális gépek lemezeihez használt tárfiókoknak követniük kell azt az elnevezési konvenciót, amely a szülő virtuális géphez társítja őket (és mivel a csúcskategóriás virtuális gépek termékváltozataihoz több tárfiókra is szükség lehet, használjon numerikus utótagot).
 
 > [!TIP]
 > A tárfiókoknak (akár adatokat, akár lemezeket tárolnak) olyan elnevezési konvenciót kell követniük, amely lehetővé teszi több tárfiók használatát (vagyis mindig numerikus utótagot kell használniuk).
 
-Konfigurálhat például egy egyedi tartománynevet az Azure Storage-fiókjában tárolt blobadatokhoz való hozzáféréshez. A blobszolgáltatás alapértelmezett végpontja https://\<neve\>. blob.core.windows.net.
+Konfigurálhat például egy egyedi tartománynevet az Azure Storage-fiókjában tárolt blobadatokhoz való hozzáféréshez. A blobszolgáltatás alapértelmezett végpontja van `https://<name>.blob.core.windows.net`.
 
 Ha azonban egyéni tartományt (például www.contoso.com) rendel hozzá a tárfiók blobvégpontjához, akkor a tárfiókban lévő blobadatokat az említett tartomány használatával is elérheti. Egyéni tartománynév használatával például a `https://mystorage.blob.core.windows.net/mycontainer/myblob` a `https://www.contoso.com/mycontainer/myblob` címen is elérhető.
 
@@ -182,17 +181,14 @@ A szolgáltatás konfigurálásáról az [egyéni tartományév Blob Storage-vé
 
 A blobok, tárolók és táblák elnevezéséről a következő listában talál további információt:
 
-* [Tárolók, blobok és metaadatok elnevezése és hivatkozása](https://msdn.microsoft.com/library/dd135715.aspx)
-* [Üzenetsorok és metaadatok elnevezése](https://msdn.microsoft.com/library/dd179349.aspx)
-* [Táblák elnevezése](https://msdn.microsoft.com/library/azure/dd179338.aspx)
+- [Tárolók, blobok és metaadatok elnevezése és hivatkozása](https://msdn.microsoft.com/library/dd135715.aspx)
+- [Üzenetsorok és metaadatok elnevezése](https://msdn.microsoft.com/library/dd179349.aspx)
+- [Táblák elnevezése](https://msdn.microsoft.com/library/azure/dd179338.aspx)
 
-A blobnév bármilyen karakterkombinációt tartalmazhat, de a foglalt URL-karaktereket escape-karakterrel kell jelölni. Ne használjon olyan blobneveket, amelyek ponttal (.), perjellel (/) vagy a kettő sorozatával/kombinációjával végződnek. A perjel egyezményesen a **virtuális** könyvtárak elválasztására szolgál. Ne használjon fordított perjelet (\\) a blob nevében. Lehetséges, hogy az ügyfél API-k engedélyezik a használatát, a kivonatolás azonban sikertelen lehet, az aláírások pedig nem fognak egyezni.
+A blobnév bármilyen karakterkombinációt tartalmazhat, de a foglalt URL-karaktereket escape-karakterrel kell jelölni. Ne használjon olyan blobneveket, amelyek ponttal (.), perjellel (/) vagy a kettő sorozatával/kombinációjával végződnek. A perjel egyezményesen a *virtuális* könyvtárak elválasztására szolgál. Ne használjon fordított perjelet (\\) a blob nevében. Lehetséges, hogy az ügyfél API-k engedélyezik a használatát, a kivonatolás azonban sikertelen lehet, az aláírások pedig nem fognak egyezni.
 
 A tárfiókok és a tárolók neve a létrehozásuk után nem módosítható. Ha új nevet kíván használni, törölnie kell, majd újra létre kell hoznia az adott elemet.
 
 > [!TIP]
 > Javasoljuk, hogy mielőtt belevágna az új szolgáltatás vagy alkalmazás fejlesztésébe, alakítson ki egy minden tárfiókra és típusra vonatkozó elnevezési konvenciót.
 
-<!-- links -->
-
-[scaffold]: /azure/architecture/cloud-adoption/appendix/azure-scaffold

@@ -1,15 +1,16 @@
 ---
 title: Rugalmasságra vonatkozó ellenőrzőlista az Azure-szolgáltatásokhoz
+titleSuffix: Azure Design Review Framework
 description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgáltatásokat biztosító ellenőrzőlista.
 author: petertaylor9999
 ms.date: 11/26/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 08f31723be5efdcd79f8e6b1ab86d7cbd92c79a2
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 55f17d3b24af4be4f313c66923f4153296041545
+ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004993"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53307180"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -19,15 +20,15 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Használjon Standard vagy prémium csomagra.** Ezek a csomagok támogatja az átmeneti tárhelyek és automatikus biztonsági mentéseket. További információkért lásd: [Azure App Service díjcsomagjainak részletes áttekintése](/azure/app-service/azure-web-sites-web-hosting-plans-in-depth-overview/)
 
-**Kerülje a felfelé és lefelé skálázást.** Ehelyett válasszon egy olyan szintet és a példányméret, amelyek megfelelnek a teljesítményigényeinek tipikus terhelés mellett, majd [horizontális felskálázása](/azure/app-service-web/web-sites-scale/) a példányokat a megváltozott forgalommennyiség adatforgalma. Skálázás felfelé és lefelé indíthat újra kell indítani az alkalmazást.  
+**Kerülje a felfelé és lefelé skálázást.** Ehelyett válasszon egy olyan szintet és a példányméret, amelyek megfelelnek a teljesítményigényeinek tipikus terhelés mellett, majd [horizontális felskálázása](/azure/app-service-web/web-sites-scale/) a példányokat a megváltozott forgalommennyiség adatforgalma. Skálázás felfelé és lefelé indíthat újra kell indítani az alkalmazást.
 
 **Konfigurációs Store alkalmazásbeállításokként.** Alkalmazásbeállítások használata, amely a konfigurációs beállítások alkalmazásbeállításokként tárolja. Adja meg a beállításokat a Resource Manager-sablonokat, vagy a PowerShell-lel, így alkalmazza őket egy automatikus központi telepítésének részeként, / folyamat, amely több frissítése. További információkért lásd: [webalkalmazások konfigurálása az Azure App Service](/azure/app-service-web/web-sites-configure/).
 
-**Hozzon létre külön App Service-csomagok az üzemi és tesztkörnyezetben.** Ne használjon tárhelyek az éles környezet teszteléséhez.  Az azonos App Service-csomagban található alkalmazások megosztása a VM-példányokon. Ha termelési és tesztelési célú telepítések ugyanabban a csomagban helyezi, az éles üzembe helyezés negatív hatással lehet. Ha például terheléstesztek csökkentheti az éles helyet. Egy külön tervbe tesztkörnyezetek helyezésével, elkülönítse azokat a változatát tartalmazza.  
+**Hozzon létre külön App Service-csomagok az üzemi és tesztkörnyezetben.** Ne használjon tárhelyek az éles környezet teszteléséhez.  Az azonos App Service-csomagban található alkalmazások megosztása a VM-példányokon. Ha termelési és tesztelési célú telepítések ugyanabban a csomagban helyezi, az éles üzembe helyezés negatív hatással lehet. Ha például terheléstesztek csökkentheti az éles helyet. Egy külön tervbe tesztkörnyezetek helyezésével, elkülönítse azokat a változatát tartalmazza.
 
 **A web API-k külön web Apps-alkalmazások.** Ha a megoldás is egy webes előtérrendszert és egy webes API-t, érdemes decomposing őket külön App Service-alkalmazásokba. Ez a kialakítás megkönnyíti a megoldás felbontás számítási feladat alapján. Futtathatja a web app és az API-t külön App Service-csomagok, így ezek egymástól függetlenül skálázhatók. Ha nincs szükség ilyen szintű méretezhetőségre, először telepítheti az alkalmazások ugyanabba a csomagba, és helyezze át őket szét később, ha szükséges.
 
-**Kerülje az App Service biztonsági mentési szolgáltatás Azure SQL-adatbázisok biztonsági mentését.** Ehelyett használjon [SQL-adatbázis automatikus biztonsági mentések][sql-backup]. Az App Service biztonsági mentési exportálja az adatbázist egy SQL .bacpac fájlt, amely költségek a dtu-k.  
+**Kerülje az App Service biztonsági mentési szolgáltatás Azure SQL-adatbázisok biztonsági mentését.** Ehelyett használjon [SQL-adatbázis automatikus biztonsági mentések][sql-backup]. Az App Service biztonsági mentési exportálja az adatbázist egy SQL .bacpac fájlt, amely költségek a dtu-k.
 
 **Az előkészítési pont telepítése.** Az átmeneti üzembe helyezési tárhely létrehozása. Alkalmazás-frissítéseket telepítheti az előkészítési ponton, és a telepítés előtt sikeressége az éles környezetbe. Ez csökkenti az esélyét, hogy egy rossz frissítés éles környezetben. Emellett biztosítja, hogy a összes példányát, mielőtt éles környezetben a felcserélés folyamatban vannak bemelegíteni. Számos alkalmazás jelentős melegítési és hidegindítási idő van. További információkért lásd: [állítsa be átmeneti környezeteket az Azure App Service web apps](/azure/app-service-web/web-sites-staged-publishing/).
 
@@ -57,7 +58,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Kivételek kezelésére.** . Egy eseményközpontból, eseményfelhasználó általában ismétlődő üzenetek kötegelt dolgozza fel. Kezelje a kivételeket, ha egy adott üzenet miatt a kivétel teljes üzenetköteget az adatvesztés elkerülése érdekében a feldolgozási ciklus belül.
 
-**Használja a kézbesítetlen levelek várólistájára vonatkozik.** Egy üzenet feldolgozása eredményeként nem átmeneti hibát, ha helyezze az üzenet a kézbesítetlen levelek várólistája alakzatot, így nyomon követheti az állapotát. A forgatókönyvtől függően előfordulhat, hogy egy másik műveletet, a alkalmazni a kompenzáló tranzakció vagy próbálkozzon újra később az üzenet el. Vegye figyelembe, hogy az Event Hubs nem rendelkezik olyan beépített kézbesítetlen levelek várólistájára funkciót. Azure Queue Storage vagy a Service Bus használatával végrehajtja a kézbesítetlen levelek várólistájára vonatkozik, vagy használja az Azure Functions vagy valamilyen más eseménykezelési mechanizmus.  
+**Használja a kézbesítetlen levelek várólistájára vonatkozik.** Egy üzenet feldolgozása eredményeként nem átmeneti hibát, ha helyezze az üzenet a kézbesítetlen levelek várólistája alakzatot, így nyomon követheti az állapotát. A forgatókönyvtől függően előfordulhat, hogy egy másik műveletet, a alkalmazni a kompenzáló tranzakció vagy próbálkozzon újra később az üzenet el. Vegye figyelembe, hogy az Event Hubs nem rendelkezik olyan beépített kézbesítetlen levelek várólistájára funkciót. Azure Queue Storage vagy a Service Bus használatával végrehajtja a kézbesítetlen levelek várólistájára vonatkozik, vagy használja az Azure Functions vagy valamilyen más eseménykezelési mechanizmus.
 
 **Vész-helyreállítási a másodlagos Event Hubs-névtér-ba irányuló feladatátvétel végrehajtására.** További információkért lásd: [Azure Event Hubs Geo-disaster recovery](/azure/event-hubs/event-hubs-geo-dr).
 
@@ -67,7 +68,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Adatmegőrzés konfigurálása.** A redis megőrzési funkciója segítségével megőrizheti a Redis-ban tárolt adatokkal. Pillanatfelvételt és biztonsági mentése az adatok betölthetők egy hardverhiba. További információkért lásd: [prémium szintű Azure Redis Cache-gyorsítótárhoz adatmegőrzés konfigurálása](/azure/redis-cache/cache-how-to-premium-persistence)
 
-Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként használ, ezek a javaslatok nem alkalmazható. 
+Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként használ, ezek a javaslatok nem alkalmazható.
 
 ## <a name="search"></a>Keresés
 
@@ -75,8 +76,9 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Konfigurálhatja az indexelőket többrégiós üzemelő példányokhoz.** Ha több régióból álló üzemelő, fontolja meg a beállításokat az indexelő folytonosságának.
 
-  * Ha az adatforrás georeplikált, általában kell mutatnia minden indexelő minden regionális Azure Search szolgáltatás a helyi adatok forrásreplikára. Ezt a megközelítést az Azure SQL Database-ben tárolt nagyméretű adathalmazok azonban nem ajánlott. A hiba oka, hogy az Azure Search nem hajtható végre a másodlagos SQL-adatbázis-replikákat, csak az elsődleges replika indexelő növekményes. Ehelyett minden indexelő mutasson az elsődleges replika. A feladatátvétel után az új elsődleges replika az Azure Search-indexelők mutassanak.  
-  * Ha az adatforrás nem áll, georeplikált, pont, ugyanazt az adatforrást több indexelő, hogy több régióban az Azure Search-szolgáltatás folyamatosan és egymástól függetlenül index az adatforrásból. További információkért lásd: [Azure Search-teljesítmény és optimalizálás szempontok][search-optimization].
+- Ha az adatforrás georeplikált, általában kell mutatnia minden indexelő minden regionális Azure Search szolgáltatás a helyi adatok forrásreplikára. Ezt a megközelítést az Azure SQL Database-ben tárolt nagyméretű adathalmazok azonban nem ajánlott. A hiba oka, hogy az Azure Search nem hajtható végre a másodlagos SQL-adatbázis-replikákat, csak az elsődleges replika indexelő növekményes. Ehelyett minden indexelő mutasson az elsődleges replika. A feladatátvétel után az új elsődleges replika az Azure Search-indexelők mutassanak.
+
+- Ha az adatforrás nem áll, georeplikált, pont, ugyanazt az adatforrást több indexelő, hogy több régióban az Azure Search-szolgáltatás folyamatosan és egymástól függetlenül index az adatforrásból. További információkért lásd: [Azure Search-teljesítmény és optimalizálás szempontok][search-optimization].
 
 ## <a name="service-bus"></a>Service Bus
 
@@ -92,14 +94,13 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Használja a Geo-Disaster Recovery**. GEO-vészhelyreállítás biztosítja, hogy adatfeldolgozási továbbra is megfelelően működjenek, eltérő régióban vagy datacenter, ha egy teljes Azure-régiót vagy datacenter katasztrófa miatt elérhetetlenné válik. További információkért lásd: [Azure Service Bus Geo-disaster recovery](/azure/service-bus-messaging/service-bus-geo-dr).
 
-
 ## <a name="storage"></a>Storage
 
 **Az alkalmazásadatok esetében használja az írásvédett georedundáns tárolás (RA-GRS).** RA-GRS tároló egy másodlagos régióba replikálja az adatokat, és a másodlagos régióból a csak olvasási hozzáférést biztosít. Ha a társzolgáltatás kimaradása az elsődleges régióban, az alkalmazás olvashatja az adatokat a másodlagos régióból. További információkért lásd: [Azure Storage replikáció](/azure/storage/storage-redundancy/).
 
 **Virtuálisgép-lemezek a Managed Disks használata.** [A Managed Disks] [ managed-disks] megbízhatóságnak-beli virtuális gépek rendelkezésre állási csoportban, mert a lemezei kellőképpen különítve egymástól a kritikus hibapontok elkerülése érdekében. Felügyelt lemezek is, nem a storage-fiókban létrehozott virtuális merevlemezek, az IOPS-korlátok vonatkoznak. További információkért lásd: [Azure-beli Windows virtuális gépek rendelkezésre állásának kezelése][vm-manage-availability].
 
-**A Queue storage hozzon létre egy biztonsági várólistát egy másik régióban.** A Queue storage, a csak olvasható replika korlátozott használja, mert nem lehet üzenetsor vagy elemek eltávolítása a sorból. Ehelyett hozzon létre egy biztonsági várólistát a storage-fiókban egy másik régióban. Ha a társzolgáltatás kimaradása, az alkalmazás a biztonsági várólistát használhatja, az elsődleges régió amíg elérhetővé nem válik újra. Ezzel a módszerrel az alkalmazás továbbra is az új kérelmek tud feldolgozni.  
+**A Queue storage hozzon létre egy biztonsági várólistát egy másik régióban.** A Queue storage, a csak olvasható replika korlátozott használja, mert nem lehet üzenetsor vagy elemek eltávolítása a sorból. Ehelyett hozzon létre egy biztonsági várólistát a storage-fiókban egy másik régióban. Ha a társzolgáltatás kimaradása, az alkalmazás a biztonsági várólistát használhatja, az elsődleges régió amíg elérhetővé nem válik újra. Ezzel a módszerrel az alkalmazás továbbra is az új kérelmek tud feldolgozni.
 
 ## <a name="sql-database"></a>SQL Database
 
@@ -155,7 +156,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 ## <a name="virtual-network"></a>Virtual Network
 
-**Engedélyezési és blokkolási nyilvános IP-címeket adja hozzá egy NSG-t az alhálózathoz.** Letiltja a hozzáférést a rosszindulatú felhasználóktól, vagy a hozzáférés engedélyezése csak a felhasználók, akik rendelkeznek jogosultsággal az alkalmazás eléréséhez.  
+**Engedélyezési és blokkolási nyilvános IP-címeket adja hozzá egy NSG-t az alhálózathoz.** Letiltja a hozzáférést a rosszindulatú felhasználóktól, vagy a hozzáférés engedélyezése csak a felhasználók, akik rendelkeznek jogosultsággal az alkalmazás eléréséhez.
 
 **Hozzon létre egy egyéni állapotmintát.** Load Balancer állapot-Mintavételei tesztelheti a HTTP vagy TCP. Ha egy virtuális Gépet egy HTTP-kiszolgáló fut, a HTTP-mintavétel, mint a TCP-mintavételt állapotadatainak jobb kijelző. HTTP-mintavétel használata egy egyéni végpontot, amely az alkalmazás általános állapotáról ad a, beleértve az összes kritikus fontosságú függőség jelentést. További információkért lásd: [Azure Load Balancer áttekintése](/azure/load-balancer/load-balancer-overview/).
 
