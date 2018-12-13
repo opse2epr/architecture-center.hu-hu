@@ -110,11 +110,11 @@
                 <div class="card">
                     <div class="cardImageOuter">
                         <div class="cardImage">
-                            <img src="./apps/media/architecture-devops-dotnet-webapp.png" height="140px" />
+                            <img src="./apps/media/architecture-devops-dotnet-webapp.svg" height="140px" />
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>CI-/CD-folyamat az Azure DevOps-szal</h3>
+                        <h3>CI/CD-folyamat megtervezése az Azure DevOps segítségével</h3>
                         <p>.NET-alkalmazást hozhat létre, és közzéteheti az Azure Web Appsben az Azure DevOps használatával.</p>
                     </div>
                 </div>
@@ -430,7 +430,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára</h3>
+                        <h3>Biztonságos webalkalmazások kiépítése Windows rendszerű virtuális gépekkel az Azure-on</h3>
                         <p>Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.</p>
                     </div>
                 </div>
