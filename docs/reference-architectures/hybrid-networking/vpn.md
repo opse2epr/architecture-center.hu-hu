@@ -4,12 +4,12 @@ titleSuffix: Azure Reference Architectures
 description: Az Azure virtuális hálózat és a egy helyszíni hálózathoz egy VPN-nel csatlakoztatott kiterjedő helyek közötti biztonságos hálózati architektúra megvalósítása.
 author: RohitSharma-pnp
 ms.date: 10/22/2018
-ms.openlocfilehash: a1bb2e250cb261e1a56abfb58b099fd078c068e5
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 5d3c8eeeb04398c29a25e90956888d9f79572e4f
+ms.sourcegitcommit: 8d951fd7e9534054b160be48a1881ae0857561ef
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120441"
+ms.lasthandoff: 12/13/2018
+ms.locfileid: "53329398"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-a-vpn-gateway"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával
 
@@ -149,273 +149,6 @@ Ha a virtuális hálózaton lévő alkalmazás adatokat küld az internetre, ér
 > A kényszerített bújtatás hatással lehet az Azure-szolgáltatásokhoz (például a Storage Service-hez) és a Windows licenckezelőhöz való kapcsolódásra.
 >
 
-## <a name="troubleshooting"></a>Hibaelhárítás
-
-Általános információk a VPN-nel kapcsolatos gyakori hibák elhárításáról: [VPN-nel kapcsolatos gyakori hibák elhárítása][troubleshooting-vpn-errors].
-
-Az alábbi javaslatok segítenek meghatározni, hogy a helyszíni VPN-berendezés megfelelően működik-e.
-
-- **Ellenőrizze a VPN-berendezés által létrehozott naplófájlokat hibák és meghibásodások vonatkozásában.**
-
-    Ez segít meghatározni, hogy a VPN-berendezés helyesen működik-e. Ennek az információnak a helye a berendezéstől függően változik. Ha például a Windows Server 2012 RRAS szolgáltatását használja, az alábbi PowerShell-paranccsal jelenítheti meg az RRAS szolgáltatással kapcsolatos hibaeseményekre vonatkozó információkat:
-
-    ```PowerShell
-    Get-EventLog -LogName System -EntryType Error -Source RemoteAccess | Format-List -Property *
-    ```
-
-    Az egyes bejegyzések *Üzenet* tulajdonsága tartalmaz hibaleírást. Néhány gyakori példa:
-
-        - Inability to connect, possibly due to an incorrect IP address specified for the Azure VPN gateway in the RRAS VPN network interface configuration.
-
-        ```console
-        EventID            : 20111
-        MachineName        : on-prem-vm
-        Data               : {41, 3, 0, 0}
-        Index              : 14231
-        Category           : (0)
-        CategoryNumber     : 0
-        EntryType          : Error
-        Message            : RoutingDomainID- {00000000-0000-0000-0000-000000000000}: A demand dial connection to the remote
-                             interface AzureGateway on port VPN2-4 was successfully initiated but failed to complete
-                             successfully because of the  following error: The network connection between your computer and
-                             the VPN server could not be established because the remote server is not responding. This could
-                             be because one of the network devices (for example, firewalls, NAT, routers, and so on) between your computer
-                             and the remote server is not configured to allow VPN connections. Please contact your
-                             Administrator or your service provider to determine which device may be causing the problem.
-        Source             : RemoteAccess
-        ReplacementStrings : {{00000000-0000-0000-0000-000000000000}, AzureGateway, VPN2-4, The network connection between
-                             your computer and the VPN server could not be established because the remote server is not
-                             responding. This could be because one of the network devices (for example, firewalls, NAT, routers, and so on)
-                             between your computer and the remote server is not configured to allow VPN connections. Please
-                             contact your Administrator or your service provider to determine which device may be causing the
-                             problem.}
-        InstanceId         : 20111
-        TimeGenerated      : 3/18/2016 1:26:02 PM
-        TimeWritten        : 3/18/2016 1:26:02 PM
-        UserName           :
-        Site               :
-        Container          :
-        ```
-
-        - The wrong shared key being specified in the RRAS VPN network interface configuration.
-
-        ```console
-        EventID            : 20111
-        MachineName        : on-prem-vm
-        Data               : {233, 53, 0, 0}
-        Index              : 14245
-        Category           : (0)
-        CategoryNumber     : 0
-        EntryType          : Error
-        Message            : RoutingDomainID- {00000000-0000-0000-0000-000000000000}: A demand dial connection to the remote
-                             interface AzureGateway on port VPN2-4 was successfully initiated but failed to complete
-                             successfully because of the  following error: Internet key exchange (IKE) authentication credentials are unacceptable.
-
-        Source             : RemoteAccess
-        ReplacementStrings : {{00000000-0000-0000-0000-000000000000}, AzureGateway, VPN2-4, IKE authentication credentials are
-                             unacceptable.
-                             }
-        InstanceId         : 20111
-        TimeGenerated      : 3/18/2016 1:34:22 PM
-        TimeWritten        : 3/18/2016 1:34:22 PM
-        UserName           :
-        Site               :
-        Container          :
-        ```
-
-    Az alábbi PowerShell-paranccsal lekérheti a RRAS szolgáltatáson keresztül megkísérelt csatlakozásra vonatkozó eseménynapló-adatokat is:
-
-    ```powershell
-    Get-EventLog -LogName Application -Source RasClient | Format-List -Property *
-    ```
-
-    Ha nem sikerül a csatlakozás, ez a napló az alábbihoz hasonló hibákat fog tartalmazni:
-
-    ```console
-    EventID            : 20227
-    MachineName        : on-prem-vm
-    Data               : {}
-    Index              : 4203
-    Category           : (0)
-    CategoryNumber     : 0
-    EntryType          : Error
-    Message            : CoId={B4000371-A67F-452F-AA4C-3125AA9CFC78}: The user SYSTEM dialed a connection named
-                         AzureGateway that has failed. The error code returned on failure is 809.
-    Source             : RasClient
-    ReplacementStrings : {{B4000371-A67F-452F-AA4C-3125AA9CFC78}, SYSTEM, AzureGateway, 809}
-    InstanceId         : 20227
-    TimeGenerated      : 3/18/2016 1:29:21 PM
-    TimeWritten        : 3/18/2016 1:29:21 PM
-    UserName           :
-    Site               :
-    Container          :
-    ```
-
-- **Ellenőrizze a kapcsolatot és az útválasztást a VPN-átjárón.**
-
-    Előfordulhat, hogy a VPN-berendezés nem megfelelően irányítja a forgalmat az Azure VPN Gatewayen keresztül. Egy [PsPing][psping] eszközhöz hasonló eszközzel ellenőrizheti a kapcsolatot és az útválasztást a VPN-átjárón. Ha például tesztelni szeretné a csatlakozást egy helyszíni gép és egy, a virtuális hálózaton található webkiszolgáló között, futtassa az alábbi parancsot (a `<<web-server-address>>` helyére írja a webkiszolgáló címét):
-
-    ```console
-    PsPing -t <<web-server-address>>:80
-    ```
-
-    Ha a helyszíni gép át tudja irányítani a forgalmat a webkiszolgálóra, az alábbihoz hasonló kimenetnek kell megjelennie:
-
-    ```console
-    D:\PSTools>psping -t 10.20.0.5:80
-
-    PsPing v2.01 - PsPing - ping, latency, bandwidth measurement utility
-    Copyright (C) 2012-2014 Mark Russinovich
-    Sysinternals - www.sysinternals.com
-
-    TCP connect to 10.20.0.5:80:
-    Infinite iterations (warmup 1) connecting test:
-    Connecting to 10.20.0.5:80 (warmup): 6.21ms
-    Connecting to 10.20.0.5:80: 3.79ms
-    Connecting to 10.20.0.5:80: 3.44ms
-    Connecting to 10.20.0.5:80: 4.81ms
-
-      Sent = 3, Received = 3, Lost = 0 (0% loss),
-      Minimum = 3.44ms, Maximum = 4.81ms, Average = 4.01ms
-    ```
-
-    Ha a helyi számítógép nem tud kommunikálni a megadott céllal, az alábbihoz hasonló üzenetek jelennek meg:
-
-    ```console
-    D:\PSTools>psping -t 10.20.1.6:80
-
-    PsPing v2.01 - PsPing - ping, latency, bandwidth measurement utility
-    Copyright (C) 2012-2014 Mark Russinovich
-    Sysinternals - www.sysinternals.com
-
-    TCP connect to 10.20.1.6:80:
-    Infinite iterations (warmup 1) connecting test:
-    Connecting to 10.20.1.6:80 (warmup): This operation returned because the timeout period expired.
-    Connecting to 10.20.1.6:80: This operation returned because the timeout period expired.
-    Connecting to 10.20.1.6:80: This operation returned because the timeout period expired.
-    Connecting to 10.20.1.6:80: This operation returned because the timeout period expired.
-    Connecting to 10.20.1.6:80:
-      Sent = 3, Received = 0, Lost = 3 (100% loss),
-      Minimum = 0.00ms, Maximum = 0.00ms, Average = 0.00ms
-    ```
-
-- **Ellenőrizze, hogy a helyszíni tűzfal engedélyezi-e a VPN-forgalom áthaladását, és hogy a megfelelő portok vannak-e megnyitva.**
-
-- **Ellenőrizze, hogy a helyszíni VPN-berendezés az [Azure VPN-átjáróval][vpn-appliance] kompatibilis titkosítási módszert használja-e.** A házirendalapú útválasztás esetében az Azure VPN-átjáró az AES256, az AES128 és a 3DES titkosítási algoritmust támogatja. Az útvonalalapú átjárók az AES256 és 3DES titkosítási algoritmust támogatják.
-
-Az alábbi javaslatok segítenek megállapítani, van-e probléma az Azure VPN-átjáróval:
-
-- **Nézze át az [Azure VPN-átjáró diagnosztikai naplóit][gateway-diagnostic-logs], hogy nincs-e nyoma problémának.**
-
-- **Ellenőrizze, hogy az Azure VPN-átjáró és a helyszíni VPN-berendezés ugyanazt a megosztott hitelesítési kulcsot használja-e.**
-
-    Az Azure VPN-átjáró által tárolt megosztott kulcsot az alábbi Azure CLI-paranccsal tekintheti meg:
-
-    ```azurecli
-    azure network vpn-connection shared-key show <<resource-group>> <<vpn-connection-name>>
-    ```
-
-    Használja a helyszíni VPN-berendezéshez megfelelő parancsot a berendezéshez konfigurált megosztott kulcs megjelenítéséhez.
-
-    Győződjön meg arról, hogy az Azure VPN-átjárónak helyet adó *GatewaySubnet* alhálózat nincs NSG-hez társítva.
-
-    Az alhálózati adatokat a következő Azure CLI-paranccsal tekintheti meg:
-
-    ```azurecli
-    azure network vnet subnet show -g <<resource-group>> -e <<vnet-name>> -n GatewaySubnet
-    ```
-
-    Ügyeljen arra, hogy ne legyen *Hálózati biztonsági csoport azonosítója* nevű adatmező. Az alábbi példa bemutatja egy olyan *GatewaySubnet*-példány eredményeit, amelyhez hozzá van rendelve egy NSG (*VPN-Gateway-Group*). Emiatt előfordulhat, hogy az átjáró hibásan működik, ha vannak szabályok meghatározva az NSG-hez.
-
-    ```console
-    C:\>azure network vnet subnet show -g profx-prod-rg -e profx-vnet -n GatewaySubnet
-        info:    Executing command network vnet subnet show
-        + Looking up virtual network "profx-vnet"
-        + Looking up the subnet "GatewaySubnet"
-        data:    Id                              : /subscriptions/########-####-####-####-############/resourceGroups/profx-prod-rg/providers/Microsoft.Network/virtualNetworks/profx-vnet/subnets/GatewaySubnet
-        data:    Name                            : GatewaySubnet
-        data:    Provisioning state              : Succeeded
-        data:    Address prefix                  : 10.20.3.0/27
-        data:    Network Security Group id       : /subscriptions/########-####-####-####-############/resourceGroups/profx-prod-rg/providers/Microsoft.Network/networkSecurityGroups/VPN-Gateway-Group
-        info:    network vnet subnet show command OK
-    ```
-
-- **Ellenőrizze, hogy az Azure virtuális hálózat virtuális gépeinek konfigurációja engedélyezi-e a virtuális hálózaton kívülről érkező forgalmat.**
-
-    Ellenőrizze az összes, a virtuális gépeket tartalmazó alhálózatokhoz társított NSG-szabályt. Az alábbi Azure CLI-paranccsal megtekintheti az összes NSG-szabályt:
-
-    ```azurecli
-    azure network nsg show -g <<resource-group>> -n <<nsg-name>>
-    ```
-
-- **Ellenőrizze, hogy csatlakoztatva van-e az Azure VPN-átjáró.**
-
-    A következő Azure PowerShell-paranccsal ellenőrizheti az Azure VPN-kapcsolat aktuális állapotát. A `<<connection-name>>` paraméter a virtuális hálózati átjárót és a helyi átjárót társító Azure VPN-kapcsolat neve.
-
-    ```powershell
-    Get-AzureRmVirtualNetworkGatewayConnection -Name <<connection-name>> - ResourceGroupName <<resource-group>>
-    ```
-
-    Az alábbi kódrészletek kiemelik azt a kimenetet, amely az átjáró csatlakoztatásakor (első példa) és leválasztásakor (második példa) jön létre:
-
-    ```powershell
-    PS C:\> Get-AzureRmVirtualNetworkGatewayConnection -Name profx-gateway-connection -ResourceGroupName profx-prod-rg
-
-    AuthorizationKey           :
-    VirtualNetworkGateway1     : Microsoft.Azure.Commands.Network.Models.PSVirtualNetworkGateway
-    VirtualNetworkGateway2     :
-    LocalNetworkGateway2       : Microsoft.Azure.Commands.Network.Models.PSLocalNetworkGateway
-    Peer                       :
-    ConnectionType             : IPsec
-    RoutingWeight              : 0
-    SharedKey                  : ####################################
-    ConnectionStatus           : Connected
-    EgressBytesTransferred     : 55254803
-    IngressBytesTransferred    : 32227221
-    ProvisioningState          : Succeeded
-    ...
-    ```
-
-    ```powershell
-    PS C:\> Get-AzureRmVirtualNetworkGatewayConnection -Name profx-gateway-connection2 -ResourceGroupName profx-prod-rg
-
-    AuthorizationKey           :
-    VirtualNetworkGateway1     : Microsoft.Azure.Commands.Network.Models.PSVirtualNetworkGateway
-    VirtualNetworkGateway2     :
-    LocalNetworkGateway2       : Microsoft.Azure.Commands.Network.Models.PSLocalNetworkGateway
-    Peer                       :
-    ConnectionType             : IPsec
-    RoutingWeight              : 0
-    SharedKey                  : ####################################
-    ConnectionStatus           : NotConnected
-    EgressBytesTransferred     : 0
-    IngressBytesTransferred    : 0
-    ProvisioningState          : Succeeded
-    ...
-    ```
-
-Az alábbi javaslatok segítenek megállapítani, hogy van-e probléma a virtuális gazdagép konfigurációjával, a hálózati sávszélesség felhasználásával vagy az alkalmazás teljesítményével:
-
-- **Ellenőrizze, hogy az Azure-beli virtuális gépeken futó vendég operációs rendszer tűzfala helyesen van-e konfigurálva, tehát engedi-e a helyszíni IP-tartományokról kiinduló forgalmat.**
-
-- **Ellenőrizze, hogy a forgalom mennyisége nem közelít-e az Azure VPN-átjárón rendelkezésre álló sávszélesség korlátjához.**
-
-    Ennek az ellenőrzési módja a helyszínen futó VPN-berendezéstől függ. Ha például a Windows Server 2012 RRAS szolgáltatását használja, a teljesítményfigyelő segítségével nyomon követheti a VPN-kapcsolaton keresztül fogadott és küldött adatok mennyiségét. A *Távelérés (RAS) áttekintése* objektum segítségével válassza ki a *Fogadott bájtok/mp* és a *Küldési sebesség (bájt/s)* számlálókat:
-
-    ![Teljesítményszámlálók a VPN-hálózati forgalom figyelésére](../_images/guidance-hybrid-network-vpn/RRAS-perf-counters.png)
-
-    Meg kell az eredményeket hasonlítsa össze a rendelkezésre álló sávszélesség VPN-átjáróhoz (a 100 MB/s VpnGw3 termékváltozat 1,25 GB/s, az alapszintű Termékváltozat esetén):
-
-    ![Példa VPN hálózat teljesítménye ábra](../_images/guidance-hybrid-network-vpn/RRAS-perf-graph.png)
-
-- **Győződjön meg arról, hogy az alkalmazásterheléshez megfelelő számban és méretben telepített virtuális gépeket.**
-
-    Állapítsa meg, hogy nem lassúak-e az Azure virtuális hálózat virtuális gépei. Ha igen, akkor lehet, hogy túl vannak terhelve. Elképzelhető, hogy túl kevés gép van a terhelés kezeléséhez, vagy nincsenek megfelelően konfigurálva a terheléselosztók. Ennek meghatározásához, [rögzítse és elemezze a diagnosztikai adatokat][azure-vm-diagnostics]. Az eredményeket megvizsgálhatja az Azure Portal segítségével, de számos külső féltől származó, a teljesítményadatok részleteibe bepillantást engedő eszköz is a rendelkezésére áll.
-
-- **Ellenőrizze, hogy az alkalmazás hatékonyan használja-e a felhőerőforrásokat.**
-
-    Az egyes virtuális gépeken futó kialakítási alkalmazáskód, amelynek feladata meghatározni, hogy az alkalmazások a lehető legjobban kihasználják-e az erőforrásokat. Használhatja például az [Application Insights][application-insights] eszközt.
-
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 **Előfeltételek**. Rendelkeznie kell egy megfelelő hálózati berendezéssel konfigurált meglévő helyszíni infrastruktúrával.
@@ -435,20 +168,15 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
 <!-- markdownlint-enable MD033 -->
 
+A kapcsolat hibaelhárítása: [egy hibrid VPN-kapcsolat hibaelhárítása](./troubleshoot-vpn.md).
+
 <!-- links -->
 
 [adds-extend-domain]: ../identity/adds-extend-domain.md
-[expressroute]: ../hybrid-networking/expressroute.md
 [windows-vm-ra]: ../virtual-machines-windows/index.md
 [linux-vm-ra]: ../virtual-machines-linux/index.md
 
-[naming conventions]: /azure/guidance/guidance-naming-conventions
-
-[resource-manager-overview]: /azure/azure-resource-manager/resource-group-overview
-[arm-templates]: /azure/resource-group-authoring-templates
 [azure-cli]: /azure/virtual-machines-command-line-tools
-[azure-portal]: /azure/azure-portal/resource-group-portal
-[azure-powershell]: /azure/powershell-azure-resource-manager
 [azure-virtual-network]: /azure/virtual-network/virtual-networks-overview
 [vpn-appliance]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [azure-vpn-gateway]: https://azure.microsoft.com/services/vpn-gateway/
@@ -458,26 +186,15 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 [vpn-gateway-multi-site]: /azure/vpn-gateway/vpn-gateway-multi-site
 [policy-based-routing]: https://en.wikipedia.org/wiki/Policy-based_routing
 [route-based-routing]: https://en.wikipedia.org/wiki/Static_routing
-[network-security-group]: /azure/virtual-network/virtual-networks-nsg
-[sla-for-vpn-gateway]: https://azure.microsoft.com/support/legal/sla/vpn-gateway/v1_2/
+[sla-for-vpn-gateway]: https://azure.microsoft.com/support/legal/sla/vpn-gateway/
 [additional-firewall-rules]: https://technet.microsoft.com/library/dn786406.aspx#firewall
 [nagios]: https://www.nagios.org/
-[azure-vpn-gateway-diagnostics]: https://blogs.technet.microsoft.com/keithmayer/2014/12/18/diagnose-azure-virtual-network-vpn-connectivity-issues-with-powershell/
-[ping]: https://technet.microsoft.com/library/ff961503.aspx
-[tracert]: https://technet.microsoft.com/library/ff961507.aspx
-[psping]: https://technet.microsoft.com/sysinternals/jj729731.aspx
-[nmap]: https://nmap.org
 [changing-SKUs]: https://azure.microsoft.com/blog/azure-virtual-network-gateway-improvements/
 [gateway-diagnostic-logs]: https://blogs.technet.microsoft.com/keithmayer/2016/10/12/step-by-step-capturing-azure-resource-manager-arm-vnet-gateway-diagnostic-logs/
-[troubleshooting-vpn-errors]: https://blogs.technet.microsoft.com/rrasblog/2009/08/12/troubleshooting-common-vpn-related-errors/
 [rras-logging]: https://www.petri.com/enable-diagnostic-logging-in-windows-server-2012-r2-routing-and-remote-access
-[create-on-prem-network]: https://technet.microsoft.com/library/dn786406.aspx#routing
-[azure-vm-diagnostics]: https://azure.microsoft.com/blog/windows-azure-virtual-machine-monitoring-with-wad-extension/
-[application-insights]: /azure/application-insights/app-insights-overview-usage
 [forced-tunneling]: https://azure.microsoft.com/documentation/articles/vpn-gateway-about-forced-tunneling/
 [vpn-appliances]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-architectures.vsdx
 [vpn-appliance-ipsec]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices#ipsec-parameters
-[virtualNetworkGateway-parameters]: https://github.com/mspnp/hybrid-networking/vpn/parameters/virtualNetworkGateway.parameters.json
 [azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/
 [CIDR]: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
