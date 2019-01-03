@@ -1,113 +1,113 @@
 ---
-title: Kulcs valet
-description: A token vagy a kulcs, amely egy meghatározott erőforrás vagy a szolgáltatás korlátozott közvetlen hozzáférést biztosít az ügyfelek használja.
-keywords: Kialakítási mintája
+title: Valet Key
+description: Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 pnp.series.title: Cloud Design Patterns
 pnp.pattern.categories:
 - data-management
 - security
-ms.openlocfilehash: 791132eabf926cc285567454c60f894efa286433
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.openlocfilehash: 99d3fbe05e34d61edc0d339f34665e557b250b05
+ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24542041"
+ms.lasthandoff: 12/16/2018
+ms.locfileid: "53450887"
 ---
-# <a name="valet-key-pattern"></a>Valet kulcs minta
+# <a name="valet-key-pattern"></a>Pótkulcs minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Egy, az ügyfelek egy adott erőforrás korlátozott közvetlen hozzáférést biztosít ahhoz, hogy az adatok átvitele az alkalmazás-kiszervezés jogkivonatot használja. Ez különösen fontos az alkalmazásokat, amelyek a felhőben üzemeltetett tárolórendszerek vagy várólisták, és kis méretűvé teheti költség és méretezhetőség és teljesítmény maximalizálása érdekében.
+Egy jogkivonat használatával korlátozott közvetlen hozzáférést biztosíthat az ügyfelek számára egy adott erőforráshoz, hogy így csökkentse egy alkalmazás adatátviteli követelményeit. Ez különösen hasznos olyan alkalmazások esetében, amelyek felhőben futtatott tárolórendszereket vagy üzenetsorokat használnak, mert minimalizálja a költségeket és maximalizálja a skálázhatóságot és a teljesítményt.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Ügyfél programok és a böngészők gyakran kell írási és olvasási fájlokat vagy adatokat adatfolyamokat, és onnan egy kiszolgálóalkalmazás-tároló. Általában az alkalmazás fogja kezelni az adatok mozgása &mdash; beolvasása, a tárolási és adatfolyamként történő továbbítását, az ügyfél számára, vagy a feltöltött adatfolyam olvasásakor az ügyfél és az adattár tárolásához. Azonban ez a megközelítés elnyeli értékes erőforrások, például a számítási, memória és a sávszélesség.
+Az ügyfélprogramoknak és a böngészőknek gyakran kell fájlokat vagy adatstreameket olvasniuk, illetve írniuk az alkalmazás tárolójában. Általában az alkalmazás fogja kezelni az adatok mozgását – vagy lekérdezi a tárolóból és streameli az ügyfélnek, vagy beolvassa az ügyfél által feltöltött streamet, és menti az adattárba. Azonban ez a megközelítés értékes erőforrásokat foglal le, például számítási, memória- és sávszélesség-erőforrásokat.
 
-Adattároló képesek legyenek kezelni feltöltése és letöltéséhez az adatok közvetlenül, anélkül, hogy az alkalmazás hajtsa végre a feldolgozási ezek az adatok áthelyezése. De általában ehhez az ügyfél rendelkezik hozzáféréssel a tárolóhoz a hitelesítő adatokat. Ez akkor lehet hasznos módszer adatátvitel költségei és az alkalmazás horizontális, és a teljesítmény maximalizálásához a követelmény minimalizálása érdekében. Azt jelenti, azonban, hogy az alkalmazás már nem tudja kezelni az adatok biztonságát. Miután az ügyfél közvetlenül elérheti az adattárolóhoz kapcsolattal rendelkezik, az alkalmazás nem jogcímszabálykészlet(ek) a. Már nem az irányítást a folyamat, és sem akadályozható meg a későbbi feltöltések vagy letölti az adattárolóból.
+Az adattárak képesek közvetlenül kezelni az adatfeltöltést és -letöltést, így az alkalmazás részéről nincs szükség semmilyen feldolgozási tevékenységre az adatok mozgatásához. Ehhez viszont általában az ügyfélnek hozzá kell férnie a tároló biztonsági hitelesítő adataihoz. Ez hasznos módszer lehet, ha minimalizálni szeretné az adatátvitel költségeit és szükség van az alkalmazás horizontális felskálázására, valamint maximalizálni szeretné a teljesítményt. Azonban ez azt jelenti, hogy az alkalmazás már nem fogja tudni kezelni az adatok biztonságát. Miután az ügyfél közvetlen hozzáféréssel tud kapcsolódni az adattárhoz, az alkalmazás már nem töltheti be a forgalomirányító szerepét. Már nem az alkalmazás szabályozza a folyamatot, és nem akadályozhatja meg a későbbi feltöltéseket vagy letöltéseket az adattárolóban.
 
-Ez nem fog reális megközelítés elosztott rendszerek, amelyek nem megbízható ügyfelek kiszolgálásához szükséges. Ehelyett alkalmazások biztonságosan részletes módon az adatok hozzáférésének vezérléséhez, de továbbra is csökkenthető a kiszolgáló terhelése beállítása az ezt a kapcsolatot, és majd így az ügyfél közvetlenül kommunikálnak az adattároló hajtsa végre a szükséges olvasására vagy írására, képesnek kell lennie műveletek.
+Ez nem reális megközelítés elosztott rendszerek esetében, amelyek nem megbízható ügyfeleket is kiszolgálnak. Ehelyett az alkalmazásoknak képesnek kell lenniük az adathozzáférést biztonságosan és részletesen szabályozni, ugyanakkor csökkenteniük kell a kiszolgáló terheltségét is, méghozzá úgy, hogy először létre kell hozniuk a kapcsolatot, majd engedélyezniük kell az ügyfél számára a közvetlen kommunikációt az adattárral, hogy az végrehajthassa a szükséges olvasási vagy írási műveleteket.
 
 ## <a name="solution"></a>Megoldás
 
-Szabályozására számára egy adattárból, ahol nem tudja kezelni a tároló hitelesítési és engedélyezési az ügyfelek a probléma megoldásához szükséges. Egy tipikus megoldás, hogy korlátozza a hozzáférést az adattár nyilvános kapcsolat, és adja meg az ügyfél egy kulcs, vagy a jogkivonatot, amely az adattár azt is ellenőrzi.
+Meg kell oldania az adattárhoz való hozzáférés szabályozását olyan esetben, amikor a tároló nem képes kezelni az ügyfelek hitelesítését és ellenőrzését. Egy tipikus megoldási lehetőség, hogy korlátozza a hozzáférést az adattár nyilvános kapcsolatához, és biztosít egy kulcsot vagy jogkivonatot az ügyfélnek, amelyet az adattár ellenőrizni tud.
 
-A kulcs vagy a token általában nevezzük valet kulcs. Egy adott erőforráshoz időben korlátozott hozzáférést biztosít, és lehetővé teszi, hogy csak előre definiált műveletek, például a olvasása és írása tárolóra vagy várólisták, vagy feltöltését és egy webböngészőben letöltésekor. Alkalmazások is létrehozása és kiállítása valet kulcsok böngészők és ügyféleszközök gyorsan és egyszerűen, így az ügyfelek anélkül, hogy közvetlenül a az adatátvitel kezeléséhez szükséges műveleteket. Ezzel eltávolítja a feldolgozási terhelést, és a hatása a teljesítményre és méretezhetőségre, az alkalmazás és a kiszolgáló.
+Ezt a kulcsot vagy a jogkivonatot általában pótkulcsnak nevezzük. A kulcs időkorlátos hozzáférést biztosít bizonyos erőforrásokhoz, és csak előre meghatározott műveleteket tesz lehetővé, például írást és olvasást a tárolón vagy üzenetsorban, vagy fel- és letöltést böngészőn keresztül. Az alkalmazások gyorsan és könnyen létrehozhatnak és kioszthatnak pótkulcsokat ügyféleszközök és böngészők számára, amelyekkel az ügyfelek elvégezhetik a szükséges műveleteket anélkül, hogy az alkalmazásnak közvetlenül kezelni kellene az adatátvitelt. Ezzel megszűnik az alkalmazás és a kiszolgáló feldolgozási többletterhelése, a teljesítményre és skálázhatóságra gyakorolt hatásával együtt.
 
-Az ügyfél a a token csak egy adott időszakban, és a hozzáférési engedélyeket adott korlátozások egy adott erőforrás szerepel az adattárban elérésére használt, az ábrán látható módon. A megadott időszak után a kulcs érvénytelenné válik, és nem engedélyezik az erőforrás elérésére.
+Az ügyfél a jogkivonattal az adattár egy kijelölt erőforrásához férhet hozzá, csak meghatározott ideig, és a hozzáférési engedélyek bizonyos mértékű korlátozásával, mint ahogy az ábrán látható. A megadott időszak után a kulcs érvénytelenné válik, és többé nem ad hozzáférést az erőforráshoz.
 
-![1. ábra – a minta áttekintése](./_images/valet-key-pattern.png)
+![1. ábra – A minta áttekintése](./_images/valet-key-pattern.png)
 
-Akkor is, amelyen más függőségek, például az adatok köre kulcs konfigurálása. Például attól függően, hogy az áruház képességek, a kulcs megadhat egy teljes tábla adattárat, vagy csak adott sorokra a táblában. A felhőalapú tárolás rendszerek egy tárolót, vagy csak olyan tárolóban egy cikket a kulcs adja meg.
+Ezen felül lehetősége van más függőségekkel (például az adatok hatóköre) rendelkező kulcs konfigurálására. Például az adattár képességeihez mérten a kulcs meghatározhat egy teljes táblát az adattáron belül, vagy akár csak egy tábla bizonyos sorait. Felhőalapú tárolórendszerek esetében a kulcs megadhat egy tárolót, vagy csak egy adott elemet egy tárolón belül.
 
-A kulcs is az alkalmazás érvénytelenítve lenne. Ez az a hasznos megközelítést, abban az esetben, ha az ügyfél értesíti a kiszolgálót, hogy helyesek-e az adatátviteli művelet. A kiszolgáló majd érvénytelenné tehetik kulcs további megelőzése érdekében.
+A kulcsot az alkalmazás is képes érvényteleníteni. Ez hasznos megközelítés abban az esetben, ha az ügyfél értesíti a kiszolgálót az adatátvitel befejeztéről. A kiszolgáló majd érvénytelenné tehetik a kulcsot a további hozzáférés megakadályozása.
 
-Ezt a mintát használja egyszerűbbé teheti az erőforrásokhoz való hozzáférés kezelése mert létrehozására és a felhasználó hitelesítéséhez, engedélyeket, és távolítsa el a felhasználó nem kötelező. Emellett a hellyel, az engedély és az érvényességi időszak szűkítse&mdash;mind szerint egyszerűen a futási időben egyik kulcs létrehozásakor. A fontos tényezők, melyeknek az érvényességi időszak, és különösen az erőforrás helye olyan szorosan korlátozása, hogy a címzett csak azt az adott célra.
+A minta használatával leegyszerűsítheti az erőforrásokhoz való hozzáférés kezelését, mert nem kell létrehozni és hitelesíteni a felhasználót, engedélyeket megadni, majd végül eltávolítani a felhasználót. Emellett könnyű korlátozni a helyet, az engedélyt és az érvényességi időszakot – ehhez csupán létre kell hoznia egy kulcsot futtatáskor. A legfontosabb tényező az érvényességi időszak, és különösen az erőforrás helyének minél szigorúbb korlátozása, hogy a kulcs birtokosa azt csak rendeltetésszerű célokra használhassa.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-**Kezelje az érvényességi állapot és a kulcs időszak**. Ha kiszivárogniuk vagy sérült, a kulcs hatékonyan feloldja a cél elemet, és lehetővé teszi a rosszindulatú visszaélések az érvényességi időszak alatt. A kulcs általában visszavonva, vagy le van tiltva, attól függően, hogy hogyan állította ki. Kiszolgálóoldali házirendek módosítható, vagy a kiszolgáló kulccsal van aláírva érvénytelenítve lenne. Adja meg egy rövid érvényességi, ha engedélyezi a nem engedélyezett műveletek elleni az adattár csökkentése érdekében. Azonban ha az érvényességi időtartama túl rövid, az ügyfél nem feltétlenül tudja elvégezni a műveletet, a kulcs érvényességének lejárta előtt. A kulcs megújításához, mielőtt az érvényességi idejük lejárata, ha a védett erőforrásokhoz való több hozzáférések szükség a hitelesített felhasználóknak engedélyezik.
+**Kezelje a kulcs érvényességi állapotát és időtartamát**. Ha a kulcs kiszivárog vagy megsérül, az gyakorlatilag szabaddá teszi a célelemet, amely az érvényességi idő alatt kártékony használat áldozata lehet. A kiállítás módjától függően a kulcsot általában visszavonhatja vagy letilthatja. A kiszolgálóoldali szabályzatok módosíthatók, illetve az aláírást biztosító kiszolgálói kulcs érvényteleníthető. Adjon meg rövid érvényességi időt, hogy a minimálisra csökkentse az adattárra irányuló jogosulatlan műveletek kockázatát. Ha azonban az érvényességi időtartam túl rövid, előfordulhat, hogy az ügyfél nem tudja elvégezni a kívánt műveletet a kulcs érvényességének lejárta előtt. Engedélyezze a jogosult felhasználók számára a kulcs megújítását az érvényesség lejárta előtt arra az esetre, ha többszöri hozzáférésre van szükség a védett erőforráshoz.
 
-**Vezérelhető a nyújt a kulcs hozzáférési szint**. A kulcs általában a felhasználó csak műveleteket kell végrehajtani a műveletet, például ha az ügyfél nem lesz képes feltölteni az adatokat az adattár csak olvasási hozzáféréssel kell lehetővé. A fájlfeltöltés közös adható meg a kulcs, amely csak írási engedéllyel, valamint a hely és az érvényességi időtartam esetén. Nagyon fontos pontosan határozza meg az erőforrás vagy a kulcs hatálya alá tartozó erőforrások készletét.
+**Szabályozza a kulcs által biztosított hozzáférési szintet**. A kulcs általában csak a művelethez szükséges tevékenységek végrehajtását engedélyezi a felhasználó számára, például csak olvasható hozzáférést ad, ha az ügyfélnek nem szabadna adatot feltöltenie az adattárba. Fájlfeltöltés esetén olyan kulcsot szokás megadni, amely csak írási engedélyt biztosít, valamint meghatározza a helyet és az érvényességi időt. Döntően fontos pontosan meghatározni azt az erőforrást vagy azt az erőforráskészletet, amelyre a kulcs érvényes.
 
-**Vegye figyelembe a felhasználó viselkedésének vezérlése**. Ez a kialakítás megvalósítása azt jelenti, hogy az erőforrások felhasználók szabályozhatják adatvesztés hozzáférési engedéllyel. A képességek a házirendeket és az engedélyek érhető el a szolgáltatás vagy a cél-tárolót, amely képes lehet kifejtett felügyeleti korlátozza. Például nincs általában lehetőség, amely korlátozza az adatok tárolására, vagy a kulcs használható próbál hozzáférni egy fájlhoz hányszor írandó méretének kulcs létrehozásához. Ennek eredményeként hatalmas váratlan adatátvitel költségeit, akkor, amikor az adott ügyfél által használt, és a kód a hiba oka lehet, ami ismételt feltöltés és letöltés választható. Egy fájl is feltölthetők, ahol csak lehetséges száma korlátozza, force az ügyfél számára, hogy az alkalmazás értesítése, ha egy művelet befejeződött. Néhány adattárolókhoz például az alkalmazás kódjának segítségével műveletek figyelése, és szabályozhatja a felhasználó működését események ablakába. Azt azonban nem szigorú kvóták az egyes felhasználók olyan több-bérlős forgatókönyvekben, ahol a ugyanazzal a kulccsal egy bérlőhöz tartozó felhasználók kényszerítéséhez.
+**Gondolja át, hogyan fogja szabályozni a felhasználó viselkedését**. Az ilyen minta megvalósításával együtt jár az, hogy kevésbé tudja szabályozni azokat az erőforrásokat, amelyekhez hozzáférést biztosít a felhasználóknak. A szabályozás mértékét korlátozzák a szolgáltatás vagy a célzott adattár esetében elérhető szabályzatok és engedélyek képességei. Például általában nincs lehetőség egy olyan kulcs létrehozására, amely korlátozza a tárolóra írható adat méretét, vagy azt, hogy egy kulccsal hányszor férhetnek hozzá egy adott fájlhoz. Ez váratlanul hatalmas adatátviteli költséget eredményezhet, még akkor is, ha az az ügyfél használja a kulcsot, akinek szánták, és a kód olyan hibájából adódhat, amely ismétlődő fel- vagy letöltést okoz. A fájlfeltöltések számának korlátozásához ahol lehetséges, kényszerítse az ügyfelet, hogy értesítse az alkalmazást a feltöltés befejezéséről. Néhány adattár például eseményeket hoz létre, amelyeket az alkalmazás felhasználhat a műveletek monitorozására és a felhasználói viselkedés szabályozására. Azonban nehéz kvótákat előírni az egyéni felhasználók számára egy több bérlős helyzet esetén, ahol egyetlen bérlő összes felhasználója ugyanazt a kulcsot használja.
 
-**Ellenőrzi, és opcionálisan sanitize, minden feltöltött adatok**. Egy rosszindulatú felhasználó, amely hozzáfér a kulcs sikerült feltölteni az adatokat úgy tervezték, hogy okoz a rendszerben. Másik lehetőségként jogosult felhasználók előfordulhat, hogy feltölteni az adatokat, amely nem érvényes, és feldolgozásakor hiba vagy a rendszer hibát eredményezhet. Ez elleni védelem érdekében, győződjön meg arról, hogy minden feltöltött adatok érvényesítve, és be van jelölve, a használat előtt rosszindulatú tartalmat.
+**Érvényesítsen és igény szerint vírusmentesítsen minden feltöltött adatot**. Ha egy kártevő felhasználó hozzáférést szerzett a kulcshoz, feltölthet olyan adatot, amelyet a rendszer károsítására terveztek. Más esetekben az engedélyezett felhasználók feltölthetnek érvénytelen adatokat, amelyek feldolgozáskor hibához vagy a rendszer meghibásodásához vezethetnek. Ez ellen úgy védekezhet, hogy gondoskodik az összes adat érvényesítéséről és rosszindulatú kódok ellenőrzéséről a használat előtt.
 
-**Összes művelet naplózási**. Sok kulcs alapú mechanizmusok műveletek, például a feltöltések, a letöltéseket és a hibák jelentkezhetnek. Ezek a naplók általában lehet egy naplózási folyamat építve, és számlázási, ha a felhasználó a fájl mérete vagy az adatok kötet díjfizetéssel is használt. A naplók segítségével észleli a hitelesítési hibák száma, amelyek a kulcsszolgáltató, vagy egy tárolt házirend véletlen eltávolítását problémákat okozhatja.
+**Naplózzon minden műveletet**. Sok kulcsalapú mechanizmus képes olyan műveletek naplózására, mint a feltöltések, a letöltések és a hibák. Ezeket a naplókat általában beépítheti egy naplózási folyamatba, illetve számlázáshoz is használhatja, ha a felhasználónak fájlméret vagy adatmennyiség alapján számláz. A naplók segítségével észlelheti az olyan hitelesítési hibákat, amelyek esetlegesen a kulcsszolgáltató hibájából vagy egy tárolt hozzáférési szabályzat nem szándékos eltávolításából adódnak.
 
-**A kulcs biztonságos biztosításához**. A felhasználó egy weblapon aktiválja az URL-ágyazni, vagy használható server átirányítási műveletben, hogy a letöltés automatikusan megtörténik. Mindig HTTPS használatára képes biztosítani a kulcsot egy biztonságos csatornán keresztül.
+**A kulcsot biztonságosan adja át**. URL-be ágyazhatja, amelyet a felhasználó egy weblapon tud aktiválni, vagy használhatja egy kiszolgáló-átirányítási műveletben, így a letöltés automatikusan megindul. Mindig használjon HTTPS-t, hogy biztonságos csatornán keresztül adja át a kulcsot.
 
-**Bizalmas adatok védelmére átvitel**. Az alkalmazás keresztül érzékeny adatokat általában akkor kerül sor SSL vagy TLS használatával, és ez kell kikényszeríteni, az ügyfelek a-adattároló elérése közvetlenül.
+**Védje a bizalmas adatokat az átvitel során**. A bizalmas adatok szállítása az alkalmazáson keresztül általában SSL vagy TLS használatával történik, és ezt elő kell írni az olyan ügyfelek számára, akik közvetlen hozzáféréssel rendelkeznek az adattárhoz.
 
-Egyéb problémák az ebben a mintában végrehajtásakor a következők:
+A minta megvalósításakor érdemes egyéb problémákról is tájékozódnia:
 
-- Ha az ügyfél nem, vagy nem, értesítse a kiszolgáló, a művelet befejezése és a csak határérték a lejárati időt, a kulcs, az alkalmazás nem fog tudni elvégezni naplózási műveletek, például a leltározási feltöltések vagy letöltések számát, vagy megakadályozza az több feltöltések vagy letöltések.
+- Ha az ügyfél nem jelzi vagy nem tudja jelezni a kiszolgáló felé a művelet befejeződését, és csak a kulcs lejárati ideje korlátozza, az alkalmazás nem lesz képes naplózási műveletek végrehajtására, például a feltöltések vagy letöltések számának nyomon követésére, és nem képes megakadályozni a többszöri fel- vagy letöltést.
 
-- Kulcs házirendjei létrehozható rugalmasan korlátozott lehet. Például bizonyos mechanizmusok csak egy időzített lejárati idővel használatának engedélyezése. Mások számára nem adhat meg a megfelelő lépésköz legyen olvasási/írási engedéllyel.
+- A létrehozható kulcskezelési szabályzatok esetenként nem eléggé rugalmasak. Például bizonyos mechanizmusok csak időzített lejárati idő használatát engedik. Más mechanizmusok nem engedik az olvasási/írási engedélyek kellőképpen részletes meghatározását.
 
-- Ha a kulcs vagy a token érvényességi időtartam kezdési időpontja meg van adva, győződjön meg arról, hogy az kissé korábbi, hogy az ügyfél órák nem szinkronizált némileg elképzelhető, hogy engedélyezze az aktuális kiszolgáló időnél. Az alapértelmezett értéket, ha nincs megadva, az általában aktuális server idő.
+- Ha meg van adva a kulcs vagy a jogkivonat érvényességi időtartamának kezdeti időpontja, győződjön meg róla, hogy az a jelenlegi kiszolgálóidőnél egy kicsit korábbi időpont, hogy az ügyfelek akkor is kaphassanak hozzáférést, ha a rendszeróra nem teljesen szinkronizált. Az alapértelmezett érték a kiszolgáló aktuális rendszerideje, ha nincs egyéb megadva.
 
-- Az URL-címet a kulcsot tartalmazó kiszolgáló naplófájljainak lesznek rögzítve. Amíg a kulcs általában lejártak, előtt a naplófájlok használt elemzés, győződjön meg arról, hogy korlátozza a hozzáférést. Naplóadatok továbbított adatok köre a figyelési rendszerben vagy egy másik helyen tárolja, ha vegye fontolóra a késés, amíg kulcsok kiszivárgásának elkerülésére, az érvényességi időszak lejárta után.
+- A kulcsot tartalmazó URL-cím a kiszolgáló naplófájljaiban lesz rögzítve. Bár a kulcs általában már lejár, mire a naplófájlokat a rendszer felhasználná elemzések készítéséhez, gondoskodjon a hozzáférés korlátozásáról. Ha a naplózási adatokat továbbítja egy monitorozási rendszernek vagy más helyen tárolja őket, fontolja meg egy késleltetési idő bevezetését, amellyel megakadályozza a kulcsok kiszivárgását az érvényességi idejük lejárta előtt.
 
-- Ha az Ügyfélkód webböngészőben fut, a böngésző támogatja az eltérő eredetű erőforrások megosztása (CORS) engedélyezéséhez a kódot, amely végrehajtja az szolgáltatott a lap egy másik tartományban található adatok eléréséhez a böngészőben módosítania. Egyes régebbi böngészők és néhány adattároló nem támogatják a CORS, és előfordulhat, hogy a kód a böngészők futó tudja valet kulcsot használ egy másik tartományban, például a felhőalapú társzolgáltatás fiókja adatainak eléréséhez.
+- Ha az ügyfélkód webböngészőben fut, előfordulhat, hogy a böngészőnek támogatnia kell az eltérő eredetű erőforrások megosztását (CORS), így a webböngészőben lefuthatnak olyan kódok, amelyekkel a weblapot kiszolgáló tartományon keresztül hozzáférhet egy másik tartomány adataihoz. Egyes régebbi böngészők és néhány adattároló nem támogatja a CORS-t, és az ezekben a böngészőkben futó kódok képesek lehetnek pótkulcs használatára, hogy így biztosítsák a hozzáférést egy másik tartomány adataihoz, például egy felhőalapú tárfiók esetében.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ebben a mintában akkor hasznos, ha az alábbi helyzetekben:
+Ez a minta az alábbi helyzetekben lehet hasznos:
 
-- Minimálisra csökkentése erőforrás betöltése, és maximalizálhatja a teljesítményét és méretezhetőségét. Valet kulccsal zárolva lesz az erőforrás nem igényel, nincs távoli kiszolgáló hívás szükséges, a kibocsáthatja valet kulcsok száma nincs korlátozva, és ezzel elkerülheti a hibaérzékeny pontok kialakulását, az alkalmazáson keresztül az adatátvitel végrehajtása eredő a kódot. Valet kulcs létrehozása az általában egy egyszerű kriptográfiai művelet karakterlánc aláírási kulccsal.
+- Ha az erőforrások terhelésének minimálisra csökkentésére, illetve a lehető legnagyobb teljesítményre és skálázhatóságra van szükség. Pótkulcs használatakor nem kell zárolni az erőforrást, nem szükséges a távoli kiszolgáló meghívása, nincs korlátozva a kiadható pótkulcsok száma, és elkerülheti, hogy az alkalmazáskódon keresztüli adatátvitel miatt egyetlen meghibásodási pont alakuljon ki. A pótkulcs létrehozása általában egy egyszerű kriptográfiai művelet, amelynek során aláír egy sztringet egy kulccsal.
 
-- Működési költségek csökkentése érdekében. Tárolók és a várólisták közvetlen hozzáférést tesz lehetővé a erőforrás és hatékony költség, a is kevesebb hálózati eredményez kerekíteni való adatváltások számát, és lehetővé teheti a szükséges számítási erőforrások számának csökkentése.
+- Ha az üzemeltetési költségek csökkentésére van szükség. A közvetlen hozzáférés engedélyezése a tárolókhoz és az üzenetsorokhoz erőforrás- és költséghatékony, lecsökkentheti a hálózaton belüli oda-vissza áramló adatok mennyiségét, és lehetővé teheti a szükséges számítási erőforrások számának lecsökkentését.
 
-- Az ügyfelek mikor rendszeresen feltölteni, vagy adatletöltéshez, különösen akkor, ha van egy nagy méretű, vagy ha az egyes műveletek magában foglalja a nagy fájlok.
+- Ha az ügyfelek rendszeresen töltenek fel vagy le adatot, különösen nagy forgalom esetén, vagy ha minden művelet nagy méretű fájlok mozgatásával jár.
 
-- Ha az alkalmazás csak korlátozott számítási erőforrásai, vagy üzemeltető korlátozásai miatt, vagy szempontok költsége. Ebben a forgatókönyvben a minta továbbiakat is lehet hasznos, ha sok egyidejű adatok feltöltését, vagy tölti le, mert azt mentesíti az alkalmazást az adatátvitel kezelése.
+- Ha az alkalmazásnak csak korlátozott számítási erőforrásai vannak az üzemeltetési korlátozások vagy költségvetési szempontok miatt. Ebben a helyzetben a minta még hasznosabb lehet akkor, ha sok az egyidejű adatfeltöltés és -letöltés, mert mentesíti az alkalmazást az adatátvitel kezelése alól.
 
-- Amikor az adatok tárolása egy távoli tárolót vagy egy ugyanabban az adatközpontban. Ha az alkalmazás jogcímszabálykészlet(ek) a kellett, valószínűleg az adatátvitel az Adatközpont között, vagy a saját vagy nyilvános hálózaton keresztül az ügyfél és az alkalmazás között, majd az alkalmazás között további sávszélességet díjat és az adatok tárolásához.
+- Ha az adatok tárolását egy távoli tárolóban vagy egy másik adatközpontban oldja meg. Ha az alkalmazásnak be kellett töltenie a forgalomirányító szerepét is, további költséget okozhat az a plusz sávszélesség, amely az adatközpontok közötti adatátvitelből fakad, vagy pedig az ügyfél és az alkalmazás közötti átvitelből nyilvános vagy magánhálózatokon keresztül, majd ezután az alkalmazás és az adatközpont közötti adatátvitelből adódik.
 
-Ez a minta nem lehet a következő esetekben lehet hasznos:
+Nem érdemes ezt a mintát használni a következő helyzetekben:
 
-- Ha az alkalmazás kell végezni néhány feladatot az adatok tárolása előtt vagy azt megelőzően azt az ügyfél küldte. Például ha az alkalmazás-ellenőrzéshez van szüksége, hozzáférés sikeres bejelentkezés, vagy hajtsa végre a átalakítás az adatokon. Azonban bizonyos adatokat tárolja és az ügyfelek képesek és például tömörítése és egyszerű átalakítások végez (például egy webes böngésző általában kezelni tud a GZip-formátumok).
+- Ha az alkalmazásnak el kell végeznie még néhány feladatot az adatokon, mielőtt azokat a rendszer eltárolja vagy elküldi őket az ügyfélnek. Ha például az alkalmazásnak érvényesítést kell végeznie, feltétel a naplófájl sikeres elérése vagy átalakítást kell végezni az adatokon. Azonban bizonyos adattárak és ügyfelek képesek egyszerű átalakítások egyeztetésére és végrehajtására, például tömörítésre vagy kibontásra (például egy webböngésző általában tudja kezelni a Gzip formátumokat).
 
-- Ha egy meglévő alkalmazást kialakításának megnehezíti a minta tartalmaznia. Ebben a mintában általában használatához egy másik architekturális megközelítés továbbítása és az adatok fogadása.
+- Ha a meglévő alkalmazáskialakítás megnehezíti a minta beépítését. A minta használatához általában egy másik architekturális megközelítés szükséges az adatok szállításához és fogadásához.
 
-- Ha elkérése karbantartása vagy hány alkalommal kell egy adatátviteli művelet végrehajtása, és használja a valet kulcs mechanizmus nem támogatja az értesítéseket, amelyek a kiszolgáló segítségével kezelheti ezeket a műveleteket.
+- Ha szükség van auditnaplóra és az adatátviteli műveletek számának szabályozására, és az alkalmazott pótkulcs-mechanizmus nem támogatja azokat az értesítéseket, amelyeket a kiszolgáló ezen műveletek kezeléséhez használhatna.
 
-- Ha szükséges, különösen a feltöltési művelet során az adatok méretének korlátozására. Ez az egyetlen megoldásként van, ellenőrizze az adatok méretét, a művelet befejezése után, vagy ellenőrizze a megadott időszak után, vagy egy ütemezés szerint feltöltések méretét az alkalmazásra vonatkozóan.
+- Ha korlátozni kell az adatok méretét, különösen feltöltési műveleteknél. Az egyetlen megoldás az, ha az alkalmazás a művelet befejezte után ellenőrzi az adatméretet, vagy ellenőrzi a feltöltések nagyságát egy megadott idő eltelte után vagy egy megadott ütemezés szerint.
 
 ## <a name="example"></a>Példa
 
-Az Azure által támogatott közös hozzáférésű jogosultságkód Azure Storage a blobot, táblát és üzenetsort adatainak részletes hozzáférés-vezérléshez, valamint a Service Bus-üzenetsorok és témakörök. Egy megosztott hozzáférési aláírást jogkivonat beállítható úgy, hogy egy adott táblához; például az olvasási, írási, frissítési és törlési speciális hozzáférési jogot biztosít a táblázatban lévő kulcs tartomány a várólista; egy blob; vagy a blob-tároló. Az érvényességi időszak vagy időkorlátozás nélkül lehet egy meghatározott ideig.
+Az Azure támogatja a közös hozzáférésű jogosultságkódot az Azure Storage-en, hogy lehetővé tegye az adatok részletes hozzáférés-szabályozását a blobokban, a táblákban és az üzenetsorokban, valamint Service Bus-üzenetsorok és -témakörök esetében. A közös hozzáférésű jogosultságkód konfigurálható úgy, hogy meghatározott hozzáférést biztosítson, például olvasási, írási, frissítési és törlési engedélyt egy adott táblához, egy táblán belüli kulcstartományhoz, egy üzenetsorhoz, egy blobhoz vagy egy blobtárolóhoz. Az érvényesség lehet egy adott időszak, vagy akár lejárati idő nélküli is.
 
-Azure közös hozzáférésű jogosultságkód is támogatja a kiszolgálón tárolt hozzáférési házirendeket, amelyek egy adott erőforrás, például egy táblázat vagy a blob társítható. Ez a szolgáltatás vezérelhetőséget és rugalmasságot alkalmazás által létrehozott megosztott hozzáférési aláírást jogkivonatok képest, és kell használni, amikor csak lehetséges. Egy kiszolgálón tárolja a házirendben meghatározott beállítások módosíthatók, és anélkül, hogy egy új jogkivonatot kell végezni a token megjelennek, de a jogkivonat megadott beállítások nem módosítható egy új jogkivonatot kiadása nélkül. Ezt a módszert is lehetővé teszi egy érvényes megosztott hozzáférési aláírást jogkivonat visszavonása lejárta előtt.
+Az Azure közös hozzáférésű jogosultságkódja emellett támogatja a kiszolgálón tárolt hozzáférési szabályzatokat, amelyeket összekapcsolhat egy adott erőforrással, például egy táblával vagy blobbal. Ez a szolgáltatás további szabályozhatóságot és rugalmasságot biztosít, szemben az alkalmazás által létrehozott közös hozzáférésű jogosultságkódok jogkivonataival. Amikor csak lehetséges, javasolt a használata. A kiszolgálón tárolt szabályzatokban módosíthatók a meghatározott beállítások, és a jogkivonatban megjelennek a változások anélkül, hogy új jogkivonatot kellene kibocsátani. A jogkivonatban meghatározott beállítások azonban nem módosíthatók új jogkivonat kiadása nélkül. Ez a módszer azt is lehetővé teszi, hogy visszavonja egy érvényes közös hozzáférésű jogosultságkód jogkivonatát még annak lejárta előtt.
 
-> További információ: [bevezetéséről tábla SAS (közös hozzáférésű Jogosultságkód), üzenetsor SAS és a Blob SAS-frissítés](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/) és [megosztott hozzáférési aláírásokkal használatával](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) az MSDN Webhelyén.
+> További információkat [a táblákra és üzenetsorokra vonatkozó SAS (közös hozzáférésű jogosultságkód) bemutatását és a blobokra vonatkozó SAS frissítését leíró cikkben](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/) és az MSDN [közös hozzáférésű jogosultságkódok használatát ismertető cikkében](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) talál.
 
-A következő kód bemutatja, hogyan hozzon létre egy megosztott hozzáférési aláírást tokent, amely érvényes 5 percig. A `GetSharedAccessReferenceForUpload` módszer segítségével feltölteni a fájlt az Azure Blob Storage közös hozzáférésű aláírások tokenre adja vissza.
+Az alábbi kód bemutatja, hogyan hozhat létre egy olyan jogkivonatot egy közös hozzáférésű jogosultságkódhoz, amely öt percig érvényes. A `GetSharedAccessReferenceForUpload` metódus a közös hozzáférésű jogosultságkód olyan jogkivonatát adja vissza, amellyel feltölthet egy fájlt az Azure Blob Storage-ba.
 
 ```csharp
 public class ValuesController : ApiController
@@ -157,14 +157,14 @@ public class ValuesController : ApiController
 }
 ```
 
-> A teljes minta érhető el a letölthető ValetKey megoldás [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/valet-key). Ebben a megoldásban a ValetKey.Web projekt tartalmazza a webes alkalmazás, amely tartalmazza a `ValuesController` osztály fent látható. Ügyfél mintaalkalmazás, amely a webes alkalmazás használ az egy megosztott hozzáférési aláírásokkal kulcs lekérése, valamint a fájl feltöltése a blob storage a ValetKey.Client projekt érhető el.
+> A teljes minta megtalálható a ValetKey megoldásban, amelyet a [GitHubról](https://github.com/mspnp/cloud-design-patterns/tree/master/valet-key) tölthet le. Az ebben a megoldásban található ValetKey.Web projekt egy olyan webalkalmazást tartalmaz, amely tartalmazza a fent említett `ValuesController` osztályt. A ValetKey.Client projektben egy olyan ügyfélalkalmazásra láthat példát, amely ezzel a webalkalmazással kéri le a közös hozzáférésű jogosultságkódhoz tartozó kulcsot, és feltölt egy fájlt a blobtárolóba.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
-- Minta bemutatja, ebben a mintában érhető el a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/valet-key).
-- [Forgalomirányító mintát](gatekeeper.md). Ebben a mintában a Valet kulcs mintát együtt használható alkalmazások és szolgáltatások védelmét, hogy az ügyfelek és az alkalmazás vagy szolgáltatás közötti közvetítőként dedikált gazdagép példánnyal. A forgalomirányító ellenőrzi kérelmek sanitizes, és továbbítja a kérelmek és az adatok az ügyfél és az alkalmazás között. Adjon meg egy további biztonsági réteget és csökkenteni a támadási felületet, a rendszer.
-- [Statikus tartalom üzemeltető mintát](static-content-hosting.md). Egy felhőalapú tárolási szolgáltatás által biztosított ezeket az erőforrásokat közvetlenül az ügyfél, olcsóbbá számítási példányokért kapcsolatos követelmények csökkentése érdekében a statikus erőforrások telepítésének módját ismerteti. Ha az erőforrások nem kell nyilvánosan elérhető, a Valet kulcs minta segítségével biztonságos őket.
-- [Tábla SAS (közös hozzáférésű Jogosultságkód), üzenetsor SAS és a Blob SAS-frissítés bemutatása](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/)
-- [Közös hozzáférésű Jogosultságkód használatával](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/)
-- [A Service busszal aláírás hitelesítés megosztott](https://azure.microsoft.com/documentation/articles/service-bus-shared-access-signature-authentication/)
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
+- A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/valet-key) talál egy, a minta bemutatására szolgáló példát.
+- [Forgalomirányító minta](gatekeeper.md). Ez a minta a Pótkulcs mintával együtt használható fel arra, hogy az alkalmazások és szolgáltatások védelmét egy dedikált gazdapéldánnyal valósítsa meg, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között. A forgalomirányító érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat az ügyfél és az alkalmazás között. Ez egy további biztonsági réteget biztosíthat, és csökkenti a számítógép támadható felületét.
+- [Statikus tartalom üzemeltetési minta](static-content-hosting.md). Leírja, hogyan kell üzembe helyezni statikus tartalmakat egy felhőalapú társzolgáltatásban, amely közvetlenül az ügyfélnek közvetíti az erőforrásokat, hogy ezzel visszaszorítsa a költséges számítási példányok szükségességét. Abban az esetben, ha az erőforrásoknak nem kell nyilvánosan elérhetőnek lenniük, azokat a Pótkulcs minta segítségével védheti meg.
+- [Táblákra és üzenetsorokra vonatkozó SAS (közös hozzáférésű jogosultságkód) bemutatása és a blobokra vonatkozó SAS frissítése](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/)
+- [Közös hozzáférésű jogosultságkódok használata](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/)
+- [Közös hozzáférésű jogosultságkódos hitelesítés Service Bus használatával](https://azure.microsoft.com/documentation/articles/service-bus-shared-access-signature-authentication/)

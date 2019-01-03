@@ -3,12 +3,12 @@ title: A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 description: A mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS) üzembe helyezése
 author: MikeWasson
 ms.date: 12/10/2018
-ms.openlocfilehash: c8fa92e012374882e3af89f7ef8f7d800a52dacb
-ms.sourcegitcommit: a0a9981e7586bed8d876a54e055dea1e392118f8
+ms.openlocfilehash: 9e4b607cd7f5b33bbf08ce3af67dd5d4071ae8ef
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/11/2018
-ms.locfileid: "53233914"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644240"
 ---
 # <a name="microservices-architecture-on-azure-kubernetes-service-aks"></a>A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 
@@ -255,7 +255,7 @@ Automatizálhatja a lemezkép javítás ACR feladatokat, az Azure Container Regi
 
 Az alábbiakban néhány célja a mikroszolgáltatási architektúra egy robusztus CI/CD folyamatot:
 
-- Minden egyes csapat létrehozhat és üzembe helyezése a szolgáltatások egymástól függetlenül, tulajdonos érintő vagy más csapatok megszakítása nélkül. 
+- Minden egyes csapat létrehozhat és üzembe helyezése a szolgáltatások egymástól függetlenül, tulajdonos érintő vagy más csapatok megszakítása nélkül.
 
 - A szolgáltatás egy új verziója éles üzembe helyezés, mielőtt megtörténik fejlesztési/tesztelési/QA Environment ellenőrzés céljából. Minőségi kapuk a rendszer minden egyes fázisában érvényesíti.
 
@@ -280,27 +280,85 @@ Fontolja meg a Helm használatával létrehozásának és üzembe helyezésének
 - Követési frissítések és a módosításokat, Szemantikus verziószámozást elkészíthetők visszaállítása egy korábbi verziójának használatával.
 - A sablonok információkat, például a címkék és a választók, elkerülhető a tartalomkiszolgálón használatát.
 - Diagramok közötti függőségek kezelése.
-- Diagramok közzétételét egy Helm-adattárhoz, például az Azure Container Registrybe, és integrálja a buildelési folyamat. 
+- Diagramok közzétételét egy Helm-adattárhoz, például az Azure Container Registrybe, és integrálja a buildelési folyamat.
 
 További információ a Container Registry használatával, egy Helm-adattárhoz: [használata Azure Container Registry vagy a Helm az alkalmazás diagramok](/azure/container-registry/container-registry-helm-repos).
 
 ### <a name="cicd-workflow"></a>CI/CD-munkafolyamat
 
-Az alábbi ábrán látható egy lehetséges CI/CD-munkafolyamatot. Ez a példa feltételezi, hogy van egy QA szerepkör, amely nem azonos a fejlesztői szerepkörből.
+Mielőtt létrehozná a CI/CD munkafolyamat, ismernie kell a hogyan kódbázis fog strukturált és felügyelt.
 
-![CI/CD-munkafolyamat](./_images/aks-cicd.png)
+- Működnek-e a teams, külön referenciákhoz vagy egy monorepo (egyetlen adattár)?
+- Mi az az elágazási stratégia?
+- Akik beküldéssel telepíthet az éles környezetbe? Egy kiadási szerepkör van?
 
-1. A fejlesztői véglegesíti a változást, amely
-1. A CI folyamat aktiválása. Ez a folyamat összeállítja a kódot, tesztek fut, és hozza létre a tárolórendszerképet.
-1. Ha az összes kapuk átadott, a kép a lemezképtárból leküldésekor.
-1. Ha a szolgáltatás egy új verzióját telepíti, készen áll a rendszer címkét rendel, amely
-1. Elindítja a teszt CD folyamatot, amely lehet frissíteni a teszt-fürtöt a helm frissítési parancsot futtatja.
-1. Ha készen áll az éles környezetben üzembe az új verziót, a QA szerepkör manuálisan elindít az éles CD-folyamat.
+A monorepo megközelítés hozd hónappal számolunk, de vannak előnyei és hátrányai is.
 
-### <a name="recommended-cicd-practices"></a>CI/CD ajánlott eljárások
+| &nbsp; | Monorepo | Több adattárakkal |
+|--------|----------|----------------|
+| **Előnyök** | Kód megosztása<br/>Könnyebben szabványosíthatja a kódot, és azokat az eszközöket<br/>Könnyebben újrabontása kód<br/>Könnyebben – a szabályzat egyetlen nézetben<br/> | Egyértelmű tulajdonjog csapatonként<br/>Potenciálisan kevesebb ütközések egyesítése<br/>Elválasztás álló kényszerítése segít |
+| **Problémák** | Megosztott programkód módosítása hatással lehet a több mikroszolgáltatások<br/>Az egyesítési ütközések nagyobb lehetőségeit<br/>Azokat az eszközöket kell méretezhető, nagy méretű kódbázis<br/>Hozzáférés-vezérlés<br/>Összetettebb telepítési folyamat | Nehezebb lehet megosztani a kódot<br/>Nehezebb kódolási szabványok kikényszerítésére<br/>Függőségkezelés<br/>Kód alap, a gyenge felderíthetőség szórt<br/>Megosztott infrastruktúra hiánya
 
-Mindig, imagePullPolicy használható, hogy a Kubernetes mindig a legújabb rendszerkép lekéréshez a tárházat, és egy gyorsítótárazott rendszerképet használja. Kényszerítheti ezt a fürtön a AlwaysPullImages már a betegfelvétel vezérlő használatával.
+Ebben a szakaszban azt jelenleg egy lehetséges CI/CD-munkafolyamatot, a következő feltételek alapján:
 
-Ne használja a `latest` egy pod specifikációja található rendszerképek esetében. Mindig adja meg a rendszerkép verziószámát.
+- A kódtár monorepo mappák mikroszolgáltatás szerint vannak rendezve.
+- A csapat stratégiáját az elágazási alapján [trönk-alapú fejlesztési](https://trunkbaseddevelopment.com/).
+- A csapata által használt [Azure folyamatok](/azure/devops/pipelines) a CI/CD-folyamat futtatását.
+- A csapata által használt [névterek](/azure/container-registry/container-registry-best-practices#repository-namespaces) az Azure Container Registry rendszerképek éles környezetben, amely továbbra is tesztelik rendszerképekből jóváhagyott elkülönítésére.
 
-Az Azure Container Service névterek segítségével mikroszolgáltatás vagy a fejlesztői csapat tárolórendszerképek rendezheti.
+Ebben a példában egy fejlesztői dolgozik egy mikroszolgáltatás-kézbesítési szolgáltatás neve. (A név a leírt referenciaimplementációt származik [Itt](../../microservices/index.md#the-drone-delivery-application).) Egy új szolgáltatás fejlesztésekor a fejlesztői egy funkciót a főágban kód ellenőrzi.
+
+![CI/CD-munkafolyamat](./_images/aks-cicd-1.png)
+
+Hogy a véglegesítéseket a fiókiroda tiggers a mikroszolgáltatás egy CI buildet. Szabályok szerint funkció ágak elnevezése `feature/*`. A [létrehozása csomagdefiníciós fájl](/azure/devops/pipelines/yaml-schema) tartalmaz egy eseményindítót, amely a kiadásiág-nevet és a forrás elérési útja alapján szűri. Ezt a módszert használja, minden egyes csapat a saját build folyamat lehet.
+
+```yaml
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - feature/*
+
+    exclude:
+    - feature/experimental/*
+
+  paths:
+     include:
+     - /src/shipping/delivery/
+```
+
+Ezen a ponton a munkafolyamatban a CI-build néhány csak minimális mennyiségű kódra ellenőrzés fut:
+
+1. Kód buildelése
+1. Futtatni az egységteszteket
+
+Itt a cél, hogy tartsa a fejlesztési idő rövid, így a fejlesztő gyors visszajelzés. Ha a szolgáltatás készen áll a egyesítése a mesterrel, a fejlesztői megnyílik az új Ez elindít egy másik CI build néhány további ellenőrzést végző:
+
+1. Kód buildelése
+1. Futtatni az egységteszteket
+1. A futtatókörnyezet tárolólemezkép létrehozásához
+1. Futtassa a vizsgálatot a biztonsági rések a rendszerképen
+
+![CI/CD-munkafolyamat](./_images/aks-cicd-2.png)
+
+> [!NOTE]
+> Az Azure-Adattárakkal, definiálhat [házirendek](/azure/devops/repos/git/branch-policies) ágak védelme érdekében. Például a szabályzat szükségük CI a build sikeres létrehozása és a egy jóváhagyás a jóváhagyó egyesítése a mesterrel.
+
+Később a csapat a kézbesítési szolgáltatás új verziójának telepítése készen áll. Ehhez a kiadáskezelő hoz létre egy ágat a mintában az elnevezési mintázatot: `release/<microservice name>/<semver>`. Például: `release/delivery/v1.0.2`.
+Ez elindít egy teljes CI hozhat létre, amely az előző lépések és:
+
+1. A Docker-rendszerkép leküldése az Azure Container Registrybe. A kép a kiadásiág-nevet származó verziószámmal van megjelölve.
+2. Futtatás `helm package` csomagolása a Helm-diagram
+3. A Helm-csomag leküldése a Tárolójegyzékbe futtatásával `az acr helm push`.
+
+Ha a build sikeres lesz, aktivál egy folyamatot egy Azure-folyamatok használatával [kibocsátási folyamatok](/azure/devops/pipelines/release/what-is-release-management). Ez a folyamat
+
+1. Futtatás `helm upgrade` környezetben való üzembe helyezéséhez a Helm-diagramot a QA.
+1. Jóváhagyó jelentkezik, mielőtt a csomagot az éles környezetbe helyezi át. Lásd: [kiadási központi telepítés ellenőrzési jóváhagyások használatával](/azure/devops/pipelines/release/approvals/approvals).
+1. A Docker-rendszerképet az Azure Container Registry a termelési névtér újra címkékkel. Például, ha az aktuális címke `myrepo.azurecr.io/delivery:v1.0.2`, az éles címke `reponame.azurecr.io/prod/delivery:v1.0.2`.
+1. Futtatás `helm upgrade` üzembe helyezéséhez a Helm-diagram az éles környezetbe.
+
+![CI/CD-munkafolyamat](./_images/aks-cicd-3.png)
+
+Fontos megjegyezni, hogy egy monorepo, még akkor is, ezek a feladatok korlátozhatja az egyes mikroszolgáltatások úgy, hogy a teams telepítheti a nagy sebességű. A folyamat néhány manuális lépésből áll: Lekéréses kérelmek jóváhagyása, a kiadási ágak létrehozása és az éles fürt üzemelő jóváhagyása. Ezen lépések végrehajtása manuális házirend &mdash; azok sikerült teljesen automatizálható, ha a szervezet részesíti előnyben.

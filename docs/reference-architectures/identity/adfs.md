@@ -1,16 +1,16 @@
 ---
 title: Kiterjesztheti a helyszíni AD FS az Azure-bA
 titleSuffix: Azure Reference Architectures
-description: Biztonságos hibrid hálózati architektúra megvalósítása az Active Directory összevonási szolgáltatás engedélyezésével az Azure-ban.
+description: Az Active Directory összevonási szolgáltatás engedélyezésével biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban.
 author: telmosampaio
-ms.date: 11/28/2016
+ms.date: 12/18.2018
 ms.custom: seodec18
-ms.openlocfilehash: 95866961cd92f44e0925c5e47eafdc5df71652db
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: bd07ce1502c29c1543dca42f74b2f19f3a6d3878
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120220"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644104"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -37,7 +37,7 @@ Az architektúra gyakori használati módjai többek között a következők:
 
 Ez a referenciaarchitektúra a *passzív összevonásra* összpontosít, amelyben az összevonási kiszolgálók döntenek arról, hogy hogyan és mikor hitelesítsenek egy adott felhasználót. A felhasználó az alkalmazás indításakor megadja a bejelentkezési adatokat. Ezt a mechanizmust legtöbbször webböngészők használják. Egy olyan protokollt alkalmaz, amely átirányítja a felhasználót arra az oldalra, ahol elvégezheti a hitelesítést. Az AD FS az *aktív összevonást* is támogatja. Ennek során egy alkalmazás felelőssége a hitelesítő adatok biztosítása, további felhasználói interakció igénylése nélkül – erre az esetre azonban ez az architektúra nem terjed ki.
 
-További szempontokért lásd: [megoldás választása a integrálja a helyszíni Active Directory, az Azure-ral][considerations]. –
+További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations].
 
 ## <a name="architecture"></a>Architektúra
 
@@ -53,7 +53,7 @@ Ez az architektúra kiterjeszti [Az AD DS kiterjesztése az Azure-ra][extending-
 
   - A partner összevonási kiszolgáló által partnerfelhasználó nevében küldött jogcímeket tartalmazó biztonsági jogkivonatok fogadása. Az AD FS ellenőrzi, hogy a jogkivonatok érvényesek-e, mielőtt átadja azokat az Azure-ban futó webalkalmazásnak, amely a kérelmek engedélyezését végzi.
 
-    Azure-ban futó webalkalmazás a *függő entitás*. A partner összevonási kiszolgálónak olyan jogcímeket kell kiadni, amelyeket a webalkalmazás értelmezni tud. A partner összevonási kiszolgálókat *fiókpartnereknek* nevezik, mert ezek küldenek hozzáférési kérelmeket a partnerszervezet hitelesített fiókjainak nevében. Az AD FS-kiszolgálókat *erőforráspartnereknek* nevezik, mert ezek biztosítanak hozzáférést az erőforrásokhoz (a webalkalmazáshoz).
+    Az Azure-ban futó alkalmazások a *függő*. A partner összevonási kiszolgálónak olyan jogcímeket kell kiadni, amelyeket a webalkalmazás értelmezni tud. A partner összevonási kiszolgálókat *fiókpartnereknek* nevezik, mert ezek küldenek hozzáférési kérelmeket a partnerszervezet hitelesített fiókjainak nevében. Az AD FS-kiszolgálókat *erőforráspartnereknek* nevezik, mert ezek biztosítanak hozzáférést az erőforrásokhoz (a webalkalmazáshoz).
 
   - Webböngészőt vagy webalkalmazás-hozzáférést igénylő eszközt futtató külső felhasználóktól érkező kérelmek hitelesítése és engedélyezése az AD DS-sel és az [Active Directory eszközregisztrációs szolgáltatásával][ADDRS].
 
@@ -75,61 +75,17 @@ Ez az architektúra kiterjeszti [Az AD DS kiterjesztése az Azure-ra][extending-
   > Emellett konfigurálhat egy VPN-alagutat is az Azure-átjáróval, amelyen keresztül közvetlen hozzáférést biztosíthat a megbízható partnerek számára. Az ezen partnerektől érkező kérelmek nem haladnak át a WAP-kiszolgálókon.
   >
 
-További információkért az architektúra azon részeiről, amelyek nem az AD FS-hez kapcsolódnak, lásd:
-
-- [Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture]
-- [Biztonságos, internet-hozzáféréssel rendelkező hibrid hálózati architektúramegvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture-with-internet-access]
-- [Biztonságos, Active Directory identitásokkal rendelkező hibrid hálózati architektúra megvalósítása az Azure-ban][extending-ad-to-azure].
-
 ## <a name="recommendations"></a>Javaslatok
 
 Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a javaslatokat, ha nincsenek ezeket felülíró követelményei.
-
-### <a name="vm-recommendations"></a>Virtuális gépekre vonatkozó javaslatok
-
-Olyan virtuális gépeket hozzon létre, amelyek a várt forgalom mennyiségének kezeléséhez elegendő erőforrással rendelkeznek. Kiindulási pontként használja az AD FS-t helyszínen futtató meglévő gépek méretét. Figyelje az erőforrás-használatot. Ha túl nagyok a virtuális gépek, átméretezheti és leskálázhatja azokat.
-
-Kövesse a [Windows rendszerű virtuális gépek futtatása az Azure-on][vm-recommendations] című cikk javaslatait.
 
 ### <a name="networking-recommendations"></a>Hálózatokra vonatkozó javaslatok
 
 A hálózati adaptert minden, AD FS- és WAP-kiszolgálót futtató virtuális géphez statikus magánhálózati IP-címmel konfigurálja.
 
-Ne adjon nyilvános IP-címeket az AD FS-t futtató virtuális gépeknek. További információkért lásd a Biztonsági szempontok című szakaszt.
+Ne adjon nyilvános IP-címeket az AD FS-t futtató virtuális gépeknek. További információkért lásd: a [biztonsági szempontok](#security-considerations) szakaszban.
 
-Állítsa be az elsődleges és a másodlagos tartománynév-kiszolgálók (DNS) IP-címeit az egyes AD FS és WAP virtuális gépek hálózati adaptereihez úgy, hogy az Active Directory DS virtuális gépeire hivatkozzanak. Az Active Directory DS virtuális gépeknek DNS-t kell futtatniuk. Ez a lépés szükséges ahhoz, hogy az egyes virtuális gépek csatlakozhassanak a tartományhoz.
-
-### <a name="ad-fs-availability"></a>Az AD FS rendelkezésre állása
-
-Hozzon létre egy AD FS-farmot legalább két kiszolgálóval a szolgáltatás rendelkezésre állásának növeléséhez. Használjon különböző tárfiókokat a farm AD FS virtuális gépeihez. Ez a megközelítés segít biztosítani, hogy egyetlen tárfiók hibája miatt ne váljon elérhetetlenné a teljes farm.
-
-> [!IMPORTANT]
-> Javasoljuk, hogy [felügyelt lemezeket](/azure/storage/storage-managed-disks-overview) használjon. A felügyelt lemezek nem igényelnek tárfiókot. Egyszerűen adja meg a lemez méretét és típusát, és az magas rendelkezésre állással lesz üzembe helyezve. [Referenciaarchitektúráink](/azure/architecture/reference-architectures/) jelenleg nem helyeznek üzembe felügyelt lemezeket, de a [sablonhoz való építőelemek](https://github.com/mspnp/template-building-blocks/wiki) hamarosan frissülnek, így a 2. verzió már képes lesz a felügyelt lemezek üzembe helyezésére.
-
-Hozzon létre külön Azure rendelkezésre állási csoportokat az AD FS és a WAP virtuális gépekhez. Ügyeljen arra, hogy legalább két virtuális gép legyen minden egyes csoportban. Az egyes rendelkezésre állási csoportoknak rendelkezniük kell legalább két frissítési tartománnyal és két tartalék tartománnyal.
-
-Az AD FS és a WAP virtuális gépek terheléselosztóit a következőképpen konfigurálja:
-
-- Használjon Azure-terheléselosztót a WAP virtuális gépekhez való külső hozzáférés biztosítására, és egy belső terheléselosztót a farm AD FS-kiszolgálóira irányuló terhelés elosztására.
-- Az AD FS- és WAP-kiszolgálók felé kizárólag a 443-as porton (HTTPS) megjelenő forgalmat továbbítsa.
-- A terheléselosztónak statikus IP-címet adjon.
-- Hozzon létre egy állapotmintát elleni HTTP használatával `/adfs/probe`. További információkért lásd: [hardver Load Balancer állapot-ellenőrzések és a webalkalmazás-Proxy / AD FS 2012 R2](https://blogs.technet.microsoft.com/applicationproxyblog/2014/10/17/hardware-load-balancer-health-checks-and-web-application-proxy-ad-fs-2012-r2/).
-
-  > [!NOTE]
-  > Az AD FS-kiszolgálók a Kiszolgálónév jelzése (SNI) protokollt használják, így ha egy HTTPS-végpont használatával próbál mintát venni, a terheléselosztó hibába ütközik.
-  >
-
-- Adja hozzá egy DNS *A*-rekordot az AD FS-terheléselosztó tartományához. Adja meg a terheléselosztó IP-címét, és adjon neki nevet a tartományban (például adfs.contoso.com). Ezt a nevet használják az ügyfelek és a WAP-kiszolgálók az AD FS-kiszolgálófarm eléréséhez.
-
-### <a name="ad-fs-security"></a>Az AD FS biztonsága
-
-Akadályozza meg az AD FS-kiszolgálók közvetlen elérését az internetről. Az AD FS-kiszolgálók tartományhoz kapcsolt számítógépek, amelyek teljes körű engedéllyel rendelkeznek a biztonsági jogkivonatok kiállításához. Ha egy kiszolgáló sérül, a rosszindulatú felhasználók teljes körű hozzáférési jogkivonatokat bocsáthatnak ki az AD FS által védett összes webalkalmazáshoz és összevont kiszolgálóhoz. Ha a rendszernek olyan kérelmeket is kezelnie kell, amelyek külső, nem megbízható partneroldalakról kapcsolódó felhasználóktól származnak, ezekhez a kérelmekhez használjon WAP-kiszolgálókat. További információkért lásd: [Összevonási kiszolgálóproxy elhelyezése][where-to-place-an-fs-proxy].
-
-Az AD FS- és a WAP-kiszolgálókat különálló alhálózatokban helyezze el, saját tűzfallal. A tűzfalszabályok meghatározásához használhat NSG-szabályokat. Ha átfogóbb védelemre van szüksége, felállíthat egy kiegészítő biztonsági határt is a kiszolgálók köré két alhálózat és hálózati virtuális készülékek (NVA-k) használatával a [Biztonságos, internet-hozzáféréssel rendelkező hibrid hálózati architektúramegvalósítása az Azure-ban][implementing-a-secure-hybrid-network-architecture-with-internet-access] című dokumentumban leírtak szerint. Az összes tűzfalnak engedélyezni kell az adatforgalmat a 443-as (HTTPS) porton.
-
-Korlátozza a közvetlen bejelentkezést az AD FS- és a WAP-kiszolgálókra. Csak a fejlesztési és üzemeltetési csapat számára legyen lehetséges a kapcsolódás.
-
-A WAP-kiszolgálókat ne csatlakoztassa a tartományhoz.
+Állítsa be az elsődleges és a másodlagos tartománynév-kiszolgálók (DNS) IP-címeit az egyes AD FS és WAP virtuális gépek hálózati adaptereihez úgy, hogy az Active Directory DS virtuális gépeire hivatkozzanak. Az Active Directory DS virtuális gépeknek DNS kell futtatnia. Ez a lépés szükséges ahhoz, hogy az egyes virtuális gépek csatlakozhassanak a tartományhoz.
 
 ### <a name="ad-fs-installation"></a>Az AD FS telepítése
 
@@ -150,7 +106,7 @@ Az [Összevonási kiszolgálók farmjának központi telepítése][Deploying_a_f
 3. Minden AD FS-kiszolgáló virtuális gépét vegye fel a tartományba.
 
 > [!NOTE]
-> Az AD FS telepítéséhez a tartomány elsődleges tartományvezérlő (PDC) emulátorának mozgó egyedüli főkiszolgálói (FSMO) szerepkörét futtató tartományvezérlőnek futnia kell, és elérhetőnek kell lennie az AD FS virtuális gépekről. <<RBC: Lehetséges-e csökkenteni az ismétlődések számát?>>
+> Az AD FS telepítéséhez a tartomány elsődleges tartományvezérlő (PDC) emulátorának mozgó egyedüli főkiszolgálói (FSMO) szerepkörét futtató tartományvezérlőnek futnia kell, és elérhetőnek kell lennie az AD FS virtuális gépekről. &LT;&LT; RBC: Van mód, hogy ez kevesebb ismétlődő? >>
 >
 
 ### <a name="ad-fs-trust"></a>AD FS-megbízhatóság
@@ -192,6 +148,23 @@ Ha a belső Windows-adatbázist használja az AD FS konfigurációs adatainak t�
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
+Hozzon létre egy AD FS-farmot legalább két kiszolgálóval a szolgáltatás rendelkezésre állásának növeléséhez. Használjon különböző tárfiókokat a farm AD FS virtuális gépeihez. Ez a megközelítés segít biztosítani, hogy egyetlen tárfiók hibája miatt ne váljon elérhetetlenné a teljes farm.
+
+Hozzon létre külön Azure rendelkezésre állási csoportokat az AD FS és a WAP virtuális gépekhez. Ügyeljen arra, hogy legalább két virtuális gép legyen minden egyes csoportban. Az egyes rendelkezésre állási csoportoknak rendelkezniük kell legalább két frissítési tartománnyal és két tartalék tartománnyal.
+
+Az AD FS és a WAP virtuális gépek terheléselosztóit a következőképpen konfigurálja:
+
+- Használjon Azure-terheléselosztót a WAP virtuális gépekhez való külső hozzáférés biztosítására, és egy belső terheléselosztót a farm AD FS-kiszolgálóira irányuló terhelés elosztására.
+- Az AD FS- és WAP-kiszolgálók felé kizárólag a 443-as porton (HTTPS) megjelenő forgalmat továbbítsa.
+- A terheléselosztónak statikus IP-címet adjon.
+- Hozzon létre egy állapotmintát elleni HTTP használatával `/adfs/probe`. További információkért lásd: [hardver Load Balancer állapot-ellenőrzések és a webalkalmazás-Proxy / AD FS 2012 R2](https://blogs.technet.microsoft.com/applicationproxyblog/2014/10/17/hardware-load-balancer-health-checks-and-web-application-proxy-ad-fs-2012-r2/).
+
+  > [!NOTE]
+  > Az AD FS-kiszolgálók a Kiszolgálónév jelzése (SNI) protokollt használják, így ha egy HTTPS-végpont használatával próbál mintát venni, a terheléselosztó hibába ütközik.
+  >
+
+- Adja hozzá egy DNS *A*-rekordot az AD FS-terheléselosztó tartományához. Adja meg a terheléselosztó IP-címét, és adjon neki nevet a tartományban (például adfs.contoso.com). Ezt a nevet használják az ügyfelek és a WAP-kiszolgálók az AD FS-kiszolgálófarm eléréséhez.
+
 Az AD FS konfigurációs adatainak tárolására használhatja az SQL Servert vagy a belső Windows-adatbázist. A belső Windows-adatbázis alapvető redundanciát biztosít. A rendszer kizárólag az AD FS-fürt egyik AD FS-adatbázisába írja a módosításokat. A többi kiszolgáló leküldéses replikációval tartja naprakészen az adatbázisokat. Az SQL Server használata teljes adatbázis-redundanciát és magas rendelkezésre állást biztosíthat feladatátvételi fürtszolgáltatással vagy tükrözéssel.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
@@ -205,80 +178,189 @@ A fejlesztési és üzemeltetési csapatnak a következő feladatok elvégzésé
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Az AD FS a HTTPS protokollt használja, ezért győződjön meg arról, hogy a webes réteg virtuális gépeit tartalmazó alhálózatra vonatkozó NSG-szabályok engedélyezik a HTTPS-kérelmeket. Ezek a kérelmek származhatnak a helyszíni hálózatról, a webes, az üzleti vagy az adatréteget tartalmazó alhálózatokról, a privát vagy a nyilvános DMZ-ről vagy az AD FS-kiszolgálókat tartalmazó alhálózatról.
+Az AD FS HTTPS-t használ, ezért ügyeljen arra, hogy az NSG-szabályok az alhálózat, amely tartalmazza a webes szint virtuális gépek engedély HTTPS-kéréseket. Ezek a kérelmek származhatnak a helyszíni hálózatról, a webes, az üzleti vagy az adatréteget tartalmazó alhálózatokról, a privát vagy a nyilvános DMZ-ről vagy az AD FS-kiszolgálókat tartalmazó alhálózatról.
+
+Akadályozza meg az AD FS-kiszolgálók közvetlen elérését az internetről. Az AD FS-kiszolgálók tartományhoz kapcsolt számítógépek, amelyek teljes körű engedéllyel rendelkeznek a biztonsági jogkivonatok kiállításához. Ha egy kiszolgáló sérül, a rosszindulatú felhasználók teljes körű hozzáférési jogkivonatokat bocsáthatnak ki az AD FS által védett összes webalkalmazáshoz és összevont kiszolgálóhoz. Ha a rendszernek olyan kérelmeket is kezelnie kell, amelyek külső, nem megbízható partneroldalakról kapcsolódó felhasználóktól származnak, ezekhez a kérelmekhez használjon WAP-kiszolgálókat. További információkért lásd: [Összevonási kiszolgálóproxy elhelyezése][where-to-place-an-fs-proxy].
+
+Az AD FS- és a WAP-kiszolgálókat különálló alhálózatokban helyezze el, saját tűzfallal. A tűzfalszabályok meghatározásához használhat NSG-szabályokat. Az összes tűzfalnak engedélyezni kell az adatforgalmat a 443-as (HTTPS) porton.
+
+Korlátozza a közvetlen bejelentkezést az AD FS- és a WAP-kiszolgálókra. Csak a fejlesztési és üzemeltetési csapat számára legyen lehetséges a kapcsolódás. A WAP-kiszolgálókat ne csatlakoztassa a tartományhoz.
 
 Érdemes lehet virtuális hálózati készülékeket használni, amelyek naplózzák a részletes információkat a virtuális hálózat peremén átmenő forgalomról.
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ezen referenciaarchitektúra üzembe helyezéséhez rendelkezésre áll egy megoldás a [GitHubon][github]. A megoldást üzembe helyező Powershell-szkript futtatásához az [Azure CLI][azure-cli] legújabb verziójára lesz szükség. A referenciaarchitektúra üzembe helyezéséhez kövesse az alábbi lépéseket:
+Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][github]. Vegye figyelembe, hogy a teljes üzembe helyezés eltarthat akár két órát, amely tartalmazza a VPN gateway létrehozása, és futtatja a parancsfájlokat, amelyek az Active Directory és az AD FS konfigurálása.
 
-1. Töltse le vagy klónozza a megoldásmappát a [GitHubról][github] a helyi számítógépére.
+### <a name="prerequisites"></a>Előfeltételek
 
-2. Nyissa meg az Azure CLI-t, és lépjen a helyi megoldásmappára.
+1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [GitHub-adattár](https://github.com/mspnp/identity-reference-architectures).
 
-3. Futtassa az alábbi parancsot:
+1. Telepítés [az Azure CLI 2.0](/cli/azure/install-azure-cli?view=azure-cli-latest).
 
-    ```powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> <mode>
+1. Telepítse a [Azure építőelemeiről](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomag.
+
+   ```bash
+   npm install -g @mspnp/azure-building-blocks
+   ```
+
+1. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
+
+   ```bash
+   az login
+   ```
+
+### <a name="deploy-the-simulated-on-premises-datacenter"></a>A szimulált helyszíni adatközpont üzembe helyezése
+
+1. Keresse meg a `adfs` mappájában, a GitHub-adattárban.
+
+1. Nyissa meg az `onprem.json` fájlt. Keresse meg a példányok `adminPassword`, `Password`, és `SafeModeAdminPassword` frissíteniük a jelszavakat, és.
+
+1. Futtassa a következő parancsot, és várjon, amíg a telepítés befejezéséhez:
+
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p onprem.json --deploy
     ```
 
-    Cserélje le a `<subscription id>` értékét a saját Azure-előfizetése azonosítójára.
+### <a name="deploy-the-azure-infrastructure"></a>Az Azure-infrastruktúra üzembe helyezése
 
-    A `<location>` paraméter esetében adjon meg egy Azure-régiót (pl. `eastus` vagy `westus`).
+1. Nyissa meg az `azure.json` fájlt.  Keresse meg példányait `adminPassword` és `Password` és adja meg a jelszavak adatait.
 
-    A `<mode>` paraméter az üzembe helyezés részletességét vezérli. Értékei a következők lehetnek:
+1. Futtassa a következő parancsot, és várjon, amíg a telepítés befejezéséhez:
 
-   - `Onpremise`: Egy szimulált helyszíni környezetet helyez üzembe. Ezt a környezetet használhatja tesztelésre és kísérletezésre, ha nem rendelkezik már meglévő helyszíni hálózattal, vagy akkor, ha ki szeretné próbálni ezt a referenciaarchitektúrát a meglévő helyszíni hálózata konfigurációjának módosítása nélkül.
-   - `Infrastructure`: a virtuális hálózat infrastruktúráját és a jump boxot helyezi üzembe.
-   - `CreateVpn`: egy Azure-beli virtuális hálózati átjárót telepít, és csatlakoztatja a szimulált helyszíni hálózathoz.
-   - `AzureADDS`: üzembe helyezi az Active Directory DS-kiszolgálóként működő virtuális gépeket, telepíti az Active Directoryt ezeken a virtuális gépeken, és létrehozza a tartományt az Azure-ban.
-   - `AdfsVm`: üzembe helyezi az AD FS virtuális gépeket, és csatlakoztatja azokat az Azure-beli tartományhoz.
-   - `PublicDMZ`: üzembe helyezi a nyilvános DMZ-t az Azure-ban.
-   - `ProxyVm`: üzembe helyezi az AD FS proxy-virtuálisgépeket, és csatlakoztatja azokat az Azure-beli tartományhoz.
-   - `Prepare`: az összes fenti környezetet üzembe helyezi. **Ez a lehetőség ajánlott, ha teljesen új környezetet épít, és még nincs meglévő helyszíni infrastruktúrája.**
-   - `Workload`: választhatóan üzembe helyezi a webes, az üzleti és az adatszintű virtuális gépeket és a támogató hálózatot. A `Prepare` üzembe helyezési mód nem tartalmazza.
-   - `PrivateDMZ`: választhatóan üzembe helyezi a privát DMZ-t az Azure-ban a fent telepített `Workload` virtuális gépek elé. A `Prepare` üzembe helyezési mód nem tartalmazza.
-
-4. Várjon, amíg az üzembe helyezés befejeződik. Ha a `Prepare` lehetőséget választotta, telepítést több órát is igénybe vehet, és a következő üzenettel fejeződik be: `Preparation is completed. Please install certificate to all AD FS and proxy VMs.`
-
-5. Indítsa újra a jump boxot (*ra-adfs-mgmt-vm1* a *ra-adfs-security-rg* csoportban) a DNS-beállítások érvénybe léptetéséhez.
-
-6. [Szerezzen be egy SSL-tanúsítványt az AD FS számára][adfs_certificates], és telepítse azt az AD FS-t futtató virtuális gépeken. Vegye figyelembe, hogy ezekhez a jump boxon keresztül is csatlakozhat. Az IP-címek **10.0.5.4** és **10.0.5.5**. Az alapértelmezett felhasználónév a **contoso\testuser** a következő jelszóval:  **AweSome@PW**.
-
-   > [!NOTE]
-   > A Deploy-ReferenceArchitecture.ps1 szkript megjegyzései ezen a ponton részletes útmutatót adnak egy önaláírt teszttanúsítvány és -hitelesítésszolgáltató létrehozásához a `makecert` paranccsal. Ezeket a lépéseket azonban kizárólag **tesztelésre** használja, és a makecert által létrehozott tanúsítványokat ne használja éles környezetben.
-
-7. Futtassa a következő PowerShell-parancsot az AD FS-kiszolgálófarm telepítéséhez:
-
-    ```powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Adfs
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p azure.json --deploy
     ```
 
-8. A jump boxon lépjen a `https://adfs.contoso.com/adfs/ls/idpinitiatedsignon.htm` helyre az AD FS-telepítés teszteléséhez (előfordulhat, hogy ekkor figyelmeztetést kap a tanúsítványra vonatkozóan, amelyet ebben a tesztben figyelmen kívül hagyhat). Győződjön meg arról, hogy a Contoso Corporation bejelentkezési oldala jelenik meg. Jelentkezzen be **contoso\testuser** néven a következő jelszóval: **AweS0me@PW**.
+### <a name="set-up-the-ad-fs-farm"></a>Állítsa be az AD FS-farm
 
-9. Telepítse az SSL-tanúsítványt az AD FS proxy-virtuálisgépeken. Az IP-címek *10.0.6.4* és *10.0.6.5*.
+1. Nyissa meg az `adfs-farm-first.json` fájlt.  Keresse meg `AdminPassword` , és cserélje le az alapértelmezett jelszót.
 
-10. Futtassa a következő PowerShell-parancsot az első AD FS-proxykiszolgáló üzembe helyezéséhez:
+1. Futtassa az alábbi parancsot:
 
-    ```powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Proxy1
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p adfs-farm-first.json --deploy
     ```
 
-11. Kövesse a szkript által megjelenített utasításokat az első proxykiszolgáló telepítésének teszteléséhez.
+1. Nyissa meg az `adfs-farm-rest.json` fájlt.  Keresse meg `AdminPassword` , és cserélje le az alapértelmezett jelszót.
 
-12. Futtassa a következő PowerShell-parancsot a második proxykiszolgáló üzembe helyezéséhez:
+1. Futtassa a következő parancsot, és várjon, amíg a telepítés befejezéséhez:
 
-    ```powershell
-    .\Deploy-ReferenceArchitecture.ps1 <subscription id> <location> Proxy2
+    ```bash
+    azbb -s <subscription_id> -g <resource group> -l <location> -p adfs-farm-rest.json --deploy
     ```
 
-13. Kövesse a parancsfájl által megjelenített utasításokat a teljes proxykonfiguráció teszteléséhez.
+### <a name="configure-ad-fs-part-1"></a>Konfigurálhatja az AD FS (1. rész)
 
-## <a name="next-steps"></a>További lépések
+1. Nevű virtuális Gépet egy távoli asztal munkamenetet nyit meg `ra-adfs-jb-vm1`, azaz a jumpboxot virtuális Gépet. Felhasználónév: `testuser`.
 
-- Az [Azure Active Directory][aad] ismertetése.
-- Az [Azure Active Directory B2C][aadb2c] ismertetése.
+1. A jumpbox, nyissa meg a nevű virtuális Gépet egy távoli asztali munkamenetet `ra-adfs-proxy-vm1`. A magánhálózati IP-cím 10.0.6.4.
+
+1. A távoli asztali munkamenet, futtassa a [PowerShell ISE-ben](/powershell/scripting/components/ise/windows-powershell-integrated-scripting-environment--ise-).
+
+1. A PowerShell-lel keresse meg a következő könyvtárban:
+
+    ```powershell
+    C:\Packages\Plugins\Microsoft.Powershell.DSC\2.77.0.0\DSCWork\adfs-v2.0
+    ```
+
+1. A parancsfájl panelen illessze be a következő kódot, és futtassa:
+
+    ```powershell
+    . .\adfs-webproxy.ps1
+    $cd = @{
+        AllNodes = @(
+            @{
+                NodeName = 'localhost'
+                PSDscAllowPlainTextPassword = $true
+                PSDscAllowDomainUser = $true
+            }
+        )
+    }
+
+    $c1 = Get-Credential -UserName testuser -Message "Enter password"
+    InstallWebProxyApp -DomainName contoso.com -FederationName adfs.contoso.com -WebApplicationProxyName "Contoso App" -AdminCreds $c1 -ConfigurationData $cd
+    Start-DscConfiguration .\InstallWebProxyApp
+    ```
+
+    Jelenleg a `Get-Credential` kéri, adja meg a jelszót, a központi telepítési alkalmazásparaméter-fájlt adott meg.
+
+1. Futtassa a következő parancsot a állapotának figyelése a [DSC](/powershell/dsc/overview/overview) konfiguráció:
+
+    ```powershell
+    Get-DscConfigurationStatus
+    ```
+
+    Konzisztencia elérni több percet is igénybe vehet. Ebben az időszakban előfordulhat, hogy hibába ütközik, a parancsban. Ha a konfiguráció sikeres, a kimenet az alábbihoz hasonlóan kell kinéznie:
+
+    ```powershell
+    PS C:\Packages\Plugins\Microsoft.Powershell.DSC\2.77.0.0\DSCWork\adfs-v2.0> Get-DscConfigurationStatus
+
+    Status     StartDate                 Type            Mode  RebootRequested      NumberOfResources
+    ------     ---------                 ----            ----  ---------------      -----------------
+    Success    12/17/2018 8:21:09 PM     Consistency     PUSH  True                 4
+    ```
+
+### <a name="configure-ad-fs-part-2"></a>Konfigurálhatja az AD FS (2. rész)
+
+1. A jumpbox, nyissa meg a nevű virtuális Gépet egy távoli asztali munkamenetet `ra-adfs-proxy-vm2`. A magánhálózati IP-cím 10.0.6.5.
+
+1. A távoli asztali munkamenet, futtassa a [PowerShell ISE-ben](/powershell/scripting/components/ise/windows-powershell-integrated-scripting-environment--ise-).
+
+1. Keresse meg a következő könyvtárban:
+
+    ```powershell
+    C:\Packages\Plugins\Microsoft.Powershell.DSC\2.77.0.0\DSCWork\adfs-v2.0
+    ```
+
+1. A parancsfájl panelen és futtassa a parancsfájlt a következő elmúlt:
+
+    ```powershell
+    . .\adfs-webproxy-rest.ps1
+    $cd = @{
+        AllNodes = @(
+            @{
+                NodeName = 'localhost'
+                PSDscAllowPlainTextPassword = $true
+                PSDscAllowDomainUser = $true
+            }
+        )
+    }
+
+    $c1 = Get-Credential -UserName testuser -Message "Enter password"
+    InstallWebProxy -DomainName contoso.com -FederationName adfs.contoso.com -WebApplicationProxyName "Contoso App" -AdminCreds $c1 -ConfigurationData $cd
+    Start-DscConfiguration .\InstallWebProxy
+    ```
+
+    Jelenleg a `Get-Credential` kéri, adja meg a jelszót, a központi telepítési alkalmazásparaméter-fájlt adott meg.
+
+1. A következő parancsot a DSC-konfiguráció állapotának figyelése:
+
+    ```powershell
+    Get-DscConfigurationStatus
+    ```
+
+    Konzisztencia elérni több percet is igénybe vehet. Ebben az időszakban előfordulhat, hogy hibába ütközik, a parancsban. Ha a konfiguráció sikeres, a kimenet az alábbihoz hasonlóan kell kinéznie:
+
+    ```powershell
+    PS C:\Packages\Plugins\Microsoft.Powershell.DSC\2.77.0.0\DSCWork\adfs-v2.0> Get-DscConfigurationStatus
+
+    Status     StartDate                 Type            Mode  RebootRequested      NumberOfResources
+    ------     ---------                 ----            ----  ---------------      -----------------
+    Success    12/17/2018 8:21:09 PM     Consistency     PUSH  True                 4
+    ```
+
+    Egyes esetekben ez DSC sikertelen lesz. Ha az állapot ellenőrzése látható `Status=Failure` és `Type=Consistency`, próbálja meg újra futtatni a 4. lépés.
+
+### <a name="sign-into-ad-fs"></a>Jelentkezzen be az Active Directory összevonási szolgáltatások
+
+1. A jumpbox, nyissa meg a nevű virtuális Gépet egy távoli asztali munkamenetet `ra-adfs-adfs-vm1`. A magánhálózati IP-cím 10.0.5.4.
+
+1. Kövesse a [az oldal Idp-Intiated bejelentkezés engedélyezése](/windows-server/identity/ad-fs/troubleshooting/ad-fs-tshoot-initiatedsignon#enable-the-idp-intiated-sign-on-page) ahhoz, hogy a bejelentkezési lapot.
+
+1. A jump boxon keresse meg a `https://adfs.contoso.com/adfs/ls/idpinitiatedsignon.htm`. Egy tanúsítványt, hogy figyelmen kívül hagyhatja ezt a vizsgálatot a figyelmeztetés jelenhet meg.
+
+1. Győződjön meg arról, hogy a Contoso Corporation bejelentkezési oldala jelenik meg. Jelentkezzen be, **contoso\testuser**.
 
 <!-- links -->
 [extending-ad-to-azure]: adds-extend-domain.md

@@ -1,26 +1,28 @@
 ---
-title: A Service Fabric használata monolitikus alkalmazások felbontásához
+title: A Service Fabric használatával próbált felbontani, alkalmazások
+titleSuffix: Azure Example Scenarios
 description: A nagy méretű monolitikus alkalmazásokat mikroszolgáltatásokra bonthatja fel.
 author: timomta
 ms.date: 09/20/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 438d2eabff39356a7593f2da798a74eebe94553a
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 90159b0cbfd3e7af542a79d050d153b4a3435a0d
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004628"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643815"
 ---
 # <a name="using-service-fabric-to-decompose-monolithic-applications"></a>A Service Fabric használata monolitikus alkalmazások felbontásához
 
 Ebben a példában a forgatókönyvben azt végig egy megközelítés a [Service Fabric](/azure/service-fabric/service-fabric-overview) decomposing meg nehézkessé monolitikus alkalmazáshoz tartozó platform. Itt azt gondolja át, egy IIS/ASP.NET webhely decomposing egy alkalmazásba, iteratív megközelítés mikroszolgáltatásokból álló, több felügyelhető.
 
 A monolitikus architektúra áthelyezését egy mikroszolgáltatási architektúrát az alábbi előnyöket nyújtja:
-* Módosítsa a kód egy kis méretű, érthető egysége, és csak az adott egység üzembe helyezése.
-* Kód egységenként mindössze néhány percet vesz igénybe, vagy kevesebb, üzembe helyezéséhez.
-* Ha hiba van a kis egység, csak az adott egység nem működik tovább, nem a teljes alkalmazáshoz.
-* Kis kódegységek terjeszthetők egyszerűen és discretely több fejlesztői csapatok között.
-* Új fejlesztők is gyorsan és egyszerűen bonyolultnak egységenként diszkrét funkcióját.
+
+- Módosítsa a kód egy kis méretű, érthető egysége, és csak az adott egység üzembe helyezése.
+- Kód egységenként mindössze néhány percet vesz igénybe, vagy kevesebb, üzembe helyezéséhez.
+- Ha hiba van a kis egység, csak az adott egység nem működik tovább, nem a teljes alkalmazáshoz.
+- Kis kódegységek terjeszthetők egyszerűen és discretely több fejlesztői csapatok között.
+- Új fejlesztők is gyorsan és egyszerűen bonyolultnak egységenként diszkrét funkcióját.
 
 Egy kiszolgálóból álló farmra nagy IIS-alkalmazás használatban van ebben a példában, de az iteratív idősorfelbontási és üzemeltetése bármilyen nagy is használható. Míg ez a megoldás használja a Windows, a Service Fabric Linux rendszeren is futtatható. Ezt futtathatja a helyszínen, az Azure-ban, vagy a felhőbeli szolgáltató a kiválasztott virtuális gép csomópontján.
 
@@ -81,7 +83,7 @@ Az Azure-ban üzemeltetett Service Fabric-fürtön a legnagyobb részét a költ
 
 Egyéb költség kevésbé költséges összetevői a tárolási díjakat minden csomópont virtuális lemezek és hálózati i/o kimenő forgalom (például hálózati forgalom Azure-ból a felhasználó böngészője) Azure-ból.
 
-A képet kapjon a költség, hoztunk létre egy példa néhány alapértelmezett értékeinek használata foglalásiegység-méret, hálózati és tárolási: vessen egy pillantást a [díjkalkulátor](https://azure.com/e/52dea096e5844d5495a7b22a9b2ccdde). Nyugodtan frissítse az értékeket, az alapértelmezett kalkulátor való a helyzetnek megfelelő.
+Képet kapjon a költség, a fürt mérete, hálózati és tárolási néhány alapértelmezett értékeinek használata például létrehoztunk Önnek: Vessen egy pillantást a [díjkalkulátor](https://azure.com/e/52dea096e5844d5495a7b22a9b2ccdde). Nyugodtan frissítse az értékeket, az alapértelmezett kalkulátor való a helyzetnek megfelelő.
 
 ## <a name="next-steps"></a>További lépések
 

@@ -1,15 +1,16 @@
 ---
-title: Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
+title: CFD szimuláció futtatása
+titleSuffix: Azure Example Scenarios
 description: Számítási folyadékdinamikai (CFD) szimulációkat hajthat végre az Azure-ban.
 author: mikewarr
 ms.date: 09/20/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 42921122d74d07bf890f55be61b04c7e9a4f4e87
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: af43a60e952d75f84b4c7903a1567b0c76b9f4c4
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004655"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643934"
 ---
 # <a name="running-computational-fluid-dynamics-cfd-simulations-on-azure"></a>Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
 
@@ -23,11 +24,11 @@ Egyszerűbb létrehozását, felügyeleti és HPC-fürtök optimalizálása, Azu
 
 Egyéb releváns ágazatok CFD alkalmazásokhoz a következők:
 
-* Repüléstechnikai
-* Autóipar
-* HVAC létrehozása
-* Olaj és gáz
-* Élettudományok
+- Repüléstechnikai
+- Autóipar
+- HVAC létrehozása
+- Olaj és gáz
+- Élettudományok
 
 ## <a name="architecture"></a>Architektúra
 
@@ -46,12 +47,12 @@ Az ábrán egy tipikus hibrid kialakítással és feladat figyelése az Azure-be
 
 ### <a name="components"></a>Összetevők
 
-* [Az Azure CycleCloud] [ cyclecloud] egy eszköz létrehozását, kezelését, üzemeltetési és optimalizálása az Azure-beli HPC és Big Compute-fürtöket.
-* [Az Azure-ban Avere vFXT] [ avere] egy felhőbeli felhasználásra készült vállalati szintű fürtözött fájlrendszert biztosít.
-* [Azure-beli virtuális gépek (VM)] [ vms] hozhatók létre a számítási példányok statikus készletét.
-* [Virtual Machine Scale Sets (virtuálisgép-méretezési)] [ vmss] biztosítanak azonos virtuális gépek képes Azure CycleCloud szerint a felfelé és lefelé skálázva folyamatban van.
-* [Az Azure Storage-fiókok](/azure/storage/common/storage-introduction) szinkronizálás és az adatmegőrzést szolgálnak.
-* [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) engedélyezése a számos különböző típusú Azure-erőforrások, például az Azure Virtual Machines (VM), hogy biztonságosan kommunikálhassanak egymással, az internetes és a helyszíni hálózatok.
+- [Az Azure CycleCloud] [ cyclecloud] egy eszköz létrehozását, kezelését, üzemeltetési és optimalizálása az Azure-beli HPC és Big Compute-fürtöket.
+- [Az Azure-ban Avere vFXT] [ avere] egy felhőbeli felhasználásra készült vállalati szintű fürtözött fájlrendszert biztosít.
+- [Azure-beli virtuális gépek (VM)] [ vms] hozhatók létre a számítási példányok statikus készletét.
+- [Virtual Machine Scale Sets (virtuálisgép-méretezési)] [ vmss] biztosítanak azonos virtuális gépek képes Azure CycleCloud szerint a felfelé és lefelé skálázva folyamatban van.
+- [Az Azure Storage-fiókok](/azure/storage/common/storage-introduction) szinkronizálás és az adatmegőrzést szolgálnak.
+- [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) engedélyezése a számos különböző típusú Azure-erőforrások, például az Azure Virtual Machines (VM), hogy biztonságosan kommunikálhassanak egymással, az internetes és a helyszíni hálózatok.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
@@ -65,15 +66,22 @@ Méretezés az Azure CycleCloud a csomópontok lehetnek execute érhető el vagy
 
 Általános megoldások biztonságos, tekintse át a [az Azure security dokumentációja][security].
 
-## <a name="deploy-this-scenario"></a>Ez a forgatókönyv megvalósítható
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-Az Azure-beli üzembe helyezése előtt bizonyos Előfeltételek teljesülésére szükség. A Resource Manager-sablon üzembe helyezése előtt kövesse az alábbi lépéseket:
+### <a name="prerequisites"></a>Előfeltételek
+
+A Resource Manager-sablon üzembe helyezése előtt kövesse az alábbi lépéseket:
+
 1. Hozzon létre egy [szolgáltatásnév] [ cycle-svcprin] az appId, displayName, name, jelszót és bérlői beolvasásakor.
 2. Hozzon létre egy [SSH-kulcspár] [ cycle-ssh] való biztonságos bejelentkezéshez a CycleCloud kiszolgáló.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FCycleCloudCommunity%2Fcyclecloud_arm%2Fmaster%2Fazuredeploy.json" target="_blank">
-    <img src="https://azuredeploy.net/deploybutton.png"/>
-</a>
+    <!-- markdownlint-disable MD033 -->
+
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FCycleCloudCommunity%2Fcyclecloud_arm%2Fmaster%2Fazuredeploy.json" target="_blank">
+        <img src="https://azuredeploy.net/deploybutton.png"/>
+    </a>
+
+    <!-- markdownlint-enable MD033 -->
 
 3. [Jelentkezzen be a CycleCloud kiszolgáló] [ cycle-login] konfigurálását, és hozzon létre egy új fürtöt.
 4. [Hozzon létre egy fürtöt][cycle-create].
@@ -90,12 +98,12 @@ Egy HPC-implementációhoz CycleCloud kiszolgáló használatával futtatásáva
 
 Ebből a forgatókönyvből megtudhatja, hogyan CFD alkalmazások is futtathatók az Azure-ban, így a gépek szükséges RDMA funkciója, amely csak az adott Virtuálisgép-méretek érhető el. A következő példák, amely folyamatosan lefoglalt nyolc óra / nap egy hónapban, az 1 TB kimenő adatforgalom a méretezési csoport esetében sikerült felmerülő költségek. Ezenkívül tartalmazza az Azure CycleCloud kiszolgáló-és az Azure-telepítés Avere vFXT:
 
-* Régióban: Észak-Európa
-* Azure CycleCloud Server: Standard D3 x 1 (4 x Standard HDD processzor, 14 GB memória, 32 GB)
-* Az Azure CycleCloud főkiszolgáló: 1 x Standard D12 v (4 x processzor, 28 GB memória, Standard HDD 32 GB)
-* Az Azure CycleCloud csomópont tömb: 10 Standard H16r x (16 x processzor, 112 GB memória)
-* Az Azure-fürtön Avere vFXT: 3 x D16s v3 (200 GB-os OS, 1 TB méretű adatlemezzel prémium szintű SSD)
-* Kimenő adatforgalom: 1 TB-ot
+- Régió: Észak-Európa
+- Az Azure CycleCloud kiszolgáló: Standard D3 x 1 (4 x Standard HDD processzor, 14 GB memória, 32 GB)
+- Az Azure CycleCloud főkiszolgáló: Standard D12 v (4 x processzor, 28 GB memória, Standard HDD 32 GB) x 1
+- Az Azure CycleCloud csomópont tömb: Standard H16r x 10 (16 x processzor, 112 GB memória)
+- Az Azure-fürtön vFXT Avere: 3 x D16s v3 (200 GB-os OS, 1 TB méretű adatlemezzel prémium szintű SSD)
+- Kimenő adatforgalom: 1 TB
 
 Tekintse át ezt [a becsült ár] [ pricing] a fent felsorolt hardver.
 
@@ -105,8 +113,8 @@ Miután üzembe helyezte a mintát, tudjon meg többet [Azure CycleCloud][cyclec
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
-* [RDMA-kompatibilis virtuálisgép-példányok][rdma]
-* [Egy RDMA-példány virtuális gép testreszabása][rdma-custom]
+- [RDMA-kompatibilis virtuálisgép-példányok][rdma]
+- [Egy RDMA-példány virtuális gép testreszabása][rdma-custom]
 
 <!-- links -->
 [architecture]: ./media/architecture-hpc-cfd.png

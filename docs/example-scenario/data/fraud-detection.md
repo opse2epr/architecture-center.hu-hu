@@ -1,14 +1,15 @@
 ---
-title: Csalások valós idejű észlelése az Azure-ban
+title: Csalások valós idejű észlelése
+titleSuffix: Azure Example Scenarios
 description: Valós időben észlelheti a csaló szándékú tevékenységeket az Azure Event Hubs és a Stream Analytics használatával.
 author: alexbuckgit
 ms.date: 07/05/2018
-ms.openlocfilehash: bd9eb4d572651c4e57a0043226860623cd8d17e1
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.openlocfilehash: 9e4d8c5d24acc414ab38722d2df59102395250fb
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610617"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643405"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Csalások valós idejű észlelése az Azure-ban
 
@@ -24,9 +25,9 @@ Ez a minta egy része, egy szélesebb körű adatok feldolgozási architektúra 
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Észleli a csaló mobiltelefon meghívja a távközlési forgatókönyvekben.
-* Rosszindulatú hitelkártya-tranzakciók a banki intézmények azonosítása.
-* Kiskereskedelem és e-kereskedelmi forgatókönyvekben csaló vásárlások azonosítása.
+- Észleli a csaló mobiltelefon meghívja a távközlési forgatókönyvekben.
+- Rosszindulatú hitelkártya-tranzakciók a banki intézmények azonosítása.
+- Kiskereskedelem és e-kereskedelmi forgatókönyvekben csaló vásárlások azonosítása.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -34,28 +35,28 @@ Egyéb alkalmazási helyzetek a következők:
 
 Ebben a forgatókönyvben egy valós idejű elemzési folyamatok háttér-összetevőinek ismerteti. Áramlanak keresztül az adatok a forgatókönyv a következő:
 
-1. Mobiltelefon hívása metaadatainak egy Azure Event Hubs-példány is küld a forrásrendszerben. 
+1. Mobiltelefon hívása metaadatainak egy Azure Event Hubs-példány is küld a forrásrendszerben.
 2. Stream Analytics-feladat elindult, amelyeket a hub-eseményforrás keresztül adatokat fogad.
 3. A Stream Analytics-feladat egy előre definiált lekérdezést a bemeneti stream át és elemez, akkor egy rosszindulatú tranzakció algoritmus alapján futtatja. Ez a lekérdezés a stream szegmentálásához különböző historikus egységekbe átfedésmentes ablak használ.
 4. A Stream Analytics-feladat a naplófájlba írja az átalakított stream jelölő észlelt egy kimeneti csaló hívásokat fogadó Azure Blob storage-ban.
 
 ### <a name="components"></a>Összetevők
 
-* [Az Azure Event Hubs] [ docs-event-hubs] egy valós idejű streamelési platform és Eseményfeldolgozási szolgáltatás, amely fogadására és feldolgozására másodpercenként több millió van. Az Event Hubs képes az elosztott szoftverek és eszközök által generált események, adatok vagy telemetria feldolgozására és tárolására. Ebben a forgatókönyvben az Event Hubs kap a rosszindulatú tevékenység elemezni az összes telefonhívás metaadatait.
-* [Az Azure Stream Analytics] [ docs-stream-analytics] olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ezek a minták más alárendelt műveletek is indíthat. Ebben a forgatókönyvben a Stream Analytics azonosíthatja a csaló hívások Event hubs szolgáltatástól érkező bemeneti stream alakítja át.
-* [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) ebben a forgatókönyvben a Stream Analytics-feladat eredményeinek tárolására szolgál.
+- [Az Azure Event Hubs] [ docs-event-hubs] egy valós idejű streamelési platform és Eseményfeldolgozási szolgáltatás, amely fogadására és feldolgozására másodpercenként több millió van. Az Event Hubs képes az elosztott szoftverek és eszközök által generált események, adatok vagy telemetria feldolgozására és tárolására. Ebben a forgatókönyvben az Event Hubs kap a rosszindulatú tevékenység elemezni az összes telefonhívás metaadatait.
+- [Az Azure Stream Analytics] [ docs-stream-analytics] olyan eseményfeldolgozó motor, amely a nagy mennyiségű adat a eszközök és más adatforrásokhoz is elemezhet. Támogatja a kinyerésekor információk adatfolyamokból, minták és kapcsolatok is. Ezek a minták más alárendelt műveletek is indíthat. Ebben a forgatókönyvben a Stream Analytics azonosíthatja a csaló hívások Event hubs szolgáltatástól érkező bemeneti stream alakítja át.
+- [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) ebben a forgatókönyvben a Stream Analytics-feladat eredményeinek tárolására szolgál.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-A valós idejű üzenetbetöltés, az adattárolás, az adatfolyam-feldolgozás, storage, az analitikus adatok és elemzési és jelentéskészítési számos technológiai lehetőségek érhetők el. Ezek a beállítások, képességek és fontosabb kritériumok áttekintését lásd: [Big data-architektúrák: valós idejű feldolgozás](/azure/architecture/data-guide/technology-choices/real-time-ingestion) az Azure-Adatarchitektúrához.
+A valós idejű üzenetbetöltés, az adattárolás, az adatfolyam-feldolgozás, storage, az analitikus adatok és elemzési és jelentéskészítési számos technológiai lehetőségek érhetők el. Ezek a beállítások, képességek és fontosabb kritériumok áttekintését lásd: [Big data-architektúrák: Valós idejű feldolgozás](/azure/architecture/data-guide/technology-choices/real-time-ingestion) az Azure-Adatarchitektúrához.
 
 Ezenkívül az adathamisítások felderítése összetett algoritmusokat állíthat elő különféle machine learning-szolgáltatások az Azure-ban. Ezek a beállítások áttekintéséhez lásd: [technológiai lehetőségek a machine Learning](/azure/architecture/data-guide/technology-choices/data-science-and-machine-learning) a a [Azure-Adatarchitektúrához](../../data-guide/index.md).
 
 ### <a name="availability"></a>Rendelkezésre állás
 
-Az Azure Monitor egységes felhasználói felületet biztosít a különböző Azure-szolgáltatások figyelésére. További információkért lásd: [a Microsoft Azure figyelés](/azure/monitoring-and-diagnostics/monitoring-overview). Az Event Hubs és Stream Analytics is integrálva van az Azure Monitor szolgáltatással. 
+Az Azure Monitor egységes felhasználói felületet biztosít a különböző Azure-szolgáltatások figyelésére. További információkért lásd: [a Microsoft Azure figyelés](/azure/monitoring-and-diagnostics/monitoring-overview). Az Event Hubs és Stream Analytics is integrálva van az Azure Monitor szolgáltatással.
 
 Más rendelkezésre állási lehetőségekért lásd: a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
@@ -85,9 +86,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költség profilt:
 
-* [Kis][small-pricing]: keresztül egy standard folyamatos átviteli egység havi 1 millió esemény feldolgozására.
-* [Közepes][medium-pricing]: öt standard folyamatos átviteli egység / hó – 100 millió esemény feldolgozására.
-* [Nagy][large-pricing]: 20 standard szintű streamelési egységgel havonta keresztül 999 millió esemény feldolgozására.
+- [Kis][small-pricing]: keresztül egy standard folyamatos átviteli egység havi 1 millió esemény feldolgozására.
+- [Közepes][medium-pricing]: öt standard folyamatos átviteli egység / hó – 100 millió esemény feldolgozására.
+- [Nagy][large-pricing]: 20 standard szintű streamelési egységgel havonta keresztül 999 millió esemény feldolgozására.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
@@ -110,4 +111,3 @@ Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is 
 [scalability]: /azure/architecture/checklist/scalability
 [resiliency]: ../../resiliency/index.md
 [security]: /azure/security/
-

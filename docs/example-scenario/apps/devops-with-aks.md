@@ -1,14 +1,15 @@
 ---
 title: CI-/CD-folyamat tárolóalapú számítási feladatokhoz
+titleSuffix: Azure Example Scenarios
 description: DevOps-folyamatot hozhat létre egy Node.Js-webalkalmazáshoz a Jenkins, az Azure Container Registry, az Azure Kubernetes Service, a Cosmos DB és a Grafana használatával.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: db8de674ee2789c5b41cebebee5745ecc8544122
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.openlocfilehash: 9d2681294b5c332e15259706518e4b02a488002f
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610838"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643764"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI-/CD-folyamat tárolóalapú számítási feladatokhoz
 
@@ -22,9 +23,9 @@ Azure-szolgáltatások, például az Azure Kubernetes Service, Container Registr
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Modernizálhatja megközelítés tárolóalapú mikroszolgáltatások fejlesztési eljárásaikat alkalmazás.
-* Felgyorsítható az alkalmazások fejlesztése és üzembe helyezési életciklusának.
-* Központi telepítések tesztelése és érvényesítési elfogadási környezetek automatizálása.
+- Modernizálhatja megközelítés tárolóalapú mikroszolgáltatások fejlesztési eljárásaikat alkalmazás.
+- Felgyorsítható az alkalmazások fejlesztése és üzembe helyezési életciklusának.
+- Központi telepítések tesztelése és érvényesítési elfogadási környezetek automatizálása.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -43,19 +44,19 @@ Ebben a forgatókönyvben a Node.js-webalkalmazás fejlesztési és üzemelteté
 
 ### <a name="components"></a>Összetevők
 
-* [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a forgatókönyvben a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
-* [Azure-beli Linux rendszerű virtuális gépek] [ docs-virtual-machines] az IaaS platform, a Jenkins és a Grafana példányok futtatásához használt.
-* [Az Azure Container Registry] [ docs-acr] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és az Azure platformon felgyorsíthatja az üzembe helyezéshez szükséges idő szerint replikálható a régiók.
-* [Az Azure Kubernetes Service] [ docs-aks] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
-* [Az Azure Cosmos DB] [ docs-cosmos-db] egy globálisan elosztott, többmodelles adatbázis, amely lehetővé teszi, hogy illeszkedjen az igényeihez különféle adatbázis és a konzisztencia modellek közül választhat. A Cosmos DB használatával az adatok globális replikálása, és van nem fürt felügyeleti vagy a replikációs összetevő telepítését és konfigurálását.
-* [Az Azure Monitor] [ docs-azure-monitor] segít a teljesítmény, a biztonság fenntartására és a trendek azonosítására. Figyelő által előállított metrikákat más erőforrásokat és eszközöket, mint a Grafana használhatják.
-* [Grafana] [ grafana] egy nyílt forráskódú megoldás lekérdezésére, megjelenítése, riasztás és metrikák ismertetése. Egy adatforrás beépülő modul az Azure Monitor lehetővé teszi, hogy a Grafana létrehozása az Azure Kubernetes Service-ben futó és a Cosmos DB használatával az alkalmazások teljesítményének figyelése vizuális irányítópultokkal.
+- [A Jenkins] [ jenkins] egy nyílt forráskódú automatizáló kiszolgáló, amely integrálható az Azure-szolgáltatások engedélyezése a folyamatos integrációs (CI) és a folyamatos készregyártás (CD). Ebben a forgatókönyvben a Jenkins koordinálja véglegesítés verziókövetési alapján új tárolórendszerképek létrehozása, leküldi a rendszerképeket az Azure Container Registrybe, majd frissítések alkalmazáspéldányok Azure Kubernetes Service-ben.
+- [Azure-beli Linux rendszerű virtuális gépek] [ docs-virtual-machines] az IaaS platform, a Jenkins és a Grafana példányok futtatásához használt.
+- [Az Azure Container Registry] [ docs-acr] tárolja és kezeli az Azure Kubernetes Service-fürt által használt tárolórendszerképek. Képek a rendszer biztonságosan tárolja, és az Azure platformon felgyorsíthatja az üzembe helyezéshez szükséges idő szerint replikálható a régiók.
+- [Az Azure Kubernetes Service] [ docs-aks] egy felügyelt Kubernetes-platform, amely lehetővé teszi, hogy helyezhet üzembe és kezelhet tárolóalapú alkalmazásokat tárolóvezénylési szakértelem nélkül is. Üzemeltetett Kubernetes-szolgáltatásként az Azure olyan fontos műveleteket bonyolít le, mint az állapotmonitorozás és a karbantartás.
+- [Az Azure Cosmos DB] [ docs-cosmos-db] egy globálisan elosztott, többmodelles adatbázis, amely lehetővé teszi, hogy illeszkedjen az igényeihez különféle adatbázis és a konzisztencia modellek közül választhat. A Cosmos DB használatával az adatok globális replikálása, és van nem fürt felügyeleti vagy a replikációs összetevő telepítését és konfigurálását.
+- [Az Azure Monitor] [ docs-azure-monitor] segít a teljesítmény, a biztonság fenntartására és a trendek azonosítására. Figyelő által előállított metrikákat más erőforrásokat és eszközöket, mint a Grafana használhatják.
+- [Grafana] [ grafana] egy nyílt forráskódú megoldás lekérdezésére, megjelenítése, riasztás és metrikák ismertetése. Egy adatforrás beépülő modul az Azure Monitor lehetővé teszi, hogy a Grafana létrehozása az Azure Kubernetes Service-ben futó és a Cosmos DB használatával az alkalmazások teljesítményének figyelése vizuális irányítópultokkal.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* [Az Azure folyamatok] [ azure-pipelines] súgó megvalósítása egy folyamatos integrációs (CI), tesztelési és üzembe helyezése (CD) folyamatot minden olyan alkalmazás esetében.
-* [Kubernetes] [ kubernetes] futtatható közvetlenül az Azure-beli virtuális gépek helyett egy felügyelt szolgáltatáson keresztül, ha szeretné jobban szabályozhatja a fürthöz.
-* [A Service Fabric] [ service-fabric] van egy másik másodlagos tárolóvezénylő, mely lecserélheti az AKS.
+- [Az Azure folyamatok] [ azure-pipelines] súgó megvalósítása egy folyamatos integrációs (CI), tesztelési és üzembe helyezése (CD) folyamatot minden olyan alkalmazás esetében.
+- [Kubernetes] [ kubernetes] futtatható közvetlenül az Azure-beli virtuális gépek helyett egy felügyelt szolgáltatáson keresztül, ha szeretné jobban szabályozhatja a fürthöz.
+- [A Service Fabric] [ service-fabric] van egy másik másodlagos tárolóvezénylő, mely lecserélheti az AKS.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -91,11 +92,13 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-**Előfeltételek.**
+### <a name="prerequisites"></a>Előfeltételek
 
-* Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
-* Nyilvános ssh-kulcs van szüksége. Egy nyilvános kulcspárra létrehozásának lépéseiért lásd: [létrehozása és használata egy SSH-kulcsot a Linux rendszerű virtuális gépek párosítsa][sshkeydocs].
-* A hitelesítési szolgáltatás és az erőforrások egy Azure Active Directory (AD) egyszerű szolgáltatást kell rendelkeznie. Szükség esetén is létrehoz egy szolgáltatást, az egyszerű [az ad sp create-for-rbac][createsp]
+- Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
+
+- Nyilvános ssh-kulcs van szüksége. Egy nyilvános kulcspárra létrehozásának lépéseiért lásd: [létrehozása és használata egy SSH-kulcsot a Linux rendszerű virtuális gépek párosítsa][sshkeydocs].
+
+- A hitelesítési szolgáltatás és az erőforrások egy Azure Active Directory (AD) egyszerű szolgáltatást kell rendelkeznie. Szükség esetén is létrehoz egy szolgáltatást, az egyszerű [az ad sp create-for-rbac][createsp]
 
     ```azurecli-interactive
     az ad sp create-for-rbac --name myDevOpsScenario
@@ -103,17 +106,23 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 
     Jegyezze fel a *appId* és *jelszó* Ez a parancs kimenetében. A forgatókönyv telepítésekor ezeket az értékeket a sablonhoz adnia.
 
+### <a name="walk-through"></a>Az útmutatóban
+
 Ebben a forgatókönyvben egy Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
+
+<!-- markdownlint-disable MD033 -->
 
 1. Kattintson a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fdevops-with-aks%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
-   * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myAKSDevOpsScenario* a szövegmezőben.
-   * Válassza ki a régiót, a **hely** legördülő listából.
-   * A szolgáltatás egyszerű alkalmazás Azonosítóját és jelszavát adja meg a `az ad sp create-for-rbac` parancsot.
-   * Adjon meg egy felhasználónevet és a biztonságos jelszó a Jenkins-példány és a Grafana konzol.
-   * Adjon meg egy SSH-kulcsot a Linuxos virtuális gépekre történő bejelentkezések biztonságossá tételéhez.
-   * Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
-   * Válassza ki a **beszerzési** gombra.
+   - Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myAKSDevOpsScenario* a szövegmezőben.
+   - Válassza ki a régiót, a **hely** legördülő listából.
+   - A szolgáltatás egyszerű alkalmazás Azonosítóját és jelszavát adja meg a `az ad sp create-for-rbac` parancsot.
+   - Adjon meg egy felhasználónevet és a biztonságos jelszó a Jenkins-példány és a Grafana konzol.
+   - Adjon meg egy SSH-kulcsot a Linuxos virtuális gépekre történő bejelentkezések biztonságossá tételéhez.
+   - Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
+   - Válassza ki a **beszerzési** gombra.
+
+<!-- markdownlint-enable MD033 -->
 
 Az üzembe helyezés befejeződik 15 – 20 percet is igénybe vehet.
 
@@ -123,9 +132,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 Adtunk három példa költség profilok tárolólemezképek tárolására és az alkalmazások futtatása a Kubernetes-csomópontok száma alapján.
 
-* [Kis][small-pricing]: a díjszabási példa havonta 1000 tároló buildek utal.
-* [Közepes][medium-pricing]: a díjszabási példa havonta 100 000 tároló buildek utal.
-* [Nagy][large-pricing]: a díjszabási példa havonta 1 000 000 tároló buildek utal.
+- [Kis][small-pricing]: a díjszabási példa havonta 1000 tároló buildek utal.
+- [Közepes][medium-pricing]: a díjszabási példa havonta 100 000 tároló buildek utal.
+- [Nagy][large-pricing]: a díjszabási példa havonta 1 000 000 tároló buildek utal.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 

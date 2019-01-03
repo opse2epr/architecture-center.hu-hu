@@ -1,15 +1,16 @@
 ---
-title: Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
+title: Bankok közötti nem központosított megbízhatósági kapcsolatok
+titleSuffix: Azure Example Scenarios
 description: Megbízható kommunikációs és adatmegosztó környezetet hozhat létre anélkül, hogy egy központosított adatbázisra kellene hagyatkoznia.
 author: vitoc
 ms.date: 09/09/2018
 ms.custom: csa-team
-ms.openlocfilehash: 91c41f7bd6bd6f4eb8cd00859f7ce9065f8a86be
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: bd38986a86055305cec97db7a3f3f3e75ff600b0
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004724"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643702"
 ---
 # <a name="decentralized-trust-between-banks-on-azure"></a>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
 
@@ -25,11 +26,11 @@ Ez a példa bemutatja, hogyan Azure szolgáltatásokat, mint a virtuálisgép-m�
 
 Egyéb alkalmazási helyzetek a következők:
 
-* A lefoglalt költségvetése multinacionális Corporation különböző üzleti egységek közötti áthelyezését
-* Határokon átnyúló
-* Kereskedelmi pénzügyi forgatókönyvek
-* Használata esetén a különböző vállalatok hűségprogramok használatán keresztül rendszerek
-* Ellátási lánccal kapcsolatos ökoszisztémáknál
+- A lefoglalt költségvetése multinacionális Corporation különböző üzleti egységek közötti áthelyezését
+- Határokon átnyúló
+- Kereskedelmi pénzügyi forgatókönyvek
+- Használata esetén a különböző vállalatok hűségprogramok használatán keresztül rendszerek
+- Ellátási lánccal kapcsolatos ökoszisztémáknál
 
 ## <a name="architecture"></a>Architektúra
 
@@ -45,11 +46,11 @@ Ebben a forgatókönyvben a háttér-összetevőket, amelyek szükségesek a mag
 
 ### <a name="components"></a>Összetevők
 
-* Virtuális gépek virtuálisgép-méretezési csoportokon belül biztosít az igény szerinti számítási létesítmény az a blockchain érvényesítő folyamatok üzemeltetésére
-* A Key Vault titkos kulcsai minden érvényesítő része lesz a biztonságos tárolási létesítmény
-* Terheléselosztó osztja el a távoli Eljáráshívás társviszony-létesítéshez, és irányítási DApp kérelmek
-* Állandó üzemeltető tárolót a hálózati információkat és a koordináló bérlési
-* Az Operations Management Suite (képezte néhány Azure-szolgáltatások) elérhető csomópont, tranzakció / perc és consortium tagok betekintést nyújt.
+- Virtuális gépek virtuálisgép-méretezési csoportokon belül biztosít az igény szerinti számítási létesítmény az a blockchain érvényesítő folyamatok üzemeltetésére
+- A Key Vault titkos kulcsai minden érvényesítő része lesz a biztonságos tárolási létesítmény
+- Terheléselosztó osztja el a távoli Eljáráshívás társviszony-létesítéshez, és irányítási DApp kérelmek
+- Állandó üzemeltető tárolót a hálózati információkat és a koordináló bérlési
+- Az Operations Management Suite (képezte néhány Azure-szolgáltatások) elérhető csomópont, tranzakció / perc és consortium tagok betekintést nyújt.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
@@ -57,15 +58,15 @@ Az Ethereum PoA megközelítés választja ebben a példában egy megfelelő bel
 
 Más kiterjesztett vagy más esetekben például tranzakciós adatvédelmi aggályokat fordulhatnak elő. Például egy értékpapírok forgatókönyv szerint konzorcium tagjai nem szeretné a tranzakciók, még akkor is, a más tagok láthatják. Más, Ethereum PoA alternatíva megoldó ezek a problémák, a saját módon:
 
-* Corda
-* Kvórum
-* Hyperledger
+- Corda
+- Kvórum
+- Hyperledger
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
 ### <a name="availability"></a>Rendelkezésre állás
 
-[Az Azure Monitor] [ monitor] folyamatosan az a blockchain hálózati problémák rendelkezésre állásának figyelésére használható. Az Azure Monitor alapuló egyéni figyelési irányítópult mutató hivatkozást küld, a sikeres telepítés a blockchain-megoldás ebben a forgatókönyvben használt sablon. Az irányítópult megjeleníti a szívverés az elmúlt 30 percben, valamint más hasznos adatokat jelentő csomópontok. 
+[Az Azure Monitor] [ monitor] folyamatosan az a blockchain hálózati problémák rendelkezésre állásának figyelésére használható. Az Azure Monitor alapuló egyéni figyelési irányítópult mutató hivatkozást küld, a sikeres telepítés a blockchain-megoldás ebben a forgatókönyvben használt sablon. Az irányítópult megjeleníti a szívverés az elmúlt 30 percben, valamint más hasznos adatokat jelentő csomópontok.
 
 Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
 
@@ -93,9 +94,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 A méretezési csoport Virtuálisgép-példányain az alkalmazások (a példányok különböző régiókban is lehetnek) futtató száma alapján három példa költség profilok adtunk meg.
 
-* [Kis][small-pricing]: a díjszabási példa 2 virtuális gépen havonta utal. monitorozással ki van kapcsolva
-* [Közepes][medium-pricing]: a díjszabási példa 7 virtuális gép havonta utal. figyelési bekapcsolva
-* [Nagy][large-pricing]: a díjszabási példa kapcsolva figyeléssel havonta 15 virtuális gépekhez utal.
+- [Kis][small-pricing]: a díjszabási példa 2 virtuális gépen havonta utal. monitorozással ki van kapcsolva
+- [Közepes][medium-pricing]: a díjszabási példa 7 virtuális gép havonta utal. figyelési bekapcsolva
+- [Nagy][large-pricing]: a díjszabási példa kapcsolva figyeléssel havonta 15 virtuális gépekhez utal.
 
 A fenti díjszabás van egy consortium tag indítása és csatlakozás a blockchain-hálózathoz. Általában a egy consortium, amelyekben több vállalat vagy szervezet vesz részt, minden egyes tagja megkapja a saját Azure-előfizetést.
 

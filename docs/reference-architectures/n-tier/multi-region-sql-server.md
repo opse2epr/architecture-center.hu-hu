@@ -5,12 +5,12 @@ description: Alkalmazás üzembe helyezése az Azure-beli virtuális gépek töb
 author: MikeWasson
 ms.date: 07/19/2018
 ms.custom: seodec18
-ms.openlocfilehash: 5036d8c74dbf92d9547ab866b15b1576df48e3eb
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 84da8aaef7e552beff1f06befbaa2e50a3ac3d8b
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119999"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643707"
 ---
 # <a name="run-an-n-tier-application-in-multiple-azure-regions-for-high-availability"></a>Futtatása egy N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -60,7 +60,7 @@ Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi ter�
 - A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
 - A párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Az Azure párosított régiói][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók][regional-pairs].
 
 ### <a name="traffic-manager-configuration"></a>A Traffic Manager konfigurációja
 
@@ -159,6 +159,13 @@ Tesztelje a rendszer meghibásodásokkal szembeni rugalmasságát. Alább talál
 - Állítsa le a DNS-szolgáltatást a tartományvezérlőkön.
 
 Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy azok megfelelnek az üzleti követelményeinek. Több hibaállapot kombinációját is tesztelje.
+
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [A helyreállításhoz magas rendelkezésre állás és vészhelyreállítás az Azure-ban létrehozott többrétegű webalkalmazást](/azure/architecture/example-scenario/infrastructure/multi-tier-app-disaster-recovery)
+- [Biztonságos webes alkalmazások létrehozása a Windows virtual machines az Azure-ban](/azure/architecture/example-scenario/infrastructure/regulated-multitier-app)
 
 <!-- links -->
 

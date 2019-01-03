@@ -5,12 +5,12 @@ description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendsz
 author: lbrader
 ms.date: 08/03/2018
 ms.custom: seodec18
-ms.openlocfilehash: 4014d5736527a2f29692720d199b4a1aa8f76020
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: ace5348ccb32299b2f4167b3d384ba72972ca9ad
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120186"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644016"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
@@ -116,7 +116,7 @@ Az SQL, az SAP a [Top 10 kulcs szempontjai SAP-alkalmazások üzembe helyezése 
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Az SAP-alkalmazási rétegben az Azure számos különféle virtuálisgép-méretek vertikális és horizontális felskálázás kínál. A teljes listát lásd: [SAP-jegyzetnek 1928533](https://launchpad.support.sap.com/#/notes/1928533) – SAP alkalmazások az Azure-on: támogatott termékek és Azure-beli Virtuálisgép-típusok. (SAP Service Marketplace-fiók szükséges az eléréshez). SAP-alkalmazáskiszolgálókhoz, és a központi szolgáltatások fürtök méretezhetők felfelé és lefelé vagy horizontálisan felskálázhat további példányok hozzáadása révén. A AnyDB adatbázis felfelé és lefelé méretezését is, de nem horizontális felskálázás. Az SAP adatbázis AnyDB tárolója nem támogatja a horizontális skálázás.
+Az SAP-alkalmazási rétegben az Azure számos különféle virtuálisgép-méretek vertikális és horizontális felskálázás kínál. A teljes listát lásd: [SAP-jegyzetnek 1928533](https://launchpad.support.sap.com/#/notes/1928533) – SAP alkalmazások az Azure-ban: Támogatott termékek és Azure Virtuálisgép-típusok. (SAP Service Marketplace-fiók szükséges az eléréshez). SAP-alkalmazáskiszolgálókhoz, és a központi szolgáltatások fürtök méretezhetők felfelé és lefelé vagy horizontálisan felskálázhat további példányok hozzáadása révén. A AnyDB adatbázis felfelé és lefelé méretezését is, de nem horizontális felskálázás. Az SAP adatbázis AnyDB tárolója nem támogatja a horizontális skálázás.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
 
@@ -149,7 +149,7 @@ A vészhelyreállítás (DR) meg kell tudni átadja a feladatokat egy másodlago
 
 - **Kiszolgálók alkalmazásrétegek**. SAP-alkalmazáskiszolgálók nem tartalmaznak üzleti adatokat. Az Azure-ban, egy egyszerű Vészhelyreállítási stratégia lehet SAP-alkalmazáskiszolgálókhoz létrehozni a másodlagos régióba, majd leállíthatja őket. Bármilyen konfigurációmódosítás vagy kernelfrissítés az elsődleges alkalmazáskiszolgálón, hogy a módosításokat át kell másolni a virtuális gépek a másodlagos régióban. Például a kernel végrehajtható másolja a Vészhelyreállítási virtuális gépekhez. Az automatikus replikálását egy másodlagos régióba alkalmazáskiszolgálók [Azure Site Recovery](/azure/site-recovery/site-recovery-overview) az ajánlott megoldás.
 
-- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A vészhelyreállítási régióban lévő virtuális gép futtatása a központi szolgáltatások szerepkört hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, azokat meg kell ismételni a közép-szolgáltatásokat futtató a vészhelyreállítási régióban lévő virtuális Gépen. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery replikálja a fürtcsomópontok, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal /sapmnt átmásolása a vészhelyreállítási régióban használhatja. Letöltéséhez egyszerű replikációs mód létrehozási, másolási és tesztelési feladatátvételi folyamatok részleteiért [SAP NetWeaver: Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás létrehozása](https://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és hivatkozzon a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
+- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A vészhelyreállítási régióban lévő virtuális gép futtatása a központi szolgáltatások szerepkört hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, azokat meg kell ismételni a közép-szolgáltatásokat futtató a vészhelyreállítási régióban lévő virtuális Gépen. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery replikálja a fürtcsomópontok, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal /sapmnt átmásolása a vészhelyreállítási régióban használhatja. További információ az egyszerű replikációs mód létrehozási, másolási és tesztelési feladatátvételi folyamatok letöltési [SAP NetWeaver: A Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás](https://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és hivatkozzon a "4.3. SAP SPOF layer (ASCS)” (SAP SPOF réteg – ASCS) fejezetet.
 
 - **Adatbázisréteg**. DR leginkább az adatbázis a saját integrált replikációs technológiával van megvalósítva. Esetén az SQL Server például azt javasoljuk, AlwaysOn rendelkezésre állási csoport létesíteni egy távoli régióba, a replika kézi feladatátvételre tranzakció aszinkron módon replikál. Aszinkron replikáció elkerülhető az elsődleges helyen interaktív számítási feladatai teljesítményével lehet. Manuális feladatátvétel személy elemezheti a DR hatását, és döntse el, ha a DR helyről működő indokolt lehetőséget kínál.
 
@@ -179,5 +179,14 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Azure közösségi támogatás](https://azure.microsoft.com/support/community/)
 - [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
+
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata](/azure/architecture/example-scenario/apps/sap-production)
+- [Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek](/azure/architecture/example-scenario/apps/sap-dev-test)
+
+<!-- links -->
 
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/sap-reference-architectures.vsdx

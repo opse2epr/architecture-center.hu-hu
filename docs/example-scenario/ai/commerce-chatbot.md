@@ -1,14 +1,15 @@
 ---
-title: Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
+title: A szállodai foglalások természetes nyelvi csevegőrobot
+titleSuffix: Azure Example Scenarios
 description: Beszélgető csevegőrobotot hozhat létre kereskedelmi alkalmazásokhoz az Azure Bot Service segítségével.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: a922a75d621672fcac95296b1d99112d68c91107
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.openlocfilehash: 31a7384b11262ac967ab5f8a6c5e7f17e9a00b6f
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610770"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643849"
 ---
 # <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
 
@@ -22,9 +23,9 @@ Azure-szolgáltatások például a Bot Service és Language Understanding vagy S
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Egy étterem elvihető menü megtekintése és élelmiszer rendezése
-* Szálloda rendelkezésre állásának ellenőrzése és a egy hely foglalása
-* Keresés a rendelkezésre álló fényképek, és rendelése
+- Egy étterem elvihető menü megtekintése és élelmiszer rendezése
+- Szálloda rendelkezésre állásának ellenőrzése és a egy hely foglalása
+- Keresés a rendelkezésre álló fényképek, és rendelése
 
 ## <a name="architecture"></a>Architektúra
 
@@ -41,18 +42,18 @@ Ebben a forgatókönyvben a természetes nyelvi robot, amely úgy működik, min
 
 ### <a name="components"></a>Összetevők
 
-* [Az Azure Active Directory] [ aad-docs] van a Microsoft több-bérlős felhőalapú címtár- és identitáskezelési szolgáltatás. Az Azure AD B2C összekötő így azonosíthatja a magánszemélyek külső azonosítókat, például Google, Facebook vagy a Microsoft-Account támogatja.
-* [App Service-ben] [ appservice-docs] hozhat létre és üzemeltethet webalkalmazásokat az Ön által választott programozási nyelven infrastruktúra kezelése nélkül is.
-* [Bot Service] [ botservice-docs] elkészítheti, tesztelheti, telepítheti és felügyelheti a robotokat intelligens eszközöket biztosít.
-* [A cognitive Services] [ cognitive-docs] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg beszél, megértésében, valamint a felhasználói szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
-* [Az SQL Database] [ sqldatabase-docs] van egy teljes körűen felügyelt relációs adatbázis-szolgáltatás, amely az SQL Server-motorhoz.
-* [Az Application Insights] [ appinsights-docs] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás, amely lehetővé teszi az alkalmazások, például a csevegőrobot teljesítményének figyelése.
+- [Az Azure Active Directory] [ aad-docs] van a Microsoft több-bérlős felhőalapú címtár- és identitáskezelési szolgáltatás. Az Azure AD B2C összekötő így azonosíthatja a magánszemélyek külső azonosítókat, például Google, Facebook vagy a Microsoft-Account támogatja.
+- [App Service-ben] [ appservice-docs] hozhat létre és üzemeltethet webalkalmazásokat az Ön által választott programozási nyelven infrastruktúra kezelése nélkül is.
+- [Bot Service] [ botservice-docs] elkészítheti, tesztelheti, telepítheti és felügyelheti a robotokat intelligens eszközöket biztosít.
+- [A cognitive Services] [ cognitive-docs] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg beszél, megértésében, valamint a felhasználói szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
+- [Az SQL Database] [ sqldatabase-docs] van egy teljes körűen felügyelt relációs adatbázis-szolgáltatás, amely az SQL Server-motorhoz.
+- [Az Application Insights] [ appinsights-docs] egy bővíthető alkalmazásteljesítmény-felügyeleti (APM) szolgáltatás, amely lehetővé teszi az alkalmazások, például a csevegőrobot teljesítményének figyelése.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* [Microsoft Speech API] [ speech-api] hogyan kommunikáljanak az ügyfelek a robot módosításához is használható.
-* [A QnA Maker] [ qna-maker] feltárhatja, hogy gyorsan ismeretek hozzáadása a robot a szolgáltatásban tárolt részben strukturált tartalmat, például egy Gyakori is használható.
-* [Fordítói szöveg] [ translator] egy szolgáltatás, amely akkor érdemes lehet könnyen többnyelvű támogatás hozzáadása a robot.
+- [Microsoft Speech API] [ speech-api] hogyan kommunikáljanak az ügyfelek a robot módosításához is használható.
+- [A QnA Maker] [ qna-maker] feltárhatja, hogy gyorsan ismeretek hozzáadása a robot a szolgáltatásban tárolt részben strukturált tartalmat, például egy Gyakori is használható.
+- [Fordítói szöveg] [ translator] egy szolgáltatás, amely akkor érdemes lehet könnyen többnyelvű támogatás hozzáadása a robot.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -88,23 +89,29 @@ Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lás
 
 Ez a forgatókönyv segítségével megismerheti a legtöbb összpontosított területek három összetevőből áll:
 
-* [Infrastruktúra-összetevőket](#deploy-infrastructure-components). Egy Azure Resource Manager-sablon használatával helyezhet üzembe egy App Service, webalkalmazás, az Application Insights, tárfiók, és az SQL Server és adatbázis alapvető infrastruktúra összetevők.
-* [Webes alkalmazás Csevegőrobot](#deploy-web-app-chatbot). A robot a Bot Service és Language Understanding és Intelligent Services (LUIS) alkalmazás üzembe helyezéséhez az Azure CLI használatával.
-* [Mintaalkalmazás a C# csevegőrobot](#deploy-chatbot-c-application-code). Tekintse át a minta Szálloda foglalás C# alkalmazás kódja és a egy robot, az Azure-ban való üzembe helyezése a Visual Studio használatával.
+- [Infrastruktúra-összetevőket](#deploy-infrastructure-components). Egy Azure Resource Manager-sablon használatával helyezhet üzembe egy App Service, webalkalmazás, az Application Insights, tárfiók, és az SQL Server és adatbázis alapvető infrastruktúra összetevők.
+- [Webes alkalmazás Csevegőrobot](#deploy-web-app-chatbot). A robot a Bot Service és Language Understanding és Intelligent Services (LUIS) alkalmazás üzembe helyezéséhez az Azure CLI használatával.
+- [Mintaalkalmazás a C# csevegőrobot](#deploy-chatbot-c-application-code). Tekintse át a minta Szálloda foglalás C# alkalmazás kódja és a egy robot, az Azure-ban való üzembe helyezése a Visual Studio használatával.
 
-**Előfeltételek.** Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
+### <a name="prerequisites"></a>Előfeltételek
 
-### <a name="deploy-infrastructure-components"></a>Infrastruktúra-összetevők telepítése
+Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
+
+### <a name="walk-through"></a>Az útmutatóban
 
 Az infrastruktúra-összetevőket a Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
+<!-- markdownlint-disable MD033 -->
+
 1. Kattintson a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fcommerce-chatbot.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
-   * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myCommerceChatBotInfrastructure* a szövegmezőben.
-   * Válassza ki a régiót, a **hely** legördülő listából.
-   * Adjon meg egy felhasználónevet és a biztonságos jelszó az SQL Server-rendszergazdai fiók.
-   * Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
-   * Válassza ki a **beszerzési** gombra.
+   - Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myCommerceChatBotInfrastructure* a szövegmezőben.
+   - Válassza ki a régiót, a **hely** legördülő listából.
+   - Adjon meg egy felhasználónevet és a biztonságos jelszó az SQL Server-rendszergazdai fiók.
+   - Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
+   - Válassza ki a **beszerzési** gombra.
+
+<!-- markdownlint-enable MD033 -->
 
 A központi telepítés befejezése néhány percet vesz igénybe.
 
@@ -131,9 +138,9 @@ az bot create \
 
 ### <a name="deploy-chatbot-c-application-code"></a>Csevegőrobot C# alkalmazás kód üzembe helyezése
 
-A minta C#-alkalmazás a Githubon érhető el: 
+A minta C#-alkalmazás a Githubon érhető el:
 
-* [Kereskedelmi Bot C#-minta](https://github.com/Microsoft/AzureBotServices-scenarios/tree/master/CSharp/Commerce/src)
+- [Kereskedelmi Bot C#-minta](https://github.com/Microsoft/AzureBotServices-scenarios/tree/master/CSharp/Commerce/src)
 
 A mintaalkalmazás az Azure Active Directory authentication összetevői és a Language Understanding és Intelligent Services (LUIS) összetevő integráció a Cognitive Services. Az alkalmazás létrehozása és üzembe helyezése a forgatókönyvet a Visual Studio használatához. További tájékoztatást az AAD B2C-vel és a LUIS-alkalmazás konfigurálása a GitHub-tárház dokumentációjában található.
 
@@ -143,16 +150,16 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt üzenetek száma alapján:
 
-* [Kis][small-pricing]: havonta < 10 000 üzenetek feldolgozására utal. a díjszabási példa.
-* [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 < üzenetek feldolgozására utal.
-* [Nagy][large-pricing]: a díjszabási példa havonta < 10 millió üzenetek feldolgozására utal.
+- [Kis][small-pricing]: havonta < 10 000 üzenetek feldolgozására utal. a díjszabási példa.
+- [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 < üzenetek feldolgozására utal.
+- [Nagy][large-pricing]: a díjszabási példa havonta < 10 millió üzenetek feldolgozására utal.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Az Azure Bot Service az interaktív oktatóanyagok készletének, tekintse meg a [oktatóanyag szakasz] [ botservice-docs] dokumentáció.
 
-
 <!-- links -->
+
 [aadb2c-docs]: /azure/active-directory-b2c/active-directory-b2c-overview
 [aad-docs]: /azure/active-directory/
 [appinsights-docs]: /azure/application-insights/app-insights-overview

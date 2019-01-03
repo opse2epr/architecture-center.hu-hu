@@ -1,21 +1,22 @@
 ---
-title: Egy CI/CD folyamatot az Azure DevOps használatával tervezése
+title: CI-/CD-folyamat megtervezése az Azure DevOps segítségével
+titleSuffix: Azure Example Scenarios
 description: .NET-alkalmazást hozhat létre, és közzéteheti az Azure Web Appsben az Azure DevOps használatával.
 author: christianreddington
 ms.date: 12/06/2018
 ms.custom:
 - fasttrack
 - seodec18
-ms.openlocfilehash: 23945493115522d099b6b26922f567653da0367e
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: ae2dddd7567c6b69f936b3b9c9339313389e3bf6
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307282"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643798"
 ---
-# <a name="design-a-cicd-pipeline-using-azure-devops"></a>Egy CI/CD folyamatot az Azure DevOps használatával tervezése
+# <a name="design-a-cicd-pipeline-using-azure-devops"></a>CI-/CD-folyamat megtervezése az Azure DevOps segítségével
 
-Ebben a forgatókönyvben a folyamatos integrációs (CI) és a folyamatos készregyártás (CD) architektúra és kialakítás útmutatást nyújt.  Ebben a példában a CI/CD-folyamat egy kétrétegű .NET webalkalmazás az Azure App Service üzembe helyezi.
+Ebben a forgatókönyvben a folyamatos integrációs (CI) és a folyamatos készregyártás (CD) architektúra és kialakítás útmutatást nyújt. Ebben a példában a CI/CD-folyamat egy kétrétegű .NET webalkalmazás az Azure App Service üzembe helyezi.
 
 A modern CI/CD-folyamatok-ba való migrálás üzenetcsere számos előnnyel jár, az alkalmazás létrejött, a központi telepítések, tesztelése és figyelése. Az Azure DevOps felügyelniük együtt más szolgáltatásokkal, például az App Service-ben, szervezetek koncentrálhat kezelését támogató infrastruktúra helyett az alkalmazások fejlesztését.
 
@@ -84,7 +85,7 @@ Ez [döntési fát az Azure számítási szolgáltatások](/azure/architecture/g
 
 ### <a name="prerequisites"></a>Előfeltételek
 
-- Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, első lépésként létrehozhat egy [ingyenes][azure-free-account] fiókot.
+- Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
 
 - Jelentkezzen az Azure DevOps szervezet számára. További információkért lásd: [a rövid útmutató: Hozzon létre a szervezet][vsts-account-create].
 
@@ -119,7 +120,6 @@ Tekintse át a következő források további információ a CI/CD-ről és az A
 [ansible]: /azure/ansible/
 [application-insights]: /azure/application-insights/app-insights-overview
 [app-service-reference-architecture]: ../../reference-architectures/app-service-web-app/basic-web-app.md
-[azure-free-account]: https://azure.microsoft.com/free/?WT.mc_id=A261C142F
 [arm-templates]: /azure/azure-resource-manager/resource-group-overview#template-deployment
 [architecture]: ./media/architecture-devops-dotnet-webapp.svg
 [chef]: /azure/chef/

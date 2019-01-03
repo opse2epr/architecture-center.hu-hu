@@ -1,15 +1,16 @@
 ---
 title: Linux rendszerű virtuális asztali környezetek a Citrix-szel
+titleSuffix: Azure Example Scenarios
 description: VDI-környezetet hozhat létre Linux rendszerű asztali környezetekhez a Citrix használatával az Azure-ban.
 author: miguelangelopereira
 ms.date: 09/12/2018
 ms.custom: fasttrack
-ms.openlocfilehash: d48163638da05fa075814d3a255ca783610741f8
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: af1cf01cb8b118e829c3870b636018aa5181b180
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004780"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643917"
 ---
 # <a name="linux-virtual-desktops-with-citrix"></a>Linux rendszerű virtuális asztalok Citrix-szel
 
@@ -17,17 +18,18 @@ Ebben a példaforgatókönyvben esetén minden iparág, amelyet egy virtuális a
 
 Szervezetek gyakran rendelkeznek heterogén környezetekből több eszközzel és az alkalmazottak által használt operációs rendszereket. Miközben fenntartja a biztonságos környezetet biztosít a konzisztens alkalmazás-hozzáférési kihívást jelenthet. Egy Linux rendszerű asztali számítógépeken VDI-megoldás lehetővé teszi a szervezet számára biztosít hozzáférést, attól függetlenül, az eszköz vagy felhasználó által használt operációs rendszer.
 
-Ez a minta megoldás egyes értékelemek közé tartozik a következő:
-* Az elvárt megtérülési rátát ugyanazon az infrastruktúrán történő hozzáférést ad a több felhasználó által megosztott Linux rendszerű virtuális asztalok a magasabb lesz. Központosított VDI-környezetben lévő erőforrások konszolidálásával a végfelhasználói eszközöket nem kell lenniük nagy teljesítményűek.
-* Függetlenül a végfelhasználói eszközön egységes lesz a teljesítmény.
-* Felhasználók hozzáférhessenek a Linux-alkalmazásokhoz (beleértve a nem Linux rendszerű eszközök), bármilyen eszközről.
-* Bizalmas adatokat az összes elosztott alkalmazott leköthetőek az Azure-adatközpontban.
+Ez a forgatókönyv egyes előnyei a következők:
+
+- Az elvárt megtérülési rátát ugyanazon az infrastruktúrán történő hozzáférést ad a több felhasználó által megosztott Linux rendszerű virtuális asztalok a magasabb lesz. Központosított VDI-környezetben lévő erőforrások konszolidálásával a végfelhasználói eszközöket nem kell lenniük nagy teljesítményűek.
+- Függetlenül a végfelhasználói eszközön egységes lesz a teljesítmény.
+- Felhasználók hozzáférhessenek a Linux-alkalmazásokhoz (beleértve a nem Linux rendszerű eszközök), bármilyen eszközről.
+- Bizalmas adatokat az összes elosztott alkalmazott leköthetőek az Azure-adatközpontban.
 
 ## <a name="relevant-use-cases"></a>Alkalmazási helyzetek
 
 Ebben a forgatókönyvben a következő használati esetekhez, vegye figyelembe:
 
-* Biztonságos hozzáférés biztosítására alapvető fontosságú, specializált Linux VDI asztalok Linux vagy a nem Linux rendszerű eszközökről
+- Biztonságos hozzáférés biztosítására alapvető fontosságú, specializált Linux VDI asztalok Linux vagy a nem Linux rendszerű eszközökről
 
 ## <a name="architecture"></a>Architektúra
 
@@ -35,17 +37,17 @@ Ebben a forgatókönyvben a következő használati esetekhez, vegye figyelembe:
 
 A példaforgatókönyv azt szemlélteti, amely lehetővé teszi a vállalati hálózat eléréséhez a Linux rendszerű virtuális asztalok:
 
-* Az ExpressRoute gyors és megbízható kapcsolatot a felhőbe a helyszíni környezet és az Azure között jön létre.
-* A Citrix XenDeskop megoldás üzembe helyezett virtuális asztali infrastruktúra.
-* Futtassa a CitrixVDA Ubuntu (vagy egy másik támogatott disztribúció).
-* Az Azure hálózati biztonsági csoportok a megfelelő hálózati hozzáférés-vezérlési listák lesznek érvényesek.
-* Citrix ADC (NetScaler) teszi közzé, és a terhelést a Citrix-szolgáltatásokat.
-* Az Active Directory Domain Services tartományi használandó csatlakozzon a Citrix-kiszolgálók. VDA kiszolgálók nem lesz tartományhoz.
-* Hibrid Azure File Sync lehetővé teszi, megosztott tárolót a megoldás között. Ha például használat távoli készletkövetést megoldások.
+- Az ExpressRoute gyors és megbízható kapcsolatot a felhőbe a helyszíni környezet és az Azure között jön létre.
+- A Citrix XenDeskop megoldás üzembe helyezett virtuális asztali infrastruktúra.
+- Futtassa a CitrixVDA Ubuntu (vagy egy másik támogatott disztribúció).
+- Az Azure hálózati biztonsági csoportok a megfelelő hálózati hozzáférés-vezérlési listák lesznek érvényesek.
+- Citrix ADC (NetScaler) teszi közzé, és a terhelést a Citrix-szolgáltatásokat.
+- Az Active Directory Domain Services tartományi használandó csatlakozzon a Citrix-kiszolgálók. VDA kiszolgálók nem lesz tartományhoz.
+- Hibrid Azure File Sync lehetővé teszi, megosztott tárolót a megoldás között. Ha például használat távoli készletkövetést megoldások.
 
 Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 
-- A Citrix ADC (NetScaler): 2-x D4sv3 [NetScaler 12.0-s VPX Standard Edition 200 MB/s PAYG kép](https://azuremarketplace.microsoft.com/pt-br/marketplace/apps/citrix.netscalervpx-120?tab=PlansAndPrice)
+- Citrix ADC (NetScaler): 2-x D4sv3 [NetScaler 12.0-s VPX Standard Edition 200 MB/s PAYG kép](https://azuremarketplace.microsoft.com/pt-br/marketplace/apps/citrix.netscalervpx-120?tab=PlansAndPrice)
 - A Citrix licenckiszolgáló: 1 x D2s v3
 - A Citrix VDA: 4 x D8s v3
 - A Citrix kirakat: 2 x D2s v3
@@ -63,11 +65,11 @@ Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 - [Az Azure load balancer](/azure/application-gateway/overview) osztja el a szabályok és az állapotmintákat megfelelően bejövő forgalmat. Egy terheléselosztót biztosít alacsony késéssel és nagy átviteli sebességet, és akár több milliónyi összes TCP és UDP-alkalmazás méretezhető. Belső terheléselosztó szolgál ebben a forgatókönyvben a Citrix NetScaler a forgalom elosztását.
 - [Hibrid Azure File Sync](https://github.com/MicrosoftDocs/azure-docs/edit/master/articles/storage/files/storage-sync-files-planning.md) minden megosztott tároló használható. A storage hibrid File Sync használatával két fájlkiszolgálók replikálja.
 - [Az Azure SQL Database](/azure/sql-database/sql-database-technical-overview) egy relációs adatbázis-a-szolgáltatás (DBaaS) a Microsoft SQL Server adatbázismotor legújabb stabil verziója alapján. A Citrix-adatbázisokat üzemeltető lesz.
-- [Az ExpressRoute](/azure/expressroute/expressroute-introduction) lehetővé teszi, kiterjesztheti helyszíni hálózatait a Microsoft cloud, amelyet egy kapcsolatszolgáltató biztosít egy privát kapcsolaton keresztül. 
+- [Az ExpressRoute](/azure/expressroute/expressroute-introduction) lehetővé teszi, kiterjesztheti helyszíni hálózatait a Microsoft cloud, amelyet egy kapcsolatszolgáltató biztosít egy privát kapcsolaton keresztül.
 - [Az active Directory Domain Services szolgál a Directory Services és a felhasználó hitelesítése
-- [Az Azure globális csoportok](/azure/virtual-machines/windows/tutorial-availability-sets) biztosíthatja, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ezáltal biztosítható, hogy ha hardveres vagy szoftveres hiba fordul elő az Azure-ban, az a virtuális gépeknek csak egy részhalmazát érintse, és a teljes megoldás továbbra is elérhető és működőképes maradjon. 
-- [A Citrix ADC (NetScaler)](https://www.citrix.com/products/citrix-adc) van egy alkalmazáskézbesítési vezérlőként, amely végrehajtja az alkalmazásspecifikus forgalomelemzés intelligensen terjesztéséhez, optimalizálhatja és biztonságossá tétele (4. rétegbeli – 7. rétegbeli) 4-Layer-7. rétegbeli hálózati forgalmat a webes alkalmazásokhoz. 
-- [A Citrix kirakat](https://www.citrix.com/products/citrix-virtual-apps-and-desktops/citrix-storefront.html) van egy vállalati alkalmazás-áruházban, amely biztonságosabbá teszi és leegyszerűsíti a telepítéseket, a modern, páratlan csaknem felhasználói környezet megvalósítása Citrix fogadó között bármilyen platformon. Kirakat megkönnyíti a többhelyes és többverziós Citrix virtuális alkalmazások és asztali környezeteit. 
+- [Az Azure globális csoportok](/azure/virtual-machines/windows/tutorial-availability-sets) biztosíthatja, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ezáltal biztosítható, hogy ha hardveres vagy szoftveres hiba fordul elő az Azure-ban, az a virtuális gépeknek csak egy részhalmazát érintse, és a teljes megoldás továbbra is elérhető és működőképes maradjon.
+- [A Citrix ADC (NetScaler)](https://www.citrix.com/products/citrix-adc) van egy alkalmazáskézbesítési vezérlőként, amely végrehajtja az alkalmazásspecifikus forgalomelemzés intelligensen terjesztéséhez, optimalizálhatja és biztonságossá tétele (4. rétegbeli – 7. rétegbeli) 4-Layer-7. rétegbeli hálózati forgalmat a webes alkalmazásokhoz.
+- [A Citrix kirakat](https://www.citrix.com/products/citrix-virtual-apps-and-desktops/citrix-storefront.html) van egy vállalati alkalmazás-áruházban, amely biztonságosabbá teszi és leegyszerűsíti a telepítéseket, a modern, páratlan csaknem felhasználói környezet megvalósítása Citrix fogadó között bármilyen platformon. Kirakat megkönnyíti a többhelyes és többverziós Citrix virtuális alkalmazások és asztali környezeteit.
 - [A Citrix licenckiszolgáló](https://www.citrix.com/buy/licensing/overview.html) Citrix termékek licenceinek fogják kezelni.
 - [A Citrix XenDesktops VDA](https://docs.citrix.com/en-us/citrix-virtual-apps-desktops-service) lehetővé teszi, hogy az alkalmazások és asztali gépeket. A VDA, amely az alkalmazások vagy a felhasználó virtuális asztalok fut a gépen telepítve van. Ez lehetővé teszi a gépek regisztrálása az Alkalmazáskézbesítési vezérlő, és a nagy felbontású élmény (HDX) a felhasználó-eszköz kapcsolat kezeléséhez.
 - [Citrix kézbesítési vezérlő](https://docs.citrix.com/en-us/xenapp-and-xendesktop/7-15-ltsr/manage-deployment/delivery-controllers) a kiszolgálóoldali összetevő feladata a felhasználói hozzáférés kezelése és közvetítést, és a kapcsolatok optimalizálásával. Tartományvezérlők is asztali és kiszolgáló-rendszerképek létrehozása Machine létrehozási szolgáltatások biztosításához.
@@ -85,15 +87,16 @@ Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 
 ### <a name="availability-scalability-and-security"></a>Rendelkezésre állási, méretezhetőségi és biztonsági
 
-- Ez a minta megoldás magas rendelkezésre állású összes szerepköre az engedélyezési kiszolgálótól eltérő lett tervezve. A környezet továbbra is működik egy 30 napos türelmi időszak alatt, ha a licenckiszolgáló offline állapotban van, nincs további redundancia jelentkezhet a kiszolgálón van szükség.
+- Ebben a példában a magas rendelkezésre állású összes szerepköre az engedélyezési kiszolgálótól eltérő lett tervezve. A környezet továbbra is működik egy 30 napos türelmi időszak alatt, ha a licenckiszolgáló offline állapotban van, nincs további redundancia jelentkezhet a kiszolgálón van szükség.
 - Biztosít hasonló szerepkörök összes kiszolgálójára kell telepíteni a [rendelkezésre állási csoportok](/azure/virtual-machines/windows/manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy).
-- Ez a minta megoldás nem tartalmazza a vész-helyreállítási képességeit. [Az Azure Site Recovery](/azure/site-recovery/site-recovery-overview) lehet a megfelelő bővítményt az ezzel a kialakítással.
+- Ebben a példában a forgatókönyvben nem tartalmazza a vész-helyreállítási képességeit. [Az Azure Site Recovery](/azure/site-recovery/site-recovery-overview) lehet a megfelelő bővítményt az ezzel a kialakítással.
+- Érdemes megfontolni a Virtuálisgép-példányok között ebben a forgatókönyvben [rendelkezésre állási zónák](/azure/availability-zones/az-overview). Egyes rendelkezésre állási zónában egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található tevődik össze. Minden egyes engedélyezett régió számára legalább három rendelkezésre állási zónák. Ehhez a terjesztéshez zónákban Virtuálisgép-példányok az alkalmazásrétegek magas rendelkezésre állást biztosít. További információkért lásd: [Mik azok a rendelkezésre állási zónák az Azure-ban?] [azureaz-docs]. Emellett [üzembe helyezése az Azure-beli rendelkezésre állási zónák a VPN és ExpressRoute-átjárók](/azure/vpn-gateway/about-zone-redundant-vnet-gateways).
 - Éles környezet felügyeleti megoldást kell végrehajtani, például [biztonsági mentési](/azure/backup/backup-introduction-to-azure-backup), [figyelési](/azure/monitoring-and-diagnostics/monitoring-overview) és [frissítéskezelés](/azure/automation/automation-update-management).
-- Ez a minta megoldás működnie kell az egyidejű körülbelül 250 (körülbelül 50 – 60 VDA kiszolgálónként) vegyes használat rendelkező felhasználók. De, amely nagy mértékben függött használt alkalmazások típusa. Üzemi használatra szigorú terheléses tesztelés kell végrehajtani.
+- Ebben a példában az egyidejű körülbelül 250 működnie kell (körülbelül 50 – 60 VDA kiszolgálónként) vegyes használat rendelkező felhasználók. De, amely nagy mértékben függött használt alkalmazások típusa. Üzemi használatra szigorú terheléses tesztelés kell végrehajtani.
 
-## <a name="deploy-this-scenario"></a>Ez a forgatókönyv megvalósítható
+## <a name="deployment"></a>Környezet
 
-Központi telepítési információkat talál a hivatalos [Citrix dokumentáció](https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/install-configure.html).
+Telepítési információk, tekintse meg a hivatalos [Citrix dokumentáció](https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/install-configure.html).
 
 ## <a name="pricing"></a>Díjszabás
 

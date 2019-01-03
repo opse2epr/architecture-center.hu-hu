@@ -5,12 +5,12 @@ description: A relációs adatok az üzleti elemzéseket kaphat az Azure a helys
 author: MikeWasson
 ms.date: 11/06/2018
 ms.custom: seodec18
-ms.openlocfilehash: 656bf6f1bd342856fd8a2d2aa0b62a9dd4d4f87f
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 3808cc5d09e2e0a5aaee1a6cfcb050b98a0ef2ee
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120084"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644223"
 ---
 # <a name="enterprise-bi-in-azure-with-sql-data-warehouse"></a>Vállalati bi-ban az Azure SQL Data Warehouse-ban
 
@@ -20,7 +20,7 @@ Az architektúra egy referenciaimplementációt érhető el az [GitHub][github-f
 
 ![Az Azure SQL Data Warehouse-ban Enteprise bi architektúra ábrája](./images/enterprise-bi-sqldw.png)
 
-**A forgatókönyv**: egy a szervezet rendelkezik a helyszíni SQL Server-adatbázisban tárolt nagy OLTP adatkészlet. A szervezet célja az SQL Data Warehouse használata a Power BI segítségével történő elemzését.
+**A forgatókönyv**: Egy szervezet rendelkezik nagy OLTP adatok helyszíni SQL Server-adatbázis tárolja. A szervezet célja az SQL Data Warehouse használata a Power BI segítségével történő elemzését.
 
 Ez a referenciaarchitektúra egyszeri vagy igény szerinti feladat lett tervezve. Adatok áthelyezése (óránként vagy naponta) tartósan van szüksége, ha automatizált munkafolyamatokat az Azure Data Factory használatát javasoljuk. Egy referencia-architektúra, amely a Data Factory használja, lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
@@ -113,7 +113,7 @@ Hozzon létre az előkészítési táblák halomtáblák, amelyek nem lesznek in
 
 A PolyBase automatikusan kihasználja a párhuzamosság látható az adatraktárban. A betöltési teljesítmény arányosan növekszik, ahogy a Dwu növelését. A legjobb teljesítmény érdekében használjon egy egyetlen betöltési művelet. Nem jár a bemeneti adatok kompatibilitástörő adattömbökbe és több egyidejű betöltések futtatására teljesítmény előnnyel.
 
-A PolyBase gzip formátumban tömörített fájlok olvashatja. Azonban csak egyetlen olvasó szolgál egy tömörített fájl, mert a fájl kibontása egy egyszálas működésre. Ezért kerülje a nagy tömörített fájl betöltése. Ehelyett az adatok felosztása több tömörített fájlok, párhuzamosság kihasználása érdekében. 
+A PolyBase gzip formátumban tömörített fájlok olvashatja. Azonban csak egyetlen olvasó szolgál egy tömörített fájl, mert a fájl kibontása egy egyszálas működésre. Ezért kerülje a nagy tömörített fájl betöltése. Ehelyett az adatok felosztása több tömörített fájlok, párhuzamosság kihasználása érdekében.
 
 Vegye figyelembe a következő korlátozások vonatkoznak:
 
@@ -183,10 +183,10 @@ Fontolja meg az Analysis Services tűzfala szolgáltatást az ügyfél IP-címek
 
 ### <a name="authorization"></a>Engedélyezés
 
-Az Azure Analysis Services az Azure Active Directory (Azure AD) segítségével hitelesítheti a felhasználókat, akik csatlakozik egy Analysis Services-kiszolgálóhoz. Korlátozhatja, hogy milyen adatokat egy adott felhasználó, megtekintheti a szerepkörök létrehozásával, és ezután az Azure AD-felhasználók és csoportok hozzárendelése ezeket a szerepköröket. Az egyes szerepkörökhöz a következőket teheti: 
+Az Azure Analysis Services az Azure Active Directory (Azure AD) segítségével hitelesítheti a felhasználókat, akik csatlakozik egy Analysis Services-kiszolgálóhoz. Korlátozhatja, hogy milyen adatokat egy adott felhasználó, megtekintheti a szerepkörök létrehozásával, és ezután az Azure AD-felhasználók és csoportok hozzárendelése ezeket a szerepköröket. Az egyes szerepkörökhöz a következőket teheti:
 
-- Táblák vagy oszlopok az egyes védelmét. 
-- A szűrőkifejezések alapján egyedi sorok védelmét. 
+- Táblák vagy oszlopok az egyes védelmét.
+- A szűrőkifejezések alapján egyedi sorok védelmét.
 
 További információkért lásd: [adatbázis-szerepkörök és a felhasználók kezelése](/azure/analysis-services/analysis-services-database-users).
 
@@ -202,6 +202,13 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 ## <a name="next-steps"></a>További lépések
 
 - Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
+
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [Adattárház és analitika értékesítés és marketing](/azure/architecture/example-scenario/data/data-warehouse)
+- [Hibrid ETL a meglévő helyszíni SSIS és az Azure Data Factory](/azure/architecture/example-scenario/data/hybrid-etl-with-adf)
 
 <!-- links -->
 

@@ -1,15 +1,16 @@
 ---
-title: Biztonságos webes alkalmazások létrehozása az Azure-beli Windows virtuális gépek
+title: Biztonságos webes alkalmazások létrehozása Windows-alapú virtuális gépekhez
+titleSuffix: Azure Example Scenarios
 description: Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.
 author: iainfoulds
 ms.date: 12/06/2018
 ms.custom: seodec18
-ms.openlocfilehash: 4e4d2117fbc46eda46f7ef276a71739e3a79270e
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 2c5f77f265c10388f42138e7d3f6da9e3ead1cd8
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307061"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643533"
 ---
 # <a name="building-secure-web-applications-with-windows-virtual-machines-on-azure"></a>Biztonságos webes alkalmazások létrehozása a Windows virtual machines az Azure-ban
 
@@ -21,9 +22,9 @@ Hagyományosan szervezetek kellett karbantartása örökölt helyszíni alkalmaz
 
 Néhány példa, ahol az ebben a forgatókönyvben alkalmazhatja:
 
-* Alkalmazástelepítések alapú modernizálásánál megfelelő választás a következő biztonságos felhőalapú környezetben.
-* Csökkenti a kezelési terhelést örökölt helyszíni alkalmazások és szolgáltatások.
-* Betegek healthcare javítása és a élményük az új alkalmazás-platformokat.
+- Alkalmazástelepítések alapú modernizálásánál megfelelő választás a következő biztonságos felhőalapú környezetben.
+- Csökkenti a kezelési terhelést örökölt helyszíni alkalmazások és szolgáltatások.
+- Betegek healthcare javítása és a élményük az új alkalmazás-platformokat.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -39,26 +40,26 @@ Ebből a forgatókönyvből megtudhatja csatlakozik egy háttér-adatbázishoz, 
 
 ### <a name="components"></a>Összetevők
 
-* [Az Azure Application Gateway] [ appgateway-docs] egy 7. rétegbeli webes forgalom terheléselosztó, amely alkalmazásbarát és terjeszthetnek a forgalmat az adott útválasztási szabályok alapján. Alkalmazásátjáró is képes kezelni az SSL-kiürítés, a továbbfejlesztett webkiszolgáló teljesítményét.
-* [Az Azure Virtual Network] [ vnet-docs] lehetővé teszi az erőforrások, például virtuális gépek biztonságosan kommunikálnak egymással, az internethez, és a helyszíni hálózatokkal. Virtuális hálózatok adja meg az elkülönítés és Szegmentálás, szűrő és útvonal-forgalom és helyek közötti kapcsolat engedélyezését. Két virtuális hálózat kombinálva a megfelelő NSG-k segítségével ebben a forgatókönyvben adja meg egy [demilitarizált zóna] [ dmz] (DMZ) és az alkalmazás-összetevők elkülönítését. A két hálózat virtuális hálózatok közötti társviszony együtt kapcsolódik.
-* [Azure-beli virtuálisgép-méretezési csoport] [ scaleset-docs] lehetővé teszi, hogy hozzon létre és manager azonos, load csoportja elosztott terhelésű virtuális gépek. A virtuálisgép-példányok száma automatikusan növelhető vagy csökkenthető a pillanatnyi igényeknek megfelelően vagy egy meghatározott ütemezés szerint. Ez a forgatókönyv - egyet az előtér-ASP.NET alkalmazás példányai, és a egy SQL Server fürt háttérbeli Virtuálisgép-példányokhoz két külön virtuálisgép-méretezési csoportok használhatók. PowerShell kívánt állapot configuration (DSC) vagy az Azure egyéni szkriptek futtatására szolgáló bővítmény a szükséges szoftverekkel és a konfigurációs beállítások VM-példányok kiépítéséhez használható.
-* [Azure-beli hálózati biztonsági csoportok] [ nsg-docs] tartalmaznak, amelyek engedélyezik vagy megtagadják a bejövő vagy kimenő hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján biztonsági szabályokból álló listát. Ebben a forgatókönyvben a virtuális hálózatok a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat az alkalmazás-összetevők közötti biztonságosak.
-* [Az Azure load balancer] [ loadbalancer-docs] osztja el a szabályok és az állapotmintákat megfelelően bejövő forgalmat. Egy terheléselosztót biztosít alacsony késéssel és nagy átviteli sebességet, és akár több milliónyi összes TCP és UDP-alkalmazás méretezhető. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttér SQL Server-fürt az előtér-alkalmazás szintről forgalom elosztása.
-* [Az Azure Blob Storage] [ cloudwitness-docs] működik az SQL Server-fürt Felhőbeli tanúsító helyét. A tanúsító szolgál a fürt működését és a egy dönthet arról, hogy a kvórum további szavazata szükséges döntéseket. Használatával a Felhőbeli tanúsító nincs szükség az működjön egy hagyományos tanúsító fájlmegosztást, egy további virtuális Gépre.
+- [Az Azure Application Gateway] [ appgateway-docs] egy 7. rétegbeli webes forgalom terheléselosztó, amely alkalmazásbarát és terjeszthetnek a forgalmat az adott útválasztási szabályok alapján. Alkalmazásátjáró is képes kezelni az SSL-kiürítés, a továbbfejlesztett webkiszolgáló teljesítményét.
+- [Az Azure Virtual Network] [ vnet-docs] lehetővé teszi az erőforrások, például virtuális gépek biztonságosan kommunikálnak egymással, az internethez, és a helyszíni hálózatokkal. Virtuális hálózatok adja meg az elkülönítés és Szegmentálás, szűrő és útvonal-forgalom és helyek közötti kapcsolat engedélyezését. Két virtuális hálózat kombinálva a megfelelő NSG-k segítségével ebben a forgatókönyvben adja meg egy [demilitarizált zóna] [ dmz] (DMZ) és az alkalmazás-összetevők elkülönítését. A két hálózat virtuális hálózatok közötti társviszony együtt kapcsolódik.
+- [Azure-beli virtuálisgép-méretezési csoport] [ scaleset-docs] lehetővé teszi, hogy hozzon létre és manager azonos, load csoportja elosztott terhelésű virtuális gépek. A virtuálisgép-példányok száma automatikusan növelhető vagy csökkenthető a pillanatnyi igényeknek megfelelően vagy egy meghatározott ütemezés szerint. Ez a forgatókönyv - egyet az előtér-ASP.NET alkalmazás példányai, és a egy SQL Server fürt háttérbeli Virtuálisgép-példányokhoz két külön virtuálisgép-méretezési csoportok használhatók. PowerShell kívánt állapot configuration (DSC) vagy az Azure egyéni szkriptek futtatására szolgáló bővítmény a szükséges szoftverekkel és a konfigurációs beállítások VM-példányok kiépítéséhez használható.
+- [Azure-beli hálózati biztonsági csoportok] [ nsg-docs] tartalmaznak, amelyek engedélyezik vagy megtagadják a bejövő vagy kimenő hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján biztonsági szabályokból álló listát. Ebben a forgatókönyvben a virtuális hálózatok a hálózati biztonsági csoport szabályait, amelyek korlátozzák a forgalmat az alkalmazás-összetevők közötti biztonságosak.
+- [Az Azure load balancer] [ loadbalancer-docs] osztja el a szabályok és az állapotmintákat megfelelően bejövő forgalmat. Egy terheléselosztót biztosít alacsony késéssel és nagy átviteli sebességet, és akár több milliónyi összes TCP és UDP-alkalmazás méretezhető. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttér SQL Server-fürt az előtér-alkalmazás szintről forgalom elosztása.
+- [Az Azure Blob Storage] [ cloudwitness-docs] működik az SQL Server-fürt Felhőbeli tanúsító helyét. A tanúsító szolgál a fürt működését és a egy dönthet arról, hogy a kvórum további szavazata szükséges döntéseket. Használatával a Felhőbeli tanúsító nincs szükség az működjön egy hagyományos tanúsító fájlmegosztást, egy további virtuális Gépre.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* A Linux és Windows felcserélhetők óta az infrastruktúra nem függ az operációs rendszer.
+- A Linux és Windows felcserélhetők óta az infrastruktúra nem függ az operációs rendszer.
 
-* [Az SQL Server for Linux] [ sql-linux] lecserélheti a háttér-tárolót.
+- [Az SQL Server for Linux] [ sql-linux] lecserélheti a háttér-tárolót.
 
-* [A cosmos DB](/azure/cosmos-db/introduction) egy másik alternatíva az adattároló.
+- [A cosmos DB](/azure/cosmos-db/introduction) egy másik alternatíva az adattároló.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
 ### <a name="availability"></a>Rendelkezésre állás
 
-Ebben a forgatókönyvben a VM-példányokon rendelkezésre állási zónában üzemelnek. Minden zóna egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található tevődik össze. Az összes engedélyezett régiókban érhető el egy minimum három zónából állnak. Ehhez a terjesztéshez zónákban Virtuálisgép-példányok az alkalmazásrétegek magas rendelkezésre állást biztosít. További információkért lásd: [Mik a rendelkezésre állási zónák az Azure-ban?][azureaz-docs]
+Ebben a forgatókönyvben a VM-példányokon telepített [rendelkezésre állási zónák](/azure/availability-zones/az-overview). Minden zóna egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található tevődik össze. Minden egyes engedélyezett régió számára legalább három rendelkezésre állási zónák. Ehhez a terjesztéshez zónákban Virtuálisgép-példányok az alkalmazásrétegek magas rendelkezésre állást biztosít.
 
 Az adatbázisszint Always On rendelkezésre állási csoportok használatára konfigurálható. Ez az SQL Server-konfigurációval a fürtön belül több elsődleges adatbázis nyolc másodlagos adatbázisok van konfigurálva. Ha a probléma akkor fordul elő, az elsődleges adatbázissal, a fürt átadja a feladatokat egy másodlagos adatbázis, amely lehetővé teszi az alkalmazás továbbra is elérhetők. További információkért lásd: [áttekintése az Always On rendelkezésre állási csoportokat az SQL Server][sqlalwayson-docs].
 
@@ -84,20 +85,27 @@ Rugalmas forgatókönyvek tervezésével kapcsolatos általános útmutatásért
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-**Előfeltételek.**
+### <a name="prerequisites"></a>Előfeltételek
 
-* Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
-* A háttér-méretezési csoportot az SQL Server-fürt üzembe helyezése, meg kell lennie egy tartományhoz az Azure Active Directory (AD) Domain Servicesben.
+- Meglévő Azure-fiókkal kell rendelkeznie. Ha nem rendelkezik Azure-előfizetéssel, mindössze néhány perc alatt létrehozhat egy [ingyenes fiókot](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) a virtuális gép létrehozásának megkezdése előtt.
+
+- A háttér-méretezési csoportot az SQL Server-fürt üzembe helyezése, meg kell lennie egy tartományhoz az Azure Active Directory (AD) Domain Servicesben.
+
+### <a name="deploy-the-components"></a>Az összetevők üzembe helyezése
 
 Az alapvető infrastruktúra ebben a forgatókönyvben egy Azure Resource Manager-sablon üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
+<!-- markdownlint-disable MD033 -->
+
 1. Válassza ki a **üzembe helyezés az Azure** gombra:<br><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Finfrastructure%2Fregulated-multitier-app%2Fazuredeploy.json" target="_blank"><img src="https://azuredeploy.net/deploybutton.png"/></a>
 2. Várja meg a sablon üzembe helyezéséhez az Azure Portal megnyitásához, majd kövesse az alábbi lépéseket:
-   * Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myWindowsscenario* a szövegmezőben.
-   * Válassza ki a régiót, a **hely** legördülő listából.
-   * Adjon meg egy felhasználónevet és a biztonságos jelszó a virtuális gép méretezési csoport példányaihoz.
-   * Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
-   * Válassza ki a **beszerzési** gombra.
+   - Válassza ki a **új létrehozása** erőforrás csoportra, majd adjon meg egy nevet például *myWindowsscenario* a szövegmezőben.
+   - Válassza ki a régiót, a **hely** legördülő listából.
+   - Adjon meg egy felhasználónevet és a biztonságos jelszó a virtuális gép méretezési csoport példányaihoz.
+   - Tekintse át a használati feltételeket, majd ellenőrizze **elfogadom a feltételeket és a fenti feltételeket**.
+   - Válassza ki a **beszerzési** gombra.
+
+<!-- markdownlint-enable MD033 -->
 
 Az üzembe helyezés befejeződik 15 – 20 percet is igénybe vehet.
 
@@ -107,9 +115,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 A méretezési csoport Virtuálisgép-példányain az alkalmazásokat futtató száma alapján három példa költség profilok adtunk meg.
 
-* [Kis][small-pricing]: a díjszabási példa korrelációt keres a két előtér-és két háttérbeli Virtuálisgép-példányok között.
-* [Közepes][medium-pricing]: 20 előtér- és 5 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
-* [Nagy][large-pricing]: 100 előtérrendszer, mind a 10 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
+- [Kis][small-pricing]: a díjszabási példa korrelációt keres a két előtér-és két háttérbeli Virtuálisgép-példányok között.
+- [Közepes][medium-pricing]: 20 előtér- és 5 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
+- [Nagy][large-pricing]: 100 előtérrendszer, mind a 10 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
@@ -122,14 +130,13 @@ Részletes megvalósítási útmutatók, tekintse át a [referenciaarchitektúra
 [architecture]: ./media/architecture-regulated-multitier-app.png
 [autoscaling]: /azure/architecture/best-practices/auto-scaling
 [availability]: ../../checklist/availability.md
-[azureaz-docs]: /azure/availability-zones/az-overview
 [cloudwitness-docs]: /windows-server/failover-clustering/deploy-cloud-witness
 [loadbalancer-docs]: /azure/load-balancer/load-balancer-overview
 [nsg-docs]: /azure/virtual-network/security-overview
 [ntiersql-ra]: /azure/architecture/reference-architectures/n-tier/n-tier-sql-server
-[resiliency]: /azure/architecture/resiliency/ 
+[resiliency]: /azure/architecture/resiliency/
 [security]: /azure/security/
-[scalability]: /azure/architecture/checklist/scalability 
+[scalability]: /azure/architecture/checklist/scalability
 [scaleset-docs]: /azure/virtual-machine-scale-sets/overview
 [sqlalwayson-docs]: /sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server
 [vmssautoscale-docs]: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview

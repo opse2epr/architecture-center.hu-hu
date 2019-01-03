@@ -9,12 +9,12 @@ pnp.pattern.categories:
 - data-management
 - design-implementation
 - performance-scalability
-ms.openlocfilehash: 9a2eecdff7494fb627ea5c4655e6edc789bd5bdf
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: de9530f7dd55c0ce5460cd3b58ab9f216c9b5c8c
+ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429689"
+ms.lasthandoff: 12/16/2018
+ms.locfileid: "53450870"
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Command and Query Responsibility Segregation (CQRS) minta
 
@@ -39,8 +39,6 @@ A hagyományos CRUD megközelítésnek azonban néhány hátránya is van:
 - Fennáll az adatok közti verseny kialakulásának veszélye, ha a rekordok egy olyan együttműködési tartomány adattárában vannak zárolva, amelyben ugyanazon az adatkészleten párhuzamosan több aktor is végez műveleteket. Illetve ha optimista zárolás használatakor az egyidejű frissítések ütköznek egymással. Az említett kockázatok esélye a rendszer összetettségének és teljesítményének növekedésével egyre nagyobb lesz. Emellett a hagyományos megközelítés negatív hatással lehet a teljesítményre az adattárra és az adatelérési rétegre eső terhelés, valamint a lekérdezések az adatok beolvasásához szükséges bonyolultsága miatt.
 
 - Ez bonyolultabbá teheti a biztonság és az engedélyek kezelését, mivel minden entitáson végrehajthatók olvasási és írási műveletek is, ezáltal az adatok nem megfelelő kontextusban is megjelenhetnek.
-
-> A CRUD megközelítés korlátairól részletesebben a [CRUD – csak akkor, ha megengedheti](https://blogs.msdn.microsoft.com/maarten_mullender/2004/07/23/crud-only-when-you-can-afford-it-revisited/) című cikkben olvashat.
 
 ## <a name="solution"></a>Megoldás
 
@@ -248,6 +246,6 @@ Az alábbi minták és útmutatások hasznosak lehetnek a minta használatakor:
 
 - [A Materialized View minta](materialized-view.md). A CQRS megvalósítás olvasási modellje tartalmazhatja az írási modell adatainak materializált nézeteit, illetve a materializált nézetek létrehozására is használható.
 
-- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](https://aka.ms/cqrs). [A Command Query Responsibility Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) című cikk bemutatja a mintát, illetve részletesen taglalja, hogy mikor érdemes azt használni, az [Epilógus: tapasztalatok](https://msdn.microsoft.com/library/jj591568.aspx) című cikk pedig segít a minta használata során felmerülő problémák egy részének megértésében.
+- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](https://aka.ms/cqrs). Különösen [bemutatása a parancs Query Responsibility Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) bemutatja a mintát mikor hasznos lehet, és [Epilógus: Learned tanítás](https://msdn.microsoft.com/library/jj591568.aspx) segít megérteni, hogy ez a minta használata során problémák.
 
 - A [Martin Fowler – CQRS](https://martinfowler.com/bliki/CQRS.html) című bejegyzés ismerteti a minta alapvető működését, továbbá egyéb hasznos források hivatkozásait is tartalmazza.

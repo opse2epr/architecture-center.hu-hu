@@ -1,14 +1,15 @@
 ---
-title: Képbesorolás biztosítási követelésekhez az Azure-ban
+title: Képek besorolása a biztosítási követeléseket
+titleSuffix: Azure Example Scenarios
 description: Képfeldolgozást építhet be Azure-alkalmazásaiba.
 author: david-stanford
 ms.date: 07/05/2018
-ms.openlocfilehash: 9640f8b5454891ed00f669bada9f7c9c69b89734
-ms.sourcegitcommit: 0a31fad9b68d54e2858314ca5fe6cba6c6b95ae4
+ms.openlocfilehash: 12dd197c6df4a8d7a90a09436d86ce4a9e5ccc72
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/13/2018
-ms.locfileid: "51610532"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643445"
 ---
 # <a name="image-classification-for-insurance-claims-on-azure"></a>Képbesorolás biztosítási követelésekhez az Azure-ban
 
@@ -22,8 +23,8 @@ Azure-szolgáltatások például a Computer Vision API és az Azure Functions ha
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Divat webhely-rendszerképek besorolása.
-* Játékok pillanatképeiért küldött telemetriai adatok besorolása.
+- Divat webhely-rendszerképek besorolása.
+- Játékok pillanatképeiért küldött telemetriai adatok besorolása.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -39,22 +40,22 @@ Ebben a forgatókönyvben egy webes vagy mobilalkalmazásaiba háttér-összetev
 
 ### <a name="components"></a>Összetevők
 
-* [Computer Vision API](/azure/cognitive-services/computer-vision/home) a Cognitive Services-csomag része, és minden egyes képe kapcsolatos információk olvashatók be.
-* [Az Azure Functions](/azure/azure-functions/functions-overview) a háttérrendszeri API-t biztosít a webes alkalmazás, valamint a feltöltött képek eseményfeldolgozás.
-* [Event Grid](/azure/event-grid/overview) elindít egy eseményt, amikor a blob storage-bA feltöltött új lemezképet. A lemezkép ezután feldolgozása az Azure functions használatával.
-* [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) tárolja az összes rendszerkép fájlt, amely a webes alkalmazás is bármely statikus fájlként a webes alkalmazás használ fel lesz töltve.
-* [A cosmos DB](/azure/cosmos-db/introduction) minden egyes feltöltött, beleértve a Computer Vision API, a feldolgozás eredményét lemezkép metaadatait tárolja.
+- [Computer Vision API](/azure/cognitive-services/computer-vision/home) a Cognitive Services-csomag része, és minden egyes képe kapcsolatos információk olvashatók be.
+- [Az Azure Functions](/azure/azure-functions/functions-overview) a háttérrendszeri API-t biztosít a webes alkalmazás, valamint a feltöltött képek eseményfeldolgozás.
+- [Event Grid](/azure/event-grid/overview) elindít egy eseményt, amikor a blob storage-bA feltöltött új lemezképet. A lemezkép ezután feldolgozása az Azure functions használatával.
+- [A BLOB storage-](/azure/storage/blobs/storage-blobs-introduction) tárolja az összes rendszerkép fájlt, amely a webes alkalmazás is bármely statikus fájlként a webes alkalmazás használ fel lesz töltve.
+- [A cosmos DB](/azure/cosmos-db/introduction) minden egyes feltöltött, beleértve a Computer Vision API, a feldolgozás eredményét lemezkép metaadatait tárolja.
 
 ## <a name="alternatives"></a>Alternatív megoldások
 
-* [Custom Vision Service](/azure/cognitive-services/custom-vision-service/home). A Computer Vision API-készletet ad vissza, [besorolás-alapú kategóriák][cv-categories]. Ha kell, amely nem a Computer Vision API által visszaadott adatok feldolgozásához, fontolja meg a Custom Vision Service, amely hozhat létre olyan egyéni rendszerkép osztályozó eszközökkel.
-* [Azure Search](/azure/search/search-what-is-azure-search). Ha a használati eset szerint az adott feltételnek-rendszerképek keresése a metaadatok lekérdezése, fontolja meg az Azure Search használatával. Jelenleg előzetes verzióban elérhető [Cognitive search](/azure/search/cognitive-search-concept-intro) zökkenőmentesen integrálható az ebben a munkafolyamatban.
+- [Custom Vision Service](/azure/cognitive-services/custom-vision-service/home). A Computer Vision API-készletet ad vissza, [besorolás-alapú kategóriák][cv-categories]. Ha kell, amely nem a Computer Vision API által visszaadott adatok feldolgozásához, fontolja meg a Custom Vision Service, amely hozhat létre olyan egyéni rendszerkép osztályozó eszközökkel.
+- [Azure Search](/azure/search/search-what-is-azure-search). Ha a használati eset szerint az adott feltételnek-rendszerképek keresése a metaadatok lekérdezése, fontolja meg az Azure Search használatával. Jelenleg előzetes verzióban elérhető [Cognitive search](/azure/search/cognitive-search-concept-intro) zökkenőmentesen integrálható az ebben a munkafolyamatban.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
 ### <a name="scalability"></a>Méretezhetőség
 
-Ebben a példában a forgatókönyvben használt összetevőket a legtöbb felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételek: az Azure Functions egy legfeljebb 200 példányra határral rendelkezik. Ha ezt a korlátot mellett van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
+Ebben a példában a forgatókönyvben használt összetevőket a legtöbb felügyelt szolgáltatások, amelyek automatikusan skálázzák. Néhány fontosabb kivételeket: Az Azure Functions legfeljebb 200-példányok esetében. Ha ezt a korlátot mellett van szüksége, fontolja meg több régióban vagy alkalmazás tervek.
 
 A cosmos DB nem automatikus skálázási kiosztott kérelemegységek (RU) tekintetében. A követelmények becsléséhez tekintse át [kérelemegységek](/azure/cosmos-db/request-units) dokumentációban. Megismerheti a teljes mértékben kihasználhatja a Cosmos DB méretezése, hogyan [kulcsok particionálása](/azure/cosmos-db/partition-data) munkahelyi a cosmos DB.
 
@@ -80,9 +81,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, a szolgáltatások mi
 
 Három példa költség-profilok forgalom mennyisége alapján biztosítunk (feltételezzük összes rendszerképekkel 100 kb méretű):
 
-* [Kis][small-pricing]: utal. a díjszabási példa feldolgozási &lt; 5000 képek egy hónapban.
-* [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 képek feldolgozása utal.
-* [Nagy][large-pricing]: a díjszabási Példa havi 50 milliót képek feldolgozása utal.
+- [Kis][small-pricing]: utal. a díjszabási példa feldolgozási &lt; 5000 képek egy hónapban.
+- [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 képek feldolgozása utal.
+- [Nagy][large-pricing]: a díjszabási Példa havi 50 milliót képek feldolgozása utal.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 

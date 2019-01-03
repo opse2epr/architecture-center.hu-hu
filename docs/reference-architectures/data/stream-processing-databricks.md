@@ -5,12 +5,12 @@ description: Hozzon létre egy teljes körű stream-feldolgozási folyamat az Az
 author: petertaylor9999
 ms.date: 11/30/2018
 ms.custom: seodec18
-ms.openlocfilehash: ceea89b554e11619823b2065a7f03919527b21fa
-ms.sourcegitcommit: 8d951fd7e9534054b160be48a1881ae0857561ef
+ms.openlocfilehash: f7364334f889388ad432efadd46362a9fa82fe8b
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/13/2018
-ms.locfileid: "53329415"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644121"
 ---
 # <a name="create-a-stream-processing-pipeline-with-azure-databricks"></a>Az Azure Databricks egy adatfolyam-feldolgozási folyamat létrehozása
 
@@ -36,9 +36,13 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 ## <a name="data-ingestion"></a>Adatfeldolgozás
 
+<!-- markdownlint-disable MD033 -->
+
 Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz, négyéves időszakban (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: Adatok ledolgozni, és adatokat díjszabás. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
 
-> [1] <span id="note1">Donovan, Brian; Munkahelyi, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
+> [1] <span id="note1">Donovan, Brian; Munkahelyi, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. <https://doi.org/10.13012/J8PN93H8>
+
+<!-- markdownlint-enable MD033 -->
 
 Az adatgenerátor, amelyek a rekordokat olvas be, és elküldi őket az Azure Event Hubs .NET Core-alkalmazást. A generátor indításáról adatok JSON formátumban és diszkont adatok CSV formátumban küldi el.
 
@@ -313,4 +317,3 @@ SparkMetric_CL
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
 A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs](https://github.com/mspnp/azure-databricks-streaming-analytics).
-

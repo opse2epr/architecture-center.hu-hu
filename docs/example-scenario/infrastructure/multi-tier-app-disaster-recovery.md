@@ -1,23 +1,24 @@
 ---
-title: Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazás az Azure-ban
+title: Többrétegű webalkalmazás beépített magas rendelkezésre ÁLLÁS/vészhelyreállítás
+titleSuffix: Azure Example Scenarios
 description: Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazást hozhat létre az Azure-ban Azure-beli virtuális gépek, rendelkezésre állási csoportok, rendelkezésre állási zónák, az Azure Site Recovery és az Azure Traffic Manager használatával
 author: sujayt
 ms.date: 11/16/2018
 ms.custom: product-team
-ms.openlocfilehash: 71534dc095d5fba137a0e610d4e725c2efc6b432
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: baa468697b4a72975e3b192efc9bdf1861a0c0da
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004604"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644045"
 ---
 # <a name="multitier-web-application-built-for-high-availability-and-disaster-recovery-on-azure"></a>A helyreállításhoz magas rendelkezésre állás és vészhelyreállítás az Azure-ban létrehozott többrétegű webalkalmazást
 
 Ebben a példaforgatókönyvben olyan rugalmas, magas rendelkezésre állású és vész-helyreállítási Többrétegű alkalmazások telepítéséhez szükséges bármely iparági alkalmazható. Ebben a forgatókönyvben az alkalmazás három rétegből áll.
 
 - Webes réteg: A legfelső rétege, beleértve a felhasználói felületen. Ez a réteg felhasználói interakció érdekében elemzi, és átadja a műveleteket következő rétege a feldolgozáshoz.
-- Üzleti szint: a felhasználói interakció érdekében dolgoz fel, és a következő lépésekről logikai döntéseket. Ez a réteg a webes szint és az adatszint kapcsolódik.
-- Adatszint: az alkalmazás adatokat tárolja. Egy adatbázis, objektumtár vagy a file storage általában szolgál.
+- Üzleti szint: A felhasználói interakció érdekében dolgoz fel, és lehetővé teszi a logikai döntéseket hozhat a következő lépésekről. Ez a réteg a webes szint és az adatszint kapcsolódik.
+- Adatszint: Az alkalmazás adatait tárolja. Egy adatbázis, objektumtár vagy a file storage általában szolgál.
 
 Gyakori alkalmazási helyzet közé tartozik minden olyan Windows vagy Linux rendszeren futó üzleti szempontból alapvető létfontosságú alkalmazás. Ez olyan megoldásszolgáltatóknál alkalmazásadatokat, például SAP és a SharePoint és a egy egyéni üzleti alkalmazás is lehet.
 
@@ -25,9 +26,9 @@ Gyakori alkalmazási helyzet közé tartozik minden olyan Windows vagy Linux ren
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Rendkívül rugalmas alkalmazások, például az SAP- és SharePoint üzembe helyezése
-* A üzletmenet-folytonossági és Vészhelyreállítási terv esetében – üzletági alkalmazások tervezése
-* Vészhelyreállítás konfigurálása és megfelelőségi célokra kapcsolódó gyakorlatok végrehajtása
+- Rendkívül rugalmas alkalmazások, például az SAP- és SharePoint üzembe helyezése
+- A üzletmenet-folytonossági és Vészhelyreállítási terv esetében – üzletági alkalmazások tervezése
+- Vészhelyreállítás konfigurálása és megfelelőségi célokra kapcsolódó gyakorlatok végrehajtása
 
 ## <a name="architecture"></a>Architektúra
 
@@ -49,17 +50,17 @@ Ez a forgatókönyv azt mutatja be egy ASP.NET- és Microsoft SQL Servert haszn�
 
 ### <a name="components"></a>Összetevők
 
-* [A rendelkezésre állási csoportok] [ docs-availability-sets] győződjön meg arról, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ha hardveres vagy szoftveres hiba lép fel az Azure-ban, a virtuális gépeknek csak egy részhalmazát érinti, és a teljes megoldás elérhető és működőképes maradjon.
-* [A rendelkezésre állási zónák] [ docs-availability-zones] az alkalmazások és adatok védelme az Adatközpont meghibásodása. A rendelkezésre állási zónák egy Azure-régión belüli különböző fizikai helyeken. Minden zóna egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található áll. 
-* [Az Azure Site Recovery (ASR)] [ docs-azure-site-recovery] lehetővé teszi, hogy a virtuális gépek replikálása másik Azure-régióba az üzletmenet-folytonossági és vészhelyreállítási igények. A megfelelőségi igények teljesítése érdekében rendszeres vészhelyreállítási próbák végezhet. A rendszer a megadott beállításokkal replikálja a virtuális gépet a kiválasztott régióba, így Ön visszaállíthatja alkalmazásait, ha a forrásrégióban leállás történne.
-* [Az Azure Traffic Manager] [ docs-traffic-manager] művelet során gondoskodik a magas rendelkezésre állásának és válaszkészségének globális Azure-régióban szolgáltatásokat egy DNS-alapú forgalom terheléselosztó, amely elosztja a forgalmat az optimális.
-* [Az Azure Load Balancer] [ docs-load-balancer] osztja el a bejövő forgalom meghatározott szabályok és az állapotadat-mintavételek alapján. Egy terheléselosztót biztosít alacsony késéssel és nagy teljesítményű, akár több milliónyi összes TCP és UDP-alkalmazás méretezése. Nyilvános load balancer segítségével ebben a forgatókönyvben a webes szintre bejövő fürtforgalom elosztására. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttér SQL Server-fürt az üzleti szintről való forgalom elosztása.
+- [A rendelkezésre állási csoportok] [ docs-availability-sets] győződjön meg arról, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ha hardveres vagy szoftveres hiba lép fel az Azure-ban, a virtuális gépeknek csak egy részhalmazát érinti, és a teljes megoldás elérhető és működőképes maradjon.
+- [A rendelkezésre állási zónák] [ docs-availability-zones] az alkalmazások és adatok védelme az Adatközpont meghibásodása. A rendelkezésre állási zónák egy Azure-régión belüli különböző fizikai helyeken. Minden zóna egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található áll.
+- [Az Azure Site Recovery (ASR)] [ docs-azure-site-recovery] lehetővé teszi, hogy a virtuális gépek replikálása másik Azure-régióba az üzletmenet-folytonossági és vészhelyreállítási igények. A megfelelőségi igények teljesítése érdekében rendszeres vészhelyreállítási próbák végezhet. A rendszer a megadott beállításokkal replikálja a virtuális gépet a kiválasztott régióba, így Ön visszaállíthatja alkalmazásait, ha a forrásrégióban leállás történne.
+- [Az Azure Traffic Manager] [ docs-traffic-manager] művelet során gondoskodik a magas rendelkezésre állásának és válaszkészségének globális Azure-régióban szolgáltatásokat egy DNS-alapú forgalom terheléselosztó, amely elosztja a forgalmat az optimális.
+- [Az Azure Load Balancer] [ docs-load-balancer] osztja el a bejövő forgalom meghatározott szabályok és az állapotadat-mintavételek alapján. Egy terheléselosztót biztosít alacsony késéssel és nagy teljesítményű, akár több milliónyi összes TCP és UDP-alkalmazás méretezése. Nyilvános load balancer segítségével ebben a forgatókönyvben a webes szintre bejövő fürtforgalom elosztására. Belső terheléselosztó szolgál ebben a forgatókönyvben a háttér SQL Server-fürt az üzleti szintről való forgalom elosztása.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* Windows kicserélhető más operációs rendszereken, mert a az infrastruktúra nem függ az operációs rendszer.
-* [Az SQL Server for Linux] [ docs-sql-server-linux] lecserélheti a háttér-tárolót.
-* Az adatbázis bármilyen elérhető standard szintű adatbázis-alkalmazás is kell helyettesíteni.
+- Windows kicserélhető más operációs rendszereken, mert a az infrastruktúra nem függ az operációs rendszer.
+- [Az SQL Server for Linux] [ docs-sql-server-linux] lecserélheti a háttér-tárolót.
+- Az adatbázis bármilyen elérhető standard szintű adatbázis-alkalmazás is kell helyettesíteni.
 
 ## <a name="other-considerations"></a>Egyéb szempontok
 

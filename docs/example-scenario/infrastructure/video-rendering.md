@@ -1,15 +1,16 @@
 ---
-title: 3D-s videórenderelés az Azure-ban
+title: 3D-videó leképezés
+titleSuffix: Azure Example Scenarios
 description: Natív HPC számítási feladatokat futtathat az Azure-ban az Azure Batch szolgáltatás használatával.
 author: adamboeglin
 ms.date: 07/13/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 7dacefd5179c426912dd97af9af7b5a39505392d
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 7e86da637553378a460b1c179c4f59ac258f0b34
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004830"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643573"
 ---
 # <a name="3d-video-rendering-on-azure"></a>3D-s videórenderelés az Azure-ban
 
@@ -21,10 +22,10 @@ A Batch lehetővé teszi egy egységes felügyeleti élmény és a feladatüteme
 
 Egyéb alkalmazási helyzetek a következők:
 
-* 3D modellezés
-* Vizuális FX (VFX) megjelenítési
-* Videó átkódolása
-* Képfeldolgozás, szín javítása és átméretezése
+- 3D modellezés
+- Vizuális FX (VFX) megjelenítési
+- Videó átkódolása
+- Képfeldolgozás, szín javítása és átméretezése
 
 ## <a name="architecture"></a>Architektúra
 
@@ -45,9 +46,9 @@ A folyamat leegyszerűsítése érdekében is használhatja a [Batch beépülő 
 
 Az Azure Batch-listaalkalmazásra épül a következő Azure-technológiák:
 
-* [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) a fő csomópontot és a számítási erőforrásokat is használhatók.
-* [Az Azure Storage-fiókok](/azure/storage/common/storage-introduction) szinkronizálás és az adatmegőrzést szolgálnak.
-* [Virtual Machine Scale Sets] [ vmss] CycleCloud számítási erőforrásokat használ.
+- [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) a fő csomópontot és a számítási erőforrásokat is használhatók.
+- [Az Azure Storage-fiókok](/azure/storage/common/storage-introduction) szinkronizálás és az adatmegőrzést szolgálnak.
+- [Virtual Machine Scale Sets] [ vmss] CycleCloud számítási erőforrásokat használ.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -55,18 +56,18 @@ Az Azure Batch-listaalkalmazásra épül a következő Azure-technológiák:
 
 Renderelési a legtöbb ügyfél fog válassza ki a magas CPU-teljesítmény-erőforrásokat, miközben más számítási feladatok, a virtual machine scale sets használatával eltérően előfordulhat, hogy válassza ki virtuális gépeket, és számos tényezőtől függ:
 
-* Van kötve a memória a futtatni az alkalmazást?
-* Az alkalmazás gpu-k használatához nem kell? 
-* A feladat típusok zavaróan párhuzamos vagy infiniband kapcsolatot igényelnek a szorosan összekapcsolt feladatokhoz?
-* Gyors i/o számítási csomópontok tároló eléréséhez szükséges.
+- Van kötve a memória a futtatni az alkalmazást?
+- Az alkalmazás gpu-k használatához nem kell?
+- A feladat típusok zavaróan párhuzamos vagy infiniband kapcsolatot igényelnek a szorosan összekapcsolt feladatokhoz?
+- Gyors i/o számítási csomópontok tároló eléréséhez szükséges.
 
 Egy számos különböző Virtuálisgép-méretek, amely az alkalmazás a fenti követelmények minden egy az Azure rendelkezik, néhány csak az adott HPC, de még a legkisebb méretű, amellyel egy hatékony rács implementáció:
 
-* [HPC-Virtuálisgép-méretek] [ compute-hpc] renderelési kötött CPU jellege miatt általában javasolt az Azure H-sorozatú virtuális gépek. Az ilyen típusú virtuális gép kifejezetten a magas szintű számítási igényekre épül, 8 és 16 magos vCPU-mérettel érhető el, és szolgáltatások esetében DDR4 memóriával, ideiglenes SSD-tárolóval és a technológia az Intel Haswell E5 rendelkeznek.
-* [GPU-Virtuálisgép-méretek] [ compute-gpu] GPU-optimalizált virtuális gépek méretek a következők specializált virtuális gépek egy vagy több NVIDIA gpu-k használatával érhető el. Ezeket a méreteket képi megjelenítés, nagy számítási igényű és magas grafikai igényű számítási feladatokhoz tervezték.
-* Hálózati vezérlő, NCv2, az NCv3 és ND méretek nagy számítási és hálózatigényű alkalmazásokra és algoritmusokra, beleértve a CUDA és OpenCL-alapú alkalmazásokat és szimulációkat, mesterséges Intelligencia és a Deep Learning vannak optimalizálva. NV-méretek vannak kialakítva és optimalizálva távoli képi megjelenítés, streamelési, játék, kódolási és VDI-forgatókönyvekhez OpenGL, DirectX és hasonló keretrendszereket.
-* [Memóriahasználatra optimalizált Virtuálisgép-méretek] [ compute-memory] több memóriára szükség, amikor a memóriahasználatra optimalizált Virtuálisgép-méretek kínál a nagyobb memória – Processzor memóriaarányt.
-* [Általános célú virtuális gépek méreteit] [ compute-general] General-purpose Virtuálisgép-méretek is elérhetők, és adja meg a kiegyensúlyozott Processzor-memória arány.
+- [HPC-Virtuálisgép-méretek] [ compute-hpc] renderelési kötött CPU jellege miatt általában javasolt az Azure H-sorozatú virtuális gépek. Az ilyen típusú virtuális gép kifejezetten a magas szintű számítási igényekre épül, 8 és 16 magos vCPU-mérettel érhető el, és szolgáltatások esetében DDR4 memóriával, ideiglenes SSD-tárolóval és a technológia az Intel Haswell E5 rendelkeznek.
+- [GPU-Virtuálisgép-méretek] [ compute-gpu] GPU-optimalizált virtuális gépek méretek a következők specializált virtuális gépek egy vagy több NVIDIA gpu-k használatával érhető el. Ezeket a méreteket képi megjelenítés, nagy számítási igényű és magas grafikai igényű számítási feladatokhoz tervezték.
+- Hálózati vezérlő, NCv2, az NCv3 és ND méretek nagy számítási és hálózatigényű alkalmazásokra és algoritmusokra, beleértve a CUDA és OpenCL-alapú alkalmazásokat és szimulációkat, mesterséges Intelligencia és a Deep Learning vannak optimalizálva. NV-méretek vannak kialakítva és optimalizálva távoli képi megjelenítés, streamelési, játék, kódolási és VDI-forgatókönyvekhez OpenGL, DirectX és hasonló keretrendszereket.
+- [Memóriahasználatra optimalizált Virtuálisgép-méretek] [ compute-memory] több memóriára szükség, amikor a memóriahasználatra optimalizált Virtuálisgép-méretek kínál a nagyobb memória – Processzor memóriaarányt.
+- [Általános célú virtuális gépek méreteit] [ compute-general] General-purpose Virtuálisgép-méretek is elérhetők, és adja meg a kiegyensúlyozott Processzor-memória arány.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
@@ -90,32 +91,35 @@ Belül egy fiók is, vagy a méretezési csoport manuális intézkedés révén,
 
 Bár az Azure Batch szolgáltatásban jelenleg nem nincs feladatátvételi képességének, javasolt egy nem tervezett kimaradás esetén a rendelkezésre állás biztosítása érdekében az alábbi lépéseket követve:
 
-* Egy másik Azure-beli helyen, egy másik tárfiókkal az Azure Batch-fiók létrehozása
-* Az azonos csomópontkészletek ugyanazzal a névvel, nulla lefoglalt csomópontok létrehozása
-* Győződjön meg, hogy az alkalmazások létrehozása és a másodlagos tárfiók frissítése
-* Bemeneti fájlok feltöltése és a másodlagos Azure-Batch-fiók-feladatok elküldése
+- Egy másik Azure-beli helyen, egy másik tárfiókkal az Azure Batch-fiók létrehozása
+- Az azonos csomópontkészletek ugyanazzal a névvel, nulla lefoglalt csomópontok létrehozása
+- Győződjön meg, hogy az alkalmazások létrehozása és a másodlagos tárfiók frissítése
+- Bemeneti fájlok feltöltése és a másodlagos Azure-Batch-fiók-feladatok elküldése
 
-## <a name="deploy-this-scenario"></a>Ez a forgatókönyv megvalósítható
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
-### <a name="creating-an-azure-batch-account-and-pools-manually"></a>Azure Batch-fiók és -készletek manuális létrehozása
+### <a name="create-an-azure-batch-account-and-pools-manually"></a>Azure Batch-fiók és -készletek létrehozása manuálisan
 
 Ebben a forgatókönyvben be az Azure Batch működése közben az Azure Batch Labs példaként Szolgáltatottszoftver-megoldás, amely az ügyfelek fejlesztette ki, amely azt mutatja be:
 
 [Az Azure Batch Masterclass][batch-labs-masterclass]
 
-### <a name="deploying-the-example-scenario-using-an-azure-resource-manager-template"></a>A példa egy Azure Resource Manager-sablonnal üzembe helyezése
+### <a name="deploy-the-components"></a>Az összetevők üzembe helyezése
 
 A sablon telepíti:
 
-* Egy új Azure Batch-fiók
-* Storage-fiók
-* A batch-fiókhoz társított csomópontkészletek
-* A csomópont készlethez Canonical Ubuntu-lemezképekkel A2 v2 virtuális gép használatára lesz konfigurálva
-* A csomópont készlethez virtuális gépek kezdetben tartalmazni fog, és el kell azt manuálisan hozzáadni a virtuális gépek méretezési
+- Egy új Azure Batch-fiók
+- Storage-fiók
+- A batch-fiókhoz társított csomópontkészletek
+- A csomópont készlethez Canonical Ubuntu-lemezképekkel A2 v2 virtuális gép használatára lesz konfigurálva
+- A csomópont készlethez virtuális gépek kezdetben tartalmazni fog, és el kell azt manuálisan hozzáadni a virtuális gépek méretezési
+
+<!-- markdownlint-disable MD033 -->
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fhpc%2Fbatchcreatewithpools.json" target="_blank">
     <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
+<!-- markdownlint-enable MD033 -->
 
 [További tudnivalók a Resource Manager-sablonok][azure-arm-templates]
 
@@ -125,15 +129,15 @@ Azure Batch használatának költségét a készleteket, és mennyi ideig vannak
 
 Az alábbi parancsok példák, amelyek használatával a kiszolgálókat különböző számú 8 órán belül befejeződik egy feladat sikerült felmerülő költségek:
 
-* Nagy teljesítményű CPU 100 virtuális: [Költségbecslés][hpc-est-high]
+- Nagy teljesítményű CPU 100 virtuális gépet: [Költségbecslés][hpc-est-high]
 
   100 x H16m (16 mag, 225 GB RAM, prémium szintű Storage 512 GB), 2 TB-os Blobtárhelyet, 1 TB-os forgalom
 
-* 50 nagy teljesítményű Processzorral virtuális: [Költségbecslés][hpc-est-med]
+- Nagy teljesítményű CPU 50 virtuális gépek: [Költségbecslés][hpc-est-med]
 
   50 x H16m (16 mag, 225 GB RAM, prémium szintű Storage 512 GB), 2 TB-os Blobtárhelyet, 1 TB-os forgalom
 
-* 10, nagy teljesítményű CPU-alapú virtuális gépből: [Költségbecslés][hpc-est-low]
+- Nagy teljesítményű CPU 10 virtuális gépek: [Költségbecslés][hpc-est-low]
 
   10 x H16m (16 mag, 225 GB RAM, prémium szintű Storage 512 GB), 2 TB-os Blobtárhelyet, 1 TB-os forgalom
 
@@ -141,7 +145,7 @@ Az alábbi parancsok példák, amelyek használatával a kiszolgálókat külön
 
 Az Azure Batch alacsony prioritású virtuális gépek használatát is támogatja a potenciálisan megadhat egy jelentős megtakarítás csomópontkészletek. További információk, beleértve a standard szintű virtuális gépek és az alacsony prioritású virtuális gépek, ár összehasonlítását: [Azure Batch szolgáltatás díjszabása][batch-pricing].
 
-> [!NOTE] 
+> [!NOTE]
 > Alacsony prioritású virtuális gépek csak olyan, megfelelő az egyes alkalmazások és számítási feladatok.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)

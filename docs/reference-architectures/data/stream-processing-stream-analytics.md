@@ -5,12 +5,12 @@ description: Hozzon létre egy teljes körű adatfolyam-feldolgozási folyamat a
 author: MikeWasson
 ms.date: 11/06/2018
 ms.custom: seodec18
-ms.openlocfilehash: 44eaf51f2180be250defbeb0d141ab24f7f17d4b
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 130f297d3cfdeb1900ada79f1e9c65ec542dc2b7
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119931"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643747"
 ---
 # <a name="create-a-stream-processing-pipeline-with-azure-stream-analytics"></a>Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozása
 
@@ -20,7 +20,7 @@ Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
 ![Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozásához a referencia-architektúra](./images/stream-processing-asa/stream-processing-asa.png)
 
-**A forgatókönyv**:-i taxik vállalati minden taxi út adatokat gyűjt. Ebben a forgatókönyvben feltételezzük adatküldés két külön eszközökre. A taxi rendelkezik, amely minden egyes indításáról információt küld a mérő &mdash; begyűjtést és dropoff helyeket, időtartama és távolság. Egy különálló eszköz fogad az ügyfelektől származó kifizetések és vitel kapcsolatos adatokat küldi. A taxi vállalat úgy kívánja kiszámítja az átlagos tipp kiszolgálónként mérföld alapuló, valós idejű, sorrendben felhasználva azonosíthatja a trendeket.
+**A forgatókönyv**: -I taxik vállalati minden taxi út adatokat gyűjt. Ebben a forgatókönyvben feltételezzük adatküldés két külön eszközökre. A taxi rendelkezik, amely minden egyes indításáról információt küld a mérő &mdash; begyűjtést és dropoff helyeket, időtartama és távolság. Egy különálló eszköz fogad az ügyfelektől származó kifizetések és vitel kapcsolatos adatokat küldi. A taxi vállalat úgy kívánja kiszámítja az átlagos tipp kiszolgálónként mérföld alapuló, valós idejű, sorrendben felhasználva azonosíthatja a trendeket.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -42,9 +42,9 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 <!-- markdownlint-disable MD033 MD034 -->
 
-Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: indításáról és diszkont adatait. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
+Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: Adatok ledolgozni, és adatokat díjszabás. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
 
-[1] <span id="note1">Donovan, Brian; Munka, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
+[1] <span id="note1">Donovan, Brian; Munkahelyi, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
 
 <!-- markdownlint-enable MD033 MD034 -->
 
@@ -221,4 +221,14 @@ Interestingly ennek hatására oldal, ahol egyre növekszik a Stream Analytics-f
 
 A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github].
 
-[github]: https://github.com/mspnp/reference-architectures/tree/master/data/streaming_asa
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [IoT és data analytics konstrukció iparág](/azure/architecture/example-scenario/data/big-data-with-iot)
+- [Az adathamisítások azonnali felismerése](/azure/architecture/example-scenario/data/fraud-detection)
+
+<!-- links -->
+
+[github]: https://github.com/mspnp/azure-stream-analytics-data-pipeline
+

@@ -5,12 +5,12 @@ description: Bevált eljárások az SAP HANA futtatásához magas rendelkezésre
 author: lbrader
 ms.date: 05/16/2018
 ms.custom: seodec18
-ms.openlocfilehash: c21a5ac83d8d8ee9a9b9d7edad07288c85544994
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: ef3c57f292024af0abbeb4ead62ab4b3aeb57a90
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120155"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644087"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a>Nagyméretű Azure-példányokon futó SAP HANA futtatása
 
@@ -148,7 +148,7 @@ Ha további számítási képesség, be kell szereznie egy nagyobb Termékválto
 
 - Alapértelmezés szerint a HANA nagyméretű példányok használják a tárolás titkosítása a TDE (transzparens adattitkosítás) inaktív adatok alapján.
 
-- Nagyméretű HANA-példányok és a virtuális gépek között átvitt adatok nincsenek titkosítva. Az adatátvitel titkosítását, az alkalmazás-specifikus titkosítást. Tekintse meg az SAP-Jegyzetnek [2159014] [ sap-2159014] – gyakori kérdések: SAP HANA biztonsági.
+- Nagyméretű HANA-példányok és a virtuális gépek között átvitt adatok nincsenek titkosítva. Az adatátvitel titkosítását, az alkalmazás-specifikus titkosítást. Tekintse meg az SAP-Jegyzetnek [2159014] [ sap-2159014] – gyakori kérdések: Az SAP HANA biztonsági.
 
 - Elkülönítés a nagyméretű HANA-példány több-bérlős környezetben a bérlők közötti biztonságot nyújt. Bérlők elkülönülnek a saját VLAN használatával.
 
@@ -168,6 +168,15 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Azure közösségi támogatás][azure-forum]
 - [Az SAP közösségi][sap-community]
 - [A stack Overflow SAP][stack-overflow]
+
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata](/azure/architecture/example-scenario/apps/sap-production)
+- [Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek](/azure/architecture/example-scenario/apps/sap-dev-test)
+
+<!-- links -->
 
 [azure-forum]: https://azure.microsoft.com/support/forums/
 [azure-large-instances]: /azure/virtual-machines/workloads/sap/hana-overview-architecture

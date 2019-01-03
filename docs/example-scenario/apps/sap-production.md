@@ -1,15 +1,16 @@
 ---
-title: Éles SAP számítási feladatok futtatása egy Oracle-adatbázis használatával az Azure-ban
+title: Az SAP számítási feladatok futtatása az Oracle-adatbázis használatával
+titleSuffix: Azure Example Scenarios
 description: Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.
 author: DharmeshBhagat
 ms.date: 9/12/2018
 ms.custom: fasttrack
-ms.openlocfilehash: e345760c69c4d3cc26fe6d4d7cb8a93d183a5818
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 2f398e98e383053f40fa8debcf5636c609339baf
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004968"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643730"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
@@ -23,9 +24,9 @@ A példaforgatókönyv azt szemlélteti, Windows vagy Linux rendszerű virtuáli
 
 Egyéb alkalmazási helyzetek a következők:
 
-* SAP futó kritikus fontosságú számítási feladatokat.
-* A nem kritikus fontosságú SAP számítási feladatokhoz.
-* Az SAP, amely egy magas rendelkezésre állású környezet szimulálása tesztelési környezetek.
+- SAP futó kritikus fontosságú számítási feladatokat.
+- A nem kritikus fontosságú SAP számítási feladatokhoz.
+- Az SAP, amely egy magas rendelkezésre állású környezet szimulálása tesztelési környezetek.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -41,22 +42,23 @@ Ebben a példában egy magas rendelkezésre állású konfiguráció egy Oracle 
 
 ### <a name="components"></a>Összetevők
 
-* [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) ebben a forgatókönyvben az Azure-beli virtuális Központ-küllő topológia létrehozásához használt.
-* [Virtuális gépek](/azure/virtual-machines/windows/overview) adja meg azokat a számítási erőforrásokat a megoldás minden egyes szinthez. A virtuális gépek minden egyes fürt van konfigurálva, egy [rendelkezésre állási csoport](/azure/virtual-machines/windows/regions-and-availability#availability-sets).
-* [Az ExpressRoute](/azure/expressroute/expressroute-introduction) kiterjeszti a helyszíni hálózatot a kapcsolatszolgáltató által létrehozott egy privát kapcsolaton keresztül a Microsoft-felhőbe.
-* [Hálózati biztonsági csoportok (NSG)](/azure/virtual-network/security-overview) egy virtuális hálózatban lévő erőforrásokra irányuló hálózati hozzáférés korlátozásához. Hálózati biztonsági csoportok biztonsági szabályokat, amelyek engedélyezik vagy megtagadják a hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján listáját tartalmazza. 
-* [Erőforráscsoportok](/azure/azure-resource-manager/resource-group-overview#resource-groups) logikai tárolóként szolgálnak az Azure-erőforrásokhoz.
+- [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) ebben a forgatókönyvben az Azure-beli virtuális Központ-küllő topológia létrehozásához használt.
+- [Virtuális gépek](/azure/virtual-machines/windows/overview) adja meg azokat a számítási erőforrásokat a megoldás minden egyes szinthez. A virtuális gépek minden egyes fürt van konfigurálva, egy [rendelkezésre állási csoport](/azure/virtual-machines/windows/regions-and-availability#availability-sets).
+- [Az ExpressRoute](/azure/expressroute/expressroute-introduction) kiterjeszti a helyszíni hálózatot a kapcsolatszolgáltató által létrehozott egy privát kapcsolaton keresztül a Microsoft-felhőbe.
+- [Hálózati biztonsági csoportok (NSG)](/azure/virtual-network/security-overview) egy virtuális hálózatban lévő erőforrásokra irányuló hálózati hozzáférés korlátozásához. Hálózati biztonsági csoportok biztonsági szabályokat, amelyek engedélyezik vagy megtagadják a hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján listáját tartalmazza.
+- [Erőforráscsoportok](/azure/azure-resource-manager/resource-group-overview#resource-groups) logikai tárolóként szolgálnak az Azure-erőforrásokhoz.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-Az SAP az operációs rendszer, az adatbázis-kezelő rendszer és az Azure-környezet virtuális gépek típusai különböző kombinációit rugalmas lehetőségeket nyújt. További információkért lásd: [SAP-jegyzetnek 1928533](https://launchpad.support.sap.com/#/notes/1928533), "SAP alkalmazások az Azure: támogatott termékek és Azure-Virtuálisgéptípusok".
+Az SAP az operációs rendszer, az adatbázis-kezelő rendszer és az Azure-környezet virtuális gépek típusai különböző kombinációit rugalmas lehetőségeket nyújt. További információkért lásd: [SAP-jegyzetnek 1928533](https://launchpad.support.sap.com/#/notes/1928533), "Azure-beli SAP-alkalmazások: Támogatott termékek és Azure Virtuálisgép-típusok".
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
-Ajánlott eljárások az Azure-ban magas rendelkezésre állású SAP környezetek kiépítéséhez vannak meghatározva. További információkért lásd: [magas rendelkezésre állású architektúra és forgatókönyvek esetében az SAP NetWeaver](/azure/virtual-machines/workloads/sap/sap-high-availability-architecture-scenarios).
-További információkért lásd: [magas rendelkezésre állás az SAP-alkalmazások Azure-beli virtuális gépeken](/azure/virtual-machines/workloads/sap/high-availability-guide).
-* Oracle-adatbázisokat is rendelkezik ajánlott eljárások az Azure-hoz. További információkért lásd: [tervezése és implementálása az Oracle-adatbázishoz az Azure-ban](/azure/virtual-machines/workloads/oracle/oracle-design). 
-* Oracle Data Guard segítségével kiküszöbölése az üzletmenet szempontjából kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
+Ajánlott eljárások az Azure-ban magas rendelkezésre állású SAP környezetek kiépítéséhez vannak meghatározva. További információkért lásd: [magas rendelkezésre állású architektúra és forgatókönyvek esetében az SAP NetWeaver](/azure/virtual-machines/workloads/sap/sap-high-availability-architecture-scenarios). További tájékoztatás [magas rendelkezésre állás az SAP-alkalmazások Azure-beli virtuális gépeken](/azure/virtual-machines/workloads/sap/high-availability-guide).
+
+Oracle-adatbázisokat is rendelkezik ajánlott eljárások az Azure-hoz. További információkért lásd: [tervezése és implementálása az Oracle-adatbázishoz az Azure-ban](/azure/virtual-machines/workloads/oracle/oracle-design).
+
+Oracle Data Guard segítségével kiküszöbölése az üzletmenet szempontjából kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
 
 Az Azure infrastruktúra-szolgáltatások üzembe helyezéséhez SAP-termékekhez, az Oracle-adatbázishoz használható kínál. További információkért lásd: [egy SAP számítási feladatok üzembe helyezése egy Azure-on Oracle DBMS](/azure/virtual-machines/workloads/sap/dbms_guide_oracle).
 
@@ -76,22 +78,26 @@ Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1 x P10|10 x DS14_v2|1 x P10|[Extra 
 > [!NOTE]
 > A díjszabás egy útmutató, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit. Nem tartalmazza a hálózati, biztonsági mentési tár, és a bejövő/kimenő adatforgalom díját.
 
-* [Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c): az adatbázis-kiszolgáló 8 x vCPUs, 56 GB RAM és 112 GB-os ideiglenes tárterület,-továbbá öt 512 GB-os prémium szintű tárolólemezeket a VM-típus DS13_v2 egy kis rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Egy egyetlen VM-típus DS13_v2 az SAP-alkalmazáskiszolgáló 8 x vCPUs, 56 GB RAM és 400-GB ideiglenes tárhely, továbbá egy 128 GB-os prémium szintű storage lemezzel.
+- [Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c): VM-típus DS13_v2 8 x vCPUs, 56 GB RAM és 112 GB-os ideiglenes tárterület, továbbá öt 512 GB-os prémium szintű tárolólemezeket az adatbázis-kiszolgáló egy kis rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Egy egyetlen VM-típus DS13_v2 az SAP-alkalmazáskiszolgáló 8 x vCPUs, 56 GB RAM és 400-GB ideiglenes tárhely, továbbá egy 128 GB-os prémium szintű storage lemezzel.
 
-* [Közepes](https://azure.com/e/9a523f79591347ca9a48c3aaa1406f8a): az adatbázis-kiszolgáló 16 x vCPUs, 112 GB RAM és 800 GB-os ideiglenes tárterület,-emellett hét 512 GB-os prémium szintű tárolólemezeket a VM-típus DS14_v2 egy közepes méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Az SAP-alkalmazáskiszolgáló 8 x vCPUs, 56 GB RAM és 400-GB ideiglenes tárhely, továbbá egy 128 GB-os prémium szintű storage lemezzel DS13_v2 írja be a négy virtuális Gépet.
+- [Közepes](https://azure.com/e/9a523f79591347ca9a48c3aaa1406f8a): Az adatbázis-kiszolgáló 16 x vCPUs, 112 GB RAM és 800 GB-os ideiglenes tárterület,-emellett hét 512 GB-os prémium szintű tárolólemezeket a VM-típus DS14_v2 egy közepes méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Az SAP-alkalmazáskiszolgáló 8 x vCPUs, 56 GB RAM és 400-GB ideiglenes tárhely, továbbá egy 128 GB-os prémium szintű storage lemezzel DS13_v2 írja be a négy virtuális Gépet.
 
-* [Nagy](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42): egy nagy méretű rendszer áll VM-típus E32s_v3 32 x vCPUs, 256 GB RAM és ideiglenes tárterület 800 GB-os, az adatbázis-kiszolgáló emellett három 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Az SAP-alkalmazáskiszolgálók 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá hat 128 GB-os prémium szintű storage lemezzel DS14_v2 írja be a hat virtuális Gépet.
+- [Nagy](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42): A nagy méretű rendszer VM-típus E32s_v3 32 x vCPUs, 256 GB RAM és ideiglenes tárterület 800 GB-os, az adatbázis-kiszolgáló emellett áll három 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. Az SAP-alkalmazáskiszolgálók 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá hat 128 GB-os prémium szintű storage lemezzel DS14_v2 írja be a hat virtuális Gépet.
 
-* [Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b): 64 x vCPUs, 1024 GB RAM és 2000 GB ideiglenes tárhely,-emellett hét 1024 GB-os prémium szintű tárolólemezeket az adatbázis-kiszolgáló a M64s VM-típus egy extra nagy méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. 10 virtuális gép DS14_v2 lemezzel 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá tíz 128 GB-os prémium szintű storage, az SAP-alkalmazáskiszolgálók írja be.
+- [Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b): A 64 x vCPUs, 1024 GB RAM-MAL és 2000 GB ideiglenes tárhely,-emellett hét 1024 GB-os prémium szintű tárolólemezeket az adatbázis-kiszolgáló M64s VM-típus egy extra nagy méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. 10 virtuális gép DS14_v2 lemezzel 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá tíz 128 GB-os prémium szintű storage, az SAP-alkalmazáskiszolgálók írja be.
 
 ## <a name="deployment"></a>Környezet
 
 A következő hivatkozás használatával ebben a forgatókönyvben az alapul szolgáló infrastruktúra üzembe helyezése.
 
+<!-- markdownlint-disable MD033 -->
+
 <a
 href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmspnp%2Fsolution-architectures%2Fmaster%2Fapps%2Fsap-3tier-distributed-ora%2Fazuredeploy.json" target="_blank">
     <img src="https://azuredeploy.net/deploybutton.png"/>
 </a>
+
+<!-- markdownlint-enable MD033 -->
 
 > [!NOTE]
 > SAP és Oracle nincs telepítve a központi telepítés során. Ezek az összetevők telepítését külön-külön kell.
@@ -99,9 +105,10 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Egyéb SAP számítási feladatok futtatása az Azure-ban kapcsolatos információkért tekintse át a következő referenciaarchitektúrákat:
-* [SAP NetWeaver a AnyDB](/azure/architecture/reference-architectures/sap/sap-netweaver) 
-* [SAP S/4HANA-T](/azure/architecture/reference-architectures/sap/sap-s4hana)
-* [SAP HANA nagyméretű példányok](/azure/architecture/reference-architectures/sap/hana-large-instances)
+
+- [SAP NetWeaver a AnyDB](/azure/architecture/reference-architectures/sap/sap-netweaver)
+- [SAP S/4HANA-T](/azure/architecture/reference-architectures/sap/sap-s4hana)
+- [SAP HANA nagyméretű példányok](/azure/architecture/reference-architectures/sap/hana-large-instances)
 
 <!-- links -->
 [architecture]: media/architecture-sap-production.png

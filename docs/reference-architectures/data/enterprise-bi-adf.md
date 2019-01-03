@@ -5,18 +5,18 @@ description: Egy kinyerési, betöltési és átalakítási (ELT) munkafolyamat 
 author: MikeWasson
 ms.date: 11/06/2018
 ms.custom: seodec18
-ms.openlocfilehash: d87583802496f8be85e44c896ae7d6a26306cffc
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 8263da7675beb61add371c945aab72b203c2349c
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120339"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644005"
 ---
 # <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan hajthat végre a növekményes betöltése egy [kinyerése, betöltése és átalakítási (ELT)](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) folyamat. Azure Data Factory használatával az ELT folyamatok automatizálásához. A folyamat növekményes helyezi át a legújabb OLTP adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-bA. Tranzakciós adatok átalakításának egy táblázatos modell elemzés céljából.
 
-> [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2Gnz2]
+> [!VIDEO <https://www.microsoft.com/videoplayer/embed/RE2Gnz2>]
 
 Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
@@ -37,7 +37,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 **A helyszíni SQL Server**. Az adatok helyszíni SQL Server-adatbázis található. A helyszíni környezetben, az architektúra üzembe helyezése az Azure-ban telepített SQL Server virtuális gép üzembe helyezési szkriptjei szimulálásához. A [Wide World Importers OLTP mintaadatbázis] [ wwi] a forrásadatbázis szolgál.
 
-**Külső adatok**. Adattárházak gyakran előfordul, hogy több adatforrás integrálhatja. Ez a referenciaarchitektúra egy külső adatkészlet, amely tartalmazza a város feltöltések évek szerint, és integrálja az OLTP adatbázis adataival tölti be. Használhatja ezeket az adatokat például az elemzésekhez: "Nem minden régióban eladások növekedési nagyobb vagy népességnövekedés?"
+**Külső adatok**. Adattárházak gyakran előfordul, hogy több adatforrás integrálhatja. Ez a referenciaarchitektúra egy külső adatkészlet, amely tartalmazza a város feltöltések évek szerint, és integrálja az OLTP adatbázis adataival tölti be. Insights például használhatja ezeket az adatokat: "Nem minden régióban eladások növekedési nagyobb vagy népességnövekedés?"
 
 ### <a name="ingestion-and-data-storage"></a>Adatfeldolgozási és az adatok tárolása
 
@@ -201,7 +201,16 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 - Az Azure Analysis Services-példányt.
 - Az Azure Data Factory és a Data Factory-folyamatot a ELT-feladathoz.
 
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [Adattárház és analitika értékesítés és marketing](/azure/architecture/example-scenario/data/data-warehouse)
+- [Hibrid ETL a meglévő helyszíni SSIS és az Azure Data Factory](/azure/architecture/example-scenario/data/hybrid-etl-with-adf)
+
+<!-- links -->
+
 [adf]: /azure/data-factory
-[github]: https://github.com/mspnp/reference-architectures/tree/master/data/enterprise_bi_sqldw_advanced
+[github]: https://github.com/mspnp/azure-data-factory-sqldw-elt-pipeline
 [MergeLocation]: https://github.com/mspnp/reference-architectures/blob/master/data/enterprise_bi_sqldw_advanced/azure/sqldw_scripts/city/%5BIntegration%5D.%5BMergeLocation%5D.sql
 [wwi]: /sql/sample/world-wide-importers/wide-world-importers-oltp-database

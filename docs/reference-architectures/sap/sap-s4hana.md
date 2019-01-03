@@ -5,12 +5,12 @@ description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendsz
 author: lbrader
 ms.date: 05/11/2018
 ms.custom: seodec18
-ms.openlocfilehash: 356b80c79aeb13ac951654350eafa904ff5e5ec1
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 9eb73ddaf5b1cb815f037f46c7e187f61d126876
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120237"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644172"
 ---
 # <a name="sap-s4hana-for-linux-virtual-machines-on-azure"></a>SAP S/4HANA, a Linux rendszerű virtuális gépek az Azure-ban
 
@@ -122,7 +122,7 @@ Magas IOPS és átviteli sebessége érhető el, az általános tárolási köte
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Az SAP-alkalmazási rétegben az Azure számos különféle virtuálisgép-méretek vertikális és horizontális felskálázás kínál. A teljes listát lásd: [SAP Megjegyzés 1928533](https://launchpad.support.sap.com/#/notes/1928533) – SAP alkalmazások az Azure-on: támogatott termékek és Azure-beli Virtuálisgép-típusok (SAP Service Marketplace-en a hozzáféréshez szükséges fiók). Folyamatos tanúsítása több virtuálisgép-típust, méretezhetők felfelé és lefelé az azonos felhőbeli üzemelő példány.
+Az SAP-alkalmazási rétegben az Azure számos különféle virtuálisgép-méretek vertikális és horizontális felskálázás kínál. A teljes listát lásd: [SAP Megjegyzés 1928533](https://launchpad.support.sap.com/#/notes/1928533) – SAP alkalmazások az Azure-ban: Támogatott termékek és Azure Virtuálisgép-típusok (SAP Service Marketplace-en a hozzáféréshez szükséges fiók). Folyamatos tanúsítása több virtuálisgép-típust, méretezhetők felfelé és lefelé az azonos felhőbeli üzemelő példány.
 
 Az adatbázisrétegben Ez az architektúra futtatja a HANA-beli virtuális gépeken. Ha a számítási feladatok meghaladja a maximális Virtuálisgép-méretet, Microsoft által [nagyméretű Azure-példányokon](/azure/virtual-machines/workloads/sap/hana-overview-architecture) az SAP Hana-hoz. Ezek a fizikai kiszolgálók elhelyezve egy Microsoft Azure certified adatközpont és a jelen cikk írásakor, adja meg a memória-kapacitás egyetlen példányra, akár 20 TB. Többcsomópontos konfigurációval a teljes memóriakapacitás akár 60 TB.
 
@@ -154,7 +154,7 @@ Minden egyes réteg más stratégiával biztosít vészhelyreállítási (DR) v�
 
 - **Kiszolgálók alkalmazásrétegek**. SAP-alkalmazáskiszolgálók nem tartalmaznak üzleti adatokat. Az Azure-ban, egy egyszerű Vészhelyreállítási stratégia lehet SAP-alkalmazáskiszolgálókhoz létrehozni a másodlagos régióba, majd leállíthatja őket. Bármilyen konfigurációmódosítás vagy kernelfrissítés az elsődleges alkalmazáskiszolgálón esetén a másodlagos régióban lévő virtuális gépek a módosításokat kell alkalmazni. Például másolja át az SAP-kernel végrehajtható a Vészhelyreállítási virtuális gépeket. Az automatikus replikálását egy másodlagos régióba alkalmazáskiszolgálók [Azure Site Recovery](/azure/site-recovery/site-recovery-overview) az ajánlott megoldás. Ez a cikk írásakor, az ASR nem még támogatja a gyorsított hálózati konfigurációs beállítás, a replikáció az Azure-beli virtuális gépeken.
 
-- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A központi szolgáltatások szerepkör futtatásához a másodlagos régió virtuális Gépet hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, akkor meg kell ismételni a virtuális gép központi szolgáltatásokat futtató másodlagos régióban. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery segítségével a fürtcsomópontok replikálni, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal segítségével /sapmnt másolja a DR oldalra. További részleteket tartalmaz a build másolási és tesztelési feladatátvételi folyamatok letöltése [SAP NetWeaver: Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás létrehozása](https://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és szakaszban 4.3-as, "SAP SPOF layer (ASCS)." Ez a tanulmány a Windows rendszerű NetWeaver vonatkozik, de egyenértékű konfigurációnak felel meg a Linux rendszerre is létrehozhat. Központi szolgáltatások használata [Azure Site Recovery](/en-us/azure/site-recovery/site-recovery-overview) replikálni a fürtcsomópontok és a tárolás. Linux esetén hozzon létre egy három csomópontos geo-fürt egy magas rendelkezésre állási bővítmény használatával.
+- **Központi szolgáltatások**. Az SAP alkalmazáscsoport ezen összetevője szintén nem tárol üzleti adatokat. A központi szolgáltatások szerepkör futtatásához a másodlagos régió virtuális Gépet hozhat létre. A szinkronizálásához az elsődleges Central Services csomópont csak tartalma a /sapmnt megosztási tartalom. Is ha konfigurációmódosítás vagy kernelfrissítés történik meg a elsődleges központi szolgáltatások kiszolgálójára, akkor meg kell ismételni a virtuális gép központi szolgáltatásokat futtató másodlagos régióban. A két kiszolgáló szinkronizálását, vagy az Azure Site Recovery segítségével a fürtcsomópontok replikálni, vagy egyszerűen csak egy egyszerű ütemezett másolási feladattal segítségével /sapmnt másolja a DR oldalra. További részleteket tartalmaz a build másolási és tesztelési feladatátvételi folyamatok letöltése [SAP NetWeaver: A Hyper-V és a Microsoft Azure-alapú vészhelyreállítási megoldás](https://download.microsoft.com/download/9/5/6/956FEDC3-702D-4EFB-A7D3-2DB7505566B6/SAP%20NetWeaver%20-%20Building%20an%20Azure%20based%20Disaster%20Recovery%20Solution%20V1_5%20.docx), és tekintse meg a szakasz 4.3-as, "SAP SPOF layer (ASCS)." Ez a tanulmány a Windows rendszerű NetWeaver vonatkozik, de egyenértékű konfigurációnak felel meg a Linux rendszerre is létrehozhat. Központi szolgáltatások használata [Azure Site Recovery](/en-us/azure/site-recovery/site-recovery-overview) replikálni a fürtcsomópontok és a tárolás. Linux esetén hozzon létre egy három csomópontos geo-fürt egy magas rendelkezésre állási bővítmény használatával.
 
 - **Az SAP adatbázis-szintű**. HANA által támogatott replikációs HSR használja. Egy helyi, kétcsomópontos magas rendelkezésre állású telepítés mellett HSR replikációs többrétegű, ahol egy külön Azure-régióban egy harmadik csomóponton nem része a fürt külső jogi személyként funkcionál, és regisztrálja a másodlagos replikának a fürtözött HSR-pár, támogatja a replikációs cél. A replikációs lánckapcsolt ez alkotnak. A feladatátvételt, hogy a DR-csomópont manuális folyamat során a rendszer.
 
@@ -176,7 +176,7 @@ Minden szinten egy központosított identitáskezelési rendszerének az erőfor
 
 Az Azure különféle funkciót nyújt [monitorozási és diagnosztikai](/azure/architecture/best-practices/monitoring) infrastruktúra átfogó. Emellett az Azure-beli virtuális gépek (Linux vagy Windows) fejlett monitorozását az Azure Operations Management Suite (OMS) végzi.
 
-Az erőforrások és az SAP-infrastruktúra szolgáltatási teljesítményéhez SAP-alapú figyelést biztosít a [Azure SAP Enhanced Monitoring](/azure/virtual-machines/workloads/sap/deployment-guide#d98edcd3-f2a1-49f7-b26a-07448ceb60ca) bővítmény használatával kerül sor. Ez a bővítmény betölti az Azure monitorozási statisztikáit az SAP alkalmazásba az operációs rendszer monitorozása és a DBA Cockpit funkcióinak használata céljából. Kötelező futtatásának előfeltétele, hogy az SAP az Azure SAP enhanced monitoring. További információkért lásd: [SAP Megjegyzés 2191498](https://launchpad.support.sap.com/#/notes/2191498) – "SAP használata Linux az Azure-ral: figyelés fokozott."
+Az erőforrások és az SAP-infrastruktúra szolgáltatási teljesítményéhez SAP-alapú figyelést biztosít a [Azure SAP Enhanced Monitoring](/azure/virtual-machines/workloads/sap/deployment-guide#d98edcd3-f2a1-49f7-b26a-07448ceb60ca) bővítmény használatával kerül sor. Ez a bővítmény betölti az Azure monitorozási statisztikáit az SAP alkalmazásba az operációs rendszer monitorozása és a DBA Cockpit funkcióinak használata céljából. Kötelező futtatásának előfeltétele, hogy az SAP az Azure SAP enhanced monitoring. További információkért lásd: [SAP Megjegyzés 2191498](https://launchpad.support.sap.com/#/notes/2191498) – "az SAP az Azure Linux rendszeren: A kibővített figyelési."
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -201,5 +201,14 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Azure közösségi támogatás](https://azure.microsoft.com/support/community/)
 - [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
+
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+
+Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
+
+- [Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata](/azure/architecture/example-scenario/apps/sap-production)
+- [Az SAP-feladatokat az Azure-ban fejlesztési és tesztelési környezetek](/azure/architecture/example-scenario/apps/sap-dev-test)
+
+<!-- links -->
 
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/sap-reference-architectures.vsdx

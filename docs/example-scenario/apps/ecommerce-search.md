@@ -1,15 +1,16 @@
 ---
 title: Intelligens termékkereső motor az e-kereskedelem számára
+titleSuffix: Azure Example Scenarios
 description: Világszínvonalú keresési élményt nyújthat egy e-kereskedelmi alkalmazásban.
 author: jelledruyts
 ms.date: 09/14/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 5eabdb94b9345e73b21526681e0dbd6ae859d7be
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 9e24f7ab2104f877fcc3aec310dd21677160608c
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53004894"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53643466"
 ---
 # <a name="intelligent-product-search-engine-for-e-commerce"></a>Intelligens termékkereső motor az e-kereskedelem számára
 
@@ -23,9 +24,9 @@ Egy tipikus e-kereskedelmi webalkalmazás Imagine termék adatok egy relációs 
 
 Egyéb alkalmazási helyzetek a következők:
 
-* Ingatlan listaelemek vagy tárolja a felhasználói fizikai hely közelében található.
-* Hírek helyen cikkek keresése, vagy további magasabb prioritást jelent a sportközvetítések eredményeket, keres _legutóbbi_ információkat.
-* A nagyméretű adattárak való kereséssel _Dokumentumközpontú_ cégek vagy szervezetek házirend döntéshozók és közjegyzőkkel.
+- Ingatlan listaelemek vagy tárolja a felhasználói fizikai hely közelében található.
+- Hírek helyen cikkek keresése, vagy további magasabb prioritást jelent a sportközvetítések eredményeket, keres _legutóbbi_ információkat.
+- A nagyméretű adattárak való kereséssel _Dokumentumközpontú_ cégek vagy szervezetek házirend döntéshozók és közjegyzőkkel.
 
 Végső soron _bármely_ keresési funkciók valamilyen alkalmazás egy dedikált keresési szolgáltatás is kihasználhatják.
 
@@ -34,6 +35,7 @@ Végső soron _bármely_ keresési funkciók valamilyen alkalmazás egy dedikál
 ![Az Azure-összetevőket részt vesz-e-kereskedelmi termék intelligens keresőmotort architektúrájának áttekintése][architecture]
 
 Ebben a forgatókönyvben egy elektronikus kereskedelmi megoldás, ahol a termékkatalógus ügyfelek lehet keresést ismerteti.
+
 1. Váltson ügyfelei a **elektronikus kereskedelmi webalkalmazás** bármilyen eszközről.
 2. A termékkatalógus megőrződik a egy **Azure SQL Database** a tranzakciós feldolgozást kínál.
 3. Használja az Azure Search egy **keresési indexelő** , automatikusan elkészítheti a search-index naprakész keresztül integrált változáskövetés.
@@ -43,21 +45,21 @@ Ebben a forgatókönyvben egy elektronikus kereskedelmi megoldás, ahol a termé
 
 ### <a name="components"></a>Összetevők
 
-* [App Services szolgáltatásban – a Web Apps] [ docs-webapps] gazdagépek webes alkalmazások, lehetővé téve az automatikus méretezés és magas rendelkezésre állás nélkül az infrastruktúrával kellene foglalkoznia.
-* [Az SQL Database] [ docs-sql-database] van egy általános célú relációs adatbázis által felügyelt szolgáltatás, amely a relációs, JSON-, térbeli és XML-struktúrákat is támogat a Microsoft Azure-ban.
-* [Az Azure Search] [ docs-search] egy keresési--szolgáltatásként felhőalapú megoldás, amely fejlett keresési funkciókat személyes tartalmakhoz webes, mobil és vállalati alkalmazások keresztül.
-* [Bot Service] [ docs-botservice] elkészítheti, tesztelheti, telepítheti és felügyelheti a robotokat intelligens eszközöket biztosít.
-* [A cognitive Services] [ docs-cognitive] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg beszél, megértésében, valamint a felhasználói szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
+- [App Services szolgáltatásban – a Web Apps] [ docs-webapps] gazdagépek webes alkalmazások, lehetővé téve az automatikus méretezés és magas rendelkezésre állás nélkül az infrastruktúrával kellene foglalkoznia.
+- [Az SQL Database] [ docs-sql-database] van egy általános célú relációs adatbázis által felügyelt szolgáltatás, amely a relációs, JSON-, térbeli és XML-struktúrákat is támogat a Microsoft Azure-ban.
+- [Az Azure Search] [ docs-search] egy keresési--szolgáltatásként felhőalapú megoldás, amely fejlett keresési funkciókat személyes tartalmakhoz webes, mobil és vállalati alkalmazások keresztül.
+- [Bot Service] [ docs-botservice] elkészítheti, tesztelheti, telepítheti és felügyelheti a robotokat intelligens eszközöket biztosít.
+- [A cognitive Services] [ docs-cognitive] lehetővé teszi, hogy intelligens algoritmusok segítségével jelenik meg, hallgassa meg beszél, megértésében, valamint a felhasználói szükségletek értelmezése a kommunikáció természetes módszereivel keresztül.
 
 ### <a name="alternatives"></a>Alternatív megoldások
 
-* Használhat **adatbázis-keresés** képességek, például az SQL Server teljes szöveges keresés, de a tranzakciós üzlet keresztül is feldolgozza a lekérdezések (megnőtt az igény a feldolgozási teljesítményt) és a keresési funkciókkal az adatbázisban korlátozott.
-* Sikerült üzemelteti a nyílt forráskódú [Apache Lucene] [ apache-lucene] (amely az Azure Search épül) az Azure-beli virtuális gépeken, majd ismét, hogy infrastruktúra--szolgáltatásként (IaaS) kezelése, és nem előnyeit, de az Azure Search Lucene felett biztosít számos funkciót.
-* Emellett érdemes lehet telepítése [rugalmas keresés] [ elastic-marketplace] az Azure piactéren, amely egy alternatív és képes keresési termék külső szállítótól származó, de is ebben az esetben futtat egy IaaS számítási feladatok.
+- Használhat **adatbázis-keresés** képességek, például az SQL Server teljes szöveges keresés, de a tranzakciós üzlet keresztül is feldolgozza a lekérdezések (megnőtt az igény a feldolgozási teljesítményt) és a keresési funkciókkal az adatbázisban korlátozott.
+- Sikerült üzemelteti a nyílt forráskódú [Apache Lucene] [ apache-lucene] (amely az Azure Search épül) az Azure-beli virtuális gépeken, majd ismét, hogy infrastruktúra--szolgáltatásként (IaaS) kezelése, és nem előnyeit, de az Azure Search Lucene felett biztosít számos funkciót.
+- Emellett érdemes lehet telepítése [rugalmas keresés] [ elastic-marketplace] az Azure piactéren, amely egy alternatív és képes keresési termék külső szállítótól származó, de is ebben az esetben futtat egy IaaS számítási feladatok.
 
 Egyéb lehetőségek az adatréteg számára a következők:
 
-* [A cosmos DB](/azure/cosmos-db/introduction) – a Microsoft globálisan elosztott, többmodelles adatbázis. Costmos DB futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű. Az Azure Search is támogatja a Cosmos DB-ből az adatokat közvetlenül az indexelés.
+- [A cosmos DB](/azure/cosmos-db/introduction) – a Microsoft globálisan elosztott, többmodelles adatbázis. Costmos DB futtatásához például Cassandra, Mongodb, más adatmodellek platformot biztosít a grafikon adatainak, vagy az egyszerű. Az Azure Search is támogatja a Cosmos DB-ből az adatokat közvetlenül az indexelés.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -85,11 +87,11 @@ Hogyan sikeres van az e-kereskedelmi alkalmazás nagyban függ az ügyfelek szá
 
 Hallgassa meg a keresési szolgáltatás szokásos módjai a következők:
 
-* Használatával [pontozási profilok] [ search-scoring] befolyásolhatja a relevancia alapján végzett, a keresési eredmények között, például melyik mező egyezik a lekérdezést, milyen friss az adatok van, a felhasználónak a földrajzi távolságtól alapján...
-* Használatával [Microsoft megadott nyelvi elemzők] [ search-languages] egy fejlett, természetes nyelvi feldolgozási (NLP) stack használatával, amely lekérdezések jobban értelmezése
-* Használatával [egyéni elemzőket] [ search-analyzers] annak biztosítására, a termékek találhatók megfelelően, különösen akkor, ha nem nyelvi a keresett információkat, például egy termék gyártmány és modell alapján.
+- Használatával [pontozási profilok] [ search-scoring] befolyásolhatja a relevancia alapján végzett, a keresési eredmények között, például melyik mező egyezik a lekérdezést, milyen friss az adatok van, a felhasználónak a földrajzi távolságtól alapján...
+- Használatával [Microsoft megadott nyelvi elemzők] [ search-languages] egy fejlett, természetes nyelvi feldolgozási (NLP) stack használatával, amely lekérdezések jobban értelmezése
+- Használatával [egyéni elemzőket] [ search-analyzers] annak biztosítására, a termékek találhatók megfelelően, különösen akkor, ha nem nyelvi a keresett információkat, például egy termék gyártmány és modell alapján.
 
-## <a name="deploy-this-scenario"></a>Ez a forgatókönyv megvalósítható
+## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
 Ebben a forgatókönyvben egy teljes körű e-kereskedelmi verziójának üzembe helyezéséhez kövesse ezt [részletes oktatóanyag] [ end-to-end-walkthrough] , amely biztosítja, hogy egy alkalmazás egy egyszerű jegyvásárlási futó .NET-mintaalkalmazást. Tartalmazza az Azure Search és a tárgyalt funkciók nagy része használja. Emellett nincs automatizálható az Azure-erőforrások legnagyobb része a Resource Manager-sablonnal.
 
@@ -99,9 +101,9 @@ Ebben a forgatókönyvben költségének megismeréséhez, minden, a fent említ
 
 Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költség profilt:
 
-* [Kis][small-pricing]: ezt a profilt egy használjuk `Standard S1` webalkalmazás üzemeltetéséhez a webhelyén, az Azure Bot service, egy ingyenes szintjéhez `Basic` Azure Search szolgáltatást, és a egy `Standard S2` SQL-adatbázis.
-* [Közepes][medium-pricing]: Itt azt a webalkalmazást a két példánya méretezése vannak a `Standard S3` szint, a keresési szolgáltatás frissítése egy `Standard S1` szinthez, majd a használatával egy `Standard S6` SQL-adatbázis.
-* [Nagy][large-pricing]: négy példányát használjuk a legnagyobb profil egy `Premium P2V2` Web App, frissítse az Azure Bot service az a `Standard S1` szint (1.000.000 az üzeneteket a prémium szintű csatornák), használja, a 2egység`Standard S3`Azure Search szolgáltatást, és a egy `Premium P6` SQL-adatbázis.
+- [Kis][small-pricing]: Ebben a profilban használjuk egy `Standard S1` webalkalmazás üzemeltetéséhez a webhelyén, az Azure Bot service, egy ingyenes szintjéhez `Basic` Azure Search szolgáltatást, és a egy `Standard S2` SQL-adatbázis.
+- [Közepes][medium-pricing]: Itt azt a webalkalmazást a két példánya méretezése vannak a `Standard S3` szint, a keresési szolgáltatás frissítése egy `Standard S1` szinthez, majd a használatával egy `Standard S6` SQL-adatbázis.
+- [Nagy][large-pricing]: Négy példányát használjuk a legnagyobb profil egy `Premium P2V2` Web App frissítése az Azure Bot service az a `Standard S1` szint (1.000.000 az üzenetek a prémium szintű csatornák), 2 egységek használata a `Standard S3` Azure Search szolgáltatást, és a egy `Premium P6` SQL Az adatbázis.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 

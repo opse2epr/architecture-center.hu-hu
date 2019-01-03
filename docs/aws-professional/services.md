@@ -4,12 +4,12 @@ description: Tekintse meg, hogyan Microsoft Azure cloud services összehasonlít
 keywords: cloud services összehasonlítása, cloud services képest, multicloud, hasonlítsa össze az azure az aws, hasonlítsa össze az azure és AWS-ben, az aws és az azure, IT-képességek összehasonlítása
 author: lbrader
 ms.date: 11/09/2018
-ms.openlocfilehash: ddfbf637ba820a9785e6698c8655dda4d971aaa0
-ms.sourcegitcommit: cc234a522b7fc35af3bcacdc044c2e2b529e54ed
+ms.openlocfilehash: 30b852d964d2c1c39b5343c09680bb4efaa5476f
+ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51347627"
+ms.lasthandoff: 12/16/2018
+ms.locfileid: "53450921"
 ---
 # <a name="aws-to-azure-services-comparison"></a>AWS – az Azure-szolgáltatások összehasonlítása
 
@@ -175,7 +175,7 @@ Az Azure az AWS-felhasználók számára, lásd [Azure AWS-szakembereknek szánt
 |     <strong>&nbsp;</strong>      |                            Cognito                             |                                                                   [Azure Active Directory B2C](https://azure.microsoft.com/services/active-directory-b2c/)                                                                    |                                                                          Egy magas rendelkezésre állású, globális identitáskezelő szolgáltatást nyújt felhasználók felé néző alkalmazások számára, amely több százmillió identitás kezelésére méretezhető.                                                                           |
 |     <strong>&nbsp;</strong>      |                     Az AWS-címtárszolgáltatás                      |                                                                 [A Windows Server Active Directoryval](https://azure.microsoft.com/services/active-directory-ds/)                                                                  |                                                                                                                A felhőben a Microsoft Active Directory kiegészítő szolgáltatások.                                                                                                                |
 |            Megfelelőség            |                          Az AWS-összetevő                          |                                                                   [Szolgáltatás megbízható platformmal](https://www.microsoft.com/en-us/TrustCenter/STP/default.aspx)                                                                    |                                                                                              Naplózási jelentések megfelelőségi útmutatók és megbízhatósági dokumentumokból hozzáférést biztosít a felhőszolgáltatások között.                                                                                              |
-|             Biztonság             |                           AWS Shield                           |                                                      [Az Azure DDos Protection szolgáltatás](/azure/security/azure-ddos-best-practices)                                                       |                                                                                                  Cloud services szolgáltatást az elosztott szolgáltatásmegtagadási (DDoS-) szolgáltatások támadásoktól védelmet biztosít.                                                                                                   |
+|             Biztonság             |                           AWS Shield                           |                                                      [Az Azure DDoS Protection szolgáltatás](/azure/security/azure-ddos-best-practices)                                                       |                                                                                                  Cloud services szolgáltatást az elosztott szolgáltatásmegtagadási (DDoS-) szolgáltatások támadásoktól védelmet biztosít.                                                                                                   |
 
 ## <a name="developer-tools"></a>Fejlesztői eszközök
 
