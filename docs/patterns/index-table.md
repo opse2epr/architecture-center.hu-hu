@@ -1,121 +1,111 @@
 ---
-title: Index táblázat
-description: Indexek létrehozása gyakran lekérdezések által hivatkozott adattárolókhoz mezőinek keresztül.
-keywords: Kialakítási mintája
+title: Indextábla minta
+titleSuffix: Cloud Design Patterns
+description: Indexeket hozhat létre a lekérdezések által gyakran hivatkozott adattárbeli mezőkről.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- performance-scalability
-ms.openlocfilehash: 24a1061349af84d13f05f88a1698b4efe4b0f449
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: 206d064b80dd980c9b5fdfb1233ff2dd8baafbaf
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24541785"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011001"
 ---
-# <a name="index-table-pattern"></a>Index táblázat minta
+# <a name="index-table-pattern"></a>Indextábla minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Indexek létrehozása gyakran lekérdezések által hivatkozott adattárolókhoz mezőinek keresztül. Ebben a mintában lekérdezés jobb teljesítmény érdekében az alkalmazások gyorsabban keresse meg az adatok lekérése a tárolóban történő engedélyezése.
+Indexeket hozhat létre a lekérdezések által gyakran hivatkozott adattárbeli mezőkről. Ez a minta javíthat a lekérdezési teljesítményen, mivel engedélyezi az alkalmazások részére, hogy gyorsabban azonosíthassanak egy adattárból lekérni kívánt adatot.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Sok adattárolókhoz rendezheti az adatokat az elsődleges kulcs használatával entitások gyűjteményét. Egy alkalmazás ezt a kulcsot segítségével keresse meg és adatok lekérdezéséhez. Az ábra ügyféladatok okozó adattárat példáját mutatja be. Az elsődleges kulcs, az ügyfél-azonosító. Az ábrán látható ügyfél adatait az elsődleges kulcsot (ügyfél-azonosító) szerint vannak rendezve.
+Számos adattároló egy entitásgyűjteménybe rendezi az adatokat az elsődleges kulcs használatával. Egy alkalmazás használhatja ezt a kulcsot az adatok megkeresésére és kinyerésére. Az ábra egy példát mutat be, amikor egy adattár ügyfél-információkat tárol. Az elsődleges kulcs az ügyfél azonosítója. Az ábra az elsődleges kulcs (az ügyfél-azonosító) által rendezett ügyfél-információt mutatja.
 
-![1. ábra - ügyfél adatait az elsődleges kulcsot (ügyfél-azonosító) szerint vannak rendezve](./_images/index-table-figure-1.png)
+![1. ábra – Az elsődleges kulcs (ügyfél-azonosító) által rendszerezett ügyfél-információ](./_images/index-table-figure-1.png)
 
+Míg az elsődleges kulcs értékes olyan lekérdezések esetén, amelyek a kulcs értéke alapján szereznek be adatokat, elképzelhető, hogy egy alkalmazás nem tudja használni az elsődleges kulcsot, ha más területről kell kinyernie az adatokat. Az ügyfélpéldában egy alkalmazás nem tudja használni az ügyfél-azonosító elsődleges kulcsot az ügyfelek kinyerésére, ha csak egy másik attribútum, például az ügyfél székhelyeként szolgáló város értékére történő hivatkozással kérdez le adatokat. Egy ilyen lekérdezés elvégzéséhez az alkalmazásnak valószínűleg minden ügyfélrekordot be kell gyűjtenie és meg kell vizsgálnia, ami elég lassú folyamat lehet.
 
-Míg az elsődleges kulcs értékes adatlehívás, ennek a kulcsnak az értéke alapján lekérdezésekhez, az alkalmazás nem feltétlenül tudni használni az elsődleges kulcs, ha néhány többi mező alapján adatainak beolvasása. Az ügyfelek a példában az alkalmazás nem használható a felhasználói azonosító elsődleges kulcs beolvasásához ügyfelek Ha néhány attribútum a város, ahol az ügyfél például értéke kizárólag Vezérlőpultjának adatokat lekérdezi. Ez például-lekérdezést végrehajtani, az alkalmazás beolvasásához, és vizsgálja meg a minden felhasználói rekord, amely lassú folyamat sikerült előfordulhat, hogy rendelkezik.
+Számos relációs adatbáziskezelő-rendszer támogatja a másodlagos indexeket. A másodlagos index egy elkülönülő adatszerkezet, amelyet egy vagy több nem elsődleges (másodlagos) kulcsmező rendszerez. Azt jelzi, hogy hol tárolódnak az egyes indexelt értékek adatai. A másodlagos indexek elemei általában a másodlagos kulcsok értékei szerint vannak rendezve, így lehetővé válik az adatok gyors keresése. Ezeket az indexeket általában automatikusan tartja karban az adatbázis-kezelő rendszer.
 
-Számos relációs adatbázis-felügyeleti rendszer támogatja a másodlagos indexek. Egy másodlagos index egy külön adatszerkezet, amely egy vagy több nonprimary (másodlagos) kulcs mező szerint van rendezve, és azt jelzi, hogy minden egyes indexelt értékre adatok tárolására. Egy másodlagos index elemeinek általában a másodlagos kulcsok ahhoz, hogy az adatok gyors keresési érték szerint vannak rendezve. Ezek az indexek általában automatikusan kezeli az adatbázis-kezelő rendszer által.
+Annyi másodlagos indexet hozhat létre, amennyire csak szükség van az alkalmazás által végrehajtott különböző lekérdezése támogatásához. Például, ha egy relációs adatbázis ügyfelek táblájában az ügyfél-azonosító az elsődleges kulcs, érdemes hozzáadni egy másodlagos indexet a város mezőhöz, ha az alkalmazás gyakran keres az ügyfelekre a tartózkodási város alapján.
 
-Tetszőleges számú másodlagos indexek csak szeretne, amely az alkalmazás végrehajtja a különböző lekérdezéseket hozhat létre. Például egy ügyfél tábla egy relációs adatbázisban, ahol az ügyfél-azonosító-e az elsődleges kulcs, célszerű egy másodlagos index hozzáadása a Város mezőre az, ha az alkalmazás által a város, hol találhatók azok az ügyfelek gyakran keres.
-
-Azonban annak ellenére, hogy másodlagos indexek közös relációs rendszerekben, felhőalapú alkalmazások által használt legtöbb NoSQL adattároló nem ad meg egy egyenértékű szolgáltatás.
+Ugyanakkor, noha a másodlagos indexek gyakoriak a relációs rendszerekben, a felhőalkalmazások által használt legtöbb NoSQL-adattároló nem biztosít ennek megfelelő szolgáltatást.
 
 ## <a name="solution"></a>Megoldás
 
-Az adattár nem támogatja a másodlagos indexek, ha azokat manuálisan emulálni saját index táblák létrehozásával. Az index táblázat által a megadott kulcs rendezi az adatokat. Három stratégiák gyakran használják az index táblázat szükséges másodlagos indexek száma és a lekérdezések egy alkalmazás végző jellegétől függően rendszerezésére szolgál.
+Ha az adattároló nem támogatja a másodlagos indexeket, emulálhatja őket úgy is, ha manuálisan létrehozza saját indextábláit. Az indextáblák egy adott kulcs alapján rendezik az adatokat. Ezeket a stratégiákat az igényelt másodlagos indexek számától és az alkalmazás által végrehajtott lekérdezések jellegétől függően gyakran használják az indextáblák strukturálására.
 
-Az első stratégia, hogy minden index tábla duplikált, de szervezheti, különböző kulccsal (teljes denormalization). Az alábbi ábrán látható város és a Vezetéknév ügyfélinformációkat rendszerezése index táblákhoz.
+Az első stratégia az adatok duplikálása minden egyes indextáblában, majd a rendezésük különféle kulcsok szerint (teljes denormalizáció). A következő ábra olyan indextáblákat mutat be, amelyek ugyanezeket az ügyfél-információkat rendezik város és vezetéknév szerint.
 
-![2. ábra - adatok ismétlődik minden index tábla](./_images/index-table-figure-2.png)
+![2. ábra – Az adatok duplikáltak az egyes indextáblákban](./_images/index-table-figure-2.png)
 
+Ez a stratégia akkor megfelelő, ha az adatok viszonylag statikusak ahhoz képest, hogy hányszor vannak lekérdezve az adott kulcsok használatával. Ha az adatok dinamikusabbak, az egyes indextáblák feldolgozási többletterhelése túl nagy lesz ahhoz, hogy a módszert hatékonyan lehessen használni. Ha az adatok mennyisége túl nagy, a duplikált adatok tárolásához szükséges lemezterület mennyisége is jelentős.
 
-Ezt a stratégiát, ha az adatok viszonylag statikus minden kulcs segítségével kérnek tőle hányszor képest. Ha az adatok több dinamikus, a feldolgozási terhelést növelni az egyes index táblázatot karbantartó túl nagyra nő esetében ez a megközelítés hasznos lehet. Ha az adatok mennyisége túl nagy, az ismétlődő adatok tárolásához szükséges lemezterület mennyisége is jelentős.
+A második stratégia szerint normalizált indextáblákat kell létrehozni, amelyeket különböző kulcsok rendeznek. Ezek a táblák az eredeti adatokra hivatkoznak az elsődleges kulcsot használatával, nem pedig duplikálják azt, ahogy az alábbi képen is látható. Az eredeti adat neve „fact table” (ténytábla).
 
-A második stratégia, ha a normalizált index táblák szerint vannak rendezve különböző kulcsokat és az eredeti adatok referencia elsődleges kulcs használatával így nem szükséges megkettőzni, az alábbi ábrán látható módon. Az eredeti adatok egy ténytábla nevezik.
+![3. ábra – Az adatokra mindegyik indextábla hivatkozik](./_images/index-table-figure-3.png)
 
-![3. ábra - adatok minden index tábla által hivatkozott](./_images/index-table-figure-3.png)
+Ez a technika helyet takarít meg, és csökkenti a duplikált adatok fenntartása jelentette terhelést. Hátránya, hogy az alkalmazásnak egy másodlagos kulcs használatával két keresési műveletet kell végrehajtania az adatok kereséséhez. Meg kell találnia az adat elsődleges kulcsát az indextáblában, majd használnia az elsődleges kulcsot, hogy megtalálja az adatot a ténytáblában.
 
+A harmadik stratégia részlegesen normalizált indextáblák létrehozása, amelyeket különböző, a gyakran kinyert mezőket duplikáló kulcsok rendszereznek. Hivatkozzon a ténytáblára a ritkábban elért mezők eléréséhez. Az alábbi ábra bemutatja, hogyan duplikálódnak a gyakran hozzáfért adatok minden indextáblában.
 
-Ez a módszer helyet takarít meg, és csökkenti a duplikált adatok kezelése. A hátránya, hogy rendelkezik-e egy alkalmazás egy másodlagos kulcs használatával adatok kereséséhez két keresési műveletek végrehajtásához. Keresse meg az elsődleges kulcs az adatok az index táblázat, és az elsődleges kulcs segítségével megkeresheti az adatokat a ténytábla rendelkezik.
+![4. ábra – A gyakran hozzáfért adatok duplikálódnak minden egyes indextáblában](./_images/index-table-figure-4.png)
 
-A harmadik stratégia, ha a részlegesen normalizált index táblák, különböző kulccsal, hogy a gyakran lekért mezők szerint vannak rendezve. A ténytábla ritkábban hozzáférés mezőkre hivatkozhatnak. A következő ábra azt mutatja be milyen gyakran használt adatokhoz minden index táblázat ismétlődik.
+Ezzel a stratégiával kiegyensúlyozható az első két módszer. A gyakori lekérdezések adatai egy egyszerű kereséssel megtalálhatóak, ugyanakkor a helyhasználat és a karbantartási terhelés nem annyira jelentős, mintha a teljes adatkészletet duplikálná.
 
-![4. ábra - gyakran elért adatok ismétlődik minden index tábla](./_images/index-table-figure-4.png)
+Ha egy alkalmazás rendszeresen több érték kombinációjával kérdez le adatokat (például „Az összes Smith vezetéknevű, Redmondban élő felhasználó keresése”), a kulcsokat a város attribútum és a vezetéknév attribútum összefűzésével implementálhatja az indextábla elemeihez. A következő ábra egy kompozit kulcsokon alapuló indextáblát mutat be. A kulcsok város szerint vannak rendezve, majd pedig vezetéknév szerint azon rekordok esetén, amelyek ugyanazzal az értékkel rendelkeznek a városra.
 
+![5. ábra – Kompozit kulcsokon alapuló indextábla](./_images/index-table-figure-5.png)
 
-Az ezt a stratégiát akkor is egyensúlyt biztosítanak az első két megközelítés között. Az általános lekérdezések lehet adatokat beolvasni gyorsan egy egyetlen keresési használatával, amíg a lemezterület és a karbantartás többletterhelés nincs olyan jelentős, mint a teljes adatkészlet duplikálásakor.
+Az indextáblák felgyorsíthatják a lekérdezési műveleteket a horizontálisan skálázott adatok között, és különösen hasznosak, ha a szegmenskulcs kivonatolt. A következő ábra egy példát mutat be, ahol a szegmenskulcs az ügyfél-azonosító kivonata. Az indextábla a nem kivonatolt érték (város és vezetéknév) szerint rendszerezheti az adatokat, és a kivonatolt szegmenskulcsot biztosíthatja keresési adatként. Ez megelőzi, hogy az alkalmazás ismételten kiszámolja a kivonatolt kulcsokat (ami költséges művelet), ha csak egy tartományon belüli adatot kell kinyernie vagy ha a nem kivonatolt kulcs szerint kell az adatokat lekérnie. Például egy „Minden Redmondban élő ügyfél keresése” vagy hasonló lekérdezés gyorsan megoldható a megfelelő elemek megkeresésével az indextáblában, ahol egy egybefüggő blokkban tárolódnak. Ezután kövesse a hivatkozásokat az ügyféladatokra a szegmenskulcs használatával, amely az indextáblában tárolódik.
 
-Ha egy alkalmazás gyakran adatokat (például "Található összes ügyfél számára, hogy a Redmond, és amelyek a vezetékneve Smith") értékek kombinációja megadásával, sikerült megvalósítása a kulcsokat az elemeket az index táblázatban, a város összefűzése attribútum és a Vezetéknév attribútum. Az alábbi ábrán látható egy index táblázat összetett kulcsok alapján. A kulcsok az rekordokat, amelyek a város tartozhat azonos érték rendezi a város, majd Vezetéknév szerint.
+![6. ábra – Horizontálisan skálázott adatok gyors keresését biztosító indextábla](./_images/index-table-figure-6.png)
 
-![5. ábra – egy index táblázat összetett kulcsok alapján](./_images/index-table-figure-5.png)
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Index táblák felgyorsíthatja a lekérdezési műveletek felett horizontálisan skálázott adatok, és különösen hasznosak, ahol a shard kulcs kivonat készül. A következő ábra azt szemlélteti, ahol a shard kulcsa kivonatát, az ügyfél-azonosító. Az index táblázat adatok rendezése nonhashed értéke (a város és a Vezetéknév), és adja meg a keresési Data a kivonatolt shard kulcsát. Ezt az alkalmazást ismételten kiszámítása a kivonat-kulcsok (drága művelet), ha egy tartományba eső adatok beolvasásához szükséges is mentheti, vagy adatlehívás nonhashed kulcs sorrendben kell. Például lekérdezés például a "Található összes ügyfél számára, hogy Redmond" gyorsan megoldhatók a egyező elemek megkeresése az index táblázatban, ahol minden fontosságúak tárolt összefüggő blokkban. Ezután kövesse az ügyféladatokat, a index tábla tárolja a shard kulcsokkal hivatkozik.
+- A másodlagos indexek karbantartása által jelentett terhelés jelentős lehet. Elemeznie és értenie kell az alkalmazás által használt lekérdezéseket. Csak akkor hozzon létre indextáblákat, ha valószínűleg gyakran lesznek használatban. Ne hozzon létre spekulatív indextáblákat olyan lekérdezések támogatására, amelyeket az alkalmazás sosem vagy csak alkalmanként hajt végre.
+- Az indextáblák adatainak duplikálása jelentős többletterhelést jelenthet a tárolási költségek és a többszörös adatmásolatok fenntartására irányuló erőfeszítések tekintetében.
+- Az indextábláknak az eredeti adatokra hivatkozó normalizált szerkezetként való implementálása azt igényli az alkalmazástól, hogy két keresési művelettel keressen adatokat. Az első művelet az indextáblából keresi ki az elsődleges kulcsot, a második az elsődleges kulccsal kéri le az adatot.
+- Ha egy rendszer számos indextáblát használ nagyon nagy adathalmazokhoz, nehéz lehet fenntartani a konzisztenciát az indextáblák és az eredeti adatok között. Elképzelhető, hogy lehetséges a végül konzisztens modell köré megtervezni az alkalmazást. Például egy adat beszúrásához, frissítéséhez vagy törléséhez egy alkalmazás elküldhet egy üzenetet egy üzenetsorba, és engedheti, hogy egy külön feladat hajtsa végre a műveletet, és tartsa karban az indextáblákat, amelyek aszinkron módon hivatkoznak ezekre az adatokra. A végül bekövetkező konzisztenciával kapcsolatos további információkat az [adatkonzisztenciát ismertető](https://msdn.microsoft.com/library/dn589800.aspx) szakaszban találja.
 
-![6. ábra – egy index táblázat gyors keresési horizontálisan skálázott adatok megadása](./_images/index-table-figure-6.png)
+   >  A Microsoft Azure Storage-táblák támogatják az ugyanazon a partíción tárolt adatokon végzett módosítások tranzakciós frissítéseit (entitáscsoport-tranzakciók). Ha egy ténytáblát és egy vagy több indextáblát ugyanazon a partíción tud tárolni, ennek a szolgáltatásnak a használatával biztosíthatja a konzisztenciát.
 
+- Maguk az indextáblák lehetnek particionáltak vagy horizontálisan skálázottak.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+Ennek a mintának a használatával javíthatja a lekérdezési teljesítményt, ha egy alkalmazásnak rendszeresen az elsődleges kulcstól eltérő (vagy horizontálisan skálázott) kulccsal kell adatokat keresnie.
 
-- A terhelés, másodlagos indexek fenntartásának jelentős lehet. Kell elemezni és megérteni, hogy az alkalmazás által lekérdezéseket. Index táblák csak létrehozása, ha azok rendszeresen felhasználásra. Támogatja az alkalmazás nem hajtja végre, vagy hajt végre csak esetenként spekulatív index táblák ne hozzon létre.
-- Az index táblázat adatainak duplikálása adhat hozzá jelentős terhelés tárolási költségek és az adatok többszörös lemásolását, karbantartásához szükséges beavatkozást.
-- Egy alkalmazás adatok kereséséhez két keresési műveletek végrehajtásához, az eredeti adatok hivatkozó normalizált struktúra egy index táblázat végrehajtási szükséges. Az első művelet index tábla elsődleges kulcsa keres, és a második elsődleges kulcsot használja az adatok beolvasása.
-- Ha a rendszer a szerződés magában foglalja egy index táblák számát keresztül nagyon nagy méretű adatkészletekhez, biztosítja az egységességet index táblák és az eredeti adatok közötti nehézkes lehet. A végleges konzisztencia modell körül alkalmazás is lehet. Insert, update vagy törli az adatokat, például egy alkalmazás képes annak a várólistára üzenetet és lehetővé teszik egy külön feladat végrehajtani a műveletet, és aszinkron módon referenciaadatok index táblákhoz karbantartása. A végleges konzisztencia kapcsolatos további információkért lásd: a [adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx).
+Nem érdemes ezt a mintát használni, ha:
 
-   >  A Microsoft Azure storage-táblákat tranzakciós frissítések támogatása (néven entitás csoport tranzakciók) azonos partíciójában végzett módosításokat. Ha egyazon partícióra kerüljenek a egy ténytábla és egy vagy több index táblák adatait tárolhatja, ez a szolgáltatás segítségével konzisztencia érdekében.
-
-- Index táblák maguk lehet particionált vagy szilánkos.
-
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
-
-Ez a minta segítségével javíthatja a lekérdezések teljesítményét, ha egy alkalmazás gyakran kell kulccsal kívül az elsődleges (vagy a shard) kulcs adatainak beolvasása.
-
-Ebben a mintában előfordulhat, hogy nem lehet hasznos:
-
-- A adata "volatile". Egy index táblázat válhat elavult nagyon gyorsan hatástalanná teszik vagy a fenntartásának az index táblázat nagyobb, mint bármely megtakarított azt a terhelést.
-- A kiválasztott másodlagos kulcs egy index táblázat mező nondiscriminating és egyszerre csak egy kis készletét értékek (például nemét).
-- Egy másodlagos kulcs egy index táblázat kiválasztott mező alapján az adatértékek egyenlege magas ferde vannak. Ha a rekordokat a 90 %-a mezője azonos értéket tartalmaz, majd létrehozása, és ez a mező alapján adatokat kereshet egy index táblázatot karbantartó előfordulhat, hogy hozzon létre például további terhet jelentenek, mint egymás után keresztül az adatok vizsgálatát. Azonban ha lekérdezések nagyon gyakran célértéket, melyek a fennmaradó 10 %-ban, ez az index hasznos lehet. Ismerje meg, hogy működik-e az alkalmazás, és milyen gyakran által végrehajtott lekérdezéseket.
+- Az adatok ideiglenesek. Egy indextábla gyorsan idejétmúlttá, és ezáltal nem hatékonnyá válhat, illetve az indextábla karbantartása által jelentett terhelése nagyobb, mint a használatával megtakarított erőforrások.
+- Egy indextábla számára másodlagos kulcsként kiválasztott mező nem tesz különbséget, és csak kis értékkészlettel rendelkezhet (például: nem).
+- Az indextábla számára másodlagos kulcsként kiválasztott mező adatértékeinek egyensúlya nagyon el van tolódva. Például ha a rekordok 90%-a egy mezőben ugyanazt az értéket tartalmazza, akkor az ezen a mezőn alapuló, adatok keresése céljából létrehozott és fenntartott indextábla több terhelést jelenthet, mintha sorrendben végignézné a rendszer az adatokat. Azonban ha a lekérdezés gyakran érint olyan értékeket, amelyek a maradék 10 %-ba tartoznak, ez az index hasznos lehet. Legyen tisztában vele, hogy milyen lekérdezéseket és milyen gyakran hajt végre az alkalmazás.
 
 ## <a name="example"></a>Példa
 
-Az Azure storage táblázatokban egy kiválóan méretezhető kulcs/érték adattár a felhőben futó alkalmazások. Alkalmazások tárolásához, és az adatértékek lekéréséhez kulcs megadásával. Az adatok értékek tartalmazhatnak több mező, de adatelemet szerkezete fedett, a table storage, amely egyszerűen végzi, bájttömb adatelemet.
+Az Azure Storage-táblák jól skálázható kulcs/érték adattárolót biztosítanak a felhőben futó alkalmazások számára. Az alkalmazások a kulcs használatával tárolják és kérik le az adatértékeket. Az adatértékek több mezőt is tartalmazhatnak, de egy adatelem struktúrája átlátszatlan a táblatároló számára, amely egyszerűen bitek tömbjeként kezeli az adatelemet.
 
-Az Azure storage-táblákat horizontális is támogatja. A horizontális két elemet, egy partíciót és sor kulcsot tartalmaz. Ugyanazzal a partíciókulccsal rendelkező elemek (szilánkok) tartalmazó partícióra vannak tárolva, és az elemek sor kulcs sorrendje a shard belül vannak tárolva. A TABLE storage a partíción belül sor kulcsértékei összefüggő számos alá tartozó adatlehívás lekérdezések végrehajtása van optimalizálva. Ha felhőalapú alkalmazásokhoz, Azure-táblákban információt tároló most felépítése, ez a szolgáltatás szem előtt az adatok szerkezetét.
+Az Azure Storage-táblák a horizontális skálázást is támogatják. A horizontális skálázási kulcs két elemet tartalmaz: egy partíciókulcsot és egy sorkulcsot. Az ugyanazon partíciós kulccsal rendelkező elemek ugyanazon a partíción (horizontálisan skálázáson) tárolódnak, az elemek pedig sorkulcsrendben tárolódnak a horizontális skálázáson belül. A táblatároló olyan keresések végrehajtására van optimalizálva, amelyek egy összefüggő sorkulcsérték-tartományon belül eső adatokra irányulnak egy partíción belül. Ha Azure-táblákban információkat tároló felhőalkalmazásokat fejleszt, tartsa ezt szem előtt, amikor az adatokat strukturálja.
 
-Vegye figyelembe például olyan alkalmazás, amely filmek kapcsolatos információkat tárolja. Az alkalmazás gyakran lekérdezi filmek által genre (a művelet, dokumentált, korábbi, comedy, tragédiát, és így tovább). Egy Azure-tábla segítségével létrehozhat minden genre partíciók használatával a genre partíciókulcsnak, és a sorkulcs, mint a movie név megadásával a következő ábrán látható módon.
+Például vegyünk egy alkalmazást, amely filmekről tárol információkat. Az alkalmazás rendszeresen kérdezi le műfaj szerint a filmeket (akció, dokumentum, történelmi vígjáték, dráma stb.). Létrehozhat egy Azure-táblát mindegyik műfajhoz egy partícióval, ha a műfajt használja partíciókulcsként és a film címét adja meg sorkulcsként, ahogy a következő ábrán látható.
 
-![7. ábra - Movie adataihoz az Azure tábla](./_images/index-table-figure-7.png)
+![7. ábra – Filmek adatai egy Azure-táblában](./_images/index-table-figure-7.png)
 
+Ez a megközelítés kevésbé hatékony, ha az alkalmazásnak ugyanakkor a főszereplő színészt is le kell kérdeznie. Ebben az esetben létrehozható egy elkülönített Azure-tábla, amely indextáblaként működik. A partíciókulcs a színész, a sorkulcs pedig a film címe. Minden egyes színész adatai külön partícióban tárolódnak. Ha egy filmben egynél több színész szerepel, ugyanaz a filmcím több partícióban is megjelenik.
 
-Erre akkor kevésbé hatékony, ha az alkalmazást is kell lekérdezés filmek szereplő Főszerepben által. Ebben az esetben az Azure táblájába, amely különbséglemezként funkcionál egy index táblázat is létrehozhat. A partíciós kulcs a szereplő, és a sorkulcs movie nevét. Minden egyes szereplő adatok külön partíciók tárolódnak. Ha film csillaggal egynél több szereplő, az azonos movie több partíciót történik.
+A fenti Megoldás részben leírt első megközelítés alkalmazásával duplikálhatja a film adatait az egyes partíciók értékeiben. Ugyanakkor valószínű, hogy minden film többször is másolódik (minden színész esetében egyszer), így valószínűleg hatékonyabb megoldás, ha részlegesen denormalizálja az adatokat a leggyakoribb lekérdezések támogatására (például a többi színész neve), és engedélyezi, hogy egy alkalmazás lekérhessen bármilyen egyéb részletet. Ez úgy lehetséges, hogy a műfaj-partíciókhoz hozzáadja a teljes információ megtalálásához szükséges partíciókulcsot. Erről a megközelítésről a Megoldás szakasz harmadik pontjában talál leírást. A következő ábra ezt a módszert ábrázolja.
 
-Mindegyik partíció tartja az első módszer a megoldást a fenti szakaszban leírt elfogadásával értékek movie adatainak másolhatja. Azonban valószínű, hogy minden movie többször replikálja (egyszer az egyes aktor), ezért előfordulhat, hogy hatékonyabb, ha részben denormalize az adatokat (például a más szereplője nevének) a leggyakoribb lekérdezések támogatja, és lehetővé teszik az alkalmazások beolvasása fennmaradó adatokat a meg nem találja a teljes körű információkat a genre partíciókat a partíciókulcs-ot. Ez a megközelítés a harmadik lehetőség a megoldás szakaszban írja le. A következő ábrán látható ezt a módszert használja.
+![8. ábra – A színészpartíciók indextáblaként működnek a filmadatokhoz](./_images/index-table-figure-8.png)
 
-![8. ábra - index táblák movie adatok működött szereplő partíciók](./_images/index-table-figure-8.png)
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
-
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
-
-- [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). Az index táblázat fenn kell tartani a Data azt indexeli a módosításokat. A felhőben nem lehet vagy nem megfelelő index frissítése ugyanabban a tranzakcióban, amely módosítja az adatok részeként műveleteket. Ebben az esetben egy idővel konzisztenssé megoldás, megfelelő. A végleges konzisztencia körülvevő problémákat ismerteti.
-- [Horizontális mintát](https://msdn.microsoft.com/library/dn589797.aspx). Az Index táblázat mintát gyakran együtt használatos szilánkok használ adatokkal. A horizontális mintát adattárat felosztani szilánkok készlete módjáról nyújt részletesebb információt.
-- [Materializált nézet mintát](materialized-view.md). Helyett az indexelési adatok támogatja az adatokat, akkor célszerű több adat materializált nézet létrehozásához. Ismerteti, hogyan támogatja az hatékony összefoglaló adatok előfeltöltött nézetek létrehozásával.
+- [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). Az indextáblákat karban kell tartani, mivel az általuk indexelt adatok változnak. Elképzelhető, hogy a felhőben nem lehetséges vagy megfelelő olyan műveleteket elvégezni, amelyek ugyanazon tranzakció keretében frissítik is az indexet, mint amellyel módosítják az adatot. Ebben az esetben a végül konzisztens megközelítés megfelelő. Információt szolgáltat a végül bekövetkező konzisztenciát érintő kérdésekről.
+- [Horizontális skálázási minta](./sharding.md). Az indextábla minta gyakran használják együtt a horizontális skálázással particionált adatokkal. A horizontális skálázási minta további információkkal szolgál arról, hogyan oszthat el egy adattárolót horizontálisan skálázott készletekbe.
+- [Tényleges táblán alapuló nézet minta](./materialized-view.md). Ahelyett, hogy indexelné az adatokat összegző lekérdezéseket támogató adatokat, megfelelőbb lehet tényleges táblán alapuló nézetet létrehozni az adatokról. Ez a szakasz bemutatja, hogyan támogathatóak a hatékony összegző lekérdezések az előfeltöltött nézetek létrehozásával az adatokról.

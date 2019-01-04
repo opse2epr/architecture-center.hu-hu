@@ -3,12 +3,12 @@ title: Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sabl
 description: Ismerteti, hogyan lehet feltételes üzembe egy erőforrás dependending paraméter értékét az Azure Resource Manager-sablonok bővítése
 author: petertay
 ms.date: 10/30/2018
-ms.openlocfilehash: 2c74e17a5f38f9225b696640a23b55b1285276bb
-ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
+ms.openlocfilehash: 726921fde299df1f8f4b4992da32d57842f7f724
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50251838"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010273"
 ---
 # <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
 
@@ -137,7 +137,7 @@ az group deployment create -g <resource-group-name> \
 * Objektumok használata helyett skaláris értékek sablon paraméterekként. Lásd: [objektum használata paraméterként az Azure Resource Manager-sablon](./objects-as-parameters.md)
 
 <!-- links -->
-[azure-resource-manager-condition]: /azure/azure-resource-manager/resource-group-authoring-templates#resources
+[azure-resource-manager-condition]: /azure/azure-resource-manager/resource-manager-templates-resources#condition
 [azure-resource-manager-variable]: /azure/azure-resource-manager/resource-group-authoring-templates#variables
 [vnet-peering-resource-schema]: /azure/templates/microsoft.network/virtualnetworks/virtualnetworkpeerings
 [cli]: /cli/azure/?view=azure-cli-latest

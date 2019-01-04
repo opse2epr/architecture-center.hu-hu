@@ -5,12 +5,12 @@ description: Virtuális gépek, tárfiókok, hálózatok, virtuális hálózatok
 author: telmosampaio
 ms.date: 10/19/2018
 ms.custom: seodec18
-ms.openlocfilehash: 4f934102acea24e8e1070ed6a25d63927f0bd252
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 7cde358bd1e8730f8bda3bbe8c95755f32ec6f9d
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307078"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011446"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -175,7 +175,7 @@ Nincsenek tárfiókok két elsődleges használati eset: a virtuális gépek lem
 
 Konfigurálhat például egy egyedi tartománynevet az Azure Storage-fiókjában tárolt blobadatokhoz való hozzáféréshez. A blobszolgáltatás alapértelmezett végpontja van `https://<name>.blob.core.windows.net`.
 
-Ha azonban egyéni tartományt (például www.contoso.com) rendel hozzá a tárfiók blobvégpontjához, akkor a tárfiókban lévő blobadatokat az említett tartomány használatával is elérheti. Egyéni tartománynév használatával például a `https://mystorage.blob.core.windows.net/mycontainer/myblob` a `https://www.contoso.com/mycontainer/myblob` címen is elérhető.
+De ha egy egyéni tartomány leképezése (például `www.contoso.com`), a tárfiók blobvégpontjához, is elérhető említett tartomány használatával a tárfiókban lévő blobadatokat. Egyéni tartománynév használatával például a `https://mystorage.blob.core.windows.net/mycontainer/myblob` a `https://www.contoso.com/mycontainer/myblob` címen is elérhető.
 
 A szolgáltatás konfigurálásáról az [egyéni tartományév Blob Storage-végponthoz való konfigurálását](/azure/storage/storage-custom-domain-name/) ismertető cikkben talál további információt.
 

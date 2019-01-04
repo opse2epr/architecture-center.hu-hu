@@ -5,12 +5,12 @@ description: Bevált eljárások az SAP HANA futtatásához magas rendelkezésre
 author: lbrader
 ms.date: 05/16/2018
 ms.custom: seodec18
-ms.openlocfilehash: ef3c57f292024af0abbeb4ead62ab4b3aeb57a90
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 47953037827923ea0e4f492dfc29ce815072a20e
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644087"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011361"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a>Nagyméretű Azure-példányokon futó SAP HANA futtatása
 

@@ -1,18 +1,17 @@
 ---
-title: Compensating Transaction
+title: Kompenzáló tranzakció mintája
+titleSuffix: Cloud Design Patterns
 description: Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- resiliency
-ms.openlocfilehash: 3d58537d9c77b97332bcabf762b9af7ed2f20421
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: b81151a6db08c2c14c7f26af3b4b79bfd22a18bb
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428142"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011616"
 ---
 # <a name="compensating-transaction-pattern"></a>Kompenzáló tranzakció mintája
 
@@ -86,7 +85,7 @@ Megjegyzendő, hogy a kompenzáló tranzakció lépései nem feltétlenül az er
 
 ![Kompenzáló tranzakció létrehozása egy utazás foglalására irányuló, hosszú ideje tartó tranzakció visszaállítására](./_images/compensating-transaction-diagram.png)
 
-
+> [!NOTE]
 > Elvileg lehetséges a kompenzáló tranzakció lépéseinek párhuzamos végrehajtása is, attól függően, hogy az egyes lépések kompenzációs logikája hogyan lett kialakítva.
 
 Számos üzleti megoldás esetében egyetlen hibás lépés nem feltétlenül jelenti azt, hogy az egész rendszert vissza kell állítani egy kompenzáló tranzakcióval. Ha például &mdash;az ügyfél lefoglalja az F1, F2 és F3 repülőjáratot az utazási webhely forgatókönyvében,&mdash;de utána nem tud szobát foglalni a H1 szállodában, a járatfoglalások törlése helyett érdemes inkább a város egy másik szállodáját a figyelmébe ajánlani. Az ügyfél továbbra is dönthet a lemondás mellett (ebben az esetben lefut a kompenzáló tranzakció, és visszavonja az F1, F2 és F3 járatra vonatkozó foglalást), de ezt a döntést az ügyfélnek kell meghoznia, nem pedig a rendszernek.
@@ -97,6 +96,6 @@ Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalós
 
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A Kompenzáló tranzakció mintája gyakran használják olyan műveletek visszavonásához, amelyek a végleges konzisztenciájú modell megvalósítását szolgálják. Ez az ismertető a végleges konzisztencia előnyeiről és hátrányairól nyújt tájékoztatást.
 
-- [Ütemező–ügynök–felügyelő minta](scheduler-agent-supervisor.md). Ismerteti, hogyan lehet olyan rugalmas rendszereket megvalósítani, amelyek elosztott szolgáltatásokat és erőforrásokat használó üzleti műveletek végrehajtását végzik. Egyes esetekben szükség lehet egy művelet által elvégzett munka kompenzáló tranzakcióval történő visszavonására.
+- [A Feladatütemező ügynök felügyeleti mintája](./scheduler-agent-supervisor.md). Ismerteti, hogyan lehet olyan rugalmas rendszereket megvalósítani, amelyek elosztott szolgáltatásokat és erőforrásokat használó üzleti műveletek végrehajtását végzik. Egyes esetekben szükség lehet egy művelet által elvégzett munka kompenzáló tranzakcióval történő visszavonására.
 
 - [Újrapróbálkozási minta](./retry.md). A kompenzáló tranzakciók végrehajtása költséges lehet, de az Újrapróbálkozási minta szerint megvalósított, a hibás műveletek megismétlésére vonatkozó hatékony szabályzattal minimálisra lehet csökkenteni a használatukat.

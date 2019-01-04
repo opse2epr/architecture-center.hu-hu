@@ -8,12 +8,12 @@ description: >-
 author: telmosampaio
 ms.date: 05/02/2018
 ms.custom: seodec18
-ms.openlocfilehash: 3e3c3c8ff12bab85a96d4eb879f81195d22e79f8
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: a5227d82bbf345be4d8597a79a0d93a56ada0852
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643781"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011140"
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
@@ -27,7 +27,7 @@ Az Active Directory Domain Services (AD DS) hierarchikus struktúrában tárolja
 
 Az architektúra gyakori használati módjai például a felhőben tárolt objektumok és identitások biztonsági elkülönítésének fenntartása, illetve az egyes tartományok migrálása a helyszínről a felhőbe.
 
-További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations]. 
+További szempontok: [Megoldás választása a helyszíni Active Directory Azure-ral való integrálásához][considerations].
 
 ## <a name="architecture"></a>Architektúra
 

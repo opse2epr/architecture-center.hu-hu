@@ -1,19 +1,17 @@
 ---
-title: Event Sourcing
+title: Események forráskezelése minta
+titleSuffix: Cloud Design Patterns
 description: Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- performance-scalability
-ms.openlocfilehash: 1cb63b61f5eb97726e266f797dfe13011907c95f
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 56db321e33ecef17704eda4eda971ff3c7e44133
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429332"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011633"
 ---
 # <a name="event-sourcing-pattern"></a>Események forráskezelése minta
 
@@ -42,14 +40,13 @@ Az Események forráskezelése minta az adatokon végrehajtott műveletek kezel�
 
 Az eseményeket egy eseménytár őrzi, amely az adatok aktuális állapotát rögzítő rekordrendszerként (mérvadó adatforrásként) működik. Az eseménytár általában közzéteszi ezeket az eseményeket, hogy a felhasználók értesüljenek róluk, és szükség szerint kezelhessék azokat. A fogyasztók például inicializálhatnak olyan feladatokat, amelyek az eseményekben lévő műveleteket más rendszerekre alkalmazzák, vagy egyéb kapcsolódó műveleteket hajtanak végre, amelyek a működéshez szükségesek. Vegyük észre, hogy az eseményeket létrehozó alkalmazáskód elválik az eseményekre feliratkozó rendszerektől.
 
-Az eseménytár által közzétett események tipikus felhasználása az entitások tényleges táblán alapuló nézeteinek karbantartása, ahogy az alkalmazás műveletei módosítják azokat, valamint a külső rendszerekkel való integráció biztosítása. Például a rendszer megtarthatja az összes olyan ügyfélmegrendelés tényleges táblán alapuló nézetét, amelyek a felhasználói felület részein megjelentek. Ahogy az alkalmazás új megrendeléseket ad hozzá, tételeket ad hozzá vagy távolít el a megrendelésekben, szállítási információkat ad hozzá, az ezeket a módosításokat leíró események kezelhetőek, és a használatukkal frissíthetőek a [tényleges táblán alapuló nézetek](materialized-view.md).
+Az eseménytár által közzétett események tipikus felhasználása az entitások tényleges táblán alapuló nézeteinek karbantartása, ahogy az alkalmazás műveletei módosítják azokat, valamint a külső rendszerekkel való integráció biztosítása. Például a rendszer megtarthatja az összes olyan ügyfélmegrendelés tényleges táblán alapuló nézetét, amelyek a felhasználói felület részein megjelentek. Ahogy az alkalmazás új megrendeléseket ad hozzá, tételeket ad hozzá vagy távolít el a megrendelésekben, szállítási információkat ad hozzá, az ezeket a módosításokat leíró események kezelhetőek, és a használatukkal frissíthetőek a [tényleges táblán alapuló nézetek](./materialized-view.md).
 
 Emellett az alkalmazásoknak bármikor lehetősége van olvasni az eseményelőzményeket, és azok használatával tényleges táblává alakítani az entitások aktuális állapotát az adott eseményhez tartozó összes esemény visszajátszásával és feldolgozásával. Ez történhet igény szerint a tartományobjektumok tényleges táblává alakításával a kérések feldolgozása során, vagy pedig ütemezett feladatokon keresztül, hogy az entitás állapota tényleges táblán alapuló nézetként tárolható legyen a megjelenítési réteg kiszolgálására.
 
 Az ábrán a minta áttekintése látható, beleértve az eseménystream használata kínálta egyes lehetőségeket, például a tényleges táblán alapuló nézetek létrehozását, az események külső alkalmazásokkal és rendszerekkel való integrálását, valamint az események visszajátszását az adott entitások aktuális állapotai leképezéseinek létrehozásához.
 
 ![Az Események forráskezelése minta áttekintése és példája](./_images/event-sourcing-overview.png)
-
 
 Az Események forráskezelése minta az alábbi előnyöket biztosítja:
 
@@ -128,7 +125,6 @@ A következő ábra azt mutatja be, hogy a konferenciakezelő rendszer helyfogla
 
 ![Helyfoglalási adatok rögzítése az Események forráskezelése használatával egy konferenciakezelő rendszerben](./_images/event-sourcing-bounded-context.png)
 
-
 Két hely foglalása esetén a műveletek sorrendje a következő:
 
 1. A felhasználói felület kiad egy parancsot két hely foglalására két résztvevő számára. A parancsot egy külön parancskezelő dolgozza fel. Egy, a felhasználói felületről leválasztott és a parancsként közzétett kérések kezeléséért felelős logikai rész.
@@ -153,11 +149,11 @@ Amellett, hogy több lehetőséget kínál a skálázásra, az eseménytár telj
 
 Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-- [Parancskiadási és lekérdezési felelősségek elkülönítése (CQRS) minta](cqrs.md). A CQRS implementálások állandó adatforrását biztosító írási tároló alapjául gyakran az Események forráskezelése minta egy implementálása szolgál. A szakasz azt ismerteti, hogyan lehet különböző felületek használatával elkülöníteni az alkalmazások adatolvasó műveleteit az adatfrissítő műveletektől.
+- [Command and Query Responsibility Segregation (CQRS) minta](./cqrs.md). A CQRS implementálások állandó adatforrását biztosító írási tároló alapjául gyakran az Események forráskezelése minta egy implementálása szolgál. A szakasz azt ismerteti, hogyan lehet különböző felületek használatával elkülöníteni az alkalmazások adatolvasó műveleteit az adatfrissítő műveletektől.
 
-- [A Materialized View minta](materialized-view.md). Az Események forráskezelése mintán alapuló rendszerekben használt adattárak tipikusan nem nagyon alkalmasak a hatékony lekérdezésre. Ehelyett az általános megközelítés szerint rendszeres időközönként vagy az adatok változásakor szokás előfeltöltött nézeteket létrehozni az adatokról. Ez a szakasz ennek a menetét mutatja be.
+- [Tényleges táblán alapuló nézet minta](./materialized-view.md). Az Események forráskezelése mintán alapuló rendszerekben használt adattárak tipikusan nem nagyon alkalmasak a hatékony lekérdezésre. Ehelyett az általános megközelítés szerint rendszeres időközönként vagy az adatok változásakor szokás előfeltöltött nézeteket létrehozni az adatokról. Ez a szakasz ennek a menetét mutatja be.
 
-- [Kompenzáló tranzakció mintája](compensating-transaction.md). Az Események forráskezelése tárban található meglévő adatok nem frissülnek, hanem új bejegyzések lesznek hozzáadva, amelyek átváltják az entitások állapotát az új értékekre. A módosítások visszavonásához kompenzáló bejegyzéseket kell alkalmazni, mivel a megelőző módosításokat nem lehet egyszerűen visszavonni. A szakasz azt ismerteti, hogyan lehet visszavonni a korábbi műveletek által végrehajtott módosításokat.
+- [Kompenzáló tranzakció mintája](./compensating-transaction.md). Az Események forráskezelése tárban található meglévő adatok nem frissülnek, hanem új bejegyzések lesznek hozzáadva, amelyek átváltják az entitások állapotát az új értékekre. A módosítások visszavonásához kompenzáló bejegyzéseket kell alkalmazni, mivel a megelőző módosításokat nem lehet egyszerűen visszavonni. A szakasz azt ismerteti, hogyan lehet visszavonni a korábbi műveletek által végrehajtott módosításokat.
 
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). Ha az Események forráskezelése mintát egy külön olvasási tárral vagy tényleges táblán alapuló nézetekkel alkalmazza, a beolvasott adatok nem azonnal, hanem csak végül lesznek konzisztensek. A szakasz az elosztott adatok konzisztenciájának megőrzésével kapcsolatos problémákat foglalja össze.
 

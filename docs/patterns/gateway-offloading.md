@@ -1,66 +1,69 @@
 ---
-title: Átjáró Offloading minta
-description: Megosztott vagy speciális szolgáltatás funkcióit egy átjáró proxyként kiürítése.
+title: Átjárókiszervezési minta
+titleSuffix: Cloud Design Patterns
+description: A megosztott vagy specializált szolgáltatásműködést kiszervezheti egy átjáró proxyra.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: 6b3e4541aae77349ca91c18c788ddb508912361d
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: 50af3d8593279986ed6efee55667187424c18e56
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24540009"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010211"
 ---
-# <a name="gateway-offloading-pattern"></a>Átjáró Offloading minta
+# <a name="gateway-offloading-pattern"></a>Átjárókiszervezési minta
 
-Megosztott vagy speciális szolgáltatás funkcióit egy átjáró proxyként kiürítése. Ebben a mintában alkalmazásfejlesztés egyszerűsítheti megosztott szolgáltatás funkciókat, például az SSL-tanúsítványok tér át az alkalmazást az átjáró többi részével.
+A megosztott vagy specializált szolgáltatásműködést kiszervezheti egy átjáró proxyra. Ez a minta leegyszerűsítheti az alkalmazásfejlesztést a megosztott szolgáltatásfunkciók, például az SSL-tanúsítványok használatának az átjáróba való áthelyezésével.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Néhány gyakran használják több szolgáltatásban, és ezek a szolgáltatások konfigurációs, felügyeleti és karbantartási szükséges. Egy megosztott vagy speciális szolgáltatás, minden alkalmazás központi telepítése terjesztett növeli az adminisztrációs terhelést, és növeli az elágazás a központi telepítési hiba. A megosztott szolgáltatás frissítéseit is, hogy az összes szolgáltatásban kell telepíteni.
+Bizonyos funkciókat több szolgáltatás is használ, és ezek a funkciók beállítást, felügyeletet és karbantartást igényelnek. A minden alkalmazástelepítéskor elosztott megosztott vagy speciális szolgáltatások növelik az adminisztrációs terhelést és a telepítési hibák esélyét. A megosztott funkciók frissítéseit a funkciót használó összes szolgáltatásban telepíteni kell.
 
-Megfelelően kezeli a biztonsági problémák (jogkivonat érvényesítésére, titkosítás, SSL-tanúsítványok kezelését) és egyéb összetett feladatokat megkövetelheti, hogy a csoport tagjai magas speciális ismeretek rendelkezik. Például egy alkalmazás által igényelt tanúsítvány kell kell konfigurált és telepített összes alkalmazás-példányokon. Az egyes új központi telepítéséhez annak érdekében, hogy azt nem jár le a tanúsítványt kell kezelni. Bármely általános tanúsítvány lejárati dátuma frissíteni kell, tesztelése és ellenőrzése minden alkalmazás üzembe helyezés.
+A biztonsági problémák megfelelő kezelése (tokenérvényesítés, titkosítás, SSL-tanúsítványkezelés) és egyéb összetett feladatok elvégzése speciális szaktudást kívánhat meg. Például az egy alkalmazás számára szükséges tanúsítványt konfigurálni és telepíteni kell az alkalmazás összes példányán. Minden új telepítés esetében szükség van a tanúsítvány kezelésére, hogy az ne járjon le. Ha közeledik egy közös tanúsítvány lejárati ideje, akkor frissíteni, majd tesztelni és ellenőrizni kell azt minden alkalmazástelepítésen.
 
-Más közös szolgáltatásokon, például a hitelesítési, engedélyezési, naplózási, figyelés, vagy [sávszélesség-szabályozás](./throttling.md) megvalósítása és kezelése a központi telepítések számos különböző nehéz lehet. Jobb megoldás lehet vonják össze a funkciót, az ilyen típusú munkaterhet és a hibák esélyét csökkentése érdekében.
+Más közös szolgáltatásokat, például a hitelesítést, az engedélyezést, a naplózást, a monitorozást vagy a [szabályozást](./throttling.md) nehéz implementálni és felügyelni nagy számú telepítés esetén. Érdemes lehet konszolidálni az ilyen típusú funkciókat a terhelés és a hibák esélyének csökkentése érdekében.
 
 ## <a name="solution"></a>Megoldás
 
-Néhány funkció kiszervezése be egy API-átjárót, különösen több területet vonatkozik, például a tanúsítványkezelés, hitelesítést, SSL lezárást, figyelés, protokollfordításhoz, és sávszélesség-szabályozás. 
+Szervezzen ki egyes funkciókat egy API-átjáróba, különösen az általános feladatokat, mint a tanúsítványkezelés, a hitelesítés, az SSL-lezárás, a monitorozás, a protokollfordítás, valamint a szabályozás.
 
-Az alábbi ábrán egy API-átjáró, amely megszakítja bejövő SSL-kapcsolatot. Az eredeti kérelmezőnek bármely HTTP-kiszolgáló előtt az API-átjáró nevében adatokat kér.
+A következő ábrán egy API-átjáró látható, amely lezárja a bejövő SSL-kapcsolatokat. Az eredeti kérelmező nevében kér adatokat bármely, az API-átjárónál felsőbb rétegbeli HTTP-kiszolgálótól.
 
- ![](./_images/gateway-offload.png)
- 
-Ez a minta a következő előnyöket nyújtja:
+ ![Az átjáró-kiürítés minta ábrája](./_images/gateway-offload.png)
 
-- Leegyszerűsítheti a szolgáltatások fejlesztéséhez kell terjeszteni, és a támogató erőforrások, például a webkiszolgáló-tanúsítványok és a biztonságos webhely konfigurációja karbantartása eltávolításával. Egyszerűbb konfiguráció egyszerűbb kezelés és a méretezhetőség eredményez, és így egyszerűbb frissítése.
+A minta használata többek között a következő előnyökkel jár:
 
-- Dedikált csoportok megvalósításához speciális szakértelem, például a biztonsági igénylő szolgáltatások engedélyezése. Ez lehetővé teszi, hogy az alapvető csapat az alkalmazás funkciói, hagyja a speciális, de több területet problémák a megfelelő szakértőknek összpontosíthat.
+- Egyszerűsíti a szolgáltatások fejlesztését, mivel nincs szükség a támogató erőforrások (például a webkiszolgáló-tanúsítványok és a biztonságos webhelyek konfigurációja) elosztására és karbantartására. Az egyszerűbb konfigurálás könnyebb felügyeletet és skálázhatóságot jelent, és így könnyebb a szolgáltatásfrissítés is.
 
-- Adja meg egyes konzisztencia kérés- és naplózás és figyelés. Akkor is, ha a szolgáltatás nem megfelelően tagolva, az átjáró beállítható úgy, hogy a figyelés és naplózás minimális szintjét.
+- A speciális szakértelmet igénylő funkciók implementálását (például biztonság) bízza külön erre a célra létrehozott csapatokra. Így a központi csapat az alkalmazás működésére koncentrálhat, és a több szolgáltatást érintő, de speciális kérdések megoldását a szakértőkre hagyhatja.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+- Egységesítse a kérések és válaszok naplózását és monitorozását. Beállíthatja, hogy az átjáró akkor is végezzen minimális monitorozási és naplózási tevékenységet, ha a szolgáltatás nem lett megfelelően kialakítva.
 
-- Győződjön meg arról az API-átjáró magas rendelkezésre állású és rugalmas hiba esetén. Kerülje a hibaérzékeny pontokat által az API-átjáró több példányát futtatni. 
-- Győződjön meg arról, az átjáró a kapacitás készült, és a méretezésről az alkalmazás- és végpontok követelményeinek. Győződjön meg arról, hogy az átjáró nem keresztmetszetet jelenthet az alkalmazáshoz, és megfelelően méretezhető.
-- A teljes alkalmazás, például biztonsági vagy átviteli által használt funkciók csak kiürítése.
-- Az API-átjárónak soha nem kell kiszervezett üzleti logikát. 
-- Ha tranzakciók nyomon van szüksége, fontolja meg, generálásához. korrelációs azonosító naplózási célokra.
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+- Gondoskodjon arról, hogy az API-átjáró magas rendelkezési állású legyen, és ne legyenek rá hatással a meghibásodások. Kerülje el a kritikus meghibásodási pontok kialakulását: futtassa az API-átjáró több példányát.
+- Gondoskodjon arról, hogy az átjáró megfelel az alkalmazás és a végpontok kapacitási és skálázási követelményeinek. Gondoskodjon arról, hogy az átjáró ne váljon szűk keresztmetszetté az alkalmazás számára, és megfelelően skálázható legyen.
+- Csak olyan funkciókat szervezzen ki, amelyeket a teljes alkalmazás használ, például a biztonsági és az adatátviteli funkciókat.
+- Üzleti logikát sosem szabad kiszervezni az API-átjáróba.
+- Ha nyomon kell követnie a tranzakciókat, érdemes korrelációs azonosítókat létrehozni a naplózáshoz.
 
-Ez mintát, mikor használja:
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-- Az alkalmazás központi telepítése egy megosztott szempont, például az SSL-tanúsítványok és titkosítás rendelkezik.
-- Ez a szolgáltatás által közösen alkalmazások központi telepítéseit, amelyek különböző erőforrás-követelményei, például a memória-erőforrásokat, a tárolási kapacitás vagy a hálózati kapcsolatok.
-- Helyezze át az ezzel kapcsolatos problémák, például a hálózati biztonság, a sávszélesség-szabályozás és a más hálózati határ észrevételeivel konkrétabb team kívánja.
+Használja ezt a mintát, ha:
 
-Előfordulhat, hogy ez a minta nem megfelelő, ha a kapcsoló szolgáltatásban okozna.
+- Az alkalmazástelepítésben vannak közös feladatok, például az SSL-tanúsítványok vagy a titkosítás.
+- Közös funkciója van több alkalmazástelepítésnek, amelyek erőforrásigényei eltérőek (például memória-erőforrások, tárterület vagy hálózati kapcsolatok).
+- Bizonyos feladatokat egy speciális csapatra szeretne átruházni (például hálózati biztonság, szabályozás, hálózathatárokkal kapcsolatos kérdések).
+
+Nem érdemes ezt a mintát használni, ha összekapcsol egyes szolgáltatásokat.
 
 ## <a name="example"></a>Példa
 
-A Nginx-t az SSL kiszervezési akkor, a következő konfigurációs bejövő SSL-kapcsolat leállítása, majd továbbítja a három fölérendelt HTTP-kiszolgálóhoz csatlakozni.
+Ha az Nginxet használja SSL-kiszervezési berendezésként, a következő konfiguráció leállítja az összes beérkező SSL-kapcsolatot, és elosztja azt három felső rétegbeli HTTP-kiszolgáló között.
 
-```
+```console
 upstream iis {
         server  10.3.0.10    max_fails=3    fail_timeout=15s;
         server  10.3.0.20    max_fails=3    fail_timeout=15s;
@@ -84,9 +87,8 @@ proxy_set_header X-Real-IP $remote_addr;
 }
 ```
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Háttérkiszolgálókon Frontends minta](./backends-for-frontends.md)
-- [Átjáró összesítési minta](./gateway-aggregation.md)
-- [Átjáró útválasztás minta](./gateway-routing.md)
-
+- [Háttérrendszerek és előtérrendszerek minta](./backends-for-frontends.md)
+- [Átjáróösszesítés minta](./gateway-aggregation.md)
+- [Átjáró-útválasztási minta](./gateway-routing.md)

@@ -1,19 +1,17 @@
 ---
-title: Pipes and Filters
+title: Csövek és szűrők mintája
+titleSuffix: Cloud Design Patterns
 description: Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- design-implementation
-- messaging
-ms.openlocfilehash: fd616676f9487bdfe1bf23b3d0fec6c65b97a8f4
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 7084b538159f7104d2322e35f94f43e905f700bf
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429570"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011684"
 ---
 # <a name="pipes-and-filters-pattern"></a>Csövek és szűrők mintája
 
@@ -39,7 +37,6 @@ Ossza fel az egyes streamekhez tartozó feldolgozási folyamatot olyan különá
 
 ![2. ábra – Csövek és szűrők használatával implementált megoldás](./_images/pipes-and-filters-solution.png)
 
-
 Az egy kérelem feldolgozásához szükséges idő a folyamat leglassabb szűrőjének sebességétől függ. Egy vagy több szűrő szűk keresztmetszetté válhat, különösen akkor, ha nagy számú kérelem található egy adott adatforrástól érkező streamben. A folyamatstruktúra legfontosabb előnye, hogy lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését.
 
 A folyamatot alkotó szűrők különböző gépeken futhatnak, így egymástól függetlenül skálázhatóak, és kihasználhatják a számos felhőkörnyezet által nyújtott rugalmasságot. A nagy számítási igényű szűrők nagy teljesítményű hardveren futhatnak, míg más, kevésbé erőforrás-igényes szűrők üzemeltethetők kevésbé költséges, hagyományos hardveren is. A szűrőknek még csak nem is kell azonos adatközpontban vagy földrajzi helyen lenniük, ami lehetővé teszi, hogy az egyes folyamatelemek olyan környezetben futhassanak, amely közel van a számukra szükséges erőforrásokhoz.  A következő ábrán látható példa az 1. forrásból származó adatokhoz tartozó folyamatra van alkalmazva.
@@ -50,11 +47,12 @@ Ha a szűrők be- és kimenete streamként van felépítve, akkor lehetséges az
 
 További előnyt jelent a modell által biztosított rugalmasság. Ha egy szűrő meghibásodik vagy ha az azt futtató gép már nem érhető el, akkor a folyamat képes átütemezni a szűrő által végrehajtott feladatot és az összetevő másik példányára átirányítani. Egyetlen szűrő meghibásodása nem feltétlenül eredményezi a teljes folyamat meghibásodását.
 
-A Csövek és szűrők minta és a [Kompenzáló tranzakció minta](compensating-transaction.md) együttes alkalmazása is egy lehetséges alternatív módszer az elosztott tranzakciók implementálására. Az elosztott tranzakciók különálló, kompenzálható feladatokra bonthatók le, amelyek egy olyan szűrővel implementálhatók, amely a Kompenzáló tranzakció mintát is implementálja. A folyamatban lévő szűrők olyan önállóan üzemeltetett feladatokként is implementálhatók, amelyeket a rendszer az általuk karbantartott adatok közelében futtat.
+A Csövek és szűrők minta és a [Kompenzáló tranzakció minta](./compensating-transaction.md) együttes alkalmazása is egy lehetséges alternatív módszer az elosztott tranzakciók implementálására. Az elosztott tranzakciók különálló, kompenzálható feladatokra bonthatók le, amelyek egy olyan szűrővel implementálhatók, amely a Kompenzáló tranzakció mintát is implementálja. A folyamatban lévő szűrők olyan önállóan üzemeltetett feladatokként is implementálhatók, amelyeket a rendszer az általuk karbantartott adatok közelében futtat.
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
 A minta megvalósítása során az alábbi pontokat vegye figyelembe:
+
 - **Összetettség**. A minta által biztosított megnövelt rugalmasság összetettséget is eredményezhet, különösen akkor, ha a folyamat szűrői különböző kiszolgálókon vannak elosztva.
 
 - **Megbízhatóság**. Olyan infrastruktúrát használjon, amely biztosítja, hogy ne legyen adatvesztés a folyamat szűrői közötti adatátvitel során.
@@ -70,11 +68,12 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 ## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
 Használja ezt a mintát, ha:
+
 - Az alkalmazások számára szükséges feldolgozási folyamat egyszerűen lebontható független lépések sorozatára.
 
 - Az alkalmazások által végrehajtott feldolgozási lépések különböző skálázhatósági követelményekkel rendelkeznek.
 
-    >  Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkért lásd a [számításierőforrás-konszolidálási mintát](compute-resource-consolidation.md).
+    >  Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkért lásd a [számításierőforrás-konszolidálási mintát](./compute-resource-consolidation.md).
 
 - Rugalmas kialakítás szükséges ahhoz, hogy lehetővé váljon az alkalmazás által végrehajtott feldolgozási lépések sorrendjének módosítása, illetve lépések hozzáadása és eltávolítása.
 
@@ -83,6 +82,7 @@ Használja ezt a mintát, ha:
 - Olyan megbízható megoldásra van szükség, amely minimálisra csökkenti egy adott lépés meghibásodásának hatását az adatok feldolgozása során.
 
 Nem érdemes ezt a mintát használni, ha:
+
 - Az alkalmazások által végrehajtott feldolgozási lépések nem függetlenek egymástól, illetve azokat egy adott tranzakció részeként, együtt kell végrehajtani.
 
 - Az egyes lépések végrehajtásához szükséges kontextus- vagy állapotinformációk mennyisége csökkenti ennek a módszernek a hatékonyságát. Az állapotinformációkat továbbra is lehet inkább adatbázisban megőrizni, de ne használja ezt a stratégiát, ha az adatbázis további terhelése túlzott mértékű versenyt okozna.
@@ -93,10 +93,9 @@ A folyamat implementálásához szükséges infrastruktúra biztosításához ü
 
 ![4. ábra – Üzenetsorok használatával megvalósított folyamat](./_images/pipes-and-filters-message-queues.png)
 
-
 Ha a megoldást az Azure-ban hozza létre, a Service Bus-üzenetsorok megbízható és skálázható üzenetsor-kezelési mechanizmust biztosítanak. Az alábbi, C# nyelven írt `ServiceBusPipeFilter` osztály példáján egy olyan szűrő implementálását mutatjuk be, amely a bemeneti üzeneteket egy üzenetsorból kapja, feldolgozza azokat, majd az eredményeket egy másik üzenetsorban teszi közzé.
 
->  A `ServiceBusPipeFilter` osztály a PipesAndFilters.Shared projektben van meghatározva, amely a [GitHubról](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters) érhető el.
+> A `ServiceBusPipeFilter` osztály a PipesAndFilters.Shared projektben van meghatározva, amely a [GitHubról](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters) érhető el.
 
 ```csharp
 public class ServiceBusPipeFilter
@@ -278,8 +277,9 @@ public class FinalReceiverRoleEntry : RoleEntryPoint
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
 Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
+
 - A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/pipes-and-filters) talál egy, a minta bemutatására szolgáló példát.
-- [Versengő felhasználókat ismertető minta](competing-consumers.md). A folyamatok adott szűrők több példányát is tartalmazhatják. Ezen megközelítés lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését. A szűrőpéldányok versenyezni fognak egymással a bemeneti adatokért, egy adott szűrő két példánya nem dolgozhatja fel ugyanazokat az adatokat. Megmagyarázza ezt a megközelítést.
-- [Számításierőforrás-konszolidálási minta](compute-resource-consolidation.md). Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkat biztosít ezen stratégia előnyeiről és hátrányairól.
-- [Kompenzáló tranzakció mintája](compensating-transaction.md). A szűrők implementálhatóak visszavonható műveletként is, vagy olyan kompenzáló műveletként, amely hiba esetén visszaállít egy korábbi verzió szerinti állapotot. Ismerteti, hogy ez a módszer hogyan implementálható a végső konzisztencia fenntartásához vagy eléréséhez.
+- [Versengő felhasználókat ismertető minta](./competing-consumers.md). A folyamatok adott szűrők több példányát is tartalmazhatják. Ezen megközelítés lehetőséget biztosít a lassú szűrők példányainak egyidejű futtatására, lehetővé téve ezzel a rendszer számára a terhelés elosztását és a teljesítmény növelését. A szűrőpéldányok versenyezni fognak egymással a bemeneti adatokért, egy adott szűrő két példánya nem dolgozhatja fel ugyanazokat az adatokat. Megmagyarázza ezt a megközelítést.
+- [Számításierőforrás-konszolidálási minta](./compute-resource-consolidation.md). Lehetőség van csoportosítani olyan szűrőket, amelyeknek azonos skálázásúaknak kell lenniük egy adott folyamatban. További információkat biztosít ezen stratégia előnyeiről és hátrányairól.
+- [Kompenzáló tranzakció mintája](./compensating-transaction.md). A szűrők implementálhatóak visszavonható műveletként is, vagy olyan kompenzáló műveletként, amely hiba esetén visszaállít egy korábbi verzió szerinti állapotot. Ismerteti, hogy ez a módszer hogyan implementálható a végső konzisztencia fenntartásához vagy eléréséhez.
 - [Idempotens minták](https://blog.jonathanoliver.com/idempotency-patterns/) (Jonathan Oliver blogjában).

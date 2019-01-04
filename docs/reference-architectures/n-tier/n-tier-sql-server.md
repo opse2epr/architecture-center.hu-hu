@@ -4,12 +4,12 @@ titleSuffix: Azure Reference Architectures
 description: Egy többrétegű architektúra megvalósítása az Azure-ban a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel.
 author: MikeWasson
 ms.date: 11/12/2018
-ms.openlocfilehash: 38983dec83718f53fc1ffd79c1347582200f5db0
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: e7dbd8dd2b8e5aff8f18ff9b87fce0b76a850bce
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120126"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011378"
 ---
 # <a name="windows-n-tier-application-on-azure-with-sql-server"></a>Az Azure-ban az SQL Server Windows N szintű alkalmazás
 
@@ -153,7 +153,7 @@ A virtuális hálózatok forgalomelkülönítési határok az Azure-ban. Egy vir
 
 **Titkosítási**. Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. További információkért lásd: [konfigurálása az Azure Key Vault-integráció az SQL Server Azure virtuális gépeken][sql-keyvault]. Emellett ajánlott alkalmazások titkos adatait, például az adatbázis kapcsolati karakterláncainak tárolása a Key Vaultban.
 
-**A DDoS protection**. Az Azure platform alapértelmezés szerint alapszintű DDoS elleni védelmet biztosít. Ez a alapvető védelem célja védelme az Azure-infrastruktúra egészében. Alapszintű DDoS elleni védelem automatikusan engedélyezve van, de javasoljuk a [DDoS Protection Standard][ddos]. Standard szintű védelem használatával adaptív finomhangolási, az alkalmazás hálózati forgalmi minták alapján észlelheti a fenyegetéseket. Ez lehetővé teszi, hogy az infrastruktúra-szintű DDoS szabályzatok egyébként észrevétlenül DDoS-támadásokkal szembeni tulajdonosaival. Standard szintű védelmet is biztosít a riasztás, a telemetria és az Azure Monitor-analitikát. További információkért lásd: [Azure DDoS Protection: ajánlott eljárások és referenciaarchitektúrákat][ddos-best-practices].
+**A DDoS protection**. Az Azure platform alapértelmezés szerint alapszintű DDoS elleni védelmet biztosít. Ez a alapvető védelem célja védelme az Azure-infrastruktúra egészében. Alapszintű DDoS elleni védelem automatikusan engedélyezve van, de javasoljuk a [DDoS Protection Standard][ddos]. Standard szintű védelem használatával adaptív finomhangolási, az alkalmazás hálózati forgalmi minták alapján észlelheti a fenyegetéseket. Ez lehetővé teszi, hogy az infrastruktúra-szintű DDoS szabályzatok egyébként észrevétlenül DDoS-támadásokkal szembeni tulajdonosaival. Standard szintű védelmet is biztosít a riasztás, a telemetria és az Azure Monitor-analitikát. További információkért lásd: [Azure DDoS Protection: Ajánlott eljárások és referenciaarchitektúrákat][ddos-best-practices].
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 

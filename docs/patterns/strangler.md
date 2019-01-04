@@ -1,18 +1,21 @@
 ---
 title: Leépítő minta
+titleSuffix: Cloud Design Patterns
 description: Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: 0bf0b76a69f947419da83edd894a04dbea02371b
-ms.sourcegitcommit: 2ae794de13c45cf24ad60d4f4dbb193c25944eff
+ms.custom: seodec18
+ms.openlocfilehash: 7d7c58c97537537ae9f2f96b7ecf1b437fc258b4
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50001881"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010214"
 ---
 # <a name="strangler-pattern"></a>Leépítő minta
 
-Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél. A korábbi rendszer funkcióinak lecserélésével idővel az új rendszer felváltja a régi rendszer összes funkcióját, leépítve a régi rendszert, és lehetővé téve annak leszerelését. 
+Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél. A korábbi rendszer funkcióinak lecserélésével idővel az új rendszer felváltja a régi rendszer összes funkcióját, leépítve a régi rendszert, és lehetővé téve annak leszerelését.
 
 ## <a name="context-and-problem"></a>Kontextus és probléma
 
@@ -24,7 +27,7 @@ Egy összetett rendszer teljes cseréje hatalmas feladat lehet. Gyakran fokozato
 
 Fokozatosan cserélje le az egyes funkciókat új alkalmazásokra és szolgáltatásokra. Egy előtérrendszer létrehozásával elfoghatja a korábbi háttérrendszernek címzett kérelmeket. Az előtérrendszer ezeket a kérelmeket a korábbi alkalmazáshoz vagy az új szolgáltatásokhoz irányítja. A meglévő szolgáltatások fokozatosan migrálhatóak az új rendszerre, és a fogyasztók továbbra is ugyanazt a felületet használhatják anélkül, hogy bármit érzékelnének a migrálásból.
 
-![](./_images/strangler.png)  
+![A Leépítő minta ábrája](./_images/strangler.png)
 
 Ez a minta segít minimálisra csökkenteni a migrálással járó kockázatokat, és időben jobban elosztja a fejlesztési folyamatot. Miközben az előtérrendszer biztonságosan a megfelelő alkalmazáshoz irányítja a felhasználókat, tetszés szerint ütemezve adhat funkciókat az új rendszerhez a korábbi alkalmazás működésének fenntartása mellett. A funkciók új rendszerre való migrálása idővel „leépíti” a régi rendszer funkcionalitását, és nem lesz rá többet szükség. A folyamat befejeződése után a régi rendszer biztonságosan megszüntethető.
 
@@ -48,9 +51,3 @@ Nem érdemes ezt a mintát használni, ha:
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
 - A Martin Fowler blogbejegyzés [StranglerApplication](https://www.martinfowler.com/bliki/StranglerApplication.html)
-- [Sérülésgátló réteg minta](./anti-corruption-layer.md)
-- [Átjáró-útválasztási minta](./gateway-routing.md)
-
-
- 
-

@@ -1,71 +1,68 @@
 ---
-title: Forgalomirányító
-description: Alkalmazások és szolgáltatások védelmét egy közötti ügyfelek és az alkalmazás vagy szolgáltatás, ellenőrzi és sanitizes kérelmek és a közöttük kérelmek és az adatok továbbítja szolgáló dedikált gazdagép példánnyal.
-keywords: Kialakítási mintája
+title: Forgalomirányító minta
+titleSuffix: Cloud Design Patterns
+description: Védheti az alkalmazásokat és szolgáltatásokat egy dedikált üzemeltető példány segítségével, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között, érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat közöttük.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- security
-ms.openlocfilehash: 39f8548bbccb5e19d433f65b2e7e09147d676996
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: a45ace8ea05e4a7dd1d8a48653e94a5fe5bfb0f6
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24541321"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009695"
 ---
 # <a name="gatekeeper-pattern"></a>Forgalomirányító minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Alkalmazások és szolgáltatások védelmét egy közötti ügyfelek és az alkalmazás vagy szolgáltatás, ellenőrzi és sanitizes kérelmek és a közöttük kérelmek és az adatok továbbítja szolgáló dedikált gazdagép példánnyal. Ez egy további biztonsági réteget nyújt, és a rendszer támadási felületét.
+Védheti az alkalmazásokat és szolgáltatásokat egy dedikált üzemeltető példány segítségével, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között, érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat közöttük. Ez egy további biztonsági réteget biztosíthat, és csökkenti a számítógép támadható felületét.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Alkalmazások fogadása és feldolgozása kérelmek által elérhetővé tenni azok funkcióiról az ügyfelek számára. A felhőben üzemeltetett esetben alkalmazások teszi közzé a végpontok ügyfelek kapcsolódni, és általában tartalmaznak az ügyfelektől érkező kérelmek kezeléséhez a kódot. Ez a kód hajtja végre a hitelesítési és érvényesítési, néhány vagy az összes kérelem feldolgozását, és valószínűleg hozzáférések tárolási és egyéb szolgáltatások, az ügyfél nevében.
+Az alkalmazások kérések fogadásával és feldolgozásával teszik elérhetővé a funkcióikat az ügyfelek számára. Felhőben futtatott forgatókönyvek esetén az alkalmazások végpontokat tesznek elérhetővé, amelyekhez az ügyfelek csatlakoznak, és általában tartalmazzák az ügyfelektől érkező kérelmek kezeléséhez szükséges kódot. Ez a kód elvégzi a hitelesítést és az ellenőrzést, a kérelmek feldolgozását vagy annak egy részét, és általában hozzáfér tárolókhoz és egyéb szolgáltatásokhoz az ügyfél nevében.
 
-Ha egy rosszindulatú felhasználó képes okoz a rendszerben, valamint az alkalmazás eléréséhez az üzemeltetési környezetbe, a biztonsági mechanizmust például a hitelesítő adatokat használ, és tárolási kulcsokat, és a szolgáltatások és fér hozzá, adatok ki vannak téve. Ennek eredményeképpen a rosszindulatú felhasználók is hozzáférhetnek segédülésen bizalmas adatokat és más szolgáltatások védelmét.
+Ha egy rosszindulatú felhasználó feltöri a rendszert, és hozzáférést szerez az alkalmazás üzemeltetési környezetéhez, elérhetővé válnak számára az alkalmazás által használt biztonsági mechanizmusok, például a hitelesítő adatok és a tárkulcsok, valamint az alkalmazás által elért szolgáltatások és adatok. Ezáltal a rosszindulatú felhasználó korlátlan hozzáférést szerezhet a bizalmas adatokhoz és más szolgáltatásokhoz.
 
 ## <a name="solution"></a>Megoldás
 
-Ügyfelek hozzáférjenek a bizalmas adatokat és a szolgáltatások kockázatának minimalizálása érdekében használata leválasztja az állomások vagy a kódot, amely feldolgozza a kérelmeket, és a tárolási fér hozzá a nyilvános végpontok feladatait. Egy homlokzati vagy egy dedikált feladatot, amely kommunikál az ügyfelek és a kérelem majd átadja használatával érhető el ez&mdash;akár leválasztott felületen keresztül&mdash;az állomások vagy a feladatokat, amelyek fogja kezelni a kérést. Az ábra magas szintű áttekintést nyújt az ebben a mintában.
+Ha minimálisra szeretné csökkenteni annak az esélyét, hogy ügyfelek hozzáférjenek bizalmas adatokhoz és szolgáltatásokhoz, válassza le a nyilvános végpontokat elérhetővé tévő gazdagépeket vagy feladatokat arról a kódról, amely a kérelmek feldolgozását végzi, illetve hozzáfér a tárolókhoz. Ezt egy előtérrendszer vagy dedikált feladat alkalmazásával teheti meg, amely közvetlenül érintkezik az ügyfelekkel, és &mdash;például egy leválasztott felületen keresztül&mdash; továbbítja a kéréseket az azokat kezelő gazdagépek vagy feladatok számára. Az ábra általános áttekintést nyújt erről a mintáról.
 
-![Ez a kialakítás áttekintése](./_images/gatekeeper-diagram.png)
+![Általános áttekintés a mintáról](./_images/gatekeeper-diagram.png)
 
+A Forgalomirányító minta használható egyszerűen a tároló védelmére, vagy átfogó előtérrendszerként az alkalmazás összes funkciójának védelmére. Néhány fontosabb tényező:
 
-Forgalomirányító minta segítségével egyszerűen védelme a tárolási, vagy lehet használható legyen egy átfogóbb homlokzati védelméhez összes az alkalmazás funkcióit. A fontos tényezők, melyeknek a következők:
+- **Szabályozott ellenőrzés**. A forgalomirányító ellenőrzi az összes kérést, és elutasítja azokat, amelyek nem felelnek meg az ellenőrzési követelményeknek.
+- **Korlátozott kockázat és kitettség**. A forgalomirányítónak nincs hozzáférése a megbízható gazdagép által használt hitelesítő adatokhoz vagy kulcsokhoz a tároló és a szolgáltatások eléréséhez. Ha feltörik a forgalomirányítót, a támadó nem fér hozzá ezekhez a hitelesítő adatokhoz vagy kulcsokhoz.
+- **A megfelelő biztonsági**. A forgalomirányító korlátozott jogosultságú módban fut, az alkalmazás többi része viszont teljesen megbízható módban fut, hogy hozzáférhessen a tárolóhoz és a szolgáltatásokhoz. Ha a forgalomirányító biztonsága sérül, nem tud közvetlenül hozzáférni az alkalmazás szolgáltatásaihoz vagy adataihoz.
 
-- **A vezérelt érvényesítése.** A forgalomirányító ellenőrzi az összes kérelmet, és azokat, amelyek nem felelnek meg az érvényesítési követelményének elutasítja.
-- **Korlátozott kockázat és kapta.** A forgalomirányító nem fér hozzá a hitelesítő adatokat vagy a tároló és a szolgáltatások eléréséhez a megbízható gazdagép által használt kulcsok. Ha a forgalomirányító biztonsága sérül, a támadó nem eléréséhez a hitelesítő adatokat vagy kulcsok.
-- **Megfelelő biztonsági.** A forgalomirányító módban fut. a korlátozott jogosultságú, amíg a többi alkalmazáshoz szükséges a tároló elérése és szolgáltatások teljes megbízhatósági módban fut. Ha a forgalomirányító sérült, nem közvetlenül fér hozzá az alkalmazás szolgáltatások vagy adat.
+Egy tipikus felépítésű hálózatban ez a minta gyakorlatilag tűzfalként funkcionál. Lehetővé teszi a forgalomirányító számára, hogy a kérések megvizsgálása után eldöntse, továbbítható-e a kérés a megbízható gazdagépnek (más néven kulcskezelő főkiszolgálónak), amely aztán végrehajtja a szükséges feladatot. Ehhez a forgalomirányító először ellenőrzi és vírusmentesíti a kéréseket, majd továbbítja őket a megbízható gazdagépnek.
 
-Ezt a mintát úgy viselkedik, mint a szokásos hálózati topográfia tűzfal. Lehetővé teszi a forgalomirányítóhoz vizsgálja meg a kéréseket, és a döntést arról, hogy a kérelem továbbítása a megbízható gazdagép (más néven a keymaster), amely elvégzi a szükséges feladatok-e. Ehhez a döntéshez általában a forgalomirányító érvényesítéséhez és a kérés tartalma sanitize előtt a megbízható gazdagép be van szükség.
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+- Ügyeljen rá, hogy a megbízható gazdagépek, amelyek számára a forgalomirányító kéréseket továbbít, kizárólag belső és védett végpontokat tesznek elérhetővé, és kizárólag a forgalomirányítóhoz kapcsolódnak. Fontos, hogy a megbízható gazdagépek ne tegyenek elérhetővé külső végpontokat vagy csatolókat.
+- A forgalomirányítónak korlátozott jogosultságú módban kell futnia. Ez általában úgy oldható meg, hogy a forgalomirányító és a megbízható gazdagép külön-külön üzemeltetett szolgáltatásban vagy virtuális gépen fut.
+- A forgalomirányító ne végezzen az alkalmazással vagy a szolgáltatásokkal kapcsolatos feldolgozási feladatot, illetve ne rendelkezzen hozzáféréssel semmilyen adathoz. A forgalomirányító feladata kizárólag a kérések ellenőrzése és vírusmentesítése. A megbízható gazdagépeknek néha további ellenőrzéseket kell végeznie a kéréseken, de az alapvető ellenőrzési feladatokat a forgalomirányító látja el.
+- Amikor csak lehetséges, használjon biztonságos kommunikációs csatornát (HTTPS, SSL vagy TLS) a forgalomirányító és a megbízható gazdagép, illetve a feladatok között. Egyes üzemeltetési környezetek nem támogatják a HTTPS használatát a belső végpontokon.
+- A Forgalomirányító minta implementálásához szükséges extra réteg az alkalmazáshoz való hozzáadása valószínűleg hatással van a teljesítményre a szükséges további feldolgozás és hálózati kommunikáció miatt.
+- A forgalomirányító-példány kritikus meghibásodási pont lehet a rendszeren belül. Az esetleges hibák hatásának minimálisra csökkentése érdekében fontolja meg további példányok telepítését és egy automatikus skálázási rendszer használatát a megfelelő kapacitás és a folyamatos rendelkezésre állás biztosítása érdekében.
 
-- Győződjön meg arról, hogy a megbízható gazdagépek a forgalomirányító továbbítja kérelmek csak belső vagy védett végpontot, és csak a forgalomirányító csatlakozni. A megbízható gazdagépek nem teszi közzé, bármely külső végpontok száma vagy felületek.
-- A forgalomirányító korlátozott jogosultságú módban kell futnia. Általában ez azt jelenti, futtatja a forgalomirányító és a megbízható gazdagép üzemeltetett szolgáltatások külön vagy virtuális gépek.
-- A gatekeeper ne hajtsa végre a bármely alkalmazás vagy szolgáltatás kapcsolódó feldolgozás, vagy adatokhoz hozzáférni. A függvény csak sanitize kéréseket, és ellenőrizheti. Módosítania kell a megbízható gazdagépek kérelmek további ellenőrzés végrehajtása, de az alapvető érvényesítési a forgalomirányító kell elvégezni.
-- Használjon biztonságos kommunikációs csatornát (HTTPS, SSL vagy TLS) között a forgalomirányító és a megbízható gazdagépek vagy feladatok Ha ez lehetséges. Azonban az egyes üzemeltetési környezetekben nem támogatják az HTTPS belső végpontokon.
-- A további réteget ad hozzá az alkalmazás a forgalomirányító mintát végrehajtásához valószínű, hogy néhány hatással teljesítmény miatt a további feldolgozás és a hálózati kommunikációra van szükség.
-- A forgalomirányító példány lehet a hibaérzékeny pontok kialakulását. Hiba a hatás minimalizálása érdekében fontolja meg a további példányok telepítése és az automatikus skálázás mechanizmus segítségével kapacitás ahhoz rendelkezésre állásának biztosításához.
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+Ez a minta az alábbi esetekben hasznos:
 
-Ebben a mintában a következőkhöz hasznos:
-
-- Alkalmazások, amelyek kezelik a bizalmas adatokat, hogy szolgáltatások kell nagyfokú védelmét a rosszindulatú támadások ellen, vagy kritikus fontosságú műveleteket, amelyek nem szakítható tenni.
-- Az elosztott alkalmazásnál, ahol szükséges kérelem ellenőrzése a fő feladatok külön-külön végezze el, vagy központosíthatja az ellenőrzés karbantartási és a felügyelet egyszerűbbé tétele érdekében.
+- Olyan alkalmazásokhoz, amelyek bizalmas információkat kezelnek, és szolgáltatásaik jelentős védelmet igényelnek a rosszindulatú támadások ellen, illetve az üzletmenet szempontjából kritikus fontosságú műveleteket hajtanak végre, amelyek nem szakadhatnak meg.
+- Olyan elosztott alkalmazásokhoz, ahol a fő feladatoktól elkülönítve kell ellenőrizni a kéréseket, illetve az ellenőrzés központi elvégzéséhez a karbantartás és az adminisztráció leegyszerűsítése érdekében.
 
 ## <a name="example"></a>Példa
 
-A felhőben üzemeltetett forgatókönyvek ebben a mintában a forgalomirányító szerepkör vagy a megbízható szerepköröket és szolgáltatásokat az alkalmazásban a virtuális gép leválasztásával valósítható meg. Ezt úgy teheti meg egy belső végpont, várólista vagy tárolási egy köztes kommunikációs mechanizmus. Az ábra azt mutatja be, belső végpont használatával.
+Felhőben futtatott forgatókönyvek esetén ez a minta úgy implementálható, hogy az alkalmazás megbízható szerepköreiről és szolgáltatásairól leválasztják a forgalomirányító szerepkört vagy virtuális gépet. Ehhez köztes kommunikációs mechanizmusként egy belső végpontot, üzenetsort vagy tárolót kell használni. Az ábrán egy belső végpont használata látható.
 
-![Példa a minta Felhőszolgáltatások webes és feldolgozói szerepkörök használatával](./_images/gatekeeper-endpoint.png)
-
+![Példa arra, amikor a minta a Cloud Services webes és feldolgozói szerepköreit használja](./_images/gatekeeper-endpoint.png)
 
 ## <a name="related-patterns"></a>Kapcsolódó minták
 
-A [Valet kulcs mintát](valet-key.md) lehet is megfelelő Forgalomirányító minta végrehajtása során. Ha kommunikál a forgalomirányító és a megbízható szerepkörök közötti tanácsos a megfelelő biztonság érdekében a kulcsok vagy korlátozni az erőforrások eléréséhez szükséges engedélyekkel jogkivonatok használatával. A token vagy a kulcs, amely egy meghatározott erőforrás vagy a szolgáltatás korlátozott közvetlen hozzáférést biztosít az ügyfelek használatát ismerteti.
+A [Pótkulcs minta](./valet-key.md) is releváns lehet a forgalomirányító minta implementálásakor. A forgalomirányító és a megbízható szerepkörök közötti kommunikáció esetén érdemes olyan kulcsok vagy tokenek használatával növelni a biztonságot, amelyek korlátozzák az erőforrásokhoz való hozzáférésre vonatkozó engedélyeket. Leírja, hogyan használhatóak a tokenek vagy kulcsok, amelyek korlátozott közvetlen hozzáférést biztosítanak az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.

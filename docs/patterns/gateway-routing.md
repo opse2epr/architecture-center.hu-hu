@@ -1,14 +1,17 @@
 ---
 title: Átjáró-útválasztási minta
+titleSuffix: Cloud Design Patterns
 description: Átirányíthatja a kéréseket több szolgáltatásra egyetlen végpont használatával.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: ea0bc4d31b745043a7ac3afb277dfc46d87ff109
-ms.sourcegitcommit: 85334ab0ccb072dac80de78aa82bcfa0f0044d3f
+ms.custom: seodec18
+ms.openlocfilehash: 4db98038f582e0315a743a55d46013d2eda187e3
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/11/2018
-ms.locfileid: "35252600"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010477"
 ---
 # <a name="gateway-routing-pattern"></a>Átjáró-útválasztási minta
 
@@ -26,9 +29,9 @@ Ezzel a mintával az ügyfélalkalmazásnak csupán egyetlen végpontot kell ism
 
 Az átjáró ezenkívül lehetővé teszi a háttérszolgáltatások elkülönítését az ügyfelektől, így az ügyfél hívásai egyszerűek maradnak, de az átjáró mögötti háttérszolgáltatások módosíthatók lesznek. Az ügyfél hívásai átirányíthatók a szolgáltatáshoz vagy szolgáltatásokhoz, amely(ek)nek kezelnie kell a várt ügyfélviselkedést. Ez lehetővé teszi szolgáltatások hozzáadását, felosztását és átszervezését az átjáró mögött az ügyfél módosítása nélkül.
 
-![](./_images/gateway-routing.png)
- 
-Ez a minta segíthet a telepítés során is, mivel lehetővé teszi a frissítések bevezetésének kezelését. A szolgáltatás újabb verziójának telepítésekor az az aktuális verzióval egyidejűleg telepíthető. Útválasztás lehetővé teszi szabályozhatja, hogy melyik verzió a szolgáltatás nem jelenik meg az ügyfelek, felkínálva a rugalmasságot különböző kiadás stratégiák használata növekményes, hogy párhuzamosan, vagy a frissítések végrehajtása befejeződik. Az új szolgáltatás telepítése után felfedezett hibák gyorsan visszavonhatók az átjáró konfigurációjának módosításával, ami nem befolyásolja az ügyfeleket.
+![Az átjáró-útválasztási minta ábrája](./_images/gateway-routing.png)
+
+Ez a minta segíthet a telepítés során is, mivel lehetővé teszi a frissítések bevezetésének kezelését. A szolgáltatás újabb verziójának telepítésekor az az aktuális verzióval egyidejűleg telepíthető. Útválasztás segítségével szabályozhatja, hogy a szolgáltatás melyik verzióját bemutatják az ügyfelektől, így rugalmasan kiadási stratégiát alkalmazhat fokozatos, egyidejű vagy frissítések kibocsátások befejezéséhez. Az új szolgáltatás telepítése után felfedezett hibák gyorsan visszavonhatók az átjáró konfigurációjának módosításával, ami nem befolyásolja az ügyfeleket.
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
@@ -51,7 +54,7 @@ Nem érdemes ezt a mintát használni olyan egyszerű alkalmazásokhoz, amelyek 
 
 Az Nginxet útválasztóként használva létrehozhatja ezt az egyszerű konfigurációs fájt, amely a különböző virtuális könyvtárakban található alkalmazások kéréseit a háttérrendszer különböző gépeire irányíthatja át.
 
-```
+```console
 server {
     listen 80;
     server_name domain.com;
@@ -75,6 +78,3 @@ server {
 - [Háttérrendszerek és előtérrendszerek minta](./backends-for-frontends.md)
 - [Átjáróösszesítés minta](./gateway-aggregation.md)
 - [Átjárókiürítés minta](./gateway-offloading.md)
-
-
-

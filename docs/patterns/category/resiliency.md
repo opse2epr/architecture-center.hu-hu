@@ -1,21 +1,21 @@
 ---
 title: Rugalmassági minták
+titleSuffix: Cloud Design Patterns
 description: A rugalmasság a rendszer azon képessége, hogy könnyedén kezelje a hibákat, és gyorsan helyreálljon. A felhőalapú üzemeltetés jellegéből (ahol az alkalmazások gyakran több-bérlősek, megosztott platformszolgáltatásokat használnak, versenyeznek az erőforrásokért és a sávszélességért, az interneten keresztül kommunikálnak, és hagyományos hardvereken futnak) következik, hogy nagyobb a valószínűsége, hogy átmeneti és állandóbb hibák is megjelennek. A hibák észlelése és a gyors és hatékony helyreállás szükséges a rugalmasság fenntartásához.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: 5f5f9c6a23005b1b7ecfc75183f7730823de922e
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.custom: seodec18
+ms.openlocfilehash: d478c0fb42e89c6bb5d84b4d077259ff4bf35f16
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847192"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009712"
 ---
 # <a name="resiliency-patterns"></a>Rugalmassági minták
 
 A rugalmasság a rendszer azon képessége, hogy könnyedén kezelje a hibákat, és gyorsan helyreálljon. A felhőalapú üzemeltetés jellegéből (ahol az alkalmazások gyakran több-bérlősek, megosztott platformszolgáltatásokat használnak, versenyeznek az erőforrásokért és a sávszélességért, az interneten keresztül kommunikálnak, és hagyományos hardvereken futnak) következik, hogy nagyobb a valószínűsége, hogy átmeneti és állandóbb hibák is megjelennek. A hibák észlelése és a gyors és hatékony helyreállás szükséges a rugalmasság fenntartásához.
-
 
 |                            Mintázat                             |                                                                                                      Összegzés                                                                                                       |
 |----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -27,4 +27,3 @@ A rugalmasság a rendszer azon képessége, hogy könnyedén kezelje a hibákat,
 |  [Queue-Based Load Leveling](../queue-based-load-leveling.md)  |                                            Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket.                                             |
 |                      [Retry](../retry.md)                      |             Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.             |
 | [Scheduler Agent Supervisor](../scheduler-agent-supervisor.md) |                                                            Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon.                                                            |
-

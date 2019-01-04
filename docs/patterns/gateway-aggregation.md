@@ -1,67 +1,70 @@
 ---
-title: Átjáró összesítési minta
-description: Segítségével egy átjáró több egyes kérelmeket az egy kérelemhez.
+title: Átjáróösszesítési minta
+titleSuffix: Cloud Design Patterns
+description: Több egyéni kérést összesíthet egyetlen kérésbe egy átjáró segítségével.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: f59c8b8b02c6db28024d13621b782997e63a4e9e
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: 8d929b1b3937d8f9ef50c1b08e8aea0b5c1f92c1
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24541273"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009457"
 ---
-# <a name="gateway-aggregation-pattern"></a>Átjáró összesítési minta
+# <a name="gateway-aggregation-pattern"></a>Átjáróösszesítési minta
 
-Segítségével egy átjáró több egyes kérelmeket az egy kérelemhez. Ebben a mintában akkor hasznos, ha egy ügyfél kell végrehajtania egy műveletet több különböző háttérrendszerek hívások.
+Több egyéni kérést összesíthet egyetlen kérésbe egy átjáró segítségével. Ez a minta akkor lehet hasznos, ha az ügyfélnek különböző háttérrendszereket kell több alkalommal hívnia egy művelet végrehajtásához.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Egy feladat végrehajtásához egy ügyfél lehet több hívások különböző háttér-szolgáltatásokra. Olyan alkalmazás, amely a feladat végrehajtása számos szolgáltatás alapul erőforrások minden kérelemnél meg kell kiadás. Bármely új funkció vagy szolgáltatás való hozzáadásakor az alkalmazást, szükség van-e a további kérelmeket, további növekvő erőforrás-követelmények és hálózati hívások. Az ügyfél és a háttérkiszolgáló közötti chattiness negatívan befolyásolhatja a teljesítményt és a skála az alkalmazás.  Mikroszolgáltatási architektúra végzett probléma gyakori, számos kisebb szolgáltatás természetes épül alkalmazások a kereszt-hívások nagyobb mennyiségű van. 
+Előfordulhat, hogy az ügyfélnek különböző háttérszolgáltatásokat kell többször hívnia egy feladat végrehajtásához. Ha egy alkalmazás számos szolgáltatásra támaszkodik egy feladat végrehajtásakor, minden kéréshez erőforrásokat kell felhasználnia. Ha bármilyen új funkciót vagy szolgáltatást adnak hozzá az alkalmazáshoz, további kérések válnak szükségessé, ami még több erőforrást és hálózati hívást igényel. Az ügyfél és a háttérrendszerek közötti forgalom csökkentheti az alkalmazás teljesítményét és skálázhatóságát.  A mikroszolgáltatás-architektúrák még gyakoribbá tették ezt a problémát, mivel a számos kisebb szolgáltatásra épülő alkalmazásokban több szolgáltatások közötti hívás fordul elő.
 
-Az alábbi ábra az ügyfél kérelmeket küld arra az egyes szolgáltatások (1,2,3). Minden szolgáltatás feldolgozza a kérést, és visszaküldi a választ az alkalmazás (4,5,6). Mobilhálózati egy és általában nagy késésű az egyes kérelmek használatával az ilyen módon nem hatékony, és megszakadt kapcsolat vagy hiányos kérelmeket eredményezhet. Minden egyes kérelem végezhető párhuzamos, amíg az alkalmazás kell küldeni, várjon, amíg és feldolgozni az adatokat az egyes kérelmek összes külön kapcsolatok, növekvő valószínűsége. a hiba a.
+A következő ábrán az ügyfél minden egyes szolgáltatásnak (1,2,3) kéréseket küld. A szolgáltatások feldolgozzák a kéréseket, és válaszolnak az alkalmazásnak (4,5,6). A jellemzően nagy hálózati késésű mobilhálózatokon az egyedi kérések ilyen módon történő használata nem hatékony, és ilyenkor előfordulhat, hogy megszakad a kapcsolat, vagy a kérések csak részlegesen teljesülnek. Bár az egyes kérések feldolgozása párhuzamosan történik, az alkalmazásnak minden kérés adatait el kell küldenie, megvárni a választ, és feldolgoznia az egyes kérések adatait. Mindez önálló kapcsolatokkal történik, ami növeli a hiba esélyét.
 
-![](./_images/gateway-aggregation-problem.png) 
+![Az átjáró Átjáróösszesítés minta probléma diagramja](./_images/gateway-aggregation-problem.png)
 
 ## <a name="solution"></a>Megoldás
 
-Átjáró használatával az ügyfél és a szolgáltatások közötti chattiness csökkenthető. Az átjáró ügyfél kéréseket fogad, a különböző rendszerek háttér kérelmek kiszállítja aggregálja az eredményeket és elküldi azokat a kérelmező ügyfélnek.
+Egy átjáró használatával csökkentheti az ügyfél és a szolgáltatások közötti forgalmat. Az átjáró fogadja az ügyfél kéréseit, továbbítja a kéréseket a különböző háttérrendszerekhez, majd összesíti az eredményeket, és visszaküldi őket a kérést küldő ügyfélnek.
 
-Ebben a mintában csökkenti az alkalmazás által az háttér-services-kérelmek számát, és az alkalmazások teljesítményének javítása a nagy késleltetésű hálózaton keresztül.
+Ez a minta csökkentheti az alkalmazás által a háttérszolgáltatásoknak küldött kérések számát, ami javítja az alkalmazás teljesítményét a nagy késésű hálózatokban.
 
-A következő ábrán az az alkalmazás egy kérést küld az átjáró (1). A kérelem tartalmazza a további kérelmeket tartalmazó csomagot. Az átjáró bontja a ezeket, és feldolgozza a minden kérelmet elküldheti a megfelelő szolgáltatást (2). Minden szolgáltatás visszaküld egy választ az átjáró (3). Az átjáró egyesíti az egyes szolgáltatások válaszát, és visszaküldi a választ az alkalmazáshoz (4). Az alkalmazás egy egyetlen kérést, és csak egyetlen választ kap az átjárót.
+A következő ábrán az alkalmazás egy kérést küld az átjárónak (1). A kérésben egy további kéréseket tartalmazó csomag található. Az átjáró kibontja a csomagot, és feldolgozza az egyes kéréseket úgy, hogy a megfelelő szolgáltatáshoz irányítja őket (2). Minden egyes szolgáltatás elküldi a választ az átjárónak (3). Az átjáró egyesíti az egyes szolgáltatásoktól érkező válaszokat, és azokat egyetlen válaszként továbbítja az alkalmazásnak (4). Az alkalmazás egyetlen kérést küld, és egyetlen választ kap az átjárótól.
 
-![](./_images/gateway-aggregation.png)
+![Az átjáró Átjáróösszesítés minta megoldás diagramja](./_images/gateway-aggregation.png)
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-- Az átjáró nem kell vezetnie a szolgáltatás kapcsolódási háttér szolgáltatásban.
-- Az átjáró közelében a háttér-szolgáltatások késés lehető legnagyobb mértékben csökkenteni kell elhelyezni.
-- Az átjárószolgáltatás vezethet be a hibaérzékeny pontok kialakulását. Gondoskodjon arról, hogy az átjáró megfelelően célja, hogy az alkalmazás rendelkezésre állási követelményeinek.
-- Az átjáró a szűk keresztmetszetek vezethetnek. Győződjön meg arról, az átjáró rendelkezik a megfelelő teljesítmény terhelés kezelésére, és megfelelnek a várható növekedési is méretezhető.
-- Hajtsa végre a terhelés tesztelése az átjárón nem vezetnek be kaszkádolt probléma van a szolgáltatások biztosításához.
-- Egy rugalmas, például a módszereket kialakításának megvalósítása [válaszfalak][bulkhead], [áramkör legfrissebb][circuit-breaker], [újra] [ retry], és időtúllépéseket okoz.
-- Ha egy vagy több hívások túl sokáig tart, előfordulhat, hogy elfogadható időtúllépési és adatok részhalmaza vissza. Vegye figyelembe, hogy az alkalmazás ebben a forgatókönyvben fogja kezelni.
-- Aszinkron I/O segítségével győződjön meg arról, hogy a háttérkiszolgálón a késés nem teljesítményproblémákat okozhatnak az alkalmazásban.
-- Korrelációs azonosító segítségével nyomon követheti a minden egyes hívás elosztott nyomkövetés megvalósításához.
-- A figyelő kérelem metrikák és a válasz méretét.
-- Fontolja meg a gyorsítótárazott adatokat ad vissza, a hibák kezelésének feladatátvételi stratégiát.
-- Helyett a átjáróra kerülő összesítés létrehozása, vegye figyelembe, ha kialakít egy összesítési szolgáltatás az átjáró mögötti. A kérelem összesítési valószínűleg lesz a különböző erőforrás követelményei, mint más szolgáltatások az átjáró, és hatással lehet az átjáró az Útválasztás és kiszervezésével funkciót.
+- Érdemes ügyelni rá, hogy az átjáró ne kapcsoljon össze háttérszolgáltatásokat.
+- Az átjárót a háttérszolgáltatások közelében kell elhelyezni, hogy a lehető legkisebb késés jelentkezzen.
+- Az átjárószolgáltatás kritikus meghibásodási pont lehet a rendszeren belül. Győződjön meg arról, hogy az átjáró megfelelően ki tudja szolgálni az alkalmazás rendelkezésre állási követelményeit.
+- Az átjáró szűk keresztmetszetté válhat. Ellenőrizze, hogy az átjáró teljesítménye megfelelő-e a várható terhelés kezeléséhez, és skálázható-e az esetleges későbbi növekedésnek megfelelően.
+- Végezzen terhelésteszteket az átjárón annak ellenőrzéséhez, hogy az nem indít-e el hibasorozatokat a szolgáltatásokban.
+- Implementáljon egy rugalmas rendszert [válaszfalak][bulkhead], [áramkör-megszakítás][circuit-breaker], [újrapróbálkozások][retry], időtúllépés és hasonló technikák használatával.
+- Ha egy vagy több szolgáltatás hívása túl sok időt vesz igénybe, akkor bizonyos esetekben elfogadható lehet, ha időtúllépés miatt megszakad a kapcsolat, és a válasz részleges adatokat tartalmaz. Gondolja át, hogyan fogja kezelni az alkalmazása ezt a forgatókönyvet.
+- Alkalmazzon aszinkron I/O-t, hogy a háttérrendszer késése ne legyen hatással az alkalmazás teljesítményére.
+- Implementáljon elosztott nyomkövetést korrelációs azonosítók használatával az egyes hívások nyomon követéséhez.
+- Monitorozza a kérésmetrikákat és a válaszok méretét.
+- Fontolja meg gyorsítótárazott adatok visszaadását a feladatátvételi stratégia részeként a hibák kezelésére.
+- Megteheti, hogy nem az átjáróba építi be az összesítést, hanem egy összesítési szolgáltatást helyez el az átjáró mögött. A kérések összesítésének valószínűleg eltérő erőforrásigénye van, mint az átjáró többi szolgáltatásának, ami befolyásolhatja az átjáró útválasztási és kiszervezési funkcióit.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ez mintát, mikor használja:
+Használja ezt a mintát, ha:
 
-- Egy ügyfélnek kell végrehajtania egy műveletet több háttérbeli szolgáltatásokkal kommunikálni.
-- Az ügyfél használhatja hálózatok jelentős késés, például cellás hálózatokon.
+- Az ügyfélnek több háttérszolgáltatással kell kommunikálnia az adott művelet végrehajtásához.
+- Előfordulhat, hogy az ügyfél csak nagy késésű hálózatokhoz, például mobilhálózatokhoz fér hozzá.
 
-Ez a minta nem alkalmasak lehetnek esetén:
+Nem érdemes ezt a mintát használni, ha:
 
-- Több műveletek között az ügyfél és az egyetlen szolgáltatás közötti hívások számát csökkenteni szeretné. A forgatókönyv, a jobb megoldás lehet egy kötegelt művelet hozzáadása a szolgáltatás.
-- Az ügyfél vagy alkalmazás található a háttér-szolgáltatások és a késés nem lényeges szempontja.
+- Csökkenteni szeretné az ügyfél és egy szolgáltatás közötti hívások számát több műveletben. Ebben az esetben fontolja meg egy kötegelt művelet hozzáadását a szolgáltatáshoz.
+- Az ügyfél vagy az alkalmazás a háttérszolgáltatások közelében található, és a késés elhanyagolható.
 
 ## <a name="example"></a>Példa
 
-A következő példa bemutatja, hogyan hozhat létre egy egyszerű átjáró összesítési NGINX szolgáltatás Lua.
+A következő példa azt mutatja be, hogyan hozhat létre egyszerű átjáró-összesítési NGINX szolgáltatást a Lua használatával.
 
 ```lua
 worker_processes  4;
@@ -112,11 +115,11 @@ http {
 }
 ```
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-- [Háttérkiszolgálókon Frontends minta](./backends-for-frontends.md)
-- [Átjáró Offloading minta](./gateway-offloading.md)
-- [Átjáró útválasztás minta](./gateway-routing.md)
+- [Háttérrendszerek és előtérrendszerek minta](./backends-for-frontends.md)
+- [Átjárókiürítés minta](./gateway-offloading.md)
+- [Átjáró-útválasztási minta](./gateway-routing.md)
 
 [bulkhead]: ./bulkhead.md
 [circuit-breaker]: ./circuit-breaker.md

@@ -5,12 +5,12 @@ description: Több régióban az Azure-ban futó magas rendelkezésre állású 
 author: MikeWasson
 ms.date: 10/25/2018
 ms.custom: seodec18
-ms.openlocfilehash: 61ee7220dbc37140ff1598de78f89aaef8a3e922
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 3093deb0b2057d5370b3f57f6067b00dc58c6b9e
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119846"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011242"
 ---
 # <a name="run-a-web-application-in-multiple-azure-regions-for-high-availability"></a>Webalkalmazás futtatása több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -51,7 +51,7 @@ Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi ter�
 - A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
 - A legtöbb esetben a regionális párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához. Lásd: [Szolgáltatások régiónként][services-by-region]. További információ a regionális párokról: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Az Azure párosított régiói][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához. Lásd: [Szolgáltatások régiónként][services-by-region]. További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók][regional-pairs].
 
 ### <a name="resource-groups"></a>Erőforráscsoportok
 
@@ -65,7 +65,7 @@ Fontolja meg az elsődleges és másodlagos régió, valamint a Traffic Manager 
 
 Ajánlott eljárásként hozzon létre egy olyan állapotminta-végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. A végpontnak a kritikus fontosságú függőségeket kell ellenőriznie, például az App Service-alkalmazásokat, a tárolási üzenetsort és az SQL Database-t. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak.
 
-Másrészről viszont ne használja az állapotmintát alacsonyabb prioritású szolgáltatások ellenőrzéséhez. Ha például egy e-mail-szolgáltatás áll le, az alkalmazás képes egy második szolgáltatóra váltani, vagy egyszerűen később elküldeni az e-maileket. Ez nem elég magas prioritás ahhoz, hogy az alkalmazás feladatátvételt kezdeményezzen. További információk: [Állapot végponti monitorozását végző minta][health-endpoint-monitoring-pattern].
+Másrészről viszont ne használja az állapotmintát alacsonyabb prioritású szolgáltatások ellenőrzéséhez. Ha például egy e-mail-szolgáltatás áll le, az alkalmazás képes egy második szolgáltatóra váltani, vagy egyszerűen később elküldeni az e-maileket. Ez nem elég magas prioritás ahhoz, hogy az alkalmazás feladatátvételt kezdeményezzen. További információkért lásd: a [állapot végponti Monitorozását végző minta][health-endpoint-monitoring-pattern].
 
 ### <a name="sql-database"></a>SQL Database
 

@@ -1,19 +1,17 @@
 ---
-title: Valet Key
+title: Pótkulcs minta
+titleSuffix: Cloud Design Patterns
 description: Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- security
-ms.openlocfilehash: 99d3fbe05e34d61edc0d339f34665e557b250b05
-ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
+ms.custom: seodec18
+ms.openlocfilehash: 09173717d499d524d4d5dad2c1202c1bf361b1e5
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/16/2018
-ms.locfileid: "53450887"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009865"
 ---
 # <a name="valet-key-pattern"></a>Pótkulcs minta
 
@@ -105,7 +103,7 @@ Az Azure támogatja a közös hozzáférésű jogosultságkódot az Azure Storag
 
 Az Azure közös hozzáférésű jogosultságkódja emellett támogatja a kiszolgálón tárolt hozzáférési szabályzatokat, amelyeket összekapcsolhat egy adott erőforrással, például egy táblával vagy blobbal. Ez a szolgáltatás további szabályozhatóságot és rugalmasságot biztosít, szemben az alkalmazás által létrehozott közös hozzáférésű jogosultságkódok jogkivonataival. Amikor csak lehetséges, javasolt a használata. A kiszolgálón tárolt szabályzatokban módosíthatók a meghatározott beállítások, és a jogkivonatban megjelennek a változások anélkül, hogy új jogkivonatot kellene kibocsátani. A jogkivonatban meghatározott beállítások azonban nem módosíthatók új jogkivonat kiadása nélkül. Ez a módszer azt is lehetővé teszi, hogy visszavonja egy érvényes közös hozzáférésű jogosultságkód jogkivonatát még annak lejárta előtt.
 
-> További információkat [a táblákra és üzenetsorokra vonatkozó SAS (közös hozzáférésű jogosultságkód) bemutatását és a blobokra vonatkozó SAS frissítését leíró cikkben](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/) és az MSDN [közös hozzáférésű jogosultságkódok használatát ismertető cikkében](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/) talál.
+> További információkat [a táblákra és üzenetsorokra vonatkozó SAS (közös hozzáférésű jogosultságkód) bemutatását és a blobokra vonatkozó SAS frissítését leíró cikkben](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/) és az MSDN [közös hozzáférésű jogosultságkódok használatát ismertető cikkében](/azure/storage/common/storage-dotnet-shared-access-signature-part-1) talál.
 
 Az alábbi kód bemutatja, hogyan hozhat létre egy olyan jogkivonatot egy közös hozzáférésű jogosultságkódhoz, amely öt percig érvényes. A `GetSharedAccessReferenceForUpload` metódus a közös hozzáférésű jogosultságkód olyan jogkivonatát adja vissza, amellyel feltölthet egy fájlt az Azure Blob Storage-ba.
 
@@ -162,9 +160,10 @@ public class ValuesController : ApiController
 ## <a name="next-steps"></a>További lépések
 
 Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
+
 - A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/valet-key) talál egy, a minta bemutatására szolgáló példát.
-- [Forgalomirányító minta](gatekeeper.md). Ez a minta a Pótkulcs mintával együtt használható fel arra, hogy az alkalmazások és szolgáltatások védelmét egy dedikált gazdapéldánnyal valósítsa meg, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között. A forgalomirányító érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat az ügyfél és az alkalmazás között. Ez egy további biztonsági réteget biztosíthat, és csökkenti a számítógép támadható felületét.
-- [Statikus tartalom üzemeltetési minta](static-content-hosting.md). Leírja, hogyan kell üzembe helyezni statikus tartalmakat egy felhőalapú társzolgáltatásban, amely közvetlenül az ügyfélnek közvetíti az erőforrásokat, hogy ezzel visszaszorítsa a költséges számítási példányok szükségességét. Abban az esetben, ha az erőforrásoknak nem kell nyilvánosan elérhetőnek lenniük, azokat a Pótkulcs minta segítségével védheti meg.
+- [Forgalomirányító minta](./gatekeeper.md). Ez a minta a Pótkulcs mintával együtt használható fel arra, hogy az alkalmazások és szolgáltatások védelmét egy dedikált gazdapéldánnyal valósítsa meg, amely közvetítőként szolgál az ügyfelek és az alkalmazás vagy szolgáltatás között. A forgalomirányító érvényesíti és vírusmentesíti a kéréseket, valamint közvetíti a kéréseket és az adatokat az ügyfél és az alkalmazás között. Ez egy további biztonsági réteget biztosíthat, és csökkenti a számítógép támadható felületét.
+- [Statikus tartalom üzemeltetési minta](./static-content-hosting.md). Leírja, hogyan kell üzembe helyezni statikus tartalmakat egy felhőalapú társzolgáltatásban, amely közvetlenül az ügyfélnek közvetíti az erőforrásokat, hogy ezzel visszaszorítsa a költséges számítási példányok szükségességét. Abban az esetben, ha az erőforrásoknak nem kell nyilvánosan elérhetőnek lenniük, azokat a Pótkulcs minta segítségével védheti meg.
 - [Táblákra és üzenetsorokra vonatkozó SAS (közös hozzáférésű jogosultságkód) bemutatása és a blobokra vonatkozó SAS frissítése](https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/12/introducing-table-sas-shared-access-signature-queue-sas-and-update-to-blob-sas/)
-- [Közös hozzáférésű jogosultságkódok használata](https://azure.microsoft.com/documentation/articles/storage-dotnet-shared-access-signature-part-1/)
-- [Közös hozzáférésű jogosultságkódos hitelesítés Service Bus használatával](https://azure.microsoft.com/documentation/articles/service-bus-shared-access-signature-authentication/)
+- [Közös hozzáférésű jogosultságkódok használata](/azure/storage/common/storage-dotnet-shared-access-signature-part-1)
+- [Közös hozzáférésű jogosultságkódos hitelesítés Service Bus használatával](/azure/service-bus-messaging/service-bus-sas)

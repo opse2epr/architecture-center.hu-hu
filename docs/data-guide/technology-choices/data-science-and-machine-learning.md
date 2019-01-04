@@ -3,12 +3,12 @@ title: A gépi tanulási technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 507d343ca7bc0a3f161602c50e6b96e921276374
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 1e9d977b67a8fc81e13de0348268bd46a835f625
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902361"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011701"
 ---
 # <a name="choosing-a-machine-learning-technology-in-azure"></a>Kiválasztása a machine learning-technológiák az Azure-ban
 
@@ -22,9 +22,9 @@ Gépi tanulási megoldások iteratív épülnek, és két fázisban van:
 Az adatszakértők általában inkább olyan adatok, Python vagy r nyelven írt egyéni kód használatával Ez a kód generálása a képi megjelenítés és statisztikai annak meghatározásához, a kapcsolatokat, és a lekérdezésre és vizsgálódásra az adatokat, az adatszakértők, általában futását. Nincsenek számos R és Python, amellyel az adatelemzők interaktív környezeteket. Egy adott kedvenc van **Jupyter notebookok** , amely egy böngészőalapú rendszerhéj, amely lehetővé teszi az adatszakértők létrehozásához biztosít *notebook* R vagy Python kódját és markdown-szöveget tartalmazó fájlok. Ez a megosztási és dokumentálja a kód működhet hatékony módja, és egyetlen dokumentum eredményez.
 
 Más gyakran használt eszközök a következők:
-* **Spyder**: A Python, az Anaconda Python elosztási megadott interaktív fejlesztőkörnyezet (IDE).
-* **Az R Studio**: egy ide-vel az R programozási nyelv.
-* **A Visual Studio Code**: egy egyszerűsített, platformfüggetlen programozási környezetet, amely támogatja a Python, valamint a gyakran használt keretrendszerek gépi tanulási és AI-fejlesztést.
+* **Spyder**: Interaktív fejlesztői környezet (IDE) a Anaconda Python elosztási biztosított Python-hez.
+* **Az R Studio**: Egy ide-vel az R programozási nyelv.
+* **A Visual Studio Code**: Egy egyszerűsített, platformfüggetlen programozási környezetet, amely támogatja a Python, valamint az elterjedt keretrendszerek gépi tanulási és AI-fejlesztést.
 
 Ezek az eszközök mellett adatszakértők használhatják a Azure-szolgáltatások kódot és a modell kezelésének egyszerűsítéséhez.
 
@@ -57,11 +57,9 @@ Szempontok:
 
 ### <a name="azure-machine-learning"></a>Azure Machine Learning
 
-Az Azure Machine Learning egy olyan felhőalapú szolgáltatás, machine learning-kísérletek és a modellek felügyeletére. Ez magában foglalja egy Kísérletezési szolgáltatás, amely nyomon követi az adat-előkészítési és modellezés a betanítási szkriptekhez, az összes végrehajtás előzményeit fenntartása, így összehasonlíthatja a modellek teljesítményének ismétléseinek között. Egy platformfüggetlen ügyféleszköz Azure Machine Learning Workbench nevű felületet biztosít a központi parancsfájl-kezelési és előzményeit, miközben továbbra is az adatszakértők a kívánt eszközben dolgozhat, például a Jupyter notebookok vagy a Visual Studio Code parancsfájlok létrehozására.
+Az Azure Machine Learning egy olyan felhőalapú szolgáltatás, machine learning-kísérletek és a modellek felügyeletére. Ez magában foglalja egy Kísérletezési szolgáltatás, amely nyomon követi az adat-előkészítési és modellezés a betanítási szkriptekhez, az összes végrehajtás előzményeit fenntartása, így összehasonlíthatja a modellek teljesítményének ismétléseinek között. Az adatszakértők a kívánt eszközben dolgozhat, például a Jupyter notebookok vagy a Visual Studio Code-ban alatt létrehozhatják a parancsfájlok és majd telepítheti a számos különböző [számítási erőforrások](/azure/machine-learning/service/how-to-set-up-training-targets) az Azure-ban.
 
-Az Azure Machine Learning Workbench a interaktív adatelőkészítési eszközök segítségével egyszerűsítheti a leggyakoribb Adatátalakítási feladatokhoz, és beállíthatja, hogy a parancsfájl végrehajtási környezet helyileg, a modell betanítási szkriptekhez méretezhető Docker-tárolóban vagy a Spark.
-
-Ha készen áll a modell üzembe helyezése, használja a munkaterület-környezet a modell csomagolása és üzembe webszolgáltatásként, amely egy Docker-tárolóba, a Spark on Azure HDinsight, a Microsoft Machine Learning-kiszolgáló vagy az SQL Server. Az Azure Machine Learning Modellkezelés szolgáltatás majd lehetővé teszi, hogy nyomon követheti és kezelheti a modell-üzembehelyezések a felhőben, a peremhálózati eszközökön, vagy a vállalaton belül.
+Modelleket webszolgáltatásként, amely egy Docker-tárolóba, a Spark on Azure HDinsight, a Microsoft Machine Learning-kiszolgáló vagy az SQL Server is telepíthető. Az Azure Machine Learning Modellkezelés szolgáltatás majd lehetővé teszi, hogy nyomon követheti és kezelheti a modell-üzembehelyezések a felhőben, a peremhálózati eszközökön, vagy a vállalaton belül.
 
 Fő előnyök:
 
@@ -70,7 +68,7 @@ Fő előnyök:
 * Könnyű üzembe helyezés és kezelés modellek a felhőben és a peremhálózati eszközökre.
 
 Szempontok:
-* A modell felügyeleti modell és a Workbench eszköz környezet bizonyos fokú ismeretét igényli.
+* A modell felügyeleti modell bizonyos fokú ismeretét igényli.
 
 ### <a name="azure-batch-ai"></a>Azure Batch AI
 
@@ -104,7 +102,7 @@ Az Apache Spark tartalmazza a Spark MLlib, keretrendszer és gépi tanulási mod
 Fő előnyök:
 
 * A Spark, elosztott platformot, amely nagy mennyiségű machine learning-folyamatokat a nagy mértékű skálázhatóságot biztosít.
-* Modellek üzembe helyezése közvetlenül a Spark on HDinsight az Azure Machine Learning Workbench, és kezelheti azokat az Azure Machine Learning Modellkezelés szolgáltatás használatával.
+* Modellek üzembe helyezése közvetlenül a Spark on HDinsight, és kezelheti azokat az Azure Machine Learning Modellkezelés szolgáltatás használatával.
 
 Szempontok:
 
@@ -122,7 +120,6 @@ Fő értékek:
 
 * Tárolók csomagolása és üzembe helyezése a szolgáltatások egy könnyen használható és általánosan költséghatékony módon.
 * Edge-eszköz üzembe helyezése lehetővé teszi lehetővé teszi, hogy közelebb a prediktív logikai áthelyezheti az adatokat.
-* Egy tárolóba közvetlenül az Azure Machine Learning Workbench telepítése.
 
 Szempontok:
 
@@ -135,7 +132,6 @@ Machine Learning-kiszolgáló (korábbi nevén Microsoft R Server) az R és Pyth
 Fő előnyök:
 
 * Magas skálázhatóság.
-* Közvetlen üzembe helyezés az Azure Machine Learning Workbench alkalmazásban.
 
 Szempontok:
 

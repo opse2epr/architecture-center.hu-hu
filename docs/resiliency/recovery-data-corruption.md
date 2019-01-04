@@ -3,12 +3,12 @@ title: Helyreállítás adatsérülés vagy véletlen törlés
 description: A helyreállítás adatsérülés adatok vagy véletlen törlés és a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási adatbázisból ismertető cikk
 author: MikeWasson
 ms.date: 11/11/2018
-ms.openlocfilehash: 1f3dd448ac6172727481c437fb8a113f25d83464
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.openlocfilehash: 22f74576fdc954851d131b31e3f9c44f5fcb7e36
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916269"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010071"
 ---
 # <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés 
 
@@ -46,9 +46,9 @@ A virtuális gépeken futó SQL Server, két lehetőség van: a hagyományos biz
 
 Az Azure Cosmos DB automatikusan fogadja a biztonsági mentések rendszeres időközönként. Biztonsági másolatai külön egy másik tárolási szolgáltatás, és ezeket a biztonsági mentéseket globálisan replikálva vannak a regionális katasztrófa szembeni ellenálló-képesség. Ha véletlenül törli az adatbázis vagy -gyűjteményben, küldjön egy támogatási jegyet, vagy hívja a legutóbbi automatikus biztonsági mentés visszaállíthatja az adatokat az Azure ügyfélszolgálatától. További információkért lásd: [automatikus online biztonsági mentés és visszaállítás az Azure Cosmos DB](/azure/cosmos-db/online-backup-and-restore).
 
-### <a name="azure-database-for-mysql-azure-database-for-postresql"></a>Azure Database for MySQL, Azure Database for Postgresql
+### <a name="azure-database-for-mysql-azure-database-for-postgresql"></a>Azure Database for MySQL, Azure Database for postgresql-hez
 
-Ha használja az Azure Database MySQL vagy az Azure Database for Postgresql, az adatbázis-szolgáltatás automatikusan lehetővé teszi a szolgáltatás biztonsági másolatának öt percenként. Az automatikus biztonsági mentési szolgáltatás használatával állítsa vissza a kiszolgáló és az összes hozzá tartozó adatbázisok be egy új kiszolgálót egy korábbi-időponthoz. További információkért lásd:
+Azure Database for MySQL vagy az Azure-adatbázis használatával a PostgreSQL-hez, amikor az adatbázis-szolgáltatás automatikusan lehetővé teszi a szolgáltatás biztonsági másolatának öt percenként. Az automatikus biztonsági mentési szolgáltatás használatával állítsa vissza a kiszolgáló és az összes hozzá tartozó adatbázisok be egy új kiszolgálót egy korábbi-időponthoz. További információkért lásd:
 
 - [Hogyan biztonsági mentése és visszaállítása egy kiszolgálót az Azure Database for MySQL-hez az Azure portal használatával](/azure/mysql/howto-restore-server-portal)
 

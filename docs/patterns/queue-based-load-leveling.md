@@ -1,82 +1,82 @@
 ---
-title: Queue-Based Load Leveling
+title: Üzenetsor-alapú terheléskiegyenlítési minta
+titleSuffix: Cloud Design Patterns
 description: Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket.
-keywords: Kialakítási mintája
+keywords: tervezési minta
 author: dragon119
-ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- messaging
-- availability
-- performance-scalability
-- resiliency
-ms.openlocfilehash: 99b226511fe14bffdab3cdcf65d4e6cffe89bba6
-ms.sourcegitcommit: 8ab30776e0c4cdc16ca0dcc881960e3108ad3e94
+ms.date: 01/02/2019
+ms.custom: seodec18
+ms.openlocfilehash: bb519fa52fcb6472733b6e52d7332d470eda8349
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2017
-ms.locfileid: "26359319"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011548"
 ---
-# <a name="queue-based-load-leveling-pattern"></a>Betöltési simítás mintát várólista-alapú
+# <a name="queue-based-load-leveling-pattern"></a>Üzenetsor-alapú terheléskiegyenlítési minta
 
-[!INCLUDE [header](../_includes/header.md)]
+Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket, amelyek miatt a szolgáltatás meghiúsulhat vagy a feladaton időtúllépés történhet. Ez segít minimálisra csökkenteni a rendelkezésre állásra és a válaszképességre irányuló igényekben jelentkező csúcsok hatását mind a feladat, mind a szolgáltatás esetében.
 
-Egy feladatot, és meghívja a ahhoz, hogy a szolgáltatás leáll vagy a feladat időtúllépést okozó időszakos nagy terhelések sima szolgáltatás közötti pufferként a várólista használja. Ez segít az igény a rendelkezésre állási és reakcióidőt, mind a tevékenységhez, és a szolgáltatás csúcsait hatás minimalizálása érdekében.
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+A felhőben számos megoldás futtat szolgáltatásokat meghívó feladatokat. Ebben a környezetben ha egy szolgáltatás időszakos nagy terheléseknek van kitéve, az a teljesítménnyel és a megbízhatósággal kapcsolatos problémákat okozhat.
 
-Sok megoldásokat a felhőben tartalmaz, amely éppen futó feladatok, amelyek szolgáltatások meghívni. Ebben a környezetben a szolgáltatás van kitéve időszakos túl nagy terhelés esetén okozhat teljesítményt és megbízhatósági hibákat.
+A szolgáltatások ugyanazon megoldás részei lehetnek, mint az azt használó feladatok, vagy külső szolgáltatások lehetnek, amelyek hozzáférést nyújtanak a gyakran használt erőforrásokhoz, például egy gyorsítótárhoz vagy egy társzolgáltatáshoz. Ha több egyidejűleg futó feladat ugyanazt a szolgáltatást használja, egy adott időpillanatban nehéz lehet megjósolni a szolgáltatás felé irányuló kérések mennyiségét.
 
-Egy szolgáltatás, az azt használó feladatok azonos megoldás részét képező, vagy egy külső szolgáltatás elérését biztosító gyakran használt erőforrások, például a gyorsítótár vagy egy társzolgáltatás lehet. Ha ugyanazt a szolgáltatást használják a párhuzamosan futó feladatok száma, előre jelezni mennyiségű kérést a szolgáltatás bármikor nehézkes lehet.
-
-Egy szolgáltatás esetleges időszakos csúcsidőkbe az igény szerinti azt túlterhelés, és nem válaszol a kérelmekre időben is szembesülhet. Sok egyidejű kérés szolgáltatás elárasztás is eredményezhet a szolgáltatás hiányában nem tudja kezelni a versengés miatt ezek a kérelmek esetén.
+A szolgáltatásban időszakonként csúcsok jelentkezhetnek az igényekben, amelyek túlterhelést okozhatnak, így a szolgáltatás nem tud időben válaszolni a kérésekre. A szolgáltatások számos egyidejű kéréssel való elárasztása is a szolgáltatás meghiúsulását eredményezheti, ha nem tudja kezelni a kérések okozta versenyt.
 
 ## <a name="solution"></a>Megoldás
 
-A megoldás refactor és között a feladatok és a várólista bevezetése. A feladatok és az aszinkron módon futnak. A feladat várólistára szolgáltatáshoz szükséges adatokat tartalmazó üzenet küldi. A várólista pufferként működik egy, az üzenet tárolja, amíg a szolgáltatás lekéri azt. A szolgáltatás beolvassa a a várólistából, és feldolgozza azokat. Számos feladatot, amely magas változó jönnek létre, érkező kérelmeket is átadható a szolgáltatásnak ugyanazon üzenetsorból. Az ábrán látható, hogy egy szolgáltatás terhelése szinten várólista segítségével.
+Bontsa újra a megoldást, és vezessen be egy üzenetsort a feladat és a szolgáltatás között. A feladatok és a szolgáltatás aszinkron módon fut. A feladat közzéteszi a szolgáltatás számára szükséges adatokat tartalmazó üzenetet egy üzenetsorba. Az üzenetsor pufferként működik, addig tárolja az üzenetet, amíg azt a szolgáltatás le nem kéri. A szolgáltatás lekéri az üzeneteket az üzenetsorból, és feldolgozza őket. Egy adott üzenetsorban számos különféle feladatból származó kérés adható át a szolgáltatásnak, amelyek rendkívül változó sebességgel jöhetnek létre. Ez az ábra egy szolgáltatás terhelésének kiegyenlítésére szolgáló üzenetsor használatát mutatja be.
 
-![1. ábra - várólista segítségével szolgáltatás terhelése szinten](./_images/queue-based-load-leveling-pattern.png)
+![1. ábra – Szolgáltatás terhelésének kiegyenlítésére szolgáló üzenetsor használata](./_images/queue-based-load-leveling-pattern.png)
 
-A várólista leválasztja a feladatokat a szolgáltatásból, és a szolgáltatás képes kezelni a saját tempójában függetlenül mennyiségű kérést az egyidejű feladatok üzenetekben. Emellett nem lesz késleltetés tevékenységhez Ha a szolgáltatás nem érhető el, egy üzenetet az üzenetsornak visszaküldés időpontjában.
+Az üzenetsor leválasztja a feladatokat a szolgáltatásról, és a szolgáltatás a saját tempójában tudja kezelni az üzeneteket az egyidejű feladatoktól érkező kérések mennyiségétől függetlenül. Emellett a feladatok nem késnek, ha a szolgáltatás nem érhető el, amikor üzenetet tesznek közzé az üzenetsorba.
 
-Ez a minta a következő előnyöket nyújtja:
+Ez a minta az alábbi előnyökkel jár:
 
-- Segíthet rendelkezésre állásának maximalizálását, mert késleltetések felmerülő, Services nem rendelkezik az azonnali és közvetlen hatással lehet az alkalmazásról, így továbbra is küldje a várólista-üzenetek, akkor is, ha a szolgáltatás nem érhető el, vagy jelenleg nem dolgoz fel üzenetet.
-- Segíthet maximalizálása a méretezhetőség, mert mind a várólisták számát és a szolgáltatások számát is eltérőek lehetnek a igény kielégítéséhez.
-- Költségek szabályozása segítségével, mert a telepített service példányok száma csak kell lennie a csúcsterhelés helyett az átlagos terheléssel teljesítéséhez megfelelő.
+- Maximálisra növeli a rendelkezésre állást, mert a szolgáltatásokban felmerülő késések nincsenek azonnali és közvetlen hatással az alkalmazásra, amely akkor is folytathatja az üzenetek üzenetsorba való közzétételét, amikor a szolgáltatás nem érhető el vagy épp nem dolgoz fel üzeneteket.
+- Segít a skálázhatóság maximalizálásában, mert az üzenetsorok száma és a szolgáltatások száma is módosítható igény szerint.
+- A segítségével kézben tarthatók a költségek, mert az üzembe helyezett szolgáltatáspéldányok számának csak az átlagos terheléshez kell elegendőnek lennie, a csúcsterheléshez nem.
 
-    >  Egyes szolgáltatások valósítja meg, amelyek sikertelen lehet, a rendszer a küszöbérték elérésekor igény szerinti szabályozás. Sávszélesség-szabályozás csökkentheti a funkció érhető el. Ezekkel a szolgáltatásokkal győződjön meg arról, hogy a ezt a küszöbértéket nem elérte-e simítás terhelés valósíthatja meg.
+    >  Egyes szolgáltatások szabályozást alkalmaznak, amikor az igények elérnek egy olyan küszöbértéket, amelyet követően a rendszer meghibásodhat. A szabályozás csökkentheti az elérhető funkciókat. Ezekkel a szolgáltatásokkal terheléskiegyenlítést valósíthat meg annak érdekében, hogy ne érje el ezt a küszöbértéket.
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-- Is végre kell hajtani az alkalmazáslogikát, amely meghatározza, mely szolgáltatások leíró üzeneteket elkerülése érdekében a célerőforrás overwhelming aránya. Ne igényeiben jelentkező benyújtása igény szerint a rendszer a következő szakaszára. Tesztelje a rendszer biztosítja a szükséges simítás betöltés alatt, és módosítsa úgy a várólisták száma és a szolgáltatáspéldány, amelyek kezelik ennek érdekében üzenetek számát.
-- Üzenetsorok egyirányú kommunikációs mechanizmusra. Ha egy feladat válaszára a szolgáltatás vár, egy olyan mechanizmus, amellyel a szolgáltatás visszajelzés végrehajtásához szükség lehet. További információkért lásd: a [aszinkron üzenetkezelési ismertetése](https://msdn.microsoft.com/library/dn589781.aspx).
-- Ügyeljen arra, hogy ha automatikus skálázás alkalmaz a szolgáltatásokról, amelyek a figyelő a várólista-kérésekre. Ez minden olyan erőforrásnál, hogy ezek a szolgáltatások megosztani, és a várólista segítségével a terhelés szinten hatékonyságát megnövekedett versengés eredményezhet.
+- Olyan alkalmazáslogikát kell megvalósítani, amely szabályozza a szolgáltatások általi üzenetkezelés sebességét, hogy a cél erőforrás ne legyen túlterhelve. Ne adjon át igénybevételi csúcsokat a rendszer más részeinek. Tesztelje a terhelés alatti rendszert annak ellenőrzéséhez, hogy az biztosítja-e a megfelelő terheléskiegyenlítést, és ennek megfelelően módosítsa az üzeneteket kezelő üzenetsorok és szolgáltatáspéldányok számát.
+- Az üzenetsorok egyirányú kommunikációs mechanizmusok. Ha egy feladat válaszra vár egy szolgáltatástól, előfordulhat, hogy olyan mechanizmust kell implementálni, amellyel a szolgáltatás választ tud küldeni. További információkért lásd [az aszinkron üzenetkezelés ismertetését](https://msdn.microsoft.com/library/dn589781.aspx).
+- Legyen körültekintő, ha az üzenetsor kéréseit figyelő szolgáltatásokra automatikus skálázást alkalmaz. Ez megnövekedett versenyt eredményezhet az ezen szolgáltatások által megosztott erőforrásokért, és csökkenti az üzenetsor hatékonyságát a terhelés kiegyenlítése terén.
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ebben a mintában akkor hasznos, bármely alkalmazás által használt szolgáltatások lépnek túl van terhelve.
+Ez a minta olyan alkalmazásokhoz hasznos, amelyek gyakran túlterhelt szolgáltatásokat használnak.
 
-Ez a minta nem lehet hasznos, ha az alkalmazás és a minimális mértékű a szolgáltatás választ vár.
+Ez a minta nem használható jól, ha az alkalmazás minimális késéssel vár választ a szolgáltatástól.
 
 ## <a name="example"></a>Példa
 
-A Microsoft Azure webes szerepkör tárolja az adatokat egy különálló tárhelyet szolgáltatással. A webes szerepkör példánya nagy számú egyszerre fut, akkor lehetséges, hogy a tároló szolgáltatás nem válaszol a kérelmekre elég gyorsan megakadályozhatja, hogy ezeket a kéréseket a időzítése vagy meghibásodása lesz. Ezt az értéket kiemeli folyamatban túl sok egyidejű kéréseinek webes szerepkör példánya nagy számú szolgáltatás.
+Webes alkalmazás írja az adatokat egy külső adattárba. A nagy mennyiségű példánnyal a webalkalmazás fut egyidejűleg, ha az adattár nem elég gyorsan válaszolni a kérésekre, kérelmek okoz időtúllépést, szabályozva, vagy ellenkező esetben sikertelen lehet. Az alábbi ábrán látható egy adattár példányairól nagyszámú egyidejű kéréseit alkalmazáspéldányok által.
 
-![2. ábra – folyamatban túl sok egyidejű kéréseinek webes szerepkör példánya nagy számú szolgáltatás](./_images/queue-based-load-leveling-overwhelmed.png)
+![2. ábra – példányairól nagyszámú egyidejű kéréseit webalkalmazás példánya által szolgáltatásként](./_images/queue-based-load-leveling-overwhelmed.png)
+
+A probléma megoldásához használhatja az alkalmazáspéldányok és az adattároló közötti terhelés kiegyenlítése érdekében egy üzenetsorba. Az Azure Functions-alkalmazás beolvassa az üzeneteket az üzenetsorból, és hajtja végre az olvasási/írási kérések az adattárba. A függvényalkalmazás az alkalmazáslogikát szabályozhatja a sebesség, amellyel kéréseket továbbít a tárolót, a tároló legyenek kihasznált elkerülése érdekében. (Ellenkező esetben a függvényalkalmazás csak újra vezet be, a háttéralkalmazás ugyanez a probléma.)
+
+![3. ábra – üzenetsor és a egy függvényalkalmazás használata a terhelés kiegyenlítése érdekében](./_images/queue-based-load-leveling-function.png)
 
 
-A probléma megoldásához, várólista segítségével szinten a terhelést a webes szerepkörpéldányokat és a tárolási szolgáltatás között. Azonban a társzolgáltatás szinkron kérések fogadására van tervezve, és nem lehet egyszerűen módosítani olvashatja és teljesítmény kezelését. A feldolgozói szerepkör kéréseket fogad a várólistából, és továbbítja őket a társzolgáltatás proxy szolgáltatás ügyfélgépként is vezethet. Az alkalmazás logikája a feldolgozói szerepkör szabályozhatják a sebesség, amellyel kérelmeket továbbítja a társzolgáltatás, hogy megakadályozza a társzolgáltatás nem egyszerre. Az ábra azt mutatja be, várólistát és a feldolgozói szerepkör segítségével szinten a terhelést a webes szerepkör példánya és a szolgáltatás között.
 
-![3. ábra - várólista és a feldolgozói szerepkör segítségével szinten a terhelést a webes szerepkör példánya és a szolgáltatás között](./_images/queue-based-load-leveling-worker-role.png)
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
+- [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). Az üzenetsorok eredendően aszinkron típusúak. Előfordulhat, hogy egy feladatban újra kell tervezni az alkalmazáslogikát a szolgáltatással való közvetlen kommunikációról üzenetsor használatára. Hasonlóképpen szükség lehet a szolgáltatások újrabontására, hogy kéréseket fogadjanak el egy üzenetsortól. Másik lehetőségként meg lehet valósítani egy proxyszolgáltatást a példában bemutatott módon.
 
-- [Aszinkron üzenetkezelési ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). Üzenet-várólistákból eredendően aszinkron. Az alkalmazás logikája feladat átírása, ha közvetlenül kommunikálni a szolgáltatás számára egy üzenet-várólista használata alkalmazkodik szükség lehet. Hasonlóképpen szükség lehet a refactor egy szolgáltatást, hogy az üzenet-várólista kéréseket fogad. Másik lehetőségként lehet valósíthat meg a proxy szolgáltatás, a példában bemutatott módon.
-- [Versengő fogyasztók mintát](competing-consumers.md). Esetleg a szolgáltatás, minden egyes nevében jár el a terhelés simítás várólistából üzenetfogyasztó több példányát futtatni. Ez a módszer segítségével a sebességének, ahol az üzenetek fogadott és átadhat.
-- [Sávszélesség-szabályozási mintát](throttling.md). Egy olyan szabályozás megvalósításához legegyszerűbb várólista alapú terhelés simítás és összes kérelem átirányítása egy szolgáltatást, egy üzenet-várólista keresztül. A szolgáltatás, amely biztosítja, hogy a szolgáltatás működéséhez szükséges erőforrások nem nagyon gyorsan kimerítették sebességgel, és kevesebb a versengés, amely akkor fordulhat kérelmek feldolgozásának.
-- [Feldolgozási sor szolgáltatással kapcsolatos fogalmak](https://msdn.microsoft.com/library/azure/dd179353.aspx). Az Azure-alkalmazások egy üzenetkezelési és üzenetsor-kezelési mechanizmust kiválasztására vonatkozó adatokat.
+- [Versengő felhasználókat ismertető minta](./competing-consumers.md). Egy szolgáltatás több példánya is futtatható lehet, amelyek mindegyike üzenetfogyasztóként viselkedik a terheléskiegyenlítő üzenetsorból. Ezzel a módszerrel beállíthatja az üzenetek szolgáltatásból való fogadásának és a szolgáltatásba küldésének sebességét.
+
+- [Szabályozási minta](./throttling.md). A szolgáltatás általi szabályozás megvalósításának egyszerű módja az üzenetsoralapú terheléskiegyenlítés és a szolgáltatásokra érkező összes kérés átirányítása egy üzenetsorba. A szolgáltatás olyan sebességgel dolgozza fel a kéréseket, amely biztosítja, hogy a szolgáltatás számára szükséges erőforrások ne merüljenek ki, és hogy csökkenjen az esetleges verseny mennyisége.
+
+- [Válassza ki Azure-üzenetkezelési szolgáltatások közötti](/azure/event-grid/compare-messaging-services). Információkat biztosít az üzenetkezelési és sorkezelési mechanizmusok kiválasztásáról Azure-alkalmazásokban.
+
+- [Azure-webalkalmazások méretezhetőség javítása](../reference-architectures/app-service-web-app/scalable-web-app.md). Ez a referenciaarchitektúra magában foglalja a üzenetsor-alapú terheléskiegyenlítési az architektúra részeként.

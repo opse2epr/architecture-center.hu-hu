@@ -5,18 +5,18 @@ description: Magas rendelkezésre állású virtuális berendezések üzembe hel
 author: telmosampaio
 ms.date: 12/08/2018
 ms.custom: seodec18
-ms.openlocfilehash: d3f9017db1bbf9741b10db16eb5a3dbab78f1160
-ms.sourcegitcommit: 7d21aec9d9de0004ac777c1d1e364f53aac2350d
+ms.openlocfilehash: 646721f80d19f493b7674884f8108762d743201b
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/09/2018
-ms.locfileid: "53120752"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011089"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
 Ez a cikk a magas rendelkezésre állású hálózati virtuális berendezések (network virtual appliance, NVA) Azure-ban való üzembe helyezésének módját ismerteti. Az NVA-kat általában a szegélyhálózatokról, más néven DMZ-kről a más hálózatok és alhálózatok felé irányuló hálózati forgalom szabályozására használják. Az DMZ Azure-ban történő implementálásával kapcsolatos további tudnivalókért lásd a [Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-security] foglalkozó cikket. A cikk csak bejövő, csak kimenő, valamint bejövő és kimenő forgalmú példaarchitektúrákat is tartalmaz.
 
-**Előfeltételek:** A jelen cikk feltételezi, hogy az olvasó alapszinten érti az Azure-hálózatok, az [Azure-terheléselosztók][lb-overview] és a [felhasználó által definiált útvonalak][udr-overview] (UDR-ek) működését.
+**Előfeltételek:** Ez a cikk feltételezi, hogy az Azure-hálózatok, alapvető ismeretekkel [Azure-terheléselosztók][lb-overview], és [felhasználó által megadott útvonalak] [ udr-overview] (udr-EK).
 
 ## <a name="architecture-diagrams"></a>Architektúra-diagramok
 
@@ -30,6 +30,8 @@ Az NVA magas rendelkezésre állásúvá tételéhez helyezzen üzembe több NVA
 
 A következő architektúrák bemutatják a magas rendelkezésre állású NVA-khoz szükséges erőforrásokat és konfigurációkat:
 
+<!-- markdownlint-disable MD033 -->
+
 | Megoldás | Előnyök | Megfontolandó szempontok |
 | --- | --- | --- |
 | [Bejövő forgalom 7-es rétegű NVA-kkal][ingress-with-layer-7] |Az összes NVA-csomópont aktív |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/> Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz <br/> Csak az Azure-on kívülről származó forgalom kezelésére használható |
@@ -37,6 +39,8 @@ A következő architektúrák bemutatják a magas rendelkezésre állású NVA-k
 | [Bejövő és kimenő forgalom 7-es rétegű NVA-kkal][ingress-egress-with-layer-7] |Az összes csomópont aktív<br/>Képes kezelni az Azure-ból eredő forgalmat |Kapcsolatok leállítására és SNAT használatára képes NVA-t igényel<br/>Külön NVA-készletet igényel az internetről és az Azure-ból érkező forgalomhoz |
 | [PIP-UDR kapcsoló][pip-udr-switch] |Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok) |Aktív-passzív<br/>Feladatátvételi folyamatot igényel |
 | [PIP-UDR SNAT](#pip-udr-nvas-without-snat) | Egyetlen NVA-készlet az összes forgalomhoz<br/>Az összes forgalom kezelésére képes (nincsenek korlátozva a portszabályok)<br/>Nincs szükség a bejövő kéréseket SNAT konfigurálása |Aktív-passzív<br/>Feladatátvételi folyamatot igényel<br/>Tesztelés és a feladatátvételi logika futtatása a virtuális hálózaton kívül |
+
+<!-- markdown-enable MD033 -->
 
 ## <a name="ingress-with-layer-7-nvas"></a>Bejövő forgalom 7-es rétegű NVA-kkal
 

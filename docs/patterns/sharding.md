@@ -1,19 +1,17 @@
 ---
-title: Sharding
+title: Horizontális skálázási minta
+titleSuffix: Cloud Design Patterns
 description: Egy adattárat horizontális partíció- vagy szilánkkészletté oszthat fel.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- performance-scalability
-ms.openlocfilehash: bc2b6aeb6966d14327a21849adbbfe635eae59df
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 52c0579e4b08aa18456e0cc5a26742aab39a1a7e
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428856"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010324"
 ---
 # <a name="sharding-pattern"></a>Horizontális skálázási minta
 
@@ -57,7 +55,7 @@ Az adatok fizikai helyének a horizontális skálázási logikában való meghat
 
 Az optimális teljesítmény és skálázhatóság biztosítása érdekében olyan módon kell felosztani az adatokat, amely megfelel az alkalmazás által végrehajtott lekérdezések típusának. Sok esetben nem valószínű, hogy a horizontális skálázási séma pontosan megfelel minden lekérdezés követelményeinek. Egy több-bérlős rendszerben például lehet, hogy egy alkalmazásnak a bérlőazonosítóval kell lekérnie bérlőadatokat, de előfordulhat, hogy ezeket az adatokat más attribútum, például a bérlő neve vagy helye alapján kell megkeresnie. Az ilyen helyzetek kezelése érdekében a leggyakrabban végrehajtott lekérdezéseket támogató szegmenskulccsal rendelkező horizontális skálázási stratégiát valósítson meg.
 
-Ha a lekérdezések rendszeresen kérnek le adatokat az attribútumértékek kombinációjával, valószínűleg meghatározhat egy összetett szegmenskulcsot az attribútumok összekapcsolásával. Másik megoldásként egy mintával, például az [indextábla](index-table.md) használatával teheti lehetővé az adatok gyors keresését olyan attribútumok alapján, amelyekre a szegmenskulcs nem terjed ki.
+Ha a lekérdezések rendszeresen kérnek le adatokat az attribútumértékek kombinációjával, valószínűleg meghatározhat egy összetett szegmenskulcsot az attribútumok összekapcsolásával. Másik megoldásként egy mintával, például az [indextábla](./index-table.md) használatával teheti lehetővé az adatok gyors keresését olyan attribútumok alapján, amelyekre a szegmenskulcs nem terjed ki.
 
 ## <a name="sharding-strategies"></a>Horizontális skálázási stratégiák
 
@@ -67,8 +65,7 @@ A szegmenskulcs kiválasztása és az adatok szegmensek közötti elosztási mó
 
    ![1. ábra – Bérlőadatok horizontális skálázása a bérlőazonosítók alapján](./_images/sharding-tenant.png)
 
-
-   A szegmenskulcs és a fizikai tároló közötti összerendelés alapulhat fizikai szegmenseken, mely esetben minden szegmenskulcs egy fizikai partíciónak felel meg. A szegmensek újraegyensúlyozásának egy rugalmasabb technikája a virtuális particionálás, mely során a szegmenskulcsok ugyanannyi virtuális szegmensre vannak leképezve, amelyek viszont így kevesebb fizikai partíciónak felelnek meg. Ezen megközelítés esetén az alkalmazás egy virtuális szegmensre hivatkozó szegmenskulccsal keresi meg az adatokat, és a rendszer transzparens módon képezi le a virtuális szegmenseket fizikai partíciókra. A virtuális szegmensek és fizikai partíciók közötti összerendelés anélkül változhat, hogy az alkalmazáskódot más szegmenskulcsok használatára kellene módosítani.
+A szegmenskulcs és a fizikai tároló közötti összerendelés alapulhat fizikai szegmenseken, mely esetben minden szegmenskulcs egy fizikai partíciónak felel meg. A szegmensek újraegyensúlyozásának egy rugalmasabb technikája a virtuális particionálás, mely során a szegmenskulcsok ugyanannyi virtuális szegmensre vannak leképezve, amelyek viszont így kevesebb fizikai partíciónak felelnek meg. Ezen megközelítés esetén az alkalmazás egy virtuális szegmensre hivatkozó szegmenskulccsal keresi meg az adatokat, és a rendszer transzparens módon képezi le a virtuális szegmenseket fizikai partíciókra. A virtuális szegmensek és fizikai partíciók közötti összerendelés anélkül változhat, hogy az alkalmazáskódot más szegmenskulcsok használatára kellene módosítani.
 
 **A tartományalapú stratégia**. Ez a stratégia ugyanabban a szegmensben csoportosítja a kapcsolódó elemeket, és szegmenskulcs szerint rendezi azokat – a szegmenskulcsok sorrendben követik egymást. Ez olyan alkalmazások esetén hasznos, amelyek gyakran kérnek le elemeket tartománylekérdezésekkel (olyan lekérdezésekkel, amelyek adott tartományba eső szegmenskulcsok adatelemeit adják vissza). Ha például egy alkalmazásnak rendszeresen meg kell keresnie egy adott hónap összes megrendelését, akkor ezek az adatok gyorsabban lekérhetők, ha egy hónap összes megrendelésének a tárolása dátum és idő szerint rendezve történik ugyanabban a szegmensben. Ha az egyes megrendeléseket eltérő szegmensben tárolná, egyenként kellene lekérni azokat nagyszámú pontlekérdezés (egyetlen adatelemet visszaadó lekérdezés) végrehajtásával. A következő ábra az adatok egymást követő halmazának (tartományának) szegmensben való tárolását mutatja be.
 
@@ -124,7 +121,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
     >  Problémákat okozhatnak az egyéb olyan mezők automatikusan növekvő értékei is, amelyek nem szegmenskulcsok. Ha például automatikusan növekvő mezőkkel hoz létre egyedi azonosítókat, akkor két különböző szegmensben lévő két különböző elemhez ugyanaz az azonosító lehet hozzárendelve.
 
-- Előfordulhat, hogy nem lehet olyan szegmenskulcsot tervezni, amely megfelel az adatokra irányuló minden lehetséges lekérdezés követelményeinek. Az adatok horizontális skálázásával támogassa a leggyakrabban végrehajtott lekérdezéseket, és szükség esetén hozzon létre másodlagos indextáblákat azon lekérdezések támogatásához, amelyek a szegmenskulcs részét nem képező attribútumokon alapuló feltételek használatával kérdezik le az adatokat. További információ: [indextábla minta](index-table.md).
+- Előfordulhat, hogy nem lehet olyan szegmenskulcsot tervezni, amely megfelel az adatokra irányuló minden lehetséges lekérdezés követelményeinek. Az adatok horizontális skálázásával támogassa a leggyakrabban végrehajtott lekérdezéseket, és szükség esetén hozzon létre másodlagos indextáblákat azon lekérdezések támogatásához, amelyek a szegmenskulcs részét nem képező attribútumokon alapuló feltételek használatával kérdezik le az adatokat. További információ: [indextábla minta](./index-table.md).
 
 - A csak egy szegmenst elérő lekérdezések hatékonyabbak, mint az adatokat több szegmensből lekérő lekérdezések, ezért ne valósítson meg olyan horizontális skálázási rendszert, amely azt eredményezi, hogy az alkalmazások a különböző szegmensekben tárolt adatokat egyesítő nagyszámú lekérdezést hajtanak végre. Ne feledje, hogy egyetlen szegmens több entitástípus adatait is tartalmazhatja. Érdemes lehet denormalizálni az adatokat, hogy a gyakran együtt lekérdezett kapcsolódó entitások (például az ügyfelek és az általuk kezdeményezett megrendelések adatai) ugyanazon a szegmensben legyenek az alkalmazások által végrehajtott különálló olvasások számának a csökkentéséhez.
 
@@ -150,7 +147,8 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 Akkor használja ezt a mintát, ha egy adattárat valószínűleg egy adott tárolócsomópont számára elérhető erőforrásokon túl kell skálázni, vagy amikor javítani szeretné a teljesítményt egy adattárban tapasztalható versengés csökkentésével.
 
->  A horizontális skálázás elsődleges célja a rendszerek teljesítményének és a skálázhatóságnak a javítása, mellékhatásként azonban a rendelkezésre állást is növelheti attól függően, hogy az adatok hogyan lettek külön partíciókra osztva. Egy partíción bekövetkező hiba nem akadályozza meg feltétlenül, hogy egy alkalmazás elérje a többi partíción tárolt adatokat, és egy operátor egy vagy több helyen végezhet karbantartást vagy helyreállítást anélkül, hogy egy alkalmazás összes adata elérhetetlenné váljon. További információ: [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx).
+> [!NOTE]
+A horizontális skálázás elsődleges célja a rendszerek teljesítményének és a skálázhatóságnak a javítása, mellékhatásként azonban a rendelkezésre állást is növelheti attól függően, hogy az adatok hogyan lettek külön partíciókra osztva. Egy partíción bekövetkező hiba nem akadályozza meg feltétlenül, hogy egy alkalmazás elérje a többi partíción tárolt adatokat, és egy operátor egy vagy több helyen végezhet karbantartást vagy helyreállítást anélkül, hogy egy alkalmazás összes adata elérhetetlenné váljon. További információ: [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx).
 
 ## <a name="example"></a>Példa
 
@@ -215,7 +213,8 @@ Trace.TraceInformation("Fanout query complete - Record Count: {0}",
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
 Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
+
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A különböző szegmensek között elosztott adatok konzisztenciájának megőrzéséhez lehet szükséges. A cikk összefoglalja az elosztott adatok konzisztenciájának megőrzésével kapcsolatos problémákat, és bemutatja a különböző konzisztenciamodellek előnyeit és hátrányait.
 - [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx). Az adattárak horizontális skálázása további problémákat vethet fel. Ez az útmutató az adattáraknak a skálázhatóság növelése, a versengés csökkentése és a teljesítmény optimalizálása érdekében a felhőben történő particionálásával kapcsolatos problémákat ismerteti.
-- [Index Table minta](index-table.md). A lekérdezések néha nem támogathatók teljes mértékben pusztán a szegmenskulcs kialakításának segítségével. Lehetővé teszi, hogy az alkalmazások gyorsan kérjenek le adatokat egy nagy adattárból a szegmenskulcstól eltérő kulcs megadásával.
-- [Tényleges táblán alapuló nézet minta](materialized-view.md). Bizonyos lekérdezési műveletek teljesítményének fenntartása érdekében célszerű materializált nézeteket létrehozni, amelyek egyesítik és összegzik az adatokat, különösen akkor, ha ezek az összegzett adatok a szegmensek között elosztott információkon alapulnak. Ismerteti, hogyan hozhatja létre és töltheti fel adatokkal ezeket a nézeteket.
+- [Index Table minta](./index-table.md). A lekérdezések néha nem támogathatók teljes mértékben pusztán a szegmenskulcs kialakításának segítségével. Lehetővé teszi, hogy az alkalmazások gyorsan kérjenek le adatokat egy nagy adattárból a szegmenskulcstól eltérő kulcs megadásával.
+- [Tényleges táblán alapuló nézet minta](./materialized-view.md). Bizonyos lekérdezési műveletek teljesítményének fenntartása érdekében célszerű materializált nézeteket létrehozni, amelyek egyesítik és összegzik az adatokat, különösen akkor, ha ezek az összegzett adatok a szegmensek között elosztott információkon alapulnak. Ismerteti, hogyan hozhatja létre és töltheti fel adatokkal ezeket a nézeteket.

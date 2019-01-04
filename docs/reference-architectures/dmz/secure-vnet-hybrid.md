@@ -5,16 +5,12 @@ description: Biztonságos hibrid hálózati architektúra megvalósítása az Az
 author: telmosampaio
 ms.date: 10/22/2018
 ms.custom: seodec18
-pnp.series.title: Network DMZ
-pnp.series.prev: ./index
-pnp.series.next: secure-vnet-dmz
-cardTitle: DMZ between Azure and on-premises
-ms.openlocfilehash: c57f741aa0e68783f457f94ea6fd84e1d552f059
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 96c3b3c015422a081201d041694b6b5fd5dffb89
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120424"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011480"
 ---
 # <a name="implement-a-dmz-between-azure-and-your-on-premises-datacenter"></a>Az Azure és a helyszíni adatközpont közötti DMZ implementálása
 
@@ -34,7 +30,7 @@ Az architektúrának csatlakoznia kell a helyszíni adatközponthoz egy [VPN-át
 
 Az architektúra a következőkben leírt összetevőkből áll.
 
-- **Helyszíni hálózat**. A vállalatban implementált helyi magánhálózat.
+- **Helyszíni hálózat**. Egy helyi magánhálózat a vállalatban implementált.
 - **Azure Virtual Network (VNet)**. A VNet tárolja az Azure-ban futó alkalmazást és egyéb erőforrásokat.
 - **Átjáró**. Az átjáró biztosítja a helyszíni hálózat útválasztói és a VNet közötti kapcsolatot.
 - **Hálózati virtuális berendezés (NVA)**. A hálózati virtuális berendezés (NVA) általános kifejezés egy virtuális gépet jelent, amely olyan feladatokat lát el, mint a hozzáférés engedélyezése vagy elutasítása tűzfalként, a nagykiterjedésű hálózati (WAN-) műveletek optimalizálása (például hálózati tömörítés), egyéni útválasztás vagy egyéb hálózati funkciók.
@@ -222,7 +218,7 @@ Ebben a lépésben két helyi hálózati átjáró csatlakozik.
 
 ## <a name="next-steps"></a>További lépések
 
-- Megtudhatja, hogyan implementálhat egy [DMZ-t az Azure és az internet között](secure-vnet-dmz.md).
+- Megtudhatja, hogyan implementálhat egy [DMZ-t az Azure és az internet között](./secure-vnet-dmz.md).
 - Megismerheti, hogyan implementálhat egy [magas rendelkezésre állású hibrid hálózati architektúrát][ra-vpn-failover].
 - További információt a hálózati biztonság Azure-ral történő felügyeletével kapcsolatban [a Microsoft-felhőszolgáltatásokkal és a hálózati biztonsággal][cloud-services-network-security] kapcsolatos cikkben olvashat.
 - Az Azure-erőforrások védelmével kapcsolatos további információkat [a Microsoft Azure biztonsági szolgáltatásait ismertető][getting-started-with-azure-security] cikkben olvashat.

@@ -5,12 +5,12 @@ description: Küllős hálózati topológia implementálása az Azure-ban.
 author: telmosampaio
 ms.date: 10/08/2018
 ms.custom: seodec18
-ms.openlocfilehash: fe56630b621f02fe71b864642b75688ba1965862
-ms.sourcegitcommit: 8d951fd7e9534054b160be48a1881ae0857561ef
+ms.openlocfilehash: 9b354cf0e2e8c908b58474f54abdaa2c9576afc2
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/13/2018
-ms.locfileid: "53329432"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011429"
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -176,11 +176,9 @@ Az agyi virtuális hálózat üzembe helyezéséhez hajtsa végre az alábbi lé
 
 5. Várjon, amíg az üzembe helyezés befejeződik. A központi telepítés egy virtuális hálózatot, egy virtuális gépet, a VPN-átjáró és az átjáró kapcsolatot hoz létre.  A VPN-átjáró létrehozása körülbelül 40 percet is igénybe vehet.
 
-### <a name="test-connectivity-with-the-hub"></a>A hub-kapcsolat tesztelése
+### <a name="test-connectivity-to-the-hub-vnet-mdash-windows-deployment"></a>Az agyi virtuális hálózat csatlakozni &mdash; Windows deployment
 
-Az agyi virtuális hálózat, a szimulált helyszíni környezetből conectivity teszteléséhez.
-
-**Windows központi telepítési**
+Az agyi virtuális hálózat Windows virtuális gépeket használ, a szimulált helyszíni környezetből conectivity teszteléséhez, kövesse az alábbi lépéseket:
 
 1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
@@ -206,11 +204,13 @@ TcpTestSucceeded : True
 > [!NOTE]
 > Alapértelmezés szerint Windows Serveres virtuális gépek nem teszik lehetővé az ICMP-válaszok az Azure-ban. Ha a használni kívánt `ping` kapcsolat teszteléséhez, engedélyeznie kell a fokozott biztonságú Windows tűzfal az ICMP-forgalmat az egyes virtuális Gépekhez.
 
-**Linux-telepítés**
+### <a name="test-connectivity-to-the-hub-vnet-mdash-linux-deployment"></a>Az agyi virtuális hálózat csatlakozni &mdash; Linux üzembe helyezés
+
+Az agyi virtuális hálózat használata Linux rendszerű virtuális gépek, a szimulált helyszíni környezetből conectivity teszteléséhez, kövesse az alábbi lépéseket:
 
 1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
-2. Kattintson a `Connect` , és másolja a `ssh` parancs jelenik meg a portálon. 
+2. Kattintson a `Connect` , és másolja a `ssh` parancs jelenik meg a portálon.
 
 3. A Linux. Ehhez futtassa `ssh` csatlakozhat a szimulált helyszíni környezetet. Használja az `onprem.json` paraméterfájlban megadott jelszót.
 
@@ -253,11 +253,9 @@ A küllő virtuális hálózatok üzembe helyezéséhez hajtsa végre az alábbi
    azbb -s <subscription_id> -g hub-vnet-rg -l <location> -p hub-vnet-peering.json --deploy
    ```
 
-### <a name="test-connectivity"></a>Kapcsolat tesztelése
+### <a name="test-connectivity-to-the-spoke-vnets-mdash-windows-deployment"></a>A küllő virtuális hálózatokhoz csatlakozni &mdash; Windows deployment
 
-Teszt conectivity a szimulált helyszíni környezetből a küllő virtuális hálózatokhoz.
-
-**Windows központi telepítési**
+A küllő virtuális hálózatokhoz, Windows virtuális gépek használata a szimulált helyszíni környezetből conectivity teszteléséhez hajtsa végre az alábbi lépéseket:
 
 1. Az Azure Portal használatával keresse meg a `jb-vm1` nevű virtuális gépet az `onprem-jb-rg` erőforráscsoportban.
 
@@ -270,7 +268,7 @@ Teszt conectivity a szimulált helyszíni környezetből a küllő virtuális h�
    Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
    ```
 
-**Linux-telepítés**
+### <a name="test-connectivity-to-the-spoke-vnets-mdash-linux-deployment"></a>A küllő virtuális hálózatokhoz csatlakozni &mdash; Linux üzembe helyezés
 
 A küllő virtuális hálózatokhoz, Linux rendszerű virtuális gépek használata a szimulált helyszíni környezetből conectivity teszteléséhez hajtsa végre az alábbi lépéseket:
 

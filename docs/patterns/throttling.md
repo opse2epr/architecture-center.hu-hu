@@ -1,106 +1,100 @@
 ---
-title: Szabályozás
-description: Egy alkalmazás, egy adott bérlő vagy az egész szolgáltatás egy példánya által használt erőforrások fogyasztásának szabályozzák.
-keywords: Kialakítási mintája
+title: Szabályozási minta
+titleSuffix: Cloud Design Patterns
+description: Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- availability
-- performance-scalability
-ms.openlocfilehash: 29156fc72f40a952dd53adcb20ffa7c3d0af79b4
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: 9babe6b3c81b0846e83dfef98bbd76a89661d911
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24541257"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010667"
 ---
-# <a name="throttling-pattern"></a>Sávszélesség-szabályozási minta
+# <a name="throttling-pattern"></a>Szabályozási minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Egy alkalmazás, egy adott bérlő vagy az egész szolgáltatás egy példánya által használt erőforrások fogyasztásának szabályozzák. Engedélyezheti, hogy a rendszer továbbra is működik, és megfelelnek a szolgáltatásiszint-szerződések, még akkor is, ha az igény szerinti növelését egy rendkívüli betöltése az erőforrás.
+Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását. Ez a minta lehetővé teszi, hogy a rendszer tovább működjön és teljesítse a szolgáltatói szerződések feltételeit akkor is, ha az erőforrásigény növekedése rendkívüli terhelést jelent az erőforrások számára.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-A felhőalapú alkalmazások terhelése jellemzően az aktív felhasználóknak a számát, vagy azok hajtja végre műveletek alapján időnként eltérő. Például további felhasználók valószínűleg aktív munkaidőben, vagy hajtsa végre a számítástechnikai, olcsóbbá analytics minden hónap végén szükséges lehet a rendszer. Is előfordulhat hirtelen és a nem várt felszakadásáig tevékenységben. Ha a rendszer ügyféloldali bővítmények feldolgozási követelményeivel meghaladja a rendelkezésre álló erőforrások kapacitása, lesz érinti a gyenge teljesítményt, és akkor is sikertelen lehet. Ha a rendszer egy egyeztetett szolgáltatási szintjének kielégítéséhez, ilyen hiba elfogadhatatlan lehet.
+A felhőalapú alkalmazások terhelése jellemzően az aktív felhasználók számától vagy az általuk végrehajtott tevékenységek típusától függően idővel változik. Például valószínűleg több felhasználó lesz aktív munkaidőben, vagy lehet, hogy a rendszernek nagy számítási igényű elemzéseket kell végeznie minden hónap végén. Hirtelen és váratlan tevékenységcsúcsok is előfordulhatnak. Ha a rendszer feldolgozási követelményei meghaladják a rendelkezésre álló erőforrások kapacitását, az a rendszer gyenge teljesítményét vagy meghibásodását okozhatja. Ha a rendszernek egy megállapodott szolgáltatási szintet kell teljesítenie, az ilyen meghibásodás nem fogadható el.
 
-Sok stratégiák még elérhető a felhőben, attól függően, hogy az üzleti célokat, az alkalmazás különböző terhelés kezelésére. Egy stratégia az automatikus skálázás használandó felel meg a felhasználó a kiosztott erőforrásokat kell egy adott időpontban. Ez magában hordozza a felhasználói igényeknek, miközben optimalizálja a futó költségek következetesen teljesítéséhez. Azonban amíg automatikus skálázás is elindíthatja a további erőforrások kiépítése, azonnali a kiépítés nem. Igény szerinti gyorsan növekszik, ha az időt egy ablak lehet erőforrás hiány esetén.
+Számos különféle stratégia létezik a változó terhelés kezelésére a felhőben az alkalmazás üzleti céljaitól függően. Az egyik stratégia a kiépített erőforrások a felhasználók igényeihez igazítása automatikus skálázás alkalmazásával. Ez lehetővé teszi a felhasználói igényeknek való folyamatos megfelelést és a futtatási költségek optimalizálását. Azonban bár az automatikus skálázás elindíthatja további erőforrások kiépítését, a kiépítés nem azonnal történik meg. Ha az igények gyorsan növekednek, előfordulhat, hogy bizonyos ideig erőforráshiány lép fel.
 
 ## <a name="solution"></a>Megoldás
 
-Egy alternatív stratégia, amelynek az automatikus skálázást, hogy lehetővé teszik az alkalmazások csak legfeljebb erőforrásainak használatához, és majd azokat szabályozás, ha eléri ezt a korlátot. A rendszer hogyan használja erőforrásokat, hogy ha használat meghaladja a küszöbértéket, képes szabályozni a egy vagy több felhasználók által érkező kérések célszerű figyelemmel kísérni. Ezzel a lépéssel engedélyezi a rendszer folytatja a működését, és megfelelnek a szolgáltatásszint-szerződések (SLA) vannak érvényben. Erőforrás-használat figyelésével kapcsolatos további információkért lásd: a [Instrumentation és Telemetriai útmutatást](https://msdn.microsoft.com/library/dn589775.aspx).
+Az automatikus skálázás alternatívája, ha az alkalmazások egy adott határig használhatják az erőforrásokat, és ha elérték ezt a határt, a rendszer szabályozza őket. A rendszernek monitoroznia kell az erőforrások felhasználását, így amikor az erőforrás-használat túllépi a küszöbértéket, szabályozhatja az egy vagy több felhasználótól érkező kérelmeket. Így a rendszer továbbra is működőképes lesz, és teljesíteni tudja az érvényben levő szolgáltatói szerződések (SLA-k) feltételeit. Az erőforrás-használat monitorozásával kapcsolatos további információkért tekintse meg a [rendszerállapottal és a telemetriával kapcsolatos útmutatást](https://msdn.microsoft.com/library/dn589775.aspx).
 
-A rendszer több sávszélesség-szabályozási stratégiák, beleértve a sikerült megvalósításához:
+A rendszer számos szabályozási stratégiát implementálhat, többek között a következőket:
 
-- Egy adott felhasználóhoz, aki már érkező kérelmeket visszautasítja a rendszer API-k másodpercenként több mint n alkalommal keresztül elérhető egy adott időszakban. Ehhez a rendszer minden egyes bérlő vagy az alkalmazást futtató felhasználók használt erőforrások mérni szeretné. További információkért lásd: a [mérési útmutató szolgáltatásához](https://msdn.microsoft.com/library/dn589796.aspx).
+- Olyan egyéni felhasználóktól érkező kérelmek visszautasítása, akik másodpercenként több mint n-szer fértek hozzá a rendszer API-jaihoz egy adott időtartamban. Ehhez a rendszernek mérnie az egy adott alkalmazást futtató összes bérlő vagy felhasználó erőforrás-felhasználását. További információkért tekintse meg a [szolgáltatások mérésével kapcsolatos útmutatót](https://msdn.microsoft.com/library/dn589796.aspx).
 
-- Letiltása, vagy kijelölt nem szükséges szolgáltatások funkcióinak terhelése, hogy fontos szolgáltatások akadálymentesnek elegendő erőforrással rendelkező futtathatók. Például ha az alkalmazás az adatfolyam-videokimenetéhez, azt átállítása volt alacsonyabb felbontása.
+- Bizonyos nem létfontosságú szolgáltatások működésének letiltása vagy csökkentése annak érdekében, hogy a létfontosságú szolgáltatások akadálytalanul, elegendő erőforrással futhassanak. Ha például az alkalmazás videókimenetet streamel, alacsonyabb felbontásra válthat.
 
-- Használatával Terheléskiegyenlítés sima tevékenység mennyiségét (Ez a megközelítés által további részletesen is ismertetjük a [várólista alapú betöltése simítás mintát](queue-based-load-leveling.md)). Ezt a módszert használja egy több-bérlős környezetben minden bérlő számára a teljesítmény csökkenti. Ha a rendszernek támogatnia kell a bérlők a különböző SLA kombinációját, a munka nagy értékű bérlők azonnal is végrehajthatók. Más bérlők kérelmek vissza tartott, és kezelésének, amikor a várakozó megkönnyítését rendelkezik. A [prioritású várólistára mintát][] segítségével ennek a végrehajtására használható.
+- A tevékenységek mennyiségének egyenletessé tétele terheléskiegyenlítés használatával (erről a megközelítésről bővebben az [üzenetsor-alapú terheléskiegyenlítési mintával](./queue-based-load-leveling.md) kapcsolatos részben olvashat). Ez a megközelítés több-bérlős környezetben az összes bérlő esetében teljesítménycsökkenést jelent. Ha a rendszernek különböző SLA-kkal rendelkező bérlőket kell kiszolgálnia, az értékes bérlők műveletei azonnal végrehajthatóak. Más bérlők kérelmei visszatarthatóak addig, amíg a várólista ki nem ürült. A [elsőbbségi üzenetsor mintája] [-] alkalmazza ezt a megközelítést segítségével használható.
 
-- A késleltető alacsonyabb prioritású alkalmazások vagy a bérlők nevében végrehajtott műveletek. Ezek a műveletek felfüggesztve, vagy korlátozott, a bérlő tájékoztatja, hogy a rendszer elfoglalt, és hogy a művelet később meg kell ismételni generált kivétel miatt.
+- Az alacsonyabb prioritású alkalmazások vagy bérlők nevében végrehajtott műveletek elhalasztása. Ezek a műveletek felfüggeszthetőek vagy korlátozhatóak, a bérlő pedig az előállított kivétel formájában kap tájékoztatást arról, hogy a rendszer foglalt, és a műveletet később újból meg kell kísérelni.
 
-Az ábrán látható erőforrás-használat (a memória, Processzor, sávszélesség és más tényezők kombinációja) tartozó területgrafikon idő függvényében, az alkalmazásokat, amelyek létesített három funkcióját használja. Egy olyan szolgáltatása, funkciókat, például a feladatok, egy bonyolult számításhoz megvalósító kódot, vagy olyan elem, például egy memórián belüli gyorsítótárral szolgáltatást nyújt egy meghatározott elvégző összetevőnek területe. Ezek a funkciók tartalma A, B és c kiszolgálóra.
+Az ábrán az erőforráshasználat területdiagramja látható (a memória, CPU, sávszélesség és más tényezők kombinációja) az időben olyan alkalmazásokra vonatkozóan, amelyek három funkciót használnak. A funkció egy működési terület, például egy összetevő, amely adott feladatokat végez, egy kódrészlet, amely egy összetett számítást hajt végre, vagy egy elem, amely valamilyen szolgáltatást – például memórián belüli gyorsítótárat – biztosít. Ezeket a funkciókat az A, B és C jelöli.
 
-![1. ábra – erőforrás-használat három felhasználók nevében futó alkalmazások idő függvényében ábrázoló grafikon](./_images/throttling-resource-utilization.png)
+![1. ábra – Grafikon, amely három felhasználó nevében futó alkalmazások erőforrás-használatát ábrázolja az idő függvényében](./_images/throttling-resource-utilization.png)
 
+> A közvetlenül az egyes funkciók vonalai alatti terület az alkalmazások által ezen funkciók igénybevételekor felhasznált erőforrásokat jelöli. Például az A funkció vonala alatti terület az A funkciót használó alkalmazások erőforráshasználatát, az A funkció vonala és a B funkció vonala közötti terület pedig a B funkciót használó alkalmazások erőforráshasználatát mutatja. Az egyes funkciókhoz tartozó területek összesítésével megkapjuk a rendszer teljes erőforráshasználatát.
 
-> Közvetlenül egy adott szolgáltatáshoz sor alatt azt jelzi, ha ez a szolgáltatás hivatkoznak alkalmazások által használt erőforrások. Például alatt használt vonal szolgáltatása mutat be arról alkalmazások által használt erőforrások között a funkció A sorokat és a szolgáltatás B és a terület azt jelzi, a szolgáltatás b összesítése meghívása alkalmazások által használt erőforrások funkció a területet használja az egyes szolgáltatásokhoz jeleníti meg a rendszer a teljes erőforrás-használatát.
+Az előző ábra a műveletek késleltetésének hatását szemlélteti. Közvetlenül a T1 időpont előtt az ezen funkciókat használó alkalmazásokhoz lefoglalt erőforrások teljes mennyisége elér egy küszöbértéket (az erőforráshasználat határát). Ezen a ponton fennáll a veszély, hogy az alkalmazások kimerítik a rendelkezésre álló erőforrásokat. Ebben a rendszerben a B funkció kevésbé kritikus, mint az A vagy a C funkció, ezért a rendszer ideiglenesen letiltja, és az eddig általa használt erőforrások felszabadulnak. A T1 és a T2 időpont között az A és a C funkciót használó alkalmazások továbbra is normál módon futnak. Idővel az ezen két funkció által igénybe vett erőforrás-mennyiség eléggé lecsökken ahhoz, hogy a T2 időpontban ismét elegendő kapacitás váljon elérhetővé a B funkció engedélyezéséhez.
 
-Az előző ábrán láthatja a eredő késleltető a műveletek. Közvetlenül megelőző helyreállítási pontot T1 idő a teljes erőforrások vannak rendelve az összes alkalmazást használja ezeket a funkciókat elérni a küszöbérték (erőforrás-használati korlátja). Ezen a ponton az alkalmazások szerepelnek, az elérhető erőforrások kimerítsék veszélye. Ebben a rendszerben a szolgáltatás a B kiszolgáló lesz kevésbé létfontosságú, mint A szolgáltatás vagy funkció C, ezért átmenetileg le van tiltva, és az erőforrásokat, amelyek az általa kiadott. A T1 és T2, a szolgáltatás A és a szolgáltatás C használó alkalmazások továbbra is időpont között futtató normál. Végül, az erőforrás-e két szolgáltatás használatát a pontra mérsékli, amikor T2 időpontban nincs elegendő kapacitással a szolgáltatás B ismét engedélyeznie.
+Az automatikus skálázás és a szabályozás kombinálható is az alkalmazások válaszkészségének megőrzése és az SLA-knak való megfelelés fenntartása érdekében. Ha az erőforrásigény várhatóan magas marad, a szabályozás ideiglenes megoldást biztosít, amíg a rendszer elvégzi a horizontális felskálázást. Ezen a ponton a rendszer teljes működőkészsége visszaállítható.
 
-Az automatikus skálázás és a szabályozás megközelítések is kombinálható védheti az alkalmazások gyorsabban kezelhetővé és SLA-k belül. Ha az igény szerinti várhatóan magas, sávszélesség-szabályozás ideiglenes megoldást kínál közben a rendszer kimenő méretezi. Ezen a ponton visszaállítása végezhető el a rendszer az összes funkcióját.
+A következő ábrán a rendszeren futó összes alkalmazás teljes erőforrás-használatának grafikonja látható az idő függvényében, illusztrálva a szabályozás és az automatikus skálázás kombinálását.
 
-Az alábbi ábrán jeleníti meg, a teljes erőforrás-használat területgrafikon idő függvényében a rendszerben futó összes alkalmazást, és bemutatja, hogyan sávszélesség-szabályozás kombinálható az automatikus skálázást.
+![2. ábra – A szabályozás és az automatikus skálázás kombinálásának hatásait ábrázoló grafikon](./_images/throttling-autoscaling.png)
 
-![2. ábra – diagramját eredő egyesítésével az automatikus skálázás szabályozása](./_images/throttling-autoscaling.png)
+A T1 időpontban a rendszer eléri az erőforráshasználat enyhe korlátjának megfelelő küszöbértéket. A rendszer ezen a ponton megkezdheti a horizontális felskálázást. Ha azonban az új erőforrások nem válnak elég gyorsan elérhetővé, a meglévő erőforrások kimerülhetnek, és a rendszer meghibásodhat. Ennek elkerülése érdekében a rendszer ideiglenesen szabályozva lesz a korábban leírtaknak megfelelően. Ha az automatikus skálázás befejeződött, és a további erőforrások elérhetővé váltak, a szabályozás mértéke csökkenthető.
 
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-A T1 időpontban a megadásával az erőforrás-használata enyhe legfeljebb küszöbértéket. A rendszer ezen a ponton, megkezdheti a kiterjesztése. Ha az új erőforrások nem lesznek rendelkezésre elég gyorsan, majd előfordulhat, hogy felhasználhatók, a meglévő erőforrásokat, és sikertelen lehet, a rendszer. A probléma elkerüléséhez, hogy a rendszer átmenetileg folyamatban van, a fentebb leírt módon. Ha automatikus skálázás befejeződött, és a további erőforrások elérhetők, a sávszélesség-szabályozás enyhíteni lehet.
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+- Az alkalmazások szabályozása és a felhasznált stratégia az architektúrával kapcsolatos döntés, amely a rendszer teljes kialakítására hatással van. A szabályozást az alkalmazástervezési folyamat korai szakaszában kell megfontolni, mert ezt a stratégiát nem könnyű már implementált rendszerhez hozzáadni.
 
-Ez a kialakítás megvalósítása meghatározásakor a következő szempontokat kell figyelembe vennie:
+- A szabályozást gyorsan kell végrehajtani. A rendszernek képesnek kell lennie érzékelni a tevékenységek mennyiségének növekedését és megfelelően reagálni. Továbbá az is fontos, hogy a rendszer képes legyen gyorsan visszaállni az eredeti állapotába, miután csökkent a terhelés. Ennek feltétele a megfelelő teljesítményadatok folyamatos rögzítése és monitorozása.
 
-- Sávszélesség-szabályozás egy alkalmazást, és a stratégia használatához-e egy architekturális döntés, amely hatással van a rendszer az egész kialakítása. Sávszélesség-szabályozás figyelembe kell venni az alkalmazás tervezési folyamat korai szakaszaiban nem egyszerű hozzáadása után a rendszer hajtották végre, mert.
+- Ha egy szolgáltatásnak ideiglenesen meg kell tagadnia egy felhasználói kérelmet, konkrét hibakódot kell visszaadnia, amely tájékoztatja az ügyfélalkalmazást arról, hogy a művelet végrehajtása szabályozás miatt lett visszautasítva. Az ügyfélalkalmazás várhat egy ideig a kérelem újbóli megkísérlése előtt.
 
-- Sávszélesség-szabályozás kell elvégezni gyorsan. A rendszer legyen képes növelni a tevékenységek észlelésére, és ennek megfelelően reagálni. A rendszer is állíthatja vissza az eredeti állapotba gyorsan után a terhelés rendelkezik megkönnyítését kell lennie. Ehhez az szükséges, hogy a megfelelő teljesítményadatokat folyamatosan rögzített, és figyeli.
+- A szabályozás ideiglenes intézkedésként használható, amíg a rendszer elvégzi az automatikus skálázást. Egyes esetekben jobb csak szabályozást alkalmazni skálázás helyett, ha a tevékenységcsúcs hirtelen jelentkezik, és várhatóan nem tart sokáig, ugyanis a skálázás jelentősen megnövelheti a futtatási költségeket.
 
-- Ha a szolgáltatás ideiglenesen megtagadja az egy felhasználói kérelem, az egy adott hibakódot, az ügyfélalkalmazás tisztában van azzal, hogy a művelet végrehajtásához az elutasítás oka, hogy szabályozás miatt kell visszaadnia. Az ügyfélalkalmazás is Várjon egy ideig, mielőtt megpróbálná megismételni a kérelmet.
+- Ha a szabályozás ideiglenes intézkedésként van alkalmazva, mialatt a rendszer automatikus skálázást alkalmat, és ha az erőforrásigény nagyon gyorsan növekszik, előfordulhat, hogy&mdash;a rendszer nem tud tovább működni akkor sem, ha szabályozott üzemmódban van. Ha ez nem fogadható el, vegye fontolóra nagyobb kapacitástartalék fenntartását és az erőteljesebb automatikus skálázást.
 
-- Sávszélesség-szabályozás során a rendszer autoscales ideiglenes intézkedésként is használható. Bizonyos esetekben célszerűbb egyszerűen szabályozás, nem pedig válhatnak Ha egy tevékenység kapacitásnövelés hirtelen, és nem várhatóan hosszabb élettartamú, mivel a skálázás adhat hozzá jelentősen költségeket.
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-- Ha sávszélesség-szabályozás használatos során a rendszer autoscales ideiglenes mérték, és az erőforrás iránti igények kielégítése érdekében nagyon gyorsan növekszik, ha a rendszer nem feltétlenül működik-e a folytatáshoz&mdash;még akkor is, ha a szabályozottan halmozott módban működik. Ha ez nem elfogadható, fontolja meg a nagyobb kapacitás tartalék karbantartásáért, valamint a szigorúbb automatikus skálázás konfigurálása.
+Használja a következő mintát a következő helyzetekben:
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+- Annak biztosítása érdekében, hogy a rendszer folyamatosan megfeleljen a szolgáltatói szerződések feltételeinek.
 
-Ez a minta használata:
+- Annak elkerülése érdekében, hogy egyetlen bérlő kisajátíthassa az alkalmazások által biztosított erőforrásokat.
 
-- Annak érdekében, hogy a rendszer továbbra is megfelel a szolgáltatási szintek.
+- A tevékenységcsúcsok kezelése érdekében.
 
-- Megakadályozhatja, hogy egyetlen bérlő a legaktívabbak egy alkalmazás által biztosított erőforrások.
-
-- Kezelendő felszakadásáig tevékenységben.
-
-- Optimalizálásához költség-a rendszer a maximális erőforrás szintek korlátozásával szükséges biztosítható, hogy működik-e.
+- A rendszerköltségek optimalizálása érdekében a működéshez szükséges maximális erőforrásszintek korlátozása révén.
 
 ## <a name="example"></a>Példa
 
-A végső ábra bemutatja, hogyan sávszélesség-szabályozás megvalósítható a több-bérlős rendszerek. Az egyes a bérlő szervezet felhasználók férhetnek hozzá a felhőben üzemeltetett alkalmazás, ahonnan töltse ki és felmérések elküldeni. Az alkalmazás, amely figyeli a sebesség, amellyel a felhasználók az alkalmazásnak küldött kérelmek elküldése instrumentation tartalmazza.
+Az utolsó ábrán a szabályozás több-bérlős rendszerben történő implementálása látható. A bérlővállalatok felhasználói egy felhőben futtatott alkalmazáshoz férnek hozzá, amelyben kérdőíveket töltenek ki és küldenek el. Az alkalmazás rendszerállapota monitorozza a felhasználóktól az alkalmazáshoz érkező kérelmek küldési gyakoriságát.
 
-Leállítja, nehogy válaszidejét és más felhasználók számára az alkalmazás rendelkezésre állásának érintő egy bérlő felhasználóit, a korlát vonatkozik a panelhez egy felhasználói beküldhetik kérelmek másodpercenkénti száma. Az alkalmazás blokkolja az e korláton kérelmek.
+Annak érdekében, hogy egy bérlő felhasználói miatt ne csökkenjen az alkalmazás válaszkészsége és rendelkezésre állása a többi felhasználó számára, a rendszer az egyes bérlők felhasználói által egy másodperc alatt elküldhető kérelmek számára vonatkozó korlátot vezet be. Az ezen korlátot meghaladó kérelmeket az alkalmazás blokkolja.
 
-![3. ábra - végrehajtási a sávszélesség-szabályozás egy több-bérlős alkalmazásban](./_images/throttling-multi-tenant.png)
+![3. ábra – Szabályozás implementálása több-bérlős alkalmazásban](./_images/throttling-multi-tenant.png)
 
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-A következő mintákat és útmutatókat is megfelelő ebben a mintában végrehajtása során:
-- [Telemetria útmutató és Instrumentation](https://msdn.microsoft.com/library/dn589775.aspx). Sávszélesség-szabályozás attól függ, hogyan fokozottan használatban van egy szolgáltatás adatokat gyűjt. Ismerteti, hogyan hozhat létre, és egyéni figyelési információkat.
-- [Útmutatás mérési szolgáltatás](https://msdn.microsoft.com/library/dn589796.aspx). Szolgáltatások használatának mérési felmérheti, azok használata érdekében ismerteti. Ez az információ akkor lehet hasznos az adatátviteli szolgáltatás módjának meghatározása.
-- [Automatikus skálázás útmutatást](https://msdn.microsoft.com/library/dn589774.aspx). Sávszélesség-szabályozás belső használatra során a rendszer autoscales, vagy távolítsa el a rendszer automatikus skálázásra szükségességét is használható. Automatikus skálázás stratégiák információkat tartalmaz.
-- [Betöltési simítás mintát várólista alapú](queue-based-load-leveling.md). Várólista alapú terhelés simítás, akkor egy gyakran használt eszköz sávszélesség-szabályozás megvalósításához. A várólista, mely akkor is igaz, a sebesség, amellyel az alkalmazás által küldött kérések érkeznek, egy kimenő puffer működhet.
-- [prioritású várólistára mintát][]. A rendszer a sávszélesség-szabályozási stratégia részeként queuing prioritás segítségével fenntartható teljesítmény kritikus vagy magasabb érték alkalmazások, miközben csökkenti a kevésbé fontos alkalmazások teljesítményét.
-
-[prioritású várólistára mintát]: priority-queue.md
+- [Rendszerállapot és telemetria – útmutató](https://msdn.microsoft.com/library/dn589775.aspx). A szabályozás alapját a szolgáltatások igénybevételének mértékére vonatkozó adatok gyűjtése képezi. Ismerteti, hogyan állíthat elő és rögzíthet egyéni monitorozási adatokat.
+- [Szolgáltatások mérésével kapcsolatos útmutató](https://msdn.microsoft.com/library/dn589796.aspx). Ismerteti, hogyan mérheti a szolgáltatások használatát a használatuk jellegének megismerése céljából. Ez az információ hasznos lehet a szolgáltatás szabályozásának megtervezéséhez.
+- [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). A szabályozás használható ideiglenes intézkedésként, amíg a rendszer elvégzi az automatikus skálázást, vagy azért, hogy ne legyen szükség automatikus skálázásra. Az automatikus skálázási stratégiákra vonatkozó információkat tartalmaz.
+- [Üzenetsor-alapú terheléskiegyenlítési minta](./queue-based-load-leveling.md). Az üzenetsor-alapú terheléskiegyenlítés a szabályozás implementálásához gyakran használt mechanizmus. Az üzenetsor képes pufferként működni, amely segít egyenletesebbé tenni a szolgáltatásokhoz érkező, alkalmazások által küldött kérelmek kézbesítési gyakoriságát.
+- [Elsőbbségi üzenetsor mintája](./priority-queue.md). Az elsőbbségi üzenetsor szabályozási stratégiába való beépítésével a rendszer képes fenntartani a teljesítményszintet a kritikus fontosságú vagy nagyértékű alkalmazásokhoz, míg a kevésbé fontos alkalmazások teljesítményét csökkenti.

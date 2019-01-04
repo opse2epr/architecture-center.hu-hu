@@ -1,20 +1,17 @@
 ---
-title: Static Content Hosting
+title: Statikus tartalom üzemeltetési minta
+titleSuffix: Cloud Design Patterns
 description: A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- design-implementation
-- performance-scalability
-ms.openlocfilehash: 450d0c4c08098c1ba48e4c0dac3d058a46e3709b
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: f3d4f544a22ec07a651dd1fb1f88bf957134254c
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428210"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009423"
 ---
 # <a name="static-content-hosting-pattern"></a>Statikus tartalom üzemeltetési minta
 
@@ -48,7 +45,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 - Előfordulhat, hogy a tárolási szolgáltatások nem támogatják az egyéni tartománynevek használatát. Ebben az esetben fontos az erőforrások teljes URL-címének megadása, mert egy másik tartományban lesznek, mint a hivatkozásokat tartalmazó dinamikusan létrehozott tartalom.
 
-- A tárolókat nyilvános olvasási hozzáféréssel kell konfigurálni, de elengedhetetlen az is, hogy azok ne legyenek nyilvános írási hozzáférésre konfigurálva, hogy a felhasználók ne tudjanak tartalmat feltölteni. Fontolja meg egy pótkulcs vagy egy token használatát, hogy szabályozhassa az olyan erőforrásokhoz való hozzáférést, amelyek nem érhetők el névtelenül – további információ: [Pótkulcs minta](valet-key.md).
+- A tárolókat nyilvános olvasási hozzáféréssel kell konfigurálni, de elengedhetetlen az is, hogy azok ne legyenek nyilvános írási hozzáférésre konfigurálva, hogy a felhasználók ne tudjanak tartalmat feltölteni. Fontolja meg egy pótkulcs vagy egy token használatát, hogy szabályozhassa az olyan erőforrásokhoz való hozzáférést, amelyek nem érhetők el névtelenül – további információ: [Pótkulcs minta](./valet-key.md).
 
 ## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
@@ -76,15 +73,13 @@ Az Azure Blob Storage tárolóban található statikus tartalom közvetlenül el
 
 `https://[ storage-account-name ].blob.core.windows.net/[ container-name ]/[ file-name ]`
 
-
-A tartalmak feltöltésekor szükséges egy vagy több blobtárolót létrehozni, amely a fájlokat és a dokumentumokat fogja tartalmazni. Vegye figyelembe, hogy az új tárolók alapértelmezett engedélye Privát, ezért ezt módosítania kell Nyilvános engedélyre, hogy az ügyfelek hozzáférhessenek a tartalmakhoz. Ha a tartalmat meg kell védeni a névtelen hozzáféréstől, használhatja a [Pótkulcs mintát](valet-key.md), így a felhasználóknak egy érvényes tokent kell felmutatniuk az erőforrások letöltéséhez.
+A tartalmak feltöltésekor szükséges egy vagy több blobtárolót létrehozni, amely a fájlokat és a dokumentumokat fogja tartalmazni. Vegye figyelembe, hogy az új tárolók alapértelmezett engedélye Privát, ezért ezt módosítania kell Nyilvános engedélyre, hogy az ügyfelek hozzáférhessenek a tartalmakhoz. Ha a tartalmat meg kell védeni a névtelen hozzáféréstől, használhatja a [Pótkulcs mintát](./valet-key.md), így a felhasználóknak egy érvényes tokent kell felmutatniuk az erőforrások letöltéséhez.
 
 > A [Blob szolgáltatással kapcsolatos fogalmak](https://msdn.microsoft.com/library/azure/dd179376.aspx) című rész további információt tartalmaz a Blob Storage-ról, valamint a használatáról és a hozzáféréséről.
 
 Az oldalakon található hivatkozások határozzák meg az erőforrás URL-címét, és az ügyfél közvetlenül fog hozzáférni a társzolgáltatásból. Az ábra azt mutatja be, hogyan történik a statikus összetevők kézbesítése közvetlenül a társzolgáltatásból.
 
 ![1. ábra – A statikus összetevők kézbesítése közvetlenül a társzolgáltatásból.](./_images/static-content-hosting-pattern.png)
-
 
 A lapokon található és az ügyfélnek kézbesített hivatkozásoknak a blobtároló és az erőforrás teljes URL-címét meg kell határozniuk. Például egy olyan lap, amely egy nyilvános tárolóban lévő képre mutat, az alábbi HTML-címet tartalmazhatja.
 
@@ -168,5 +163,5 @@ A Views\Home mappa Index.cshtml fájlja tartalmaz egy képet, amely a `StaticCon
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
 - A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/static-content-hosting) talál egy, a minta bemutatására szolgáló példát.
-- [Pótkulcs minta](valet-key.md). Ha nem szeretné, hogy a célként megadott erőforrásokhoz névtelen felhasználók is hozzáférhessenek, akkor konfigurálnia kell a biztonságot a statikus tartalom tárolóján. Leírja, hogyan használhatók a tokenek vagy kulcsok, amelyek korlátozott közvetlen hozzáférést biztosítanak az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz, például egy felhős társzolgáltatáshoz.
+- [Pótkulcs minta](./valet-key.md). Ha nem szeretné, hogy a célként megadott erőforrásokhoz névtelen felhasználók is hozzáférhessenek, akkor konfigurálnia kell a biztonságot a statikus tartalom tárolóján. Leírja, hogyan használhatók a tokenek vagy kulcsok, amelyek korlátozott közvetlen hozzáférést biztosítanak az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz, például egy felhős társzolgáltatáshoz.
 - [A Blob szolgáltatással kapcsolatos fogalmak](https://msdn.microsoft.com/library/azure/dd179376.aspx)

@@ -5,12 +5,12 @@ description: Alkalmazás üzembe helyezése az Azure-beli virtuális gépek töb
 author: MikeWasson
 ms.date: 07/19/2018
 ms.custom: seodec18
-ms.openlocfilehash: 84da8aaef7e552beff1f06befbaa2e50a3ac3d8b
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: b83cf07149a3f0b74f8221ad2a4bd78d8c3d2b38
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643707"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010970"
 ---
 # <a name="run-an-n-tier-application-in-multiple-azure-regions-for-high-availability"></a>Futtatása egy N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -67,7 +67,7 @@ Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azu
 A Traffic Manager konfigurálásakor vegye figyelembe a következő szempontokat:
 
 - **Útválasztás**. A Traffic Manager többféle [útválasztási algoritmust][tm-routing] támogat. A cikkben leírt forgatókönyvhöz a *prioritásos* útválasztást (régebbi nevén *feladatátvétel esetén használt* útválasztás) használja. Ezzel a beállítással a Traffic Manager az összes kérelmet az elsődleges régió felé irányítja, kivétel akkor, ha az nem elérhető. Ebben az esetben automatikusan átadja a feladatokat a másodlagos régiónak. Lásd: [A feladatátvétel esetén használt útválasztás konfigurálása][tm-configure-failover].
-- **Állapotminta**. A Traffic Manager HTTP- (vagy HTTPS-) [mintavételt][tm-monitoring] használ az egyes régiók rendelkezésre állásának monitorozására. A mintavétel 200-as HTTP-választ vár egy megadott URL-címhez. Ajánlott eljárásként hozzon létre egy olyan végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak. További információk: [Állapot végponti monitorozását végző minta][health-endpoint-monitoring-pattern].
+- **Állapotminta**. A Traffic Manager HTTP- (vagy HTTPS-) [mintavételt][tm-monitoring] használ az egyes régiók rendelkezésre állásának monitorozására. A mintavétel 200-as HTTP-választ vár egy megadott URL-címhez. Ajánlott eljárásként hozzon létre egy olyan végpontot, amely az alkalmazás általános állapotáról ad jelentést, és ezt a végpontot használja az állapotmintához. Ellenkező esetben előfordulhat, hogy a mintavétel megfelelően működő végpontot jelent, miközben az alkalmazás kritikus fontosságú részei valójában hibásak. További információkért lásd: [állapot végponti Monitorozását végző minta][health-endpoint-monitoring-pattern].
 
 Amikor a Traffic Manager átadja a feladatokat, az alkalmazás egy ideig nem lesz elérhető a felhasználók számára. Ez az időtartam a következő tényezőktől függ:
 

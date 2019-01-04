@@ -1,18 +1,17 @@
 ---
-title: Compute Resource Consolidation
+title: Számításierőforrás-konszolidálási minta
+titleSuffix: Cloud Design Patterns
 description: Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- design-implementation
-ms.openlocfilehash: bd212b8b4406a08058f811db030843f732e08cdc
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 2708cc6d8dfd3867ffc2e6b7b946e31e912f9204
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428839"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010984"
 ---
 # <a name="compute-resource-consolidation-pattern"></a>Számításierőforrás-konszolidálási minta
 
@@ -27,7 +26,6 @@ A felhőalkalmazások gyakran számos különböző műveletet végeznek. Néhá
 Például az ábrán egy olyan, felhőben üzemeltetett megoldás egyszerűsített struktúrája látható, amely több mint egy számítási egység használatával lett megvalósítva. Mindegyik számítási egység a saját virtuális környezetét futtatja. Mindegyik funkció külön feladatként lett megvalósítva (A–E feladat), amely a saját számítási egységét futtatja.
 
 ![Feladatok futtatása egy felhőkörnyezetben dedikált számítási egységek készletének használatával](./_images/compute-resource-consolidation-diagram.png)
-
 
 Mindegyik számítási egység felszámítható erőforrásokat használ, akkor is, ha tétlen vagy kisebb terhelésű. Ezért ez nem mindig a legköltséghatékonyabb megoldás.
 
@@ -67,7 +65,7 @@ Vegye figyelembe az alábbi pontokat a minta megvalósításakor:
 **Versengés**. Ne idézzen elő versengést olyan feladatok létrehozásával, amelyek egy adott számítási egységben osztoznak az erőforrásokon. Ideális esetben az egy számítási egységben futtatott feladatok különböző erőforrás-felhasználási jellemzőkkel rendelkeznek. Ne futtasson például két nagy számítási igényű feladatot ugyanabban a számítási egységben, valamint két sok memóriát felhasználó feladatot se. Azonban egy nagy számítási igényű feladat és egy sok memóriát igénylő feladat közös üzemeltetése működőképes kombináció.
 
 > [!NOTE]
->  Próbálja csak olyan rendszerek számítási erőforrásait konszolidálni, amelyek már egy ideje éles környezetben üzemelnek, hogy a kezelők és fejlesztők a rendszer monitorozásával létrehozhassanak egy _intenzitástérképet_, amely azonosítja, hogy az egyes feladatok hogyan használják a különböző erőforrásokat. A térkép segítségével megállapíthatja, hogy mely feladatok között érdemes megosztani a számítási egységeket.
+> Próbálja csak olyan rendszerek számítási erőforrásait konszolidálni, amelyek már egy ideje éles környezetben üzemelnek, hogy a kezelők és fejlesztők a rendszer monitorozásával létrehozhassanak egy _intenzitástérképet_, amely azonosítja, hogy az egyes feladatok hogyan használják a különböző erőforrásokat. A térkép segítségével megállapíthatja, hogy mely feladatok között érdemes megosztani a számítási egységeket.
 
 **Összetettség**. Amennyiben több feladatot kombinál egy számítási egységben, az megnöveli a kód összetettségét, ami esetleg megnehezítheti a tesztelést, a hibakeresést és a karbantartást.
 
@@ -85,7 +83,7 @@ Ez a minta lehet, hogy nem megfelelő olyan feladatokhoz, amelyek kritikus hibat
 
 Amikor felhőszolgáltatást fejleszt az Azure-ban, a több feladat által végzett feldolgozást egyetlen szerepkörbe konszolidálhatja. Általában ez egy feldolgozói szerepkör, amely háttérben történő vagy aszinkron feldolgozási feladatokat végez.
 
-> Néhány esetben a háttérben történő vagy aszinkron feldolgozási feladatokat belefoglalhatja a webes szerepkörbe. Ezzel a módszerrel csökkentheti a költségeket és egyszerűsítheti az üzembe helyezést, azonban ez befolyásolhatja a webes szerepkör által biztosított nyilvános felület skálázhatóságát és válaszképességét. 
+> Néhány esetben a háttérben történő vagy aszinkron feldolgozási feladatokat belefoglalhatja a webes szerepkörbe. Ezzel a módszerrel csökkentheti a költségeket és egyszerűsítheti az üzembe helyezést, azonban ez befolyásolhatja a webes szerepkör által biztosított nyilvános felület skálázhatóságát és válaszképességét.
 
 Ez a szerepkör felelős a feladatok indításáért és leállításáért. Amikor az Azure Fabric Controller betölt egy szerepkört, kiváltja a szerepkör `Start` eseményét. Felülírhatja a `WebRole` vagy `WorkerRole` osztály `OnStart` metódusát, hogy kezelje az eseményt, például azoknak az adatoknak és egyéb erőforrásoknak az inicializálásával, amelyektől a metódus feladatai függnek.
 
@@ -104,7 +102,6 @@ Amikor egy szerepkör leáll vagy újraindul, a hálóvezérlő megakadályozza,
 A feladatokat a `Run` metódus indítja el, amely megvárja a feladatok befejezését. A feladatok megvalósítják a felhőszolgáltatás üzleti logikáját, és a szerepkörnek küldött üzeneteket az Azure Load Balanceren keresztül válaszolják meg. Az ábrán egy Azure-felhőszolgáltatás szerepköréhez tartozó feladatok és erőforrások életciklusa látható.
 
 ![Egy Azure-felhőszolgáltatás szerepköréhez tartozó feladatok és erőforrások életciklusa](./_images/compute-resource-consolidation-lifecycle.png)
-
 
 A _WorkerRole.cs_ fájl a _ComputeResourceConsolidation.Worker_ projektben arra mutat be egy példát, hogyan valósíthatja meg ezt a mintát egy Azure felhőszolgáltatásban.
 

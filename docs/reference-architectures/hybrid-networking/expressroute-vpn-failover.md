@@ -5,12 +5,12 @@ description: Az Azure virtuális hálózat és a egy helyszíni hálózat VPN-á
 author: telmosampaio
 ms.date: 10/22/2017
 ms.custom: seodec18
-ms.openlocfilehash: d44c046f2351d6103a01108574e0295302f0ba11
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: d32e4dfa81cf74a4ca74746120c15f1ddc066c3e
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119948"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011106"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute-with-vpn-failover"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával
 
@@ -71,7 +71,7 @@ $vnet = Set-AzureRmVirtualNetwork -VirtualNetwork $vnet
 
 Gondoskodjon róla, hogy a cég megfeleljen az [ExpressRoute előfeltételeinek][expressroute-prereq], mert ezek hiányában nem tud az Azure-hoz csatlakozni.
 
-Ha már rendelkezik VPN virtuális hálózati átjáróval az Azure-beli virtuális hálózaton, távolítsa el az alábbi PowerShell-paranccsal:
+Ha az Azure virtuális hálózat már rendelkezik VPN virtuális hálózati átjáró, használja a következő Powershell-paranccsal távolítsa el a:
 
 ```powershell
 Remove-AzureRmVirtualNetworkGateway -Name <yourgatewayname> -ResourceGroupName <yourresourcegroup>

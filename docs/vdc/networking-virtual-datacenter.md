@@ -7,12 +7,12 @@ tags: azure-resource-manager
 ms.service: virtual-network
 ms.date: 11/28/2018
 ms.author: jonor
-ms.openlocfilehash: 1d8a9e860ab1a66104dc4133eb5f22ffb4706b84
-ms.sourcegitcommit: 5a3fa0bf35376bbe4a6dd668f2d7d44f9cf9c806
+ms.openlocfilehash: f02cc7df1e90ba3de97a1c25777ab6d27bfdf697
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/14/2018
-ms.locfileid: "53411684"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011193"
 ---
 # <a name="azure-virtual-datacenter-a-network-perspective"></a>Az Azure virtual datacenter: A hálózati nézőpont
 
@@ -51,15 +51,6 @@ A VDC-megvalósítás segítségével a vállalatok munkaterheléseket és alkal
 -   Számítási feladatok megvalósítása a megosztott vagy központi biztonsági és a hozzáférési követelményeket.
 -   Az Azure DevOps és a központi informatikai nagyvállalatok számára megfelelően.
 
-A magánfelhőmodell előnyeit a VDC feloldásához kulcsa egy központosított topológia, küllős topológia, az Azure-szolgáltatások kombinációját: 
-
-- [Az Azure Virtual Network][VNet]. 
-- [Hálózati biztonsági csoportok (NSG-k)][NSG].
-- [Virtuális hálózatok közötti társviszony][VNetPeering]. 
-- [Felhasználó által megadott útvonalak (udr-EK)][UDR].
-- Azure-identitás szolgáltatásokhoz a [szerepköralapú hozzáférés-vezérlés (RBAC)][RBAC]. 
-- Másik lehetőségként [Azure tűzfal][AzFW], [az Azure DNS][DNS], [Azure bejárati ajtajának] [ AFD], és [Azure virtuális WAN][vWAN].
-
 A kulcs a VDC előnyeit feloldásához egy központosított küllős hálózati topológiák az Azure-szolgáltatások és funkciók:
 
 * [Az Azure Virtual Network][VNet],
@@ -79,9 +70,6 @@ A szervezetek, fejlesztési és üzemeltetési szeretne is igénybe vehetik a jo
 ## <a name="considerations-for-implementing-a-virtual-datacenter"></a>Egy virtuális adatközpont megvalósítása során megfontolandó szempontok
 
 A VDC-megvalósítás megtervezésekor van több pivotal tényezőt érdemes figyelembe venni:
-
-### <a name="identity-and-directory-services"></a>Identitás- és címtárszolgáltatásokat
-Identitás- és címtárszolgáltatásokat rendszer egyik fontos szempontja a minden adatközpontot, mind a helyszíni és a felhőben. Hozzáférés és -engedélyezést, a VDC szolgáltatásai minden aspektusát identitás kapcsolódik. Győződjön meg arról, hogy csak a jogosult felhasználók és a folyamatok elérése az Azure-fiók és -erőforrások, az Azure, számos különböző típusú hitelesítő adatokat használ. Ezek közé tartoznak a jelszavak az Azure-fiók, a kriptográfiai kulcsokat, a digitális aláírások és a tanúsítványok eléréséhez. 
 
 ### <a name="identity-and-directory-service"></a>Identitás- és címtárszolgáltatás
 

@@ -5,12 +5,12 @@ description: Útmutatás az újrapróbálkozáshoz az átmeneti hibák kezelés�
 author: dragon119
 ms.date: 07/13/2016
 ms.custom: seodec18
-ms.openlocfilehash: fe07364e1a6846f9b7b47b2b79ce8031122edbbd
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 00ea1e21bcef2c3de271bec8aebb4a3cb482f57f
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307112"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011820"
 ---
 # <a name="transient-fault-handling"></a>Átmeneti hibák kezelése
 
@@ -86,7 +86,7 @@ Az alábbi irányelvek segítenek megtervezni egy megfelelő átmeneti hibakezel
 
   - Vegye figyelembe az összes tényezőt, amely hozzájárul az újra megkísérelt művelet teljes maximális időtúllépéséhez. E tényezők közé tartozik a sikertelen kapcsolat válaszadási ideje (általában az ügyfél egyik időtúllépési értéke állítja be), valamint az újrapróbálkozási kísérletek közötti késleltetés és az újrapróbálkozások maximális száma. Ezek együtt nagyon hosszú teljes működési időt eredményezhetnek, főleg az exponenciális késleltetési stratégia használatánál, ahol a meghiúsult kísérletek után gyorsan növekszik az újrapróbálkozások közötti idő. Ha egy folyamatnak meg kell felelnie egy adott szolgáltatói szerződés (SLA), a teljes működési időnek, beleértve az összes időtúllépéseket és késéseket belül, amely definiálni kell az SLA-ban.
 
-  - A túl rövid időközökkel vagy túl sok újrapróbálkozással rendelkező agresszív újrapróbálkozási stratégiák kedvezőtlen hatással lehetnek a célerőforrásra vagy -szolgáltatásra. Ez megakadályozhatja, hogy az erőforrás vagy szolgáltatás helyreálljon a túlterhelt állapotból, és továbbra is blokkolni fogja vagy el fogja utasítani a kérelmeket. Ez egy ördögi kört eredményez, ahol az erőforrás vagy szolgáltatás egyre több kérést kap, és ennek köszönhetően tovább romlik a helyreállási képessége.
+  - Túl rövid időközökkel vagy túl sok újrapróbálkozást rendelkezik, rendelkező agresszív újrapróbálkozási stratégiák kedvezőtlen hatással a célként megadott erőforrás vagy szolgáltatás rendelkezhet. Ez megakadályozhatja, hogy az erőforrás vagy szolgáltatás helyreálljon a túlterhelt állapotból, és továbbra is blokkolni fogja vagy el fogja utasítani a kérelmeket. Ez egy ördögi kört eredményez, ahol az erőforrás vagy szolgáltatás egyre több kérést kap, és ennek köszönhetően tovább romlik a helyreállási képessége.
 
   - Az újrapróbálkozási időközök megadásakor vegye figyelembe a műveletek időtúllépését, hogy ne indítsa el azonnal a következő kísérletet (például abban az esetben, ha hasonló az időkorlát és az újrapróbálkozási időköz). Azt is vegye figyelembe, ha a teljes lehetséges időtartamot (az időtúllépések és az újrapróbálkozási időközök együttesét) a megadott teljes idő alatt kell tartani. A szokatlanul rövid vagy hosszú időtúllépéssel rendelkező műveletek befolyásolhatják a várakozási időt és a művelet újbóli megkísérlésének gyakoriságát.
 

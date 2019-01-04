@@ -1,19 +1,17 @@
 ---
-title: Scheduler Agent Supervisor
+title: Feladatütemező ügynök felügyeleti mintája
+titleSuffix: Cloud Design Patterns
 description: Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- messaging
-- resiliency
-ms.openlocfilehash: 7914708413d68689e2326df28ced00e5fc3a5dd8
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 7e1f45b1f2f206e1739d69bab6d4b2641f58a0f9
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428669"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011718"
 ---
 # <a name="scheduler-agent-supervisor-pattern"></a>Feladatütemező ügynök felügyeleti mintája
 
@@ -25,7 +23,7 @@ Elosztott műveleteket egyetlen műveletként koordinálhat. Ha a műveletek bá
 
 Egy alkalmazás több lépésből álló feladatokat hajt végre – a lépések némelyike esetleg távoli szolgáltatásokat hív meg vagy távoli erőforrásokhoz fér hozzá. Az egyes lépések egymástól függetlenek is lehetnek, de azokat a feladatot megvalósító alkalmazáslogika vezényli.
 
-Amikor csak lehetséges, az alkalmazásnak biztosítania kell, hogy a feladat befejeződjön, valamint a távoli szolgáltatásokhoz vagy erőforrásokhoz való hozzáférés során esetlegesen fellépő hibákat el kell hárítania. A hibáknak számos oka lehet. Előfordulhat, hogy a hálózat nem működik, a kommunikáció megszakadt, egy távoli szolgáltatás nem válaszol vagy instabil, vagy egy távoli erőforrás átmenetileg nem érhető el, például erőforrás-korlátozás miatt. A hibák sok esetben átmenetiek, és elháríthatók az [újrapróbálkozási minta][retry-pattern] segítségével.
+Amikor csak lehetséges, az alkalmazásnak biztosítania kell, hogy a feladat befejeződjön, valamint a távoli szolgáltatásokhoz vagy erőforrásokhoz való hozzáférés során esetlegesen fellépő hibákat el kell hárítania. A hibáknak számos oka lehet. Előfordulhat, hogy a hálózat nem működik, a kommunikáció megszakadt, egy távoli szolgáltatás nem válaszol vagy instabil, vagy egy távoli erőforrás átmenetileg nem érhető el, például erőforrás-korlátozás miatt. A legtöbb esetben a hibák átmenetiek, és használatával kezelhetők a [újrapróbálkozási minta](./retry.md).
 
 Ha az alkalmazás nem könnyen helyreállítható állandó hibát észlel, a teljes művelet integritásának biztosítása érdekében képesnek kell lennie visszaállítani a rendszert egy konzisztens állapotba.
 
@@ -47,8 +45,8 @@ Az ütemező az állapottároló elnevezésű tartós adattárban információka
 
 ![1. ábra – Az aktorok a Feladatütemező ügynök felügyeleti mintájában](./_images/scheduler-agent-supervisor-pattern.png)
 
-
-> Ezen az ábrán a minta egyszerűsített változata látható. Valós alkalmazáskor az ütemező több példánya is futhat párhuzamosan, mindegyik feladatok alegységeként. A rendszer futtathat több példányt minden ügynökből, vagy akár több felügyelőt is. Ebben az esetben a felügyelőknek koordinálniuk kell egymással a munkájukat, hogy ne ugyanazokat a sikertelen lépéseket és feladatokat próbálják helyreállítani. A [vezetőválasztási minta](leader-election.md) egy lehetséges megoldást jelent erre a problémára.
+> [!NOTE]
+> Ezen az ábrán a minta egyszerűsített változata látható. Valós alkalmazáskor az ütemező több példánya is futhat párhuzamosan, mindegyik feladatok alegységeként. A rendszer futtathat több példányt minden ügynökből, vagy akár több felügyelőt is. Ebben az esetben a felügyelőknek koordinálniuk kell egymással a munkájukat, hogy ne ugyanazokat a sikertelen lépéseket és feladatokat próbálják helyreállítani. A [vezetőválasztási minta](./leader-election.md) egy lehetséges megoldást jelent erre a problémára.
 
 Amikor az alkalmazás készen áll egy feladat futtatására, kérést küld az ütemezőnek. Az ütemező információkat rögzít az állapottárolóba a feladat és a lépések kezdeti állapotáról (például: meg nem kezdett lépés), majd elkezdi végrehajtani a munkafolyamat által meghatározott műveleteket. Egy-egy lépés megkezdésekor az ütemező frissíti az adattárolóban az adott lépés állapotával kapcsolatos információt (például: a lépés fut).
 
@@ -60,11 +58,11 @@ Ha az ügynök nem tudja végrehajtani a feladatát, az ütemező nem kap válas
 
 Ha egy lépés túllépi az időkorlátot vagy meghiúsul, az állapottárolóba bekerül egy rekord arról, hogy a lépés fut, de a befejezési idő lejárt. A felügyelő ehhez hasonló lépéseket keres, és megpróbálja helyreállítani őket. Egy lehetséges stratégia a felügyelő számára a befejezési időérték frissítése a lépés elvégzéséhez szükséges idő meghosszabbításának céljából, majd a lejárt lépést azonosító üzenet küldése az ütemezőnek. Ezután az ütemező megpróbálhatja megismételni a lépést. Ehhez a kialakításhoz azonban szükséges, hogy a feladatok idempotensek legyenek.
 
-Előfordulhat, hogy a felügyelőnek meg kell akadályoznia ugyanazon lépés végrehajtásának újrapróbálását, ha a lépés folyamatosan meghiúsul vagy lejár. Ennek kivitelezéséhez a felügyelő egy ismétlésszámot tarthat fenn az állapottárolóban minden egyes lépéshez, az állapotinformációval együtt. Ha ez a szám túllép egy előre meghatározott küszöbértéket, a felügyelő másik stratégiaként hosszabb ideig várhat, mielőtt értesítené az ütemezőt, hogy az próbálja újra a lépést, annak reményében, hogy a várakozás alatt a probléma megoldódik. A felügyelő másik megoldásként kérést küldhet az ütemezőnek a teljes feladat visszavonására egy [kompenzáló tranzakciós minta](compensating-transaction.md) alkalmazásával. Ennek a megközelítésnek a sikeressége azon múlik, biztosítják-e az ügynökök és az ütemező a sikeresen befejeződött lépések kompenzáló műveleteinek implementálásához szükséges információkat.
+Előfordulhat, hogy a felügyelőnek meg kell akadályoznia ugyanazon lépés végrehajtásának újrapróbálását, ha a lépés folyamatosan meghiúsul vagy lejár. Ennek kivitelezéséhez a felügyelő egy ismétlésszámot tarthat fenn az állapottárolóban minden egyes lépéshez, az állapotinformációval együtt. Ha ez a szám túllép egy előre meghatározott küszöbértéket, a felügyelő másik stratégiaként hosszabb ideig várhat, mielőtt értesítené az ütemezőt, hogy az próbálja újra a lépést, annak reményében, hogy a várakozás alatt a probléma megoldódik. A felügyelő másik megoldásként kérést küldhet az ütemezőnek a teljes feladat visszavonására egy [kompenzáló tranzakciós minta](./compensating-transaction.md) alkalmazásával. Ennek a megközelítésnek a sikeressége azon múlik, biztosítják-e az ügynökök és az ütemező a sikeresen befejeződött lépések kompenzáló műveleteinek implementálásához szükséges információkat.
 
 > A felügyelőnek nem célja sem az ütemező és az ügynökök monitorozása, sem hiba esetén az újraindításuk. A rendszer e részét az ezeket az összetevőket futtató infrastruktúrának kell kezelnie. A felügyelőnek szintén nem feladata ismerni a tényleges üzleti műveleteket, amelyeket az ütemező által végzett feladatok futtatnak (beleértve a sikertelen feladatok esetében történő kompenzálás módját). Ez az ütemező által alkalmazott munkafolyamat-logika feladata. A felügyelő egyetlen felelőssége, hogy meghatározza, meghiúsult-e egy lépés, és megszervezze a megismétlését vagy a sikertelen lépést tartalmazó teljes feladat visszavonását.
 
-Ha az ütemező hiba után indult újra, vagy az ütemező által végzett munkafolyamat váratlanul leállt, az ütemező képes meghatározni a hiba beálltakor végzett feladatok állapotát, és kész folytatni őket attól a ponttól. A folyamat implementálásának részletei nagy valószínűséggel rendszerspecifikusak. Ha a feladat nem helyreállítható, szükség lehet a feladat által már elvégzett munka visszavonására. Ehhez szükséges lehet egy [kompenzáló tranzakció](compensating-transaction.md) implementálása.
+Ha az ütemező hiba után indult újra, vagy az ütemező által végzett munkafolyamat váratlanul leállt, az ütemező képes meghatározni a hiba beálltakor végzett feladatok állapotát, és kész folytatni őket attól a ponttól. A folyamat implementálásának részletei nagy valószínűséggel rendszerspecifikusak. Ha a feladat nem helyreállítható, szükség lehet a feladat által már elvégzett munka visszavonására. Ehhez szükséges lehet egy [kompenzáló tranzakció](./compensating-transaction.md) implementálása.
 
 Ennek a mintának az egyik legfontosabb előnye a váratlan ideiglenes vagy nem helyreállítható hibák esetén biztosított rugalmasság. A rendszer tervezhető úgy, hogy kijavítsa önmagát. Például ha hiba lép fel egy ügynök vagy az ütemező működésében, elindíthat egy új példányt, és a felügyelő segítségével folytathatja a feladatokat. Ha a felügyelő működésében lép fel hiba, elindíthat egy másik példányt, amellyel onnan folytathatja a munkát, ahol a hiba történt. Ha a felügyelő rendszeres időközönként ütemezve fut, automatikusan indítható új példány egy előre meghatározott időszak után. Az állapottároló replikálható a még nagyobb fokú rugalmasság elérése érdekében.
 
@@ -102,15 +100,16 @@ A beküldési folyamat által a rendeléshez létrehozott állapotinformáció a
 
 - **ProcessState**. A rendelést kezelő feladat jelenlegi állapota. A lehetséges állapotok a következők:
 
-    - **Pending**. A rendelés létrejött, de a feldolgozása még nem kezdődött el.
-    - **Processing**. A rendelés feldolgozása folyamatban van.
-    - **Processed**. A rendelés feldolgozása sikeresen megtörtént.
-    - **Error**. A rendelés feldolgozása nem sikerült.
+  - **Pending**. A rendelés létrejött, de a feldolgozása még nem kezdődött el.
+  - **Processing**. A rendelés feldolgozása folyamatban van.
+  - **Processed**. A rendelés feldolgozása sikeresen megtörtént.
+  - **Error**. A rendelés feldolgozása nem sikerült.
 
 - **FailureCount**. A rendelés feldolgozására tett kísérletek száma.
 
 Ebben az állapotinformációban az `OrderID` mező az új rendelés rendelésazonosítójából lett kimásolva. A `LockedBy` és `CompleteBy` mező értéke `null`, a `ProcessState` mező értéke `Pending`, a `FailureCount` mező értéke pedig 0.
 
+> [!NOTE]
 > Ebben a példában a rendeléskezelő logika viszonylag egyszerű, és csak egyetlen lépése van, amely távoli szolgáltatást hív meg. Egy összetettebb, többlépéses forgatókönyv esetében a folyamat vélhetően több lépést tartalmaz, így az állapottárolóban is több, egy adott lépés állapotát leíró rekord készül.
 
 Az ütemező szintén a feldolgozói szerepkör részeként fut, és implementálja a rendelést kezelő üzleti logikát. Az ütemező egy új rendeléseket kereső példánya olyan rekordokat vizsgál az állapottárolóban, amelyekben a `LockedBy` mező értéke null, a `ProcessState` mezőé pedig „Pending”. Amikor az ütemező új rendelést talál, azonnal kitölti a `LockedBy` mezőt a saját példányazonosítójával, a `CompleteBy` mezőt egy megfelelő időpontra állítja be, a `ProcessState` mezőt pedig „Processing” értékre állítja. A kód kizárólagos és atomi tervezése biztosítja, hogy az ütemező két párhuzamosan futó példánya ne kezelhesse egyszerre ugyanazt a rendelést.
@@ -136,14 +135,13 @@ Ahhoz, hogy a rendelés állapota jelenthető legyen, az alkalmazás használhat
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
 Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
-- [Újrapróbálkozási minta][retry-pattern]. Ügynökök használhatják ezt a mintát egy olyan művelet átlátható módon történő megismétléséhez, amely korábban hibás állapotú távoli szolgáltatáshoz vagy erőforráshoz fér hozzá. Akkor használja, ha a hiba oka valószínűsíthetően átmeneti és elhárítható.
-- [Áramkör-megszakítási minta](circuit-breaker.md). Ügynökök használhatják ezt a mintát olyan hibák kezelésére, amelyek elhárítása távoli szolgáltatáshoz vagy erőforráshoz való csatlakozáskor változó mennyiségű időt vesz igénybe.
-- [Kompenzáló tranzakció mintája](compensating-transaction.md). Ha az ütemező által végzett munkafolyamatot nem lehet sikeresen befejezni, szükséges lehet az addig elvégzett munka visszavonása. A Kompenzáló tranzakció mintája leírja, hogyan valósítható ez meg olyan műveletek esetében, amelyek a végleges konzisztenciájú modellt követik. Az ilyen típusú műveleteket általában egy összetett üzleti folyamatokat és munkafolyamatokat végző ütemező implementálja.
-- [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). A Feladatütemező ügynök felügyeleti mintájának összetevői általában egymástól elválasztva futnak, és aszinkron módon kommunikálnak. Itt néhány, aszinkron módon történő kommunikáció implementálására használt, üzenetsorokon alapuló megközelítés leírását olvashatja.
-- [Vezetőválasztási minta](leader-election.md). Szükséges lehet koordinálni egy felügyelő több példányának műveleteit annak megakadályozása érdekében, hogy a példányok ugyanazt a sikertelen folyamatot próbálják meg helyreállítani. A Vezetőválasztási minta ismerteti, hogyan teheti meg ezt.
-- [Felhőarchitektúra: A Feladatütemező ügynök felügyeleti minta](https://blogs.msdn.microsoft.com/clemensv/2010/09/27/cloud-architecture-the-scheduler-agent-supervisor-pattern/) Clemens Vasters blogján
-- [Folyamatkezelő minta](https://www.enterpriseintegrationpatterns.com/patterns/messaging/ProcessManager.html)
-- [6. hivatkozás: Egy saga a sagákról](https://msdn.microsoft.com/library/jj591569.aspx). Egy példa arra, hogyan használja a CQRS mintája a folyamatkezelőt (a CQRS-út útmutatásának része).
-- [Microsoft Azure Scheduler](https://azure.microsoft.com/services/scheduler/)
 
-[retry-pattern]: ./retry.md
+- [Újrapróbálkozási minta](./retry.md). Ügynökök használhatják ezt a mintát egy olyan művelet átlátható módon történő megismétléséhez, amely korábban hibás állapotú távoli szolgáltatáshoz vagy erőforráshoz fér hozzá. Akkor használja, ha a hiba oka valószínűsíthetően átmeneti és elhárítható.
+- [Áramkör-megszakítási minta](./circuit-breaker.md). Ügynökök használhatják ezt a mintát olyan hibák kezelésére, amelyek elhárítása távoli szolgáltatáshoz vagy erőforráshoz való csatlakozáskor változó mennyiségű időt vesz igénybe.
+- [Kompenzáló tranzakció mintája](./compensating-transaction.md). Ha az ütemező által végzett munkafolyamatot nem lehet sikeresen befejezni, szükséges lehet az addig elvégzett munka visszavonása. A Kompenzáló tranzakció mintája leírja, hogyan valósítható ez meg olyan műveletek esetében, amelyek a végleges konzisztenciájú modellt követik. Az ilyen típusú műveleteket általában egy összetett üzleti folyamatokat és munkafolyamatokat végző ütemező implementálja.
+- [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). A Feladatütemező ügynök felügyeleti mintájának összetevői általában egymástól elválasztva futnak, és aszinkron módon kommunikálnak. Itt néhány, aszinkron módon történő kommunikáció implementálására használt, üzenetsorokon alapuló megközelítés leírását olvashatja.
+- [Vezetőválasztási minta](./leader-election.md). Szükséges lehet koordinálni egy felügyelő több példányának műveleteit annak megakadályozása érdekében, hogy a példányok ugyanazt a sikertelen folyamatot próbálják meg helyreállítani. A Vezetőválasztási minta ismerteti, hogyan teheti meg ezt.
+- [Felhőarchitektúra: A Feladatütemező ügynök felügyeleti mintája](https://blogs.msdn.microsoft.com/clemensv/2010/09/27/cloud-architecture-the-scheduler-agent-supervisor-pattern/) Clemens Vasters blogján
+- [Folyamatkezelő minta](https://www.enterpriseintegrationpatterns.com/patterns/messaging/ProcessManager.html)
+- [6. hivatkozás: Egy Saga a Sagákról](https://msdn.microsoft.com/library/jj591569.aspx). Egy példa arra, hogyan használja a CQRS mintája a folyamatkezelőt (a CQRS-út útmutatásának része).
+- [Microsoft Azure Scheduler](https://azure.microsoft.com/services/scheduler/)

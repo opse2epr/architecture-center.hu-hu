@@ -1,20 +1,17 @@
 ---
-title: Health Endpoint Monitoring
+title: Állapot végponti monitorozását végző minta
+titleSuffix: Cloud Design Patterns
 description: Rendszeres időközönként működés-ellenőrzéseket implementálhat egy alkalmazásban, amelyhez az elérhetővé tett végpontokon keresztül hozzáférhetnek külső eszközök.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- availability
-- management-monitoring
-- resiliency
-ms.openlocfilehash: 22a4e47c4dd8dd3dd11a4238e859acbea49f9d1b
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: be356341fddcddfaf7e354328bc9c4fa1c47e851
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428975"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011167"
 ---
 # <a name="health-endpoint-monitoring-pattern"></a>Állapot végponti monitorozását végző minta
 
@@ -42,6 +39,7 @@ A válaszkód jelzi az alkalmazás és igény szerint az alkalmazás által hasz
 ![A minta áttekintése](./_images/health-endpoint-monitoring-pattern.png)
 
 Az egyéb ellenőrzések, amelyeket az állapotmonitorozási kód végrehajthat az alkalmazásban többek között a következők lehetnek:
+
 - Felhőalapú tárolók vagy adatbázisok rendelkezésre állásának és válaszidejének ellenőrzése.
 - Az alkalmazásban vagy máshol található (de az alkalmazás által használt) egyéb erőforrások vagy szolgáltatások ellenőrzése.
 
@@ -67,7 +65,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 A válasz érvényesítésének módja. Például elég csupán egyetlen 200-as (OK) állapotkód annak ellenőrzésére, hogy megfelelően működik-e az alkalmazás? Habár ez az alkalmazás rendelkezésre állásának legegyszerűbb mérési módja, illetve a minta legalapvetőbb implementációja, kevés információt biztosít a műveletekről, trendekről és az alkalmazásban lehetségesen felmerülő hibákról.
 
-   >  Győződjön meg arról, hogy az alkalmazás csak akkor ad vissza 200 (OK) állapotkódot, amikor a rendszer megtalálta és feldolgozta a célerőforrást. Egyes forgatókönyvekben, például akkor, amikor mesteroldalt használ a célweboldal üzemeltetéséhez, a kiszolgáló a 404-es (Nem található) kód helyett a 200-as (OK) állapotkódot küldi vissza, még akkor is, ha a céltartalomoldal nem található.
+   > Győződjön meg arról, hogy az alkalmazás csak akkor ad vissza 200 (OK) állapotkódot, amikor a rendszer megtalálta és feldolgozta a célerőforrást. Egyes forgatókönyvekben, például akkor, amikor mesteroldalt használ a célweboldal üzemeltetéséhez, a kiszolgáló a 404-es (Nem található) kód helyett a 200-as (OK) állapotkódot küldi vissza, még akkor is, ha a céltartalomoldal nem található.
 
 Az alkalmazás számára elérhető végpontok száma. Az egyik lehetőség elérhetővé tenni legalább egy végpontot az alkalmazás által használt alapszolgáltatások számára, és egy másikat az alacsonyabb prioritású szolgáltatások számára, hogy különböző fontossági szintek legyenek hozzárendelve az egyes monitorozási eredményekhez. Emellett érdemes lehet elérhetővé tenni több végpontot, például egyet minden alapszolgáltatás számára, hogy a monitorozás még részletesebb legyen. Az állapotellenőrzések például ellenőrizhetik az adatbázist, a tárolót és az alkalmazás által használt külső geokódolási szolgáltatásokat, amelyek mindegyike különböző szintű üzemidőt és válaszidőt igényel. Az alkalmazás akkor is megfelelő állapotban lehet, ha a geokódolási szolgáltatás vagy valamely másik háttérfeladat nem érhető el néhány percig.
 
@@ -98,6 +96,7 @@ Hogyan konfiguráljuk a monitorozási végpontok biztonságát annak érdekében
 ## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
 Ez a minta az alábbi esetekben hasznos:
+
 - Webhelyek és webalkalmazások monitorozása a rendelkezésre állás ellenőrzése érdekében.
 - Webhelyek és webalkalmazások monitorozása a megfelelő működés ellenőrzése érdekében.
 - Középső rétegű vagy megosztott szolgáltatások monitorozása azon hibák észlelése és elkülönítése érdekében, amelyek megzavarhatják a többi alkalmazást.
@@ -134,6 +133,7 @@ public ActionResult CoreServices()
   return new HttpStatusCodeResult((int)HttpStatusCode.OK);
 }
 ```
+
 Az `ObscurePath` metódus azt mutatja be, hogyan olvashatók az elérési útvonalak az alkalmazás konfigurációjából, és hogyan használhatók végpontként a tesztekhez. Ez a C# nyelven írt példa azt is bemutatja, hogyan fogadhatók el az azonosítók paraméterként és használhatók a kérések érvényességének ellenőrzésére.
 
 ```csharp
@@ -178,6 +178,7 @@ public ActionResult TestResponseFromConfig()
   return new HttpStatusCodeResult(returnStatusCode);
 }
 ```
+
 ## <a name="monitoring-endpoints-in-azure-hosted-applications"></a>Végpontok monitorozása az Azure által üzemeltetett alkalmazásokban
 
 Néhány lehetőség a végpontok monitorozására az Azure-alkalmazásokban:
@@ -192,7 +193,7 @@ Néhány lehetőség a végpontok monitorozására az Azure-alkalmazásokban:
 
 A monitorozható feltételek az alkalmazáshoz választott üzemeltetési mechanizmustól függően eltérőek lehetnek (például Web Sites, Cloud Services, Virtual Machines vagy Mobile Services), de ezek mindegyike képes riasztási szabályokat létrehozni, amelyek a szolgáltatás beállításaiban megadott webes végpontokat használják. Ennek a végpontnak időben kell válaszolnia, hogy a riasztási rendszer észlelhesse, hogy az alkalmazás megfelelően működik.
 
->  További információ a [riasztási értesítések létrehozásáról][portal-alerts].
+> További információ a [riasztási értesítések létrehozásáról][portal-alerts].
 
 Ha az Azure Cloud Services webes és feldolgozói szerepkörökben vagy Virtual Machines-környezetben üzemelteti az alkalmazást, kihasználhatja az egyik beépített Azure-szolgáltatás, a Traffic Manager előnyeit. A Traffic Manager egy útválasztó- és terheléselosztási szolgáltatás, amely képes kéréseket szétosztani a Cloud Services által üzemeltetett alkalmazás adott példányai között különböző szabályok és beállítások alapján.
 
@@ -200,11 +201,12 @@ Az útválasztási kérelmek mellett a Traffic Manager pingel egy URL-címet, eg
 
 A Traffic Manager azonban csak tíz másodpercig vár a monitorozó URL-cím válaszára. Éppen ezért győződjön meg róla, hogy a rendszer az időkorláton belül futtatja az állapot-ellenőrzési kódot, ezzel lehetővé téve a hálózaton belüli adatváltási késést a Traffic Managerből az alkalmazásba, majd pedig vissza.
 
->  További információ a [Traffic Manager alkalmazások monitorozására való használatáról](https://azure.microsoft.com/documentation/services/traffic-manager/). A Traffic Managerről a [több adatközpont üzembe helyezéséről szóló útmutatóban](https://msdn.microsoft.com/library/dn589779.aspx) is olvashat.
+> További információ a [Traffic Manager alkalmazások monitorozására való használatáról](https://azure.microsoft.com/documentation/services/traffic-manager/). A Traffic Managerről a [több adatközpont üzembe helyezéséről szóló útmutatóban](https://msdn.microsoft.com/library/dn589779.aspx) is olvashat.
 
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
 Az alábbi útmutató hasznos lehet ennek a mintának az implementálása során:
+
 - [Rendszerállapot és telemetria – útmutató](https://msdn.microsoft.com/library/dn589775.aspx). A szolgáltatások és összetevők állapotának ellenőrzése általában mintavétel útján történik, de emellett hasznos lehet érvényes információkkal rendelkezni az alkalmazásteljesítmény monitorozásához és a futtatás során bekövetkező események észleléséhez. Ezeket az adatokat az állapotfigyeléssel kapcsolatos tovább információkként vissza lehet küldeni a monitorozási eszközökbe. A rendszerállapotra és telemetriára vonatkozó útmutató bemutatja, hogyan lehet távolról az alkalmazások rendszerállapot-figyelése által gyűjtött diagnosztikai adatokat gyűjteni.
 - [Riasztási értesítések fogadása][portal-alerts].
 - Ez a minta egy letölthető [mintaalkalmazást](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring) tartalmaz.

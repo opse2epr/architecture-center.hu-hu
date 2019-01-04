@@ -1,18 +1,17 @@
 ---
-title: Competing Consumers
+title: Versengő felhasználók mintája
+titleSuffix: Cloud Design Patterns
 description: Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- messaging
-ms.openlocfilehash: aea172dcdb33c0d8513fb69715f1549b4a20f5e6
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 14230cf3bcb675bd8420b746741d1c434b584463
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428377"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011072"
 ---
 # <a name="competing-consumers-pattern"></a>Versengő felhasználók mintája
 
@@ -34,7 +33,7 @@ Az üzenetsor segítségével megteremtheti a kommunikációs csatornát az alka
 
 Ez a megoldás a következő előnyökkel jár:
 
-- Kiegyenlített terhelésű rendszert biztosít, amely jelentősen eltérő mennyiségben is képes kezelni az alkalmazáspéldányok által küldött kérelmeket. Az üzenetsor pufferként viselkedik az alkalmazáspéldányok és a feldolgozói szolgáltatás példányai között. Ez segít minimalizálni a rendelkezésre állásra és a válaszképességre gyakorolt hatást mind az alkalmazás, mind a szolgáltatáspéldány esetében, az [Üzenetsor-alapú terheléskiegyenlítési minta](queue-based-load-leveling.md) ismertetőjében foglaltak szerint. A hosszabb ideig tartó feldolgozást igénylő üzenetek nem akadályozzák a feldolgozói szolgáltatás más példányait a többi üzenet párhuzamos kezelésében.
+- Kiegyenlített terhelésű rendszert biztosít, amely jelentősen eltérő mennyiségben is képes kezelni az alkalmazáspéldányok által küldött kérelmeket. Az üzenetsor pufferként viselkedik az alkalmazáspéldányok és a feldolgozói szolgáltatás példányai között. Ez segít minimalizálni a rendelkezésre állásra és a válaszképességre gyakorolt hatást mind az alkalmazás, mind a szolgáltatáspéldány esetében, az [Üzenetsor-alapú terheléskiegyenlítési minta](./queue-based-load-leveling.md) ismertetőjében foglaltak szerint. A hosszabb ideig tartó feldolgozást igénylő üzenetek nem akadályozzák a feldolgozói szolgáltatás más példányait a többi üzenet párhuzamos kezelésében.
 
 - Ez növeli a megbízhatóságot. Ha az előállító ennek a mintának a használata helyett közvetlenül kommunikál a feldolgozóval, de nem monitorozza azt, akkor nagy valószínűséggel el fognak veszni üzenetek, vagy a feldolgozásuk sikertelen lesz, ha a feldolgozó meghibásodik. Ebben a mintában a rendszer nem egy adott szolgáltatáspéldányra küldi az üzeneteket. A sikertelen szolgáltatáspéldány nem blokkolja az előállítót, az üzenetek feldolgozását pedig bármely működő szolgáltatáspéldány elvégezheti.
 
@@ -85,7 +84,8 @@ Nem érdemes ezt a mintát használni, ha:
 
 Az Azure olyan tárolási üzenetsorokat és Service Bus-üzenetsorokat biztosít, amelyek a minta alkalmazásának mechanizmusaként működhetnek. Az alkalmazáslogika üzeneteket küldhet az üzenetsorba, a feladatokként, egy vagy több szerepkörben megvalósított feldolgozók pedig beolvashatják az üzeneteket ebből az üzenetsorból, és feldolgozhatják azokat. A rugalmasság érdekében a Service Bus-üzenetsor lehetővé teszi, hogy a fogyasztó a `PeekLock` módot használja, amikor üzenetet kér le az üzenetsorból. Ez a mód ténylegesen nem távolítja el az üzenetet, hanem egyszerűen elrejti azt más feldolgozók elől. Az eredeti feldolgozó törölheti az üzenetet, amikor már végzett a feldolgozásával. Ha a feldolgozó nem jár sikerrel, a betekintési zárolás időtúllépést okoz, és az üzenet újra láthatóvá válik, így egy másik feldolgozó is lekérheti azt.
 
-> Az Azure Service Bus-üzenetsorok használatával kapcsolatos részletes információkért lásd: [Service Bus-üzenetsorok, témakörök és előfizetések](https://msdn.microsoft.com/library/windowsazure/hh367516.aspx).
+Az Azure Service Bus-üzenetsorok használatával kapcsolatos részletes információkért lásd: [Service Bus-üzenetsorok, témakörök és előfizetések](https://msdn.microsoft.com/library/windowsazure/hh367516.aspx).
+
 Az Azure tárolási üzenetsorok használatával kapcsolatos információkért lásd: [Az Azure Queue Storage használatának első lépései a .NET-keretrendszerrel](https://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-queues/).
 
 A [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/competing-consumers)-on elérhető CompetingConsumers megoldás `QueueManager` osztályából származó alábbi kód bemutatja, hogyan hozható létre egy `QueueClient`-példány a `Start` eseménykezelővel egy webes vagy feldolgozói szerepkörben.
@@ -174,7 +174,7 @@ private void OptionsOnExceptionReceived(object sender,
 }
 ```
 
-Érdemes megjegyezni, hogy az automatikus skálázási funkciók – például azok, amelyek az Azure-ban is elérhetők – a szerepkörpéldányok indításához és leállításához is használhatók, ahogy az üzenetsor hossza ingadozik. További információért lásd az [automatikus skálázás útmutatóját](https://msdn.microsoft.com/library/dn589774.aspx). Emellett nincs szükség a szerepkörpéldányok és a munkavégző folyamatok közötti egy az egyhez típusú egyezés fenntartására &mdash; egyetlen szerepkörpéldány több munkavégző folyamatot is megvalósíthat. További információkért lásd a [számításierőforrás-konszolidálási mintát](compute-resource-consolidation.md).
+Érdemes megjegyezni, hogy az automatikus skálázási funkciók – például azok, amelyek az Azure-ban is elérhetők – a szerepkörpéldányok indításához és leállításához is használhatók, ahogy az üzenetsor hossza ingadozik. További információért lásd az [automatikus skálázás útmutatóját](https://msdn.microsoft.com/library/dn589774.aspx). Emellett nincs szükség a szerepkörpéldányok és a munkavégző folyamatok közötti egy az egyhez típusú egyezés fenntartására &mdash; egyetlen szerepkörpéldány több munkavégző folyamatot is megvalósíthat. További információkért lásd a [számításierőforrás-konszolidálási mintát](./compute-resource-consolidation.md).
 
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
@@ -184,8 +184,8 @@ Az alábbi minták és útmutatók hasznosak lehetnek a minta megvalósításako
 
 - [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). Egy feldolgozói szolgáltatás példányait el lehet indítani és le lehet állítani, mivel azon üzenetsorok hossza, amelyekre az alkalmazások üzeneteket küldenek, változó. Az automatikus skálázás segítségével az átviteli sebesség szinten tartható a feldolgozási csúcsidőszakban.
 
-- [Számításierőforrás-konszolidálási minta](compute-resource-consolidation.md). Egy feldolgozói szolgáltatás több példánya egyetlen folyamatba vonhatók össze a költségek és a felügyeleti terhek csökkentése érdekében. A számításierőforrás-konszolidálási minta ismerteti ennek a módszernek az előnyeit és a hátrányait.
+- [Számításierőforrás-konszolidálási minta](./compute-resource-consolidation.md). Egy feldolgozói szolgáltatás több példánya egyetlen folyamatba vonhatók össze a költségek és a felügyeleti terhek csökkentése érdekében. A számításierőforrás-konszolidálási minta ismerteti ennek a módszernek az előnyeit és a hátrányait.
 
-- [Üzenetsor-alapú terheléskiegyenlítési minta](queue-based-load-leveling.md) Az üzenetsor bevezetése rugalmassá teheti a rendszert, lehetővé téve, hogy a szolgáltatáspéldányok kezelni tudják alkalmazáspéldányoktól érkező, váltakozó mennyiségű kérelmeket. Az üzenetsor pufferként viselkedik, ami kiegyenlíti a terhelést. Az üzenetsor-alapú terheléskiegyenlítési minta részletesebben is ismerteti ezt a forgatókönyvet.
+- [Üzenetsor-alapú terheléskiegyenlítési minta](./queue-based-load-leveling.md). Az üzenetsor bevezetése rugalmassá teheti a rendszert, lehetővé téve, hogy a szolgáltatáspéldányok kezelni tudják alkalmazáspéldányoktól érkező, váltakozó mennyiségű kérelmeket. Az üzenetsor pufferként viselkedik, ami kiegyenlíti a terhelést. Az üzenetsor-alapú terheléskiegyenlítési minta részletesebben is ismerteti ezt a forgatókönyvet.
 
 - Ehhez a mintához egy [mintaalkalmazás](https://github.com/mspnp/cloud-design-patterns/tree/master/competing-consumers) is tartozik.

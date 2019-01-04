@@ -1,93 +1,92 @@
 ---
-title: Materializált nézet
-description: Az adatokat egy vagy több adattárolókhoz keresztül előfeltöltött nézetek létrehozása az adatok nem ideális formázott kötelező lekérdezési műveletek.
-keywords: Kialakítási mintája
+title: A Materialized View minta
+titleSuffix: Cloud Design Patterns
+description: Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- performance-scalability
-ms.openlocfilehash: 992abcb57204c65a7ca9e9e2525d3ea7339c4a2c
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: 42795e218d1a46c9aec98c207d1207f1afdbc2fd
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24540233"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011565"
 ---
-# <a name="materialized-view-pattern"></a>Materializált nézet minta
+# <a name="materialized-view-pattern"></a>A Materialized View minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Az adatokat egy vagy több adattárolókhoz keresztül előfeltöltött nézetek létrehozása az adatok nem ideális formázott kötelező lekérdezési műveletek. A támogatási hatékony lekérdezésére és az adatok kinyerése érdekében, és az alkalmazások teljesítményének javítása.
+Létrehozhat előre kitöltött nézeteket egy vagy több adattár adataiból, ha az adatok formázása nem ideális a szükséges lekérdezési műveletekhez. Ez segíthet a hatékony lekérdezésben és adatkinyerésben, valamint az alkalmazás teljesítményének javításában.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Adatok tárolására, a prioritás a fejlesztők és az adatok a rendszergazdák gyakran arra irányul, hogy az adatok tárolási módjára, hogyan írásvédett szemben. A kiválasztott tárolási formátum általában szorosan összefügg az adatok, az adatok mérete és sértetlenségét és milyen típusú használt tároló kezeléséhez szükséges formátumnak. Például NoSQL dokumentum tároló használata esetén az adatok gyakran képviselt összesítések, sorozataként tartalmazó minden olyan információt, hogy az entitás.
+Az adatok tárolásakor a fejlesztők és adat-rendszergazdák gyakran az adatok tárolásának módjára, nem pedig az írás módjára összpontosítanak. A kiválasztott tárolási formátum általában szorosan összefügg az adatok formátumával, az adatok méret- és integritáskezelési követelményeivel és a használt tároló típusával. NoSQL-dokumentumtároló használata esetén például az adatok gyakran szerepelnek összesítések sorozataként, és mindegyik sorozat minden információt tartalmaz az adott entitásról.
 
-Azonban ez is negatív hatással a lekérdezések. Ha a lekérdezés csak néhány entitások, például több ügyfelek nem minden a rendelés részleteit rendelések összefoglalását az adatok egy részét az összes szempontjából fontos entitásokra vonatkozó adatot ahhoz, hogy a szükséges adatokat az beszerzése kell kibontásához.
+Azonban ez negatív hatással lehet a lekérdezésekre. Ha egy lekérdezésnek bizonyos entitások adatainak egy részére van szüksége (például néhány ügyfél rendeléseinek egyes részletei), a kapcsolódó entitás összes adatát ki kell nyernie a szükséges információ beszerzéséhez.
 
 ## <a name="solution"></a>Megoldás
 
-Hatékony lekérdezése támogatásához egy közös megoldás létrehozásához, előre megvalósul a szükséges eredmények készlet megfelelő formátumú a adatokat megjelenítő. A materializált nézet mintát ismerteti az adatok előfeltöltött nézetek generálása környezetekben, ahol az adatok nem a megfelelő formátumú lekérdezése, ahol megfelelő lekérdezés létrehozása nehéz, vagy ha lekérdezési teljesítmény gyenge jellemzői miatt a adatok vagy az adattárban.
+A hatékony lekérdezések támogatásához gyakori megoldás egy olyan nézet létrehozása, amely a szükséges eredménykészlethez megfelelő formátumban materializálja az adatokat. A Materialized View minta előre feltöltött adatnézetek létrehozását jelenti az olyan környezetekben, ahol a forrásadatok nem a lekérdezésnek megfelelő formátumban vannak, a megfelelő lekérdezés létrehozása bonyolult, vagy a lekérdezés teljesítménye nem megfelelő az adatok vagy az adattár természete miatt.
 
-A materializált nézeteket, amelyek csak tartalmaz adatot, egy lekérdezés által igényelt, lehetővé teszi a alkalmazások gyorsan a szükséges információk beszerzéséhez. Mellett tábla, vagy kombinálja az entitások, materializált nézetek a számított oszlopok vagy adatelemek, az értékek összefűzése vagy átalakítások végrehajtása az elemeket, és a lekérdezés részeként megadott értékek eredményeit az aktuális értékek tartalmazhatnak . A materializált nézet is optimalizálhatók a csupán egyetlen lekérdezést.
+Ezek a materializált nézetek, amelyek csak a lekérdezéshez szükséges adatokat tartalmazzák, lehetővé teszik, hogy az alkalmazások gyorsan beszerezzék a számukra szükséges információkat. A táblázatok összekapcsolása és az adatentitások kombinálása mellett a materializált nézetek tartalmazhatják a számított oszlopok vagy adatelemek aktuális értékeit, az értékek kombinálásának vagy adatelemek átalakításának eredményeit, illetve a lekérdezés részeként megadott értékeket is. A materializált nézet egyetlen lekérdezéshez is optimalizálható.
 
-A lényeg az, hogy egy materializált nézet és a benne található adatok teljes rendelkezésre álló mert akkor is teljes mértékben építhető újra, a forrás adatok áruházakból. A materializált nézet soha nem frissít közvetlenül egy alkalmazás, és azt egy speciális gyorsítótár.
+A lényeg az, hogy a materializált nézet és a benne található adatok teljesen pótolhatók, mivel teljesen újraépíthetők a forrásadattárakból. A materializált nézetet soha nem közvetlenül egy alkalmazás frissíti, ezért ez egy specializált gyorsítótár.
 
-A forrás az adatok a nézet a nézet meg kell adni az új információval. Ütemezheti az Ez automatikusan megtörténjen-e, vagy amikor a rendszer észleli, hogy az eredeti adatok. Egyes esetekben szükség lehet manuálisan újragenerálja a nézetet. Az ábra előfordulhat, hogy hogyan használható a materializált nézet mintát példáját mutatja be.
+Ha a nézet forrásadatai megváltoznak, az új információk megjelenítéséhez frissíteni kell a nézetet. Ezt ütemezheti úgy, hogy automatikusan történjen, vagy amikor a rendszer az eredeti adatok módosítását érzékeli. Egyes esetekben előfordulhat, hogy manuálisan újra létre kell hoznia a nézetet. Az ábra a Materialized View minta használatának példáját tartalmazza.
 
-![1. ábra szemlélteti, hogyan lehet, hogy használni a materializált nézet minta](./_images/materialized-view-pattern-diagram.png)
+![Az 1. ábra a Materialized View minta használatának példáját tartalmazza.](./_images/materialized-view-pattern-diagram.png)
 
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
-Ebben a mintában megvalósításához meghatározásakor, vegye figyelembe a következő szempontokat:
+Hogyan és mikor fog frissülni a nézet. Ideális esetben a forrásadatok változását jelző eseményre adott válaszként újra létrejön a nézet, de ez túlzott terheléshez vezethet, ha a forrásadatok gyorsan változnak. Másik megoldásként fontolja meg egy ütemezett feladat, külső eseményindító vagy manuális művelet használatát a nézet újbóli létrehozásához.
 
-Hogyan és mikor frissíti a nézetet. Ideális esetben azt kell generálja újra egy módosítva lett a forrásadatok jelző esemény bekövetkeztekor bár ez vezethet túlzott terhelés, ha az adatok gyors megváltozik. Azt is megteheti érdemes lehet egy ütemezett feladatot, egy külső eseményindító vagy a manuális műveletet újragenerálja a nézetet.
+Egyes rendszerekben, például ha az Event Sourcing mintával tartja fenn az adatokat módosító események tárolóját, szükségesek a materializált nézetek. Előfordulhat, hogy az eseménytár információi csak úgy szerezhetők be, ha előre feltölti a nézeteket az aktuális állapot meghatározásához. Ha nem használ Event Sourcing mintát, fontolja meg, hogy a materializált nézet hasznos-e. A materializált nézetek általában kifejezetten egyetlen vagy kis számú lekérdezéshez vannak igazítva. Ha sok lekérdezést használ, a materializált nézetek túlzott tárkapacitási követelményeket és tárolási költségeket eredményezhetnek.
 
-Az egyes rendszerek, például ha az esemény-forrás használatával mintát csak azokat az eseményeket az adatokat módosító tárolhatják a materializált nézetek szükség. Előzetes megadása a nézetek az aktuális állapot meghatározásához minden események vizsgálatával, előfordulhat, hogy az egyetlen lehetőség a esemény áruházból információkhoz. Ha esemény forrás nem használja, fontolja meg, hogy a materializált nézet hasznos vagy nem szeretné. Az egyes materializált nézetek egy vagy néhány lekérdezések igazíthatók. Sok lekérdezések használata esetén materializált nézetek eredményezhet elfogadhatatlan tárolókapacitási követelmények és a tárolási költségű.
+Vegye figyelembe az adatkonzisztenciára gyakorolt hatást a nézet létrehozásakor, illetve ütemezett frissítések használatakor. Ha a forrásadatok változnak a nézet létrehozásakor, az adatok nézetben található másolata nem lesz teljesen konzisztens az eredeti adatokkal.
 
-Vegye figyelembe az adatok konzisztenciájának gyakorolt, a nézet létrehozásakor, ha a nézet frissítése, ha ez az ütemezés szerint történik. Az adatok a ponton módosítani, ha a nézet jön létre, a nézetben az adatok másolatát nem fogja teljesen konzisztensek legyenek az eredeti adatokkal.
+Fontolja meg, hol fogja tárolni a nézetet. A nézetnek nem kell ugyanazon a tárolóban vagy partíción lennie, mint az eredeti adatoknak. Több különböző partíció részeiből is származhat.
 
-Fontolja meg, ahol a nézetet fogja tárolni. A nézet nem rendelkezik az ugyanarra a tároló vagy az eredeti adatokkal partíció található. A kombinált néhány különböző partíciók részhalmaza lehet.
+A nézet újraépíthető, ha elveszik. Ezért ha a nézet átmeneti, és csak a lekérdezési teljesítmény vagy a méretezhetőség javítására szolgál az adatok aktuális állapotának megjelenítésével, akkor tárolható egy gyorsítótárban vagy egy kevésbé megbízható helyen.
 
-Nézet úgy is, ha elveszett. Miatt, amely ha a nézet átmeneti, és csak akkor használja, a lekérdezési teljesítmény javítása a tükrözik az adatok aktuális állapotát, vagy, méretezhetőség javítása érdekében tárolható a gyorsítótár vagy kevésbé megbízható helyen.
+Materializált nézetek meghatározásakor maximalizálhatja a nézet értékét, ha a meglévő adatelemek számításának vagy átalakításának alapján, a lekérdezésben átadott értékek alapján, vagy ahol lehetséges, ezen értékek kombinációjának alapján adatelemeket vagy oszlopokat ad hozzá.
 
-A materializált nézet meghatározásakor maximalizálása érdekében hozzáadását adatelemek vagy oszlopok alapján számítási vagy átalakítási meglévő adatelemek, a lekérdezés az átadott értékeket, vagy adott esetben ezek az értékek kombinációi értéke.
+Ahol a tárolási mechanizmus támogatja, fontolja meg a materializált nézet indexelését a teljesítmény további növelése érdekében. A legtöbb relációs adatbázis támogatja a nézetek indexelését, ahogy az Apache Hadoopon alapuló big data-megoldások is.
 
-A teljesítmény növelése érdekében további materializált nézet indexelje, ahol a tárolási mechanizmus támogatja azt. A legtöbb relációs adatbázisok nézetek, indexelő is támogatják alapján Apache Hadoop big data-megoldások.
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+Ez a minta az alábbi esetekben hasznos:
 
-Ebben a mintában akkor hasznos, ha:
-- Nézetek létrehozása materializált adatok, amelyek nehéz lekérdezése közvetlenül, vagy ha lekérdezések nagyon összetett normalizált, félig strukturált vagy strukturálatlan módon tárolt adatokat nyerhet ki kell lennie.
-- Amely jelentősen javíthatja a lekérdezések teljesítményét, vagy működhet közvetlenül forrás nézet, és az adatok átvitel objektumok a felhasználói felület, a jelentési vagy a megjelenítési ideiglenes nézetek létrehozása.
-- Alkalmanként támogató csatlakoztatott vagy nincs csatlakoztatva a forgatókönyvek, ahol az adattárolóhoz kapcsolat nem mindig érhető el. A nézet gyorsítótárazható helyileg ebben az esetben.
-- Lekérdezések egyszerűsítése, és úgy, hogy nincs szükség a Forrás-adatformátum ismerete kísérletezhet az adatok. Például különböző tábla egy vagy több adatbázist, vagy egy vagy több tartományt a NoSQL-tárolókon, és majd a a az adatok az esetleges formázási használják.
-- Való hozzáférés biztosításához a forrásadatok meghatározott fájlcsoportokat, hogy a biztonsági vagy adatvédelmi okokból, nem lehet általánosan elérhető, nyissa meg a módosítása, vagy teljesen közvetlenül a felhasználók számára.
-- Adatközponthíd-képzés különböző adatokat tárolja, az egyes képességek előnyeit. Használata esetén például a felhőben levő tárolójának, amely hatékony írásra, a referencia-tárolót, és egy relációs adatbázisban, amely jó lekérdezés és a materializált nézetek tárolásához olvasási teljesítmény kínál.
+- Materializált nézetek létrehozása olyan adatok helyett, amelyeket nehéz közvetlenül lekérdezni, vagy ahol a lekérdezéseknek nagyon összetettnek kell lenniük a normalizált, részben strukturált vagy strukturálatlan módon tárolt adatok kinyeréséhez.
+- Ideiglenes nézetek létrehozása, amelyek jelentősen javíthatják a lekérdezés teljesítményét, vagy közvetlenül a felhasználói felület forrásnézeteiként vagy adatátviteli objektumaiként működhetnek jelentéskészítéshez vagy megjelenítéshez.
+- Átmenetileg csatlakoztatott vagy leválasztott forgatókönyvek támogatása, ahol nem mindig lehet csatlakozni az adattárhoz. Ebben az esetben a nézet helyileg gyorsítótárazható.
+- Lekérdezések egyszerűsítése és adatok felfedése kísérletezéshez anélkül, hogy szükség lenne a forrásadatok formátumának ismeretére. Ilyen eset például, ha egy vagy több adatbázisban található táblákat, illetve egy vagy több NoSQL-tárolóban található tartományokat kapcsol össze, majd formázza az adatokat a kívánt felhasználásnak megfelelően.
+- A forrásadatok adott részhalmazaihoz való hozzáférés biztosítása, amelyeket biztonsági vagy adatvédelmi okokból nem kíván általános elérhetővé, módosíthatóvá vagy a felhasználók által láthatóvá tenni.
+- Különböző adattárolók áthidalása az egyes tárolók képességeinek kihasználása érdekében. Ilyen eset például, ha materializált nézetek tárolására kíván használni egy felhőalapú tárolót, amely referencia-adattárként hatékony az írásban, valamint egy relációs adatbázist, amely jó lekérdezési és olvasási teljesítményt kínál.
 
-Ez a minta nem a következő esetekben lehet hasznos:
-- Az adatok egyszerű és lekérdezés könnyen.
-- Az adatok nagyon gyorsan a változtatásokat, illetve egy nézet használata nélkül is elérhetők. Ezekben az esetekben ne a feldolgozási terhelést növelni az nézetek létrehozása.
-- Konzisztencia egy magas prioritású virtuális gép. A nézetek nem mindig lehet az eredeti adatok teljes mértékben egységes.
+A minta használata a következő esetekben nem hasznos:
+
+- A forrásadatok egyszerűek és könnyen lekérdezhetők.
+- A forrásadatok gyorsan változnak vagy nézet használata nélkül is elérhetők. Ezekben az esetekben kerülje el a nézetek létrehozásával járó többletterhelést.
+- A konzisztencia kiemelt fontosságú. Előfordulhat, hogy a nézetek nem teljesen konzisztensek az eredeti adatokkal.
 
 ## <a name="example"></a>Példa
 
-Az alábbi ábra a materializált nézet minta használatával az értékesítési összegzését létrehozásához példáját mutatja be. Az Azure-tárfiók külön partíciók a sorrendben, OrderItem és ügyfél-táblázatok adatait a rendszer kombinálja a teljes értékesítési értéke az egyes termékek Electronics kategóriában, valamint végző ügyfelek számát tartalmazó nézet létrehozásához az egyes elemek vásárlások.
+Az alábbi ábra egy példát mutat be egy értékesítési összesítés létrehozására a Materialized View minta használatával. Az Azure Storage-tárfiók különböző partícióin lévő Order, OrderItem és Customer táblázatokban található adatokat kombinálja egy olyan nézet létrehozásához, amely tartalmazza az Elektronikai termékek kategória minden termékének teljes értékesítési értékét, valamint az egyes elemeket megvásárló ügyfelek számát.
 
-![2. ábra: A materializált nézet minta használatával az értékesítési összegzését létrehozásához](./_images/materialized-view-summary-diagram.png)
+![2. ábra: A Materialized View minta használata értékesítési összesítés létrehozására](./_images/materialized-view-summary-diagram.png)
 
+Ennek a materializált nézetnek a létrehozásához összetett lekérdezések szükségesek. Ha azonban materializált nézetként teszi elérhetővé a lekérdezés eredményét, a felhasználók könnyen beszerezhetik az eredményeket, és közvetlenül felhasználhatják, illetve belefoglalhatják őket egy másik lekérdezésbe. A nézetet valószínűleg egy jelentéskészítési rendszerben vagy irányítópulton fogják használni, és ütemezés szerint (például hetente) frissíthető.
 
-A materializált nézet létrehozásához szükséges összetett lekérdezések. Azonban jelentkezik, mintha a lekérdezés eredménye egy materializált nézet, a felhasználók könnyen az eredmények és használhatja őket közvetlenül vagy bele őket egy másik lekérdezést. A nézet valószínűleg jelentéskészítési rendszeren és irányítópultot használ, és frissíthetik például heti ütemezés szerint.
+> Bár ebben a példában az Azure Table Storage-ot használjuk, számos más relációsadatbázis-kezelő rendszer is natív támogatást nyújt a materializált nézetekhez.
 
->  Bár ebben a példában az Azure table storage használja, sok relációs adatbázis-kezelő rendszerek is támogatást nyújt a natív materializált nézetekhez.
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalósításakor:
 
-A következő mintákat és útmutatókat is lehet releváns ebben a mintában végrehajtása során:
-- [Adatok konzisztencia ismertetése](https://msdn.microsoft.com/library/dn589800.aspx). Az összefoglaló információkat a materializált nézet rendelkezik, hogy azok megfeleljenek az alapul szolgáló adatértékek fenntartásához. Az adatok értékek módosítása, nem lehet frissíteni a valós idejű összefoglalókat gyakorlati, és helyette konfigurálnia kell egy idővel konzisztenssé módszert is fogad el. Összesíti a kérdésekkel karbantartása konzisztencia elosztott adatokon keresztül, és ismerteti az előnyöket és a különböző konzisztencia modellek kompromisszumot.
-- [A parancs és a lekérdezés felelősségi elkülönítése (CQRS) minta](cqrs.md). Használja a információinak frissítése a materializált nézet által válaszol az eseményeket, amelyek akkor történik, ha az alapul szolgáló adatértékek módosítása.
-- [Esemény Sourcing mintát](event-sourcing.md). Együttes használatával a CQRS mintával materializált nézet adatainak kezelése. Az adatértékek materializált nézet alapuló módosításakor a rendszer merülhet események leíró ezeket a módosításokat, és mentse őket egy esemény áruházban.
-- [Index táblázat mintát](index-table.md). A materializált nézet adatainak általában egy elsődleges kulcs szerint vannak rendezve, de lekérdezések módosítania kell a nézet más mezők megvizsgálásával adatok lekérését. Hozhat létre másodlagos indexek adatkészleteket, amelyek nem támogatják natív másodlagos indexek adattárak használatát.
+- [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A materializált nézet összegző információit karban kell tartani, hogy az alapul szolgáló adatok értékeit tükrözze. Az adatértékek változásával nem biztos, hogy praktikus az összegző adatok valós idejű frissítése, és olyan módszert kell helyette alkalmazni, amely végül konzisztens adatokat eredményez. A cikk összefoglalja az elosztott adatok konzisztenciájának megőrzésével kapcsolatos problémákat, és bemutatja a különböző konzisztenciamodellek előnyeit és hátrányait.
+- [Command and Query Responsibility Segregation (CQRS) minta](./cqrs.md). A materializált nézetben lévő információk frissítésére szolgál úgy, hogy válaszol az alapul szolgáló adatok módosításakor fellépő eseményekre.
+- [Event Sourcing minta](./event-sourcing.md). Használja a CQRS mintával együtt a materializált nézetben található információk karbantartásához. Ha a materializált nézet alapját képző adatértékek változnak, a rendszer ezeket a változásokat leíró eseményeket indíthat, és mentheti őket egy eseménytárban.
+- [Index Table minta](./index-table.md). A materializált nézet adatainak rendszerezése általában egy elsődleges kulcs szerint történik, de előfordulhat, hogy a lekérdezéseknek másik mezőkben lévő adatok vizsgálatával kell lekérniük az információkat ebből a nézetből. A használatával másodlagos indexek hozhatók létre az adatkészletekből olyan adattárakban, amelyek nem támogatják a natív másodlagos indexeket.

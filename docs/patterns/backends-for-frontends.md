@@ -1,14 +1,17 @@
 ---
 title: Háttérrendszerek és előtérrendszerek minta
+titleSuffix: Cloud Design Patterns
 description: Elkülönített, adott előtérbeli alkalmazások vagy felületek által használt háttérszolgáltatásokat hozhat létre.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-ms.openlocfilehash: a0dbc9ab58aa218f6faf40b70dad1bdc22d71458
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 1fc597ded3e87ca7b4a200a13af9dce5ba2dbec5
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428788"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009746"
 ---
 # <a name="backends-for-frontends-pattern"></a>Háttérrendszerek és előtérrendszerek minta
 
@@ -18,23 +21,23 @@ Elkülönített, adott előtérbeli alkalmazások vagy felületek által haszná
 
 Egy alkalmazás kezdetben egy asztali webes felhasználói felületet célozhat. Általában ezzel párhuzamosan fejlesztik a háttérszolgáltatást, amely az adott felhasználói felület szolgáltatásait biztosítja. Az alkalmazás felhasználói bázisának növekedésével idővel fejlesztenek egy mobilalkalmazást is, amelynek ugyanazzal a háttérrendszerrel kell együttműködnie. A háttérszolgáltatás általános célú háttérrendszerré válik, amely az asztali és a mobilfelületek igényeit egyaránt kiszolgálja.
 
-De a mobil eszköz képességeit jelentősen különböznek az asztali tekintetében a méret, teljesítmény, a böngésző és a megjelenítési korlátok tekintetében. Ennek eredményeképpen a mobilalkalmazások háttérrendszereinek követelményei eltérnek az asztali webes felhasználói felületekéitől. 
+De a mobil eszköz képességeit jelentősen különböznek az asztali tekintetében a méret, teljesítmény, a böngésző és a megjelenítési korlátok tekintetében. Ennek eredményeképpen a mobilalkalmazások háttérrendszereinek követelményei eltérnek az asztali webes felhasználói felületekéitől.
 
 Ezeknek a különbségeknek köszönhetően a háttérkiszolgálóra egymással versengő követelmények vonatkoznak. A háttérrendszert rendszeresen és jelentős mértékben módosítani szükséges, hogy az asztali webes felhasználói felületet és a mobilalkalmazást egyaránt ki tudja szolgálni. Gyakran külön felületfejlesztő csapatok dolgoznak ez egyes előtérrendszereken, így a háttérrendszer szűk keresztmetszetté válik a fejlesztési folyamatban. Az egymással ütköző frissítési követelmények és a szolgáltatás mindkét előtérrendszeren való működőképessége iránti elvárások miatt esetleg rengeteg erőfeszítést kell fektetni egyetlen üzembe helyezhető erőforrásra.
 
-![](./_images/backend-for-frontend.png) 
+![A háttérrendszerek és Előtérrendszerek minta környezet és a probléma diagramja](./_images/backend-for-frontend.png)
 
-Ahogy a fejlesztés a háttérszolgáltatásra összpontosít, esetleg egy külön csapat alakul a háttérrendszer kezelésére és karbantartására. Ez végül azt eredményezi, hogy megszakad a kapcsolat a felületet és a háttérrendszert fejlesztő csapatok közt, és nő a teher háttérfejlesztő csapaton, hogy megfeleljenek a különböző felületfejlesztő csapatok egymással versengő elvárásainak. Ha valamelyik felületfejlesztő csapat a háttérrendszer módosítását igényli, a változásokat érvényesíttetni kell a többi felületfejlesztő csapattal is, mielőtt integrálhatóak lennének a háttérrendszerbe. 
+Ahogy a fejlesztés a háttérszolgáltatásra összpontosít, esetleg egy külön csapat alakul a háttérrendszer kezelésére és karbantartására. Ez végül azt eredményezi, hogy megszakad a kapcsolat a felületet és a háttérrendszert fejlesztő csapatok közt, és nő a teher háttérfejlesztő csapaton, hogy megfeleljenek a különböző felületfejlesztő csapatok egymással versengő elvárásainak. Ha valamelyik felületfejlesztő csapat a háttérrendszer módosítását igényli, a változásokat érvényesíttetni kell a többi felületfejlesztő csapattal is, mielőtt integrálhatóak lennének a háttérrendszerbe.
 
 ## <a name="solution"></a>Megoldás
 
 Felhasználói felületenként egy háttérrendszert hozzon létre. Az egyes háttérrendszerek működését és teljesítményét az adott előtérrendszernek megfelelően finomhangolja, és ne törődjön azzal, hogy hogyan hat a többi előtérfelületre.
 
-![](./_images/backend-for-frontend-example.png) 
+![A háttérrendszerek és Előtérrendszerek minta ábrája](./_images/backend-for-frontend-example.png)
 
 Mivel mindegyik háttérrendszer egy adott felülethez tartozik, optimalizálható is hozzá. Ennek eredményeképpen kisebb, kevésbé összetett és valószínűleg gyorsabb lesz, mint egy olyan általános háttérrendszer lenne, amely az összes felület követelményeinek megpróbál megfelelni. Minden felületfejlesztő csapat autonóm módon meghatározhatja a saját háttérrendszerét, és nem függ a központi háttérrendszer-fejlesztő csapattól. Így a felületfejlesztő csapat rugalmasan határozhatja meg a nyelvválasztást, a kiadási ütemezést, a számítási feladatok prioritását és a háttérrendszerbe integrált szolgáltatásokat.
 
-További információkért lásd: [Minta: Háttérrendszerek és előtérrendszerek](https://samnewman.io/patterns/architectural/bff/).
+További információkért lásd: [minta: Háttérrendszerek és Előtérrendszerek](https://samnewman.io/patterns/architectural/bff/).
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
@@ -64,5 +67,3 @@ Nem érdemes ezt a mintát használni, ha:
 - [Átjáróösszesítés minta](./gateway-aggregation.md)
 - [Átjárókiürítés minta](./gateway-offloading.md)
 - [Átjáró-útválasztási minta](./gateway-routing.md)
-
-

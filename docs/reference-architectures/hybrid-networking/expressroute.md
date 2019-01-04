@@ -5,12 +5,12 @@ description: Az Azure virtuális hálózat és a egy helyszíni hálózat az Azu
 author: telmosampaio
 ms.date: 10/22/2017
 ms.custom: seodec18
-ms.openlocfilehash: 8e9de168fe2969159f62ce84a19f4b21fd1cb538
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 201da8fb4f76539c29e9769de8f44357860c2d62
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120390"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011650"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
 
@@ -207,8 +207,7 @@ Az Azure-kapcsolat magas rendelkezésre állását különböző módokon konfig
 
 - Csatlakoztassa a virtuális hálózatot több ExpressRoute-kapcsolatcsoporthoz, amelyet különböző szolgáltatók biztosítanak. Ez a stratégia fokozza a magas rendelkezésre állást, és vészhelyreállítási képességeket is biztosít.
 
-- Konfiguráljon helyek közötti VPN-t feladatátvételi útvonalként az ExpressRoute számára. Ezzel a lehetőséggel az a cikk foglalkozik bővebben, amely a [helyszíni hálózat és az Azure VPN-feladatátvételt biztosító ExpressRoute használatával történő csatlakoztatását][highly-available-network-architecture] ismerteti.
- A lehetőség csak magánhálózati társviszony-létesítések esetén érhető el. Azure- és Office 365-szolgáltatások esetében az internet az egyedüli feladatátvételi útvonal.
+- Konfiguráljon helyek közötti VPN-t feladatátvételi útvonalként az ExpressRoute számára. Ezzel a lehetőséggel az a cikk foglalkozik bővebben, amely a [helyszíni hálózat és az Azure VPN-feladatátvételt biztosító ExpressRoute használatával történő csatlakoztatását][highly-available-network-architecture] ismerteti. A lehetőség csak magánhálózati társviszony-létesítések esetén érhető el. Azure- és Office 365-szolgáltatások esetében az internet az egyedüli feladatátvételi útvonal.
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
@@ -224,7 +223,7 @@ A biztonság maximalizálása érdekében a hálózati biztonsági berendezések
 
 ![[2]][2]
 
-Naplózási vagy megfelelőségi okokból szükség lehet a virtuális hálózaton futó összetevők közvetlen internet-hozzáférésének a letiltására, valamint a [kényszerített bújtatás][forced-tuneling] megvalósítására. Ilyen helyzetekben az internetes forgalmat át kell irányítani a helyszínen futó proxyra, ahol naplózhatóvá válik. A proxy konfigurálható a nem engedélyezett forgalom kijutásának a megakadályozására és az esetlegesen rosszindulatú bejövő forgalom szűrésére.
+Naplózási vagy megfelelőségi okokból szükség lehet a virtuális hálózaton futó összetevők közvetlen internet-hozzáférésének a letiltására, valamint a [kényszerített bújtatás][forced-tunneling] megvalósítására. Ebben az esetben az internetes forgalmat át kell irányítani, naplózható a helyszínen futó proxyra. A proxy konfigurálható a nem engedélyezett forgalom kijutásának a megakadályozására és az esetlegesen rosszindulatú bejövő forgalom szűrésére.
 
 ![[3]][3]
 
@@ -270,7 +269,7 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 
 <!-- links -->
 
-[forced-tuneling]: ../dmz/secure-vnet-hybrid.md
+[forced-tunneling]: ../dmz/secure-vnet-hybrid.md
 [highly-available-network-architecture]: ./expressroute-vpn-failover.md
 
 [expressroute-technical-overview]: /azure/expressroute/expressroute-introduction

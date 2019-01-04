@@ -1,94 +1,93 @@
 ---
-title: Retry
+title: Újrapróbálkozási minta
+titleSuffix: Cloud Design Patterns
 description: Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.
-keywords: Kialakítási mintája
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- resiliency
-ms.openlocfilehash: 73fdcbcc2bd75593a4c8e33dc2259c90593e14db
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.custom: seodec18
+ms.openlocfilehash: 44a9c7e188bcf76a5f6904879c2121d50397da6c
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
-ms.locfileid: "29478255"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011511"
 ---
-# <a name="retry-pattern"></a>Ismételje meg a minta
+# <a name="retry-pattern"></a>Újrapróbálkozási minta
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Átmeneti hibák kezeléséhez, ha csatlakozik egy szolgáltatás vagy a hálózati erőforráshoz, a sikertelen művelettel transzparens módon megpróbálásával alkalmazás engedélyezése. Ez javítja az alkalmazás stabilitását.
+Engedélyezheti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező átmeneti meghibásodások kezelését egy meghiúsult művelet transzparens módon való ismételt megkísérlésével. Ez javíthatja az alkalmazás stabilitását.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Egy alkalmazás, amely kommunikál a felhőben futó elemek nem lehet az átmeneti hibák ebben a környezetben felmerülő-és nagybetűket. Hibák a következők: hálózati összetevőkkel és szolgáltatásokkal kapcsolatban a pillanatnyi elvesztését, egy szolgáltatás, vagy előforduló fordulhat elő, amikor egy szolgáltatás foglalt ideiglenes elérhetetlensége.
+A felhőben futó elemekkel kommunikáló alkalmazásoknak érzékenynek kell lenniük az ebben a környezetben előforduló átmeneti hibákra. Ilyen hiba lehet az összetevők és szolgáltatások hálózati kapcsolatának pillanatnyi megszakadása, a szolgáltatások átmeneti elérhetetlensége, valamint a foglalt szolgáltatás miatti időtúllépés.
 
-Ezek a hibák általában önállóan korrigálja, és ha a hibát kiváltó műveletet meg kell ismételni megfelelő késleltetéssel is valószínűleg sikeres lesz. Például egy adatbázis-szolgáltatás, amely sok egyidejű kérés feldolgozása folyamatban van a sávszélesség-szabályozási stratégia, amely ideiglenesen kódszegmensek semmilyen további mindaddig, amíg a munkaterhelés rendelkezik megkönnyítését is létrehozható. Egy alkalmazás, az adatbázis elérésére tett kísérlet sikertelen lehet a kapcsolat, de ismét várakozás után próbálja azt sikeres lehet.
+Ezek a hibák gyakran maguktól megoldódnak, és ha megfelelő idő múlva megismételik a hibát kiváltó műveletet, az valószínűleg sikeresen végbemegy. Egy számos egyidejű kérést feldolgozó adatbázis-szolgáltatás például olyan szabályozási stratégiát valósíthat meg, amely ideiglenesen elutasítja a további kéréseket, amíg nem enyhül a terhelés. Az adatbázist elérni próbáló alkalmazás csatlakozása sikertelen lehet, de ha később próbálkozik, sikerülhet a csatlakozás.
 
 ## <a name="solution"></a>Megoldás
 
-A felhőben átmeneti nem ritka, és egy alkalmazást úgy kell megtervezni, elegantly és transzparens módon kezelje őket. Ez minimalizálja a hibák lehet az üzleti feladatok működik-e az alkalmazás által okozott hatások.
+A felhőben nem ritkák az átmeneti hibák, és az alkalmazásokat úgy kell kialakítani, hogy elegánsan és átlátható módon kezelje azokat. Így minimálisra csökkenthető a hibák az alkalmazás által végzett üzleti feladatokra gyakorolt hatása.
 
-Ha egy alkalmazás hibát észlel, amikor megpróbálja kérelmet küld a távoli szolgáltatás, a hiba a következő stratégiák használata is képes kezelni:
+Ha egy alkalmazás hibát észlel, amikor kéréseket próbál küldeni egy távoli szolgáltatásnak, a következő stratégiákkal kezelheti a hibát:
 
-- **Szakítsa meg**. Ha a hiba azt jelzi, hogy a probléma nem átmeneti, vagy nem valószínű, hogy sikeres, ha ismétlődő, az alkalmazás kell a művelet megszakításához és kivétel jelentéséhez. Például érvénytelen hitelesítő adatok megadása által okozott hitelesítési hiba oka nem kísérlet sikeres függetlenül attól, hogy hány alkalommal azt.
+- **Megszakítás**. Ha a hiba azt jelzi, hogy a probléma nem átmeneti vagy nem valószínű, hogy a művelet a megismétlésekor sikeres lesz, az alkalmazásnak meg kell szakítania a műveletet, és kivételt kell jelentenie. Az érvénytelen hitelesítő adatok megadása miatti hitelesítési hiba például valószínűleg további kísérletek esetén sem fog megoldódni.
 
-- **Próbálja meg újra**. Ha a konkrét hibát jelentett szokatlan vagy ritka, akkor előfordulhat, hogy által okozott megszokottól például egy hálózati csomag sérülésének, amíg a továbbítás. Ebben az esetben az alkalmazás sikerült próbálja meg újra a sikertelen kérelem újra azonnal mert megszokott hiba valószínűleg nem ismételhető meg, és a kérés valószínűleg sikeres lesz.
+- **Újrapróbálkozás**. Ha a jelentett hiba szokatlan vagy ritka, akkor előfordulhat, hogy szokatlan körülmények okozták, például egy hálózati csomag megsérült a továbbítás során. Ebben az esetben az alkalmazás azonnal újrapróbálkozhat a sikertelen kéréssel, mert nem valószínű, hogy ugyanez a hiba meg fog ismétlődni, és a kérés valószínűleg sikeres lesz.
 
-- **Újrapróbálkozás késleltetése.** Ha egy több alkotómunkájának kapcsolat vagy foglalt hibák okozza a hibát, a hálózat vagy a szolgáltatás szükség lehet rövid időn belül során a problémák kijavítására sor vagy a hátralékos munkák nincs bejelölve. Az alkalmazás várakoznia kell egy megfelelő idő, mielőtt megpróbálná megismételni a kérelmet.
+- **Újrapróbálkozás később**. Ha a hibát egy vagy több gyakori kapcsolati vagy foglaltsági hiba okozza, lehet, hogy a hálózatnak vagy a szolgáltatásnak rövid időre van szüksége a kapcsolati hibák kijavításához vagy a várólistán lévő munkák kiürítéséhez. Az alkalmazásnak várnia kell egy ideig a kérés újbóli megkísérlése előtt.
 
-A gyakori átmeneti hibák újrapróbálkozások között az alkalmazás több példánya kérelmeinek lehetőség szerint egyenletes terjesztésére kell kiválasztani. Ez csökkenti a túlterhelt folytatása foglalt szolgáltatás esélyét. Ha egy alkalmazás hány példánya van folyamatosan overwhelming újrapróbálkozási által érintett szolgáltatás, ez vesz igénybe a szolgáltatás hosszabb helyreállításához.
+A gyakori átmeneti hibák esetén úgy kell kiválasztani az újrapróbálkozások között eltelt időtartamot, hogy az alkalmazás több példányáról érkező kérések a lehető legegyenletesebben legyenek elosztva. Ez csökkenti annak az esélyét, hogy egy foglalt szolgáltatás folyamatosan túlterhelt legyen. Ha egy alkalmazás számos példánya folyamatosan túlterhel egy szolgáltatást a kérések újrapróbálásával, több időt vesz igénybe a szolgáltatás helyreállítása.
 
-Ha a kérés továbbra is sikertelen, az alkalmazás várja meg, és megismétléséhez. Ha szükséges, ez a folyamat megismételhető végezzenek újrapróbálkozások, amíg néhány kérelmek maximális számát kísérletek közötti üzenetváltás miatti késésekre. A késleltetés növelhető Növekményesen vagy exponenciálisan növekszik, attól függően, hogy milyen típusú hibával és a valószínűsége annak, hogy azt fogja javítani ebben az időszakban.
+Ha a kérés továbbra is sikertelen, az alkalmazás várhat és megismételheti a kísérletet. Szükség esetén ez a folyamat megismételhető az újrapróbálkozások közötti késleltetések növelésével, amíg a rendszer el nem éri a kísérletek maximális számát. A késleltetés növekményesen vagy exponenciálisan növelhető a hiba típusától és annak valószínűségétől függően, hogy ezen idő alatt megoldódik-e.
 
-A következő ábra szemlélteti ezt a mintát használja egy üzemeltetett szolgáltatás művelet meghívása. Ha egy előre meghatározott számú kísérlet után a kérelem sikertelen, az alkalmazás kell kezelje a tartalék kivétel és ennek megfelelően kezelnie.
+A következő ábra szemlélteti egy művelet ezzel a mintával való aktiválását egy üzemeltetett szolgáltatásban. Ha a kérés a kísérletek előre meghatározott száma után is sikertelen, az alkalmazásnak kivételként kell kezelnie a hibát.
 
-![1. ábra – olyan üzemeltett szolgáltatásban, az újrapróbálkozási minta használatával a művelet meghívása](./_images/retry-pattern.png)
+![1. ábra – Művelet meghívása üzemeltetett szolgáltatásban az újrapróbálkozási mintával](./_images/retry-pattern.png)
 
-Az alkalmazás összes próbálja meg elérni a távoli szolgáltatás, amely megfelelő a fent felsorolt stratégiák egyikét újrapróbálkozási házirendje kódban sortörés. Különböző szolgáltatások küldött kérelmeket a különböző házirend lehet. Egyes szállítók adja meg a szalagtár szerepel, amely alkalmazhatja újrapróbálkozási házirendeket, ahol az alkalmazás adhat meg a maximális számú újrapróbálkozást, az ismételt kísérletek számát, és más paramétereket közötti idő.
+Az alkalmazásnak olyan kódba kell csomagolnia a távoli szolgáltatások elérési kísérleteit, amely a fent felsorolt stratégiák egyikének megfelelő újrapróbálkozási szabályzatot valósít meg. A különböző szolgáltatásoknak küldött kérésekre különböző szabályzatok lehetnek érvényesek. Néhány gyártó újrapróbálkozási szabályzatokat alkalmazó kódtárakat biztosít, ahol az alkalmazás meghatározhatja az újrapróbálkozások maximális számát, az újrapróbálkozási kísérletek között eltelt időt és más paramétereket.
 
-Az alkalmazás adatainak hibák, de sikertelenül műveletek kell naplózása. Ez az információ operátorok. Egy szolgáltatás, a rendszer gyakran nem érhető el vagy foglalt esetén gyakran, mert a szolgáltatás kimerítette erőforrásait. A gyakorisága, ezek csökkentheti, ha a szolgáltatás kiterjesztése. Például ha egy adatbázis-szolgáltatás folyamatosan túl van terhelve, annak lehet hasznos az adatbázis partícióazonosító és a terhelés elosztva több kiszolgáló között.
+Az alkalmazásoknak naplózniuk kell a hibák és a sikertelen műveletek részleteit. Ez az információ hasznos az operátorok számára. Ha egy szolgáltatás gyakran elérhetetlen vagy foglalt, azt leggyakrabban a szolgáltatás erőforrásainak kimerülése okozza. A szolgáltatás horizontális felskálázásával csökkentheti ezeknek a hibáknak a gyakoriságát. Ha például egy adatbázis-szolgáltatás folyamatosan túlterhelt, érdemes lehet particionálni az adatbázist, és több kiszolgáló között elosztani a terhelést.
 
-> [Microsoft Entity Framework](https://docs.microsoft.com/ef/) újra próbálkozik a Helyadatbázis-műveletekhez szolgáltatásokat tartalmazza. Is az Azure-szolgáltatások és az ügyfél SDK-k tartalmaznak egy újrapróbálkozási mechanizmus. További információkért lásd: [ismételje meg az adott szolgáltatások útmutatást](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific).
+> A [Microsoft Entity Framework](https://docs.microsoft.com/ef/) számos eszközt nyújt az adatbázis-műveletek újrapróbálásához. Emellett a legtöbb Azure-szolgáltatás és ügyféloldali SDK is tartalmaz újrapróbálkozási mechanizmust. További információkért tekintse meg [az adott szolgáltatásokra vonatkozó újrapróbálkozási útmutatást](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific).
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-Ebben a mintában megvalósításához meghatározásakor vegye figyelembe a következő szempontokat.
+A minta megvalósítása során az alábbi pontokat vegye figyelembe.
 
-Az újrapróbálkozási házirendet kell kell beállítani, hogy megfelel-e az alkalmazás az üzleti követelmények és a hibaüzeneteket a hiba természetének. Egyes nem kritikus műveletek esetében érdemes gyors sikertelen helyett több alkalommal újra, és hatással lehet az alkalmazás átviteli. Például egy interaktív webes alkalmazásban fér hozzá a távoli szolgáltatás, érdemes kisebb számú újrapróbálkozások újrapróbálkozások között csak rövid késleltetés után nem sikerül, és a megfelelő üzenetet jelenít meg, a felhasználónak (például "próbálkozzon újra később"). Kötegelt alkalmazáshoz akkor célszerű több exponenciálisan növekszik késleltetéssel a kísérletek között újrapróbálkozások számának növeléséhez.
+Az újrapróbálkozási szabályzatot úgy kell beállítani, hogy megfeleljen az alkalmazás az üzleti követelményeinek és a hiba természetének. Egyes nem kritikus műveletek esetében jobb a gyors sikertelenség, mint a többszöri újrapróbálkozás, amely befolyásolja az alkalmazás teljesítményét. Egy távoli szolgáltatást elérő interaktív webes alkalmazásban például jobb a kevesebb újrapróbálkozás utáni sikertelen eredmény, ahol csak kis késleltetés van az újrapróbálkozási kísérletek között, és egy megfelelő üzenet jelenik meg a felhasználók számára (például „próbálkozzon újra később”). Kötegelt alkalmazásokhoz érdemes lehet növelni az újrapróbálkozási kísérletek számát, ezzel exponenciálisan növelve a kísérletek közötti késleltetést.
 
-Egy kísérletet, és számos, az újrapróbálkozásokat minimális késleltetés agresszív újrapróbálkozási házirendje további ronthatja a közeli vagy kapacitással futó foglalt szolgáltatást. Az újrapróbálkozási házirendje is befolyásolhatják a figyelt alkalmazás, ha folyamatosan próbál a sikertelen műveletet.
+A kísérletek között minimális késleltetést használó agresszív újrapróbálkozási szabályzat és a számos újrapróbálkozás tovább ronthat az elfoglalt szolgáltatás állapotán, amely maximális vagy közel maximális kapacitással fut. Az újrapróbálkozási szabályzat az alkalmazás válaszkészségét is befolyásolhatja, ha folyamatosan sikertelen műveletet próbál végezni.
 
-Egy kérelem jelentős számú ismételt próbálkozás után továbbra is sikertelen, akkor jobb, ha az alkalmazás további erőforrást fog kérelmek megakadályozása, és egyszerűen a hibáról jelentés azonnal. Az időszak lejár, ha az alkalmazás feltételesen lehetővé tehetik keresztül egy vagy több kérést a tudni, hogy azok sikeres. Ezt a stratégiát további részletekért lásd: a [áramköri megszakító mintát](circuit-breaker.md).
+Ha egy kérés jelentős számú újrapróbálkozás után is sikertelen, akkor jobb, ha az alkalmazás meggátolja, hogy további kérések jussanak el ugyanarra az erőforrásra, és egyszerűen azonnal hibát jelent. Amikor az időszak lejár, az alkalmazás feltételesen átengedhet egy vagy több kérést, hogy megállapítsa, azok sikeresek-e. A stratégiáról további részletekért lásd az [áramkör-megszakítási mintát](./circuit-breaker.md).
 
-Vegye figyelembe, hogy-e a művelet az idempotent. Ha igen, az eleve biztonságos, majd ismételje meg. Ellenkező esetben az újrapróbálkozások támadó egynél többször nem kívánt mellékhatással működő hajthatnak végre a műveletet. Például egy szolgáltatás előfordulhat, hogy a kérés fogadásához, sikeresen feldolgozni a kérelmet, de nem választ küld. Ezen a ponton az újrapróbálkozási logika előfordulhat, hogy újra elküldeni a kérést, feltéve, hogy az első kérésre nem érkezett.
+Gondolja át, hogy a művelet idempotens-e. Ha igen, alapvetően biztonságos az újrapróbálkozás. Más esetekben az újrapróbálkozások miatt előfordulhat, hogy a művelet többször lesz végrehajtva, nem kívánt mellékhatásokkal. Egy szolgáltatás például fogadhatja a kérést, sikeresen feldolgozhatja a kérést, de lehet, hogy nem tud választ küldeni. Ezen a ponton az újrapróbálkozási logika újraküldheti a kérést, feltételezve, hogy a szolgáltatás nem kapta meg az első kérést.
 
-A szolgáltatásnak küldött kérelemben számos okból a hiba természetétől függően különböző kivételt váltson ki lehet sikertelen. Néhány kivétel, amely feloldható gyorsan, míg mások azt jelzi, hogy a hiba már tovább tartó hibájára utalhat. Akkor érdemes használni az újrapróbálkozási házirendet úgy, hogy a kivétel típusa alapján újrapróbálkozási kísérletek között eltelt idő.
+A szolgáltatásoknak küldött kérések számos okból hiúsulhatnak meg, és a hiba természetétől függően különböző kivételeket váltanak ki. Néhány kivétel gyorsan megoldható hibát jelez, míg mások azt jelzik, hogy a hiba hosszabb ideig tart. Hasznos lehet, ha az újrapróbálkozási szabályzat a kivétel típusa alapján állítja be az újrapróbálkozási kísérletek közötti időt.
 
-Vegye figyelembe, hogy egy művelet, amely része egy tranzakció milyen hatással lesz a teljes tranzakció konzisztencia. Konfigurálva finomhangolhatják a tranzakciós műveletek maximalizálhatja a siker esélye, visszavonja a tranzakció lépéseket kell csökkentse az újrapróbálkozási házirendet.
+Fontolja meg, hogy egy tranzakció részét képező művelet újrapróbálása milyen hatással lesz a tranzakció teljes konzisztenciájára. Finomhangolja az újrapróbálkozási szabályzatot a tranzakciós műveletekhez, hogy a műveletek minél nagyobb eséllyel sikeresek legyenek, és ne kelljen visszavonni a tranzakció összes lépését.
 
-Győződjön meg arról, hogy az összes újrapróbálkozási kód teljes körűen tesztelve meghibásodás számos ellen. Ellenőrizze, hogy nem súlyosan hatással lehet a teljesítmény- vagy az alkalmazás megbízhatóságát, a szolgáltatások és erőforrások túlterhelés miatt, vagy hozzon létre versenyhelyzetek vagy szűk keresztmetszetek.
+Győződjön meg arról, hogy az összes újrapróbálkozási kód teljes körűen tesztelve lett különböző hibafeltételekre. Ellenőrizze, hogy ne legyen jelentős hatással az alkalmazás teljesítményére vagy megbízhatóságára, ne okozzon túlzott terhelést a szolgáltatásokon és az erőforrásokon és ne hozzon létre versenyhelyzeteket vagy szűk keresztmetszeteket.
 
-Alkalmazzon újrapróbálkozási logika csak ha a sikertelen művelet teljes környezetében értendő. Például egy feladatot, amely tartalmazza az újrapróbálkozási házirendje hív meg egy másik feladat újrapróbálkozási házirendje is tartalmazó, a további réteget újrapróbálkozások adhat hozzá nagy késleltetéseket feldolgozását. Jobb, ha a gyors sikertelen, és a hiba okát jelentést a feladat aktiváló alacsonyabb szintű feladat lehet. A magasabb szintű tevékenység majd kezelik a saját házirend alapján hiba.
+Csak ott alkalmazzon újrapróbálkozási logikát, ahol a meghiúsuló műveletek teljes kontextusa érthető. Ha például egy újrapróbálkozási szabályzatot tartalmazó feladat egy újrapróbálkozási szabályzatot tartalmazó másik feladatot hív meg, az újrapróbálkozások extra rétege miatt a feldolgozás során hosszú késések lesznek tapasztalhatóak. Érdemes úgy konfigurálni az alacsonyabb szintű feladatot, hogy gyorsan hiúsuljon meg és jelentse a hiba okát az azt elindító feladatnak. Ez a magasabb szintű feladat ezután a saját szabályzata alapján kezelheti a hibát.
 
-Fontos, hogy az azonosítható legyen az alapul szolgáló problémák az alkalmazáshoz, a szolgáltatások vagy az erőforrások ismételt próbálkozással okozó összes kapcsolathibái bejelentkezni.
+Fontos az újrapróbálkozást okozó összes csatlakozási hibát naplózni, hogy azonosíthatók legyenek az alkalmazással, a szolgáltatásokkal vagy az erőforrásokkal kapcsolatos alapvető hibák.
 
-Vizsgálja meg a hibákat, amelyek egy szolgáltatás vagy egy erőforrást derítsen fel, ha fontosságúak valószínű, hogy mennyi ideig tartós vagy a Terminálszolgáltatások fordulhat elő. Ha igen, célszerű a tartalék kivételként kezeli. Az alkalmazás jelentést vagy jelentkezzen a kivétel, és próbálja meghívása alternatív szolgáltatás (Ha ilyen), vagy funkciókat kínáló csökkentett teljesítményű folytatja. Észlelése és a hosszú ideig tart hibák kezeléséhez további információkért tekintse meg a [áramköri megszakító mintát](circuit-breaker.md).
+Vizsgálja meg egy szolgáltatás vagy erőforrás legvalószínűbb hibáit annak felderítése érdekében, hogy valószínűleg tartósak vagy végzetesek-e. Ha igen, jobb kivételként kezelni a hibát. Az alkalmazás jelentheti vagy naplózhatja a kivételt, majd a folytatáshoz megpróbálhat alternatív szolgáltatást elindítani (ha van elérhető) vagy csökkentett teljesítményű funkciókat alkalmazni. A tartós hibák észlelésével és kezelésével kapcsolatos további információkért lásd az [áramkör-megszakítási mintát](./circuit-breaker.md).
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-Ezt a mintát használja, ha egy alkalmazás sikerült átmeneti tapasztal, egy távoli szolgáltatással együttműködő, vagy egy távoli erőforráshoz fér hozzá. Ezek a hibák kellene lennie a rövid élt, majd ismételje meg a kérelmeket, amelyek korábban nem sikerült a következő kísérlet volt sikeres.
+Ezt a mintát használja, ha egy alkalmazás átmeneti hibákat tapasztalhat, amikor távoli szolgáltatással kommunikál, vagy távoli erőforráshoz fér hozzá. Ezek a hibák várhatóan rövid életűek, és a korábban meghiúsult kérések megismétlése egy későbbi kísérlet során sikeres lehet.
 
-Ez a minta nem lehet hasznos:
+Nem érdemes ezt a mintát használni a következő esetekben:
 
-- Amikor egy hiba valószínű, hogy hosszú ideig tartó, mert ez befolyásolhatja az alkalmazások válaszkészségét. Az alkalmazás előfordulhat, hogy jelentős, időt és erőforrásokat próbál ismételje meg a kérelmeket, amelyek valószínűleg sikertelen lesz.
-- Kezelése, amelyek nem átmeneti, például a belső kivételek az üzleti logika egy alkalmazás szereplő hibák által okozott hibák miatt sikertelen.
-- Méretezhetőségi problémájára címzési rendszerekben helyett. Ha egy alkalmazás gyakori foglalt hibákat észlel, akkor gyakran a jele, hogy a szolgáltatás vagy az éppen elért erőforrás kell kiterjesztett.
+- Amikor egy hiba valószínűleg tartós, mert ez befolyásolhatja az alkalmazások válaszkészségét. Előfordulhat, hogy az alkalmazás időt és erőforrásokat pazarol egy olyan kérés megismétlésére, amely valószínűleg sikertelen lesz.
+- A nem átmeneti hibák által okozott hibák kezeléséhez, például amikor egy alkalmazás üzleti logikájában lévő hibák belső kivételeket okoznak.
+- A rendszer skálázhatósági hibáinak kezelési alternatívájaként. Ha egy alkalmazás gyakori foglaltsági hibákat észlel, az gyakran azt jelzi, hogy az elért szolgáltatást vagy erőforrást vertikálisan fel kell skálázni.
 
 ## <a name="example"></a>Példa
 
-Ebben a példában a C# az újrapróbálkozási minta megvalósítását mutatja be. A `OperationWithBasicRetryAsync` metódust, az alábbi meghívja az aszinkron módon történik a külső szolgáltatást a `TransientOperationAsync` metódust. Részletes adatait a `TransientOperationAsync` metódus a szolgáltatásra vonatkozó lesz, és a mintakódot hiányoznak.
+Ez a C# nyelven írt példa az újrapróbálkozási minta implementálását mutatja be. Az alább látható `OperationWithBasicRetryAsync` metódus aszinkron módon hív meg egy külső szolgáltatást a `TransientOperationAsync` metóduson keresztül. A `TransientOperationAsync` metódus részletei a szolgáltatásra jellemzőek, és kimaradnak a mintakódból.
 
 ```csharp
 private int retryCount = 3;
@@ -120,7 +119,7 @@ public async Task OperationWithBasicRetryAsync()
       // long to wait, based on the retry strategy.
       if (currentRetry > this.retryCount || !IsTransient(ex))
       {
-        // If this isn't a transient error or we shouldn't retry, 
+        // If this isn't a transient error or we shouldn't retry,
         // rethrow the exception.
         throw;
       }
@@ -140,11 +139,11 @@ private async Task TransientOperationAsync()
 }
 ```
 
-Egy try vagy catch blokkon csomagolni tartalmazza az utasítást, amely hívja meg ezt a módszert a hurok. Az a hurok kilépjen, ha hívása a `TransientOperationAsync` metódus végrehajtása sikeres, nem jelez kivételt. Ha a `TransientOperationAsync` metódus sikertelen, a catch blokk megvizsgálja a hiba okát. Ha az rendelkezik feltételezhetően olyan átmeneti hibát a kód megvárja, rövid késleltetés mielőtt megpróbálná megismételni a műveletet.
+Az ezt a metódust meghívó utasítás egy for ciklusba csomagolt try/catch blokkban szerepel. A for ciklus kilép, ha a `TransientOperationAsync` metódus hívása kivétel nélkül sikerül. Ha a `TransientOperationAsync` metódus sikertelen, a catch blokk megvizsgálja a hiba okát. Ha ez feltételezhetően átmeneti hiba, a kód vár egy rövid ideig a művelet újrapróbálása előtt.
 
-A hurok is nyomon követi a száma, hogy a művelet végrehajtására történt kísérlet, és ha a kód három alkalommal nem sikerül a kivétel adottnak további hosszú tartós. Ha a kivétel nem átmeneti, vagy hosszú tartós, a catch kezelő kivételt jelez. Ez a kivétel lép ki a hurok és kell lennie a kóddal, amely hívja meg a `OperationWithBasicRetryAsync` metódust.
+A for ciklus a művelet megkísérléseinek számát is nyomon követi, és ha a kód három alkalommal sikertelen, tartósabbnak feltételezi a kivételt. Ha a kivétel nem átmeneti, vagy ha tartós, a catch kezelő kivételt jelez. Ez a kivétel kilép a for ciklusból, és az `OperationWithBasicRetryAsync` metódust meghívó kódnak el kell kapnia.
 
-A `IsTransient` metódust, az alábbi ellenőrzi az egy adott készletét, amely kapcsolódik a környezet a kódot a kivételeket futtatása. Egy átmeneti kivétel meghatározása az éppen elért erőforrás attól függően változnak, és a környezet a művelet végrehajtása folyamatban van a.
+Az alább látható `IsTransient` metódus a kódot futtató környezetre jellemző adott kivételeket keres. Az átmeneti kivételek meghatározása az elért erőforrásoktól és a művelet elvégzéséhez használt környezettől függően változik.
 
 ```csharp
 private bool IsTransient(Exception ex)
@@ -171,8 +170,8 @@ private bool IsTransient(Exception ex)
 }
 ```
 
-## <a name="related-patterns-and-guidance"></a>Útmutató és a kapcsolódó minták
+## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-- [Áramköri megszakító mintát](circuit-breaker.md). A újrapróbálkozási minta nem hasznos, ha átmeneti kezelése. Ha hiba várhatóan több hosszú tartós, több megfelelő áramköri megszakító minta végrehajtásához lehet. Az újrapróbálkozási mintát is használható egy áramköri megszakító együtt arra, hogy egy átfogó megközelítés hibák kezelnek.
-- [Ismételje meg az adott szolgáltatások útmutató](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific)
+- [Áramkör-megszakítási minta](./circuit-breaker.md). Az újrapróbálkozási minta átmeneti hibák kezeléséhez hasznos. Ha egy hiba várhatóan tartósabb, célszerűbb lehet az áramkör-megszakítási mintát implementálni. Az újrapróbálkozási minta áramkör-megszakítási mintával együtt is használható a hibák átfogóbb kezelése érdekében.
+- [Újrapróbálkozási útmutatás adott szolgáltatásoknál](https://docs.microsoft.com/azure/architecture/best-practices/retry-service-specific)
 - [Kapcsolat rugalmassága](https://docs.microsoft.com/ef/core/miscellaneous/connection-resiliency)

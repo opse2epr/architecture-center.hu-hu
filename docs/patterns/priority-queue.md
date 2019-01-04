@@ -1,19 +1,17 @@
 ---
-title: Priority Queue
+title: Elsőbbségi üzenetsor mintája
+titleSuffix: Cloud Design Patterns
 description: Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- messaging
-- performance-scalability
-ms.openlocfilehash: 400bfbc03cf5640ff32a551636b01d60e6c0ec50
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: ddd9cc9ec85c6ed23fabaaa58424736ba1aa9421
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428499"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011123"
 ---
 # <a name="priority-queue-pattern"></a>Elsőbbségi üzenetsor mintája
 
@@ -31,12 +29,11 @@ Az üzenetsorok általában érkezési sorrend alapján végzik a feldolgozást,
 
 ![1. ábra – Üzenetpriorizálást támogató üzenetsor-kezelési mechanizmus használata](./_images/priority-queue-pattern.png)
 
-> A legtöbb üzenetsor-implementáció támogatja a többfogyasztós megoldásokat (a [Versengő felhasználókat ismertető minta](https://msdn.microsoft.com/library/dn568101.aspx) szerint), és a fogyasztói folyamatok száma igény szerint skálázható vertikálisan.
+> A legtöbb üzenetsor-implementáció támogatja a többfogyasztós megoldásokat (a [Versengő felhasználókat ismertető minta](./competing-consumers.md) szerint), és a fogyasztói folyamatok száma igény szerint skálázható vertikálisan.
 
 Olyan rendszerekben, amelyek nem támogatják a prioritásalapú üzenetsorokat, alternatív megoldásként külön sorokat tarthatunk fenn a prioritások számára. Az alkalmazás feladata az üzenetek megfelelő üzenetsorban történő közzététele. Minden egyes üzenetsorhoz külön fogyasztók tartozhatnak. A magasabb prioritású üzenetsorokhoz több, gyorsabb hardveren futtatott fogyasztó tartozhat, mint az alacsonyabb prioritású üzenetsorokhoz. A következő ábra azt mutatja be, amikor külön üzenetsorokat használunk minden egyes prioritáshoz.
 
 ![2. ábra – Külön üzenetsor használata minden egyes prioritáshoz](./_images/priority-queue-separate.png)
-
 
 Ennek a stratégiának egy variációja, ha egyetlen fogyasztókészlet először a magas prioritású üzenetsorok üzeneteit kérdezi le, majd azután az alacsonyabb prioritású üzenetsorok üzeneteit. Szemantikai különbségek vannak az egyetlen fogyasztófolyamat-készletet alkalmazó megoldások (ezek használhatnak egyetlen, különböző prioritású üzeneteket támogató üzenetsort vagy több üzenetsort, amelyek mindegyike adott prioritású üzeneteket kezel), illetve az olyan, több üzenetsort használó megoldások között, ahol minden egyes üzenetsorhoz külön készlet tartozik.
 
@@ -88,7 +85,6 @@ Az Azure-megoldások képesek olyan Service Bus-témakörök implementálására
 
 ![3. ábra – Prioritásalapú üzenetsor Azure Service Bus-témakörök és -előfizetések felhasználásával történő implementálása](./_images/priority-queue-service-bus.png)
 
-
 A fenti ábrán szereplő alkalmazás több üzenetet hoz létre, és hozzájuk rendel egy `Priority` nevű egyéni tulajdonságot és egy értéket (ez `High` vagy `Low` lehet). Az alkalmazás ezeket az üzeneteket közzéteszi egy témakörbe. Ez a témakör két társított előfizetéssel rendelkezik, amelyek a `Priority` tulajdonság megvizsgálásával szűrik az üzeneteket. Az egyik előfizetés akkor fogad üzeneteket, ha a `Priority` tulajdonság értéke `High`, a másik pedig akkor, ha a `Priority` tulajdonság értéke `Low`. Az egyes előfizetésekből fogyasztókészletek olvassák az üzeneteket. A magas prioritású előfizetések nagyobb készlettel rendelkeznek, és ezek a fogyasztók nagyobb teljesítményű, több erőforrással rendelkező számítógépeken futhatnak, mint az alacsony prioritású készletek fogyasztói.
 
 Vegye figyelembe, hogy ebben a példában nincs jelentősége a magas és alacsony prioritású üzenetek megjelölésének. Ezek egyszerűen az egyes üzenetekben tulajdonságokként megadott címkék, amelyeket a rendszer arra használ, hogy az üzeneteket egy adott előfizetéshez irányítsák. Ha további priorizálásra van szükség, viszonylag könnyű létrehozni további előfizetéseket fogyasztófolyamat-készleteket ezen prioritások kezeléséhez.
@@ -121,6 +117,7 @@ public class PriorityWorkerRole : RoleEntryPoint
   }
 }
 ```
+
 A `PriorityQueue.High` és a `PriorityQueue.Low` feldolgozói szerepkör egyaránt felülírja a `ProcessMessage` metódus alapértelmezett funkcióját. Az alábbi kód a `PriorityQueue.High` feldolgozói szerepkör `ProcessMessage` metódusát mutatja be.
 
 ```csharp
@@ -170,11 +167,10 @@ Az alábbi minták és útmutatók szintén hasznosak lehetnek a minta megvalós
 
 - [Az aszinkron üzenetkezelés ismertetése](https://msdn.microsoft.com/library/dn589781.aspx). Lehetséges, hogy a kérelmet feldolgozó fogyasztói szolgáltatásnak választ kell küldenie a kérelmet közzétevő alkalmazáspéldány számára. Információkat nyújt a kérelem/válasz típusú üzenetkezelés implementálásakor használható stratégiákról.
 
-- [Versengő felhasználókat ismertető minta](competing-consumers.md). Az üzenetsorok átviteli sebességének növelése érdekében lehetséges, hogy több fogyasztó figyelje ugyanazt az üzenetsort, és egyidejűleg dolgozza fel a feladatokat. Ezek a fogyasztók versenyezni fognak az üzenetekért, de egy adott üzenetet csak egy dolgozhat fel. További információkat biztosít ezen megközelítés implementálásának előnyeiről és hátrányairól.
+- [Versengő felhasználókat ismertető minta](./competing-consumers.md). Az üzenetsorok átviteli sebességének növelése érdekében lehetséges, hogy több fogyasztó figyelje ugyanazt az üzenetsort, és egyidejűleg dolgozza fel a feladatokat. Ezek a fogyasztók versenyezni fognak az üzenetekért, de egy adott üzenetet csak egy dolgozhat fel. További információkat biztosít ezen megközelítés implementálásának előnyeiről és hátrányairól.
 
-- [Szabályozási minta](throttling.md). A szabályozás üzenetsorok használatával valósítható meg. A prioritásalapú üzenetkezelés annak biztosítására használható, hogy a kritikus vagy a fontos ügyfelek által futtatott alkalmazások elsőbbséget élvezzenek a kevésbé fontos alkalmazások kérelmeihez képest.
+- [Szabályozási minta](./throttling.md). A szabályozás üzenetsorok használatával valósítható meg. A prioritásalapú üzenetkezelés annak biztosítására használható, hogy a kritikus vagy a fontos ügyfelek által futtatott alkalmazások elsőbbséget élvezzenek a kevésbé fontos alkalmazások kérelmeihez képest.
 
 - [Útmutató az automatikus skálázáshoz](https://msdn.microsoft.com/library/dn589774.aspx). Lehetségessé válhat az üzenetsorokat kezelő fogyasztófolyamat-készletek méretének skálázása az üzenetsor hosszától függően. Ezzel a stratégiával javítható a teljesítmény, különösen a magas prioritású üzeneteket kezelő készletek esetében.
 
 - [Vállalati integrációs minták a Service Bus használatával](https://abhishekrlal.com/2013/01/11/enterprise-integration-patterns-with-service-bus-part-2/) Abhishek Lal blogjában.
-

@@ -1,18 +1,17 @@
 ---
-title: Circuit Breaker
+title: Áramkör-megszakító minta
+titleSuffix: Cloud Design Patterns
 description: Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek javítása esetleg sok időt venne igénybe.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- resiliency
-ms.openlocfilehash: 5a9c8254bf62488b46517ee3582c2323e206df8a
-ms.sourcegitcommit: e9d9e214529edd0dc78df5bda29615b8fafd0e56
+ms.custom: seodec18
+ms.openlocfilehash: 56c90fcb23fd68b0d1b545db90adeab3272705c2
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 06/28/2018
-ms.locfileid: "37090951"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009763"
 ---
 # <a name="circuit-breaker-pattern"></a>Áramkör-megszakító minta
 
@@ -20,7 +19,7 @@ Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a
 
 ## <a name="context-and-problem"></a>Kontextus és probléma
 
-Elosztott környezetben előfordulhat, hogy a távoli erőforrások és szolgáltatások meghívása átmeneti hibák miatt meghiúsul. Ilyen probléma lehet a lassú hálózati kapcsolat vagy időtúllépés, illetve ha az erőforrások nem fedezik az igényeket, vagy átmenetileg nem érhetők el. Ezek a hibák általában rövid idő alatt kijavítják magukat, és egy stabil felhőalapú alkalmazásnak fel kell készülnie az ilyesmi kezelésére, például egy [újrapróbálkozási mintához][retry-pattern] hasonló stratégiát alkalmazva.
+Elosztott környezetben előfordulhat, hogy a távoli erőforrások és szolgáltatások meghívása átmeneti hibák miatt meghiúsul. Ilyen probléma lehet a lassú hálózati kapcsolat vagy időtúllépés, illetve ha az erőforrások nem fedezik az igényeket, vagy átmenetileg nem érhetők el. Ezek a hibák általában javítsa egymás után rövid idő alatt, és a egy stabil felhőalapú alkalmazásnak fel kell készülnie például az [újrapróbálkozási minta] stratégia használatával kezelendő [újrapróbálkozási minta].
 
 Lehetnek azonban olyan helyzetek, amikor a hibákat nem várt események okozzák, amelyek helyrehozása tovább tarthat. Az ilyen hibák súlyossága a részleges kapcsolódási problémától a szolgáltatás teljes leállásáig terjedhet. Az ilyen helyzetekben lehet, hogy nincs értelme az alkalmazásnak folyamatosan újrapróbálkozni a művelettel, mert nem valószínű, hogy sikerrel járna. Ehelyett inkább az a szerencsés, ha az alkalmazás gyorsan tudomásul veszi, hogy a művelet nem sikerült, és ennek megfelelően kezeli a hibát.
 
@@ -36,13 +35,13 @@ Az áramkör-megszakító proxyként viselkedik az esetlegesen meghiúsuló műv
 
 A proxy egy, az alábbi, egy elektromos áramkör-megszakító működését utánzó állapotokkal bíró állapotgépként valósítható meg:
 
-- **Zárt**: Az alkalmazásból érkező kérelmet a rendszer a művelethez irányítja. A proxy számlálóban követi a közelmúltbeli hibák számát, és ha a művelet meghívása nem sikeres, a proxy növeli a számláló értékét. Ha a közelmúltbeli hibák száma meghalad egy megadott küszöbértéket egy adott időtartamon belül, a proxy **Nyitott** állapotba kerül. Ezen a ponton a proxy elindít egy időtúllépési időzítőt, és annak lejártakor a proxy **Félig nyitott** állapotba kerül.
+- **Lezárt**: A kérelem az alkalmazásból irányítja a rendszer a műveletet. A proxy számlálóban követi a közelmúltbeli hibák számát, és ha a művelet meghívása nem sikeres, a proxy növeli a számláló értékét. Ha a közelmúltbeli hibák száma meghalad egy megadott küszöbértéket egy adott időtartamon belül, a proxy **Nyitott** állapotba kerül. Ezen a ponton a proxy elindít egy időtúllépési időzítőt, és annak lejártakor a proxy **Félig nyitott** állapotba kerül.
 
     > Az időtúllépési időzítő célja az, hogy időt adjon a rendszernek a hibát okozó probléma megoldására, mielőtt engedélyezné az alkalmazás számára, hogy újra megpróbálja elvégezni a műveletet.
 
-- **Nyitott**: Az alkalmazásból érkező kérelem azonnal meghiúsul, az alkalmazás kivételt kap vissza.
+- **Nyissa meg**: Az alkalmazásból érkező kérelem azonnal meghiúsul, és az alkalmazás kivételt kap vissza.
 
-- **Félig nyitott**: Az alkalmazásból érkező kérelmek korlátozott számban átjuthatnak, és meghívhatják a műveletet. Ha ezek a kérelmek sikeresek, feltételezhető, hogy a korábban meghibásodást okozó hiba megszűnt, és az áramkör-megszakító átvált **Zárt** állapotra (a hibaszámláló alaphelyzetbe áll). Ha a kérelem meghiúsul, az áramkör-megszakító feltételezi, hogy a hiba továbbra is fennáll, ezért visszaáll **Nyitott** állapotba, és újraindítja az időtúllépési időzítőt, hogy további időt biztosítson a rendszernek a meghibásodásból való helyreállásra.
+- **Félig nyitott**: Az alkalmazásból érkező kérelmek korlátozott számú jogosultak haladnak át, és meghívhatják a műveletet. Ha ezek a kérelmek sikeresek, feltételezhető, hogy a korábban meghibásodást okozó hiba megszűnt, és az áramkör-megszakító átvált **Zárt** állapotra (a hibaszámláló alaphelyzetbe áll). Ha a kérelem meghiúsul, az áramkör-megszakító feltételezi, hogy a hiba továbbra is fennáll, ezért visszaáll **Nyitott** állapotba, és újraindítja az időtúllépési időzítőt, hogy további időt biztosítson a rendszernek a meghibásodásból való helyreállásra.
 
     > A **Félig nyitott** állapot azért hasznos, mert megakadályozza, hogy a helyreálló szolgáltatást hirtelen elárasszák a kérelmek. Előfordul, hogy miközben zajlik a helyreállítás, a szolgáltatás már képes korlátozott számban kiszolgálni kéréseket a teljes helyreállásig, de amíg folyamatban van a helyreállítás, a nagy mennyiségű feladattól időtúllépés fordulhat elő, vagy esetleg újra meghibásodik a szolgáltatás.
 
@@ -68,7 +67,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 **Helyreállíthatóság**. Az áramkör-megszakítót úgy konfigurálja, hogy kövesse a védett művelet várható helyreállítási mintáját. Ha például az áramkör-megszakító hosszan **Nyitott** állapotban marad, akkor is létrehozhat kivételeket, ha a hiba oka már megszűnt. Ehhez hasonlóan az áramkör-megszakító ingadozhat és csökkentheti az alkalmazások válaszidejeit, ha túl gyorsan vált a **Nyitott** állapotból **Félig nyitott** állapotba.
 
-**Sikertelen műveletek tesztelése**. A **Nyitott** állapotban lévő áramkör-megszakító ahelyett, hogy időzítővel határozná meg, mikor váltson **Félig nyitott** állapotba, rendszeres időközönként pingelheti a távoli szolgáltatást vagy erőforrást annak megállapításához, hogy az mikor válik újra elérhetővé. Ez a pingelés történhet egy korában meghiúsult művelet meghívásának formájában, vagy lehet a távoli szolgáltatás által kifejezetten a szolgáltatás állapotának tesztelésére biztosított speciális műveletet használni, mint például az [állapot végponti monitorozását végző minta](health-endpoint-monitoring.md).
+**Sikertelen műveletek tesztelése**. A **Nyitott** állapotban lévő áramkör-megszakító ahelyett, hogy időzítővel határozná meg, mikor váltson **Félig nyitott** állapotba, rendszeres időközönként pingelheti a távoli szolgáltatást vagy erőforrást annak megállapításához, hogy az mikor válik újra elérhetővé. Ez a pingelés történhet egy korában meghiúsult művelet meghívásának formájában, vagy lehet a távoli szolgáltatás által kifejezetten a szolgáltatás állapotának tesztelésére biztosított speciális műveletet használni, mint például az [állapot végponti monitorozását végző minta](./health-endpoint-monitoring.md).
 
 **Kézi felülbírálás**. Olyan rendszerben, ahol a meghiúsuló művelet helyreállítási ideje kifejezetten változó, érdemes manuális visszaállítási lehetőséget biztosítani, hogy a rendszergazda zárhassa az áramkör-megszakítót (és alaphelyzetbe állíthassa a hibaszámlálót). Ehhez hasonlóan a rendszergazda **Nyitott** állapotba kényszerítheti az áramkör-megszakítót (és alaphelyzetbe állíthatja az időtúllépési időzítőt), ha az áramkör-megszakító által védett művelet átmenetileg nem érhető el.
 
@@ -284,9 +283,6 @@ catch (Exception ex)
 
 A következő minták is hasznosak lehetnek ennek a mintának a végrehajtása során:
 
-- [Újrapróbálkozási minta][retry-pattern]. Ismerteti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.
+- [Újrapróbálkozási minta](./retry.md). Ismerteti egy alkalmazás számára a szolgáltatásokhoz vagy hálózati erőforrásokhoz való csatlakozáskor jelentkező előre jelzett, átmeneti meghibásodások kezelését egy korábban meghiúsult művelet transzparens módon való ismételt megkísérlésével.
 
-- [Állapot végponti monitorozását végző minta](health-endpoint-monitoring.md). Egy áramkör-megszakító képes lehet egy szolgáltatás állapotának tesztelésére oly módon, hogy kérést küld egy, a szolgáltatás által közzétett végpontnak. A szolgáltatásnak az állapotát jelző adatokat kell visszaadnia.
-
-
-[retry-pattern]: ./retry.md
+- [Állapot végponti Monitorozását végző minta](./health-endpoint-monitoring.md). Egy áramkör-megszakító képes lehet egy szolgáltatás állapotának tesztelésére oly módon, hogy kérést küld egy, a szolgáltatás által közzétett végpontnak. A szolgáltatásnak az állapotát jelző adatokat kell visszaadnia.

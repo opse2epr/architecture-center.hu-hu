@@ -5,12 +5,12 @@ description: A relációs adatok az üzleti elemzéseket kaphat az Azure a helys
 author: MikeWasson
 ms.date: 11/06/2018
 ms.custom: seodec18
-ms.openlocfilehash: 3808cc5d09e2e0a5aaee1a6cfcb050b98a0ef2ee
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 2f15b8d4376638e6e8e522e5150a3b3c247cba8f
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644223"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010290"
 ---
 # <a name="enterprise-bi-in-azure-with-sql-data-warehouse"></a>Vállalati bi-ban az Azure SQL Data Warehouse-ban
 
@@ -72,7 +72,7 @@ A következő szakaszok ismertetik ezen szakaszokban részletesebben.
 
 A [bcp](/sql/tools/bcp-utility) (tömeges másolási funkciójával) segédprogram egy gyorsan hozhat létre SQL-táblákban strukturálatlan szöveges fájlok. Ebben a lépésben az oszlopokat, amelyeket szeretne exportálni, választja, de nem alakíthatja át az adatokat. Bármely adatátalakítások az SQL Data Warehouse történjen.
 
-**Javaslatok**
+**Javaslatok:**
 
 Ha lehetséges ütemezheti az éles környezetben az erőforrás-versengés minimalizálása érdekében csúcsidőn adatkinyerés.
 
@@ -84,7 +84,7 @@ A hálózati átvitel menti az exportált adatok Gzip formátumban tömörített
 
 A [AzCopy](/azure/storage/common/storage-use-azcopy) segédprogram készült nagy teljesítményű másolása az adatok Azure blob storage-bA.
 
-**Javaslatok**
+**Javaslatok:**
 
 A storage-fiók létrehozása az adatok helye közelében található régiókban. A tárfiók és az SQL Data Warehouse-példányhoz ugyanabban a régióban helyezhet üzembe.
 
@@ -105,7 +105,7 @@ Az adatok betöltése két lépésből áll:
 1. Hozzon létre az adatok külső táblák egy készlete. A külső tábla esetében, amely az adatraktár-on kívül tárolt adatokat tábla definícióját &mdash; ebben az esetben a átalánydíjjal fájlok blob storage-ban. Ez a lépés nem helyezi át adatokat a warehouse-bA.
 2. Átmeneti tárolási táblákat hozhat létre, és betöltheti az adatokat az átmeneti tárolási táblákba. Ebben a lépésben másolja az adatokat az adattárház.
 
-**Javaslatok**
+**Javaslatok:**
 
 Amikor nagy mennyiségű (több mint 1 TB) adat rendelkezik, és a egy párhuzamosság kihasználó elemzési számítási feladatot futtat, vegye figyelembe az SQL Data warehouse-bA. Az SQL Data Warehouse nem jó megoldás lehet OLTP számítási feladatokat vagy kisebb adatkészletek (< 250GB). Adatkészletek kisebb, mint 250 GB-os fontolja meg az Azure SQL Database vagy SQL Server. További információkért lásd: [adattárházak](../../data-guide/relational-data/data-warehousing.md).
 
@@ -155,7 +155,7 @@ A Power BI csatlakozik az Azure Analysis Services támogatja két lehetőség k�
 
 Javasoljuk, hogy élő kapcsolat, mert nincs szükség a Power BI-modellben az adatok másolását. Emellett a DirectQuery használata biztosítja, hogy eredmények mindig konzisztensek legyenek a legújabb forrásadatokat. További információkért lásd: [csatlakozás a Power bi-JAL](/azure/analysis-services/analysis-services-connect-pbi).
 
-**Javaslatok**
+**Javaslatok:**
 
 Ne közvetlenül az adatraktáron irányítópult-lekérdezések futtatása a BI-ban. A BI-irányítópultok szükséges nagyon alacsony válaszidők, amely közvetlen, előfordulhat, hogy az adatraktár-lekérdezéseket az nem felel meg. Emellett az irányítópult frissítése vonja le a rendszer a lekérdezést, ami hatással lehet a teljesítmény számát.
 

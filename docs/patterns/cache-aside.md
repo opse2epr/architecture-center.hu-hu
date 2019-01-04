@@ -1,19 +1,17 @@
 ---
-title: Cache-Aside
+title: Gyorsítótár-feltöltési minta
+titleSuffix: Cloud Design Patterns
 description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból
 keywords: tervezési minta
 author: dragon119
 ms.date: 11/01/2018
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- performance-scalability
-ms.openlocfilehash: 4c93ed02ff28e79cedc26f83364592baba96821d
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seodec18
+ms.openlocfilehash: 3246030d23bfd275670cf184b859b767cca06a1f
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916372"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011412"
 ---
 # <a name="cache-aside-pattern"></a>Gyorsítótár-feltöltési minta
 
@@ -35,14 +33,13 @@ Az alkalmazások a gyorsítótár-feltöltő stratégiával emulálni tudják a 
 
 ![Adatok tárolása a gyorsítótárban a gyorsítótár-feltöltési minta használatával](./_images/cache-aside-diagram.png)
 
-
 Ha egy alkalmazás adatokat frissít, úgy követheti a visszaírási stratégiát, ha végrehajthatja a módosítást az adattárban, és érvényteleníti a megfelelő elemet a gyorsítótárban.
 
 Amikor az elemre legközelebb szükség van, a gyorsítótár-feltöltő stratégia használatának köszönhetően az alkalmazás az adattárból kéri le a frissített adatokat, és újra hozzáadja őket a gyorsítótárhoz.
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-A minta megvalósítása során az alábbi pontokat vegye figyelembe: 
+A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 **A gyorsítótárazott adatok élettartama**. Számos gyorsítótár használ elévülési szabályzatot, amely érvényteleníti és eltávolítja az adatokat a gyorsítótárból, ha adott ideig nem történik hozzáférés. A hatékony gyorsítótár-felöltés érdekében győződjön meg arról, hogy az elévülési szabályzat megfelel az adatokat használó alkalmazások hozzáférési mintájának. Ne szabja túl rövidre az elévülési időt, mert ez azt okozhatja, hogy az alkalmazások folyamatosan lekérik az adatokat az adattárból, és hozzáadják őket a gyorsítótárhoz. Az elévülési idő ne legyen olyan hosszú sem, hogy a gyorsítótárazott adatok elavuljanak. Vegye figyelembe, hogy a gyorsítótárazás a viszonylag statikus vagy gyakran beolvasott adatok esetében a leghatékonyabb.
 
@@ -68,9 +65,9 @@ Nem érdemes ezt a mintát használni, ha:
 
 ## <a name="example"></a>Példa
 
-A Microsoft Azure-ban az Azure Redis Cache használatával létrehozhat elosztott gyorsítótárakat, amelyek megoszthatók egy alkalmazás több példánya között. 
+A Microsoft Azure-ban az Azure Redis Cache használatával létrehozhat elosztott gyorsítótárakat, amelyek megoszthatók egy alkalmazás több példánya között.
 
-A következő kód példák használja a [StackExchange.Redis] ügyfél, amely egy Redis ügyféloldali kódtára a .NET-hez írt. Egy Azure Redis Cache-példányhoz való csatlakozáshoz hívja meg a `ConnectionMultiplexer.Connect` statikus metódust, és adja meg a kapcsolati sztringet. A metódus egy `ConnectionMultiplexer` értéket ad vissza, amely a kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés egy szálbiztos módszert biztosít egyetlen csatlakoztatott példány inicializálásához.
+A következő kód példák használja a [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis) ügyfél, amely egy Redis ügyféloldali kódtára a .NET-hez írt. Egy Azure Redis Cache-példányhoz való csatlakozáshoz hívja meg a `ConnectionMultiplexer.Connect` statikus metódust, és adja meg a kapcsolati sztringet. A metódus egy `ConnectionMultiplexer` értéket ad vissza, amely a kapcsolatot jelöli. Az alkalmazásban egy `ConnectionMultiplexer` példány megosztására egy lehetséges módszer, ha létrehoz egy statikus tulajdonságot, amely egy csatlakoztatott példányt ad vissza, a következő példához hasonlóan. Ez a megközelítés egy szálbiztos módszert biztosít egyetlen csatlakoztatott példány inicializálásához.
 
 ```csharp
 private static ConnectionMultiplexer Connection;
@@ -89,7 +86,6 @@ A `GetMyEntityAsync` metódus az az alábbi példakód a gyorsítótár-feltölt
 
 A metódus egy egész számból álló azonosítót használ kulcsként az objektumok azonosításához. A `GetMyEntityAsync` metódus megkísérel lekérdezni egy elemet a gyorsítótárból ezzel a kulccsal. Ha a metódus talál egyező elemet, akkor visszaadja. Ha nincs egyezés a gyorsítótárban, a `GetMyEntityAsync` metódus lekérdezi az objektumot az adattárból, hozzáadja a gyorsítótárhoz, majd visszaadja. Az adatokat az adattárból ténylegesen beolvasó kód itt nem látható, mert az az adattártól függően változhat. Figyelje meg, hogy a gyorsítótárazott elem úgy van konfigurálva, hogy elévüljön, és ne váljon elavulttá, ha máshol frissítik.
 
-
 ```csharp
 // Set five minute expiration as a default
 private const double DefaultExpirationTimeInMinutes = 5.0;
@@ -99,23 +95,23 @@ public async Task<MyEntity> GetMyEntityAsync(int id)
   // Define a unique key for this method and its parameters.
   var key = $"MyEntity:{id}";
   var cache = Connection.GetDatabase();
-  
+
   // Try to get the entity from the cache.
   var json = await cache.StringGetAsync(key).ConfigureAwait(false);
-  var value = string.IsNullOrWhiteSpace(json) 
-                ? default(MyEntity) 
+  var value = string.IsNullOrWhiteSpace(json)
+                ? default(MyEntity)
                 : JsonConvert.DeserializeObject<MyEntity>(json);
-  
+
   if (value == null) // Cache miss
   {
     // If there's a cache miss, get the entity from the original store and cache it.
-    // Code has been omitted because it's data store dependent.  
+    // Code has been omitted because it is data store dependent.
     value = ...;
 
     // Avoid caching a null value.
     if (value != null)
     {
-      // Put the item in the cache with a custom expiration time that 
+      // Put the item in the cache with a custom expiration time that
       // depends on how critical it is to have stale data.
       await cache.StringSetAsync(key, JsonConvert.SerializeObject(value)).ConfigureAwait(false);
       await cache.KeyExpireAsync(key, TimeSpan.FromMinutes(DefaultExpirationTimeInMinutes)).ConfigureAwait(false);
@@ -126,7 +122,7 @@ public async Task<MyEntity> GetMyEntityAsync(int id)
 }
 ```
 
->  A példák a Redis Cache használatával a áruház és a gyorsítótárban lévő információk lekéréséhez. További információ: [A Microsoft Azure Redis Cache használata](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Webalkalmazás létrehozása a Redis Cache használatával](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
+> A példák a Redis Cache használatával a áruház és a gyorsítótárban lévő információk lekéréséhez. További információ: [A Microsoft Azure Redis Cache használata](https://docs.microsoft.com/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache) és [Webalkalmazás létrehozása a Redis Cache használatával](https://docs.microsoft.com/azure/redis-cache/cache-web-app-howto)
 
 Az alább látható `UpdateEntityAsync` metódus azt mutatja be, hogyan érvényteleníthető egy objektum a gyorsítótárban, ha egy alkalmazás módosítja az értékét. A kód frissíti az eredeti adattárat, majd eltávolítja a gyorsítótárazott elemet a gyorsítótárból.
 
@@ -134,7 +130,7 @@ Az alább látható `UpdateEntityAsync` metódus azt mutatja be, hogyan érvény
 public async Task UpdateEntityAsync(MyEntity entity)
 {
     // Update the object in the original data store.
-    await this.store.UpdateEntityAsync(entity).ConfigureAwait(false); 
+    await this.store.UpdateEntityAsync(entity).ConfigureAwait(false);
 
     // Invalidate the current cache object.
     var cache = Connection.GetDatabase();
@@ -147,14 +143,10 @@ public async Task UpdateEntityAsync(MyEntity entity)
 > [!NOTE]
 > A lépések sorrendje rendkívül fontos. Frissítse az adattárat, *mielőtt* eltávolítaná az elemet a gyorsítótárból. Ha először eltávolítja a gyorsítótárazott elemet, akkor az ügyfélnek csak rövid ideje lesz az elem lekérésére az adattár frissítése előtt. Emiatt a gyorsítótárból nem lesz találat (mivel az elemet eltávolították a gyorsítótárból), így a rendszer az elem egy korábbi változatát kéri le az adattárból és adja hozzá újra a gyorsítótárhoz. Ez pedig elavult gyorsítótár-adatokat eredményez.
 
-
-## <a name="related-guidance"></a>Kapcsolódó útmutatók 
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
 Az alábbi információk segíthetnek a minta megvalósításakor:
 
 - [Gyorsítótárazási útmutató](https://docs.microsoft.com/azure/architecture/best-practices/caching). További információkat biztosít arról, hogyan gyorsítótárazhat adatokat a felhőalapú megoldásokban, valamint a gyorsítótárak kialakítása előtt megfontolandó szempontokról.
 
 - [Adatkonzisztencia – Ismertető](https://msdn.microsoft.com/library/dn589800.aspx). A felhőalapú alkalmazások általában több adattárból származó adatokat használnak. Az adatkonzisztencia felügyelete és fenntartása ebben a környezetben a rendszer kritikus fontosságú tényezője, különösen az egyidejűségi és rendelkezésre állási problémák miatt. Ez az ismertető az elosztott adatok esetében felmerülő konzisztenciaproblémákat mutatja be, és összefoglalja, hogyan biztosíthatják az alkalmazások az adatok rendelkezésre állását a végleges konzisztencia megvalósításával.
-
-
-[StackExchange.Redis]: https://github.com/StackExchange/StackExchange.Redis

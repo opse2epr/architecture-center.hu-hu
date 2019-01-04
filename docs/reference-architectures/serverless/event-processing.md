@@ -5,12 +5,12 @@ description: A referenciaarchitektúra bemutatja a kiszolgáló nélküli esemé
 author: MikeWasson
 ms.date: 10/16/2018
 ms.custom: seodec18
-ms.openlocfilehash: 1a3c73ca35f7e849211837dee33a530d786c827f
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: c6512602444157b672b4c5187a678443f076dea0
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119897"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011769"
 ---
 # <a name="serverless-event-processing-using-azure-functions"></a>Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 
@@ -23,7 +23,7 @@ Ez a referenciaarchitektúra bemutatja egy [kiszolgáló nélküli](https://azur
 **Az Event Hubs** betölti az adatfolyamot. [Az Event Hubs] [ eh] nagy átviteli sebességű adatstreamelési forgatókönyvekhez készült.
 
 > [!NOTE]
-> IoT-forgatókönyvek esetén javasoljuk, hogy az IoT Hub. Az IoT Hub rendelkezik egy beépített végpont, amely kompatibilis az Azure Event Hubs API, így mindkét szolgáltatás ebben az architektúrában a háttérbeli feldolgozás jelentős módosítása nélkül is használhatja. További információkért lásd: [IoT-eszközök csatlakoztatása az Azure-bA: az IoT Hub és az Event Hubs][iot].
+> IoT-forgatókönyvek esetén javasoljuk, hogy az IoT Hub. Az IoT Hub rendelkezik egy beépített végpont, amely kompatibilis az Azure Event Hubs API, így mindkét szolgáltatás ebben az architektúrában a háttérbeli feldolgozás jelentős módosítása nélkül is használhatja. További információkért lásd: [IoT-eszközök csatlakoztatása az Azure-bA: Az IoT Hub és az Event Hubs][iot].
 
 **Függvényalkalmazásnak**. [Az Azure Functions] [ functions] kiszolgáló nélküli számítási megoldás. Az eseményvezérelt modellt használ, ahol a kódrészleteket (a "function") egy eseményindító hív. Ebben az architektúrában esemény érkezik, az Event Hubs, amikor azok aktiválása egy függvényt, amely dolgozza fel a, és írja az eredmények tárolása.
 

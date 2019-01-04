@@ -1,99 +1,96 @@
 ---
-title: Összevont identitás
-description: Egy külső identitásszolgáltatótól delegált hitelesítés.
-keywords: Kialakítási mintája
+title: Összevont identitás mintája
+titleSuffix: Cloud Design Patterns
+description: A hitelesítést delegálhatja egy külső identitásszolgáltatónak.
+keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- security
-ms.openlocfilehash: a1edbdd080309383201d33e73602e2f18928c080
-ms.sourcegitcommit: b0482d49aab0526be386837702e7724c61232c60
+ms.custom: seodec18
+ms.openlocfilehash: d8c31831be21bc7328202f1accc95241232574cb
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/14/2017
-ms.locfileid: "24542633"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009986"
 ---
-# <a name="federated-identity-pattern"></a>Összevont identitás-minta
+# <a name="federated-identity-pattern"></a>Összevont identitás mintája
 
 [!INCLUDE [header](../_includes/header.md)]
 
-Egy külső identitásszolgáltatótól delegált hitelesítés. Ez fejlesztési egyszerűsítése, minimalizálása érdekében a felhasználókezelés kapcsolatos követelmények és az alkalmazás a felhasználói élmény javításához.
+A hitelesítést delegálhatja egy külső identitásszolgáltatónak. Ezzel leegyszerűsítheti a fejlesztést, minimalizálhatja a szükséges felhasználói adminisztrációt és javíthatja az alkalmazás felhasználói élményét.
 
-## <a name="context-and-problem"></a>A környezetben, és probléma
+## <a name="context-and-problem"></a>Kontextus és probléma
 
-Felhasználók általában kell az üzleti kapcsolattal rendelkeznek több alkalmazáshoz megadott és a különböző szervezetek üzemelteti. Ezek a felhasználók előfordulhat, hogy kell minden egyes megadott (és más) hitelesítő adatokat használja. Ez a következőket teheti:
+A felhasználóknak általában több, különböző üzleti partner által biztosított és üzemeltetett alkalmazást kell használniuk. Előfordulhat, hogy ezeknek a felhasználóknak mindegyikhez adott (eltérő) hitelesítő adatokat kell használniuk. Mindez:
 
-- **Egy különálló felhasználói felület miatt**. Felhasználók gyakran elfelejti bejelentkezési hitelesítő adataival, ha sok különböző néhányat a meglévők közül.
+- **Nem egységes felhasználói élményt okozhat**. A felhasználók gyakran elfelejtik a bejelentkezési hitelesítő adataikat, ha sok különböző adatot kell kezelniük.
 
-- **Biztonsági rések elérhetővé**. Amikor egy felhasználó elhagyja a vállalatot a fiók azonnal kell megszüntetett. Akkor is könnyen eltéveszthetők ezt a nagy méretű szervezeteknek.
+- **Biztonsági réseket idézhet elő**. Ha egy felhasználó kilép a cégtől, a fiókját azonnal meg kell szüntetni. Nagy cégeknél erről könnyű megfeledkezni.
 
-- **Felhasználókezelés nehezíti**. Rendszergazdák kell a felhasználói hitelesítő adatok kezelése és például a jelszó-emlékeztető kezeléséről további feladatok elvégzéséhez.
+- **Bonyolítja a felhasználókezelést**. A rendszergazdáknak kell kezelniük az összes felhasználó hitelesítő adatait, és pluszfeladatokat (például jelszó-emlékeztetők küldését) kell elvégezniük.
 
-Felhasználók általában inkább ugyanazokat a hitelesítő adatokat használja ezeket az alkalmazásokat.
+A felhasználók általában jobban szeretnék ugyanazokat a hitelesítő adatokat használni az összes alkalmazáshoz.
 
 ## <a name="solution"></a>Megoldás
 
-Olyan hitelesítési mechanizmus, amellyel összevont identitás megvalósításához. Külön felhasználói hitelesítést az alkalmazáskódban, és delegálja a hitelesítés a megbízható identitásszolgáltató. Ez leegyszerűsítheti a fejlesztési és engedélyezése a felhasználók hitelesítése az identitás-szolgáltatóktól (IdP) szélesebb körének elvégezhető ugyanakkor minimalizálja az adminisztratív terhek. Lehetővé teszi egyértelműen absztrakcióhoz engedélyezési hitelesítést.
+Használjon összevont identitás használatára képes hitelesítési mechanizmust. Különítse el a felhasználói hitelesítést az alkalmazáskódtól, és delegálja a hitelesítést egy megbízható identitásszolgáltatóra. Ezzel leegyszerűsítheti a fejlesztést, és lehetővé teheti, hogy a felhasználók szélesebb palettáról válasszanak identitásszolgáltatót a hitelesítéshez, és közben a lehető legkisebbre csökkentsék az adminisztratív terhelést. Azt is lehetővé teszi, hogy egyértelműen elválassza a hitelesítést az engedélyezéstől.
 
-A megbízható Identitásszolgáltatók közé tartozik a vállalati könyvtárak, a helyszíni összevonási szolgáltatások, más biztonsági jogkivonat (STS) által nyújtott szolgáltatások üzleti partnerek vagy a közösségi Identitásszolgáltatók, amelyek felhasználókat hitelesítheti rendelkező, például egy Microsoft Google, Yahoo!-s vagy Facebook-fiókkal.
+A megbízható identitásszolgáltatók között vannak céges címtárak, helyszíni összevonási szolgáltatások, külső üzleti partnerek által biztosított biztonsági jegykiadó szolgáltatások (STS), vagy éppen közösségi identitásszolgáltatók, amelyek képesek kezelni például a Microsoft-, Google-, Yahoo!- vagy Facebook-fiókkal rendelkező felhasználók hitelesítését.
 
-Ábra bemutatja az összevont identitási mintát, amikor egy ügyfél-alkalmazás kell elérni egy szolgáltatást, amelyhez hitelesítés szükséges. Az IdP, hogy az STS szolgáltatással együttműködik a hitelesítés történik. Az IdP, amelyek információval szolgálnak a hitelesített felhasználó biztonsági jogkivonatokat bocsát ki. Néven jogcímek, az információ magában foglalja a felhasználó identitását, és más információkat, például a szerepköri tagság és részletesebb hozzáférési jogosultsággal is tartalmazhatja.
+Az ábra az összevont identitás mintáját mutatja be, amikor egy ügyfélnek épp egy hitelesítést igénylő szolgáltatáshoz kell hozzáférnie. A hitelesítést egy STS-sel együttműködő identitásszolgáltató hajtja végre. Az identitásszolgáltató a hitelesített felhasználóról információt szolgáltató biztonsági jogkivonatokat ad ki. Ez a jogcímnek is nevezett információ tartalmazza a felhasználó identitását, és tartalmazhat más adatokat is, például a szerepkörtagságot és részletesebb hozzáférési jogosultságokat.
 
-![Összevont hitelesítés áttekintése](./_images/federated-identity-overview.png)
+![Az összevont hitelesítés áttekintése](./_images/federated-identity-overview.png)
 
+Ezt a modellt gyakran nevezik jogcímalapú hozzáférés-vezérlésnek. Az alkalmazások és a szolgáltatások a jogkivonatban található jogcímek alapján engednek hozzáférést a szolgáltatásokhoz és funkciókhoz. A hitelesítést igénylő szolgáltatásnak meg kell bíznia az identitásszolgáltatóban. Az ügyfélalkalmazás kapcsolatba lép a hitelesítést elvégző identitásszolgáltatóval. Ha a hitelesítés sikeres, az identitásszolgáltató a felhasználót azonosító jogcímeket tartalmazó jogkivonatot ad vissza az STS-nek (tartsa szem előtt, hogy az identitásszolgáltató és az STS lehet ugyanaz a szolgáltatás is). Az STS az ügyfélnek való visszaadás előtt előre meghatározott szabályok alapján átalakíthatja és kiegészítheti a jogcímeket. Az ügyfélalkalmazás ezután továbbíthatja ezt a jogkivonatot a szolgáltatásnak az identitása bizonyítékaként.
 
-Ez a modell jogcímalapú hozzáférés-vezérlés gyakran nevezik. Alkalmazások és szolgáltatások szolgáltatásait és funkcióit a token lévő jogcímek alapján történő hozzáférés engedélyezésére. A szolgáltatás, amelyhez hitelesítés szükséges a kiállító terjesztési hely megbízhatónak kell lennie. Az ügyfélalkalmazás kapcsolatba lép a kiállító terjesztési hely, amely végrehajtja a hitelesítést. Ha a hitelesítés sikeres, a kiállító terjesztési hely a jogcímeket, amely azonosítja a felhasználót, hogy az STS (vegye figyelembe, hogy a kiállító terjesztési hely és STS lehet ugyanazt a szolgáltatást) tartalmazó jogkivonatot ad vissza. Az STS átalakíthatja és kiegészítheti a jogcímeket a jogkivonatban, előre meghatározott szabályok alapján, az ügyfélnek való visszaküldés előtt. Az ügyfélalkalmazás majd továbbíthatja a jogkivonat a szolgáltatás, magát.
+> A megbízhatósági láncban lehetnek további STS-ek. A később ismertetett forgatókönyvben például egy helyszíni STS megbízik egy másik, a felhasználó hitelesítése céljából egy identitásszolgáltatóhoz való hozzáférésért felelős STS-ben. Ez a megközelítés gyakori nagyvállalati forgatókönyvekben, ahol van helyszíni STS és címtár is.
 
-> A megbízhatósági lánc további STSs lehet. Például a forgatókönyvben a későbbiekben olvashat, egy a helyszíni STS bizalmi kapcsolatok egy másik STS fér hozzá a felhasználó hitelesítésére identitásszolgáltató felelős. A megoldás közös vállalati környezetben, ahol van egy helyszíni STS és könyvtár.
+Az összevont hitelesítés szabványalapú megoldást nyújt a különböző tartományokban található identitásokba fektetett bizalom problémájára, és képes az egyszeri bejelentkezés támogatására. Minden típusú alkalmazásnál egyre elterjedtebb, különösen a felhőalapú alkalmazásoknál, mert anélkül támogatja az egyszeri bejelentkezést, hogy közvetlen hálózati kapcsolatot igényelne az identitásszolgáltatókhoz. A felhasználónak nem kell minden alkalmazáshoz megadnia a hitelesítő adatait. Ez növeli a biztonságot, mivel nem kell létrehozni a sok különböző alkalmazáshoz való hozzáféréshez szükséges hitelesítő adatokat, és az eredeti identitásszolgáltatón kívül minden alkalmazás elől elrejthetők a felhasználó hitelesítő adatai. Az alkalmazások csak a jogkivonatban található hitelesített identitásadatokat látják.
 
-Összevont hitelesítés identitások megbízó különböző tartományok között kiadására szabványalapú megoldást nyújt, és egyszeri bejelentkezést támogatja. Azt egyre gyakrabban, alkalmazások, különösen felhőben üzemeltetett alkalmazások, az összes típusa, mert identitás-szolgáltatóktól közvetlen hálózaton keresztül nélkül egyszeri bejelentkezést támogatja. A felhasználó hitelesítő adatainak megadását minden alkalmazás nem rendelkezik. Ez növeli a biztonságot, mivel megakadályozza, hogy a különböző alkalmazások eléréséhez szükséges hitelesítő adatok létrehozása, és a felhasználó hitelesítő adatait az eredeti identitásszolgáltató kivételével az összes is elrejti. Alkalmazások információk csak a hitelesített identitást lévő a jogkivonat.
+Az összevont identitásnak az is nagy előnye, hogy az identitás és a hitelesítő adatok kezelése az identitásszolgáltató felelőssége. Az alkalmazásnak vagy szolgáltatásnak nem kell identitáskezelési funkciókat biztosítania. Ezenfelül céges forgatókönyvekben a céges címtárnak nem kell tudnia a felhasználóról, ha megbízik az identitásszolgáltatóban. Ezzel megszűnik a felhasználók identitásának címtáron belül való kezelésének adminisztratív terhe.
 
-Összevont identitás is rendelkezik a legnagyobb előnye, hogy az identitás- és hitelesítő adatok kezelése az identity provider felelősségét-e. Az alkalmazás vagy szolgáltatás nem szükséges felügyeleti funkciókat-azonosítót fog kérni. Emellett a vállalati környezetben, a vállalati címtárban nem kell tudni a felhasználó ha megbízhatónak fogja tekinteni az identitásszolgáltató. Ezzel eltávolítja az összes adminisztratív terhek a címtáron belül a felhasználói identitás kezelése.
+## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
-## <a name="issues-and-considerations"></a>Problémákat és szempontok
+Összevont hitelesítést megvalósító alkalmazások tervezésekor vegye figyelembe az alábbiakat:
 
-Alkalmazások, amelyek megvalósítják az összevont hitelesítés tervezésekor vegye figyelembe a következőket:
+- A hitelesítés kritikus hibapont lehet a rendszeren belül. Ha több adatközpontba telepíti az alkalmazását, érdemes lehet az identitáskezelő mechanizmust is telepíteni ugyanazokba az adatközpontokba, hogy megmaradjon az alkalmazás megbízhatósága és rendelkezésre állása.
 
-- A hitelesítés történhet a hibaérzékeny pontok kialakulását. Ha több adatközpontot az alkalmazást telepít központilag, fontolja meg, az alkalmazás megbízhatósági és rendelkezésre állás fenntartása azonos adatközpontokban történő telepítésének az identity management mechanizmus.
+- A hitelesítési eszközök segítségével konfigurálható a hitelesítési jogkivonatban található szerepkörjogcímeken alapuló hozzáférés-vezérlés. Ezt gyakran nevezik szerepköralapú hozzáférés-vezérlésnek (RBAC), és részletesebb szintű hozzáférés-vezérlést tesz lehetővé a szolgáltatások és erőforrások vonatkozásában.
 
-- Hitelesítési eszközök a szerepkör jogcím szerepel a hitelesítési jogkivonat-alapú hozzáférés-vezérlés konfigurálása lehetővé teszik. Ezt gyakran nevezik szerepköralapú hozzáférés-vezérlést (RBAC), és engedélyezheti, hogy a szolgáltatások és az erőforrásokhoz való hozzáférés ellenőrzése részletesebb felügyeletét.
+- A céges címtáraktól eltérően a közösségi identitásszolgáltatókat használó jogcímalapú hitelesítés az e-mail-címen és esetleg a néven kívül általában nem ad meg más adatot a hitelesített felhasználóról. Néhány közösségi identitásszolgáltató – például egy Microsoft-fiók – csak egy egyedi azonosítót biztosít. Az alkalmazásnak általában kezelnie kell néhány adatot a regisztrált felhasználókról, és képesnek kell lennie megfeleltetni ezt az információt a jogkivonat jogcímeiben tárolt azonosítóval. Ezt általában a regisztráció során szerzi be, amikor a felhasználó először használja az alkalmazást, majd az adatok további jogcímekként kerülnek be a jogkivonatba az egyes hitelesítések után.
 
-- Ellentétben a vállalati címtárban szolgáltatáson alapuló Jogcímalapú hitelesítés használata a közösségi identitás-szolgáltatóktól általában egy e-mail címet, és lehet, hogy a nem hitelesített felhasználó adatainak nem megadása. Néhány közösségi Identitásszolgáltatók, például egy Microsoft-fiókot, adja meg a csak egy egyedi azonosítót. Az alkalmazás általában kell néhány regisztrált felhasználók adatainak megőrzése, és ezeket az adatokat az azonosító szerepel a jogkivonatában lévő jogcímeket egyező lesz. Általában ez segítségével történik regisztrációs a felhasználó általi első elérésének a alkalmazást, és információt van majd be a nézetmodellbe, a jogkivonat további jogcímekként minden hitelesítés után.
+- Ha egynél több identitásszolgáltató van konfigurálva az STS-hez, annak észlelnie kell, hogy melyik identitásszolgáltatóhoz kell átirányítania az adott felhasználót hitelesítésre. Ennek a folyamatnak a kezdőtartomány felderítése a neve. Lehetséges, hogy az STS erre képes automatikusan a felhasználó által megadott e-mail-cím vagy felhasználónév, a felhasználó által használni kívánt alkalmazás altartománya, a felhasználó IP-címtartománya vagy egy, a felhasználó böngészőjében tárolt cookie tartalma alapján. Ha például a felhasználó egy Microsoft-tartományba eső e-mail-címet adott meg (pl.: user@live.com), az STS a felhasználót a Microsoft-fiók bejelentkezési oldalára irányítja át. A későbbi látogatások alkalmával az STS egy cookie segítségével jelezheti, hogy az utolsó bejelentkezés egy Microsoft-fiók segítségével történt. Ha az automatikus észlelés nem tudja meghatározni a kezdőtartományt, az STS megjelenít egy kezdőtartomány-felderítő oldalt, amely kilistázza a megbízható identitásszolgáltatókat, és a felhasználónak kell kiválasztania, melyiket szeretné igénybe venni.
 
-- Ha nincs konfigurálva az STS egynél több identitásszolgáltató, mely identitásszolgáltató, a felhasználó a hitelesítéshez a rendszer átirányítja azt kell észleli. A folyamat elnevezése a hitelesítőtartomány feltárását. Lehet, hogy az STS ehhez automatikusan egy e-mail cím vagy a felhasználó neve, amely a felhasználót, olyan altartomány, az alkalmazást, amely a felhasználó fér hozzá, a felhasználó IP-hatókört, vagy tárolja a felhasználó böngészőben a cookie tartalma alapján. Például, ha a felhasználó által megadott e-mail cím a Microsoft a tartományban, például a user@live.com, az STS átirányítja a felhasználót a Microsoft-fiókja bejelentkezési oldalára. A későbbi látogatások alkalmával az STS egy cookie-t használhatja annak jelzésére, hogy volt-e az utolsó bejelentkezés Microsoft-fiókkal. Automatikus észlelés nem határozható meg a hitelesítőtartomány, ha az STS megjeleníti a hitelesítőtartomány feltárási lapjának, amely tartalmazza a megbízható identitás-szolgáltatóktól, és a felhasználó használni kívánja azt kell választania.
+## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
-## <a name="when-to-use-this-pattern"></a>Mikor érdemes használni ezt a mintát
+Ez a minta például az alábbi forgatókönyvek esetében lehet hasznos:
 
-Ez a kialakítás például akkor hasznos, ha forgatókönyvek:
+- **Egyszeri bejelentkezés a vállalatban**. Ebben a forgatókönyvben az alkalmazottakat hitelesíteni kell a felhőben üzemeltetett, vállalati biztonsági határon kívül eső céges alkalmazásokhoz, de nem kell minden alkalommal bejelentkezniük, amikor használnak egy alkalmazást. A felhasználói élmény ugyanaz, mint a helyszíni alkalmazások használatakor, azaz a hitelesítés egy vállalati hálózatra való bejelentkezéskor történik, és onnantól bejelentkezés nélkül használható az összes releváns alkalmazás.
 
-- **Egyszeri bejelentkezés a vállalati**. Ebben a forgatókönyvben kell hitelesíteni az alkalmazottakat, anélkül, hogy azokat bejelentkezni, minden alkalommal, amikor egy alkalmazás, amikor meglátogatják a vállalati biztonsági határán kívüli a felhőben üzemeltetett vállalati alkalmazások esetében. A felhasználói élmény ugyanaz, mint a helyszíni alkalmazások használata, ha azok még hitelesített a vállalati hálózathoz történő bejelentkezéskor, és ezt követően hozzáféréssel rendelkezzenek az összes releváns alkalmazásokhoz anélkül, hogy jelentkezzen be újra.
+- **Összevont identitás több partnerrel**. Ebben a forgatókönyvben a céges alkalmazottakat és a céges címtárban fiókkal nem rendelkező üzleti partnereket is hitelesítenie kell. Ez a gyakori a cégek közötti alkalmazások és a külső szolgáltatást integráló alkalmazások esetében, valamint olyan helyzetben, amely során különböző informatikai rendszert alkalmazó vállalatok egyesülnek vagy megosztják az erőforrásaikat.
 
-- **Összevont identitás több partnerekkel**. Ebben a forgatókönyvben kell hitelesíti az alkalmazottak és az üzleti partnerek, akik nem rendelkeznek fiókkal a vállalati címtárban. Ez a közös az olyan vállalatok alkalmazások, alkalmazások, amely harmadik féltől származó szolgáltatással integrálható, valamint arról, hogy a vállalatok különböző informatikai rendszerek ahol kell egyesíteni vagy megosztott erőforrások.
+- **Összevont identitás SaaS-alkalmazásokban**. Ebben a forgatókönyvben független szoftvergyártók biztosítanak használatra kész szolgáltatást több ügyfélnek vagy bérlőnek. Mindegyik bérlő egy megfelelő identitásszolgáltató használatával végzi el a hitelesítést. Az üzleti felhasználók például a céges hitelesítő adatokat fogják használni, a bérlő felhasználói és ügyfelei pedig a közösségi identitásuk hitelesítő adatait.
 
-- **Összevont identitás SaaS-alkalmazásokhoz az**. Ebben a forgatókönyvben független szoftvergyártók kiszolgálása egy használatra kész több bérlők vagy ügyfelek számára. Mindegyik bérlő megfelelő identitásszolgáltató használatával hitelesít. Például üzleti felhasználók fogja használni a vállalati hitelesítő adatok, amíg a fogyasztók és az ügyfelek a bérlő a közösségi identitás hitelesítő adatait fogja használni.
+Nem érdemes ezt a mintát használni a következő helyzetekben:
 
-Ez a minta nem lehet a következő esetekben lehet hasznos:
+- Az alkalmazás összes felhasználója hitelesíthető egy identitásszolgáltatóval, és nincs szükség más identitásszolgáltatóval való hitelesítésre. Ez olyan üzleti alkalmazásoknál gyakori, amelyek az alkalmazásból elérhető céges címtárat használnak hitelesítéshez VPN- vagy (felhőben futtatott forgatókönyvek esetében) a helyszíni címtár és az alkalmazás közötti kapcsolatot biztosító virtuális hálózati kapcsolaton keresztül.
 
-- Az alkalmazás minden felhasználó hitelesítése egy identitásszolgáltatótól, és nincs szükség semmilyen más identitásszolgáltató hitelesítést. Ez az üzleti alkalmazásokat, amelyek használják a vállalati címtárban (elérhető az alkalmazásban) a hitelesítéshez, egy VPN-kapcsolattal, vagy (a felhőben üzemeltetett forgatókönyvek) a helyszíni címtár közötti virtuális hálózati kapcsolaton keresztül a tipikus és a az alkalmazás.
-
-- Az alkalmazás eredetileg egy másik hitelesítési módszert, lehet, hogy használatával egyéni felhasználói az áruházakkal, beépített, vagy nem rendelkezik a jogcímalapú technológiák által használt egyeztetés szabványok kezelésére képes. Jogcímalapú hitelesítés és hozzáférés-vezérlés alkalmazásával meglévő alkalmazásokba összetett, és valószínűleg nem költséghatékony lehet.
+- Az alkalmazás eredetileg egy másik hitelesítési mechanizmussal készült, esetleg egyéni felhasználói tárolókkal, vagy nem képes kezelni a jogcímalapú technológiák által használt egyeztetési szabványokat. A jogcímalapú hitelesítés és hozzáférés-vezérlés meglévő alkalmazásokra történő alkalmazása összetett feladat, és valószínűleg nem túl költséghatékony.
 
 ## <a name="example"></a>Példa
 
-A szervezetek egy több-bérlős szoftver a Microsoft Azure-ban szolgáltatott szoftverként (SaaS) alkalmazás üzemelteti. Az alkalmazás tartalmazza a webhelyet, ahol a bérlők a saját felhasználók kezelésére használható. Az alkalmazás lehetővé teszi, hogy a bérlők számára a webhely elérését egy összevont identitás, amely szerint az Active Directory összevonási szolgáltatások (ADFS) jön létre, amikor a felhasználók hitelesítése azzal az adott szervezete saját Active Directory használatával.
+Egy cég több-bérlős szolgáltatott szoftvert (SaaS) üzemeltet alkalmazásként a Microsoft Azure-ban. Az alkalmazás tartalmaz egy webhelyet, amelyet a bérlők használhatnak az alkalmazás a saját felhasználóik számára történő kezeléséhez. Az alkalmazás lehetővé teszi a bérlők számára a webhely elérését egy Active Directory összevonási szolgáltatások (ADFS) által létrehozott összevont identitás használatával, ha a felhasználót a cég saját Active Directoryja hitelesítette.
 
-![Hogyan egy nagyvállalati előfizetőn felhasználók az alkalmazás elérése](./_images/federated-identity-multitenat.png)
+![Az alkalmazás elérési módja a felhasználók számára nagyvállalati előfizető esetében](./_images/federated-identity-multitenat.png)
 
+Az ábrán látható, hogyan történik meg a bérlők hitelesítése a saját identitásszolgáltatójukkal (1. lépés), ebben az esetben az ADFS-sel. Egy bérlő sikeres hitelesítése után az ADFS kiad egy jogkivonatot. Az ügyfél böngészője továbbítja ezt a jogkivonatot a SaaS-alkalmazás összevonási szolgáltatójának – amely megbízik a bérlő ADFS-e által kiállított jogkivonatokban –, hogy egy, a SaaS összevonási szolgáltatójához érvényes jogkivonatot kapjon vissza (2. lépés). Ha szükséges, a SaaS összevonási szolgáltató a jogkivonatban található jogcímeket az új jogkivonat ügyfélböngészőnek való visszaadása előtt olyan jogcímekké alakítja, amelyeket az alkalmazás felismer (3. lépés). Az alkalmazás megbízik az SaaS összevonási szolgáltató által kiállított jogkivonatokban, és a jogkivonat jogcímeivel alkalmazza az engedélyezési szabályokat (4. lépés).
 
-Az ábrán látható, hogyan bérlők hitelesítik magukat a saját identitásszolgáltató (1. lépés), ebben az esetben az AD FS. A bérlő a sikeres hitelesítés után az AD FS jogkivonatot ad ki. Az ügyfél böngészője a SaaS-alkalmazás összevonás-szolgáltatóként, amely megbízik a biztonsági jogkivonat, amely érvényes a Szolgáltatottszoftver-összevonás-szolgáltatóként (2. lépés) eléréséhez a bérlő ADFS által kiállított jogkivonatokat a token továbbítja. Ha szükséges, a Szolgáltatottszoftver-összevonási szolgáltató végez átalakítás a jogkivonatában lévő jogcímeket a jogcímeket, hogy az alkalmazás felismeri (3. lépés) az ügyfélböngészőnek az új jogkivonat visszatérése előtt. Az alkalmazás a Szolgáltatottszoftver-összevonási szolgáltató által kiállított jogkivonatokat megbízik, és használja a rendszer a jogcímeket a token (4. lépés)-engedélyezési szabályok vonatkoznak.
+A bérlőknek nem kell emlékezniük a különböző hitelesítő adataikra az alkalmazás eléréséhez, és a bérlő vállalata konfigurálhatja azon felhasználók listáját a saját ADFS-ben, akik hozzáférhetnek az alkalmazáshoz.
 
-Bérlők számára nem szükséges az alkalmazás eléréséhez hitelesítő adatok megjegyzése, és a vállalat a bérlői rendszergazda konfigurálhat a saját ADFS az alkalmazáshoz hozzáférő felhasználók listáját.
+## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
-## <a name="related-guidance"></a>Kapcsolódó útmutató
-
-- [A Microsoft Azure Active Directoryban](https://azure.microsoft.com/services/active-directory/)
+- [Microsoft Azure Active Directory](https://azure.microsoft.com/services/active-directory/)
 - [Active Directory Domain Services](https://msdn.microsoft.com/library/bb897402.aspx)
-- [Az Active Directory összevonási szolgáltatások](https://msdn.microsoft.com/library/bb897402.aspx)
+- [Active Directory összevonási szolgáltatások](https://msdn.microsoft.com/library/bb897402.aspx)
 - [Több-bérlős alkalmazások identitáskezelése a Microsoft Azure-ban](https://azure.microsoft.com/documentation/articles/guidance-multitenant-identity/)
-- [Több-bérlős alkalmazásokhoz az Azure-ban](https://azure.microsoft.com/documentation/articles/dotnet-develop-multitenant-applications/)
+- [Több-bérlős alkalmazások az Azure-ban](https://azure.microsoft.com/documentation/articles/dotnet-develop-multitenant-applications/)

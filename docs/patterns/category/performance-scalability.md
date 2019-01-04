@@ -1,23 +1,23 @@
 ---
 title: Teljesítménnyel kapcsolatos és skálázhatósági minták
+titleSuffix: Cloud Design Patterns
 description: A teljesítmény egy rendszer válaszkészségét mutatja egy művelet adott időtartamon belül való végrehajtásának vonatkozásában, a skálázhatóság pedig a rendszer azon képessége, hogy tudja-e kezelni a terhelés növekedését a teljesítmény romlása nélkül, vagy tudja-e azonnal növelni a rendelkezésre álló erőforrásokat. A felhőalapú alkalmazások általában különböző munkaterheléseknek és aktivitási csúcspontoknak vannak kitéve. Ezeket előre megjósolni, főleg egy több-bérlős forgatókönyvben, szinte lehetetlen. Az alkalmazásoknak inkább a horizontális felskálázásra kell képesnek lenniük bizonyos korlátok között, hogy megfeleljenek a csúcspont idején az igényeknek, és elvégezzék a horizontálisan leskálázást is, ha csökken az igény. A skálázhatóság nem csak a számítási példányokat érinti, de más elemeket is, például az adattárolást, az üzenetkezelési infrastruktúrát stb.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: e60c7c5779e73925d7eed51b41eb37e5c2ad49ff
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.custom: seodec18
+ms.openlocfilehash: 986e17f943e2238d70a5c9e0fd4c84e37c5f06a6
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30848529"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011038"
 ---
 # <a name="performance-and-scalability-patterns"></a>Teljesítménnyel kapcsolatos és skálázhatósági minták
 
 [!INCLUDE [header](../../_includes/header.md)]
 
 A teljesítmény egy rendszer válaszkészségét mutatja egy művelet adott időtartamon belül való végrehajtásának vonatkozásában, a skálázhatóság pedig a rendszer azon képessége, hogy tudja-e kezelni a terhelés növekedését a teljesítmény romlása nélkül, vagy tudja-e azonnal növelni a rendelkezésre álló erőforrásokat. A felhőalapú alkalmazások általában különböző munkaterheléseknek és aktivitási csúcspontoknak vannak kitéve. Ezeket előre megjósolni, főleg egy több-bérlős forgatókönyvben, szinte lehetetlen. Az alkalmazásoknak inkább a horizontális felskálázásra kell képesnek lenniük bizonyos korlátok között, hogy megfeleljenek a csúcspont idején az igényeknek, és elvégezzék a horizontálisan leskálázást is, ha csökken az igény. A skálázhatóság nem csak a számítási példányokat érinti, de más elemeket is, például az adattárolást, az üzenetkezelési infrastruktúrát stb.
-
 
 |                           Mintázat                            |                                                                        Összegzés                                                                         |
 |--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -31,4 +31,3 @@ A teljesítmény egy rendszer válaszkészségét mutatja egy művelet adott id�
 |                  [Sharding](../sharding.md)                  |                                           Egy adattárat horizontális partíció- vagy szilánkkészletté oszthat fel.                                           |
 |    [Static Content Hosting](../static-content-hosting.md)    |                          A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.                          |
 |                [Szabályozás](../throttling.md)                |                Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását.                 |
-

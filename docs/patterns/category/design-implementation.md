@@ -1,21 +1,21 @@
 ---
 title: Tervezési és implementálási minták
+titleSuffix: Cloud Design Patterns
 description: A jó tervezés olyan tényezőket is figyelembe vesz, mint a konzisztencia és a koherencia az összetevők tervezése és üzembe helyezése során, a karbantarthatóság az adminisztráció és a fejlesztés egyszerűsítéséhez, illetve az újrahasznosíthatóság, hogy az összetevők és alrendszerek más alkalmazásokban és más forgatókönyvekben is hasznosíthatók legyenek. A tervezés és az implementálás fázisában hozott döntések óriási hatással vannak a felhőalapú alkalmazások és szolgáltatások minőségére és teljes tulajdonlási költségére.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-ms.openlocfilehash: 861445ceeca62e5b1e62fd4cb33924c35e10c0b0
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.custom: seodec18
+ms.openlocfilehash: 38b20fad513109051d40c1b9556f75fa86e03dd7
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847798"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009797"
 ---
 # <a name="design-and-implementation-patterns"></a>Tervezési és implementálási minták
 
 A jó tervezés olyan tényezőket is figyelembe vesz, mint a konzisztencia és a koherencia az összetevők tervezése és üzembe helyezése során, a karbantarthatóság az adminisztráció és a fejlesztés egyszerűsítéséhez, illetve az újrahasznosíthatóság, hogy az összetevők és alrendszerek más alkalmazásokban és más forgatókönyvekben is hasznosíthatók legyenek. A tervezés és az implementálás fázisában hozott döntések óriási hatással vannak a felhőalapú alkalmazások és szolgáltatások minőségére és teljes tulajdonlási költségére.
-
 
 |                                Mintázat                                 |                                                                                                      Összegzés                                                                                                       |
 |------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -33,4 +33,3 @@ A jó tervezés olyan tényezőket is figyelembe vesz, mint a konzisztencia és 
 |                        [Sidecar](../sidecar.md)                        |                                                  Egy alkalmazás összetevőit külön folyamatban vagy tárolóban helyezheti üzembe, így elkülönítést és beágyazást biztosíthat.                                                  |
 |         [Static Content Hosting](../static-content-hosting.md)         |                                                        A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.                                                        |
 |                      [Strangler](../strangler.md)                      |                                         Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.                                          |
-

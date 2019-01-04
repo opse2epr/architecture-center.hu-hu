@@ -5,12 +5,12 @@ description: A Microsoft Azure-ban futó webalkalmazás méretezhetőség javít
 author: MikeWasson
 ms.date: 10/25/2018
 ms.custom: seodec18
-ms.openlocfilehash: ab38864e7135777f205b39d0a86897559fc061b9
-ms.sourcegitcommit: e7f8676bbffe500fc4d6deb603b7c0b7ba1884a6
+ms.openlocfilehash: ff3ecdd63495b3fba3e4aef4b1d1cae7026a328d
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/10/2018
-ms.locfileid: "53179297"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011208"
 ---
 # <a name="improve-scalability-in-an-azure-web-application"></a>Azure-webalkalmazások méretezhetőség javítása
 
@@ -81,7 +81,7 @@ A modern alkalmazások gyakran nagy mennyiségű adatot dolgoznak fel. A felhőn
 | Alapszintű lekérdezést igénylő, nem relációs adatok rugalmas sémával |Termékkatalógus |Dokumentum-adatbázis, például Azure Cosmos DB, MongoDB vagy Apache CouchDB |
 | Részletesebb lekérdezés támogatását, szigorú sémát és/vagy nagy mértékű következetességet igénylő relációs adatok |Termékleltár |Azure SQL Database |
 
- Lásd: [A megfelelő adattároló kiválasztása][datastore].
+Lásd: [A megfelelő adattároló kiválasztása][datastore].
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
