@@ -1,14 +1,16 @@
 ---
 title: Forgalmas I/O kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: Ha sok I/O-kérés érkezik be, az negatívan befolyásolhatja a teljesítményt és a válaszkészséget.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 17193198918cc742b2e3f30e77dfc5c3f2726ebf
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: c018e365d0a6244f77d119ad59f601e9c7ea965c
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428567"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011225"
 ---
 # <a name="chatty-io-antipattern"></a>Forgalmas I/O kizárási minta
 
@@ -26,7 +28,7 @@ Az alábbi példa egy termékadatbázisból olvas. Három tábla van: `Product`,
 2. Az alkategória összes termékének megkeresése a `Product` tábla lekérdezésével.
 3. Az árképzési adatok lekérdezése minden termékről a `ProductPriceListHistory` táblából.
 
-Az alkalmazás az [Entity Framework][ef]öt használja az adatbázis lekérdezéséhez. A teljes kódmintát [itt][code-sample] találja. 
+Az alkalmazás az [Entity Framework][ef]öt használja az adatbázis lekérdezéséhez. A teljes kódmintát [itt][code-sample] találja.
 
 ```csharp
 public async Task<IHttpActionResult> GetProductsInSubCategoryAsync(int subcategoryId)
@@ -57,11 +59,11 @@ public async Task<IHttpActionResult> GetProductsInSubCategoryAsync(int subcatego
 }
 ```
 
-Ez a példa világosan bemutatja a problémát, viszont egy O/RM gyakran elfedheti, ha a gyermekrekordokat implicit módon egyenként olvassa be. Ez az úgynevezett „N+1 probléma”. 
+Ez a példa világosan bemutatja a problémát, viszont egy O/RM gyakran elfedheti, ha a gyermekrekordokat implicit módon egyenként olvassa be. Ez az úgynevezett „N+1 probléma”.
 
 ### <a name="implementing-a-single-logical-operation-as-a-series-of-http-requests"></a>Egyetlen logikai művelet megvalósítása HTTP-kéréssorozatként
 
-Ez gyakran előfordulhat, amikor a fejlesztők objektumorientált paradigmát követnek, a távoli objektumokat pedig úgy kezelik, mintha helyi objektumok lennének a memóriában. Ez túlzott hálózati forgalmat eredményezhet. A következő webes API például az egyéni HTTP GET metódusokkal felfedi a `User` objektumok egyéni tulajdonságait. 
+Ez gyakran előfordulhat, amikor a fejlesztők objektumorientált paradigmát követnek, a távoli objektumokat pedig úgy kezelik, mintha helyi objektumok lennének a memóriában. Ez túlzott hálózati forgalmat eredményezhet. A következő webes API például az egyéni HTTP GET metódusokkal felfedi a `User` objektumok egyéni tulajdonságait.
 
 ```csharp
 public class UserController : ApiController
@@ -89,7 +91,7 @@ public class UserController : ApiController
 }
 ```
 
-Ez a módszer sem hibás, de a legtöbb ügyfélnek több tulajdonságra van szüksége minden `User` esetében, ez pedig a következőhöz hasonló ügyfélkódot eredményezi. 
+Ez a módszer sem hibás, de a legtöbb ügyfélnek több tulajdonságra van szüksége minden `User` esetében, ez pedig a következőhöz hasonló ügyfélkódot eredményezi.
 
 ```csharp
 HttpResponseMessage response = await client.GetAsync("users/1/username");
@@ -107,7 +109,7 @@ var dob = await response.Content.ReadAsStringAsync();
 
 ### <a name="reading-and-writing-to-a-file-on-disk"></a>Olvasás és írás lemezen lévő fájlba
 
-A fájl I/O egy fájl megnyitását és a megfelelő pontra való helyezését jelenti az adatok írása és olvasása előtt. A művelet befejezésekor a rendszer bezárhatja a fájlt az operációs rendszer erőforrásainak megtakarítása érdekében. Egy olyan alkalmazás, amely folyamatosan kis mennyiségű információt olvas és ír egy fájlba, jelentős mennyiségű I/O-terhelést okoz. A kis írási kérések töredezettséghez is vezethetnek, ami tovább lassíthatja a későbbi I/O-műveleteket. 
+A fájl I/O egy fájl megnyitását és a megfelelő pontra való helyezését jelenti az adatok írása és olvasása előtt. A művelet befejezésekor a rendszer bezárhatja a fájlt az operációs rendszer erőforrásainak megtakarítása érdekében. Egy olyan alkalmazás, amely folyamatosan kis mennyiségű információt olvas és ír egy fájlba, jelentős mennyiségű I/O-terhelést okoz. A kis írási kérések töredezettséghez is vezethetnek, ami tovább lassíthatja a későbbi I/O-műveleteket.
 
 A következő példa `FileStream`et használ egy `Customer` objektum fájlba való írására. A `FileStream` létrehozása megnyitja, az eltávolítása pedig bezárja a fájlt. (A `using` utasítás automatikusan elveti a `FileStream` objektumot.) Ha az alkalmazás ismételten meghívja ezt a metódust új ügyfelek hozzáadásakor, az I/O-terhelés gyorsan megnövekedhet.
 
@@ -211,7 +213,7 @@ await SaveCustomerListToFileAsync(customers);
 
 - Az első két példa *kevesebb* I/O-hívást intéz, de mindegyik *több* információt kér le. Meg kell találnia az egyensúlyt a két tényező között. A legjobb megoldás a tényleges felhasználási mintáktól függ. A webes API példájában előfordulhat, hogy az ügyfeleknek csak a felhasználónévre van szükségük. Ebben az esetben célszerű lehet külön API-hívásként elérhetővé tenni a nevet. További információkért lásd a [Felesleges beolvasásokat][extraneous-fetching] ismertető kizárási mintát.
 
-- Az adatok olvasásakor ne küldjön túl nagy méretű I/O-kéréseket. Az alkalmazásoknak csak azt az információt célszerű lehívniuk, amelyet valószínű, hogy fel is fog használni. 
+- Az adatok olvasásakor ne küldjön túl nagy méretű I/O-kéréseket. Az alkalmazásoknak csak azt az információt célszerű lehívniuk, amelyet valószínű, hogy fel is fog használni.
 
 - Néha hasznos egy objektumra vonatkozó információ két tömbre történő particionálása: *gyakran lehívott adatokra*, amelyekre a legtöbb kérés irányul, illetve *kevésbé gyakran lehívott adatokra*, amelyeket ritkán használnak. Sokszor a leggyakrabban lehívott adatok az objektum teljes adatainak viszonylag kis részét jelentik, ezért ha a rendszer csak ezt a részt hívja le, azzal jelentős mértékű I/O-terhelést takaríthat meg.
 
@@ -231,7 +233,7 @@ A következő lépéseket végezheti el az esetlegesen felmerülő problémák o
 2. Az előző lépésben azonosított műveletek mindegyikénél végezzen terheléstesztelést.
 3. A terheléstesztek alatt gyűjtsön telemetriai adatokat a műveletek által eszközölt adathozzáférési kérésekről.
 4. Gyűjtsön részletes statisztikát minden adattárba küldött kérésről.
-5. Mérje fel az alkalmazást a tesztkörnyezetben, hogy meghatározza, hol fordulhatnak elő esetleg szűk I/O keresztmetszetek. 
+5. Mérje fel az alkalmazást a tesztkörnyezetben, hogy meghatározza, hol fordulhatnak elő esetleg szűk I/O keresztmetszetek.
 
 Az alábbi tüneteket figyelje:
 
@@ -246,16 +248,16 @@ Az alábbi szakaszok a korábban bemutatott adatbázis-lekérdezést végző pé
 
 ### <a name="load-test-the-application"></a>Az alkalmazás terheléstesztje
 
-Ez a diagram bemutatja a terheléstesztelés eredményeit. A medián válaszidőt a rendszer kérésenként 10 másodpercekben méri. A diagram nagy késést mutat. 1000 felhasználós tesztelésnél előfordulhat, hogy egy felhasználónak akár egy percet is várnia kell, amíg megkapja a lekérdezés eredményét. 
+Ez a diagram bemutatja a terheléstesztelés eredményeit. A medián válaszidőt a rendszer kérésenként 10 másodpercekben méri. A diagram nagy késést mutat. 1000 felhasználós tesztelésnél előfordulhat, hogy egy felhasználónak akár egy percet is várnia kell, amíg megkapja a lekérdezés eredményét.
 
 ![A legfontosabb mutatók terheléstesztelési eredményei a forgalmas I/O mintaalkalmazáshoz][key-indicators-chatty-io]
 
 > [!NOTE]
-> Az alkalmazás egy Azure App Service webalkalmazásban lett üzembe helyezve az Azure SQL Database segítségével. A terhelésteszt egy szimulált lépéses munkaterhelést használt legfeljebb 1000 párhuzamos felhasználóval. Az adatbázis legfeljebb 1000 párhuzamos kapcsolatot támogató kapcsolatkészlettel van konfigurálva, hogy csökkenjen az esélye annak, hogy a kapcsolatokért aló versengés befolyásolja az eredményt. 
+> Az alkalmazás egy Azure App Service webalkalmazásban lett üzembe helyezve az Azure SQL Database segítségével. A terhelésteszt egy szimulált lépéses munkaterhelést használt legfeljebb 1000 párhuzamos felhasználóval. Az adatbázis legfeljebb 1000 párhuzamos kapcsolatot támogató kapcsolatkészlettel van konfigurálva, hogy csökkenjen az esélye annak, hogy a kapcsolatokért aló versengés befolyásolja az eredményt.
 
 ### <a name="monitor-the-application"></a>Az alkalmazás figyelése
 
-Az alkalmazásteljesítmény-figyelő (APM) csomaggal rögzítheti és elemezheti a forgalmas I/O azonosítására képes kulcs mérőszámokat. Az, hogy melyik mérőszám lesz fontos, az I/O munkaterheléstől függ. Ebben a példában az adatbázis-lekérdezések voltak az érdekes I/O kérések. 
+Az alkalmazásteljesítmény-figyelő (APM) csomaggal rögzítheti és elemezheti a forgalmas I/O azonosítására képes kulcs mérőszámokat. Az, hogy melyik mérőszám lesz fontos, az I/O munkaterheléstől függ. Ebben a példában az adatbázis-lekérdezések voltak az érdekes I/O kérések.
 
 Az alábbi ábra a [New Relic APM][new-relic] használatával létrehozott eredményeket mutatja. Az adatbázis átlagos válaszidejének csúcsa körülbelül 5,6 másodperc volt kérésenként a legnagyobb munkaterhelés közben. A rendszer a teszt során átlagosan 410 kérés támogatására volt képes percenként.
 
@@ -279,7 +281,7 @@ A következő ábrán a ténylegesen kiadott SQL-utasítások láthatók. Az ár
 
 ![Lekérdezési adatok a tesztelt mintaalkalmazáshoz][queries3]
 
-Ha O/RM-et (például Entity Framework) használ, az SQL-lekérdezések nyomon követésével bepillantást nyerhet abba, hogy hogyan fordítja az O/RM a programozott hívásokat SQL-utasításokká, és észlelhet területeket, ahol optimalizálható az adathozzáférés. 
+Ha O/RM-et (például Entity Framework) használ, az SQL-lekérdezések nyomon követésével bepillantást nyerhet abba, hogy hogyan fordítja az O/RM a programozott hívásokat SQL-utasításokká, és észlelhet területeket, ahol optimalizálható az adathozzáférés.
 
 ### <a name="implement-the-solution-and-verify-the-result"></a>A megoldás megvalósítása és az eredmény ellenőrzése
 
@@ -293,7 +295,7 @@ Ez alkalommal a rendszer átlagosan 3970 kérést támogatott percenként (ez az
 
 ![Tranzakció-áttekintés a sűrű API-hoz][databasetraffic2]
 
-Az SQL-utasítás nyomon követéséből látható, hogy a rendszer az összes adatot egyetlen SELECT utasítással olvasta be. Noha ez a lekérdezés lényegesen összetettebb, műveletenként csak egyszer kell elvégezni. És noha az összetett illesztések költségessé válhatnak, a relációsadatbázis-rendszerek ilyen típusú lekérdezésekre vannak optimalizálva.  
+Az SQL-utasítás nyomon követéséből látható, hogy a rendszer az összes adatot egyetlen SELECT utasítással olvasta be. Noha ez a lekérdezés lényegesen összetettebb, műveletenként csak egyszer kell elvégezni. És noha az összetett illesztések költségessé válhatnak, a relációsadatbázis-rendszerek ilyen típusú lekérdezésekre vannak optimalizálva.
 
 ![Lekérdezési adatok a sűrű API-hoz][queries4]
 
@@ -322,4 +324,3 @@ Az SQL-utasítás nyomon követéséből látható, hogy a rendszer az összes a
 [queries2]: _images/DatabaseQueries2.jpg
 [queries3]: _images/DatabaseQueries3.jpg
 [queries4]: _images/DatabaseQueries4.jpg
-

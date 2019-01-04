@@ -1,18 +1,20 @@
 ---
 title: Foglalt adatbázissal kapcsolatos kizárási minták
+titleSuffix: Performance antipatterns for cloud apps
 description: A feldolgozás adatbázis-kiszolgálóra való kiszervezése teljesítménybeli és skálázhatósági problémákat okozhat.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: a14a350aefc1801ae08cb4a8d0eb3d5b248c92bf
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 11bce03aed2e988d0a814b3298818715ba42c1c5
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428907"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011463"
 ---
 # <a name="busy-database-antipattern"></a>Foglalt adatbázissal kapcsolatos kizárási minták
 
-A feldolgozás adatbázis-kiszolgálóra való kiszervezése azt okozhatja, hogy jelentős mennyiségű időt kell kód futtatására fordítani az adatok tárolására és lekérésére vonatkozó kérések megválaszolása helyett. 
+A feldolgozás adatbázis-kiszolgálóra való kiszervezése azt okozhatja, hogy jelentős mennyiségű időt kell kód futtatására fordítani az adatok tárolására és lekérésére vonatkozó kérések megválaszolása helyett.
 
 ## <a name="problem-description"></a>A probléma leírása
 
@@ -217,9 +219,9 @@ using (var command = new SqlCommand(...))
 
 ## <a name="how-to-detect-the-problem"></a>A probléma észlelése
 
-Foglalt adatbázist jelez többek között az adatbázist elérő műveletek átviteli sebességének és válaszidejének aránytalan romlása. 
+Foglalt adatbázist jelez többek között az adatbázist elérő műveletek átviteli sebességének és válaszidejének aránytalan romlása.
 
-A következő lépések végrehajtásával azonosíthatja a problémát: 
+A következő lépések végrehajtásával azonosíthatja a problémát:
 
 1. A teljesítménymonitorozás révén határozza meg, hogy az éles rendszer mennyi időt fordít az adatbázis-tevékenységek elvégzésére.
 
@@ -261,10 +263,9 @@ A processzor- és DTU-kihasználtság azt mutatja, hogy a rendszer hosszabb idő
 
 ![Azure SQL Database-figyelő, amely az adatbázis teljesítményét mutatja, miközben feldolgozást végez az ügyfélalkalmazásban][ProcessingInClientApplicationMonitor]
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek) 
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [Felesleges beolvasások– kizárási minta][ExtraneousFetching]
-
 
 [dtu]: /azure/sql-database/sql-database-service-tiers-dtu
 [ExtraneousFetching]: ../extraneous-fetching/index.md

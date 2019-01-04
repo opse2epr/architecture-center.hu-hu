@@ -1,14 +1,16 @@
 ---
 title: Foglalt előtér kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más, előtérben futó feladatok elől.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 89a2d6c41af1e19ca1b9b6a0a5dceac615afd60a
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: f52cedde5a17f098fb9218c48479fae981a2c7df
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428295"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011497"
 ---
 # <a name="busy-front-end-antipattern"></a>Foglalt előtér kizárási minta
 
@@ -62,11 +64,11 @@ Az elsődleges szempont a `Post` metódus erőforrásigénye. Bár a metódus eg
 
 ## <a name="how-to-fix-the-problem"></a>A probléma megoldása
 
-Helyezze át a jelentős erőforrás-használatú folyamatokat egy külön háttérre. 
+Helyezze át a jelentős erőforrás-használatú folyamatokat egy külön háttérre.
 
 Így az előtér az erőforrás-igényes feladatokat egy üzenetsorba állítja. A háttér felveszi a feladatokat aszinkron feldolgozásra. Az üzenetsor terheléselosztóként is működik, amely puffereli a kéréseket a háttér számára. Ha az üzenetsor túl hosszúra nő, az automatikus skálázás konfigurálható a háttér horizontális felskálázásra.
 
-Az alábbiakban az előző kód átdolgozott verziója látható. Ebben a verzióban a `Post` metódus a Service Bus-üzenetsorban helyez el egy üzenetet. 
+Az alábbiakban az előző kód átdolgozott verziója látható. Ebben a verzióban a `Post` metódus a Service Bus-üzenetsorban helyez el egy üzenetet.
 
 ```csharp
 public class WorkInBackgroundController : ApiController
@@ -121,7 +123,7 @@ public async Task RunAsync(CancellationToken cancellationToken)
 - Ez a módszer összetettebbé teszi az alkalmazást. Gondoskodni kell a biztonságos sorba állításról és sorból való eltávolításról, hogy ne vesszenek el a kérések hiba esetén.
 - Az alkalmazás függőséget vesz fel egy további szolgáltatásra az üzenetsorhoz.
 - A feldolgozási környezetnek megfelelően skálázhatónak kell lennie, hogy képes legyen kezelni a várt számításifeladat-mennyiséget, és teljesíteni tudja az átviteli sebességgel kapcsolatos követelményeket.
-- Ennek a megoldásnak összességében növelnie kellene a válaszkészséget, de előfordulhat, hogy a háttérbe áthelyezett feladatok elvégzése hosszabb időt vesz igénybe. 
+- Ennek a megoldásnak összességében növelnie kellene a válaszkészséget, de előfordulhat, hogy a háttérbe áthelyezett feladatok elvégzése hosszabb időt vesz igénybe.
 
 ## <a name="how-to-detect-the-problem"></a>A probléma észlelése
 
@@ -130,12 +132,12 @@ Az elfoglalt előtér tünetei közé tartozik a magas válaszidő a nagy erőfo
 A következő lépések végrehajtásával azonosíthatja a problémát:
 
 1. Az éles rendszer folyamatmonitorozásával azonosíthatja azokat a pontokat, ahol a válaszidők lelassulnak.
-2. Az ezeken a pontokon gyűjtött telemetriaadatok vizsgálatával megállapíthatja, hogy mely műveletek mennek végbe és mely erőforrások vannak használatban. 
+2. Az ezeken a pontokon gyűjtött telemetriaadatok vizsgálatával megállapíthatja, hogy mely műveletek mennek végbe és mely erőforrások vannak használatban.
 3. Megtalálhatja az összefüggéseket a gyenge válaszidők és az adott időpontokban futó műveletek mennyisége és kombinációi között.
-4. Végezzen terhelési teszteket a gyanús műveletekkel, így megállapíthatja, hogy mely műveletek használják az erőforrásokat és veszik el azokat más műveletek elől. 
+4. Végezzen terhelési teszteket a gyanús műveletekkel, így megállapíthatja, hogy mely műveletek használják az erőforrásokat és veszik el azokat más műveletek elől.
 5. Tekintse át az adott műveletek forráskódját, amiből kiderülhet, hogy a műveletek miért járnak túlzott erőforráshasználattal.
 
-## <a name="example-diagnosis"></a>Diagnosztikai példa 
+## <a name="example-diagnosis"></a>Diagnosztikai példa
 
 Az alábbi szakaszokban ezeket a lépéseket hajtjuk végre a fentebb leírt mintaalkalmazáson.
 
@@ -155,18 +157,17 @@ A következő képen néhány olyan mérőszám látható, amelyek ugyanezen id�
 
 Ekkor úgy tűnik, hogy a `WorkInFrontEnd` vezérlő `Post` metódusát kell közelebbről megvizsgálni. Az elmélet megerősítéséhez további lépések szükségesek ellenőrzött környezetben.
 
-### <a name="perform-load-testing"></a>Terhelési tesztelés végrehajtása 
+### <a name="perform-load-testing"></a>Terhelési tesztelés végrehajtása
 
 A következő lépés tesztek végrehajtása ellenőrzött környezetben. Például hajtson végre több olyan terhelési tesztet, amelyek először tartalmazzák, majd kihagyják az egyes kéréseket, és ez alapján mérje fel a hatásukat.
 
-Az alábbi grafikonon látható terhelésiteszt-eredmények egy ugyanolyan felhőszolgáltatás üzemelő példányán lettek elvégezve, mint a korábbi tesztek. A tesztben 500 felhasználó hajtotta végre a `Get` műveletet a `UserProfile` vezérlőben, miközben lépéses terhelés is történt, ahol a felhasználók a `Post` műveletet végezték a `WorkInFrontEnd` vezérlőben. 
+Az alábbi grafikonon látható terhelésiteszt-eredmények egy ugyanolyan felhőszolgáltatás üzemelő példányán lettek elvégezve, mint a korábbi tesztek. A tesztben 500 felhasználó hajtotta végre a `Get` műveletet a `UserProfile` vezérlőben, miközben lépéses terhelés is történt, ahol a felhasználók a `Post` műveletet végezték a `WorkInFrontEnd` vezérlőben.
 
 ![A WorkInFrontEnd vezérlő terhelési tesztjének kezdeti eredményei][Initial-Load-Test-Results-Front-End]
 
 Kezdetben a lépéses terhelés 0, így az egyedüli aktív felhasználók a `UserProfile` kéréseket hajtják végre. A rendszer körülbelül másodpercenként 500 kérésre képes válaszolni. 60 másodperc után további 100 felhasználó kezd el POST kéréseket küldeni a `WorkInFrontEnd` vezérlőnek. A `UserProfile` vezérlőnek elküldött számításifeladat-mennyiség szinte azonnal másodpercenként 150 kérésre csökken. Ez a terhelési teszt működési mechanizmusa miatt van. A teszt a kérések elküldése előtt megvárja az előző kérdésre kapott választ, ezért minél hosszabb ideig tart a válasz érkezése, annál alacsonyabb lesz a kérések aránya.
 
 Ahogy több felhasználó küld POST kéréseket a `WorkInFrontEnd` vezérlőnek, úgy csökken tovább a `UserProfile` vezérlő válaszadási aránya. Azonban a `WorkInFrontEnd` vezérlő által kezelt kérések száma viszonylag egyenletes marad. Láthatóvá válik a rendszer túltelítődése, ahogy a két kérés összesített sebessége egy egyenletesen alacsony korlát felé tart.
-
 
 ### <a name="review-the-source-code"></a>A forráskód áttekintése
 
@@ -175,11 +176,11 @@ Az utolsó lépés a forráskód áttekintése. A fejlesztőcsapat tisztában va
 Azonban ez a metódus továbbra is használja a processzort, a memóriát és az egyéb erőforrásokat. A folyamat aszinkron módon való futásának engedélyezése valójában csökkentheti a teljesítményt, mivel a felhasználók nagy mennyiségű ilyen műveletet aktiválhatnak egyszerre, felügyelet nélkül. A kiszolgálók csak véges számú szálat tudnak egyszerre futtatni. Ennek elérése után az alkalmazások valószínűleg kivételt kapnak, ha megpróbálnak elindítani egy új szálat.
 
 > [!NOTE]
-> Ez nem jelenti azt, hogy az aszinkron műveleteket kerülni kellene. Az aszinkron várakoztatás végrehajtása a hálózati hívásoknál ajánlott eljárás. (Lásd: [Szinkron I/O][sync-io] kizárási minta.) A probléma itt az, hogy nagy processzorigényű feladatok lettek elindítva egy másik szálon. 
+> Ez nem jelenti azt, hogy az aszinkron műveleteket kerülni kellene. Az aszinkron várakoztatás végrehajtása a hálózati hívásoknál ajánlott eljárás. (Lásd: [Szinkron I/O][sync-io] kizárási minta.) A probléma itt az, hogy nagy processzorigényű feladatok lettek elindítva egy másik szálon.
 
 ### <a name="implement-the-solution-and-verify-the-result"></a>A megoldás megvalósítása és az eredmény ellenőrzése
 
-A következő képen a teljesítmény monitorozása látható a megoldás implementálása után. A terhelés hasonló, mint korábban, de a `UserProfile` vezérlő válaszideje már sokkal rövidebb. Az adott időtartam alatt fogadott kérések száma 2759-ről 23 565-re nőtt. 
+A következő képen a teljesítmény monitorozása látható a megoldás implementálása után. A terhelés hasonló, mint korábban, de a `UserProfile` vezérlő válaszideje már sokkal rövidebb. Az adott időtartam alatt fogadott kérések száma 2759-ről 23 565-re nőtt.
 
 ![Az AppDynamics Business Transactions (Üzleti tranzakciók) paneljén látható, milyen hatással van az összes kérés válaszidejére a WorkInBackground vezérlő használata][AppDynamics-Transactions-Background-Requests]
 
@@ -218,5 +219,3 @@ A következő grafikon egy terhelési teszt eredményeit mutatja. A kiszolgált 
 [AppDynamics-Transactions-Background-Requests]: ./_images/AppDynamicsBackgroundPerformanceStats.jpg
 [AppDynamics-Metrics-Background-Requests]: ./_images/AppDynamicsBackgroundMetrics.jpg
 [Load-Test-Results-Background]: ./_images/LoadTestResultsBackground.jpg
-
-

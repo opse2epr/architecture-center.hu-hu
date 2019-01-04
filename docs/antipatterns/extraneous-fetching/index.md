@@ -1,18 +1,20 @@
 ---
 title: Felesleges beolvasások kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 7a72bfd3e4b2e206f3266a046fac2083224ecb4f
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.custom: seodec18
+ms.openlocfilehash: dac1b4c1422b447b8a0a9ebe317d5ac246c38da5
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30846603"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010239"
 ---
 # <a name="extraneous-fetching-antipattern"></a>Felesleges beolvasások kizárási minta
 
-Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet. 
+Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet.
 
 ## <a name="problem-description"></a>A probléma leírása
 
@@ -52,7 +54,7 @@ public async Task<IHttpActionResult> AggregateOnClientAsync()
 }
 ```
 
-A következő példa egy kisebb hibát mutat be, amely abból származik, ahogy az Entity Framework a LINQ to Entities műveletet alkalmazza. 
+A következő példa egy kisebb hibát mutat be, amely abból származik, ahogy az Entity Framework a LINQ to Entities műveletet alkalmazza.
 
 ```csharp
 var query = from p in context.Products.AsEnumerable()
@@ -62,13 +64,13 @@ var query = from p in context.Products.AsEnumerable()
 List<Product> products = query.ToList();
 ```
 
-Az alkalmazás az egy hétnél régebbi `SellStartDate` dátummal rendelkező termékeket keresi. A legtöbb esetben a LINQ to Entities a `where` záradékokat az adatbázis által végrehajtandó SQL-utasításokká fordítaná le. Ebben az esetben azonban a LINQ to Entities nem tudja az `AddDays` metódust SQL-re leképezni. Ehelyett a `Product` tábla minden egyes sorát visszaadja, és az eredmények szűrését a memóriában végzi el. 
+Az alkalmazás az egy hétnél régebbi `SellStartDate` dátummal rendelkező termékeket keresi. A legtöbb esetben a LINQ to Entities a `where` záradékokat az adatbázis által végrehajtandó SQL-utasításokká fordítaná le. Ebben az esetben azonban a LINQ to Entities nem tudja az `AddDays` metódust SQL-re leképezni. Ehelyett a `Product` tábla minden egyes sorát visszaadja, és az eredmények szűrését a memóriában végzi el.
 
-Az `AsEnumerable` meghívása utal arra, hogy itt probléma van. Ez a metódus az eredményeket egy `IEnumerable` felületté konvertálja. Bár az `IEnumerable` támogatja a szűrést, arra az *ügyféloldalon*, és nem az adatbázisban kerül sor. A LINQ to Entities alapértelmezés szerint az `IQueryable` függvényt használja, amely a szűrési feladat felelősségét átadja az adatforrásnak. 
+Az `AsEnumerable` meghívása utal arra, hogy itt probléma van. Ez a metódus az eredményeket egy `IEnumerable` felületté konvertálja. Bár az `IEnumerable` támogatja a szűrést, arra az *ügyféloldalon*, és nem az adatbázisban kerül sor. A LINQ to Entities alapértelmezés szerint az `IQueryable` függvényt használja, amely a szűrési feladat felelősségét átadja az adatforrásnak.
 
 ## <a name="how-to-fix-the-problem"></a>A probléma megoldása
 
-Kerülje az olyan nagyobb adatmennyiségek lekérését, amelyek elavulhatnak vagy amelyek el lesznek vetve, és csak az épp végrehajtott művelethez szükséges adatokat hívja le. 
+Kerülje az olyan nagyobb adatmennyiségek lekérését, amelyek elavulhatnak vagy amelyek el lesznek vetve, és csak az épp végrehajtott művelethez szükséges adatokat hívja le.
 
 Ahelyett, hogy valamely tábla összes oszlopát lekérné, majd szűrést futtatna rajtuk, válassza ki a kívánt oszlopokat az adatbázisban.
 
@@ -103,7 +105,7 @@ public async Task<IHttpActionResult> AggregateOnDatabaseAsync()
 Az Entity Framework használatakor bizonyosodjon meg róla, hogy a LINQ-lekérdezéseket az `IQueryable` felület és nem az `IEnumerable` hajtja végre. Előfordulhat, hogy módosítania kell a lekérdezést, hogy csak olyan függvényeket használjon, amelyek az adatforrásra vonatkoztathatók. A korábbi példa átdolgozható: ha az `AddDays` metódust eltávolítja a lekérdezésből, a szűrést az adatbázisban lehet végrehajtani.
 
 ```csharp
-DateTime dateSince = DateTime.Now.AddDays(-7); // AddDays has been factored out. 
+DateTime dateSince = DateTime.Now.AddDays(-7); // AddDays has been factored out.
 var query = from p in context.Products
             where p.SellStartDate < dateSince // This criterion can be passed to the database by LINQ to Entities
             select ...;
@@ -117,22 +119,21 @@ List<Product> products = query.ToList();
 
 - A korlátlan lekérdezéseket támogató műveletnél alkalmazzon tördelést, és egyszerre csak korlátozott számú kérjen le. Ha például az ügyfél egy termékkatalógust böngész, egyszerre elég egy oldalnyi találatot megjeleníteni.
 
-- Amikor csak lehetséges, használja az adatbázis beépített szolgáltatásait. Az SQL-adatbázisok például általában kínálnak aggregátumfüggvényeket. 
+- Amikor csak lehetséges, használja az adatbázis beépített szolgáltatásait. Az SQL-adatbázisok például általában kínálnak aggregátumfüggvényeket.
 
 - Ha olyan adattárat használ, amely nem támogat egy adott függvényt, például az összesítést, a számított eredményeket máshol tárolhatja, és a rekordok hozzáadásakor vagy eltávolításakor frissítheti az értéket, így az alkalmazásnak nem kell azt minden egyes alkalommal újraszámolnia, amikor szükség van rá.
 
-- Ha azt látja, hogy a kérések nagy számú mezőt hívnak le, vizsgálja meg a forráskódot, és állapítsa meg, hogy valóban mindegyik mező szükséges-e. Néha az ilyen kérések rosszul összeállított `SELECT *` lekérdezések eredményei. 
+- Ha azt látja, hogy a kérések nagy számú mezőt hívnak le, vizsgálja meg a forráskódot, és állapítsa meg, hogy valóban mindegyik mező szükséges-e. Néha az ilyen kérések rosszul összeállított `SELECT *` lekérdezések eredményei.
 
-- Ugyanígy a nagy mennyiségű entitást lekérő kérések is utalhatnak arra, hogy az alkalmazás nem megfelelően szűri az adatokat. Ellenőrizze, hogy az összes ilyen entitás valóban szükséges-e. Amennyiben lehetséges, alkalmazzon adatbázisoldali szűrést, például az SQL `WHERE` záradékai használatával. 
+- Ugyanígy a nagy mennyiségű entitást lekérő kérések is utalhatnak arra, hogy az alkalmazás nem megfelelően szűri az adatokat. Ellenőrizze, hogy az összes ilyen entitás valóban szükséges-e. Amennyiben lehetséges, alkalmazzon adatbázisoldali szűrést, például az SQL `WHERE` záradékai használatával.
 
 - A feldolgozás kiszervezése az adatbázisba nem minden esetben a legjobb lehetőség. Csak akkor alkalmazza ezt a stratégiát, ha az adatbázis erre van kialakítva vagy optimalizálva. A legtöbb adatbázisrendszer rendkívüli mértékben optimalizálva van adott függvényekre, azonban általános célú alkalmazásmotorként nem alkalmas. További információkért lásd: [Foglalt adatbázis kizárási minta][BusyDatabase].
-
 
 ## <a name="how-to-detect-the-problem"></a>A probléma észlelése
 
 A feladathoz nem kapcsolódó beolvasások tünetei a magas késleltetés és az alacsony átviteli sebesség. Ha az adatok lekérésének forrása egy adattár, megnövekedett mértékű versengéssel is számolni kell. A végfelhasználók várhatóan magas válaszidőket vagy a szolgáltatások időtúllépéséből eredő hibákat fognak jelezni. Ezek a hibák HTTP 500-as (belső kiszolgáló) vagy HTTP 503-as (a szolgáltatás nem érhető el) hibaüzeneteket eredményezhetnek. Vizsgálja át a webkiszolgáló eseménynaplóit, amelyek valószínűleg részletesebb információkat tartalmaznak a hibák okairól és körülményeiről.
 
-A kizárási minta tünetei és a gyűjtött telemetriaadatok nagyon hasonlóak lehetnek a [Monolitikus adatmegőrzés kizárási mintáéihoz][MonolithicPersistence]. 
+A kizárási minta tünetei és a gyűjtött telemetriaadatok nagyon hasonlóak lehetnek a [Monolitikus adatmegőrzés kizárási mintáéihoz][MonolithicPersistence].
 
 A következő lépéseket végezheti el a hiba okának meghatározásához:
 
@@ -140,8 +141,8 @@ A következő lépéseket végezheti el a hiba okának meghatározásához:
 2. Figyelje meg a rendszer viselkedési mintáit. Jelentkeznek bizonyos korlátok a tranzakciók másodpercenkénti számában vagy a felhasználók mennyiségében?
 3. Vesse össze a lassú számítási feladatok példányait a viselkedési mintákkal.
 4. Azonosítsa a használt adattárakat. Mindegyik adatforrás esetében futtasson alacsonyabb szinten is telemetriavizsgálatot a műveletek viselkedésének megfigyelésére.
-6. Azonosítsa az ezekre az adatforrásokra hivatkozó lassú lefutású lekérdezéseket.
-7. Végezze el a lassú lefutású lekérdezések erőforrás-specifikus elemzését, és ismerje meg az adatok használatának és felhasználásának módját.
+5. Azonosítsa az ezekre az adatforrásokra hivatkozó lassú lefutású lekérdezéseket.
+6. Végezze el a lassú lefutású lekérdezések erőforrás-specifikus elemzését, és ismerje meg az adatok használatának és felhasználásának módját.
 
 Az alábbi tüneteket figyelje:
 
@@ -150,13 +151,13 @@ Az alábbi tüneteket figyelje:
 - Valamely művelet gyakran fogad nagy mennyiségű adatot a hálózaton keresztül.
 - Az alkalmazások és szolgáltatások jelentős időt töltenek azzal, hogy az I/O befejeztére várnak.
 
-## <a name="example-diagnosis"></a>Diagnosztikai példa    
+## <a name="example-diagnosis"></a>Diagnosztikai példa
 
 Az alábbi szakaszokban ezeket a lépéseket az előzőleg ismertetett példákon hajtjuk végre.
 
 ### <a name="identify-slow-workloads"></a>A lassú számítási feladatok azonosítása
 
-A diagram egy, a korábban bemutatott `GetAllFieldsAsync` metódust futtató, akár 400 egyidejű felhasználót szimuláló terhelésteszt teljesítményeredményeit mutatja. A terhelés növekedtével a teljesítmény lassan csökken. Az átlagos válaszidő a számítási feladatok növekedtével szintén növekszik. 
+A diagram egy, a korábban bemutatott `GetAllFieldsAsync` metódust futtató, akár 400 egyidejű felhasználót szimuláló terhelésteszt teljesítményeredményeit mutatja. A terhelés növekedtével a teljesítmény lassan csökken. Az átlagos válaszidő a számítási feladatok növekedtével szintén növekszik.
 
 ![A GetAllFieldsAsync metódus terheléstesztjének eredményei][Load-Test-Results-Client-Side1]
 
@@ -174,7 +175,7 @@ Egy lassú művelet nem feltétlenül jelent problémát, ha nem a rendszer terh
 
 ### <a name="identify-data-sources-in-slow-workloads"></a>A lassú számítási feladatok adatforrásainak azonosítása
 
-Ha azt gyanítja, hogy egy szolgáltatás az adatokat lehívásának módja miatt teljesít gyengén, vizsgálja meg, hogy az alkalmazás hogyan kapcsolódik az általa használt adattárakhoz. Az éles rendszer monitorozásával vizsgálja meg, hogy az alkalmazás melyik forrásokhoz fér hozzá azokban az időszakokban, amikor romlik a teljesítmény. 
+Ha azt gyanítja, hogy egy szolgáltatás az adatokat lehívásának módja miatt teljesít gyengén, vizsgálja meg, hogy az alkalmazás hogyan kapcsolódik az általa használt adattárakhoz. Az éles rendszer monitorozásával vizsgálja meg, hogy az alkalmazás melyik forrásokhoz fér hozzá azokban az időszakokban, amikor romlik a teljesítmény.
 
 Mindegyik adatforrás esetében állítsa be úgy a rendszert, hogy a következőket rögzítse:
 
@@ -203,7 +204,6 @@ Keresse meg azokat az adatbázis-lekérdezéseket, amelyek a legtöbb erőforrá
 
 ![A Microsoft Azure SQL Database felügyeleti portál Lekérdezés részletei panelje][QueryDetails]
 
-
 ## <a name="implement-the-solution-and-verify-the-result"></a>A megoldás megvalósítása és az eredmény ellenőrzése
 
 Miután módosítottuk a `GetRequiredFieldsAsync` metódust, hogy egy SELECT utasítást használjon az adatbázisoldalon, a terhelésteszt a következő eredményeket mutatta.
@@ -218,19 +218,17 @@ Az `AggregateOnDatabaseAsync` metódus terhelési tesztje a következő eredmén
 
 ![Az AggregateOnDatabaseAsync metódus terhelésiteszt-eredményei][Load-Test-Results-Database-Side2]
 
-Az átlagos válaszidő most minimális. Ez egy teljes nagyságrendnyi teljesítménynövekedést jelent, amely az adatbázis ki- és bemenő adatforgalmában beállt csökkentésének köszönhető. 
+Az átlagos válaszidő most minimális. Ez egy teljes nagyságrendnyi teljesítménynövekedést jelent, amely az adatbázis ki- és bemenő adatforgalmában beállt csökkentésének köszönhető.
 
 Itt van az `AggregateOnDatabaseAsync` metódushoz tartozó megfelelő telemetria. Az adatbázisból lekért adatok mennyisége nagymértékben lecsökkent, tranzakciónkénti 280 kilobájtról 53 bájtra. Ennek eredménye, hogy a maximálisan fenntartható percenkénti kérések száma 2000-ről 25 000-re növekedett.
 
 ![Az AggregateOnDatabaseAsync metódus telemetriája][TelemetryAggregateInDatabaseAsync]
-
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [Foglalt adatbázissal kapcsolatos kizárási minták][BusyDatabase]
 - [Forgalmas I/O kizárási minta][chatty-io]
 - [Ajánlott adatparticionálási eljárások][data-partitioning]
-
 
 [BusyDatabase]: ../busy-database/index.md
 [data-partitioning]: ../../best-practices/data-partitioning.md

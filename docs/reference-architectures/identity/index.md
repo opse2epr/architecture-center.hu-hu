@@ -4,12 +4,12 @@ titleSuffix: Azure Reference Architectures
 description: Referenciaarchitektúrák összehasonlítása a helyszíni Active Directory Azure-ban való integrálásához.
 ms.date: 07/02/2018
 ms.custom: seodec18
-ms.openlocfilehash: 905dedda6de1a107f55b2f7651441780a685aea7
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 99a64f0a5fbe5624aa8ad05bd3565ab2aef618b3
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119863"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011786"
 ---
 # <a name="choose-a-solution-for-integrating-on-premises-active-directory-with-azure"></a>Válasszon egy megoldást a helyszíni Active Directory Azure-ban való integráláshoz.
 
@@ -46,7 +46,7 @@ Az Azure AD-t egy helyszíni címtár használata nélkül is használhatja. Ebb
 **Problémák**
 
 - Az identitásszolgáltatások a felhasználókra és a csoportokra korlátozódnak. Nincs lehetőség a szolgáltatás- és számítógépes fiókok hitelesítésére.
-- Az Azure AD-címtár folyamatos szinkronizálásához konfigurálnia kell a kapcsolatot a helyszíni tartománnyal. 
+- Az Azure AD-címtár folyamatos szinkronizálásához konfigurálnia kell a kapcsolatot a helyszíni tartománnyal.
 - Előfordulhat, hogy az alkalmazásokat újra kell írni az Azure AD-n keresztüli hitelesítés engedélyezéséhez.
 
 **Referenciaarchitektúra**
@@ -55,9 +55,9 @@ Az Azure AD-t egy helyszíni címtár használata nélkül is használhatja. Ebb
 
 ## <a name="ad-ds-in-azure-joined-to-an-on-premises-forest"></a>Helyszíni erdőhöz csatlakozó AD DS az Azure-ban
 
-Azure AD Domain Services- (AD DS) kiszolgálókat helyezhet üzembe az Azure-ban. Létrehozhat egy tartományt az Azure-ban, és csatlakoztathatja azt a helyszíni AD-erdőhöz. 
+Azure AD Domain Services- (AD DS) kiszolgálókat helyezhet üzembe az Azure-ban. Létrehozhat egy tartományt az Azure-ban, és csatlakoztathatja azt a helyszíni AD-erdőhöz.
 
-Fontolja meg ezt a lehetőséget, ha az AD DS azon funkcióit szeretné használni, amelyek jelenleg nincsenek implementálva az Azure AD-ben. 
+Fontolja meg ezt a lehetőséget, ha az AD DS azon funkcióit szeretné használni, amelyek jelenleg nincsenek implementálva az Azure AD-ben.
 
 **Előnyök**
 
@@ -97,13 +97,13 @@ Az architektúra gyakori használati módjai például a felhőben tárolt objek
 
 ## <a name="extend-ad-fs-to-azure"></a>Az AD FS kiterjesztése az Azure-ra
 
-Replikáljon az Active Directory összevonási szolgáltatások (AD FS) egy üzemelő példányát az Azure-ba az Azure-beli összetevők összevont hitelesítéséhez és engedélyezéséhez. 
+Replikáljon az Active Directory összevonási szolgáltatások (AD FS) egy üzemelő példányát az Azure-ba az Azure-beli összetevők összevont hitelesítéséhez és engedélyezéséhez.
 
 Az architektúra gyakori használati módjai a következők:
 
 - Partnerszervezetek felhasználóinak hitelesítése és engedélyezése.
 - A felhasználói hitelesítés engedélyezése a vállalati tűzfalon kívül futó webböngészőkből.
-- A felhasználók hitelesített külső eszközökről, például mobileszközökről történő csatlakozásának engedélyezése. 
+- A felhasználók hitelesített külső eszközökről, például mobileszközökről történő csatlakozásának engedélyezése.
 
 **Előnyök**
 
