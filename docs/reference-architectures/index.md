@@ -4,12 +4,12 @@ description: Referenciaarchitektúrák, tervek és részletes megvalósítási �
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 08/30/2018
-ms.openlocfilehash: 6a86256c504737b5f747a690d27fdf178ac8b4fe
-ms.sourcegitcommit: 8d951fd7e9534054b160be48a1881ae0857561ef
+ms.openlocfilehash: 173698aee0a67578beaa806a59e1c7b0265cdd61
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/13/2018
-ms.locfileid: "53329381"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011803"
 ---
 # <a name="azure-reference-architectures"></a>Azure-referenciaarchitektúrák
 
@@ -17,10 +17,32 @@ A referenciaarchitektúrák forgatókönyv szerint vannak elrendezve, az egymás
 
 Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [Kiszolgáló nélküli](#serverless-applications) | [Virtuális hálózatok](#virtual-networks) | [Virtuális gépek számítási feladatai](#vm-workloads) | [SAP](#sap) | [Webalkalmazások](#web-applications) | [Active Directory](#extend-on-premises-active-directory-to-azure)
 
+<!-- markdownlint-disable MD033 -->
+
 ## <a name="ai-and-machine-learning"></a>MI és gépi tanulás
 
 <!-- markdownlint-disable MD033 -->
 <ul  class="panelContent cardsF">
+<!-- Batch scoring of Python models -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/batch-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/python-powered-h.svg" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>A Python-modellek kötegelt kiértékelése</h3>
+                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Batch AI használatával.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <!-- Batch scoring for deep learning models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/batch-scoring-deep-learning.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
@@ -41,7 +63,7 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
         </div>
     </a>
 </li>
-<!-- Batch scoring for deep learning models -->
+<!-- Real-time scoring of Python models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/realtime-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
         <div class="cardSize" style="flex: 1 0 auto; display: flex;">
@@ -61,7 +83,7 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
         </div>
     </a>
 </li>
-<!-- Batch scoring for R models -->
+<!-- Real-time scoring of R models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/realtime-scoring-r.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
         <div class="cardSize" style="flex: 1 0 auto; display: flex;">
@@ -75,6 +97,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     <div class="cardText">
                         <h3>Machine Learning-modellek valós idejű pontozása</h3>
                         <p>Valós idejű előrejelzési szolgáltatás implementálása R-ben az Azure Kubernetes Service-ben (AKS) futó Microsoft Machine Learning Serverrel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!-- Real-time Recommendation API -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/real-time-recommendation.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/machine-learning.svg" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Valós idejű javaslat API</h3>
+                        <p>Javaslatmodell betanítása az Azure Databricks használatával, valamint API-ként történő üzembe helyezése az Azure Machine Learninggel.</p>
                     </div>
                 </div>
             </div>
@@ -710,3 +752,4 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
 </li>
 </ul>
 
+<!-- markdownlint-disable MD033 -->
