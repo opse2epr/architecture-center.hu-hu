@@ -1,18 +1,20 @@
 ---
 title: Nincs gyorsítótárazás – kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: Ugyanazon adatok ismételt beolvasása csökkentheti a teljesítményt és a méretezhetőséget.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: ec19cde567fb63248c121328322e834d99c841e8
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.custom: seodec18
+ms.openlocfilehash: c2a5cdbb8863f87b8928558c8237e8659032ac32
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295582"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011599"
 ---
 # <a name="no-caching-antipattern"></a>Nincs gyorsítótárazás – kizárási minta
 
-Ha egy számos egyidejű kérést kezelő felhőalkalmazásban ismételten beolvassa ugyanazokat az adatokat, csökkenhet a teljesítmény és a méretezhetőség. 
+Ha egy számos egyidejű kérést kezelő felhőalkalmazásban ismételten beolvassa ugyanazokat az adatokat, csökkenhet a teljesítmény és a méretezhetőség.
 
 ## <a name="problem-description"></a>A probléma leírása
 
@@ -46,7 +48,7 @@ A teljes kódmintát [itt][sample-app] találja.
 
 A kizárási minta jellemzően az alábbi okokból következhet be:
 
-- A gyorsítótár használatának elkerülése egyszerűbben megvalósítható, és kis terhelés esetén jól működik. A gyorsítótárazás bonyolultabbá teszi a kódot. 
+- A gyorsítótár használatának elkerülése egyszerűbben megvalósítható, és kis terhelés esetén jól működik. A gyorsítótárazás bonyolultabbá teszi a kódot.
 - A gyorsítótár használatának előnyei és hátrányai nem teljesen világosak.
 - A gyorsítótárazott adatok frissességének és pontosságának fenntartásának költségei aggályokat vetnek fel.
 - Az alkalmazást olyan helyszíni rendszerről migrálták, amelyen a hálózati késés nem jelentett problémát, a rendszer pedig drága, nagy teljesítményű hardveren futott, ezért a gyorsítótárazás lehetőségét nem vették figyelembe az eredeti kialakítás során.
@@ -59,7 +61,7 @@ A legnépszerűbb gyorsítótárazási stratégia az *igény szerinti* vagy *gyo
 - Olvasáskor az alkalmazás megpróbálja beolvasni az adatokat a gyorsítótárból. Ha nincsenek a gyorsítótárban, az alkalmazás lekéri az adatokat az adatforrásból, majd hozzáadja őket a gyorsítótárhoz.
 - Íráskor az alkalmazás közvetlenül az adatforrásba írja a módosítást, a régi értéket pedig eltávolítja a gyorsítótárból. Amikor legközelebb szükség van rá, a rendszer lekéri, majd hozzáadja a gyorsítótárhoz az adatokat.
 
-Ez a módszer a gyakran módosuló adatokhoz alkalmas. Itt van az előző példa, a [Cache-Aside][cache-aside-pattern] minta használatára frissítve.  
+Ez a módszer a gyakran módosuló adatokhoz alkalmas. Itt van az előző példa, a [Cache-Aside][cache-aside-pattern] minta használatára frissítve.
 
 ```csharp
 public class CachedPersonRepository : IPersonRepository
@@ -100,7 +102,7 @@ public class CacheService
 }
 ```
 
-A `GetAsync` metódus ezúttal nem közvetlenül az adatbázist, hanem a `CacheService` osztályt hívja meg. A `CacheService` osztály először megkísérli lekérni az elemet az Azure Redis Cache-ből. Ha az érték nem található a Redis Cache-ben, a `CacheService` meghív egy lambda függvényt, amelyet a hívó adott át. A lambda függvény felelős az adat adatbázisból történő beolvasásáért. Ez a megvalósítás leválasztja az adattárat az adott gyorsítótárazási megoldásról, valamint a `CacheService`-t elemet az adatbázisról. 
+A `GetAsync` metódus ezúttal nem közvetlenül az adatbázist, hanem a `CacheService` osztályt hívja meg. A `CacheService` osztály először megkísérli lekérni az elemet az Azure Redis Cache-ből. Ha az érték nem található a Redis Cache-ben, a `CacheService` meghív egy lambda függvényt, amelyet a hívó adott át. A lambda függvény felelős az adat adatbázisból történő beolvasásáért. Ez a megvalósítás leválasztja az adattárat az adott gyorsítótárazási megoldásról, valamint a `CacheService`-t elemet az adatbázisról.
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
@@ -112,11 +114,11 @@ A `GetAsync` metódus ezúttal nem közvetlenül az adatbázist, hanem a `CacheS
 
 - Nem szükséges egész entitásokat gyorsítótáraznia. Ha egy entitás legnagyobbrészt statikus, de egy kis része gyakran változik, akkor a statikus elemeket gyorsítótárazza, a dinamikus elemeket pedig kérje le az adatforrásból. Ez a módszer segíthet csökkenteni az adatforráson végzett I/O-műveletek mennyiségét.
 
-- Bizonyos esetekben hasznos lehet gyorsítótárazni a rövid életű ideiglenes adatokat is. Vegyünk például egy olyan eszközt, amely folyamatosan állapotfrissítéseket küld. Érdemes lehet a gyorsítótárba helyezni a beérkező információt, és egyáltalán nem írni állandó tárolóba.  
+- Bizonyos esetekben hasznos lehet gyorsítótárazni a rövid életű ideiglenes adatokat is. Vegyünk például egy olyan eszközt, amely folyamatosan állapotfrissítéseket küld. Érdemes lehet a gyorsítótárba helyezni a beérkező információt, és egyáltalán nem írni állandó tárolóba.
 
 - Az adatok elavulásának megakadályozása érdekében számos gyorsítótárazási megoldás támogatja a lejárati idő konfigurálását. A rendszer így automatikusan eltávolítja az adatokat a gyorsítótárból a megadott idő elteltével. A lejárati időt a forgatókönyvnek megfelelően érdemes beállítani. A nagymértékben statikus adatok hosszabb ideig a gyorsítótárban maradhatnak, mint az ideiglenes, gyorsan elavuló adatok.
 
-- Ha a gyorsítótárazási megoldás nem biztosít beépített lejárati időt, akkor szükséges lehet egy olyan háttérfolyamat megvalósítása, amely időnként kiüríti a gyorsítótárat, hogy ne tudjon korlátlanul nőni. 
+- Ha a gyorsítótárazási megoldás nem biztosít beépített lejárati időt, akkor szükséges lehet egy olyan háttérfolyamat megvalósítása, amely időnként kiüríti a gyorsítótárat, hogy ne tudjon korlátlanul nőni.
 
 - A gyorsítótárazás a külső adatforrásból érkező adatok tárolása mellett a komplex számítások eredményeinek mentésére is alkalmas. Előbb azonban meg kell határozni, hogy az alkalmazás valóban a processzorhoz van-e kötve.
 
@@ -130,16 +132,15 @@ A `GetAsync` metódus ezúttal nem közvetlenül az adatbázist, hanem a `CacheS
 
 A következő lépésekkel határozhatja meg, hogy a gyorsítótárazás hiánya okoz-e teljesítményproblémákat:
 
-1. Tekintse át az alkalmazás kialakítását. Készítsen leltárt az alkalmazás által használt összes adattárolóról. Mindegyik esetében állapítsa meg, hogy az alkalmazás használ-e gyorsítótárat. Ha lehetséges, állapítsa meg az adatok változásának gyakoriságát. Elsőként olyan adatokat célszerű gyorsítótárazni, amely ritkán változnak, valamint a gyakran olvasott statikus referenciaadatokat. 
+1. Tekintse át az alkalmazás kialakítását. Készítsen leltárt az alkalmazás által használt összes adattárolóról. Mindegyik esetében állapítsa meg, hogy az alkalmazás használ-e gyorsítótárat. Ha lehetséges, állapítsa meg az adatok változásának gyakoriságát. Elsőként olyan adatokat célszerű gyorsítótárazni, amely ritkán változnak, valamint a gyakran olvasott statikus referenciaadatokat.
 
 2. Alakítsa ki az alkalmazást, és monitorozza az élő rendszert annak megállapításához, hogy az alkalmazás milyen gyakorisággal kér le adatokat vagy számít ki információkat.
 
 3. Készítse el az alkalmazás profilját tesztkörnyezetben az adathozzáférési műveletekhez vagy gyakran elvégzett számításokhoz kapcsolódó terhelés részletes metrikáinak rögzítéséhez.
 
-4. Végezzen terhelési tesztet tesztkörnyezetben annak megállapításához, hogy a rendszer hogyan reagál átlagos, illetve nagy terhelés alatt. A terhelési tesztnek az éles környezetben megfigyelt, valósághű számítási feladatok mellett megfigyelt adat-hozzáférési mintákat. 
+4. Végezzen terhelési tesztet tesztkörnyezetben annak megállapításához, hogy a rendszer hogyan reagál átlagos, illetve nagy terhelés alatt. A terhelési tesztnek az éles környezetben megfigyelt, valósághű számítási feladatok mellett megfigyelt adat-hozzáférési mintákat.
 
-5. Vizsgálja meg a teszt alapját képező adattárolók adat-hozzáférési statisztikáit, és ellenőrizze, milyen gyakran ismétlődnek az ugyanazon adatokra vonatkozó kérések. 
-
+5. Vizsgálja meg a teszt alapját képező adattárolók adat-hozzáférési statisztikáit, és ellenőrizze, milyen gyakran ismétlődnek az ugyanazon adatokra vonatkozó kérések.
 
 ## <a name="example-diagnosis"></a>Diagnosztikai példa
 
@@ -147,17 +148,17 @@ Az alábbi szakaszokban ezeket a lépéseket hajtjuk végre a fentebb leírt min
 
 ### <a name="instrument-the-application-and-monitor-the-live-system"></a>Az alkalmazás kialakítása és az élő rendszer monitorozása
 
-Alakítsa ki és monitorozza az alkalmazást, hogy információkhoz jusson a felhasználók által az alkalmazás működése közben küldött kérésekről. 
+Alakítsa ki és monitorozza az alkalmazást, hogy információkhoz jusson a felhasználók által az alkalmazás működése közben küldött kérésekről.
 
 A következő képen a [New Relic][NewRelic] által egy terhelési teszt során rögzített monitorozási adatok láthatók. Ebben az esetben az egyetlen végrehajtott HTTP GET művelet a következő: `Person/GetAsync`. Éles környezetben azonban, ha ismeri az egyes kérések relatív gyakoriságát, információhoz juthat arról, hogy mely erőforrásokat érdemes gyorsítótárazni.
 
 ![A New Relic által ábrázolt kiszolgálói kérések a CachingDemo alkalmazáshoz][NewRelic-server-requests]
 
-Ha mélyebb elemzésre van szükség, használhat profilkészítőt az alacsony szintű teljesítményadatok tesztkörnyezetben (nem üzemi környezetben) történő rögzítéséhez. Különösen figyeljen az I/O-kérések mennyiségére, valamint a memória és a processzor kihasználtságára vonatkozó metrikákra. Ezek a metrikák egy adattárolóra vagy szolgáltatásra irányuló, nagy mennyiségű kérést mutathatnak, vagy ismételt folyamatokat, amelyek ugyanazon számítást végzik el. 
+Ha mélyebb elemzésre van szükség, használhat profilkészítőt az alacsony szintű teljesítményadatok tesztkörnyezetben (nem üzemi környezetben) történő rögzítéséhez. Különösen figyeljen az I/O-kérések mennyiségére, valamint a memória és a processzor kihasználtságára vonatkozó metrikákra. Ezek a metrikák egy adattárolóra vagy szolgáltatásra irányuló, nagy mennyiségű kérést mutathatnak, vagy ismételt folyamatokat, amelyek ugyanazon számítást végzik el.
 
 ### <a name="load-test-the-application"></a>Az alkalmazás terheléstesztje
 
-A következő diagram a mintaalkalmazás terhelési tesztjének eredményeit ábrázolja. A terhelési teszt legfeljebb 800 felhasználó által egyidejűleg végzett, jellemző művelettípusok lépéses terhelését szimulálja. 
+A következő diagram a mintaalkalmazás terhelési tesztjének eredményeit ábrázolja. A terhelési teszt legfeljebb 800 felhasználó által egyidejűleg végzett, jellemző művelettípusok lépéses terhelését szimulálja.
 
 ![A teljesítményterhelési teszt eredményei a gyorsítótárazás nélküli forgatókönyv esetében][Performance-Load-Test-Results-Uncached]
 
@@ -178,7 +179,7 @@ Az eredmények között látható `UseCount` oszlop jelzi, hogy az egyes lekérd
 
 ![A SQL Server Management Server dinamikus felügyeleti nézeteinek lekérdezési eredményei][Dynamic-Management-Views]
 
-Itt látható az SQL-lekérdezés, amely ennyi adatbázis-kérés benyújtását eredményezi: 
+Itt látható az SQL-lekérdezés, amely ennyi adatbázis-kérés benyújtását eredményezi:
 
 ```SQL
 (@p__linq__0 int)SELECT TOP (2)
@@ -197,12 +198,12 @@ A gyorsítótár megvalósítása után ismételje meg a terhelési teszteket, m
 
 ![A teljesítményterhelési teszt eredményei a gyorsítótáras forgatókönyv esetében][Performance-Load-Test-Results-Cached]
 
-A sikeres tesztek mennyisége így is tetőzik, de magasabb felhasználói terhelésnél. A kérések mennyisége e terhelés esetében a korábbinál sokkal magasabb. Az átlagos tesztelési idő továbbra is nő a terheléssel, viszont a maximális válaszidő 0,05 ezredmásodperc. A korábban mért 1 ezredmásodperchez képest ez &mdash;20-szoros&times; javulást jelent. 
+A sikeres tesztek mennyisége így is tetőzik, de magasabb felhasználói terhelésnél. A kérések mennyisége e terhelés esetében a korábbinál sokkal magasabb. Az átlagos tesztelési idő továbbra is nő a terheléssel, viszont a maximális válaszidő 0,05 ezredmásodperc. A korábban mért 1 ezredmásodperchez képest ez &mdash;20-szoros&times; javulást jelent.
 
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [API-implementáció – Ajánlott eljárások][api-implementation]
-- [Gyorsítótár-feltöltési minta][cache-aside-pattern]
+- [Gyorsítótár-feltöltő mód][cache-aside-pattern]
 - [Gyorsítótárazás – Ajánlott eljárások][caching-guidance]
 - [Áramköri megszakítási minta][circuit-breaker]
 

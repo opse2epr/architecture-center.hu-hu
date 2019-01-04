@@ -5,12 +5,12 @@ keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlít�
 author: lbrader
 ms.date: 09/19/2018
 pnp.series.title: Azure for AWS Professionals
-ms.openlocfilehash: 0735d24b223a5e5cab6030774280c038c28f35e6
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.openlocfilehash: e6077349a285df56d234f3cc2a14dc0d0d33da55
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916685"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011667"
 ---
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
@@ -63,7 +63,7 @@ Ezek a korlátok a maximális értékre növelhetők [egy támogatási kérelem 
 
 Az Azure-ban az „erőforrás” kifejezés ugyanúgy fordul elő, mint az AWS-ben, tehát bármilyen számítási példányra, tárolási objektumra, hálózati eszközre vagy egyéb, a platformon létrehozható vagy konfigurálható entitásra utalhat.
 
-Az Azure-erőforrások üzembe helyezése és kezelése az alábbi két modell egyike alapján történik: az [Azure Resource Manager](/azure/azure-resource-manager/resource-group-overview) vagy a régebbi, [klasszikus Azure üzemi modell](/azure/azure-resource-manager/resource-manager-deployment-model).
+Az Azure-erőforrások üzembe helyezése és kezelése az alábbi két modell egyike alapján történik: az [Azure Resource Manager-alapú](/azure/azure-resource-manager/resource-group-overview) vagy a régebbi, [klasszikus Azure üzemi modell](/azure/azure-resource-manager/resource-manager-deployment-model).
 Minden új erőforrás létrehozása a Resource Manager-alapú modell alapján történik.
 
 ### <a name="resource-groups"></a>Erőforráscsoportok
@@ -174,7 +174,7 @@ Bár az AWS-példánytípusok és az Azure-beli virtuális gépek méretei hason
 
 -   [A virtuális gépek méretei az Azure-ban (Linux)](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/)
 
-Az AWS másodpercalapú számlázásával ellentétben az Azure-beli igény szerinti virtuális gépek percalapú számlázást alkalmaznak.
+Az AWS másodpercalapú számlázásához hasonlóan az Azure-beli igény szerinti virtuális gépek másodpercalapú számlázást alkalmaznak.
 
 #### <a name="ebs-and-azure-storage-for-vm-disks"></a>EBS és Azure Storage virtuálisgép-lemezekhez
 
@@ -217,7 +217,7 @@ Az Azure számos olyan számítási szolgáltatást nyújt, amelyeknek nincs kö
 
 -   [Linuxos virtuális gép létrehozása az Azure-ban a portál használatával](https://azure.microsoft.com/documentation/articles/virtual-machines-linux-quick-create-portal/)
 
--   [Azure-referenciaarchitektúra: Linuxos virtuális gép futtatása az Azure-ban](https://azure.microsoft.com/documentation/articles/guidance-compute-single-vm-linux/)
+-   [Azure-referenciaarchitektúra: Linux rendszerű virtuális gép futtatása az Azure-ban](https://azure.microsoft.com/documentation/articles/guidance-compute-single-vm-linux/)
 
 -   [Ismerkedés a Node.js-webalkalmazásokkal az Azure App Service-ben](https://azure.microsoft.com/documentation/articles/app-service-web-nodejs-get-started/)
 
@@ -310,7 +310,7 @@ Az AWS RDS költségeit a példány által használt hardveres erőforrások (p�
 
 -   [Georeplikáció konfigurálása az Azure SQL Database-adatbázishoz az Azure Portalon](https://azure.microsoft.com/documentation/articles/sql-database-geo-replication-portal/)
 
--   [A Cosmos DB, egy NoSQL-alapú JSON-adatbázis bemutatása](/azure/cosmos-db/sql-api-introduction)
+-   [Bevezetés a Cosmos DB használatába: NoSQL-alapú JSON-adatbázis](/azure/cosmos-db/sql-api-introduction)
 
 -   [Az Azure Table Storage használata Node.js-sel](https://azure.microsoft.com/documentation/articles/storage-nodejs-how-to-use-table-storage/)
 

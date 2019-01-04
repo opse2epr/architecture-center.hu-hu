@@ -1,14 +1,16 @@
 ---
 title: Monolitikus adatmegőrzési kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: Egy alkalmazás összes adatának egyetlen adattárolóba való helyezése hátrányosan befolyásolhatja a teljesítményt.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 8cc67a41adf7ca4e3c5475eea86e38b75dd65d4d
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: c54a99dd0754cb2cb6cf4ad85b23a518c14a978b
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429111"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010256"
 ---
 # <a name="monolithic-persistence-antipattern"></a>Monolitikus adatmegőrzési kizárási minta
 
@@ -16,12 +18,12 @@ Egy alkalmazás összes adatának egyetlen adattárolóba való helyezése hátr
 
 ## <a name="problem-description"></a>A probléma leírása
 
-Az alkalmazások korábban egyetlen adattárolót használtak, függetlenül attól, hogy az alkalmazásnak adott esetben különböző adattípusokat kellett tárolnia. Ezzel általában az alkalmazás tervezését kívánták leegyszerűsíteni, vagy pedig ez a megoldás felelt meg a fejlesztői csapat ismereteinek. 
+Az alkalmazások korábban egyetlen adattárolót használtak, függetlenül attól, hogy az alkalmazásnak adott esetben különböző adattípusokat kellett tárolnia. Ezzel általában az alkalmazás tervezését kívánták leegyszerűsíteni, vagy pedig ez a megoldás felelt meg a fejlesztői csapat ismereteinek.
 
 A modern felhőalapú rendszerek további funkcionális és nem funkcionális követelményekkel rendelkeznek, és sok különféle adattípust kell tárolniuk, például dokumentumokat, képeket, gyorsítótárazott adatokat, üzenetsorokat, alkalmazásnaplókat és telemetriai adatokat. A hagyományos megoldás követése, vagyis az összes fenti információ egyetlen adattárolóba való helyezése negatívan befolyásolja a teljesítményt. Ennek két fő oka van:
 
 - A nagy mennyiségű, egymáshoz nem kapcsolódó adatok egyetlen adattárolóban történő tárolása és lekérése versengést idéz elő, amely lassú válaszidőkhöz és csatlakozási hibákhoz vezet.
-- Egy adattároló sem biztosan megfelelő egy adott adattípus tárolásához, illetve előfordulhat, hogy nem az alkalmazás által végzett műveletekhez optimalizálták. 
+- Egy adattároló sem biztosan megfelelő egy adott adattípus tárolásához, illetve előfordulhat, hogy nem az alkalmazás által végzett műveletekhez optimalizálták.
 
 A következő példában egy ASP.NET webes API-vezérlő látható, amely új rekordot ad hozzá egy adatbázishoz, az eredményt pedig feljegyzi egy naplóban. A rendszer ugyanabban az adatbázisban tárolja a naplót, mint az üzleti adatokat. A teljes kódmintát [itt][sample-app] találja.
 
@@ -43,7 +45,7 @@ A naplórekordok létrehozásának sebessége valószínűleg kihat az üzleti m
 
 ## <a name="how-to-fix-the-problem"></a>A probléma megoldása
 
-Válassza szét az adatokat a felhasználásuk módja szerint. Minden egyes adatkészlethez külön adattárolót válasszon ki, amely a legalkalmasabb az adott adat felhasználási módjához. Az előző példában az alkalmazás naplóját el kell különíteni az üzleti adatokat tartalmazó adatbázistól: 
+Válassza szét az adatokat a felhasználásuk módja szerint. Minden egyes adatkészlethez külön adattárolót válasszon ki, amely a legalkalmasabb az adott adat felhasználási módjához. Az előző példában az alkalmazás naplóját el kell különíteni az üzleti adatokat tartalmazó adatbázistól:
 
 ```csharp
 public class PolyController : ApiController
@@ -76,10 +78,10 @@ A rendszer valószínűleg nagymértékben lelassul, végül hibával leáll, me
 A következő lépéseket végezheti el a hiba okának meghatározásához.
 
 1. Alakítsa ki úgy a rendszert, hogy feljegyezze a fő teljesítménystatisztikákat. Rögzítse az egyes műveletek időzítési információit, valamint azokat a pontokat, ahol az alkalmazás adatokat olvas be ír.
-1. Ha lehetséges, monitorozza a rendszer futását néhány napig éles környezetben, így valós információkat szerezhet a rendszer használatának módjáról. Ha ez nem lehetséges, futtasson szkriptelt terhelési teszteket, amelyek a valóságnak megfelelő számú felhasználó által végzett jellemző művelettípusokat tartalmazzák.
-2. Használja a telemetriaadatokat a gyenge teljesítmény időszakainak meghatározásához.
-3. Állapítsa meg, melyik adattárolók voltak használatban az érintett időszakokban.
-4. Azonosítsa az adattároló-erőforrásokat, amelyek esetleg versengésre kényszerülnek.
+2. Ha lehetséges, monitorozza a rendszer futását néhány napig éles környezetben, így valós információkat szerezhet a rendszer használatának módjáról. Ha ez nem lehetséges, futtasson szkriptelt terhelési teszteket, amelyek a valóságnak megfelelő számú felhasználó által végzett jellemző művelettípusokat tartalmazzák.
+3. Használja a telemetriaadatokat a gyenge teljesítmény időszakainak meghatározásához.
+4. Állapítsa meg, melyik adattárolók voltak használatban az érintett időszakokban.
+5. Azonosítsa az adattároló-erőforrásokat, amelyek esetleg versengésre kényszerülnek.
 
 ## <a name="example-diagnosis"></a>Diagnosztikai példa
 
@@ -107,7 +109,7 @@ A következő diagramon az adatbázis átviteli egységeinek (DTU) terhelési te
 
 ### <a name="examine-the-telemetry-for-the-data-stores"></a>Az adattárolók telemetriai vizsgálata
 
-Alakítsa ki az adattárolókat úgy, hogy részletesen rögzítsék a tevékenységeket. A mintaalkalmazásban az adathozzáférési statisztikák nagy számú beszúrási műveleteket mutattak a `PurchaseOrderHeader` és a `MonoLog` táblában is. 
+Alakítsa ki az adattárolókat úgy, hogy részletesen rögzítsék a tevékenységeket. A mintaalkalmazásban az adathozzáférési statisztikák nagy számú beszúrási műveleteket mutattak a `PurchaseOrderHeader` és a `MonoLog` táblában is.
 
 ![A mintaalkalmazáshoz tartozó adathozzáférési statisztika][MonolithicDataAccessStats]
 
@@ -133,12 +135,11 @@ Hasonló módon a naplóadatbázis maximális DTU-kihasználtsága csak 70% kör
 
 ![A klasszikus Azure portál adatbázis-figyelője a naplóadatbázis erőforrás-felhasználásával a Polyglot-forgatókönyvben][LogDatabaseUtilization]
 
-
 ## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [A megfelelő adattároló kiválasztása][data-store-overview]
 - [Az adattár kiválasztásának kritériumai][data-store-comparison]
-- [Adathozzáférés nagymértékben méretezhető megoldások esetén: Az SQL, NoSQL és Polyglot-adatmegőrzés használata][Data-Access-Guide]
+- [Adathozzáférés nagymértékben skálázható megoldások esetén: az SQL, a NoSQL és a többplatformos adattárolás használata][Data-Access-Guide]
 - [Adatparticionálás][DataPartitioningGuidance]
 
 [sample-app]: https://github.com/mspnp/performance-optimization/tree/master/MonolithicPersistence

@@ -1,25 +1,27 @@
 ---
 title: Nem megfelelő példányosítás kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: Elkerülheti, hogy folyamatosan új példányok jöjjenek létre olyan objektumokból, amelyeket elvileg csak egyszer kéne létrehozni, hogy utána meg lehessen őket osztani.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 4d5ef9ad9e675b46df94b51e81d7a4bd4c1b25e9
-ms.sourcegitcommit: 3d9ee03e2dda23753661a80c7106d1789f5223bb
+ms.custom: seodec18
+ms.openlocfilehash: b92ae5f5e79a0ababf44d7aa2d771d4d72900cae
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/23/2018
-ms.locfileid: "29477580"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009918"
 ---
 # <a name="improper-instantiation-antipattern"></a>Nem megfelelő példányosítás kizárási minta
 
-Ronthatja a teljesítményt, ha folyamatosan új példányokat hoz létre olyan objektumokból, amelyeket elvileg csak egyszer kéne létrehozni, hogy utána meg lehessen őket osztani. 
+Ronthatja a teljesítményt, ha folyamatosan új példányokat hoz létre olyan objektumokból, amelyeket elvileg csak egyszer kéne létrehozni, hogy utána meg lehessen őket osztani.
 
 ## <a name="problem-description"></a>A probléma leírása
 
 Számos kódtár biztosít absztrakt entitásokat a külső erőforrásokhoz. Ezek az osztályok általában belsőleg kezelik az adott erőforrással kialakított saját kapcsolataikat, és olyan közvetítőként funkcionálnak, amelyeken keresztül az ügyfelek elérhetik az erőforrásokat. Néhány példa az Azure-alkalmazásoknál használható közvetítőosztályokra:
 
 - `System.Net.Http.HttpClient`. HTTP használatával kommunikál egy webszolgáltatással.
-- `Microsoft.ServiceBus.Messaging.QueueClient`. Üzeneteket küld és fogad egy Service Bus-üzenetsorból. 
+- `Microsoft.ServiceBus.Messaging.QueueClient`. Üzeneteket küld és fogad egy Service Bus-üzenetsorból.
 - `Microsoft.Azure.Documents.Client.DocumentClient`. Kapcsolódik egy Cosmos DB-példányhoz.
 - `StackExchange.Redis.ConnectionMultiplexer`. Kapcsolódik a Redishez, beleértve az Azure Redis Cache-t is.
 
@@ -100,15 +102,17 @@ public class SingleHttpClientInstanceController : ApiController
 
 - A több kérés között megosztott objektumoknak szálbiztosnak *kell* lenniük. A `HttpClient` osztályt így kell használni, más osztályok azonban nem feltétlenül támogatják az egyidejű kéréseket, ezért mindenképpen olvassa át a rendelkezésre álló dokumentációt.
 
+- Körültekintően adja meg a megosztott objektumok tulajdonságait, mert versenyhelyzetekhez vezethet. Például a(z) `DefaultRequestHeaders` beállítása a(z) `HttpClient` osztályon minden egyes kérés előtt versenyhelyzetet eredményezhet. Ezeket a tulajdonságokat egy alkalommal állítsa be (például indításkor), és hozzon létre különálló példányokat, ha különböző beállításokat kell konfigurálnia.
+
 - Egyes erőforrástípusok ritkák, és nem szabad lefoglalni őket. Ilyenek például az adatbázis-kapcsolatok. Egy megnyitott adatbázis-kapcsolat szükségtelen lefoglalása azt eredményezheti, hogy más egyidejű felhasználók nem tudják majd elérni az adatbázist.
 
-- A .NET-keretrendszerben számos olyan objektumot, amelyek külső erőforrásokhoz építenek ki kapcsolatot, az ilyen kapcsolatokat kezelő egyéb osztályok statikus példányosító metódusai hoznak létre. Az ilyen objektumokat el kell menteni és újra kell használni, nem pedig elvetni, majd újra létrehozni. Például az Azure Service Busban a `QueueClient` objektum egy `MessagingFactory` objektumon keresztül jön létre. Belül a `MessagingFactory` kezeli a kapcsolatokat. További információkért lásd: [Ajánlott eljárások a teljesítmény javításához a Service Bus-üzenetkezelés használatával][service-bus-messaging].
+- A .NET-keretrendszerben számos olyan objektumot, amelyek külső erőforrásokhoz építenek ki kapcsolatot, az ilyen kapcsolatokat kezelő egyéb osztályok statikus példányosító metódusai hoznak létre. Az ilyen objektumokat menteni kell és újra felhasználni, nem pedig elvetni, majd újra létrehozni. Például az Azure Service Busban a `QueueClient` objektum egy `MessagingFactory` objektumon keresztül jön létre. Belül a `MessagingFactory` kezeli a kapcsolatokat. További információkért lásd: [Ajánlott eljárások a teljesítmény javításához a Service Bus-üzenetkezelés használatával][service-bus-messaging].
 
 ## <a name="how-to-detect-the-problem"></a>A probléma észlelése
 
-A probléma tünete lehet a teljesítmény hirtelen csökkenése vagy a hibák arányának megnövekedése, amelyet a következők valamelyike kísér: 
+A probléma tünete lehet a teljesítmény hirtelen csökkenése vagy a hibák arányának megnövekedése, amelyet a következők valamelyike kísér:
 
-- A kivételek számának növekedése, amely arra utal, hogy az erőforrások, például szoftvercsatornák, adatbázis-kapcsolatok, fájlmutatók stb. kimerülőben vannak. 
+- A kivételek számának növekedése, amely arra utal, hogy az erőforrások, például szoftvercsatornák, adatbázis-kapcsolatok, fájlmutatók stb. kimerülőben vannak.
 - Megnövekedett mértékű memóriahasználat és szemétgyűjtés.
 - A hálózati, meghajtó- és adatbázis-tevékenységek növekedése.
 
@@ -119,7 +123,7 @@ A következő lépések végrehajtásával azonosíthatja a problémát:
 3. Az egyes gyanús műveletek terheléstesztjét egy kontrollált tesztkörnyezetben végezze el, ne az éles rendszeren.
 4. Tekintse át a forráskódot, és vizsgálja meg, hogyan kezeli a rendszer a közvetítő kódokat.
 
-Tekintse át a rendszer nagy terheltsége esetén lassan futó vagy kivételeket eredményező műveletek hívásláncait. Ezek az információk segíthetnek megérteni, hogyan használják ezek a műveletek az erőforrásokat. A kivételek segíthetnek megállapítani, hogy a hibákat a megosztott erőforrások kimerülése okozza-e. 
+Tekintse át a rendszer nagy terheltsége esetén lassan futó vagy kivételeket eredményező műveletek hívásláncait. Ezek az információk segíthetnek megérteni, hogyan használják ezek a műveletek az erőforrásokat. A kivételek segíthetnek megállapítani, hogy a hibákat a megosztott erőforrások kimerülése okozza-e.
 
 ## <a name="example-diagnosis"></a>Diagnosztikai példa
 
@@ -127,7 +131,7 @@ Az alábbi szakaszokban ezeket a lépéseket hajtjuk végre a fentebb leírt min
 
 ### <a name="identify-points-of-slow-down-or-failure"></a>A lassulási vagy meghiúsulási pontok azonosítása
 
-Az alábbi ábra a [New Relic APM][new-relic] használatával létrehozott eredményeket mutatja, ahol is a gyenge válaszidejű műveletek láthatók. Ebben az esetben a `NewHttpClientInstancePerRequest` vezérlő `GetProductAsync` metódusát érdemes közelebbről is megvizsgálni. Vegyük észre, hogy ezeknek a műveleteknek a futtatásakor a hibák aránya is nő. 
+Az alábbi ábra a [New Relic APM][new-relic] használatával létrehozott eredményeket mutatja, ahol is a gyenge válaszidejű műveletek láthatók. Ebben az esetben a `NewHttpClientInstancePerRequest` vezérlő `GetProductAsync` metódusát érdemes közelebbről is megvizsgálni. Vegyük észre, hogy ezeknek a műveleteknek a futtatásakor a hibák aránya is nő.
 
 ![A mintaalkalmazás a New Relic monitorozási irányítópultján, amint egy HttpClient-objektum új példányát hozza létre mindegyik kéréshez][dashboard-new-HTTPClient-instance]
 
@@ -143,7 +147,7 @@ A terhelésteszttel szimulálhatja a felhasználók által végrehajtható jelle
 
 ![A mintaalkalmazás átviteli sebessége, amint egy HttpClient-objektum új példányát hozza létre mindegyik kéréshez][throughput-new-HTTPClient-instance]
 
-Eleinte a másodpercenként kezelt kérések mennyisége is nő, ahogy a számítási feladatok száma növekszik. 30 felhasználó környékén azonban a sikeres kérések mennyisége elér egy határt, és a rendszerben kivételek kezdenek jelentkezni. Innentől a kivételek mennyisége fokozatosan növekszik a felhasználóterhelés növekedésével együtt. 
+Eleinte a másodpercenként kezelt kérések mennyisége is nő, ahogy a számítási feladatok száma növekszik. 30 felhasználó környékén azonban a sikeres kérések mennyisége elér egy határt, és a rendszerben kivételek kezdenek jelentkezni. Innentől a kivételek mennyisége fokozatosan növekszik a felhasználóterhelés növekedésével együtt.
 
 A terhelésteszt ezeket a hibákat HTTP 500-as (belső kiszolgáló) hibákként sorolta be. A telemetria áttekintésével kiderült, hogy a hibákat az okozta, hogy a rendszer szoftvercsatorna-erőforrásai kimerültek, ahogy egyre több és több `HttpClient` objektum jött létre.
 
@@ -163,11 +167,9 @@ Miután beállítottuk, hogy a `GetProductAsync` metódus egyetlen `HttpClient` 
 
 ![A mintaalkalmazás a New Relic szálprofilkészítőjén, amint egy HttpClient-objektum egyetlen példányát hozza létre az összes kéréshez][thread-profiler-single-HTTPClient-instance]
 
-A következő diagramon egy hasonló terhelésteszt eredményei láthatók az `ExpensiveToCreateService` objektum egy megosztott példányának használatával. Újra azt látjuk, hogy a feldolgozott kérések mennyisége a felhasználóterheléssel arányosan növekszik, míg az átlagos válaszidő alacsony marad. 
+A következő diagramon egy hasonló terhelésteszt eredményei láthatók az `ExpensiveToCreateService` objektum egy megosztott példányának használatával. Újra azt látjuk, hogy a feldolgozott kérések mennyisége a felhasználóterheléssel arányosan növekszik, míg az átlagos válaszidő alacsony marad.
 
 ![A mintaalkalmazás átviteli sebessége, amint egy HttpClient-objektum már meglévő példányát használja az egyes kérésekhez][throughput-single-ExpensiveToCreateService-instance]
-
-
 
 [sample-app]: https://github.com/mspnp/performance-optimization/tree/master/ImproperInstantiation
 [service-bus-messaging]: /azure/service-bus-messaging/service-bus-performance-improvements

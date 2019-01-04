@@ -1,14 +1,16 @@
 ---
 title: Szinkron I/O kizárási minta
+titleSuffix: Performance antipatterns for cloud apps
 description: A hívó szál blokkolása az I/O végrehajtása során teljesítménycsökkenést okozhat, és hatással lehet a vertikális méretezhetőségre.
 author: dragon119
 ms.date: 06/05/2017
-ms.openlocfilehash: 961eacb82344ec7e71aaa96fb4cd8bc530721e96
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.custom: seodec18
+ms.openlocfilehash: 209295cfc911ae168bca2f1c64dc930a27a9a4ba
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47429009"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54009338"
 ---
 # <a name="synchronous-io-antipattern"></a>Szinkron I/O kizárási minta
 
@@ -27,9 +29,9 @@ Néhány gyakori példa I/O műveletekre:
 
 A kizárási minta jellemzően az alábbi okokból következhet be:
 
-- Ez tűnik egy adott művelet leginkább intuitív megoldási módjának. 
+- Ez tűnik egy adott művelet leginkább intuitív megoldási módjának.
 - Az alkalmazásnak egy válaszra van szüksége egy adott kérdésre.
-- Az alkalmazás egy olyan kódtárat használ, amely csak szinkron módszereket biztosít az I/O műveletekhez. 
+- Az alkalmazás egy olyan kódtárat használ, amely csak szinkron módszereket biztosít az I/O műveletekhez.
 - Egy külső kódtár belső szinkron I/O műveleteket hajt végre. Egyetlen szinkron I/O hívás képes egy teljes hívásláncot blokkolni.
 
 Az alábbi kód egy fájlt tölt fel az Azure Blob Storage-ba. A kódblokkok két helyen várnak szinkron I/O műveleteket: a `CreateIfNotExists` és az `UploadFromStream` metódusban.
@@ -77,7 +79,7 @@ Mindkét példa teljes kódját megtalálja [itt][sample-app].
 
 ## <a name="how-to-fix-the-problem"></a>A probléma megoldása
 
-Cserélje le a szinkron I/O műveleteket aszinkron műveletekre. Ez szabaddá teszi az aktuális szálat, amely így hasznos munkát tud végezni a blokkolás helyett, és ez segít javítani a számítási erőforrások kihasználtságát. Az I/O műveletek aszinkron végrehajtása különösen hatékony megoldás az ügyfélalkalmazásokról érkező kérések hirtelen megszaporodásának lekezelésére. 
+Cserélje le a szinkron I/O műveleteket aszinkron műveletekre. Ez szabaddá teszi az aktuális szálat, amely így hasznos munkát tud végezni a blokkolás helyett, és ez segít javítani a számítási erőforrások kihasználtságát. Az I/O műveletek aszinkron végrehajtása különösen hatékony megoldás az ügyfélalkalmazásokról érkező kérések hirtelen megszaporodásának lekezelésére.
 
 Számos kódtár szinkron és aszinkron verziókat egyaránt kínál a különféle metódusokhoz. Amikor csak lehetséges, használja az aszinkron verziókat. Íme az előbbi példa aszinkron verziója a fájl feltöltéséhez az Azure Blob Storage-ba.
 
@@ -193,16 +195,10 @@ A következő diagram a kód aszinkron verzióján végzett terhelésteszt eredm
 
 A teljesítmény sokkal magasabb. Az előző teszttel egyező időtartam alatt a rendszer mintegy tízszer akkora teljesítményt mutatott a kérések másodpercenkénti számát tekintve. Emellett az átlagos válaszidő is viszonylag állandó, és hozzávetőleg 25-ször kisebb az előző tesztben mért értékeknél.
 
-
 [sample-app]: https://github.com/mspnp/performance-optimization/tree/master/SynchronousIO
-
-
 [async-wrappers]: https://blogs.msdn.microsoft.com/pfxteam/2012/03/24/should-i-expose-asynchronous-wrappers-for-synchronous-methods/
 [performance-counters]: /azure/cloud-services/cloud-services-dotnet-diagnostics-performance-counters
 [web-sites-monitor]: /azure/app-service-web/web-sites-monitor
 
 [sync-performance]: _images/SyncPerformance.jpg
 [async-performance]: _images/AsyncPerformance.jpg
-
-
-

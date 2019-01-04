@@ -1,14 +1,17 @@
 ---
 title: Tervezési minták felhőkhöz
+titleSuffix: Azure Architecture Center
 description: Felhőtervezési minták megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához
 keywords: Azure
+author: dragon119
 ms.date: 12/10/2018
-ms.openlocfilehash: 6965f4ba19bb465c4afc0e0c355b32bde8944823
-ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
+ms.custom: seodec18
+ms.openlocfilehash: 003bef866b0cd873122cfb8d4730b95ba49d3d7f
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/16/2018
-ms.locfileid: "53450853"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011293"
 ---
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
@@ -18,6 +21,7 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 
 ## <a name="challenges-in-cloud-development"></a>A felhőalapú fejlesztésben rejlő kihívások
 
+<!-- markdownlint-disable MD033 -->
 <table>
 <tr>
     <td style="width: 64px; vertical-align: middle;"><a href="./category/availability.md"><img src="_images/category/availability.svg" alt="Availability" /></a></td>
@@ -76,6 +80,7 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
     </td>
 </tr>
 </table>
+<!-- markdownlint-disable MD033 -->
 
 ## <a name="catalog-of-patterns"></a>Mintakatalógus
 
@@ -114,4 +119,3 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 |                      [Strangler](./strangler.md)                      |                                            Növekményesen migrálhat egy korábbi rendszert oly módon, hogy egyes funkciódarabokat fokozatosan új alkalmazásokra és szolgáltatásokra cserél.                                            |
 |                     [Szabályozás](./throttling.md)                     |                                                 Szabályozhatja egy alkalmazáspéldány, egyéni bérlő vagy teljes szolgáltatás által használt erőforrások felhasználását.                                                 |
 |                      [Valet Key](./valet-key.md)                      |                                                        Jogkivonatot vagy kulcsot használhat, amely korlátozott közvetlen hozzáférést biztosít az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz.                                                        |
-
