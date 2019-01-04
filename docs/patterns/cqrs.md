@@ -1,20 +1,17 @@
 ---
-title: CQRS
+title: Command and Query Responsibility Segregation (CQRS) minta
+titleSuffix: Cloud Design Patterns
 description: Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
-pnp.series.title: Cloud Design Patterns
-pnp.pattern.categories:
-- data-management
-- design-implementation
-- performance-scalability
-ms.openlocfilehash: de9530f7dd55c0ce5460cd3b58ab9f216c9b5c8c
-ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
+ms.custom: seodec18
+ms.openlocfilehash: 320f6cd51a44b3a6732d8395f0a5e1db8f9f5774
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/16/2018
-ms.locfileid: "53450870"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54010375"
 ---
 # <a name="command-and-query-responsibility-segregation-cqrs-pattern"></a>Command and Query Responsibility Segregation (CQRS) minta
 
@@ -56,7 +53,7 @@ Az olvasási tároló lehet az írási tároló csak olvasható replikája, de a
 
 Az olvasási és írási tárolók különválasztása lehetővé teszi a terhelésnek megfelelő méretezésüket is. Az olvasási tárolók például jellemzően jóval nagyobb terhelésnek vannak kitéve, mint az írási tárolók.
 
-Ha a lekérdezési/olvasási modell denormalizált adatokat tartalmaz (lásd: [Materialized View minta](materialized-view.md)), akkor a teljesítmény az alkalmazásban szereplő egyes nézetek adatainak beolvasásakor vagy a rendszerbeli adatok lekérdezésekor maximalizálható.
+Ha a lekérdezési/olvasási modell denormalizált adatokat tartalmaz (lásd: [Materialized View minta](./materialized-view.md)), akkor a teljesítmény az alkalmazásban szereplő egyes nézetek adatainak beolvasásakor vagy a rendszerbeli adatok lekérdezésekor maximalizálható.
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
@@ -96,7 +93,7 @@ A minta használata a következő esetekben nem ajánlott:
 
 ## <a name="event-sourcing-and-cqrs"></a>Az Event Sourcing és a CQRS
 
-A CQRS mintát gyakran használják az Event Sourcing mintával együtt. A CQRS-alapú rendszerek külön olvasási és írási adatmodelleket használnak, amelyek mindegyike a kapcsolódó feladatokhoz van igazítva, és gyakran fizikailag elkülönített tárolóban találhatók. Az [Event Sourcing](event-sourcing.md) minta használata esetén az események tárolója és az információk hivatalos forrása az írási modell. A CQRS-alapú rendszerek olvasási modellje az adatok materializált nézetit biztosítja, általában nagy mértékben denormalizált nézetekként. Ezek a nézetek az alkalmazás felhasználói felületeihez és megjelenítési követelményeihez vannak igazítva, ezzel pedig maximalizálható a megjelenítési és lekérdezési teljesítmény.
+A CQRS mintát gyakran használják az Event Sourcing mintával együtt. A CQRS-alapú rendszerek külön olvasási és írási adatmodelleket használnak, amelyek mindegyike a kapcsolódó feladatokhoz van igazítva, és gyakran fizikailag elkülönített tárolóban találhatók. Együtt használva az [Event Sourcing mintát](./event-sourcing.md), az események tárolója az írási modell, és az információk hivatalos forrása. A CQRS-alapú rendszerek olvasási modellje az adatok materializált nézetit biztosítja, általában nagy mértékben denormalizált nézetekként. Ezek a nézetek az alkalmazás felhasználói felületeihez és megjelenítési követelményeihez vannak igazítva, ezzel pedig maximalizálható a megjelenítési és lekérdezési teljesítmény.
 
 Ha egy adott időpont aktuális adatai helyett az eseménystreamet használja írási tárolóként, azzal elkerülhetők az egyetlen összesítésen felmerülő frissítési ütközések, valamint maximalizálható a teljesítmény és a méretezhetőség. Az események az olvasási tároló feltöltéséhez használt adatok materializált nézetének aszinkron létrehozásához használhatók.
 
@@ -242,10 +239,10 @@ Az alábbi minták és útmutatások hasznosak lehetnek a minta használatakor:
 
 - [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx). Ismerteti, hogyan oszthatók fel a CQRS mintában használt olvasási és írási adattárak olyan partíciókra, amelyek a méretezhetőség, a versenyhelyzetek kialakulásának csökkentése és a teljesítmény optimalizálása érdekében külön kezelhetők és érhetők el.
 
-- [Event Sourcing minta](event-sourcing.md). Részletesebben ismerteti, hogyan használható az Event Sourcing a CQRS mintával a feladatok egyszerűsítéséhez az összetett tartományokban a teljesítmény, a méretezhetőség és a válaszkészség növelése mellett. Emellett azt is bemutatja, hogyan biztosítható a tranzakciós adatok konzisztenciája a teljes körű naplók és előzmények fenntartása mellett, ami lehetővé teszi a kompenzáló műveletek végrehajtását.
+- [Event Sourcing minta](./event-sourcing.md). Részletesebben ismerteti, hogyan használható az Event Sourcing a CQRS mintával a feladatok egyszerűsítéséhez az összetett tartományokban a teljesítmény, a méretezhetőség és a válaszkészség növelése mellett. Emellett azt is bemutatja, hogyan biztosítható a tranzakciós adatok konzisztenciája a teljes körű naplók és előzmények fenntartása mellett, ami lehetővé teszi a kompenzáló műveletek végrehajtását.
 
-- [A Materialized View minta](materialized-view.md). A CQRS megvalósítás olvasási modellje tartalmazhatja az írási modell adatainak materializált nézeteit, illetve a materializált nézetek létrehozására is használható.
+- [Tényleges táblán alapuló nézet minta](./materialized-view.md). A CQRS megvalósítás olvasási modellje tartalmazhatja az írási modell adatainak materializált nézeteit, illetve a materializált nézetek létrehozására is használható.
 
-- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](https://aka.ms/cqrs). Különösen [bemutatása a parancs Query Responsibility Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) bemutatja a mintát mikor hasznos lehet, és [Epilógus: Learned tanítás](https://msdn.microsoft.com/library/jj591568.aspx) segít megérteni, hogy ez a minta használata során problémák.
+- Minták és gyakorlatok útmutatója – [A CQRS felfedezése](https://aka.ms/cqrs). Különösen [bemutatása a parancs lekérdezés felelőssége Segregation minta](https://msdn.microsoft.com/library/jj591573.aspx) bemutatja a mintát mikor hasznos lehet, és [Epilógus: Learned tanítás](https://msdn.microsoft.com/library/jj591568.aspx) segít megérteni, hogy ez a minta használata során problémák.
 
 - A [Martin Fowler – CQRS](https://martinfowler.com/bliki/CQRS.html) című bejegyzés ismerteti a minta alapvető működését, továbbá egyéb hasznos források hivatkozásait is tartalmazza.

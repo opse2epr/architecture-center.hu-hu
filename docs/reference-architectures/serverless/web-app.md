@@ -5,12 +5,12 @@ description: Ajánlott architektúra, kiszolgáló nélküli webalkalmazás és 
 author: MikeWasson
 ms.date: 10/16/2018
 ms.custom: seodec18
-ms.openlocfilehash: ee735ac4f23cc2a819e2322bd9c4fb3b5adf5f3b
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 71c6bcdb35ba19435566086386ba7260581fec19
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120308"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011395"
 ---
 # <a name="serverless-web-application-on-azure"></a>Kiszolgáló nélküli webalkalmazás az Azure-ban
 
@@ -26,7 +26,7 @@ A kiszolgáló nélküli kifejezés két különálló, de kapcsolódó jelenté
 Mindkét definíciók rendelkezik közös a ötlete, amellyel a fejlesztők és a fejlesztési és üzemeltetési munkatársai nem szükséges központi telepítése, konfigurálása és -kiszolgálók kezelése. Ez a referenciaarchitektúra Azure Functions használatával FaaS összpontosít, bár a webes tartalmat szolgáltató az Azure Blob Storage-ból példaként szolgál a háttérkomponens-szolgáltatás. A FaaS néhány fontos jellemzői a következők:
 
 1. A számítási erőforrások a platform által igényelt dinamikusan kiosztott.
-1. Díjszabás fogyasztásalapú: csak a kód végrehajtását használt számítási erőforrások díjkötelesek.
+1. Fogyasztásalapú díjszabás: Csak a kód végrehajtását használt számítási erőforrások díjkötelesek.
 1. A számítási erőforrások igény szerint méretezhető alapján a forgalom, anélkül, hogy a fejlesztő bármely konfigurációs tennie kellene.
 
 Ha külső eseményindító történik, például egy HTTP-kérelem vagy egy üzenetsorba érkező üzeneteket a függvények végrehajtása történik. Ez lehetővé teszi egy [eseményvezérelt architektúra stílusának] [ event-driven] természetes, kiszolgáló nélküli architektúrák. Munka az architektúra összetevői közötti koordinációhoz, üzenetközvetítők vagy pub/sub minták használata javasolt. Az Azure-ban üzenetkezelési technológiák közötti választással kapcsolatos útmutatásért lásd: [kézbesíti az üzeneteket az Azure-szolgáltatások közötti választás][azure-messaging].
@@ -86,7 +86,7 @@ A *függvényalkalmazás* végrehajtásához egy vagy több szükséges gazdaszo
 
 Függvényalkalmazások csoport funkciók, amelyek életciklusa és beállításokat használja. Másik függvényalkalmazás a függvények, amelyek nem azonos életciklussal üzemeltetve lesz.
 
-Fontolja meg a mikroszolgáltatási megközelítést, ahol a minden függvényalkalmazáshoz egy mikroszolgáltatásban valószínűleg álló számos kapcsolódó funkciókat jelenti. A mikroszolgáltatási architektúrában a szolgáltatások laza összekapcsolással és magas működési kohézióval kell rendelkeznie. *Lazán* összefüggő azt jelenti, hogy egy szolgáltatás anélkül, hogy más szolgáltatások egyszerre frissítendő módosíthatja. *Javul* jelenti, hogy egy szolgáltatás egyetlen, jól definiált céllal rendelkezik. Ezek ötleteket további ismertetéséhez lásd: [mikroszolgáltatások tervezése: tartományelemzés][microservices-domain-analysis].
+Fontolja meg a mikroszolgáltatási megközelítést, ahol a minden függvényalkalmazáshoz egy mikroszolgáltatásban valószínűleg álló számos kapcsolódó funkciókat jelenti. A mikroszolgáltatási architektúrában a szolgáltatások laza összekapcsolással és magas működési kohézióval kell rendelkeznie. *Lazán* összefüggő azt jelenti, hogy egy szolgáltatás anélkül, hogy más szolgáltatások egyszerre frissítendő módosíthatja. *Javul* jelenti, hogy egy szolgáltatás egyetlen, jól definiált céllal rendelkezik. Ezek ötleteket további ismertetéséhez lásd: [mikroszolgáltatások tervezése: Tartományelemzés][microservices-domain-analysis].
 
 ### <a name="function-bindings"></a>Függvény-kötések
 

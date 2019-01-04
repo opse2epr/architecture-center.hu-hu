@@ -2,24 +2,25 @@
 title: Rugalmas alkalmazások tervezése az Azure-hoz
 description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezésre álláshoz és vészhelyreállításhoz.
 author: MikeWasson
-ms.date: 11/26/2018
+ms.date: 12/18/2018
 ms.custom: resiliency
-ms.openlocfilehash: a97a26928002b8248344a239159fe7defa99931c
-ms.sourcegitcommit: a0e8d11543751d681953717f6e78173e597ae207
+ms.openlocfilehash: 1638bc84b436d3d826f8ad9497ddb5a1310c14da
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/06/2018
-ms.locfileid: "53005042"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644257"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
 Az elosztott rendszerekben időnként fellépnek hibák. Meghibásodhatnak a hardverek. Átmeneti hibák lehetnek a hálózaton. Ritkán a teljes szolgáltatásban vagy régióban üzemszünet állhat elő, de ezekre is fel kell készülni.
 
-A megbízható alkalmazások felhőben való felépítése különbözik a vállalati környezetben való felépítésüktől. Míg régebben megoldást jelenthetett, ha jobb minőségű hardvert vett a vertikális felskálázás érdekében, a felhőalapú környezetekben ehelyett horizontálisan kell felskáláznia. A felhőalapú környezetek költségei a közös hardverek használata révén alacsonyan tartható. A hibák megakadályozása és a „hibák közötti átlagos idő” optimalizálása helyett ebben az új környezetben a hangsúly a „visszaállítás átlagos idejére” kerül. A cél a hibák hatókörének minimalizálása.
+A megbízható alkalmazások felhőben való felépítése különbözik a vállalati környezetben való felépítésüktől. Míg régebben megoldást jelenthetett, ha jobb minőségű hardvert vett a vertikális felskálázás érdekében, a felhőalapú környezetekben ehelyett horizontálisan kell felskáláznia. A felhőalapú környezetek költségei a közös hardverek használata révén alacsonyan tartható. Az összes hiba megakadályozása helyett a cél a hibák hatásának minimálisra csökkentése a rendszerben.
 
 Ez a cikk a rugalmas alkalmazások a Microsoft Azure-ban történő felépítését ismerteti. A cikk a *rugalmasság* és a kapcsolódó fogalmak ismertetésével kezdődik. Ezután ismerteti a rugalmasság elérésének egy, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig terjedő folyamatát, amely az alkalmazások élettartama során strukturált megközelítést használ.
 
 ## <a name="what-is-resiliency"></a>Mi a rugalmasság?
+
 A **rugalmasság** a rendszer azon képessége, hogy helyreálljon a hibák után, és folytassa a működést. Nem a hibák *elkerüléséről* szól, hanem a hibákra adott olyan *válaszokról*, amelyek kiküszöbölik az állásidőt és az adatveszteséget. A rugalmasság célja, hogy az alkalmazás egy hibát követően teljesen működőképes állapotba térjen vissza.
 
 A rugalmasság két fontos szempontja a magas rendelkezésre állás és a vészhelyreállítás.
@@ -38,6 +39,7 @@ Az **adatok biztonsági mentése** a DR kritikus része. Ha egy alkalmazás áll
 A biztonsági mentés nem azonos az **adatreplikációval**. Adatreplikáció esetén az adatok másolása szinte valós időben történik, hogy a rendszer gyorsan átadhassa a műveleteket egy replikának. Számos adatbázisrendszer támogatja a replikálást, például az SQL Server támogatja az SQL Server Always On rendelkezésre állási csoportokat. Az adatreplikáció csökkentheti a kimaradás utáni helyreálláshoz szükséges időt, mivel biztosítja, hogy az adatok replikája mindig készenlétben legyen. Az adatreplikáció azonban nem véd az emberi hibák ellen. Ha az adatok emberi hiba miatt sérülnek, ezek a sérült adatok egyszerűen átmásolódnak a replikákba. Ezért a DR-stratégiájának tartalmaznia kell a hosszú távú biztonsági mentést.
 
 ## <a name="process-to-achieve-resiliency"></a>A rugalmasság elérésének folyamata
+
 A rugalmasság nem kezelhető bővítményként. A rendszer integrált részeként kell megtervezni, és a gyakorlat részévé kell tenni. Itt láthat egy általános modellt, amelyet követhet:
 
 1. Az üzleti igények alapján **határozza meg** a rendelkezésreállási követelményeit.
@@ -51,34 +53,47 @@ A rugalmasság nem kezelhető bővítményként. A rendszer integrált részeké
 A cikk további részében részletesebben tárgyaljuk az egyes lépéseket.
 
 ## <a name="define-your-availability-requirements"></a>A rendelkezésreállási követelmények meghatározása
+
 A rugalmasság tervezése az üzleti követelményekkel kezdődik. Az alábbiakban néhány olyan módszert találhat, amelyek bemutatják, miként veheti figyelembe a rugalmasságot ezeket a szempontokat szem előtt tartva.
 
 ### <a name="decompose-by-workload"></a>Felbontás számítási feladat alapján
+
 Sok felhőalapú megoldás több számítási feladatból áll. Ebben a környezetben a „számítási feladat” kifejezés olyan különálló képességet vagy számítási feladatot jelent, amely logikusan elválasztható más feladatoktól az üzleti logika és az adattárolási követelmények szerint. Egy e-kereskedelmi alkalmazás például a következő számítási feladatokat tartalmazhatja:
 
 * Termékkatalógus tallózása és keresés.
 * Rendelések létrehozása és nyomon követése.
 * Javaslatok megtekintése.
 
-E számítási feladatok különböző követelményekkel rendelkezhetnek a rendelkezésre állás, a skálázhatóság, az adatkonzisztencia, a vészhelyreállítás és egyéb tényezők alapján. Ezek mind üzleti döntések.
+E számítási feladatok különböző követelményekkel rendelkezhetnek a rendelkezésre állás, a skálázhatóság, az adatkonzisztencia és a vészhelyreállítás alapján. Olyan üzleti döntéseket szükséges meghozni, amelyek a költségek és a kockázatok kiegyenlítésére vonatkoznak.
 
-A használati mintákat is érdemes figyelembe venni. Vannak bizonyos kritikus időszakok, amikor a rendszernek elérhetőnek kell lennie? Egy adóbevallást készítő szolgáltatás például nem állhat le közvetlenül a bevallás elküldésének határideje előtt, egy videóstreamelő szolgáltatásnak pedig működnie kell egy nagy sportesemény alatt. A kritikus időszakok alatt létesíthet redundáns üzemelő példányokat több régióban, így az alkalmazás feladatátvétele akkor is biztosított, ha az egyik régió meghibásodik. Ám mivel a több régióból álló üzemelő példányok fenntartása költségesebb, ezért a kevésbé kritikus időkben egyetlen régióban futtathatja az alkalmazást.
+A használati mintákat is érdemes figyelembe venni. Vannak bizonyos kritikus időszakok, amikor a rendszernek elérhetőnek kell lennie? Egy adóbevallást készítő szolgáltatás például nem állhat le közvetlenül a bevallás elküldésének határideje előtt, egy videóstreamelő szolgáltatásnak pedig működnie kell egy nagy sportesemény alatt. A kritikus időszakok alatt létesíthet redundáns üzemelő példányokat több régióban, így az alkalmazás feladatátvétele akkor is biztosított, ha az egyik régió meghibásodik. Ám mivel a több régióból álló üzemelő példányok fenntartása költségesebb lehet, ezért a kevésbé kritikus időkben egyetlen régióban futtathatja az alkalmazást. Bizonyos esetekben a további költségek csökkenthetők olyan modern, kiszolgáló nélküli technológiákkal, amelyek használatalapú számlázást alkalmaznak, így a kihasználatlan számítási erőforrásokért nem kell fizetnie.
 
 ### <a name="rto-and-rpo"></a>RTO és RPO
-Két fontos mérőszámot érdemes figyelembe vennie: a helyreállítási időre vonatkozó célkitűzést és a helyreállítási időkorlátot.
 
-* A **helyreállítási időre vonatkozó célkitűzés** (RTO) az a maximális elfogadható idő, ameddig egy alkalmazás elérhetetlen maradhat egy incidens után. Ha az RTO 90 perc, akkor a katasztrófa kezdetétől számított 90 percen belül helyre kell tudnia állítani az alkalmazás futó állapotát. Ha nagyon alacsony RTO-val kell számolnia, egy második üzemelő példány folyamatosan készenléti módban futhat, amely megvédi a regionális leállásoktól.
+Két fontos mérőszámot érdemes figyelembe vennie: a helyreállítási időre vonatkozó célkitűzést és a helyreállítási időkorlátot, mivel ezek a vészhelyreállításhoz tartoznak.
+
+* A **helyreállítási időre vonatkozó célkitűzés** (RTO) az a maximális elfogadható idő, ameddig egy alkalmazás elérhetetlen maradhat egy incidens után. Ha az RTO 90 perc, akkor a katasztrófa kezdetétől számított 90 percen belül helyre kell tudnia állítani az alkalmazás futó állapotát. Ha nagyon alacsony RTO-val kell számolnia, készenléti módban tarthat egy aktív/passzív konfigurációt futtató második regionális üzemelő példányt, amely védelmet nyújt a regionális leállásokkal szemben. Bizonyos esetekben előfordulhat, hogy üzembe kell helyeznie egy aktív/passzív konfigurációt a még alacsonyabb RTO eléréséhez.
 
 * A **helyreállítási időkorlát** (RPO) a katasztrófa során elfogadható adatveszteség maximális ideje. Ha például egyetlen adatbázisban tárol adatokat, és nem készít replikát egy másik adatbázisba, és óránként végez biztonsági mentéseket, akkor legfeljebb egy órányi adatot veszíthet.
 
-Az RTO-ra és az RPO-ra üzleti követelményként tekinthet. A kockázatfelmérés elvégzésével meghatározhatja az alkalmazás RTO- és RPO-értékét. Egy másik gyakori mérőszám a **helyreállítás átlagos ideje** (MTTR), amely a hiba után az alkalmazás visszaállításával töltött átlagos idő. Az MTTR a rendszer empirikus jellemzője. Ha az MTTR nagyobb, mint az RTO, akkor a rendszer hibája az üzletmenet elfogadhatatlan mértékű szüneteltetését okozza, mert nem lehet visszaállítani a rendszert a megadott RTO-n belül.
+Az RTO és az RPO egy rendszer nem funkcionális követelményei, amelyeket az üzleti követelményeknek kell meghatározniuk. Az értékek kiszámításához érdemes lehet kockázatfelmérést végezni, és átfogóan megismerni az állásidő és az adatvesztés járulékos költségeit.
+
+### <a name="mttr-and-mtbf"></a>MTTR és MTBF
+
+A rendelkezésre állás másik két gyakori mérőszáma a helyreállítás átlagos ideje (MTTR) és a hibák közötti átlagos idő (MTBF). Ezeket a mérőszámokat általában a szolgáltatók használják annak megállapítására, hogy hol szükséges redundanciát hozzáadni a felhőszolgáltatásokhoz és hogy melyik SLA-t biztosítsák az ügyfelek számára.
+
+A **helyreállítás átlagos ideje** (MTTR) az az átlagos idő, amely az összetevő egy hiba utáni helyreállításához szükséges. Az MTTR az összetevő empirikus jellemzője. Az egyes összetevők MTTR-mérőszáma alapján megbecsülheti egy teljes alkalmazás MTTR-mérőszámát. Az alkalmazás alacsony MTTR-értékű összetevőkből történő létrehozása azt eredményezi, hogy az alkalmazás alacsony átlagos MTTR-értékkel rendelkezik – így gyorsan helyreállítható a hibák után.
+
+A **hibák közötti átlagos idő** (MTBF) az a futásidő, amelyre az összetevő számíthat a szolgáltatáskimaradások között. Ez a mérőszám segíthet kiszámítani, milyen gyakran válik elérhetetlenné egy szolgáltatás. Egy nem megbízható összetevő MTBF-értéke alacsony, ezért az összetevő SLA-száma is alacsony lesz. Ugyanakkor az alacsony MTBF-érték korrigálható az összetevő több példányának üzembe helyezésével és a példányok közötti feladatátvétel beállításával.
+
+> [!NOTE]
+> Ha az összetevők BÁRMELY MTTR-értéke egy magas rendelkezésreállási környezetben meghaladja a rendszer RTO-értékét, a rendszer hibája az üzletmenet elfogadhatatlan mértékű szüneteltetését okozza. A rendszert nem lehet majd visszaállítani a megadott RTO-n belül.
 
 ### <a name="slas"></a>SLA-k
 Az Azure-ban a [szolgáltatási szerződés][sla] (SLA) ismerteti a Microsoft az üzemidővel és hálózati elérhetőséggel kapcsolatos vállalásait. Ha egy adott szolgáltatás SLA-ja 99,9%-os, az azt jelenti, hogy a szolgáltatás várhatóan az idő 99,9%-ában elérhető.
 
 > [!NOTE]
 > Az Azure SLA jóváírást is biztosít, ha az SLA nem valósul meg, valamint az egyes szolgáltatások „rendelkezésre állásának” adott definícióit is megadja. Az SLA ezen eleme kényszerítési házirendként működik.
->
 >
 
 Saját cél SLA-kat kell meghatároznia a megoldás összes számítási feladatához. Az SLA lehetővé teszi annak kiértékelését, hogy az architektúra megfelel-e az üzleti követelményeknek. Ha például egy számítási feladat 99,99%-os üzemidőt igényel, de egy 99,9%-os SLA-val rendelkező szolgáltatásra támaszkodik, akkor a szolgáltatás nem lehet rendszerkritikus meghibásodási pont. Az egyik megoldás az, ha a szolgáltatás meghibásodása esetére rendelkezik egy tartalék elérési úttal, vagy ha más intézkedéseket tesz a szolgáltatás hibájából való helyreállításhoz.
@@ -100,6 +115,7 @@ Az alábbiakban néhány további szempontot találhat az SLA meghatározásáho
 * Négy „9-es” (99,99%) eléréséhez valószínűleg nem támaszkodhat manuális beavatkozásra a hibákból való helyreállításhoz. Az alkalmazásnak képesnek kell lennie az öndiagnózisra és az önjavításra.
 * A négy „9-esen” túl már kihívást jelent az állásidő elég gyors észlelése az SLA feltételeinek kielégítéséhez.
 * Gondoljon az SLA-ban megszabott, a mérés alapját képező időtartományra. Minél kisebb a tartomány, annál szigorúbbak a feltételek. Valószínűleg nem éri meg óránkénti vagy napi üzemidőben meghatározni az SLA-t.
+* Fontolja meg az MTBF- és az MTTR-mérőszám használatát. Minél alacsonyabb az SLA, annál ritkábban állhat le a szolgáltatás, és annál gyorsabban is kell helyreállnia.
 
 ### <a name="composite-slas"></a>Összetett SLA-k
 Vegyünk egy olyan App Service-webalkalmazást, amely az Azure SQL Database adatbázisába ír. Az oktatóanyag összeállításakor ezek az Azure-szolgáltatások a következő SLA-kkal rendelkeztek:
@@ -111,7 +127,7 @@ Vegyünk egy olyan App Service-webalkalmazást, amely az Azure SQL Database adat
 
 Mi az alkalmazás esetében elvárt maximális állásidő? Ha valamelyik szolgáltatás meghibásodik, akkor a teljes alkalmazás meghibásodik. Általánosságban az egyes szolgáltatások meghibásodásának valószínűsége független egymástól, ezért a jelen alkalmazás összetett SLA-ja 99,95% &times; 99,99% = 99,94%. Ez alacsonyabb az egyes SLA-knál, ami nem meglepő, mert a több szolgáltatásra támaszkodó alkalmazások több lehetséges hibaponttal rendelkeznek.
 
-Az összetett SLA viszont javítható független tartalék útvonalak létrehozásával. Ha például az SQL Database nem érhető el, állítsa üzenetsorba a tranzakciókat későbbi feldolgozás céljából.
+Az összetett SLA viszont javítható független tartalék útvonalak létrehozásával. Ha például az SQL Database nem érhető el, állítsa üzenetsorba a tranzakciókat későbbi feldolgozás céljából. 
 
 ![Összetett SLA](./images/sla2.png)
 
@@ -125,17 +141,18 @@ A teljes összetett SLA:
 
 De ennek a módszernek hátrányai is vannak. Az alkalmazáslogika összetettebb, az üzenetsorért fizetni kell, és adatkonzisztenciával kapcsolatos problémák is felmerülhetnek.
 
-**SLA többrégiós üzemelő példányokhoz**. Egy másik magas rendelkezésre állású megoldás az alkalmazás több régióban történő üzembe helyezése: ha az alkalmazás meghibásodik egy régióban, az Azure Traffic Manager révén feladatátvétel hajtható végre. Kétrégiós üzemelő példány esetében az összetett SLA képlete a következő:
+**SLA többrégiós üzemelő példányokhoz**. Egy másik magas rendelkezésre állású megoldás az alkalmazás több régióban történő üzembe helyezése: ha az alkalmazás meghibásodik egy régióban, az Azure Traffic Manager révén feladatátvétel hajtható végre. Többrégiós üzemelő példány esetében az összetett SLA képlete a következő.
 
-Legyen *N* az egy régióban üzembe helyezett alkalmazás összetett SLA-ja. Annak a várt esélye, hogy az alkalmazás egyidejűleg hibásodik meg mindkét régióban, (1 &minus; N) &times; (1 &minus; N). Ezért:
+Legyen *N* az egy régióban üzembe helyezett alkalmazás összetett SLA-ja, *R* pedig azon régiók száma, amelyekben az alkalmazás üzembe van helyezve. Annak a várt esélye, hogy az alkalmazás egyidejűleg hibásodik meg minden régióban, ((1 &minus N) ^ R).
 
-* A két régióra vonatkozó kombinált SLA = 1 &minus; (1 &minus; N)(1 &minus; N) = N + (1 &minus; N)N
+Ha például egyetlen régió SLA-ja 99,95%-os, akkor
 
-Végezetül figyelembe kell venni a [Traffic Managerre vonatkozó SLA-t][tm-sla]. Az oktatóanyag összeállításakor a Traffic Manager SLA SLA-ja 99,99%.
+* Két régió összetett SLA-ja = (1 &minus; (0,9995 ^ 2)) = 99,999975%
+* Négy régió összetett SLA-ja = (1 &minus; (0,9995 ^ 4)) = 99,999999%
 
-* Összetett SLA = 99,99% &times; (mindkét régióra vonatkozó kombinált SLA)
+Figyelembe kell vennie a [Traffic Manager SLA-ját][tm-sla] is. Az oktatóanyag összeállításakor a Traffic Manager SLA SLA-ja 99,99%.
 
-A feladatátvétel továbbá nem azonnali lefutású, így a feladatátvétel során szolgáltatáskiesés lehetséges. Lásd: [Traffic Manager-végpont monitorozása és feladatátvétele][tm-failover].
+A feladatátvétel továbbá nem azonnali lefutású az aktív-passzív konfigurációkban, így a feladatátvétel során szolgáltatáskiesés fordulhat elő. Lásd: [Traffic Manager-végpont monitorozása és feladatátvétele][tm-failover].
 
 A kiszámított SLA-szám hasznos kiindulási alap, de nem mutat teljes képet a rendelkezésre állásról. Gyakran előfordul, hogy egy alkalmazás teljesítménye leállás nélkül csökken, ha nem kritikus útvonal hibásodik meg. Vegyünk például egy könyvkatalógust megjelenítő alkalmazást. Ha az alkalmazás nem tudja lekérni a borítók miniatűrjét, helyőrző képet jeleníthet meg helyette. Ebben az esetben a kép lekérésének sikertelensége nem csökkenti az alkalmazás üzemidejét, de hatással van a felhasználói élményre.  
 
@@ -147,7 +164,7 @@ A tervezési fázis során javasolt hibaállapot-elemzést (FMA) végezni. Az FM
 * Hogyan reagál az alkalmazás az adott hibatípusra?
 * Hogyan naplózza és monitorozza az adott hibatípust?
 
-Az FMA eljárásra vonatkozó további információkért – a kifejezetten az Azure-ra vonatkozó ajánlásokkal együtt – lásd [az Azure rugalmasságáról szóló műszaki útmutató hibaállapot-elemzéssel foglalkozó részét][fma].
+Az FMA eljárásra vonatkozó további információkért – a kifejezetten az Azure-ra vonatkozó ajánlásokkal együtt – lásd [az Azure rugalmasságáról szóló műszaki útmutató hibaállapot-elemzéssel][fma] foglalkozó részét.
 
 ### <a name="example-of-identifying-failure-modes-and-detection-strategy"></a>Példa a hibaállapotok azonosítására és az észlelési stratégiára
 **Meghibásodási pont:** Külső webszolgáltatás/API meghívása.
@@ -159,7 +176,6 @@ Az FMA eljárásra vonatkozó további információkért – a kifejezetten az A
 | Hitelesítés |HTTP 401 (Jogosulatlan) |
 | Lassú válasz |A kérés túllépi az időkorlátot |
 
-
 ### <a name="redundancy-and-designing-for-failure"></a>Redundancia és meghibásodásra felkészült tervezés
 
 A hibák a hatásukat illetően eltérőek lehetnek. Bizonyos hardveres hibák – például egy meghibásodott lemez – csak egyetlen gazdagépet érintenek. Egy meghibásodott hálózati kapcsoló egy teljes kiszolgálószekrényt érinthet. Kevésbé gyakori meghibásodások teljes adatközpontok működését zavarhatják meg, például egy áramkimaradás esetén az adatközpontban. Ritkán egy teljes régió válhat elérhetetlenné.
@@ -168,19 +184,21 @@ Az alkalmazások rugalmasságának egyik legfőbb eleme a redundancia. Ezt a red
 
 Az Azure számos funkciót kínál, amellyel az alkalmazások számára biztosítja a redundanciát a meghibásodások minden szintjén, egyetlen virtuális géptől kezdve egészen a teljes régiókig.
 
-![](./images/redundancy.svg)
+![Az Azure rugalmassági funkciói](./images/redundancy.svg)
 
-**Egyetlen virtuális gép**. Az Azure üzemidőre vonatkozó SLA-t biztosít a virtuális gépekhez. Bár magasabb SLA-t kaphat két vagy több virtuális gép futtatása esetén, egyetlen virtuális gép is elég megbízható lehet bizonyos számítási feladatokhoz. Az éles számítási feladatokhoz két vagy több virtuális gép használatát javasoljuk a redundancia biztosítása érdekében.
+**Egyetlen virtuális gép**. Az Azure [üzemidőre vonatkozó SLA-t](https://azure.microsoft.com/support/legal/sla/virtual-machines) biztosít a virtuális gépekhez. (A virtuális gépnek prémium szintű tárolást kell használnia minden operációsrendszer-lemez és adatlemez esetében.) Bár magasabb SLA-t kaphat két vagy több virtuális gép futtatása esetén, egyetlen virtuális gép is elég megbízható lehet bizonyos számítási feladatokhoz. Az éles számítási feladatokhoz azonban két vagy több virtuális gép használatát javasoljuk a redundancia biztosítása érdekében.
 
 **Rendelkezésre állási csoportok**. A helyi hardverhibák, például lemezek vagy hálózati kapcsolók meghibásodása elleni védelem érdekében helyezzen üzembe két vagy több virtuális gépet egy rendelkezésre állási csoportban. Egy rendelkezésre állási csoport két vagy több *tartalék tartományból* áll, amelyek közös áramforrással és hálózati kapcsolóval rendelkeznek. A rendelkezésre állási csoportban található virtuális gépek el vannak osztva a tartalék tartományok között, ezért ha hardverhiba merül fel az egyik tartalék tartományban, a hálózati forgalom átirányítható a többi tartalék tartományban található virtuális gépekre. További információt a rendelkezésre állási csoportokról [a Windows rendszerű virtuális gépek rendelkezésre állásának az Azure-ban történő kezelését](/azure/virtual-machines/windows/manage-availability) ismertető cikkben talál.
 
-**Rendelkezésre állási zónák**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben.
+**Rendelkezésre állási zónák**.  A rendelkezésre állási zónák egy Azure-régió fizikailag elkülönített zónáit jelentik. Mindegyik rendelkezésre állási zóna különálló áramforrással, hálózattal és hűtéssel rendelkezik. Ha a virtuális gépeket több rendelkezésre állási zónában helyezi üzembe, azzal segít megvédeni az alkalmazásokat a teljes adatközpontra kiterjedő meghibásodásokkal szemben. Nem mindegyik régió támogatja a rendelkezésreállási zónákat. A támogatott régiók és szolgáltatások listáját lásd [az Azure rendelkezésreállási zónáit](/azure/availability-zones/az-overview) ismertető részben.
 
-**Azure Site Recovery**.  Replikálhatja az Azure-beli virtuális gépeket egy másik Azure-régióba az üzletmenet-folytonosság és a vészhelyreállítás érdekében. Időszakos vészhelyreállítási tesztekkel biztosíthatja a követelményeknek való megfelelést. A rendszer a megadott beállításokkal replikálja a virtuális gépet a kiválasztott régióba, így Ön visszaállíthatja alkalmazásait, ha a forrásrégióban leállás történne. További információt az [Azure-beli virtuális gépek ASR használatával történő replikálását ismertető részben][site-recovery] talál.
+Ha rendelkezésreállási zónák használatát tervezi az üzemelő példányban, először ellenőrizze, hogy az alkalmazás architektúrája és kódbázisa támogatja-e ezt a konfigurációt. Ha kereskedelmi forgalomban kapható, használatra kész szoftvert helyez üzembe, forduljon a szoftver gyártójához, és tesztelje alaposan a szoftvert az éles üzembe helyezés előtt. Egy alkalmazásnak fenn kell tartania az állapotot, és meg kell akadályoznia az adatvesztést a konfigurált zónában tapasztalható szolgáltatáskimaradás során. Az alkalmazásnak alkalmasnak kell lennie egy rugalmas és elosztott infrastruktúrában való futtatásra anélkül, hogy a kódbázisban nem módosítható infrastruktúra-összetevők lennének megadva. 
+
+**Azure Site Recovery**.  Replikálhatja az Azure-beli virtuális gépeket egy másik Azure-régióba az üzletmenet-folytonosság és a vészhelyreállítás érdekében. Időszakos vészhelyreállítási tesztekkel biztosíthatja a követelményeknek való megfelelést. A rendszer a megadott beállításokkal replikálja a virtuális gépet a kiválasztott régióba, így Ön visszaállíthatja alkalmazásait, ha a forrásrégióban leállás történne. További információt az [Azure-beli virtuális gépek ASR használatával történő replikálását ismertető részben][site-recovery] talál. Vegye figyelembe a szolgáltatás itt található RTO- és RPO-számát, és a teszteléskor győződjön meg arról, hogy a helyreállítási idő és a helyreállítási pont megfelel az igényeinek.
 
 **Párosított régiók**. Annak érdekében, hogy védelmet nyújtson egy alkalmazás számára regionális kimaradás esetén, helyezze üzembe az alkalmazást egyszerre több régióban, és az Azure Traffic Manager használatával ossza el az internetes forgalmat a különböző régiók között. Minden egyes Azure-régió párban áll egy másikkal. Ezek együtt egy [régiópárt](/azure/best-practices-availability-paired-regions) alkotnak. Dél-Brazília kivételével a régiópárok azonos földrajzi helyen találhatók, hogy adóügyi és törvényi szempontból megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók közötti hálózati késés magasabb, mint egy régión belül. Például, ha egy adatbázist replikál a feladatátvétel támogatása érdekében, használjon szinkron adatreplikációt a régión belül, míg aszinkron adatreplikációt a régiók között.
+Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók közötti hálózati késés magasabb, mint egy régión belül. Például, ha egy adatbázist replikál a feladatátvétel támogatása érdekében, használjon szinkron adatreplikációt a régión belül, míg aszinkron adatreplikációt a régiók között. 
 
 | &nbsp; | Rendelkezésre állási csoport | Rendelkezésre állási zóna | Azure Site Recovery/párosított régió |
 |--------|------------------|-------------------|---------------|
@@ -204,7 +222,7 @@ Mindegyik újrapróbálkozás növeli a teljes késést. Túl sok sikertelen ké
 * Skálázzon fel horizontálisan egy Azure App Service alkalmazást több példányra. Az App Service automatikusan elosztja a terhelést a példányok között. Lásd: [Alapszintű webalkalmazás][ra-basic-web].
 * Az [Azure Traffic Managerrel][tm] ossza el a forgalmat végpontok között.
 
-**Adatok replikálása**. Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Sok tárolótechnológia, mint például az Azure SQL Database, a Cosmos DB és az Apache Cassandra, beépített replikálással rendelkezik. Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával.
+**Adatok replikálása**. Az adatok replikálása egy általános stratégia, amellyel az adattárak nem átmeneti meghibásodásai kezelhetők. Számos tárolótechnológia – mint például az Azure Storage, az Azure SQL Database, a Cosmos DB és az Apache Cassandra – beépített replikálással rendelkezik. Az olvasási és írási útvonalakra egyaránt gondolni kell. A tárolótechnológiától függően rendelkezhet több írható replikával, vagy egy írható és több írásvédett replikával.
 
 A rendelkezésre állás maximalizálása érdekében a replikákat több régióban is el lehet helyezni. Ez azonban növeli az adatok replikálásával járó késést. A régiók közötti replikálás általában aszinkron módon történik, ami végleges konzisztenciájú modellt jelent, valamint azt, hogy egy replika meghibásodása adatveszteséggel járhat.
 

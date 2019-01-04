@@ -5,12 +5,12 @@ description: Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Py
 author: njray
 ms.date: 11/09/2018
 ms.custom: azcat-ai
-ms.openlocfilehash: e2312d1d1d2444f9915f4e6aa067c1487e096d3e
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: e89ba2b2234b651f4d765a46d5244240fe2f0af8
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120356"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011259"
 ---
 # <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a deep learning-modellek az Azure-ban
 
@@ -24,7 +24,7 @@ Ez az architektúra két hivatkozás megvalósításait érhetők el a Githubon,
 
 A referencia-megvalósítások Ez az architektúra használatával két forgatókönyvet mutatják be.
 
-**1. forgatókönyv: Gyakran ismételt kérdések egyező**. Ebből a forgatókönyvből megtudhatja, hogyan helyezhet üzembe egy gyakori kérdések (GYIK) megfelelő modellt webszolgáltatásként, amely felhasználói kérdések adatokat biztosít. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" felhasználói kérdések felel meg a gyakori kérdések listáját tartalmazó szöveges karakterlánc hivatkozik. Ebben a forgatókönyvben készült a [scikit-további] [ scikit] machine learning-kódtár Pythonhoz készült, de bármilyen forgatókönyvhöz, amely a Python-modell segítségével valós idejű előrejelzéseket általánosítva is.
+**1. forgatókönyv: Gyakori kérdések a megfelelő**. Ebből a forgatókönyvből megtudhatja, hogyan helyezhet üzembe egy gyakori kérdések (GYIK) megfelelő modellt webszolgáltatásként, amely felhasználói kérdések adatokat biztosít. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" felhasználói kérdések felel meg a gyakori kérdések listáját tartalmazó szöveges karakterlánc hivatkozik. Ebben a forgatókönyvben készült a [scikit-további] [ scikit] machine learning-kódtár Pythonhoz készült, de bármilyen forgatókönyvhöz, amely a Python-modell segítségével valós idejű előrejelzéseket általánosítva is.
 
 Ebben a forgatókönyvben az adatok egy részét Stack Overflow kérdés, amely tartalmazza az eredeti kérdések, JavaScript, az ismétlődő kérdések és a válaszok címkével használ. Ez betanítja a scikit-ismerje meg a folyamat használatával előrejelzi az egyes az eredeti kérdések a ismétlődő kérdés egyezés valószínűségét. Ezek az előrejelzések egy REST API-végpont használatával valós időben történik.
 
@@ -42,7 +42,7 @@ Az architektúra az alkalmazás folyamata a következőképpen történik:
 
 ![A PéldaAlkalmazás képernyőképe](./_images/python-faq-matches.png)
 
-**2. forgatókönyv: A besorolási kép**. Ez a forgatókönyv bemutatja, hogyan modell üzembe helyezése Konvolúciós Neurális hálózat (CNN) webszolgáltatásként, amely előrejelzéseket meg képeket. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" képfájlok hivatkozik. Cnn-EK nagyon hatékonyak a számítógépes látástechnológiai olyan feladatokhoz, mint a képek besorolása és objektumfelismeréshez. Ebben a forgatókönyvben a keretrendszereket, TensorFlow, a Keras (háttérrendszerrel a tensorflow-hoz) és a PyTorch lett tervezve. Azonban azt is általánosítva bármilyen forgatókönyvhöz, amely valós idejű előrejelzéseket deep learning-modellek segítségével.
+**2. forgatókönyv: Kép besorolási**. Ez a forgatókönyv bemutatja, hogyan modell üzembe helyezése Konvolúciós Neurális hálózat (CNN) webszolgáltatásként, amely előrejelzéseket meg képeket. Ebben a forgatókönyvben az architektúra diagramját "bemeneti adatok" képfájlok hivatkozik. Cnn-EK nagyon hatékonyak a számítógépes látástechnológiai olyan feladatokhoz, mint a képek besorolása és objektumfelismeréshez. Ebben a forgatókönyvben a keretrendszereket, TensorFlow, a Keras (háttérrendszerrel a tensorflow-hoz) és a PyTorch lett tervezve. Azonban azt is általánosítva bármilyen forgatókönyvhöz, amely valós idejű előrejelzéseket deep learning-modellek segítségével.
 
 Ez a forgatókönyv ResNet-152 előre betanított modell előre jelezni az eseménykategóriát épít – 1 K (1000 osztályok) adatkészlet tanított használ (lásd az alábbi ábrát) lemezkép tartozik. Ezek az előrejelzések egy REST API-végpont használatával valós időben történik.
 

@@ -5,12 +5,12 @@ description: Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO)
 author: njray
 ms.date: 04/30/2018
 ms.custom: seodec18
-ms.openlocfilehash: 9dc4eb27f6c2bc8896770a2d0cd01b738c18c593
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 26bf9cadc8db0cd4fcc61023619ca61bb7b87855
+ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120271"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53644155"
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -182,7 +182,7 @@ Az architektúra üzembe helyezéséhez kövesse [az Azure-hoz készült Jenkins
 
 Részletes utasításokért lásd [a Jenkins-kiszolgáló Azure-beli linuxos virtuális gépen az Azure Portalról való létrehozását][create-jenkins] ismertető szakaszt. Ehhez a referenciaarchitektúrához elegendő a kiszolgálót rendszergazdai bejelentkezéssel telepíteni és beüzemelni. Ezután konfigurálhatja, hogy más szolgáltatásokat is futtasson.
 
-### <a name="step-2-set-up-sso"></a>2. lépés: Az egyszeri bejelentkezés beállítása
+### <a name="step-2-set-up-sso"></a>2. lépés: Az egyszeri bejelentkezés beállítása
 
 Ezt a lépést a Jenkins-rendszergazda futtatja, akinek rendelkeznie kell egy felhasználói fiókkal az előfizetés Azure AD könyvtárában, továbbá a Közreműködői szerepkörrel is.
 
@@ -215,6 +215,12 @@ A Jenkins-kiszolgáló monitorozásának konfigurálásához kövesse [az Azure-
 A Microsoft Jenkins terméket fejlesztő csapat által létrehozott vészhelyreállítási szkriptek felügyelt lemezeket hoznak létre a Jenkins állapotának mentéséhez. Ha a kiszolgáló leáll, visszaállítható a legutóbbi állapotára.
 
 Töltse le és futtassa a vészhelyreállítási szkripteket a [GitHubról][disaster].
+
+Érdemes lehet áttekintenie a következő [Azure-példaforgatókönyvet](/azure/architecture/example-scenario), amely az ugyanazon technológiát használó, konkrét megoldásokat mutatja be:
+
+- [CI-/CD-folyamat tárolóalapú számítási feladatokhoz](/azure/architecture/example-scenario/apps/devops-with-aks)
+
+<!-- links -->
 
 [acs]: https://aka.ms/azjenkinsacs
 [ad-sp]: /azure/active-directory/develop/active-directory-integrating-applications
