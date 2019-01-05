@@ -4,18 +4,16 @@ titleSuffix: Cloud Design Patterns
 description: A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt.
 keywords: tervezési minta
 author: dragon119
-ms.date: 06/23/2017
+ms.date: 01/04/2019
 ms.custom: seodec18
-ms.openlocfilehash: f3d4f544a22ec07a651dd1fb1f88bf957134254c
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: cf4f65e935a01e4d84b3cc82b5779edb729bd80e
+ms.sourcegitcommit: 036cd03c39f941567e0de4bae87f4e2aa8c84cf8
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54009423"
+ms.lasthandoff: 01/05/2019
+ms.locfileid: "54058182"
 ---
 # <a name="static-content-hosting-pattern"></a>Statikus tartalom üzemeltetési minta
-
-[!INCLUDE [header](../_includes/header.md)]
 
 A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe, amely közvetlenül az ügyfélnek közvetíti azt. Ezzel csökkenthető a potenciálisan drága számítási példányok igénye.
 
@@ -23,11 +21,11 @@ A statikus tartalmakat egy felhőalapú társzolgáltatásban helyezheti üzembe
 
 A Webalkalmazások rendszerint tartalmazzák a statikus tartalom néhány elemét. A statikus tartalom magában foglalhat HTML-lapokat és más erőforrásokat, például az ügyfél számára hozzáférhető lemezképeket, amelyek vagy a HTML-lapok részei (például a beágyazott képek, a stíluslapok és az ügyféloldali JavaScript-fájlok), vagy külön letölthetőek (például PDF-dokumentumok).
 
-Bár a webkiszolgálók alkalmasak a kérések optimalizálására a hatékony dinamikus weblapkód-végrehajtás és a kimeneti gyorsítótárazás segítségével, továbbra is kezelniük kell a kéréseket a statikus tartalom letöltéséhez. Ez lefoglalja a feldolgozási ciklusokat, amelyek gyakran végezhetnének hasznosabb feladatokat.
+Bár a webkiszolgálók dinamikus renderelési és a kimeneti gyorsítótárazás vannak optimalizálva, azok továbbra is kezelniük kell a kéréseket a statikus tartalom letöltéséhez. Ez lefoglalja a feldolgozási ciklusokat, amelyek gyakran végezhetnének hasznosabb feladatokat.
 
 ## <a name="solution"></a>Megoldás
 
-A legtöbb felhőalapú üzemeltetési környezetben minimalizálni lehet a számítási példányokra való igényt (például használhat egy kisebb példányt vagy kevesebb példányt) azáltal, hogy megkeresi egy alkalmazás bizonyos erőforrásait és statikus lapjait egy adattárolási szolgáltatásban. A felhőben üzemeltetett tárolás költsége általában sokkal alacsonyabb, mint a számítási példányoké.
+A legtöbb felhőalapú üzemeltetési környezeteket elhelyezhet néhányat az alkalmazás erőforrásait és statikus lapjait egy adattárolási szolgáltatásban. A storage szolgáltatás kérelmeket ezekhez az erőforrásokhoz, csökkentve a terhelését, a számítási erőforrások, amelyek más webes kérések kezelésére is szolgálnak. A felhőben üzemeltetett tárolás költsége általában sokkal alacsonyabb, mint a számítási példányoké.
 
 Amikor egy alkalmazás egyes részeit egy tárolási szolgáltatásban üzemelteti, a fő szempontok az alkalmazás telepítésével és az olyan erőforrások védelmével kapcsolatosak, amelyekhez a névtelen felhasználóknak nem szabad hozzáférniük.
 
@@ -41,11 +39,13 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 - A tárfiókok gyakran alapértelmezés szerint georeplikáltak, ami olyan események ellen biztosít védelmet, amelyek hatással lehetnek az adatközpontra. Ez azt jelenti, hogy az IP-cím változhat, de az URL-cím ugyanaz marad.
 
-- Ha egyes tartalmak a tárfiókban, más tartalmak pedig az üzemeltetett számítási példányban találhatók, az megnehezítheti az alkalmazás üzembe helyezését és frissítését. Lehetséges, hogy különálló üzembe helyezéseket kell végeznie, és verziószámmal kell ellátnia az alkalmazást és a tartalmakat, hogy egyszerűbben felügyelhesse azokat – különösen, ha a statikus tartalom parancsfájlokat vagy felhasználói felületi összetevőket is magában foglal. Ha azonban csak statikus erőforrásokat kell frissítenie, akkor egyszerűen feltöltheti őket a tárfiókra anélkül, hogy újból üzembe helyezné az alkalmazáscsomagot.
+- Ha egyes tartalmak a storage-fiókban található, és más tartalmak pedig az üzemeltetett számítási példányban, megnehezítheti üzembe helyezéséhez és az alkalmazás frissítése. Lehetséges, hogy különálló üzembe helyezéseket kell végeznie, és verziószámmal kell ellátnia az alkalmazást és a tartalmakat, hogy egyszerűbben felügyelhesse azokat – különösen, ha a statikus tartalom parancsfájlokat vagy felhasználói felületi összetevőket is magában foglal. Ha azonban csak statikus erőforrásokat kell frissítenie, akkor egyszerűen feltöltheti őket a tárfiókra anélkül, hogy újból üzembe helyezné az alkalmazáscsomagot.
 
 - Előfordulhat, hogy a tárolási szolgáltatások nem támogatják az egyéni tartománynevek használatát. Ebben az esetben fontos az erőforrások teljes URL-címének megadása, mert egy másik tartományban lesznek, mint a hivatkozásokat tartalmazó dinamikusan létrehozott tartalom.
 
-- A tárolókat nyilvános olvasási hozzáféréssel kell konfigurálni, de elengedhetetlen az is, hogy azok ne legyenek nyilvános írási hozzáférésre konfigurálva, hogy a felhasználók ne tudjanak tartalmat feltölteni. Fontolja meg egy pótkulcs vagy egy token használatát, hogy szabályozhassa az olyan erőforrásokhoz való hozzáférést, amelyek nem érhetők el névtelenül – további információ: [Pótkulcs minta](./valet-key.md).
+- A tárolókat nyilvános olvasási hozzáféréssel kell konfigurálni, de elengedhetetlen az is, hogy azok ne legyenek nyilvános írási hozzáférésre konfigurálva, hogy a felhasználók ne tudjanak tartalmat feltölteni.
+
+- Fontolja meg egy pótkulcs vagy egy tokent, amelyek nem érhetők el névtelenül erőforrásokhoz való hozzáférés vezérlése. Tekintse meg a [Pótkulcs minta](./valet-key.md) további információt.
 
 ## <a name="when-to-use-this-pattern"></a>Mikor érdemes ezt a mintát használni?
 
@@ -53,7 +53,7 @@ Ez a minta az alábbi esetekben hasznos:
 
 - A statikus erőforrásokat tartalmazó webhelyek és alkalmazások üzemeltetési költségeinek csökkentése.
 
-- A csak statikus tartalomból és erőforrásokból álló webhelyek üzemeltetési költségeinek csökkentése. Az üzemeltető tárolórendszer képességeitől függően lehetséges egy teljesen statikus webhely üzemeltetése is egy tárfiókban.
+- A csak statikus tartalomból és erőforrásokból álló webhelyek üzemeltetési költségeinek csökkentése. Az üzemeltető tárolórendszer képességeitől függően esetleg a storage-fiókban egy teljesen statikus webhely üzemeltetése.
 
 - Más üzemeltetési környezetben vagy helyszíni kiszolgálókon futó alkalmazások statikus erőforrásainak és tartalmainak felfedése.
 
@@ -69,28 +69,15 @@ Nem érdemes ezt a mintát használni a következő helyzetekben:
 
 ## <a name="example"></a>Példa
 
-Az Azure Blob Storage tárolóban található statikus tartalom közvetlenül elérhető webböngészővel. Az Azure egy HTTP-alapú felületet biztosít a tárolóhoz, amely nyilvánosan megtekinthető az ügyfelek számára. Például az Azure Blob Storage-tárolók tartalma felfedhető egy URL-cím segítségével a következő formában:
+Az Azure Storage támogatja a kiszolgáló statikus tartalom közvetlenül a tárolót. Fájlok fájlnévkiterjesztései névtelen hozzáférés kérelmeket. Alapértelmezés szerint fájlokat URL-címe van tartozó altartományban található `core.windows.net`, mint például `https://contoso.z4.web.core.windows.net/image.png`. Egyéni tartománynév beállítása, és az Azure CDN használatával HTTPS-kapcsolaton keresztül a fájlok eléréséhez. További információkért lásd: [statikus webhely üzemeltetése az Azure Storage](/azure/storage/blobs/storage-blob-static-website).
 
-`https://[ storage-account-name ].blob.core.windows.net/[ container-name ]/[ file-name ]`
+![Az alkalmazás közvetlenül a storage szolgáltatás a statikus összetevők kézbesítése](./_images/static-content-hosting-pattern.png)
 
-A tartalmak feltöltésekor szükséges egy vagy több blobtárolót létrehozni, amely a fájlokat és a dokumentumokat fogja tartalmazni. Vegye figyelembe, hogy az új tárolók alapértelmezett engedélye Privát, ezért ezt módosítania kell Nyilvános engedélyre, hogy az ügyfelek hozzáférhessenek a tartalmakhoz. Ha a tartalmat meg kell védeni a névtelen hozzáféréstől, használhatja a [Pótkulcs mintát](./valet-key.md), így a felhasználóknak egy érvényes tokent kell felmutatniuk az erőforrások letöltéséhez.
+Statikus webhely üzemeltetése elérhetővé teszi a fájlok a névtelen hozzáférés. Szabályozza, ki férhet hozzá a fájlok van szüksége, ha fájlok tárolására az Azure blob storage-ban, és ezután hozza létre [közös hozzáférésű jogosultságkódot](/azure/storage/common/storage-dotnet-shared-access-signature-part-1) a hozzáférés korlátozásához.
 
-> A [Blob szolgáltatással kapcsolatos fogalmak](https://msdn.microsoft.com/library/azure/dd179376.aspx) című rész további információt tartalmaz a Blob Storage-ról, valamint a használatáról és a hozzáféréséről.
+Továbbítja az ügyfélnek az oldalak hivatkozásai az erőforrás teljes URL-címet kell megadnia. Ha az erőforrás, például egy közös hozzáférésű jogosultságkód pótkulcs védi az aláírás az URL-címben szerepelnie kell.
 
-Az oldalakon található hivatkozások határozzák meg az erőforrás URL-címét, és az ügyfél közvetlenül fog hozzáférni a társzolgáltatásból. Az ábra azt mutatja be, hogyan történik a statikus összetevők kézbesítése közvetlenül a társzolgáltatásból.
-
-![1. ábra – A statikus összetevők kézbesítése közvetlenül a társzolgáltatásból.](./_images/static-content-hosting-pattern.png)
-
-A lapokon található és az ügyfélnek kézbesített hivatkozásoknak a blobtároló és az erőforrás teljes URL-címét meg kell határozniuk. Például egy olyan lap, amely egy nyilvános tárolóban lévő képre mutat, az alábbi HTML-címet tartalmazhatja.
-
-```html
-<img src="https://mystorageaccount.blob.core.windows.net/myresources/image1.png"
-     alt="My image" />
-```
-
-> Ha az erőforrások pótkulccsal, például egy Azure közös hozzáférésű jogosultságkóddal védettek, az aláírásnak szerepelnie kell a hivatkozások URL-címeiben.
-
-A StaticContentHosting nevű megoldás, amely bemutatja a külső tároló a statikus erőforrásokkal való használatát, elérhető a [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/static-content-hosting) oldaláról. A StaticContentHosting.Cloud projekt tartalmazza a konfigurációs fájlokat, amelyek megadják a tárfiókot és a tárolót, amely a statikus tartalmat tárolja.
+Egy mintaalkalmazás, amely bemutatja a külső tároló a statikus erőforrásokkal érhető el a [GitHub][sample-app]. Ez a minta konfigurációs fájlok használatával adja meg a tárfiók és tároló, amely a statikus tartalmat tárolja.
 
 ```xml
 <Setting name="StaticContent.StorageConnectionString"
@@ -162,6 +149,8 @@ A Views\Home mappa Index.cshtml fájlja tartalmaz egy képet, amely a `StaticCon
 
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 
-- A [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/static-content-hosting) talál egy, a minta bemutatására szolgáló példát.
-- [Pótkulcs minta](./valet-key.md). Ha nem szeretné, hogy a célként megadott erőforrásokhoz névtelen felhasználók is hozzáférhessenek, akkor konfigurálnia kell a biztonságot a statikus tartalom tárolóján. Leírja, hogyan használhatók a tokenek vagy kulcsok, amelyek korlátozott közvetlen hozzáférést biztosítanak az ügyfelek számára egy adott erőforráshoz vagy szolgáltatáshoz, például egy felhős társzolgáltatáshoz.
-- [A Blob szolgáltatással kapcsolatos fogalmak](https://msdn.microsoft.com/library/azure/dd179376.aspx)
+- [Statikus tartalom üzemeltetési minta][sample-app]. Ez a minta bemutatja egy mintaalkalmazás.
+- [Pótkulcs minta](./valet-key.md). A céloldali erőforrások nem lehet a névtelen felhasználók számára elérhető, ha ez a minta használatával korlátozza a közvetlen hozzáférést.
+- [Az Azure kiszolgáló nélküli webalkalmazás](../reference-architectures/serverless/web-app.md). A referenciaarchitektúra által használt statikus webhely üzemeltetése az Azure Functions használatával kiszolgáló nélküli webalkalmazás megvalósításához.
+
+[sample-app]: https://github.com/mspnp/cloud-design-patterns/tree/master/static-content-hosting

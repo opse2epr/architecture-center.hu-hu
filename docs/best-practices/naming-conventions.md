@@ -5,12 +5,12 @@ description: Virtuális gépek, tárfiókok, hálózatok, virtuális hálózatok
 author: telmosampaio
 ms.date: 10/19/2018
 ms.custom: seodec18
-ms.openlocfilehash: 7cde358bd1e8730f8bda3bbe8c95755f32ec6f9d
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: f0349b5db7eb15037bd92567eaf917b5d044daa0
+ms.sourcegitcommit: 036cd03c39f941567e0de4bae87f4e2aa8c84cf8
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011446"
+ms.lasthandoff: 01/05/2019
+ms.locfileid: "54058199"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -62,7 +62,7 @@ Az elő- és utótagok az adott erőforrások különböző aspektusaira utalhat
 | --- | --- | --- |
 | Környezet |dev, prod, QA (fejlesztői, éles, minőségbiztosítási) |Az erőforrás környezetét határozza meg |
 | Hely |uw (USA nyugati régiója), ue (USA keleti régiója) |A régiót jelöli, amelyben az erőforrás üzembe van helyezve |
-| Példány |01, 02 |Több megnevezett példánnyal rendelkező erőforrásokhoz (webkiszolgálók stb.) |
+| Példány |1, 2... |Az olyan erőforrásokhoz, például virtuális gépeket vagy a hálózati adapterek több megnevezett példánnyal rendelkezik. |
 | Termék vagy szolgáltatás |szolgáltatás |Az erőforrás által támogatott terméket, alkalmazást vagy szolgáltatást jelöli |
 | Szerepkör |sql, web, messaging (sql, web, üzenetkezelés) |A társított erőforrás szerepét jelöli |
 
