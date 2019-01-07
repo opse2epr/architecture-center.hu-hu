@@ -5,12 +5,12 @@ description: Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO)
 author: njray
 ms.date: 04/30/2018
 ms.custom: seodec18
-ms.openlocfilehash: 26bf9cadc8db0cd4fcc61023619ca61bb7b87855
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 3500e05631ad34af0abc8e0f7a3e2b4919157746
+ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644155"
+ms.lasthandoff: 01/04/2019
+ms.locfileid: "54011344"
 ---
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
@@ -44,7 +44,7 @@ Az architektúra az alábbi összetevőkből áll:
 
 - **Felügyelt lemezek**. A [felügyelt lemezek][managed-disk] olyan perzisztens virtuális merevlemezek (VHD), amelyek alkalmazástárolóként, valamint a Jenkins-kiszolgáló állapotának fenntartásához és vészhelyreállításhoz használhatók. Az adatlemezeket az Azure Storage tárolja. A jobb teljesítmény érdekében [Prémium szintű Storage-tárolók][premium] használata ajánlott.
 
-- **Azure Blob Storage**. A [Windows Azure Storage beépülő modulja][configure-storage] az Azure Blob Storage segítségével tárolja a létrehozott és más Jenkins-buildekkel megosztott build-összetevőket.
+- **Azure Blob Storage**. A [Microsoft Azure Storage beépülő modul][configure-storage] az Azure Blob Storage segítségével tárolja a létrehozott és más Jenkins-buildekkel megosztott build-összetevőket.
 
 - **Azure Active Directory (Azure AD)**. Az [Azure AD][azure-ad] támogatja a felhasználók hitelesítését, így lehetővé teszi az egyszeri bejelentkezés beállítását. Az Azure AD [szolgáltatásnevei][service-principal] [szerepköralapú hozzáférés-vezérlés][rbac] (RBAC) segítségével határozzák meg a munkafolyamat egyes szerepkör-engedélyezéseire vonatkozó szabályzatokat és engedélyeket. Mindegyik egyszerű szolgáltatás társítva van egy Jenkins-feladattal.
 
@@ -192,7 +192,7 @@ Használja a Jenkins-kiszolgálón, a Jenkins frissítési központjába találh
 
 Ezt a lépést a Jenkins-rendszergazda futtatja a már telepített Azure VM Agent beépülő modul konfigurálása érdekében.
 
-[A beépülő modul konfigurálásához kövesse ezeket a lépéseket][configure-agent]. A beépülő modulhoz telepítendő egyszerű szolgáltatásokkal kapcsolatos oktatóanyagért olvassa át [a Jenkins üzemi környezetek az igényeknek való megfelelés érdekében az Azure VM-ügynökökkel történő skálázását][scale-agent] ismertető szakaszt.
+[A beépülő modul konfigurálásához kövesse ezeket a lépéseket][configure-agent]. A beépülő modulhoz beállítandó szolgáltatásnevekkel kapcsolatos oktatóanyagért olvassa át [A Jenkins üzemelő példányainak igény szerinti skálázása Azure VM-ügynökökkel][scale-agent] című részt.
 
 ### <a name="step-4-provision-jenkins-server-with-azure-storage"></a>4. lépés: A Jenkins-kiszolgáló konfigurálása az Azure Storage szolgáltatással
 
