@@ -1,14 +1,14 @@
 ---
 title: Az Azure Resource Manager-sablon funkciójának bővítése
-description: Az Azure Resource Manager-sablon funkciójának bővítésére vonatkozó tippeket és trükköket ismertet
+description: Az Azure Resource Manager-sablon funkciójának bővítésére vonatkozó tippeket és trükköket ismertet.
 author: petertay
 ms.date: 06/09/2017
-ms.openlocfilehash: 33ae6850ffa5b28108f30475804be5347859f0c3
-ms.sourcegitcommit: ea7108f71dab09175ff69322874d1bcba800a37a
+ms.openlocfilehash: 725013df3d0551060a9f504da7a97cdc370f956a
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/17/2018
-ms.locfileid: "29963193"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111376"
 ---
 # <a name="extend-azure-resource-manager-template-functionality"></a>Az Azure Resource Manager-sablon funkciójának bővítése
 
