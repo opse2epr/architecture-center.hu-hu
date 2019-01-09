@@ -2,12 +2,12 @@
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 08/30/2018
-ms.openlocfilehash: a1cac753d384c0fee0af204cddaeea1e63213b9f
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.openlocfilehash: ce1642f237cfae579cc987777c61c8d6eabff571
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325859"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113875"
 ---
 # <a name="azure-application-architecture-guide"></a>Útmutató az Azure alkalmazásarchitektúrájához
 
@@ -15,9 +15,11 @@ Ez az útmutató egy strukturált megközelítést mutat be az Azure-on futó sk
 
 ## <a name="introduction"></a>Bevezetés
 
-A felhő megváltoztatja az alkalmazások tervezésének módját. Az egybefüggő kódtömbök helyett az alkalmazások kisebb, decentralizált szolgáltatásokra vannak bontva. Ezek a szolgáltatások API-kkal, vagy aszinkron üzenetküldéssel és eseménykezeléssel kommunikálnak egymással. Az alkalmazások horizontálisan skálázhatók és igény szerint új példányokkal bővíthetők. 
+A felhő megváltoztatja az alkalmazások tervezésének módját. Az egybefüggő kódtömbök helyett az alkalmazások kisebb, decentralizált szolgáltatásokra vannak bontva. Ezek a szolgáltatások API-kkal, vagy aszinkron üzenetküldéssel és eseménykezeléssel kommunikálnak egymással. Az alkalmazások horizontálisan skálázhatók és igény szerint új példányokkal bővíthetők.
 
-Ezek a trendek új kihívásokat támasztanak felénk. Az alkalmazás elosztott állapotú. A műveletek párhuzamosan és aszinkron módon zajlanak. Hibák esetén az egész rendszernek rugalmasnak kell lennie. Az üzemelő példányoknak automatizáltnak és kiszámíthatónak kell lenniük. A monitorozás és a telemetria kritikus fontosságú a rendszer működésébe való betekintés szempontjából. Az Útmutató az Azure alkalmazásarchitektúrájához célja, hogy segítsen Önnek eligazodni ezen változások között. 
+Ezek a trendek új kihívásokat támasztanak felénk. Az alkalmazás elosztott állapotú. A műveletek párhuzamosan és aszinkron módon zajlanak. Hibák esetén az egész rendszernek rugalmasnak kell lennie. Az üzemelő példányoknak automatizáltnak és kiszámíthatónak kell lenniük. A monitorozás és a telemetria kritikus fontosságú a rendszer működésébe való betekintés szempontjából. Az Útmutató az Azure alkalmazásarchitektúrájához célja, hogy segítsen Önnek eligazodni ezen változások között.
+
+<!-- markdownlint-disable MD033 -->
 
 <table>
 <thead>
@@ -47,6 +49,8 @@ Nem módosítható infrastruktúra<br/>
 </tbody>
 </table>
 
+<!-- markdownlint-enable MD033 -->
+
 A jelen útmutató alkalmazásmérnökök, fejlesztők és üzemeltetési csapatok számára készült. Nem az egyes Azure-szolgáltatások használati útmutatója. Az útmutató elolvasásával megismerheti az alkalmazások Azure-felhőplatformon való létrehozásakor érvényes architektúramintákat és ajánlott eljárásokat. Az [útmutató e-könyv verzióját][ebook] is letöltheti.
 
 ## <a name="how-this-guide-is-structured"></a>Az útmutató felépítése
@@ -63,7 +67,7 @@ További információ:
 
 ### <a name="technology-choices"></a>Technológiai lehetőségek
 
-Két technológiai döntést már a legelején meg kell hozni, mivel ezek a teljes architektúrára hatással vannak. Ez a két döntés pedig nem más, mint a számítási szolgáltatás és az adattárak kiválasztása. A *számítás* azon számítási erőforrások üzemeltetési modelljére utal, amelyeken az alkalmazások futnak. Az *adattárak* közé tartoznak az adatbázisok, valamint az üzenetsorokhoz, a gyorsítótárakhoz, a naplókhoz és az alkalmazás által megőrizni kívánt bármely egyéb adathoz használt tárolók is. 
+Két technológiai döntést már a legelején meg kell hozni, mivel ezek a teljes architektúrára hatással vannak. Ez a két döntés pedig nem más, mint a számítási szolgáltatás és az adattárak kiválasztása. A *számítás* azon számítási erőforrások üzemeltetési modelljére utal, amelyeken az alkalmazások futnak. Az *adattárak* közé tartoznak az adatbázisok, valamint az üzenetsorokhoz, a gyorsítótárakhoz, a naplókhoz és az alkalmazás által megőrizni kívánt bármely egyéb adathoz használt tárolók is.
 
 További információ:
 
@@ -78,12 +82,10 @@ További információ:
 
 - [Tervezési alapelvek](./design-principles/index.md)
 
-
 ### <a name="quality-pillars"></a>A minőség alappillérei
 
 Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérére koncentrál: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság. Tervezés-áttekintési ellenőrzőlistáink segítségével ellenőrizheti, hogy az architektúra megfelel-e ezeknek a minőségi alappilléreknek.
 
 - [A minőség alappillérei](./pillars.md)
-
 
 [ebook]: https://azure.microsoft.com/campaigns/cloud-application-architecture-guide/
