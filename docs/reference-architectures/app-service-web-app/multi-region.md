@@ -5,12 +5,12 @@ description: Több régióban az Azure-ban futó magas rendelkezésre állású 
 author: MikeWasson
 ms.date: 10/25/2018
 ms.custom: seodec18
-ms.openlocfilehash: 3093deb0b2057d5370b3f57f6067b00dc58c6b9e
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 04ba786ea16aa3245a8f0b7fcafeacc60ac447c2
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011242"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113331"
 ---
 # <a name="run-a-web-application-in-multiple-azure-regions-for-high-availability"></a>Webalkalmazás futtatása több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -147,7 +147,7 @@ Ha az elsődleges adatbázis meghibásodik, hajtson végre manuális feladatátv
 
 <!-- links -->
 
-[azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
+[azure-sql-db]: /azure/sql-database/
 [azure-dns]: /azure/dns/dns-overview
 [cosmosdb-geo]: /azure/cosmos-db/distribute-data-globally
 [guidance-web-apps-scalability]: ./scalable-web-app.md

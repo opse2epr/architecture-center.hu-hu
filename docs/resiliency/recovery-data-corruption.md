@@ -1,16 +1,16 @@
 ---
 title: Helyreállítás adatsérülés vagy véletlen törlés
-description: A helyreállítás adatsérülés adatok vagy véletlen törlés és a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási adatbázisból ismertető cikk
+description: Helyreállítás adatsérülés adatok vagy véletlen törlés és a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási alapos ismerete.
 author: MikeWasson
 ms.date: 11/11/2018
-ms.openlocfilehash: 22f74576fdc954851d131b31e3f9c44f5fcb7e36
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 40379f32c6af47002e897c28392816fa1578502a
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54010071"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111257"
 ---
-# <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés 
+# <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés
 
 Ha az adatok beolvasása sérült vagy véletlenül törölt egy robusztus üzletmenet folytonosságát biztosító terve részeként tapasztalja csomagot. Az alábbiakban látható helyreállítási információk után adatok sérült vagy véletlenül törölt alkalmazáshibák vagy operátor hiba miatt.
 
@@ -20,7 +20,7 @@ Azure Virtual Machines (VM) az alkalmazáshibák vagy véletlen törlés elleni 
 
 ## <a name="storage"></a>Storage
 
-Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatikus replikációval. Azonban ez nem akadályozza alkalmazáskód vagy a felhasználók hibás adatokból, hogy véletlenül vagy kártételi. Fejlett technikák, például az adatok másolásának auditálási naplóba kerülnek a másodlagos tárolóhelyre karbantartása adathűséget alkalmazás vagy felhasználó hiba esetén van szükség. 
+Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatikus replikációval. Azonban ez nem akadályozza alkalmazáskód vagy a felhasználók hibás adatokból, hogy véletlenül vagy kártételi. Fejlett technikák, például az adatok másolásának auditálási naplóba kerülnek a másodlagos tárolóhelyre karbantartása adathűséget alkalmazás vagy felhasználó hiba esetén van szükség.
 
 - **Blokkblobok**. Minden egyes blokkblob időponthoz pillanatkép létrehozása. További információkért lásd: [létrehozása egy pillanatképet egy Blobról](/rest/api/storageservices/creating-a-snapshot-of-a-blob). Minden pillanatkép csak díjkötelesek a különbségek a blobon belüli tárolására, mivel az utolsó pillanatkép állapota szükséges tárhelyet. A pillanatképek függenek létezik-e az eredeti blob azok alapulnak, így célszerű a másolási műveletek egy másik blob vagy akár egy másik tárfiókba. Ez biztosítja, hogy a biztonsági mentési adatokat megfelelően védett véletlen törlése ellen. Használhat [AzCopy](/azure/storage/common/storage-use-azcopy) vagy [Azure PowerShell-lel](/azure/storage/common/storage-powershell-guide-full) a blobok másolása egy másik tárfiókba.
 
@@ -30,7 +30,7 @@ Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatiku
 
 ## <a name="database"></a>Adatbázis
 
-### <a name="azure-sql-database"></a>Azure SQL Database 
+### <a name="azure-sql-database"></a>Azure SQL Database
 
 Az SQL Database automatikusan végrehajtja az adatbázis teljes biztonsági mentését hetente, különbözeti adatbázis biztonsági mentését óránként, és a tranzakciós jelentkezzen biztonsági mentések minden öt - tíz percet üzleti adatai védelméről adatvesztéssel szemben. Időponthoz visszaállítás, visszaállítás adatbázist használnak egy korábbi időpontra. További információkért lásd:
 
@@ -53,4 +53,3 @@ Azure Database for MySQL vagy az Azure-adatbázis használatával a PostgreSQL-h
 - [Hogyan biztonsági mentése és visszaállítása egy kiszolgálót az Azure Database for MySQL-hez az Azure portal használatával](/azure/mysql/howto-restore-server-portal)
 
 - [Egy Azure Database for PostgreSQL-kiszolgáló biztonsági mentése és visszaállítása az Azure Portal használatával](/azure/postgresql/howto-restore-server-portal)
-

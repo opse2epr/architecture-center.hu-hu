@@ -6,12 +6,12 @@ keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 ms.custom: seodec18
-ms.openlocfilehash: d8c31831be21bc7328202f1accc95241232574cb
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: b268000a81edbb2f224a9244d5949def75854f04
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54009986"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110357"
 ---
 # <a name="federated-identity-pattern"></a>Összevont identitás mintája
 
@@ -92,5 +92,5 @@ A bérlőknek nem kell emlékezniük a különböző hitelesítő adataikra az a
 - [Microsoft Azure Active Directory](https://azure.microsoft.com/services/active-directory/)
 - [Active Directory Domain Services](https://msdn.microsoft.com/library/bb897402.aspx)
 - [Active Directory összevonási szolgáltatások](https://msdn.microsoft.com/library/bb897402.aspx)
-- [Több-bérlős alkalmazások identitáskezelése a Microsoft Azure-ban](https://azure.microsoft.com/documentation/articles/guidance-multitenant-identity/)
-- [Több-bérlős alkalmazások az Azure-ban](https://azure.microsoft.com/documentation/articles/dotnet-develop-multitenant-applications/)
+- [Több-bérlős alkalmazások identitáskezelése a Microsoft Azure-ban](/azure/architecture/multitenant-identity)
+- [Több-bérlős alkalmazások az Azure-ban](/azure/dotnet-develop-multitenant-applications)

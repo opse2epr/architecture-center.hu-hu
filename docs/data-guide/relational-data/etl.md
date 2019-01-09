@@ -3,12 +3,12 @@ title: Kinyerés, átalakítás és betöltés (ETL)
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 6f56da72bd7a93ecd40b0be2a19e93d9062038fb
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: b23e1ab35f278bd8e1b203cd0026ee356be022dc
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901541"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113433"
 ---
 # <a name="extract-transform-and-load-etl"></a>Kinyerés, átalakítás és betöltés (ETL)
 
@@ -16,7 +16,7 @@ Gyakori probléma, hogy a szervezetek között, hogyan összegyűjtéséhez az a
 
 Különböző eszközök, szolgáltatások és folyamatok fejlesztettek ki az évek, hogy segítse ezek a kihívások. Függetlenül attól, hogy a használt folyamat koordinálja a munkahelyi és a alkalmazni az adatok folyamaton belül átalakítását bizonyos fokú közös szükség van. A következő szakaszok kiemelnek a gyakran használt módszerek a műveletek végrehajtásához használt.
 
-## <a name="extract-transform-and-load-etl"></a>Kinyerés, átalakítás és betöltés (ETL)
+## <a name="extract-transform-and-load-etl-process"></a>A kinyerési, átalakítási és betöltési (ETL) folyamat
 
 Kinyerési, átalakítási és betöltési (ETL) egy adatfolyamat használt különböző forrásokból származó adatok összegyűjtése, üzleti szabályok szerint az adatok átalakítása és betöltése a célként megadott adattárba. Az ETL átalakítási munka történik, egy speciális motor, és gyakran magában foglalja a használatával ideiglenesen fenntartási adatok előkészítési táblák folyamatban van átalakíthatók, és végső soron a rendeltetési betöltve.
 
@@ -27,9 +27,11 @@ Az Adatátalakítási, amely általában magában foglalja a különféle művel
 Az ETL három fázisra gyakran időt takaríthat meg párhuzamosan futnak. Például adatok kibontása van folyamatban, amíg egy átalakítási folyamat sikerült dolgozik a már fogadott adatok és előkészíthető a betöltési, és a betöltési folyamat elkezdheti az előkészített adatokat a nem várja meg a teljes kinyerési folyamat befejezéséhez.
 
 Kapcsolódó Azure-szolgáltatás:
+
 - [Az Azure Data Factory v2-ben](https://azure.microsoft.com/services/data-factory/)
 
 Más eszközök:
+
 - [Az SQL Server Integration Services (SSIS)](/sql/integration-services/sql-server-integration-services)
 
 ## <a name="extract-load-and-transform-elt"></a>A kinyerési, betöltési és átalakítási (ELT)
@@ -40,11 +42,11 @@ A kinyerési, betöltési és átalakítási (ELT) eltér a ETL kizárólag a Ha
 
 A big Data típusú adatok tartomány ELT a tipikus használati esetek tartoznak. Például előfordulhat, hogy lépésként a forrásadatok egybesimított fájlokba, például a Hadoop elosztott fájlrendszer (HDFS) méretezhető storage-ban vagy az Azure Data Lake Store az összes kibontása. Technológiák, például a Spark, Hive és a PolyBase majd az adatok lekérdezéséhez használható. A lényeg az ELT, hogy az átalakítás végrehajtásához használt adattárak, végső soron használt adatok ugyanabban az adattárban. Az adattár közvetlenül a méretezhető tárhely, ahelyett, hogy az adatok betöltése a saját szellemi tulajdont képező storage-bA olvassa be. Ez a módszer az adatok másolása lépés szerepel az ETL-kihagyja az is lehet, amely egy nagy méretű adatkészletekhez időigényes művelet.
 
-A gyakorlatban a célzott adattár van egy [adatraktár](./data-warehousing.md) egy Hadoop-fürtöt (a Hive- vagy Spark) és a egy SQL Data Warehouse használatával. Általában egy sémát az egybesimított fájl adatokon lekérdezéskor átfedésben és táblázatként, az adatokat lehet lekérdezni, mint bármely más táblázat a data Store engedélyezése tárolja. Ezek neve, a külső táblákra, mert az adatok nem találhatók az adatok által felügyelt tárolási tárolására magát, de néhány külső tárhelyen, méretezhető. 
+A gyakorlatban a célzott adattár van egy [adatraktár](./data-warehousing.md) egy Hadoop-fürtöt (a Hive- vagy Spark) és a egy SQL Data Warehouse használatával. Általában egy sémát az egybesimított fájl adatokon lekérdezéskor átfedésben és táblázatként, az adatokat lehet lekérdezni, mint bármely más táblázat a data Store engedélyezése tárolja. Ezek neve, a külső táblákra, mert az adatok nem találhatók az adatok által felügyelt tárolási tárolására magát, de néhány külső tárhelyen, méretezhető.
 
 Az adattár csak kezeli a séma az adatok, és alkalmazza a séma olvasása. Például a Hive használatával egy Hadoop-fürt le egy Hive-táblába, ahol az adatforrás lényegében a fájlokat a HDFS elérési útját. Az SQL Data Warehouse PolyBase ugyanaz az eredmény érhető el &mdash; külsőleg magában az adatbázisban tárolt adatokon, tábla létrehozása. Az adatok betöltése után a külső táblák adatok lehet feldolgozni az adattár képességeit. A big data jellegű alkalmazási Ez azt jelenti, hogy az adattár nagymértékben párhuzamos feldolgozási (MPP), amely működésképtelenné válik az adatok szeletekre, és párhuzamosan több gép között osztja el a feldolgozási az adattömbök képesnek kell lennie.
 
-Utolsó szakaszában az ELT folyamatok általában, hogy az adatok átalakítása a végleges formátumra, amely a típusú támogatott lekérdezések esetében hatékonyabb. Például előfordulhat, hogy lehet particionálni az adatokat. ELT is, Parquet, amely tárolja az adatokat soralapú Oszlopalapú módon és optimalizált providess indexelő tárolás tartalomfolyamokat használhatja. 
+Utolsó szakaszában az ELT folyamatok általában, hogy az adatok átalakítása a végleges formátumra, amely a típusú támogatott lekérdezések esetében hatékonyabb. Például előfordulhat, hogy lehet particionálni az adatokat. ELT is, Parquet, amely tárolja az adatokat soralapú Oszlopalapú módon és optimalizált providess indexelő tárolás tartalomfolyamokat használhatja.
 
 Kapcsolódó Azure-szolgáltatás:
 
@@ -68,9 +70,11 @@ Vezérlő folyamatok adatfolyamok feladatként hajtható végre. Egy adatfolyam-
 A fenti ábrán vannak átvitelvezérlés, amelyek egyike egy adatfolyam-feladat belül több feladat. Az egyik feladat van beágyazva egy tárolót. Tárolók struktúrát feladatokhoz, így az adott munkaegység használható. Ilyen például az ismétlődő elemeket, például egy mappa vagy adatbázis utasításokban a gyűjteményen belül van.
 
 Kapcsolódó Azure-szolgáltatás:
+
 - [Az Azure Data Factory v2-ben](https://azure.microsoft.com/services/data-factory/)
 
 Más eszközök:
+
 - [Az SQL Server Integration Services (SSIS)](/sql/integration-services/sql-server-integration-services)
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek

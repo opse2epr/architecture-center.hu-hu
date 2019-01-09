@@ -1,17 +1,14 @@
 ---
 title: A Tailspin Surveys-alkalmazásról
-description: Tailspin Surveys alkalmazás áttekintése
+description: A Tailspin Surveys alkalmazás áttekintése.
 author: MikeWasson
 ms.date: 07/21/2017
-pnp.series.title: Manage Identity in Multitenant Applications
-pnp.series.prev: index
-pnp.series.next: authenticate
-ms.openlocfilehash: a1c357bd1b5306d1255c66aaea96d86be55e7b77
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 95e170c584b8ec5694be69e595b7791c1bcdfdc0
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902068"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111461"
 ---
 # <a name="the-tailspin-scenario"></a>A Tailspin forgatókönyv
 
@@ -25,10 +22,9 @@ Tailspin Surveys nevű SaaS-alkalmazás által fejlesztett, kitalált vállalat.
 
 > [!NOTE]
 > Az alkalmazás használatának megkezdéséhez lásd [a Surveys alkalmazás futtatása].
-> 
-> 
 
 ## <a name="users-can-create-edit-and-view-surveys"></a>Felhasználók létrehozása, szerkesztése és felmérések megtekintése
+
 Egy hitelesített felhasználó megtekintheti a felmérések, ő hozott létre, vagy közreműködői jogosultságokkal rendelkezik, és hozzon létre új felmérések. Figyelje meg, hogy a felhasználó szervezeti identitására van bejelentkezve `bob@contoso.com`.
 
 ![Felmérésekben app](./images/surveys-screenshot.png)
@@ -42,7 +38,8 @@ Felhasználók is megtekintheti az ugyanazon bérlőn belüli más felhasználó
 ![Bérlő felmérések](./images/tenant-surveys.png)
 
 ## <a name="survey-owners-can-invite-contributors"></a>Felmérés tulajdonosok közreműködők küldhetnek meghívót
-Amikor egy felhasználó létrehoz egy kérdőív, meghívhatja mások számára is a felmérést közreműködőkkel. A közreműködők a felmérést, szerkesztése, de nem törölheti vagy tegye közzé.  
+
+Amikor egy felhasználó létrehoz egy kérdőív, meghívhatja mások számára is a felmérést közreműködőkkel. A közreműködők a felmérést, szerkesztése, de nem törölheti vagy tegye közzé.
 
 ![Adja hozzá a közreműködő](./images/add-contributor.png)
 
@@ -55,6 +52,7 @@ Alice bejelentkezik, hitelkártyaadatokat "Felmérések is hozzájárul" részen
 Vegye figyelembe, hogy Ágnes bejelentkezik a saját bérlőjében, nem a Contoso bérlő vendégként. Alice csak a felmérés közreműködői engedélyekkel rendelkezik &mdash; nem látja a Contoso bérlőről más felmérések.
 
 ## <a name="architecture"></a>Architektúra
+
 A Surveys alkalmazás webes kezelőfelületből és a webes API-háttérrendszer áll. Mindkettő használatával megvalósított [ASP.NET Core].
 
 A webalkalmazás az Azure Active Directory (Azure AD) használatával hitelesítheti a felhasználókat. A webes alkalmazás is meghívja az Azure AD OAuth 2 hozzáférési jogkivonatok beolvasásához a webes API-hoz. Hozzáférési jogkivonatok az Azure Redis Cache-ben lettek gyorsítótárazva. A gyorsítótár lehetővé teszi több példány megosztása (például a kiszolgálófarmban) azonos tokengyorsítótárral.
@@ -63,7 +61,7 @@ A webalkalmazás az Azure Active Directory (Azure AD) használatával hitelesít
 
 [**Tovább**][authentication]
 
-<!-- Links -->
+<!-- links -->
 
 [authentication]: authenticate.md
 

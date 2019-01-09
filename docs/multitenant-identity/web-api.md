@@ -1,17 +1,17 @@
 ---
 title: Egy több-bérlős alkalmazásban a háttéralkalmazás webes API biztonságossá tétele
-description: Egy háttéralkalmazás webes API biztonságossá tétele
+description: Hogyan teheti biztonságossá a háttéralkalmazás webes API-t.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authorize
 pnp.series.next: token-cache
-ms.openlocfilehash: e738eb94b5978efa4e7a4bebcc72daa7968ac904
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 517bdbb6e1a1063db9337b63905e2ff5f4bdd4d4
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901592"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114028"
 ---
 # <a name="secure-a-backend-web-api"></a>Egy háttéralkalmazás webes API biztonságossá tétele
 
@@ -19,13 +19,13 @@ ms.locfileid: "52901592"
 
 A [Tailspin Surveys] alkalmazás felmérések CRUD-műveletek kezelésére egy háttéralkalmazás webes API-t használ. Például ha egy felhasználó a "Saját felmérések" kattint, a webes alkalmazás HTTP-kérelmet küld a webes API-hoz:
 
-```
+```http
 GET /users/{userId}/surveys
 ```
 
 A webes API-t egy JSON-objektumot ad vissza:
 
-```
+```http
 {
   "Published":[],
   "Own":[
@@ -40,8 +40,6 @@ A webes API nem engedélyezi a névtelen kérésekkel, így a web app hitelesít
 
 > [!NOTE]
 > Ez a forgatókönyv kiszolgálók. Az alkalmazás nem derül összes AJAX hívás a böngésző ügyfélről az API-hoz.
-> 
-> 
 
 Nincsenek két fő megközelítés közül választhat:
 
@@ -50,7 +48,7 @@ Nincsenek két fő megközelítés közül választhat:
 
 A Tailspin alkalmazás megvalósítja a felhasználó delegált identitása. Az alábbiakban a fő különbség:
 
-**Delegált felhasználói identitás**
+**Delegált felhasználói identitás:**
 
 * A webes API-nak küldött tulajdonosi jogkivonat tartalmazza a felhasználó identitását.
 * A webes API lehetővé teszi a felhasználó identitása alapján felhasználását engedélyezési döntésekhez.
@@ -58,7 +56,7 @@ A Tailspin alkalmazás megvalósítja a felhasználó delegált identitása. Az 
 * Általában a webalkalmazás továbbra is lehetővé teszi bizonyos felhasználását engedélyezési döntésekhez, amelyek befolyásolják a felhasználói felület, például a Megjelenítés vagy elrejtés a felhasználói felületi elemeket).
 * A webes API potenciálisan nem megbízható ügyfelek, például egy JavaScript-alkalmazását vagy egy natív ügyfélalkalmazás által használható.
 
-**Identita aplikace**
+**Identita aplikace:**
 
 * A webes API-k nem kap a felhasználó adatait.
 * A webes API-k nem hajtható végre a felhasználó identitása alapján engedélyezés. Az összes engedélyezési döntéseket a webes alkalmazás.  
@@ -75,23 +73,25 @@ Ez a cikk többi része feltételezi, hogy az Azure AD hitelesíti magát az alk
 ![A hozzáférési jogkivonat beolvasása](./images/access-token.png)
 
 ## <a name="register-the-web-api-in-azure-ad"></a>A webes API regisztrálása az Azure ad-ben
+
 Ahhoz, hogy a webes API tulajdonosi jogkivonatok kiállítása az Azure AD, a konfigurálása az Azure ad-ben a következőkre kell.
 
 1. A webes API regisztrálása az Azure ad-ben.
 
 2. A webalkalmazás az ügyfél-azonosító hozzáadása a webes API-k alkalmazásjegyzékhez a a `knownClientApplications` tulajdonság. Lásd: [Frissítse az alkalmazásjegyzékeket].
 
-3. Engedélyezheti a webes alkalmazás számára a webes API hívása. Az Azure felügyeleti portálján, beállíthatja az engedélyek két típusú: "Alkalmazásengedélyek" identita aplikace (ügyfél-hitelesítő adatok folyamata) vagy a "Delegált engedélyek" meghatalmazott felhasználói identitás.
-   
+3. Engedélyezheti a webes alkalmazás számára a webes API hívása. Az Azure felügyeleti portálján, az engedélyek két típusú állíthatja be: "Alkalmazásengedélyek" identita aplikace (ügyfél-hitelesítő adat folyamat), vagy a "Delegált engedélyek" a delegált felhasználó identitását.
+
    ![Delegált engedélyek](./images/delegated-permissions.png)
 
 ## <a name="getting-an-access-token"></a>Hozzáférési jogkivonat beolvasása
+
 Előtt hívja meg a webes API-t, a webes alkalmazás lekérése hozzáférési token Azure ad-ben. A .NET-alkalmazás, használja a [az Azure AD Authentication Library (ADAL) for .NET][ADAL].
 
 Az OAuth 2 engedélyezési kód folyamata az alkalmazás hozzáférési jogkivonat egy engedélyezési kódjának adatcseréihez használható. A következő kódot használ adal-t beszerezni a hozzáférési jogkivonatot. Ez a kód nevezzük során a `AuthorizationCodeReceived` esemény.
 
 ```csharp
-// The OpenID Connect middleware sends this event when it gets the authorization code.   
+// The OpenID Connect middleware sends this event when it gets the authorization code.
 public override async Task AuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
 {
     string authorizationCode = context.ProtocolMessage.Code;
@@ -127,9 +127,10 @@ var result = await authContext.AcquireTokenSilentAsync(resourceID, credential, n
 ahol `userId` van a felhasználói objektum azonosítója, amely megtalálható a `http://schemas.microsoft.com/identity/claims/objectidentifier` jogcím.
 
 ## <a name="using-the-access-token-to-call-the-web-api"></a>A hozzáférési token használatával a webes API meghívásához
+
 Miután a jogkivonatot, küldje el a HTTP-kérések az engedélyezési fejléc a webes API-hoz.
 
-```
+```http
 Authorization: Bearer xxxxxxxxxx
 ```
 
@@ -155,6 +156,7 @@ public static async Task<HttpResponseMessage> SendRequestWithBearerTokenAsync(th
 ```
 
 ## <a name="authenticating-in-the-web-api"></a>A webes API hitelesítése
+
 A webes API rendelkezik tulajdonosi jogkivonat hitelesítéséhez. Az ASP.NET Core, használhat a [Microsoft.AspNet.Authentication.JwtBearer] [ JwtBearer] csomagot. Ez a csomag biztosít közbenső szoftvert, amely lehetővé teszi az alkalmazás OpenID Connect tulajdonosi jogkivonatokat fogadni.
 
 A webes API regisztrálása a közbenső szoftver `Startup` osztály.
@@ -172,7 +174,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, Applicat
         },
         Events= new SurveysJwtBearerEvents(loggerFactory.CreateLogger<SurveysJwtBearerEvents>())
     });
-    
+
     // ...
 }
 ```
@@ -183,6 +185,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, Applicat
 * **Események** egy osztály, amely származó **JwtBearerEvents**.
 
 ### <a name="issuer-validation"></a>Kibocsátó érvényesítése
+
 Az a tokenkiállító ellenőrzését a **JwtBearerEvents.TokenValidated** esemény. A kiállító a "iss" jogcímek zajlik.
 
 A Surveys alkalmazás, az a webes API-k nem kezeli az [bérlői feliratkozás]. Ezért azt csak ellenőrzi, hogy a kibocsátó már az alkalmazás-adatbázis. Ha nem, akkor kivételt jelez, amely-hitelesítés sikertelen.
@@ -221,7 +224,8 @@ public override async Task TokenValidated(TokenValidatedContext context)
 Mivel ez a példa bemutatja, is használhatja a **TokenValidated** eseményhez, és módosíthatja a jogcímeket. Ne feledje, hogy a jogcímek származnak, közvetlenül az Azure ad-ből. A webes alkalmazás módosítja a jogcímeket kap, ha ezek a módosítások nem jelennek meg a tulajdonosi jogkivonat, amely megkapja a webes API-t. További információkért lásd: [jogcím-átalakítást][claims-transformation].
 
 ## <a name="authorization"></a>Engedélyezés
-Általános engedélyezési, lásd: [szerepkör- és erőforrás-alapú hitelesítés][Authorization]. 
+
+Általános engedélyezési, lásd: [szerepkör- és erőforrás-alapú hitelesítés][Authorization].
 
 A JwtBearer közbenső kezeli a hitelesítési válaszokat. Például korlátozhatja egy vezérlő művelet a hitelesített felhasználók számára, használja a **[engedélyezés]** atrribute, és adja meg **JwtBearerDefaults.AuthenticationScheme** hitelesítési sémát:
 
@@ -248,18 +252,18 @@ public void ConfigureServices(IServiceCollection services)
             policy =>
             {
                 policy.AddRequirements(new SurveyCreatorRequirement());
-                policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement 
+                policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement
                 policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
             });
         options.AddPolicy(PolicyNames.RequireSurveyAdmin,
             policy =>
             {
                 policy.AddRequirements(new SurveyAdminRequirement());
-                policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement 
+                policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement
                 policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
             });
     });
-    
+
     // ...
 }
 ```

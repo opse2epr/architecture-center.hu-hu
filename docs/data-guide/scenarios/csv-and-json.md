@@ -3,16 +3,16 @@ title: CSV- és JSON-fájlok feldolgozása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 18fb06ec5c44b9db5ebad4d315858df4c75eb594
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 78d57ac4f229e863e676bf3cad0140864cd243d1
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902260"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113982"
 ---
 # <a name="working-with-csv-and-json-files-for-data-solutions"></a>A data-megoldások a fürt megosztott kötetei szolgáltatás és a JSON-fájlok használata
 
-CSV- és JSON amelyek valószínűleg a leggyakrabban használt formátumok feldolgozására, és kicserélni, strukturálatlan és részben strukturált adatok tárolására használható. 
+CSV- és JSON amelyek valószínűleg a leggyakrabban használt formátumok feldolgozására, és kicserélni, strukturálatlan és részben strukturált adatok tárolására használható.
 
 ## <a name="about-csv-format"></a>Tudnivalók a CSV formátum
 
@@ -22,14 +22,14 @@ Annak ellenére, hogy korlátait CSV-fájlok használata népszerű választás,
 
 ## <a name="about-json-format"></a>Tudnivalók a JSON-formátumban
 
-Kulcs-érték párok félig strukturált formátumban (JavaScript Object Notation) JSON-adatok értéke jelöli. A rendszer JSON-XML fájlok, gyakran összehasonlítja is képesek az adattárolás hierarchikus formátumban, a szülő-gyermek jelölt adatok beágyazott módon. Mindkettő saját leíró és emberi olvasásra alkalmas, de JSON-dokumentumok általában sokkal kisebb, és az exchange online-adatokhoz, különösen a REST-alapú webszolgáltatások megjelenésével népszerű használatukat. 
+Kulcs-érték párok félig strukturált formátumban (JavaScript Object Notation) JSON-adatok értéke jelöli. A rendszer JSON-XML fájlok, gyakran összehasonlítja is képesek az adattárolás hierarchikus formátumban, a szülő-gyermek jelölt adatok beágyazott módon. Mindkettő saját leíró és emberi olvasásra alkalmas, de JSON-dokumentumok általában sokkal kisebb, és az exchange online-adatokhoz, különösen a REST-alapú webszolgáltatások megjelenésével népszerű használatukat.
 
 JSON-formátumú fájlok szabályozhatják CSV számos előnnyel jár:
 
-* JSON megőrzi a hierarchikus struktúra, megkönnyítve a kapcsolódó adatok tárolásához egy dokumentum, és összetett kapcsolatokat jelölik.
-* Szinte bármelyik programozási nyelvével natív támogatást nyújt a JSON deszerializálása objektumokba, vagy egyszerű JSON-szerializálás kódtárakat biztosít.
-* JSON támogatja a listák az objektumok, így egy relációs adatmodellbe rendezetlen listák fordításának elkerülése érdekében.
-* JSON-ja olyan gyakran használt fájlformátum NoSQL-adatbázisok, például a MongoDB, a Couchbase és az Azure Cosmos DB-hez.
+- JSON megőrzi a hierarchikus struktúra, megkönnyítve a kapcsolódó adatok tárolásához egy dokumentum, és összetett kapcsolatokat jelölik.
+- Szinte bármelyik programozási nyelvével natív támogatást nyújt a JSON deszerializálása objektumokba, vagy egyszerű JSON-szerializálás kódtárakat biztosít.
+- JSON támogatja a listák az objektumok, így egy relációs adatmodellbe rendezetlen listák fordításának elkerülése érdekében.
+- JSON-ja olyan gyakran használt fájlformátum NoSQL-adatbázisok, például a MongoDB, a Couchbase és az Azure Cosmos DB-hez.
 
 Nagy mennyiségű adatot a hálózaton keresztül érkező már JSON formátumban van, mivel a legtöbb, a web-alapú programozási nyelv támogatja a JSON-fájllal működik, natív módon, vagy külső kódtáraiban szerializálható és deszerializálható JSON-adatok használatával. Az univerzális támogatása JSON formátumban logikai struktúra adatreprezentációt keresztül exchange formátumokat a gyakran használt adatokkal, és a ritkán használt adatok adattárolás annak használatára vezetett.
 
@@ -37,9 +37,9 @@ Számos batch- és stream adatokat feldolgozó motorokkal natív módon támogat
 
 ## <a name="when-to-use-csv-or-json-formats"></a>Mikor érdemes használni a CSV vagy JSON formátumban
 
-CSV-k exportálása és adatokat, és feldolgozás, analitika és gépi tanulási leggyakrabban szolgálnak. JSON-formátumú fájlok rendelkezik ugyanazokat az előnyöket, de gyakran használt adatokkal exchange megoldások gyakori. JSON-dokumentumok gyakran által küldött webes és mobil eszközök, az online tranzakció végrehajtása IoT (eszközök internetes hálózata) eszközök a egyirányú és kétirányú kommunikációra, vagy ügyfélalkalmazások kommunikál a SaaS- és PaaS-szolgáltatások vagy a kiszolgáló nélküli architektúrák. 
+CSV-k exportálása és adatokat, és feldolgozás, analitika és gépi tanulási leggyakrabban szolgálnak. JSON-formátumú fájlok rendelkezik ugyanazokat az előnyöket, de gyakran használt adatokkal exchange megoldások gyakori. JSON-dokumentumok gyakran által küldött webes és mobil eszközök, az online tranzakció végrehajtása IoT (eszközök internetes hálózata) eszközök a egyirányú és kétirányú kommunikációra, vagy ügyfélalkalmazások kommunikál a SaaS- és PaaS-szolgáltatások vagy a kiszolgáló nélküli architektúrák.
 
-CSV- és JSON formátumok egyaránt megkönnyíti exchange-adatok továbbítását különböző rendszerek és eszközök között. Részben strukturált formátumukban rugalmasságáról szinte bármilyen típusú adat átvitele, és ezek a formátumok univerzális támogatása, így egyszerű a használata. Mind a nyers azokban az esetekben a feldolgozott adatokat tároló bináris formátumban is a hatékonyabb lekérdezéséhez hiteles forrásaként használható. 
+CSV- és JSON formátumok egyaránt megkönnyíti exchange-adatok továbbítását különböző rendszerek és eszközök között. Részben strukturált formátumukban rugalmasságáról szinte bármilyen típusú adat átvitele, és ezek a formátumok univerzális támogatása, így egyszerű a használata. Mind a nyers azokban az esetekben a feldolgozott adatokat tároló bináris formátumban is a hatékonyabb lekérdezéséhez hiteles forrásaként használható.
 
 ## <a name="working-with-csv-and-json-data-in-azure"></a>CSV- és JSON-adatokat az Azure-használata
 
@@ -53,9 +53,8 @@ A forgatókönyvtől függően előfordulhat, hogy végre [kötegelt feldolgozá
 
 Nincsenek áttekinthet néhány problémát, ezek a formátumok használatakor érdemes figyelembe venni:
 
-* Bármely korlátozások az adatmodellen alapuló, anélkül CSV és a JSON-fájlok során gyakran fordul elő, az adatok sérülésének ("a szemétgyűjtési, szemétgyűjtési meg"). Például van egy dátum/idő objektumot, vagy a fájl nincs fogalmát, a fájl formátuma nem akadályozza meg, például beszúrás, egy dátummező, az "ABC123".
+- Bármely korlátozások az adatmodellen alapuló, anélkül CSV és a JSON-fájlok során gyakran fordul elő, az adatok sérülésének ("a szemétgyűjtési, szemétgyűjtési meg"). Például van egy dátum/idő objektumot, vagy a fájl nincs fogalmát, a fájl formátuma nem akadályozza meg, például beszúrás, egy dátummező, az "ABC123".
 
-* A ritka elérésű tárolási megoldásként CSV és a JSON-fájlok használatával nem méretezhetők jól, ha a big Data típusú adatok használata. A legtöbb esetben azok nem bonthatók partíciók párhuzamos feldolgozásra, és nem lehet tömörített, valamint az olyan bináris formátumot. Ez gyakran vezet feldolgozását, és ezek az adatok tárolása például Parquet és ORC (optimalizált sor Oszlopalapú), amelyek is biztosítanak az indexeket és a tárolt adatok beágyazott statisztikája olvasásra optimalizált formátumokba.
+- A ritka elérésű tárolási megoldásként CSV és a JSON-fájlok használatával nem méretezhetők jól, ha a big Data típusú adatok használata. A legtöbb esetben azok nem bonthatók partíciók párhuzamos feldolgozásra, és nem lehet tömörített, valamint az olyan bináris formátumot. Ez gyakran vezet feldolgozását, és ezek az adatok tárolása például Parquet és ORC (optimalizált sor Oszlopalapú), amelyek is biztosítanak az indexeket és a tárolt adatok beágyazott statisztikája olvasásra optimalizált formátumokba.
 
-* Szükség lehet a alkalmazni egy sémát a szolgáltatásban tárolt részben strukturált adatok lekérdezéséhez és kielemzéséhez könnyebb. Általában ehhez az adatok tárolása egy másik képernyő, amely megfelel az a környezet adattárolási igényeinek megfelelően, például egy adatbázison belül.
-
+- Szükség lehet a alkalmazni egy sémát a szolgáltatásban tárolt részben strukturált adatok lekérdezéséhez és kielemzéséhez könnyebb. Általában ehhez az adatok tárolása egy másik képernyő, amely megfelel az a környezet adattárolási igényeinek megfelelően, például egy adatbázison belül.

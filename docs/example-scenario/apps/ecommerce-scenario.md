@@ -3,14 +3,14 @@ title: E-kereskedelmi előtér
 titleSuffix: Azure Example Scenarios
 description: E-kereskedelmi webhelyet üzemeltethet az Azure-ban.
 author: masonch
-ms.date: 7/13/18
+ms.date: 07/13/2018
 ms.custom: fasttrack
-ms.openlocfilehash: d6587218813fa450b284f3a300c7254a3c9fe41f
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 3608fc4c15318fe48dbf2a67949d064ac7f5d406
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643951"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110441"
 ---
 # <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 

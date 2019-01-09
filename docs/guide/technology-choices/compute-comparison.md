@@ -1,20 +1,24 @@
 ---
 title: Számítási szolgáltatás Azure-beli kritériumai
-description: Az Azure számítási szolgáltatások összehasonlítása több szempontból között
+titleSuffix: Azure Application Architecture Guide
+description: Azure számítási szolgáltatások összehasonlítása több szempontból.
 author: MikeWasson
 ms.date: 08/08/2018
-ms.openlocfilehash: dbd5314c4c77e83f5b45ef0b49e83860479c8f92
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seojan19
+ms.openlocfilehash: 4874e68d6ac1b9bac2bc1e4d2ac3c8c2f1a428d6
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916373"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112243"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Számítási szolgáltatás Azure-beli kritériumai
 
 A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. Az alábbi táblázat az Azure számítási szolgáltatásokat hasonlítja össze több szempontból. A táblázatok segítségével kiválaszthatja a megfelelő számítási lehetőséget az alkalmazásához.
 
 ## <a name="hosting-model"></a>Futtatási modell
+
+<!-- markdownlint-disable MD033 -->
 
 | Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
@@ -28,7 +32,7 @@ A *számítás* kifejezés azon számítási erőforrások futtatási modelljér
 
 Megjegyzések
 
-1. <span id="note1">Használatalapú csomag használata esetén. App Service-csomag használata esetén a függvények az App Service-csomag részeként kiosztott virtuális gépeken futnak. Lásd: A megfelelő Azure Functions szolgáltatási csomag kiválasztása][function-plans].</span>
+1. <span id="note1">Használatalapú csomag használata esetén. App Service-csomag használata esetén a függvények az App Service-csomag részeként kiosztott virtuális gépeken futnak. Lásd: [A megfelelő Azure Functions szolgáltatási csomag kiválasztása][function-plans].</span>
 2. <span id="note2">Magasabb SLA két vagy több példánnyal.</span>
 3. <span id="note3">Éles környezetben ajánlott.</span>
 4. <span id="note4">Leskálázható nullára a feladat befejezése után.</span>
@@ -47,8 +51,7 @@ Megjegyzések
 Megjegyzések
 
 1. <span id="note1b">A lehetőségek a következők: ASP.NET-hez vagy node.js-hez (iisnode) készült IIS Express, PHP-webkiszolgáló, IntelliJ-hez készült Azure-eszközkészlet vagy Eclipse-hez készült Azure eszközkészlet. Az App Service ezenkívül támogatja az üzembe helyezett webalkalmazások távoli hibakeresését.</span>
-2. <span id="note2b">Lásd: [Resource Manager-szolgáltatók, régiók, API-verziók és sémák][resource-manager-supported-services].</span> 
-
+2. <span id="note2b">Lásd: [Resource Manager-szolgáltatók, régiók, API-verziók és sémák][resource-manager-supported-services].</span>
 
 ## <a name="scalability"></a>Méretezhetőség
 
@@ -56,7 +59,7 @@ Megjegyzések
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | Automatikus méretezés | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Nem támogatott | Nem támogatott | – |
 | Terheléselosztó | Azure Load Balancer | Integrált | Azure Load Balancer | Integrált | Integrált |  Nincs beépített támogatás | Azure Load Balancer |
-| Méretezési korlát<a href="#note1c"><sup>1</sup></a> | Platformlemezkép: 1000 csomópont virtuálisgép-méretezési csoportonként, Egyéni lemezkép: 100 csomópont virtuálisgép-méretezési csoportonként | 20 példány, 100 App Service environmenttel | 100 csomópont virtuálisgép-méretezési csoportonként | 200 példányok száma függvényalkalmazás | 100 csomópontok száma fürtönként (alapértelmezett korlát) |20 tárolócsoportok száma előfizetésenként (alapértelmezett korlát). | 20 magos korlát (alapértelmezett korlát). |
+| Méretezési korlát<a href="#note1c"><sup>1</sup></a> | Platformlemezkép: 1000 csomópont csoportonként, egyéni lemezkép: 100 csomópont virtuálisgép-méretezési csoportonként | 20 példány, 100 App Service environmenttel | 100 csomópont virtuálisgép-méretezési csoportonként | 200 példányok száma függvényalkalmazás | 100 csomópontok száma fürtönként (alapértelmezett korlát) |20 tárolócsoportok száma előfizetésenként (alapértelmezett korlát). | 20 magos korlát (alapértelmezett korlát). |
 
 Megjegyzések
 
@@ -67,7 +70,7 @@ Megjegyzések
 | Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | SLA | [A virtuális gépekre vonatkozó SLA][sla-vm] | [Az App Service-re vonatkozó SLA][sla-app-service] | [A Service Fabricre vonatkozó SLA][sla-sf] | [A Functionsre vonatkozó SLA][sla-functions] | [SLA-t az aks-ben][sla-acs] | [A Container Instances vonatkozó SLA](https://azure.microsoft.com/support/legal/sla/container-instances/) | [Az Azure Batch-re vonatkozó SLA][sla-batch] |
-| Többrégiós feladatátvétel | Traffic Manager | Traffic Manager | Traffic Manager, többrégiós fürt | Nem támogatott  | Traffic Manager | Nem támogatott | Nem támogatott |
+| Többrégiós feladatátvétel | Traffic Manager | Traffic Manager | Traffic Manager, többrégiós fürt | Nem támogatott | Traffic Manager | Nem támogatott | Nem támogatott |
 
 ## <a name="other"></a>Egyéb
 
@@ -76,6 +79,8 @@ Megjegyzések
 | SSL | Virtuális gépen konfigurált | Támogatott | Támogatott  | Támogatott | [Bejövőforgalom-vezérlőt](/azure/aks/ingress) | Használat [oldalkocsi](../../patterns/sidecar.md) tároló | Támogatott |
 | Költségek | [Windows][cost-windows-vm], [Linux][cost-linux-vm] | [Az App Service árképzése][cost-app-service] | [A Service Fabric árképzése][cost-service-fabric] | [Az Azure Functions árképzése][cost-functions] | [Az AKS díjszabása][cost-acs] | [Container Instances díjszabását](https://azure.microsoft.com/pricing/details/container-instances/) | [Az Azure Batch árképzése][cost-batch]
 | Megfelelő architektúrastílusok | [N szintű][n-tier], [Big compute] [ big-compute] (HPC) | [Webüzenetsor-feldolgozó][w-q-w], [N szintű][n-tier] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], feladat automatizálása, a batch-feladatok  | [Big compute] [ big-compute] (HPC) |
+
+<!-- markdownlint-enable MD033 -->
 
 [cost-linux-vm]: https://azure.microsoft.com/pricing/details/virtual-machines/linux/
 [cost-windows-vm]: https://azure.microsoft.com/pricing/details/virtual-machines/windows/

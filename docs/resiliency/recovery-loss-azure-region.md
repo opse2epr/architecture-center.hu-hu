@@ -1,71 +1,84 @@
 ---
-title: Egy Azure-régiót származó helyreállítása
-description: 'A következő cikket: ismertetése és rugalmas, magas rendelkezésre állású, hiba hibatűrő alkalmazásokhoz tervezéséhez, valamint vészhelyreállítás tervezése'
+title: Egy Azure-régióban, adatvesztés helyreállítása
+description: Tudnivalók a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási.
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: f551e8af8aece8aa30abfba2438c41c3944209bd
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: bd0d8a7e544188a79cbba4b58a9e31358e4ccf0d
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30847141"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111971"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
-# <a name="azure-resiliency-technical-guidance-recovery-from-a-region-wide-service-disruption"></a>Az Azure rugalmasságát műszaki útmutató: a régió kiterjedő szolgáltatás szüneteltetése helyreállítás
-Azure oszlik fizikai és logikai egységek régiók hívása. A régió közel egy vagy több adatközpontok áll. 
+# <a name="azure-resiliency-technical-guidance-recovery-from-a-region-wide-service-disruption"></a>Technikai útmutató az Azure rugalmassága: régióra kiterjedő szolgáltatáskimaradás helyreállítása
 
-Ritka esetekben is lehet, hogy egy teljes régióban létesítményekben nem érhető el, például hálózati hibák miatt válhat. Vagy létesítményekben elvesznek, teljes mértékben, például természeti katasztrófa miatt. Ez a szakasz ismerteti az Azure képességeit régiók elosztott alkalmazások létrehozásához. Ilyen terjesztési segít a lehetősége, hogy az egy régióban hiba hatással lehet más régiókban minimalizálása érdekében.
+Azure oszlik fizikailag és logikailag egységek nevű régió. Egy régióban egy vagy több adatközpont hálózatbővítési áll.
+
+Ritka esetekben is lehet, hogy egy teljes régió az eszközök, például hálózati hibák miatt elérhetetlenné válhat. Vagy létesítményekben elvesznek, teljes mértékben, például természeti katasztrófa miatt. Ez a szakasz ismerteti az Azure funkcióit régiók között elosztott alkalmazások létrehozásához. Az ilyen terjesztési segít minimálisra csökkentése érdekében, hogy egy adott régióban hiba hatással lehetnek más régióban lehetőségét.
 
 ## <a name="cloud-services"></a>Felhőszolgáltatások
-### <a name="resource-management"></a>Erőforrás-kezelés
-Minden cél régióban külön felhőalapú szolgáltatás létrehozása, és majd közzététele a központi telepítési csomag minden felhőalapú szolgáltatás által terjesztheti számítási példányokért régiók között. Vegye figyelembe azonban, hogy osztja a forgalom között felhőszolgáltatások különböző régiókban kell megvalósítani az alkalmazás fejlesztőjének vagy egy forgalom felügyeleti szolgáltatáshoz.
 
-Tartalék szerepkörpéldányokat előre telepítendő vész-helyreállítási számának meghatározása a kapacitástervezés fontos eleme. A teljes körű másodlagos központi telepítés rendelkezik biztosítja, hogy kapacitás már érhető el, ha szükséges, azonban ez gyakorlatilag megduplázódik költsége. A megszokott mintát követi, hogy egy kis, másodlagos telepítés, elég nagy kritikus szolgáltatások futtatásához. Ez kis másodlagos telepítési érdemes, mind a kapacitás, és a másodlagos környezet konfigurációjától tesztelési.
+### <a name="resource-management"></a>Erőforrás-kezelés
+
+Számítási példányok régióban juttathatja el önálló felhőalapú szolgáltatásként létrehozásával minden célként megadott régióban, és majd tegye közzé a központi telepítési csomag minden felhőszolgáltatáshoz. Vegye azonban figyelembe, hogy forgalom elosztása különböző régiókban lévő felhőszolgáltatás kell megvalósítani, az alkalmazás fejlesztője vagy a forgalomkezelő szolgáltatásra.
+
+Tartalék szerepkörpéldányok üzembe helyezéséhez előre vész-helyreállítási számának meghatározása a kapacitástervezés fontos eleme. A lehető legjobban hasonlítaniuk másodlagos telepítési kellene biztosítja, hogy kapacitás már érhető el, ha szükséges, azonban ez gyakorlatilag megduplázza a költségeket. Gyakori minta, hogy rendelkezik, amelyik kisebb, másodlagos, elég nagy kritikus szolgáltatások futtatásához. A kisméretű másodlagos környezetet, célszerű, mindkettő kapacitás, és a másodlagos környezet konfigurációjától tesztelési fenntartására.
 
 > [!NOTE]
-> Az előfizetési kvóta nincs kapacitás garanciát. A kvóta egyszerűen csak egy értéket. Kapacitás biztosításához, a szükséges szerepkörök száma definiálni kell a szolgáltatásmodellben, és a szerepköröket kell telepíteni.
-> 
-> 
+> Az előfizetési kvóta nem kapacitás garantálja. A kvóta egyszerűen kredit korlátozva. Garantálja a kapacitás, a szükséges számú szerepkörök definiálni kell a modell, és a szerepköröket kell telepíteni.
 
 ### <a name="load-balancing"></a>Terheléselosztás
-Régiók közötti forgalom terheléselosztásához kell rendelkeznie a forgalom-kezelési megoldás. Azure biztosít [Azure Traffic Manager](https://azure.microsoft.com/services/traffic-manager/). A kihasználásához, külső szolgáltatások hasonló forgalom felügyeleti képességeket biztosítják.
+
+Régiók közötti forgalom terheléselosztása megköveteli a egy adatforgalom-kezelő megoldás. Az Azure biztosít [Azure Traffic Manager](https://azure.microsoft.com/services/traffic-manager/). Emellett kihasználhatja a külső szolgáltatások, amelyek hasonló forgalom felügyeleti képességeket biztosítják.
 
 ### <a name="strategies"></a>Stratégiák
-Alternatív stratégiák számos különböző régiókban elosztott számítási végrehajtásához érhetők el. Ezek a meghatározott üzleti követelményeknek és a körülmények között az alkalmazás kell igazítani. Magas szinten a módszer a következő kategóriákba sorolhatók osztható:
 
-* **Telepítse újra a katasztrófa**: ennek a megközelítésnek az az alkalmazás van újratelepítése teljesen új katasztrófa időpontjában. Ez az a nem kritikus fontosságú alkalmazások, amelyek nem igényelnek garantált helyreállításkor megfelelő.
-* **Tartalék (aktív/passzív) mozog**: egy másodlagos üzemeltetett szolgáltatás létrejön egy másik régióban, és minimális kapacitás biztosításához telepített szerepkörök; azonban a szerepkörök nem kap a termelési forgalmat. Ez a módszer akkor hasznos, nem forgalom szét régiók készített alkalmazások.
-* **Tartalék (aktív) közbeni**: célja, hogy az alkalmazás üzemi terhelés több régióba fogadására. A felhőszolgáltatások minden régióban vész-helyreállítási célokra szükségesnél nagyobb kapacitást is megadhatók. Azt is megteheti, a felhőalapú szolgáltatások méretezése előfordulhat, hogy szükség esetén egy katasztrófa és a feladatátvétel időpontjában ki. Ezt a módszert használja az alkalmazás tervét jelentős befektetési igényel, de jelentős előnyt rendelkezik. Ezek közé tartozik a kis- és garantált helyreállítási idő, a folyamatos tesztelés az összes helyreállítási helyeken, és a kapacitás hatékony kihasználását.
+Számos alternatív stratégiák elosztott számítási megvalósításának régióban érhetők el. Ezek kell kialakítani, hogy az adott üzleti követelményeket és körülmények között az alkalmazás. Magas szinten a módszer a következő kategóriákba osztható:
 
-Elosztott kialakítás teljes leírása jelen dokumentum nem terjed van. További információkért lásd: [vész-helyreállítási és magas rendelkezésre állás, az Azure-alkalmazások](https://aka.ms/drtechguide).
+- **A katasztrófa utáni ismételt üzembe helyezése**: Ebben a megközelítésben az alkalmazás rendszer újratelepítése előzmények vészhelyreállítási időpontjában. Ez a nem kritikus fontosságú a garantált helyreállítás ideje nem igénylő alkalmazások esetében.
 
-## <a name="virtual-machines"></a>Virtuális gépek
-Egy szolgáltatási (IaaS) virtuális gépként (VM) infrastruktúra helyreállítási hasonlít a platform, a szolgáltatás (PaaS) számítási sok tekintetben helyreállítási. Fontos különbségek vannak, azonban annak köszönhető, hogy az infrastruktúra-szolgáltatási virtuális gép a virtuális gép lemez és a virtuális Gépet tartalmaz.
+- **Tartalék (aktív/passzív) meleg**: Egy másodlagos üzemeltetett szolgáltatás létrehozása egy másik régióban, és a szerepkörök telepítve. a minimális kapacitás; biztosítása a szerepkörök azonban éles forgalom nem kapja. Ez a megközelítés akkor lehet hasznos, nem a régiók közötti forgalom elosztását készített alkalmazások.
 
-* **Több régióban biztonsági mentések, amelyek a konzisztens alkalmazás létrehozása az Azure Backup használatával**.
-  [Azure biztonsági mentés](https://azure.microsoft.com/services/backup/) lehetővé teszi az ügyfelek alkalmazás konzisztens biztonsági másolatok létrehozása a több virtuális gép lemezre, és régiók közötti replikáció a biztonsági mentések támogatásához. Ehhez kiválasztásával földrajzi-replikálja a mentési tároló létrehozásának időpontjában. Vegye figyelembe, hogy a replikáció a mentési tároló létrehozása idején kell konfigurálni. Később beállítható. A régió nem vesztek el, ha Microsoft lesz a biztonsági mentések elérhetővé teszi az ügyfél számára. Ügyfelek állíthatja helyre a konfigurált visszaállítási pontok bármelyikét is.
-* **Az operációsrendszer-lemeze a adatlemez külön**. Az infrastruktúra-szolgáltatási virtuális gépek fontos szempont, hogy, hogy az operációsrendszer-lemez nem módosítható a virtuális gép újbóli létrehozása nélkül. Ez nem hiba esetén pedig a helyreállítási stratégia katasztrófa utáni újratelepíteni. Előfordulhat azonban, a probléma, ha a meleg tartalék módszer segítségével tartalékkapacitás. Ennek megfelelően alkalmazza, rendelkeznie kell a megfelelő operációsrendszer-lemez, az elsődleges és másodlagos helyekre telepített, és az alkalmazásadatok egy különálló meghajtón kell tárolni. Lehetőség szerint használja a szabványos operációs rendszer-konfigurációkat, amelyek a is megadható. Egy feladatátvétel után kell majd csatol az adatmeghajtó a meglévő infrastruktúra-szolgáltatási virtuális gépeket a másodlagos tartományvezérlő. AzCopy segítségével az adatok lemez(ek) pillanatkép-készítési egy távoli helyre másolja.
-* **Vegye figyelembe a lehetséges konzisztenciabeli problémákat több virtuális gép lemezeivel földrajzi feladatátvételt követően**. Virtuális gépek lemezei, Azure Storage blobs van megvalósítva, és az azonos georeplikáció jellemző rendelkezik. Ha [Azure Backup](https://azure.microsoft.com/services/backup/) van használva nincsenek eredő garanciát nem helyét a lemezeken, mert georeplikáció aszinkron, és egymástól függetlenül replikálja. Az egyes virtuális gépek lemezei garantáltan az összeomlás-konzisztens állapot földrajzi-feladatátvétel után, de nem konzisztens helyét a lemezeken. Ez problémákat okozhat egyes esetekben (például esetén a lemez csíkozást).
+- **Gyakran használt adatok rétegére tartalék (aktív)**: Az alkalmazás éles terhelés fogadásához több régióban lett kialakítva. A cloud services, az egyes régiókban vészhelyreállítási célokból szükségesnél nagyobb kapacitást lehet konfigurálni. Másik lehetőségként a cloud services méretezése előfordulhat, hogy szükség esetén egy vészhelyreállítási és a feladatátvétel időpontjában ki. Ez a megközelítés alkalmazás kialakítása jelentős befektetéseket igényel, de ez jelentős előnyökkel jár. Ezek közé tartozik a kis- és garantált helyreállítási idő, a folyamatos tesztelés az összes helyreállítási helyeken, és a kapacitás hatékony kihasználását.
 
-## <a name="storage"></a>Tárolás
-### <a name="recovery-by-using-geo-redundant-storage-of-blob-table-queue-and-vm-disk-storage"></a>Helyreállítási blob, table, várólista és VM lemezegységet Georedundáns tárolás használatával
-Az Azure, blobok, táblák, üzenetsorok és virtuális gép lemezek, az összes georeplikált alapértelmezés szerint. Ez a neve, Georedundáns tárolás (GRS). Georedundáns tárolás adatait miles egymástól belül egy adott földrajzi régió egy párosított adatközpont több száz replikálja. Adja meg a további tartósságot, ha van a fő adatközpontok katasztrófa Georedundáns célja. Microsoft vezérlők feladatátvétel esetén, és a feladatátvételi korlátozódik jelentős katasztrófa, amelyben az eredeti elsődleges helyre akkor számít elértnek helyreállíthatatlan elfogadható időn belül. Bizonyos esetekben több napig is lehet. Bár a szinkronizálás időköze nem még mutatja be egy szolgáltatásiszint-szerződés adatok általában replikált néhány percen belül.
+Elosztott tervezési teljes hatásának a megbeszélését ebben a dokumentumban hatókörén kívül esik. További információkért lásd: [vészhelyreállítás és magas rendelkezésre állás az Azure-alkalmazások](https://aka.ms/drtechguide).
 
-Földrajzi-feladatátvétel esetén lesz hogyan érhető el a fiók nem változik (az URL-cím és a fiók kulcs esetén nem változik). A tárfiók, azonban szerepelni fog egy másik régióban feladatátvételt követően. Ez hatással lehet a storage-fiók regionális kapcsolatot igénylő alkalmazások. Még a szolgáltatásokat és alkalmazásokat, amelyek nem igényelnek a tárfiók ugyanabban az adatközpontban a kereszt-datacenter késleltetés és a sávszélesség-költségek előfordulhat, hogy lehet kényszerítő forgalom ideiglenesen áthelyezését a feladatátvételi régió. Ez egy általános vész-helyreállítási stratégiát az sikerült számításba.
+## <a name="virtual-machines"></a>Virtual machines (Virtuális gépek)
 
-Georedundáns által biztosított automatikus feladatátvétel mellett Azure vezetett be olyan szolgáltatás, amely olvasási hozzáférést biztosít a másodlagos tárolási helye az adatok másolatát. Ennek meghívása az írásvédett Georedundáns tárolás (RA-GRS).
+A helyreállítási szolgáltatás (IaaS) virtuális gépeken (VM) az infrastruktúra hasonlít platform, a platformszolgáltatás (PaaS) számítási helyreállítási sok szempontból. Fontos funkciókülönbségek vannak, azonban oka, hogy az a virtuális gép, mind a Virtuálisgép-lemez áll egy IaaS-beli virtuális Gépen.
 
-Georedundáns, mind az RA-GRS tárolóira vonatkozó további információkért lásd: [Azure Storage replikációs](/azure/storage/storage-redundancy/).
+- **Régiók közötti, amelyek az alkalmazáskonzisztens biztonsági mentését az Azure Backup szolgáltatás használatával**.
+  [Az Azure Backup](https://azure.microsoft.com/services/backup/) lehetővé teszi több virtuális gép lemezeinek alkalmazáskonzisztens biztonsági másolatok létrehozásához, és támogatja a replikációt a biztonsági mentések régióban az ügyfelek számára. Ehhez válassza a georeplikáció a mentési tároló létrehozásának időpontjában. Vegye figyelembe, hogy a replikáció, a biztonsági mentési tárolót is be kell állítani a létrehozásakor. Később állítható. Ha egy régió elveszett, Microsoft is elérhetővé a biztonsági másolatokat az ügyfelek számára. Ügyfelek tudják a beállított helyreállítási pontok visszaállítása.
 
-### <a name="geo-replication-region-mappings"></a>A Georeplikáció régió leképezéseket:
-Fontos tudni, hogy hol található az adatok georeplikált, ahhoz, hogy tudja, honnan központi telepítése az adatok tárhelyét regionális kapcsolat igénylő más példányát. További információ: [Azure-régiókat párosítva](/azure/best-practices-availability-paired-regions).
+- **Az adatlemez elkülönítése az operációsrendszer-lemez**. IaaS-beli virtuális gépek fontos szempont az, hogy az operációsrendszer-lemez nem módosítható a virtuális gép újbóli létrehozása nélkül. Ez nem probléma, ha a stratégia az, hogy katasztrófa utáni ismételt üzembe helyezése. Azonban lehet probléma a meleg tartalék megközelítés tartalékkapacitás való használatakor. Ennek megfelelően megvalósítása érdekében a megfelelő operációsrendszer-lemez, az elsődleges és másodlagos helyekre telepített kell rendelkeznie, és az alkalmazásadatok egy különálló meghajtón kell tárolni. Ha lehetséges használjon egy biztosíthatók a mindkét helyen szabványos operációs rendszer konfigurációját. A feladatátvétel után majd csatolja az adatmeghajtó a másodlagos tartományvezérlő a meglévő IaaS virtuális gépekhez. Az AzCopy használatával másolja az adatokat (eke) t, a pillanatképek egy távoli helyre.
 
-### <a name="geo-replication-pricing"></a>A Georeplikáció árképzési:
-Az Azure Storage aktuális árképzési georeplikáció tartalmazza. Ez a lehetőség Georedundáns tárolás (GRS). Ha nem szeretné, hogy az adatok georeplikált georeplikáció bármikor letilthatja a fiókjához. Ezt nevezik a helyileg redundáns tárolás és Georedundáns képest kedvezményes áron fel van töltve.
+- **Több Virtuálisgép-lemezek földrajzi feladatátvétel után konzisztencia kapcsolatos lehetséges problémák figyelembe**. Virtuálisgép-lemezek vannak implementálva az Azure Storage-blobokkal, és rendelkezik az azonos georeplikációs jellemző. Kivéve, ha [Azure Backup](https://azure.microsoft.com/services/backup/) van használt, garanciát nem jelentenek konzisztencia lemezeken, mert georeplikációs aszinkron, és egymástól függetlenül replikálja. Az egyes Virtuálisgép-lemezek garantáltan egy összeomlás-konzisztens az állapot egy földrajzi feladatátvétel után, de nem konzisztens lemezek között. Ez bizonyos esetekben (például esetén lemez csíkozást) problémákat okozhat.
+
+## <a name="storage"></a>Storage
+
+### <a name="recovery-by-using-geo-redundant-storage-of-blob-table-queue-and-vm-disk-storage"></a>Helyreállítási blob, tábla, üzenetsor és a virtuális gép lemezes tárolás, Georedundáns tárolás használatával
+
+Az Azure, blobok, táblák, üzenetsorok és a virtuális gép lemezei minden georeplikált alapértelmezés szerint. Erre hivatkozik, Georedundáns tárolást (GRS). GRS tároló adatait replikálja egy párosított adatközpontban több száz mérfölddel belül egy adott földrajzi régióban vannak. Adja meg a további tartóssága abban az esetben a fő adatközpont vészhelyreállítási, GRS célja. Feladatátvétel esetén a Microsoft vezérlők és a feladatátvétel súlyos vészhelyzetek esetére, amelyben az eredeti elsődleges helyre sikertelennek helyreállíthatatlan ésszerű időn belül korlátozódik. Bizonyos esetekben több napig is lehet. Az adatok általában replikációja néhány percen belül, bár a szinkronizálás időköze nem még jelez egy szolgáltatásiszint-szerződés.
+
+Földrajzi feladatátvételt, ha ott nem lesz, hogyan érhető el, a fiók (az URL-cím és a fiókkulcsot nem változik). A storage-fiókban, azonban szerepelni fog egy másik régióban a feladatátvételt követően. Ez hatással lehet a storage-fiók regionális affinitás igénylő alkalmazásokhoz. Még a szolgáltatásokat és alkalmazásokat, amelyek nem igényelnek a storage-fiók ugyanabban az adatközpontban több adatközpontot késés és sávszélesség díj az előfordulhat, hogy lehet kényszerítő forgalom ideiglenesen áthelyezése a feladatátvételi régióban. Ez egy általános vész-helyreállítási stratégiát az sikerült tényező.
+
+Mellett automatikus feladatátvétellel, GRS által biztosított Azure vezetett be egy szolgáltatás, amely olvasási hozzáférést biztosít a másodlagos tárolási helyen az adatok másolatát. Ezt az írásvédett Georedundáns tárolás (RA-GRS) nevezzük.
+
+GRS- és RA-GRS tárolási kapcsolatos további információkért lásd: [Azure Storage replikáció](/azure/storage/storage-redundancy/).
+
+### <a name="geo-replication-region-mappings"></a>Georeplikáció régióban leképezések
+
+Fontos tudni, hogy hol található az adatok georeplikált, annak érdekében, hogy tudja, hol helyezi üzembe a többi példány regionális kapcsolatot azzal a storage igénylő adatait. További információ: [Azure párosított régiói](/azure/best-practices-availability-paired-regions).
+
+### <a name="geo-replication-pricing"></a>Georeplikáció – díjszabás
+
+Georeplikáció az Azure Storage jelenlegi díjszabás tartalmazza. Ezt nevezzük a Georedundáns Társzolgáltatási (GRS). Ha nem szeretné, hogy az adatok georeplikált georeplikációs letilthatja a fiókjához. Ezt nevezzük a helyileg redundáns tárolás, és a GRS képest kedvezményes díjért fel van töltve.
 
 ### <a name="determining-if-a-geo-failover-has-occurred"></a>Ha egy földrajzi feladatátvétel történt meghatározása
-Egy földrajzi feladatátvétel esetén ez lesznek közzétéve a [Azure az állapotjelző irányítópulthoz](https://azure.microsoft.com/status/). Alkalmazások is létrehozható egy automatizált azt, ez azonban a tárfiók földrajzi régió figyelésével. Ez más helyreállítási műveletek, például a számítási erőforrásokat, ahol azok tárolási áthelyezése a földrajzi régióban aktiválási kiváltásához is használható. Is elvégezheti a lekérdezés ezen a szolgáltatáskezelő API, használatával [lekérni a Tárfiók tulajdonságai](https://msdn.microsoft.com/library/ee460802.aspx). A kapcsolódó tulajdonságok a következők:
+
+Földrajzi feladatátvételt akkor fordul elő, ha a program feladja a [Azure szolgáltatásállapot-irányítópult](https://azure.microsoft.com/status/). Alkalmazások valósíthat meg egy automatizált azt jelenti, hogy kívánja-e, ez azonban a tárfiók földrajzi régió-figyelési szolgáltatás által. Ez a más helyreállítási műveletek, például a számítási erőforrások, ahol azok átkerülnek a földrajzi régióban aktiválási indításához használható. Elvégezheti egy lekérdezést ehhez a service management API használatával [Tárfiók tulajdonságainak beolvasása](https://msdn.microsoft.com/library/ee460802.aspx). A releváns tulajdonságok a következők:
 
     <GeoPrimaryRegion>primary-region</GeoPrimaryRegion>
     <StatusOfPrimary>[Available|Unavailable]</StatusOfPrimary>
@@ -73,102 +86,124 @@ Egy földrajzi feladatátvétel esetén ez lesznek közzétéve a [Azure az áll
     <GeoSecondaryRegion>secondary-region</GeoSecondaryRegion>
     <StatusOfSecondary>[Available|Unavailable]</StatusOfSecondary>
 
-### <a name="vm-disks-and-geo-failover"></a>Virtuális gépek lemezei és a földrajzi-feladatátvétel
-A szakaszban bemutatott VM lemezeken, nincsenek nem garantálja az adatok konzisztenciájának virtuális gép lemezeinek egy feladatátvétel után. Ahhoz, hogy a biztonsági mentések helyességét, például a Data Protection Manager biztonsági mentési termék használatával biztonsági mentése és visszaállítása alkalmazásadatokat.
+### <a name="vm-disks-and-geo-failover"></a>Virtuálisgép-lemezek és földrajzi feladatátvételt
+
+Lásd a szakasz a Virtuálisgép-lemezek, garanciát nem jelentenek az adatkonzisztencia magyarázata a virtuális gép lemezeinek egy feladatátvétel után. Ahhoz, hogy a biztonsági mentések helyességét, egy biztonsági mentési termék például a Data Protection Manager biztonsági mentése és visszaállítása az alkalmazásadatok használandó.
 
 ## <a name="database"></a>Adatbázis
+
 ### <a name="sql-database"></a>SQL Database
-Az Azure SQL Database is tartalmaz kétféle helyreállítási: Georedundáns helyreállítás és aktív Georeplikáció.
+
+Az Azure SQL Database két típusú helyreállítási biztosítja: A GEO-visszaállítás és aktív Georeplikációt.
 
 #### <a name="geo-restore"></a>Georedundáns helyreállítás
-[Georedundáns helyreállítás](/azure/sql-database/sql-database-recovery-using-backups/#geo-restore) Basic, Standard és Premium adatbázisok érhetők el. Az alapértelmezett helyreállítási lehetőséget biztosít, ha az adatbázis nem érhető el a régióban, ahol az adatbázis tárolása esemény miatt. Hasonló pont időponthoz kötött visszaállítás, Georedundáns helyreállítás támaszkodik adatbázis az georedundáns Azure-tárfiókba. Visszaállítja a georeplikált biztonsági másolat, és ezért is lehetséges legyen a tárolási kimaradások esetén az elsődleges régióban. További részletekért lásd: [egy Azure SQL Database vagy feladatátvételi visszaállításához a másodlagos](/azure/sql-database/sql-database-disaster-recovery/).
+
+[A GEO-visszaállítás](/azure/sql-database/sql-database-recovery-using-backups/#geo-restore) érhető el az alapszintű, Standard és prémium adatbázisok is. Ha az adatbázist üzemeltető régióban incidens miatt nem érhető el az adatbázis az alapértelmezett helyreállítási lehetőséget biztosít. Hasonló időponthoz visszaállítás, a Geo-visszaállítás adatbázisok biztonsági mentése az Azure georedundáns tárolási támaszkodik. A georeplikált biztonsági másolat a visszaállítást végzi, és ezért képes legyen ellenállni a az elsődleges régióban a storage leállásokat. További részletekért lásd: [visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos](/azure/sql-database/sql-database-disaster-recovery/).
 
 #### <a name="active-geo-replication"></a>Aktív georeplikáció
-[Aktív Georeplikáció](/azure/sql-database/sql-database-geo-replication-overview/) érhető el az összes adatbázis-rétegek. Az alkalmazásokat, amelyek szigorúbb helyreállítási követelmények Georedundáns helyreállítás kínálhat, mint a tervezték. Aktív Georeplikációt használ, létrehozhat négy olvasható másodlagos adatbázis a különböző régiókban található kiszolgálók. Feladatátvételt a másodlagos adatbázisok bármelyikét is kezdeményezhető. Aktív Georeplikáció ezenkívül az alkalmazás frissítését, vagy áthelyezheti forgatókönyvek támogatása, valamint a terheléselosztás csak olvasható munkaterhelések esetén használható. További információkért lásd: [Georeplikáció konfigurálása](/azure/sql-database/sql-database-geo-replication-portal/) és [feladatátvételt a másodlagos adatbázis](/azure/sql-database/sql-database-geo-replication-failover-portal/). Tekintse meg [felhő vész-helyreállítási aktív Georeplikáció használatával az SQL-adatbázis egy alkalmazás](/azure/sql-database/sql-database-designing-cloud-solutions-for-disaster-recovery/) és [SQL adatbázis aktív Georeplikációhasználófelhőalapúalkalmazásokműködésközbenifrissítésekkezelése](/azure/sql-database/sql-database-manage-application-rolling-upgrade/)vonatkozó részletek tervezése és megvalósítása alkalmazásokat és a frissítés állásidő nélkül.
 
-### <a name="sql-server-on-virtual-machines"></a>SQL Server a Virtual Machines szolgáltatásban
-Számos lehetőséget a helyreállításhoz, majd az SQL Server 2012 (és újabb verziók) futtató Azure virtuális gépek magas rendelkezésre állású érhetők el. További információkért lásd: [az SQL Server Azure virtuális gépek magas rendelkezésre állási és vészhelyreállítási helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
+[Aktív Georeplikáció](/azure/sql-database/sql-database-geo-replication-overview/) érhető el az összes adatbázis-szinten. A Geo-visszaállítás kínálnak agresszívabb helyreállítási követelményekkel rendelkező alkalmazások lett tervezve. Aktív Georeplikációt használ, a különböző régiókban lévő kiszolgálókon legfeljebb négy olvasható másodlagos példánnyal hozhat létre. Feladatátvétel a másodlagos adatbázisok bármelyikét is kezdeményezhető. Aktív Georeplikáció emellett támogatja az alkalmazás frissítése vagy adatáthelyezési forgatókönyv, valamint a terheléselosztás csak olvasható feladatokhoz használható. További információkért lásd: [Georeplikáció konfigurálása](/azure/sql-database/sql-database-geo-replication-portal/) és [átadja a feladatokat a másodlagos adatbázis](/azure/sql-database/sql-database-geo-replication-failover-portal/). Tekintse meg [aktív Georeplikáció használatával az SQL Database felhőalapú vészhelyreállítással alkalmazások tervezése](/azure/sql-database/sql-database-designing-cloud-solutions-for-disaster-recovery/) és [SQL adatbázis aktív Georeplikációthasználatávalafelhőalapúalkalmazásokműködésközbenifrissítésekkezelése](/azure/sql-database/sql-database-manage-application-rolling-upgrade/)a tervezzenek és valósítsanak meg, és alkalmazásokhoz való frissítés üzemkimaradás nélkül.
 
-## <a name="other-azure-platform-services"></a>Egyéb Azure platform szolgáltatásaiból
-Ha megpróbálja futtatni a felhőalapú szolgáltatás több Azure-régiók, figyelembe kell vennie a megvalósítását az egyes a függőségek. Az alábbi szakaszok a szolgáltatással kapcsolatos útmutató feltételezi, hogy az egy másik Azure-adatközpontban kell használnia az azonos Azure-szolgáltatás. Ez magában foglalja a konfigurációs és a replikációs adatok feladatok.
+### <a name="sql-server-on-virtual-machines"></a>SQL Server on Virtual Machines
+
+Számos lehetőség recovery és az SQL Server 2012 (és újabb) Azure Virtual Machines szolgáltatásban futó magas rendelkezésre állású érhetők el. További információkért lásd: [az SQL Server Azure virtuális gépek magas rendelkezésre állás és vészhelyreállítás helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
+
+## <a name="other-azure-platform-services"></a>Más Azure platformszolgáltatások
+
+Amikor megpróbálja futtatni a cloud Services több Azure-régióban, meg kell fontolnia a következmények minden a függőségek. A következő szakaszokban a szolgáltatásspecifikus útmutató feltételezi, hogy egy másik Azure-adatközpontban kell használnia az azonos Azure-szolgáltatás. Ez magában foglalja a konfigurációs és az adatreplikáció feladatokat is.
 
 > [!NOTE]
-> Bizonyos esetekben lépések segítségével egész adatközpont esemény helyett a szolgáltatásspecifikus szolgáltatáskimaradás elhárítása érdekében. Az alkalmazás szempontjából, egy szolgáltatás-specifikus leállás lehet, mint korlátozása csak, és a szolgáltatás ideiglenesen áttelepítése egy másodlagos Azure régióra igényel.
-> 
-> 
+> Bizonyos esetekben ezeket a lépéseket segítségével csökkentheti a teljes adatközpontot esemény helyett a szolgáltatásspecifikus szolgáltatáskimaradás. Az alkalmazás szempontjából egy szolgáltatásspecifikus szolgáltatáskimaradás lehet igény szerint korlátozza és lenne szükség, a szolgáltatás átmenetileg áttelepíthető egy másodlagos Azure régióra.
 
 ### <a name="service-bus"></a>Service Bus
-Az Azure Service Bus által használt Azure-régiók nem fedik egyedi névtér. Az első követelmény úgy beállítani a szükséges szolgáltatásbusz-névterek az másodlagos régióban. Van azonban is a várólistára helyezett üzenetek a tartóssági szempontjai. Nincsenek több stratégiák üzenetek replikálása Azure-régiók. A replikálási gyakorlata és más vész-helyreállítási stratégiát a részletekért lásd: [ajánlott eljárások az alkalmazások a Service Bus kimaradások és vészhelyzetek szigetelő](/azure/service-bus-messaging/service-bus-outages-disasters/). Más rendelkezésre állási lehetőségekért lásd: [Service Bus (rendelkezésre állási)](recovery-local-failures.md#other-azure-platform-services).
+
+Az Azure Service Bus egy egyedi névtér, amely nem terjed ki az Azure-régiók használ. Ezért az első követelmény, állíthatja be a szükséges service bus-névterek a másodlagos régióban. Azonban szempontot is a tartósságot biztosítanak a várólistán lévő üzenetek. Többféle módon is üzenetek replikálásához az Azure-régiók között. Ezek a replikáció stratégiák és más vészhelyreállítási stratégiái részletekért lásd: [ajánlott eljárásai az alkalmazások a Service Bus leállásainak és katasztrófákkal szembeni szigetelő](/azure/service-bus-messaging/service-bus-outages-disasters/). Más rendelkezésre állási lehetőségekért lásd: [(elérhető). a Service Bus](recovery-local-failures.md#other-azure-platform-services).
 
 ### <a name="app-service"></a>App Service
-Az Azure App Service alkalmazás, például webes alkalmazásokat, illetve a Mobile Apps át egy másodlagos Azure-régió, közzététel érhető el a webhely biztonsági másolatot kell rendelkeznie. Ha a szolgáltatáskimaradás nem tartalmaz, amely a teljes Azure-adatközpontban, esetleg FTP segítségével töltse le a webhely tartalmát egy nemrég készült biztonsági másolatából. Ezután hozzon létre egy új alkalmazást a másodlagos régióban, kivéve, ha korábban ezt a tartalékkapacitás. A hely közzététele az új területre, és a szükséges konfigurációs módosításokat. Ezek a változások tartalmazhatnak, adatbázis-kapcsolati karakterláncok vagy más régióban-specifikus beállításokat. Ha szükséges, a webhely SSL-tanúsítvány hozzáadása, és módosítsa a DNS CNAME rekord úgy, hogy az egyéni tartománynév mutat, az újratelepített Azure webes alkalmazás URL-CÍMÉT.
+
+Egy másodlagos Azure-régióba az Azure App Service-ben az alkalmazás, például a Web Apps és Mobile Apps, át, biztonsági másolatot a webhelyen érhető el közzétételre kell rendelkeznie. Ha a szolgáltatáskiesés megszüntetése után nem foglalja magában a teljes Azure-adatközpontban, esetleg FTP használatával töltse le a legutóbbi biztonsági másolata a webhely tartalmát. Ezután hozzon létre egy új alkalmazást a másodlagos régióban, kivéve, ha korábban ezt kapacitásának lefoglalása. A hely közzététele az új régióban, és végezze el a szükséges konfigurációs módosításokat. Ezek a változások lehetnek, adatbázis-kapcsolati karakterláncok vagy más régióban-specifikus beállításokat. Ha szükséges, a webhely SSL-tanúsítványt, és módosítsa a DNS CNAME-rekordot, hogy az egyéni tartománynevet az újratelepített Azure Web App URL-cím mutat.
 
 ### <a name="hdinsight"></a>HDInsight
-A hdinsight eszközzel kapcsolatos adatok az Azure Blob Storage alapértelmezés szerint tárolja. HDInsight megköveteli, hogy a Hadoop-fürtök MapReduce-feladatok feldolgozásában, közös elhelyezése szükséges a tárfiókot, amely tartalmazza az adatokat az elemezni ugyanabban a régióban. A georeplikáció elérhető Azure Storage szolgáltatást használja, feltéve érheti el az adatokat a másodlagos régióban, ahol az adatok replikálása Ha valamilyen okból az elsődleges régióban már nem érhető el. A régió, ahol az adatok replikálja, és folytatni azt is létrehozhat egy új Hadoop-fürt. Más rendelkezésre állási lehetőségekért lásd: [HDInsight (rendelkezésre állási)](recovery-local-failures.md#other-azure-platform-services).
+
+Azure Blob Storage-ban alapértelmezés szerint a HDInsight társított adatokat tárolja. HDInsight megköveteli, hogy egy MapReduce-feladatok feldolgozásában, Hadoop-fürtöt kell elhelyezni, amely tartalmazza az elemzett adatok a storage-fiók ugyanabban a régióban. Használja az elérhető az Azure Storage georeplikációs szolgáltatás, a megadott férhet hozzá az adataihoz a másodlagos régió, ahol rendszer replikálta az adatokat, ha valamilyen okból az elsődleges régió már nem érhető el. A régióban, ahol az adatok replikálása, és feldolgozását, létrehozhat egy új Hadoop-fürtöt. Más rendelkezésre állási lehetőségekért lásd: [HDInsight (elérhető)](recovery-local-failures.md#other-azure-platform-services).
 
 ### <a name="sql-reporting"></a>SQL Reporting (SQL-jelentés)
-Most végezze el a kívánt Azure-régiót elvesztését különböző Azure-régiók több SQL-példány van szükség. Ezek SQL-példány kell ugyanazon adatokat érik el, és adatokat kell rendelkeznie a saját helyreállítási terv legyen katasztrófahelyzet esetén. Minden jelentés RDL-fájl külső biztonsági másolatai is kezelheti.
+
+Jelenleg egy Azure-régióban, adatvesztés utáni helyreállításhoz szükséges több SQL-példány különböző Azure-régióban. Ezek a példányok az SQL Reporting hozzá kell férnie az ugyanazokat az adatokat, és adatokat kell rendelkeznie a saját helyreállítási terv egy esetleges vészhelyzet esetén. Minden jelentés RDL-fájl külső biztonsági másolatait is fenntarthat.
 
 ### <a name="media-services"></a>Media Services
-Az Azure Media Services van egy másik helyreállítási megközelítés kódolás és adatfolyamként történő továbbítását. Adatfolyam-általában több kritikus regionális kimaradás során. Ez az előkészítéséhez kell két különböző Azure-régiók Media Services-fiók. A kódolt tartalom mindkét régió kell elhelyezni. Adott meghibásodás során a másodlagos régióba irányíthatja át a folyamatos átviteli forgalmat. Kódolás bármely Azure régióban hajtható végre. Ha kódolás időérzékeny, például az élő esemény feldolgozása során, egy másodlagos adatközpontba feladatok küldéséhez esetén készen kell állnia.
+
+Az Azure Media Services rendelkezik egy másik helyreállítási módszert kódolás és streamelés céljából. Streamelési általában kritikus fontosságú egy regionális kimaradás során. Ehhez fel kell Media Services-fiók két különböző Azure-régióban. A kódolt tartalom mindkét régióban kell elhelyezni. Hiba esetén átirányíthatja a streamelési forgalmat a másodlagos régióba. Kódolás bármely Azure-régióban is elvégezhető. Ha kódolás időérzékeny, például az élő esemény feldolgozása során, kell állnia egy másodlagos adatközpont-feladatok elküldése a meghibásodások.
 
 ### <a name="virtual-network"></a>Virtuális hálózat
-Konfigurációs fájlokat adja meg a leggyorsabban egy másodlagos Azure régióra virtuális hálózat létrehozása. Az elsődleges Azure-régió, a virtuális hálózathoz való beállítása után [exportálhatja a virtuális hálózati beállításait](/azure/virtual-network/virtual-networks-create-vnet-classic-portal/) az adott hálózathoz hálózati konfigurációs fájlt. Az elsődleges régióban kimaradás esetén [visszaállítani a virtuális hálózati](/azure/virtual-network/virtual-networks-create-vnet-classic-portal/) a tárolt konfigurációs fájlból. Ezután konfigurálja a más felhőszolgáltatások, virtuális gépek vagy létesítmények közötti beállítások dolgozni az új virtuális hálózat.
+
+Konfigurációs fájlokat adja meg a leggyorsabb mód a állítsa be a virtuális hálózat egy másik Azure-régióban. Elsődleges Azure-régióban, a virtuális hálózat konfigurálása után [exportálhatja a virtuális hálózat beállításait](/azure/virtual-network/virtual-networks-create-vnet-classic-portal/) az adott hálózathoz hálózati konfigurációs fájlt. Az elsődleges régióban leállás [visszaállítani a virtuális hálózat](/azure/virtual-network/virtual-networks-create-vnet-classic-portal/) a tárolt konfigurációs fájlból. Ezután konfigurálja az egyéb felhőszolgáltatások, virtuális gépek vagy dolgozhat az új virtuális hálózatot létesítmények közötti beállításait.
 
 ## <a name="checklists-for-disaster-recovery"></a>Vész-helyreállítási Ellenőrzőlisták
+
 ## <a name="cloud-services-checklist"></a>Cloud Services ellenőrzőlista
-1. Tekintse át a dokumentum a Felhőszolgáltatások szakaszát.
-2. Hozzon létre egy kereszt-régió vész-helyreállítási stratégiát.
-3. Ismerje meg a lefoglal kapacitást a másodlagos régióban kompromisszumot.
-4. Használja a forgalom útválasztási eszközök, például az Azure Traffic Manager.
+
+1. Tekintse át a Cloud Services szakasz ebben a dokumentumban.
+2. Hozzon létre egy régiók közötti vész-helyreállítási stratégiát.
+3. Ismerje meg a másodlagos régióban kapacitás foglalása skálán.
+4. Forgalom útválasztási eszközök, például az Azure Traffic Manager használata.
 
 ## <a name="virtual-machines-checklist"></a>Virtuális gépek ellenőrzőlista
-1. Tekintse át a virtuális gépek szakasz ebben a dokumentumban.
-2. Használjon [Azure biztonsági mentés](https://azure.microsoft.com/services/backup/) alkalmazás konzisztens biztonsági másolatok különböző régiókban létrehozásához.
+
+1. Tekintse át a virtuális gépekre vonatkozó szakaszban ebben a dokumentumban.
+2. Használat [Azure Backup](https://azure.microsoft.com/services/backup/) hozhat létre alkalmazáskonzisztens biztonsági másolatok régióban.
 
 ## <a name="storage-checklist"></a>Tárolási ellenőrzőlista
-1. Tekintse át a dokumentum a tárolási szakaszát.
-2. Ne tiltsa le a tároló-erőforrások a georeplikáció.
-3. Ismerje meg a georeplikációért másodlagos régióban feladatátvételkor.
-4. Hozzon létre egyéni biztonsági stratégiák a felhasználó által szabályozott feladatátvételi stratégiát.
 
-## <a name="sql-database-checklist"></a>SQL-adatbázis ellenőrzőlista
-1. Tekintse át a dokumentum az SQL-adatbázis szakaszát.
-2. Használjon [Georedundáns helyreállítás](/azure/sql-database/sql-database-recovery-using-backups/#geo-restore) vagy [Georeplikáció](/azure/sql-database/sql-database-geo-replication-overview/) szükség szerint.
+1. Tekintse át a Storage szakasz ebben a dokumentumban.
+2. Ne tiltsa le a georeplikációs tárolási erőforrások.
+3. Ismerje meg, a georeplikáció másodlagos régió feladatátvételkor.
+4. Hozzon létre egyéni biztonsági stratégiák a felhasználó általi feladatátvételi stratégiát.
 
-## <a name="sql-server-on-virtual-machines-checklist"></a>SQL Server, a virtuális gépek ellenőrzőlista
-1. Tekintse át az SQL Server virtuális gépek szakasz ebben a dokumentumban.
-2. A kereszt-régió AlwaysOn rendelkezésre állási csoportok vagy az adatbázis-tükrözés.
-3. Felváltva biztonsági másolat, és állítsa vissza a blob-tároló.
+## <a name="sql-database-checklist"></a>Az SQL Database ellenőrzőlista
+
+1. Tekintse át az SQL Database szakasz ebben a dokumentumban.
+2. Használat [Geo-visszaállítás](/azure/sql-database/sql-database-recovery-using-backups/#geo-restore) vagy [Georeplikációs](/azure/sql-database/sql-database-geo-replication-overview/) megfelelő módon.
+
+## <a name="sql-server-on-virtual-machines-checklist"></a>Az SQL Server virtuális gépek ellenőrzőlista használata
+
+1. Tekintse át az SQL Server, a virtuális gépekre vonatkozó szakaszban ebben a dokumentumban.
+2. Régiók közötti AlwaysOn rendelkezésre állási csoportok használata vagy az adatbázis-tükrözés.
+3. Alternatív megoldásként biztonsági mentése és visszaállítása blob storage-bA.
 
 ## <a name="service-bus-checklist"></a>A Service Bus ellenőrzőlista
+
 1. Tekintse át a Service Bus szakasz ebben a dokumentumban.
 2. Konfigurálja a Service Bus-névtér egy másik régióban.
-3. Fontolja meg az üzenetek egyéni replikálási gyakorlata régiók között.
+3. Fontolja meg az egyéni replikálási gyakorlata üzenetek régiók között elosztva.
 
-## <a name="app-service-checklist"></a>App Service ellenőrzőlista
-1. Tekintse át az App Service szakasz ebben a dokumentumban.
-2. Hely biztonsági mentések kívül az elsődleges régióban karbantartása.
-3. Részleges kimaradás esetén megkísérli lekérni az aktuális hely FTP-vel.
-4. Tervezi a hely új vagy létező webhelyre egy másik régióban.
-5. Plan configuration changes for both application and DNS CNAME records.
+## <a name="app-service-checklist"></a>Az App Service-ellenőrzőlista
 
-## <a name="hdinsight-checklist"></a>HDInsight feladatlista
-1. Tekintse át a dokumentum a HDInsight szakaszát.
-2. Hozzon létre egy új Hadoop-fürt a replikált adatok régió.
+1. Tekintse át az App Service-ben szakasz ebben a dokumentumban.
+2. Biztosítja a webhely biztonsági mentések kívül az elsődleges régióba.
+3. Részleges szolgáltatáskimaradás esetén megkísérli lekérni az aktuális hely FTP használatával.
+4. Tervez üzembe helyezni a hely új vagy meglévő helyre egy másik régióban.
+5. Tervezze meg a konfigurációs módosítások az alkalmazás és a DNS CNAME-rekordokat.
 
-## <a name="sql-reporting-checklist"></a>Feladatlista SQL-alapú jelentések
+## <a name="hdinsight-checklist"></a>HDInsight-feladatlista
+
+1. Tekintse át a HDInsight szakasz ebben a dokumentumban.
+2. Hozzon létre egy új Hadoop-fürtöt a régióban, a replikált adatokkal.
+
+## <a name="sql-reporting-checklist"></a>Az SQL jelentési ellenőrzőlistát
+
 1. Tekintse át az SQL Reporting szakaszt ebben a dokumentumban.
-2. Egy másik SQL Reporting példányhoz egy másik régióban karbantartása.
-3. A cél a régióba replikálja külön terv karbantartása.
+2. Egy másik SQL Reporting példányhoz egy másik régióban lévő karbantartása.
+3. Replikálni a célként megadott régióban egy különálló csomag fenntartásához.
 
 ## <a name="media-services-checklist"></a>A Media Services ellenőrzőlista
-1. Tekintse át a dokumentum a Media Services szakaszát.
-2. Media Services-fiók létrehozása egy másik régióban.
-3. A két adatfolyam-továbbítási feladatátvételi támogatásához régió azonos tartalom kódolása.
-4. A szolgáltatás szüneteltetése esetén egy másik régióban kódolási feladatok elküldéséhez.
 
-## <a name="virtual-network-checklist"></a>Virtuális hálózati ellenőrzőlista
-1. Tekintse át a virtuális hálózati szakasz ebben a dokumentumban.
-2. Használja a virtuális hálózati beállításainak a hozza létre újból egy másik régióban exportált.
+1. Tekintse át a Media Services szakasz ebben a dokumentumban.
+2. Hozzon létre egy Media Services-fiók egy másik régióban.
+3. A kódolás kimenete streamelési feladatátvétel támogatásához mindkét régióban ugyanahhoz a tartalomhoz.
+4. Egy szolgáltatás bekövetkező szolgáltatáskimaradás esetén egy másodlagos régióba kódolási feladatok elküldéséhez.
 
+## <a name="virtual-network-checklist"></a>Virtuális hálózat ellenőrzőlista
+
+1. Tekintse át a virtuális hálózat szakasz ebben a dokumentumban.
+2. Használja újra létre egy másik régióban található virtuális hálózati beállítások exportálása.

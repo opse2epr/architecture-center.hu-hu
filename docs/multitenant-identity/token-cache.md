@@ -1,17 +1,17 @@
 ---
 title: Gyorsítótár számára a hozzáférést tokenek egy több-bérlős alkalmazásban
-description: A háttérbeli webes API-k hívásához hozzáférési jogkivonatok gyorsítótárazása
+description: A háttérbeli webes API-k hívásához hozzáférési jogkivonatok gyorsítótárazása.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: web-api
 pnp.series.next: adfs
-ms.openlocfilehash: 950b638e629ad97e24b05e781da844bc110bad91
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 0cf4b3c3b9187759522b4530c94268ce8d7baa86
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901711"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110952"
 ---
 # <a name="cache-access-tokens"></a>Hozzáférési jogkivonatok gyorsítótárazása
 
@@ -41,14 +41,14 @@ A Tailspin Surveys-alkalmazás a `DistributedTokenCache` osztálya határozza me
 Felhasználó által particionálása a háttértárban. Minden egyes HTTP-kérelem a tokenek számára, hogy a felhasználó a háttértárban olvasása és betölti a `TokenCache` szótárban. A Redis a háttértárban használatos, ha minden kiszolgálópéldány kiszolgálófarm olvasást/írást, az azonos gyorsítótárába, és ez a megközelítés méretezhető sok felhasználó.
 
 ## <a name="encrypting-cached-tokens"></a>Gyorsítótárazott jogkivonatok titkosítása
+
 Jogkivonatok olyan bizalmas adatokat, mert, a felhasználó erőforrásokhoz való hozzáférést. (Ezenkívül ellentétben a felhasználó jelszava, nem csak tárolhatja a jogkivonat kivonata.) Ezért rendkívül fontos jogkivonatok védelmét az illetéktelen kezekbe kerüljenek. A Redis-alapú gyorsítótár jelszóval védett, de ha valaki megszerzi a jelszót, azok az sikerült beolvasni minden, a gyorsítótárazott hozzáférési jogkivonatok. Éppen ezért a `DistributedTokenCache` mindent, ami a háttértárban ír titkosítja. Titkosítási történik az ASP.NET Core használatával [adatvédelem] [ data-protection] API-k.
 
 > [!NOTE]
 > Ha telepíti az Azure webhelyek, a titkosítási kulcsok biztonsági másolat a hálózati tároláshoz és szinkronizálja az összes gép (lásd: [felügyeleti és-élettartam][key-management]). Alapértelmezés szerint kulcsok nem titkosíthatók az Azure webhelyek fut, de Ön is [engedélyezze a titkosítást, X.509 tanúsítvánnyal][x509-cert-encryption].
-> 
-> 
 
 ## <a name="distributedtokencache-implementation"></a>DistributedTokenCache megvalósítása
+
 A `DistributedTokenCache` származik az ADAL [TokenCache] [ tokencache-class] osztály.
 
 A konstruktor a `DistributedTokenCache` osztály létrehoz egy kulcsot az aktuális felhasználó számára, és a gyorsítótár tölt be a háttértárban:

@@ -3,12 +3,12 @@ title: A cognitive services technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 0551bf05cb47cb3972b0d5f2e5226e23cbdacc68
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 13d510056e4b1ce6eeec603427658215691e48ab
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902546"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110986"
 ---
 # <a name="choosing-a-microsoft-cognitive-services-technology"></a>A Microsoft cognitive services technológia kiválasztása
 
@@ -16,26 +16,33 @@ A Microsoft cognitive services olyan felhőalapú API-k használható a mesters�
 
 A cognitive services a következők:
 
-* Szövegelemzés
-* Számítógépes látástechnológia
-* Videóelemzés
-* Beszédfelismerés, beszédfelismerési és beszédgenerálási
-* Beszédfelismerés
-* Intelligens keresést
+- Szövegelemzés
+- Számítógépes látástechnológia
+- Videóelemzés
+- Beszédfelismerés, beszédfelismerési és beszédgenerálási
+- Beszédfelismerés
+- Intelligens keresést
 
 Fő előnyök:
 
-* Minimális fejlesztési tevékenységi állapot-az-a legújabb AI-szolgáltatások számára.
-* Könnyen integrálható az alkalmazásokba via HTTP REST-felületeihez.
-* Beépített támogatást nyújt, a cognitive Servicest az Azure Data Lake Analytics felhasználása.
+- Minimális fejlesztési tevékenységi állapot-az-a legújabb AI-szolgáltatások számára.
+- Könnyen integrálható az alkalmazásokba via HTTP REST-felületeihez.
+- Beépített támogatást nyújt, a cognitive Servicest az Azure Data Lake Analytics felhasználása.
 
 Szempontok:
 
-* Csak a weben keresztül érhető el. Internetkapcsolat általában szükség. Egy kivétel ez alól a Custom Vision Service, amelynek segítségével exportálhatja az előrejelzéshez az eszközökön és az IoT edge betanított modell.
-* Jelentős testreszabási támogatják, az elérhető szolgáltatások előfordulhat, hogy nem kockázatiszint összes prediktív elemzési.
+- Csak a weben keresztül érhető el. Internetkapcsolat általában szükség. Egy kivétel ez alól a Custom Vision Service, amelynek segítségével exportálhatja az előrejelzéshez az eszközökön és az IoT edge betanított modell.
+
+- Jelentős testreszabási támogatják, az elérhető szolgáltatások előfordulhat, hogy nem kockázatiszint összes prediktív elemzési.
+
+<!-- markdownlint-disable MD026 -->
 
 ## <a name="what-are-your-options-when-choosing-amongst-the-cognitive-services"></a>Mik azok a beállítások többek között a cognitive services kiválasztásakor?
+
+<!-- markdownlint-disable MD026 -->
+
 Az Azure-ban érhetők el a Cognitive Services tucat. Ezek jelenlegi listája támogatja a funkcionális terület szerint osztályozva könyvtár érhető el:
+
 - [Vision](https://azure.microsoft.com/services/cognitive-services/directory/vision/)
 - [Beszédfelismerés](https://azure.microsoft.com/services/cognitive-services/directory/speech/)
 - [Knowledge](https://azure.microsoft.com/services/cognitive-services/directory/know/)
@@ -46,13 +53,13 @@ Az Azure-ban érhetők el a Cognitive Services tucat. Ezek jelenlegi listája t�
 
 Így szűkítheti, első lépésként a kérdések megválaszolása:
 
-- Milyen típusú adatokat, foglalkoznak? Szűkítenie a lehetőségeit, dolgozik, a bemeneti adatok típusa alapján. Ha a bemeneti szöveg, például válassza ki a szolgáltatásokból, amelyek egy bemeneti szöveg típusát. 
+- Milyen típusú adatokat, foglalkoznak? Szűkítenie a lehetőségeit, dolgozik, a bemeneti adatok típusa alapján. Ha a bemeneti szöveg, például válassza ki a szolgáltatásokból, amelyek egy bemeneti szöveg típusát.
 
-- Rendelkezik a modell betanításához az adatokat? Ha igen, fontolja meg az egyéni szolgáltatásokról, amelyek lehetővé teszik az adatokat ad meg, a nagyobb pontosság és a teljesítmény az alapul szolgáló modelleket taníthat be. 
+- Rendelkezik a modell betanításához az adatokat? Ha igen, fontolja meg az egyéni szolgáltatásokról, amelyek lehetővé teszik az adatokat ad meg, a nagyobb pontosság és a teljesítmény az alapul szolgáló modelleket taníthat be.
 
 ## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a fő különbségeket, a képességek. 
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="uses-prebuilt-models"></a>Használja az előre összeállított modellek
 
@@ -89,7 +96,6 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Bemenet típusa | Legfontosabb előnyök |
 | --- | --- | --- |
 | Egyéni vizuális szolgáltatás | Képek (vagy a videó keretek) | Testre szabhatja a saját számítógépes látástechnológiai modelljeit. |
-| Custom Speech Service | Beszéd | Kiküszöbölheti a beszédfelismerést akadályozó tényezők például a különféle stílusú, háttérzajból és szókincsből eredőket. | 
+| Custom Speech Service | Beszéd | Kiküszöbölheti a beszédfelismerést akadályozó tényezők például a különféle stílusú, háttérzajból és szókincsből eredőket. |
 | Egyéni döntési szolgáltatás | Webes tartalom (például az RSS-hírcsatorna) | Machine learning segítségével automatikusan kiválasztja a megfelelő tartalmat a kezdőlap |
 | Bing Custom Search API | Szöveg (webes keresési lekérdezés) | Kereskedelmi színvonalú keresési eszköz egyéni keresési. |
-

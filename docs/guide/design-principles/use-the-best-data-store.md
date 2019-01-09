@@ -1,14 +1,16 @@
 ---
 title: Használja a feladathoz legmegfelelőbb adattárat
-description: Válassza az adataihoz és azok felhasználásához leginkább megfelelő tárolótechnológiát
+titleSuffix: Azure Application Architecture Guide
+description: Válassza az adataihoz és azok felhasználásához leginkább megfelelő tárolótechnológiát.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 25839f5a749881f415c923db5497984d32b8ac91
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.custom: seojan19
+ms.openlocfilehash: ab7cbe7005a00bcc2bfd7bad97f3eaf125f53e12
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326091"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113297"
 ---
 # <a name="use-the-best-data-store-for-the-job"></a>Használja a feladathoz legmegfelelőbb adattárat
 
@@ -20,7 +22,7 @@ Manapság már nem tennénk fel az összes adatunkat egy hatalmas relációs SQL
 - Az adatokat normalizálni kell, és illeszkedniük kell egy előre meghatározott sémához (íráskor meghatározott séma).
 - A zárolási verseny hatással lehet a teljesítményre.
 
-Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek. A relációs adatbázisok alternatívái lehetnek például a kulcs/értéktárak, a dokumentum-adatbázisok, a keresőmotor-adatbázisok, az idősorozat-adatbázisok, az oszlopcsalád-adatbázisok, és a gráfadatbázisok. Mindnek vannak előnyei és hátrányai, és a különféle típusú adatok jobban illeszthetők az egyik vagy a másik fajtához. 
+Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek. A relációs adatbázisok alternatívái lehetnek például a kulcs/értéktárak, a dokumentum-adatbázisok, a keresőmotor-adatbázisok, az idősorozat-adatbázisok, az oszlopcsalád-adatbázisok, és a gráfadatbázisok. Mindnek vannak előnyei és hátrányai, és a különféle típusú adatok jobban illeszthetők az egyik vagy a másik fajtához.
 
 Például egy termékkatalógust tárolhat egy dokumentum-adatbázisban, (például Cosmos DB), amely rugalmas sémát tesz lehetővé. Ebben az esetben minden egyes termékleírás egy önálló dokumentumot képez. A teljes katalógusra kiterjedő lekérdezések esetében indexelheti a katalógust, az indexet pedig az Azure Search-ben tárolhatja. A termékleltár kerülhet egy SQL adatbázisba, mivel ezeknek az adatoknak ACID-garanciára van szüksége.
 
@@ -30,13 +32,13 @@ Ne feledje, hogy adat alatt nem csak a megőrzött alkalmazásadatokat értjük.
 
 **Ne relációs adatbázissal oldjon meg mindent**. Ha szükséges, gondolkozzon más adattárakban is. Lásd: [A megfelelő adattároló kiválasztása][data-store-overview].
 
-**Vezesse be a többnyelvű adatmegőrzést**. Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek. 
+**Vezesse be a többnyelvű adatmegőrzést**. Bármely nagy megoldásról legyen szó, egyetlen adattár-technológia jó eséllyel nem fog megfelelni az összes igénynek.
 
 **Vegye figyelembe az adatok típusát**. Például helyezze a tranzakciós adatokat SQL-be, a JSON-dokumentumokat egy dokumentum-adatbázisba, a telemetriai adatokat egy idősorozat-adatbázisba, az alkalmazásnaplókat az Elasticsearch-be, a blobokat pedig az Azure Blob Storage-ba.
 
-**Részesítse előnyben a rendelkezésre állást az (erős) konzisztenciával szemben**. A CAP-tétel szerint az elosztott rendszerek esetén mindenképpen kompromisszumot kell kötni a rendelkezésre állás és a konzisztencia között. (A CAP-tétel másik alapját képező hálózati partíciókat soha nem lehet teljes mértékben elkerülni.) Sok esetben nagyobb rendelkezésre állás érhető el egy *végleges konzisztencia* modell bevezetésével. 
+**Részesítse előnyben a rendelkezésre állást az (erős) konzisztenciával szemben**. A CAP-tétel szerint az elosztott rendszerek esetén mindenképpen kompromisszumot kell kötni a rendelkezésre állás és a konzisztencia között. (A CAP-tétel másik alapját képező hálózati partíciókat soha nem lehet teljes mértékben elkerülni.) Sok esetben nagyobb rendelkezésre állás érhető el egy *végleges konzisztencia* modell bevezetésével.
 
-**Vegye figyelembe a fejlesztői csapat szaktudását**. Habár a többnyelvű adatmegőrzés használata előnyökkel jár, túlzásokba lehet esni. Egy új adattárolási technológia bevezetéséhez új szaktudásra van szükség. A fejlesztői csapatnak értenie kell a technológia minél hatékonyabb működtetéséhez. Ismerniük kell a megfelelő használati mintákat, tudniuk kell optimalizálni a lekérdezéseket, nagy teljesítményre hangolni a rendszert stb. Vegye ezt is figyelembe, amikor tárolási technológiát választ. 
+**Vegye figyelembe a fejlesztői csapat szaktudását**. Habár a többnyelvű adatmegőrzés használata előnyökkel jár, túlzásokba lehet esni. Egy új adattárolási technológia bevezetéséhez új szaktudásra van szükség. A fejlesztői csapatnak értenie kell a technológia minél hatékonyabb működtetéséhez. Ismerniük kell a megfelelő használati mintákat, tudniuk kell optimalizálni a lekérdezéseket, nagy teljesítményre hangolni a rendszert stb. Vegye ezt is figyelembe, amikor tárolási technológiát választ.
 
 **Kompenzáló tranzakciók használata**. A többnyelvű adatmegőrzés egyik mellékhatásaként egy tranzakció több tárolóba is írhat adatot. Ha hiba lép fel, kompenzáló tranzakciók használatával vonhatja vissza a már végrehajtott lépéseket.
 

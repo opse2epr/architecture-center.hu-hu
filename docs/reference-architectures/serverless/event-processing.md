@@ -1,16 +1,16 @@
 ---
 title: Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 titleSuffix: Azure Reference Architectures
-description: A referenciaarchitektúra bemutatja a kiszolgáló nélküli eseményfogadás és feldolgozás
+description: Referencia-architektúra, kiszolgáló nélküli eseményfogadás és feldolgozás céljából, az Azure Functions szolgáltatással.
 author: MikeWasson
 ms.date: 10/16/2018
 ms.custom: seodec18
-ms.openlocfilehash: c6512602444157b672b4c5187a678443f076dea0
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 23edc69e52981cfd15717b491875b34ed025958a
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011769"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111393"
 ---
 # <a name="serverless-event-processing-using-azure-functions"></a>Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 

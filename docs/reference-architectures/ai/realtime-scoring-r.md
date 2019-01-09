@@ -1,17 +1,17 @@
 ---
-title: Valós idejű pontozás a machine learning-modellek R
+title: Machine Learning-modellek valós idejű pontozása
 description: Egy valós idejű előrejelzési szolgáltatás megvalósítása az R, Machine Learning-kiszolgáló futtatása az Azure Kubernetes Service (AKS) használatával.
 author: njray
-ms.date: 12/12/18
+ms.date: 12/12/2018
 ms.custom: azcat-ai
-ms.openlocfilehash: a6069704c48fbc1f1a1e4b5df428011d6b5b883d
-ms.sourcegitcommit: 62d2211badd1d6950e8cb819d70c9a4ab1ee01d9
+ms.openlocfilehash: 6f3447d1dcab801ccdaf4cf88611725cc00eb68d
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53318992"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112277"
 ---
-# <a name="real-time-scoring-of-r-machine-learning-models"></a>Valós idejű pontozás a machine learning-modellek R
+# <a name="real-time-scoring-of-r-machine-learning-models"></a>Machine Learning-modellek valós idejű pontozása
 
 Ez a referenciaarchitektúra bemutatja, hogyan egy valós idejű (szinkron) előrejelzési szolgáltatás megvalósítása az R Microsoft Machine Learning-kiszolgáló futtatása az Azure Kubernetes Service (AKS) használatával. Ez az architektúra célja, hogy általános és bármely valós idejű szolgáltatásként telepíteni kívánt R beépített prediktív modell számára a megfelelő. **[A megoldás üzembe helyezése][github]**.
 
@@ -51,7 +51,7 @@ A Machine Learning-kiszolgáló [modell Operacionalizálás] [ operationalizatio
 
 A modell Operacionalizálás tárolók a Machine Learning-kiszolgáló megfelelően működjenek telepítenie kell egy JSON webes jogkivonat (JWT) tanúsítványt. A központi telepítés egy Microsoft által biztosított tanúsítványt használ. Egy éles beállításban adja meg a saját.
 
-Container Registry és az AKS közötti forgalom esetén érdemes lehet engedélyezni az [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) hozzáférés korlátozható, ha csak a szükséges. 
+Container Registry és az AKS közötti forgalom esetén érdemes lehet engedélyezni az [szerepköralapú hozzáférés-vezérlés] [ rbac] (RBAC) hozzáférés korlátozható, ha csak a szükséges.
 
 ### <a name="separate-storage"></a>Külön tárolási
 

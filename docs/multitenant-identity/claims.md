@@ -1,23 +1,24 @@
 ---
 title: Több-bérlős alkalmazásokban jogcímalapú identitások használata
-description: Hogyan használja a jogcím-kibocsátó érvényesítése és az engedélyezés
+description: Hogyan használja a kibocsátó érvényesítése és az engedélyezés jogcímek.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authenticate
 pnp.series.next: signup
-ms.openlocfilehash: 3ed6c7c9a48f3617f82112e76878c770099fde3e
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: ffaa6085dd9ca9ddec203e6661575e984b2e25e0
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902408"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113586"
 ---
 # <a name="work-with-claims-based-identities"></a>Jogcímalapú identitások használata
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
 ## <a name="claims-in-azure-ad"></a>Jogcímek, az Azure ad-ben
+
 Amikor egy felhasználó bejelentkezik, az Azure AD elküldi egy azonosító jogkivonat, amely a felhasználóval kapcsolatos jogcímek egy készletét tartalmazza. Jogcím egyszerűen egy információt egy kulcs/érték pár kifejezve. Például: `email`=`bob@contoso.com`.  Jogcímek rendelkezik egy kibocsátó &mdash; ebben az esetben az Azure AD &mdash; Ez az a entitás, amely hitelesíti a felhasználót, és a jogcímeket hoz létre. Megbízik a jogcímeket, mivel a kibocsátó megbízik. (Ezzel szemben, ha a kiállító nem megbízható, nem megbízható jogcímeket!)
 
 Magas szintű:
@@ -51,15 +52,15 @@ Ez a táblázat felsorolja a jogcímtípusok, ahogy azok megjelennek a azonosít
 * egyszerű felhasználónév > `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn`
 
 ## <a name="claims-transformations"></a>A jogcímek átalakítása
+
 A hitelesítési folyamat során érdemes módosítani a jogcímek, az Identitásszolgáltató képest. ASP.NET Core, a jogcímek átalakításáról található hajthat végre a **AuthenticationValidated** eseményt az OpenID Connect közbenső szoftvert. (Lásd: [hitelesítési események].)
 
 Bármely során hozzáadott jogcím **AuthenticationValidated** a munkamenet hitelesítési cookie vannak tárolva. Ezek nem get küldi vissza az Azure ad-hez.
 
 Íme néhány példa a jogcímek átalakításáról:
 
-* **Jogcím-normalizálási**, vagy a jogcímszolgáltatói konzisztens felhasználók között. Ez akkor különösen fontos, ha a több identitásszolgáltató használatát, amely használható különböző jogcímtípusok hasonló információkat kap jogcímeket.
-  Például az Azure AD elküldi egy "egyszerű felhasználónév" jogcímet, amely tartalmazza a felhasználó e-mail címe. Más identitásszolgáltató küldhet egy "e-mail" jogcímet. A következő kódot egy "e-mail" jogcímet a "egyszerű" jogcím alakítja át:
-  
+* **Jogcím-normalizálási**, vagy a jogcímszolgáltatói konzisztens felhasználók között. Ez akkor különösen fontos, ha a több identitásszolgáltató használatát, amely használható különböző jogcímtípusok hasonló információkat kap jogcímeket. Például az Azure AD elküldi egy "egyszerű felhasználónév" jogcímet, amely tartalmazza a felhasználó e-mail címe. Más identitásszolgáltató küldhet egy "e-mail" jogcímet. A következő kódot egy "e-mail" jogcímet a "egyszerű" jogcím alakítja át:
+
   ```csharp
   var email = principal.FindFirst(ClaimTypes.Upn)?.Value;
   if (!string.IsNullOrWhiteSpace(email))
@@ -67,12 +68,14 @@ Bármely során hozzáadott jogcím **AuthenticationValidated** a munkamenet hit
       identity.AddClaim(new Claim(ClaimTypes.Email, email));
   }
   ```
+
 * Adjon hozzá **alapértelmezett jogcímértékek** , amelyek nincsenek jelen jogcímek &mdash; például egy felhasználó egy alapértelmezett szerepkör hozzárendelése. Bizonyos esetekben ez egyszerűsítheti a hitelesítési logikát.
-* Adjon hozzá **egyéni jogcímtípusok** a felhasználó alkalmazás-specifikus információkat. Például előfordulhat, hogy tárolja a felhasználó adatait egy adatbázist. A hitelesítési jegy hozzáadhatja ezeket az információkat az egyéni jogcím. A jogcím tárolja a cookie-k, így csak az egyszeri bejelentkezési munkamenetenként adatbázisból való beolvasásához szükséges. Másrészről is érdemes kerülje a túl nagy a cookie-k, ezért érdemes kompromisszumot kötni a cookie-k méretének és adatbázis-keresések között kell.   
+* Adjon hozzá **egyéni jogcímtípusok** a felhasználó alkalmazás-specifikus információkat. Például előfordulhat, hogy tárolja a felhasználó adatait egy adatbázist. A hitelesítési jegy hozzáadhatja ezeket az információkat az egyéni jogcím. A jogcím tárolja a cookie-k, így csak az egyszeri bejelentkezési munkamenetenként adatbázisból való beolvasásához szükséges. Másrészről is érdemes kerülje a túl nagy a cookie-k, ezért érdemes kompromisszumot kötni a cookie-k méretének és adatbázis-keresések között kell.
 
 A hitelesítési folyamat befejezése után a jogcímek érhetők el a `HttpContext.User`. Ezen a ponton kezelje őket egy csak olvasható gyűjteményként &mdash; például ezek segítségével engedélyezési döntésekhez.
 
 ## <a name="issuer-validation"></a>Kibocsátó érvényesítése
+
 Az OpenID Connect a kiállító ("iss") jogcím azonosítja az Identitásszolgáltató az azonosító jogkivonat kibocsátó. OIDC hitelesítési folyamat része, hogy ellenőrizze, hogy a kibocsátó jogcím megegyezik-e a tényleges kibocsátó. A OIDC közbenső kezeli Ez az Ön számára.
 
 Az Azure AD-ben a kibocsátó értékét az AD-bérlő minden egyedi (`https://sts.windows.net/<tenantID>`). Ezért egy alkalmazás egy további ellenőrzés, hogy a kibocsátó képviseli azt, hogy jelentkezzen be az alkalmazás egy bérlőt kell tennie.
@@ -87,25 +90,28 @@ Egybérlős alkalmazás esetében egyszerűen ellenőrizhető, hogy a kibocsát�
 További részletes tárgyalását lásd: [előfizetési és bérlőfelvétel egy több-bérlős alkalmazásban][signup].
 
 ## <a name="using-claims-for-authorization"></a>Engedélyezési jogcímek használata
+
 A jogcímek, az a felhasználó identitását, már nem egy monolitikus entitást. Például egy felhasználó lehet e-mail cím, telefonszám, születésnap, nemét, stb. A felhasználó Identitásszolgáltató talán összes ezeket az információkat tárolja. De hitelesíteni a felhasználót, amikor általában kap egy része, ezek jogcímekként. Ebben a modellben a felhasználó identitását a jogcímek egyszerűen egy kötegelt. Amikor engedélyezéshez felhasználókkal kapcsolatos, adott részhalmazához jogcímek fogja keresni. Más szóval a kérdés végső soron "Nem felhasználói X rendelkezik igény Z" "X felhasználó művelet hajtható végre, Y" lesz.
 
 Az alábbiakban néhány alapvető mintázatokból jogcímek ellenőrzéséhez.
 
 * Ellenőrizze, hogy a felhasználó rendelkezik-e egy adott jogcím egy adott értékkel:
-  
+
    ```csharp
    if (User.HasClaim(ClaimTypes.Role, "Admin")) { ... }
    ```
+
    Ez a kód ellenőrzi, hogy a felhasználó rendelkezik-e a szerepkör jogcím "Rendszergazda" értékű. Az eset, amelyhez a felhasználónak nincs szerepkör jogcím vagy több szerepkör jogcím van-e megfelelően kezeli.
   
    A **ClaimTypes** osztály jogcímtípusok gyakran használt állandókat határozza meg. Bármilyen karakterlánc típusú értéket használhatja azonban a jogcímtípushoz.
 * Ha itt nem legfeljebb egy értéket várt egyetlen érték lekéréséhez a jogcím típusa:
-  
+
   ```csharp
   string email = User.FindFirst(ClaimTypes.Email)?.Value;
   ```
+
 * Egy jogcímtípust értékek lekéréséhez:
-  
+
   ```csharp
   IEnumerable<Claim> groups = User.FindAll("groups");
   ```
@@ -114,8 +120,7 @@ További információkért lásd: [szerepkör- és erőforrás-alapú hitelesít
 
 [**Tovább**][signup]
 
-
-<!-- Links -->
+<!-- links -->
 
 [hatókör-paramétert]: https://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
 [Támogatott token- és jogcímtípusok]: /azure/active-directory/active-directory-token-and-claims/

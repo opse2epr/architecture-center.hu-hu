@@ -3,18 +3,18 @@ title: Valós idejű feldolgozás
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: ccd098ab0d5393231eeb26eb1c56c52cdcb78fbe
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 75b52ae9bf7419b451084bb1a1eaf0984258433c
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901611"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113909"
 ---
 # <a name="real-time-processing"></a>Valós idejű feldolgozás
 
 Valós idejű feldolgozás mutatnak, amelyek rögzítve lesznek a valós idejű és a feldolgozott használatával hozzon létre valós idejű (vagy közel valós idejű) jelentések vagy az automatikus válaszok minimális késéssel foglalkozik. Például egy valós idejű forgalmat figyelő megoldás lehet, hogy használatával érzékelőktől kapott adatok nagy forgalmú kötetek észlelése. Ezek az adatok való dinamikus frissítéséhez egy térkép torlódás megjelenítéséhez, vagy automatikusan elindítja a nagy-os foglaltságnál tart útvonalakra vagy más forgalom felügyeleti rendszerekkel használható.
 
-![](./images/real-time-pipeline.png)
+![A valós idejű feldolgozási folyamat ábrája](./images/real-time-pipeline.png)
 
 Valós idejű feldolgozás számít, ha a bemeneti adatok feldolgozásához nagyon rövid késési követelményekkel rendelkező korlátlan streameken működő stream feldolgozására &mdash; ezredmásodperc vagy másodpercben mérve. A bejövő adatok általában érkezik egy strukturálatlan és részben strukturált formátumban, például a JSON-t, és ugyanazon a feldolgozási követelmények vonatkoznak, mint [kötegelt feldolgozás](./batch-processing.md), de a valós idejű használati támogatásához rövidebb válaszidejű, optimalizált rövidebb.
 
@@ -32,9 +32,9 @@ Egy valós idejű feldolgozási architektúra a következő logikai összetevők
 
 - **Stream-feldolgozás.** A valós idejű üzenetek rögzítése után a megoldásnak fel kell dolgoznia, azaz szűrnie, összesítenie és egyéb módon elő kell készítenie az adatokat az elemzéshez.
 
-- **Analitikai adattár.** Számos big data-megoldás előkészíti az adatokat az elemzésre, és ezután bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel strukturált formátumban lettek kialakítva. 
+- **Analitikai adattár.** Számos big data-megoldás előkészíti az adatokat az elemzésre, és ezután bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel strukturált formátumban lettek kialakítva.
 
-- **Elemzés és jelentéskészítés.** A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. 
+- **Elemzés és jelentéskészítés.** A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 

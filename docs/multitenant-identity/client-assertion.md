@@ -6,18 +6,19 @@ ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: adfs
 pnp.series.next: key-vault
-ms.openlocfilehash: 58eed82c982fe1c6cba0f04b237d92d117a26fd4
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: b5951153fff109b648e7e4f74daac0f414240fe4
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902263"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113144"
 ---
 # <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a>Ügyféltény használatával hozzáférési tokenek beszerzése az Azure ad-ből
 
 [![GitHub](../_images/github.png) Mintakód][sample application]
 
 ## <a name="background"></a>Háttér
+
 OpenID Connect hitelesítési kódfolyamat vagy hibrid folyamatot használ, amikor az ügyfél hozzáférési jogkivonatot engedélyezési kódjának adatcseréihez használható. Ezzel a lépéssel az ügyfél rendelkezik, hitelesítse magát a kiszolgálót.
 
 ![Titkos ügyfélkulcs](./images/client-secret.png)
@@ -26,7 +27,7 @@ Az ügyfél hitelesítésére egy úgy, hogy egy ügyfél titkos kulcs használa
 
 Íme egy példa az ügyfél az Identitásszolgáltató hozzáférési jogkivonatot kér kérést. Megjegyzés: a `client_secret` paraméter.
 
-```
+```http
 POST https://login.microsoftonline.com/b9bd2162xxx/oauth2/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
@@ -45,7 +46,7 @@ A fokozott biztonság érdekében használhat [ügyféltény] ügyfélkódot hel
 
 A következő kérés ügyféltény használatával:
 
-```
+```http
 POST https://login.microsoftonline.com/b9bd2162xxx/oauth2/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
@@ -61,8 +62,6 @@ Figyelje meg, hogy a `client_secret` paraméter nincs többé használatban. Ehe
 
 > [!NOTE]
 > X.509-tanúsítványokat amelyek nem csak formájában ügyféltény; fogunk összpontosítani, itt, mert az Azure AD által támogatott.
-> 
-> 
 
 Futási időben a webalkalmazás beolvassa a tanúsítványt a tanúsítványtárolóból. A tanúsítvány telepítenie kell a webalkalmazás ugyanazon a gépen.
 
@@ -100,7 +99,8 @@ A Surveys alkalmazás ügyféltény beállításával kapcsolatos további infor
 
 [**Tovább**][key vault]
 
-<!-- Links -->
+<!-- links -->
+
 [configure-web-app]: /azure/app-service-web/web-sites-configure/
 [azure-management-portal]: https://portal.azure.com
 [ügyféltény]: https://tools.ietf.org/html/rfc7521

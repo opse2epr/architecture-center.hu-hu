@@ -6,12 +6,12 @@ keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 ms.custom: seodec18
-ms.openlocfilehash: be356341fddcddfaf7e354328bc9c4fa1c47e851
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 85a1355ff47e6fce80d9b2ed114024651eb994db
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011167"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114249"
 ---
 # <a name="health-endpoint-monitoring-pattern"></a>Állapot végponti monitorozását végző minta
 
@@ -201,7 +201,7 @@ Az útválasztási kérelmek mellett a Traffic Manager pingel egy URL-címet, eg
 
 A Traffic Manager azonban csak tíz másodpercig vár a monitorozó URL-cím válaszára. Éppen ezért győződjön meg róla, hogy a rendszer az időkorláton belül futtatja az állapot-ellenőrzési kódot, ezzel lehetővé téve a hálózaton belüli adatváltási késést a Traffic Managerből az alkalmazásba, majd pedig vissza.
 
-> További információ a [Traffic Manager alkalmazások monitorozására való használatáról](https://azure.microsoft.com/documentation/services/traffic-manager/). A Traffic Managerről a [több adatközpont üzembe helyezéséről szóló útmutatóban](https://msdn.microsoft.com/library/dn589779.aspx) is olvashat.
+> További információ a [Traffic Manager alkalmazások monitorozására való használatáról](/azure/traffic-manager/). A Traffic Managerről a [több adatközpont üzembe helyezéséről szóló útmutatóban](https://msdn.microsoft.com/library/dn589779.aspx) is olvashat.
 
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók
 
@@ -211,4 +211,4 @@ Az alábbi útmutató hasznos lehet ennek a mintának az implementálása során
 - [Riasztási értesítések fogadása][portal-alerts].
 - Ez a minta egy letölthető [mintaalkalmazást](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring) tartalmaz.
 
-[portal-alerts]: https://azure.microsoft.com/documentation/articles/insights-receive-alert-notifications/
+[portal-alerts]: /azure/azure-monitor/platform/alerts-metric

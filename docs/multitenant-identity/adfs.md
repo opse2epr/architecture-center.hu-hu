@@ -1,23 +1,24 @@
 ---
 title: Összevonás az ügyfél AD FS szolgáltatásával
-description: Hogyan az ügyfél-val összevont a több-bérlős alkalmazás AD FS-sel
+description: Hogyan az ügyfél-val összevont a az AD FS egy több-bérlős alkalmazásban.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: fec10ca0e067b3b51bf9dba70d66ceb12423787d
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 27fad1aab8d359346353cc031a2e8d8746294818
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902697"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113552"
 ---
 # <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
 Ez a cikk bemutatja, hogyan egy több-bérlős SaaS-alkalmazáshoz is támogatják a hitelesítést az Active Directory összevonási szolgáltatások (AD FS), annak érdekében, hogy egy ügyfél AD FS vonhat össze.
 
 ## <a name="overview"></a>Áttekintés
+
 Az Azure Active Directory (Azure AD) megkönnyíti a felhasználók az Azure AD-bérlő, többek között az Office 365 és Dynamics CRM Online ügyfelek. De mi a helyzet ügyfeleink, akik a helyszíni Active Directory a vállalati intraneten?
 
 Az egyik lehetőség van, ezek az ügyfelek számára a helyszíni AD és az Azure AD szinkronizálása használatával [Azure AD Connect]. Egyes ügyfeleink azonban nem használható ezzel a módszerrel a vállalati informatikai házirend miatt vagy egyéb okból kifolyólag lehet. Ebben az esetben egy másik lehetőség, hogy az Active Directory összevonási szolgáltatások (AD FS) keresztül vonhat össze.
@@ -38,22 +39,24 @@ A megbízhatósági kapcsolatban van a három fő szerepkörök:
 
 > [!NOTE]
 > Ez a cikk feltételezzük az OpenID connect hitelesítési protokoll alkalmazás használja. Egy másik lehetőség, hogy a WS-Federation használja.
-> 
+>
 > OpenID Connect az SaaS-szolgáltatónak az AD FS 2016, Windows Server 2016-ban futó kell használnia. Az AD FS 3.0 nem támogatja az OpenID Connect.
-> 
+>
 > WS-Federation-a-beépített támogatása ASP.NET Core nem tartalmazza.
-> 
-> 
+>
+>
 
 Az ASP.NET 4 WS-Federation használatának példájáért lásd a [active-directory-dotnet-webapp-wsfederation minta][active-directory-dotnet-webapp-wsfederation].
 
 ## <a name="authentication-flow"></a>A hitelesítési folyamatból
+
 1. Amikor a felhasználó a "bejelentkezés" gombra kattint, az alkalmazás átirányítja a SaaS-szolgáltató az AD FS OpenID Connect végpontja.
 2. A felhasználó megadja a szervezeti felhasználó nevét ("`alice@corp.contoso.com`"). Az AD FS hitelesítőtartomány átirányítása az ügyfél AD FS, ahol a felhasználó megadja a hitelesítő adatokat használja.
 3. Az ügyfél AD FS elküldi a felhasználói jogcímeket, az SaaS-szolgáltatónak AD FS-ben a WF-összevonás (vagy SAML) használatával.
 4. Jogcímek folyamatot az AD FS az alkalmazáshoz, OpenID Connect használatával. Ehhez a WS-Federation protokollt átállás.
 
 ## <a name="limitations"></a>Korlátozások
+
 Alapértelmezés szerint a függő gyártótól származó alkalmazás fogadja az id_token, az alábbi táblázatban látható a rendelkezésre álló jogcímek készletét rögzített. Az AD FS 2016 az OpenID Connect forgatókönyvekben id_token szabhatja testre. További információkért lásd: [egyéni azonosító-jogkivonatokat az AD FS](/windows-server/identity/ad-fs/development/customize-id-token-ad-fs-2016).
 
 | Jogcím | Leírás |
@@ -72,12 +75,11 @@ Alapértelmezés szerint a függő gyártótól származó alkalmazás fogadja a
 
 > [!NOTE]
 > A "iss" jogcím tartalmazza az AD FS, a partner (általában ez a jogcím azonosítja a SaaS-szolgáltató a kibocsátó). Azt határozza meg az ügyfél AD FS. Az egyszerű felhasználónév részeként az ügyfél tartományban található.
-> 
-> 
 
 Ez a cikk ismerteti, hogyan lehet az RP-ből (az alkalmazás) és a fiókpartner (az ügyfél) közötti bizalmi kapcsolat beállítása.
 
 ## <a name="ad-fs-deployment"></a>Az AD FS üzembe helyezése
+
 Az SaaS-szolgáltató telepítheti az AD FS helyszíni vagy Azure virtuális gépeken. A biztonsági és rendelkezésre állás a következő irányelveket fontosak:
 
 * Legalább két AD FS-kiszolgálók és a két az AD FS szolgáltatás ajánlott rendelkezésre állásának eléréséhez az AD FS-proxykiszolgáló üzembe helyezése.
@@ -87,13 +89,15 @@ Az SaaS-szolgáltató telepítheti az AD FS helyszíni vagy Azure virtuális gé
 Állítsa be a hasonló topológia az Azure virtuális hálózatok, NSG, az azure virtuális gép és a rendelkezésre állási csoportok használatát igényli. További részletekért lásd: [központi telepítése Windows Server Active Directory az Azure Virtual Machinesben irányelvek][active-directory-on-azure].
 
 ## <a name="configure-openid-connect-authentication-with-ad-fs"></a>OpenID Connect-hitelesítés konfigurálása az AD FS-sel
-Az SaaS-szolgáltató engedélyeznie kell a OpenID Connect az alkalmazások és az Active Directory összevonási szolgáltatások között. Ehhez adja hozzá az AD FS-ben egy csoportot.  Ezen részletes utasítások találhatók [blogbejegyzés], a "Webes alkalmazás beállítása az OpenId Connect jelentkezzen be az AD FS." 
+
+Az SaaS-szolgáltató engedélyeznie kell a OpenID Connect az alkalmazások és az Active Directory összevonási szolgáltatások között. Ehhez adja hozzá az AD FS-ben egy csoportot.  Ezen részletes utasítások találhatók [blogbejegyzés], a "Webes alkalmazás beállítása az OpenId Connect jelentkezzen be az AD FS."
 
 Ezután konfigurálja az OpenID Connect közbenső szoftvert. A metaadatok végpontja `https://domain/adfs/.well-known/openid-configuration`, ahol a tartomány az SaaS-szolgáltatónak az AD FS-tartomány.
 
 Általában akkor lehet, hogy kombinálva ez más OpenID Connect végpontok (például az AAD-). Két különböző bejelentkezési gombot vagy más módon megkülönböztetésükhöz, úgy, hogy a felhasználó a megfelelő hitelesítési végpont küldendő kell.
 
 ## <a name="configure-the-ad-fs-resource-partner"></a>Az AD FS erőforráspartner konfigurálása
+
 Az SaaS-szolgáltató minden egyes ügyfél, amely szeretne az ADFS-n keresztül csatlakozik a következőket kell tennie:
 
 1. Jogcímszolgáltatói megbízhatóság hozzáadása.
@@ -103,6 +107,7 @@ Az SaaS-szolgáltató minden egyes ügyfél, amely szeretne az ADFS-n keresztül
 További részleteket az alábbiakban a lépéseket.
 
 ### <a name="add-the-claims-provider-trust"></a>A jogcím-szolgáltatói megbízhatóság hozzáadása
+
 1. A Kiszolgálókezelőben kattintson a **eszközök**, majd válassza ki **AD FS-kezelőben**.
 2. A konzolfán a **az AD FS**, kattintson a jobb gombbal **jogcím-szolgáltatói Megbízhatóságok**. Válassza ki **jogcím-szolgáltatói megbízhatóság hozzáadása**.
 3. Kattintson a **Start** varázsló elindításához.
@@ -110,6 +115,7 @@ További részleteket az alábbiakban a lépéseket.
 5. Fejezze be a varázslót, az alapértelmezett beállításokat használva.
 
 ### <a name="edit-claims-rules"></a>Jogcímszabályok szerkesztése
+
 1. Kattintson a jobb gombbal az újonnan hozzáadott jogcím-szolgáltatói megbízhatóság, és válassza ki **Jogcímszabályok szerkesztése**.
 2. Kattintson a **szabály hozzáadása**.
 3. Válassza ki a "Haladnak keresztül vagy a szűrő egy bejövő jogcím", és kattintson a **tovább**.
@@ -123,9 +129,10 @@ További részleteket az alábbiakban a lépéseket.
 9. Kattintson a **OK** a varázsló befejezéséhez.
 
 ### <a name="enable-home-realm-discovery"></a>A kezdőtartomány felderítés engedélyezéséhez
+
 Futtassa a következő PowerShell-parancsfájlt:
 
-```
+```powershell
 Set-ADFSClaimsProviderTrust -TargetName "name" -OrganizationalAccountSuffix @("suffix")
 ```
 
@@ -134,12 +141,14 @@ Ha "name" a valódi neve az a jogcím-szolgáltatói megbízhatóság, és "utó
 Ezzel a konfigurációval a végfelhasználók írja be a saját szervezeti fiókjukba, és az AD FS automatikusan kiválasztja a megfelelő jogcímszolgáltatót. Lásd: [az AD FS bejelentkezési oldalainak testreszabása], "Configure identitásszolgáltató bizonyos e-mail utótagok használata" területen.
 
 ## <a name="configure-the-ad-fs-account-partner"></a>Az AD FS-fiók partnerének beállítása
+
 Az ügyfél a következőket kell tennie:
 
 1. Adjon hozzá egy függő entitásonkénti (RP) megbízhatóságát.
 2. Hozzáadja a jogcímszabályokat.
 
 ### <a name="add-the-rp-trust"></a>A függő Entitás megbízhatóságának hozzáadása
+
 1. A Kiszolgálókezelőben kattintson a **eszközök**, majd válassza ki **AD FS-kezelőben**.
 2. A konzolfán a **az AD FS**, kattintson a jobb gombbal **függő entitás Megbízhatóságai**. Válassza ki **függő entitás megbízhatóságának hozzáadása**.
 3. Válassza ki **jogcímeket figyelembe** kattintson **Start**.
@@ -152,6 +161,7 @@ Az ügyfél a következőket kell tennie:
 8. Kattintson a **tovább** a varázsló befejezéséhez.
 
 ### <a name="add-claims-rules"></a>A szabályok hozzáadása
+
 1. Kattintson a jobb gombbal az újonnan hozzáadott függőentitás-megbízhatóságot, és válassza ki **jogcím-kiállítási szabályzat szerkesztése**.
 2. Kattintson a **szabály hozzáadása**.
 3. Válassza ki a "Küldés LDAP attribútumok szerint jogcímek", és kattintson a **tovább**.
@@ -167,19 +177,19 @@ Az ügyfél a következőket kell tennie:
 9. Válassza ki a "Küldés jogcímek használata egy egyéni szabály", és kattintson a **tovább**.
 10. Adjon meg egy nevet a szabálynak, például a "Forráshorgony jogcímtípus".
 11. A **egyéni szabály**, írja be a következőket:
-    
-    ```
+
+    ```console
     EXISTS([Type == "http://schemas.microsoft.com/ws/2014/01/identity/claims/anchorclaimtype"])=>
     issue (Type = "http://schemas.microsoft.com/ws/2014/01/identity/claims/anchorclaimtype",
           Value = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn");
     ```
-    
+
     Ez a szabály kiad egy jogcímet típusú `anchorclaimtype`. A jogcím arra utasítja a függő entitás használandó egyszerű felhasználónév a felhasználó azonosítója nem módosítható.
 12. Kattintson a **Befejezés** gombra.
 13. Kattintson a **OK** a varázsló befejezéséhez.
 
+<!-- links -->
 
-<!-- Links -->
 [Azure AD Connect]: /azure/active-directory/hybrid/whatis-hybrid-identity
 [összevonási megbízhatósági kapcsolatot]: https://technet.microsoft.com/library/cc770993(v=ws.11).aspx
 [fiókpartner]: https://technet.microsoft.com/library/cc731141(v=ws.11).aspx

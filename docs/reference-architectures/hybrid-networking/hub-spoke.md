@@ -5,12 +5,12 @@ description: Küllős hálózati topológia implementálása az Azure-ban.
 author: telmosampaio
 ms.date: 10/08/2018
 ms.custom: seodec18
-ms.openlocfilehash: 9b354cf0e2e8c908b58474f54abdaa2c9576afc2
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: c7cf2923856b3c659876afcc89bb312e492c6409
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011429"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112447"
 ---
 # <a name="implement-a-hub-spoke-network-topology-in-azure"></a>Küllős hálózati topológia implementálása az Azure-ban
 
@@ -327,4 +327,3 @@ Ez a lépés nem kötelező. Ha azt szeretné, hogy a küllők kapcsolódjanak e
 [1]: ./images/hub-spoke-gateway-routing.svg "Küllős topológia az Azure-ban tranzitív útválasztással"
 [2]: ./images/hub-spoke-no-gateway-routing.svg "Küllős topológia az Azure-ban tranzitív útválasztással, NVA használatával"
 [3]: ./images/hub-spokehub-spoke.svg "Küllős-küllős topológia az Azure-ban"
-[ARM-Templates]: https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates/

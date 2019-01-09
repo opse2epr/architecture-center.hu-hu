@@ -2,14 +2,14 @@
 title: Batch-pontozás Python-modellek az Azure-ban
 description: Hozzon létre egy méretezhető megoldás, a kötegelt pontozási modellek az Azure Batch AI segítségével párhuzamosan ütemezés szerint.
 author: njray
-ms.date: 12/13/18
+ms.date: 12/13/2018
 ms.custom: azcat-ai
-ms.openlocfilehash: 93fc0c81663931c0a8b0f54b41934287056e6953
-ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
+ms.openlocfilehash: 4c43a3dadab11cb8dcf163cf63618795299283ad
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/16/2018
-ms.locfileid: "53450826"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111051"
 ---
 # <a name="batch-scoring-of-python-models-on-azure"></a>Batch-pontozás Python-modellek az Azure-ban
 
@@ -43,7 +43,7 @@ Standard Python-modellek általánosan elfogadott, hogy a processzorok elegendő
 
 ### <a name="parallelizing-across-vms-vs-cores"></a>Virtuális gépek és magok közötti párhuzamosan futtatni
 
-Futó folyamatok sok modellek pontozása kötegelt módban, a feladatok kell példánylista méretezésnek megfelelően. Két módszer is lehetséges: 
+Futó folyamatok sok modellek pontozása kötegelt módban, a feladatok kell példánylista méretezésnek megfelelően. Két módszer is lehetséges:
 
 * Hozzon létre egy nagyobb fürt alacsony költségű virtuális gépek használatával.
 

@@ -1,33 +1,35 @@
 ---
 title: N szintű architektúrastílus
-description: Ismerteti az Azure N szintű architektúráinak előnyeit, kihívásait és ajánlott eljárásait
+titleSuffix: Azure Application Architecture Guide
+description: Ismerteti az előnyeit, kihívásait és ajánlott eljárások az N szintű architektúrákat az Azure-ban.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 2a113cefec8bd1c6c524030fbc459851094c09d6
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.custom: seojan19
+ms.openlocfilehash: 4e8aae0032d20df05e1b16a47fda4afa720ed0d9
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325750"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110305"
 ---
 # <a name="n-tier-architecture-style"></a>N szintű architektúrastílus
 
-Az N szintű architektúra az alkalmazást **logikai rétegekre** és **fizikai szintekre** osztja fel. 
+Az N szintű architektúra az alkalmazást **logikai rétegekre** és **fizikai szintekre** osztja fel.
 
-![](./images/n-tier-logical.svg)
+![Az N szintű architektúrastílus logikai diagramja](./images/n-tier-logical.svg)
 
-A rétegek a felelősségi körök különválasztására és a függőségek kezelésére használhatók. Minden réteghez egy adott felelősségi kör tartozik. A magasabb rétegek használhatják az alsóbb rétegek szolgáltatásait, de ez fordítva nem lehetséges. 
+A rétegek a felelősségi körök különválasztására és a függőségek kezelésére használhatók. Minden réteghez egy adott felelősségi kör tartozik. A magasabb rétegek használhatják az alsóbb rétegek szolgáltatásait, de ez fordítva nem lehetséges.
 
-A szintek fizikailag vannak elkülönítve, és külön gépeken futnak. Egy szint közvetlenül is hívhat egy másik szintet, de aszinkron üzenetkezelést (üzenet-várólistát) is használhat. Az egyes rétegeket üzemeltethetik ugyan a saját szintjeik, de ez nem feltétlenül szükséges. Több réteg is üzemelhet ugyanazon a szinten. A szintek fizikai elválasztása fokozza a méretezhetőséget és a rugalmasságot, de a fokozott hálózati kommunikáció miatt késleltetéssel jár. 
+A szintek fizikailag vannak elkülönítve, és külön gépeken futnak. Egy szint közvetlenül is hívhat egy másik szintet, de aszinkron üzenetkezelést (üzenet-várólistát) is használhat. Az egyes rétegeket üzemeltethetik ugyan a saját szintjeik, de ez nem feltétlenül szükséges. Több réteg is üzemelhet ugyanazon a szinten. A szintek fizikai elválasztása fokozza a méretezhetőséget és a rugalmasságot, de a fokozott hálózati kommunikáció miatt késleltetéssel jár.
 
-Egy hagyományos háromszintű alkalmazás egy bemutatási, egy középső és egy adatbázisszintből áll. A középső szint használata nem kötelező. Az összetettebb alkalmazások háromnál több szinttel is rendelkezhetnek. A fenti ábrán egy alkalmazás látható két középső szinttel, amelyek különböző funkcióterületeket képviselnek. 
+Egy hagyományos háromszintű alkalmazás egy bemutatási, egy középső és egy adatbázisszintből áll. A középső szint használata nem kötelező. Az összetettebb alkalmazások háromnál több szinttel is rendelkezhetnek. A fenti ábrán egy alkalmazás látható két középső szinttel, amelyek különböző funkcióterületeket képviselnek.
 
 Egy N szintű alkalmazás **zárt rétegű architektúrával** vagy **nyitott rétegű architektúrával** rendelkezhet:
 
-- Zárt rétegű architektúrában egy réteg csak a közvetlenül alatta lévő réteget hívhatja. 
-- Nyitott rétegű architektúrában egy réteg az alatta lévők bármelyikét hívhatja. 
+- Zárt rétegű architektúrában egy réteg csak a közvetlenül alatta lévő réteget hívhatja.
+- Nyitott rétegű architektúrában egy réteg az alatta lévők bármelyikét hívhatja.
 
-A zárt architektúrák korlátozzák a rétegek közötti függőségeket, de előfordulhat, hogy szükségtelen hálózati forgalmat hoznak létre, ha egy réteg egyszerűen továbbítja a kérelmeket a következő réteg felé. 
+A zárt architektúrák korlátozzák a rétegek közötti függőségeket, de előfordulhat, hogy szükségtelen hálózati forgalmat hoznak létre, ha egy réteg egyszerűen továbbítja a kérelmeket a következő réteg felé.
 
 ## <a name="when-to-use-this-architecture"></a>Mikor érdemes ezt az architektúrát használni?
 
@@ -35,7 +37,7 @@ Az N szintű architektúrákat általában szolgáltatásként nyújtott infrast
 
 Fontolja meg az N szintű architektúra használatát:
 
-- Egyszerű webalkalmazások esetén. 
+- Egyszerű webalkalmazások esetén.
 - Helyszíni alkalmazások Azure-ba történő migrálásakor, ha csak minimális mértékű újrabontásra van szükség.
 - Helyszíni és felhőalapú alkalmazások egységesített fejlesztésekor.
 
@@ -50,9 +52,9 @@ Az N szintű architektúrákat a leggyakrabban hagyományos helyszíni alkalmaz�
 
 ## <a name="challenges"></a>Problémák
 
-- Könnyen előfordulhat, hogy a kialakított középső szint csakis CRUD-műveleteket végez az adatbázison, így további késleltetést okoz anélkül, hogy hasznos munkát végezne. 
+- Könnyen előfordulhat, hogy a kialakított középső szint csakis CRUD-műveleteket végez az adatbázison, így további késleltetést okoz anélkül, hogy hasznos munkát végezne.
 - A monolitikus kialakítás megakadályozza a szolgáltatások független üzembe helyezését.
-- Egy IaaS-alkalmazás kezelése több munkával jár, mint egy kizárólag felügyelt szolgáltatásokat használó alkalmazásé. 
+- Egy IaaS-alkalmazás kezelése több munkával jár, mint egy kizárólag felügyelt szolgáltatásokat használó alkalmazásé.
 - A nagyobb rendszerekben pedig a hálózati biztonság kezelése is nehézségeket okozhat.
 
 ## <a name="best-practices"></a>Ajánlott eljárások
@@ -62,20 +64,20 @@ Az N szintű architektúrákat a leggyakrabban hagyományos helyszíni alkalmaz�
 - Gyorsítótárazza a félig statikus adatokat. Lásd a [gyorsítótárazás ajánlott eljárásait][caching].
 - Konfigurálja az adatbázisszintet magas rendelkezésre álláshoz olyan megoldások használatával, amilyenek például az [SQL Server Always On rendelkezésre állási csoportok][sql-always-on].
 - Helyezzen el webalkalmazási tűzfalat (web application firewall, WAF) a kezelőfelület és az internet között.
-- Minden szintet a saját alhálózatában helyezzen el, és használjon alhálózatokat biztonsági határként. 
+- Minden szintet a saját alhálózatában helyezzen el, és használjon alhálózatokat biztonsági határként.
 - Korlátozza a hozzáférést az adatszinthez úgy, hogy csak a középső szint(ek)ről engedélyezi a kérelmeket.
 
 ## <a name="n-tier-architecture-on-virtual-machines"></a>N szintű architektúra virtuális gépeken
 
-Ez a szakasz egy virtuális gépeken futó ajánlott N szintű architektúrát ismertet. 
+Ez a szakasz egy virtuális gépeken futó ajánlott N szintű architektúrát ismertet.
 
-![](./images/n-tier-physical.png)
+![Egy N szintű architektúrához fizikai diagramja](./images/n-tier-physical.png)
 
-Minden szint két vagy több virtuális gépből áll, amelyek egy rendelkezésre állási vagy virtuálisgép-méretezési csoportban vannak elhelyezve. A több virtuális gép rugalmasságot biztosít arra az esetre, ha az egyik leállna. Terheléselosztók segítségével oszthatók szét a kérelmek egy szint virtuális gépei között. A szintek vízszintesen skálázhatók, ha további virtuális gépeket ad hozzá a készlethez. 
+Minden szint két vagy több virtuális gépből áll, amelyek egy rendelkezésre állási vagy virtuálisgép-méretezési csoportban vannak elhelyezve. A több virtuális gép rugalmasságot biztosít arra az esetre, ha az egyik leállna. Terheléselosztók segítségével oszthatók szét a kérelmek egy szint virtuális gépei között. A szintek vízszintesen skálázhatók, ha további virtuális gépeket ad hozzá a készlethez.
 
 Minden egyes szint a saját alhálózatában van elhelyezve, ami azt jelenti, hogy a belső IP-címeik azonos címtartományba esnek. Ez megkönnyíti a hálózati biztonsági csoportra (network security group, NSG) vonatkozó szabályok és az útválasztási táblázatok alkalmazását az egyes szintekre.
 
-A webes és üzleti szintek állapot nélküliek. Bármelyik virtuális gép képes kezelni bármilyen, az adott szintre vonatkozó kérést. Az adatszintnek egy replikált adatbázisból kell állnia. Windows esetén az SQL Server Always On rendelkezésre állási csoportok használata javasolt a magas rendelkezésre állás érdekében. Linux esetén válasszon olyan adatbázist, amely támogatja a replikációt, például az Apache Cassandrát. 
+A webes és üzleti szintek állapot nélküliek. Bármelyik virtuális gép képes kezelni bármilyen, az adott szintre vonatkozó kérést. Az adatszintnek egy replikált adatbázisból kell állnia. Windows esetén az SQL Server Always On rendelkezésre állási csoportok használata javasolt a magas rendelkezésre állás érdekében. Linux esetén válasszon olyan adatbázist, amely támogatja a replikációt, például az Apache Cassandrát.
 
 A hálózati biztonsági csoportok (NSG-k) korlátozzák az egyes szintekhez való hozzáférést. Az adatbázisszint például csak az üzleti szintről való hozzáférést engedélyezi.
 
@@ -92,13 +94,13 @@ További részletekért és egy üzembe helyezhető Resource Manager-sablonért 
 
 - Használjon virtuálisgép-méretezési csoportokat az automatikus skálázáshoz.
 
-- Keresse meg azokat a helyeket az architektúrában, ahol egy felügyelt szolgáltatás jelentős újrabontás nélkül használható. Fordítson különös figyelmet a gyorsítótárazásra, az üzenetküldésre, a tárolásra és az adatbázisokra. 
+- Keresse meg azokat a helyeket az architektúrában, ahol egy felügyelt szolgáltatás jelentős újrabontás nélkül használható. Fordítson különös figyelmet a gyorsítótárazásra, az üzenetküldésre, a tárolásra és az adatbázisokra.
 
 - A nagyobb biztonság érdekében helyezzen hálózati DMZ-t az alkalmazás elé. A DMZ hálózati virtuális berendezéseket (network virtual appliance, NVA) tartalmaz, amelyek különböző biztonsági funkciókat implementálnak, például tűzfalakat és csomagvizsgálatot. További információkért lásd a [hálózati DMZ referenciaarchitektúráit][dmz].
 
 - A magas rendelkezésre állás érdekében helyezzen két vagy több NVA-t egy rendelkezésre állási csoportba egy külső terheléselosztóval. Így eloszthatja az internetes kérelmeket a különböző példányokon. További információkért lásd a [magas rendelkezésre állású hálózati virtuális berendezések üzembe helyezésével][ha-nva] foglalkozó témakört.
 
-- Ne engedélyezze a közvetlen RDP- vagy SSH-hozzáférést az alkalmazáskódot futtató virtuális gépekhez. Ehelyett tegye kötelezővé, hogy az operátorok bejelentkezzenek egy jumpboxba, vagyis bástyagazdagépbe. Ez egy, a hálózaton található virtuális gép, amelyet a rendszergazdák a többi virtuális géphez való kapcsolódásra használnak. A jumpbox rendelkezik NSG-vel, amely csak a jóváhagyott nyilvános IP-címekről való RDP- és SSH-kapcsolódást teszi lehetővé.
+- Ne engedélyezze a közvetlen RDP- vagy SSH-hozzáférést az alkalmazáskódot futtató virtuális gépekhez. Ehelyett tegye kötelezővé, hogy az operátorok bejelentkezzenek egy jumpboxba, vagyis bástyagazdagépbe. Ez a virtuális gép a hálózat, amelyek a rendszergazdák a többi virtuális géphez való kapcsolódásra. A jumpbox rendelkezik NSG-vel, amely csak a jóváhagyott nyilvános IP-címekről való RDP- és SSH-kapcsolódást teszi lehetővé.
 
 - Helyek közötti virtuális magánhálózat (VPN) vagy Azure ExpressRoute használatával kiterjesztheti az Azure-beli virtuális hálózatot a helyszíni hálózatra. További információkért lásd a [hibrid hálózatok referenciaarchitektúráját][hybrid-network].
 

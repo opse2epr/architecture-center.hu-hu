@@ -3,18 +3,22 @@ title: A természetes nyelvi feldolgozási technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: b1cb019164285d16b6e9d34eae220801785adab9
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 699e01bc9905d02fc8ec1113039087189f6e8caf
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902306"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114113"
 ---
 # <a name="choosing-a-natural-language-processing-technology-in-azure"></a>Az Azure-ban technológia feldolgozása természetes nyelv kiválasztása
 
 Szabad formátumú szöveges feldolgozási hajtja végre az szöveg-, keresési, támogatása céljából általában bekezdéseit tartalmazó dokumentumok, de is szolgál, mint a hangulatelemzés, témafelismerés, természetes nyelvi feldolgozást (NLP) feladatait más nyelv észlelése, a kulcsszókeresést és kategorizálási dokumentum. Ez a cikk a technológiai lehetőségekhez támogatásához a NLP feladatokat-kiszolgálóként működő összpontosít.
 
+<!-- markdownlint-disable MD026 -->
+
 ## <a name="what-are-your-options-when-choosing-an-nlp-service"></a>Mik azok a beállítások egy NLP szolgáltatás kiválasztásakor?
+
+<!-- markdownlint-enable MD026 -->
 
 Az Azure-ban a következő szolgáltatásokat nyújtanak a természetes nyelvi feldolgozási (NLP) képességek:
 
@@ -36,7 +40,7 @@ Az Azure-ban a következő szolgáltatásokat nyújtanak a természetes nyelvi f
 
 ## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a fő különbségeket, a képességek.  
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
 
@@ -50,7 +54,7 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 ### <a name="low-level-natural-language-processing-capabilities"></a>Az alsó szintű természetes nyelvi feldolgozási képességek
 
 | | Azure HDInsight | Microsoft Cognitive Services |  
-| --- | --- | --- | 
+| --- | --- | --- |
 | Jogkivonatokat létrehozó | Igen (Spark NLP) | Igen (nyelvi elemzési API-t) |
 | Szótőkereső | Igen (Spark NLP) | Nem |
 | Lemmatizer | Igen (Spark NLP) | Nem |
@@ -63,8 +67,8 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 ### <a name="high-level-natural-language-processing-capabilities"></a>Magas szintű természetes nyelvi feldolgozási képességek
 
 | | Azure HDInsight | Microsoft Cognitive Services |
-| --- | --- | --- | 
-| Entitás/szándékot azonosítása és kinyerése | Nem | Igen (Language Understanding Intelligent Service (LUIS) API) |    
+| --- | --- | --- |
+| Entitás/szándékot azonosítása és kinyerése | Nem | Igen (Language Understanding Intelligent Service (LUIS) API) |
 | Téma azonosítása | Igen (Spark NLP) | Igen (szövegelemzési API-val) |
 | Helyesírás-ellenőrzés | Igen (Spark NLP) | Igen (a Bing Spell Check API bemutatása) |
 | Hangulatelemzés | Igen (Spark NLP) | Igen (szövegelemzési API-val) |

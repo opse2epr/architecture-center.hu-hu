@@ -1,14 +1,14 @@
 ---
 title: Az Azure Resource Manager-sablon egy erőforrás frissítése
-description: Ismerteti, hogyan lehet egy erőforrás frissítése az Azure Resource Manager-sablonok bővítése
+description: Ismerteti, hogyan lehet egy erőforrás frissítése az Azure Resource Manager-sablonok bővítése.
 author: petertay
 ms.date: 10/31/2018
-ms.openlocfilehash: dc97534e658c9728ac617b4e52031e2553600458
-ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
+ms.openlocfilehash: 927826283163b2ae45575035168d6238de98dc00
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50251821"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113416"
 ---
 # <a name="update-a-resource-in-an-azure-resource-manager-template"></a>Az Azure Resource Manager-sablon egy erőforrás frissítése
 
@@ -20,7 +20,7 @@ A második vagy adjon meg módosítani a meglévő tulajdonság neve vagy egy tu
 
 ## <a name="example-template"></a>Példasablon
 
-Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon üzembe helyez egy nevű virtuális hálózatot `firstVNet` nevű alhálózattal rendelkező `firstSubnet`. Ezután üzembe helyez egy virtuális hálózati adapter (NIC) nevű `nic1` , és társítja azt az alhálózatot. Ezt követően egy központi telepítési erőforrás nevű `updateVNet` tartalmaz egy beágyazott sablont, amely frissíti a `firstVNet` adja hozzá egy második alhálózatot nevű erőforrás `secondSubnet`. 
+Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon üzembe helyez egy nevű virtuális hálózatot `firstVNet` nevű alhálózattal rendelkező `firstSubnet`. Ezután üzembe helyez egy virtuális hálózati adapter (NIC) nevű `nic1` , és társítja azt az alhálózatot. Ezt követően egy központi telepítési erőforrás nevű `updateVNet` tartalmaz egy beágyazott sablont, amely frissíti a `firstVNet` adja hozzá egy második alhálózatot nevű erőforrás `secondSubnet`.
 
 ```json
 {
@@ -37,7 +37,7 @@ Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon üzembe helyez e
           "addressSpace":{"addressPrefixes": [
               "10.0.0.0/22"
           ]},
-          "subnets":[              
+          "subnets":[
               {
                   "name":"firstSubnet",
                   "properties":{
@@ -130,11 +130,11 @@ az group deployment create -g <resource-group-name> \
     --template-uri https://raw.githubusercontent.com/mspnp/template-examples/master/example1-update/deploy.json
 ```
 
-Miután a telepítés véget ért, nyissa meg az erőforráscsoportot a portálon megadott. Megjelenik egy nevű virtuális hálózatot `firstVNet` és a egy hálózati Adaptert `nic1`. Kattintson a `firstVNet`, majd kattintson a `subnets`. Megjelenik a `firstSubnet` , amely eredetileg létrehozták, és megjelenik a `secondSubnet` hozzáadott a `updateVNet` erőforrás. 
+Miután a telepítés véget ért, nyissa meg az erőforráscsoportot a portálon megadott. Megjelenik egy nevű virtuális hálózatot `firstVNet` és a egy hálózati Adaptert `nic1`. Kattintson a `firstVNet`, majd kattintson a `subnets`. Megjelenik a `firstSubnet` , amely eredetileg létrehozták, és megjelenik a `secondSubnet` hozzáadott a `updateVNet` erőforrás.
 
 ![Eredeti alhálózat és a frissített alhálózat](../_images/firstVNet-subnets.png)
 
-Ezután lépjen vissza az erőforráscsoportot, és kattintson a `nic1` kattintson `IP configurations`. Az a `IP configurations` szakaszban a `subnet` értékre van állítva `firstSubnet (10.0.0.0/24)`. 
+Ezután lépjen vissza az erőforráscsoportot, és kattintson a `nic1` kattintson `IP configurations`. Az a `IP configurations` szakaszban a `subnet` értékre van állítva `firstSubnet (10.0.0.0/24)`.
 
 ![nic1 IP-konfiguráció beállításai](../_images/nic1-ipconfigurations.png)
 

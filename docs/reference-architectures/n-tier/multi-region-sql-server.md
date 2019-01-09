@@ -5,12 +5,12 @@ description: Alkalmazás üzembe helyezése az Azure-beli virtuális gépek töb
 author: MikeWasson
 ms.date: 07/19/2018
 ms.custom: seodec18
-ms.openlocfilehash: b83cf07149a3f0b74f8221ad2a4bd78d8c3d2b38
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 5eef936dded1829ee561ce1b13df4fb147694dc7
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54010970"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111988"
 ---
 # <a name="run-an-n-tier-application-in-multiple-azure-regions-for-high-availability"></a>Futtatása egy N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -172,7 +172,7 @@ Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/archi
 [hybrid-vpn]: ../hybrid-networking/vpn.md
 [azure-dns]: /azure/dns/dns-overview
 [azure-sla]: https://azure.microsoft.com/support/legal/sla/
-[azure-sql-db]: https://azure.microsoft.com/documentation/services/sql-database/
+[azure-sql-db]: /azure/sql-database/
 [health-endpoint-monitoring-pattern]: https://msdn.microsoft.com/library/dn589789.aspx
 [azure-cli]: /cli/azure/
 [regional-pairs]: /azure/best-practices-availability-paired-regions

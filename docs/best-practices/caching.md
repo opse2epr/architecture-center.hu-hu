@@ -5,12 +5,12 @@ description: Útmutatás a gyorsítótárazáshoz a teljesítmény és a mérete
 author: dragon119
 ms.date: 05/24/2017
 ms.custom: seodec18
-ms.openlocfilehash: b7f720b9e08b0316f9967a19e1b93069aa04e55f
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: da676ba3037f5c232ea97b9cb41488c7c2202476
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307469"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113110"
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -476,9 +476,9 @@ var customer1 = cache.Wait(task1);
 var customer2 = cache.Wait(task2);
 ```
 
-További információkat az Azure Redis Cache-sel kompatibilis ügyfélalkalmazások írásáról az [Azure Redis Cache dokumentációjában](https://azure.microsoft.com/documentation/services/cache/) talál. A [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Basics.md) is tartalmaz további tudnivalókat.
+Az Azure Redis Cache ügyfélalkalmazások írásáról további információkért lásd: a [Azure Cache Redis dokumentációt](/azure/azure-cache-for-redis/). A [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis/blob/master/Docs/Basics.md) is tartalmaz további tudnivalókat.
 
-Az ugyanezen a webhelyen található, [folyamatokkal és multiplexerekkel](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) foglalkozó oldalon további információkat talál az aszinkron műveletekről és az adatcsatornás feldolgozásról a Redis és a StackExchange kódtár használatával. 
+Az ugyanezen a webhelyen található, [folyamatokkal és multiplexerekkel](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers) foglalkozó oldalon további információkat talál az aszinkron műveletekről és az adatcsatornás feldolgozásról a Redis és a StackExchange kódtár használatával.
 
 ## <a name="using-redis-caching"></a>A Redis-gyorsítótárazás használata
 
@@ -898,7 +898,7 @@ A következő minták is lehet a forgatókönyvre vonatkozó, amikor az alkalmaz
 
 ## <a name="more-information"></a>További információ
 
-- [Az Azure Redis Cache dokumentációja](https://azure.microsoft.com/documentation/services/cache/) 
+- [Az Azure Redis Cache dokumentációja](/azure/azure-cache-for-redis/)
 - [Az Azure Redis Cache – gyakori kérdések](/azure/redis-cache/cache-faq)
 - [Feladatalapú aszinkron minta](/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
 - [Redis Cache dokumentációja](https://redis.io/documentation)

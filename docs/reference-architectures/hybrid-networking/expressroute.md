@@ -5,12 +5,12 @@ description: Az Azure virtuális hálózat és a egy helyszíni hálózat az Azu
 author: telmosampaio
 ms.date: 10/22/2017
 ms.custom: seodec18
-ms.openlocfilehash: 201da8fb4f76539c29e9769de8f44357860c2d62
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 1308f85f2f6d05b86e22f2558d89f164d076d182
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011650"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112787"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
 
@@ -285,8 +285,8 @@ A megoldás üzembe helyezéséhez hajtsa végre az alábbi lépéseket.
 [azurect]: https://github.com/Azure/NetworkMonitoring/tree/master/AzureCT
 [visio-download]: https://archcenter.blob.core.windows.net/cdn/hybrid-network-architectures.vsdx
 [er-circuit-parameters]: https://github.com/mspnp/reference-architectures/tree/master/hybrid-networking/expressroute/parameters/expressRouteCircuit.parameters.json
-[azure-powershell-download]: https://azure.microsoft.com/documentation/articles/powershell-install-configure/
-[azure-cli]: https://azure.microsoft.com/documentation/articles/xplat-cli-install/
+[azure-powershell-download]: /powershell/azure/overview
+[azure-cli]: /cli/azure/install-azure-cli
 
 [0]: ./images/expressroute.png "Hibrid hálózati architektúra az Azure ExpressRoute használatával"
 [1]: ../_images/guidance-hybrid-network-expressroute/figure2.png "Redundáns útválasztók használata elsődleges és másodlagos ExpressRoute-kapcsolatcsoportokkal"

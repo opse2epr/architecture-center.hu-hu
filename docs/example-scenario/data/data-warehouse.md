@@ -4,12 +4,12 @@ titleSuffix: Azure Example Scenarios
 description: Egyesítheti több forrásból származó adatait, és optimalizálhatja az adatelemzést.
 author: alexbuckgit
 ms.date: 09/15/2018
-ms.openlocfilehash: 5727b6ab475224541e272c6da6243cabe851b919
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 2ac06fcd0805b66371fcc004794b123c46a6ce0e
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643993"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112379"
 ---
 # <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárházak és elemzések értékesítési és marketingterületen
 
@@ -103,6 +103,7 @@ Tekintse át a [díjszabása a minta egy adatraktározási forgatókönyv] [ cal
 - Az adatfolyamatok, adattárházak, online elemzésfeldolgozási (OLAP) és big Data típusú adatok átfogó architekturális útmutatást találhat a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 
 <!-- links -->
+
 [source-document]: https://customers.microsoft.com/story/maritz
 [calculator]: https://azure.com/e/b798fb70c53e4dd19fdeacea4db78276
 [architecture]: ./media/architecture-data-warehouse.png

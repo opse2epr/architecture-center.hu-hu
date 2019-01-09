@@ -1,14 +1,14 @@
 ---
 title: Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
-description: Ismerteti, hogyan lehet feltételes üzembe egy erőforrás dependending paraméter értékét az Azure Resource Manager-sablonok bővítése
+description: Ismerteti, hogyan lehet feltételes üzembe egy erőforrás dependending paraméter értékét az Azure Resource Manager-sablonok bővítése.
 author: petertay
 ms.date: 10/30/2018
-ms.openlocfilehash: 726921fde299df1f8f4b4992da32d57842f7f724
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 0e02fbbd130bd6be2fc10173c8466b028d5d61da
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54010273"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113467"
 ---
 # <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
 
@@ -22,7 +22,7 @@ Lássunk erre egy példa sablon azt mutatja be, ezzel. A sablon által a [felté
 
 Vessünk egy pillantást a sablon minden szakasza.
 
-A `parameters` elem definiálja nevű egyetlen paraméter `virtualNetworkPeerings`: 
+A `parameters` elem definiálja nevű egyetlen paraméter `virtualNetworkPeerings`:
 
 ```json
 {
@@ -35,6 +35,7 @@ A `parameters` elem definiálja nevű egyetlen paraméter `virtualNetworkPeering
     }
   },
 ```
+
 A `virtualNetworkPeerings` paraméter egy `array` , és rendelkezik a következő mintát követik:
 
 ```json
@@ -95,9 +96,10 @@ A tulajdonságok a paraméterben adja meg a [társviszony-létesítés virtuáli
     }
 ]
 ```
+
 Van néhány dolog bevezetése a sablont ezen részében. Először a tényleges erőforrás üzembe-e egy beágyazott sablon típusú `Microsoft.Resources/deployments` , amely tartalmazza a saját sablont, amely Végezetül ténylegesen telepíti a `Microsoft.Network/virtualNetworks/virtualNetworkPeerings`.
 
-A `name` a beágyazott sablont készítette egyedi az aktuális ismétlése összetűzésének a `copyIndex()` előtagot `vnp-`. 
+A `name` a beágyazott sablont készítette egyedi az aktuális ismétlése összetűzésének a `copyIndex()` előtagot `vnp-`.
 
 A `condition` elem azt határozza meg, hogy legyen-e az erőforrás feldolgozott mikor a `greater()` függvény `true`. Itt, ha tesztel a `virtualNetworkPeerings` paraméternek tömb `greater()` , mint nulla. Ha igen, az eredmény `true` és a `condition` teljesült. Ellenkező esetben rendelkezik `false`.
 
@@ -116,7 +118,7 @@ Ezután azt adja meg a `copy` ciklus. Ez egy `serial` ciklust, amely azt jelenti
   },
 ```
 
-A `workaround` változó tartalmazza a két tulajdonság, egy nevű `true` és a egy nevű `false`. A `true` tulajdonság kifejezés értékét adja vissza a `virtualNetworkPeerings` Pole parametru. A `false` tulajdonság egy üres objektumot, beleértve a Resource Manager vár, hogy elnevezett tulajdonságok kiértékelése &mdash; vegye figyelembe, hogy `false` van ténylegesen egy tömb, ugyanúgy, mint a `virtualNetworkPeerings` paraméter értéke, amely eleget tesz a érvényesítése. 
+A `workaround` változó tartalmazza a két tulajdonság, egy nevű `true` és a egy nevű `false`. A `true` tulajdonság kifejezés értékét adja vissza a `virtualNetworkPeerings` Pole parametru. A `false` tulajdonság egy üres objektumot, beleértve a Resource Manager vár, hogy elnevezett tulajdonságok kiértékelése &mdash; vegye figyelembe, hogy `false` van ténylegesen egy tömb, ugyanúgy, mint a `virtualNetworkPeerings` paraméter értéke, amely eleget tesz a érvényesítése.
 
 A `peerings` változót használ a `workaround` ismét vizsgálatával, ha a változó hossza a `virtualNetworkPeerings` Pole parametru értéke nagyobb, mint nulla. Ha igen, a `string` értékelődik ki `true` és a `workaround` változó értéke a `virtualNetworkPeerings` Pole parametru. Ellenkező esetben való kiértékelése által `false` és a `workaround` változó kiértékeli a tömb első eleme az üres objektumhoz.
 

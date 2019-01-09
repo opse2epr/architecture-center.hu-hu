@@ -1,17 +1,17 @@
 ---
 title: Regisztráció és a bérlők felvétele több-bérlős alkalmazásokban
-description: Hogyan kell előkészíteni bérlők egy több-bérlős alkalmazásban
+description: Hogyan kell előkészíteni bérlők egy több-bérlős alkalmazásban.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: claims
 pnp.series.next: app-roles
-ms.openlocfilehash: 541a4dd9abb2168eef4a60a0ec99e1e7c06049b5
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: d112cb65e3cd8bae7b273a974bf8e5d2b04aff8a
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902476"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112719"
 ---
 # <a name="tenant-sign-up-and-onboarding"></a>Bérlői feliratkozás és előkészítés
 
@@ -25,6 +25,7 @@ A regisztrációs folyamat végrehajtásához több oka is van:
 * Bármely az alkalmazás által egyszeri bérlőnkénti telepítést végre.
 
 ## <a name="admin-consent-and-azure-ad-permissions"></a>Rendszergazdai jóváhagyás és az Azure AD-engedélyekről
+
 Annak érdekében, hogy az Azure AD-hitelesítést, az alkalmazás a felhasználó hozzá kell férnie. Legalább az alkalmazás a felhasználói profil olvasása engedélyre van szüksége. Egy felhasználó bejelentkezik, először az Azure AD egy hozzájárulást kérő lap, amely megjeleníti a kért engedélyeket jeleníti meg. Kattintva **elfogadás**, a felhasználó engedélyt ad az alkalmazásnak.
 
 Alapértelmezés szerint engedély felhasználónkénti alapon. Minden felhasználó, aki bejelentkezik a hozzájárulást kérő lap fog látni. Azonban, hogy az Azure AD támogatja-e is *rendszergazdai jóváhagyás*, amely lehetővé teszi, hogy egy AD-rendszergazdát, hogy engedélyt adjanak a teljes szervezet számára.
@@ -39,9 +40,10 @@ Csak egy AD-rendszergazda engedélyezheti a rendszergazda, mert a teljes szervez
 
 ![Jóváhagyás hiba](./images/consent-error.png)
 
-Ha az alkalmazás későbbi időpontban további engedélyeket igényel, az ügyfél kell újra regisztráljon, és hozzájárul az engedélyekkel.  
+Ha az alkalmazás későbbi időpontban további engedélyeket igényel, az ügyfél kell újra regisztráljon, és hozzájárul az engedélyekkel.
 
 ## <a name="implementing-tenant-sign-up"></a>Bérlői feliratkozás megvalósítása
+
 Az a [Tailspin Surveys] [ Tailspin] alkalmazás, a regisztrációs folyamat számos követelményei meghatározott:
 
 * Egy bérlő regisztrálás felhasználóknak a bejelentkezéshez.
@@ -58,7 +60,7 @@ Névtelen felhasználó meglátogat a Surveys alkalmazás, amikor a felhasznál�
 
 Ezekre a gombokra hajthatók végre műveletek, az a `AccountController` osztály.
 
-A `SignIn` művelet értéket ad vissza egy **ChallegeResult**, amely hatására az OpenID Connect közbenső szoftvert átirányítani a hitelesítési végpontra. Ez az eseményindító-hitelesítés az ASP.NET Core alapértelmezett módja.  
+A `SignIn` művelet értéket ad vissza egy **ChallegeResult**, amely hatására az OpenID Connect közbenső szoftvert átirányítani a hitelesítési végpontra. Ez az eseményindító-hitelesítés az ASP.NET Core alapértelmezett módja.
 
 ```csharp
 [AllowAnonymous]
@@ -92,7 +94,7 @@ public IActionResult SignUp()
 
 Például `SignIn`, a `SignUp` művelet is adja vissza egy `ChallengeResult`. Ebben az esetben hozzáadunk egy részét az állapotinformációkat, de a `AuthenticationProperties` a a `ChallengeResult`:
 
-* regisztráció: egy logikai jelzőt, amely jelzi, hogy a felhasználó elindult-e a regisztrációs folyamat.
+* regisztráció: Egy logikai jelző, amely jelzi, hogy a felhasználó elindult-e a regisztrációs folyamat.
 
 Az állapotinformációt `AuthenticationProperties` lekérdezi hozzáadni az OpenID Connect [állapot] paramétert, amelyre kerekíteni lelassítja a hitelesítési folyamat során.
 
@@ -101,11 +103,16 @@ Az állapotinformációt `AuthenticationProperties` lekérdezi hozzáadni az Ope
 Miután a felhasználó hitelesíti magát az Azure ad-ben, és átirányítja az alkalmazásnak, a hitelesítési jegy állapotát tartalmazza. Ez a tény, hogy a "signup" érték továbbra is fennáll, az egész hitelesítési folyamat között használjuk.
 
 ## <a name="adding-the-admin-consent-prompt"></a>A rendszergazda beleegyezést kérő hozzáadása
+
 Az Azure AD-ben a rendszergazdai jóváhagyás folyamathoz "parancssor" paraméter hozzáadása a lekérdezési karakterláncot a hitelesítési kérelem által aktivált:
+
+<!-- markdownlint-disable MD040 -->
 
 ```
 /authorize?prompt=admin_consent&...
 ```
+
+<!-- markdownlint-enable MD040 -->
 
 A Surveys alkalmazás hozzáadása során a rendszer kéri a `RedirectToAuthenticationEndpoint` esemény. Ez az esemény jobb neve előtt a közbenső szoftver a hitelesítési végpontra irányítja át.
 
@@ -122,7 +129,7 @@ public override Task RedirectToAuthenticationEndpoint(RedirectContext context)
 }
 ```
 
-Beállítás` ProtocolMessage.Prompt` arra utasítja a közbenső szoftverek, a "kérdés" paraméter hozzáadása a hitelesítési kérelmet.
+Beállítás `ProtocolMessage.Prompt` arra utasítja a közbenső szoftverek, a "kérdés" paraméter hozzáadása a hitelesítési kérelmet.
 
 Vegye figyelembe, hogy a rendszer csak akkor van szükség a regisztrációhoz. Rendszeres bejelentkezés nem tartalmaznia kell azt. Megkülönböztetni őket, ellenőrzése a `signup` hitelesítési állapot értéke. Ezt az állapotot ellenőrzi a következő metódust:
 
@@ -143,7 +150,8 @@ internal static bool IsSigningUp(this BaseControlContext context)
     bool isSigningUp;
     if (!bool.TryParse(signupValue, out isSigningUp))
     {
-        // The value for signup is not a valid boolean, throw                
+        // The value for signup is not a valid boolean, throw
+
         throw new InvalidOperationException($"'{signupValue}' is an invalid boolean value");
     }
 
@@ -152,6 +160,7 @@ internal static bool IsSigningUp(this BaseControlContext context)
 ```
 
 ## <a name="registering-a-tenant"></a>A bérlő regisztrációja
+
 A Surveys alkalmazás minden egyes bérlő némi információt és a felhasználó az alkalmazás-adatbázis tárolja.
 
 ![Bérlő táblában](./images/tenant-table.png)
@@ -255,7 +264,8 @@ Itt látható a teljes regisztrációs folyamatot a Surveys alkalmazás összefo
 
 [**Tovább**][app roles]
 
-<!-- Links -->
+<!-- links -->
+
 [app roles]: app-roles.md
 [Tailspin]: tailspin.md
 

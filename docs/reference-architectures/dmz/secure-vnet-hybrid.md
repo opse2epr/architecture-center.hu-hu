@@ -5,12 +5,12 @@ description: Biztonságos hibrid hálózati architektúra megvalósítása az Az
 author: telmosampaio
 ms.date: 10/22/2018
 ms.custom: seodec18
-ms.openlocfilehash: 96c3b3c015422a081201d041694b6b5fd5dffb89
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 9a74401d3496807ce2dfc113476e001d19e657e5
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011480"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112294"
 ---
 # <a name="implement-a-dmz-between-azure-and-your-on-premises-datacenter"></a>Az Azure és a helyszíni adatközpont közötti DMZ implementálása
 
@@ -231,7 +231,7 @@ Ebben a lépésben két helyi hálózati átjáró csatlakozik.
 [azurect]: https://github.com/Azure/NetworkMonitoring/tree/master/AzureCT
 [azure-forced-tunneling]: https://azure.microsoft.com/en-gb/documentation/articles/vpn-gateway-forced-tunneling-rm/
 [azure-marketplace-nva]: https://azuremarketplace.microsoft.com/marketplace/apps/category/networking
-[cloud-services-network-security]: https://azure.microsoft.com/documentation/articles/best-practices-network-security/
+[cloud-services-network-security]: /azure/best-practices-network-security
 [getting-started-with-azure-security]: /azure/security/azure-security-getting-started
 [github-folder]: https://github.com/mspnp/reference-architectures/tree/master/dmz/secure-vnet-hybrid
 [guidance-expressroute]: ../hybrid-networking/expressroute.md

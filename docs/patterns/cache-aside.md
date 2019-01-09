@@ -1,17 +1,17 @@
 ---
 title: Gyorsítótár-feltöltési minta
 titleSuffix: Cloud Design Patterns
-description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból
+description: Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból.
 keywords: tervezési minta
 author: dragon119
 ms.date: 11/01/2018
 ms.custom: seodec18
-ms.openlocfilehash: 3246030d23bfd275670cf184b859b767cca06a1f
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 96dee3ca766414a3a17ea161f13c9fcd15001b4d
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011412"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114164"
 ---
 # <a name="cache-aside-pattern"></a>Gyorsítótár-feltöltési minta
 

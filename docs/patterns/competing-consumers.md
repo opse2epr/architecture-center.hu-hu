@@ -6,12 +6,12 @@ keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 ms.custom: seodec18
-ms.openlocfilehash: 14230cf3bcb675bd8420b746741d1c434b584463
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 77459ff42422969acdc83e66535197547d555de1
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011072"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112107"
 ---
 # <a name="competing-consumers-pattern"></a>Versengő felhasználók mintája
 
@@ -86,7 +86,7 @@ Az Azure olyan tárolási üzenetsorokat és Service Bus-üzenetsorokat biztosí
 
 Az Azure Service Bus-üzenetsorok használatával kapcsolatos részletes információkért lásd: [Service Bus-üzenetsorok, témakörök és előfizetések](https://msdn.microsoft.com/library/windowsazure/hh367516.aspx).
 
-Az Azure tárolási üzenetsorok használatával kapcsolatos információkért lásd: [Az Azure Queue Storage használatának első lépései a .NET-keretrendszerrel](https://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-queues/).
+Az Azure tárolási üzenetsorok használatával kapcsolatos információkért lásd: [Az Azure Queue Storage használatának első lépései a .NET-keretrendszerrel](/azure/storage/queues/storage-dotnet-how-to-use-queues).
 
 A [GitHub](https://github.com/mspnp/cloud-design-patterns/tree/master/competing-consumers)-on elérhető CompetingConsumers megoldás `QueueManager` osztályából származó alábbi kód bemutatja, hogyan hozható létre egy `QueueClient`-példány a `Start` eseménykezelővel egy webes vagy feldolgozói szerepkörben.
 

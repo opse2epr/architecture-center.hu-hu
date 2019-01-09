@@ -3,14 +3,14 @@ title: Az SAP-feladatokat a fejlesztési és tesztelési környezetek
 titleSuffix: Azure Example Scenarios
 description: Fejlesztési és tesztelési környezetet hozhat létre SAP számítási feladatokhoz.
 author: AndrewDibbins
-ms.date: 7/11/18
+ms.date: 07/11/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 3f6c828e8757a3f82ad6972a8f21cd2fed629162
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 9f9e8ec971373e4309703800c200ba2c62fe9a66
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643968"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111019"
 ---
 # <a name="devtest-environments-for-sap-workloads-on-azure"></a>Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz az Azure-ban
 
@@ -31,12 +31,12 @@ Egyéb alkalmazási helyzetek a következők:
 
 ## <a name="architecture"></a>Architektúra
 
-![Az SAP-feladatokat a fejlesztési és tesztelési környezetek architektúra diagramja](media/architecture-sap-dev-test.png)
+![Az SAP-feladatokat a fejlesztési és tesztelési környezetek architektúra diagramja](./media/architecture-sap-dev-test.png)
 
 Ez a forgatókönyv azt mutatja be, az SAP-rendszer önálló adatbázis és SAP-alkalmazáskiszolgáló az egyetlen virtuális gép üzembe helyezése. A áramlanak keresztül az adatok a forgatókönyv a következő:
 
 1. Az SAP felhasználói felület vagy más ügyféleszközök (az Excel, egy webes böngésző vagy egyéb webalkalmazás) az Azure-alapú SAP-rendszer elérésére használják.
-2. Kapcsolat egy meglévő ExpressRoute használatával biztosítja. Az ExpressRoute-kapcsolat leállítása az Azure-ban, az ExpressRoute-átjárót. A hálózati forgalom az ExpressRoute-átjárót az átjáró-alhálózathoz, valamint az átjáró-alhálózat az alkalmazásrétegek küllő alhálózathoz útvonalakat (lásd a [küllős minta][hub-spoke]) és a egy hálózati biztonsági keresztül Átjáró, a SAP alkalmazás virtuális géphez.
+2. Kapcsolat egy meglévő ExpressRoute használatával biztosítja. Az ExpressRoute-kapcsolat leállítása az Azure-ban, az ExpressRoute-átjárót. A hálózati forgalom az ExpressRoute-átjárót az átjáró-alhálózathoz, valamint az átjáró-alhálózat az alkalmazásrétegek küllő alhálózathoz útvonalakat (lásd a [küllős hálózati topológia][hub-spoke]) és a egy hálózaton keresztül Biztonsági átjáró a SAP alkalmazás virtuális géphez.
 3. Az identitás felügyeleti kiszolgálók hitelesítési szolgáltatásokat nyújtanak.
 4. A jump boxon helyi felügyeleti képességeket biztosít.
 
@@ -52,7 +52,7 @@ Ez a forgatókönyv azt mutatja be, az SAP-rendszer önálló adatbázis és SAP
 
 ### <a name="availability"></a>Rendelkezésre állás
 
- A Microsoft kínál a szolgáltatásiszint-szerződés (SLA) egyetlen Virtuálisgép-példányokhoz. További információ a Microsoft Azure szolgáltatásiszint-szerződés virtuális gépek [SLA-t a virtuális gépek](https://azure.microsoft.com/support/legal/sla/virtual-machines)
+A Microsoft kínál a szolgáltatásiszint-szerződés (SLA) egyetlen Virtuálisgép-példányokhoz. További információ a Microsoft Azure szolgáltatásiszint-szerződés virtuális gépek [SLA-t a virtuális gépek](https://azure.microsoft.com/support/legal/sla/virtual-machines)
 
 ### <a name="scalability"></a>Méretezhetőség
 

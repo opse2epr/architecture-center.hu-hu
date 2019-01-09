@@ -1,14 +1,14 @@
 ---
 title: Objektum használata paraméterként az Azure Resource Manager-sablon
-description: Ismerteti, hogyan lehet Azure Resource Manager-sablonok objektum használata paraméterként lehetőségeinek bővítése
+description: Ismerteti, hogyan lehet az Azure Resource Manager-sablonok objektum használata paraméterként funkcióinak bővítése érdekében.
 author: petertay
 ms.date: 10/30/2018
-ms.openlocfilehash: c1955823b3474efa0abea1d9634add5f13d02eda
-ms.sourcegitcommit: e9eb2b895037da0633ef3ccebdea2fcce047620f
+ms.openlocfilehash: f0826d8ed1ce446d295ebdacc66d8b0bef0b0dec
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50251889"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111206"
 ---
 # <a name="use-an-object-as-a-parameter-in-an-azure-resource-manager-template"></a>Objektum használata paraméterként az Azure Resource Manager-sablon
 
@@ -24,10 +24,11 @@ Vessünk egy pillantást egy példa, amely üzembe helyez egy virtuális hálóz
     "VNetSettings":{"type":"object"}
 },
 ```
+
 Következő lépésként hozzunk adja meg az értékeket a `VNetSettings` objektum:
 
 > [!NOTE]
-> Ismerje meg, hogyan adja meg a paraméterértékeket üzembe helyezés során, tekintse meg a **paraméterek** szakaszában [struktúra és az Azure Resource Manager-sablonok szintaxisát] [ azure-resource-manager-authoring-templates] . 
+> Ismerje meg, hogyan adja meg a paraméterértékeket üzembe helyezés során, tekintse meg a **paraméterek** szakaszában [struktúra és az Azure Resource Manager-sablonok szintaxisát] [ azure-resource-manager-authoring-templates] .
 
 ```json
 "parameters":{
@@ -91,9 +92,10 @@ Most nézzük meg, hogy a sablon a `VNetSettings` objektumot használja:
     }
   ]
 ```
-Értékét a `VNetSettings` objektum érvénybe lépnek a tulajdonságokat, a virtuális hálózati erőforrás használata szükséges a `parameters()` mindkét függvény a `[]` indexer, és a pont operátor a tömb. Ez a megközelítés akkor működik, ha csak át szeretné statikusan Objekt paraméter értékét az erőforrásra alkalmazni kívánt. Azonban ha dinamikusan üzembe helyezés során a tulajdonság egy olyan értéktömböt hozzárendelni kívánt használhatja egy [másolási ciklust][azure-resource-manager-create-multiple-instances]. A másolási ciklust használandó értékeket ad meg egy JSON-tömböt erőforrás tulajdonság és a másolási ciklust dinamikusan vonatkozik az értékeket az erőforrás-tulajdonságok. 
 
-Érdemes figyelembe vennie a dinamikus megközelítés használatakor egy probléma van. A probléma bemutatása érdekében vessünk egy pillantást egy tipikus tulajdonság értékek tömbje. Ebben a példában a tulajdonságok értékeit egy változó vannak tárolva. Figyelje meg, hogy van két Tárolótömböket Itt&mdash;gyermektartománya `firstProperty` és a egy nevű `secondProperty`. 
+Értékét a `VNetSettings` objektum érvénybe lépnek a tulajdonságokat, a virtuális hálózati erőforrás használata szükséges a `parameters()` mindkét függvény a `[]` indexer, és a pont operátor a tömb. Ez a megközelítés akkor működik, ha csak át szeretné statikusan Objekt paraméter értékét az erőforrásra alkalmazni kívánt. Azonban ha dinamikusan üzembe helyezés során a tulajdonság egy olyan értéktömböt hozzárendelni kívánt használhatja egy [másolási ciklust][azure-resource-manager-create-multiple-instances]. A másolási ciklust használandó értékeket ad meg egy JSON-tömböt erőforrás tulajdonság és a másolási ciklust dinamikusan vonatkozik az értékeket az erőforrás-tulajdonságok.
+
+Érdemes figyelembe vennie a dinamikus megközelítés használatakor egy probléma van. A probléma bemutatása érdekében vessünk egy pillantást egy tipikus tulajdonság értékek tömbje. Ebben a példában a tulajdonságok értékeit egy változó vannak tárolva. Figyelje meg, hogy van két Tárolótömböket Itt&mdash;gyermektartománya `firstProperty` és a egy nevű `secondProperty`.
 
 ```json
 "variables": {
@@ -166,9 +168,9 @@ Figyelje meg, hogy a harmadik elem a tömbben található? Hiányzik a `number` 
 
 ## <a name="using-a-property-object-in-a-copy-loop"></a>A másolási ciklust tulajdonság objektum használatával
 
-Ez a megközelítés akkor lesz még több hasznos, kombinálva a [soros másolási ciklust] [azure-resource-manager-létrehozása-több], különösen a gyermek-erőforrások üzembe helyezése. 
+Ez a megközelítés akkor lesz még több hasznos, kombinálva a [soros másolási ciklust] [azure-resource-manager-létrehozása-több], különösen a gyermek-erőforrások üzembe helyezése.
 
-Ennek nézzük meg a sablont, amely üzembe helyez egy [hálózati biztonsági csoport (NSG)] [ nsg] két kapcsolatbiztonsági szabályait. 
+Ennek nézzük meg a sablont, amely üzembe helyez egy [hálózati biztonsági csoport (NSG)] [ nsg] két kapcsolatbiztonsági szabályait.
 
 Először vessünk egy pillantást a paramétereket. Ha megnézzük a sablont, láthatjuk, hogy meghatároztuk nevű egy paraméter `networkSecurityGroupsSettings` , amely tartalmaz egy tömb nevű `securityRules`. A tömb két JSON-objektumok beállításainak biztonsági szabályok számát tartalmazza.
 
@@ -176,7 +178,7 @@ Először vessünk egy pillantást a paramétereket. Ha megnézzük a sablont, l
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-    "parameters":{ 
+    "parameters":{
       "networkSecurityGroupsSettings": {
       "value": {
           "securityRules": [
@@ -249,7 +251,7 @@ Most vessünk egy pillantást sablont. Az első resource nevű `NSG1` az NSG-t t
                 "resources": [],
                 "outputs": {}
             }
-        }       
+        }
     },
     {
         "apiVersion": "2015-01-01",
@@ -292,12 +294,12 @@ Most vessünk egy pillantást sablont. Az első resource nevű `NSG1` az NSG-t t
           }
         }
     }
-  ],          
+  ],
   "outputs": {}
 }
 ```
 
-Vessünk hogyan adjuk meg a tulajdonság a közelebbről a `securityRules` gyermek-erőforrás. A tulajdonságokat hivatkozott használatával a `parameter()` függvény, utána pedig a pont operátor használata hivatkozhat a `securityRules` tömb, a jelenlegi érték meghaladja az iteráció által indexelt. Egy másik pont operátor, az objektum nevére hivatkozhatnak használjuk. 
+Vessünk hogyan adjuk meg a tulajdonság a közelebbről a `securityRules` gyermek-erőforrás. A tulajdonságokat hivatkozott használatával a `parameter()` függvény, utána pedig a pont operátor használata hivatkozhat a `securityRules` tömb, a jelenlegi érték meghaladja az iteráció által indexelt. Egy másik pont operátor, az objektum nevére hivatkozhatnak használjuk.
 
 ## <a name="try-the-template"></a>A sablon kipróbálása
 
@@ -316,8 +318,8 @@ az group deployment create -g <resource-group-name> \
 
 - Ismerje meg, hogyan hozhat létre egy sablont, amely végighalad a objektum tömböt és egy JSON-sémájában alakítja azt. Lásd: [egy tulajdonságátalakító és -gyűjtő megvalósítása az Azure Resource Manager-sablon](./collector.md)
 
-
 <!-- links -->
+
 [azure-resource-manager-authoring-templates]: /azure/azure-resource-manager/resource-group-authoring-templates
 [azure-resource-manager-create-template]: /azure/azure-resource-manager/resource-manager-create-first-template
 [azure-resource-manager-create-multiple-instances]: /azure/azure-resource-manager/resource-group-create-multiple

@@ -1,17 +1,17 @@
 ---
 title: Hitelesítés a több-bérlős alkalmazásokban
-description: Engedélyezési végrehajtása egy több-bérlős alkalmazásban
+description: Hogyan végezheti el az engedélyezési egy több-bérlős alkalmazásban.
 author: MikeWasson
 ms.date: 07/21/2017
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: app-roles
 pnp.series.next: web-api
-ms.openlocfilehash: 8ff2317eb85197ed93e048b6a2d836405436cc17
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 6e406a7e80b77dea161db194a82ccae043bdc777
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307163"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110339"
 ---
 # <a name="role-based-and-resource-based-authorization"></a>Szerepkör- és erőforrás-alapú hitelesítés
 
@@ -25,6 +25,7 @@ A [megvalósítási hivatkozhat] ASP.NET Core-alkalmazás. Ebben a cikkben átte
 A tipikus app vegyesen is fogja alkalmazni. Ha például egy erőforrás törlése a felhasználónak kell lennie az erőforrás tulajdonosa *vagy* rendszergazda.
 
 ## <a name="role-based-authorization"></a>Szerepkör-alapú hitelesítést
+
 A [Tailspin Surveys] [ Tailspin] alkalmazás határozza meg a következő szerepkörök:
 
 * Rendszergazda. Bármely felmérés a bérlőhöz tartozó összes CRUD-műveletek hajthat végre.
@@ -38,6 +39,7 @@ Bemutatja, hogyan határozhatja meg és kezelheti a szerepköröket, lásd: [Alk
 Függetlenül attól, hogyan kezelheti a szerepköröket az engedélyezési kódot fog hasonlítani. ASP.NET Core rendelkezik nevű absztrakciós [engedélyezési házirendek][policies]. Ezzel a funkcióval engedélyezési házirendeket határozhat meg a kódot, és majd alkalmazhatja őket vezérlő műveleteket hajthat végre. A szabályzat különválik a vezérlő.
 
 ### <a name="create-policies"></a>Szabályzatok létrehozása
+
 Meghatározhat egy olyan szabályzatot, először hozzon létre egy osztályt, amely megvalósítja `IAuthorizationRequirement`. A legegyszerűbb származtassa `AuthorizationHandler`. Az a `Handle` metódus, vizsgálja meg a megfelelő jogcím.
 
 Íme egy példa a Tailspin Surveys-alkalmazás:
@@ -47,7 +49,7 @@ public class SurveyCreatorRequirement : AuthorizationHandler<SurveyCreatorRequir
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SurveyCreatorRequirement requirement)
     {
-        if (context.User.HasClaim(ClaimTypes.Role, Roles.SurveyAdmin) || 
+        if (context.User.HasClaim(ClaimTypes.Role, Roles.SurveyAdmin) ||
             context.User.HasClaim(ClaimTypes.Role, Roles.SurveyCreator))
         {
             context.Succeed(requirement);
@@ -68,7 +70,7 @@ services.AddAuthorization(options =>
         policy =>
         {
             policy.AddRequirements(new SurveyCreatorRequirement());
-            policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement 
+            policy.RequireAuthenticatedUser(); // Adds DenyAnonymousAuthorizationRequirement
             // By adding the CookieAuthenticationDefaults.AuthenticationScheme, if an authenticated
             // user is not in the appropriate role, they will be redirected to a "forbidden" page.
             policy.AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -87,6 +89,7 @@ services.AddAuthorization(options =>
 Ez a kód beállítja a hitelesítési sémát, amely közli az ASP.NET, mely hitelesítési közbenső kell futnia, ha a hitelesítés sikertelen. Ebben az esetben azt adja meg cookie-k közbenső hitelesítési szoftver, mert a cookie-k közbenső hitelesítési szoftver is átirányítja a felhasználót egy "Tiltott" lap. A tiltott lap helye van megadva a `AccessDeniedPath` első számú megoldás a cookie-k közbenső; lásd: [A közbenső hitelesítési szoftver konfigurálása].
 
 ### <a name="authorize-controller-actions"></a>Vezérlő műveletek engedélyezése
+
 Végül az MVC-vezérlő művelet engedélyezéséhez, állítsa be ezt a házirendet a `Authorize` attribútum:
 
 ```csharp
@@ -112,6 +115,7 @@ Ez továbbra is támogatja az ASP.NET Core, de azt hátrányokkal engedélyezés
 * Szabályzatok lehetővé teszik a bonyolult felhasználását engedélyezési döntésekhez (pl. kor > = 21), amelyek nem fejezhetők egyszerű szerepköri tagság szerint.
 
 ## <a name="resource-based-authorization"></a>Erőforrás-alapú engedélyezési
+
 *Erőforrás-alapú engedélyezési* következik be, a hitelesítést egy adott erőforrás-művelet által érintett függ. A Tailspin Surveys alkalmazás minden felmérés van tulajdonosa és nulla-a-többhöz közreműködő.
 
 * A tulajdonos olvasása, frissítése, közzététel és közzétételének visszavonása a kérdőív kitöltését.
@@ -247,7 +251,8 @@ static readonly Dictionary<OperationAuthorizationRequirement, Func<List<UserPerm
 
 [**Tovább**][web-api]
 
-<!-- Links -->
+<!-- links -->
+
 [Tailspin]: tailspin.md
 
 [Alkalmazási szerepkörök]: app-roles.md

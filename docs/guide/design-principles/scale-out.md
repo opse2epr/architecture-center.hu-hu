@@ -1,14 +1,16 @@
 ---
 title: Tervezzen horizontális felskálázásra
+titleSuffix: Azure Application Architecture Guide
 description: A felhőalapú alkalmazásokat a horizontális skálázást szem előtt tartva kell megtervezni.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 9b57f4e6a17eece4f5283436e104c286602bb54f
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.custom: seojan19
+ms.openlocfilehash: 9e8a36146c711fda2b03e00dfeb3554caf1fd5f0
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325654"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113059"
 ---
 # <a name="design-to-scale-out"></a>Tervezzen horizontális felskálázásra
 
@@ -18,11 +20,11 @@ A felhő egyik legfőbb előnye a rugalmas méretezés &mdash; ez a kapacitás i
 
 ## <a name="recommendations"></a>Javaslatok
 
-**Példány tartós használatának elkerülése**. A tartós használat vagy *munkamenet-affinitás* azt a gyakorlatot jelenti, amikor az ugyanazon ügyféltől érkező kérelmeket a rendszer mindig ugyanarra a kiszolgálóra irányítja. A tartós használat korlátozza az alkalmazás horizontális felskálázási képességét. Például a nagy forgalmú felhasználóktól érkező terhelés nem lesz elosztva a példányok között. A tartós használat oka lehet a memóriában tárolt munkamenet-állapot vagy a számítógép-specifikus titkosítási kulcsok használata. Gondoskodjon arról, hogy a példányok bármilyen kérelmet képesek legyenek kezelni. 
+**Példány tartós használatának elkerülése**. A tartós használat vagy *munkamenet-affinitás* azt a gyakorlatot jelenti, amikor az ugyanazon ügyféltől érkező kérelmeket a rendszer mindig ugyanarra a kiszolgálóra irányítja. A tartós használat korlátozza az alkalmazás horizontális felskálázási képességét. Például a nagy forgalmú felhasználóktól érkező terhelés nem lesz elosztva a példányok között. A tartós használat oka lehet a memóriában tárolt munkamenet-állapot vagy a számítógép-specifikus titkosítási kulcsok használata. Gondoskodjon arról, hogy a példányok bármilyen kérelmet képesek legyenek kezelni.
 
-**Szűk keresztmetszetek azonosítása**. A horizontális felskálázással nem lehet varázsütésre megoldani az összes teljesítménybeli problémát. Ha például a háttéradatbázis a szűk keresztmetszet, a további webkiszolgálók hozzáadása nem sokat segít. Még több példány bevetése helyett a szűk keresztmetszetek azonosításával és feloldásával kell kezdeni a probléma megoldását. A szűk keresztmetszeteket általában a rendszer állapottal rendelkező összetevői okozzák. 
+**Szűk keresztmetszetek azonosítása**. A horizontális felskálázással nem lehet varázsütésre megoldani az összes teljesítménybeli problémát. Ha például a háttéradatbázis a szűk keresztmetszet, a további webkiszolgálók hozzáadása nem sokat segít. Még több példány bevetése helyett a szűk keresztmetszetek azonosításával és feloldásával kell kezdeni a probléma megoldását. A szűk keresztmetszeteket általában a rendszer állapottal rendelkező összetevői okozzák.
 
-**Számítási feladatok lebontása a méretezhetőségi követelmények szerint.**  Az alkalmazások gyakran több számítási feladatból állnak, amelyek eltérő méretezési követelményekkel rendelkeznek. Például egy alkalmazásnak lehet egy nyilvános helye, valamint egy különálló felügyeleti helye. A nyilvános hely esetében előfordulhat hirtelen forgalomnövekedés, míg a felügyeleti hely kisebb, kiszámíthatóbb terheléssel dolgozik. 
+**Számítási feladatok lebontása a méretezhetőségi követelmények szerint.**  Az alkalmazások gyakran több számítási feladatból állnak, amelyek eltérő méretezési követelményekkel rendelkeznek. Például egy alkalmazásnak lehet egy nyilvános helye, valamint egy különálló felügyeleti helye. A nyilvános hely esetében előfordulhat hirtelen forgalomnövekedés, míg a felügyeleti hely kisebb, kiszámíthatóbb terheléssel dolgozik.
 
 **Erőforrás-igényes feladatok kiszervezése.** Ha lehetséges, a nagy processzorteljesítményt vagy I/O-erőforrásokat igénylő feladatokat át kell helyezni [a háttérfeladatokhoz][background-jobs], hogy a felhasználói kérelmek kezelését végző előtérrendszer terhelése minimalizálható legyen.
 
@@ -32,11 +34,10 @@ A felhő egyik legfőbb előnye a rugalmas méretezés &mdash; ez a kapacitás i
 
 **Tervezzen a horizontális leskálázást szem előtt tartva**.  Nem szabad elfelejteni, hogy a rugalmas skálázás mellett az alkalmazás esetében időnként sor fog kerülni a horizontális leskálázásra, amikor a példányok törlődnek. Az alkalmazásnak megfelelően kell kezelnie a példányok eltávolítását. Íme néhány példa a horizontális leskálázás kezelésére:
 
-- Figyelje a leállítási eseményeket (ha ez elérhető), és biztosítsa, hogy a leállítás szabályszerűen történjen. 
-- Egy szolgáltatás ügyfeleinek/felhasználóinak támogatniuk kell az átmeneti hibák kezelését és az újrapróbálkozást. 
-- Hosszan futó feladatok esetében érdemes felosztani a munkát, ellenőrzőpontok vagy a [Csövek és szűrők][pipes-filters-pattern] mintájának használatával. 
-- Helyezze a munkaelemeket egy üzenetsorba, így ha egy példány a feldolgozás közepén kiesik, egy másik folytathatja a munkát. 
-
+- Figyelje a leállítási eseményeket (ha ez elérhető), és biztosítsa, hogy a leállítás szabályszerűen történjen.
+- Egy szolgáltatás ügyfeleinek/felhasználóinak támogatniuk kell az átmeneti hibák kezelését és az újrapróbálkozást.
+- Hosszan futó feladatok esetében érdemes felosztani a munkát, ellenőrzőpontok vagy a [Csövek és szűrők][pipes-filters-pattern] mintájának használatával.
+- Helyezze a munkaelemeket egy üzenetsorba, így ha egy példány a feldolgozás közepén kiesik, egy másik folytathatja a munkát.
 
 <!-- links -->
 

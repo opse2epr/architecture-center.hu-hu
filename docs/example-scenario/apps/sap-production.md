@@ -3,14 +3,14 @@ title: Az SAP számítási feladatok futtatása az Oracle-adatbázis használat�
 titleSuffix: Azure Example Scenarios
 description: Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.
 author: DharmeshBhagat
-ms.date: 9/12/2018
+ms.date: 09/12/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 2f398e98e383053f40fa8debcf5636c609339baf
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 02a6eb43d3e11604857b8bd1f461c22a48f655c7
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643730"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110927"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
@@ -43,9 +43,13 @@ Ebben a példában egy magas rendelkezésre állású konfiguráció egy Oracle 
 ### <a name="components"></a>Összetevők
 
 - [Virtuális hálózatok](/azure/virtual-network/virtual-networks-overview) ebben a forgatókönyvben az Azure-beli virtuális Központ-küllő topológia létrehozásához használt.
+
 - [Virtuális gépek](/azure/virtual-machines/windows/overview) adja meg azokat a számítási erőforrásokat a megoldás minden egyes szinthez. A virtuális gépek minden egyes fürt van konfigurálva, egy [rendelkezésre állási csoport](/azure/virtual-machines/windows/regions-and-availability#availability-sets).
+
 - [Az ExpressRoute](/azure/expressroute/expressroute-introduction) kiterjeszti a helyszíni hálózatot a kapcsolatszolgáltató által létrehozott egy privát kapcsolaton keresztül a Microsoft-felhőbe.
+
 - [Hálózati biztonsági csoportok (NSG)](/azure/virtual-network/security-overview) egy virtuális hálózatban lévő erőforrásokra irányuló hálózati hozzáférés korlátozásához. Hálózati biztonsági csoportok biztonsági szabályokat, amelyek engedélyezik vagy megtagadják a hálózati forgalmat a forrás vagy cél IP-cím, port és protokoll alapján listáját tartalmazza.
+
 - [Erőforráscsoportok](/azure/azure-resource-manager/resource-group-overview#resource-groups) logikai tárolóként szolgálnak az Azure-erőforrásokhoz.
 
 ### <a name="alternatives"></a>Alternatív megoldások
@@ -54,13 +58,13 @@ Az SAP az operációs rendszer, az adatbázis-kezelő rendszer és az Azure-kör
 
 ## <a name="considerations"></a>Megfontolandó szempontok
 
-Ajánlott eljárások az Azure-ban magas rendelkezésre állású SAP környezetek kiépítéséhez vannak meghatározva. További információkért lásd: [magas rendelkezésre állású architektúra és forgatókönyvek esetében az SAP NetWeaver](/azure/virtual-machines/workloads/sap/sap-high-availability-architecture-scenarios). További tájékoztatás [magas rendelkezésre állás az SAP-alkalmazások Azure-beli virtuális gépeken](/azure/virtual-machines/workloads/sap/high-availability-guide).
+- Ajánlott eljárások az Azure-ban magas rendelkezésre állású SAP környezetek kiépítéséhez vannak meghatározva. További információkért lásd: [magas rendelkezésre állású architektúra és forgatókönyvek esetében az SAP NetWeaver](/azure/virtual-machines/workloads/sap/sap-high-availability-architecture-scenarios). További tájékoztatás [magas rendelkezésre állás az SAP-alkalmazások Azure-beli virtuális gépeken](/azure/virtual-machines/workloads/sap/high-availability-guide).
 
-Oracle-adatbázisokat is rendelkezik ajánlott eljárások az Azure-hoz. További információkért lásd: [tervezése és implementálása az Oracle-adatbázishoz az Azure-ban](/azure/virtual-machines/workloads/oracle/oracle-design).
+- Oracle-adatbázisokat is rendelkezik ajánlott eljárások az Azure-hoz. További információkért lásd: [tervezése és implementálása az Oracle-adatbázishoz az Azure-ban](/azure/virtual-machines/workloads/oracle/oracle-design).
 
-Oracle Data Guard segítségével kiküszöbölése az üzletmenet szempontjából kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
+- Oracle Data Guard segítségével kiküszöbölése az üzletmenet szempontjából kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
 
-Az Azure infrastruktúra-szolgáltatások üzembe helyezéséhez SAP-termékekhez, az Oracle-adatbázishoz használható kínál. További információkért lásd: [egy SAP számítási feladatok üzembe helyezése egy Azure-on Oracle DBMS](/azure/virtual-machines/workloads/sap/dbms_guide_oracle).
+- Az Azure infrastruktúra-szolgáltatások üzembe helyezéséhez SAP-termékekhez, az Oracle-adatbázishoz használható kínál. További információkért lásd: [egy SAP számítási feladatok üzembe helyezése egy Azure-on Oracle DBMS](/azure/virtual-machines/workloads/sap/dbms_guide_oracle).
 
 ## <a name="pricing"></a>Díjszabás
 

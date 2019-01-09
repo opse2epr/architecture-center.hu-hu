@@ -1,14 +1,16 @@
 ---
 title: Particionáljon a korlátok kiküszöböléséhez
-description: Particionálás használata az adatbázis-, hálózati és számítási korlátok megkerüléséhez
+titleSuffix: Azure Application Architecture Guide
+description: Használjon particionálást az adatbázis-, hálózati és számítási korlátok megkerüléséhez.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 2f6bf797c2c7e5af7c487635c19eaf77eee77dec
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.custom: seojan19
+ms.openlocfilehash: f6c0daa1b1ea469413156fdf3cd6969f98528fb3
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43326296"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54110492"
 ---
 # <a name="partition-around-limits"></a>Particionáljon a korlátok kiküszöböléséhez
 
@@ -22,7 +24,7 @@ A rendszer számos módon particionálható, például:
 
 - Üzenetsor vagy üzenetbusz particionálása a kérések vagy az egyidejű kapcsolatok számára vonatkozó korlátok elkerüléséhez.
 
-- App Service-webalkalmazás particionálása az App Service-csomagonkénti példányok számára vonatkozó korlátok elkerüléséhez. 
+- App Service-webalkalmazás particionálása az App Service-csomagonkénti példányok számára vonatkozó korlátok elkerüléséhez.
 
 Egy adatbázis particionálható *horizontálisan*, *vertikálisan* vagy *funkcionálisan*.
 
@@ -40,14 +42,12 @@ Részletesebb útmutatásért tekintse meg az [adatparticionálással][data-part
 
 **Tervezze meg a partíciókulcsot a túlzott terhelés elkerülése érdekében**. Ha egy adatbázis particionálása után továbbra is egyetlen partíció kapja a kérések többségét, akkor még nem oldotta meg a problémát. Ideális esetben a terhelés egyenletesen oszlik el a partíciók között. A kivonatolást például ügyfélazonosító szerint végezze, ne pedig az ügyfél nevének első betűje alapján, mivel bizonyos betűk gyakoribbak. Ugyanaz az elv érvényes az üzenetsorok particionálására is. Olyan partíciókulcsot válasszon, amely egyenletesen osztja el az üzeneteket az üzenetsorok között. További információt a [horizontális skálázást][sharding] ismertető témakörben tekinthet meg.
 
-**Az Azure-előfizetések és a -szolgáltatások korlátaihoz igazodva végezze a particionálást**. Az egyes összetevők és szolgáltatások mellett korlátozások vonatkoznak az előfizetésekre és erőforráscsoportokra is. A nagyon nagy alkalmazások esetén előfordulhat, hogy ezek korlátai szerint kell végeznie a particionálást.  
+**Az Azure-előfizetések és a -szolgáltatások korlátaihoz igazodva végezze a particionálást**. Az egyes összetevők és szolgáltatások mellett korlátozások vonatkoznak az előfizetésekre és erőforráscsoportokra is. A nagyon nagy alkalmazások esetén előfordulhat, hogy ezek korlátai szerint kell végeznie a particionálást.
 
-**Különböző szinteken végezze a particionálást**. Tegyük fel, hogy egy virtuális gépen helyez üzembe egy adatbázis-kiszolgálót. A virtuális gép egy virtuális merevlemezzel rendelkezik, amelyet az Azure Storage támogat. A tárfiók egy Azure-előfizetéshez tartozik. Vegye figyelembe, hogy a hierarchia mindegyik lépésére korlátok vonatkoznak. Az adatbázis-kiszolgálóra a kapcsolatkészletre vonatkozó korlát lehet érvényes. A virtuális gépre processzor- és hálózati korlátok vonatkoznak. A tárolóra IOPS-korlátok érvényesek. Az előfizetésben korlátozott a virtuális gép magjainak a száma. Általában egyszerűbb a hierarchia alacsonyabb szintjén particionálni. Az előfizetés szintjén végzett particionálás csak nagy alkalmazások esetén szükséges. 
+**Különböző szinteken végezze a particionálást**. Tegyük fel, hogy egy virtuális gépen helyez üzembe egy adatbázis-kiszolgálót. A virtuális gép egy virtuális merevlemezzel rendelkezik, amelyet az Azure Storage támogat. A tárfiók egy Azure-előfizetéshez tartozik. Vegye figyelembe, hogy a hierarchia mindegyik lépésére korlátok vonatkoznak. Az adatbázis-kiszolgálóra a kapcsolatkészletre vonatkozó korlát lehet érvényes. A virtuális gépre processzor- és hálózati korlátok vonatkoznak. A tárolóra IOPS-korlátok érvényesek. Az előfizetésben korlátozott a virtuális gép magjainak a száma. Általában egyszerűbb a hierarchia alacsonyabb szintjén particionálni. Az előfizetés szintjén végzett particionálás csak nagy alkalmazások esetén szükséges.
 
 <!-- links -->
 
 [azure-limits]: /azure/azure-subscription-service-limits
 [data-partitioning-guidance]: ../../best-practices/data-partitioning.md
 [sharding]: ../../patterns/sharding.md
-
- 

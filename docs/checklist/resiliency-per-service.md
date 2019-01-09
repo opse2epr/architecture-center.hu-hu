@@ -5,12 +5,12 @@ description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgált
 author: petertaylor9999
 ms.date: 11/26/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 55f17d3b24af4be4f313c66923f4153296041545
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: e1fb780cf9f54a5078cc5d3c6b597b351f93e05e
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307180"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112668"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -124,7 +124,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Az adatbázis replikálása.** Az SQL Server Always On rendelkezésre állási csoportok használatával replikálja az adatbázist. Magas rendelkezésre állást biztosít, ha egy SQL Server-példány sikertelen. További információkért lásd: [Windows rendszerű virtuális gépek futtatása N szintű alkalmazáshoz](../reference-architectures/virtual-machines-windows/n-tier.md)
 
-**Az adatbázis biztonsági mentése**. Ha már használja a [Azure Backup](https://azure.microsoft.com/documentation/services/backup/) érdemes használni a virtuális gépek biztonsági mentése, [Azure Backup az SQL Server-tevékenységprofilokhoz DPM használatával](/azure/backup/backup-azure-backup-sql/). Ezzel a módszerrel nincs a szervezet egy biztonsági mentési rendszergazda szerepkört, és a egy egységes helyreállítási eljárás virtuális gépek és az SQL Server. Ellenkező esetben használjon [SQL Server Managed Backup a Microsoft Azure-bA](https://msdn.microsoft.com/library/dn449496.aspx).
+**Az adatbázis biztonsági mentése**. Ha már használja a [Azure Backup](/azure/backup/) érdemes használni a virtuális gépek biztonsági mentése, [Azure Backup az SQL Server-tevékenységprofilokhoz DPM használatával](/azure/backup/backup-azure-backup-sql/). Ezzel a módszerrel nincs a szervezet egy biztonsági mentési rendszergazda szerepkört, és a egy egységes helyreállítási eljárás virtuális gépek és az SQL Server. Ellenkező esetben használjon [SQL Server Managed Backup a Microsoft Azure-bA](https://msdn.microsoft.com/library/dn449496.aspx).
 
 ## <a name="traffic-manager"></a>Traffic Manager
 

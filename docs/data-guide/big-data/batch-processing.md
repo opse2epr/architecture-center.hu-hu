@@ -3,12 +3,12 @@ title: Kötegelt feldolgozás
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: fe07d4d6501d4778025b75807f4d6be5854c3e09
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 50e50ae121fda7ceb9dd298b8a072bd7cc4053d9
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901983"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114181"
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
@@ -16,7 +16,7 @@ Big Data típusú adatok gyakran előfordul az inaktív adatok kötegelt feldolg
 
 Például a webkiszolgáló naplóinak előfordulhat, hogy egy mappába másolta és feldolgozása történhet az majd éjjelente napi jelentések webes tevékenység.
 
-![](./images/batch-pipeline.png)
+![A kötegelt feldolgozási folyamat ábrája](./images/batch-pipeline.png)
 
 ## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
@@ -28,21 +28,21 @@ Egy példa a kötegelt feldolgozás olyan formátumra sematikus strukturált és
 
 - **Adatok formázása és a kódolási**. A legnehezebb problémák hibakeresése fordulhat elő, ha a fájlok az váratlan formátumúak vagy kódolást. Például forrásfájlok előfordulhat, hogy használja az UTF-16 és UTF-8 kódolást, tartalmaz váratlan elválasztó karaktereket (szóköz vagy lap), vagy váratlan karaktereket. Egy másik gyakori példa szöveges mezők, amelyek tartalmazzák a lapok, szóközök és vesszővel válassza el egymástól, amelyeket az elválasztó karakterként értelmez. Adatok betöltése és elemzési logika kellően rugalmas ahhoz, hogy ezek a problémák észlelésével és kell lennie.
 
-- **Vezénylésével időszeletek.** Gyakran a forrásadatok kerül a mappahierarchiában, amely tükrözi a feldolgozási windows, év, hónap, nap, óra és így tovább szerint vannak rendezve. Bizonyos esetekben adatokat az késői lehet, hogy érkezik. Tegyük fel, hogy egy webkiszolgáló meghibásodik, és a naplókat. március 7. végül nem a feldolgozáshoz. március 9. amíg a mappát. Vannak, csak figyelmen kívül, mert azok már túl késő? Az alárendelt feldolgozási logika out soron kívüli rekordok képes kezelni?
+- **Replikálásával segít a vállalatnak időszeletek**. Gyakran a forrásadatok kerül a mappahierarchiában, amely tükrözi a feldolgozási windows, év, hónap, nap, óra és így tovább szerint vannak rendezve. Bizonyos esetekben adatokat az késői lehet, hogy érkezik. Tegyük fel, hogy egy webkiszolgáló meghibásodik, és a naplókat. március 7. végül nem a feldolgozáshoz. március 9. amíg a mappát. Vannak, csak figyelmen kívül, mert azok már túl késő? Az alárendelt feldolgozási logika out soron kívüli rekordok képes kezelni?
 
 ## <a name="architecture"></a>Architektúra
 
 A kötegelt feldolgozási architektúra rendelkezik a következő logikai összetevőit, a fenti ábrán látható.
 
-- **Adattárolás.** Általában egy elosztott fájltároló, amely számos formátumú és nagy nagy mennyiségű vagy a. Általános az ilyen típusú tároló gyakran nevezik data lake. 
+- **Adattárolás**. Általában egy elosztott fájltároló, amely számos formátumú és nagy nagy mennyiségű vagy a. Általános az ilyen típusú tároló gyakran nevezik data lake.
 
-- **Kötegelt feldolgozás.** A nagy mennyiségű jellegét a big Data típusú adatok gyakran azt jelenti, hogy megoldásokat kell feldolgozniuk az adatfájlokat, hosszan futó kötegelt feladatok használatával történő szűréséhez, összesítéséhez és ellenkező esetben az adatok elemzésre való előkészítését. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását. 
+- **Kötegelt feldolgozás**. A nagy mennyiségű jellegét a big Data típusú adatok gyakran azt jelenti, hogy megoldásokat kell feldolgozniuk az adatfájlokat, hosszan futó kötegelt feladatok használatával történő szűréséhez, összesítéséhez és ellenkező esetben az adatok elemzésre való előkészítését. Ezek a feladatok általában magukban foglalják az adatforrások beolvasását, feldolgozását, valamint a kimenet új fájlokba történő írását.
 
-- **Analitikai adattár.** Számos big data-megoldás előkészíti az adatokat az elemzésre, és ezután bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel strukturált formátumban lettek kialakítva. 
+- **Analitikus adattár**. Számos big data-megoldás előkészíti az adatokat az elemzésre, és ezután bocsátja a feldolgozott adatokat, hogy lekérdezhetők legyenek elemzőeszközökkel strukturált formátumban lettek kialakítva.
 
-- **Elemzés és jelentéskészítés.** A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. 
+- **Elemzés és jelentéskészítés**. A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba.
 
-- **Vezénylési.** A kötegelt feldolgozásra, általában néhány vezénylési szükség áttelepítése vagy az adatok másolása az adatok tárolóba, kötegelt feldolgozás, analitikai adattár, és a reporting rétegek.
+- **Vezénylés**. A kötegelt feldolgozásra, általában néhány vezénylési szükség áttelepítése vagy az adatok másolása az adatok tárolóba, kötegelt feldolgozás, analitikai adattár, és a reporting rétegek.
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
@@ -55,7 +55,11 @@ A következő technológiákat használata akkor javasolt lehetőségek a köteg
 
 További információkért lásd: [adattárolás](../technology-choices/data-storage.md).
 
+<!-- markdownlint-disable MD024 -->
+
 ### <a name="batch-processing"></a>Kötegelt feldolgozás
+
+<!-- markdownlint-enable MD024 -->
 
 - **U-SQL**. U-SQL az Azure Data Lake Analytics által használt nyelv Lekérdezésfeldolgozás. Eljárási bővíthetőségét kombinálja az SQL deklaratív jellegét a C#, és kihasználja a párhuzamosság engedélyezéséhez a hatékony feldolgozás az adatok nagy mennyiségben.
 - **Hive-**. Hive egy SQL-szerű nyelv által támogatott legtöbb Hadoop disztribúciók, például a HDInsight. Bármely HDFS-kompatibilis többek között az Azure blob storage és az Azure Data Lake Store áruházból származó adatok feldolgozására használható.

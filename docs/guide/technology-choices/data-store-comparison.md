@@ -1,14 +1,16 @@
 ---
 title: Az adattár kiválasztásának kritériumai
-description: Az Azure számítási lehetőségeinek áttekintése
+titleSuffix: Azure Application Architecture Guide
+description: Az Azure számítási lehetőségeinek áttekintése.
 author: MikeWasson
 ms.date: 06/01/2018
-ms.openlocfilehash: f8996cdeb937a28b3f3056da3921a3f89dd36b1a
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.custom: seojan19
+ms.openlocfilehash: 156df11d74d033d40d943c60e8e41d4920a24175
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916430"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114317"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -21,46 +23,68 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 ### <a name="functional-requirements"></a>Funkcionális követelmények
 
 - **Adatformátum**. Milyen típusú adatokat szándékozik tárolni? A gyakori típusok közé tartoznak a tranzakciós adatok, a JSON-objektumok, a telemetriaadatok, a keresési indexek és az egybesimított fájlok.
+
 - **Az adatok mérete**. Mekkora a tárolni kívánt entitások mérete? Ezeket az entitásokat egyetlen dokumentumként kell fenntartani, vagy azok feloszthatók több dokumentumra, táblára, gyűjteményre stb.?
-- **Skálázás és struktúra**. Milyen általános tárolókapacitásra van szüksége? Tervezi az adatok particionálását? 
-- **Adatkapcsolatok**. Az adatoknak támogatniuk kell-e az egy-a-többhöz vagy a több-a-többhöz kapcsolatokat? Maguk a kapcsolatok fontos részét képezik az adatoknak? Szükség lesz-e az adatok egyesítésére vagy egyéb típusú kombinálására ugyanazon vagy más külső adatkészletekből származó adatokkal? 
+
+- **Skálázás és struktúra**. Milyen általános tárolókapacitásra van szüksége? Tervezi az adatok particionálását?
+
+- **Adatkapcsolatok**. Az adatoknak támogatniuk kell-e az egy-a-többhöz vagy a több-a-többhöz kapcsolatokat? Maguk a kapcsolatok fontos részét képezik az adatoknak? Szükség lesz-e az adatok egyesítésére vagy egyéb típusú kombinálására ugyanazon vagy más külső adatkészletekből származó adatokkal?
+
 - **Konzisztenciamodell**. Mennyire fontos, hogy az egy csomóponton végzett frissítések más csomópontokon is megjelenjenek, mielőtt további módosításokat lehetne eszközölni? Elfogadható-e a végleges konzisztencia? Szüksége van-e ACID-garanciákra az egyes tranzakciókhoz?
+
 - **A séma rugalmassága**. Milyen sémát fog alkalmazni az adatokon? Rögzített sémát, esetleg írási séma vagy olvasási séma megközelítést fog használni?
+
 - **Egyidejűség**. Milyen egyidejűségi mechanizmust kíván használni az adatok frissítésekor és szinkronizálásakor? Az alkalmazás sok olyan frissítést fog végezni, amelyek ütközhetnek? Ha igen, rekordzárolási és pesszimista egyidejűségi vezérlőkre lehet szükség. Vagy támogathatja-e az optimista egyidejűségi vezérlőket? Ha igen, elegendő-e az egyszerű időbélyegző-alapú egyidejűségi vezérlés, vagy szüksége van-e többverziós egyidejűségi vezérlésre?
+
 - **Adatáthelyezés**. A megoldásnak végre kell-e hajtania ETL-feladatokat az adatok másik tárolóba vagy adattárházba történő áthelyezéséhez?
+
 - **Az adatok életciklusa**. Az adatok egyszer írhatók és többször olvashatók? Áthelyezhetők-e ritkán használt vagy offline tárhelyre?
+
 - **Egyéb támogatott funkciók**. Szüksége van-e bármilyen más konkrét funkcióra, például sémaérvényesítésre, összesítésre, indexelésre, teljes szöveges keresésre, esetleg MapReduce-feladatra vagy egyéb lekérdezési képességekre?
 
 ### <a name="non-functional-requirements"></a>Nem funkcionális követelmények
 
 - **Teljesítmény és skálázhatóság**. Milyen igényei vannak az adatteljesítményre vonatkozóan? Vannak-e egyedi igényei az adatok betöltése és feldolgozása szempontjából? Milyen elfogadható válaszidők vonatkoznak az adatok lekérdezésére és összesítésére a beolvasás után? Milyen mértékű vertikális felskálázásra lesz szüksége az adattárhoz? A munkaterhelések nagyrészt olvasási vagy nagyrészt írási műveltekből állnak?
-- **Megbízhatóság**. Milyen általános SLA-támogatásra van szüksége? Milyen szintű hibatűrést kíván nyújtani az adatfelhasználók számára? Milyen típusú biztonsági mentési és visszaállítási képességekre van szüksége? 
-- **Replikáció**. Szükség lesz-e az adatok több replika vagy régió közötti szétosztására? Milyen típusú adatreplikációs képességekre van szüksége? 
-- **Korlátok**. Beleférnek-e egy adott adattár korlátaiba a skálázási, a kapcsolatok számára vonatkozó, illetve az átviteli követelményei? 
+
+- **Megbízhatóság**. Milyen általános SLA-támogatásra van szüksége? Milyen szintű hibatűrést kíván nyújtani az adatfelhasználók számára? Milyen típusú biztonsági mentési és visszaállítási képességekre van szüksége?
+
+- **Replikáció**. Szükség lesz-e az adatok több replika vagy régió közötti szétosztására? Milyen típusú adatreplikációs képességekre van szüksége?
+
+- **Korlátok**. Beleférnek-e egy adott adattár korlátaiba a skálázási, a kapcsolatok számára vonatkozó, illetve az átviteli követelményei?
 
 ### <a name="management-and-cost"></a>Felügyelet és költségek
 
 - **Felügyelt szolgáltatás**. Ha lehetséges, használjon felügyelt adatszolgáltatást, hacsak nem kifejezetten olyan képességekre van szüksége, amelyek csak egy IaaS által üzemeltetett adattárban találhatók meg.
+
 - **Régiónkénti rendelkezésre állás**. Felügyelt szolgáltatások esetén a szolgáltatás elérhető-e az összes Azure-régióban? A megoldást bizonyos Azure-régiókban kell-e üzemeltetni?
+
 - **Hordozhatóság**. Szükség lesz-e az adatok helyszíni vagy külső adatközpontokba, esetleg egyéb felhőalapú üzemeltetési környezetekbe történő migrálására?
+
 - **Licencelés**. Előnyben részesíti-e a jogvédett licencet az OSS licenctípussal szemben? Vonatkozik-e egyéb külső korlátozás a használt licenc típusára vonatkozóan?
+
 - **A teljes költség**. Milyen mértékű a megoldásban használt szolgáltatás teljes költsége? Hány példánynak kell futnia az üzemidő- és a teljesítménybeli követelmények kiszolgálásához? Ennél a számításnál az üzemeltetés költségeit is vegye figyelembe. A felügyelt szolgáltatások használatának egyik előnye az alacsonyabb üzemeltetési költség.
+
 - **Költséghatékonyság**. Lehetséges-e az adatok particionálása a költséghatékonyabb tárolás érdekében? Például áthelyezhetők-e a nagy méretű objektumok egy költséges relációs adatbázisból egy objektumtárolóba?
 
 ### <a name="security"></a>Biztonság
 
 - **Biztonság**. Milyen típusú titkosításra van szüksége? Szüksége van titkosításra inaktív állapotban? Milyen hitelesítési mechanizmust szeretne használni az adatokhoz való kapcsolódáshoz?
+
 - **Naplózás**. Milyen típusú naplót szeretne létrehozni?
+
 - **Hálózati követelmények**. Szeretné-e korlátozni vagy egyéb módon kezelni a más hálózati forrásokból származó adatokat? Az adatok elérésére csak az Azure-környezeten belülről van szükség? Az adatoknak adott IP-címekről vagy alhálózatokról is elérhetőnek kell lenniük? Elérhetőnek kell-e lenniük a helyszínen üzemeltetett alkalmazások vagy szolgáltatások, esetleg egyéb külső adatközpontok számára?
 
 ### <a name="devops"></a>DevOps
 
 - **Képzettség**. Vannak-e olyan programozási nyelvek, operációs rendszerek és egyéb technológiák, amelyek használatában a csapata különösen képzett? Vannak-e olyanok, amelyekkel a csapata nehezen boldogulna?
+
 - **Ügyfelek**. Elérhető-e megfelelő szintű ügyféltámogatás az Ön által használt fejlesztési nyelvekhez?
 
 A következő szakaszokban különböző adattármodelleket hasonlítunk össze a számításifeladat-profil, az adattípusok és az alkalmazási helyzetekre vonatkozó példák alapján.
 
 ## <a name="relational-database-management-systems-rdbms"></a>Relációsadatbázis-kezelő rendszerek (RDBMS)
+
+<!-- markdownlint-disable MD033 -->
 
 <table>
 <tr><td><strong>Számítási feladat</strong></td>
@@ -305,7 +329,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
     <td>
         <ul>
             <li>Adatelemzés</li>
-            <li>Enterprise BI   </li>
+            <li>Enterprise BI</li>
         </ul>
     </td>
 </tr>
@@ -324,7 +348,6 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
     </td>
 </tr>
 </table>
-
 
 ## <a name="time-series-databases"></a>Idősorozat-adatbázisok
 
@@ -424,3 +447,5 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
     </td>
 </tr>
 </table>
+
+<!-- markdownlint-enable MD033 -->

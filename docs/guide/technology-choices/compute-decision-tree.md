@@ -1,22 +1,24 @@
 ---
 title: Az Azure számítási szolgáltatások döntési fája
-description: A számítási szolgáltatás kiválasztásának folyamatábrája
+titleSuffix: Azure Application Architecture Guide
+description: Számítási szolgáltatás kiválasztására szolgáló folyamatábra.
 author: MikeWasson
 ms.date: 11/03/2018
-ms.openlocfilehash: cb074272b8d00a71223d8c5755ef8cde3a3f2592
-ms.sourcegitcommit: 225251ee2dd669432a9c9abe3aa8cd84d9e020b7
+ms.custom: seojan19
+ms.openlocfilehash: 905b9956c9dcddddb21a87ea588af0ad5160ae2a
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/04/2018
-ms.locfileid: "50981980"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54114079"
 ---
 # <a name="decision-tree-for-azure-compute-services"></a>Az Azure számítási szolgáltatások döntési fája
 
-Az Azure számos módon üzemeltetni az alkalmazás kódjában kínál. A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. A következő folyamatábra szemlélteti, hogy az alkalmazás számítási szolgáltatás kiválasztása segít. A folyamatábra végigvezeti fő döntési feltételcsoport elérni egy javaslatot. 
+Az Azure számos módon üzemeltetni az alkalmazás kódjában kínál. A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut. A következő folyamatábra szemlélteti, hogy az alkalmazás számítási szolgáltatás kiválasztása segít. A folyamatábra végigvezeti fő döntési feltételcsoport elérni egy javaslatot.
 
 **Ez a folyamatábra kezeljük kiindulási pontként.** Minden alkalmazásnak egyedi követelményeit, ezért a kiindulási pontként a javaslatot. Hajtsa végre a részletesebb próbaverzióra, például Hibaoldal szempontok:
- 
-- A szolgáltatás beállítása
+
+- Szolgáltatáskészlet
 - [Szolgáltatási korlátozások](/azure/azure-subscription-service-limits)
 - [Költségek](https://azure.microsoft.com/pricing/)
 - [SLA](https://azure.microsoft.com/support/legal/sla/)
@@ -26,11 +28,11 @@ Az Azure számos módon üzemeltetni az alkalmazás kódjában kínál. A *szám
 
 Ha az alkalmazás több számítási feladatot tartalmaz, minden számítási feladat külön-külön kell kiértékelni. Teljes körű megoldást tartalmazhatják a két vagy több számítási szolgáltatást.
 
-A tárolók az Azure-beli üzemeltetéséhez szükséges beállításokkal kapcsolatos további információkért lásd: https://azure.microsoft.com/overview/containers/.
+A tárolók az Azure-beli üzemeltetéséhez szükséges beállításokkal kapcsolatos további információkért lásd: [Azure tárolók](https://azure.microsoft.com/overview/containers/).
 
 ## <a name="flowchart"></a>Folyamatábra
 
-![](../images/compute-decision-tree.svg)
+![Az Azure számítási szolgáltatások döntési fája](../images/compute-decision-tree.svg)
 
 ## <a name="definitions"></a>Meghatározások
 

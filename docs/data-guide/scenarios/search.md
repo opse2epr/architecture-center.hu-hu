@@ -3,23 +3,22 @@ title: Szabad formátumú szöveges keresés feldolgozása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 2e61713dccb6064968bfb906fb17b0bd62ae013d
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 6b90d70129f6b5ba978ce0f79dc5a04d57126b5d
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902025"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113025"
 ---
 # <a name="processing-free-form-text-for-search"></a>Szabad formátumú szöveges keresés feldolgozása
 
 Támogatja a keresést, a szabad formátumú szöveges feldolgozási végezhetők tájékoztató bekezdéseket adjon hozzá szöveget tartalmazó dokumentumokat.
 
-Szöveges keresés működése hozhat létre, egy speciális index, amely a kockában dokumentumok-gyűjteményeken. Egy ügyfélalkalmazás elküld egy lekérdezést, amely tartalmazza a keresési feltételeket. A lekérdezés visszaad egy eredményhalmazt, álló dokumentumok arról, hogy minden egyes dokumentum felel meg a keresési feltételek szerint rendezett listája. Az eredményhalmaz is, amelyben a dokumentum felel meg a feltételeket, a környezetet, amely lehetővé teszi az alkalmazás számára, jelölje ki a megfelelő kifejezést a dokumentum. 
+Szöveges keresés működése hozhat létre, egy speciális index, amely a kockában dokumentumok-gyűjteményeken. Egy ügyfélalkalmazás elküld egy lekérdezést, amely tartalmazza a keresési feltételeket. A lekérdezés visszaad egy eredményhalmazt, álló dokumentumok arról, hogy minden egyes dokumentum felel meg a keresési feltételek szerint rendezett listája. Az eredményhalmaz is, amelyben a dokumentum felel meg a feltételeket, a környezetet, amely lehetővé teszi az alkalmazás számára, jelölje ki a megfelelő kifejezést a dokumentum.
 
-![](./images/search-pipeline.png)
+![Keresés folyamat ábrája](./images/search-pipeline.png)
 
 Szabad formátumú szöveges feldolgozási hasznos, gyakorlatban hasznosítható zajos szöveges adatok nagy mennyiségű adatokat hozhat létre. Az eredményeket egy jól definiált, így bármikor lekérdezhető struktúra biztosíthat strukturálatlan dokumentumokat.
-
 
 ## <a name="challenges"></a>Problémák
 
@@ -32,8 +31,8 @@ A legtöbb esetben a forrás szöveget a dokumentumok betöltésével objektum s
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-Azure Search az Elasticsearch és a Solr HDInsight a search-index létrehozására vonatkozó lehetőségek között. Ezek a technológiák mindegyike fel lehet tölteni egy keresési index dokumentumok gyűjteményét. Az Azure Search indexelők, amely képes automatikusan feltölti az indexet a dokumentumokra és egyszerű szövegként a Excel és a PDF formátum biztosít. A HDInsight az Apache Solr indexelésére használhatja, számos különböző, például egyszerű szöveges, Word és PDF bináris fájlokat. Az index jön létre, ha az ügyfelek hozzáférhetnek a REST API segítségével a search felületén. 
+Azure Search az Elasticsearch és a Solr HDInsight a search-index létrehozására vonatkozó lehetőségek között. Ezek a technológiák mindegyike fel lehet tölteni egy keresési index dokumentumok gyűjteményét. Az Azure Search indexelők, amely képes automatikusan feltölti az indexet a dokumentumokra és egyszerű szövegként a Excel és a PDF formátum biztosít. A HDInsight az Apache Solr indexelésére használhatja, számos különböző, például egyszerű szöveges, Word és PDF bináris fájlokat. Az index jön létre, ha az ügyfelek hozzáférhetnek a REST API segítségével a search felületén.
 
-Ha a szöveges adatokat az SQL Server vagy az Azure SQL Database, a teljes szöveges keresés, a database-be épített is használhatja. Az adatbázis tölti fel. az index a szöveg, bináris vagy ugyanabban az adatbázisban tárolt XML-adataiban. Ügyfelek keresése a T-SQL lekérdezések használatával. 
+Ha a szöveges adatokat az SQL Server vagy az Azure SQL Database, a teljes szöveges keresés, a database-be épített is használhatja. Az adatbázis tölti fel. az index a szöveg, bináris vagy ugyanabban az adatbázisban tárolt XML-adataiban. Ügyfelek keresése a T-SQL lekérdezések használatával.
 
 További információkért lásd: [keresés az adattárak](../technology-choices/search-options.md).

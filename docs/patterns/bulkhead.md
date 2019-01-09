@@ -1,17 +1,17 @@
 ---
 title: Válaszfal minta
 titleSuffix: Cloud Design Patterns
-description: Készletekbe választhatja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen
+description: Készletekbe választja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 ms.custom: seodec18
-ms.openlocfilehash: 034808121aa05abd9b34ba7996c680b4726b1c79
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 0a2ae4789d3c1653405a59ef8cb4f6171a8abc81
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011166"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112192"
 ---
 # <a name="bulkhead-pattern"></a>Válaszfal minta
 

@@ -1,186 +1,216 @@
 ---
-title: 'Műszaki útmutató: az Azure-ban helyi hibaelhárítás'
-description: Szóló ismertetése és rugalmas, magas rendelkezésre állású kialakítása, hibatűrő alkalmazások, valamint az Azure helyi hibák összpontosított vészhelyreállítás tervezése.
+title: 'Műszaki útmutató: Helyreállítás helyi hibák esetén az Azure-ban'
+description: Annak az ismertetése, és rugalmas, magas rendelkezésre állású kialakítása, hibatűrő alkalmazások, valamint a vészhelyreállítási összpontosított helyi hibák utáni Azure-ban.
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: 5fc929bd1affe3dd6616f908bae0e7d2fefb89d5
-ms.sourcegitcommit: e67b751f230792bba917754d67789a20810dc76b
+ms.openlocfilehash: c5e26eefb8d5a8d424534081ddd5d1ea0454c17e
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/06/2018
-ms.locfileid: "30846834"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54112855"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
-# <a name="azure-resiliency-technical-guidance-recovery-from-local-failures-in-azure"></a>Az Azure rugalmasságát műszaki útmutatót: helyi hibaelhárítás az Azure-ban
+# <a name="azure-resiliency-technical-guidance-recovery-from-local-failures-in-azure"></a>Technikai útmutató az Azure rugalmassága: Helyreállítás helyi hibák esetén az Azure-ban
 
-Számos alkalmazás rendelkezésre állásának két elsődleges fenyegetéseket.
+Nincsenek rendelkezésre állásának két elsődleges fenyegetések:
 
-* Eszközök, például lemezek vagy kiszolgálók hibája
-* A kritikus erőforrásokat, például a számítási munkaterhelés esetére csúcs kimerülése
+- A hiba az eszközök, például a meghajtók és kiszolgálók
+- Kritikus erőforrások, például a maximális betöltési körülmények között számítási kimerülése
 
-Azure biztosít erőforrás-kezelést, a rugalmasság, terheléselosztás és ilyen körülmények magas rendelkezésre állásának biztosítása particionálás kombinációja. A felsorolt szolgáltatások némelyikéhez automatikusan megtörténik az összes Azure-szolgáltatásokhoz. Egyes esetekben azonban az alkalmazás fejlesztőjének tegye őket kihasználják néhány további feladata.
+Az Azure biztosít erőforrás-kezelést, rugalmasság, terheléselosztás és ilyen körülmények magas rendelkezésre állás engedélyezéséhez particionálás kombinációját. Ezek a funkciók némelyike végrehajtása automatikusan történik az Azure-szolgáltatásokhoz. Bizonyos esetekben azonban az alkalmazás fejlesztőjének tegye számára, hogy azok néhány további munkát.
 
 ## <a name="cloud-services"></a>Cloud Services
-Azure Cloud Services áll legalább egy webes vagy feldolgozói szerepköröket gyűjteményei. Egy vagy több példánya egy egyidejűleg is futtathatók. A konfiguráció a példányok száma határozza meg. Szerepkörpéldányokat monitorozott és felügyelt keresztül a fabric controller összetevőt. A fabric controller észleli, és válaszol-e a szoftver- és hardverkonfigurációiról hibák automatikusan.
 
-Minden szerepkörpéldányt a saját virtuális gép (VM) fut, és a háló ellenőrzi a vendégügynök keresztül kommunikál. A vendégügynök erőforrás és a csomópont metrika, beleértve a virtuális gép használati, állapota, naplók, erőforrás-használat, kivételek és meghibásodás gyűjti. A fabric controller lekérdezi a vendégügynök konfigurálható időközönként, és azt a virtuális gép újraindul, ha a vendégügynök nem válaszol. Hardverhiba esetén a társított fabric controller minden érintett szerepkörpéldányokat áthelyezése új hardver csomópontot, és újrakonfigurálja a hálózati forgalom van.
+Az Azure Cloud Services áll egy vagy több webes vagy feldolgozói szerepkörök gyűjteménye. Egy vagy több szerepkör példányai egyidejűleg is futtathatók. A konfiguráció meghatározza, hogy a példányok számát. Szerepkörpéldányok monitorozott és felügyelt keresztül a hálóvezérlő összetevőt. A hálóvezérlő észleli, és automatikusan szoftver-és hardver válaszol.
 
-Is kihasználhatják ezeket a funkciókat, a fejlesztők győződjön meg arról, hogy az összes szolgáltatás szerepkör elkerülése érdekében a szerepkörpéldányok állapotát tárolja. Ehelyett minden állandó adatok legyenek elérhetők a tartós tárból, például az Azure Storage vagy az Azure SQL Database. Ez lehetővé teszi a tanúsítványigénylések szerepköröket. Azt is jelenti, hogy szerepkörpéldányokat is leáll bármikor inkonzisztenciát létrehozása a szolgáltatás átmeneti vagy állandó szerinti nélkül.
+Minden szerepkör-példány fut, a saját virtuális gépet (VM), és a hálóvezérlő egy vendégügynök keresztül kommunikál. A vendégügynök erőforrás és a csomópont mérőszámokat, beleértve a virtuális gép használati, állapot, naplók, erőforrás-használat, kivételek és hibafeltételek gyűjti. A hálóvezérlő konfigurálható időközönként a vendégügynök kérdezi le, és azt a virtuális gép újraindul, ha a vendégügynök nem válaszol. Hardverhiba esetén a társított hálóvezérlő helyezi át az összes érintett szerepkörpéldány új hardver csomópontot, és újrakonfigurálja a hálózati forgalom irányítására van.
 
-A követelmény a szerepkörök a külsőleg állapot tárolására több hatással van. Ez azt jelenti, például, hogy minden kapcsolódó módosítások Azure Storage táblához úgy kell módosítani entitás-csoport egyetlen tranzakcióban, ha lehetséges. Természetesen nem mindig minden változtatásokat egy tranzakción belül. Győződjön meg arról, hogy szerepkör példány hibák nem problémákat okozhat, ha azok megszakítási hosszú futású műveleteket, amelyek a szolgáltatás állandó állapotát két vagy több frissítést több különös gondot kell végrehajtania. Ha egy másik szerepkört, majd ismételje meg az ilyen művelet hajt végre, azt kell várhatóan, és kezeli az esetet, ahol a munkahelyi részben fejeződött be.
+Számára, hogy ezeket a funkciókat, fejlesztők biztosítania kell, hogy az összes szolgáltatás szerepkör elkerülése érdekében a szerepkörpéldányok állapotát tárolja. Ehelyett minden perzisztens kell elérhető tartós tárolási, például az Azure Storage vagy az Azure SQL Database. Ez lehetővé teszi a kérések kezelésére szerepköröket. Azt is jelenti, hogy szerepkör példányai is leáll bármikor a szolgáltatás átmeneti vagy állandó állapotban inkonzisztenciát létrehozása nélkül.
 
-Vegye figyelembe például olyan szolgáltatás, amely adatok partíciók több üzletben között. Ha a feldolgozói szerepkör leáll, amíg azt van áthelyezése egy shard, valószínűleg nem fejeződött be a shard történő áttelepítését. Vagy az adatáthelyezési előfordulhat, hogy ismétlődik a kezdetektől a különböző feldolgozói szerepkör, potenciálisan a árva adatok vagy adatsérülés okozza. Problémák megelőzése érdekében hosszú futású műveleteket kell lennie a következők közül:
+A követelmény a szerepköröket, a külsőleg-állapotának tárolására több hatással van. Ez azt jelenti, például, hogy egy Azure Storage-táblába az összes kapcsolódó változtatás kell módosítani egy entitáscsoportot tranzakcióban, ha lehetséges. Természetesen nem mindig lehetséges, hogy az összes módosítást egy tranzakción belül. Győződjön meg arról, hogy szerepkör sikertelen példánytelepítések nem problémákat okozhat, ha azok, amelyek a szolgáltatás állandó állapota két vagy több frissítéseit hosszú ideig futó műveletek megszakítási különös gondot kell végeznie. Ha egy másik szerepkör megpróbálja próbálkozzon újra a e művelet, azt kell ennek előrejelzését, és az eset, ahol a munkahelyi részben végrehajtva kezelését.
 
-* *Az Idempotent*: ismételhető hatásai nélkül. Az idempotent, a hosszan futó műveletet kell rendelkeznie ugyanaz a hatása, függetlenül attól, hogy hányszor program hajtsa végre, akkor is, ha a végrehajtás során megszakad.
-* *Növekményesen újraindítható*: a legutóbbi pont a hiba továbbra is. Kisebb atomi műveletek sorozata lehet Növekményesen újraindítható-e, hogy a hosszan futó műveletet kell állnia. Azt is rögzíteni kell a telepítés előrehaladását a tartós tároló, hogy minden ezt követő meghívása átveszi ahol annak elődje leállt.
+Vegyük példaként egy szolgáltatás, amely több üzletben particionálja az adatokat. Ha egy feldolgozói szerepkör leáll, amíg, áthelyezés, szegmensek van, valószínűleg nem fejeződött be a szegmenshez való áthelyezését. Vagy az adatáthelyezési előfordulhat, hogy ismétlődik a kezdetektől a különböző feldolgozói szerepkör, potenciálisan a árva adatokat vagy adatsérülés okozza. A problémák megelőzése érdekében hosszú ideig futó műveletek egyikét vagy mindkettőt a következőket kell lennie:
 
-Végül minden hosszan futó műveletet kell hívható meg ismételten amíg nem sikerül. Például a telepítési művelet lehet, hogy kell helyezni egy Azure-üzenetsorba, és eltávolította a várólista által a feldolgozói szerepkör csak akkor, ha ez sikeres. Lehet, hogy a szemétgyűjtő létrehozásához szükséges adatok, amelyek műveletek megszakadt karbantartása.
+- *Idempotens*: Megismételhető hatásai nélkül. Ahhoz, hogy idempotensek, egy hosszú ideig futó művelet ugyanezt a hatást, függetlenül attól, hogy hányszor hajtja azt végre, akkor is, ha a végrehajtás során megszakad, kell rendelkeznie.
+- *Növekményes újraindítható*: A legutóbbi pont folytatása sikerült. Ahhoz, hogy növekményes újraindítható, egy hosszú ideig futó művelet atomi művelet kisebb sorozatát kell állnia. Tartós tárolási, is azt kell rögzíteni a folyamat előrehaladását, úgy, hogy minden ezt követő meghívási szerzi be ahol elődjének leállt.
 
-### <a name="elasticity"></a>A rugalmasság
-A kezdeti száma az egyes szerepkörökhöz futó példányok minden egyes szerepkör-konfigurációja határozza meg. Rendszergazdák minden egyes szerepkör futtatásához két vagy több osztályt a tervezett terhelés alapján állít be kell beállítani. De könnyen költenie szerepkörpéldányok, vagy le, a használati minták módosítása. Ehhez manuálisan az Azure portálon, vagy a Windows PowerShell, a Service Management API vagy a külső eszközök segítségével automatizálható a folyamat. További információkért lásd: [automatikus skálázás alkalmazás hogyan](/azure/cloud-services/cloud-services-how-to-scale/).
+Végül az összes hosszú ideig futó műveletek kell hívható ismételten amíg nem sikerül. Például egy üzembe helyezési művelet előfordulhat, hogy helyezi el az Azure-üzenetsort, és ezután eltávolítja az üzenetsor feldolgozói szerepkör által csak akkor, ha ez sikeres. A szemétgyűjtés karbantartási műveletek megszakad adatok létrehozásához szükség lehet.
+
+### <a name="elasticity"></a>Rugalmasság
+
+Az egyes szerepkörökhöz futó példányok kezdeti száma az egyes szerepkör-konfigurációjának határozza meg. A rendszergazdák először konfigurálnia kell a várható terhelés alapján két vagy több példányát futtatni kívánt szerepkörök. De egyszerűen méretezhető szerepkörpéldányok vagy le, a használati minták módosítása. Ezt megteheti manuálisan az Azure Portalon, vagy a folyamat automatizálható a Windows PowerShell, a Service Management API vagy a külső eszközök használatával. További információkért lásd: [az automatikus skálázáshoz alkalmazás](/azure/cloud-services/cloud-services-how-to-scale/).
 
 ### <a name="partitioning"></a>Particionálás
-Az Azure fabric controller partíciók két típusú használ:
 
-* Egy *frissítési tartomány* frissíteni az adott szolgáltatás szerepkörpéldányt csoportok használatával. Azure több frissítési tartományt a szolgáltatáspéldány telepíti. Helybeni frissítést a háló tartományvezérlő összes példányát le egy frissítési tartomány számos lehetőséget kínál, frissítése és majd újraindítja a következő frissítési tartományra áthelyezése előtt. Ez a megközelítés megakadályozza a teljes szolgáltatás nem érhető el a frissítési folyamat alatt.
-* A *tartalék tartomány* határozza meg a hardver- vagy hálózati lehetséges pontokat. Olyan szerepkört, amely egynél több példány van a fabric controller biztosítja, hogy a példányok több tartalék tartományok, ezáltal megakadályozhatja, hogy a elkülönített hardver meghibásodása megzavarása különböző pontjain. Tartalék tartományok összes lehetősége, hogy a kiszolgáló és fürt hibák tekintetében.
+Az Azure fabric controller két típusú partíciók használ:
 
-A [Azure szolgáltatásiszint-szerződés (SLA)](https://azure.microsoft.com/support/legal/sla/) garantálja, hogy ha két vagy több webalkalmazás szerepkörpéldányokat különböző tartalék és verziófrissítési van telepítve, akkor kell külső kapcsolatot legalább 99,95 %-ában. Ellentétben frissítési tartományok nincs lehetőség a tartalék tartományok száma. Azure automatikusan lefoglal tartalék tartományok, és a szerepkörpéldányok elosztja. At legalább az első két példánya minden kerülnek, különböző tartalék és frissítési tartományt annak érdekében, hogy legalább két példánnyal szerepköröket eleget tesz a szolgáltatásiszint-szerződést. Ez a következő ábra a jelzi.
+- Egy *frissítési tartományt* -service-szerepkörpéldányok csoportok frissítésére szolgál. Azure szolgáltatáspéldányok több tartományban történő üzembe helyezi. Helybeni frissítést a a hálóvezérlő összes példányát le egyetlen frissítési tartomány számos lehetőséget kínál, frissíti őket, és újraindítja az őket a következő frissítési tartomány áthelyezése előtt. Ez a módszer megakadályozza az egész szolgáltatás nem érhető el a frissítési folyamat alatt.
+- A *tartalék tartomány* hibalehetőség adódik hardver- vagy hálózati határozza meg. Minden olyan szerepkörhöz, amelynek több példányt a hálóvezérlő biztosítja, hogy a példányok között oszlanak meg több tartalék tartomány megakadályozza, hogy elkülönített hardver-meghibásodásokkal szolgáltatás megszakítása. A tartalék tartomány szabályozza a kitettség a kiszolgáló és a hibákkal szemben.
+
+A [Azure szolgáltatásiszint-szerződés (SLA)](https://azure.microsoft.com/support/legal/sla/) garantálja, hogy különböző tartalék és frissítési tartományokba, legalább két webes szerepkör példányai van telepítve, ha rendelkeznek külső kapcsolatokat az idő legalább 99,95 %-os. Ellentétben a frissítési tartományok nincs lehetőség a tartalék tartományok száma. Az Azure automatikusan foglalja le a tartalék tartományok és azok között osztja el a szerepkör példányai. At legalább az első két példánya minden kerüljenek a különböző hibatűrési és frissítési tartományokban tárolja, győződjön meg arról, hogy minden olyan szerepkörhöz legalább két példányt megfelelnek-e a szolgáltatói szerződés. Ez a következő ábrán jelölt.
 
 ![Tartalék tartomány elkülönítési egyszerűsített nézete](./images/technical-guidance-recovery-local-failures/partitioning-1.png)
 
 ### <a name="load-balancing"></a>Terheléselosztás
-Az összes bejövő forgalmát a webes szerepkör haladnak keresztül az állapot nélküli terheléselosztó, amely továbbítja az ügyfélkéréseket a szerepkörpéldányok között. Az egyes szerepkörpéldányokat nem rendelkezik nyilvános IP-címeket, és nincsenek közvetlenül címezhető az internetről. Webes szerepkörök olyan állapot nélküli, így egyetlen ügyfélkérés bármely szerepkör példánya lehet továbbítani. A [StatusCheck](https://msdn.microsoft.com/library/microsoft.windowsazure.serviceruntime.roleenvironment.statuscheck.aspx) esemény 15 másodpercenként jelenik meg. Ezzel azt jelzi, hogy a szerepkör készen áll a forgalom fogadására, vagy hogy-e elfoglalva más műveletekkel, és a terheléselosztó Elforgatás kívül kell venni.
+
+Az összes bejövő forgalmat a webes szerepkör áthalad egy állapot nélküli terheléselosztó, amely ügyfélkéréseket a szerepkör példányai között osztja el. Egyéni szerepkör példányai nem rendelkezik a nyilvános IP-címeket, és azok nem közvetlenül címezhetővé válnak az internetről. Webes szerepkörök nélküliek, így bármely ügyfél kérés átirányítható, bármilyen szerepkör-példány. A [StatusCheck](https://msdn.microsoft.com/library/microsoft.windowsazure.serviceruntime.roleenvironment.statuscheck.aspx) esemény jelenik meg a 15 másodpercenként. Ezzel jelezheti, hogy a szerepkör készen áll a forgalom fogadásához, vagy legyen az elfoglalt, és a load balancer rotációból kell venni.
 
 ## <a name="virtual-machines"></a>Virtuális gépek
-Azure virtuális gépek platform eltér, a szolgáltatás (PaaS) számítási szerepkörök számos tekintetben magas rendelkezésre állású viszonyítva. Bizonyos esetekben a magas rendelkezésre állásának biztosításához a további munkahelyi tegye.
 
-### <a name="disk-durability"></a>Lemez tartóssági
-PaaS szerepkörpéldányok, ellentétben a virtuális gép meghajtókon tárolt adatokat az állandó akkor is, ha a virtuális gép áthelyezését van. Az Azure virtuális gépek használata az Azure Storage blobs létező virtuális gépek lemezei. Azure Storage rendelkezésre állási jellemzői miatt a virtuális gép meghajtókon tárolt adatokat is magas rendelkezésre áll.
+Az Azure Virtual Machines, a platformszolgáltatás (PaaS) szerepkörök több szempontból viszonyítva magas rendelkezésre állású számítási platform eltér. Bizonyos esetekben, tegye a magas rendelkezésre állás biztosítása érdekében további munkát.
 
-Vegye figyelembe, hogy (a Windows-alapú virtuális gépek) D meghajtó az ezen szabály alól. D meghajtó ténylegesen fizikai tároló a állvány kiszolgálón, amelyen a virtuális Gépet, és az adatok elvesznek, ha a virtuális gép újraindul. D meghajtó csak az átmeneti tárolási számára készült. A Linux Azure "általában" (de nem minden esetben) mutatja a helyi ideiglenes lemez /dev/sdb elérésű eszközt. Gyakran csatlakoztatva van az Azure Linux ügynök /mnt/resource vagy /mnt csatlakoztatási pontokat (/etc/waagent.conf állíthatók be).
+### <a name="disk-durability"></a>Lemez tartóssága
+
+PaaS szerepkörpéldányok, ellentétben a virtuális gép meghajtókon tárolt adatokat az állandó akkor is, ha a virtuális gép van más helyre. Az Azure virtual machines létező Virtuálisgép-lemezek használjuk az Azure Storage-blobokat. Azure Storage rendelkezésre állási jellemzőinek miatt a virtuális gépek meghajtókon tárolt adatokat is magas rendelkezésre állású.
+
+Vegye figyelembe, hogy D meghajtó (a Windows VM-EK) az ezen szabály alól. D meghajtó a rack kiszolgálón, amelyen a virtuális gép tényleges fizikai tárhelyet, és az adatok elvesznek, ha a virtuális gép újraindul. D meghajtó csak ideiglenes tároló szól. A Linux Azure "általában" (de nem mindig) tesz elérhetővé a helyi ideiglenes lemez /dev/sdb blokk eszközként. Gyakran csatlakoztatva van az Azure Linux-ügynök által /mnt/resource vagy /mnt csatlakoztatási pontokra (/etc/waagent.conf keresztül konfigurálható).
+
+<!-- markdownlint-disable MD024 -->
 
 ### <a name="partitioning"></a>Particionálás
-Azure natív módon megértette a rétegek egy PaaS-alkalmazás (webes és feldolgozói szerepkörben), és így tudja megfelelően kioszthatja hiba és a frissítési tartományok között. Ezzel szemben a rétegek szolgáltatási (IaaS) alkalmazás infrastruktúrákban manuálisan definiálni kell keresztül a rendelkezésre állási készletek. Szolgáltatásiszint-szerződésben garantált IaaS a rendelkezésre állási készletek szükségesek.
 
-![Az Azure virtuális gépek rendelkezésre állási készletek](./images/technical-guidance-recovery-local-failures/partitioning-2.png)
+Az Azure natív módon megért a rétegek egy PaaS-alkalmazásban (webes és feldolgozói szerepkörök), és így tudja megfelelően kioszthatja tartalék és frissítési tartományok között. Ezzel szemben a rétegek egy infrastruktúra-szolgáltatás (IaaS) alkalmazásként manuálisan definiálni kell keresztül a rendelkezésre állási csoportok. A rendelkezésre állási csoportok szükségesek alatt IaaS SLA-t.
 
-A fenti ábrán az Internet Information Services (IIS) réteg (amely működik, mint a web app réteget) és az SQL-réteg (amely egy adatrétegbeli működik) vannak hozzárendelve másik rendelkezésre állási készletek. Ez biztosítja, hogy az egyes rétegek összes példányát tartalék tartományok közötti virtuális gépek elosztásával hardver redundanciával rendelkezik, és hogy teljes rétegek nem veszik frissítése közben.
+![Rendelkezésre állási csoportok az Azure-beli virtuális gépek](./images/technical-guidance-recovery-local-failures/partitioning-2.png)
+
+A fenti ábrán az Internet Information Services (IIS) szint (amely a web app réteget módon működik) és az SQL-szint (amely egy adatrétegbeli módon működik) hozzá van rendelve másik rendelkezésre állási csoportokat. Ez biztosítja, hogy rendelkezik-e az egyes szintek összes példányát hardverredundancia osztja meg a virtuális gépek a tartalék tartományok között, és, hogy teljes szinten nem egy frissítés alatt álló alkotásait.
 
 ### <a name="load-balancing"></a>Terheléselosztás
-A virtuális gépek elosztott ezek között forgalmat kell rendelkeznie, ha egy alkalmazás és a terhelés elosztása a virtuális gépek között egy adott TCP vagy UDP-végpontot kell csoportosítja. További információkért lásd: [terheléselosztási virtuális gépek](/azure/virtual-machines/virtual-machines-linux-load-balance/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). A virtuális gépek más forrásból (például egy üzenetsor-kezelési mechanizmust) fogadja, ha egy terhelés-kiegyenlítő nincs szükség. A load balancer egy egyszerű állapot-ellenőrzést annak meghatározásához, hogy forgalmat kell küldeni a csomópont használja. Akkor is valósítja meg az alkalmazás-specifikus állapotfigyelő metrikákat, amelyek meghatározzák, hogy a VM forgalmat kell kapnia a saját mintavételt létrehozásához.
 
-## <a name="storage"></a>Tárolás
-Az Azure Storage egy az eredeti tartós szolgáltatás az Azure-bA. Blob, table, várólista és VM lemezegységet biztosít. Magas rendelkezésre állás egyetlen adatközponton belül replikációs és erőforrás-kezelést használ. Az Azure Storage SLA-elérhetőséget biztosítja azt, hogy legalább 99,9 %-ában:
+A virtuális gépek elosztott azok között forgalmat kell rendelkeznie, ha egy alkalmazás és a terhelés elosztása a virtuális gépek között egy adott TCP vagy UDP-végpontnak kell csoportosítja. További információkért lásd: [terheléselosztási virtuális gépek](/azure/virtual-machines/virtual-machines-linux-load-balance/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). Ha a virtuális gépek bemeneti más forrásból (például egy üzenetsor-kezelési mechanizmust) kap, a load balancer, nem szükséges. A load balancer alapszintű állapot-ellenőrzése alapján határozza meg, hogy kell-e forgalmat küldeni a csomópontra. Az is lehet létrehozni a saját mintavételek megvalósításához és alkalmazásspecifikus mérőszámok, amelyek meghatározzák, hogy a virtuális gép jár-e a forgalmat.
 
-* Helytelenül formázott kérelmek hozzáadása, update, Olvasás és az adatok sikeresen és helyesen dolgozza fel a rendszer.
-* Storage-fiókok és az internetes átjáró lesz.
+## <a name="storage"></a>Storage
+
+Az Azure Storage szolgáltatása a referenciakonfiguráció hosszú élettartamú adatok az Azure-hoz. Blob, table, queue és virtuális gép lemezes tárolás biztosít. Replikáció és az erőforrás-kezelés együttes használatával magas rendelkezésre állás egyetlen adatközponton belül. Az Azure Storage rendelkezésre állási SLA biztosítja azt, hogy legalább 99,9 %-ában:
+
+- Helyesen formázott kérelmeket szeretne hozzáadni, update, olvassa el és az adatok törlésével fogja sikeres és helyesen feldolgozni.
+- Storage-fiókok elérhetőséget, az internetes átjárónkhoz.
 
 ### <a name="replication"></a>Replikáció
-Az Azure Storage adatok tartóssága könnyíti meg a különböző meghajtókon összes adatok többszörös lemásolását, megőrizve a teljesen független fizikai tároló alrendszerek abban a régióban. Adatait replikálja a rendszer szinkron módon történik, és minden másolatot véglegesítése előtt elfogadott, az írás. Az Azure Storage minden erősen konzisztens, tehát, hogy olvasási garantáltan tükrözi a legfrissebb írások. Ezenkívül adatok másolatát folyamatosan felismerése és kijavítása bit rothadás, egy gyakran overlooked fenyegetést tárolt adatok vizsgálata.
 
-Azure Storage használatával csak replikációs szolgáltatások hasznos. A service fejlesztői helyreállítás egy helyi történt hiba után további munkájuk elvégzéséhez nem szükséges.
+Az Azure Storage segíti az adatok tartós megőrzését között teljesen független fizikai tárhelyek alrendszerei a régión belül több példányának különböző meghajtókon található összes adat megőrzése. Szinkron módon rendszer replikálja az adatokat, és mindegyik példányt véglegesítése előtt a rendszer arra vonatkozik, az írási. Az Azure Storage szolgáltatás erősen konzisztens, ami azt jelenti, hogy olvasási garantáltan a legújabb írást tükrözik. Adatok másolatainak emellett folyamatosan vizsgált észlelése és javítása bit rothadás, egy gyakran tényezőkből fenyegetés tárolt adatok sértetlenségét.
+
+Szolgáltatások csak az Azure Storage használatával előnyeit a replikációból. A szolgáltatás fejlesztői nem kell helyi hiba helyreállítása további munkát.
 
 ### <a name="resource-management"></a>Erőforrás-kezelés
-Tárfiókok létrehozása után előfordulhat, hogy 2014, milyen mértékben növelhető legfeljebb 500 TB kapacitású lehet (a korábbi maximális volt 200 TB). További lemezterületre akkor szükség, ha alkalmazásokat kell megtervezni, több tárfiókot használja.
 
-### <a name="virtual-machine-disks"></a>Virtuális gépek lemezei
-A virtuális gép lemezét oldalakra vonatkozó blob az Azure Storage adjon neki ugyanazokat tartósság és a méretezhetőség tulajdonságai, a Blob Storage tárolóban tárolja. Ez a kialakítás teszi az adatok egy virtuális gép lemezét állandó, még akkor is, ha a virtuális Gépet futtató kiszolgáló meghibásodik, és újra kell indítani a virtuális gép egy másik kiszolgálón.
+2014. május, után létrehozott Storage-fiókok legfeljebb 500 TB-ig (a korábbi maximális volt 200 TB) növelhető. Ha további tárterületre szükség, alkalmazásokat kell kialakítani, hogy több tárfiók használata.
+
+### <a name="virtual-machine-disks"></a>Virtuálisgép-lemezek
+
+Az Azure Storage adná ugyanazokat tartósság és a méretezhetőség tulajdonság a Blob storage, lapblob egy virtuálisgép-lemez van tárolva. Ez a kialakítás teszi az adatok egy virtuálisgép-lemez állandó, még akkor is, ha a virtuális Gépet futtató kiszolgáló meghibásodik, és újra kell indítani a virtuális gép egy másik kiszolgálón.
 
 ## <a name="database"></a>Adatbázis
+
 ### <a name="sql-database"></a>SQL Database
-Az Azure SQL Database adatbázist biztosít szolgáltatásként. Alkalmazások gyors kiépítése, adatok, és a lekérdezés relációs adatbázisok beszúrása lehetővé teszi. Számos, a megszokott SQL Server szolgáltatásai és funkciói, absztrakt módon megjelenítve a hardver, a konfiguráció, a javítás és a rugalmasság okozta terheket közben biztosít.
+
+Az Azure SQL Database-adatbázist kínál szolgáltatásként. Lehetővé teszi alkalmazások gyors üzembe helyezése, helyezze be az adatokat, és a relációs adatbázisok lekérdezése. Az ismerős SQL-kiszolgálói szolgáltatásairól és funkcióiról, számos hardver, konfigurációs, javítási és rugalmasság terhe paltformfüggetlen közben biztosít.
 
 > [!NOTE]
-> Az Azure SQL-adatbázis nem biztosít az SQL Server-az-egyhez szolgáltatásparitást. Az különböző bizonyos követelmények – egy egyedi módon van igazodó felhőalkalmazásokhoz (rugalmasan méretezhető, adatbázis karbantartási költségek csökkentése, és így tovább) teljesítéséhez rendelkezik szolgál. További információkért lásd: [felhőalapú SQL Server-verzió: Azure SQL (PaaS) Database vagy az SQL Server Azure virtuális gépeken (IaaS)](/azure/sql-database/sql-database-paas-vs-sql-server-iaas/).
-> 
-> 
+> Az Azure SQL Database nem biztosít az SQL Server-az-egyhez funkcióparitás. Az követelmények –, amely rendelkezik egyedi alkalmas a felhőalapú alkalmazások (rugalmasan méretezhető, adatbázis-szolgáltatás karbantartási költségek csökkentéséhez és így tovább) külön készletét teljesítéséhez rendelkezik szolgál. További információkért lásd: [felhőalapú SQL Server option: Az Azure SQL (PaaS) adatbázis vagy SQL Server Azure virtuális gépeken (IaaS)](/azure/sql-database/sql-database-paas-vs-sql-server-iaas/).
 
 #### <a name="replication"></a>Replikáció
-Az Azure SQL Database csomópont szintű hiba beépített rugalmasságot biztosít. Két vagy több háttér csomópont egy kvórum véglegesítési technika keresztül automatikusan replikált minden írás az adatbázisba. (Az elsődleges és legalább egy másodlagos meg kell erősítenie, hogy a tevékenység ír a tranzakciós napló előtt a tranzakció akkor számít elértnek sikeres, és adja vissza.) Csomópont meghibásodása esetén az adatbázis automatikusan átadja a feladatokat a másodlagos replikák közül. Ez azt eredményezi, hogy egy átmeneti kapcsolat megszakadása ügyfélalkalmazások esetében. Emiatt minden Azure SQL Database-ügyfelek kell megvalósítania valamilyen átmeneti kapcsolat kezelése. További információkért lásd: [ismételje meg a szolgáltatás konkrét útmutatást](/azure/best-practices-retry-service-specific/).
+
+Az Azure SQL Database csomópont-szintű hiba beépített rugalmasságot biztosít. Az összes írási művelet az adatbázisba hátterének legalább két csomóponttal keresztül egy kvórum véglegesítési technika automatikusan replikálva van. (Az elsődleges és másodlagos legalább egy meg kell erősítenie, hogy a tevékenység írt a tranzakciónapló, mielőtt a tranzakció sikeres minősül, és adja vissza.) Csomóponthiba esetén az adatbázis automatikusan átadja a feladatokat a másodlagos replikára. Ez azt eredményezi, hogy egy átmeneti kapcsolat megszakadása, az ügyfélalkalmazások számára. Ebből kifolyólag minden Azure SQL Database-ügyfelek musí implementovat valamilyen átmeneti kapcsolati kezelését. További információkért lásd: [az újrapróbálkozási mechanizmushoz adott](/azure/best-practices-retry-service-specific/).
 
 #### <a name="resource-management"></a>Erőforrás-kezelés
-Minden adatbázis létrehozásakor, és a méretének felső korlátja van konfigurálva. A jelenleg rendelkezésre álló maximális mérete 1 TB-os (korlátok változó méretű lásd a szolgáltatási réteg alapján [szolgáltatás és az Azure SQL-adatbázisok teljesítményszintek](/azure/sql-database/sql-database-resource-limits/#service-tiers-and-performance-levels). Egy adatbázis találatok maximális felső méretét, elutasítja a további Beszúrás vagy frissítés parancsok. (Kérdez le, és az adatok törlése az továbbra is lehetséges.)
 
-Egy adatbázis Azure SQL Database használja a háló-erőforrások kezeléséhez. Azonban a fabric controller helyett használja egy körgyűrűs topológia észlelésére. A fürt minden replika két szomszédok és feladata az észlelése, amikor azok. Ha egy replika leáll, szomszédjainak egy újrakonfigurálás ügynököt újra létre kell hoznia azt egy másik gépen indítható el. Győződjön meg arról, hogy logikai kiszolgáló túl sok erőforrás használata a gépen nem, vagy haladhatja meg a számítógép fizikai korlátok motor szabályozás megadott.
+Minden adatbázis létrehozása után úgy van konfigurálva, és a egy méretének felső korlátja. A jelenleg rendelkezésre álló maximális mérete 1 TB-os (korlátok eltérő méretű lásd a szolgáltatási réteg alapján [szolgáltatás és az Azure SQL Database-adatbázisok teljesítményszintek](/azure/sql-database/sql-database-resource-limits/#service-tiers-and-performance-levels). Egy adatbázis találatok száma a felső méretkorlátot, elutasítja a további INSERT nebo UPDATE parancsok. (Lekérdezés, és az adatok törlése az továbbra is lehetséges.)
 
-### <a name="elasticity"></a>A rugalmasság
-Ha az alkalmazás több mint 1 TB-os adatbázis korlát, alkalmaznia kell a kibővített megközelítést. A horizontális az Azure SQL Database által manuálisan particionálás, más néven horizontális, több SQL-adatbázisok közötti adatforgalom. Ezt a módszert használja a kibővített Itt a lehetőség, amely közel lineáris költség növekedés elérése. Rugalmas növekedésére vagy az igény szerinti kapacitás növekményes költséggel igény szerint növelhető mert adatbázisok átlagos tényleges mérete alapján napi használt nem maximális mérete alapján számlázzuk.
+Egy adatbázison belül az Azure SQL Database használ a háló-erőforrások kezeléséhez. Azonban a hálóvezérlő helyett használja egy körgyűrűs topológia a hibák észlelése érdekében. Minden replika egy fürtben két szomszédok rendelkezik, és azt észlelte, amikor azok felelős. Ha egy replika leáll, szomszédjainak aktiválása egy újrakonfigurálási ügynök újra létre egy másik gépen. Annak biztosítása érdekében, hogy egy logikai kiszolgálót nem túl sok erőforrást használja a gépén vagy haladhatja meg a gép fizikai korlátok motor szabályozás biztosítja.
 
-## <a name="sql-server-on-virtual-machines"></a>SQL Server a Virtual Machines szolgáltatásban
-Ha telepíti az SQL Server (2014 vagy újabb verzió) Azure virtuális gépeken, kihasználhatja az SQL Server a hagyományos rendelkezésre állási funkciók. A funkciók közé tartoznak az AlwaysOn rendelkezésre állási csoportok és az adatbázis-tükrözés. Ne feledje, hogy Azure virtuális gépeken, tárolási és hálózatkezelési egy helyszíni informatikai infrastruktúra nem virtualizált eltérő működési jellemzői. Egy magas rendelkezésre állás és a vészhelyreállítás (elérhető HA/DR) SQL Server megoldást az Azure-ban sikeres végrehajtása szükséges, hogy ezek a különbségek megismeréséhez, és a megoldás kialakításakor megtervezése.
+### <a name="elasticity"></a>Rugalmasság
 
-### <a name="high-availability-nodes-in-an-availability-set"></a>Magas rendelkezésre állású csomópont a rendelkezésre állási csoportok
-Bevezetésekor egy magas rendelkezésre állású megoldás az Azure-ban, a rendelkezésre állási csoportot az Azure-ban segítségével Helyezzen el a magas rendelkezésre állású csomópontok külön tartalék tartományok és frissítési tartományt. Ahhoz, hogy törölje a jelet, a rendelkezésre állási csoport egy Azure fogalom. Fontos, hogy ellenőrizze, hogy az adatbázisok valóban magas rendelkezésre állású, hogy az AlwaysOn rendelkezésre állási csoportok, az adatbázis-tükrözés vagy valami más használata nyújtanak a legjobb. Ha nem követi a legmegfelelőbb eljárást alkalmazza, előfordulhat, hamis azt feltételezi, hogy magas rendelkezésre áll-e a rendszer alatt. De a valóságban, a csomópontok összes sikertelen lehet egyidejűleg mert akkor fordulhat elő, az azonos tartalék tartományban Azure-régióban kell elhelyezni.
+Ha az alkalmazás több, mint az 1 TB-os adatbázis korlátozása, azt meg kell valósítania egy kibővített megközelítés. Horizontális felskálázása az Azure SQL Database particionálásával manuálisan, más néven horizontális skálázás, adatokat több SQL-adatbázisban. A horizontális felskálázás megközelítés méretek mellett közel lineáris költség növekedés elérése lehetőséget biztosít. Rugalmas növekedést vagy igény szerinti kapacitás növekményes költségekkel igény szerint növelhető, mert az adatbázis átlagos tényleges mérete alapján használja egy nap, nem a maximális mérete alapján számolunk fel.
 
-Ez a javaslat nincs alkalmazhatók a naplóküldésben. Vész-helyreállítási szolgáltatás ellenőrizze, hogy a kiszolgálók az Azure-régiók külön futnak. E régiók definícióját, külön tartalék tartományok.
+## <a name="sql-server-on-virtual-machines"></a>SQL Server on Virtual Machines
 
-Azure Cloud Services telepített virtuális gépek a klasszikus portálon keresztül lehet az azonos rendelkezésre állási készlet telepítenie kell őket ugyanabban a Felhőszolgáltatásban található. Azure Resource Manageren keresztül (az aktuális portálon) telepített virtuális gépek nem kell ezt a korlátozást. A klasszikus portál telepített virtuális gépek Azure-felhőszolgáltatásban, csak az ugyanabban a Felhőszolgáltatásban található csomópontok részt az azonos rendelkezésre állási csoport. Ezenkívül a felhőalapú szolgáltatások virtuális gépeken annak érdekében, hogy az IP-címek megőriznek szolgáltatásjavításnak után is az azonos virtuális hálózatban kell lennie. Ezzel elkerülhető, hogy a DNS frissítési üzemzavarokhoz vezethet.
+Telepíti az SQL Server (2014 vagy újabb verzió) az Azure Virtual machines szolgáltatásban, használhatja az SQL Server hagyományos rendelkezésre állási funkcióit is igénybe vehet. Ezek a funkciók közé tartozik az AlwaysOn rendelkezésre állási csoportok és az adatbázis-tükrözés. Vegye figyelembe, hogy az Azure virtuális gépek, tárolási és hálózatkezelési egy helyszíni informatikai infrastruktúrával nem virtualizált eltérő működési jellemzői. Egy magas rendelkezésre állás/vészhelyreállítás az Azure-ban (HA/DR) az SQL Server-megoldás sikeres megvalósítását megköveteli, hogy ezek a különbségek megértéséhez, és a megoldás kialakításakor megtervezése.
 
-### <a name="azure-only-high-availability-solutions"></a>Csak Azure: magas rendelkezésre állású megoldások
-Egy magas rendelkezésre állású megoldás az SQL Server-adatbázisokat az Azure-ban az AlwaysOn rendelkezésre állási csoportok vagy az adatbázis-tükrözés rendelkezik.
+### <a name="high-availability-nodes-in-an-availability-set"></a>Magas rendelkezésre állású csomópontok egy rendelkezésre állási csoportban
 
-A következő ábra azt mutatja be, az Azure virtuális gépeken futó AlwaysOn rendelkezésre állási csoportok architektúrája. Ez az ábra a témával, a részletes cikkből készült [magas rendelkezésre állás és katasztrófa-helyreállítás az SQL Server Azure virtuális gépeken](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
+Egy magas rendelkezésre állású megoldások megvalósításának az Azure-ban, a rendelkezésre állási csoportot az Azure segítségével a magas rendelkezésre állású csomópontok helyezze külön tartalék tartományokban és frissítési tartományokban tárolja. A rendelkezésre állási csoport tisztázzuk egy Azure fogalom. Fontos, hogy ellenőrizze, hogy az adatbázisok valóban magas rendelkezésre állású, legyen szó az AlwaysOn rendelkezésre állási csoportok, adatbázis-tükrözés vagy valami mást a követendő ajánlott. Ha nem követi az ajánlott eljárás, valószínűleg hamis feltételezve, hogy a rendszer magas rendelkezésre állású. De a valóságban a végzett, a csomópontok összes sikertelen lehet egyidejűleg mert mobilak ugyanabban a tartalék tartományban található, az Azure-régióban kell elhelyezni.
 
-![AlwaysOn rendelkezésre állási csoportok a Microsoft Azure-ban](./images/technical-guidance-recovery-local-failures/high_availability_solutions-1.png)
+Ez a javaslat nem is alkalmazható a naplóküldésben. Egy vész-helyreállítási funkció, győződjön meg, hogy a kiszolgáló fut-e külön Azure-régióban. Definíció szerint ezekben a régiókban a külön tartalék tartományokban.
 
-Megadhat egy AlwaysOn rendelkezésre állási csoportok telepítési-végpontok Azure virtuális gépeken is automatikusan az Azure-portálon az AlwaysOn sablon használatával. További információkért lásd: [SQL Server AlwaysOn ajánlat a Microsoft Azure portál Gallery](https://blogs.technet.microsoft.com/dataplatforminsider/2014/08/25/sql-server-alwayson-offering-in-microsoft-azure-portal-gallery/).
+Az Azure Cloud Services üzembe helyezett virtuális gépek a klasszikus portálon keresztül kell ugyanabban a rendelkezésre állási csoportban telepítenie kell őket az ugyanazon felhőszolgáltatásban. Az Azure Resource Manager (aktuális portálon) üzembe helyezett virtuális gépek nem kell ezt a korlátozást. A klasszikus portálon üzembe helyezett virtuális gépek az Azure Cloud Service, ugyanazon a Felhőszolgáltatáson csomópontok csak az azonos rendelkezésre állási csoport vehet részt. Emellett a Cloud Services virtuális gépeket annak érdekében, hogy az IP-címek megőriznek felültelepítés után is ugyanabban a virtuális hálózatban kell lennie. Ezzel elkerülhető a DNS frissítési megszakadását.
 
-A következő ábra bemutatja, hogy az adatbázis-tükrözés Azure virtuális gépeken. Részletes témakörben is készült [magas rendelkezésre állás és katasztrófa-helyreállítás az SQL Server Azure virtuális gépeken](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
+### <a name="azure-only-high-availability-solutions"></a>Csak az Azure-: Magas rendelkezésre állású megoldások
+
+AlwaysOn rendelkezésre állási csoportok vagy az adatbázis-tükrözés rendelkezhet egy magas rendelkezésre állású megoldás az SQL Server-adatbázisait az Azure-ban.
+
+A következő ábra azt mutatja be, az architektúra az Azure virtuális gépeken futó AlwaysOn rendelkezésre állási csoportok. Ez az ábra a témával kapcsolatos, a részletes cikkben hibaállapota [az Azure virtuális gépeken futó SQL Server magas rendelkezésre állás és vészhelyreállítás helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
+
+![AlwaysOn rendelkezésre állási csoportok a Microsoft Azure](./images/technical-guidance-recovery-local-failures/high_availability_solutions-1.png)
+
+Az Azure Portalon az AlwaysOn-sablon használatával automatikusan is telepíthet egy AlwaysOn rendelkezésre állási csoportok üzembe helyezés – teljes körű Azure virtuális gépeken. További információkért lásd: [SQL Server AlwaysOn ajánlatot a Microsoft Azure Portal Gallery](https://blogs.technet.microsoft.com/dataplatforminsider/2014/08/25/sql-server-alwayson-offering-in-microsoft-azure-portal-gallery/).
+
+Az alábbi diagram bemutatja, hogy az adatbázis-tükrözés az Azure Virtual machines szolgáltatásban. A részletes témakörből is hibaállapota [az Azure virtuális gépeken futó SQL Server magas rendelkezésre állás és vészhelyreállítás helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
 
 ![Adatbázis-tükrözés a Microsoft Azure](./images/technical-guidance-recovery-local-failures/high_availability_solutions-2.png)
 
 > [!NOTE]
-> Mindkét architektúrát igényli tartományvezérlő. Azonban az adatbázis-tükrözés, lehetősége szükségtelenné teszik a tartományvezérlő kiszolgálói tanúsítványok segítségével.
-> 
-> 
+> Mindkét architektúrát tartományvezérlőt igényelnek. Azonban az adatbázis-tükrözés, lehetősége tartományvezérlő szükségtelenné teszi a kiszolgálói tanúsítványok használatával.
 
-## <a name="other-azure-platform-services"></a>Egyéb Azure platform szolgáltatásaiból
-Azure készített alkalmazások számára előnyös platformképességet ahhoz, hogy a helyi hibák helyreállításához. Bizonyos esetekben az adott forgatókönyv rendelkezésre állásának növelése érdekében adott műveletek hajthatók végre.
+## <a name="other-azure-platform-services"></a>Más Azure platformszolgáltatások
+
+Az Azure-ban készített alkalmazások számára előnyös platform képességei a helyi hibák utáni helyreállításhoz. Bizonyos esetekben az adott forgatókönyv a rendelkezésre állás növelése érdekében bizonyos műveleteket hajthatja végre.
 
 ### <a name="service-bus"></a>Service Bus
-A veszély átmenetileg nem működik az Azure Service Bus, célszerű a tartós ügyféloldali várólista. Ez átmenetileg használja egy másik, helyi tárolási mechanizmus tárolja az üzeneteket, amelyek nem vehető fel a Service Bus-üzenetsorba. Az alkalmazás eldöntheti, hogyan legyen kezelve az ideiglenesen tárolt üzenetek, miután visszaállította a szolgáltatás. További információkért lásd: [gyakorlati tanácsok a teljesítménnyel kapcsolatos fejlesztések használatával a Service Bus közvetítőalapú üzenettovábbítás](/azure/service-bus-messaging/service-bus-performance-improvements/) és [Service Bus (katasztrófa utáni helyreállítás)](recovery-loss-azure-region.md#other-azure-platform-services).
+
+Az Azure Service Bus egy átmeneti szolgáltatáskimaradás veszélye, fontolja meg egy ügyféloldali tartós üzenetsor létrehozása. Ez ideiglenesen használja egy másik, a helyi tárolási mechanizmus, amely nem adható hozzá a Service Bus-üzenetsorba üzenetek tárolásához. Az alkalmazás eldöntheti, hogyan legyen kezelve az ideiglenesen tárolt üzenetek, a szolgáltatás visszaállítása után. További információkért lásd: [ajánlott eljárások a teljesítmény használatával a Service Bus közvetítőalapú üzenettovábbítás](/azure/service-bus-messaging/service-bus-performance-improvements/) és [a Service Bus (katasztrófa utáni helyreállítás)](recovery-loss-azure-region.md#other-azure-platform-services).
 
 ### <a name="hdinsight"></a>HDInsight
-Az adatok Azure HDInsight társított alapértelmezett Azure Blob Storage tárolóban tárolja. Az Azure Storage Blob Storage magas rendelkezésre állású és a tartós tulajdonságokat adja meg. Hadoop-MapReduce-feladatok társított több csomópontos feldolgozásának a egy átmeneti Hadoop elosztott fájlrendszerrel (HDFS), amely ki van építve, ha a HDInsight az következik be. Eredményeit a MapReduce feladatot is tárolódnak az Azure Blob Storage tárolóban, alapértelmezés szerint, hogy a feldolgozott adatok tartósságát, és magas rendelkezésre állású marad, miután a Hadoop-fürt platformelőfizetés van. További információkért lásd: [HDInsight (katasztrófa utáni helyreállítás)](recovery-loss-azure-region.md#other-azure-platform-services).
 
-## <a name="checklists-for-local-failures"></a>A helyi hibák Ellenőrzőlisták
-### <a name="cloud-services"></a>Cloud Services
-1. Tekintse át a dokumentum a Felhőszolgáltatások szakaszát.
-2. Konfigurálja az egyes szerepkörökhöz legalább két példányt.
-3. Továbbra is fennáll a tartós tároló nem a szerepkörpéldányok állapotát.
-4. A StatusCheck esemény megfelelően kezeli.
-5. Tegye kapcsolódó módosítások tranzakciók, amikor lehetséges.
-6. Ellenőrizze, hogy feldolgozói szerepkör feladatok idempotent és újraindítható folyamatok.
-7. Továbbra is műveleteket hívhatnak meg, amíg nem sikerül.
-8. Fontolja meg az automatikus skálázás stratégiák.
+Az Azure Blob storage-ban alapértelmezés szerint az Azure HDInsight társított adatokat tárolja. Az Azure Storage a Blob storage magas rendelkezésre állást és tartósságot tulajdonságát meghatározza. A több csomópontos feldolgozás Hadoop MapReduce-feladatok társított akkor fordul elő, az egy átmeneti Hadoop elosztott fájlrendszer (HDFS), amely ki van építve, amikor HDInsight kell azt. Egy MapReduce-feladatot az eredmények is tárolása az Azure Blob storage, alapértelmezés szerint, hogy a feldolgozott adatok tartósságát és magas rendelkezésre állású marad, a Hadoop-fürt az eltávolítása után. További információkért lásd: [HDInsight (katasztrófa utáni helyreállítás)](recovery-loss-azure-region.md#other-azure-platform-services).
 
-### <a name="virtual-machines"></a>Virtuális gépek
-1. Tekintse át a virtuális gépek szakasz ebben a dokumentumban.
-2. Ne használjon D meghajtó állandó tároló.
-3. A szolgáltatási rétegben található gépek csoportosíthatja egy rendelkezésre állási csoportot.
-4. Terheléselosztás és a választható mintavételt konfigurálása.
+## <a name="checklists-for-local-failures"></a>Helyi hibák Ellenőrzőlisták
 
-### <a name="storage"></a>Tárolás
-1. Tekintse át a dokumentum a tárolási szakaszát.
-2. Több tárfiókot használja, ha adatokat vagy a sávszélesség meghaladja a kvóták.
+### <a name="cloud-services-checklist"></a>Cloud Services ellenőrzőlista
 
-### <a name="sql-database"></a>SQL Database
-1. Tekintse át a dokumentum az SQL-adatbázis szakaszát.
-2. Átmeneti hibák kezelésének újrapróbálkozási házirendje megvalósításához.
-3. Egy kibővített stratégia particionálás/horizontális használják.
+1. Tekintse át a Cloud Services szakasz ebben a dokumentumban.
+2. Állítsa be legalább két példányt az egyes szerepkörökhöz.
+3. Továbbra is fennáll a tartós tárolási, nem a szerepkörpéldányok állapotát.
+4. Helyesen kezeli a StatusCheck eseményét.
+5. Összefüggő változások zabalit do tranzakciók, amikor csak lehetséges.
+6. Győződjön meg arról, hogy a feldolgozói szerepkör feladatok idempotensek és újraindítható.
+7. Továbbra is, hogy műveleteket hívjon meg, amíg nem sikerül.
+8. Fontolja meg az automatikus skálázási stratégiákra.
 
-### <a name="sql-server-on-virtual-machines"></a>SQL Server a Virtual Machines szolgáltatásban
-1. Tekintse át az SQL Server virtuális gépek szakasz ebben a dokumentumban.
-2. Kövesse az előző virtuális gépekhez.
-3. SQL Server magas rendelkezésre állású szolgáltatások, például az AlwaysOn használatára.
+### <a name="virtual-machines-checklist"></a>Virtuális gépek ellenőrzőlista
 
-### <a name="service-bus"></a>Service Bus
+1. Tekintse át a virtuális gépekre vonatkozó szakaszban ebben a dokumentumban.
+2. Ne használja a D meghajtó hosszú távú adattárolásra.
+3. A gépeket egy rendelkezésre állási csoportba egy szolgáltatási rétegben található.
+4. Terheléselosztás és a választható mintavétel konfigurálása.
+
+### <a name="storage-checklist"></a>Tárolási ellenőrzőlista
+
+1. Tekintse át a Storage szakasz ebben a dokumentumban.
+2. Több tárfiók használata, ha adatokat vagy a sávszélesség túllépi kvótákat.
+
+### <a name="sql-database-checklist"></a>Az SQL Database ellenőrzőlista
+
+1. Tekintse át az SQL Database szakasz ebben a dokumentumban.
+2. Átmeneti hibák kezeléséhez újrapróbálkozási szabályzat megvalósítása.
+3. Particionálási és horizontális particionálás egy horizontális felskálázási stratégiát használja.
+
+### <a name="sql-server-on-virtual-machines-checklist"></a>Az SQL Server virtuális gépek ellenőrzőlista használata
+
+1. Tekintse át az SQL Server, a virtuális gépekre vonatkozó szakaszban ebben a dokumentumban.
+2. Kövesse a fenti javaslatok a virtuális gépekhez.
+3. Az SQL Server magas rendelkezésre állású szolgáltatások, például AlwaysOn használata.
+
+### <a name="service-bus-checklist"></a>A Service Bus ellenőrzőlista
+
 1. Tekintse át a Service Bus szakasz ebben a dokumentumban.
-2. Érdemes létrehozni egy tartós ügyféloldali várólista biztonsági mentéséhez.
+2. Érdemes létrehozni egy ügyféloldali üzenetsorban biztonsági mentéséhez.
 
-### <a name="hdinsight"></a>HDInsight
-1. Tekintse át a dokumentum a HDInsight szakaszát.
-2. További rendelkezésre állási lépésekre nincs szükség helyi hibák.
+### <a name="hdinsight-checklist"></a>HDInsight-feladatlista
 
+1. Tekintse át a HDInsight szakasz ebben a dokumentumban.
+2. További rendelkezésre állási lépés nem szükségesek helyi hibák esetén.
+
+<!-- markdownlint-enable MD024 -->

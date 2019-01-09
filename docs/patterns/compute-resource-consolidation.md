@@ -1,17 +1,17 @@
 ---
 title: Számításierőforrás-konszolidálási minta
 titleSuffix: Cloud Design Patterns
-description: Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet
+description: Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet.
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
 ms.custom: seodec18
-ms.openlocfilehash: 2708cc6d8dfd3867ffc2e6b7b946e31e912f9204
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 0f787537fb97f52ad69df7f0784b7fca3c45d7d1
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54010984"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111478"
 ---
 # <a name="compute-resource-consolidation-pattern"></a>Számításierőforrás-konszolidálási minta
 

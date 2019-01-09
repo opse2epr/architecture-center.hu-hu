@@ -3,18 +3,22 @@ title: Egy data analytics kiválasztása és jelentéskészítési technológia
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: a5e793c9caf50daca4ef7e40c49e54f25f04e856
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 5b4947f53edf595c206ef4f55572dadc1a9daa09
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902416"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111410"
 ---
 # <a name="choosing-a-data-analytics-technology-in-azure"></a>Egy data analytics technológia kiválasztása az Azure-ban
 
-A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. Ez magában foglalhatja előre konfigurált jelentéseket és vizualizációkat, vagy adatok interaktív áttekintését. 
+A legtöbb big data-megoldás célja az, hogy elemzéssel és jelentéskészítéssel betekintést nyújtson az adatokba. Ez magában foglalhatja előre konfigurált jelentéseket és vizualizációkat, vagy adatok interaktív áttekintését.
+
+<!-- markdownlint-disable MD026 -->
 
 ## <a name="what-are-your-options-when-choosing-a-data-analytics-technology"></a>Mik azok a beállítások data analytics technológia kiválasztásakor?
+
+<!-- markdownlint-disable MD026 -->
 
 Az elemzés, a Vizualizációk és a jelentéskészítés az Azure-ban, igényeitől függően több lehetőség áll rendelkezésre:
 
@@ -29,7 +33,7 @@ Az elemzés, a Vizualizációk és a jelentéskészítés az Azure-ban, igényei
 
 Szervezetek használhatják a Power BI jelentések létrehozására, és közzéteheti őket a szervezet számára. Bárki létrehozhat személyre szabott irányítópultok, a cégirányítási és [beépített biztonsági](/power-bi/service-admin-power-bi-security). A Power bi-ban használt [Azure Active Directory](/azure/active-directory/) (Azure AD), jelentkezzen be a Power BI szolgáltatásban és a Power BI bejelentkezési hitelesítő adatok, amikor egy felhasználó megpróbál hozzáférni a hitelesítést megkövetelő használ felhasználók hitelesítésére.
 
-### <a name="jupyter-notebooks"></a>Jupyter-notebookok 
+### <a name="jupyter-notebooks"></a>Jupyter-notebookok
 
 [A Jupyter Notebooks](https://jupyter.readthedocs.io/en/latest/index.html) adja meg, amely lehetővé teszi az adatszakértők, hozzon létre egy böngészőalapú rendszerhéj *notebook* fájlokat, Python, Scala és R kód és a markdown szöveget tartalmaznak, így működhet megosztása hatékony módszert és dokumentálása kód és a egy dokumentum eredményez.
 
@@ -49,15 +53,15 @@ Azure notebookok Jupyter notebookok egy HDInsight-fürtön futó, amely csatlako
 
 Fő előnyök:
 
-* Az ingyenes szolgáltatás&mdash;nem Azure-előfizetés szükséges.
-* Nem kell telepítenie a Jupyter és a támogató R vagy Python disztribúciók helyileg&mdash;használja egy böngészőben.
-* A saját online tárak, és azok bármely eszközről elérhetők.
-* Ossza meg a notebookok közreműködőkkel együtt.
+- Az ingyenes szolgáltatás&mdash;nem Azure-előfizetés szükséges.
+- Nem kell telepítenie a Jupyter és a támogató R vagy Python disztribúciók helyileg&mdash;használja egy böngészőben.
+- A saját online tárak, és azok bármely eszközről elérhetők.
+- Ossza meg a notebookok közreműködőkkel együtt.
 
 Szempontok:
 
-* Ön nem fér hozzá a notebookok offline állapotban lesz.
-* Az ingyenes notebook szolgáltatás korlátozott feldolgozási képességek nem lehet elég nagy vagy összetett modelleket taníthat be.
+- Ön nem fér hozzá a notebookok offline állapotban lesz.
+- Az ingyenes notebook szolgáltatás korlátozott feldolgozási képességek nem lehet elég nagy vagy összetett modelleket taníthat be.
 
 ## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
@@ -73,9 +77,11 @@ Szempontok:
 
 ## <a name="capability-matrix"></a>Képességmátrix
 
-A következő táblázat összefoglalja a fő különbségeket, a képességek. 
+A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
+
+<!-- markdownlint-disable MD033 -->
 
 | | Power BI | Jupyter-notebookok | Zeppelin notebookok | A Microsoft Azure-jegyzetfüzetek |
 | --- | --- | --- | --- | --- |
@@ -90,6 +96,8 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | Díjszabás | Az ingyenes Power BI Desktop (szerzői műveletek), lásd: [díjszabás](https://powerbi.microsoft.com/pricing/) beállítások üzemeltetéséhez | Ingyenes | Ingyenes | Ingyenes |
 | Többfelhasználós együttműködés | [Igen](/power-bi/service-how-to-collaborate-distribute-dashboards-reports) | Igen (megosztása vagy például a többfelhasználós kiszolgálóval [JupyterHub](https://github.com/jupyterhub/jupyterhub)) | Igen | Igen (a megosztás) |
 
+<!-- markdownlint-enable MD033 -->
+
 [1] Ha egy felügyelt HDInsight-fürt része.
 
 [2] a Power BI Desktop használatával.
@@ -97,4 +105,3 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 [2] kereshet a [Maven tárházból](https://search.maven.org/) a Közösség által biztosított csomagok.
 
 [3] Python-csomagokat a pip vagy conda használatával telepíthető. R-csomagok CRAN vagy a GitHub is telepíthető. A csomagok F# keresztül nuget.org használatával telepítheti a [Paket Függőségkezelő](https://fsprojects.github.io/Paket/).
-

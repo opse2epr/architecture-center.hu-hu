@@ -3,27 +3,31 @@ title: Egy adattárolási módszerektől kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: c97249228ca45a7a17822b6dd55acad6360c6f6b
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 9fe28249b51083bb588808770aba9ac7d48d560e
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902646"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113161"
 ---
 # <a name="choosing-a-big-data-storage-technology-in-azure"></a>A big Data típusú adatok tárolási technológia kiválasztása az Azure-ban
 
 Ez a témakör a big data-megoldások adattárolás lehetőségeit hasonlítja össze &mdash; pontosabban tömeges adatbetöltés és a kötegelt feldolgozásra, és nem a adattárolás [analitikus adattárak](./analytical-data-stores.md) vagy [valós idejű adatfolyam-feldolgozó](./real-time-ingestion.md).
 
+<!-- markdownlint-disable MD026 -->
+
 ## <a name="what-are-your-options-when-choosing-data-storage-in-azure"></a>Mik azok a beállítások az adattárolás kiválasztásakor az Azure-ban?
 
-Az adatok feldolgozása Azure-ba, igényeitől függően több lehetőség áll rendelkezésre:
+<!-- markdownlint-enable MD026 -->
 
-**A File storage**
+Többféle módon is tölt be adatot az Azure-ba, a igényeitől függően.
+
+**Fájltároló:**
 
 - [Az Azure Storage-blobok](/azure/storage/blobs/storage-blobs-introduction)
 - [Azure Data Lake Store](/azure/data-lake-store/)
 
-**NoSQL-adatbázisok**
+**NoSQL-adatbázisok:**
 
 - [Azure Cosmos DB](/azure/cosmos-db/)
 - [A HDInsight-alapú HBase](https://hbase.apache.org/)
@@ -34,7 +38,7 @@ Az Azure Storage szolgáltatás jelenleg felügyelt tárolási szolgáltatás, a
 
 Nincsenek különböző Azure Storage szolgáltatás adatok tárolására használható. A legrugalmasabb lehetőség az olyan adatforrások közül blobok tárolására [a Blob storage-](/azure/storage/blobs/storage-blobs-introduction). Blobok lényegében ugyanolyan fájlok. Képek, dokumentumok, HTML-fájlok, virtuális merevlemezeket (VHD), például naplók big Data típusú adatok tárolására, az adatbázisok biztonsági mentések &mdash; pretty szinte bármit. A blobok tárolása tárolókban történik, amelyek a mappákhoz hasonlatosak. Egy tároló blobokat áll csoportosítását biztosítja. Egy tárfiók korlátlan számú tárolót tartalmazhat, egy tároló pedig korlátlan számú blob tárolására használható.
 
-Az Azure Storage megfelelő választás az olyan big data és analitikai megoldások, a rugalmasság, magas rendelkezésre állású és alacsony költségek miatt. Itt a gyakori és ritka elérésű és archív tárolási szintek különböző használati esetek. További információkért lásd: [Azure Blob Storage: gyakori, ritka és archív tárolási szintek](/azure/storage/blobs/storage-blob-storage-tiers).
+Az Azure Storage megfelelő választás az olyan big data és analitikai megoldások, a rugalmasság, magas rendelkezésre állású és alacsony költségek miatt. Itt a gyakori és ritka elérésű és archív tárolási szintek különböző használati esetek. További információkért lásd: [Azure Blob Storage: Gyakori és ritka elérésű és archív tárolási szintek](/azure/storage/blobs/storage-blob-storage-tiers).
 
 Az Azure Blob storage elérhető lesz a Hadoop (HDInsight keresztül érhető el). A HDInsight egy blobtárolót használhat az Azure Storage-ben a fürt alapértelmezett fájlrendszereként. Egy Hadoop elosztott fájlrendszer (HDFS) felületen WASB illesztőprogram által biztosított keresztül a HDInsight összetevők teljes készlete működhet közvetlenül a strukturált vagy strukturálatlan adatokon a BLOB. Az Azure Blob storage-n keresztül az Azure SQL Data Warehouse a PolyBase szolgáltatás használatával is elérhető.
 
@@ -59,7 +63,7 @@ Az Azure Data Lake Analytics szolgáltatással párosítva, Data Lake Store kife
 
 [Az Azure Cosmos DB](/azure/cosmos-db/) van a Microsoft globálisan elosztott többmodelles adatbázisa. Cosmos DB számjegy-ezredmásodperces a világ bármely pontján található 99 százalékon segíti a teljesítmény finomhangolását több jól definiált konzisztenciamodelleket kínál, és többkiszolgálós képességekkel rendelkező magas rendelkezésre állást garantál.
 
-Azure Cosmos DB a sémafüggetlen. Automatikusan indexeli az összes adatot, nem kell sémákat és indexeket felügyeleti foglalkozik. Ezenkívül többmodelles, tehát natívan támogatja a dokumentum, kulcs-érték, gráf és oszlopcsalád alapú adatmodelleket egyaránt. 
+Azure Cosmos DB a sémafüggetlen. Automatikusan indexeli az összes adatot, nem kell sémákat és indexeket felügyeleti foglalkozik. Ezenkívül többmodelles, tehát natívan támogatja a dokumentum, kulcs-érték, gráf és oszlopcsalád alapú adatmodelleket egyaránt.
 
 Az Azure Cosmos DB-funkcióit:
 
@@ -119,4 +123,3 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | Natív integráció az Azure Functions |                        [Igen](/azure/cosmos-db/serverless-computing-database)                        |                                                                     Nem                                                                     |
 |   Automatikus globális terjesztés    |                          [Igen](/azure/cosmos-db/distribute-data-globally)                           | Nem [HBase-fürt replikációja konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) régióban, végleges konzisztencia |
 |           Díjszabási modell            | Másodpercalapú díjat számítunk fel, ha szükséges, rugalmasan méretezhető tárhelyért rugalmasan méretezhető kérelemegységet (RU) |                              Percenkénti díjszabás HDInsight-fürt (vízszintes méretezés a csomópontok), tárolás                               |
-

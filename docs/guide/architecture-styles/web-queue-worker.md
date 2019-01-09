@@ -1,36 +1,38 @@
 ---
 title: Webüzenetsor-feldolgozó architektúrastílus
-description: Az Azure webüzenetsor-feldolgozó architektúráinak előnyeit, kihívásait és ajánlott eljárásait ismerteti
+titleSuffix: Azure Application Architecture Guide
+description: Előnyeit, kihívásait és ajánlott eljárások a Webüzenetsor-feldolgozó architektúráinak ismerteti az Azure-ban.
 author: MikeWasson
 ms.date: 08/30/2018
-ms.openlocfilehash: 0ebcf49c08c74cec3f1820da2d6f30ba95256e81
-ms.sourcegitcommit: ae8a1de6f4af7a89a66a8339879843d945201f85
+ms.custom: seojan19
+ms.openlocfilehash: 0b478344c4b64808d30156bd563917d9d8d7ec30
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43325351"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113280"
 ---
 # <a name="web-queue-worker-architecture-style"></a>Webüzenetsor-feldolgozó architektúrastílus
 
-Az ilyen architektúrák alapelemei: egy **webes előtér**, amely kiszolgálja az ügyfélkérelmeket, és egy **feldolgozó**, amely erőforrás-igényes munkákat, hosszan futó munkafolyamatokat vagy kötegelt feladatokat hajt végre.  A webes előtér egy **üzenetsor** segítségével kommunikál a feldolgozóval.  
+Az ilyen architektúrák alapelemei: egy **webes előtér**, amely kiszolgálja az ügyfélkérelmeket, és egy **feldolgozó**, amely erőforrás-igényes munkákat, hosszan futó munkafolyamatokat vagy kötegelt feladatokat hajt végre.  A webes előtér egy **üzenetsor** segítségével kommunikál a feldolgozóval.
 
-![](./images/web-queue-worker-logical.svg)
+![Webüzenetsor-feldolgozó architektúrastílus logikai diagramja](./images/web-queue-worker-logical.svg)
 
 Az ebbe az architektúrába gyakran beillesztett más összetevők:
 
-- Egy vagy több adatbázis. 
+- Egy vagy több adatbázis.
 - Egy gyorsítótár az adatbázis adatainak tárolására a gyors olvasás érdekében.
 - CDN a statikus tartalom kiszolgálásához
 - Távoli szolgáltatások, például e-mail- vagy SMS-szolgáltatás. Ezeket gyakran egy külső fél biztosítja.
 - Identitásszolgáltató a hitelesítéshez.
 
-A web és a feldolgozó is állapot nélküli. A munkamenet-állapot tárolható egy megosztott gyorsítótárban. A hosszan futó munkákat a feldolgozó aszinkron módon végzi el. A feldolgozó aktiválható üzenetekkel az üzenetsoron, vagy futhat egy ütemezésben a kötegelt feldolgozáshoz. A feldolgozó egy választható összetevő. Ha nincs hosszan futó művelet, a feldolgozó elhagyható.  
+A web és a feldolgozó is állapot nélküli. A munkamenet-állapot tárolható egy megosztott gyorsítótárban. A hosszan futó munkákat a feldolgozó aszinkron módon végzi el. A feldolgozó aktiválható üzenetekkel az üzenetsoron, vagy futhat egy ütemezésben a kötegelt feldolgozáshoz. A feldolgozó egy választható összetevő. Ha nincs hosszan futó művelet, a feldolgozó elhagyható.
 
 Az előtér állhat egy webes API-ból. Ügyféloldalon a webes API-t használhatja egy AJAX-hívásokat indító egyoldalas alkalmazás vagy egy natív ügyfélalkalmazás.
 
 ## <a name="when-to-use-this-architecture"></a>Mikor érdemes ezt az architektúrát használni?
 
-A webüzenetsor-feldolgozó architektúra implementálása általában felügyelt számítási szolgáltatások használatával történik, vagy az Azure App Service vagy az Azure Cloud Services segítségével. 
+A webüzenetsor-feldolgozó architektúra implementálása általában felügyelt számítási szolgáltatások használatával történik, vagy az Azure App Service vagy az Azure Cloud Services segítségével.
 
 Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz:
 
@@ -49,7 +51,7 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 ## <a name="challenges"></a>Problémák
 
 - Gondos tervezés nélkül az előtér és a feldolgozó hatalmas, monolitikus, végül nehezen karbantartható és frissíthető összetevővé válhat.
-- Lehetnek rejtett függőségek, ha az előtér és a feldolgozó közös sémákat vagy kódmodulokat használ. 
+- Lehetnek rejtett függőségek, ha az előtér és a feldolgozó közös sémákat vagy kódmodulokat használ.
 
 ## <a name="best-practices"></a>Ajánlott eljárások
 
@@ -60,14 +62,13 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 - Többnyelvű adatmegőrzés használata, ha szükséges. Tekintse meg a [Használja a feladathoz legmegfelelőbb adattárat][polyglot] szakaszt.
 - Adatok particionálása a méretezhetőség növeléséhez, a versengés kiküszöböléséhez és a teljesítmény optimalizálásához. Tekintse meg az [Ajánlott adatparticionálási eljárások][data-partition] szakaszt.
 
-
 ## <a name="web-queue-worker-on-azure-app-service"></a>A webüzenetsor-feldolgozó az Azure App Service-en
 
-Ez a szakasz ismertet egy ajánlott, az Azure App Service-t használó webüzenetsor-feldolgozót. 
+Ez a szakasz ismertet egy ajánlott, az Azure App Service-t használó webüzenetsor-feldolgozót.
 
-![](./images/web-queue-worker-physical.png)
+![Webüzenetsor-feldolgozó architektúrastílus fizikai diagramja](./images/web-queue-worker-physical.png)
 
-Az előtér egy ismert Azure App Service webalkalmazásként, a feldolgozó pedig WebJob-feladatként van implementálva. A webalkalmazás és a WebJob is társítva van egy App Service-csomaghoz, amely biztosítja a virtuálisgép-példányokat. 
+Az előtér egy ismert Azure App Service webalkalmazásként, a feldolgozó pedig WebJob-feladatként van implementálva. A webalkalmazás és a WebJob is társítva van egy App Service-csomaghoz, amely biztosítja a virtuálisgép-példányokat.
 
 Az üzenetsorhoz használhat Azure Service Bus- vagy Azure Storage-üzenetsort is. (Az ábrán egy Azure Storage-üzenetsor látható.)
 
@@ -75,7 +76,7 @@ Az Azure Redis Cache tárolja a munkamenet állapotát, és más, alacsony kés�
 
 Az Azure CDN használatával gyorsítótárazható statikus tartalom, például képek, CSS vagy HTML.
 
-A tároláshoz válassza ki az alkalmazás igényeinek legmegfelelőbb tárolási technológiákat. Használhat több tárolási technológiát (többnyelvű adatmegőrzés). Az elképzelés ábrázolására az ábra bemutatja az Azure SQL Database-t és az Azure Cosmos DB-t.  
+A tároláshoz válassza ki az alkalmazás igényeinek legmegfelelőbb tárolási technológiákat. Használhat több tárolási technológiát (többnyelvű adatmegőrzés). Az elképzelés ábrázolására az ábra bemutatja az Azure SQL Database-t és az Azure Cosmos DB-t.
 
 További részletek: [App Service-webalkalmazás referenciaarchitektúrája][scalable-web-app].
 
@@ -83,9 +84,9 @@ További részletek: [App Service-webalkalmazás referenciaarchitektúrája][sca
 
 - Nem minden tranzakciónak kell áthaladnia az üzenetsoron és a feldolgozón a tároló felé. A webes előtér közvetlenül hajthat végre egyszerű olvasási/írási műveleteket. A feldolgozók erőforrás-igényes feladatokhoz vagy hosszan futó munkafolyamatokhoz lettek kialakítva. Bizonyos esetekben előfordulhat, hogy nincs is szükség feldolgozóra.
 
-- Az App Service beépített automatikus skálázási szolgáltatásával horizontálisan felskálázhatja a virtuálisgép-példányok számát. Ha az alkalmazás terhelése előre megjósolható mintákat követ, használjon ütemezésalapú automatikus skálázást. Ha a terhelés nem jósolható meg előre, használjon mérőszám-alapú automatikus méretezési szabályokat.      
+- Az App Service beépített automatikus skálázási szolgáltatásával horizontálisan felskálázhatja a virtuálisgép-példányok számát. Ha az alkalmazás terhelése előre megjósolható mintákat követ, használjon ütemezésalapú automatikus skálázást. Ha a terhelés nem jósolható meg előre, használjon mérőszám-alapú automatikus méretezési szabályokat.
 
-- Érdemes lehet a webalkalmazást és a WebJob-feladatot külön App Service-csomagba helyezni. Ily módon üzemeltethetők külön virtuálisgép-példányokon, és skálázhatók egymástól függetlenül. 
+- Érdemes lehet a webalkalmazást és a WebJob-feladatot külön App Service-csomagba helyezni. Ily módon üzemeltethetők külön virtuálisgép-példányokon, és skálázhatók egymástól függetlenül.
 
 - Az éles üzemhez és a teszteléshez használjon külön App Service-csomagot. Ha ugyanis ugyanazt a csomagot használja az éles üzemhez és a teszteléshez, akkor a tesztek élesben működő virtuális gépeken futnak.
 

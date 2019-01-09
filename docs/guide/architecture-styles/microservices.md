@@ -1,21 +1,23 @@
 ---
 title: Mikroszolgáltatási architektúrastílus
-description: Ismerteti a mikroszolgáltatási architektúrák előnyeit, kihívásait és ajánlott eljárásait az Azure-ban
+titleSuffix: Azure Application Architecture Guide
+description: Ismerteti az előnyeit, kihívásait és ajánlott eljárások a mikroszolgáltatás-architektúrákat az Azure-ban.
 author: MikeWasson
 ms.date: 11/13/2018
-ms.openlocfilehash: 4e5d50f829323829c953977257e690354566ebf6
-ms.sourcegitcommit: 19a517a2fb70768b3edb9a7c3c37197baa61d9b5
+ms.custom: seojan19
+ms.openlocfilehash: fb9f97b41306a2f1aa6cfc6c1639c152a7e556b6
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/26/2018
-ms.locfileid: "52295531"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54111223"
 ---
 # <a name="microservices-architecture-style"></a>Mikroszolgáltatási architektúrastílus
 
-A mikroszolgáltatási architektúra kisebb, autonóm szolgáltatások gyűjteményéből áll. Mindegyik szolgáltatás önálló, és egyetlen üzleti képességet valósít meg. 
+A mikroszolgáltatási architektúra kisebb, autonóm szolgáltatások gyűjteményéből áll. Mindegyik szolgáltatás önálló, és egyetlen üzleti képességet valósít meg.
 
-![](./images/microservices-logical.svg)
- 
+![Mikroszolgáltatási architektúrastílus logikai diagramja](./images/microservices-logical.svg)
+
 Bizonyos értelemben a mikroszolgáltatások a szolgáltatásorientált architektúrák (SOA-k) természetes továbbfejlődése, de vannak különbségek a mikroszolgáltatások és az SOA-k között. Íme néhány a mikroszolgáltatások meghatározó jellemzői közül:
 
 - A mikroszolgáltatási architektúrában a szolgáltatások kicsik, függetlenek és lazán összekapcsoltak.
@@ -32,17 +34,17 @@ Bizonyos értelemben a mikroszolgáltatások a szolgáltatásorientált architek
 
 A szolgáltatások mellett általában néhány egyéb összetevő is megjelenik a mikroszolgáltatási architektúrákban:
 
-**Felügyelet**. A felügyeleti szolgáltatás felelős például a szolgáltatások csomópontra helyezéséért, a hibák azonosításáért, a szolgáltatások újraegyensúlyozásáért a csomópontokon, stb.  
+**Felügyelet**. A felügyeleti szolgáltatás felelős például a szolgáltatások csomópontra helyezéséért, a hibák azonosításáért, a szolgáltatások újraegyensúlyozásáért a csomópontokon, stb.
 
-**Szolgáltatásészlelés**.  Listát tart fenn a szolgáltatásokról és arról, hogy azok melyik csomóponton találhatók. Engedélyezi a szolgáltatáskeresést egy szolgáltatás végpontjának megtalálása érdekében. 
+**Szolgáltatásészlelés**. Listát tart fenn a szolgáltatásokról és arról, hogy azok melyik csomóponton találhatók. Engedélyezi a szolgáltatáskeresést egy szolgáltatás végpontjának megtalálása érdekében.
 
-**API-átjáró**. Az API-átjáró az ügyfelek belépési pontja. Az ügyfelek nem közvetlenül hívják meg a szolgáltatásokat. Ehelyett az API-átjárót hívják meg, amely továbbítja a hívást a háttérben található megfelelő szolgáltatásnak. Előfordulhat, hogy az API-átjáró több szolgáltatásból összesíti a válaszokat, és az összesített választ adja vissza. 
+**API-átjáró**. Az API-átjáró az ügyfelek belépési pontja. Az ügyfelek nem közvetlenül hívják meg a szolgáltatásokat. Ehelyett az API-átjárót hívják meg, amely továbbítja a hívást a háttérben található megfelelő szolgáltatásnak. Előfordulhat, hogy az API-átjáró több szolgáltatásból összesíti a válaszokat, és az összesített választ adja vissza.
 
 Az API-átjáró használatának előnyei a következők:
 
 - Elválasztja az ügyfeleket a szolgáltatásoktól. A szolgáltatások az összes ügyfél frissítése nélkül elláthatók verziószámmal vagy újratervezhetők.
 
--  A szolgáltatások használhatnak nem webbarát üzenetküldési protokollokat (például AMQP).
+- A szolgáltatások használhatnak nem webbarát üzenetküldési protokollokat (például AMQP).
 
 - Az API-átjáró egyéb, az egész rendszert érintő funkciókat is végrehajthat, például hitelesítést, naplózást, SSL-lezárást és terheléselosztást.
 
@@ -58,18 +60,17 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 - Kis fejlesztői csapatokból álló vállalatok.
 
-
-## <a name="benefits"></a>Előnyök 
+## <a name="benefits"></a>Előnyök
 
 - **Független üzembe helyezések**. A szolgáltatásokat a teljes alkalmazás ismételt üzembe helyezése nélkül frissítheti, illetve visszavonhat vagy előregörgethet egy frissítést, ha valami probléma merül fel. A hibajavítások és a funkciók kiadása kezelhetőbb és kevésbé kockázatos.
 
-- **Független fejlesztés**. Egy fejlesztői csapat építhet, tesztelhet és helyezhet üzembe szolgáltatásokat. Ennek eredménye a folyamatos innováció és a kiadás gyorsabb üteme. 
+- **Független fejlesztés**. Egy fejlesztői csapat építhet, tesztelhet és helyezhet üzembe szolgáltatásokat. Ennek eredménye a folyamatos innováció és a kiadás gyorsabb üteme.
 
 - **Kis méretű, célzott csapatok**. A csapatok egy szolgáltatásra összpontosíthatnak. Az egyes szolgáltatások kisebb hatóköre könnyebben átláthatóvá teszi a kódbázisokat, és az új csapattagok gyorsabban megismerkedhetnek a szolgáltatással.
 
 - **Hibaelkülönítés**. Ha a szolgáltatás leáll, nem áll le az egész alkalmazás is. Ez azonban önmagában nem biztosít rugalmasságot. Továbbra is követnie kell a rugalmasságra vonatkozó ajánlott eljárásokat és tervezési mintákat. Lásd: [Rugalmas alkalmazások tervezése az Azure-hoz][resiliency-overview].
 
-- **Vegyes technológiák**. A csapatok kiválaszthatják a szolgáltatásukhoz legmegfelelőbb technológiát. 
+- **Vegyes technológiák**. A csapatok kiválaszthatják a szolgáltatásukhoz legmegfelelőbb technológiát.
 
 - **Részletes méretezés**. A szolgáltatások egymástól függetlenül skálázhatók. Ugyanakkor az egy virtuális gépen található szolgáltatások nagyobb sűrűsége azt jelenti, hogy a virtuálisgép-erőforrások teljesen ki vannak használva. Elhelyezési korlátozások használatával a szolgáltatások összekapcsolhatók egy virtuálisgép-profillal (magas CPU-használat, magas memóriahasználat stb.).
 
@@ -93,11 +94,11 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 ## <a name="best-practices"></a>Ajánlott eljárások
 
-- Modellezze a szolgáltatásokat az üzleti tartomány köré. 
+- Modellezze a szolgáltatásokat az üzleti tartomány köré.
 
-- Decentralizáljon mindent. Az egyes csapatok felelősek a szolgáltatások megtervezéséért és építéséért. Kerülje a kódok és adatsémák megosztását. 
+- Decentralizáljon mindent. Az egyes csapatok felelősek a szolgáltatások megtervezéséért és építéséért. Kerülje a kódok és adatsémák megosztását.
 
-- Az adattárolót csak az adatokat birtokló szolgáltatás érhesse el. Használja a legjobb tárolót minden szolgáltatáshoz és adattípushoz. 
+- Az adattárolót csak az adatokat birtokló szolgáltatás érhesse el. Használja a legjobb tárolót minden szolgáltatáshoz és adattípushoz.
 
 - A szolgáltatások gondosan megtervezett API-kon keresztül kommunikálnak. Kerülje a megvalósítási részletek kiszivárgását. Az API-knak a tartományt kell modellezniük, nem a szolgáltatás belső megvalósítását.
 
@@ -107,7 +108,7 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 - A tartományra vonatkozó ismereteket tartsa az átjárón kívül. Az átjárónak az üzleti szabályok és a tartományi logika ismerete nélkül kell kezelnie és irányítania az ügyfélkérelmeket. Ellenkező esetben az átjáró függőségé válik és a szolgáltatások összekapcsolását okozhatja.
 
-- A szolgáltatásoknak laza összekapcsolással és magas működési kohézióval kell rendelkezniük. A várhatóan együtt módosuló funkciókat egy csomagba kell rendezni, és együtt kell üzembe helyezni. Ha ezek külön szolgáltatásokban találhatók, a szolgáltatások végül szorosan össze lesznek kapcsolva, mert az egyik szolgáltatás módosítása a másik szolgáltatás frissítését igényli. A két szolgáltatás közötti, túl forgalmas kommunikáció a szoros összekapcsolás és az alacsony kohézió jele lehet. 
+- A szolgáltatásoknak laza összekapcsolással és magas működési kohézióval kell rendelkezniük. A várhatóan együtt módosuló funkciókat egy csomagba kell rendezni, és együtt kell üzembe helyezni. Ha ezek külön szolgáltatásokban találhatók, a szolgáltatások végül szorosan össze lesznek kapcsolva, mert az egyik szolgáltatás módosítása a másik szolgáltatás frissítését igényli. A két szolgáltatás közötti, túl forgalmas kommunikáció a szoros összekapcsolás és az alacsony kohézió jele lehet.
 
 - Különítse el a hibákat. Használjon rugalmassági stratégiákat, hogy megelőzze a szolgáltatásban fellépő hibák halmozódását. Lásd: [Rugalmassági minták][resiliency-patterns] és [Rugalmas alkalmazások tervezése][resiliency-overview].
 
@@ -115,11 +116,7 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 A mikroszolgáltatási architektúrák Azure-ban való létrehozásáról részletes útmutatót a [Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban](../../microservices/index.md) című szakaszban talál.
 
-
 <!-- links -->
 
 [resiliency-overview]: ../../resiliency/index.md
 [resiliency-patterns]: ../../patterns/category/resiliency.md
-
-
-

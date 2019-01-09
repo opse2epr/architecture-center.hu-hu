@@ -3,26 +3,26 @@ title: Interaktív adatfeltárás
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 81301e1d81a76d074d001cc9b20bdaf5231e536b
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 1b77f3ced551f5d71578a9b09fd50cd8b0d5587c
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901575"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113195"
 ---
 # <a name="interactive-data-exploration"></a>Interaktív adatfeltárás
 
 A sok vállalati üzleti intelligencia (BI-) megoldások, jelentések és szemantikai modellek BI szakemberei által létrehozott és központilag kezelhetők. Egyre azonban szervezetek szeretné engedélyezni az adatvezérelt döntések felhasználók. Ezenkívül egy egyre több szervezet is mindegyik *adatszakértők* vagy *adatelemzők*, amelynek feladata az adatok interaktív feltárása és statisztikai modelleket és analitikai módszerek a alkalmazni Keresse meg a trendek és mintázatok az adatok. Interaktív adatfeltárás szükséges eszközöket és platformokat, amelyek közel valós idejű feldolgozás az ad hoc lekérdezéseket és az adatok képi megjelenítésekhez.
 
-![](./images/data-exploration.png)
+![Interaktív adatfeltárás](./images/data-exploration.png)
 
 ## <a name="self-service-bi"></a>Self-service BI
 
 Az önkiszolgáló BI egy egy adott üzleti döntések hatékonyságát, amelyben a felhasználók jogosultak keresése, ismerje meg és elemezheti az adatait megosztása a vállalaton belül modern megközelítését név. Ehhez a data-megoldás támogatnia kell több követelmény:
 
-* A data catalog révén az üzleti adatforrások felderítését.
-* Adatok entitás definíciók és-értékek konzisztencia biztosításához törzsadat-kezeléssel.
-* Interaktív modellezési és vizualizációs eszközök, üzleti felhasználók számára.
+- A data catalog révén az üzleti adatforrások felderítését.
+- Adatok entitás definíciók és-értékek konzisztencia biztosításához törzsadat-kezeléssel.
+- Interaktív modellezési és vizualizációs eszközök, üzleti felhasználók számára.
 
 Egy önkiszolgáló BI-megoldás, az üzleti felhasználók általában keresse meg és felhasználhat adatforrásokat, amelyek a saját üzleti meghatározott területét, és intuitív eszközöket és a hatékonyságnövelő alkalmazásokkal segítségével meghatározhatja a személyes adatok modelleket és jelentéseket, amelyek meg is oszthatják a munkatársaival.
 
@@ -32,6 +32,7 @@ Kapcsolódó Azure-szolgáltatások:
 - [Microsoft Power BI](https://powerbi.microsoft.com/)
 
 ## <a name="data-science-experimentation"></a>Data science kísérletezés
+
 Amikor egy szervezet igényli a magas szintű elemzések és prediktív modellezés, a kezdeti előkészítési munkahelyi általában végzett szakértő adatszakértők. Adatszakértő felderíti az adatokat, és alkalmazza a statisztikai analitikai módszerek található adatok közötti kapcsolatok *funkciók* és a kívánt előre jelzett *címkék*. Adatfeltárás általában történik, amely natív módon támogatja a statisztikai modellezési és vizualizációs például Python vagy R programozási nyelvet használ. A parancsfájlok segítségével az adatok általában speciális környezetekben, például a Jupyter Notebooks üzemel. Ezek az eszközök az adatok programozott módon dokumentálásáért és megtalálják az elemzések megosztása során fedezheti fel az adatszakértők engedélyezése.
 
 Kapcsolódó Azure-szolgáltatások:
@@ -43,13 +44,13 @@ Kapcsolódó Azure-szolgáltatások:
 
 ## <a name="challenges"></a>Problémák
 
-- **Adatvédelmi megfelelőségi adatokat.** Legyen óvatos a személyes adatok elérhetővé tétele a felhasználók számára az önkiszolgáló elemzés és jelentéskészítés kell. Nincsenek valószínűleg megfelelőségi szempontok miatt a szervezeti szabályzatok, és szabályozási problémákat. 
+- **Adatok adatvédelmi megfelelőségi**. Legyen óvatos a személyes adatok elérhetővé tétele a felhasználók számára az önkiszolgáló elemzés és jelentéskészítés kell. Nincsenek valószínűleg megfelelőségi szempontok miatt a szervezeti szabályzatok, és szabályozási problémákat.
 
-- **Adatok mennyiségét.** A teljes adatforráshoz való hozzáférés engedélyezése a felhasználók számára hasznos lehet, amíg azt eredményezhet nagyon hosszú ideig futó Excel- vagy Power BI-műveletek, vagy a Spark SQL jellemező a fürterőforrások lekérdezések.
+- **Adatmennyiség**. A teljes adatforráshoz való hozzáférés engedélyezése a felhasználók számára hasznos lehet, amíg azt eredményezhet nagyon hosszú ideig futó Excel- vagy Power BI-műveletek, vagy a Spark SQL jellemező a fürterőforrások lekérdezések.
 
-- **Felhasználói ismerete.** A felhasználók a saját lekérdezéseket és az aggregációhoz tájékoztatja az üzleti döntéseket hozhasson létre. Ön abban, hogy a felhasználók rendelkeznek a szükséges elemzési és a lekérdezés képességek a pontos eredmények eléréséhez?
+- **Felhasználói Tudásbázis**. A felhasználók a saját lekérdezéseket és az aggregációhoz tájékoztatja az üzleti döntéseket hozhasson létre. Ön abban, hogy a felhasználók rendelkeznek a szükséges elemzési és a lekérdezés képességek a pontos eredmények eléréséhez?
 
-- **Eredmények megosztása.** Előfordulhatnak biztonsági szempontok, ha a felhasználó létrehozhat és megoszthat jelentéseket és adatvizualizációkat.
+- **Eredmények megosztása**. Előfordulhatnak biztonsági szempontok, ha a felhasználó létrehozhat és megoszthat jelentéseket és adatvizualizációkat.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -74,7 +75,8 @@ További információkért lásd: [kötegelt feldolgozás](../technology-choices
 
 ### <a name="analytical-data-store"></a>Analitikus adatok Store
 
-- **A Spark SQL**. Spark SQL API-k, Spark, amely támogatja a dataframes és táblákat, amelyek az SQL-szintaxissal lekérdezhetők épülő. Függetlenül, hogy az elemezni kívánt adatfájlokat nyers forrásfájlok vagy új fájlokat, amelyek tisztítás és a egy kötegelt folyamat által készített meghatározhatják a Spark SQL-táblák rajtuk a további lekérdezéséhez az elemzés. 
+- **A Spark SQL**. Spark SQL API-k, Spark, amely támogatja a dataframes és táblákat, amelyek az SQL-szintaxissal lekérdezhetők épülő. Függetlenül, hogy az elemezni kívánt adatfájlokat nyers forrásfájlok vagy új fájlokat, amelyek tisztítás és a egy kötegelt folyamat által készített meghatározhatják a Spark SQL-táblák rajtuk a további lekérdezéséhez az elemzés.
+
 - **Hive-**. Mellett a batch a nyers adatok feldolgozása a Hive használatával egy Hive-adatbázis, amely tartalmazza a Hive-táblák és nézetek alapján az adatokat tároló mappák engedélyezése elemzéshez interaktív lekérdezések és a jelentéskészítés is létrehozhat. HDInsight magában foglalja az interaktív Hive-fürt típusa, amely Hive-lekérdezés válaszidők csökkentése érdekében használja a memórián belüli gyorsítótárazáshoz. Felhasználók, akik jól ismerik az SQL-szerű szintaxist használatával interaktív Hive-adatok megismerése.
 
 További információkért lásd: [analitikus adattárak](../technology-choices/analytical-data-stores.md).
@@ -82,7 +84,9 @@ További információkért lásd: [analitikus adattárak](../technology-choices/
 ### <a name="analytics-and-reporting"></a>Elemzések és jelentéskészítés
 
 - **Jupyter**. A Jupyter Notebooks böngészőalapú felületet biztosít a futó kód például az R, Python vagy a Scala nyelvek. Adatok kötegelt feldolgozásához R Server vagy a Spark használata esetén, vagy a táblák lekérdezése a sémát a Spark SQL használatával, a Jupyter lehet megfelelő választás az olyan, az adatok lekérdezéséhez. A Spark használata esetén a szabványos Spark dataframe API vagy a Spark SQL API-t, valamint beágyazott SQL-utasítások használhatja az adatok lekérdezése és állítja elő a Vizualizációk.
-- **Részletezés**. Ha szeretne végezni az ad-hoc adatfeltárás, [Apache Drill](https://drill.apache.org/) egy séma nélküli SQL-lekérdezési motor. A séma nincs szükség, mert a számos különféle adatforrásból származó adatokat lekérdezheti, és a motor automatikusan tisztában van az adatok struktúráját.  Az Azure Blob Storage-tárolókat, részletezés is használhatja a [Azure Blob Storage beépülő modul](https://drill.apache.org/docs/azure-blob-storage-plugin/). Ez lehetővé teszi a Blob Storage szolgáltatásban tárolt adatok irányuló lekérdezések futtatása az adatok áthelyezése nélkül. 
+
+- **Részletezés**. Ha szeretne végezni az ad-hoc adatfeltárás, [Apache Drill](https://drill.apache.org/) egy séma nélküli SQL-lekérdezési motor. A séma nincs szükség, mert a számos különféle adatforrásból származó adatokat lekérdezheti, és a motor automatikusan tisztában van az adatok struktúráját.  Az Azure Blob Storage-tárolókat, részletezés is használhatja a [Azure Blob Storage beépülő modul](https://drill.apache.org/docs/azure-blob-storage-plugin/). Ez lehetővé teszi a Blob Storage szolgáltatásban tárolt adatok irányuló lekérdezések futtatása az adatok áthelyezése nélkül.
+
 - **Interaktív Hive-ügyfelek**. Ha egy interaktív Hive-fürtön az adatok lekérdezéséhez, használhatja a Hive-nézet az Ambari fürt irányítópultja, a Beeline parancssori eszköz vagy egy ODBC-alapú eszközt (a Hive ODBC illesztőprogram segítségével), például a Microsoft Excel- vagy Power bi-ban.
 
 További információkért lásd: [adatelemzési és jelentéskészítési technológia](../technology-choices/analysis-visualizations-reporting.md).

@@ -3,24 +3,29 @@ title: Keresés adattár kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: b5943cd1410777b974a8cefcd77c7c2f1f2bfe67
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.openlocfilehash: 331777ff289b2158a1804541a01e8f61be38cdf7
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902324"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113399"
 ---
 # <a name="choosing-a-search-data-store-in-azure"></a>Az Azure search adattár kiválasztása
 
-Ez a cikk összehasonlítja az adattárolók keresése az Azure-ban technológiai lehetőségek. Értesítés keresése adattár hozhat létre, és speciális indexeket a szabad formátumú szöveges keresés végrehajtásához tárolására szolgál. A szöveges indexelt várakozó előfordulhat, hogy egy különálló adattárral, például a blob storage-bA. Egy alkalmazás elküld egy lekérdezést a keresés adattárba, és az eredmény az egyező dokumentumok listája. Ebben a forgatókönyvben kapcsolatos további információkért lásd: [szabad formátumú szöveges keresés feldolgozása](../scenarios/search.md). 
+Ez a cikk összehasonlítja az adattárolók keresése az Azure-ban technológiai lehetőségek. Értesítés keresése adattár hozhat létre, és speciális indexeket a szabad formátumú szöveges keresés végrehajtásához tárolására szolgál. A szöveges indexelt várakozó előfordulhat, hogy egy különálló adattárral, például a blob storage-bA. Egy alkalmazás elküld egy lekérdezést a keresés adattárba, és az eredmény az egyező dokumentumok listája. Ebben a forgatókönyvben kapcsolatos további információkért lásd: [szabad formátumú szöveges keresés feldolgozása](../scenarios/search.md).
+
+<!-- markdownlint-disable MD026 -->
 
 ## <a name="what-are-your-options-when-choosing-a-search-data-store"></a>Mik azok a beállítások kiválasztásakor egy keresési adatok tárolására?
+
+<!-- markdownlint-enable MD026 -->
+
 Az Azure-ban mind a következő adattárakat felel meg a keresési szabad formátumú szöveges adatok alapvető követelményei azáltal, hogy a keresési index:
+
 - [Azure Search](/azure/search/search-what-is-azure-search)
 - [Elasticsearch](https://azuremarketplace.microsoft.com/marketplace/apps/elastic.elasticsearch?tab=Overview)
 - [A Solr HDInsight](/azure/hdinsight/hdinsight-hadoop-solr-install-linux)
 - [Az Azure SQL-adatbázis teljes szöveges keresés](/sql/relational-databases/search/full-text-search)
-
 
 ## <a name="key-selection-criteria"></a>Fontosabb kritériumok
 
@@ -44,37 +49,37 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database | 
-| --- | --- | --- | --- | --- | 
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
+| --- | --- | --- | --- | --- |
 | A felügyelt szolgáltatás | Igen | Nem | Igen | Igen |  
 | REST API | Igen | Igen | Igen | Nem |
-| Programozhatóság | .NET | Java | Java | T-SQL | 
+| Programozhatóság | .NET | Java | Java | T-SQL |
 | A dokumentum az indexelők a gyakori fájltípusokból (PDF, DOCX, TXT és így tovább) | Igen | Nem | Igen | Nem |
 
 ### <a name="manageability-capabilities"></a>Kezelhetőségi képességeit
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database | 
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
 | --- | --- | --- | --- | --- |
 | Frissíthető séma | Nem | Igen | Igen | Igen |
 | Támogatja a horizontális felskálázás  | Igen | Igen | Igen | Nem |
 
 ### <a name="analytic-workload-capabilities"></a>Elemzési számítási feladatok képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database | 
-| --- | --- | --- | --- | --- | 
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
+| --- | --- | --- | --- | --- |
 | A teljes szöveges keresés túl az elemzést támogatja | Nem | Igen | Igen | Igen |
 | A log analytics kifejlesztése | Nem | Igen (elk-val) |  Nem | Nem |
-| Szemantikai támogatja a keresést | Igen (keresési hasonló csak dokumentumok) | Igen | Igen | Igen | 
+| Szemantikai támogatja a keresést | Igen (keresési hasonló csak dokumentumok) | Igen | Igen | Igen |
 
-### <a name="security-capabilities"></a>Biztonsági képességei
+### <a name="security-capabilities"></a>Biztonsági képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database | 
-| --- | --- | --- | --- | --- | 
-| Sorszintű biztonság | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Igen | Igen | 
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
+| --- | --- | --- | --- | --- |
+| Sorszintű biztonság | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Igen | Igen |
 | Transzparens adattitkosítás | Nem | Nem | Nem | Igen |  
-| Adott IP-címek való hozzáférés korlátozása | Nem | Igen | Igen | Igen |   
+| Adott IP-címek való hozzáférés korlátozása | Nem | Igen | Igen | Igen |
 | Korlátozhatja a hozzáférést, csak a virtuális hálózati hozzáférés engedélyezése | Nem | Igen | Igen | Igen |  
-| Az Active Directory-hitelesítés (integrált hitelesítés) | Nem | Nem | Nem | Igen | 
+| Az Active Directory-hitelesítés (integrált hitelesítés) | Nem | Nem | Nem | Igen |
 
 ## <a name="see-also"></a>Lásd még
 

@@ -5,12 +5,12 @@ description: A feladatlista, amely rugalmasság aggályokat során tervezési ú
 author: petertaylor9999
 ms.date: 11/26/2018
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 1201e2045c6a5f7be9c8286cd192559a8d66d169
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 1a3c7b899be1c61cc53eb9caee30f5153edeb5ae
+ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307452"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54113603"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -80,7 +80,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 **Fontolja meg egy, a georedundáns tárfiók típusa.** Egy Azure Storage-fiókban tárolt adatok mindig replikálódik helyileg. Vannak azonban van egy Tárfiók üzembe helyezésekor választhat replikációs néhány stratégiát. Válassza ki [Azure írásvédett Georedundáns Társzolgáltatási (RA-GRS)](/azure/storage/storage-redundancy/#read-access-geo-redundant-storage) védelme érdekében az alkalmazás adatait a ritka esetben, ha egy teljes régió elérhetetlenné válik.
 
 > [!NOTE]
-> A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup][azure-backup].
+> A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup](/azure/backup).
 
 ## <a name="security"></a>Biztonság
 
@@ -169,7 +169,6 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 [app-service-autoscale]: /azure/monitoring-and-diagnostics/insights-how-to-scale/
 [asynchronous-c-sharp]: /dotnet/articles/csharp/async
 [availability-sets]:/azure/virtual-machines/virtual-machines-windows-manage-availability/
-[azure-backup]: https://azure.microsoft.com/documentation/services/backup/
 [circuit-breaker]: ../patterns/circuit-breaker.md
 [cloud-service-autoscale]: /azure/cloud-services/cloud-services-how-to-scale/
 [fma]: ../resiliency/failure-mode-analysis.md
