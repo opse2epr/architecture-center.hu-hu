@@ -3,12 +3,12 @@ title: A Surveys alkalmazás futtatása
 description: Hogyan lehet a Surveys mintaalkalmazás helyi futtatásához.
 author: MikeWasson
 ms.date: 07/21/2017
-ms.openlocfilehash: d265153d4b762a109bacdabb64c0d38429e8523f
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: b73eeb04755b3dc8443b215bb034c82e3095681d
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112821"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160757"
 ---
 # <a name="run-the-surveys-application"></a>A Surveys alkalmazás futtatása
 
@@ -25,7 +25,7 @@ A következő lépések összefoglalása:
 
 ## <a name="prerequisites"></a>Előfeltételek
 
-- [Visual Studio 2017][VS2017]
+- [A Visual Studio 2017] [ VS2017] együtt a [ASP.NET- és fejlesztési számítási feladatot](https://visualstudio.microsoft.com/vs/support/selecting-workloads-visual-studio-2017) telepítve
 - [A Microsoft Azure](https://azure.microsoft.com) fiók
 
 ## <a name="create-the-tailspin-tenant"></a>A Tailspin bérlő létrehozása

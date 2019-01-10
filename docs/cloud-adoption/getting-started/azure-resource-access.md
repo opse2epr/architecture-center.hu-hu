@@ -1,20 +1,20 @@
 ---
 title: 'Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban'
-description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: az Azure resource manager, az előfizetések, erőforráscsoportok és erőforrások'
+description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: Az Azure resource manager, az előfizetések, erőforráscsoportok és erőforrások'
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: c26b01d207bc4eb100653a826a053b394d03d1e6
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
+ms.openlocfilehash: 8cb28d0dd5dbdfcef846786083d5197f435bf3ea
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428703"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160791"
 ---
 # <a name="enterprise-cloud-adoption-resource-access-management-in-azure"></a>Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban
 
 A [Mi az erőforrás-szabályozás?](what-is-governance.md), a segítségével megtanulta, hogy cégirányítási vonatkozik-e folyamatban kezelését, megfigyelését és naplózás használata Azure-erőforrások megfelelnek a kitűzött célokat, és a szervezet követelményeinek. Áthelyezni a megtudhatja, hogyan kell irányítási mintájának, mielőtt fontos tudni, hogy az erőforrás-hozzáférési felügyeleti vezérlők az Azure-ban. Erőforrás-hozzáférési felügyeleti vezérlőelemek konfigurációját a cégirányítási modell alapját.
 
-Hozzuk véve, hogyan történik az erőforrások közelebbről vannak telepítve az Azure-ban. 
+Lássunk is használatával hogyan erőforrások vannak üzembe helyezve, az Azure-ban közelebbről. 
 
 ## <a name="what-is-an-azure-resource"></a>Mi az Azure-erőforrásban?
 
@@ -46,7 +46,7 @@ A [Azure működése?](what-is-azure.md) megtanulta, hogy az Azure számos olyan
 ![](../_images/governance-1-12.png)   
 *4. ábra Az Azure resource manager.*
 
-A következő ábrán látható három ügyfelek: [Powershell](/powershell/azure/overview), [az Azure Portalon](https://portal.azure.com), és a [Azure parancssori felület (CLI)](/cli/azure):
+A következő ábrán látható három ügyfelek: [PowerShell](/powershell/azure/overview), [az Azure Portalon](https://portal.azure.com), és a [Azure parancssori felület (CLI)](/cli/azure):
 
 ![](../_images/governance-1-13.png)   
 *5. ábra Az Azure-ügyfelek csatlakoznak az Azure resource manager REST API.*

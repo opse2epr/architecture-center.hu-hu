@@ -4,12 +4,12 @@ titleSuffix: Azure Example Scenarios
 description: Nagymértékben skálázható rendelésfeldolgozó folyamatot hozhat létre az Azure Cosmos DB használatával.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: fe4e9d64e96d0be66534198bc60e2a73dad43e84
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 285db7979f8a20ae75b534dcea5174b7151047ca
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644189"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160825"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Skálázható rendelésfeldolgozás az Azure-ban
 
@@ -49,7 +49,7 @@ Ez az architektúra egy rendelés feldolgozási folyamat főbb összetevőit ism
 
 A valós idejű üzenetbetöltés, az adattárolás, az adatfolyam-feldolgozás, storage, az analitikus adatok és elemzési és jelentéskészítési számos technológiai lehetőségek érhetők el. Ezek a beállítások, képességek és fontosabb kritériumok áttekintését lásd: [Big data-architektúrák: Valós idejű feldolgozás](/azure/architecture/data-guide/technology-choices/real-time-ingestion) a a [Azure-Adatarchitektúrához](/azure/architecture/data-guide).
 
-A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához. Mikroszolgáltatás-alapú alkalmazások tervezésekor és létrehozásakor eltérő megközelítést igényelnek. Például a Docker, Kubernetes, az Azure Service Fabric és Nomad eszközei lehetővé teszik a mikroszolgáltatás-alapú architektúrák fejlesztését. Egy mikroszolgáltatás-alapú architektúra készítése és útmutatásért lásd: [az Azure mikroszolgáltatások tervezése] (/ azure/architektúrával/mikroszolgáltatások az Azure Architecture Centert.
+A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához. Mikroszolgáltatás-alapú alkalmazások tervezésekor és létrehozásakor eltérő megközelítést igényelnek. Például a Docker, Kubernetes, az Azure Service Fabric és Nomad eszközei lehetővé teszik a mikroszolgáltatás-alapú architektúrák fejlesztését. Egy mikroszolgáltatás-alapú architektúra készítése és útmutatásért lásd: [mikroszolgáltatások tervezése az Azure](/azure/architecture/microservices) a az Azure Architecture Centert.
 
 ### <a name="availability"></a>Rendelkezésre állás
 

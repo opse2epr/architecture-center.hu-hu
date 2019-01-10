@@ -5,12 +5,12 @@ description: E-kereskedelmi webhelyet üzemeltethet az Azure-ban.
 author: masonch
 ms.date: 07/13/2018
 ms.custom: fasttrack
-ms.openlocfilehash: 3608fc4c15318fe48dbf2a67949d064ac7f5d406
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: f07c21b8eb9d812b9831abe8f2e4f6d131893df2
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54110441"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160808"
 ---
 # <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 
@@ -67,7 +67,7 @@ A webes szint és a funkciók más lehetőségek a következők:
 - [A Service Fabric] [ docs-service-fabric] -platform, amelynek elsődleges célja elosztott összetevőket, amelyek telepítése és a egy fürtbe, a vezérlő egy magas szintű futtathatja létrehozásához. A Service Fabric is használható tárolók üzemeltetéséhez.
 - [Az Azure Kubernetes Service] [ docs-kubernetes-service] – A platform és helyezik üzembe tárolóalapú megoldásokat, amelyek használhatók a mikroszolgáltatási architektúra egy megvalósítását. Ez lehetővé teszi különböző összetevőihez tartozó független méretezését, igény szerinti tudják az alkalmazás rugalmasságát.
 - [Az Azure Container Instances] [ docs-container-instances] – gyors üzembe helyezése és a futó tárolók egy rövid életciklusával módon. Itt a tárolók üzembe futtathat például egy üzenet feldolgozása vagy egy számítás elvégzése gyors feldolgozás feladatokat és – figyelmeztetés megszüntetésről, amint ezek teljesülnek.
-- [A Service Bus] [a service bus] használható tárolási üzenetsor helyett.
+- [A Service Bus] [ service-bus] helyett az üzenetsor létrehozása sikerült használni.
 
 Egyéb lehetőségek az adatréteg számára a következők:
 
@@ -156,5 +156,6 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 [resiliency]: /azure/architecture/checklist/resiliency
 [scalability]: /azure/architecture/checklist/scalability
 [secure-development]: https://www.microsoft.com/SDL/process/design.aspx
+[service-bus]: /azure/service-bus-messaging/
 [sql-geo-replication]: /azure/sql-database/sql-database-geo-replication-overview
 [storage-geo-redudancy]: /azure/storage/common/storage-redundancy-grs
