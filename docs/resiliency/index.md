@@ -4,12 +4,12 @@ description: Rugalmas alkalmazások felépítése az Azure-ban magas rendelkezé
 author: MikeWasson
 ms.date: 12/18/2018
 ms.custom: resiliency
-ms.openlocfilehash: 28ad589c6d54a1574b5cd5c4f08e3c6adfe349c3
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: ef8fd64756c483528aa83048e23f6387dedb74d6
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113127"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160859"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -148,7 +148,7 @@ De ennek a módszernek hátrányai is vannak. Az alkalmazáslogika összetettebb
 
 **SLA többrégiós üzemelő példányokhoz**. Egy másik magas rendelkezésre állású megoldás az alkalmazás több régióban történő üzembe helyezése: ha az alkalmazás meghibásodik egy régióban, az Azure Traffic Manager révén feladatátvétel hajtható végre. Többrégiós üzemelő példány esetében az összetett SLA képlete a következő.
 
-Legyen *N* az egy régióban üzembe helyezett alkalmazás összetett SLA-ja, *R* pedig azon régiók száma, amelyekben az alkalmazás üzembe van helyezve. Annak a várt esélye, hogy az alkalmazás egyidejűleg hibásodik meg minden régióban, ((1 &minus N) ^ R).
+Legyen *N* az egy régióban üzembe helyezett alkalmazás összetett SLA-ja, *R* pedig azon régiók száma, amelyekben az alkalmazás üzembe van helyezve. Annak a várt esélye, hogy az alkalmazás egyidejűleg hibásodik meg minden régióban, ((1 &minus; N) ^ R).
 
 Ha például egyetlen régió SLA-ja 99,95%-os, akkor
 

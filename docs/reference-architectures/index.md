@@ -4,18 +4,18 @@ description: Referenciaarchitektúrák, tervek és részletes megvalósítási �
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 08/30/2018
-ms.openlocfilehash: 173698aee0a67578beaa806a59e1c7b0265cdd61
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 4e0f3b32abc8d2e0da9b139b0e6aae1d48152a37
+ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011803"
+ms.lasthandoff: 01/09/2019
+ms.locfileid: "54160774"
 ---
 # <a name="azure-reference-architectures"></a>Azure-referenciaarchitektúrák
 
 A referenciaarchitektúrák forgatókönyv szerint vannak elrendezve, az egymáshoz kapcsolódó architektúrák pedig csoportosítva vannak. Minden architektúra tartalmaz ajánlott eljárásokat, valamint méretezhetőségre, rendelkezésre állásra, kezelhetőségre és biztonságra vonatkozó megfontolandó szempontokat. A legtöbb architektúra emellett üzembe helyezhető megoldást is tartalmaz.
 
-Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [Kiszolgáló nélküli](#serverless-applications) | [Virtuális hálózatok](#virtual-networks) | [Virtuális gépek számítási feladatai](#vm-workloads) | [SAP](#sap) | [Webalkalmazások](#web-applications) | [Active Directory](#extend-on-premises-active-directory-to-azure)
+Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [IoT](#internet-of-things) | [Kiszolgáló nélküli](#serverless-applications) | [Virtuális hálózatok](#virtual-networks) | [Virtuális gépek számítási feladatai](#vm-workloads) | [SAP](#sap) | [Webalkalmazások](#web-applications) | [Active Directory](#extend-on-premises-active-directory-to-azure)
 
 <!-- markdownlint-disable MD033 -->
 
@@ -201,6 +201,31 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     <div class="cardText">
                         <h3>Streamek feldolgozása az Azure Stream Analyticsszel</h3>
                         <p>Teljes körű streamfeldolgozási folyamat, amely két adatstream rekordjait hasonlítja össze a gördülőátlag kiszámításához.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
+
+## <a name="internet-of-things"></a>Eszközök internetes hálózata
+
+<ul class="panelContent cardsF">
+<!-- IoT reference architecture -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./iot/index.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="./iot/_images/iot.svg" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Azure IoT-referenciaarchitektúra</h3>
+                        <p>Javasolt architektúra az Azure-on futó IoT-alkalmazásokhoz PaaS- (szolgáltatásként nyújtott platform) összetevőkkel.</p>
                     </div>
                 </div>
             </div>
