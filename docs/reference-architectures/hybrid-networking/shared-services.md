@@ -5,12 +5,12 @@ description: Közös szolgáltatásokkal küllős hálózati topológia implemen
 author: telmosampaio
 ms.date: 10/09/2018
 ms.custom: seodec18
-ms.openlocfilehash: 2ed76e467fd3f65664afa35b6247c83c3f6ce078
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 9de1cd22b32614c332f64cf282ddc1be8090bf7a
+ms.sourcegitcommit: 71ee0859e19fe58416b4c0056d67f2f34dd9ca0a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112226"
+ms.lasthandoff: 01/11/2019
+ms.locfileid: "54211971"
 ---
 # <a name="implement-a-hub-spoke-network-topology-with-shared-services-in-azure"></a>Közös szolgáltatásokkal küllős hálózati topológia implementálása az Azure-ban
 
@@ -100,7 +100,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][ref-
 - eseményközpont-vnet-rg
 - rendszert-vnet-rg
 - spoke1-vnet-rg
-- spoke2-művele-rg
+- spoke2-vnet-rg
 
 A sablon paraméterfájljai ezekre a nevekre hivatkoznak, ezért ha módosítja őket, a paraméterfájlokat is frissítse.
 
