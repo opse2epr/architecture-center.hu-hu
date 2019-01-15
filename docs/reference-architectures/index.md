@@ -4,12 +4,12 @@ description: Referenciaarchitektúrák, tervek és részletes megvalósítási �
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 08/30/2018
-ms.openlocfilehash: 4e0f3b32abc8d2e0da9b139b0e6aae1d48152a37
-ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
+ms.openlocfilehash: e62d2cb8230885fc508076f6a4984c3dc4538119
+ms.sourcegitcommit: d5ea427c25f9f7799cc859b99f328739ca2d8c1c
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/09/2019
-ms.locfileid: "54160774"
+ms.lasthandoff: 01/15/2019
+ms.locfileid: "54307705"
 ---
 # <a name="azure-reference-architectures"></a>Azure-referenciaarchitektúrák
 
@@ -23,20 +23,20 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
 
 <!-- markdownlint-disable MD033 -->
 <ul  class="panelContent cardsF">
-<!-- Batch scoring of Python models -->
+<!-- Distributed training of deep learning models -->
 <li style="display: flex; flex-direction: column;">
-    <a href="./ai/batch-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+    <a href="./ai/training-deep-learning.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
         <div class="cardSize" style="flex: 1 0 auto; display: flex;">
             <div class="cardPadding" style="display: flex;">
                 <div class="card">
                     <div class="cardImageOuter">
                         <div class="cardImage">
-                            <img src="../_images/icons/python-powered-h.svg" />
+                            <img src="../_images/icons/batch-ai.svg" />
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>A Python-modellek kötegelt kiértékelése</h3>
-                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Batch AI használatával.</p>
+                        <h3>Mélytanulási modellek elosztott betanítása</h3>
+                        <p>Mélytanulási modellek elosztott betanításának futtatása GPU-kompatibilis virtuális gépek fürtjein.</p>
                     </div>
                 </div>
             </div>
@@ -63,6 +63,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
         </div>
     </a>
 </li>
+<!-- Batch scoring of Python models -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/batch-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/python-powered-h.svg" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>A Python-modellek kötegelt kiértékelése</h3>
+                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Batch AI használatával.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <!-- Real-time scoring of Python models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/realtime-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
@@ -75,7 +95,7 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>A Python-modellek valós idejű pontozása</h3>
+                        <h3>Python- és mélytanulási modellek valós idejű pontozása</h3>
                         <p>Python-modellek üzembe helyezése webszolgáltatásokként valós idejű előrejelzések létrehozásához normál Python-modellek vagy mélytanulási modellek használatával.</p>
                     </div>
                 </div>
