@@ -3,12 +3,12 @@ title: API-tervezés
 description: Mikroszolgáltatás-alapú API-k tervezése
 author: MikeWasson
 ms.date: 10/23/2018
-ms.openlocfilehash: 80e8e081384a7806880878ae95fbdbc2bb6cc440
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 3c0de3919ba46057b94d3fa5be8fe05e1bbf28f9
+ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111041"
+ms.lasthandoff: 01/17/2019
+ms.locfileid: "54372838"
 ---
 # <a name="designing-microservices-api-design"></a>Mikroszolgáltatások tervezése: API-tervezés
 
@@ -95,7 +95,7 @@ A kódolási módszereket is számos különösen fontosak, egy hagyományos mon
 
 Egy másik példa a tárház mintát, amely biztosítja, hogy az alkalmazás egyéb részei közvetlen olvasási vagy írási, vagy az adatok tárolására ne:
 
-! Egy Drónt tárház ábrája[](./images/repository.png)
+![Egy Drónt tárház ábrája](./images/repository.png)
 
 A mikroszolgáltatási architektúra azonban szolgáltatások nem adjuk ki azonos kódbázisra és nem megosztásához adattárakban. Ehelyett kommunikáció API-kon keresztül. Fontolja meg az eset, ahol a Scheduler szolgáltatás kér a Drone szolgáltatásból egy drónt kapcsolatos információkat. A Drone szolgáltatásnak van egy drónt, ki, a kód, a belső modelljét. Azonban az ütemező nem látható. Ehelyett azt visszakap egy *ábrázolás* a drone entitás &mdash; HTTP-választ talán egy JSON-objektumában.
 

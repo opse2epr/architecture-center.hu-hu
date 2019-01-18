@@ -5,12 +5,12 @@ description: Ismerteti az előnyeit, kihívásait és ajánlott eljárások az N
 author: MikeWasson
 ms.date: 08/30/2018
 ms.custom: seojan19
-ms.openlocfilehash: 4e8aae0032d20df05e1b16a47fda4afa720ed0d9
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 29c098a9190a2480fa9d48c4d0c94832b42297ef
+ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54110305"
+ms.lasthandoff: 01/17/2019
+ms.locfileid: "54372822"
 ---
 # <a name="n-tier-architecture-style"></a>N szintű architektúrastílus
 
@@ -81,10 +81,11 @@ A webes és üzleti szintek állapot nélküliek. Bármelyik virtuális gép ké
 
 A hálózati biztonsági csoportok (NSG-k) korlátozzák az egyes szintekhez való hozzáférést. Az adatbázisszint például csak az üzleti szintről való hozzáférést engedélyezi.
 
-További részletekért és egy üzembe helyezhető Resource Manager-sablonért tekintse meg a következő referenciaarchitektúrákat:
+További információ az Azure-ban N szintű alkalmazások futtatásához:
 
 - [Windows rendszerű virtuális gépek futtatása N szintű alkalmazáshoz][n-tier-windows]
-- [Linux rendszerű virtuális gépek futtatása N szintű alkalmazáshoz][n-tier-linux]
+- [Az Azure-ban az SQL Server Windows N szintű alkalmazás][n-tier-linux]
+- [A Microsoft Learn modul: Bemutató: az N szintű architektúrastílus](/learn/modules/n-tier-architecture/)
 
 ### <a name="additional-considerations"></a>Néhány fontos megjegyzés
 

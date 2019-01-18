@@ -5,16 +5,16 @@ description: Futtassa a Linux rendszerű virtuális gépek az N szintű architek
 author: MikeWasson
 ms.date: 11/12/2018
 ms.custom: seodec18
-ms.openlocfilehash: bbd1029fe17b5d88d54246127c5d8983a573b012
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 41ff90718a7795807448b0a360bb0ebb3479c402
+ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120169"
+ms.lasthandoff: 01/17/2019
+ms.locfileid: "54372898"
 ---
 # <a name="linux-n-tier-application-in-azure-with-apache-cassandra"></a>Az Azure-ban az Apache Cassandra használatával Linux N szintű alkalmazás
 
-Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek (VM) és a egy N szintű alkalmazáshoz, az Apache Cassandra használatával Linux rendszeren az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe virtuális gépeket (VM) és a egy virtuális hálózatot konfigurált egy [N szintű](../../guide/architecture-styles/n-tier.md) alkalmazást, az Apache Cassandra használatával Linux rendszeren az adatréteg számára. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![N szintű architektúrához a Microsoft Azure](./images/n-tier-cassandra.png)
 
@@ -127,7 +127,7 @@ Az alábbiakban néhány javaslat olvasható a terheléselosztó állapot-mintav
 - A mintavétel [ismert IP-címről érkezik:][health-probe-ip] 168.63.129.16. Győződjön meg arról, hogy nem tiltja a bejövő és kimenő forgalmat az IP-címről valamelyik tűzfalszabályzatban vagy NSG-szabályok a.
 - Az állapotminták állapotának megtekintéséhez használjon [állapotminta-naplókat][health-probe-log]. Engedélyezze a naplózást az Azure Portalon minden egyes terheléselosztóra vonatkozóan. A naplókat a rendszer az Azure Blob Storage-ba írja. A naplók megmutatják, hány virtuális gépet nincsenek rájuk vonatkozó hálózati forgalom meghiúsult mintavételi válaszok miatt.
 
-A feladatátvételi funkciók a Cassandra-fürt az alkalmazás és a replikák száma használt függ. További információk a konzisztenciaszintekről és azok használatáról a Cassandrában: [Adatkonzisztencia konfigurálása][cassandra-consistency] és [Cassandra: Hány csomóponttal folyik kommunikáció a Quorum esetében?][cassandra-consistency-usage] Az adatok elérhetősége a Cassandrában az alkalmazás által használt konzisztenciaszinttől és a replikációs mechanizmustól függ. További információ a replikációról a Cassandrában: [Adatok replikációja a NoSQL-adatbázisokban – Ismertetés][cassandra-replication].
+A feladatátvételi funkciók a Cassandra-fürt az alkalmazás és a replikák száma használt függ. Konzisztenciaszintek és használatáról a Cassandrában: [adatkonzisztencia konfigurálása] [ cassandra-consistency] és [Cassandra: Hány csomópontokat a kvórumképzés volt szó, vannak?][cassandra-consistency-usage] Az adatok elérhetősége a Cassandrában az alkalmazás által használt konzisztenciaszinttől és a replikációs mechanizmustól függ. További információ a replikációról a Cassandrában: [Adatok replikációja a NoSQL-adatbázisokban – Ismertetés][cassandra-replication].
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -139,7 +139,7 @@ A bejövő internetes forgalom esetében a terheléselosztó szabályai határoz
 
 **Titkosítási**. Titkosíthatja az inaktív bizalmas adatokat, és az [Azure Key Vaulttal][azure-key-vault] kezelheti az adatbázis titkosítási kulcsait. A Key Vault képes a hardveres biztonsági modulok (HSM-ek) titkosítási kulcsainak tárolására. Emellett ajánlott alkalmazások titkos adatait, például az adatbázis kapcsolati karakterláncainak tárolása a Key Vaultban.
 
-**A DDoS protection**. Az Azure platform alapértelmezés szerint alapszintű DDoS elleni védelmet biztosít. Ez a alapvető védelem célja védelme az Azure-infrastruktúra egészében. Alapszintű DDoS elleni védelem automatikusan engedélyezve van, de javasoljuk a [DDoS Protection Standard][ddos]. Standard szintű védelem használatával adaptív finomhangolási, az alkalmazás hálózati forgalmi minták alapján észlelheti a fenyegetéseket. Ez lehetővé teszi, hogy az infrastruktúra-szintű DDoS szabályzatok egyébként észrevétlenül DDoS-támadásokkal szembeni tulajdonosaival. Standard szintű védelmet is biztosít a riasztás, a telemetria és az Azure Monitor-analitikát. További információkért lásd: [Azure DDoS Protection: ajánlott eljárások és referenciaarchitektúrákat][ddos-best-practices].
+**A DDoS protection**. Az Azure platform alapértelmezés szerint alapszintű DDoS elleni védelmet biztosít. Ez a alapvető védelem célja védelme az Azure-infrastruktúra egészében. Alapszintű DDoS elleni védelem automatikusan engedélyezve van, de javasoljuk a [DDoS Protection Standard][ddos]. Standard szintű védelem használatával adaptív finomhangolási, az alkalmazás hálózati forgalmi minták alapján észlelheti a fenyegetéseket. Ez lehetővé teszi, hogy az infrastruktúra-szintű DDoS szabályzatok egyébként észrevétlenül DDoS-támadásokkal szembeni tulajdonosaival. Standard szintű védelmet is biztosít a riasztás, a telemetria és az Azure Monitor-analitikát. További információkért lásd: [Azure DDoS Protection: Ajánlott eljárások és referenciaarchitektúrákat][ddos-best-practices].
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
@@ -164,6 +164,10 @@ Ha Linux rendszerű virtuális gépeket szeretne üzembe helyezni egy N szintű 
    ```
 
 A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
+
+## <a name="next-steps"></a>További lépések
+
+- [A Microsoft Learn modul: Bemutató: az N szintű architektúrastílus](/learn/modules/n-tier-architecture/)
 
 <!-- links -->
 

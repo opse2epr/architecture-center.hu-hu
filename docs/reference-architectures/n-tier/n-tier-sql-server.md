@@ -4,16 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Egy többrétegű architektúra megvalósítása az Azure-ban a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel.
 author: MikeWasson
 ms.date: 11/12/2018
-ms.openlocfilehash: e7dbd8dd2b8e5aff8f18ff9b87fce0b76a850bce
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: e0cd95eaf864164a5213a17e7e2bf89a9fb643fa
+ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011378"
+ms.lasthandoff: 01/17/2019
+ms.locfileid: "54372864"
 ---
 # <a name="windows-n-tier-application-on-azure-with-sql-server"></a>Az Azure-ban az SQL Server Windows N szintű alkalmazás
 
-Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe a virtuális gépek és a egy N szintű alkalmazáshoz, a Windows SQL Server használata az adatréteg számára konfigurált virtuális hálózatot. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe virtuális gépeket és a egy virtuális hálózatot konfigurált egy [N szintű](../../guide/architecture-styles/n-tier.md) alkalmazást, az SQL Server használatával a Windows az adatréteg számára. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![N szintű architektúrához a Microsoft Azure](./images/n-tier-sql-server.png)
 
@@ -233,6 +233,10 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
     ```
 
 A mintául szolgáló referenciaarchitektúra Azure-építőelemekkel történő üzembe helyezéséről további információkat a [GitHub-adattárban][git] talál.
+
+## <a name="next-steps"></a>További lépések
+
+- [A Microsoft Learn modul: Bemutató: az N szintű architektúrastílus](/learn/modules/n-tier-architecture/)
 
 <!-- links -->
 [dmz]: ../dmz/secure-vnet-dmz.md
