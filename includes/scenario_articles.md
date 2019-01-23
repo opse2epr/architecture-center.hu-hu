@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: dfc4af0a5be29b32d90cc4a05715fd3e2f71427b
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488664"
+---
 
 ## <a name="ai-scenarios"></a>MI-használati forgatókönyvek
 
@@ -13,7 +21,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban</h3>
+                        <h3>Beszélgető csevegőrobot szállodai foglalásokhoz</h3>
                         <p>Beszélgető csevegőrobotot hozhat létre kereskedelmi alkalmazásokhoz az Azure Bot Service segítségével.</p>
                     </div>
                 </div>
@@ -32,8 +40,27 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Képbesorolás biztosítási követelésekhez az Azure-ban</h3>
+                        <h3>Képbesorolás biztosítási követelésekhez</h3>
                         <p>Képfeldolgozást építhet be Azure-alkalmazásaiba.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/movie-recommendations.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="./ai/media/architecture-movie-recommender.png" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Filmajánló az Azure-on</h3>
+                        <p>Gépi tanulás használata film- és termékajánlók, illetve egyéb javaslatok automatizálására Azure-beli modell betanítására szolgáló gépi tanulási megoldások és Azure Data Science Virtual Machine (DSVM) használatával.</p>
                     </div>
                 </div>
             </div>
@@ -57,7 +84,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban</h3>
+                        <h3>Webalkalmazás migrálása API-alapú architektúrába</h3>
                         <p>Modernizálhatja régi webalkalmazásait az Azure API Management használatával.</p>
                     </div>
                 </div>
@@ -76,7 +103,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban</h3>
+                        <h3>Bankok közötti nem központosított megbízhatósági kapcsolatok</h3>
                         <p>Megbízható kommunikációs és adatmegosztó környezetet hozhat létre anélkül, hogy egy központosított adatbázisra kellene hagyatkoznia.</p>
                     </div>
                 </div>
@@ -133,7 +160,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>E-kereskedelmi előtérrendszer az Azure-ban</h3>
+                        <h3>E-kereskedelmi kezelőfelület</h3>
                         <p>E-kereskedelmi webhelyet üzemeltethet az Azure-ban.</p>
                     </div>
                 </div>
@@ -171,7 +198,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>CAE-szolgáltatás az Azure-ban</h3>
+                        <h3>CAE-szolgáltatás</h3>
                         <p>SaaS-platformot biztosíthat CAE-projektekhez az Azure-ban.</p>
                     </div>
                 </div>
@@ -190,7 +217,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz az Azure-ban</h3>
+                        <h3>Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz</h3>
                         <p>Fejlesztési és tesztelési környezetet hozhat létre SAP számítási feladatokhoz.</p>
                     </div>
                 </div>
@@ -209,7 +236,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Éles SAP számítási feladatok futtatása egy Oracle-adatbázis használatával az Azure-ban</h3>
+                        <h3>Éles SAP számítási feladatok futtatása egy Oracle-adatbázis használatával</h3>
                         <p>Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.</p>
                     </div>
                 </div>
@@ -272,7 +299,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Skálázható rendelésfeldolgozás az Azure-ban</h3>
+                        <h3>Skálázható rendelésfeldolgozás</h3>
                         <p>Nagymértékben skálázható rendelésfeldolgozó folyamatot hozhat létre az Azure Cosmos DB használatával.</p>
                     </div>
                 </div>
@@ -291,7 +318,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Csalások valós idejű észlelése az Azure-ban</h3>
+                        <h3>Csalások valós idejű észlelése</h3>
                         <p>Valós időben észlelheti a csaló szándékú tevékenységeket az Azure Event Hubs és a Stream Analytics használatával.</p>
                     </div>
                 </div>
@@ -311,7 +338,7 @@
                     </div>
                     <div class="cardText">
                         <h3>Hibrid ETL meglévő helyszíni SSIS-sel és Azure Data Factoryval</h3>
-                        <p>Hibrid ETL meglévő helyszíni SQL Server Integration Services- (SSIS-) környezetekkel és Azure Data Factoryval</p>
+                        <p>Hibrid ETL meglévő helyszíni SQL Server Integration Services- (SSIS-) környezetekkel és Azure Data Factoryval.</p>
                     </div>
                 </div>
             </div>
@@ -354,7 +381,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban</h3>
+                        <h3>CFD szimulációk futtatása</h3>
                         <p>Számítási folyadékdinamikai (CFD) szimulációkat hajthat végre az Azure-ban.</p>
                     </div>
                 </div>
@@ -392,8 +419,8 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazás az Azure-ban</h3>
-                        <p>Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazást hozhat létre az Azure-ban Azure-beli virtuális gépek, rendelkezésre állási csoportok, rendelkezésre állási zónák, az Azure Site Recovery és az Azure Traffic Manager használatával</p>
+                        <h3>Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazás</h3>
+                        <p>Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazást hozhat létre az Azure-ban Azure-beli virtuális gépek, rendelkezésre állási csoportok, rendelkezésre állási zónák, az Azure Site Recovery és az Azure Traffic Manager használatával.</p>
                     </div>
                 </div>
             </div>
@@ -411,7 +438,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Biztonságos webalkalmazások kiépítése Windows rendszerű virtuális gépekkel az Azure-on</h3>
+                        <h3>Biztonságos webalkalmazások kiépítése Windows rendszerű virtuális gépekkel</h3>
                         <p>Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.</p>
                     </div>
                 </div>
@@ -430,7 +457,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>A Service Fabric használata monolitikus alkalmazások felbontásához</h3>
+                        <h3>A Service Fabric használata alkalmazások felbontásához</h3>
                         <p>A nagy méretű monolitikus alkalmazásokat mikroszolgáltatásokra bonthatja fel.</p>
                     </div>
                 </div>
@@ -449,7 +476,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>3D-s videórenderelés az Azure-ban</h3>
+                        <h3>3D-s videórenderelés</h3>
                         <p>Natív HPC számítási feladatokat futtathat az Azure-ban az Azure Batch szolgáltatás használatával.</p>
                     </div>
                 </div>
@@ -468,7 +495,7 @@
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Nagymértékben skálázható és biztonságos WordPress-webhelyek az Azure-ban</h3>
+                        <h3>Nagymértékben skálázható és biztonságos WordPress-webhelyek</h3>
                         <p>Nagymértékben skálázható és biztonságos WordPress-webhelyeket hozhat létre médiaeseményekhez.</p>
                     </div>
                 </div>

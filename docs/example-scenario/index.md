@@ -5,20 +5,17 @@ author: david-stanford
 ms.date: 11/01/2018
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 6872cc17e8d7262e36c97e765ecc9de1043269c0
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52901413"
+ms.service: architecture-center
+ms.subservice: example-scenario
 ---
+
 # <a name="azure-example-scenarios"></a>Azure-példaforgatókönyvek
 
 A példaforgatókönyvek azt mutatják be, hogyan lehet megbirkózni adott üzleti vagy technikai kihívásokkal az Azure segítségével. A forgatókönyvek valódi fogyasztói példán alapulnak, és gyors, könnyen áttekinthető segítséget nyújtanak az implementáció felgyorsításában.
 
 A forgatókönyvekben megtalálja az architektúradiagramokat, az adatfolyamokat és a technikai összetevők részletes leírását. A megoldás éles környezetben történő futtatásakor megfontolandó szempontokat, a megoldás költségtényezőit és a hasonló problémák megoldására szolgáló egyéb lehetőségeket is áttekintheti. Sok forgatókönyv azt a módszert is tartalmazza, amellyel könnyedén üzembe helyezheti a megoldást saját Azure-előfizetésében.
 
-Tovább: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios)
+Ugrás ide: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios)
 
 <ul class="panelContent cardsL">
     <li>
