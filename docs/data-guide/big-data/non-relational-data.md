@@ -3,12 +3,15 @@ title: Nem relációs adat- és NoSQL
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: e712cf7def9e237257b911c40346027c1529201d
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: f1f8a9ddc0a728f6be4350edb361afd19901de20
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114283"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483590"
 ---
 # <a name="non-relational-data-and-nosql"></a>Nem relációs adat- és NoSQL
 
@@ -90,7 +93,7 @@ Ezzel a struktúrával egyértelműen hajthatók végre a következőkhöz hason
 
 Kapcsolódó Azure-szolgáltatás:  
 
-- [Az Azure Cosmos DB Graph API](/azure/cosmos-db/graph-introduction)  
+- [Azure Cosmos DB Graph API](/azure/cosmos-db/graph-introduction)  
 
 ## <a name="time-series-data-stores"></a>Idősorozat-adatokat tárolja.
 
@@ -150,13 +153,13 @@ A következő követelmények mindegyike a nem relációs adattárakat hasonlít
 | Normalizálási | Denormalizált | Denormalizált | Denormalizált | Normalizált |
 | Séma | Olvassa el a séma | Írás, Olvasás oszlop sémáját definiált oszlopcsaláddal | Olvassa el a séma | Olvassa el a séma |
 | (Között több tranzakció) | Hangolható konzisztencia, a dokumentum-szintű garanciák | Oszlopcsalád-&ndash;szintű garanciák | Kulcs-szintű garanciák | Graph-szintű garanciák |
-| Atomitást (tranzakció-hatókörben) | Gyűjtemény | Tábla | Tábla | Graph |
+| Atomitást (tranzakció-hatókörben) | Gyűjtemény | Táblázat | Táblázat | Graph |
 | Zárolási stratégia | Az optimista (zárolás ingyenes) | A pesszimista (sor zárolás) | Az optimista (ETag) |
 | Elérni | Közvetlen elérésű | A magas/wide adatok összesítések | Közvetlen elérésű | Közvetlen elérésű |
 | Indexelés | Az elsődleges és másodlagos indexek | Az elsődleges és másodlagos indexek | Csak az elsődleges index | Az elsődleges és másodlagos indexek |
 | Adatalakzat | Dokumentum | Táblázatos oszlopcsaláddal tartalmazó oszlop | Kulcs-érték | Graph-tartalmazó élek és csúcspontok |
-| Ritka | Igen | Igen | Igen | Nem |
-| Wide (nagy mennyiségű vagy attribútum) | Igen | Igen | Nem | Nem |  
+| Ritka | Igen | Igen | Igen | Nincs |
+| Wide (nagy mennyiségű vagy attribútum) | Igen | Igen | Nem | Nincs |  
 | Datum mérete | (KB) kis-és közepes méretű (alacsony MB) | Közepes (MB) és nagy méretű (alacsony GB) | Kicsi (KB) | Kicsi (KB) |
 | A teljes maximális skála | Nagyon nagy (PBs) | Nagyon nagy (PBs) | Nagyon nagy (PBs) | Nagy (TB-osra bővül) |
 
@@ -164,13 +167,13 @@ A következő követelmények mindegyike a nem relációs adattárakat hasonlít
 | --- | --- | --- | --- |
 | Normalizálási | Normalizált | Denormalizált | Denormalizált |
 | Séma | Olvassa el a séma | Olvassa el a séma | Séma |
-| (Között több tranzakció) | – | N/A | – |
-| Atomitást (tranzakció-hatókörben) | – | Objektum | – |
-| Zárolási stratégia | – | A pesszimista (blob zárolás) | – |
+| (Között több tranzakció) | N. a. | N/A | N. a. |
+| Atomitást (tranzakció-hatókörben) | N. a. | Objektum | N. a. |
+| Zárolási stratégia | N. a. | A pesszimista (blob zárolás) | N. a. |
 | Elérni | Véletlenszerű hozzáférést és összesítés | Soros hozzáférés | Közvetlen elérésű |
-| Indexelés | Az elsődleges és másodlagos indexek | Csak az elsődleges index | – |
+| Indexelés | Az elsődleges és másodlagos indexek | Csak az elsődleges index | N. a. |
 | Adatalakzat | Táblázatos | Blobok és metaadatok | Dokumentum |
-| Ritka | Nem | – | Nem |
-| Wide (nagy mennyiségű vagy attribútum) |  Nem | Igen | Igen |  
+| Ritka | Nincs | N. a. | Nincs |
+| Wide (nagy mennyiségű vagy attribútum) |  Nincs | Igen | Igen |  
 | Datum mérete | Kicsi (KB) | Nagy (GB) nagyon nagy (TB-osra bővül) | Kicsi (KB) |
 | A teljes maximális skála | Nagy (alacsony TB-osra bővül)  | Nagyon nagy (PBs) | Nagy (alacsony TB-osra bővül) |

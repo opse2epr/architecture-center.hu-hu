@@ -3,12 +3,16 @@ title: 'Műszaki útmutató: Helyreállítás helyi hibák esetén az Azure-ban'
 description: Annak az ismertetése, és rugalmas, magas rendelkezésre állású kialakítása, hibatűrő alkalmazások, valamint a vészhelyreállítási összpontosított helyi hibák utáni Azure-ban.
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: c5e26eefb8d5a8d424534081ddd5d1ea0454c17e
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
+ms.custom: resiliency
+ms.openlocfilehash: a567b138580999c7b7a6ae8dedb244f4e37970e7
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112855"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486046"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
@@ -81,7 +85,7 @@ A fenti ábrán az Internet Information Services (IIS) szint (amely a web app r�
 
 A virtuális gépek elosztott azok között forgalmat kell rendelkeznie, ha egy alkalmazás és a terhelés elosztása a virtuális gépek között egy adott TCP vagy UDP-végpontnak kell csoportosítja. További információkért lásd: [terheléselosztási virtuális gépek](/azure/virtual-machines/virtual-machines-linux-load-balance/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). Ha a virtuális gépek bemeneti más forrásból (például egy üzenetsor-kezelési mechanizmust) kap, a load balancer, nem szükséges. A load balancer alapszintű állapot-ellenőrzése alapján határozza meg, hogy kell-e forgalmat küldeni a csomópontra. Az is lehet létrehozni a saját mintavételek megvalósításához és alkalmazásspecifikus mérőszámok, amelyek meghatározzák, hogy a virtuális gép jár-e a forgalmat.
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárhely
 
 Az Azure Storage szolgáltatása a referenciakonfiguráció hosszú élettartamú adatok az Azure-hoz. Blob, table, queue és virtuális gép lemezes tárolás biztosít. Replikáció és az erőforrás-kezelés együttes használatával magas rendelkezésre állás egyetlen adatközponton belül. Az Azure Storage rendelkezésre állási SLA biztosítja azt, hogy legalább 99,9 %-ában:
 
@@ -104,7 +108,7 @@ Az Azure Storage adná ugyanazokat tartósság és a méretezhetőség tulajdons
 
 ## <a name="database"></a>Adatbázis
 
-### <a name="sql-database"></a>SQL Database
+### <a name="sql-database"></a>SQL-adatbázis
 
 Az Azure SQL Database-adatbázist kínál szolgáltatásként. Lehetővé teszi alkalmazások gyors üzembe helyezése, helyezze be az adatokat, és a relációs adatbázisok lekérdezése. Az ismerős SQL-kiszolgálói szolgáltatásairól és funkcióiról, számos hardver, konfigurációs, javítási és rugalmasság terhe paltformfüggetlen közben biztosít.
 
@@ -137,7 +141,7 @@ Ez a javaslat nem is alkalmazható a naplóküldésben. Egy vész-helyreállít�
 
 Az Azure Cloud Services üzembe helyezett virtuális gépek a klasszikus portálon keresztül kell ugyanabban a rendelkezésre állási csoportban telepítenie kell őket az ugyanazon felhőszolgáltatásban. Az Azure Resource Manager (aktuális portálon) üzembe helyezett virtuális gépek nem kell ezt a korlátozást. A klasszikus portálon üzembe helyezett virtuális gépek az Azure Cloud Service, ugyanazon a Felhőszolgáltatáson csomópontok csak az azonos rendelkezésre állási csoport vehet részt. Emellett a Cloud Services virtuális gépeket annak érdekében, hogy az IP-címek megőriznek felültelepítés után is ugyanabban a virtuális hálózatban kell lennie. Ezzel elkerülhető a DNS frissítési megszakadását.
 
-### <a name="azure-only-high-availability-solutions"></a>Csak az Azure-: Magas rendelkezésre állású megoldások
+### <a name="azure-only-high-availability-solutions"></a>Azure-only: Magas rendelkezésre állású megoldások
 
 AlwaysOn rendelkezésre állási csoportok vagy az adatbázis-tükrözés rendelkezhet egy magas rendelkezésre állású megoldás az SQL Server-adatbázisait az Azure-ban.
 

@@ -3,12 +3,15 @@ title: Kötegelt feldolgozás
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 50e50ae121fda7ceb9dd298b8a072bd7cc4053d9
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 6483b600e657cf0325fc63a645621ccf6c404bb4
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114181"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481983"
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
@@ -85,7 +88,7 @@ További információkért lásd: [analitikus adattárak](../technology-choices/
 
 További információkért lásd: [elemzések és jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md).
 
-### <a name="orchestration"></a>Adat-előkészítés
+### <a name="orchestration"></a>Vezénylés
 
 - **Az Azure Data Factory**. Az Azure Data Factory-folyamatok ismétlődő historikus windows az ütemezett tevékenységek sorozatát meghatározására használható. Ezek a tevékenységek kezdeményezheti a másolási műveletek, valamint igény szerinti HDInsight-fürtök; Hive, Pig, MapReduce vagy Spark-feladatok Az Azure dátum Lake Analyticsben; U-SQL-feladatok és az Azure SQL Data Warehouse vagy az Azure SQL Database tárolt eljárásokat.
 - **Az Oozie** és **Sqoop**. Oozie szolgáló feladat automatizálási motor az Apache Hadoop-ökoszisztéma és kezdeményezése a másolási műveletek, valamint a Hive, Pig és MapReduce-feladatok adatok feldolgozását és másolhat adatokat a HDFS- és SQL-adatbázisok közötti Sqoop feladatok is használható.

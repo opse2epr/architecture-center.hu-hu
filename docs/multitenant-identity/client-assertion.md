@@ -3,15 +3,18 @@ title: Ügyféltény használatával hozzáférési tokenek beszerzése az Azure
 description: Hogyan ügyféltény hozzáférési tokenek beszerzése az Azure ad-ből.
 author: MikeWasson
 ms.date: 07/21/2017
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: adfs
 pnp.series.next: key-vault
-ms.openlocfilehash: b5951153fff109b648e7e4f74daac0f414240fe4
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: a1ea65ca8f6b98932f0c42a1b029efeca4d50710
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113144"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482425"
 ---
 # <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a>Ügyféltény használatával hozzáférési tokenek beszerzése az Azure ad-ből
 
@@ -21,7 +24,7 @@ ms.locfileid: "54113144"
 
 OpenID Connect hitelesítési kódfolyamat vagy hibrid folyamatot használ, amikor az ügyfél hozzáférési jogkivonatot engedélyezési kódjának adatcseréihez használható. Ezzel a lépéssel az ügyfél rendelkezik, hitelesítse magát a kiszolgálót.
 
-![Titkos ügyfélkulcs](./images/client-secret.png)
+![Titkos ügyfélkód](./images/client-secret.png)
 
 Az ügyfél hitelesítésére egy úgy, hogy egy ügyfél titkos kulcs használatával. Hogy a [Tailspin Surveys] [ Surveys] alkalmazás alapértelmezés szerint van konfigurálva.
 

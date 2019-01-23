@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Redundanciát építve az alkalmazásba elkerülheti a kritikus meghibásodási pontokat.
 author: MikeWasson
 ms.date: 08/30/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 784413f637e4f857a2ba3775f3d4de66c91fbd95
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: c8722250b5b5357c9ffcf65eced95b4f2b487c72
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111845"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481359"
 ---
 # <a name="make-all-things-redundant"></a>Tervezzen mindent redundánsra
 

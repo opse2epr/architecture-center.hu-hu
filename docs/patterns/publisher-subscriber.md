@@ -4,16 +4,19 @@ description: Engedélyezheti egy alkalmazás események aszinkron módon több �
 keywords: tervezési minta
 author: alexbuckgit
 ms.date: 12/07/2018
-ms.openlocfilehash: f47792dd60e65cac1ff06928d9ea100ed452933a
-ms.sourcegitcommit: a0a9981e7586bed8d876a54e055dea1e392118f8
+ms.topic: design-pattern
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 9b931337f7f0e5dc58f83701271c7d3491af5bfd
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/11/2018
-ms.locfileid: "53233963"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488528"
 ---
 # <a name="publisher-subscriber-pattern"></a>Közzétevő-előfizető minta
 
-Engedélyezheti egy alkalmazás jelentjük be az eseményeket az érdekelt fogyasztók aynchronously több, a fogadók a feladói kapcsoló nélkül.
+Engedélyezheti egy alkalmazás számára, hogy több érdeklődő fogyasztó számára aszinkron módon, a küldők és a fogadók összekapcsolása nélkül jelentsen be eseményeket.
 
 **Más néven**: Közzétevői/előfizetői üzenetkezelés
 

@@ -3,12 +3,15 @@ title: Egy data pipeline vezénylési technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 7d1fddf54216b756a5dc2c183a43449a2f45a122
-ms.sourcegitcommit: e7e0e0282fa93f0063da3b57128ade395a9c1ef9
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 76a101b76497ae2b2aacff973175bb0fe4703d9e
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/05/2018
-ms.locfileid: "52902373"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482442"
 ---
 # <a name="choosing-a-data-pipeline-orchestration-technology-in-azure"></a>Egy data pipeline vezénylési technológia kiválasztása az Azure-ban
 
@@ -20,7 +23,7 @@ Az Azure-ban a következő szolgáltatások és eszközök felel meg az adatfoly
 
 - [Azure Data Factory](/azure/data-factory/)
 - [A HDInsight Oozie](/azure/hdinsight/hdinsight-use-oozie-linux-mac)
-- [Az SQL Server Integration Services (SSIS)](/sql/integration-services/sql-server-integration-services)
+- [SQL Server Integration Services (SSIS)](/sql/integration-services/sql-server-integration-services)
 
 Ezek a szolgáltatások és eszközök is egymástól függetlenül használja, vagy egy hibrid megoldás létrehozásához használt együtt. Például az Integration Runtime (IR) az Azure Data Factory V2 natív módon futtathat SSIS-csomagok Azure-beli felügyelt számítási környezetben. Funkcióinak ezek a szolgáltatások között átfedés van, míg néhány fontos különbség van.
 
@@ -44,10 +47,10 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | Azure Data Factory | SQL Server Integration Services (SSIS) | A HDInsight Oozie
 | --- | --- | --- | --- |
-| Managed | Igen | Nem | Igen |
+| Felügyelt | Igen | Nem | Igen |
 | Felhőalapú | Igen | Nincs (helyi) | Igen |
 | Előfeltétel | Azure-előfizetés | SQL Server  | Azure-előfizetéssel, HDInsight-fürt |
-| Felügyeleti eszközök | Az Azure Portal, PowerShell, CLI, .NET SDK-val | SSMS, PowerShell | A bash rendszerhéj, az Oozie REST API-t, az Oozie webes felhasználói felületen |
+| Felügyeleti eszközök | Azure Portal, PowerShell, CLI, .NET SDK | SSMS, PowerShell | A bash rendszerhéj, az Oozie REST API-t, az Oozie webes felhasználói felületen |
 | Díjszabás | Fizessen a használat | Licencelési / szolgáltatások kell fizetnie | Külön díj nélküli felett fut, a HDInsight-fürt |
 
 ### <a name="pipeline-capabilities"></a>Folyamat képességek
@@ -56,20 +59,20 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | --- | --- | --- | --- |
 | Adatok másolása | Igen | Igen | Igen |
 | Egyéni átalakítások | Igen | Igen | Igen (a MapReduce, a Pig és a Hive-feladatok) |
-| Az Azure Machine Learning pontozási | Igen | Igen (szkriptek) | Nem |
-| HDInsight igény szerinti | Igen | Nem | Nem |
-| Azure Batch | Igen | Nem | Nem |
-| A Pig, Hive, MapReduce | Igen | Nem | Igen |
-| Spark | Igen | Nem | Nem |
-| SSIS-csomag végrehajtása | Igen | Igen | Nem |
+| Azure Machine Learning scoring | Igen | Igen (szkriptek) | Nincs |
+| HDInsight igény szerinti | Igen | Nem | Nincs |
+| Azure Batch | Igen | Nem | Nincs |
+| Pig, Hive, MapReduce | Igen | Nem | Igen |
+| Spark | Igen | Nem | Nincs |
+| SSIS-csomag végrehajtása | Igen | Igen | Nincs |
 | Átvitelvezérlés | Igen | Igen | Igen |
-| Helyszíni adatok elérése | Igen | Igen | Nem |
+| Helyszíni adatok elérése | Igen | Igen | Nincs |
 
 ### <a name="scalability-capabilities"></a>Skálázhatósági képességeket.
 
 | | Azure Data Factory | SQL Server Integration Services (SSIS) | A HDInsight Oozie
 | --- | --- | --- | --- |
-| Vertikális felskálázás | Igen | Nem | Nem |
-| Horizontális felskálázás | Igen | Nem | Igen (a fürt munkavégző csomópontok hozzáadásával) |
+| Felskálázás | Igen | Nem | Nincs |
+| Horizontális felskálázás | Igen | Nincs | Igen (a fürt munkavégző csomópontok hozzáadásával) |
 | Big Data-optimalizált | Igen | Nem | Igen |
 

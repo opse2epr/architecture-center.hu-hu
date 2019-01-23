@@ -4,12 +4,15 @@ titleSuffix: Azure Example Scenarios
 description: Nagymértékben skálázható rendelésfeldolgozó folyamatot hozhat létre az Azure Cosmos DB használatával.
 author: alexbuckgit
 ms.date: 07/10/2018
-ms.openlocfilehash: 285db7979f8a20ae75b534dcea5174b7151047ca
-ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.openlocfilehash: ff71697969ba9fd85ff49c38458e59fc3447f905
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/09/2019
-ms.locfileid: "54160825"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481031"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Skálázható rendelésfeldolgozás az Azure-ban
 
@@ -66,7 +69,7 @@ A mikroszolgáltatás-alapú architektúra ebben a forgatókönyvben is sourcing
 
 Más méretezhetőség szempontokért lásd: a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonság
+### <a name="security"></a>Biztonsági
 
 A [Cosmos DB biztonsági modell](/azure/cosmos-db/secure-access-to-data) hitelesíti a felhasználókat, és lehetővé teszi az adatok és erőforrások elérését. További információkért lásd: [Cosmos DB-adatbázis biztonsági](/azure/cosmos-db/database-security).
 
@@ -88,7 +91,7 @@ Adtunk meg három példa költség profilok tervez tevékenységek mennyisége a
 - [Közepes][medium-pricing]: a díjszabási példa egy 10 TB-os data store a Cosmos DB és a egy vállalkozás (D4 v2) történő 50 RUs fenntartott Kafka-fürt.
 - [Nagy][large-pricing]: 500 RUs történő fenntartott a Cosmos DB és a egy nagy méretű (D5 v2) 30 TB adattár Kafka-fürt a díjszabási példa.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Ebben a példaforgatókönyvben alapján ez az architektúra által készített szélesebb körű verziója [Jet.com adatfeldolgozási főigazgatója](https://jet.com) a teljes körű rendelés feldolgozási folyamat számára. További információkért lásd: a [Jet.com adatfeldolgozási főigazgatója műszaki felhasználói profil] [ source-document] és [jet.com a bemutató Build 2018][source-presentation].
 

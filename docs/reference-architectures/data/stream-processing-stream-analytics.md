@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Hozzon létre egy teljes körű adatfolyam-feldolgozási folyamat az Azure-ban.
 author: MikeWasson
 ms.date: 11/06/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: abd020fa12883ae3d23623c53e15fe025590de6f
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: bea9b55938080685ece2f4f5b09f2a8735391947
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011582"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483241"
 ---
 # <a name="create-a-stream-processing-pipeline-with-azure-stream-analytics"></a>Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozása
 
@@ -221,7 +224,7 @@ Interestingly ennek hatására oldal, ahol egyre növekszik a Stream Analytics-f
 
 A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket a [GitHub információs][github].
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

@@ -4,13 +4,16 @@ titleSuffix: Azure Design Review Framework
 description: Ellenőrzőlista skálázhatóságára vonatkozó kialakítási szempontok az Azure automatikus Skálázáshoz.
 author: dragon119
 ms.date: 01/10/2018
+ms.topic: checklist
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
 ms.custom: checklist
-ms.openlocfilehash: 8bb31e8176238fb32bdf4424aa733b812b5eeb68
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 7157ba4982b42a7f4f56422185d3b857bd909a78
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307146"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483667"
 ---
 # <a name="scalability-checklist"></a>Méretezhetőségi ellenőrzőlisták
 
@@ -64,7 +67,7 @@ Méretezhetőség rendszer azon képessége, a rendszer megnövekedett terhelés
 
 **Érdemes lehet megszüntetni azok normalizáltságát adatok**. Adatok normalizálási segít kiszűrésével és inkonzisztencia elkerülése érdekében. Azonban több indexek karbantartása, a hivatkozási integritás-ellenőrzésének, végrehajtása több hozzáfér az adatok kisebb tömbökre, és az adatok elhelyezkedését a táblázatok összekapcsolása egy általános teljesítményt befolyásoló ír elő. Fontolja meg, ha néhány további tárolási kötet és az ismétlődést az adattár terhelésének csökkentése érdekében fogadható el. Továbbá vegye figyelembe, ha maga az alkalmazás (Ez általában egyszerűbb méretezése) is lehet hivatkozni átveszi a feladatokat, köztük a hivatkozási integritás kezelése az adattár terhelésének csökkentése érdekében. További információkért lásd: [Adatparticionálási útmutató](../best-practices/data-partitioning.md).
 
-## <a name="implementation"></a>Megvalósítás
+## <a name="implementation"></a>Implementáció
 
 **Tekintse át a teljesítménnyel kapcsolatos kizárási minták**. Lásd: [felhőalapú alkalmazások teljesítménnyel kapcsolatos kizárási minták](../antipatterns/index.md) a gyakori eljárások, amelyek nagy eséllyel eredményez méretezhetőségi problémákat, amikor egy alkalmazás nagy terhelésnek van kitéve.
 
@@ -87,7 +90,7 @@ Méretezhetőség rendszer azon képessége, a rendszer megnövekedett terhelés
 
 **Optimalizálja tárolási táblasémákat**. Tábla tárolja, az átadott és feldolgozása történhet az összes lekérdezés, például az Azure table storage, az a tábla- és oszlopneveket igénylő használata esetén érdemes lehet rövidebb neveket a terhelés csökkentése érdekében. Azonban nem lecsökken olvashatóság érdekében vagy kezelhetőségi túlságosan kompakt nevek használatával.
 
-**Erőforrás-függőségek létrehozása, üzembe helyezés során, vagy az alkalmazás indításakor**. Kerülje az ismételt hívások módszerekre, amelyek tesztelése erőforrás létezik-e, és ezután hozza létre az erőforrást, ha még nem létezik. Például módszerek *CloudTable.CreateIfNotExists* és *CloudQueue.CreateIfNotExists* az Azure Storage ügyféloldali kódtár hajtsa végre ezt a mintát. Ezek a metódusok szegmenshelyek jelentős terhelést, ha azokat egy tárolótáblában vagy a storage-üzenetsor minden hozzáférés előtt kerül meghívásra. Ehelyett:
+**Erőforrás-függőségek létrehozása, üzembe helyezés során, vagy az alkalmazás indításakor**. Kerülje az ismételt hívások módszerekre, amelyek tesztelése erőforrás létezik-e, és ezután hozza létre az erőforrást, ha még nem létezik. Például módszerek *CloudTable.CreateIfNotExists* és *CloudQueue.CreateIfNotExists* az Azure Storage ügyféloldali kódtár hajtsa végre ezt a mintát. Ezek a metódusok szegmenshelyek jelentős terhelést, ha azokat egy tárolótáblában vagy a storage-üzenetsor minden hozzáférés előtt kerül meghívásra. Instead:
 
 - Az alkalmazás telepítésekor, vagy első elindításakor a szükséges erőforrások létrehozása (egyetlen meghívása *CreateIfNotExists* az indítási a minden erőforrás egy webes vagy feldolgozói szerepkör kódját fogadható el). Azonban mindenképpen kezelni a kivételeket, amelyek akkor fordulhatnak elő, ha a kódot próbál meg hozzáférni egy erőforrás, amely nem létezik. Ebben az esetben kell naplózhatja a kivételt, és hogy egy erőforrás hiányzik valószínűleg riasztást küldhet az operátornak.
 - Bizonyos körülmények között célszerű lehet a kivételkezelő kód részeként a hiányzó erőforrás létrehozásához. De a megközelítést csak óvatosan kell elfogadnia, mert lehet, hogy az erőforrás nem meglétét, a programozási hibáról van szó (például kijavítsa a hibásan leírt erőforrás nevét), vagy valamilyen más infrastruktúra-szintű hiba.

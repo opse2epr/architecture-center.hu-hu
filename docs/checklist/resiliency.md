@@ -4,13 +4,16 @@ titleSuffix: Azure Design Review Framework
 description: A feladatlista, amely rugalmasság aggályokat során tervezési útmutatást nyújt.
 author: petertaylor9999
 ms.date: 11/26/2018
+ms.topic: checklist
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 1a3c7b899be1c61cc53eb9caee30f5153edeb5ae
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: b96195ced1cad091d0ec843ffcc0007b46f05f8d
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113603"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486250"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -32,8 +35,8 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Az automatikus skálázás használatával a terhelés növekedése esetén válaszolhat.** Ha az alkalmazás nincs konfigurálva a terhelés növekedése automatikus skálázáshoz, lehetséges, hogy az alkalmazás szolgáltatások sikertelen lesz, ha azok a felhasználói kérelmek legyen telített. További részletekért tekintse meg a következőket:
 
-- Általános frissítések: [Méretezési ellenőrzőlista](./scalability.md)
-- Az Azure App Service: [Példányszám manuális vagy automatikus méretezése][app-service-autoscale]
+- Általános: [Méretezési ellenőrzőlista](./scalability.md)
+- Azure App Service: [Példányszám manuális vagy automatikus méretezése][app-service-autoscale]
 - A cloud Services: [Cloud service automatikus méretezése][cloud-service-autoscale]
 - Virtuális gépek: [Az automatikus méretezés és virtuálisgép-méretezési csoportokban][vmss-autoscale]
 
@@ -82,7 +85,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 > [!NOTE]
 > A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup](/azure/backup).
 
-## <a name="security"></a>Biztonság
+## <a name="security"></a>Biztonsági
 
 **Az elosztott szolgáltatásmegtagadási (DDoS-) támadások elleni alkalmazásszintű védelem megvalósításához.** Azure-szolgáltatások a hálózati rétegen DDos-támadásokkal szembeni védettek. Azonban az Azure nem alkalmazásréteg támadásokkal szembeni, mert nehéz megkülönböztetni a valós felhasználói kérések a rosszindulatú felhasználók-kérelmek. "DDoS elleni védelem" című szakaszában talál további tájékoztatást az alkalmazásréteg DDoS-támadásokkal szembeni védelme [a Microsoft Azure hálózati biztonság](https://download.microsoft.com/download/C/A/3/CA3FC5C0-ECE0-4F87-BF4B-D74064A00846/AzureNetworkSecurity_v3_Feb2015.pdf) (letölthető PDF-fájl).
 
@@ -96,7 +99,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Futtasson teszteket használata szintetikus és a valós felhasználói adatainak, mind éles környezetben.** Tesztelési és éles megegyeznek a ritkán, ezért fontos, kék vagy zöld vagy a tesztcsoportos központi telepítés és az alkalmazás tesztelése éles környezetben. Ez lehetővé teszi, hogy az alkalmazás tesztelése a valódi terhelés alatt éles környezetben, és győződjön meg arról, teljes körűen telepítésekor várt módon működik.
 
-## <a name="deployment"></a>Környezet
+## <a name="deployment"></a>Üzemelő példány
 
 **A dokumentum a kibocsátási folyamat az alkalmazáshoz.** Nélkül részletes kibocsátási folyamat dokumentációja az operátornak előfordulhat, hogy egy rossz frissítés üzembe helyezése vagy az alkalmazás nem megfelelően konfigurálja. Egyértelműen határozza meg és dokumentálja a kibocsátási folyamat, és győződjön meg arról, hogy azt a teljes üzemeltetési csapat rendelkezésére.
 

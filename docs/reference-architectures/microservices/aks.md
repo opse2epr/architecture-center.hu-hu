@@ -3,12 +3,16 @@ title: A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 description: A mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS) üzembe helyezése
 author: MikeWasson
 ms.date: 12/10/2018
-ms.openlocfilehash: 9e4b607cd7f5b33bbf08ce3af67dd5d4071ae8ef
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: microservices
+ms.openlocfilehash: f3b637d61c929e5523ea5409426f3d7a72096dfa
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644240"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484125"
 ---
 # <a name="microservices-architecture-on-azure-kubernetes-service-aks"></a>A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 
@@ -25,7 +29,7 @@ Ez a cikk a Kubernetes alapszintű ismeretét feltételezi. A cikk elsősorban a
 
 Az architektúra a következőkben leírt összetevőkből áll.
 
-**Az Azure Kubernetes Service** (AKS). AKS-felügyelt Kubernetes-fürt üzembe helyezése Azure-szolgáltatás. 
+**Azure Kubernetes Service** (AKS). AKS-felügyelt Kubernetes-fürt üzembe helyezése Azure-szolgáltatás. 
 
 **Kubernetes-fürt**. Az AKS feladata a Kubernetes-fürt üzembe helyezéséhez és kezeléséhez a Kubernetes-főkiszolgálóhoz. Csak az ügynökcsomópontok kezelhető.
 
@@ -225,7 +229,7 @@ Még a felügyelt identitások, akkor valószínűleg kell egyes hitelesítő ad
 
     A pod hitelesíti magát vagy egy pod identitással (fentebb leírt) vagy egy Azure AD-szolgáltatásnév és a egy ügyfélkulcsot használatával. Pod identitások használata ajánlott, mert a titkos ügyfélkulcsot ebben az esetben nincs szükség. 
 
-- A HashiCorp tároló. Kubernetes-alkalmazások az Azure ad-ben felügyelt identitások használatával HashiCorp Vault hitelesítheti. Lásd: [HashiCorp Vault ad elő az Azure Active Directory](https://open.microsoft.com/2018/04/10/scaling-tips-hashicorp-vault-azure-active-directory/). Vault helyezhet üzembe Kubernetes, de azt javasoljuk, futtatásához egy külön dedikált fürtben az alkalmazás-fürtből. 
+- HashiCorp Vault. Kubernetes-alkalmazások az Azure ad-ben felügyelt identitások használatával HashiCorp Vault hitelesítheti. Lásd: [HashiCorp Vault ad elő az Azure Active Directory](https://open.microsoft.com/2018/04/10/scaling-tips-hashicorp-vault-azure-active-directory/). Vault helyezhet üzembe Kubernetes, de azt javasoljuk, futtatásához egy külön dedikált fürtben az alkalmazás-fürtből. 
 
 - Kubernetes titkos kulcsok. Egy másik lehetőség, egyszerűen Kubernetes titkos kódok használatára. Ez a beállítás a legkönnyebben konfigurálható, de áttekinthet néhány problémát. Titkos kódok találhatók etcd, ez az elosztott kulcs-érték tároló. Az AKS [titkosítja az inaktív etcd](https://github.com/Azure/kubernetes-kms#azure-kubernetes-service-aks). A Microsoft felügyeli, a titkosítási kulcsokat.
 

@@ -5,21 +5,23 @@ description: Javasolt architektúra megvalósítása az Azure Logic Apps és az 
 services: logic-apps
 author: mattfarm
 ms.reviewer: jonfan, estfan, LADocs
-ms.topic: article
+ms.topic: reference-architecture
 ms.date: 12/03/2018
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: integration-services
-ms.openlocfilehash: 36419706714b8516a309cf634649a4b44a9bc136
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 76e422ead7e53c582a9d64ab1da643c3990749d6
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120203"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488392"
 ---
 # <a name="basic-enterprise-integration-on-azure"></a>Alapszintű vállalati integráció az Azure-ban
 
 Ez a referenciaarchitektúra használ [Azure integrációs szolgáltatások] [ integration-services] vállalati háttérrendszerre hívásainak vezénylésére. A háttérrendszerekhez szoftver feltétlenül tartalmazzák a szoftverszolgáltatások (SaaS) rendszerek, az Azure-szolgáltatásokkal, mint, és a vállalat meglévő webszolgáltatások.
 
-Az Azure integrációs szolgáltatások gyűjteménye, alkalmazások és adatok integrálása-szolgáltatások. Ez az architektúra két ezeket a szolgáltatásokat használja: [Logic Apps] [ logic-apps] előkészíthető a munkafolyamatokat, és [az API Management] [ apim] katalógus létrehozása az API-k. Ez az architektúra olyan alapszintű integrációs forgatókönyvek, ahol a sématelepítési munkafolyamatot a Háttérszolgáltatásokhoz szinkron hívások elegendő. A kifinomultabb architektúra használatával [várólisták és események](./queues-events.md) Ez a alapvető architektúra épül.
+Az Azure integrációs szolgáltatások gyűjteménye, alkalmazások és adatok integrálása-szolgáltatások. Ez az architektúra két ezeket a szolgáltatásokat használja: [A Logic Apps] [ logic-apps] előkészíthető a munkafolyamatokat, és [az API Management] [ apim] katalógusok az API-k létrehozásához. Ez az architektúra olyan alapszintű integrációs forgatókönyvek, ahol a sématelepítési munkafolyamatot a Háttérszolgáltatásokhoz szinkron hívások elegendő. A kifinomultabb architektúra használatával [várólisták és események](./queues-events.md) Ez a alapvető architektúra épül.
 
 ![Architekturális diagramja – egyszerű vállalati integráció](./_images/simple-enterprise-integration.png)
 
@@ -185,7 +187,7 @@ Használja a Logic Apps egy [kiszolgáló nélküli](/azure/logic-apps/logic-app
 
 ## <a name="next-steps"></a>További lépések
 
-A nagyobb megbízhatóság és skálázhatóság használatával üzenetsorokat és eseményeket a háttérrendszer rendszerek szétválaszthatók. Ez a minta jelenik meg a-sorozat következő referenciaarchitektúra: [üzenetsorokat és események használata vállalati integráció](./queues-events.md).
+A nagyobb megbízhatóság és skálázhatóság használatával üzenetsorokat és eseményeket a háttérrendszer rendszerek szétválaszthatók. Ez a minta-sorozat következő referencia-architektúra látható: [Vállalati integráció, az üzenetsorok és események](./queues-events.md).
 
 <!-- links -->
 

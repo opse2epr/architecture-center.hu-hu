@@ -5,13 +5,16 @@ description: A statikus tartalmakat egy felhőalapú társzolgáltatásban helye
 keywords: tervezési minta
 author: dragon119
 ms.date: 01/04/2019
+ms.topic: design-pattern
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: cf4f65e935a01e4d84b3cc82b5779edb729bd80e
-ms.sourcegitcommit: 036cd03c39f941567e0de4bae87f4e2aa8c84cf8
+ms.openlocfilehash: 719f0221ecc8d52267cba3136eec20dadef30b99
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/05/2019
-ms.locfileid: "54058182"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483445"
 ---
 # <a name="static-content-hosting-pattern"></a>Statikus tartalom üzemeltetési minta
 

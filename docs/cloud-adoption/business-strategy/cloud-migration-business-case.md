@@ -1,17 +1,20 @@
 ---
-title: Egy felhőbeli migrálás üzleti eset létrehozása
+title: Üzleti terv létrehozása felhőbe végzett migráláshoz
 titleSuffix: Enterprise Cloud Adoption
 description: Migrálás a felhőbe üzleti indoklásának készítése során megfontolandó szempontok
 author: BrianBlanchard
 ms.date: 12/10/2018
-ms.openlocfilehash: dd712c83fd82e7d9efe40f4e382910e2403088b3
-ms.sourcegitcommit: e7f8676bbffe500fc4d6deb603b7c0b7ba1884a6
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 8c27ce211f500ee2eec4f7775a7f68f214dba433
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/10/2018
-ms.locfileid: "53179456"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488324"
 ---
-# <a name="enterprise-cloud-adoption-building-a-cloud-migration-business-case"></a>Enterprise Cloud Adoption: Egy felhőbeli migrálás üzleti eset létrehozása
+# <a name="enterprise-cloud-adoption-building-a-cloud-migration-business-case"></a>Enterprise Cloud Adoption: Üzleti terv létrehozása felhőbe végzett migráláshoz
 
 A migrálás a felhőbe korai az elvárt megtérülési rátát (ROI) hozhat létre a felhő átalakítás folyamatában. Azonban a materiális egyértelmű üzleti indoklásának fejlesztésével, kapcsolódó költségeket, és adja vissza lehet összetett folyamat. Ez a cikk segítséget nyújt a úgy gondolja, hogy milyen adatokkal kapcsolatos létrehozásához szükséges egy pénzügyi modellt, amely igazodik a felhőbe migrálás eredményekkel. Először is hozzunk kihajtsuk kapcsolatos típusú felhőbeli migrálás, néhány tévhitet, így a szervezet néhány gyakori hibák elkerülése érdekében.
 

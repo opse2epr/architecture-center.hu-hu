@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.
 author: DharmeshBhagat
 ms.date: 09/12/2018
-ms.custom: fasttrack
-ms.openlocfilehash: 02a6eb43d3e11604857b8bd1f461c22a48f655c7
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.custom: fasttrack, SAP, Windows, Linux
+ms.openlocfilehash: 0f96f173d5db682ccc719869aaa22225345cb3f0
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54110927"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487474"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
@@ -72,12 +75,12 @@ Ebben a forgatókönyvben futtatásával járó költségeket felfedezheti érde
 
 Adtunk meg négy példa költség profilok kaphat forgalom mennyisége alapján:
 
-|Méret|A SAP|Virtuális gép adatbázistípus|Adatbázis-tárolóval|(A) SCS VIRTUÁLIS GÉP|(A) SCS-tároló|Alkalmazás VM-típus|Adattárolás|Azure díjkalkulátor|
+|Méret|A SAP|Virtuális gép adatbázistípus|Adatbázis-tárolóval|(A)SCS VM|(A)SCS Storage|Alkalmazás VM-típus|App Storage|Azure díjkalkulátor|
 |----|----|-------|-------|-----|---|---|--------|---------------|
-|Kicsi|30000|DS13_v2|4xP20, 1xP20|DS11_v2|1 x P10|DS13_v2|1 x P10|[Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c)|
-|Közepes|70000|DS14_v2|6xP20, 1xP20|DS11_v2|1 x P10|4 x DS13_v2|1 x P10|[Közepes](https://azure.com/e/9a523f79591347ca9a48c3aaa1406f8a)|
-Nagy|180000|E32s_v3|5xP30, 1xP20|DS11_v2|1 x P10|6 x DS14_v2|1 x P10|[Nagy méretű](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42)|
-Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1 x P10|10 x DS14_v2|1 x P10|[Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b)|
+|Kis méretű|30000|DS13_v2|4xP20, 1xP20|DS11_v2|1x P10|DS13_v2|1x P10|[Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c)|
+|Közepes|70000|DS14_v2|6xP20, 1xP20|DS11_v2|1x P10|4x DS13_v2|1x P10|[Közepes](https://azure.com/e/9a523f79591347ca9a48c3aaa1406f8a)|
+Nagy méretű|180000|E32s_v3|5xP30, 1xP20|DS11_v2|1x P10|6x DS14_v2|1x P10|[Nagy méretű](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42)|
+Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1x P10|10x DS14_v2|1x P10|[Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b)|
 
 > [!NOTE]
 > A díjszabás egy útmutató, és csak azt jelzi, hogy a virtuális gépek és tárolási költségeit. Nem tartalmazza a hálózati, biztonsági mentési tár, és a bejövő/kimenő adatforgalom díját.
@@ -90,7 +93,7 @@ Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1 x P10|10 x DS14_v2|1 x P10|[Extra 
 
 - [Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b): A 64 x vCPUs, 1024 GB RAM-MAL és 2000 GB ideiglenes tárhely,-emellett hét 1024 GB-os prémium szintű tárolólemezeket az adatbázis-kiszolgáló M64s VM-típus egy extra nagy méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. 10 virtuális gép DS14_v2 lemezzel 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá tíz 128 GB-os prémium szintű storage, az SAP-alkalmazáskiszolgálók írja be.
 
-## <a name="deployment"></a>Környezet
+## <a name="deployment"></a>Üzemelő példány
 
 A következő hivatkozás használatával ebben a forgatókönyvben az alapul szolgáló infrastruktúra üzembe helyezése.
 
@@ -106,12 +109,12 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 > [!NOTE]
 > SAP és Oracle nincs telepítve a központi telepítés során. Ezek az összetevők telepítését külön-külön kell.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Egyéb SAP számítási feladatok futtatása az Azure-ban kapcsolatos információkért tekintse át a következő referenciaarchitektúrákat:
 
 - [SAP NetWeaver a AnyDB](/azure/architecture/reference-architectures/sap/sap-netweaver)
-- [SAP S/4HANA-T](/azure/architecture/reference-architectures/sap/sap-s4hana)
+- [SAP S/4HANA](/azure/architecture/reference-architectures/sap/sap-s4hana)
 - [SAP HANA nagyméretű példányok](/azure/architecture/reference-architectures/sap/hana-large-instances)
 
 <!-- links -->

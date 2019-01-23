@@ -4,12 +4,15 @@ titleSuffix: Azure Reference Architectures
 description: Egy többrétegű architektúra megvalósítása az Azure-ban a rendelkezésre állás, biztonság, skálázhatósággal és kezelhetőséggel.
 author: MikeWasson
 ms.date: 11/12/2018
-ms.openlocfilehash: e0cd95eaf864164a5213a17e7e2bf89a9fb643fa
-ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.openlocfilehash: cf12d27ccaebb9845ada4d4a437e9889ea3325f2
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/17/2019
-ms.locfileid: "54372864"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485400"
 ---
 # <a name="windows-n-tier-application-on-azure-with-sql-server"></a>Az Azure-ban az SQL Server Windows N szintű alkalmazás
 

@@ -3,12 +3,15 @@ title: 'Enterprise Cloud Adoption: Működési – alapok'
 description: Útmutatás a működési – alapok
 author: petertaylor9999
 ms.date: 09/20/2018
-ms.openlocfilehash: d5f4c6529e92be387465a6ab9dca55267c584c11
-ms.sourcegitcommit: b7e521ba317f4fcd3253c80ac0c0a355eaaa56c5
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 26867e3ecce738f18c5a03ff41754281229851f4
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46534588"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481125"
 ---
 # <a name="establishing-an-operational-fitness-review"></a>Működési mentességre felülvizsgálat létrehozása
 
@@ -104,7 +107,7 @@ A folyamat, valamint a értekezlet saját igényeinek megfelelően módosítani 
 ## <a name="recommended-resources"></a>Ajánlott erőforrások
 
 - [Szoftverminőség alappillérei](../../guide/pillars.md).
-Az Azure architektúra-útmutató ezen szakasza a szoftverminőség öt alappillérét ismerteti: skálázhatóság, rendelkezésre állás, rugalmasság, felügyeleti és biztonsági.
+Az Azure architektúra-útmutató ezen szakasza a szoftverminőség öt alappillérét ismerteti: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
 - [10 tervezési elvek, az Azure-alkalmazásokhoz](../../guide/design-principles/index.md).
 Az Azure architektúra-útmutató ezen szakasza ismerteti a tervezési alapelveket az alkalmazás méretezhető, rugalmas és kezelhető egy készletét.
 - [Rugalmas alkalmazások tervezése az Azure](../../resiliency/index.md).

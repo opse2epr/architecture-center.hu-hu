@@ -3,12 +3,15 @@ title: Idősorozat-adatok
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 80dc797e6df16bff73fb9c5116ccce34d7d846f0
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: d7fc18d1d38fb545ea7905b41ea182eb186adfef
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111937"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487916"
 ---
 # <a name="time-series-solutions"></a>Idősorozattal kapcsolatos megoldások
 
@@ -69,7 +72,7 @@ A Time Series Insights séma, az adaptív, ami azt jelenti, hogy nem kell tennie
 
 ## <a name="technology-choices"></a>Technológiai lehetőségek
 
-- [Adattárolás](../technology-choices/data-storage.md)
+- [Data Storage](../technology-choices/data-storage.md)
 - [Elemzés, a Vizualizációk és a jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md)
 - [Analitikus adattárak](../technology-choices/analytical-data-stores.md)
 - [Az adatfolyam feldolgozása](../technology-choices/stream-processing.md)

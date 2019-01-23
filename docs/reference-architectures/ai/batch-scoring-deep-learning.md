@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkalmazandó egy videót, az Azure Batch AI segítségével.
 author: jiata
 ms.date: 10/02/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 0396903a39d00a4131df65872a63f4b3fde8dce7
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.openlocfilehash: 26a83b3f75b2e7e9ec4a8a99ab8b4d8f1b1ef4d7
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53119880"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488562"
 ---
 # <a name="batch-scoring-on-azure-for-deep-learning-models"></a>Kötegelt pontozási az Azure-on deep learning-modellek
 
@@ -18,7 +21,7 @@ Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkal
 
 ![Az Azure Batch AI segítségével mély tanulási modelleket architektúra diagramja](./_images/batch-ai-deep-learning.png)
 
-**A forgatókönyv**: A media szervezete egy videót, amelynek stílusát, így jelenik meg szeretne, például egy adott festmény. A szervezet szeretne tudni a stílus alkalmazása időben, és automatizált módon zajlik a videó minden keretet. További ismereteket a Neurális stílus átviteli algoritmusok, lásd: [kép stílus átvitel használata Konvolúciós Neurális hálózatokkal] [ image-style-transfer] (PDF).
+**A forgatókönyv**: Egy media szervezete egy videót, amelynek stílusát, így jelenik meg szeretne, például egy adott festmény. A szervezet szeretne tudni a stílus alkalmazása időben, és automatizált módon zajlik a videó minden keretet. További ismereteket a Neurális stílus átviteli algoritmusok, lásd: [kép stílus átvitel használata Konvolúciós Neurális hálózatokkal] [ image-style-transfer] (PDF).
 
 | Style-lemezképet: | A videó bemeneti/tartalom: | Kimeneti videót: |
 |--------|--------|---------|
@@ -76,7 +79,7 @@ Az összes régióban alapértelmezés szerint nem engedélyezettek a GPU-kkal. 
 
 ### <a name="parallelizing-across-vms-vs-cores"></a>Virtuális gépek és magok közötti párhuzamosan futtatni
 
-Batch-feladat egy stílust átviteli folyamat fut, amikor a feladatok elsősorban a GPU-n futó virtuális gépek között méretezésnek megfelelően kell. Két módszer lehetségesek: egyetlen GPU rendelkező virtuális gépeken nagyobb méretű fürtöt létrehozni, vagy hozzon létre egy kisebb fürtöt használó virtuális gépek sok gpu-kkal.
+Batch-feladat egy stílust átviteli folyamat fut, amikor a feladatok elsősorban a GPU-n futó virtuális gépek között méretezésnek megfelelően kell. Két módszer is lehetséges: Egyetlen GPU rendelkező virtuális gépeken nagyobb méretű fürtöt létrehozni, vagy hozzon létre egy kisebb fürtöt használó virtuális gépek sok gpu-kkal.
 
 Ilyen számítási feladatok esetében két lesz hasonló teljesítményt. Virtuális gépenként több gpu-kkal kevesebb virtuális gépek használatával segíthet csökkenteni az adatok áthelyezését. A számítási feladatonként adatmennyiség viszont nem nagyon nagy, ezért nem vizsgálja meg, mennyi szabályozás blob Storage.
 

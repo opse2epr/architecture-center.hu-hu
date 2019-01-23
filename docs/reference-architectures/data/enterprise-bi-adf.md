@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Egy kinyerési, betöltési és átalakítási (ELT) munkafolyamat az Azure-ban az Azure Data Factory használatával az SQL Data Warehouse szolgáltatással automatizálhatja.
 author: MikeWasson
 ms.date: 11/06/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 579ef0361ec44d0eb82b9076490eed5a6d88df35
-ms.sourcegitcommit: cd3de23543f739a95a1daf38886561f67add9d64
+ms.openlocfilehash: 020c401e9db85b76fd48c6df9be9c80d2ba5c7e4
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/10/2019
-ms.locfileid: "54183592"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481473"
 ---
 # <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
 
@@ -201,7 +204,7 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 - Az Azure Analysis Services-példányt.
 - Az Azure Data Factory és a Data Factory-folyamatot a ELT-feladathoz.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

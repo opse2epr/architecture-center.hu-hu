@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Alkalmazás üzembe helyezése az Azure-beli virtuális gépek több régióban a magas rendelkezésre állás és rugalmasság.
 author: MikeWasson
 ms.date: 07/19/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 5eef936dded1829ee561ce1b13df4fb147694dc7
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 384634acb8690c64f75eabbfebc5f1de414f6da2
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111988"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484618"
 ---
 # <a name="run-an-n-tier-application-in-multiple-azure-regions-for-high-availability"></a>Futtatása egy N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -160,7 +163,7 @@ Tesztelje a rendszer meghibásodásokkal szembeni rugalmasságát. Alább talál
 
 Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy azok megfelelnek az üzleti követelményeinek. Több hibaállapot kombinációját is tesztelje.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

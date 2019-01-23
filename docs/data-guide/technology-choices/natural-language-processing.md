@@ -3,12 +3,15 @@ title: A természetes nyelvi feldolgozási technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 699e01bc9905d02fc8ec1113039087189f6e8caf
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 20dc51e661befcc09dd1751b031d445ff2b9fa1a
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114113"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486488"
 ---
 # <a name="choosing-a-natural-language-processing-technology-in-azure"></a>Az Azure-ban technológia feldolgozása természetes nyelv kiválasztása
 
@@ -46,34 +49,34 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | Azure HDInsight | Microsoft Cognitive Services |
 | --- | --- | --- |
-| Modellek imagenet kínál szolgáltatásként | Nem | Igen |
+| Modellek imagenet kínál szolgáltatásként | Nincs | Igen |
 | REST API | Igen | Igen |
 | Programozhatóság | Python, Scala, Java | C#, Java, Node.js, Python, PHP, Ruby |
-| Big data jellegű adatkészletek és a nagy dokumentumok feldolgozásának támogatásához | Igen | Nem |
+| Big data jellegű adatkészletek és a nagy dokumentumok feldolgozásának támogatásához | Igen | Nincs |
 
 ### <a name="low-level-natural-language-processing-capabilities"></a>Az alsó szintű természetes nyelvi feldolgozási képességek
 
 | | Azure HDInsight | Microsoft Cognitive Services |  
 | --- | --- | --- |
 | Jogkivonatokat létrehozó | Igen (Spark NLP) | Igen (nyelvi elemzési API-t) |
-| Szótőkereső | Igen (Spark NLP) | Nem |
-| Lemmatizer | Igen (Spark NLP) | Nem |
+| Szótőkereső | Igen (Spark NLP) | Nincs |
+| Lemmatizer | Igen (Spark NLP) | Nincs |
 | Szövegrészeket része | Igen (Spark NLP) | Igen (nyelvi elemzési API-t) |
-| Kifejezés gyakoriság/inverz-dokumentum gyakorisága (TF/IDF) | Igen (Spark MLlib) | Nem |
-| Karakterlánc-hasonlóság&mdash;távolság számítási szerkesztése | Igen (Spark MLlib) | Nem |
-| N-Gram típusú számítási | Igen (Spark MLlib) | Nem |
-| Állítsa le a word eltávolítása | Igen (Spark MLlib) | Nem |
+| Kifejezés gyakoriság/inverz-dokumentum gyakorisága (TF/IDF) | Igen (Spark MLlib) | Nincs |
+| Karakterlánc-hasonlóság&mdash;távolság számítási szerkesztése | Igen (Spark MLlib) | Nincs |
+| N-Gram típusú számítási | Igen (Spark MLlib) | Nincs |
+| Állítsa le a word eltávolítása | Igen (Spark MLlib) | Nincs |
 
 ### <a name="high-level-natural-language-processing-capabilities"></a>Magas szintű természetes nyelvi feldolgozási képességek
 
 | | Azure HDInsight | Microsoft Cognitive Services |
 | --- | --- | --- |
-| Entitás/szándékot azonosítása és kinyerése | Nem | Igen (Language Understanding Intelligent Service (LUIS) API) |
+| Entitás/szándékot azonosítása és kinyerése | Nincs | Igen (Language Understanding Intelligent Service (LUIS) API) |
 | Téma azonosítása | Igen (Spark NLP) | Igen (szövegelemzési API-val) |
 | Helyesírás-ellenőrzés | Igen (Spark NLP) | Igen (a Bing Spell Check API bemutatása) |
 | Hangulatelemzés | Igen (Spark NLP) | Igen (szövegelemzési API-val) |
-| Nyelvfelismerés | Nem | Igen (szövegelemzési API-val) |
-| Angol mellett több nyelvet is támogat | Nem | Igen (eltérő API-t) |
+| Nyelvfelismerés | Nincs | Igen (szövegelemzési API-val) |
+| Angol mellett több nyelvet is támogat | Nincs | Igen (eltérő API-t) |
 
 ## <a name="see-also"></a>Lásd még
 

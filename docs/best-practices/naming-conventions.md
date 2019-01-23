@@ -4,13 +4,16 @@ titleSuffix: Best practices for cloud applications
 description: Virtuális gépek, tárfiókok, hálózatok, virtuális hálózatok, alhálózatok és egyéb Azure-entitások elnevezése javaslatok.
 author: telmosampaio
 ms.date: 10/19/2018
+ms.topic: best-practice
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: f0349b5db7eb15037bd92567eaf917b5d044daa0
-ms.sourcegitcommit: 036cd03c39f941567e0de4bae87f4e2aa8c84cf8
+ms.openlocfilehash: a5fbe72e81a169fd4b29e07e037bb7f8928e0c45
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/05/2019
-ms.locfileid: "54058199"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482384"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -42,7 +45,7 @@ Az előfizetések elnevezésének ajánlott mintája a következő:
 | --- | --- | --- | --- | --- |
 | Contoso |SocialGaming |AwesomeService |Production |Contoso SocialGaming AwesomeService Production |
 | Contoso |SocialGaming |AwesomeService |Dev |Contoso SocialGaming AwesomeService Dev |
-| Contoso |IT |InternalApps |Production |Contoso IT InternalApps Production |
+| Contoso |IT |InternalApps |Üzemi |Contoso IT InternalApps Production |
 | Contoso |IT |InternalApps |Dev |Contoso IT InternalApps Dev |
 
 A nagyobb vállalatok előfizetéseinek további információkért lásd: [Azure enterprise scaffold - előíró előfizetés-irányítás](/azure/architecture/cloud-adoption/appendix/azure-scaffold).
@@ -61,8 +64,8 @@ Az elő- és utótagok az adott erőforrások különböző aspektusaira utalhat
 | Aspektus | Példa | Megjegyzések |
 | --- | --- | --- |
 | Környezet |dev, prod, QA (fejlesztői, éles, minőségbiztosítási) |Az erőforrás környezetét határozza meg |
-| Hely |uw (USA nyugati régiója), ue (USA keleti régiója) |A régiót jelöli, amelyben az erőforrás üzembe van helyezve |
-| Példány |1, 2... |Az olyan erőforrásokhoz, például virtuális gépeket vagy a hálózati adapterek több megnevezett példánnyal rendelkezik. |
+| Tartózkodási hely |uw (USA nyugati régiója), ue (USA keleti régiója) |A régiót jelöli, amelyben az erőforrás üzembe van helyezve |
+| Példány |1, 2, ... |Az olyan erőforrásokhoz, például virtuális gépeket vagy a hálózati adapterek több megnevezett példánnyal rendelkezik. |
 | Termék vagy szolgáltatás |szolgáltatás |Az erőforrás által támogatott terméket, alkalmazást vagy szolgáltatást jelöli |
 | Szerepkör |sql, web, messaging (sql, web, üzenetkezelés) |A társított erőforrás szerepét jelöli |
 
@@ -74,57 +77,57 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 Általában nem ajánlott a speciális karakterek (`-` vagy `_`) használata a nevek első és utolsó karaktereként. Ezek a karakterek a legtöbb érvényesítési szabállyal ütköznek.
 
-### <a name="general"></a>Általános kérdések
+### <a name="general"></a>Általános
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket, amelyek megfelelnek a következő reguláris kifejezésre dokumentált [Itt](/rest/api/resources/resourcegroups/createorupdate). |`<service short name>-<environment>-rg` |`profx-prod-rg` |
-|Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
+|Erőforráscsoport |Előfizetés |1-90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket, amelyek megfelelnek a következő reguláris kifejezésre dokumentált [Itt](/rest/api/resources/resourcegroups/createorupdate). |`<service short name>-<environment>-rg` |`profx-prod-rg` |
+|Rendelkezésre állási csoport |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek |`"key" : "value"` |`"department" : "Central IT"` |
 
-### <a name="compute"></a>Compute
+### <a name="compute"></a>Számítás
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
 |Virtuális gép |Erőforráscsoport |1–15 (Windows), 1–64 (Linux) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<name>-<role>-vm<number>` |`profx-sql-vm1` |
-|Függvényalkalmazás | Globális |1–60 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<name>-func` |`calcprofit-func` |
+|Függvényalkalmazás | Globális |1-60 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<name>-func` |`calcprofit-func` |
 
 > [!NOTE]
 > Az Azure-ban a virtuális gépek két különböző névvel rendelkeznek: egy virtuálisgép-névvel és egy gazdagépnévvel. Amikor létrehoz egy virtuális gépet a portálon, ugyanaz a név lesz a gazdagépnév és a virtuális gép erőforrásneve is. A fenti korlátozások a gazdagépnévre vonatkoznak. A tényleges erőforrásnév legfeljebb 64 karakterből állhat.
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárhely
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Tárfiók neve (adatok) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (egy függvénnyel számítson ki egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
-|Tárfiók neve (lemezek) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<vm name without hyphens>st<number>` |`profxsql001st0` |
-| Tárolónév |Tárfiók |3-63 |Kisbetűs |Alfanumerikus karakterek és kötőjel |`<context>` |`logs` |
-|A blob neve | Tároló |1–1024 |Kis- és nagybetűk megkülönböztetése |Bármely URL-karakter |`<variable based on blob usage>` |`<variable based on blob usage>` |
+|Tárfiók neve (adatok) |Globális |3-24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (egy függvénnyel számítson ki egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
+|Tárfiók neve (lemezek) |Globális |3-24 |Kisbetűs |Alfanumerikus karakterek |`<vm name without hyphens>st<number>` |`profxsql001st0` |
+| Tároló neve |Tárfiók |3-63 |Kisbetűs |Alfanumerikus karakterek és kötőjel |`<context>` |`logs` |
+|Blob neve | Tároló |1-1024 |Kis- és nagybetűk megkülönböztetése |Bármely URL-karakter |`<variable based on blob usage>` |`<variable based on blob usage>` |
 |Üzenetsor neve |Tárfiók |3-63 |Kisbetűs |Alfanumerikus karakterek és kötőjel |`<service short name>-<context>-<num>` |`awesomeservice-messages-001` |
 |Tábla neve | Tárfiók |3-63 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek |`<service short name><context>` |`awesomeservicelogs` |
-|Fájlnév | Tárfiók |3-63 |Kisbetűs | Alfanumerikus karakterek |`<variable based on blob usage>` |`<variable based on blob usage>` |
-|Data Lake Store | Globális |3–24 |Kisbetűs | Alfanumerikus karakterek |`<name>dls` |`telemetrydls` |
+|Fájl neve | Tárfiók |3-63 |Kisbetűs | Alfanumerikus karakterek |`<variable based on blob usage>` |`<variable based on blob usage>` |
+|Data Lake Store | Globális |3-24 |Kisbetűs | Alfanumerikus karakterek |`<name>dls` |`telemetrydls` |
 
-### <a name="networking"></a>Hálózat
-
-| Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
-| --- | --- | --- | --- | --- | --- | --- |
-|Virtuális hálózat (VNet) |Erőforráscsoport |2–64 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-vnet` |`profx-vnet` |
-|Alhálózat |Szülő VNet |2–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`web` |
-|Hálózati adapter |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vmname>-nic<num>` |`profx-sql1-vm1-nic1` |
-|Hálózati biztonsági csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-<context>-nsg` |`profx-app-nsg` |
-|Hálózat biztonsági csoport szabálya |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`sql-allow` |
-|Nyilvános IP-cím |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vm or service name>-pip` |`profx-sql1-vm1-pip` |
-|Load Balancer |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-lb` |`profx-lb` |
-|Terheléselosztási szabályok konfigurációja |Load Balancer |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`http` |
-|Azure Application Gateway |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-agw` |`profx-agw` |
-|Traffic Manager-profil |Erőforráscsoport |1–63 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet és időszak |`<descriptive context>` |`app1` |
-
-### <a name="containers"></a>Containers
+### <a name="networking"></a>Hálózatkezelés
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Container Registry | Globális |5 – 50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karakterek |`<service short name>registry` |`app1registry` |
+|Virtuális hálózat (VNet) |Erőforráscsoport |2-64 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-vnet` |`profx-vnet` |
+|Alhálózat |Szülő VNet |2-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`web` |
+|Hálózati adapter |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vmname>-nic<num>` |`profx-sql1-vm1-nic1` |
+|Hálózati biztonsági csoport |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service short name>-<context>-nsg` |`profx-app-nsg` |
+|Hálózat biztonsági csoport szabálya |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`sql-allow` |
+|Nyilvános IP-cím |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<vm or service name>-pip` |`profx-sql1-vm1-pip` |
+|Load Balancer |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-lb` |`profx-lb` |
+|Terheléselosztási szabályok konfigurációja |Load Balancer |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<descriptive context>` |`http` |
+|Azure Application Gateway |Erőforráscsoport |1-80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet, aláhúzásjelet és időszak |`<service or role>-agw` |`profx-agw` |
+|Traffic Manager-profil |Erőforráscsoport |1-63 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, kötőjelet és időszak |`<descriptive context>` |`app1` |
+
+### <a name="containers"></a>Tárolók
+
+| Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
+| --- | --- | --- | --- | --- | --- | --- |
+|Tárolóregisztrációs adatbázis | Globális |5-50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karakterek |`<service short name>registry` |`app1registry` |
 
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 
@@ -162,7 +165,7 @@ Néhány gyakori címkézési módszer bemutatása példákkal:
 
 Bizonyos erőforrástípusok elnevezése és konvenciói nagyobb figyelmet igényelhetnek.
 
-### <a name="virtual-machines"></a>Virtual machines (Virtuális gépek)
+### <a name="virtual-machines"></a>Virtual machines
 
 Különösen nagyobb topológiák esetén a virtuális gépek jól átgondolt elnevezésével könnyebben azonosítható az egyes gépek szerepe és feladata, ami kiszámíthatóbb szkripthasználatot eredményez.
 

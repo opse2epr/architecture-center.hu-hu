@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Áttekintés az Azure-beli adattárak kiválasztása.
 author: MikeWasson
 ms.date: 06/01/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 472b01a3316edd92f069e9395e8058fef3ef1fa6
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 91a551025ae697d5828fc1e398b204d2901d17f6
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114266"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486182"
 ---
 # <a name="choose-the-right-data-store"></a>A megfelelő adattároló kiválasztása
 
@@ -132,13 +135,13 @@ Kapcsolódó Azure-szolgáltatás: [A Time Series Insights][time-series]
 
 Az objektumtároló nagy méretű bináris objektumok (képek, fájlok, video- és audiostreamek, nagy méretű alkalmazás-adatobjektumok és dokumentumok, virtuális gépek lemezképei) tárolására van optimalizálva. Az ezen tárolótípusokban szereplő objektumokat a tárolt adatok, metaadatok és az objektum eléréséhez szükséges egyedi azonosítók alkotják. Az objektum lehetővé teszi a strukturálatlan adatok rendkívüli mennyiségeinek kezelését.
 
-Kapcsolódó Azure-szolgáltatás: [A BLOB Storage][blob]
+Kapcsolódó Azure-szolgáltatás: [Blob Storage][blob]
 
 ## <a name="shared-files"></a>Megosztott fájlok
 
 Időnként az egyszerű, egybesimított fájlok használata az információk tárolásának és lekérésének leghatékonyabb módja. A fájlmegosztások használatával a fájlok egy egész hálózaton elérhetők. A megfelelő biztonsági és egyidejű hozzáférési vezérlőmechanizmusok jelenlétében az adatok ilyen módon történő megosztása révén a megosztott szolgáltatások nagymértékben skálázható adathozzáférést biztosíthatnak az alapvető, alacsony szintű műveletek (például egyszerű olvasási és írási kérések) végrehajtásához.
 
-Kapcsolódó Azure-szolgáltatás: [A File Storage][file-storage]
+Kapcsolódó Azure-szolgáltatás: [File Storage][file-storage]
 
 <!-- links -->
 

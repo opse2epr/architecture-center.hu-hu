@@ -4,19 +4,22 @@ description: Ismerje meg, hogyan hozhat létre az Azure-beli virtuális adatköz
 author: tracsman
 manager: rossort
 tags: azure-resource-manager
-ms.service: virtual-network
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: virtual-network
 ms.date: 11/28/2018
 ms.author: jonor
-ms.openlocfilehash: f02cc7df1e90ba3de97a1c25777ab6d27bfdf697
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 1f61996d231f3bf0cc2c550f4d3e119116bb7bc0
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011193"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488647"
 ---
 # <a name="azure-virtual-datacenter-a-network-perspective"></a>Az Azure virtual datacenter: A hálózati nézőpont
 
-## <a name="overview"></a>Áttekintés
+## <a name="overview"></a>Áttekintés (klasszikus)
 
 Migrálás a helyszíni alkalmazások Azure-bA értékelemeket biztosít a szervezetek a biztonságos és költséghatékony infrastruktúra, akkor is, ha az alkalmazások minimális változtatása mellett települnek át. Azonban ahhoz, hogy a legtöbbet a rugalmasságot lehetséges a felhő-számítástechnika, vállalatok kell fejlesztheti tovább az Azure-képességek kihasználásához architektúrák. 
 
@@ -103,7 +106,7 @@ Egy [ **az Azure Site-to-Site VPN** ] [ VPN] az összekapcsolási szolgáltatás
 
 A VPN-kapcsolatok, nagy számú [ **Azure virtuális WAN** ] [ vWAN] egy hálózati szolgáltatás, amely optimalizált, és automatizált ág ágba irányuló kapcsolat Azure-t. A Virtual WAN segítségével ágeszközöket csatlakoztathat és konfigurálhat az Azure-ral való kommunikációra. Csatlakozás és a konfigurálás elvégezhető manuálisan vagy egy virtuális WAN-partneren keresztül előnyben részesített szolgáltató eszközök használatával. Előnyben részesített szolgáltató eszközök használata lehetővé teszi a könnyű használat, kapcsolat és a konfigurációkezelés egyszerűsítése. Az Azure WAN beépített irányítópultjával azonnali hibaelhárítási segítséget kaphat, amelynek köszönhetően időt takaríthat meg, valamint könnyen áttekintheti a nagy kiterjedésű helyek közötti kapcsolatokat.
 
-[**Az ExpressRoute** ] [ ExR] egy kapcsolatot az Azure szolgáltatás, amely lehetővé teszi a privát kapcsolatok a VDC-megvalósítás és bármely helyszíni hálózat között. Az ExpressRoute-kapcsolatok nem a nyilvános interneten keresztül, és nagyobb biztonságot, megbízhatóságot és egységes késést és nagyobb sebesség (legfeljebb 10 GB/s). Az ExpressRoute hasznos a VDC-implementációkban, ExpressRoute privát kapcsolatok társított megfelelőségi szabályok előnyeit magonkénti. Az ExpressRoute közvetlen,][ExRD] kapcsolódhat közvetlenül a Microsoft útválasztói 100 GB/s sávszélesség nagyobb igényekkel rendelkező ügyfél számára.
+[**Az ExpressRoute** ] [ ExR] egy kapcsolatot az Azure szolgáltatás, amely lehetővé teszi a privát kapcsolatok a VDC-megvalósítás és bármely helyszíni hálózat között. Az ExpressRoute-kapcsolatok nem a nyilvános interneten keresztül, és nagyobb biztonságot, megbízhatóságot és egységes késést és nagyobb sebesség (legfeljebb 10 GB/s). Az ExpressRoute hasznos a VDC-implementációkban, ExpressRoute privát kapcsolatok társított megfelelőségi szabályok előnyeit magonkénti. A [ExpressRoute közvetlen][ExRD], kapcsolódhat közvetlenül a Microsoft útválasztói 100 GB/s sávszélesség nagyobb igényekkel rendelkező ügyfél számára.
 
 Az ExpressRoute-kapcsolatok általában telepítése magában foglalja egy ExpressRoute-szolgáltató révén. A gyorsan elkezdheti a munkát igénylő ügyfelek szokás kezdetben a VDC-megvalósítás és a helyszíni erőforrások közötti kapcsolatot, majd telepítse át az ExpressRoute-kapcsolat a helyek közötti VPN használatával során a fizikai, az összekapcsolás a szolgáltató számára befejeződött.
 
@@ -213,7 +216,7 @@ Infrastruktúra-összetevőket kell a következő funkciókat:
 -   [**RBAC**][RBAC]. RBAC, keresztül térkép szervezeti szerepkörhöz adott Azure-erőforrások, így korlátozhatja a felhasználók csak bizonyos részét műveletek hozzáférési jogokkal együtt. Az RBAC lehet hozzáférést biztosítani a megfelelő szerepkört rendelhet a felhasználók, csoportok és alkalmazások megfelelő hatókörébe. Szerepkör-hozzárendelés hatóköre az Azure-előfizetés, erőforráscsoport vagy egyetlen erőforrás lehet. Az RBAC lehetővé teszi, hogy az engedélyek öröklődése. Egy szülő hatókörben hozzárendelt szerepkör is hozzáférést biztosít az ebben lévő gyermekei. Az RBAC használatával, feladatköröket, és csak olyan mértékű hozzáférést biztosítson a felhasználók számára, amelyek a feladataik elvégzéséhez szükségük van. Például, hogy a virtuális gépek található egy előfizetésben, kezelése, miközben egy másik SQL-adatbázisok kezelheti ugyanazon az előfizetésen belül egy alkalmazott RBAC használatát.
 -   [**Virtuális hálózatok közötti társviszony-létesítés**][VNetPeering]. A a VDC infrastruktúra létrehozásához használt alapvető funkció a virtuális hálózatok közötti Társviszony olyan mechanizmus, amely összeköti a két virtuális hálózatok (Vnetek) ugyanabban a régióban az Azure-adatközpont-hálózat, vagy az Azure világszerte gerinchálózatát használva régióban.
 
-#### <a name="component-type-perimeter-networks"></a>Összetevő típusa: Szegélyhálózat
+#### <a name="component-type-perimeter-networks"></a>Component Type: Szegélyhálózat
 
 [Szegélyhálózat] [ DMZ] összetevők engedélyezése a helyszíni vagy a fizikai adatközpont-hálózatok, valamint minden olyan kapcsolat, az Internet felé és felől közötti hálózati kapcsolat. Emellett akkor is, ahol a hálózati és biztonsági valószínűleg részlegeknek legtöbb idejüket.
 
@@ -269,7 +272,7 @@ Az Azure Load Balancer is megvizsgálja, valamint a különböző kiszolgálóp�
 
 [**Az Azure DDoS Protection Standard** ] [ DDOS] képest további veszélyelhárítási szolgáltatásokat nyújt a [alapszintű szolgáltatási] [ DDOS] hangolt szint kifejezetten az Azure virtuális hálózati erőforrásokat. A DDoS Protection Standard engedélyezése egyszerű, és nem kell application módosítani. Az alkalmazásvédelmi szabályzatok hangolt dedikált forgalomfigyelést és gépi tanulási algoritmus segítségével. A virtuális hálózatokon üzembe helyezett erőforrásokhoz rendelt nyilvános IP-címek szabályzatok érvényesek. Példák Azure Service Fabric, Azure Load Balancer és Azure Application Gateway-példány. Valós idejű telemetriai adatokat az Azure Monitor nézetek keresztül érhető el, a támadás során, és az előzmények. Alkalmazásréteg-védelem az Azure Application Gateway webalkalmazásokhoz használható tűzfal segítségével is hozzáadhat. Védelmet biztosítanak a nyilvános IP-címek IPv4 Azure.
 
-#### <a name="component-type-monitoring"></a>Összetevő típusa: Figyelés
+#### <a name="component-type-monitoring"></a>Összetevő típusa: Monitoring
 
 Figyelési összetevők látható-e, és a más összetevők adattípusok riasztási adja meg. Csapatok mindegyikével kell férniük a figyelést az összetevők és szolgáltatások hozzáféréssel rendelkeznek. Vannak egy központi súgó segélyszolgálathoz vagy a műveleti csoportok, az adatokhoz, ezek az összetevők által biztosított integrált hozzáférést igényelnek.
 
@@ -292,7 +295,7 @@ Fontos, hogy az NSG-k naplók, különösen ezeket az információkat nyomon:
 
 Az összes napló tárolható a naplózási, elemzési statikus vagy biztonsági mentési célból az Azure storage-fiókot. Azure-tárfiók tárolja a naplókat, ha ügyfelek különböző típusú keretrendszerek használatával lekérni, -előkészítési, elemzése, és jelenítse meg az adatokat jelenti az állapotot és a felhőbeli erőforrások állapotát. 
 
-A nagyobb cégeknek is kell már szerezték be olyan szabványos keretrendszer, a helyszíni rendszerek figyelése. Integrálható a felhőben üzemelő példányok által létrehozott naplók a keretrendszer kiterjesztheti azokat. Az [Azure Log Analytics] [https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-queries], szervezetek megtarthatja az összes naplózási a felhőben. A log Analytics felhőalapú szolgáltatásként van megvalósítva. Ezért kell, és gyorsan és az infrastrukturális szolgáltatásokra fordítandó minimális kiadások mellett. A log Analytics is integrálhatja a System Center-összetevőket, például a System Center Operations Manager bővítése a meglévő felügyeleti beruházások kiterjeszthetők a felhőre. 
+A nagyobb cégeknek is kell már szerezték be olyan szabványos keretrendszer, a helyszíni rendszerek figyelése. Integrálható a felhőben üzemelő példányok által létrehozott naplók a keretrendszer kiterjesztheti azokat. Használatával [Azure Log Analytics](/azure/log-analytics/log-analytics-queries), szervezetek megtarthatja az összes naplózási a felhőben. A log Analytics felhőalapú szolgáltatásként van megvalósítva. Ezért kell, és gyorsan és az infrastrukturális szolgáltatásokra fordítandó minimális kiadások mellett. A log Analytics is integrálhatja a System Center-összetevőket, például a System Center Operations Manager bővítése a meglévő felügyeleti beruházások kiterjeszthetők a felhőre. 
 
 A log Analytics szolgáltatása az Azure-ban, amely segít összegyűjtését, összekapcsolását, keressen, és operációs rendszerek, alkalmazások és infrastruktúra felhőalapú összetevők által generált napló- és teljesítményadatokat az adatokkal műveleteket végezni. Ügyfelek biztosít a rekordok elemezze a feladatait a VDC-példányában integrált keresést és egyéni irányítópultok segítségével valós idejű az operational insights.
 
@@ -312,7 +315,7 @@ A log Analytics szolgáltatása az Azure-ban, amely segít összegyűjtését, �
 
 A [Network Performance Monitor] [ NPM] belül az Operations Management Suite megoldás részletes hálózati információkat teljes körű biztosítja. Ezen információk közé tartozik az Azure-hálózatok és a helyszíni hálózatok egyetlen nézetben. A megoldás adott figyelők rendelkezik ExpressRoute- és nyilvános szolgáltatások.
 
-#### <a name="component-type-workloads"></a>Összetevő típusa: Számítási feladatok
+#### <a name="component-type-workloads"></a>Összetevő típusa: Alkalmazások és szolgáltatások
 
 Számítási feladatok összetevői a tényleges alkalmazások és szolgáltatások-ket. Emellett akkor is, ahol az alkalmazás fejlesztői részlegeknek legtöbb idejüket.
 
@@ -373,24 +376,24 @@ Azt javasoljuk, hogy ellenőrizze a késés és sávszélesség az ezeket a kapc
 
 Mert DNS használ, a Traffic Manager van, csak az Azure nyilvános végpontokra való használatra.  A szolgáltatás általában segítségével szabályozhatja, vagy átirányít a forgalom Azure virtuális gépek és a Web Apps-példány a VDC-megvalósítás kifogástalan állapotú. A TRAFFIC Manager képes legyen ellenállni egy teljes Azure-régiót meghibásodása esetén is, és szabályozhatja a különböző kritériumok alapján különböző Ügyfélszempontokat szolgáltatásvégpontokra érkező felhasználói forgalom elosztása. Ha például egy adott VDC megvalósítása, illetve a VDC megvalósítása a legalacsonyabb hálózati késéssel rendelkező szolgáltatásának sikertelen.
 
-### <a name="summary"></a>Összegzés
+### <a name="summary"></a>Összefoglalás
 
 A virtuális adatközpont adatközpont áttelepítési létrehozása egy méretezhető architektúra az Azure-ban, amely maximalizálja a felhőalapú erőforrások használatával, csökkenti a költségeket, és egyszerűbbé teszi a rendszer cégirányítási megközelítés. A VDC alapul egy küllős hálózati topológiában, közös megosztott szolgáltatások az agyi, és lehetővé teszi az adott alkalmazások és számítási feladatok a küllők az. A VDC is megfelel a struktúra vállalati szerepkörök, ahol különböző részlegek központi informatikai, DevOps, üzemeltetése és karbantartása, például az összes együttműködve adott szerepkörökhöz végrehajtása közben. A VDC-megfelel a "Lift and Shift" áttelepítés, de a natív felhőalapú rendszerbe sok előnyt is biztosít.
 
-## <a name="references"></a>Referencia
+## <a name="references"></a>Hivatkozások
 
 Ez a dokumentum a következő funkciókat is tárgyalja. A hivatkozásokat követve tudhat meg többet.
 
 | | | |
 |-|-|-|
-|Hálózati szolgáltatások|Terheléselosztás|Kapcsolatok|
-|[Azure virtuális hálózatok][VNet]</br>[Hálózati biztonsági csoportok][NSG]</br>[NSG-naplók][NSGLog]</br>[Felhasználó által megadott útvonal][UDR]</br>[Hálózati virtuális berendezések][NVA]</br>[Nyilvános IP-címek][PIP]</br>[Az Azure DDOS][DDOS]</br>[Az Azure-tűzfal][AzFW]</br>[Az Azure DNS][DNS]|[Az Azure bejárati ajtajának][AFD]</br>[Az Azure Load Balancer (3.) ][ALB]</br>[Az Alkalmazásátjáró (7. rétegbeli) ][AppGW]</br>[Webalkalmazási tűzfal][WAF]</br>[Az Azure Traffic Manager][TM]</br></br></br></br></br> |[Virtuális hálózatok közötti Társviszony][VNetPeering]</br>[Virtuális magánhálózat][VPN]</br>[Virtuális WAN][vWAN]</br>[ExpressRoute][ExR]</br>[Az ExpressRoute közvetlen][ExRD]</br></br></br></br></br>
-|Identitás</br>|Figyelés</br>|Ajánlott eljárások</br>|
-|[Azure Active Directory][AAD]</br>[A multi-factor Authentication szolgáltatás][MFA]</br>[Szerepkör alap hozzáférés-vezérlés][RBAC]</br>[Alapértelmezett Azure AD-szerepkörök][Roles]</br></br></br> |[A Network Watcher][NetWatch]</br>[Az Azure Monitor][Monitor]</br>[Tevékenységnaplók][ActLog]</br>[Diagnosztikai naplók][DiagLog]</br>[A Microsoft Operations Management Suite][OMS]</br>[A Network Performance Monitor][NPM]|[Szegélyhálózat-alapú hálózatok, ajánlott eljárások][DMZ]</br>[Előfizetések kezelése][SubMgmt]</br>[Erőforrás-csoportok kezelése][RGMgmt]</br>[Azure-előfizetés korlátai][Limits] </br></br></br>|
+|Hálózati szolgáltatások|Terheléselosztás|Kapcsolat|
+|[Azure virtuális hálózatok][VNet]</br>[Hálózati biztonsági csoportok][NSG]</br>[NSG-naplók][NSGLog]</br>[Felhasználó által megadott útvonal][UDR]</br>[Hálózati virtuális berendezések][NVA]</br>[Nyilvános IP-címek][PIP]</br>[Azure DDOS][DDOS]</br>[Az Azure-tűzfal][AzFW]</br>[Azure DNS][DNS]|[Az Azure bejárati ajtajának][AFD]</br>[Az Azure Load Balancer (3.) ][ALB]</br>[Az Alkalmazásátjáró (7. rétegbeli) ][AppGW]</br>[Webalkalmazási tűzfal][WAF]</br>[Az Azure Traffic Manager][TM]</br></br></br></br></br> |[Virtuális hálózatok közötti Társviszony][VNetPeering]</br>[Virtuális magánhálózat][VPN]</br>[Virtuális WAN][vWAN]</br>[ExpressRoute][ExR]</br>[ExpressRoute Direct][ExRD]</br></br></br></br></br>
+|Identitás</br>|Monitoring</br>|Ajánlott eljárások</br>|
+|[Azure Active Directory][AAD]</br>[A multi-factor Authentication szolgáltatás][MFA]</br>[Szerepkör alap hozzáférés-vezérlés][RBAC]</br>[Alapértelmezett Azure AD-szerepkörök][Roles]</br></br></br> |[A Network Watcher][NetWatch]</br>[Azure Monitor][Monitor]</br>[Tevékenységnaplók][ActLog]</br>[Diagnosztikai naplók][DiagLog]</br>[A Microsoft Operations Management Suite][OMS]</br>[A Network Performance Monitor][NPM]|[Szegélyhálózat-alapú hálózatok, ajánlott eljárások][DMZ]</br>[Előfizetések kezelése][SubMgmt]</br>[Erőforrás-csoportok kezelése][RGMgmt]</br>[Azure-előfizetés korlátai][Limits] </br></br></br>|
 |Más Azure-szolgáltatások|
-|[Az Azure Web Apps alkalmazások][WebApps]</br>[Hdinsight (Hadoop) ][HDI]</br>[Event Hubs][EventHubs]</br>[Szolgáltatásbusz][ServiceBus]|
+|[Azure Web Apps][WebApps]</br>[Hdinsight (Hadoop) ][HDI]</br>[Event Hubs][EventHubs]</br>[Szolgáltatásbusz][ServiceBus]|
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
  - Ismerkedés a [virtuális hálózatok közötti társviszony-létesítés][VNetPeering], a megerősítő technológiát a VDC küllős tervek
  - Alkalmazzon [Azure ad-ben] [ AAD] használatába [RBAC] [ RBAC] feltárása
@@ -421,7 +424,7 @@ Ez a dokumentum a következő funkciókat is tárgyalja. A hivatkozásokat köve
 [AAD]: /azure/active-directory/active-directory-whatis
 [VPN]: /azure/vpn-gateway/vpn-gateway-about-vpngateways 
 [ExR]: /azure/expressroute/expressroute-introduction
-[ExRD]: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-erdirect-about
+[ExRD]: /azure/expressroute/expressroute-erdirect-about
 [vWAN]: /azure/virtual-wan/virtual-wan-about
 [NVA]: /azure/architecture/reference-architectures/dmz/nva-ha
 [AzFW]: /azure/firewall/overview
@@ -431,7 +434,7 @@ Ez a dokumentum a következő funkciókat is tárgyalja. A hivatkozásokat köve
 [ALB]: /azure/load-balancer/load-balancer-overview
 [DDOS]: /azure/virtual-network/ddos-protection-overview
 [PIP]: /azure/virtual-network/resource-groups-networking#public-ip-address
-[AFD]: https://docs.microsoft.com/en-us/azure/frontdoor/front-door-overview
+[AFD]: /azure/frontdoor/front-door-overview
 [AppGW]: /azure/application-gateway/application-gateway-introduction
 [WAF]: /azure/application-gateway/application-gateway-web-application-firewall-overview
 [Monitor]: /azure/monitoring-and-diagnostics/

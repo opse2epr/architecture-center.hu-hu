@@ -1,17 +1,20 @@
 ---
-title: A digitális hagyatéki tervezési megközelítés
+title: A digitális tulajdonnal kapcsolatos tervezés megközelítései
 titleSuffix: Enterprise Cloud Adoption
 description: Néhány olyan módszert a digitális hagyatéki tervezési ismerteti
 author: BrianBlanchard
 ms.date: 12/10/2018
-ms.openlocfilehash: 5803447ff87e733aa5a9c24ac626bba665b8394a
-ms.sourcegitcommit: e7f8676bbffe500fc4d6deb603b7c0b7ba1884a6
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 59c9e208254eaa0e8beb365718ef59d0694094f3
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/10/2018
-ms.locfileid: "53179448"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482221"
 ---
-# <a name="enterprise-cloud-adoption-approaches-to-digital-estate-planning"></a>Enterprise Cloud Adoption: A digitális hagyatéki tervezési megközelítés
+# <a name="enterprise-cloud-adoption-approaches-to-digital-estate-planning"></a>Enterprise Cloud Adoption: A digitális tulajdonnal kapcsolatos tervezés megközelítései
 
 Digitális hagyatéki tervezési alakzatokat, a kívánt eredmények és a meglévő hagyatéki méretétől függően több is igénybe vehet. Nincsenek is számos lehetőséget a megközelítést kapcsolatban. Fontos közölheti az elvárásokat kapcsolatban a megközelítés a korai tervezési ciklusokat. Nem egyértelmű elvárások gyakran az késleltetések további Hardverleltár összegyűjtéséhez gyakorlatok társított vezethet. Ez a cikk három megközelítése elemzési vázolja fel.
 

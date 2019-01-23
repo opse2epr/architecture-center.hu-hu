@@ -3,12 +3,15 @@ title: 'Enterprise Cloud Adoption: Első lépések'
 description: Ismerteti az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintése
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: b51e834a56f4d9818ca9475f959c3f888bae20bc
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 027757c76008da092e0d7ab65b072259a04b3cad
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389304"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488086"
 ---
 # <a name="enterprise-cloud-adoption-getting-started"></a>Enterprise Cloud Adoption: Első lépések 
 
@@ -61,9 +64,9 @@ A következő lépés a felhő stratégia csapat számbavétele az üzleti probl
 |Kategória|Leírás|
 |-----|-----|
 |Költségkezelés|A technológia a vállalat fizet módon eseményáramlási kimaradást jelöli.|
-|Szabályozás|A folyamatok engedményezhetné szembeni helytelen használat költség túllépését, a biztonsági problémák vagy a megfelelőségi problémák eredményezheti, hogy a vállalat által használt eseményáramlási kimaradást jelöli. | 
+|Cégirányítás|A folyamatok engedményezhetné szembeni helytelen használat költség túllépését, a biztonsági problémák vagy a megfelelőségi problémák eredményezheti, hogy a vállalat által használt eseményáramlási kimaradást jelöli. | 
 |Megfelelőség|A vállalati betartja a saját belső folyamatok és házirendek, valamint a külső törvényeknek, előírásoknak és szabványok ugyanúgy eseményáramlási kimaradást jelöli. |
-|Biztonság|A vállalati külső fenyegetések elleni védelmet biztosít a technológia és az eszközök ugyanúgy eseményáramlási kimaradást jelöli. |
+|Biztonsági|A vállalati külső fenyegetések elleni védelmet biztosít a technológia és az eszközök ugyanúgy eseményáramlási kimaradást jelöli. |
 |Adatirányítás|A vállalat kezeli az adatokat, különösen a vásárlói adatokat módon eseményáramlási kimaradást jelöli. Például az új általános adatvédelmi rendelet (GDPR) az Európai Unióban, szigorú követelményeket állít fel, amely lehet szükség, új hardver- és ügyféladatok védelméről.|    
 
 A vállalat rendelkezik az összes üzleti stratégia hézagok sorolhatók ezekben a kategóriákban, miután a következő lépésben feladata annak megállapítása, mindegyikhez egy magas szintű megoldások.
@@ -74,7 +77,7 @@ Az alábbi táblázatban néhány példa látható:
 |-----|-----|-----|
 | Jelenleg az üzemeltetett szolgáltatás a helyszíni problémákat észlel a rendelkezésre állás, rugalmasság és méretezhetőség megugrása, amely használati nagyjából tíz százalékát idő alatt. A helyi adatközpontban lévő kiszolgálók olyan teljes életciklusa. Vállalati IT azt javasolja, hogy új vásárlási a helyszíni hardver előírásoknak megugrása kezelésére használható.| Költségkezelés | Érintett meglévő helyszíni számítási feladatok migrálása kellene fizetnie, csak a felhőben, méretezhető erőforrásokhoz. |
 | Külső felügyeleti törvényeknek és szabályozásoknak kell a vállalat igazodnia kell beállítani a szabványos vezérlőket, hogy új hardver- és az inaktív adatok titkosításának megkövetelése. | Adatirányítás | Adatok áthelyezése az Azure storage service encryption az inaktív adatokat. |
-| A helyi adatközpontban lévő üzemeltetett szolgáltatások lett tapasztaló elosztott szolgáltatásmegtagadásos (DDoS) támadásoktól a nyilvánosan elérhető szolgáltatásait. A támadások nehezen csökkentése és a szükséges új hardveres, szoftveres és biztonsági csoporthoz, és hatékony kezelésére. | Biztonság | Szolgáltatások migrálása az Azure-ba, és kihasználhatja az Azure DDoS Protection.|
+| A helyi adatközpontban lévő üzemeltetett szolgáltatások lett tapasztaló elosztott szolgáltatásmegtagadásos (DDoS) támadásoktól a nyilvánosan elérhető szolgáltatásait. A támadások nehezen csökkentése és a szükséges új hardveres, szoftveres és biztonsági csoporthoz, és hatékony kezelésére. | Biztonsági | Szolgáltatások migrálása az Azure-ba, és kihasználhatja az Azure DDoS Protection.|
 
 Ha az összes üzleti stratégia található hézagok enumerált, és magas szintű megoldások megállapítása, rangsorolja a listában. A lista az üzleti stratégia hiányosságokat, és a vállalati rövid és hosszú távú célok az egyes kategóriák egymáshoz igazításával prioritása is lehet. Például, ha a rövid távú célja, hogy csökkentse a vállalati informatikai költségek a következő két pénzügyi negyedéven belülre esik, az üzleti hiányosságok a *Költségkezelés* kategória az előre jelzett költséget mentése társított minden egyes prioritása is lehet.
 

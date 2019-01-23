@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Számítási szolgáltatás kiválasztására szolgáló folyamatábra.
 author: MikeWasson
 ms.date: 11/03/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 905b9956c9dcddddb21a87ea588af0ad5160ae2a
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: e3df1cbdd049e8c40597a85eca29899d8d0d1bc3
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114079"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484652"
 ---
 # <a name="decision-tree-for-azure-compute-services"></a>Az Azure számítási szolgáltatások döntési fája
 
@@ -34,7 +37,7 @@ A tárolók az Azure-beli üzemeltetéséhez szükséges beállításokkal kapcs
 
 ![Az Azure számítási szolgáltatások döntési fája](../images/compute-decision-tree.svg)
 
-## <a name="definitions"></a>Meghatározások
+## <a name="definitions"></a>Definíciók
 
 - **Lift- and -shift** stratégiát egy számítási feladat áttelepítését a felhőbe az alkalmazás újratervezése vagy a kód módosítása nélkül is. Más néven *újratárolása*. További információkért lásd: [Azure migrálási központ](https://azure.microsoft.com/migration/).
 

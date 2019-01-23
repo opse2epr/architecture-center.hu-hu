@@ -1,16 +1,19 @@
 ---
-title: 'Enterprise Cloud Adoption: Cégirányítási tervezése az Azure-ban több csapat'
+title: 'Enterprise Cloud Adoption: Az Azure-ban több csapat cégirányítási kialakítása'
 description: Útmutató a több csapat, több számítási feladatot és több környezetet az Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: ac2a63ad6ced1039290dc0bf5132b0d87a2c79cf
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: de2bfeee7d098984a35f56f9e794e6a37933a3bd
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389417"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488426"
 ---
-# <a name="enterprise-cloud-adoption-governance-design-for-multiple-teams"></a>Enterprise Cloud Adoption: Cégirányítási tervezés több fejlesztőcsapatoknak
+# <a name="enterprise-cloud-adoption-governance-design-for-multiple-teams"></a>Enterprise Cloud Adoption: Szabályozási terv több csapathoz
 
 Ez az útmutató célja, amely megkönnyíti a folyamatot az Azure-ban a több csapat, több számítási feladatot, és több környezetet erőforrás cégirányítási modell létrehozása.  Azt fogjuk elméleti cégirányítási követelményeket tekintse meg, majd nyissa meg több szolgálnak példákkal, amelyek megfelelnek-e ezeknek a követelményeknek.
 
@@ -147,8 +150,8 @@ Már megtanulta, hogy két szinten erőforrások hatóköre: **előfizetés** é
 
 Mielőtt megnézzük a példák az egyes modellek, tekintse át a felügyeleti struktúra az előfizetések az Azure-ban. 
 
-A követelmények, hogy van egy egyéni előfizetések felelős a szervezetben, és ez a felhasználó tulajdonában lévő a visszahívás a **előfizetés tulajdonosa** fiók az Azure AD-bérlőben. Azonban ennek a fióknak nincs engedélye hozhatnak létre előfizetéseket. Csak a **Azure-fiók tulajdonosa** van engedélye ehhez: ![](../_images/governance-3-0b.png) 
- *6. ábra. Az Azure-fióktulajdonos egy előfizetést hoz létre.*
+A követelmények, hogy van egy egyéni előfizetések felelős a szervezetben, és ez a felhasználó tulajdonában lévő a visszahívás a **előfizetés tulajdonosa** fiók az Azure AD-bérlőben. Azonban ennek a fióknak nincs engedélye hozhatnak létre előfizetéseket. Csak a **Azure-fiók tulajdonosa** van engedélye ehhez: ![](../_images/governance-3-0b.png)
+*6. ábra. Az Azure-fióktulajdonos egy előfizetést hoz létre.*
 
 Az előfizetés létrehozása után a **Azure-fiók tulajdonosa** adhat hozzá a **előfizetés tulajdonosa** az előfizetéshez, a fiók a **tulajdonosa** szerepkör:
 

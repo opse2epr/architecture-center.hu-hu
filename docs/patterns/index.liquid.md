@@ -5,13 +5,16 @@ description: Tervezési minták felhőkhöz a Microsoft Azure-ban
 keywords: Azure
 author: dragon119
 ms.date: 12/10/2018
+ms.topic: design-pattern
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 873d4cf02690a2cc3ffe4f35b044dedf70700fb5
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 4229531366f1b0c3257384694cf4358da9e63177
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011023"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486029"
 ---
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
@@ -37,7 +40,7 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 
 ## <a name="catalog-of-patterns"></a>Mintakatalógus
 
-| Mintázat | Összegzés |
+| Pattern | Összefoglalás |
 |---------|---------|
 |         |         |
 

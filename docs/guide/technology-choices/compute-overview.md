@@ -4,19 +4,22 @@ titleSuffix: Azure Application Architecture Guide
 description: Az Azure számítási lehetőségeinek áttekintése.
 author: MikeWasson
 ms.date: 06/13/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 80e57263207ef3a96791d61097ff9f0e3259bf53
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: a887be4fc643822b97f898fa405f68e797a41484
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111495"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485672"
 ---
 # <a name="overview-of-azure-compute-options"></a>Az Azure számítási lehetőségeinek áttekintése
 
 A *számítás* kifejezés azon számítási erőforrások futtatási modelljére utal, amelyeken az alkalmazás fut.
 
-## <a name="overview"></a>Áttekintés
+## <a name="overview"></a>Áttekintés (klasszikus)
 
 A spektrum egyik végén **infrastruktúra--szolgáltatásként** (IaaS). IaaS használata esetén üzembe helyezi a szükséges virtuális gépeket, valamint a hozzájuk társított hálózati és tárolási összetevőket. Ezt követően üzembe helyezi azokat a szoftvereket és alkalmazásokat, amelyeket futtatni kíván a virtuális gépeken. Ez a modell áll a legközelebb a hagyományos helyszíni környezetekhez, azzal a különbséggel, hogy az infrastruktúrát a Microsoft kezeli. Az egyes virtuális gépeket továbbra is Ön felügyeli.
 

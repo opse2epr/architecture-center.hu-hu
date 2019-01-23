@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Több régióban az Azure-ban futó magas rendelkezésre állású webalkalmazásokhoz javasolt architektúra.
 author: MikeWasson
 ms.date: 10/25/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 04ba786ea16aa3245a8f0b7fcafeacc60ac447c2
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 676d968b13625048a9d83d365a1efe05c6093148
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113331"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484329"
 ---
 # <a name="run-a-web-application-in-multiple-azure-regions-for-high-availability"></a>Webalkalmazás futtatása több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -67,7 +70,7 @@ Ajánlott eljárásként hozzon létre egy olyan állapotminta-végpontot, amely
 
 Másrészről viszont ne használja az állapotmintát alacsonyabb prioritású szolgáltatások ellenőrzéséhez. Ha például egy e-mail-szolgáltatás áll le, az alkalmazás képes egy második szolgáltatóra váltani, vagy egyszerűen később elküldeni az e-maileket. Ez nem elég magas prioritás ahhoz, hogy az alkalmazás feladatátvételt kezdeményezzen. További információkért lásd: a [állapot végponti Monitorozását végző minta][health-endpoint-monitoring-pattern].
 
-### <a name="sql-database"></a>SQL Database
+### <a name="sql-database"></a>SQL-adatbázis
 
 Használjon [aktív georeplikációt][sql-replication] olvasható másodlagos replika létrehozásához egy másik régióban. Legfeljebb négy olvasható másodlagos replikával rendelkezhet. Alkalmazzon feladatátvételt egy másodlagos adatbázisba, ha az elsődleges adatbázis meghibásodik vagy offline állapotba kell helyezni. Az aktív georeplikáció bármilyen rugalmas adatbáziskészlet bármilyen adatbázishoz konfigurálható.
 

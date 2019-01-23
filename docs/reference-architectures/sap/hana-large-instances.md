@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Bevált eljárások az SAP HANA futtatásához magas rendelkezésre állású környezetben az nagyméretű Azure-példányokon.
 author: lbrader
 ms.date: 05/16/2018
-ms.custom: seodec18
-ms.openlocfilehash: 47953037827923ea0e4f492dfc29ce815072a20e
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, SAP
+ms.openlocfilehash: 711e233de534597f9cd06ccaa95481a51acc4468
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011361"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485341"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a>Nagyméretű Azure-példányokon futó SAP HANA futtatása
 
@@ -59,7 +62,7 @@ SKU-k különböző HANA nagyméretű példányokhoz, 20 TB-ig egyetlen példán
 
 - I. osztály típusa: S72, S72m, S144, S144m, S192 és S192m
 
-- Írja be a II osztály: S384, S384m, S384xm, S576m, S768m és S960m
+- Írja be a II osztály: S384, S384m, S384xm, S576m, S768m, and S960m
 
 Például a S72 Termékváltozat 768 GB RAM, a tárolás és 2 Intel Xeon processzorok (E7-8890 v3) 36 maggal 3 terabájt (TB) tartalmaz. Az architektúra és kialakítás munkamenetek során meghatározott méretezési követelményeinek SKU kiválasztása. Mindig győződjön meg arról, hogy a méretezési vonatkozik-e a megfelelő Termékváltozatot. Képességek és központi telepítésére vonatkozó követelmények [típusa szerint változó][type], és a rendelkezésre állási eltérő [régió][region]. Akkor is is fokozzák a Termékváltozat a nagyobb termékváltozatra.
 
@@ -169,7 +172,7 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Az SAP közösségi][sap-community]
 - [A stack Overflow SAP][stack-overflow]
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

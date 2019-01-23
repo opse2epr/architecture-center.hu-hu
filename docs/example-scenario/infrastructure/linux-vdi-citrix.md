@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: VDI-környezetet hozhat létre Linux rendszerű asztali környezetekhez a Citrix használatával az Azure-ban.
 author: miguelangelopereira
 ms.date: 09/12/2018
-ms.custom: fasttrack
-ms.openlocfilehash: af1cf01cb8b118e829c3870b636018aa5181b180
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.custom: fasttrack, Linux
+ms.openlocfilehash: a6fe0b7e53c83c7b932c39f910257a1e7d24834f
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643917"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481231"
 ---
 # <a name="linux-virtual-desktops-with-citrix"></a>Linux rendszerű virtuális asztalok Citrix-szel
 
@@ -53,7 +56,7 @@ Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 - A Citrix kirakat: 2 x D2s v3
 - Citrix kézbesítési vezérlő: 2 x D2s v3
 - Tartományvezérlő: 2 x D2sv3
-- Az Azure-kiszolgálók: 2 x D2sv3
+- Azure File Servers: 2 x D2sv3
 
 > [!NOTE]
 > (Nem a NetScaler) a licencek bring-your-saját licenc (használata BYOL)
@@ -90,11 +93,11 @@ Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 - Ebben a példában a magas rendelkezésre állású összes szerepköre az engedélyezési kiszolgálótól eltérő lett tervezve. A környezet továbbra is működik egy 30 napos türelmi időszak alatt, ha a licenckiszolgáló offline állapotban van, nincs további redundancia jelentkezhet a kiszolgálón van szükség.
 - Biztosít hasonló szerepkörök összes kiszolgálójára kell telepíteni a [rendelkezésre állási csoportok](/azure/virtual-machines/windows/manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy).
 - Ebben a példában a forgatókönyvben nem tartalmazza a vész-helyreállítási képességeit. [Az Azure Site Recovery](/azure/site-recovery/site-recovery-overview) lehet a megfelelő bővítményt az ezzel a kialakítással.
-- Érdemes megfontolni a Virtuálisgép-példányok között ebben a forgatókönyvben [rendelkezésre állási zónák](/azure/availability-zones/az-overview). Egyes rendelkezésre állási zónában egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található tevődik össze. Minden egyes engedélyezett régió számára legalább három rendelkezésre állási zónák. Ehhez a terjesztéshez zónákban Virtuálisgép-példányok az alkalmazásrétegek magas rendelkezésre állást biztosít. További információkért lásd: [Mik azok a rendelkezésre állási zónák az Azure-ban?] [azureaz-docs]. Emellett [üzembe helyezése az Azure-beli rendelkezésre állási zónák a VPN és ExpressRoute-átjárók](/azure/vpn-gateway/about-zone-redundant-vnet-gateways).
+- Érdemes megfontolni a Virtuálisgép-példányok között ebben a forgatókönyvben [rendelkezésre állási zónák](/azure/availability-zones/az-overview). Egyes rendelkezésre állási zónában egy vagy több adatközpont független áramellátással, hűtéssel és hálózati található tevődik össze. Minden egyes engedélyezett régió számára legalább három rendelkezésre állási zónák. Ehhez a terjesztéshez zónákban Virtuálisgép-példányok az alkalmazásrétegek magas rendelkezésre állást biztosít. További információkért lásd: [Mik az Azure-beli rendelkezésre állási zónák?](/azure/availability-zones/az-overview). Emellett [üzembe helyezése az Azure-beli rendelkezésre állási zónák a VPN és ExpressRoute-átjárók](/azure/vpn-gateway/about-zone-redundant-vnet-gateways).
 - Éles környezet felügyeleti megoldást kell végrehajtani, például [biztonsági mentési](/azure/backup/backup-introduction-to-azure-backup), [figyelési](/azure/monitoring-and-diagnostics/monitoring-overview) és [frissítéskezelés](/azure/automation/automation-update-management).
 - Ebben a példában az egyidejű körülbelül 250 működnie kell (körülbelül 50 – 60 VDA kiszolgálónként) vegyes használat rendelkező felhasználók. De, amely nagy mértékben függött használt alkalmazások típusa. Üzemi használatra szigorú terheléses tesztelés kell végrehajtani.
 
-## <a name="deployment"></a>Környezet
+## <a name="deployment"></a>Üzemelő példány
 
 Telepítési információk, tekintse meg a hivatalos [Citrix dokumentáció](https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/install-configure.html).
 
@@ -105,7 +108,7 @@ Telepítési információk, tekintse meg a hivatalos [Citrix dokumentáció](htt
 - A fenntartott példányok használatával jelentősen csökkenti a megoldás a számítási költségeket.
 - A lehetőség nem része az ExpressRoute költségeit.
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
 - Ellenőrizze a Citrix dokumentációjában, tervezési és telepítési [Itt](https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/install-configure).
 - A Citrix ADC (NetScaler) az Azure-beli üzembe helyezéséhez tekintse át a Resource Manager-sablonok a Citrix által biztosított [Itt](https://github.com/citrix/netscaler-azure-templates).

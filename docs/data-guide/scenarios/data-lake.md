@@ -1,3 +1,18 @@
+---
+title: Data lake tárolók
+description: ''
+author: zoinerTejada
+ms.date: 02/12/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: d433867886ce0afc219fcc9f35eb7f8b3ce6bee1
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.translationtype: MT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484703"
+---
 # <a name="data-lakes"></a>Data lake tárolók
 
 Data lake storage tárháza nagy mennyiségű adatot tárol a natív, nyers formában. Data lake Store több terabájtnyi és több petabájtnyi adat skálázás vannak optimalizálva. Az adatok általában több heterogén forrásokból származnak, és strukturált, félig strukturált vagy strukturálatlan lehet. A data lake lényege, minden eredeti, a nyomtatónak állapotában tárolásához. Ez a módszer eltér a hagyományos [adatraktár](../relational-data/data-warehousing.md), amely alakítja át, és feldolgozza az adatokat feldolgozó időpontjában.

@@ -1,17 +1,20 @@
 ---
-title: A digitális hagyatéki ésszerűsítése
+title: A digitális tulajdon észszerűsítése
 titleSuffix: Enterprise Cloud Adoption
 description: A legjobb módszer üzemeltetheti azokat a felhőben található digitális eszközök értékelésére szolgáló folyamat.
 author: BrianBlanchard
 ms.date: 12/10/2018
-ms.openlocfilehash: 05509bdd047b93b4a3b41907836022c837f9c7b4
-ms.sourcegitcommit: e7f8676bbffe500fc4d6deb603b7c0b7ba1884a6
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 2002b5273aed4aef2d283f23f83aa08d1d6f5c95
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/10/2018
-ms.locfileid: "53179499"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485723"
 ---
-# <a name="enterprise-cloud-adoption-rationalize-the-digital-estate"></a>Enterprise Cloud Adoption: A digitális hagyatéki ésszerűsítése
+# <a name="enterprise-cloud-adoption-rationalize-the-digital-estate"></a>Enterprise Cloud Adoption: A digitális tulajdon észszerűsítése
 
 Felhőbeli ésszerűsítés az a folyamat kiértékelése adategységeket az üzemeltető őket a felhőben a legjobb módja határozza meg. Egyszer egy [megközelítés](approach.md) meghatározása és [készlet](inventory.md) lett összesítve, felhőalapú ésszerűsítés megkezdheti. A [ésszerűsítés az 5 Rs](5-rs-of-rationalization.md) a leggyakoribb ésszerűsítés lehetőségeket ismerteti.
 
@@ -111,7 +114,7 @@ Az első számítási feladatok gyakran helyezik üzembe egy kísérleti környe
 
 A felhőre való áttérés és Felhőstratégia teamss együttműködése hogyan e kis méretű számítási feladatok elemzése. Ez létrehoz egy hozhat létre és tesztelhet a minőségi elemzés során ellenőrzött lehetőséget. A kisebb népesség hoz létre a felmérési az érintett felhasználók minőségi részletes elemzés végrehajtásához, egy hét vagy még kevesebb lehetőséget. Közös minőségi elemzési tényező befolyásolja, lásd: a konkrét ésszerűsítés célhelyet a [ésszerűsítés 5 Rs](5-rs-of-rationalization.md).
 
-### <a name="migration"></a>Migrálás
+### <a name="migration"></a>Áttelepítés
 
 Folyamatos ésszerűsítés párhuzamosan a felhőre való áttérés csapat megkezdheti a kis munkaterhelés bontsa ki a következő kulcsterületeket learning áttelepítése:
 

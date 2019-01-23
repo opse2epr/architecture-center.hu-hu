@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Az Active Directory összevonási szolgáltatás engedélyezésével biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban.
 author: telmosampaio
 ms.date: 12/18.2018
-ms.custom: seodec18
-ms.openlocfilehash: 0cdb8ce61c48189a7b708dfa022a68080040ec3d
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, identity
+ms.openlocfilehash: 22a2a2042c85e70d0d5a523c9ecf72395a9e774c
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111840"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488273"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -106,7 +109,7 @@ Az [Összevonási kiszolgálók farmjának központi telepítése][Deploying_a_f
 3. Minden AD FS-kiszolgáló virtuális gépét vegye fel a tartományba.
 
 > [!NOTE]
-> Az AD FS telepítéséhez a tartomány elsődleges tartományvezérlő (PDC) emulátorának mozgó egyedüli főkiszolgálói (FSMO) szerepkörét futtató tartományvezérlőnek futnia kell, és elérhetőnek kell lennie az AD FS virtuális gépekről. &LT;&LT; RBC: Van mód, hogy ez kevesebb ismétlődő? >>
+> Az AD FS telepítéséhez a tartomány elsődleges tartományvezérlő (PDC) emulátorának mozgó egyedüli főkiszolgálói (FSMO) szerepkörét futtató tartományvezérlőnek futnia kell, és elérhetőnek kell lennie az AD FS virtuális gépekről. <<RBC: Van mód, hogy ez kevesebb ismétlődő? >>
 >
 
 ### <a name="ad-fs-trust"></a>AD FS-megbízhatóság
@@ -236,7 +239,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 1. Nyissa meg az `adfs-farm-first.json` fájlt.  Keresse meg `AdminPassword` , és cserélje le az alapértelmezett jelszót.
 
-1. Futtassa az alábbi parancsot:
+1. Futtassa a következő parancsot:
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p adfs-farm-first.json --deploy

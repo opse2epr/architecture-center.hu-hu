@@ -4,12 +4,15 @@ description: A vállalatok számára is annak biztosítására, biztonságos és
 author: rdendtler
 ms.author: rodend
 ms.date: 9/22/2018
-ms.openlocfilehash: 66af73f5bfc7f7145c20446af05f33a9d69e6c28
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 883f32b1533261977aa274f64c78762c9e7b13f3
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011735"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484414"
 ---
 # <a name="azure-enterprise-scaffold-prescriptive-subscription-governance"></a>Az Azure enterprise scaffold: Előíró előfizetés-irányítás
 
@@ -158,7 +161,7 @@ Első és legfontosabb, kérdések egyike, kérje meg, saját magának a nyilvá
 
 A a feladatnak az erőforrásokhoz való hozzáférés biztonságossá először konfigurálása az identitásszolgáltató és majd a szerepkörök és hozzáférés konfigurálásához. Az Azure Active Directory (Azure AD), a helyszíni Active Directoryhoz csatlakoztatott az alapja az Azure-identitás. Hogy van-e említett az Azure AD *nem* Active Directory és a hozzá tartozó fontos tudni, mi az Azure AD-bérlő van, és hogyan kapcsolódik az Azure-regisztrációjában.  Tekintse át az elérhető [információk](../getting-started/azure-resource-access.md) próbál a jeggyel alapos rálátással az Azure AD és az AD. Csatlakozás és az Active Directory, az Azure AD szinkronizálása, telepítse és konfigurálja a [AD Connect eszköz](/azure/active-directory/connect/active-directory-aadconnect) helyszíni.
 
-![Arch.png](./_images/arch.png)
+![arch.png](./_images/arch.png)
 
 Azure jelent, ha egy előfizetés hozzáférés-vezérlést voltak: Rendszergazdai vagy Társadminisztrátori. A portálon erőforrások eléréséhez a klasszikus modellt hallgatólagos az egy előfizetéshez való hozzáférést. A részletesebb vezérlés hiánya való megfelelő hozzáférés-vezérlést biztosítanak egy adott Azure-regisztráció előfizetések elterjedése vezetett. Az előfizetések elterjedése már nincs rá szükség. A szerepköralapú hozzáférés-vezérlés (RBAC) hozzárendelhet felhasználókat adja meg a gyakori hozzáférést, például a "tulajdonos", "közreműködő" vagy "olvasó", vagy saját szerepköröket is létrehozhat standard szerepkörök
 
@@ -175,7 +178,7 @@ Szerepköralapú hozzáférés megvalósításához, a következő erősen aján
 
 Tervezése és előkészítése az identitás és hozzáférés-vezérlés és az Azure-Identitáskezelés ajánlott eljárás a következő ([hivatkozás](/azure/security/azure-security-identity-management-best-practices)) a legjobb kockázati kockázatcsökkentési stratégia lehet alkalmazni, és a kötelező kell tekinteni egyik minden a központi telepítés.
 
-## <a name="security"></a>Biztonság
+## <a name="security"></a>Biztonsági
 
 Biztonsági aggályokat volt a legnagyobb blockers hagyományosan a felhőre való egyikét. Informatikai kockázatkezelők és biztonsági osztályok kell győződjön meg arról, hogy az Azure-erőforrások védettek, és alapértelmezés szerint biztonságos. Az Azure számos olyan képességet, amelyek kihasználhatják a erőforrások védelmét, valamint észlelheti és elkerülése érdekében fenyegetések elleni ezeket az erőforrásokat biztosít.
 
@@ -326,7 +329,7 @@ Az Azure scaffold referenciamodellje végső összetevője mag, hogyan a szervez
 > [!TIP]
 > Használjon szolgáltatáscímkéket és alkalmazásbiztonsági csoportokból a hálózati biztonsági csoportokban nem csupán áttekinthetősége a szabályok – amely elengedhetetlen ismertetése hatás -, hanem csökkenti a fölösleges terhelése nagyobb alhálózat hatékony mikroszegmentációt engedélyezéséhez és Növelje a rugalmasságot.
 
-### <a name="virtual-data-center"></a>Virtuális adatközpont
+### <a name="virtual-data-center"></a>Virtual Data Center
 
 Az Azure biztosít mind a belső funkciókat biztosítanak, és a külső a funkciók a kiterjedt partneri hálózat, amelyek lehetővé teszik, hogy rendelkezik egy érvényes biztonsági forgalmazóval. Ami még fontosabb, a Microsoft biztosít, ajánlott eljárások és útmutató formájában a [Azure virtuális adatközpont](/azure/architecture/vdc/networking-virtual-datacenter). Helyezi át az egyetlen számítási feladat több számítási feladatok, amelyek hibrid képességeit kihasználva, mivel a VDC útmutatást biztosít Önnek "recept" növekszik, ahogy a számítási feladatokat az Azure-ban növelheti a rugalmas, hálózat engedélyezéséhez.  
 

@@ -3,15 +3,18 @@ title: Több-bérlős alkalmazásokban jogcímalapú identitások használata
 description: Hogyan használja a kibocsátó érvényesítése és az engedélyezés jogcímek.
 author: MikeWasson
 ms.date: 07/21/2017
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authenticate
 pnp.series.next: signup
-ms.openlocfilehash: ffaa6085dd9ca9ddec203e6661575e984b2e25e0
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 8b8cbd2b857493d94103e80f53f187207feaa11e
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113586"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486505"
 ---
 # <a name="work-with-claims-based-identities"></a>Jogcímalapú identitások használata
 
@@ -35,19 +38,19 @@ Az OpenID Connect, kap jogcímkészletet vezérli a [hatókör-paramétert] a hi
 | Azonosító jogkivonat a jogcím típusa | Leírás |
 | --- | --- |
 | AUD |Akik a jogkivonat van kiadva. Ez lesz az alkalmazás ügyfél-azonosítót. Általában nem kell aggódnia a kérelmet, mert az a közbenső automatikusan érvényesíti. Példa:  `"91464657-d17a-4327-91f3-2ed99386406f"` |
-| csoportok |AAD-csoportokat, amely tagja a felhasználó listáját. Például: `["93e8f556-8661-4955-87b6-890bc043c30f", "fc781505-18ef-4a31-a7d5-7d931d7b857e"]` |
+| Csoportok |AAD-csoportokat, amely tagja a felhasználó listáját. Például: `["93e8f556-8661-4955-87b6-890bc043c30f", "fc781505-18ef-4a31-a7d5-7d931d7b857e"]` |
 | iss |A [Kiállító] OIDC jogkivonat. Például: `https://sts.windows.net/b9bd2162-77ac-4fb2-8254-5c36e9c0a9c4/` |
 | név |A felhasználó megjelenített neve. Például: `"Alice A."` |
 | objektumazonosító |Az aad-ben a felhasználói objektum azonosítója. Ez az érték a felhasználó azonosítója nem módosítható és nem újrahasználható. Az érték, email, használja a felhasználók számára; egyedi azonosítóként e-mail-címet használva módosítható. Az Azure AD Graph API használata az alkalmazásban, objektumazonosító:-e a lekérdezés profiladatok használt érték. Például: `"59f9d2dc-995a-4ddf-915e-b3bb314a7fa4"` |
-| roles |A felhasználó alkalmazás-szerepkörök listáját.    Például: `["SurveyCreator"]` |
+| szerepkörök |A felhasználó alkalmazás-szerepkörök listáját.    Például: `["SurveyCreator"]` |
 | TID |Bérlő azonosítója. Ezt az értéket az Azure AD-ben az egyedi azonosító a bérlő számára. Például: `"b9bd2162-77ac-4fb2-8254-5c36e9c0a9c4"` |
 | unique_name |A felhasználó az emberi olvasható megjelenített neve. Például: `"alice@contoso.com"` |
 | egyszerű felhasználónév |Egyszerű felhasználónév. Például: `"alice@contoso.com"` |
 
 Ez a táblázat felsorolja a jogcímtípusok, ahogy azok megjelennek a azonosító jogkivonat. Az ASP.NET Core az OpenID Connect közbenső szoftvert átalakítja a jogcím-típusok amikor feltölti a jogcím-gyűjtemény a felhasználó rendszerbiztonsági tag:
 
-* OID > `http://schemas.microsoft.com/identity/claims/objectidentifier`
-* TID > `http://schemas.microsoft.com/identity/claims/tenantid`
+* oid > `http://schemas.microsoft.com/identity/claims/objectidentifier`
+* tid > `http://schemas.microsoft.com/identity/claims/tenantid`
 * unique_name > `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`
 * egyszerű felhasználónév > `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn`
 

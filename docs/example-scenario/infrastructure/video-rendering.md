@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: Natív HPC számítási feladatokat futtathat az Azure-ban az Azure Batch szolgáltatás használatával.
 author: adamboeglin
 ms.date: 07/13/2018
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: 7e86da637553378a460b1c179c4f59ac258f0b34
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: ffb400f542b94ed02d1398b2e5e909d79708248b
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643573"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485706"
 ---
 # <a name="3d-video-rendering-on-azure"></a>3D-s videórenderelés az Azure-ban
 
@@ -83,7 +86,7 @@ Az Azure Batch-összetevők figyelésének, szolgáltatások, eszközök és API
 
 Belül egy fiók is, vagy a méretezési csoport manuális intézkedés révén, vagy egy képlet alapján az Azure Batch-mérőszámok, az Azure Batch Pools automatikusan skálázhatók. Méretezhetőség további információkért tekintse meg a cikket [hozzon létre egy Batch-készletben lévő csomópontok méretezése egy automatikus méretezési képlet][batch-scaling].
 
-### <a name="security"></a>Biztonság
+### <a name="security"></a>Biztonsági
 
 Általános megoldások biztonságos, tekintse át a [Azure Security dokumentációja][security].
 
@@ -148,7 +151,7 @@ Az Azure Batch alacsony prioritású virtuális gépek használatát is támogat
 > [!NOTE]
 > Alacsony prioritású virtuális gépek csak olyan, megfelelő az egyes alkalmazások és számítási feladatok.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 [Az Azure Batch áttekintése][batch-overview]
 

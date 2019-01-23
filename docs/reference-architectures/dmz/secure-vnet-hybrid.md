@@ -4,17 +4,23 @@ titleSuffix: Azure Reference Architectures
 description: Biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban.
 author: telmosampaio
 ms.date: 10/22/2018
-ms.custom: seodec18
-ms.openlocfilehash: 9a74401d3496807ce2dfc113476e001d19e657e5
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, networking
+ms.openlocfilehash: 82327cca08e614bfe5226c9ca1a414388878a7c2
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112294"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482510"
 ---
 # <a name="implement-a-dmz-between-azure-and-your-on-premises-datacenter"></a>Az Azure és a helyszíni adatközpont közötti DMZ implementálása
 
 Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba. Az architektúra egy *szegélyhálózatot* (DMZ-t) implementál a helyszíni hálózat és egy Azure Virtual Network (VNet) között. A DMZ hálózati virtuális berendezéseket (network virtual appliance, NVA) tartalmaz, amelyek különböző biztonsági funkciókat implementálnak, például tűzfalakat és csomagvizsgálatot. A VNet kimenő forgalma kényszerített bújtatással jut el az internetre a helyszíni hálózaton keresztül, így ellenőrizhető marad. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+
+> [!NOTE]
+> Ebben a forgatókönyvben használatával is elvégezhető [Azure tűzfal](/azure/firewall/), egy felhőalapú hálózati biztonsági szolgáltatás.
 
 ![Biztonságos hibrid hálózati architektúra](./images/dmz-private.png)
 

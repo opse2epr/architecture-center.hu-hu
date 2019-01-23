@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Futtassa a Linux rendszerű virtuális gépek az N szintű architektúra a Microsoft Azure-ban Apache Cassandra.
 author: MikeWasson
 ms.date: 11/12/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 41ff90718a7795807448b0a360bb0ebb3479c402
-ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
+ms.openlocfilehash: 6c9a2b4fe513c959e537f705beb1c024b54c7b50
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/17/2019
-ms.locfileid: "54372898"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485448"
 ---
 # <a name="linux-n-tier-application-in-azure-with-apache-cassandra"></a>Az Azure-ban az Apache Cassandra használatával Linux N szintű alkalmazás
 

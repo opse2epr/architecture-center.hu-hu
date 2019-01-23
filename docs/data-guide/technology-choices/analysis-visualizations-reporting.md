@@ -3,12 +3,16 @@ title: Egy data analytics kiválasztása és jelentéskészítési technológia
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 5b4947f53edf595c206ef4f55572dadc1a9daa09
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.custom: data-analytics
+ms.openlocfilehash: 72b889e2fe0d862ab1ff280cea76c2880b0fadc4
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111410"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481916"
 ---
 # <a name="choosing-a-data-analytics-technology-in-azure"></a>Egy data analytics technológia kiválasztása az Azure-ban
 
@@ -27,7 +31,7 @@ Az elemzés, a Vizualizációk és a jelentéskészítés az Azure-ban, igényei
 - [Zeppelin notebookok](https://zeppelin.apache.org/)
 - [A Microsoft Azure-jegyzetfüzetek](https://notebooks.azure.com/)
 
-### <a name="power-bi"></a>Power BI
+### <a name="power-bi"></a>Power BI használata
 
 [Power bi-ban](/power-bi/) üzleti elemzési eszközök együttese. Száz adatforráshoz csatlakozhat, és ad hoc elemzést is használható. Lásd: [ebben a listában](/power-bi/desktop-data-sources) jelenleg elérhető adatforrások. Használat [Power BI Embedded](https://azure.microsoft.com/services/power-bi-embedded/) Power BI integrálható a saját alkalmazásokon belül anélkül, hogy bármilyen további licencelést.
 
@@ -83,15 +87,15 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 <!-- markdownlint-disable MD033 -->
 
-| | Power BI | Jupyter-notebookok | Zeppelin notebookok | A Microsoft Azure-jegyzetfüzetek |
+| | Power BI használata | Jupyter-notebookok | Zeppelin notebookok | A Microsoft Azure-jegyzetfüzetek |
 | --- | --- | --- | --- | --- |
-| A big data-fürt létrehozása speciális feldolgozó kapcsolódni | Igen | Igen | Igen | Nem |
+| A big data-fürt létrehozása speciális feldolgozó kapcsolódni | Igen | Igen | Igen | Nincs |
 | Felügyelt szolgáltatás | Igen | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen |
-| Az adatforrások 100s csatlakozni | Igen | Nem | Nem | Nem |
-| Offline képességek | Igen <sup>2</sup> | Nem | Nem | Nem |
-| Képességek beágyazása | Igen | Nem | Nem | Nem |
-| Adatok automatikus frissítése | Igen | Nem | Nem | Nem |
-| Számos nyílt forráskódú csomag való hozzáférés | Nem | Igen <sup>3</sup> | Igen <sup>3</sup> | Igen <sup>4</sup> |
+| Az adatforrások 100s csatlakozni | Igen | Nem | Nem | Nincs |
+| Offline képességek | Igen <sup>2</sup> | Nincs | Nem | Nincs |
+| Képességek beágyazása | Igen | Nem | Nem | Nincs |
+| Adatok automatikus frissítése | Igen | Nem | Nem | Nincs |
+| Számos nyílt forráskódú csomag való hozzáférés | Nincs | Igen <sup>3</sup> | Igen <sup>3</sup> | Igen <sup>4</sup> |
 | Adatok átalakítása és tisztítását beállításai | [A Power Query](https://powerbi.microsoft.com/blog/getting-started-with-power-query-part-i/), R | 40 nyelvek, többek között a Python, R, Julia és Scala | mint 20 interprety, beleértve a Python, JDBC és R | Python, F#, R |
 | Díjszabás | Az ingyenes Power BI Desktop (szerzői műveletek), lásd: [díjszabás](https://powerbi.microsoft.com/pricing/) beállítások üzemeltetéséhez | Ingyenes | Ingyenes | Ingyenes |
 | Többfelhasználós együttműködés | [Igen](/power-bi/service-how-to-collaborate-distribute-dashboards-reports) | Igen (megosztása vagy például a többfelhasználós kiszolgálóval [JupyterHub](https://github.com/jupyterhub/jupyterhub)) | Igen | Igen (a megosztás) |

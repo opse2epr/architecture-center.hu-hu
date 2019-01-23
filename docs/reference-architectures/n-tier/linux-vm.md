@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Ajánlott eljárások az Azure-ban futó Linux rendszerű virtuális gép.
 author: telmosampaio
 ms.date: 12/13/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 2989cd812c7a3ac6c9e7b8fbf23639b2a95d0b41
-ms.sourcegitcommit: 032f402482762f4e674aeebbc122ad18dfba11eb
+ms.openlocfilehash: ec71e35bec0fa9fad604456130f8596fcf127ebb
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/14/2018
-ms.locfileid: "53396436"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485655"
 ---
 # <a name="run-a-linux-virtual-machine-on-azure"></a>Linux rendszerű virtuális gép futtatása az Azure-ban
 
@@ -66,7 +69,7 @@ Adatlemez hozzáadásakor a rendszer hozzárendel egy logikaiegység-szám (LUN)
 
 A VM egy ideiglenes lemezzel jön létre. A lemez a gazdagép egyik fizikai meghajtóján található. *Nincs* mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol. Linux virtuális gépeknél az ideiglenes lemez a `/dev/sdb1`, és a csatlakoztatásának helye `/mnt/resource` vagy `/mnt`.
 
-## <a name="network"></a>Network (Hálózat)
+## <a name="network"></a>Hálózat
 
 A hálózati összetevők közé tartoznak az alábbi forrásanyagokat:
 
@@ -101,7 +104,7 @@ Minden NSG tartalmaz egy [alapértelmezett szabálykészletet][nsg-default-rules
 
 Használja az [Azure Security Centert][security-center] az Azure-erőforrások biztonsági állapotának egy központi felületen való nyomon követéséhez. A Security Center monitorozza a potenciális biztonsági problémákat, és átfogó képet nyújt az üzemi környezet biztonsági állapotáról. A Security Center Azure-előfizetésenként külön konfigurálandó. Biztonsági adatok gyűjtésének engedélyezése a leírtak szerint [az Azure-előfizetés a Security Center Standard verziójába történő felvételét][security-center-get-started]. Az adatgyűjtés engedélyezése esetén a Security Center automatikusan figyeli az előfizetés alatt létrehozott összes virtuális gépet.
 
-**Javítások kezelése**. Ha engedélyezve van, a Security Center ellenőrzi, hogy a biztonsági és kritikus frissítések hiányoznak-e. [Csoportházirend-beállítások] [-Csoportházirend] automatikus rendszerfrissítések engedélyezéséhez a virtuális gépen.
+**Javítások kezelése**. Ha engedélyezve van, a Security Center ellenőrzi, hogy a biztonsági és kritikus frissítések hiányoznak-e. Használjon [Csoportszabályzat-beállításokat][group-policy] a virtuális gépen az automatikus rendszerfrissítések engedélyezéséhez.
 
 **Kártevőirtó**. Ha engedélyezve van, a Security Center ellenőrzi, hogy van-e telepítve kártevőirtó szoftver. A Security Center segítségével telepíthet is kártevőirtó szoftvert az Azure Portalon belülről.
 
@@ -130,6 +133,7 @@ Használja az [Azure Security Centert][security-center] az Azure-erőforrások b
 [disk-encryption]: /azure/security/azure-security-disk-encryption
 [enable-monitoring]: /azure/monitoring-and-diagnostics/insights-how-to-use-diagnostics
 [fqdn]: /azure/virtual-machines/virtual-machines-linux-portal-create-fqdn
+[group-policy]: /windows-server/administration/windows-server-update-services/deploy/4-configure-group-policy-settings-for-automatic-updates
 [iostat]: https://en.wikipedia.org/wiki/Iostat
 [manage-vm-availability]: /azure/virtual-machines/virtual-machines-linux-manage-availability
 [managed-disks]: /azure/storage/storage-managed-disks-overview

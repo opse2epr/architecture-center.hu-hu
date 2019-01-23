@@ -4,13 +4,16 @@ titleSuffix: Azure Resiliency Technical Guidance
 description: Ismertetése, és az Azure-bA helyszíni infrastruktúra helyreállítási rendszerek kialakítása.
 author: adamglick
 ms.date: 08/18/2016
-ms.custom: seojan19
-ms.openlocfilehash: 5e4c4ea4eede5f11e787b9957b8de47736645672
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
+ms.custom: seojan19, resiliency
+ms.openlocfilehash: 768e53e1024533b384c610378385c96d88d8571f
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111359"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487372"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
@@ -23,11 +26,11 @@ Azure-szolgáltatások engedélyezése az Azure-bA egy helyszíni adatközpont k
 - **Tárolási**: A StorSimple az Azure Storage-terjeszti ki a fájlrendszer. Az Azure Backup szolgáltatás biztonsági mentési fájl-és SQL Database-adatbázisok az Azure Storage biztosít.
 - **Adatbázis-replikáció**: Az SQL Server 2014 (vagy újabb) rendelkezésre állási csoportok a helyszíni adatok magas rendelkezésre állás és vészhelyreállítás helyreállítási valósíthat meg.
 
-## <a name="networking"></a>Hálózat
+## <a name="networking"></a>Hálózatkezelés
 
 Azure Virtual Network segítségével egy logikailag elkülönített terület létrehozása az Azure és annak biztonságos csatlakoztatása a helyszíni adatközponthoz vagy egyetlen ügyfélgéphez IPsec-kapcsolat használatával. A Virtual Network révén, kihasználhatja az igény szerint skálázható infrastruktúra az Azure-ban művelet során gondoskodik az adatokhoz és alkalmazásokhoz a helyszínen, beleértve a Windows Server, Nagyszámítógépek és UNIX rendszerekre való kapcsolódás. Lásd: [az Azure hálózati dokumentációja](/azure/virtual-network/virtual-networks-overview/) további információt.
 
-## <a name="compute"></a>Compute
+## <a name="compute"></a>Számítás
 
 Ha a helyszíni Hyper-V használata esetén meg is "átemelése" meglévő virtuális gépek Azure-ba, és formázza a Windows Server 2012 (vagy újabb rendszerű), a virtuális gép módosítása nélkül, vagy virtuális gép konvertálása szolgáltatók. További információkért lásd: [lemezek és virtuális merevlemezek, az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-linux-about-disks-vhds/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 
@@ -35,7 +38,7 @@ Ha a helyszíni Hyper-V használata esetén meg is "átemelése" meglévő virtu
 
 Ha azt szeretné, vész-helyreállítási szolgáltatás (DRaaS), az Azure biztosít [Azure Site Recovery](https://azure.microsoft.com/services/site-recovery/). Az Azure Site Recovery VMware-, Hyper-V és fizikai kiszolgálók teljes körű védelmet nyújt. Az Azure Site Recovery használhatja egy másik helyszíni kiszolgálón vagy az Azure helyreállítási helyként. További információ az Azure Site Recovery: a [Azure Site Recovery dokumentációja](https://azure.microsoft.com/documentation/services/site-recovery/).
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárhely
 
 Többféle módon is az Azure-t a helykiszolgáló biztonsági mentése a helyszíni adatok számára.
 
@@ -77,17 +80,17 @@ További információkért lásd: [magas rendelkezésre állás és vészhelyre�
 
 <!-- markdownlint-disable MD024 -->
 
-### <a name="networking"></a>Hálózat
+### <a name="networking"></a>Hálózatkezelés
 
 1. Tekintse át a jelen dokumentum a hálózatkezelés című szakaszában.
 2. Virtuális hálózat használatával a helyszíni biztonságosan csatlakozhat a felhőben.
 
-### <a name="compute"></a>Compute
+### <a name="compute"></a>Számítás
 
 1. Tekintse át a számítási szakasz ebben a dokumentumban.
 2. Virtuális gépek áthelyezése a Hyper-V és az Azure között.
 
-### <a name="storage"></a>Storage
+### <a name="storage"></a>Tárhely
 
 1. Tekintse át a Storage szakasz ebben a dokumentumban.
 2. A felhőalapú tárolással a StorSimple-szolgáltatások előnyeit.

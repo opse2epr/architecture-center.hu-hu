@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: Számítási folyadékdinamikai (CFD) szimulációkat hajthat végre az Azure-ban.
 author: mikewarr
 ms.date: 09/20/2018
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: af43a60e952d75f84b4c7903a1567b0c76b9f4c4
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.openlocfilehash: 0bd0590ccc2975481e23ac2154c4f0998e1f0877
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643934"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488477"
 ---
 # <a name="running-computational-fluid-dynamics-cfd-simulations-on-azure"></a>Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
 
@@ -99,19 +102,19 @@ Egy HPC-implementációhoz CycleCloud kiszolgáló használatával futtatásáva
 Ebből a forgatókönyvből megtudhatja, hogyan CFD alkalmazások is futtathatók az Azure-ban, így a gépek szükséges RDMA funkciója, amely csak az adott Virtuálisgép-méretek érhető el. A következő példák, amely folyamatosan lefoglalt nyolc óra / nap egy hónapban, az 1 TB kimenő adatforgalom a méretezési csoport esetében sikerült felmerülő költségek. Ezenkívül tartalmazza az Azure CycleCloud kiszolgáló-és az Azure-telepítés Avere vFXT:
 
 - Régió: Észak-Európa
-- Az Azure CycleCloud kiszolgáló: Standard D3 x 1 (4 x Standard HDD processzor, 14 GB memória, 32 GB)
-- Az Azure CycleCloud főkiszolgáló: Standard D12 v (4 x processzor, 28 GB memória, Standard HDD 32 GB) x 1
-- Az Azure CycleCloud csomópont tömb: Standard H16r x 10 (16 x processzor, 112 GB memória)
+- Azure CycleCloud Server: Standard D3 x 1 (4 x Standard HDD processzor, 14 GB memória, 32 GB)
+- Azure CycleCloud Master Server: Standard D12 v (4 x processzor, 28 GB memória, Standard HDD 32 GB) x 1
+- Azure CycleCloud Node Array: Standard H16r x 10 (16 x processzor, 112 GB memória)
 - Az Azure-fürtön vFXT Avere: 3 x D16s v3 (200 GB-os OS, 1 TB méretű adatlemezzel prémium szintű SSD)
 - Kimenő adatforgalom: 1 TB
 
 Tekintse át ezt [a becsült ár] [ pricing] a fent felsorolt hardver.
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
 Miután üzembe helyezte a mintát, tudjon meg többet [Azure CycleCloud][cyclecloud].
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 - [RDMA-kompatibilis virtuálisgép-példányok][rdma]
 - [Egy RDMA-példány virtuális gép testreszabása][rdma-custom]

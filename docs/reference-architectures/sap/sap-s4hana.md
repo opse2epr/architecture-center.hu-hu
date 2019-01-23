@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Bevált eljárások az SAP S/4HANA környezetben futó Linux rendszerű Azure-ban magas rendelkezésre állású.
 author: lbrader
 ms.date: 05/11/2018
-ms.custom: seodec18
-ms.openlocfilehash: 9eb73ddaf5b1cb815f037f46c7e187f61d126876
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, SAP, Linux
+ms.openlocfilehash: 519dac655065d53df5c918b55bda06ce8751c012
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53644172"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485740"
 ---
 # <a name="sap-s4hana-for-linux-virtual-machines-on-azure"></a>SAP S/4HANA, a Linux rendszerű virtuális gépek az Azure-ban
 
@@ -202,7 +205,7 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

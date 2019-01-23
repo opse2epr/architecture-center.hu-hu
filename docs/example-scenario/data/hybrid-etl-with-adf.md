@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: Hibrid ETL a meglévő helyszíni SQL Server Integration Services (SSIS) telepítések és az Azure Data Factoryban.
 author: alhieng
 ms.date: 09/20/2018
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
 ms.custom: tsp-team
-ms.openlocfilehash: a2ca3817ed172e6d2332a92f68970ea2a5ad8f6c
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 2fc5a94391b2e7e24209e884a790fe72070c4fc2
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54110390"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485111"
 ---
 # <a name="hybrid-etl-with-existing-on-premises-ssis-and-azure-data-factory"></a>Hibrid ETL meglévő helyszíni SSIS-sel és Azure Data Factoryval
 
@@ -77,7 +80,7 @@ Adat-előállító használ a fogyasztás alapú számlázáshoz. Költség foly
 
 Ha egy hibrid ETL számítási feladatot futtat, figyelembe kell venni az SSIS-csomagok üzemeltetéséhez használt virtuális gép költségét. A virtuális gép és a egy D1v2 mérete alapján ez a költség (1 mag, 3,5 GB RAM, 50 GB-os lemezt) való E64V3 (64 mag, 432 GB RAM, 1600 GB-os lemezt). Ha szüksége további útmutatást a kiválasztott virtuális gép mérete megfelelő, tekintse meg [virtuális gépek teljesítményével kapcsolatos megfontolások](/azure/cloud-services/cloud-services-sizes-specs#performance-considerations).
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
 - Tudjon meg többet [Azure Data Factory](https://azure.microsoft.com/services/data-factory/).
 - Ismerkedés az Azure Data Factory a következő a [részletes oktatóanyag](/azure/data-factory/#step-by-step-tutorials).

@@ -3,12 +3,16 @@ title: Egy Azure-régióban, adatvesztés helyreállítása
 description: Tudnivalók a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási.
 author: adamglick
 ms.date: 08/18/2016
-ms.openlocfilehash: bd0d8a7e544188a79cbba4b58a9e31358e4ccf0d
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
+ms.custom: resiliency
+ms.openlocfilehash: 7f207bbc0bb0128126f9b828dc100d43553cb100
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111971"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487976"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
@@ -45,7 +49,7 @@ Számos alternatív stratégiák elosztott számítási megvalósításának ré
 
 Elosztott tervezési teljes hatásának a megbeszélését ebben a dokumentumban hatókörén kívül esik. További információkért lásd: [vészhelyreállítás és magas rendelkezésre állás az Azure-alkalmazások](https://aka.ms/drtechguide).
 
-## <a name="virtual-machines"></a>Virtual machines (Virtuális gépek)
+## <a name="virtual-machines"></a>Virtual machines
 
 A helyreállítási szolgáltatás (IaaS) virtuális gépeken (VM) az infrastruktúra hasonlít platform, a platformszolgáltatás (PaaS) számítási helyreállítási sok szempontból. Fontos funkciókülönbségek vannak, azonban oka, hogy az a virtuális gép, mind a Virtuálisgép-lemez áll egy IaaS-beli virtuális Gépen.
 
@@ -56,7 +60,7 @@ A helyreállítási szolgáltatás (IaaS) virtuális gépeken (VM) az infrastruk
 
 - **Több Virtuálisgép-lemezek földrajzi feladatátvétel után konzisztencia kapcsolatos lehetséges problémák figyelembe**. Virtuálisgép-lemezek vannak implementálva az Azure Storage-blobokkal, és rendelkezik az azonos georeplikációs jellemző. Kivéve, ha [Azure Backup](https://azure.microsoft.com/services/backup/) van használt, garanciát nem jelentenek konzisztencia lemezeken, mert georeplikációs aszinkron, és egymástól függetlenül replikálja. Az egyes Virtuálisgép-lemezek garantáltan egy összeomlás-konzisztens az állapot egy földrajzi feladatátvétel után, de nem konzisztens lemezek között. Ez bizonyos esetekben (például esetén lemez csíkozást) problémákat okozhat.
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárhely
 
 ### <a name="recovery-by-using-geo-redundant-storage-of-blob-table-queue-and-vm-disk-storage"></a>Helyreállítási blob, tábla, üzenetsor és a virtuális gép lemezes tárolás, Georedundáns tárolás használatával
 
@@ -92,7 +96,7 @@ Lásd a szakasz a Virtuálisgép-lemezek, garanciát nem jelentenek az adatkonzi
 
 ## <a name="database"></a>Adatbázis
 
-### <a name="sql-database"></a>SQL Database
+### <a name="sql-database"></a>SQL-adatbázis
 
 Az Azure SQL Database két típusú helyreállítási biztosítja: A GEO-visszaállítás és aktív Georeplikációt.
 

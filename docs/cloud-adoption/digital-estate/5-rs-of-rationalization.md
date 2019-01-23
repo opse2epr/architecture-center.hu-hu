@@ -4,12 +4,15 @@ titleSuffix: Enterprise Cloud Adoption
 description: Ismerteti, amely egy digitális hagyatéki ésszerűsítéséről esetén érhetők el a beállításokat
 author: BrianBlanchard
 ms.date: 12/10/2018
-ms.openlocfilehash: 66eee782b63210bcba3022e3be5b8fdee11716ec
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 53beb2ee0f99c107ed390a4309273ad20e405b69
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643679"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484295"
 ---
 # <a name="enterprise-cloud-adoption-the-5-rs-of-rationalization"></a>Enterprise Cloud Adoption: A 5 ésszerűsítés az Rs
 
@@ -23,7 +26,7 @@ Más néven "lift- and -shift," egy áthelyezési erőfeszítés helyezi át a j
 
 Közös illesztőprogramot lehetnek:
 
-* Csökkentheti a tőkeráfordítás mértékét
+* Reduce CapEx
 * Szabadítson fel lemezterületet a datacenter
 * Gyors felhőbeli megtérülés
 

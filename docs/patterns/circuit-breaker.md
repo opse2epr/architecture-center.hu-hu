@@ -5,13 +5,16 @@ description: Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezel
 keywords: tervezési minta
 author: dragon119
 ms.date: 06/23/2017
+ms.topic: design-pattern
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 56c90fcb23fd68b0d1b545db90adeab3272705c2
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.openlocfilehash: 7cc84b3c14ea277aa82643f3141f0693ec702a49
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54009763"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485604"
 ---
 # <a name="circuit-breaker-pattern"></a>Áramkör-megszakító minta
 
@@ -19,7 +22,7 @@ Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a
 
 ## <a name="context-and-problem"></a>Kontextus és probléma
 
-Elosztott környezetben előfordulhat, hogy a távoli erőforrások és szolgáltatások meghívása átmeneti hibák miatt meghiúsul. Ilyen probléma lehet a lassú hálózati kapcsolat vagy időtúllépés, illetve ha az erőforrások nem fedezik az igényeket, vagy átmenetileg nem érhetők el. Ezek a hibák általában javítsa egymás után rövid idő alatt, és a egy stabil felhőalapú alkalmazásnak fel kell készülnie például az [újrapróbálkozási minta] stratégia használatával kezelendő [újrapróbálkozási minta].
+Elosztott környezetben előfordulhat, hogy a távoli erőforrások és szolgáltatások meghívása átmeneti hibák miatt meghiúsul. Ilyen probléma lehet a lassú hálózati kapcsolat vagy időtúllépés, illetve ha az erőforrások nem fedezik az igényeket, vagy átmenetileg nem érhetők el. Ezek a hibák általában javítsa egymás után rövid idő alatt, és a egy stabil felhőalapú alkalmazásnak fel kell készülnie stratégia használatával kezelendő a [újrapróbálkozási minta](./retry.md).
 
 Lehetnek azonban olyan helyzetek, amikor a hibákat nem várt események okozzák, amelyek helyrehozása tovább tarthat. Az ilyen hibák súlyossága a részleges kapcsolódási problémától a szolgáltatás teljes leállásáig terjedhet. Az ilyen helyzetekben lehet, hogy nincs értelme az alkalmazásnak folyamatosan újrapróbálkozni a művelettel, mert nem valószínű, hogy sikerrel járna. Ehelyett inkább az a szerencsés, ha az alkalmazás gyorsan tudomásul veszi, hogy a művelet nem sikerült, és ennek megfelelően kezeli a hibát.
 

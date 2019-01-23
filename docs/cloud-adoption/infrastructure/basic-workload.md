@@ -3,14 +3,18 @@ title: 'Vállalati felhő bevezetésének: egy alapvető számítási feladatok 
 description: Ismerteti, hogyan helyezhet üzembe egy alapvető számítási feladatok Azure-bA
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: 363e7e6f394389fb6c1577e2cbaeffeddcf2de1a
-ms.sourcegitcommit: b38ba378c9d6110da2dfd50b4233fadd94604bb0
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: Windows, Linux
+ms.openlocfilehash: 031a8f2e1dc0b137fc830733d025997a2657ef3c
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/25/2018
-ms.locfileid: "47167353"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481405"
 ---
-# <a name="enterprise-cloud-adoption-deploy-a-basic-workload"></a>Enterprise Cloud Adoption: Egy alapvető számítási feladatok üzembe helyezése
+# <a name="enterprise-cloud-adoption-deploy-a-basic-workload"></a>Enterprise Cloud Adoption: Alapszintű számítási feladat üzembe helyezése
 
 Az előfizetési időszak **munkaterhelés** általában érthető funkciók, például alkalmazások vagy szolgáltatások egy tetszőleges egysége meghatározásához. Azt gondolja végig egy számítási feladat tekintetében a kód-összetevők a kiszolgálóra telepített, hanem a szükséges szolgáltatások tekintetében. Ez hasznos definícióját egy helyszíni alkalmazást vagy szolgáltatást, de a felhőben, bontsa ki kell.
 

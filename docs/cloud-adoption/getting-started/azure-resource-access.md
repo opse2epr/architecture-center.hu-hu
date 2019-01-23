@@ -3,12 +3,15 @@ title: 'Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ba
 description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: Az Azure resource manager, az előfizetések, erőforráscsoportok és erőforrások'
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: 8cb28d0dd5dbdfcef846786083d5197f435bf3ea
-ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 9f1d28cfeb062f44b2c58cd52c58f163d6de5b9d
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/09/2019
-ms.locfileid: "54160791"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483071"
 ---
 # <a name="enterprise-cloud-adoption-resource-access-management-in-azure"></a>Enterprise Cloud Adoption: Erőforráshozzáférés-kezelés az Azure-ban
 
@@ -68,7 +71,7 @@ Most, hogy az Azure resource manager works megismerése, nézzük térjen vissza
 Az első vezérlőelem, hogy a kérelmet kell kezdeményeznie, ha igazolt felhasználója, és a egy megbízható kapcsolattal rendelkezik az Azure resource manager [Azure Active Directory (Azure AD)](/azure/active-directory/) felhasználói identitáskezelési funkciókat biztosít.
 
 ![](../_images/governance-1-16.png)   
-*8. ábra Az Azure Active Directory.*
+*8. ábra Azure Active Directory.*
 
 Azure ad-felhasználók szegmentált be **bérlők**. Egy bérlő egy logikai szerkezet, amely általában egy szervezet társított Azure AD egy biztonságos, dedikált példányát jelöli. Minden egyes előfizetés társítva az Azure AD-bérlő.
 
@@ -99,7 +102,7 @@ A végső vezérlő annak ellenőrzése, hogy a vonatkozó kérés, a pénzügyi
 ![](../_images/governance-1-21.png)   
 *13. ábra. A pénzügyi kötelezettségvállalás nélkül kapcsolódik előfizetés.*
 
-## <a name="summary"></a>Összegzés
+## <a name="summary"></a>Összefoglalás
 
 Ebből a cikkből megismerhette erőforrásokhoz való hozzáférés kezelésének módját az Azure-ban az Azure resource manager használatával.
 

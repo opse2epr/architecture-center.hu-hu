@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Referencia-architektúra, kiszolgáló nélküli eseményfogadás és feldolgozás céljából, az Azure Functions szolgáltatással.
 author: MikeWasson
 ms.date: 10/16/2018
-ms.custom: seodec18
-ms.openlocfilehash: 23edc69e52981cfd15717b491875b34ed025958a
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, serverless
+ms.openlocfilehash: 9d2535c3e350000783265dc58c83d00a38d45448
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111393"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486208"
 ---
 # <a name="serverless-event-processing-using-azure-functions"></a>Az Azure Functions szolgáltatással kiszolgáló nélküli eseményfeldolgozás
 

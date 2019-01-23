@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Ismerteti az előnyeit, kihívásait és ajánlott eljárások az N szintű architektúrákat az Azure-ban.
 author: MikeWasson
 ms.date: 08/30/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 29c098a9190a2480fa9d48c4d0c94832b42297ef
-ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
+ms.openlocfilehash: d7b94d56831a6b9172a9091f0e4f7fa63a8881f1
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/17/2019
-ms.locfileid: "54372822"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481490"
 ---
 # <a name="n-tier-architecture-style"></a>N szintű architektúrastílus
 

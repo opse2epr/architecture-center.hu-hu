@@ -3,12 +3,15 @@ title: Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újr
 description: Hogyan bontani egy meglévő Azure Service Fabric-alkalmazás migrálása az Azure Cloud Services
 author: petertay
 ms.date: 02/02/2018
-ms.openlocfilehash: 14ecaf81a07c72296e8db300df371e9a0c990434
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.openlocfilehash: 1fd6bb5df18b46c8df3719fd107dd53a18dfd4ff
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916464"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487287"
 ---
 # <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
 
@@ -91,7 +94,7 @@ Vegye figyelembe, hogy egy ReliableConcurrentQueue el távolítva a sorból elem
 
 Minden egyes szolgáltatás a Surveys alkalmazás RESTful webes API-k segítségével kommunikál. RESTful API-k az alábbi előnyöket kínálják:
 * Könnyű használat: minden egyes szolgáltatás az ASP.NET Core MVC, amelyek natív módon támogatja a webes API-k használatával lett összeállítva.
-* Biztonság: Bár mindegyikük nincs szükség az SSL, Tailspin igényel minden egyes szolgáltatás ehhez. 
+* Biztonság: Egyes szolgáltatások nem követeli meg az SSL, miközben Tailspin ehhez minden egyes szolgáltatást igényel. 
 * Verziókezelés: az ügyfelek is nyelven íródott, és webes API-k egy adott verzióját tesztelve lett.
 
 Szolgáltatásokat alkalmazás ellenőrizze a felmérés felhasználása a [fordított proxy] [ reverse-proxy] Service Fabric által megvalósított. Fordított proxy egy szolgáltatása, amely a Service Fabric-fürt minden csomópontján lefut, és megadja a végpontot, az automatikus újrapróbálkozás, és kezeli a csatlakozási hibák egyéb típusú. A fordított proxy használatára, egy RESTful API-hívás egy adott szolgáltatáshoz végzett fordított proxy előre meghatározott portot használ.  Például, ha a fordított proxy portjával van beállítva **19081**, hívása a *Tailspin.SurveyAnswerService* módon lehet tenni:
@@ -154,7 +157,7 @@ Ha meg van még csak most ismerkedik [Azure Service Fabric][service-fabric], el�
 <!-- links -->
 [azure-sdk]: https://azure.microsoft.com/downloads/archive-net-downloads/
 [container-scenarios]: /azure/service-fabric/service-fabric-containers-overview
-[Kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore2x
+[kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore2x
 [kestrel-intro]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore1x
 [migrate-from-cloud-services]: migrate-from-cloud-services.md
 [monitoring-diagnostics]: /azure/service-fabric/service-fabric-diagnostics-overview

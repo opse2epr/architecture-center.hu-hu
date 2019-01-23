@@ -3,12 +3,15 @@ title: Egy adatátviteli technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 1cb763ade2aa263d07a59cc6bfc29d59bec7af19
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: c58d06813e3a500c6bb1b6c7889e65f401be6c33
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113042"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484533"
 ---
 # <a name="transferring-data-to-and-from-azure"></a>Adatátvitel, és az Azure-ból
 
@@ -89,23 +92,23 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Azure Import/Export szolgáltatás | Azure Data Box |
 | --- | --- | --- |
 | Helyigény | Belső SATA HDD vagy Sdd | Biztonságos, hamisíthatatlan, egyetlen hardver készülék |
-| A Microsoft felügyeli a szállítási címhez tartozó logisztika | Nem | Igen |
-| Partnerek termékei integrálható | Nem | Igen |
-| Egyéni készülék | Nem | Igen |
+| A Microsoft felügyeli a szállítási címhez tartozó logisztika | Nincs | Igen |
+| Partnerek termékei integrálható | Nincs | Igen |
+| Egyéni készülék | Nincs | Igen |
 
 ### <a name="command-line-tools"></a>Parancssori eszközök
 
-**/ HDInsight: Hadoop**
+**Hadoop/HDInsight:**
 
 | | A Distcp | Sqoop | Hadoop-CLI |
 | --- | --- | --- | --- |
 | Big Data-optimalizált | Igen | Igen |  Igen |
-| Relációs adatbázis másolása |  Nem | Igen | Nem |
-| Relációs adatbázis másolása |  Nem | Igen | Nem |
+| Relációs adatbázis másolása |  Nincs | Igen | Nincs |
+| Relációs adatbázis másolása |  Nincs | Igen | Nincs |
 | Másolja a Blob storage |  Igen | Igen | Igen |
-| A Blob storage-ból | Igen |  Igen | Nem |
+| A Blob storage-ból | Igen |  Igen | Nincs |
 | Data Lake Store másolása | Igen | Igen | Igen |
-| A Data Lake Store másolása | Igen | Igen | Nem |
+| A Data Lake Store másolása | Igen | Igen | Nincs |
 
 **Egyéb:**
 
@@ -113,14 +116,14 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | Azure CLI | AzCopy | PowerShell | Az AdlCopy | PolyBase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kompatibilis platformon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | Az SQL Server, az Azure SQL Data warehouse-bA |
-| Big Data-optimalizált | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>2</sup> |
-| Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen |
-| Relációs adatbázis másolása | Nem | Nem | Nem | Nem | Igen |
+| Kompatibilis platformon | Linux, OS X, Windows | Linux, Windows | Windows | Linux, OS X, Windows | SQL Server, Azure SQL Data Warehouse |
+| Big Data-optimalizált | Nincs | Nem | Nincs | Igen <sup>1</sup> | Igen <sup>2</sup> |
+| Relációs adatbázis másolása | Nincs | Nem | Nem | Nem | Igen |
+| Relációs adatbázis másolása | Nincs | Nem | Nem | Nem | Igen |
 | Másolja a Blob storage | Igen | Igen | Igen | Nem | Igen |
 | A Blob storage-ból | Igen | Igen | Igen | Igen | Igen |
-| Data Lake Store másolása | Nem | Nem | Igen | Igen |  Igen |
-| A Data Lake Store másolása | Nem | Nem | Igen | Igen | Igen |
+| Data Lake Store másolása | Nincs | Nem | Igen | Igen |  Igen |
+| A Data Lake Store másolása | Nincs | Nem | Igen | Igen | Igen |
 
 <!-- markdownlint-enable MD033 -->
 
@@ -132,17 +135,17 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | Azure Storage Explorer | Az Azure portal * | Azure Data Factory |
 | --- | --- | --- | --- |
-| Big Data-optimalizált | Nem | Nem | Igen |
-| Relációs adatbázis másolása | Nem | Nem | Igen |
-| Relációs adatbázis másolása | Nem | Nem | Igen |
+| Big Data-optimalizált | Nincs | Nem | Igen |
+| Relációs adatbázis másolása | Nincs | Nem | Igen |
+| Relációs adatbázis másolása | Nincs | Nem | Igen |
 | Másolja a Blob storage | Igen | Nem | Igen |
 | A Blob storage-ból | Igen | Nem | Igen |
-| Data Lake Store másolása | Nem | Nem | Igen |
-| A Data Lake Store másolása | Nem | Nem | Igen |
+| Data Lake Store másolása | Nincs | Nem | Igen |
+| A Data Lake Store másolása | Nincs | Nem | Igen |
 | Feltöltése a Blob storage | Igen | Igen | Igen |
 | A Data Lake Store feltöltése | Igen | Igen | Igen |
-| Összehangolhatja a adatátvitel | Nem | Nem | Igen |
-| Egyéni adatátalakítások | Nem | Nem | Igen |
+| Összehangolhatja a adatátvitel | Nincs | Nem | Igen |
+| Egyéni adatátalakítások | Nincs | Nem | Igen |
 | Díjszabási modell | Ingyenes | Ingyenes | Fizessen a használat |
 
 \* Az Azure portal ebben az esetben azt jelenti, a webes adatvizsgálati eszközök használata a Blob storage és a Data Lake Store.

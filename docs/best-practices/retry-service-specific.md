@@ -4,13 +4,16 @@ titleSuffix: Best practices for cloud applications
 description: Szolgáltatásspecifikus útmutató az újrapróbálkozási mechanizmus beállításához.
 author: dragon119
 ms.date: 08/13/2018
+ms.topic: best-practice
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: ad26b55625276ae95004652acfd745b2c4b53a8f
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: d99c63b9cb5f2ed7ffcd869b5b8ac7910b9dabe3
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307350"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487137"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -25,9 +28,9 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 | **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
 | **[Cosmos DB](#cosmos-db)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
 | **Data Lake Store** |Natív, az ügyfél része |Nem konfigurálható |Egyes műveletek |None |
-| **[Az Event Hubs](#event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
-| **[Az IoT Hub](#iot-hub)** |Natív, az ügyfél-SDK |Szoftveres |Ügyfél |None |
-| **[A redis Cache](#azure-redis-cache)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
+| **[Event Hubs](#event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
+| **[IoT Hub](#iot-hub)** |Natív, az ügyfél-SDK |Szoftveres |Ügyfél |None |
+| **[Redis Cache](#azure-redis-cache)** |Natív, az ügyfél része |Szoftveres |Ügyfél |TextWriter |
 | **[Keresés](#azure-search)** |Natív, az ügyfél része |Szoftveres |Ügyfél |ETW vagy egyéni |
 | **[Service Bus](#service-bus)** |Natív, az ügyfél része |Szoftveres |Névtérkezelő, üzenetkezelési előállító vagy ügyfél |ETW |
 | **[Service Fabric](#service-fabric)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
@@ -64,8 +67,8 @@ A következő kezdőbeállításokat javasoljuk az újrapróbálkozási művelet
 
 | **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />igaz |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />hamis |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
 
 ### <a name="more-information"></a>További információ
 
@@ -423,7 +426,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzat alap�
 
 A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
 
-| Környezet | Példa a maximális késésre | Újrapróbálkozási szabályzat | Beállítások | Működés |
+| Környezet | Példa a maximális késésre | Újrapróbálkozási házirend | Beállítások | A működési elv |
 |---------|---------|---------|---------|---------|
 | Interaktív, felhasználói felület vagy előtér | 2 másodperc*  | Exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 300 ms <br/> TimeBuffer = 300 ms <br/> MaxRetryCount = 2 | 1. kísérlet: 0 mp. késleltetés. <br/> 2. kísérlet: MS késleltetés 300 KB. <br/> 3. kísérlet: MS késleltetés ~ 900. |
 | Háttér vagy kötegelt | 30 másodperc | Exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 1,75 mp. <br/> TimeBuffer = 5 mp. <br/> MaxRetryCount = 3 | 1. kísérlet: KB. 1 mp. késleltetés. <br/> 2. kísérlet: KB. 3 mp. késleltetés. <br/> 3. kísérlet: MS késleltetés KB. 6. <br/> 4. kísérlet: MS késleltetés ~ 13. |
@@ -542,7 +545,7 @@ namespace RetryCodeSamples
 
 - [Aszinkron üzenetkezelési minták és magas rendelkezésre állás](/azure/service-bus-messaging/service-bus-async-messaging)
 
-## <a name="service-fabric"></a>Service Fabric
+## <a name="service-fabric"></a>Service Fabric-példány
 
 A megbízható szolgáltatások Service Fabric-fürtön belüli elosztásával a cikkben tárgyalt legtöbb átmeneti hiba elkerülhető. Azonban így is előfordulhatnak átmeneti hibák. Előfordulhat például, hogy a kérés érkezésekor az elnevezési szolgáltatás egy útválasztási változtatást végez, ami kivételt eredményez. Ugyanez a kérés 100 milliszekundummal később talán sikeres lett volna.
 
@@ -595,8 +598,8 @@ A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez.
 
 | **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />igaz |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />hamis |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
 
 > [!NOTE]
 > A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.

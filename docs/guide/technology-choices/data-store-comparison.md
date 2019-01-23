@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Az Azure számítási lehetőségeinek áttekintése.
 author: MikeWasson
 ms.date: 06/01/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 156df11d74d033d40d943c60e8e41d4920a24175
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: f7c19501b9f28db3892285b5f35a33f02edd87ab
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54114317"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488137"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -66,7 +69,7 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 
 - **Költséghatékonyság**. Lehetséges-e az adatok particionálása a költséghatékonyabb tárolás érdekében? Például áthelyezhetők-e a nagy méretű objektumok egy költséges relációs adatbázisból egy objektumtárolóba?
 
-### <a name="security"></a>Biztonság
+### <a name="security"></a>Biztonsági
 
 - **Biztonság**. Milyen típusú titkosításra van szüksége? Szüksége van titkosításra inaktív állapotban? Milyen hitelesítési mechanizmust szeretne használni az adatokhoz való kapcsolódáshoz?
 
@@ -275,7 +278,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
             <li>Személyre szabás</li>
             <li>Érzékelői adatok</li>
             <li>Telemetria</li>
-            <li>Üzenetkezelés</li>
+            <li>Üzenetküldés</li>
             <li>Közösségi médiaelemzés</li>
             <li>Webes elemzés</li>
             <li>Tevékenység figyelése</li>

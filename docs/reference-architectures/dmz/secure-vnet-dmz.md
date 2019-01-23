@@ -4,17 +4,23 @@ titleSuffix: Azure Reference Architectures
 description: Interneteléréssel rendelkező, biztonságos hibrid hálózati architektúra megvalósítása az Azure-ban.
 author: telmosampaio
 ms.date: 10/22/2018
-ms.custom: seodec18
-ms.openlocfilehash: 10c8a23ab09da0555de6a51bc082deceb8c462ff
-ms.sourcegitcommit: 680c9cef945dff6fee5e66b38e24f07804510fa9
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, networking
+ms.openlocfilehash: 80125626d0c79888445bc7828577846bcce9fc67
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/04/2019
-ms.locfileid: "54011531"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488222"
 ---
 # <a name="implement-a-dmz-between-azure-and-the-internet"></a>Implementálhat DMZ-t az Azure és az Internet között
 
 Ez a referenciaarchitektúra egy biztonságos hibrid hálózatot mutat be, amely kiterjeszti a helyszíni hálózatot az Azure-ba, és internetes forgalmat is fogad. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+
+> [!NOTE]
+> Ebben a forgatókönyvben használatával is elvégezhető [Azure tűzfal](/azure/firewall/), egy felhőalapú hálózati biztonsági szolgáltatás.
 
 ![Biztonságos hibrid hálózati architektúra](./images/dmz-public.png)
 

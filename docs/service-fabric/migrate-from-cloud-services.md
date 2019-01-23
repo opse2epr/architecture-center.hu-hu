@@ -3,12 +3,15 @@ title: Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása
 description: Hogyan telepíthet át egy alkalmazást az Azure Cloud Services az Azure Service Fabric.
 author: MikeWasson
 ms.date: 04/11/2018
-ms.openlocfilehash: a1b4e005b2dab67d8107f4002468e1d7622ae342
-ms.sourcegitcommit: dbbf914757b03cdee7a274204f9579fa63d7eed2
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.openlocfilehash: e2b89fa51abdb7be6124ded6e64889b5b54854a4
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50916447"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487899"
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása 
 
@@ -70,7 +73,7 @@ A Service Fabric egy elosztott felhőalkalmazások létrehozásához már bizony
 
 Az alábbi táblázatban összefoglaltuk a Cloud Services és a Service Fabric-alkalmazások közötti különbség. Részletesebb, lásd: [való migrálás előtt a Cloud Services és a Service Fabric közötti különbségekről további alkalmazások][sf-compare-cloud-services].
 
-|        | Cloud Services | Service Fabric |
+|        | Cloud Services | Service Fabric-példány |
 |--------|---------------|----------------|
 | Alkalmazás összeállítása | Szerepkörök| Szolgáltatások |
 | Sűrűség |Egy szerepkörpéldány virtuális gépenként | Az egyetlen csomópont több szolgáltatást |
@@ -78,7 +81,7 @@ Az alábbi táblázatban összefoglaltuk a Cloud Services és a Service Fabric-a
 | Állapotkezelés | Állapot nélküli | Állapot nélküli vagy állapotalapú |
 | Hosting | Azure | Felhőalapú vagy helyszíni. |
 | Webes üzemeltetés | IIS** | Self-hosting |
-| Üzemi modell | [Klasszikus üzemi modellben][azure-deployment-models] | [Erőforrás-kezelő][azure-deployment-models]  |
+| Telepítési modell | [Klasszikus üzemi modellben][azure-deployment-models] | [Resource Manager][azure-deployment-models]  |
 | Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szolgáltatási csomagok |
 | Alkalmazás frissítése | Virtuális IP-címek felcserélése vagy működés közbeni frissítés | A működés közbeni frissítés |
 | Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Az automatikus Virtuálisgép-méretezési csoportok horizontális felskálázás |
@@ -101,7 +104,7 @@ Az alkalmazás két webes és feldolgozói szerepkör áll.
 
 - A **Tailspin.Web.Survey.Public** webes szerepkör futtatja az ASP.NET-webhely, ahol személyek is igénybe vehet a felmérések, amelyek a Tailspin ügyfelek közzététele. 
 
-- A **Tailspin.Workers.Survey** feldolgozói szerepkör háttérbeli feldolgozásra. A webes szerepkörök munkaelemek helyezzen be egy üzenetsort, és a feldolgozói szerepkör feldolgozza az elemeket. Két háttérfeladatokat vannak definiálva: felmérés exportálása válaszok az Azure SQL Database és a számítási statisztikája felmérés válaszokat.
+- A **Tailspin.Workers.Survey** feldolgozói szerepkör háttérbeli feldolgozásra. A webes szerepkörök munkaelemek helyezzen be egy üzenetsort, és a feldolgozói szerepkör feldolgozza az elemeket. Két háttérfeladatokat vannak meghatározva: Azure SQL Database és a felmérésre adott válaszok kiszámításának statisztikája felmérés exportálása választ.
 
 Mellett a Cloud Services a Surveys alkalmazás egyes más Azure-szolgáltatásokat használja:
 
@@ -199,11 +202,11 @@ Az alkalmazáscsomag, üzembe helyezése. Egy vagy több szolgáltatási csomago
 
 Service Fabric-alkalmazás a következő konfigurációs fájlokat tartalmazza:
 
-| Fájl | Hely | Leírás |
+| Fájl | Tartózkodási hely | Leírás |
 |------|----------|-------------|
 | ApplicationManifest.xml | Alkalmazáscsomag | Meghatározza a szolgáltatások, az alkalmazás alkotó. |
 | ServiceManifest.xml | Szolgáltatási csomag| Egy vagy több szolgáltatást ismerteti. |
-| Settings.XML | Konfigurációs csomag feltöltése | A szolgáltatások, a service csomagban meghatározott konfigurációs beállításait tartalmazza. |
+| Settings.xml | Konfigurációs csomag feltöltése | A szolgáltatások, a service csomagban meghatározott konfigurációs beállításait tartalmazza. |
 
 További információkért lásd: [minta Service Fabric-alkalmazásokhoz][sf-application-model].
 

@@ -4,13 +4,16 @@ titleSuffix: Azure Design Review Framework
 description: Fejlesztési és üzemeltetési kapcsolatos útmutatást nyújtó ellenőrzőlista.
 author: dragon119
 ms.date: 01/10/2018
+ms.topic: checklist
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
 ms.custom: checklist
-ms.openlocfilehash: 218456c7cfbf1bdff4bf5f7404cfbd67aad5c193
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 1a000c811cce57cc9b1fcda84d0eb7e2a1312aca
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307214"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486267"
 ---
 # <a name="devops-checklist"></a>DevOps-ellenőrzőlista
 
@@ -70,7 +73,7 @@ A kezdeti kiadása után futtassa a teljesítmény és kapacitás teszteket, ami
 
 **Automatizált üzleti folytonossági teszt végrehajtása.** Fejlesztése a nagy méretű az üzletmenet folytonosságának, beleértve a biztonsági másolat helyreállítását a feladatátvételi tesztet. Hajtsa végre ezeket a teszteket rendszeresen automatizált folyamatok beállításával.
 
-## <a name="release"></a>Kiadás
+## <a name="release"></a>Verzió
 
 **Központi telepítések automatizálása.** Tesztelje az alkalmazást telepíti, átmeneti és éles környezetekben automatizálhatja. Automation lehetővé teszi, hogy a gyorsabb és megbízhatóbb központi telepítések, és biztosítja az egységes központi telepítések bármely támogatott környezetben. Eltávolítja a manuális telepítés által okozott emberi hibák kockázatát. Azt is egyszerűen kiadások kényelmes többször, minden lehetséges állásidő hatásainak minimalizálása érdekében a ütemezéséhez.
 
@@ -94,7 +97,7 @@ A kezdeti kiadása után futtassa a teljesítmény és kapacitás teszteket, ami
 
 **Fontolja meg, így az infrastruktúra nem módosítható.** Nem módosítható infrastruktúra képes legyen, hogy az éles környezetben üzembe helyezését követően nem szabad módosítani infrastruktúra elve szerint. Ellenkező esetben kaphat olyan állapotba, amelyben alkalmi változtatások alkalmazása, így nehéz tudni, hogy pontosan mi változott. Megváltoztathatatlan infrastruktúra működik, és cserélje le a teljes kiszolgáló minden olyan új központi telepítésének részeként. Ez lehetővé teszi a kód és tesztelt és a egy telepített, a üzemeltetési környezet. Mindaddig, amíg a következő létrehozása és üzembe helyezése a ciklus, üzembe helyezését követően a nem módosítani az infrastruktúra-összetevőket.
 
-## <a name="monitoring"></a>Figyelés
+## <a name="monitoring"></a>Monitoring
 
 **Győződjön meg arról, rendszerek rendszernek megfigyelhetőnek.** Az üzemeltetési csapat mindig betekintéssel kell rendelkezniük egyértelmű állapotának és a rendszer vagy a szolgáltatás állapotát. Külső egészségügyi végpontok beállítása állapotának figyelése, és győződjön meg arról, hogy a műveletek metrikák szoftverfejlesztők alkalmazások kódolása. Lehetővé teszi az események összevetését a rendszerek általános és következetes sémát használják. [Az Azure Diagnostics] [ azure-diagnostics] és [Application Insights] [ app-insights] állapotát és Azure-erőforrások állapotának nyomon követése a szabványos módszere van. A Microsoft [Operation Management Suite] [ oms] központi figyelési és felügyeleti felhőalapú vagy hibrid megoldásokat is biztosít.
 

@@ -3,12 +3,16 @@ title: API-tervezés
 description: Mikroszolgáltatás-alapú API-k tervezése
 author: MikeWasson
 ms.date: 10/23/2018
-ms.openlocfilehash: 3c0de3919ba46057b94d3fa5be8fe05e1bbf28f9
-ms.sourcegitcommit: 95131d1011def26fb629731d42a4e8d4d49b3540
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: microservices
+ms.openlocfilehash: 01f774773b2d2a653e52c9ee961f12c5b9fc833a
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/17/2019
-ms.locfileid: "54372838"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54485978"
 ---
 # <a name="designing-microservices-api-design"></a>Mikroszolgáltatások tervezése: API-tervezés
 
@@ -123,11 +127,11 @@ Az API-k tervezésekor gondolja át hogyan, express, hogy a tartományi modellbe
 
 | DDD fogalma | REST-megfelelője | Példa |
 |-------------|-----------------|---------|
-| Összesítés | Erőforrás | `{ "1":1234, "status":"pending"... }` |
+| Aggregálás | Erőforrás | `{ "1":1234, "status":"pending"... }` |
 | Identitás | URL-cím | `https://delivery-service/deliveries/1` |
 | Gyermekentitások | Hivatkozások | `{ "href": "/deliveries/1/confirmation" }` |
 | Érték objektumok | PUT vagy PATCH | `PUT https://delivery-service/deliveries/1/dropoff` |
-| Adattár | Gyűjtemény | `https://delivery-service/deliveries?status=pending` |
+| Tárház | Gyűjtemény | `https://delivery-service/deliveries?status=pending` |
 
 ## <a name="api-versioning"></a>API-verziószámozás
 

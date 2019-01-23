@@ -4,13 +4,16 @@ titleSuffix: Azure Reference Architectures
 description: Az Azure Active Directory (Azure AD) biztonságos hibrid hálózati architektúra megvalósítása.
 author: telmosampaio
 ms.date: 11/28/2016
-ms.custom: seodec18
-ms.openlocfilehash: cab80adad91626d0e02a6d0a27de23a9dfc43769
-ms.sourcegitcommit: 88a68c7e9b6b772172b7faa4b9fd9c061a9f7e9d
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.custom: seodec18, identity
+ms.openlocfilehash: 3dc70c7eaea18f010d67befa5969d1be0423239c
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/08/2018
-ms.locfileid: "53120067"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484397"
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -65,7 +68,7 @@ Az Azure AD Connect szinkronizálási szolgáltatást futtathatja egy virtuális
 
 Ha több helyszíni tartománnyal rendelkezik egy erdőben, javasoljuk, hogy a teljes erdőre vonatkozó adatokat egyetlen Azure AD-bérlőn tárolja és szinkronizálja. Szűrje a több tartományban is előforduló identitásokra vonatkozó információkat, hogy elkerülje a duplikációt, és minden egyes identitás csak egyszer jelenjen meg az Azure AD-ben. A duplikáció inkonzisztenciához vezethet az adatok szinkronizálásakor. További információkért lásd alább a Topológia című szakaszt.
 
-Szűréssel biztosítsa, hogy csak a szükséges adatok legyenek az Azure AD-ben tárolva. Lehetséges például, hogy a vállalat az inaktív fiókok adatait nem szeretné az Azure AD-ben tárolni. A szűrés történhet csoport, tartomány, szervezeti egység (OU) vagy attribútum alapján. A szűrők kombinálásával összetettebb szabályok is létrehozhatók. Például szinkronizálhatja egy adott tartománynak csak azokat az adatait, amelyek egy adott értékkel rendelkeznek egy kijelölt attribútumban. Részletes információkért lásd: [Az Azure AD Connect szinkronizálása: a szűrés konfigurálása][aad-filtering].
+Szűréssel biztosítsa, hogy csak a szükséges adatok legyenek az Azure AD-ben tárolva. Lehetséges például, hogy a vállalat az inaktív fiókok adatait nem szeretné az Azure AD-ben tárolni. A szűrés történhet csoport, tartomány, szervezeti egység (OU) vagy attribútum alapján. A szűrők kombinálásával összetettebb szabályok is létrehozhatók. Például szinkronizálhatja egy adott tartománynak csak azokat az adatait, amelyek egy adott értékkel rendelkeznek egy kijelölt attribútumban. Részletes információkért lásd: [Azure AD Connect szinkronizálása: A szűrés konfigurálása][aad-filtering].
 
 Az AD Connect szinkronizálási szolgáltatás magas rendelkezésre állásának implementálásához futtasson egy másodlagos átmeneti kiszolgálót. További információért lásd a Topológiai javaslatok című szakaszt.
 
@@ -108,7 +111,7 @@ Az Azure AD Connect megfelelő konfigurálásával valósítsa meg a vállalat k
   - Az Azure AD Connect szinkronizálási kiszolgáló új konfigurációjának tesztelése és üzembe helyezése.
   - Új kiszolgáló bevezetése és a régi konfiguráció leszerelése.
 
-    Ezekben a forgatókönyvekben a második példány *átmeneti módban* fut. A kiszolgáló rögzíti az importált objektumokat és a szinkronizálási adatokat az adatbázisában, de nem továbbítja azokat az Azure AD szolgáltatásba. Ha letiltja az átmeneti módot, a kiszolgáló elkezdi az adatokat az Azure AD-be írni, valamint visszaírni a jelszavakat a helyszíni címtárakba (ahol alkalmazható). További információkért lásd: [Az Azure AD Connect szinkronizálása: üzemeltetési feladatok és szempontok][aad-connect-sync-operational-tasks].
+    Ezekben a forgatókönyvekben a második példány *átmeneti módban* fut. A kiszolgáló rögzíti az importált objektumokat és a szinkronizálási adatokat az adatbázisában, de nem továbbítja azokat az Azure AD szolgáltatásba. Ha letiltja az átmeneti módot, a kiszolgáló elkezdi az adatokat az Azure AD-be írni, valamint visszaírni a jelszavakat a helyszíni címtárakba (ahol alkalmazható). További információkért lásd: [Azure AD Connect szinkronizálása: Üzemeltetési feladatok és szempontok][aad-connect-sync-operational-tasks].
 
 - **Több Azure AD-címtár**. Egy vállalathoz egyetlen Azure AD-címtárat javasolt létrehozni, de előfordulhatnak olyan esetek, amikor az adatokat külön Azure AD-címtárakba kell particionálni. Ebben az esetben a szinkronizálási és jelszó-visszaírási problémák elkerülése érdekében gondoskodjon róla, hogy a helyi erdő minden objektuma csak egyetlen Azure AD-címtárban jelenjen meg. A forgatókönyv implementálásához konfiguráljon külön Azure AD Connect szinkronizálási kiszolgálót minden egyes Azure AD-címtárhoz, és szűrés segítségével biztosítsa, hogy az egyes Azure AD Connect szinkronizálási kiszolgálók egymást kölcsönösen kizáró objektumhalmazokon működjenek.
 
@@ -134,16 +137,16 @@ További információkért lásd: [Alkalmazások közzététele az Azure AD-alka
 
 ### <a name="object-synchronization"></a>Objektumszinkronizáció
 
-Az Azure AD Connect alapértelmezett konfigurációja a következő cikkben meghatározott szabályok alapján szinkronizálja a helyi Active Directory-címtár objektumait: [Az Azure AD Connect szinkronizálása: az alapértelmezett konfiguráció ismertetése][ aad-connect-sync-default-rules]. A szabályoknak megfelelő objektumok szinkronizálva lesznek, a többi objektum figyelmen kívül lesz hagyva. Néhány példa szabály:
+Az Azure AD Connect alapértelmezett konfigurációja szinkronizálja a helyi Active Directory címtárban, a cikkben meghatározott szabályok alapján objektumait [Azure AD Connect szinkronizálása: Az alapértelmezett konfiguráció ismertetése][aad-connect-sync-default-rules]. A szabályoknak megfelelő objektumok szinkronizálva lesznek, a többi objektum figyelmen kívül lesz hagyva. Néhány példa szabály:
 
 - A felhasználói objektumoknak rendelkezniük kell egy egyedi *sourceAnchor* attribútummal, és az *accountEnabled* attribútumnak ki kell lennie töltve.
 - A felhasználói objektumoknak rendelkezniük kell egy *sAMAccountName* attribútummal, és nem kezdődhetnek az *Azure AD_* vagy *MSOL_* szövegrésszel.
 
-Az Azure AD Connect több szabályt is alkalmaz a felhasználói, kapcsolattartói, csoport-, ForeignSecurityPrincipal és számítógép-objektumokra. Szükség esetén az Azure AD Connecttel telepített szinkronizálási szabályszerkesztővel módosíthatja az alapértelmezett szabálykészletet. További információért lásd: [Az Azure AD Connect szinkronizálása: az alapértelmezett konfiguráció ismertetése][aad-connect-sync-default-rules].
+Az Azure AD Connect több szabályt is alkalmaz a felhasználói, kapcsolattartói, csoport-, ForeignSecurityPrincipal és számítógép-objektumokra. Szükség esetén az Azure AD Connecttel telepített szinkronizálási szabályszerkesztővel módosíthatja az alapértelmezett szabálykészletet. További információkért lásd: [Azure AD Connect szinkronizálása: Az alapértelmezett konfiguráció ismertetése][aad-connect-sync-default-rules]).
 
-Saját szűrők megadásával korlátozhatja a tartomány vagy szervezeti egység által szinkronizálandó objektumok mennyiségét. Másik megoldásként alkalmazhat összetettebb egyéni szűrőket is, amilyenek például a következő szakaszban vannak leírva: [Az Azure AD Connect szinkronizálása: a szűrés konfigurálása][aad-filtering].
+Saját szűrők megadásával korlátozhatja a tartomány vagy szervezeti egység által szinkronizálandó objektumok mennyiségét. Azt is megteheti, alkalmazhat összetettebb egyéni szűrőket például ismertetett [Azure AD Connect szinkronizálása: A szűrés konfigurálása][aad-filtering].
 
-### <a name="monitoring"></a>Figyelés
+### <a name="monitoring"></a>Monitoring
 
 Az állapotmonitorozást a következő, helyszínen telepített ügynökök végzik:
 
@@ -155,7 +158,7 @@ Az AD Connect Health-ügynökök telepítésével és a vonatkozó követelmény
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Az Azure AD szolgáltatás támogatja a replikaalapú skálázást, egy az írási műveleteket kezelő elsődleges replikával és több csak olvasható másodlagos replikával. Az Azure AD transzparens módon átirányítja a másodlagos replikákra irányuló írási kísérleteket az elsődleges replikára, majd biztosítja a végleges konzisztenciát. Az elsődleges replikán végrehajtott valamennyi módosítás propagálva lesz a másodlagos replikákra. Ez az architektúra jól skálázható, mivel az Azure AD-re irányuló műveletek nagy része olvasási, nem pedig írási művelet. További információkért lásd: [Azure AD: a georedundáns, magas rendelkezésre állású, elosztott felhőcímtárunk technikai részletei][aad-scalability].
+Az Azure AD szolgáltatás támogatja a replikaalapú skálázást, egy az írási műveleteket kezelő elsődleges replikával és több csak olvasható másodlagos replikával. Az Azure AD transzparens módon átirányítja a másodlagos replikákra irányuló írási kísérleteket az elsődleges replikára, majd biztosítja a végleges konzisztenciát. Az elsődleges replikán végrehajtott valamennyi módosítás propagálva lesz a másodlagos replikákra. Ez az architektúra jól skálázható, mivel az Azure AD-re irányuló műveletek nagy része olvasási, nem pedig írási művelet. További információkért lásd: [Azure ad-ben: A georedundáns, magas rendelkezésre állású, elosztott felhőalapú címtárral felhőcímtárunk][aad-scalability].
 
 Az Azure AD Connect szinkronizálási kiszolgáló esetében határozza meg, hogy várhatóan hány objektumot fog szinkronizálni a helyi címtárból. Ha az objektumok száma kevesebb mint 100 000, használhatja az Azure AD Connecttel biztosított alapértelmezett SQL Server Express LocalDB szoftvert. Nagyobb mennyiségű objektum esetén telepítse az SQL-kiszolgáló éles verzióját, és végezze el az Azure AD Connect egyéni telepítését, amely során megadja, hogy annak az SQL Server egy meglévő példányát kell használnia.
 
@@ -171,7 +174,7 @@ Fontolja meg az Azure AD Connect szinkronizálási kiszolgáló egy második pé
 
 Ha nem az Azure AD Connecthez tartozó SQL Server Express LocalDB-példányt használja, vegye fontolóra az SQL-fürtözés alkalmazását a magas rendelkezésre állás eléréséhez. Az Azure AD Connect a tükrözést, az Always Ont és a hasonló megoldásokat nem támogatja.
 
-Az Azure AD Connect szinkronizálási kiszolgáló magas rendelkezésre állásának biztosításával, valamint a meghibásodások utáni helyreállítással kapcsolatos további szempontokat lásd: [Azure AD Connect-szinkronizálás: üzemeltetési feladatok és szempontok – vészhelyreállítás][aad-sync-disaster-recovery].
+Az Azure AD Connect szinkronizálási kiszolgáló, és hiba utáni magas rendelkezésre állás elérésének kapcsolatos további szempontokért lásd: [Azure AD Connect szinkronizálása: Üzemeltetési feladatok és szempontok – vészhelyreállítás][aad-sync-disaster-recovery].
 
 ## <a name="manageability-considerations"></a>Felügyeleti szempontok
 
@@ -189,9 +192,9 @@ Az Azure AD Connect a következő eszközöket telepíti a helyszíni gépekről
 
 - **Microsoft Azure Active Directory Connect-konzol**. Ezzel az eszközzel módosíthatja az Azure AD Sync-kiszolgáló konfigurációját, testre szabhatja a szinkronizálás menetét, engedélyezheti vagy letilthatja az átmeneti módot, és átállíthatja a felhasználói bejelentkezési módot. Engedélyezheti, hogy az Active Directory FS-bejelentkezés a helyszíni infrastruktúra használatával történjen.
 - **Szinkronizálási szolgáltatáskezelő**. Az eszköz *Műveletek* lapján felügyelheti a szinkronizálás folyamatát, és észlelheti, ha a folyamat bármely része meghiúsult. Az eszköz használatával manuálisan indíthatja a szinkronizálást. Az *Összekötők* lapon felügyelheti a tartományok összekötőit, amelyekhez a szinkronizáló vezérlő csatlakozik.
-- **Szinkronizálási szabályszerkesztő**. Az eszköz segítségével testre szabhatja az objektumok átalakításának módját azok másolása során a helyszíni címtár és az Azure AD között. Az eszköz segítségével további attribútumokat és objektumokat adhat meg a szinkronizáláshoz, majd szűrők alkalmazásával határozhatja meg, hogy mely objektumok legyenek vagy ne legyenek szinkronizálva. További információkért lásd [Az Azure AD Connect szinkronizálása: az alapértelmezett konfiguráció ismertetése][aad-connect-sync-default-rules] című dokumentum Szinkronizálási szabályszerkesztő című szakaszát.
+- **Szinkronizálási szabályszerkesztő**. Az eszköz segítségével testre szabhatja az objektumok átalakításának módját azok másolása során a helyszíni címtár és az Azure AD között. Az eszköz segítségével további attribútumokat és objektumokat adhat meg a szinkronizáláshoz, majd szűrők alkalmazásával határozhatja meg, hogy mely objektumok legyenek vagy ne legyenek szinkronizálva. További információkért lásd a dokumentum szinkronizálási Szabályszerkesztő című [Azure AD Connect szinkronizálása: Az alapértelmezett konfiguráció ismertetése][aad-connect-sync-default-rules].
 
-Az Azure AD Connect kezelésével kapcsolatos további információkért és tippekért lásd: [Az Azure AD Connect szinkronizálása: ajánlott eljárások az alapértelmezett konfiguráció módosításához][aad-sync-best-practices].
+További információt és tippek az Azure AD Connect kezelésével [Azure AD Connect szinkronizálása: Ajánlott eljárások az alapértelmezett konfiguráció módosításának][aad-sync-best-practices].
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 

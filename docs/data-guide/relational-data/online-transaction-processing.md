@@ -3,12 +3,15 @@ title: Online tranzakciófeldolgozás (OLTP)
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 331da288384bf14581eeda35116085d759807245
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: c6cc628977b438578f2d88d1928afcd75ddddbcd
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113960"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481813"
 ---
 # <a name="online-transaction-processing-oltp"></a>Online tranzakciófeldolgozás (OLTP)
 
@@ -36,15 +39,15 @@ Tranzakciós adatok általában a következő jellemzőkkel rendelkezik:
 | Integritás | Nagy fokú integritása |
 | Használja a tranzakciók | Igen |
 | Zárolási stratégia | A pesszimista vagy optimista|
-| Frissíthető | Igen |
+| Updateable | Igen |
 | Appendable | Igen |
 | Számítási feladat | Mérsékelt nagy írási beolvasása |
 | Indexelés | Az elsődleges és másodlagos indexek |
 | Datum mérete | Kis és közepes méretű |
-| Modell | Relációs |
+| Típus | Relációs |
 | Adatalakzat | Táblázatos |
 | Rugalmas lekérdezés | Rendkívül rugalmas |
-| Méretezés | Kis (MB) és nagy (több TB-osra bővül) |
+| Skála | Kis (MB) és nagy (több TB-osra bővül) |
 
 ## <a name="when-to-use-this-solution"></a>Ez a megoldás használata
 
@@ -101,9 +104,9 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 |                              | Azure SQL Database | Az SQL Server Azure virtuális gépként | Azure Database for MySQL | Azure Database for PostgreSQL |
 |------------------------------|--------------------|----------------------------------------|--------------------------|-------------------------------|
-|      A felügyelt szolgáltatás      |        Igen         |                   Nem                   |           Igen            |              Igen              |
-|       A platformon fut       |        –         |         Windows, Linux, Docker         |           –            |              –              |
-| Programozhatóság <sup>1</sup> |   T-SQL HASZNÁLATÁVAL, LEGYEN AZ .NET, R   |         T-SQL használatával, legyen az .NET, R, Python         |  T-SQL használatával, legyen az .NET, R, Python  |              SQL              |
+|      Is Managed Service      |        Igen         |                   Nem                   |           Igen            |              Igen              |
+|       A platformon fut       |        N. a.         |         Windows, Linux, Docker         |           N. a.            |              N. a.              |
+| Programozhatóság <sup>1</sup> |   T-SQL, .NET, R   |         T-SQL, .NET, R, Python         |  T-SQL, .NET, R, Python  |              SQL              |
 
 <!-- markdownlint-enable MD033 -->
 
@@ -114,26 +117,26 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- |
 | Maximális példányméret | [4 TB](/azure/sql-database/sql-database-resource-limits) | 256 TB | [1 TB](/azure/mysql/concepts-limits) | [1 TB](/azure/postgresql/concepts-limits) |
-| Kapacitás-készleteket támogat  | Igen | Igen | Nem | Nem |
-| Támogatja a fürtök horizontális felskálázás  | Nem | Igen | Nem | Nem |
+| Kapacitás-készleteket támogat  | Igen | Igen | Nem | Nincs |
+| Támogatja a fürtök horizontális felskálázás  | Nincs | Igen | Nem | Nincs |
 | A dinamikus méretezhetőség (vertikális felskálázási)  | Igen | Nem | Igen | Igen |
 
 ### <a name="analytic-workload-capabilities"></a>Elemzési számítási feladatok képességek
 
 | | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- |
-| Historikus táblák | Igen | Igen | Nem | Nem |
-| A memóriában (memóriaoptimalizált) táblák | Igen | Igen | Nem | Nem |
-| Oszlopcentrikus támogatása | Igen | Igen | Nem | Nem |
-| Adaptív lekérdezés-feldolgozás | Igen | Igen | Nem | Nem |
+| Historikus táblák | Igen | Igen | Nem | Nincs |
+| A memóriában (memóriaoptimalizált) táblák | Igen | Igen | Nem | Nincs |
+| Oszlopcentrikus támogatása | Igen | Igen | Nem | Nincs |
+| Adaptív lekérdezés-feldolgozás | Igen | Igen | Nem | Nincs |
 
 ### <a name="availability-capabilities"></a>Rendelkezésre állás
 
 | | Azure SQL Database | Az SQL Server Azure virtuális gépként| Azure Database for MySQL | Azure Database for PostgreSQL|
 | --- | --- | --- | --- | --- | --- |
-| Olvasható másodlagos példánnyal | Igen | Igen | Nem | Nem |
-| Földrajzi replikáció | Igen | Igen | Nem | Nem |
-| Másodlagos automatikus feladatátvétel | Igen | Nem | Nem | Nem|
+| Olvasható másodlagos példánnyal | Igen | Igen | Nem | Nincs |
+| Földrajzi replikáció | Igen | Igen | Nem | Nincs |
+| Másodlagos automatikus feladatátvétel | Igen | Nem | Nem | Nincs|
 | Adott időpontnak megfelelő helyreállítás | Igen | Igen | Igen | Igen |
 
 ### <a name="security-capabilities"></a>Biztonsági képességek
@@ -141,12 +144,12 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 |                                                                                                             | Azure SQL Database | Az SQL Server Azure virtuális gépként | Azure Database for MySQL | Azure Database for PostgreSQL |
 |-------------------------------------------------------------------------------------------------------------|--------------------|----------------------------------------|--------------------------|-------------------------------|
 |                                             Sorszintű biztonság                                              |        Igen         |                  Igen                   |           Igen            |              Igen              |
-|                                                Adatmaszkolás                                                 |        Igen         |                  Igen                   |            Nem            |              Nem               |
+|                                                Adatmaszkolás                                                 |        Igen         |                  Igen                   |            Nem            |              Nincs               |
 |                                         Transzparens adattitkosítás                                         |        Igen         |                  Igen                   |           Igen            |              Igen              |
 |                                  Adott IP-címek való hozzáférés korlátozása                                   |        Igen         |                  Igen                   |           Igen            |              Igen              |
-|                                  Korlátozhatja a hozzáférést, csak a virtuális hálózatok közötti hozzáférés engedélyezése                                  |        Igen         |                  Igen                   |            Nem            |              Nem               |
-|                                    Hitelesítés Azure Active Directory-fiókkal                                    |        Igen         |                  Igen                   |            Nem            |              Nem               |
-|                                       Active Directory-alapú hitelesítés                                       |         Nem         |                  Igen                   |            Nem            |              Nem               |
-|                                         Multi-Factor Authentication                                         |        Igen         |                  Igen                   |            Nem            |              Nem               |
-| Támogatja a [Always Encrypted](/sql/relational-databases/security/encryption/always-encrypted-database-engine) |        Igen         |                  Igen                   |           Igen            |              Nem               |
-|                                                 Magánhálózati IP-cím                                                  |         Nem         |                  Igen                   |           Igen            |              Nem               |
+|                                  Korlátozhatja a hozzáférést, csak a virtuális hálózatok közötti hozzáférés engedélyezése                                  |        Igen         |                  Igen                   |            Nem            |              Nincs               |
+|                                    Hitelesítés Azure Active Directory-fiókkal                                    |        Igen         |                  Igen                   |            Nem            |              Nincs               |
+|                                       Active Directory-alapú hitelesítés                                       |         Nincs         |                  Igen                   |            Nem            |              Nincs               |
+|                                         Többtényezős hitelesítés                                         |        Igen         |                  Igen                   |            Nem            |              Nincs               |
+| Támogatja a [Always Encrypted](/sql/relational-databases/security/encryption/always-encrypted-database-engine) |        Igen         |                  Igen                   |           Igen            |              Nincs               |
+|                                                 Magánhálózati IP                                                  |         Nincs         |                  Igen                   |           Igen            |              Nincs               |

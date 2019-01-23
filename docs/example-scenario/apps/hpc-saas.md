@@ -4,12 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: SaaS-platformot biztosíthat CAE-projektekhez az Azure-ban.
 author: alexbuckgit
 ms.date: 08/22/2018
-ms.openlocfilehash: 0e8ce29639e4e189acef633585191b178c6c8721
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.custom: HPC
+ms.openlocfilehash: 7c543df71176ca0da621d6ec67fc6fe2ca36f9fa
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643866"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481507"
 ---
 # <a name="a-computer-aided-engineering-service-on-azure"></a>CAE-szolgáltatás az Azure-ban
 
@@ -74,7 +78,7 @@ Az alábbi szempontokat a költségek, a megoldás egy jelentős része lesz meg
 - Azure virtuális gépek költségeit, további példányokat kiépített lineárisan növelése. Virtuális gépek felszabadított állapotban vannak, csak a tárolási költségekkel, és nem számítási költségeit. Ezek a gépek felszabadítva majd kell újra kiosztja, ha igény szerint magas.
 - Az Azure Kubernetes-szolgáltatás költségeket a számítási a kiválasztott virtuális gép típus. A költségek megnöveli a költségráfordításokkal egyenes arányban alapján a virtuális gépek száma a fürtben.
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
 - Olvassa el a [Altair vásárlói beszámolónk][source-document]. Ebben a példaforgatókönyvben architektúráját verzióján alapul.
 - Tekintse át a többi [Big Compute-megoldások](https://azure.microsoft.com/solutions/big-compute) elérhető az Azure-ban.

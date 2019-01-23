@@ -4,13 +4,16 @@ titleSuffix: Best practices for cloud applications
 description: Útmutatás a felhasználói felülettől függetlenül futó háttérfeladatokhoz.
 author: dragon119
 ms.date: 11/05/2018
+ms.topic: best-practice
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 78b5dd35b1d97d96d434bcd711a20251be37448b
-ms.sourcegitcommit: 4ba3304eebaa8c493c3e5307bdd9d723cd90b655
+ms.openlocfilehash: 4b96c19dd8613a941a7408e1b99945d5fa0f5364
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/12/2018
-ms.locfileid: "53307333"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482068"
 ---
 # <a name="background-jobs"></a>Háttérfeladatok
 
@@ -30,7 +33,7 @@ A háttérfeladatok rendszerint a következő típusú feladatok közül egyet v
 - Hosszan futó munkafolyamatok, például megrendelések teljesítése vagy szolgáltatások és rendszerek üzembe helyezése.
 - Bizalmas adatok feldolgozása, ahol a feladat egy biztonságosabb helyre lesz továbbítva feldolgozásra. Például előfordulhat, hogy a bizalmas adatokat nem szeretné egy adott webalkalmazáson belül feldolgozni. Ehelyett használhat egy minta például a [forgalomirányító minta](../patterns/gatekeeper.md) át az adatok egy elkülönített háttérfolyamatnak, amely hozzáfér a védett tárolóhoz.
 
-## <a name="triggers"></a>Eseményindítók
+## <a name="triggers"></a>Triggerek
 
 A háttérben futó feladatok számos különböző módon indíthatók el. Az alábbi kategóriák valamelyikébe tartoznak:
 
@@ -104,10 +107,10 @@ Az Azure WebJobs-feladatok a következő jellemzőkkel rendelkeznek:
   - Eseményindító által indított végrehajtás esetén: site/wwwroot/app_data/jobs/triggered/{feladat neve}
   - Folyamatos végrehajtás esetén: site/wwwroot/app_data/jobs/continuous/{feladat neve}
 - **Naplózás**: Console.Out INFO (megjelölve) kell kezelni. A Console.Error HIBA-ként van kezelve. A monitorozási és diagnosztikai adatok az Azure Portalon keresztül érhetők el. A naplófájlok közvetlenül is letölthetők a webhelyről. Ezek a következő helyekre lesznek mentve:
-  - Az eseményindító által indított végrehajtás: Vfs/data/feladatok/triggered/feladatneve
-  - Folyamatos végrehajtás esetén: Vfs/data/jobs/folyamatos/feladatneve
+  - Az eseményindító által indított végrehajtás: Vfs/data/jobs/triggered/jobName
+  - Folyamatos végrehajtás esetén: Vfs/data/jobs/continuous/jobName
 - **Konfigurációs**: Webjobs-feladatok a portál, a REST API-t és a PowerShell segítségével konfigurálhatja. A feladat szkriptjének gyökérkönyvtárába mentett, settings.job nevű konfigurációs fájllal adhatja meg a feladat konfigurációs adatait. Példa:
-  - {"stopping_wait_time": 60}
+  - {"stopping_wait_time": 60 }
   - { "is_singleton": true }
 
 #### <a name="considerations"></a>Megfontolandó szempontok

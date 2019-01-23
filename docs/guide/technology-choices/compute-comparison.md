@@ -4,13 +4,16 @@ titleSuffix: Azure Application Architecture Guide
 description: Azure számítási szolgáltatások összehasonlítása több szempontból.
 author: MikeWasson
 ms.date: 08/08/2018
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 4874e68d6ac1b9bac2bc1e4d2ac3c8c2f1a428d6
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 2b6b9b941bf7a3c0136b71ecb65bfe4b4a59e07b
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112243"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54484856"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Számítási szolgáltatás Azure-beli kritériumai
 
@@ -20,13 +23,13 @@ A *számítás* kifejezés azon számítási erőforrások futtatási modelljér
 
 <!-- markdownlint-disable MD033 -->
 
-| Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
+| Feltételek | Virtuális gépek | App Service | Service Fabric-példány | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
-| Alkalmazás összeállítása | Független | Alkalmazások, tárolók | Szolgáltatások, futtatható vendégalkalmazások, tárolók | Functions | Containers | Containers | Ütemezett feladatok  |
+| Alkalmazás összeállítása | Független | Alkalmazások, tárolók | Szolgáltatások, futtatható vendégalkalmazások, tárolók | Funkciók | Tárolók | Tárolók | Ütemezett feladatok  |
 | Sűrűség | Független | Több alkalmazás példányonként az app service-csomagok keresztül | Több szolgáltatás virtuális gépenként | Kiszolgáló nélküli <a href="#note1"> <sup>1</sup></a> | Csomópontonként több tároló |Nincsenek dedikált példányok | Több alkalmazás virtuális gépenként |
-| Csomópontok minimális száma | 1 <a href="#note2"><sup>2</sup></a>  | 1 | 5 <a href="#note3"><sup>3</sup></a> | Kiszolgáló nélküli <a href="#note1"> <sup>1</sup></a> | 3 <a href="#note3"> <sup>3</sup></a> | Nincsenek dedikált csomópontok | 1 <a href="#note4"><sup>4</sup></a> |
+| Csomópontok minimális száma | 1 <a href="#note2"><sup>2</sup></a>  | 1. | 5 <a href="#note3"><sup>3</sup></a> | Kiszolgáló nélküli <a href="#note1"> <sup>1</sup></a> | 3 <a href="#note3"><sup>3</sup></a> | Nincsenek dedikált csomópontok | 1 <a href="#note4"><sup>4</sup></a> |
 | Állapotkezelés | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli |
-| Webes üzemeltetés | Független | Beépített | Független | Nem alkalmazható | Független | Független | Nem |
+| Webes üzemeltetés | Független | Beépített | Független | Nem alkalmazható | Független | Független | Nincs |
 | Üzembe helyezhető dedikált virtuális hálózaton? | Támogatott | Támogatott<a href="#note5"><sup>5</sup></a> | Támogatott | Támogatott <a href="#note5"><sup>5</sup></a> | [Támogatott](/azure/aks/networking-overview) | Nem támogatott | Támogatott |
 | Hibrid kapcsolat | Támogatott | Támogatott <a href="#note6"><sup>6</sup></a>  | Támogatott | Támogatott <a href="#node7"><sup>7</sup></a> | Támogatott | Nem támogatott | Támogatott |
 
@@ -42,11 +45,11 @@ Megjegyzések
 
 ## <a name="devops"></a>DevOps
 
-| Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
+| Feltételek | Virtuális gépek | App Service | Service Fabric-példány | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | Helyi hibakeresés | Független | IIS Express, egyebek <a href="#note1b"><sup>1</sup></a> | Helyi fürtcsomópont | A Visual Studio vagy az Azure Functions CLI-vel | Minikube, mások | Tároló helyi futtatókörnyezete | Nem támogatott |
 | A programozási modell | Független | Webes és API-alkalmazások, webjobs-feladatok háttérben futó feladatok | Futtatható vendégalkalmazás, szolgáltatási modell, Actor modell, tárolók | Eseményindítókat használó függvények | Független | Független | Parancssori alkalmazás |
-| Alkalmazás frissítése | Nincs beépített támogatás | Üzembehelyezési pontok | Működés közbeni frissítés (szolgáltatásonként) | Üzembehelyezési pontok | A működés közbeni frissítés | Nem alkalmazható |
+| Alkalmazás frissítése | Nincs beépített támogatás | Üzembe helyezési tárhelyek | Működés közbeni frissítés (szolgáltatásonként) | Üzembe helyezési tárhelyek | A működés közbeni frissítés | Nem alkalmazható |
 
 Megjegyzések
 
@@ -55,9 +58,9 @@ Megjegyzések
 
 ## <a name="scalability"></a>Méretezhetőség
 
-| Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
+| Feltételek | Virtuális gépek | App Service | Service Fabric-példány | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
-| Automatikus méretezés | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Nem támogatott | Nem támogatott | – |
+| Automatikus méretezés | Virtuális gépek méretezési csoportjai | Beépített szolgáltatás | Virtuálisgép-méretezési csoportok | Beépített szolgáltatás | Nem támogatott | Nem támogatott | N. a. |
 | Terheléselosztó | Azure Load Balancer | Integrált | Azure Load Balancer | Integrált | Integrált |  Nincs beépített támogatás | Azure Load Balancer |
 | Méretezési korlát<a href="#note1c"><sup>1</sup></a> | Platformlemezkép: 1000 csomópont csoportonként, egyéni lemezkép: 100 csomópont virtuálisgép-méretezési csoportonként | 20 példány, 100 App Service environmenttel | 100 csomópont virtuálisgép-méretezési csoportonként | 200 példányok száma függvényalkalmazás | 100 csomópontok száma fürtönként (alapértelmezett korlát) |20 tárolócsoportok száma előfizetésenként (alapértelmezett korlát). | 20 magos korlát (alapértelmezett korlát). |
 
@@ -67,18 +70,18 @@ Megjegyzések
 
 ## <a name="availability"></a>Rendelkezésre állás
 
-| Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
+| Feltételek | Virtuális gépek | App Service | Service Fabric-példány | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | SLA | [A virtuális gépekre vonatkozó SLA][sla-vm] | [Az App Service-re vonatkozó SLA][sla-app-service] | [A Service Fabricre vonatkozó SLA][sla-sf] | [A Functionsre vonatkozó SLA][sla-functions] | [SLA-t az aks-ben][sla-acs] | [A Container Instances vonatkozó SLA](https://azure.microsoft.com/support/legal/sla/container-instances/) | [Az Azure Batch-re vonatkozó SLA][sla-batch] |
 | Többrégiós feladatátvétel | Traffic Manager | Traffic Manager | Traffic Manager, többrégiós fürt | Nem támogatott | Traffic Manager | Nem támogatott | Nem támogatott |
 
 ## <a name="other"></a>Egyéb
 
-| Feltételek | Virtuális gépek | App Service | Service Fabric | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
+| Feltételek | Virtuális gépek | App Service | Service Fabric-példány | Azure Functions | Azure Kubernetes Service | Tárolópéldányok | Azure Batch |
 |----------|-----------------|-------------|----------------|-----------------|-------------------------|----------------|-------------|
 | SSL | Virtuális gépen konfigurált | Támogatott | Támogatott  | Támogatott | [Bejövőforgalom-vezérlőt](/azure/aks/ingress) | Használat [oldalkocsi](../../patterns/sidecar.md) tároló | Támogatott |
-| Költségek | [Windows][cost-windows-vm], [Linux][cost-linux-vm] | [Az App Service árképzése][cost-app-service] | [A Service Fabric árképzése][cost-service-fabric] | [Az Azure Functions árképzése][cost-functions] | [Az AKS díjszabása][cost-acs] | [Container Instances díjszabását](https://azure.microsoft.com/pricing/details/container-instances/) | [Az Azure Batch árképzése][cost-batch]
-| Megfelelő architektúrastílusok | [N szintű][n-tier], [Big compute] [ big-compute] (HPC) | [Webüzenetsor-feldolgozó][w-q-w], [N szintű][n-tier] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], feladat automatizálása, a batch-feladatok  | [Big compute] [ big-compute] (HPC) |
+| Költség | [Windows][cost-windows-vm], [Linux][cost-linux-vm] | [Az App Service árképzése][cost-app-service] | [A Service Fabric árképzése][cost-service-fabric] | [Az Azure Functions árképzése][cost-functions] | [Az AKS díjszabása][cost-acs] | [Container Instances díjszabását](https://azure.microsoft.com/pricing/details/container-instances/) | [Az Azure Batch árképzése][cost-batch]
+| Megfelelő architektúrastílusok | [N szintű][n-tier], [Big compute] [ big-compute] (HPC) | [Web-Queue-Worker][w-q-w], [N-Tier][n-tier] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], [eseményvezérelt architektúra][event-driven] | [Mikroszolgáltatások][microservices], feladat automatizálása, a batch-feladatok  | [Big compute] [ big-compute] (HPC) |
 
 <!-- markdownlint-enable MD033 -->
 

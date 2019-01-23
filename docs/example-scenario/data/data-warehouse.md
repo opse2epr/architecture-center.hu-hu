@@ -4,12 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: Egyesítheti több forrásból származó adatait, és optimalizálhatja az adatelemzést.
 author: alexbuckgit
 ms.date: 09/15/2018
-ms.openlocfilehash: 2ac06fcd0805b66371fcc004794b123c46a6ce0e
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.custom: data-analytics
+ms.openlocfilehash: ddf9935d534b6902c407c22ba765e8c84558547b
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112379"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54488443"
 ---
 # <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárházak és elemzések értékesítési és marketingterületen
 
@@ -96,7 +100,7 @@ Tekintse át a [díjszabása a minta egy adatraktározási forgatókönyv] [ cal
 - [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
 - [Power bi-ban](https://powerbi.microsoft.com/pricing) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.
 
-## <a name="next-steps"></a>További lépések
+## <a name="next-steps"></a>Következő lépések
 
 - Tekintse át a [automatizált vállalati bi-ban az Azure-referenciaarchitektúra](/azure/architecture/reference-architectures/data/enterprise-bi-adf), amely ismerteti, hogyan telepíthető egy példányát az Azure-ban ez az architektúra tartalmazza.
 - Olvassa el a [Maritz motiváció megoldások vásárlói beszámolónk][source-document]. Történet ügyféladatok kezeléséhez hasonló megközelítést ismerteti.

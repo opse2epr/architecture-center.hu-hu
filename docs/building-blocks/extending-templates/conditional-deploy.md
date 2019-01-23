@@ -3,12 +3,15 @@ title: Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sabl
 description: Ismerteti, hogyan lehet feltételes üzembe egy erőforrás dependending paraméter értékét az Azure Resource Manager-sablonok bővítése.
 author: petertay
 ms.date: 10/30/2018
-ms.openlocfilehash: 0e02fbbd130bd6be2fc10173c8466b028d5d61da
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: reference-architecture
+ms.openlocfilehash: f3d22c6437cdabcd93a781ecf7c99db5a570d7cf
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113467"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54480589"
 ---
 # <a name="conditionally-deploy-a-resource-in-an-azure-resource-manager-template"></a>Erőforrás feltételes üzembe helyezése az Azure Resource Manager-sablon
 

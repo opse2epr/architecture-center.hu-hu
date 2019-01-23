@@ -3,12 +3,16 @@ title: Helyreállítás adatsérülés vagy véletlen törlés
 description: Helyreállítás adatsérülés adatok vagy véletlen törlés és a tartalék rugalmas, magas rendelkezésre állású, hibatűrő alkalmazások tervezése, valamint a vészhelyreállítási alapos ismerete.
 author: MikeWasson
 ms.date: 11/11/2018
-ms.openlocfilehash: 40379f32c6af47002e897c28392816fa1578502a
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
+ms.custom: resiliency
+ms.openlocfilehash: e28f26683c6d7dba196d4351ef3942830c9e7fc2
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54111257"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486307"
 ---
 # <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés
 
@@ -18,7 +22,7 @@ Ha az adatok beolvasása sérült vagy véletlenül törölt egy robusztus üzle
 
 Azure Virtual Machines (VM) az alkalmazáshibák vagy véletlen törlés elleni védelme, használja a [Azure Backup](/azure/backup/). Az Azure Backup lehetővé teszi több virtuális gép lemezeinek konzisztensek legyenek biztonsági mentések létrehozását. Emellett a Backup-tárolóban adja meg a helyreállítási régióban elmaradásából-régiók közötti replikálható.
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárhely
 
 Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatikus replikációval. Azonban ez nem akadályozza alkalmazáskód vagy a felhasználók hibás adatokból, hogy véletlenül vagy kártételi. Fejlett technikák, például az adatok másolásának auditálási naplóba kerülnek a másodlagos tárolóhelyre karbantartása adathűséget alkalmazás vagy felhasználó hiba esetén van szükség.
 

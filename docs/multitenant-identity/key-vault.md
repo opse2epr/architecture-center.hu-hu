@@ -3,14 +3,17 @@ title: Key Vault használata az alkalmazás titkainak védelmére
 description: Tudnivalók a Key Vault szolgáltatás használatához az alkalmazás titkainak tárolásához.
 author: MikeWasson
 ms.date: 07/21/2017
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
-ms.openlocfilehash: dc471ca5fa090270465624548ffe7335363d6cb7
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: 6aa8d33da0b2fd41fdc037bac28bca9f7ff09907
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112753"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481558"
 ---
 # <a name="use-azure-key-vault-to-protect-application-secrets"></a>Azure Key Vault használata az alkalmazás titkainak védelmére
 
@@ -88,7 +91,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
 
 2. A rendszergazda eléréséhez használni kívánt előfizetés kiválasztásához.
 3. Az előfizetési panelen válassza ki a **hozzáférés-vezérlés (IAM)**.
-4. Kattintson a **Hozzáadás** parancsra.
+4. Kattintson a **Hozzáadás**lehetőségre.
 5. A **szerepkör**válassza **tulajdonosa**.
 6. Írja be a tulajdonosként hozzáadni kívánt felhasználó e-mail-címét.
 7. Válassza ki a felhasználót, és kattintson a **mentése**.
@@ -174,7 +177,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
     ahol
 
    * a Key vault name = a neve, mint a key vault az előző lépésben.
-   * Redis Cache a DNS-név = a Redis cache-példány a DNS-név.
+   * Redis DNS name = The DNS name of your Redis cache instance.
    * Redis Cache hozzáférési kulcs = a Redis cache-példány hozzáférési kulcsára.
 
 2. Ezen a ponton célszerű annak megállapítására, hogy sikerült menteni a titkos kulcsok a key vaulttal. Futtassa az alábbi PowerShell-parancsot:

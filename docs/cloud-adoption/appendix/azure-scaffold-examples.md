@@ -4,12 +4,15 @@ description: Megvalósítása az Azure-előfizetés cégirányítási gyakori sz
 author: rdendtler
 ms.date: 01/03/2017
 ms.author: rodend
-ms.openlocfilehash: 51be0e1cdbcb3258102c9e4a4790764cada98d1e
-ms.sourcegitcommit: 9eecff565392273d11b8702f1fcecb4d75e27a15
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: cbf3aae20639d26a73aac07e1b66374af09fbb38
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 10/03/2018
-ms.locfileid: "48243665"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486202"
 ---
 # <a name="examples-of-implementing-azure-enterprise-scaffold"></a>Példák az Azure enterprise scaffold megvalósítása
 Ez a cikk példákat tartalmaz a vállalat hogyan valósíthat meg a javaslatok egy [Azure enterprise scaffold](azure-scaffold.md). Ajánlott eljárások a gyakori forgatókönyvek bemutatják egy kitalált, Contoso nevű vállalat használ.
@@ -34,25 +37,25 @@ Contoso fejleszt egy forrás kódot (BitBucket) világszerte használják a fejl
 ### <a name="naming-standards--resource-groups"></a>Elnevezési szabályai és erőforrás-csoportok
 Dave támogatja a fejlesztői eszközök által az üzleti egységek közösen használt előfizetést hoz létre. Dave létre kell hoznia az előfizetést és erőforráscsoportot csoportok (a az alkalmazás és a hálózatok) adjon kifejező nevet. A következő előfizetésben és erőforráscsoportban csoportokat hoz létre:
 
-| Elem | Name (Név) | Leírás |
+| Elem | Név | Leírás |
 | --- | --- | --- |
 | Előfizetés |Contoso ETS DeveloperTools éles környezetben |Támogatja az általános fejlesztői eszközökhöz |
-| Erőforráscsoport |bitbucket-éles-rg |Tartalmazza az alkalmazások webalkalmazás-kiszolgáló és adatbázis-kiszolgáló |
-| Erőforráscsoport |corenetworks-éles-rg |Tartalmazza a virtuális hálózatok és helyek közötti átjárókapcsolat |
+| Erőforráscsoport |bitbucket-prod-rg |Tartalmazza az alkalmazások webalkalmazás-kiszolgáló és adatbázis-kiszolgáló |
+| Erőforráscsoport |corenetworks-prod-rg |Tartalmazza a virtuális hálózatok és helyek közötti átjárókapcsolat |
 
 ### <a name="role-based-access-control"></a>Szerepköralapú hozzáférés-vezérlés
 Miután létrehozta a saját előfizetés, Dave szeretne győződjön meg arról, hogy a megfelelő csapatok és az alkalmazástulajdonosok hozzáférhet erőforrásaikat. Dave felismeri, hogy egyes csapatok különböző követelményekkel rendelkezik. Ő már használja a csoportokat, amelyek az Azure Active Directoryhoz a Contoso a helyszíni Active Directory (AD) szinkronizált, és a megfelelő szintű csapatok számára hozzáférést biztosít.
 
 Dave rendeli hozzá az előfizetés a következő szerepkörök:
 
-| Szerepkör | Hozzárendelve a következőhöz: | Leírás |
+| Szerepkör | Hozzárendelve | Leírás |
 | --- | --- | --- |
 | [Tulajdonos](/azure/role-based-access-control/built-in-roles#owner) |A felügyelt azonosítója a Contoso AD |Ez az azonosító csak a Contoso-Identity Management eszközzel idő szerinti (JIT) hozzáférési vezérli, és biztosítja, hogy teljes mértékben naplózza az előfizetés-tulajdonosi hozzáféréssel |
 | [Biztonsági olvasó](/azure/role-based-access-control/built-in-roles#security-reader) |Adatvédelmi és kockázatkezelési felügyeleti részlege |Ez a szerepkör lehetővé teszi a felhasználóknak tekintse meg az Azure Security Center és az erőforrások állapota |
 | [Hálózati közreműködő](/azure/role-based-access-control/built-in-roles#network-contributor) |Hálózati |Ez a szerepkör lehetővé teszi, hogy a Contoso-csoport a helyek közötti VPN- és a virtuális hálózatok kezelése |
 | *Egyéni szerepkör* |Alkalmazás tulajdonosa |Dave hoz létre egy szerepkört, amely engedélyezi a csoporton belüli erőforrások módosítását. További információkért lásd: [egyéni szerepkörök az Azure RBAC-ben](/azure/role-based-access-control/custom-roles) |
 
-### <a name="policies"></a>Házirendek
+### <a name="policies"></a>Szabályzatok
 Dave az előfizetés-erőforrások kezeléséhez a következő követelményekkel rendelkezik:
 
 * Mivel a fejlesztői eszközöket támogatja a fejlesztők világszerte, akkor nem szeretné a felhasználók megakadályozása az erőforrások létrehozásának bármelyik régióban. Azonban hogy tudnia kell, ahol erőforrások jönnek létre.
@@ -61,13 +64,13 @@ Dave az előfizetés-erőforrások kezeléséhez a következő követelményekke
 
 A következő hoz létre [Azure házirendek](/azure/azure-policy/azure-policy-introduction):
 
-| Mező | Következmény | Leírás |
+| Mező | Hatás | Leírás |
 | --- | --- | --- |
-| location |Naplózási |Az adott régióban az erőforrások létrehozását naplózása |
-| type |elutasítás |A G-sorozatú virtuális gépek létrehozásának megtagadása |
-| tags |elutasítás |Alkalmazás tulajdonosa címke megkövetelése |
-| tags |elutasítás |Költség center címke megkövetelése |
-| tags |Hozzáfűzése |Fűzze hozzá a címke neve **részleghez** , értéke pedig **ETS** az összes erőforráshoz |
+| hely |Naplózási |Az adott régióban az erőforrások létrehozását naplózása |
+| típus |elutasítás |A G-sorozatú virtuális gépek létrehozásának megtagadása |
+| címkék |elutasítás |Alkalmazás tulajdonosa címke megkövetelése |
+| címkék |elutasítás |Költség center címke megkövetelése |
+| címkék |Hozzáfűzése |Fűzze hozzá a címke neve **részleghez** , értéke pedig **ETS** az összes erőforráshoz |
 
 ### <a name="resource-tags"></a>Erőforráscímkék
 Dave tisztában van azzal, hogy ő kell rendelkeznie a számlán, hogy azonosítsa a költséghely a bitbucket-alapú megvalósítás információkat. Ezenkívül Dave szeretné tudni, hogy ETS tulajdonában lévő összes erőforrást.
@@ -77,7 +80,7 @@ Adja a következő [címkék](/azure/azure-resource-manager/resource-group-using
 | Címke neve | Címke értéke |
 | --- | --- |
 | ApplicationOwner |Ezt az alkalmazást kezelő személy neve |
-| Költséghely |A költségközpont által kell fizetnie, az Azure-használat |
+| CostCenter |A költségközpont által kell fizetnie, az Azure-használat |
 | Részleghez |**ETS** (az üzleti egység az előfizetéshez tartozó) |
 
 ### <a name="core-network"></a>A központi hálózat
@@ -85,10 +88,10 @@ A Contoso ETS információt adatvédelmi és kockázatkezelési-kezelési csapat
 
 A következő erőforrások hoz létre:
 
-| Erőforrás típusa | Name (Név) | Leírás |
+| Erőforrás típusa | Név | Leírás |
 | --- | --- | --- |
-| Virtual Network |belső virtuális hálózathoz |A BitBucket-alkalmazással használja, és a Contoso vállalati hálózat expressroute-on keresztül kapcsolódik.  Egy alhálózat (`bitbucket`) biztosít az alkalmazás egy adott IP-címtér |
-| Virtual Network |külső virtuális hálózatok közötti |Nyilvános végpontok jövőbeli alkalmazásokhoz érhető el |
+| Virtual Network |internal-vnet |A BitBucket-alkalmazással használja, és a Contoso vállalati hálózat expressroute-on keresztül kapcsolódik.  Egy alhálózat (`bitbucket`) biztosít az alkalmazás egy adott IP-címtér |
+| Virtual Network |external-vnet |Nyilvános végpontok jövőbeli alkalmazásokhoz érhető el |
 | Hálózati biztonsági csoport |bitbucket-nsg |Biztosítja, hogy ilyen számítási feladatok támadási felületének minimálisra csökken azáltal, hogy csak a 443-as porton az alhálózat ahol az alkalmazás él kapcsolatok (`bitbucket`) |
 
 ### <a name="resource-locks"></a>Erőforrás-zárolások
@@ -98,7 +101,7 @@ A következő hoz létre [erőforrászárat](/azure/azure-resource-manager/resou
 
 | Zárolás típusa | Erőforrás | Leírás |
 | --- | --- | --- |
-| **Védve** |belső virtuális hálózathoz |Megakadályozza, hogy a felhasználók a virtuális hálózat vagy alhálózat törlése, de nem akadályozza meg az új alhálózat hozzáadása |
+| **CanNotDelete** |internal-vnet |Megakadályozza, hogy a felhasználók a virtuális hálózat vagy alhálózat törlése, de nem akadályozza meg az új alhálózat hozzáadása |
 
 ### <a name="azure-automation"></a>Azure Automation
 Dave nem az alkalmazás automatizálásához. Létrehozott egy Azure Automation-fiókot, bár ő nem kezdetben használhatja.
@@ -114,30 +117,30 @@ Az üzleti vezető szerepet tölt be az ellátási lánc üzleti egységet azono
 ### <a name="azure-subscriptions"></a>Azure-előfizetések
 Dave jelentkezik be az Azure Enterprise portálon, és láthatja, hogy az ellátási lánc osztály már létezik.  Azonban mivel ez a projekt az első alkalmazásfejlesztési projekt az ellátási lánc csapat az Azure-ban, Dave Alice fejlesztői csapat az új fiók szükség felismeri.  Ő a csapata számára az "R & D" fiókot hoz létre, és hozzáférést rendel a Alice. Alice jelentkezik be az Azure Portalon, és két előfizetéssel hoz létre: egyet a fejlesztési kiszolgálók, valamint ahhoz, hogy az üzemi kiszolgálók tárolásához.  Marcela követi a korábban létrehozott elnevezési szabványait létrehozásakor a következő előfizetéseket:
 
-| Előfizetés használata | Name (Név) |
+| Előfizetés használata | Név |
 | --- | --- |
 | Fejlesztés |Contoso SupplyChain ResearchDevelopment LoyaltyCard fejlesztés |
-| Production |Contoso SupplyChain Operations LoyaltyCard éles környezetben |
+| Üzemi |Contoso SupplyChain Operations LoyaltyCard éles környezetben |
 
-### <a name="policies"></a>Házirendek
+### <a name="policies"></a>Szabályzatok
 Dave és Alice ismertetjük az alkalmazást, és azonosítani, hogy az alkalmazás csak szolgál ügyfeleink Észak-amerikai régióban.  Alice és csapata tervezze meg az alkalmazás létrehozása az Azure Application Service-környezet és az Azure SQL használatával. Előfordulhat, hogy létre kell hozniuk a virtuális gépek a fejlesztés során.  Alice, győződjön meg arról, hogy saját fejlesztők rendelkezik-e a vizsgálata, és vizsgálja meg a problémákat anélkül ETS behúzza szükséges szeretné.
 
 Az a **fejlesztési előfizetés**, hoznak létre a következő szabályzatot:
 
-| Mező | Következmény | Leírás |
+| Mező | Hatás | Leírás |
 | --- | --- | --- |
-| location |Naplózási |Az adott régióban az erőforrások létrehozását naplózása |
+| hely |Naplózási |Az adott régióban az erőforrások létrehozását naplózása |
 
 Ezek nem korlátozza a termékváltozat fejlesztési hozhat létre a felhasználó típusát, és nem kívánnak címkék erőforrások vagy erőforráscsoportok.
 
 A a **éles előfizetés**, akkor hozza létre az alábbi szabályzatokat:
 
-| Mező | Következmény | Leírás |
+| Mező | Hatás | Leírás |
 | --- | --- | --- |
-| location |elutasítás |Az Egyesült Államokbeli adatközpontok kívüli erőforrások létrehozásának megtagadása |
-| tags |elutasítás |Alkalmazás tulajdonosa címke megkövetelése |
-| tags |elutasítás |Szükséges a department címke |
-| tags |Hozzáfűzése |Tag hozzáfűzése minden egyes erőforrás-csoportba, amely azt jelzi, hogy éles környezetben |
+| hely |elutasítás |Az Egyesült Államokbeli adatközpontok kívüli erőforrások létrehozásának megtagadása |
+| címkék |elutasítás |Alkalmazás tulajdonosa címke megkövetelése |
+| címkék |elutasítás |Szükséges a department címke |
+| címkék |Hozzáfűzése |Tag hozzáfűzése minden egyes erőforrás-csoportba, amely azt jelzi, hogy éles környezetben |
 
 Ezek nem korlátozza a felhasználó létrehozhat éles környezetben termékváltozat típusát.
 
@@ -155,15 +158,15 @@ A Contoso ETS információt adatvédelmi és kockázatkezelési-kezelési csapat
 
 Az a **fejlesztési előfizetés**, hozhatnak létre:
 
-| Erőforrás típusa | Name (Név) | Leírás |
+| Erőforrás típusa | Név | Leírás |
 | --- | --- | --- |
-| Virtual Network |belső virtuális hálózathoz |Szolgálja ki a Contoso hűségprogramok használatán keresztül kártya fejlesztési környezet és az expressroute-on keresztül kapcsolódik a Contoso vállalati hálózat |
+| Virtual Network |internal-vnet |Szolgálja ki a Contoso hűségprogramok használatán keresztül kártya fejlesztési környezet és az expressroute-on keresztül kapcsolódik a Contoso vállalati hálózat |
 
 Az a **éles előfizetés**, hozhatnak létre:
 
-| Erőforrás típusa | Name (Név) | Leírás |
+| Erőforrás típusa | Név | Leírás |
 | --- | --- | --- |
-| Virtual Network |külső virtuális hálózatok közötti |Hűségprogramok használatán keresztül kártya-alkalmazást, és közvetlenül a Contoso ExpressRoute nincs csatlakoztatva. Kód a rendszer továbbítja a forráskód rendszeren keresztül közvetlenül a PaaS-szolgáltatások |
+| Virtual Network |external-vnet |Hűségprogramok használatán keresztül kártya-alkalmazást, és közvetlenül a Contoso ExpressRoute nincs csatlakoztatva. Kód a rendszer továbbítja a forráskód rendszeren keresztül közvetlenül a PaaS-szolgáltatások |
 | Hálózati biztonsági csoport |loyaltycard-nsg |Biztosítja, hogy az ilyen számítási feladatok támadási felületét azáltal, hogy csak a korlátozott kommunikáció a TCP 443-as másodpercekre csökken.  Contoso is vizsgálja a további védelem webalkalmazási tűzfal használata |
 
 ### <a name="resource-locks"></a>Erőforrás-zárolások
@@ -173,7 +176,7 @@ Akkor hozzon létre a következő zárolást:
 
 | Zárolás típusa | Erőforrás | Leírás |
 | --- | --- | --- |
-| **Védve** |külső virtuális hálózatok közötti |Megakadályozza, hogy a felhasználók a virtuális hálózat vagy alhálózat törlése. A zárolás nem akadályozza meg az új alhálózat hozzáadása |
+| **CanNotDelete** |external-vnet |Megakadályozza, hogy a felhasználók a virtuális hálózat vagy alhálózat törlése. A zárolás nem akadályozza meg az új alhálózat hozzáadása |
 
 ### <a name="azure-automation"></a>Azure Automation
 Alice és fejlesztési csapata rendelkeznek széles körű runbookok ehhez az alkalmazáshoz a környezet kezeléséhez. A runbookok lehetővé teszi az alkalmazás és más fejlesztési és üzemeltetési feladatokat csomópontok hozzáadása és törléséről.

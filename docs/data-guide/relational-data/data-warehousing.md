@@ -3,12 +3,15 @@ title: Az adattárházak és adatpiacok
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: 9a3ca2daf8a94d0df50d269a7ee30902858ba970
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 6679ff620ca9e64036c02fce38608de38c57df93
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113489"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54482171"
 ---
 # <a name="data-warehousing-and-data-marts"></a>Az adattárházak és adatpiacok
 
@@ -54,7 +57,7 @@ Az Azure-ban előfordulhat, hogy egy vagy több adatforráshoz, az ügyfél tran
 
 Való megvalósítása a data warehouse-bA az Azure-ban, igényeitől függően több lehetőség áll rendelkezésre. A következő listákban megszakadnak a két kategóriába sorolhatók [szimmetrikus többprocesszoros feldolgozás](https://en.wikipedia.org/wiki/Symmetric_multiprocessing) (SMP) és [nagymértékben párhuzamos feldolgozási](https://en.wikipedia.org/wiki/Massively_parallel) (MPP).
 
-ÁLLAPOTÁTTELEPÍTÉSI PONT:
+SMP:
 
 - [Azure SQL Database](/azure/sql-database/)
 - [SQL Server virtuális gépen](/sql/sql-server/sql-server-technical-documentation)
@@ -62,7 +65,7 @@ Való megvalósítása a data warehouse-bA az Azure-ban, igényeitől függően 
 MPP:
 
 - [Az Azure Data warehouse-bA](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is)
-- [Az Apache Hive a HDInsight](/azure/hdinsight/hadoop/hdinsight-use-hive)
+- [Apache Hive on HDInsight](/azure/hdinsight/hadoop/hdinsight-use-hive)
 - [HDInsight interaktív lekérdezés (Hive LLAP)](/azure/hdinsight/interactive-query/apache-interactive-query-get-started)
 
 Általános szabály, SMP-alapú adattárházakhoz vannak leginkább megfelelő kis, közepes méretű adatkészletek (akár a 4 – 100 TB-ot), amíg MPP big Data típusú adatok gyakran használják. Kis és közepes méretű és big Data típusú adatok között körülhatárolásához részben rendelkezik, hogy a szervezet definíció és -kompatibilis infrastruktúrával. (Lásd: [egy OLTP-adattár kiválasztásával](online-transaction-processing.md#scalability-capabilities).)
@@ -125,13 +128,13 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 <!-- markdownlint-disable MD033 -->
 
-| | Azure SQL Database | Az SQL Server (VM) | SQL Data Warehouse | Apache Hive hdinsight | Hive LLAP, a HDInsight |
+| | Azure SQL Database | SQL Server (VM) | SQL Data Warehouse | Apache Hive hdinsight | Hive LLAP, a HDInsight |
 | --- | --- | --- | --- | --- | --- | -- |
 | A felügyelt szolgáltatás | Igen | Nem | Igen | Igen <sup>1</sup> | Igen <sup>1</sup> |
-| Adatok előkészítése (data/előzményadatok másolatát tárolja) igényel | Nem | Nem | Igen | Igen | Igen |
-| Egyszerű integrálás több adatforráshoz | Nem | Nem | Igen | Igen | Igen |
-| Támogatja a számítás felfüggesztése | Nem | Nem | Igen | Nem <sup>2</sup> | Nem <sup>2</sup> |
-| Relációs adattároló | Igen | Igen |  Igen | Nem | Nem |
+| Adatok előkészítése (data/előzményadatok másolatát tárolja) igényel | Nincs | Nem | Igen | Igen | Igen |
+| Egyszerű integrálás több adatforráshoz | Nincs | Nem | Igen | Igen | Igen |
+| Támogatja a számítás felfüggesztése | Nincs | Nem | Igen | Nem <sup>2</sup> | Nem <sup>2</sup> |
+| Relációs adattároló | Igen | Igen |  Igen | Nem | Nincs |
 | Valós idejű jelentéskészítést | Igen | Igen | Nem | Nem | Igen |
 | Rugalmas biztonsági mentés visszaállítási pontok | Igen | Igen | Nem <sup>3</sup> | Igen <sup>4</sup> | Igen <sup>4</sup> |
 | SMP/MPP | SMP | SMP | MPP | MPP | MPP |
@@ -150,11 +153,11 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 <!-- markdownlint-disable MD033 -->
 
-| | Azure SQL Database | Az SQL Server (VM) |  SQL Data Warehouse | Apache Hive hdinsight | Hive LLAP, a HDInsight |
+| | Azure SQL Database | SQL Server (VM) |  SQL Data Warehouse | Apache Hive hdinsight | Hive LLAP, a HDInsight |
 | --- | --- | --- | --- | --- | --- | -- |
-| Redundáns regionális kiszolgálók magas rendelkezésre állás érdekében  | Igen | Igen | Igen | Nem | Nem |
-| Támogatja a lekérdezés horizontális felskálázás (elosztott lekérdezések)  | Nem | Nem | Igen | Igen | Igen |
-| A dinamikus méretezhetőség | Igen | Nem | Igen <sup>1</sup> | Nem | Nem |
+| Redundáns regionális kiszolgálók magas rendelkezésre állás érdekében  | Igen | Igen | Igen | Nem | Nincs |
+| Támogatja a lekérdezés horizontális felskálázás (elosztott lekérdezések)  | Nincs | Nem | Igen | Igen | Igen |
+| A dinamikus méretezhetőség | Igen | Nincs | Igen <sup>1</sup> | Nincs | Nincs |
 | Támogatja a memórián belüli gyorsítótárazáshoz, az adatok | Igen |  Igen | Nem | Igen | Igen |
 
 [1] az SQL Data Warehouse lehetővé teszi az adattárházegységek (dwu-k) száma fokozottabban kisebbre vagy nagyobbra méretezhetők. Lásd: [kezelés számítási teljesítményt az Azure SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-manage-compute-overview).
@@ -168,12 +171,12 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 |                         |           Azure SQL Database            |  SQL Server virtuális gépen  | SQL Data Warehouse |   Apache Hive hdinsight    |    Hive LLAP, a HDInsight     |
 |-------------------------|-----------------------------------------|-----------------------------------|--------------------|-------------------------------|-------------------------------|
 |     Hitelesítés      | SQL / Azure Active Directory (Azure AD) | SQL / Azure AD / Active Directory |   SQL / Azure AD   | helyi / Azure AD <sup>1</sup> | helyi / Azure AD <sup>1</sup> |
-|      Engedélyezés      |                   Igen                   |                Igen                |        Igen         |              Igen              |       Igen <sup>1</sup>        |
+|      Jogosultság      |                   Igen                   |                Igen                |        Igen         |              Igen              |       Igen <sup>1</sup>        |
 |        Naplózás         |                   Igen                   |                Igen                |        Igen         |              Igen              |       Igen <sup>1</sup>        |
 | Adat-titkosítás inaktív állapotban |            Igen <sup>2</sup>             |         Igen <sup>2</sup>          |  Igen <sup>2</sup>  |       Igen <sup>2</sup>        |       Igen <sup>1</sup>        |
-|   Sorszintű biztonság    |                   Igen                   |                Igen                |        Igen         |              Nem               |       Igen <sup>1</sup>        |
+|   Sorszintű biztonság    |                   Igen                   |                Igen                |        Igen         |              Nincs               |       Igen <sup>1</sup>        |
 |   Támogatja a tűzfalak    |                   Igen                   |                Igen                |        Igen         |              Igen              |       Igen <sup>3</sup>        |
-|  Dinamikus adatmaszkolás   |                   Igen                   |                Igen                |        Igen         |              Nem               |       Igen <sup>1</sup>        |
+|  Dinamikus adatmaszkolás   |                   Igen                   |                Igen                |        Igen         |              Nincs               |       Igen <sup>1</sup>        |
 
 <!-- markdownlint-enable MD033 -->
 

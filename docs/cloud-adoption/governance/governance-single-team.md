@@ -1,16 +1,19 @@
 ---
-title: 'Enterprise Cloud Adoption: Egy egyszerű számítási feladat Cégirányítási tervezése'
+title: 'Enterprise Cloud Adoption: Egy egyszerű számítási feladat cégirányítási tervezése'
 description: Útmutató ahhoz, hogy egy felhasználó egy egyszerű számítási feladat üzembe helyezéséhez Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
 ms.date: 09/10/2018
-ms.openlocfilehash: 13c7c4b41df14151d28b9c685f01019af3ec63f2
-ms.sourcegitcommit: c49aeef818d7dfe271bc4128b230cfc676f05230
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: f87584b4182e5eca143f6429220c822b4be2ed70
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 09/11/2018
-ms.locfileid: "44389247"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54481728"
 ---
-# <a name="enterprise-cloud-adoption-governance-design-for-a-simple-workload"></a>Enterprise Cloud Adoption: Egy egyszerű számítási feladat Cégirányítási tervezése
+# <a name="enterprise-cloud-adoption-governance-design-for-a-simple-workload"></a>Enterprise Cloud Adoption: Egy egyszerű számítási feladat cégirányítási tervezése
 
 Ez az útmutató célja, amely megkönnyíti a folyamatot az Azure-ban egy csoportot, és a egy egyszerű számítási feladatok támogatására erőforrás cégirányítási modell létrehozása.  Azt fogjuk elméleti cégirányítási követelményeket tekintse meg, majd nyissa meg több szolgálnak példákkal, amelyek megfelelnek-e ezeknek a követelményeknek. 
 
