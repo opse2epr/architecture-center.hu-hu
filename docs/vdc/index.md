@@ -3,13 +3,11 @@ title: Azure Virtual Datacenter
 description: A Microsoft Azure Virtual Datacenter lehetséges erőforrásai
 keywords: Azure
 layout: LandingPage
-ms.openlocfilehash: 5b5b6f58911e39ae1296722194b58c601b9baea8
-ms.sourcegitcommit: 94d50043db63416c4d00cebe927a0c88f78c3219
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 09/28/2018
-ms.locfileid: "47428091"
+ms.topic: landing-page
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
 ---
+
 # <a name="azure-virtual-datacenter-and-the-enterprise-control-plane"></a>Az Azure Virtual Datacenter és a vállalati vezérlősík
 
 Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az Azure-felhőplatform képességeiből a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett. Amikor vállalati számítási feladatokat helyeznek üzembe a felhőben, az informatikai cégeknek és üzleti egységeknek meg kell találniuk a szabályozás és a fejlesztőknek nyújtott rugalmasság közötti egyensúlyt. Az Azure Virtual Datacenter különböző modelleket kínál ennek kialakítására, a szabályozásra helyezve nagyobb hangsúlyt.
@@ -19,7 +17,7 @@ Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az
 <tr>
     <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Concepts"><img src="../_images/virtual-datacenter.svg" alt="Virtual Datacenter eBook" /></a></td>
     <td>
-        <h3><a href="https://aka.ms/VDC/Concepts">Azure Virtual Datacenter: Alapfogalmak</a></h3>
+        <h3><a href="https://aka.ms/VDC/Concepts">Azure Virtual Datacenter: Alapelvek</a></h3>
         <p>Ez az e-könyv bemutatja, hogyan helyezhet üzembe vállalati számítási feladatokat az Azure-felhőplatformon a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett.</p>
     </td>
 </tr>
@@ -40,7 +38,7 @@ Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az
 <tr>
     <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Deck"><img src="./images/vdc-deck.png" alt="Presentation Deck" /></a></td>
     <td>
-        <h3><a href="https://aka.ms/VDC/Deck">Virtual Datacenter: Prezentáció </a></h3>
+        <h3><a href="https://aka.ms/VDC/Deck">Azure Virtual Datacenter: Prezentáció </a></h3>
         <p>Ez a prezentáció útmutatást ad az Azure virtuális adatközpont használatához, és bemutatja az eszközeit. Sorra veszi a virtuális adatközpontok céljait, az ügyfélszempontokat, az Azure-régiókat, a virtuális adatközpontok automatizálásának elemeit, az ipari és megbízható Azure virtuális adatközpontok listáját, végül pedig egy CIO-útmutatásra épülő akciótervet. Támogatási és képzési információkat is tartalmaz.</p>
     </td>
 </tr>
