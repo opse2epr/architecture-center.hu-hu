@@ -4,12 +4,15 @@ titleSuffix: Azure Example Scenarios
 description: Beszélgető csevegőrobotot hozhat létre kereskedelmi alkalmazásokhoz az Azure Bot Service segítségével.
 author: iainfoulds
 ms.date: 07/05/2018
-ms.openlocfilehash: 31a7384b11262ac967ab5f8a6c5e7f17e9a00b6f
-ms.sourcegitcommit: bb7fcffbb41e2c26a26f8781df32825eb60df70c
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
+ms.openlocfilehash: a8540f61a8c5ec500147dc04dc94f3ea6742e6f3
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/20/2018
-ms.locfileid: "53643849"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486998"
 ---
 # <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
 
@@ -69,7 +72,7 @@ Ebben a példában az Azure App Service-ben. Az App Service automatikusan skál�
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonság
+### <a name="security"></a>Biztonsági
 
 Ez a forgatókönyv Azure Active Directory B2C-t használ felhasználók hitelesítésére (üzleti 2 fogyasztói). Az AAD B2C-vel a csevegőrobot bármely ügyfél bizalmas fiókadatok vagy a hitelesítő adatok nem tárolja. További információkért lásd: [Azure Active Directory B2C – áttekintés][aadb2c-docs].
 
@@ -154,7 +157,7 @@ Adtunk meg három példa költség profilok feldolgozni a csevegőrobot várt ü
 - [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 < üzenetek feldolgozására utal.
 - [Nagy][large-pricing]: a díjszabási példa havonta < 10 millió üzenetek feldolgozására utal.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 Az Azure Bot Service az interaktív oktatóanyagok készletének, tekintse meg a [oktatóanyag szakasz] [ botservice-docs] dokumentáció.
 
