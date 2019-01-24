@@ -3,12 +3,16 @@ title: Az Azure-alkalmazások vészhelyreállítása
 description: Technikai áttekintése és részletes információk a vész-helyreállítási a Microsoft Azure-alkalmazások tervezéséhez.
 author: adamglick
 ms.date: 09/12/2018
-ms.openlocfilehash: 5101230a628cb70501cb3e6122b616c8c55cf6b2
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: article
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
+ms.custom: resiliency
+ms.openlocfilehash: bb9045e5656f86fe6b164b5ba831c1069cef6183
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54113178"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486831"
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások vészhelyreállítása
 
@@ -123,7 +127,7 @@ A következő részekben bemutatjuk a katasztrófa utáni helyreállítással ka
 
 Rendszeres biztonsági mentést készít az egyes vész-helyreállítási helyzetekben képes támogatni. Más tárolási erőforrások szükséges különböző módszereket.
 
-#### <a name="sql-database"></a>SQL Database
+#### <a name="sql-database"></a>SQL-adatbázis
 
 A Basic, Standard és prémium szintű SQL Database-szinten akkor kihasználhatja időponthoz visszaállítás az adatbázis helyreállítása. További információkért lásd: [áttekintése: A felhő üzleti folytonossági és adatbázis katasztrófa utáni helyreállítás az SQL Database](/azure/sql-database/sql-database-business-continuity/). Egy másik lehetőség, az aktív Georeplikáció által használandó SQL Database-hez. Ez automatikusan replikál a adatbázis másodlagos adatbázisok ugyanazon Azure-régióban, vagy akár egy másik régióba. Ez néhány ebben a cikkben bemutatott több manuális adatok szinkronizálási módszert lehetséges alternatívát kínál. További információkért lásd: [áttekintése: Az SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/).
 
@@ -259,7 +263,7 @@ Az alábbi ábrán látható, ha az elsődleges és másodlagos régiók tartalm
 
 ![Aktív-passzív, a teljes replika](./images/disaster-recovery-azure-applications/active-passive-full-replica.png)
 
-### <a name="active-active"></a>Aktív-aktív
+### <a name="active-active"></a>Active-active
 
 Egy aktív-aktív topológia a cloud services és az adatbázis teljes mértékben telepítve mindkét régióban. Ellentétben az aktív-passzív modell mindkét régióban a felhasználói forgalom fogadására. Ez a beállítás a leggyorsabb helyreállítási idő alapján. A szolgáltatások már vannak méretezve, hogy kezelni a terhelés mellett minden egyes régió egy részét. DNS használata a másodlagos régió már engedélyezve van. Nincs további összetettséget irányíthatja a felhasználókat a megfelelő régiót módjának meghatározása. Ciklikus időszeleteléses ütemezés lehetséges. Több valószínű, hogy bizonyos felhasználók használna egy adott régióban, ahol az elsődleges verziót adataik található.
 
@@ -267,7 +271,7 @@ A feladatátvétel esetén egyszerűen letilthatja DNS az elsődleges régióba.
 
 Ez a modell még akkor is, vannak bizonyos eltérések. Ha például a következő ábra szemlélteti egy elsődleges régióban, a fő másolatot készít az adatbázisról tulajdonosa. A cloud services mindkét régióban írni az elsődleges adatbázis. A másodlagos telepítési olvashatja az elsődleges vagy a replikált adatbázisból. Ebben a példában a replikációt még csak egyirányú.
 
-![Aktív-aktív](./images/disaster-recovery-azure-applications/active-active.png)
+![Active-active](./images/disaster-recovery-azure-applications/active-active.png)
 
 Egy, a fenti ábrán az aktív-aktív architektúra hátránya van. A második régiót kell hozzáférni az adatbázis az első régióban, mert a fő példány ott található. Teljesítmény jelentős mértékben csökken a régión kívül származó adatok elérésekor. A régiók közötti adatbázis-hívás érdemes valamilyen kötegelés stratégia hívások teljesítményének javítása érdekében. További információkért lásd: [kötegelés használata SQL Database-alkalmazások teljesítményének javítása érdekében](/azure/sql-database/sql-database-use-batching-to-improve-performance/).
 
@@ -297,7 +301,7 @@ A hibrid forgatókönyv-feladatátvétel a központi telepítések a korábbi v�
 
 A Vészhelyreállítás stratégiájának megbízhatóak több felhőalapú platform, hogy értékes absztrakciós réteg szerepeljenek a megoldás kialakítását. Ez így nem kell a fejlesztéséhez és karbantartásához ugyanazt az alkalmazást, másik felhőalapú platformon vészhelyzet két különböző verzióit. Mint a hibrid forgatókönyv az Azure Virtual Machines vagy az Azure Container Service használata lehet egyszerűbben ezekben az esetekben a felhőspecifikus PaaS minták használatát.
 
-## <a name="automation"></a>Automation
+## <a name="automation"></a>Automatizálás
 
 Az imént említett mintáit szükséges offline telepítés gyors aktiválásának, valamint a rendszer bizonyos részeit visszaállítása. Automatizálási szkriptek erőforrások igény szerint aktiválhatja és megoldások gyors üzembe helyezését. Alábbi használja a DR-kapcsolódó automation példák [Azure PowerShell-lel](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI-vel](https://docs.microsoft.com/cli/azure/get-started-with-azure-cli) vagy a [Service Management REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) is jó lehetőségei vannak.
 
@@ -329,14 +333,14 @@ Számos egyéb módszert is tesztelheti a vészhelyreállítási terveket. Azonb
 
 Az alábbi témakörök ismertetik a katasztrófa utáni helyreállítás adott Azure-szolgáltatások:
 
-| Szolgáltatás | Témakör |
+| Szolgáltatás | Téma |
 |---------|-------|
 | Azure Database for MySQL | [Az Azure Database for MySQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/mysql/concepts-business-continuity) |
 | Azure Database for PostgreSQL | [Az Azure Database for PostgreSQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/postgresql/concepts-business-continuity)
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
 | Cosmos DB | [Automatikus régiónkénti feladatátvétel az üzletmenet folytonossága érdekében az Azure Cosmos DB-ben](/azure/cosmos-db/regional-failover)
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
-|Storage | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
-| SQL Database | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |
-| Virtual machines (Virtuális gépek) | [Mi a teendő abban az esetben, ha egy Azure-szolgáltatáskimaradás hatással van az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
+|Tárhely | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
+| SQL-adatbázis | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |
+| Virtual machines | [Mi a teendő abban az esetben, ha egy Azure-szolgáltatáskimaradás hatással van az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
 | Virtuális hálózatok | [Virtuális hálózat – üzletmenet-folytonossági](/azure/virtual-network/virtual-network-disaster-recovery-guidance) |

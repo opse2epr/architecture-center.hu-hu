@@ -4,13 +4,16 @@ titleSuffix: Azure Design Review Framework
 description: Rugalmasságra vonatkozó útmutatás különböző Azure-szolgáltatásokat biztosító ellenőrzőlista.
 author: petertaylor9999
 ms.date: 11/26/2018
+ms.topic: checklist
+ms.service: architecture-center
+ms.subservice: cloud-design-principles
 ms.custom: resiliency, checklist
-ms.openlocfilehash: e1fb780cf9f54a5078cc5d3c6b597b351f93e05e
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.openlocfilehash: fbb7501a663c8b5e326b2b601685419c8e5a0806
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112668"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486913"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -70,7 +73,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként használ, ezek a javaslatok nem alkalmazható.
 
-## <a name="search"></a>Keresés
+## <a name="search"></a>Search
 
 **Több replika üzembe helyezhető.** Legalább két replika használata olvasási magas rendelkezésre állású, vagy három az olvasási és írási magas rendelkezésre állású.
 
@@ -94,7 +97,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Használja a Geo-Disaster Recovery**. GEO-vészhelyreállítás biztosítja, hogy adatfeldolgozási továbbra is megfelelően működjenek, eltérő régióban vagy datacenter, ha egy teljes Azure-régiót vagy datacenter katasztrófa miatt elérhetetlenné válik. További információkért lásd: [Azure Service Bus Geo-disaster recovery](/azure/service-bus-messaging/service-bus-geo-dr).
 
-## <a name="storage"></a>Storage
+## <a name="storage"></a>Tárhely
 
 **Az alkalmazásadatok esetében használja az írásvédett georedundáns tárolás (RA-GRS).** RA-GRS tároló egy másodlagos régióba replikálja az adatokat, és a másodlagos régióból a csak olvasási hozzáférést biztosít. Ha a társzolgáltatás kimaradása az elsődleges régióban, az alkalmazás olvashatja az adatokat a másodlagos régióból. További információkért lásd: [Azure Storage replikáció](/azure/storage/storage-redundancy/).
 
@@ -102,7 +105,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **A Queue storage hozzon létre egy biztonsági várólistát egy másik régióban.** A Queue storage, a csak olvasható replika korlátozott használja, mert nem lehet üzenetsor vagy elemek eltávolítása a sorból. Ehelyett hozzon létre egy biztonsági várólistát a storage-fiókban egy másik régióban. Ha a társzolgáltatás kimaradása, az alkalmazás a biztonsági várólistát használhatja, az elsődleges régió amíg elérhetővé nem válik újra. Ezzel a módszerrel az alkalmazás továbbra is az új kérelmek tud feldolgozni.
 
-## <a name="sql-database"></a>SQL Database
+## <a name="sql-database"></a>SQL-adatbázis
 
 **Használjon Standard vagy prémium csomagra.** Ezek a rétegek adjon meg egy már időponthoz visszaállítás ideje (35 nap). További információkért lásd: [SQL Database beállításai és teljesítménye](/azure/sql-database/sql-database-service-tiers/).
 

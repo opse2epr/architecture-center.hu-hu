@@ -3,12 +3,15 @@ title: A gépi tanulási technológia kiválasztása
 description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
-ms.openlocfilehash: e4b8ecb64afbacc8a4e24e9c6274455db0451d62
-ms.sourcegitcommit: 1f4cdb08fe73b1956e164ad692f792f9f635b409
+ms.topic: guide
+ms.service: architecture-center
+ms.subservice: cloud-fundamentals
+ms.openlocfilehash: a435286781281a43864561f98362675219bb1477
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/08/2019
-ms.locfileid: "54112125"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54486573"
 ---
 # <a name="choosing-a-machine-learning-technology-in-azure"></a>Kiválasztása a machine learning-technológiák az Azure-ban
 
@@ -26,7 +29,7 @@ Az adatszakértők általában inkább olyan adatok, Python vagy r nyelven írt 
 Más gyakran használt eszközök a következők:
 
 - **Spyder**: Interaktív fejlesztői környezet (IDE) a Anaconda Python elosztási biztosított Python-hez.
-- **Az R Studio**: Egy ide-vel az R programozási nyelv.
+- **R Studio**: Egy ide-vel az R programozási nyelv.
 - **A Visual Studio Code**: Egy egyszerűsített, platformfüggetlen programozási környezetet, amely támogatja a Python, valamint az elterjedt keretrendszerek gépi tanulási és AI-fejlesztést.
 
 Ezek az eszközök mellett adatszakértők használhatják a Azure-szolgáltatások kódot és a modell kezelésének egyszerűsítéséhez.
@@ -157,7 +160,7 @@ Szempontok:
 
 - Feltételezi, hogy egy SQL Server-adatbázis, az adatréteg az alkalmazáshoz.
 
-### <a name="azure-machine-learning-web-service"></a>Az Azure Machine Learning-webszolgáltatás
+### <a name="azure-machine-learning-web-service"></a>Azure Machine Learning web service
 
 Amikor egy gépi tanulási modellt az Azure Machine Learning Studio használatával hoz létre, telepíthet webszolgáltatásként. Ez majd használhatók fel a HTTP-alapú kommunikáció kompatibilis ügyfélalkalmazások REST-interfészen keresztül.
 

@@ -4,13 +4,16 @@ titleSuffix: Azure Example Scenarios
 description: E-kereskedelmi webhelyet üzemeltethet az Azure-ban.
 author: masonch
 ms.date: 07/13/2018
+ms.topic: example-scenario
+ms.service: architecture-center
+ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: f07c21b8eb9d812b9831abe8f2e4f6d131893df2
-ms.sourcegitcommit: 7d9efe716e8c9e99f3fafa9d0213d48c23d9713d
+ms.openlocfilehash: 6ba4d98055258ca10b1ac06df217196a8a0151f5
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/09/2019
-ms.locfileid: "54160808"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54483921"
 ---
 # <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 
@@ -87,7 +90,7 @@ Egyéb lehetőségek az adatréteg számára a következők:
 - Megfontolandó szempontok a megfelelő méretezhetőség [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture]
 - Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonság
+### <a name="security"></a>Biztonsági
 
 - Vegye figyelembe, kihasználva a [jellemző tervezési minták a biztonsági] [ design-patterns-security] ahol lehetséges.
 - Tekintse át a biztonsági szempontok a megfelelő [App Service webalkalmazás referenciaarchitektúrája][app-service-reference-architecture].
@@ -116,7 +119,7 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 - [Közepes][medium-pricing]: Ebben a példában díjszabása előzetes központi telepítés ennél kisebb méretű összetevőket jelöli. Itt azt becsülje meg a rendszert használ a hónap folyamán körülbelül 100 000 felhasználót. A várt forgalom az mérsékelt standard csomagot egyetlen alkalmazás szolgáltatáspéldány történik. Ezenkívül mérsékelt rétegből álló cognitive, és keresse meg a díjkalkulátorban feltüntetett szolgáltatással bővül.
 - [Nagy][large-pricing]: A díjszabási példa egy alkalmazás nagy adatmennyiség esetén: több millió felhasználó / hó terabájtnyi adatot áthelyezni sorrendje webszolgáltatásokban jelöli. Ezen a szinten használati magas teljesítményt a prémium szint fronted traffic Managerrel több régióban üzembe helyezett webalkalmazások szükség. Adatok a következőket tartalmazza: tárolás, adatbázisok és a CDN, megtörténik az terabájtnyi adatot.
 
-## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
+## <a name="related-resources"></a>Kapcsolódó erőforrások
 
 - [Többrégiós webalkalmazás a referencia-architektúra][multi-region-web-app]
 - [a tárolók hivatkozás példája eShop][microservices-ecommerce]

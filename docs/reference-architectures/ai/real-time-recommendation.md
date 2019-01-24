@@ -3,13 +3,16 @@ title: Valós idejű ajánlás API létrehozása az Azure-ban
 description: A gépi tanulási automatizálhatja az Azure Databricks és az Azure adatelemzési virtuális gépek (DSVM) segítségével az Azure-ban a modell betanításához javaslatokat.
 author: njray
 ms.date: 12/12/2018
+ms.topic: reference-architecture
+ms.service: architecture-center
+ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: ca9d854f0e29ae769f5a86648b94cce7a2fd146e
-ms.sourcegitcommit: fb22348f917a76e30a6c090fcd4a18decba0b398
+ms.openlocfilehash: 8fa15c82275f18af78d1f42ec1750ab9b28119fb
+ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 12/16/2018
-ms.locfileid: "53450827"
+ms.lasthandoff: 01/23/2019
+ms.locfileid: "54487113"
 ---
 # <a name="build-a-real-time-recommendation-api-on-azure"></a>Valós idejű ajánlás API létrehozása az Azure-ban
 
@@ -95,10 +98,10 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
 
 2. Hozzon létre egy új fürtöt az Azure Databricksben. Az alábbi konfigurációra szükség:
 
-    - Fürt üzemmód: Standard
+    - Fürt üzemmód: Szokásos
     - Databricks futtatókörnyezet-verziója: 4.1 (tartalmazza az Apache Spark 2.3.0-át és Scala 2.11-et)
     - Python-verzió: 3
-    - Illesztőprogram típusa: Standard szintű\_DS3\_v2
+    - Illesztőprogram típusa: Standard\_DS3\_v2
     - Feldolgozó típusa: Standard szintű\_DS3\_v2 (minimális és maximális száma szükség szerint)
     - Automatikus lezárás: (a megadása kötelező)
     - Spark-Config: (a megadása kötelező)
