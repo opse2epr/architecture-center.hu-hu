@@ -1,5 +1,5 @@
 ---
-title: Biztonságos webes alkalmazások létrehozása Windows-alapú virtuális gépekhez
+title: Biztonságos webalkalmazások kiépítése Windows rendszerű virtuális gépekkel
 titleSuffix: Azure Example Scenarios
 description: Biztonságos, többszintű webalkalmazást hozhat létre a Windows Serverrel az Azure-ban méretezési csoportok, az Application Gateway és terheléselosztók használatával.
 author: iainfoulds
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: seodec18, Windows
-ms.openlocfilehash: 12c7b4749507d4b96e5ce43f98739885c8133e7e
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-regulated-multitier-app.png
+ms.openlocfilehash: 440d208b423703fe791dcbe2cad0609fef0e6508
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485536"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908273"
 ---
 # <a name="building-secure-web-applications-with-windows-virtual-machines-on-azure"></a>Biztonságos webes alkalmazások létrehozása a Windows virtual machines az Azure-ban
 
@@ -74,7 +75,7 @@ Ebben a forgatókönyvben a virtual machine scale sets az előtér- és összete
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 A virtuális hálózat hálózati biztonsági csoportok által védett, és a forgalom az előtér-alkalmazás szinten be. A szabályok korlátozzák a forgalmat, hogy csak az előtér-alkalmazás szintű Virtuálisgép-példányok férhessenek hozzá a háttér adatbázis szint. Nincs kimenő internetes forgalom engedélyezve van az adatbázisszint. A támadás által elfoglalt tárterület csökkentéséhez nincs közvetlen Távoli szolgáltatásfelügyelet portjai nyitva. További információkért lásd: [Azure-beli hálózati biztonsági csoportok][nsg-docs].
 
@@ -122,7 +123,7 @@ A méretezési csoport Virtuálisgép-példányain az alkalmazásokat futtató s
 - [Közepes][medium-pricing]: 20 előtér- és 5 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
 - [Nagy][large-pricing]: 100 előtérrendszer, mind a 10 háttérbeli Virtuálisgép-példányok a díjszabási példa utal.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Ebben a forgatókönyvben egy háttérbeli virtuális gép méretezési csoportot, amely a Microsoft SQL Server-fürt használja. A cosmos DB is használható, méretezhető és biztonságos adatbázis-rétegből az alkalmazásadatok számára. Egy [Azure virtuális hálózati szolgáltatásvégpont] [ vnetendpoint-docs] lehetővé teszi, hogy csak a virtuális hálózatot a kritikus fontosságú Azure-szolgáltatási erőforrások védelmét. Ebben a forgatókönyvben a VNet-végpontok engedélyezése az előtér-alkalmazás szint és a Cosmos DB közötti adatforgalom biztonságossá teheti. További információkért lásd: a [Azure Cosmos DB áttekintő](/azure/cosmos-db/introduction).
 

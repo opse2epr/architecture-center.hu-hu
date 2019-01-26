@@ -1,5 +1,5 @@
 ---
-title: CFD szimuláció futtatása
+title: CFD szimulációk futtatása
 titleSuffix: Azure Example Scenarios
 description: Számítási folyadékdinamikai (CFD) szimulációkat hajthat végre az Azure-ban.
 author: mikewarr
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: 0bd0590ccc2975481e23ac2154c4f0998e1f0877
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-hpc-cfd.png
+ms.openlocfilehash: 6972b701a608351104c23459bc2c38029a5c8d3d
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488477"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908424"
 ---
 # <a name="running-computational-fluid-dynamics-cfd-simulations-on-azure"></a>Számítási folyadékdinamikai (CFD) szimulációk futtatása az Azure-ban
 
@@ -110,11 +111,11 @@ Ebből a forgatókönyvből megtudhatja, hogyan CFD alkalmazások is futtatható
 
 Tekintse át ezt [a becsült ár] [ pricing] a fent felsorolt hardver.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 Miután üzembe helyezte a mintát, tudjon meg többet [Azure CycleCloud][cyclecloud].
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [RDMA-kompatibilis virtuálisgép-példányok][rdma]
 - [Egy RDMA-példány virtuális gép testreszabása][rdma-custom]

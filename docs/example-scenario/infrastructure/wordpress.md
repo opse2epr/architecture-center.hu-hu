@@ -1,5 +1,5 @@
 ---
-title: Hatékonyan skálázható és biztonságos WordPress-webhelyeit
+title: Nagymértékben skálázható és biztonságos WordPress-webhelyek
 titleSuffix: Azure Example Scenarios
 description: Nagymértékben skálázható és biztonságos WordPress-webhelyeket hozhat létre médiaeseményekhez.
 author: david-stanford
@@ -7,12 +7,13 @@ ms.date: 09/18/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: 22297c5f908bd52a064048fcfebb07ebab1f4d23
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/infrastructure/media/secure-scalable-wordpress.png
+ms.openlocfilehash: 6032247dce0d090885bc560d963f1e714d91f69c
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488545"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908371"
 ---
 # <a name="highly-scalable-and-secure-wordpress-website"></a>Hatékonyan skálázható és biztonságos WordPress-webhely létrehozása
 
@@ -81,7 +82,7 @@ A háttér pedig egy MariaDB-fürt rendelkezésre állási csoportban. További 
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 A virtuális hálózat hálózati biztonsági csoportok által védett, és a forgalom az előtér-alkalmazás szinten be. A szabályok korlátozzák a forgalmat, hogy csak az előtér-alkalmazás szintű Virtuálisgép-példányok férhessenek hozzá a háttér adatbázis szint. Nincs kimenő internetes forgalom engedélyezve van az adatbázisszint. A támadás által elfoglalt tárterület csökkentéséhez nincs közvetlen Távoli szolgáltatásfelügyelet portjai nyitva. További információkért lásd: [Azure-beli hálózati biztonsági csoportok][docs-nsg].
 

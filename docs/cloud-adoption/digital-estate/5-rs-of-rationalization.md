@@ -7,12 +7,12 @@ ms.date: 12/10/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 53beb2ee0f99c107ed390a4309273ad20e405b69
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 06058967e6ffcd9e3554a46c67144f72fb19078f
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484295"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908579"
 ---
 # <a name="enterprise-cloud-adoption-the-5-rs-of-rationalization"></a>Enterprise Cloud Adoption: A 5 ésszerűsítés az Rs
 
@@ -95,7 +95,7 @@ Minőségi elemzési tényezők:
 
 ## <a name="rebuild"></a>Újraépítés
 
-Bizonyos esetekben a különbözeti, amely kell meg lehet oldani a átviszi az alkalmazás lehet túl nagy, befektetés további igazoló. Ez különösen igaz a alkalmazásokat, amelyek segítségével az üzleti, de a rendszer most már nem támogatott vagy a helytelen igazítású, hogy az üzleti folyamatok végrehajtása még ma az igényeinek. Ebben az esetben egy új kódbázis egy felhőbeli natív megközelítés igazodva jön létre.
+Bizonyos esetekben a különbözeti, amely kell meg lehet oldani a átviszi az alkalmazás lehet túl nagy, befektetés további igazoló. Ez különösen igaz a alkalmazásokat, amelyek segítségével az üzleti, de a rendszer most már nem támogatott vagy a helytelen igazítású, hogy az üzleti folyamatok végrehajtása még ma az igényeinek. Ebben az esetben egy új kódbázis jön létre, amelyek összhangban vannak a [felhőbeli natív](https://azure.microsoft.com/overview/cloudnative/) megközelítést.
 
 Közös illesztőprogramot lehetnek:
 

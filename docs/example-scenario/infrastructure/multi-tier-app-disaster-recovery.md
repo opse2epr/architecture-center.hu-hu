@@ -1,19 +1,20 @@
 ---
-title: Többrétegű webalkalmazás beépített magas rendelkezésre ÁLLÁS/vészhelyreállítás
+title: Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazás
 titleSuffix: Azure Example Scenarios
-description: Hozzon létre egy Azure-ban az Azure virtual machines, a rendelkezésre állási csoportok, a rendelkezésre állási zónák, az Azure Site Recovery és az Azure Traffic Manager használatával a magas rendelkezésre állás és vészhelyreállítás helyreállítás létrehozott többrétegű webalkalmazást.
+description: Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazást hozhat létre az Azure-ban Azure-beli virtuális gépek, rendelkezésre állási csoportok, rendelkezésre állási zónák, az Azure Site Recovery és az Azure Traffic Manager használatával.
 author: sujayt
 ms.date: 11/16/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: product-team
-ms.openlocfilehash: 377c1663b8cd81f7788a1f2ce82b562a9695f3b0
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/infrastructure/media/arhitecture-disaster-recovery-multi-tier-app.png
+ms.openlocfilehash: c60a2a07db578c447eb0682270c105b79e80e12b
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483986"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908511"
 ---
 # <a name="multitier-web-application-built-for-high-availability-and-disaster-recovery-on-azure"></a>A helyreállításhoz magas rendelkezésre állás és vészhelyreállítás az Azure-ban létrehozott többrétegű webalkalmazást
 
@@ -73,7 +74,7 @@ Adja hozzá, vagy távolítsa el a virtuális gépeket az egyes szintek, a mére
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 Az előtér-alkalmazás szinten az összes virtuális hálózati forgalmat hálózati biztonsági csoportok védelmét. A szabályok korlátozzák a forgalmat, hogy csak az előtér-alkalmazás szintű Virtuálisgép-példányok férhessenek hozzá a háttér adatbázis szint. Nincs kimenő internetes forgalmat az üzleti szint vagy az adatbázisszint engedélyezett. A támadás által elfoglalt tárterület csökkentéséhez nincs közvetlen Távoli szolgáltatásfelügyelet portjai nyitva. További információkért lásd: [Azure-beli hálózati biztonsági csoportok][docs-nsg].
 

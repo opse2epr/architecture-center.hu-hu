@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: data-analytics
-ms.openlocfilehash: ddf9935d534b6902c407c22ba765e8c84558547b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/data/media/architecture-data-warehouse.png
+ms.openlocfilehash: 9eaa9cc472e2222b5cde04a3b84ba38623f65543
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488443"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908204"
 ---
 # <a name="data-warehousing-and-analytics-for-sales-and-marketing"></a>Adattárházak és elemzések értékesítési és marketingterületen
 
@@ -100,7 +101,7 @@ Tekintse át a [díjszabása a minta egy adatraktározási forgatókönyv] [ cal
 - [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
 - [Power bi-ban](https://powerbi.microsoft.com/pricing) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 - Tekintse át a [automatizált vállalati bi-ban az Azure-referenciaarchitektúra](/azure/architecture/reference-architectures/data/enterprise-bi-adf), amely ismerteti, hogyan telepíthető egy példányát az Azure-ban ez az architektúra tartalmazza.
 - Olvassa el a [Maritz motiváció megoldások vásárlói beszámolónk][source-document]. Történet ügyféladatok kezeléséhez hasonló megközelítést ismerteti.

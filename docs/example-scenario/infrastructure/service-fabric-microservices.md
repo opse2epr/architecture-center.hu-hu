@@ -1,5 +1,5 @@
 ---
-title: A Service Fabric használatával próbált felbontani, alkalmazások
+title: A Service Fabric használata alkalmazások felbontásához
 titleSuffix: Azure Example Scenarios
 description: A nagy méretű monolitikus alkalmazásokat mikroszolgáltatásokra bonthatja fel.
 author: timomta
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: 4563bf943d19def55ea18734b2d67df5087a99bd
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-service-fabric-complete.png
+ms.openlocfilehash: 67610f016321623cbffb0759cc9e75d2352b60bd
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487102"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54907899"
 ---
 # <a name="using-service-fabric-to-decompose-monolithic-applications"></a>A Service Fabric használata monolitikus alkalmazások felbontásához
 
@@ -88,7 +89,7 @@ Egyéb költség kevésbé költséges összetevői a tárolási díjakat minden
 
 Képet kapjon a költség, a fürt mérete, hálózati és tárolási néhány alapértelmezett értékeinek használata például létrehoztunk Önnek: Vessen egy pillantást a [díjkalkulátor](https://azure.com/e/52dea096e5844d5495a7b22a9b2ccdde). Nyugodtan frissítse az értékeket, az alapértelmezett kalkulátor való a helyzetnek megfelelő.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 Ismerkedjen meg a platform a hosszabb időt is igénybe a [dokumentáció](/azure/service-fabric/service-fabric-overview) és különböző több áttekintésével [alkalmazási](/azure/service-fabric/service-fabric-application-scenarios) a Service Fabrichez. A dokumentáció, megtudhatja, milyen egy fürt tartalmaz, mi a futtatásához, szoftverarchitektúrára és karbantartási.
 
@@ -96,7 +97,7 @@ Egy meglévő .NET-alkalmazás a Service Fabric bemutató megtekintéséhez üze
 
 Az aktuális alkalmazás szempontjából, gondolja át a különböző funkciók kezdődik. Válasszon egyet ezek közül, és úgy gondolja, hogy hogyan elkülönítheti a függvény csak a teljes keresztül. Egyszerre csak egy különálló, érthető, darab végrehajtani.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 - [Mikroszolgáltatások létrehozása az Azure-ban](/azure/architecture/microservices)
 - [A Service Fabric áttekintése](/azure/service-fabric/service-fabric-overview)

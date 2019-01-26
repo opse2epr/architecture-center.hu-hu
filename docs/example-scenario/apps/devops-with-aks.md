@@ -7,12 +7,13 @@ ms.date: 07/05/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: 7cf05b79b8984ff4bcad62df44058b0989bc124a
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-devops-with-aks.png
+ms.openlocfilehash: 89e50e67b2c933637442f0f01bf83ecc95743691
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481965"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908196"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI-/CD-folyamat tárolóalapú számítási feladatokhoz
 
@@ -79,7 +80,7 @@ Az Azure Cosmos DB egy globálisan elosztott, többmodelles adatbázis, amely gl
 
 Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 A támadások bekövetkeztének minimalizálása érdekében ebben a forgatókönyvben nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
 
@@ -139,7 +140,7 @@ Adtunk három példa költség profilok tárolólemezképek tárolására és az
 - [Közepes][medium-pricing]: a díjszabási példa havonta 100 000 tároló buildek utal.
 - [Nagy][large-pricing]: a díjszabási példa havonta 1 000 000 tároló buildek utal.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernetes Service-ben tárolja, és futtathatja a tárolóalapú alkalmazásokat. Az Azure Container Instances a tárolóalapú alkalmazások futtatása bármely vezénylési összetevők üzembe helyezése nélkül is használható. További információkért lásd: [Azure Container Instances áttekintésében][docs-aci].
 

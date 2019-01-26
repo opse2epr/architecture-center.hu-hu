@@ -7,12 +7,13 @@ ms.date: 07/10/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: ff71697969ba9fd85ff49c38458e59fc3447f905
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/data/media/architecture-ecommerce-order-processing.png
+ms.openlocfilehash: 3bb6e0998f2832bfdb20ba8b7bbf099cf6ac0423
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481031"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908401"
 ---
 # <a name="scalable-order-processing-on-azure"></a>Skálázható rendelésfeldolgozás az Azure-ban
 
@@ -69,7 +70,7 @@ A mikroszolgáltatás-alapú architektúra ebben a forgatókönyvben is sourcing
 
 Más méretezhetőség szempontokért lásd: a [méretezési ellenőrzőlista] [ scalability] elérhető az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 A [Cosmos DB biztonsági modell](/azure/cosmos-db/secure-access-to-data) hitelesíti a felhasználókat, és lehetővé teszi az adatok és erőforrások elérését. További információkért lásd: [Cosmos DB-adatbázis biztonsági](/azure/cosmos-db/database-security).
 
@@ -91,7 +92,7 @@ Adtunk meg három példa költség profilok tervez tevékenységek mennyisége a
 - [Közepes][medium-pricing]: a díjszabási példa egy 10 TB-os data store a Cosmos DB és a egy vállalkozás (D4 v2) történő 50 RUs fenntartott Kafka-fürt.
 - [Nagy][large-pricing]: 500 RUs történő fenntartott a Cosmos DB és a egy nagy méretű (D5 v2) 30 TB adattár Kafka-fürt a díjszabási példa.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Ebben a példaforgatókönyvben alapján ez az architektúra által készített szélesebb körű verziója [Jet.com adatfeldolgozási főigazgatója](https://jet.com) a teljes körű rendelés feldolgozási folyamat számára. További információkért lásd: a [Jet.com adatfeldolgozási főigazgatója műszaki felhasználói profil] [ source-document] és [jet.com a bemutató Build 2018][source-presentation].
 

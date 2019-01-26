@@ -10,16 +10,16 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: virtual-network
 ms.date: 11/28/2018
 ms.author: jonor
-ms.openlocfilehash: 1f61996d231f3bf0cc2c550f4d3e119116bb7bc0
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: a997a0f03da63bc1432f61f3299e7c6794278e5e
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488647"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908554"
 ---
 # <a name="azure-virtual-datacenter-a-network-perspective"></a>Az Azure virtual datacenter: A hálózati nézőpont
 
-## <a name="overview"></a>Áttekintés (klasszikus)
+## <a name="overview"></a>Áttekintés
 
 Migrálás a helyszíni alkalmazások Azure-bA értékelemeket biztosít a szervezetek a biztonságos és költséghatékony infrastruktúra, akkor is, ha az alkalmazások minimális változtatása mellett települnek át. Azonban ahhoz, hogy a legtöbbet a rugalmasságot lehetséges a felhő-számítástechnika, vállalatok kell fejlesztheti tovább az Azure-képességek kihasználásához architektúrák. 
 
@@ -262,17 +262,11 @@ Az Azure Load Balancer is megvizsgálja, valamint a különböző kiszolgálóp�
 
 [**Az Application Gateway** ] [ AppGW] Microsoft Azure Application Gateway egy alkalmazáskézbesítési vezérlőt (ADC) biztosító dedikált virtuális berendezés-szolgáltatás, 7 terheléselosztási réteg különböző ajánlat lehetőséget nyújt alkalmazásának. Ez lehetővé teszi, hogy optimalizálhatják a webfarmok termelékenységét a processzorigényes SSL-lezárások application Gateway felé történő kiszervezésével. Ezen túlmenően egyéb 7. rétegbeli útválasztási lehetőségeket is kínál, beleértve a bejövő forgalom ciklikus időszeleteléses elosztását, a cookie-alapú munkamenet-affinitást, az URL-alapú útválasztást, valamint egyetlen Application Gateway mögött több webhelyet is üzemeltethet. Az Application Gateway WAF termékváltozata tartalmaz egy webalkalmazási tűzfalat is, Ez a Termékváltozat webalkalmazásokat a gyakori internetes biztonsági rések és az azokat kihasználó támadások ellen védelmet biztosít. Az Application Gateway szolgáltatást internetes átjáróként, csak belső használatú átjáróként vagy a kettő kombinációjaként lehet konfigurálni. 
 
-[**Az Application Gateway** ] [ AppGW] alkalmazáskézbesítési vezérlőt (ADC) biztosító dedikált virtuális berendezés van szolgáltatásként, a különböző réteg 7 terheléselosztási lehetőséget nyújt alkalmazásának. Az Application Gateway-példány processzorigényes SSL-lezárások felé történő kiszervezésével optimalizálhatják a webfarmok termelékenységét. Egyéb 7. rétegbeli útválasztási lehetőségeket, amelyek tartalmazzák a következő példákban is biztosít: 
-* Bejövő forgalom Ciklikus időszeleteléses elosztását. 
-* Cookie-alapú munkamenet-affinitás. 
-* URL-cím-alapú útválasztás. 
-* Lehetővé teszi az Egypéldányos Application Gateway mögött több webhelyet is üzemeltethet. Webalkalmazási tűzfal (WAF) Application Gateway WAF Termékváltozatában részeként is tartalmaz. Ez a Termékváltozat webalkalmazásokat a gyakori internetes biztonsági rések és az azokat kihasználó támadások ellen védelmet biztosít. Az Application Gateway konfigurálható egy internetre irányuló átjáró, egy belső átjáró vagy mindkettőt. 
-
 [**Nyilvános IP-címek**][PIP]. Az egyes Azure-funkciókról társíthatja a Szolgáltatásvégpontok egy nyilvános IP-címre, hogy az erőforrás elérhető lesz az interneten. Ez a végpont hálózati címfordítás (NAT) használatával irányíthatja a forgalmat a belső cím és port, az Azure-beli virtuális hálózaton. Ez az elérési út a külső forgalmat a virtuális hálózatban módját. Meghatározhatja az adatforgalom átadott és hol és hogyan lehet a virtuális hálózatra lefordított nyilvános IP-címeket is beállíthatja.
 
 [**Az Azure DDoS Protection Standard** ] [ DDOS] képest további veszélyelhárítási szolgáltatásokat nyújt a [alapszintű szolgáltatási] [ DDOS] hangolt szint kifejezetten az Azure virtuális hálózati erőforrásokat. A DDoS Protection Standard engedélyezése egyszerű, és nem kell application módosítani. Az alkalmazásvédelmi szabályzatok hangolt dedikált forgalomfigyelést és gépi tanulási algoritmus segítségével. A virtuális hálózatokon üzembe helyezett erőforrásokhoz rendelt nyilvános IP-címek szabályzatok érvényesek. Példák Azure Service Fabric, Azure Load Balancer és Azure Application Gateway-példány. Valós idejű telemetriai adatokat az Azure Monitor nézetek keresztül érhető el, a támadás során, és az előzmények. Alkalmazásréteg-védelem az Azure Application Gateway webalkalmazásokhoz használható tűzfal segítségével is hozzáadhat. Védelmet biztosítanak a nyilvános IP-címek IPv4 Azure.
 
-#### <a name="component-type-monitoring"></a>Összetevő típusa: Monitoring
+#### <a name="component-type-monitoring"></a>Összetevő típusa: Figyelés
 
 Figyelési összetevők látható-e, és a más összetevők adattípusok riasztási adja meg. Csapatok mindegyikével kell férniük a figyelést az összetevők és szolgáltatások hozzáféréssel rendelkeznek. Vannak egy központi súgó segélyszolgálathoz vagy a műveleti csoportok, az adatokhoz, ezek az összetevők által biztosított integrált hozzáférést igényelnek.
 
@@ -315,7 +309,7 @@ A log Analytics szolgáltatása az Azure-ban, amely segít összegyűjtését, �
 
 A [Network Performance Monitor] [ NPM] belül az Operations Management Suite megoldás részletes hálózati információkat teljes körű biztosítja. Ezen információk közé tartozik az Azure-hálózatok és a helyszíni hálózatok egyetlen nézetben. A megoldás adott figyelők rendelkezik ExpressRoute- és nyilvános szolgáltatások.
 
-#### <a name="component-type-workloads"></a>Összetevő típusa: Alkalmazások és szolgáltatások
+#### <a name="component-type-workloads"></a>Összetevő típusa: Számítási feladatok
 
 Számítási feladatok összetevői a tényleges alkalmazások és szolgáltatások-ket. Emellett akkor is, ahol az alkalmazás fejlesztői részlegeknek legtöbb idejüket.
 
@@ -376,24 +370,24 @@ Azt javasoljuk, hogy ellenőrizze a késés és sávszélesség az ezeket a kapc
 
 Mert DNS használ, a Traffic Manager van, csak az Azure nyilvános végpontokra való használatra.  A szolgáltatás általában segítségével szabályozhatja, vagy átirányít a forgalom Azure virtuális gépek és a Web Apps-példány a VDC-megvalósítás kifogástalan állapotú. A TRAFFIC Manager képes legyen ellenállni egy teljes Azure-régiót meghibásodása esetén is, és szabályozhatja a különböző kritériumok alapján különböző Ügyfélszempontokat szolgáltatásvégpontokra érkező felhasználói forgalom elosztása. Ha például egy adott VDC megvalósítása, illetve a VDC megvalósítása a legalacsonyabb hálózati késéssel rendelkező szolgáltatásának sikertelen.
 
-### <a name="summary"></a>Összefoglalás
+### <a name="summary"></a>Összegzés
 
 A virtuális adatközpont adatközpont áttelepítési létrehozása egy méretezhető architektúra az Azure-ban, amely maximalizálja a felhőalapú erőforrások használatával, csökkenti a költségeket, és egyszerűbbé teszi a rendszer cégirányítási megközelítés. A VDC alapul egy küllős hálózati topológiában, közös megosztott szolgáltatások az agyi, és lehetővé teszi az adott alkalmazások és számítási feladatok a küllők az. A VDC is megfelel a struktúra vállalati szerepkörök, ahol különböző részlegek központi informatikai, DevOps, üzemeltetése és karbantartása, például az összes együttműködve adott szerepkörökhöz végrehajtása közben. A VDC-megfelel a "Lift and Shift" áttelepítés, de a natív felhőalapú rendszerbe sok előnyt is biztosít.
 
-## <a name="references"></a>Hivatkozások
+## <a name="references"></a>Referencia
 
 Ez a dokumentum a következő funkciókat is tárgyalja. A hivatkozásokat követve tudhat meg többet.
 
 | | | |
 |-|-|-|
-|Hálózati szolgáltatások|Terheléselosztás|Kapcsolat|
+|Hálózati szolgáltatások|Terheléselosztás|Kapcsolatok|
 |[Azure virtuális hálózatok][VNet]</br>[Hálózati biztonsági csoportok][NSG]</br>[NSG-naplók][NSGLog]</br>[Felhasználó által megadott útvonal][UDR]</br>[Hálózati virtuális berendezések][NVA]</br>[Nyilvános IP-címek][PIP]</br>[Azure DDOS][DDOS]</br>[Az Azure-tűzfal][AzFW]</br>[Azure DNS][DNS]|[Az Azure bejárati ajtajának][AFD]</br>[Az Azure Load Balancer (3.) ][ALB]</br>[Az Alkalmazásátjáró (7. rétegbeli) ][AppGW]</br>[Webalkalmazási tűzfal][WAF]</br>[Az Azure Traffic Manager][TM]</br></br></br></br></br> |[Virtuális hálózatok közötti Társviszony][VNetPeering]</br>[Virtuális magánhálózat][VPN]</br>[Virtuális WAN][vWAN]</br>[ExpressRoute][ExR]</br>[ExpressRoute Direct][ExRD]</br></br></br></br></br>
-|Identitás</br>|Monitoring</br>|Ajánlott eljárások</br>|
+|Identitás</br>|Figyelés</br>|Ajánlott eljárások</br>|
 |[Azure Active Directory][AAD]</br>[A multi-factor Authentication szolgáltatás][MFA]</br>[Szerepkör alap hozzáférés-vezérlés][RBAC]</br>[Alapértelmezett Azure AD-szerepkörök][Roles]</br></br></br> |[A Network Watcher][NetWatch]</br>[Azure Monitor][Monitor]</br>[Tevékenységnaplók][ActLog]</br>[Diagnosztikai naplók][DiagLog]</br>[A Microsoft Operations Management Suite][OMS]</br>[A Network Performance Monitor][NPM]|[Szegélyhálózat-alapú hálózatok, ajánlott eljárások][DMZ]</br>[Előfizetések kezelése][SubMgmt]</br>[Erőforrás-csoportok kezelése][RGMgmt]</br>[Azure-előfizetés korlátai][Limits] </br></br></br>|
 |Más Azure-szolgáltatások|
 |[Azure Web Apps][WebApps]</br>[Hdinsight (Hadoop) ][HDI]</br>[Event Hubs][EventHubs]</br>[Szolgáltatásbusz][ServiceBus]|
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
  - Ismerkedés a [virtuális hálózatok közötti társviszony-létesítés][VNetPeering], a megerősítő technológiát a VDC küllős tervek
  - Alkalmazzon [Azure ad-ben] [ AAD] használatába [RBAC] [ RBAC] feltárása

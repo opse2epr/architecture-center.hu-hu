@@ -7,12 +7,13 @@ ms.date: 07/05/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: 392d23ed813a9605392b03de5cb8a7c7638bc4fc
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/data/media/architecture-fraud-detection.png
+ms.openlocfilehash: b10838635cb592eb93d35ce745832c55a6daae8b
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487223"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908341"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Csalások valós idejű észlelése az Azure-ban
 
@@ -69,7 +70,7 @@ Ez a forgatókönyv összetevőinek kapacitású adatfeldolgozást és nagy mér
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 Az Azure Event Hubs védi az adatokat egy [hitelesítési és biztonsági modell] [ docs-event-hubs-security-model] közös hozzáférésű Jogosultságkód (SAS) jogkivonatokat és az esemény-közzétevők kombinációja alapján. Egy esemény-közzétevő egy eseményközpontba egy virtuális végpontot határozza meg. A kiadó csak használható üzeneteket küldeni egy eseményközpontba. Nem alkalmas közzétevőtől származó üzenetek fogadásához.
 
@@ -93,7 +94,7 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 - [Közepes][medium-pricing]: öt standard folyamatos átviteli egység / hó – 100 millió esemény feldolgozására.
 - [Nagy][large-pricing]: 20 standard szintű streamelési egységgel havonta keresztül 999 millió esemény feldolgozására.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is kihasználhatják. Machine Learning-kiszolgáló használatával létrehozott forgatókönyvek, lásd: [Machine Learning-kiszolgáló használatával csalásészlelés][r-server-fraud-detection]. Más megoldássablonokkal, Machine Learning-kiszolgáló használatával, lásd: [Data science forgatókönyvek és megoldássablonok][docs-r-server-sample-solutions]. Az Azure Data Lake Analytics használatával például megoldást talál [Using Azure Data Lake- és R csalások felderítéséhez][technet-fraud-detection].
 

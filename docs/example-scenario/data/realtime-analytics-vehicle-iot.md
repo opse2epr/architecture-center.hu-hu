@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, IoT
-ms.openlocfilehash: 73f01d683b17facde59f9c917f00043773ec474b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/data/media/architecture-realtime-analytics-vehicle-data1.png
+ms.openlocfilehash: 95a59ed84870c9ce9d3c6637d9ba56fcd6935b53
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486896"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908402"
 ---
 # <a name="ingestion-and-processing-of-real-time-automotive-iot-data"></a>Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
 
@@ -97,7 +98,7 @@ Felülvizsgálat [Azure Databricks díjszabása](https://azure.microsoft.com/pri
 - [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
 - [Power bi-ban](https://powerbi.microsoft.com/pricing) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 - Tekintse át a [valós idejű elemzési](https://azure.microsoft.com/solutions/architecture/real-time-analytics) hivatkozik, amely tartalmazza a folyamatot a folyamat a big data architektúra.
 - Tekintse át a [big data bővített analitikához](https://azure.microsoft.com/solutions/architecture/advanced-analytics-on-big-data) a különböző azure-összetevőkre épülő betekintést nyerhet a referencia-architektúra segíthetnek a big Data típusú adatok folyamat létrehozása.

@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: csa-team
-ms.openlocfilehash: 7e47ad855684ea12d8f17364f8a744f61878e62f
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-decentralized-trust.png
+ms.openlocfilehash: a3c497f91b3861bf02f05981ee92e578a22a14ca
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486103"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54907979"
 ---
 # <a name="decentralized-trust-between-banks-on-azure"></a>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
 
@@ -79,7 +80,7 @@ A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazh
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 [Az Azure Key Vault] [ vault] könnyedén tárolhatja és érvényesítőket a titkos kulcsok kezeléséhez. Ebben a példában az alapértelmezett üzembe helyezés létrehoz egy blockchain-hálózat, amely az interneten keresztül elérhető. Az éles forgatókönyvet, ahol van szükség a magánhálózaton tagok csatlakozhatnak egymáshoz virtuális hálózatok közötti VPN gateway-kapcsolatok keresztül. A kapcsolódó erőforrások az alábbi szakasz a VPN konfigurálásának lépéseit tartalmazza.
 
@@ -103,11 +104,11 @@ A méretezési csoport Virtuálisgép-példányain az alkalmazások (a példány
 
 A fenti díjszabás van egy consortium tag indítása és csatlakozás a blockchain-hálózathoz. Általában a egy consortium, amelyekben több vállalat vagy szervezet vesz részt, minden egyes tagja megkapja a saját Azure-előfizetést.
 
-## <a name="next-steps"></a>Következő lépések
+## <a name="next-steps"></a>További lépések
 
 Ebben a forgatókönyvben egy példát látni, helyezzen üzembe a [Ethereum PoA blockchain bemutató alkalmazás] [ deploy] az Azure-ban. Tekintse át a [a forgatókönyv a forráskód információs][source].
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 További információ az Ethereum koncepció jogosultság megoldássablon használatát az Azure-ban, tekintse át ezt [– használati útmutató][guide].
 

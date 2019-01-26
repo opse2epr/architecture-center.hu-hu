@@ -1,5 +1,5 @@
 ---
-title: Áttelepítés egy webalkalmazást egy API-alapú architektúra
+title: Webalkalmazás migrálása API-alapú architektúrába
 titleSuffix: Azure Example Scenarios
 description: Modernizálhatja régi webalkalmazásait az Azure API Management használatával.
 author: begim
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: c7ddc8e8b5e41768745cf08aede27dc21e2b1a2c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-apim-api-scenario.png
+ms.openlocfilehash: cf3d4b7ed7fce04e6688f68e382caeec78abd100
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485859"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54907962"
 ---
 # <a name="migrating-a-legacy-web-application-to-an-api-based-architecture-on-azure"></a>Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban
 
@@ -88,7 +89,7 @@ Az API Management egységek hozzáadásával vagy eltávolításával méretezhe
 
 Előre jelzett költségek megtekintése és testreszabása az üzemelő példány van szüksége, módosíthatja a méretezési egységek számát, és az App Service-példányok a [Azure Díjkalkulátor][pricing-calculator].
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át a széles körű Azure API Management [dokumentációja és referencia cikkek][apim].
 

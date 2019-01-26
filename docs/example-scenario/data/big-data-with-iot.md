@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: IoT, data-analytics
-ms.openlocfilehash: dba67dfa7eb480a892229a9bc57d5c5f7ee21017
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/data/media/architecture-big-data-with-iot.png
+ms.openlocfilehash: bf963c0467acd4ecbb4bdca6272385d7532167f2
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488154"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908453"
 ---
 # <a name="iot-and-data-analytics-in-the-construction-industry"></a>IoT és adatelemzés az építőiparban
 
@@ -89,7 +90,7 @@ Az alábbi szempontokat a hatékony felhasználhatóságot ebben a megoldásban 
 - [Az IoT Hub](https://azure.microsoft.com/pricing/details/iot-hub) költségek alakítják üzembe helyezett IoT-egységet, valamint a szolgáltatási rétegben választása esetén a számát, amely meghatározza, hogy az engedélyezett egységenként naponta üzenetek száma.
 - [Stream Analytics](https://azure.microsoft.com/pricing/details/stream-analytics) díjszabása a szolgáltatásba az adatok feldolgozásához szükséges folyamatos átviteli egységek száma alapján.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Szeretné implementálhat hasonló architektúrával, olvassa el a [Komatsu vásárlói beszámolónk][customer-story].
 

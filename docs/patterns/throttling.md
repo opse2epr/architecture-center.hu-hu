@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: f9f33421f3e1030e2477379970082f5c45690390
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 0bbe8177abe708cf41c1b5a8d117c05fd280c948
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486857"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908596"
 ---
 # <a name="throttling-pattern"></a>Szabályozási minta
 
@@ -38,7 +38,7 @@ A rendszer számos szabályozási stratégiát implementálhat, többek között
 
 - Bizonyos nem létfontosságú szolgáltatások működésének letiltása vagy csökkentése annak érdekében, hogy a létfontosságú szolgáltatások akadálytalanul, elegendő erőforrással futhassanak. Ha például az alkalmazás videókimenetet streamel, alacsonyabb felbontásra válthat.
 
-- A tevékenységek mennyiségének egyenletessé tétele terheléskiegyenlítés használatával (erről a megközelítésről bővebben az [üzenetsor-alapú terheléskiegyenlítési mintával](./queue-based-load-leveling.md) kapcsolatos részben olvashat). Ez a megközelítés több-bérlős környezetben az összes bérlő esetében teljesítménycsökkenést jelent. Ha a rendszernek különböző SLA-kkal rendelkező bérlőket kell kiszolgálnia, az értékes bérlők műveletei azonnal végrehajthatóak. Más bérlők kérelmei visszatarthatóak addig, amíg a várólista ki nem ürült. A [elsőbbségi üzenetsor mintája] [-] alkalmazza ezt a megközelítést segítségével használható.
+- A tevékenységek mennyiségének egyenletessé tétele terheléskiegyenlítés használatával (erről a megközelítésről bővebben az [üzenetsor-alapú terheléskiegyenlítési mintával](./queue-based-load-leveling.md) kapcsolatos részben olvashat). Ez a megközelítés több-bérlős környezetben az összes bérlő esetében teljesítménycsökkenést jelent. Ha a rendszernek különböző SLA-kkal rendelkező bérlőket kell kiszolgálnia, az értékes bérlők műveletei azonnal végrehajthatóak. Más bérlők kérelmei visszatarthatóak addig, amíg a várólista ki nem ürült. Ez a megközelítés az [elsőbbségi üzenetsor mintája](./priority-queue.md) alapján implementálható.
 
 - Az alacsonyabb prioritású alkalmazások vagy bérlők nevében végrehajtott műveletek elhalasztása. Ezek a műveletek felfüggeszthetőek vagy korlátozhatóak, a bérlő pedig az előállított kivétel formájában kap tájékoztatást arról, hogy a rendszer foglalt, és a műveletet később újból meg kell kísérelni.
 

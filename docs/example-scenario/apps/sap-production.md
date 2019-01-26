@@ -1,5 +1,5 @@
 ---
-title: Az SAP számítási feladatok futtatása az Oracle-adatbázis használatával
+title: Éles SAP számítási feladatok futtatása egy Oracle-adatbázis használatával
 titleSuffix: Azure Example Scenarios
 description: Éles SAP üzemelő példányt futtathat az Azure-ban egy Oracle-adatbázis használatával.
 author: DharmeshBhagat
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, SAP, Windows, Linux
-ms.openlocfilehash: 0f96f173d5db682ccc719869aaa22225345cb3f0
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-sap-production.png
+ms.openlocfilehash: 03714dbf08c23220fa95a3789adb40d7a5cfac92
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487474"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908239"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
@@ -77,9 +78,9 @@ Adtunk meg négy példa költség profilok kaphat forgalom mennyisége alapján:
 
 |Méret|A SAP|Virtuális gép adatbázistípus|Adatbázis-tárolóval|(A)SCS VM|(A)SCS Storage|Alkalmazás VM-típus|App Storage|Azure díjkalkulátor|
 |----|----|-------|-------|-----|---|---|--------|---------------|
-|Kis méretű|30000|DS13_v2|4xP20, 1xP20|DS11_v2|1x P10|DS13_v2|1x P10|[Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c)|
+|Kicsi|30000|DS13_v2|4xP20, 1xP20|DS11_v2|1x P10|DS13_v2|1x P10|[Kis](https://azure.com/e/45880ba0bfdf47d497851a7cf2650c7c)|
 |Közepes|70000|DS14_v2|6xP20, 1xP20|DS11_v2|1x P10|4x DS13_v2|1x P10|[Közepes](https://azure.com/e/9a523f79591347ca9a48c3aaa1406f8a)|
-Nagy méretű|180000|E32s_v3|5xP30, 1xP20|DS11_v2|1x P10|6x DS14_v2|1x P10|[Nagy méretű](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42)|
+Nagy|180000|E32s_v3|5xP30, 1xP20|DS11_v2|1x P10|6x DS14_v2|1x P10|[Nagy méretű](https://azure.com/e/f70fccf571e948c4b37d4fecc07cbf42)|
 Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1x P10|10x DS14_v2|1x P10|[Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b)|
 
 > [!NOTE]
@@ -93,7 +94,7 @@ Extra nagy|250000|M64s|6xP30, 1xP30|DS11_v2|1x P10|10x DS14_v2|1x P10|[Extra nag
 
 - [Extra nagy](https://azure.com/e/58c636922cf94faf9650f583ff35e97b): A 64 x vCPUs, 1024 GB RAM-MAL és 2000 GB ideiglenes tárhely,-emellett hét 1024 GB-os prémium szintű tárolólemezeket az adatbázis-kiszolgáló M64s VM-típus egy extra nagy méretű rendszer áll. Az SAP-példány központi server DS11_v2 virtuálisgéptípusok 2 x vCPUs 14 GB RAM-MAL és 28-GB ideiglenes tárhely. 10 virtuális gép DS14_v2 lemezzel 16 x vCPUs, 112 GB RAM és 224 GB ideiglenes tárhely, továbbá tíz 128 GB-os prémium szintű storage, az SAP-alkalmazáskiszolgálók írja be.
 
-## <a name="deployment"></a>Üzemelő példány
+## <a name="deployment"></a>Környezet
 
 A következő hivatkozás használatával ebben a forgatókönyvben az alapul szolgáló infrastruktúra üzembe helyezése.
 
@@ -109,7 +110,7 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 > [!NOTE]
 > SAP és Oracle nincs telepítve a központi telepítés során. Ezek az összetevők telepítését külön-külön kell.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Egyéb SAP számítási feladatok futtatása az Azure-ban kapcsolatos információkért tekintse át a következő referenciaarchitektúrákat:
 

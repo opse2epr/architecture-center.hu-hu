@@ -1,5 +1,5 @@
 ---
-title: Az SAP-feladatokat a fejlesztési és tesztelési környezetek
+title: Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz
 titleSuffix: Azure Example Scenarios
 description: Fejlesztési és tesztelési környezetet hozhat létre SAP számítási feladatokhoz.
 author: AndrewDibbins
@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, SAP
-ms.openlocfilehash: c06e81f72e264b545aef4bca2c795bb662a16a13
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-sap-dev-test.png
+ms.openlocfilehash: cd01639ab46fbe3c25c5a770ead13759da9a8c47
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488205"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908201"
 ---
 # <a name="devtest-environments-for-sap-workloads-on-azure"></a>Fejlesztési és tesztelési környezetek SAP számítási feladatokhoz az Azure-ban
 
@@ -61,7 +62,7 @@ A Microsoft kínál a szolgáltatásiszint-szerződés (SLA) egyetlen Virtuális
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 Általános megoldások biztonságos, tekintse át a [Azure Security dokumentációja][security].
 
@@ -75,11 +76,11 @@ Ebben a forgatókönyvben futtatásával járó költségeket felfedezheti érde
 
 Adtunk meg négy példa költség profilok kaphat forgalom mennyisége alapján:
 
-|Méret|A SAP|Virtuális gép típusa|Tárhely|Azure díjkalkulátor|
+|Méret|A SAP|Virtuális gép típusa|Storage|Azure díjkalkulátor|
 |----|----|-------|-------|---------------|
-|Kis méretű|8000|D8s_v3|2xP20, 1xP10|[Kis](https://azure.com/e/9d26b9612da9466bb7a800eab56e71d1)|
+|Kicsi|8000|D8s_v3|2xP20, 1xP10|[Kis](https://azure.com/e/9d26b9612da9466bb7a800eab56e71d1)|
 |Közepes|16000|D16s_v3|3xP20, 1xP10|[Közepes](https://azure.com/e/465bd07047d148baab032b2f461550cd)|
-Nagy méretű|32000|E32s_v3|3xP20, 1xP10|[Nagy méretű](https://azure.com/e/ada2e849d68b41c3839cc976000c6931)|
+Nagy|32000|E32s_v3|3xP20, 1xP10|[Nagy méretű](https://azure.com/e/ada2e849d68b41c3839cc976000c6931)|
 Extra nagy|64000|M64s|4xP20, 1xP10|[Extra nagy](https://azure.com/e/975fb58a965c4fbbb54c5c9179c61cef)|
 
 > [!NOTE]
@@ -90,7 +91,7 @@ Extra nagy|64000|M64s|4xP20, 1xP10|[Extra nagy](https://azure.com/e/975fb58a965c
 - [Nagy](https://azure.com/e/ada2e849d68b41c3839cc976000c6931): Egy nagy méretű rendszer VM-típus E32s_v3 32 x vCPUs, 256 GB RAM-MAL és 512 GB ideiglenes tárhely, továbbá áll három 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket.
 - [Extra nagy](https://azure.com/e/975fb58a965c4fbbb54c5c9179c61cef): Az extra nagy méretű rendszer áll típusú, a virtuális gép M64s 64 x vCPUs, 1024 GB RAM-MAL és 2000 GB ideiglenes tárhely, továbbá négy 512 GB és a egy 128 GB-os prémium szintű tárolólemezeket.
 
-## <a name="deployment"></a>Üzemelő példány
+## <a name="deployment"></a>Környezet
 
 Ebben a forgatókönyvben az alapul szolgáló infrastruktúra telepítéséhez kattintson ide.
 

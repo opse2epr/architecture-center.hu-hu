@@ -1,5 +1,5 @@
 ---
-title: Képek besorolása a biztosítási követeléseket
+title: Képbesorolás biztosítási követelésekhez
 titleSuffix: Azure Example Scenarios
 description: Képfeldolgozást építhet be Azure-alkalmazásaiba.
 author: david-stanford
@@ -7,12 +7,13 @@ ms.date: 07/05/2018
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: 2630a2a353b2fb5fd6e77e49c7f2027b00503ea6
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/ai/media/architecture-intelligent-apps-image-processing.png
+ms.openlocfilehash: 03ef9d15ec9bf64dc743657e9d1e7a7e275c5a8e
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484884"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908324"
 ---
 # <a name="image-classification-for-insurance-claims-on-azure"></a>Képbesorolás biztosítási követelésekhez az Azure-ban
 
@@ -66,7 +67,7 @@ NoSQL-adatbázisok gyakran kereskedelmi konzisztencia (abban az értelemben, a C
 
 Általános méretezhető megoldások, tekintse át a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 [Felügyelt identitások az Azure-erőforrások] [ msi] más fiókját a belső erőforrásokhoz való hozzáférést biztosítanak, és az Azure Functions majd hozzárendelve. Csak a szükséges erőforrásokhoz való hozzáférés engedélyezése ezen identitások győződjön meg arról, hogy semmi sem extra ki van téve a függvények (és esetleg az ügyfelek számára).
 
@@ -88,7 +89,7 @@ Három példa költség-profilok forgalom mennyisége alapján biztosítunk (fel
 - [Közepes][medium-pricing]: a díjszabási Példa havi 500 000 képek feldolgozása utal.
 - [Nagy][large-pricing]: a díjszabási Példa havi 50 milliót képek feldolgozása utal.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 A képzési, lásd: [egy kiszolgáló nélküli webalkalmazás létrehozása az Azure-ban][serverless].
 

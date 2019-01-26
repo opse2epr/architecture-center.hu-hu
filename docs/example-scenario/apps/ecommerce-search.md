@@ -8,12 +8,13 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
-ms.openlocfilehash: fe67c891a9e42d5216fe6fd81de6ea1333d5bd37
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+social_image_url: /azure/architecture/example-scenario/apps/media/architecture-ecommerce-search.png
+ms.openlocfilehash: 12829c0b765831efdd08c8116a8fd847bd4e6abd
+ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488239"
+ms.lasthandoff: 01/25/2019
+ms.locfileid: "54908174"
 ---
 # <a name="intelligent-product-search-engine-for-e-commerce"></a>Intelligens termékkereső motor az e-kereskedelem számára
 
@@ -78,7 +79,7 @@ Biztosít az Azure Search egy [99,9 %-os rendelkezésre állási SLA] [ search-s
 
 Ha van szükség, hogy a kompatibilitástörő változásokat az indexhez (például adattípusok módosítása, törlése vagy mezők átnevezése) üzemkimaradás nélkül, az index újraépítését kell. Hasonló szolgáltatási szint módosítása, ez azt jelenti, egy új index létrehozását, elszaporításával, az adatokat és majd frissítése az alkalmazásokat az új indexre mutassanak.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 Az Azure Search egy megfelelő, a legtöbb [biztonsági és az adatvédelmi szabványok][search-security], amely lehetővé teszi a legtöbb iparágban használható.
 
@@ -108,7 +109,7 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 - [Közepes][medium-pricing]: Itt azt a webalkalmazást a két példánya méretezése vannak a `Standard S3` szint, a keresési szolgáltatás frissítése egy `Standard S1` szinthez, majd a használatával egy `Standard S6` SQL-adatbázis.
 - [Nagy][large-pricing]: Négy példányát használjuk a legnagyobb profil egy `Premium P2V2` Web App frissítése az Azure Bot service az a `Standard S1` szint (1.000.000 az üzenetek a prémium szintű csatornák), 2 egységek használata a `Standard S3` Azure Search szolgáltatást, és a egy `Premium P6` SQL Az adatbázis.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Azure Search kapcsolatos további információkért látogasson el a [dokumentációs központban][docs-search], tekintse meg a [minták][search-samples], vagy tekintse meg a teljes körű [– bemutató webhely] [ search-demo] működés közben.
 
