@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai, AI
-ms.openlocfilehash: a291821860a8e503ba4c6173ac6d8fd449d6ebf3
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 1ca6cf385ddd3be56e247a3439e737c114a88dcb
+ms.sourcegitcommit: 40f3561cc94f721eca50d33f2d75dc974cb6f92b
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485366"
+ms.lasthandoff: 01/29/2019
+ms.locfileid: "55147280"
 ---
 # <a name="batch-scoring-of-python-models-on-azure"></a>Batch-pontozás Python-modellek az Azure-ban
 
@@ -33,6 +33,9 @@ Ez az architektúra a következő összetevőkből áll:
 [Az Azure Stream Analytics][stream-analytics]. Egy eseményfeldolgozó motor. Stream Analytics-feladat beolvassa az adatokat az eseményközpontból érkező adatfolyamok, és elvégzi a adatfolyam-feldolgozás.
 
 [Az Azure Batch AI][batch-ai]. Ez az elosztott számítási motor szolgál taníthat vagy tesztelhet a machine learning és a méretezett AI-modellek az Azure-ban. A Batch AI és az automatikus méretezési lehetőség, ahol a Batch AI-fürt minden csomópontján fut-e egy adott érzékelő pontozási feladat igény szerinti virtuális gépeket hoz létre. A pontozó Python [parancsfájl] [ python-script] fut, a fürt, ahol a megfelelő érzékelőktől kapott adatok beolvasása, állít elő, előrejelzéseket és a Blob storage-ban tárolja azokat minden egyes csomóponton létrehozott Docker-tárolókat.
+
+> [!NOTE]
+> Kivonás alatt áll az Azure Batch AI szolgáltatás márciusi 2019, és az ipari méretekben képzés és pontozás képességek érhetők el mostantól [Azure Machine Learning szolgáltatás][amls]. Ez a referenciaarchitektúra hamarosan frissül majd használni a Machine Learning, így az úgynevezett felügyelt számítási célt [Azure Machine Learning Compute] [ aml-compute] képzés, üzembe helyezése és pontozás a machine tanulási modelleket.
 
 [Az Azure Blob Storage][storage]. BLOB-tárolók a pretrained modellek, az adatok és a kimeneti előrejelzéseket tárolására szolgálnak. A modellek töltődnek fel a Blob storage-ban a [létrehozása\_resources.ipynb] [ create-resources] notebookot. Ezek [egy szintű SVM] [ one-class-svm] modellek képzett különböző eszközök eltérő érzékelők értéket jelölő adatokon. Ez a megoldás feltételezi, hogy az adatértékek vannak időszakra vonatkozó összesített érték egy rögzített idő.
 
@@ -94,6 +97,8 @@ A referenciaimplementációt a jelen architektúra érhető el az [GitHub][githu
 
 [acr]: /azure/container-registry/container-registry-intro
 [ai]: /azure/application-insights/app-insights-overview
+[aml-compute]: /azure/machine-learning/service/how-to-set-up-training-targets#amlcompute
+[amls]: /azure/machine-learning/service/overview-what-is-azure-ml
 [automatic-scaling]: /azure/batch/batch-automatic-scaling
 [azure-files]: /azure/storage/files/storage-files-introduction
 [batch-ai]: /azure/batch-ai/
