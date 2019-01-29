@@ -3,21 +3,21 @@ title: A Python-modellek valós idejű pontozása
 titleSuffix: Azure Reference Architectures
 description: Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python-modelleket az Azure-ra előrejelzéseket valós idejű webszolgáltatásként.
 author: msalvaris
-ms.date: 11/09/2018
+ms.date: 01/28/2019
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 135e86b447684efd9f54340eda4b6bf6e4c35bbb
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: ba2d9a295e5a231f0ffca9e3cf2d53ace4deddfe
+ms.sourcegitcommit: 1ee873aaf40010eb2a38314ac56974bc9e227736
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487678"
+ms.lasthandoff: 01/28/2019
+ms.locfileid: "55141033"
 ---
 # <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a deep learning-modellek az Azure-ban
 
-Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python modelleket webszolgáltatásként, hogy a valós idejű előrejelzéseket végezzen. Két esetben terjed ki: reguláris Python-modellek és a konkrét követelmények, deep learning-modellek üzembe helyezésének telepítése. Mindkét forgatókönyvet használja az architektúra látható.
+Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python modelleket webszolgáltatásként, hogy az Azure Machine Learning szolgáltatás használatával valós idejű előrejelzéseket végezzen. Két esetben terjed ki: reguláris Python-modellek és a konkrét követelmények, deep learning-modellek üzembe helyezésének telepítése. Mindkét forgatókönyvet használja az architektúra látható.
 
 Ez az architektúra két hivatkozás megvalósításait érhetők el a Githubon, egyet-egyet [rendszeres Python modellek] [ github-python] és a egy [deep learning-modellek] [ github-dl].
 
@@ -33,13 +33,13 @@ Ebben a forgatókönyvben az adatok egy részét Stack Overflow kérdés, amely 
 
 Az architektúra az alkalmazás folyamata a következőképpen történik:
 
-1. Az ügyfél a kódolt kérdés adatokkal HTTP POST-kérelmet küld.
-
-2. A Flask-alkalmazás kibontja a kérdést a kérelemből.
-
-3. A kérdés küld a scikit-featurization és pontozás adatfolyamat-modell további.
-
-4. A megfelelő – gyakori kérdések a kérdéseket a pontszámok irányíthatja át, JSON-objektum és az ügyfél számára.
+1. A betanított modell regisztrálva van a Machine Learning-modell beállításjegyzék.
+2. A Machine Learning szolgáltatás egy Docker-rendszerképet, amely tartalmazza a modell és a pontozó szkript hoz létre.
+3. Machine Learning webszolgáltatásként üzembe helyezi a pontozási lemezképet az Azure Kubernetes Service (AKS).
+4. Az ügyfél a kódolt kérdés adatokkal HTTP POST-kérelmet küld.
+5. A webszolgáltatás a gépi tanulás által létrehozott kibontja a kérdést a kérelemből.
+6. A kérdés a Scikit-további adatfolyamat-modell featurization és pontozás küld. 
+7. A megfelelő – gyakori kérdések a kérdéseket a pontszámok is küld vissza az ügyfélnek.
 
 Íme egy Képernyőkép a PéldaAlkalmazás, amely az eredményeket fel:
 
@@ -53,25 +53,24 @@ Ez a forgatókönyv ResNet-152 előre betanított modell előre jelezni az esem�
 
 Deep learning-modellhez az alkalmazás folyamata a következőképpen történik:
 
-1. Az ügyfél a kódolt kép adatokkal HTTP POST-kérelmet küld.
-
-2. A Flask-alkalmazás kibontja a lemezképet a kérelemből.
-
-3. A rendszerkép üzenetfájlrekordok, és a modell pontozása küldött.
-
-4. A pontértéket irányíthatja át, JSON-objektum, és az ügyfél számára.
+1. A deep learning-modell regisztrálva van a Machine Learning-modell beállításjegyzék.
+2. A Machine Learning szolgáltatás egy docker-rendszerképet, beleértve a modell és a pontozó szkript hoz létre.
+3. Machine Learning webszolgáltatásként üzembe helyezi a pontozási lemezképet az Azure Kubernetes Service (AKS).
+4. Az ügyfél a kódolt kép adatokkal HTTP POST-kérelmet küld.
+5. A webszolgáltatás a gépi tanulás által létrehozott preprocesses a rendszerkép-adatok, és elküldi a modell pontozása. 
+6. Az előre jelzett kategóriák eredményeiket is küld vissza az ügyfélnek.
 
 ## <a name="architecture"></a>Architektúra
 
-Ez az architektúra a következő összetevőkből áll.
+Az architektúra az alábbi összetevőkből áll.
+
+**[Az Azure Machine Learning szolgáltatás] [ aml]**  egy felhőalapú szolgáltatás, amellyel betanításához, üzembe helyezése, automatizálhatja és gépi tanulási modelleket, minden a felhőbeli biztosít széles körű skála kezelése. Szolgál ebben az architektúrában a modelleket, valamint a hitelesítést, az Útválasztás, a központi telepítés kezelése és a terheléselosztás, a webszolgáltatás.
 
 **[Virtuális gép] [ vm]**  (VM). A virtuális gép jelenik meg, mint például az eszköz &mdash; helyi vagy felhőbeli &mdash; , amely a HTTP-kérést küldhet.
 
 **[Az Azure Kubernetes Service] [ aks]**  (AKS) segítségével helyezze üzembe az alkalmazást a Kubernetes-fürtön. Az AKS egyszerűsíti az üzembe helyezés és a kubernetes az operations. A fürt a Python-modell rendszeres vagy GPU-kompatibilis virtuális gépek deep learning-modellek csak CPU virtuális gépek használatával konfigurálható.
 
-**[Terheléselosztó][lb]**. A szolgáltatás kívülről elérhetővé egy terheléselosztót, az AKS által kiosztott szolgál. A háttér-podok átirányítja a forgalmat a terheléselosztótól.
-
-**[A docker Hub] [ docker]**  tárolja a Docker-rendszerkép üzembe helyezett Kubernetes-fürtön. A docker Hub az architektúra lett választva, mert egyszerűen használható, és az alapértelmezett lemezkép adattár a Docker-felhasználók. [Az Azure Container Registry] [ acr] az architektúra is használható.
+**[Az Azure Container Registry] [ acr]**  lehetővé teszi, hogy a storage-lemezképeket, beleértve a DC/OS, Docker Swarm és Kubernetes Docker-tárolók üzembe helyezésének összes típusa esetében. A pontozó rendszerképek üzembe helyezve az Azure Kubernetes Service-tárolók és a pontozó szkript futtatásához használt. Az itt használt lemezképet a betanított modell és a pontozó szkript gépi tanulás által létrehozott, és ezután a rendszer továbbítja az Azure Container Registrybe.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
@@ -83,7 +82,7 @@ Mindkét forgatókönyvre érvényes ez az architektúra a processzorok is haszn
 
 ## <a name="scalability-considerations"></a>Méretezési szempontok
 
-Gondoskodunk a rendszeres Python modellek, ahol ki van építve az AKS-fürt csak CPU-alapú virtuális gépekhez, amikor [horizontális felskálázás a podok számát][manually-scale-pods]. A cél, hogy használja ki teljesen a fürtöt. Skálázás processzorigényét és a podok a meghatározott függ. Kubernetes is támogatja a [az automatikus skálázás] [ autoscale-pods] a processzorhasználat podok száma vagy egyéb, módosíthatja a podok kiválaszthatja a metrikákat. A [méretező fürt] [ autoscaler] (az előzetes verzió) skálázhatja ügynökcsomópontok függőben van a podok alapján.
+Gondoskodunk a rendszeres Python modellek, ahol ki van építve az AKS-fürtöt a CPU-csak virtuális gépek, amikor [horizontális felskálázás a podok számát][manually-scale-pods]. A cél, hogy használja ki teljesen a fürtöt. Skálázás processzorigényét és a podok a meghatározott függ. Emellett támogatja a Machine Learning segítségével Kubernetes [podok automatikus skálázás] [ autoscale-pods] CPU-kihasználtság és más metrikák alapján. A [méretező fürt] [ autoscaler] (az előzetes verzió) skálázhatja ügynökcsomópontok a függőben lévő podok alapján.
 
 Deep learning-forgatókönyvek, GPU-kompatibilis virtuális gépek használatával erőforráskorlátok a podok is úgy, hogy egy GPU hozzá van rendelve egy pod. Virtuális gép használt típusától függően kell [a fürt csomópontjainak méretezése] [ scale-cluster] a szolgáltatás iránti igény kielégítése érdekében. Ezt az Azure CLI-vel és a kubectl használatával könnyedén megteheti.
 
@@ -117,7 +116,7 @@ Használat [RBAC] [ rbac] üzembe helyezett Azure-erőforrásokhoz való hozzáf
 
 **Hitelesítés**. Ez a megoldás nem korlátozza a végpontok való hozzáférést. A vállalati környezetben való felépítésüktől az architektúra üzembe helyezéséhez a végpontok védelme keresztül API-kulcsokat, és valamilyen felhasználói hitelesítés hozzáadása az ügyfélalkalmazásnak.
 
-**Tárolóregisztrációs adatbázis**. Ez a megoldás nyilvános beállításjegyzék tárolja a Docker-rendszerképet használ. A kódot, amely az alkalmazás függ, és a modell tartalmazza a rendszerképben. Vállalati alkalmazások és kell használnia, privát regisztrációs adatbázis hardvermeghibásodásokkal szemben, rosszindulatú kódot futtató annak érdekében, hogy a tárolóban az adatokat illetéktelen kezekbe kerüljenek.
+**Tárolóregisztrációs adatbázis**. A megoldás az Azure Container Registry tárolja a Docker-rendszerképet használja. A kódot, amely az alkalmazás függ, és a modell tartalmazza a rendszerképben. Vállalati alkalmazások és kell használnia, privát regisztrációs adatbázis hardvermeghibásodásokkal szemben, rosszindulatú kódot futtató annak érdekében, hogy a tárolóban az adatokat illetéktelen kezekbe kerüljenek.
 
 **A DDoS protection**. Érdemes lehet engedélyezni az [DDoS Protection Standard][ddos]. Alapszintű DDoS protection az Azure platform részeként engedélyezve van, noha a DDoS Protection Standard kockázatcsökkentési képességeket biztosít, amelyek kifejezetten az Azure virtuális hálózati erőforrások, amelyek ideálisak.
 
@@ -140,15 +139,14 @@ Ez a referenciaarchitektúra üzembe helyezéséhez kövesse a GitHub-adattárak
 [autoscale-pods]: /azure/aks/tutorial-kubernetes-scale#autoscale-pods
 [azcopy]: /azure/storage/common/storage-use-azcopy-linux
 [ddos]: /azure/virtual-network/ddos-protection-overview
-[docker]: https://hub.docker.com/
 [get-started]: /azure/security-center/security-center-get-started
-[github-python]: https://github.com/Azure/MLAKSDeployment
-[github-dl]: https://github.com/Microsoft/AKSDeploymentTutorial
+[github-python]: https://github.com/Microsoft/MLAKSDeployAML
+[github-dl]: https://github.com/Microsoft/AKSDeploymentTutorial_AML
 [gpus-vs-cpus]: https://azure.microsoft.com/en-us/blog/gpus-vs-cpus-for-deployment-of-deep-learning-models/
 [https-ingress]: /azure/aks/ingress-tls
 [ingress-controller]: https://kubernetes.io/docs/concepts/services-networking/ingress/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
-[lb]: /azure/load-balancer/load-balancer-overview
+[aml]: /azure/machine-learning/service/overview-what-is-azure-ml
 [manually-scale-pods]: /azure/aks/tutorial-kubernetes-scale#manually-scale-pods
 [monitor-containers]: /azure/monitoring/monitoring-container-insights-overview
 [engedélyek]: /azure/aks/concepts-identity
