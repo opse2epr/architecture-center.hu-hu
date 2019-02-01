@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 447400c543c27d8655ca2d8b1dbadd8d0fdb4ba1
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 2b0e46a06f7fe47f281f726f73128db1d7dd1067
+ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486787"
+ms.lasthandoff: 01/31/2019
+ms.locfileid: "55482926"
 ---
 # <a name="sidecar-pattern"></a>Oldalkocsi minta
 
@@ -61,7 +61,7 @@ Az oldalkocsi mintát gyakran használják tárolókhoz is, amely esetben oldalk
 
 Használja ezt a mintát, ha:
 
-- Az elsődleges alkalmazása egy heterogén nyelv- és keretrendszerkészletet használ. Egy oldalkocsi szolgáltatásban található összetevőt különféle nyelveken írott és különféle keretrendszereket használó alkalmazások is felhasználhatnak.
+- Az elsődleges alkalmazása egy heterogén nyelv és keretrendszer használ. Egy oldalkocsi szolgáltatásban található összetevőt különféle nyelveken írott és különféle keretrendszereket használó alkalmazások is felhasználhatnak.
 - Egy összetevő egy távoli csapat vagy egy másik vállalat tulajdonában van.
 - Egy összetevőt vagy szolgáltatást ugyanazon a gazdagépen kell elhelyezni, mint az alkalmazást.
 - Egy olyan szolgáltatásra van szüksége, amely ugyanakkora életciklussal rendelkezik, mint a főalkalmazása, de egymástól függetlenül frissíthetők.

@@ -10,12 +10,12 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: virtual-network
 ms.date: 11/28/2018
 ms.author: jonor
-ms.openlocfilehash: a997a0f03da63bc1432f61f3299e7c6794278e5e
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: 484f41f64b676b08ae8adb4ba082f9bff75a6a54
+ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908554"
+ms.lasthandoff: 01/31/2019
+ms.locfileid: "55483113"
 ---
 # <a name="azure-virtual-datacenter-a-network-perspective"></a>Az Azure virtual datacenter: A hálózati nézőpont
 
@@ -391,7 +391,9 @@ Ez a dokumentum a következő funkciókat is tárgyalja. A hivatkozásokat köve
 
  - Ismerkedés a [virtuális hálózatok közötti társviszony-létesítés][VNetPeering], a megerősítő technológiát a VDC küllős tervek
  - Alkalmazzon [Azure ad-ben] [ AAD] használatába [RBAC] [ RBAC] feltárása
- - Fejlesztés az előfizetésben és erőforráscsoportban felügyeleti modell és a struktúra, a követelményeknek és a szabályzatok a szervezet RBAC-modellben. A legfontosabb tevékenység tervezi. Gyakorlati, sokkal átszervezések, fúzió, új termékcsaládok, stb. m tervezése <!--Image References-->
+ - Fejlesztés az előfizetésben és erőforráscsoportban felügyeleti modell és a struktúra, a követelményeknek és a szabályzatok a szervezet RBAC-modellben. A legfontosabb tevékenység tervezi. Sokkal gyakorlati tervezze meg a átszervezések, fúzió, új termékcsaládok, stb.
+
+<!--Image References-->
 [0]: ./images/networking-redundant-equipment.png "összetevő átfedés példái" 
 [1]: ./images/networking-vdc-high-level.png "küllős VDC magas szintű példája"
 [2]: ./images/networking-hub-spokes-cluster.png "fürt hubs és a küllők"
