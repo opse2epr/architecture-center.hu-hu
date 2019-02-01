@@ -7,8 +7,13 @@ layout: LandingPage
 ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: example-scenario
+ms.openlocfilehash: fc9b23866f1e52dcbc428026091605a42ead20a6
+ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 01/31/2019
+ms.locfileid: "55482892"
 ---
-
 # <a name="azure-example-scenarios"></a>Azure-példaforgatókönyvek
 
 A példaforgatókönyvek azt mutatják be, hogyan lehet megbirkózni adott üzleti vagy technikai kihívásokkal az Azure segítségével. A forgatókönyvek valódi fogyasztói példán alapulnak, és gyors, könnyen áttekinthető segítséget nyújtanak az implementáció felgyorsításában.
@@ -24,9 +29,9 @@ Ugrás ide: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshaszn
                 <div class="card">
                     <div class="cardText">
                         <h3>Új forgatókönyvek</h3>
+                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/image-modeling" data-linktype="absolute-path">A digitális lemezképen alapuló modellezés felgyorsítása</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/ai/movie-recommendations" data-linktype="absolute-path">Filmajánló az Azure-on</a>
                         <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/multi-tier-app-disaster-recovery" data-linktype="absolute-path">Magas rendelkezésre állásra és vészhelyreállításra tervezett többrétegű webalkalmazás</a>
-                        <a class="barLink" href="/azure/architecture/example-scenario/data/hybrid-etl-with-adf" data-linktype="absolute-path">Hibrid ETL helyszíni SSIS-sel és Data Factoryval</a>
-                        <a class="barLink" href="/azure/architecture/example-scenario/apps/decentralized-trust" data-linktype="absolute-path">Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban</a>
                     </div>
                 </div>
             </div>
@@ -38,9 +43,9 @@ Ugrás ide: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshaszn
                 <div class="card">
                     <div class="cardText">
                         <h3>Legnépszerűbb forgatókönyvek</h3>
-                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/regulated-multitier-app" data-linktype="absolute-path">Biztonságos Windows rendszerű webalkalmazás szabályozásalapú iparágak számára</a>
-                        <a class="barLink" href="/azure/architecture/example-scenario/apps/devops-dotnet-webapp" data-linktype="absolute-path">CI-/CD-folyamat az Azure DevOpsszal</a>
-                        <a class="barLink" href="/azure/architecture/example-scenario/data/fraud-detection" data-linktype="absolute-path">Csalások valós idejű észlelése az Azure-ban</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/regulated-multitier-app" data-linktype="absolute-path">Biztonságos webalkalmazások kiépítése Windows rendszerű virtuális gépekkel</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/data/data-warehouse" data-linktype="absolute-path">Adattárházak és elemzések értékesítési és marketingterületen</a>
+                        <a class="barLink" href="/azure/architecture/example-scenario/infrastructure/wordpress" data-linktype="absolute-path">Nagymértékben méretezhető és biztonságos WordPress-webhelyek</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +56,7 @@ Ugrás ide: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshaszn
             <div class="cardPadding">
                 <div class="card">
                     <div class="cardText">
-                        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRy0ZnoKOXdVBqaBz653YPElUNjlNMEpPMDNSSU1aWEIxMFNFNlY2T0E3NC4u" data-linktype="external">
+                        <a href="https://azure-architecture.uservoice.com/forums/918625-architecture-guidance" data-linktype="external">
                             <div class="cardSize cardsF">
                                 <div class="cardPadding">
                                     <div class="card">
