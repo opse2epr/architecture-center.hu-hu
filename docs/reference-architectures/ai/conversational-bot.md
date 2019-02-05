@@ -7,18 +7,20 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: f622041824d65978346bf39abb3de30732bad193
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: 0f5de0eca6fbd35cca1a0e8443f363df09ffc6aa
+ms.sourcegitcommit: 287344b6c220bdbd8076aed7a281eb02253e15be
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908670"
+ms.lasthandoff: 02/04/2019
+ms.locfileid: "55712150"
 ---
-# <a name="enterprise-grade-conversational-bot"></a>Nagyvállalati szintű természetes nyelvi robotot
+# <a name="enterprise-grade-conversational-bot"></a>Nagyvállalati szintű beszélgetőrobot
 
 Ez a referenciaarchitektúra bemutatja, hogyan hozhat létre egy nagyvállalati szintű természetes nyelvi bot (csevegőrobot) használatával a [Azure Bot Framework][bot-framework]. Minden egyes bot különböző, de néhány gyakori minták, munkafolyamatok és technológiák érdemes figyelembe vennie. A robot kiszolgálására vállalati számítási feladatokat, különösen a nincsenek az alapfunkciókra túl sok kialakítási szempontokat. Ez a cikk a leginkább fontos tervezési szempontokat ismerteti, és a egy robusztus, biztonságos és aktívan tanulási bot létrehozásához szükséges eszközöket vezet be.
 
 [![Az architektúra ábrája][0]][0]
+
+A bevált gyakorlat segédprogram minták ebben az architektúrában használt rendszer teljes mértékben nyílt forráskódú és elérhető a [GitHub][git-repo-base]. 
 
 ## <a name="architecture"></a>Architektúra
 
@@ -103,7 +105,7 @@ Használatának megkezdése, mivel célszerű manuálisan az Azure-erőforrások
 
 Ha már rendelkezik egy specifikációt és néhány adatot, amelyeket felhasználva megvalósíthatja a robot készítésének megkezdéséhez ideje. Koncentráljunk a robot fő logikai. Ez az a kódot, amely kezeli a beszélgetést a felhasználóval, többek között az útválasztási logikát Egyértelműsítő logikát, és a naplózást. Első lépésként a megismerése a [Bot Framework][bot-framework], többek között:
 
-- Alapvető fogalmait, és különösen a keretrendszer használt terminológiával [beszélgetések], [bekapcsolja], és [tevékenységek].
+- Alapvető fogalmait, és különösen a keretrendszer használt terminológiával [beszélgetések], [Ennek a], és [tevékenységek].
 - A [Bot összekötő szolgáltatás](/azure/bot-service/rest-api/bot-framework-rest-connector-quickstart), amely kezeli a hálózatkezelés, a robot és a csatornák között.
 - Hogyan beszélgetés [állapot](/azure/bot-service/bot-builder-concept-state) fenntartását, a memóriában vagy még jobb például az Azure Blob Storage vagy az Azure Cosmos DB tárolja.
 - [Közbenső](/azure/bot-service/bot-builder-basics#middleware), és hogyan használható a külső szolgáltatásokkal, például a Cognitive Services robotjait kapcsolni.
@@ -139,23 +141,20 @@ Egy másik lehetőség, integrálhatja a saját egyéni AI-szolgáltatás. Ez a 
 
 ## <a name="quality-assurance-and-enhancement"></a>Minőségbiztosítási és a fejlesztés
 
-**Naplózás**. Felhasználói beszélgetések jelentkezni a robot, beleértve az alapul szolgáló teljesítmény-mérőszámok és az esetleges hibákat. Ezek a naplók a hibaelhárítás során, felhasználói interakció érdekében ismertetése és javítása, a rendszer felbecsülhetetlen értékű válhatnak. Különböző adattárakban megfelelő a naplók különböző típusú lehet. Például a webes naplók esetében a Cosmos DB beszélgetés, és az Azure Storage nagy is észleltünk adattartalmakat. fontolja meg az Application Insights. Lásd: [közvetlenül kiírhatja olyan tárhelyekre][transcript-storage].
+**Naplózás**. Felhasználói beszélgetések jelentkezni a robot, beleértve az alapul szolgáló teljesítmény-mérőszámok és az esetleges hibákat. Ezek a naplók a hibaelhárítás során, felhasználói interakció érdekében ismertetése és javítása, a rendszer felbecsülhetetlen értékű válhatnak. Különböző adattárakban megfelelő a naplók különböző típusú lehet. Például a webes naplók esetében a Cosmos DB beszélgetés, és az Azure Storage nagy is észleltünk adattartalmakat. fontolja meg az Application Insights. Lásd: [közvetlenül az Azure Storage-írási][transcript-storage].
 
 **Visszajelzés**. Emellett az is fontos tudni, hogyan elégedett felhasználója a robot interakciók vannak. Ha egy rekordot, a felhasználói visszajelzéseket, ezeket az adatokat segítségével összpontosítsa figyelmét a javítása néhány olyan interakció, és a jobb teljesítmény AI-modellek átképezési. A visszajelzés segítségével, LUIS, például a modellek újratanítása a rendszerben.
 
 **Tesztelés**. Robotprogramok tesztelés magában foglalja az egységteszteket, integrációs teszteket, regressziós tesztek és funkcionális tesztek. Tesztelési, javasoljuk, hogy a külső szolgáltatások, például az Azure Search vagy a QnA Maker, valós HTTP-válaszok rögzítése, így azokat is futtathatók anélkül, hogy a külső szolgáltatások valós hálózati hívásokat egységtesztelés során.
 
-A gyorsan elindíthatja a fejlesztést, a következő területeken, tekintse meg a [Botbuilder Utils JavaScript](https://github.com/Microsoft/botbuilder-utils-js). Ebben a tárházban tartalmazza a beépített robotokat segédprogram mintakód [a Microsoft Bot Framework v4] [ bot-framework] és a Node.js futtatására. A következő csomagokat tartalmazza:
-
-- [HTTP-vizsgálat Recorder](https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-http-test-recorder). A külső szolgáltatások rögzíti a HTTP-forgalmat. Előre elkészített, LUIS, az Azure Search és a QnAMaker támogatással érhető el, de a bővítmények érhetők el minden olyan szolgáltatás támogatására.
-
-- [A cosmos DB, átirat Store](https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-cosmosdb). Bemutatja, hogyan tárolhatja és lekérdezése a Cosmos DB-ben bot szövegekben.
-
-- [Application Insights Átiratok Store](https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-app-insights). Bemutatja, hogyan tárolhatja, és lekérdezéseket bot szövegekben az Application Insightsban.
-
-- [Visszajelzések gyűjtése közbenső](https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-feedback). Minta közbenső szoftvert hozhat létre egy visszajelzés-kérelem mechanizmus segítségével.
-
-> [!NOTE]
+>[!NOTE]
+> A gyorsan elindíthatja a fejlesztést, a következő területeken, tekintse meg a [Botbuilder Utils JavaScript][git-repo-base]. Ebben a tárházban tartalmazza a beépített robotokat segédprogram mintakód [a Microsoft Bot Framework v4] [ bot-framework] és a Node.js futtatására. A következő csomagokat tartalmazza:
+>
+> - [A cosmos DB-naplózás Store][cosmosdb-logger]. Bemutatja, hogyan tárolhatja és lekérdezése a Cosmos DB-robot naplók.
+> - [Application Insights naplózási Store][appinsights-logger]. Bemutatja, hogyan tárolhatja, és lekérdezi a robot megtekintése az Application Insightsban.
+> - [Visszajelzések gyűjtése közbenső][feedback-util]. Minta közbenső szoftvert, amely egy robot felhasználói visszajelzés-kérelem mechanizmust biztosít.
+> - [HTTP-vizsgálat Recorder][testing util]. Rekordok HTTP-forgalom külső szolgáltatásokból a robotnak való. Előre elkészített, LUIS, az Azure Search és a QnAMaker támogatással érhető el, de a bővítmények érhetők el minden olyan szolgáltatás támogatására. Ennek segítségével automatizálhatja a robot tesztelése.
+>
 > Ezeket a csomagokat, a segédprogram-mintakódot a megadott, és kapható a támogatási vagy a frissítések nem garantált.
 
 ## <a name="availability-considerations"></a>Rendelkezésre állási szempontok
@@ -200,6 +199,12 @@ A robot logika telepítheti közvetlenül az IDE-ből vagy a parancssorból, pé
 [devops]: https://azure.microsoft.com/solutions/devops/
 [functions]: /azure/azure-functions/
 [functions-triggers]: /azure/azure-functions/functions-triggers-bindings
+[git-repo-appinsights-logger]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-app-insights
+[git-repo-base]: https://github.com/Microsoft/botbuilder-utils-js
+[git-repo-cosmosdb-logger]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-cosmosdb
+[git-repo-feedback-util]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-feedback
+[git-repo-testing-util]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-http-test-recorder
+[testing-util]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-http-test-recorder
 [key-vault]: /azure/key-vault/
 [lda]: https://wikipedia.org/wiki/Latent_Dirichlet_allocation/
 [logic-apps]: /azure/logic-apps/logic-apps-overview
@@ -210,7 +215,13 @@ A robot logika telepítheti közvetlenül az IDE-ből vagy a parancssorból, pé
 [slots]: /azure/app-service/deploy-staging-slots/
 [synonyms]: /azure/search/search-synonyms
 [transcript-storage]: /azure/bot-service/bot-builder-howto-v4-storage
-[bekapcsolja]: /azure/bot-service/bot-builder-basics#defining-a-turn
+[Ennek a]: /azure/bot-service/bot-builder-basics#defining-a-turn
 [vscode]: https://azure.microsoft.com/products/visual-studio-code/
 [webapp]: /azure/app-service/overview
 [webchat]: /azure/bot-service/bot-service-channel-connect-webchat?view=azure-bot-service-4.0/
+
+[cosmosdb-logger]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-cosmosdb
+[appinsights-logger]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-transcript-app-insights
+[feedback-util]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-feedback
+[testing util]: https://github.com/Microsoft/botbuilder-utils-js/tree/master/packages/botbuilder-http-test-recorder
+
