@@ -1,28 +1,35 @@
 ---
 title: Batch-pontozás Python-modellek az Azure-ban
-description: Hozzon létre egy méretezhető megoldás, a kötegelt pontozási modellek az Azure Batch AI segítségével párhuzamosan ütemezés szerint.
+description: Hozzon létre egy méretezhető megoldás, a kötegelt pontozási modellek Azure Machine Learning szolgáltatás használatával párhuzamosan ütemezés szerint.
 author: njray
-ms.date: 12/13/2018
+ms.date: 01/30/2019
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai, AI
-ms.openlocfilehash: 1ca6cf385ddd3be56e247a3439e737c114a88dcb
-ms.sourcegitcommit: 40f3561cc94f721eca50d33f2d75dc974cb6f92b
+ms.openlocfilehash: 81dc353735eaa6573c72d9e588c949fe96a329ef
+ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/29/2019
-ms.locfileid: "55147280"
+ms.lasthandoff: 02/06/2019
+ms.locfileid: "55782013"
 ---
 # <a name="batch-scoring-of-python-models-on-azure"></a>Batch-pontozás Python-modellek az Azure-ban
 
-Ez a referenciaarchitektúra bemutatja, hogyan hozhat létre egy méretezhető megoldás, a kötegelt pontozási számos modellt az Azure Batch AI segítségével párhuzamosan ütemezés szerint. A megoldás sablonként is használható, és különböző problémákat generalize is.
+Ez a referenciaarchitektúra bemutatja, hogyan hozhat létre egy méretezhető megoldás, a kötegelt pontozási számos modellek Azure Machine Learning szolgáltatás használatával párhuzamosan ütemezés szerint. A megoldás sablonként is használható, és különböző problémákat generalize is.
 
-Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
 ![Batch-pontozás Python-modellek az Azure-ban](./_images/batch-scoring-python.png)
 
-**A forgatókönyv**: Ez a megoldás egy nagy számú egy IoT beállításban, ahol a minden egyes eszköz által érzékelőinek folyamatos működését figyeli. Minden eszköz rendelkezik előre betanított rendellenességek észlelése, a modellek, hogy kell képes előre jelezni az e sorozata mértékegysége, amelyek egy előre meghatározott idő alatt összesítjük, ha meg szeretné anomáliát vagy nem veszi alapul. A valós életből vett példák ennek oka lehet egy adatfolyam érzékelőinek adatai, amelyeket a szűrt és összesítve van használatban a képzés és a valós idejű pontozási előtt kell. Az egyszerűség kedvéért a megoldást ugyanazon adatok fájlt használja a pontozási feladat végrehajtása közben.
+**A forgatókönyv**: Ez a megoldás egy nagy számú egy IoT beállításban, ahol a minden egyes eszköz által érzékelőinek folyamatos működését figyeli. Minden egyes eszköz feltételezhető, imagenet rendellenességek észlelése modellek, amely képes előre jelezni kell társítani kell-e egy sorozatát mértékegysége, amelyek egy előre meghatározott idő alatt összesítjük, felelnek meg az anomáliadetektálási vagy nem. A valós életből vett példák ennek oka lehet egy adatfolyam érzékelőinek adatai, amelyeket a szűrt és összesítve van használatban a képzés és a valós idejű pontozási előtt kell. Az egyszerűség kedvéért ez a megoldás ugyanazon adatok fájlt használja a pontozási feladat végrehajtása közben.
+
+Ez a referenciaarchitektúra a számítási feladatok ütemezett kiváltó lett tervezve. Feldolgozás az alábbi lépésekből áll:
+1.  Az Azure Event Hubs küldése érzékelőinek támogatunk.
+2.  Hajtsa végre az adatfolyam-feldolgozás és a nyers adatok tárolásához.
+3.  Az adatok elküldése egy megkezdheti a munkát véve Machine Learning-fürtön. A fürt minden csomópontján fut egy adott érzékelő pontozási feladat. 
+4.  Hajtsa végre a pontozási folyamatot, amely a Machine Learning Python-szkriptekkel párhuzamosan fut a pontozási feladatok. A folyamat létrehozását, közzé és idő előre meghatározott időközönként ütemezve.
+5.  Hozzon létre előrejelzések, és tárolja őket Blob Storage-későbbi felhasználásra.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -32,16 +39,13 @@ Ez az architektúra a következő összetevőkből áll:
 
 [Az Azure Stream Analytics][stream-analytics]. Egy eseményfeldolgozó motor. Stream Analytics-feladat beolvassa az adatokat az eseményközpontból érkező adatfolyamok, és elvégzi a adatfolyam-feldolgozás.
 
-[Az Azure Batch AI][batch-ai]. Ez az elosztott számítási motor szolgál taníthat vagy tesztelhet a machine learning és a méretezett AI-modellek az Azure-ban. A Batch AI és az automatikus méretezési lehetőség, ahol a Batch AI-fürt minden csomópontján fut-e egy adott érzékelő pontozási feladat igény szerinti virtuális gépeket hoz létre. A pontozó Python [parancsfájl] [ python-script] fut, a fürt, ahol a megfelelő érzékelőktől kapott adatok beolvasása, állít elő, előrejelzéseket és a Blob storage-ban tárolja azokat minden egyes csomóponton létrehozott Docker-tárolókat.
+[Az Azure SQL Database][sql-database]. A érzékelőinek az adatok betöltése az SQL Database-be. Az SQL olyan jól ismert módon (ami táblázatos strukturált és strukturálatlan) feldolgozott, adatfolyamként továbbított adatok tárolására, de más adattárakban is használható.
 
-> [!NOTE]
-> Kivonás alatt áll az Azure Batch AI szolgáltatás márciusi 2019, és az ipari méretekben képzés és pontozás képességek érhetők el mostantól [Azure Machine Learning szolgáltatás][amls]. Ez a referenciaarchitektúra hamarosan frissül majd használni a Machine Learning, így az úgynevezett felügyelt számítási célt [Azure Machine Learning Compute] [ aml-compute] képzés, üzembe helyezése és pontozás a machine tanulási modelleket.
+[Az Azure Machine Learning szolgáltatás][amls]. A Machine Learning szolgáltatás egy felhőalapú szolgáltatás betanítási, pontozási, telepítésére és felügyeletére gépi tanulási modellek ipari méretekben. A kötegelt pontozási kontextusában a Machine Learning egy olyan fürtjét, virtuális gépek igény szerint egy automatikus skálázási beállítást, ahol a fürt minden csomópontján fut-e egy adott érzékelő pontozási feladat hoz létre. A pontozó feladatok várólistára és felügyeli a Machine Learning Python-szkript lépések végrehajtása párhuzamosan. Ezeket a lépéseket a Machine Learning létrehozott, közzétett, és a egy előre meghatározott időközönként idő futtatott, ütemezett folyamat részét képezik.
 
-[Az Azure Blob Storage][storage]. BLOB-tárolók a pretrained modellek, az adatok és a kimeneti előrejelzéseket tárolására szolgálnak. A modellek töltődnek fel a Blob storage-ban a [létrehozása\_resources.ipynb] [ create-resources] notebookot. Ezek [egy szintű SVM] [ one-class-svm] modellek képzett különböző eszközök eltérő érzékelők értéket jelölő adatokon. Ez a megoldás feltételezi, hogy az adatértékek vannak időszakra vonatkozó összesített érték egy rögzített idő.
+[Az Azure Blob Storage][storage]. BLOB-tárolók a pretrained modellek, az adatok és a kimeneti előrejelzéseket tárolására szolgálnak. A modellek töltődnek fel a Blob storage-ban a [01_create_resources.ipynb] [ create-resources] notebookot. Ezek [egy szintű SVM] [ one-class-svm] modellek képzett különböző eszközök eltérő érzékelők értéket jelölő adatokon. Ez a megoldás feltételezi, hogy az adatértékek vannak időszakra vonatkozó összesített érték egy rögzített idő.
 
-[Az Azure Logic Apps][logic-apps]. Ez a megoldás létrehoz egy logikai alkalmazást, amely a Batch AI-feladatok óránként fut. A Logic Apps segítségével egyszerűen hozhat létre a munkafolyamat futásidejű és az ütemezés a megoldás. A Batch AI-feladatok elküldése a Python használatával [parancsfájl] [ script] futtató Docker-tárolóban.
-
-[Az Azure Container Registry][acr]. Docker-rendszerképek a Batch AI és a Logic Apps használja, és hozza létre a rendszer a [létrehozása\_resources.ipynb] [ create-resources] jegyzetfüzet, majd leküldte a tárolójegyzékbe. Ez a képek üzemeltethet, és hozza létre a tárolók más Azure-szolgáltatásokon keresztül kényelmes módot biztosít – a Logic Apps és a Batch AI ebben a megoldásban.
+[Az Azure Container Registry][acr]. A pontozó Python [parancsfájl] [ pyscript] fut, a fürt, ahol a megfelelő érzékelőktől kapott adatok beolvasása, állít elő, előrejelzéseket és a Blob storage-ban tárolja azokat minden egyes csomóponton létrehozott Docker-tárolókat.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
@@ -57,43 +61,25 @@ Futó folyamatok sok modellek pontozása kötegelt módban, a feladatok kell pé
 
 Általánosságban véve standard Python-modell pontozása nem az erőforrás-igényű, deep learning-modellek pontozása, és egy kisebb fürtöt tudja hatékonyan kezelni a sorban álló modellek nagy számú kell lennie. Növelheti a fürt csomópontok méretei dataset növekedésének megfelelően.
 
-Az ebben a forgatókönyvben az egyszerűség kedvéért egy pontozási tevékenység belül küldte el egy Batch AI-feladat. Azonban érdemes lehet hatékonyabb, ha egy Batch AI feladaton belül több adattömbök pontozása. Ezekben az esetekben több adatkészlet olvasása és azok számára egy egy Batch AI-feladat végrehajtása során, a pontozó szkript végrehajtása egyéni kód írása.
-
-### <a name="file-servers"></a>Fájlkiszolgálók
-
-Batch AI használata esetén kiválaszthatja a forgatókönyvhöz szükséges átviteli függően többféle tárolási lehetőség. Az alacsony átviteli sebességet megkövetelő számítási feladatokhoz a blob storage használatával kell lennie elegendő. Másik lehetőségként a Batch AI is támogatja a [Batch AI-fájlkiszolgáló][bai-file-server], egy felügyelt, egycsomópontos NFS, amely automatikusan csatlakoztathatók a fürtcsomópontokon, adja meg a központilag elérhető tárolási helye feladatok. A legtöbb esetben csak egy fájlkiszolgáló van szükség a munkaterületen, és meg is szét az adatokat a betanítási feladatokhoz más könyvtárban.
-
-Ha egy egycsomópontos NFS nem megfelelő, a számítási feladatokhoz, Batch AI támogatja-e más tárolási lehetőségeket, ideértve [Azure Files] [ azure-files] és egyéni megoldások, például egy Gluster vagy Lustre fájlrendszer.
+Az ebben a forgatókönyvben az egyszerűség kedvéért egy pontozási tevékenység belül küldte el gépi tanulási folyamat egyetlen lépésben. Azonban érdemes lehet hatékonyabb, ha az azonos folyamat lépés belül több adattömbök pontozása. Ezekben az esetekben több adatkészlet olvasása és azok számára, egy egylépéses végrehajtása során a pontozó szkript végrehajtása egyéni kód írása.
 
 ## <a name="management-considerations"></a>Eszközkezeléssel kapcsolatos szempontok
 
-### <a name="monitoring-batch-ai-jobs"></a>Batch AI-feladatok figyelése
-
-Fontos, hogy a futó feladatok előrehaladásának figyeléséhez, de azt az aktív csomópontból álló fürtben figyelése kihívást jelenthet. Megtapasztalhatja, a fürt általános állapotát, nyissa meg a **Batch AI** paneljén a [az Azure Portal] [ portal] vizsgálhatja meg a fürt csomópontjainak állapotát. Ha egy csomópont nem aktív, vagy egy feladat sikertelen volt, a hibanaplókat menti, és a blob storage-, és szintén elérhető az **feladatok** a portál panelén.
-
-Gazdagabb figyelés csatlakozzon a naplók [Application Insights][ai], vagy a Batch AI-fürtöt és a feladatok állapotának lekérdezéséhez külön folyamatok futtatásához.
-
-### <a name="logging-in-batch-ai"></a>A Batch AI-naplózás
-
-A Batch AI minden stdout/stderr naplók társított Azure storage-fiókhoz. Egyszerűen megtalálható a naplófájlok, használja a tárolók navigációs eszköz például [Azure Storage Explorer][explorer].
-
-Ez a referenciaarchitektúra telepítésekor lehetősége van egy egyszerűbb naplózási rendszer beállításához. Ezzel a beállítással a különböző feladatok között a naplók ugyanabba a könyvtárba, a blob-tárolóban, ahogy az alábbi lesznek mentve. Ezek a naplók segítségével figyelheti, mennyi ideig tart minden egyes rendszerképek és feldolgozni, így jobban érti, hogyan optimalizálható a folyamat.
-
-![Azure Storage Explorer](./_images/batch-scoring-python-monitor.png)
+- **Feladatok figyelése**. Fontos, hogy a futó feladatok előrehaladásának figyeléséhez, de azt az aktív csomópontból álló fürtben figyelése kihívást jelenthet. Vizsgálja meg a fürt csomópontjainak állapotát, használja a [az Azure Portal] [ portal] kezelheti a [machine learning-munkaterület][ml-workspace]. Ha egy csomópont nem aktív, vagy egy feladat sikertelen volt, a hibanaplókat blob storage-bA lesznek mentve, és a folyamatok szakaszban is elérhetők. Gazdagabb figyelés csatlakozzon a naplók [Application Insights][app-insights], vagy a fürt és a feladatok állapotát a lekérdezéséhez külön folyamatok futtatásához.
+-   **Naplózás**. Machine Learning szolgáltatás a társított Azure Storage-fiók összes stdout/stderr naplóz. A naplófájlok egyszerűen megtekintéséhez használja a tárolók navigációs eszköz például [Azure Storage Explorer][explorer].
 
 ## <a name="cost-considerations"></a>Költségekkel kapcsolatos szempontok
 
-Ez a referenciaarchitektúra a használt legköltségesebb összetevői a számítási erőforrásokat.
+Ez a referenciaarchitektúra a használt legköltségesebb összetevői a számítási erőforrásokat. Attól függően, a várólistában a feladatok felfelé és lefelé méretezi a számítási fürt mérete. Automatikus skálázás engedélyezése programozott módon a Python SDK-n keresztül a számítási kiépítési konfigurációjának módosításával. Vagy használja a [Azure CLI-vel] [ cli] a fürt automatikus skálázási paramétereinek a beállításához.
 
-A Batch AI-fürt mérete méretezhető felfelé és lefelé a várólistában a feladatok függően. Engedélyezheti a [automatikus skálázást] [ automatic-scaling] a Batch AI és a két módszer egyikével. Megteheti szoftveresen, amely konfigurálható a .env fájlban, amely része a [üzembe helyezési lépések][github], vagy a fürt létrehozása után módosíthatja a méretezési képletet közvetlenül a portálon.
+És nem igényel azonnali feldolgozási munka konfigurálja az automatikus skálázási képletet, hogy az alapértelmezett állapot (minimum) az nulla csomópontból álló fürtben. Ezzel a konfigurációval a fürt nullára a csomópontok kezdődik, és ha a várólistán lévő feladatok csak felskálázással. Ha a kötegelt pontozási folyamat naponta csak néhány alkalommal történik, vagy kevesebb, mint ez a beállítás lehetővé teszi a jelentős költségmegtakarítást.
 
-És nem igényel azonnali feldolgozási munka konfigurálja az automatikus skálázási képletet, hogy az alapértelmezett állapot (minimum) az nulla csomópontból álló fürtben. Ezzel a konfigurációval a fürt nullára a csomópontok kezdődik, és ha a várólistán lévő feladatok csak felskálázással. Ha a kötegelt pontozási folyamat csak néhány alkalommal naponta történik vagy annál kisebb, ez a beállítás lehetővé teszi, hogy jelentős költségmegtakarítást.
+Az automatikus skálázás nem lehet megfelelő, a kötegelt feladatok számához egymáshoz közel túl fordulhat elő. A fürt számára le üzemeltethet a idejét is felmerülő költség, így ha egy batch számítási feladatot csak néhány percet az előző feladat befejezése után kezdődik, költséghatékonyabb tartani a fürtön futó feladatok között lehet. E pontozási folyamatokat beütemezve egy nagy gyakoriságú (például minden órában), vagy ritkábban függ (például havonta egyszer).
 
-Az automatikus skálázás nem lehet megfelelő, a kötegelt feladatok számához egymáshoz közel túl fordulhat elő. A fürt számára le üzemeltethet a idejét is költségkezelési, így ha egy batch számítási feladatot csak néhány percet az előző feladat befejezése után kezdődik, költséghatékonyabb tartani a fürtön futó feladatok között lehet. E pontozási folyamatokat beütemezve egy nagy gyakoriságú (például minden órában), vagy ritkábban függ (például havonta egyszer).
 
-## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
+## <a name="deployment"></a>Környezet
 
-A referenciaimplementációt a jelen architektúra érhető el az [GitHub][github]. Kövesse a beállítási lépéseket nem hozhat létre egy méretezhető megoldás, sok modellek pontozó a Batch AI segítségével párhuzamosan.
+Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lépéseket a [GitHub-adattárat][github].
 
 [acr]: /azure/container-registry/container-registry-intro
 [ai]: /azure/application-insights/app-insights-overview
@@ -101,17 +87,18 @@ A referenciaimplementációt a jelen architektúra érhető el az [GitHub][githu
 [amls]: /azure/machine-learning/service/overview-what-is-azure-ml
 [automatic-scaling]: /azure/batch/batch-automatic-scaling
 [azure-files]: /azure/storage/files/storage-files-introduction
-[batch-ai]: /azure/batch-ai/
-[bai-file-server]: /azure/batch-ai/resource-concepts#file-server
-[create-resources]: https://github.com/Azure/BatchAIAnomalyDetection/blob/master/create_resources.ipynb
+[cli]: https://docs.microsoft.com/en-us/cli/azure
+[create-resources]: https://github.com/Microsoft/AMLBatchScoringPipeline/blob/master/01_create_resources.ipynb
 [deep]: /azure/architecture/reference-architectures/ai/batch-scoring-deep-learning
 [event-hubs]: /azure/event-hubs/event-hubs-geo-dr
 [explorer]: https://azure.microsoft.com/en-us/features/storage-explorer/
-[github]: https://github.com/Azure/BatchAIAnomalyDetection
-[logic-apps]: /azure/logic-apps/logic-apps-overview
+[github]: https://github.com/Microsoft/AMLBatchScoringPipeline
 [one-class-svm]: http://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html
 [portal]: https://portal.azure.com
+[ml-workspace]: https://docs.microsoft.com/en-us/azure/machine-learning/studio/create-workspace
 [python-script]: https://github.com/Azure/BatchAIAnomalyDetection/blob/master/batchai/predict.py
-[script]: https://github.com/Azure/BatchAIAnomalyDetection/blob/master/sched/submit_jobs.py
+[pyscript]: https://github.com/Microsoft/AMLBatchScoringPipeline/blob/master/scripts/predict.py
 [storage]: /azure/storage/blobs/storage-blobs-overview
 [stream-analytics]: /azure/stream-analytics/
+[sql-database]: https://docs.microsoft.com/en-us/azure/sql-database/
+[app-insights]: https://docs.microsoft.com/en-us/azure/application-insights/app-insights-overview
