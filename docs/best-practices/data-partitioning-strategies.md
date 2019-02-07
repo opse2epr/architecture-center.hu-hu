@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: cfbe877a4e3a4a1d5aa87c4a77ad2c5f23a6d664
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: a87972a3901ed9499b5b25831131a79ff5db8f87
+ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484482"
+ms.lasthandoff: 02/06/2019
+ms.locfileid: "55782098"
 ---
 # <a name="data-partitioning-strategies"></a>Adatok particionálási stratégiái
 
@@ -242,7 +242,7 @@ Az ügyfélalkalmazások egyszerűen beküldik a kérelmeket valamelyik résztve
 Erről a Redis-fürtözés használatával megvalósított modellről további részleteket a Redis webhelyén, a [Oktatóanyag Redis-fürtökhöz] tartalmazó oldalon talál. A Redis-fürtözés az ügyfélalkalmazások számára transzparens módon történik. A fürthöz további Redis-kiszolgálók is hozzáadhatók (és az adatok újraparticionálhatók) anélkül, hogy az ügyfeleket újra kellene konfigurálni.
 
 > [!IMPORTANT]
-> Az Azure Redis Cache jelenleg nem támogatja a Redis-fürtözést. Ha szeretné megvalósítani ezt a megközelítést az Azure-ban is, saját Redis-kiszolgálókat kell kialakítania a Redis Azure-beli virtuális gépekre való telepítésével és manuális konfigurálásával. Az oldal [A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban] , amely bemutatja, hogyan hozhat létre és konfigurálja az Azure virtuális gépként futtatott Redis-csomópont egy példán keresztül.
+> Az Azure Redis Cache jelenleg támogatja a Redis a Fürtszolgáltatás [prémium](/azure/azure-cache-for-redis/cache-how-to-premium-clustering) réteg csak.
 
 A Redis használatával történő particionálásról további információkat a Redis webhelyén elérhető, [Particionálás: adatok felosztása több Redis-példány között] leíró oldalon talál. A szakasz további része feltételezi, hogy ügyféloldali vagy proxyval támogatott particionálást végez.
 
@@ -324,7 +324,7 @@ A rendelkezésre állás és a konzisztencia közti kompromisszummal kapcsolatos
 [Particionálás: adatok felosztása több Redis-példány között]: https://redis.io/topics/partitioning
 [Entitáscsoport-tranzakciók végrehajtása]: /rest/api/storageservices/Performing-Entity-Group-Transactions
 [Oktatóanyag Redis-fürtökhöz]: https://redis.io/topics/cluster-tutorial
-[A Redis futtatása CentOS Linux rendszerű virtuális gépen az Azure-ban]: https://blogs.msdn.microsoft.com/tconte/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure/
+[Running Redis on a CentOS Linux VM in Azure]: https://blogs.msdn.microsoft.com/tconte/2012/06/08/running-redis-on-a-centos-linux-vm-in-windows-azure/
 [Scaling using the Elastic Database split-merge tool]: /azure/sql-database/sql-database-elastic-scale-overview-split-and-merge
 [Using Azure Content Delivery Network]: /azure/cdn/cdn-create-new-endpoint
 [Service Bus-kvóták]: /azure/service-bus-messaging/service-bus-quotas
