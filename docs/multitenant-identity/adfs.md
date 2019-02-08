@@ -9,18 +9,18 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: 82b39d77f1ee9af4063c4715a4688ef4b69bc477
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: d095283531c1183726ebf132707aaede1f03f09b
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487854"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897269"
 ---
 # <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
 Ez a cikk bemutatja, hogyan egy több-bérlős SaaS-alkalmazáshoz is támogatják a hitelesítést az Active Directory összevonási szolgáltatások (AD FS), annak érdekében, hogy egy ügyfél AD FS vonhat össze.
 
-## <a name="overview"></a>Áttekintés (klasszikus)
+## <a name="overview"></a>Áttekintés
 
 Az Azure Active Directory (Azure AD) megkönnyíti a felhasználók az Azure AD-bérlő, többek között az Office 365 és Dynamics CRM Online ügyfelek. De mi a helyzet ügyfeleink, akik a helyszíni Active Directory a vállalati intraneten?
 
@@ -41,7 +41,7 @@ A megbízhatósági kapcsolatban van a három fő szerepkörök:
   ![összevonási megbízhatósági kapcsolat](./images/federation-trust.png)
 
 > [!NOTE]
-> Ez a cikk feltételezzük az OpenID connect hitelesítési protokoll alkalmazás használja. Egy másik lehetőség, hogy a WS-Federation használja.
+> Ez a cikk feltételezzük használja az alkalmazás OpenID Connect hitelesítési protokoll. Egy másik lehetőség, hogy a WS-Federation használja.
 >
 > OpenID Connect az SaaS-szolgáltatónak az AD FS 2016, Windows Server 2016-ban futó kell használnia. Az AD FS 3.0 nem támogatja az OpenID Connect.
 >
@@ -127,7 +127,7 @@ További részleteket az alábbiakban a lépéseket.
 5. Válassza a "Bejövő jogcím típusa" **UPN**.
 6. Válassza ki a "Az összes jogcímérték továbbítása".
    ![Átalakítási jogcímszabály hozzáadása varázsló](./images/edit-claims-rule2.png)
-7. Kattintson a **Befejezés**gombra.
+7. Kattintson a **Befejezés** gombra.
 8. Ismételje meg a 2 – 7, és adja meg **Forráshorgony jogcím típusa** számára a bejövő jogcím típusa.
 9. Kattintson a **OK** a varázsló befejezéséhez.
 
@@ -175,7 +175,7 @@ Az ügyfél a következőket kell tennie:
    * A **LDAP attribútum**válassza **felhasználónév-egyszerű**.
    * A **kimenő jogcímtípus**válassza **UPN**.
      ![Átalakítási jogcímszabály hozzáadása varázsló](./images/add-claims-rules2.png)
-7. Kattintson a **Befejezés**gombra.
+7. Kattintson a **Befejezés** gombra.
 8. Kattintson a **szabály hozzáadása** újra.
 9. Válassza ki a "Küldés jogcímek használata egy egyéni szabály", és kattintson a **tovább**.
 10. Adjon meg egy nevet a szabálynak, például a "Forráshorgony jogcímtípus".
@@ -188,7 +188,7 @@ Az ügyfél a következőket kell tennie:
     ```
 
     Ez a szabály kiad egy jogcímet típusú `anchorclaimtype`. A jogcím arra utasítja a függő entitás használandó egyszerű felhasználónév a felhasználó azonosítója nem módosítható.
-12. Kattintson a **Befejezés**gombra.
+12. Kattintson a **Befejezés** gombra.
 13. Kattintson a **OK** a varázsló befejezéséhez.
 
 <!-- links -->

@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: a87972a3901ed9499b5b25831131a79ff5db8f87
-ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
+ms.openlocfilehash: 4f973a6173e882d6ae839833bd3c5bf86f8d7fb6
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/06/2019
-ms.locfileid: "55782098"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898136"
 ---
 # <a name="data-partitioning-strategies"></a>Adatok particionálási stratégiái
 
@@ -229,7 +229,7 @@ Ez a megközelítés akkor a legmegfelelőbb, ha a keresett adatok az egyes rég
 
 ## <a name="partitioning-azure-redis-cache"></a>Az Azure Redis Cache particionálási
 
-Az Azure Redis Cache egy, a Redis kulcs-érték adattáron alapuló megosztott gyorsítótárazási szolgáltatást biztosít a felhőben. Ahogy a neve is mutatja (cache = gyorsítótár), az Azure Redis Cache egy gyorsítótárazási megoldásnak készült. Csak átmeneti adatok tárolására készült, és nem állandó adattárként szolgál. Az Azure Redis Cache-t használó alkalmazásokat úgy érdemes kialakítani, hogy tovább működjenek, ha a gyorsítótár nem érhető el. Az Azure Redis Cache támogatja az elsődleges/másodlagos replikációt a magas rendelkezésre állás biztosítása érdekében, de jelenleg a gyorsítótár maximális mérete 53 GB-ra van korlátozva. Ha ennél több tárhely szükséges, további gyorsítótárakat kell létrehoznia. További információkért lásd: [Azure Redis Cache].
+Az Azure Redis Cache egy, a Redis kulcs-érték adattáron alapuló megosztott gyorsítótárazási szolgáltatást biztosít a felhőben. Ahogy a neve is mutatja (cache = gyorsítótár), az Azure Redis Cache egy gyorsítótárazási megoldásnak készült. Csak átmeneti adatok tárolására készült, és nem állandó adattárként szolgál. Lehet, hogy az alkalmazásokat, amelyek az Azure Redis Cache használata tud tovább működni, ha a gyorsítótár nem érhető el. Az Azure Redis Cache támogatja az elsődleges/másodlagos replikációt a magas rendelkezésre állás biztosítása érdekében, de jelenleg a gyorsítótár maximális mérete 53 GB-ra van korlátozva. Ha ennél több tárhely szükséges, további gyorsítótárakat kell létrehoznia. További információkért lásd: [Azure Redis Cache].
 
 A Redis-adattárak particionálása szétosztja az adatokat a Redis szolgáltatás példányai között. Minden példány egy külön partíciót alkot. Az Azure Redis Cache a Redis-szolgáltatásokat egy előtár mögött kivonatolja, és nem teszi azokat közvetlenül közzé. A particionálás legegyszerűbben úgy valósítható meg, ha létrehoz több Azure Redis Cache-példányt, és az adatokat azok között osztja el.
 
