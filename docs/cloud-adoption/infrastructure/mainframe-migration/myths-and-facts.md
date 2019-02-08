@@ -1,0 +1,44 @@
+---
+title: 'Nagyszámítógépek migrálása: Tévhitet és tények'
+description: A nagyszámítógépes környezetek alkalmazásokat át az Azure-ba, a bevált, magas rendelkezésre állású és méretezhető infrastruktúrát Nagyszámítógépek a jelenleg futó rendszerek.
+author: njray
+ms.date: 12/27/2018
+ms.openlocfilehash: bcad01ec044d2d802b055e328a9496aae7b33311
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.translationtype: MT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55899138"
+---
+# <a name="mainframe-myths-and-facts"></a><span data-ttu-id="cc08c-103">A nagyszámítógépes tévhitet és tények</span><span class="sxs-lookup"><span data-stu-id="cc08c-103">Mainframe myths and facts</span></span>
+
+<span data-ttu-id="cc08c-104">Nagyszámítógépek. ábra ezzel a beállítással hangsúlyosan számítástechnika előzményeit, és magas adott munkaterhelés konkrét működőképes marad.</span><span class="sxs-lookup"><span data-stu-id="cc08c-104">Mainframes figure prominently in the history of computing and remain viable for highly specific workloads.</span></span> <span data-ttu-id="cc08c-105">A legtöbb elfogadja, hogy a nagyszámítógépek régóta működési eljárásokkal, amely megbízható és hatékony környezetek, így a már bizonyítottan megbízható platformra legyenek.</span><span class="sxs-lookup"><span data-stu-id="cc08c-105">Most agree that mainframes are a proven platform with long-established operating procedures that make them reliable, robust environments.</span></span> <span data-ttu-id="cc08c-106">Szoftver-használat, mérni / másodperc (MIPS), 1 millió utasítások alapján fut, és részletes használati jelentésekben érhetők el ingyenesen készít biztonsági másolatot.</span><span class="sxs-lookup"><span data-stu-id="cc08c-106">Software runs based on usage, measured in million instructions per second (MIPS), and extensive usage reports are available for charge backs.</span></span>
+
+<span data-ttu-id="cc08c-107">A megbízhatóság, a rendelkezésre állás és a feldolgozási kapacitását a nagyszámítógépek végrehajtása szinte mythical méreteket.</span><span class="sxs-lookup"><span data-stu-id="cc08c-107">The reliability, availability, and processing power of mainframes have taken on almost mythical proportions.</span></span> <span data-ttu-id="cc08c-108">A nagyszámítógépes számítási feladatok, amelyek a leginkább megfelelő Azure kiértékelése, először szeretne a tévhitet megkülönböztetni a valóság.</span><span class="sxs-lookup"><span data-stu-id="cc08c-108">To evaluate the mainframe workloads that are most suitable for Azure, you first want to distinguish the myths from the reality.</span></span>
+
+## <a name="myth-mainframes-never-go-down-and-have-a-minimum-of-five-9s-of-availability"></a><span data-ttu-id="cc08c-109">Miközben: Nagyszámítógépek soha nem leáll, és legalább öt 9-es rendelkezésre állása</span><span class="sxs-lookup"><span data-stu-id="cc08c-109">Myth: Mainframes never go down and have a minimum of five 9s of availability</span></span>
+
+<span data-ttu-id="cc08c-110">Nagyszámítógépes hardvereket és operációs rendszereket, megbízhatóbb és stabilabb is megtekinthetők.</span><span class="sxs-lookup"><span data-stu-id="cc08c-110">Mainframe hardware and operating systems are viewed as reliable and stable.</span></span> <span data-ttu-id="cc08c-111">De a valóságban ez a karbantartás és újraindítások (néven a program kezdeti betölti vagy IPLs) kell ütemezni, hogy az állásidő.</span><span class="sxs-lookup"><span data-stu-id="cc08c-111">But the reality is that downtime must be scheduled for maintenance and reboots (referred to as initial program loads or IPLs).</span></span> <span data-ttu-id="cc08c-112">Ha ezek a feladatok számítanak, a nagyszámítógépes megoldás gyakran van közelebb két vagy három rendelkezésre állást, amely megfelel a csúcskategóriás, Intel-alapú kiszolgálók 9-es.</span><span class="sxs-lookup"><span data-stu-id="cc08c-112">When these tasks are considered, a mainframe solution often has closer to two or three 9s of availability, which is equivalent to that of high-end, Intel-based servers.</span></span>
+
+<span data-ttu-id="cc08c-113">Nagyszámítógépek is egyéb kiszolgálók do katasztrófák is sebezhető marad, és szünetmentes tápegység (UPS) rendszerek ilyen típusú hibák kezeléséhez szükséges.</span><span class="sxs-lookup"><span data-stu-id="cc08c-113">Mainframes also remain as vulnerable to disasters as any other servers do, and require uninterruptible power supply (UPS) systems to handle these types of failures.</span></span>
+
+## <a name="myth-mainframes-have-limitless-scalability"></a><span data-ttu-id="cc08c-114">Miközben: Nagyszámítógépek rendelkezik korlátlan méretezhetőség</span><span class="sxs-lookup"><span data-stu-id="cc08c-114">Myth: Mainframes have limitless scalability</span></span>
+
+<span data-ttu-id="cc08c-115">A nagyszámítógépes méretezhetőség attól függ, hogy a kapacitás, a rendszer szoftverek, például a vásárlói adatokat vezérlőrendszer (CICS) és a nagyszámítógépes motorok és a tárolás új példányok kapacitását.</span><span class="sxs-lookup"><span data-stu-id="cc08c-115">A mainframe’s scalability depends on the capacity of its system software, such as the customer information control system (CICS), and the capacity of new instances of mainframe engines and storage.</span></span> <span data-ttu-id="cc08c-116">Egyes nagy vállalatok, amelyek Nagyszámítógépek testreszabott azok CICS a teljesítmény, és rendelkezik egyéb outgrown a legnagyobb rendelkezésre álló Nagyszámítógépek képességét.</span><span class="sxs-lookup"><span data-stu-id="cc08c-116">Some large companies that use mainframes have customized their CICS for performance, and have otherwise outgrown the capability of the largest available mainframes.</span></span>
+
+## <a name="myth-intel-based-servers-are-not-as-powerful-as-mainframes"></a><span data-ttu-id="cc08c-117">Miközben: Intel-alapú kiszolgálók amelyek nem nagy teljesítményűek, mint nagyszámítógépek</span><span class="sxs-lookup"><span data-stu-id="cc08c-117">Myth: Intel-based servers are not as powerful as mainframes</span></span>
+
+<span data-ttu-id="cc08c-118">Az új core sűrű, Intel-alapú rendszerek sokkal számítási kapacitását Nagyszámítógépek is lehet.</span><span class="sxs-lookup"><span data-stu-id="cc08c-118">The new core-dense, Intel-based systems have as much compute capacity as mainframes.</span></span>
+
+## <a name="myth-the-cloud-cannot-accommodate-mission-critical-applications-for-large-companies-such-as-financial-institutions"></a><span data-ttu-id="cc08c-119">Miközben: A felhő nem tud biztosítja az alapvető fontosságú alkalmazásokat nagy vállalatok, például a pénzügyi intézmények számára</span><span class="sxs-lookup"><span data-stu-id="cc08c-119">Myth: The cloud cannot accommodate mission-critical applications for large companies, such as financial institutions</span></span>
+
+<span data-ttu-id="cc08c-120">Bár előfordulhat, hogy egyes elszigetelt példányai, ha felhőalapú megoldások rövid tartozik, ez általában akkor fordul az alkalmazás algoritmusok nem terjeszthetők.</span><span class="sxs-lookup"><span data-stu-id="cc08c-120">Although there may be some isolated instances where cloud solutions fall short, it is usually becuase the application algorithms cannot be distributed.</span></span> <span data-ttu-id="cc08c-121">Ezek néhány példa a kivételek, a szabály nem.</span><span class="sxs-lookup"><span data-stu-id="cc08c-121">These few examples are the exceptions, not the rule.</span></span>
+
+## <a name="summary"></a><span data-ttu-id="cc08c-122">Összegzés</span><span class="sxs-lookup"><span data-stu-id="cc08c-122">Summary</span></span>
+
+<span data-ttu-id="cc08c-123">Ezzel az Azure kínál egy másik platform, amely képes a nagyszámítógépes egyenértékű funkciókat és szolgáltatásokat, és sokkal alacsonyabb költségekkel.</span><span class="sxs-lookup"><span data-stu-id="cc08c-123">By comparison, Azure offers  an alternative platform that is capable of delivering equivalent mainframe functionality and features, and at a much lower cost.</span></span> <span data-ttu-id="cc08c-124">Emellett a teljes birtoklási költség (TCO) a felhő-előfizetés-alapú, használat alapú költségek modell sokkal kevésbé költséges, mint a nagygépes is.</span><span class="sxs-lookup"><span data-stu-id="cc08c-124">In addition, the total cost of ownership (TCO) of the cloud’s subscription-based, usage-driven cost model is far less expensive than mainframe computers.</span></span>
+
+## <a name="next-steps"></a><span data-ttu-id="cc08c-125">További lépések</span><span class="sxs-lookup"><span data-stu-id="cc08c-125">Next steps</span></span>
+
+> [!div class="nextstepaction"]
+> [<span data-ttu-id="cc08c-126">Győződjön meg arról, a kapcsoló Nagyszámítógépek az Azure-bA</span><span class="sxs-lookup"><span data-stu-id="cc08c-126">Make the Switch from Mainframes to Azure</span></span>](migration-strategies.md)
