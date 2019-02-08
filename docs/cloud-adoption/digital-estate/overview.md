@@ -1,20 +1,22 @@
 ---
-title: Mi az a digitális tulajdon?
-titleSuffix: Enterprise Cloud Adoption
-description: A koncepció digitális hagyatéki ismertetése
+title: 'CAF: Mi az a digitális tulajdon?'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+description: Mi az a digitális tulajdon?
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: ce21a2d72fcb630f5f197dbd6b87b16ef8f41435
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: d23bdbdd98226e8b9cdb9bbb5fefa5a918a498d8
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481541"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898425"
 ---
-# <a name="enterprise-cloud-adoption-what-is-a-digital-estate"></a>Enterprise Cloud Adoption: Mi az a digitális tulajdon?
+<!-- markdownlint-disable MD026 -->
+
+# <a name="caf-what-is-a-digital-estate"></a>CAF: Mi az a digitális tulajdon?
 
 Minden modern vállalati digitális hagyatéki valamilyen rendelkezik. Sokkal hasonlóan egy fizikai hagyatéki digitális szűrőként is egy absztrakt referencia képzés résztvevői hasznos képességekkel, számos tulajdonában lévő eszközök. A digitális hagyatéki azok az eszközök állnak virtuális gépek (VM), kiszolgálók, alkalmazások, adatok és így tovább. Alapvetően egy digitális hagyatéki gyűjteménye a kiemelt üzleti folyamatokat és támogató operatív IT-eszközeivel.
 
@@ -53,4 +55,4 @@ Pénzügyi modelleket és áttelepítési sorait a rendszerezhetők és árú ha
 Digitális hagyatéki tervezési elkezdése előtt meg kell határoznia, milyen megközelítést használni.
 
 > [!div class="nextstepaction"]
-> [Az elemző módszer meghatározása](approach.md)
+> [A digitális hagyatéki tervezési megközelítés](approach.md)

@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, SAP, Windows
-ms.openlocfilehash: 1167a65786c3df946ebaed3e52e4ed4033f50fd5
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: e866727a40551b60e74fc26878a15a5a48e69cf6
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486403"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897626"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
@@ -91,7 +91,7 @@ A hagyományos helyszíni SAP-környezetekhez áthaladó üzleti forgalom a fel�
 
 Ez az architektúra a virtuális hálózat címtere alterületét alhálózatra. Ez a referenciaarchitektúra elsősorban az alkalmazás szint alhálózatáról összpontosít. Minden egyes alhálózathoz is társítható egy NSG-t, amely meghatározza a hozzáférési szabályzatok az alhálózat. Helyezze el alkalmazáskiszolgálók egy külön alhálózatot védelmére azokat könnyebben, mivel kezeli az alhálózat biztonsági házirendek, nem az egyes kiszolgálókon.
 
-Amikor egy NSG-t hozzárendelik egy alhálózathoz, az alhálózaton belüli összes kiszolgálóra vonatkozik. A kiszolgálók egy alhálózat részletesen szabályozhatja az NSG-k használatával kapcsolatos további információkért lásd: [hálózati biztonsági csoportokkal a hálózati forgalom szűrése](https://azure.microsoft.com/en-us/blog/multiple-vm-nics-and-network-virtual-appliances-in-azure/).
+Amikor egy NSG-t hozzárendelik egy alhálózathoz, az alhálózaton belüli összes kiszolgálóra vonatkozik. A kiszolgálók egy alhálózat részletesen szabályozhatja az NSG-k használatával kapcsolatos további információkért lásd: [hálózati biztonsági csoportokkal a hálózati forgalom szűrése](https://azure.microsoft.com/blog/multiple-vm-nics-and-network-virtual-appliances-in-azure).
 
 ### <a name="load-balancers"></a>Terheléselosztók
 
@@ -183,7 +183,7 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

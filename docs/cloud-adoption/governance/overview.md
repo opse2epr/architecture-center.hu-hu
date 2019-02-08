@@ -1,27 +1,45 @@
 ---
-title: 'Enterprise Cloud Adoption: cégirányítási áttekintése'
-description: Az Azure enterprise felhőre való áttérés cégirányítási tartalmának áttekintése
-author: petertaylor9999
-ms.date: 09/10/2018
-ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: a30c834bb92bcdd47ea812d9e368fb0e93fe8623
-ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
+title: 'CAF: Felhő-irányítás'
+description: Bevezetés a felhőalapú Cégirányítási tartalom
+author: BrianBlanchard
+ms.date: 2/11/2019
+ms.openlocfilehash: 8a9701677eec913788ca72f86444a3600e170d07
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/06/2019
-ms.locfileid: "55781996"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897371"
 ---
-# <a name="enterprise-cloud-adoption-governance-overview"></a>Enterprise Cloud Adoption: Cégirányítási áttekintése
+# <a name="cloud-governance-in-the-microsoft-caf-for-azure"></a>Felhőalapú irányítás az Azure-hoz a Microsoft CAF
 
-Ebben a szakaszban az Azure enterprise felhőre való áttérés bemutatja a téma *cégirányítási*. Ha most ismerkedik az irányítás az Azure-témakörbe, elkezdheti a [Mi a felhőbeli erőforrás-szabályozás?](../getting-started/what-is-governance.md) és [erőforráshozzáférés-kezelés az Azure-ban](../getting-started/azure-resource-access.md) a a [bevezetés](../getting-started/overview.md)szakaszban.
+A felhő üzleti támogató technológiákat kapcsolatos új paradigmákat hoz létre. Ezek új paradigmákat műszakok is okozhatja a hogyan olyan technológiák is elfogadott, felügyelt és szabályozott. Akár egész adatközpontok megsemmisül, és újból végre egy felügyelet nélküli folyamat egy kódsorral is, ha rendelkezünk újragondolja a hagyományos megközelítés. Ez a egyaránt igaz, amikor a cégirányítási.
 
-Ha ismeri a cégirányítási fogalmát, ez a szakasz ismertet [egy egyszerű számítási feladat cégirányítási kialakítása](governance-single-team.md) és [több csapat és a több számítási feladat cégirányítási megtervezése](governance-multiple-teams.md). Mindkét dokumentum közé tartozik egy megvalósítási útmutató.
+A szervezet számára a meglévő szabályzatok szabályozzák a helyszíni informatikai környezetekben, felhőalapú cégirányítási ki kell egészítenie a ezek szabályzatok. Azonban a vállalati házirend-integráció a helyszíni és a felhő között a felhőbeli cégirányítási lejárati ideje és a felhőben digitális hagyatéki függően változhat. A felhő hagyatéki haladásával idővel, így lesz a felhő cégirányítási folyamatok és a szabályzatok.
+
+Az útmutató ezen szakasza a CAF két célra szolgál:
+
+* Adja meg, amelyek közös megtapasztalhatják, hogy az ügyfelek milyen gyakran lép fel döntéstámogató ügyfél Journey. Minden egyes magába foglalja az üzleti kockázatok, kockázatcsökkentés és technikai megoldások megvalósításának tervezési útmutatóval kapcsolatos vállalati szabályzatok. Szerint szükségességét a tervezési útmutatást az adott Azure-bA. Ezek az utak egyéb útmutatást sikerült alkalmazni a felhő-agnosztikus vagy többfelhős megközelítés részeként.
+* Súgó az olvasók, amely megfelel a üzleti igények, többek között a cégirányítási több nyilvános felhők – részletes útmutató a vállalati házirendek, eljárások, fejlesztését, és az eszközök különféle cégirányítási személyre szabott megoldásokat hozhat létre.
+
+Ez a tartalom a felhőben Cégirányítási csapat számára készült. Emellett akkor is a felhőbeli tervezők, amely a felhőalapú cégirányítási erős alaprendszert fejlesztéshez szükséges.
+
+## <a name="audience"></a>Célközönség
+
+A tartalom a CAF hatással van, az üzleti, a technológia és a vállalatok kulturális környezetét. Ez a szakasza a CAF erősen interakcióba számítástechnikai biztonsági, az informatikai szabályozással, pénzügyi, üzleti vezetők, a hálózat, identitás, a, és a bevezetési csapat a felhő. Nincsenek különböző közös függőségek ezen személyek, ezért ez az útmutató segítségével, a felhőben dolgozó tervezők által a facilitative megközelítést. Ezeket csapatok számára veremigazítás lehet, hogy egy egyszeri erőfeszítés, de bizonyos esetekben ezek más személyeknek ismétlődő interakció okoz.
+
+A Felhőtervező szolgál gondolkodási vezető egyeztető ezek célközönséggel összegyűjthetők. Ebben a gyűjteményben az útmutatók a tartalom célja a Felhőtervező megfelelő beszélgetés, a megfelelő célközönségnek, a meghajtó szükséges döntések elősegítése érdekében. Üzleti átalakítást, amely jogosult a felhő által függ a Felhőtervező szerepkör segítségével az üzleti döntések útmutató és informatikai.
+
+**Ez a szakasz mérnök szakirány felhőalapú:** Minden egyes szakasza a CAF különböző specializáció vagy a Felhőtervező szerepkör variant jelöli. Ez a szakasza a CAF egy szenvedélyét csökkentése vagy technikai kockázatok ürítése a felhőben dolgozó tervezők lett tervezve. Ugyanezek a szakemberek felhőalapú jegyektől, tekintse meg a felhőszolgáltatók számos, hogy inkább felhőalapú őrei, vagy együttesen a felhő Cégirányítási csapat. Az egyes gyakorlatban hasznosítható vásárló által bejárt a cikkek bemutatják, hogyan az összeállítás és a szerepkör a Felhőbeli Cégirányítási csapat idővel változhat.
+
+## <a name="using-this-guide"></a>Ez az útmutató használata
+
+Az olvasók, akik ezt az útmutatót az elejétől a végéig ezt a tartalmat fog támogatási párhuzamosan, egy stabil felhőalapú adatirányítási stratégia kidolgozásában felhőalapú megvalósítás. Az útmutató végigvezeti az olvasót az elmélet, és ez a stratégia megvalósítását.
+
+A tanfolyamot elmélet és gyors elérése az Azure végrehajtása, a használatának első lépései a [áttekintése, gyakorlatban hasznosítható Cégirányítási Journey](./journeys/overview.md). Ez az útmutató segítségével az olvasó kezdhetik, és fejlesztheti tovább a felhő bevezetését erőfeszítések párhuzamos szabályozási igényeiknek.
 
 ## <a name="next-steps"></a>További lépések
 
-Miután megtanulhatta, hogyan tervezzenek és valósítsanak meg cégirányítási modell az Azure-ban, így továbbléphet megtudhatja, hogyan helyezhet üzembe egy [infrastruktúra](../infrastructure/basic-workload.md) az Azure-bA.
+Tekintse át a gyakorlatban hasznosítható Cégirányítási Journey.
 
 > [!div class="nextstepaction"]
-> [Ismerje meg a csapat egységes erőforrás-hozzáférés](governance-single-team.md)
+> [Gyakorlatban hasznosítható Cégirányítási Journey](./journeys/overview.md)

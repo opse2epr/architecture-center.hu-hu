@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 2c4a76ea3a9acdeb1141a1274f6926667c67c81b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: b15b97de2042a0e213192dd586ffdcc4c51b1f11
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484108"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897983"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -21,7 +21,7 @@ A legtöbb modern webalkalmazás API-kat tesz elérhetővé, amelyek segítség�
 
 - **Platformfüggetlenség**. Bármelyik ügyfélnek meg kell tudnia hívni az API-t – függetlenül az API belső implementálásától. Ehhez szabványos protokollokra van szükség, valamint olyan mechanizmusra, amely által az ügyfél és a webszolgáltatás meg tud egyezni a kicserélendő adatok formátumában.
 
-- **Szolgáltatásfejlődés**. A webes API-nak képesnek kell lennie a fejlődésre és új funkciók hozzáadására – az ügyfélalkalmazásoktól függetlenül. Az API fejlődése mellett biztosítani kell a meglévő ügyfélalkalmazások módosítás nélküli működését. Minden funkció felderíthetőnek kell lennie, hogy az ügyfélalkalmazások teljesen kihasználhassák azok képességeit.
+- **Szolgáltatásfejlődés**. A webes API-nak képesnek kell lennie a fejlődésre és új funkciók hozzáadására – az ügyfélalkalmazásoktól függetlenül. Az API fejlődése mellett biztosítani kell a meglévő ügyfélalkalmazások módosítás nélküli működését. Minden funkció felderíthetőnek kell lennie, hogy az ügyfélalkalmazások számára teljes körűen használható.
 
 Ez az útmutató a webes API-k tervezése során megfontolandó problémákat ismerteti.
 
@@ -446,7 +446,7 @@ Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az
 
 ### <a name="header-versioning"></a>Fejléc-verziókezelés
 
-A verziószám lekérdezésisztring-paramétereként való feltüntetése helyett használhat egy egyéni fejlécet, amely jelzi az erőforrás verzióját. E módszerhez szükség van arra, hogy az ügyfélalkalmazás a megfelelő fejlécet adja hozzá minden kéréshez, ugyanakkor az ügyfélkérést kezelő programkód használhat alapértelmezett értéket (1-es verzió), ha a verziófejléc ki van hagyva. Az alábbi példákban a *Custom-Header* nevű egyéni fejlécet fogjuk használni. A fejléc értéke a webes API verzióját adja meg.
+A verziószám lekérdezésisztring-paramétereként való feltüntetése helyett használhat egy egyéni fejlécet, amely jelzi az erőforrás verzióját. E módszerhez szükség van arra, hogy az ügyfélalkalmazás a megfelelő fejlécet adja hozzá minden kéréshez, ugyanakkor az ügyfélkérést kezelő programkód használhat alapértelmezett értéket (1-es verzió), ha a verziófejléc ki van hagyva. A következő példákban nevű egyéni fejlécet *Custom-Header*. A fejléc értéke a webes API verzióját adja meg.
 
 1-es verzió:
 

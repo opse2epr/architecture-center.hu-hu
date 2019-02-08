@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, SAP, Windows, Linux
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-sap-production.png
-ms.openlocfilehash: 03714dbf08c23220fa95a3789adb40d7a5cfac92
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: a80d414f53cca474af587fce7c67d734eb223841
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908239"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897167"
 ---
 # <a name="running-sap-production-workloads-using-an-oracle-database-on-azure"></a>Az SAP számítási feladatok futtatása Azure-beli Oracle-adatbázis használata
 
@@ -66,7 +66,7 @@ Az SAP az operációs rendszer, az adatbázis-kezelő rendszer és az Azure-kör
 
 - Oracle-adatbázisokat is rendelkezik ajánlott eljárások az Azure-hoz. További információkért lásd: [tervezése és implementálása az Oracle-adatbázishoz az Azure-ban](/azure/virtual-machines/workloads/oracle/oracle-design).
 
-- Oracle Data Guard segítségével kiküszöbölése az üzletmenet szempontjából kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
+- Oracle Data Guard segítségével kiküszöbölése az üzleti szempontból kritikus Oracle-adatbázisok a hibaérzékeny pontokat. További információkért lásd: [Oracle Data Guard megvalósítása az Azure-ban Linux rendszerű virtuális gépen](/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard).
 
 - Az Azure infrastruktúra-szolgáltatások üzembe helyezéséhez SAP-termékekhez, az Oracle-adatbázishoz használható kínál. További információkért lásd: [egy SAP számítási feladatok üzembe helyezése egy Azure-on Oracle DBMS](/azure/virtual-machines/workloads/sap/dbms_guide_oracle).
 

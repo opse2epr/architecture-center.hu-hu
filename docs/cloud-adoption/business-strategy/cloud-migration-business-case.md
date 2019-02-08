@@ -1,20 +1,21 @@
 ---
-title: Üzleti terv létrehozása felhőbe végzett migráláshoz
-titleSuffix: Enterprise Cloud Adoption
-description: Migrálás a felhőbe üzleti indoklásának készítése során megfontolandó szempontok
+title: 'CAF: Egy felhőbeli migrálás üzleti eset létrehozása'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+description: Szempontok a felhőmigrálás üzleti indoklásának létrehozásához.
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 8c27ce211f500ee2eec4f7775a7f68f214dba433
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 21c2b877a0f329711027f020fd0047479e8c7bfb
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488324"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898306"
 ---
-# <a name="enterprise-cloud-adoption-building-a-cloud-migration-business-case"></a>Enterprise Cloud Adoption: Üzleti terv létrehozása felhőbe végzett migráláshoz
+# <a name="build-a-business-justification-for-cloud-migration"></a>Migrálás a felhőbe üzleti indoklásának létrehozása
 
 A migrálás a felhőbe korai az elvárt megtérülési rátát (ROI) hozhat létre a felhő átalakítás folyamatában. Azonban a materiális egyértelmű üzleti indoklásának fejlesztésével, kapcsolódó költségeket, és adja vissza lehet összetett folyamat. Ez a cikk segítséget nyújt a úgy gondolja, hogy milyen adatokkal kapcsolatos létrehozásához szükséges egy pénzügyi modellt, amely igazodik a felhőbe migrálás eredményekkel. Először is hozzunk kihajtsuk kapcsolatos típusú felhőbeli migrálás, néhány tévhitet, így a szervezet néhány gyakori hibák elkerülése érdekében.
 
@@ -26,7 +27,7 @@ A migrálás a felhőbe korai az elvárt megtérülési rátát (ROI) hozhat lé
 
 **Miközben: A helyszíni környezet tükrözés segítséget kérek a pénzt takaríthat meg a felhőben.** Során digitális hagyatéki tervezi, akkor sem átláthatóságról kívüli ügyfelek 50 %-a kiépített környezet biztosította a fel nem használt kapacitás észleléséhez. Ha az eszközök kiosztása a felhőben is egyezik az aktuális kiépítés költségmegtakarítást nehezen hajlandónak lesz. Vegye figyelembe, hogy az üzembe helyezett eszközök használati mintákat, nem kialakítási minták igazodva méretének csökkentését.
 
-**Miközben: A meghajtó felhőmigrálás üzleti helyzetei Server költségeit.** Egyes esetekben ez is igaz. Egyes vállalatok számára fontos kiszolgálókhoz kapcsolódó folyamatos beruházási költségek csökkentése érdekében. Azonban ez több tényezőtől függ. Egy 5 rendelkező vállalatok&ndash; 8&ndash;év hardver frissítési ciklus valószínűleg nem a felhőbe való migrálást tekintse meg a gyors értéket ad vissza. Szabványosított vagy kényszerített adatfrissítési ciklusok rendelkező vállalatok gyorsan elérjék a megtérülési pont. Egyéb kiadások mindkét esetben lehet, adja meg az áttelepítés pénzügyi eseményindítói. Néhány példa a költségeket, gyakran kihagyott a költségek csak kiszolgáló, vagy csak a virtuális gép nézetét állapotba helyezésekor a következők:
+**Miközben: A meghajtó felhőmigrálás üzleti helyzetei Server költségeit.** Egyes esetekben ez is igaz. Egyes vállalatok számára fontos kiszolgálókhoz kapcsolódó folyamatos beruházási költségek csökkentése érdekében. Azonban ez több tényezőtől függ. Egy öt nyolc éves hardverek frissítési ciklusát rendelkező vállalatok általában nem kategorizálhatók tekintse meg a gyors értéket ad vissza a felhőbe való migrálást. Szabványosított vagy kényszerített adatfrissítési ciklusok rendelkező vállalatok gyorsan elérjék a megtérülési pont. Egyéb kiadások mindkét esetben lehet, adja meg az áttelepítés pénzügyi eseményindítói. Néhány példa a költségeket, gyakran kihagyott a költségek csak kiszolgáló, vagy csak a virtuális gép nézetét állapotba helyezésekor a következők:
 
 - A virtualizálás, a kiszolgálók és a közbenső szoftverek díjait széles körű lehet. A felhőszolgáltatók kiküszöbölése néhány ezeket a díjakat. Két példa virtualizálási költségek csökkentése a felhőszolgáltatók a [Azure Hybrid Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/#services) és [foglalások](https://azure.microsoft.com/reservations/) programok.
 - Üzleti veszteségek leállások miatt gyorsan haladhatja meg a hardver vagy szoftver költségeket. Ha az aktuális adatközponti instabillá válhat, ahol az üzleti lehetőség költségek és a tényleges üzleti költségek tekintetében leállások hatásának számszerűsítése.
@@ -109,4 +110,4 @@ Ha továbbra is a helytelen igazítású a megtérülési RÁTÁRA, segítségé
 ## <a name="next-steps"></a>További lépések
 
 > [!div class="nextstepaction"]
-> [Felhőre vonatkozó pénzügyi minta létrehozása](financial-models.md)
+> [Felhőre vonatkozó pénzügyi minta létrehozása](./financial-models.md)

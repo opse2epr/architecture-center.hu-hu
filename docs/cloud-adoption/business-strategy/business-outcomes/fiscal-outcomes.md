@@ -1,21 +1,23 @@
 ---
-title: 'Enterprise Cloud Adoption: Példák a pénzügyi eredmények'
+title: 'CAF: Példák a pénzügyi eredmények'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
 description: Példák a pénzügyi eredmények
 author: BrianBlanchard
 ms.date: 10/10/2018
 ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: d502294121d9c11d504068ff622cba26fa76db04
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: c181133aa238bb631d844cd72a21165b85e47936
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484931"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897082"
 ---
-# <a name="enterprise-cloud-adoption-examples-of-fiscal-outcomes"></a>Enterprise Cloud Adoption: Példák a pénzügyi eredmények
+# <a name="examples-of-fiscal-outcomes"></a>Példák a pénzügyi eredmények
 
-A legmagasabb szintű pénzügyi beszélgetések kezdetleges három alapvető áll:
+A legfelső szinten pénzügyi beszélgetések három alapvető fogalmait áll:
 
 * Bevétel: Több pénzt származnak az üzleti termékek vagy szolgáltatások értékesítése miatt.
 * Költség: A létrehozási, marketing, sales vagy termékek vagy szolgáltatások nyújtását a fordított lesz a kisebb költséget takaríthat meg.
@@ -24,29 +26,29 @@ A legmagasabb szintű pénzügyi beszélgetések kezdetleges három alapvető á
 Ez a cikk további részében ismertetik ezeket pénzügyi eredmények felhőbeli átalakítás kontextusában.
 
 > [!NOTE]
-> Az alábbi példák elméleti & nem tekinthető beolvasása garantálására, ha bármely stratégia bevezetése.
+> Az alábbi példák elméleti és nem tekinthető beolvasása garantálására, ha bármely stratégia bevezetése.
 
-# <a name="revenue-outcomes"></a>Bevétel eredmények
+## <a name="revenue-outcomes"></a>Bevétel eredmények
 
-## <a name="new-revenue-streams"></a>Új bevételi forrásokat teremtve
+### <a name="new-revenue-streams"></a>Új bevételi forrásokat teremtve
 
 A felhő lehetővé teszi, hogy a lehetőségeket, új termékek nyújthat az ügyfeleknek, illetve meglévő termékek általuk új módon. Új bevételi olyan innovatív, vállalkozói és izgalmas az üzleti világ több személynek. Új bevételi forrásokat teremtve is rejt magában hiba, és magas kockázatú, sok vállalat látható. Amikor, rendszer által javasolt informatikai, nagy a valószínűsége annak, leküldéses vissza. Hitelességével hozzá ezeket a kimeneteket, üzleti vezető, aki bevált innovatív-partnerré. A bevétel streamet, a folyamat korai szakaszaiban érvényesítése segít az üzleti akadályát elkerülése érdekében.
 
-* Példa: A vállalat rendelkezik lett értékesítése könyvek több mint száz éves. Egy alkalmazott a vállalati valósít meg, hogy a tartalom elektronikus úton letöltéséhez, és létrehoz egy eszköz, amely árusíthatók bookstore, amely lehetővé teszi az ugyanazon könyvek közvetlenül le kell tölteni, új könyv értékesítési $X vezetési. 
+* Példa: A vállalat rendelkezik lett értékesítése könyvek több mint száz éves. Egy alkalmazott a vállalati valósít meg, hogy a tartalom elektronikus úton letöltéséhez, és létrehoz egy eszköz, amely árusíthatók bookstore, amely lehetővé teszi az ugyanazon könyvek közvetlenül le kell tölteni, új könyv értékesítési $X vezetési.
 
-## <a name="revenue-increases"></a>Bevétel növekszik
+### <a name="revenue-increases"></a>Bevétel növekszik
 
-A globális szintű & digitális elérhetőséget a felhő lehetővé teszi, hogy a meglévő bevételi bevétel növelésében. Gyakran egy értékesítési vagy marketinges vezetői ciklustól serkenti az eredményt az ilyen típusú lenne származnak.
+Globális méretezhetőség és a digitális elérhetőséggel a felhő lehetővé teszi, hogy a meglévő bevételi bevétel növelésében. Gyakran egy értékesítési vagy marketinges vezetői ciklustól serkenti az eredményt az ilyen típusú lenne származnak.
 
 * Példa: Egy vállalat, amely képeit widgetek sikerült további widgeteket értékesítését, ha az értékesítés területén dolgozó személyeknek biztonságos hozzáférést a vállalati digitális katalógus és árukészletet volt. Sajnos azonban, hogy van-e adatok csak a vállalat ERP rendszer, amely csak a hálózaton keresztül érhetők el a kapcsolódó eszközök. Felületre szolgáltatás az előtérrendszer létrehozása az ERP, is közzéteheti a katalóguslistában, és nem érzékeny árukészletet, a felhőbeli alkalmazásokhoz való lehetővé tenné az értékesítők azok kell során az ügyfél helyszíni adatok eléréséhez. Kiterjesztése az Azure AD-vel, és a szerepköralapú hozzáférés-integrálása az alkalmazásba AD a vállalat annak érdekében, hogy az adatok tarthatók üzemben lehetővé tenné. Ez egyszerű projekt hatással lehet egy meglévő termék sor szerint X % bevételt.
 
-## <a name="profit-increases"></a>Nyereség növekszik
+### <a name="profit-increases"></a>Nyereség növekszik
 
 Ritkán nem egyetlen erőfeszítés egyszerre bevétel növelésében és a költségek csökkentésében. Hajtja végre, ha azonban az eredmény utasításokat egy vagy több egy vagy több való kommunikációra a szükséges teljesítendő költség kimenetek a bevétel kilátásainak igazítása.
 
-# <a name="cost-outcomes"></a>A Cost eredmények
+## <a name="cost-outcomes"></a>A Cost eredmények
 
-## <a name="cost-reduction"></a>Költségcsökkentés
+### <a name="cost-reduction"></a>Költségcsökkentés
 
 A felhő-számítástechnika, csökkentheti a beruházási költségek (CapEx) kapcsolatos hardver- és mentesülhet, adatközpontok beállítása, futtató helyszíni adatközpontokban, és így tovább... A kiszolgálók állványokon, non-stop tápellátáshoz és áram, és az informatikai szakértők az infrastruktúra kezelésére alkalmas hozzáadja gyorsan. Egy adatközpont leáll, csökkentheti a CapEx kötelezettségvállalás. Ezt gyakran nevezik "Első kívüli the Data Center üzleti". Költségcsökkentés aktuális költségvetést, 1 – 5 évig, attól függően, hogyan kezeli a pénzügyi vezetőnek Követnie a pénzügyi sikerült span dollárban általában mérjük.
 
@@ -60,13 +62,13 @@ Coverdell modernizálja alapjául az Azure-ral rekord költségmegtakarítást i
 "Az ajtó néhány skálázható, könnyen megvalósítható és költséghatékony, magas rendelkezésre állású megoldások férhető hozzá a az Azure-technológiák megnyílik. Ez lehetővé teszi a megoldástervezők az nyújtanak megoldások sokkal kreatívabb is."
 Ryan Sorensen: Alkalmazások fejlesztése és a vállalati architektúra Coverdell igazgató
 
-## <a name="cost-avoidance"></a>Költségek elkerülése
+### <a name="cost-avoidance"></a>Költségek elkerülése
 
-Megszakítást okozó adatközpontokban is lehetővé teszi költségek elkerülését, megakadályozzák, hogy a későbbi adatfrissítési ciklusok. A frissítés során az a folyamat, hogy új hardver- és elévült, a helyszíni rendszerek helyett. Az Azure-ban hardver- és az operációs rendszer vannak rendszeresen tartani, javítani és frissülnek az ügyfelek számára további költségek nélkül. Ez lehetővé teszi egy pénzügyi igazgató, távolítsa el a tervezett jövőbeli hosszú távú pénzügyi előrejelzések a költségek. Költsége elkerülő dollárban mérjük. Költségcsökkentés, annak, hogy általánosan foglalkozik, amely nincs teljes mértékben jóváhagyva még jövőbeni költségvetési abban különbözik.
+Megszakítást okozó adatközpontokban is lehetővé teszi költségek elkerülését, megakadályozzák, hogy a későbbi adatfrissítési ciklusok. A frissítés során a rendszer új hardver vásárlása és elévülési lecserélik a helyszíni rendszerekben. Az Azure-ban hardver- és az operációs rendszer rendszeresen tartani, javítva, és frissíti az ügyfelek számára további költségek nélkül. Ez lehetővé teszi egy pénzügyi igazgató, távolítsa el a tervezett jövőbeli hosszú távú pénzügyi előrejelzések a költségek. Költsége elkerülő dollárban mérjük. Költségcsökkentés, annak, hogy általánosan foglalkozik, amely nincs teljes mértékben jóváhagyva még jövőbeni költségvetési abban különbözik.
 
 * Példa: A vállalati adatközpontban regisztrálásához a bérlet megújítási van 6 hónap. Data center által lett 8 évig szolgáltatásban. 4 évvel ezelőtt, a kiszolgálók mindegyikének lettek frissítve, és a vállalat ára $ virtualizált több millió. Következő év, a vállalat újból frissíteni a hardver- és a tervet. Az eszközök, adatközpont migrálása a egy működési átalakítást részeként kell létrehoznia a költségek elkerülése, a tervezett frissítés távolítsa el a következő évre előre jelzett költségvetés. Ez sikerült is előállíthat a költségek csökkentéséhez csökkentésével, vagy távolítsa el a ingatlan bérleti költségeket.
 
-## <a name="capex-vs-opex"></a>Állomások CapEx-és OpEx
+### <a name="capex-versus-opex"></a>CapEx helyett OpEx
 
 Költség következmények ismertetése, előtt fontos fontos tudni, hogy a két elsődleges költség beállításokat: A beruházási költségek (CapEx) és a működési költségeket.
 
@@ -76,12 +78,12 @@ Az alábbi feltételek célja, hogy az állomások CapEx- és OpEx közötti kü
 * **Beruházási költségek (CapEx)** ráfordítás által generált számos előnyt biztosít, hosszú távon van. Az ilyen költség általában nem ismétlődő és állandó eszközök beszerzése eredményez. Alkalmazás készítése egy beruházna sikerült minősülnek.
 * **Üzemeltetési költségek (OpEx)** -kiadás, amely egy üzleti tevékenységet folytató folyamatos költsége van. A cloud services, a használatalapú modell felhasználása az üzemeltetési költségek minősülnek sikerült.
 * Az eszközintelligencia egy gazdasági erőforrás tulajdonosa vagy ellenőrzött értéket. Kiszolgálók, a Data Lake tárolók és az alkalmazások összes tekinthető eszközök.
-* **Amortizációs** hogyan idővel csökken az érték egy eszköz van. Az állomások CapEx-és OpEx beszélgetés relevánsabb egy eszköz a költségek kiosztás, amelyben használt időszakok között. Például ha hoz létre egy alkalmazást ebben az évben, de azt kellene rendelkeznie, egy átlagos kereskedelmi-élettartama (például a legtöbb kereskedelmi alkalmazások) 5 évig, majd a fejlesztői csapat és a szükséges eszközök létrehozása és telepítése a kódbázis szükséges lenne kell értékcsökkentett egyenletesen 5 ye keresztül ars.
+* **Amortizációs** hogyan idővel csökken az érték egy eszköz van. Az állomások CapEx-és OpEx beszélgetés relevánsabb egy eszköz a költségek kiosztás, amelyben használt időszakok között. Például ha hoz létre egy alkalmazást ebben az évben, de azt kellene rendelkeznie, egy átlagos kereskedelmi-élettartama (például a legtöbb kereskedelmi alkalmazások) 5 évig, majd a fejlesztői csapat és a szükséges eszközök létrehozása és üzembe helyezése a kódbázis szükséges lenne kell értékcsökkentett egyenletesen öt y keresztül füleken.
 * **Értékelési** becslése mennyi egy vállalat, amely egyenértékű során a rendszer. A legtöbb iparágakban értékelési alapján a vállalat képes készítése a bevétel és a profitot, a működési költségek mellett kell létrehoznia a cikkeket, adja meg, hogy a bevétel felhőplatformon. Bizonyos szektorokban, például a kereskedelmi, vagy privát tőke például néhány tranzakciótípusok eszközök és amortizációs lejátszhatja nagy részét a cég értékelési.
 
 Ez a legtöbbször egy biztonságos tippet, hogy különböző vezetők, beleértve a CIO folytatott tanácskozások, nő a vállalat a megfelelő irányba tőke használható a leghatékonyabban. Jogosultságot ad a CIO versenyhelyzetében CapEx átalakításával azt jelenti, hogy a beszélgetések egyértelmű OpEx accountability be egy vonzó serkenti az eredményt önmagában lehet. Számos iparágban vezető pénzügyi igazgatók (pénzügyi) vannak aktívan értelmezéséért jobban a alatt eladott termékek ára a pénzügyi accountability társítása.
 
-Azonban bármely Átalakulásunkhoz társítása CapEx OpEx átalakítás ilyen típusú, mielőtt célszerű megtekintheti, ha a vállalat igényli-e a CapEx- és OpEx költség struktúrák a pénzügyi igazgató, vagy az informatikai csapat tagjaival felel meg. Egyes szervezetekben a azonban csökkenti az állomások CapEx helyett OpEx, az valójában egy magas nemkívánatos serkenti az eredményt. Mint már említettük, ez néha a kiskereskedelmi, üzem & magasabb érték túl nagy értéket helyezze IP hagyományos eszköz számlázási modellek helyezze privát tőke vállalatok látható. Azt is láthatja a szervezetek számára, akinek negatív élményt, amikor az informatikai munkatársak vagy más függvények kihelyezése az elmúlt.
+Azonban bármely Átalakulásunkhoz társítása CapEx OpEx átalakítás ilyen típusú, mielőtt célszerű megtekintheti, ha a vállalat igényli-e a CapEx- és OpEx költség struktúrák a pénzügyi igazgató, vagy az informatikai csapat tagjaival felel meg. Egyes szervezetekben a azonban csökkenti az állomások CapEx helyett OpEx, az valójában egy magas nemkívánatos serkenti az eredményt. Ahogy említettük, ez néha látható a kiskereskedelmi, gazdaság és a privát tőke vállalatok, amelyek magasabb érték túl nagy értéket helyezze IP hagyományos eszköz számlázási modellek helyezze. Azt is láthatja a szervezetek számára, akinek negatív élményt, amikor az informatikai munkatársak vagy más függvények kihelyezése az elmúlt.
 
 OpEx akkor javasolt, ha az alábbi példa lehet egy működőképes üzleti eredmény:
 

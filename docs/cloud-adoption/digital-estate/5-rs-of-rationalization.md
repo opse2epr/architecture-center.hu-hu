@@ -1,20 +1,21 @@
 ---
-title: A 5 ésszerűsítés az Rs
-titleSuffix: Enterprise Cloud Adoption
-description: Ismerteti, amely egy digitális hagyatéki ésszerűsítéséről esetén érhetők el a beállításokat
+title: 'CAF: A 5 ésszerűsítés az Rs'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+description: Tekintse át a digitális hagyatéki ésszerűsítéséről lehetőségeit.
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 06058967e6ffcd9e3554a46c67144f72fb19078f
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: ee196487e6f59b1e1b3c63bab9496cbbf805affd
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908579"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897473"
 ---
-# <a name="enterprise-cloud-adoption-the-5-rs-of-rationalization"></a>Enterprise Cloud Adoption: A 5 ésszerűsítés az Rs
+# <a name="the-5-rs-of-rationalization"></a>A 5 ésszerűsítés az Rs
 
 Felhőbeli ésszerűsítés az a folyamat kiértékelésének adategységeket az áttelepítés vagy a felhőben minden egyes eszköz modernizálhatja a legjobb módja határozza meg. Ésszerűsítés a folyamattal kapcsolatos további információk: [digitális hagyatéki mi?](overview.md)
 
@@ -135,7 +136,7 @@ A mennyiségi elemzés tényezők:
 
 Minőségi elemzési tényezők:
 
-* A Cost haszon elemzése a jelenlegi architektúra vs Szolgáltatottszoftver-megoldás
+* Az aktuális architektúra és a egy Szolgáltatottszoftver-megoldás költség benefit elemzése
 * Üzleti folyamatok térképek
 * Adatsémák
 * Egyéni vagy automatizált folyamatokkal

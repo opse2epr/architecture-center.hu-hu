@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 1ad646f5c8f4b329b0d0e9a29c83e86848b13ab0
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 4ad221ae5e9bd51c6d304ba33b884f71c5081b16
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488341"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898255"
 ---
 # <a name="bulkhead-pattern"></a>Válaszfal minta
 
@@ -26,7 +26,7 @@ Ezt a mintát *Válaszfal* mintának nevezik, mert egy hajótest felosztott rés
 
 Egy felhőalapú alkalmazás több szolgáltatást is tartalmazhat, és minden szolgáltatás egy vagy több fogyasztóval is rendelkezhet. Ha egy szolgáltatás túl van terhelve vagy meghibásodik, az minden fogyasztót érint.
 
-Továbbá egy fogyasztó egyszerre több szolgáltatáshoz is küldhet kéréseket, és minden kéréshez erőforrásokat használ fel. Ha egy fogyasztó kérést küld egy rosszul konfigurált vagy nem válaszoló szolgáltatásnak, előfordulhat, hogy az ügyfél kérése által felhasznált erőforrások hogy nem szabadulnak fel megfelelő időn belül. Ahogy újabb kérések érkeznek a szolgáltatáshoz, ezek az erőforrások kimerülhetnek. Kimerülhet például az ügyfél kapcsolatkészlete. Ez már a fogyasztó más szolgáltatásokhoz küldött kéréseire is kihat. Végül a fogyasztó már más szolgáltatásoknak sem fog tudni kéréseket küldeni, nem csak az eredeti nem válaszoló szolgáltatásnak.
+Továbbá egy fogyasztó egyszerre több szolgáltatáshoz is küldhet kéréseket, és minden kéréshez erőforrásokat használ fel. Ha egy fogyasztó kérést küld egy rosszul konfigurált vagy nem válaszoló szolgáltatásnak, előfordulhat, hogy az ügyfél kérése által felhasznált erőforrások hogy nem szabadulnak fel megfelelő időn belül. Ahogy újabb kérések érkeznek a szolgáltatáshoz, ezek az erőforrások kimerülhetnek. Kimerülhet például az ügyfél kapcsolatkészlete. Ezen a ponton a fogyasztó más szolgáltatásokhoz kérések érinti. Végül a fogyasztó már más szolgáltatásoknak sem fog tudni kéréseket küldeni, nem csak az eredeti nem válaszoló szolgáltatásnak.
 
 Ugyanez az erőforrásfogyás a több fogyasztóval rendelkező szolgáltatásokat is érinti. Az egy ügyféltől nagy számban érkező kérések kimeríthetik a szolgáltatás elérhető erőforrásait. Így a többi fogyasztó tudja igénybe venni a szolgáltatást, ez pedig lépcsőzetesen terjedő hibákhoz vezet.
 

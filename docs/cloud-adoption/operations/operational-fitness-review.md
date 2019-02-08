@@ -1,21 +1,21 @@
 ---
-title: 'Enterprise Cloud Adoption: Működési – alapok'
+title: 'CAF: Működési – alapok'
 description: Útmutatás a működési – alapok
 author: petertaylor9999
 ms.date: 09/20/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 26867e3ecce738f18c5a03ff41754281229851f4
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: afecf380b1a75d006f6f2bc0cb0e5058cd3feffc
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481125"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897099"
 ---
 # <a name="establishing-an-operational-fitness-review"></a>Működési mentességre felülvizsgálat létrehozása
 
-A vállalati megkezdi a működését az Azure-beli számítási feladatokhoz, mint a következő lépés létrehozására egy **működési mentességre tekintse át** folyamat enumerálásához, megvalósításához és iteratív tekintse át a **nem működőképes** követelmények ezeket a feladatokat. _Nem funkcionális_ a szolgáltatás a várt működési viselkedés kapcsolatos követelményeket. A továbbiakban nem funkcionális követelmények öt alapvető kategóriába sorolhatók a [szoftverminőség alappillérei](../../guide/pillars.md): skálázhatóság, rendelkezésre állás, rugalmasság (beleértve az üzleti folytonossági és vészhelyreállítási helyreállítási), kezeléséhez, és biztonság. A egy működési mentességre elbírálási folyamata célja annak ellenőrzése, hogy az üzletmenet szempontjából kritikus fontosságú számítási feladatok megfelelnek az elvárásainak, a minőség alappillérei garanciát az üzleti.
+A vállalati megkezdi a működését az Azure-beli számítási feladatokhoz, mint a következő lépés létrehozására egy **működési mentességre tekintse át** folyamat enumerálásához, megvalósításához és iteratív tekintse át a **nem működőképes** követelmények ezeket a feladatokat. _Nem funkcionális_ a szolgáltatás a várt működési viselkedés kapcsolatos követelményeket. A továbbiakban nem funkcionális követelmények öt alapvető kategóriába sorolhatók a [szoftverminőség alappillérei](../../guide/pillars.md): skálázhatóság, rendelkezésre állás, rugalmasság (beleértve az üzleti folytonossági és vészhelyreállítási helyreállítási), kezeléséhez, és biztonság. A egy működési mentességre elbírálási folyamata célja annak ellenőrzése, hogy a kritikus fontosságú számítási feladatok megfelelnek az elvárásainak, a minőség alappillérei garanciát az üzleti.
 
 Ebből kifolyólag a vállalati vállalnia kell a egy működési mentességre elbírálási folyamata teljes mértékben megérteni a számítási feladatok éles környezetben való futtatása eredő problémák, határozza meg, hogyan javíthatja a problémákat, majd oldja meg őket. Ez a cikk ismerteti egy magas szintű működési mentességre felülvizsgálati folyamat, amellyel a vállalat e cél eléréséhez.
 
@@ -49,11 +49,11 @@ Magas szinten a folyamat két fázissal rendelkezik. A követelmények az Előfe
 
 Ebben a fázisban a lépések célja, hogy a szükséges követelményeket, a fontos szolgáltatások rendszeres felülvizsgálatát végző rögzítése.
 
-- **Azonosítsa a létfontosságú üzleti tevékenységeket**. Azonosítsa a vállalati **alapvető fontosságú** üzleti műveletek. Üzleti műveletek függetlenek bármilyen kiegészítő szolgáltatást. Más szóval az üzleti műveletek a tényleges tevékenységeket, amelyek az üzleti kell végrehajtania, és az informatikai szolgáltatások által támogatott képviseli. Az előfizetési időszak _alapvető fontosságú_, vagy másik lehetőségként _üzletileg kritikus_, tükrözi egy súlyos hatása a vállalat számára, ha a művelet hátráltatja van. Egy online kereskedő Előfordulhat például, ha egyes üzleti műveletekhez, például "elem hozzáadása egy bevásárlókosárhoz ügyfelek engedélyezése" vagy "feldolgozni a hitelkártyás fizetés". Ha ezen műveletek egyike meghibásodik, egy ügyfél nem lehet végrehajtani a tranzakciót, és a vállalat értékesítési kihasználására – sikertelen lesz.
+- **Azonosítsa a létfontosságú üzleti tevékenységeket**. A vállalati működés szempontjából kritikus fontosságú üzleti műveletek azonosításához. Üzleti műveletek függetlenek bármilyen kiegészítő szolgáltatást. Más szóval az üzleti műveletek a tényleges tevékenységeket, amelyek az üzleti kell végrehajtania, és az informatikai szolgáltatások által támogatott képviseli. Az előfizetési időszak **alapvető fontosságú** (vagy **üzletileg kritikus**) tükrözi egy súlyos hatása a vállalat számára, ha a művelet hátráltatja van. Egy online kereskedő Előfordulhat például, ha egyes üzleti műveletekhez, például "elem hozzáadása egy bevásárlókosárhoz ügyfelek engedélyezése" vagy "feldolgozni a hitelkártyás fizetés". Ha ezen műveletek egyike meghibásodik, egy ügyfél nem lehet végrehajtani a tranzakciót, és a vállalat értékesítési kihasználására – sikertelen lesz.
 
 - **Műveletek leképezése szolgáltatások**. Képezze le az azokat támogató szolgáltatások e üzleti műveletek. A fenti vásárlási bevásárlókocsi példában több olyan szolgáltatást vehet részt: egy készlet tőzsdei felügyeleti szolgáltatás, egy vásárlási Bevásárlókocsi szolgáltatás és mások. Hitelkártyás fizetés a fenti példában egy helyszíni fizetési szolgáltatást egy külső fizetési szolgáltatás is dolgozhat.
 
-- **Elemezheti a szolgáltatásfüggőségek**. A legtöbb üzleti tevékenységekhez szükséges vezénylési több támogató szolgáltatások között. Fontos tudni, hogy a függőségeket a és a folyamat a működés szempontjából kritikus fontosságú tranzakciók a szolgáltatásokon keresztül. A helyszíni szolgáltatásokhoz és az Azure-szolgáltatások közti függőségeket is figyelembe kell venni. A vásárlási bevásárlókocsi példában a készlet tőzsdei felügyeleti szolgáltatás üzemeltethető a helyszínen, és egy fizikai adatraktárból az alkalmazottak által bevitt adatok feldolgozására, de előfordulhat, hogy tárolni adatok Azure-szolgáltatások például [az Azure storage](/azure/storage/common/storage-introduction) vagy adatbázis például [az Azure Cosmos DB](/azure/cosmos-db/introduction).
+- **Elemezheti a szolgáltatásfüggőségek**. A legtöbb üzleti tevékenységekhez szükséges vezénylési több támogató szolgáltatások között. Fontos tudni, hogy a függőségeket a és a folyamat a kritikus fontosságú tranzakciók a szolgáltatásokon keresztül. A helyszíni szolgáltatásokhoz és az Azure-szolgáltatások közti függőségeket is figyelembe kell venni. A vásárlási bevásárlókocsi példában a készlet tőzsdei felügyeleti szolgáltatás üzemeltethető a helyszínen, és egy fizikai adatraktárból az alkalmazottak által bevitt adatok feldolgozására, de előfordulhat, hogy tárolni adatok Azure-szolgáltatások például [az Azure storage](/azure/storage/common/storage-introduction) vagy adatbázis például [az Azure Cosmos DB](/azure/cosmos-db/introduction).
 
 Ezek a tevékenységek kimenetének egy olyan **stratégiai mutatószámrendszer metrikák** szolgáltatási műveletek. A metrikák szempontjából nem működőképes jellemzői – például a rendelkezésre állás, a méretezhetőség és a vész-helyreállítási telefonokat. Scorecard metrikák expressz a feltételeket, amelyek a szolgáltatás várhatóan illesztő nem felel meg. Ezek a metrikák, a műveletet megfelelő részletességgel bármilyen szinten lehet kifejezni.
 
@@ -65,8 +65,7 @@ Fontos kiemelni, hogy ezek a metrikák közvetlenül kell tükrözniük üzleti 
 
 A szolgáltatást felülvizsgálat fázisban központi eleme a működési mentességre ellenőrzés során.
 
-- **Szolgáltatási metrikák mérik**. A stratégiai mutatószámrendszer mérőszámok segítségével, a szolgáltatások ellenőrizni kell, hogy, hogy megfeleljenek az üzleti követelményeinek. Ez azt jelenti, hogy szolgáltatás a figyelés létfontosságú. Ha nem képes szolgáltatások garanciát a nem funkcionális követelmények készletének a figyelése, majd a megfelelő stratégiai mutatószámrendszer metrikák kell tekinteni piros. Ebben az esetben az első lépés a szervizelési, hogy a megfelelő szolgáltatás megfigyelésének.
-Tételezzük fel, ha az üzleti vár egy szolgáltatás 99,99 %-os rendelkezésre állással működik, de a van nem éles környezetben nem működik a telemetria helyen rendelkezésre állásának mérésére, meg kell, hogy, már nem felel meg a követelménynek.
+- **Szolgáltatási metrikák mérik**. A stratégiai mutatószámrendszer mérőszámok segítségével, a szolgáltatások ellenőrizni kell, hogy, hogy megfeleljenek az üzleti követelményeinek. Ez azt jelenti, hogy szolgáltatás a figyelés létfontosságú. Ha nem képes szolgáltatások garanciát a nem funkcionális követelmények készletének a figyelése, majd a megfelelő stratégiai mutatószámrendszer metrikák kell tekinteni piros. Ebben az esetben az első lépés a szervizelési, hogy a megfelelő szolgáltatás megfigyelésének. Tételezzük fel, ha az üzleti vár egy szolgáltatás 99,99 %-os rendelkezésre állással működik, de a van nem éles környezetben nem működik a telemetria helyen rendelkezésre állásának mérésére, meg kell, hogy, már nem felel meg a követelménynek.
 
 - **Szervizelés tervezése**. Beállítása, hogy minden egyes szolgáltatás metrikákkal, amely egy elfogadható küszöb alá esnek meghatározhatja a szolgáltatást ahhoz, hogy a művelet egy elfogadható metrika szervizelés költségét. Ha a szervizelés alatt áll a szolgáltatás költsége nagyobb, mint a szolgáltatás a várt bevételnövekedést, folytassa a nem materiális költségeket, például a felhasználói élményt nyújt. Például ügyfelek nehézséget okoz a sikeres sorrendet a szolgáltatás használatával helyezi el, ha azok dönthet egy versenytárs helyette.
 
@@ -78,7 +77,7 @@ Ez a folyamat iteratív, és ideális a vállalati csapat célja, hogy a tulajdo
 
 A működési mentességre csapatától a következő szerepkörök tevődik össze:
 
-1. **Üzleti tulajdonosa**. Ezt a szerepkört biztosít a cég és minden egyes "alapvető fontosságú" üzleti műveletekhez priorizálhatja a ismerete. Ez a szerepkör is hasonlítja össze a megoldás költsége az üzletmenetre gyakorolt hatás, és a végleges döntést meghajtókat a fenyegetés kiküszöbölését.
+1. **Üzleti tulajdonosa**. Ez a szerepkör biztosít a cég és minden kritikus fontosságú üzleti műveletekhez priorizálhatja a ismerete. Ez a szerepkör is hasonlítja össze a megoldás költsége az üzletmenetre gyakorolt hatás, és a végleges döntést meghajtókat a fenyegetés kiküszöbölését.
 
 2. **Üzleti tanácsadó**. Ez a szerepkör felelős bontásához, üzleti műveletek alfeladatra részre, és a részeket hozzárendelése a helyszíni és a cloud services és az infrastruktúra. A szerepkör megköveteli a részletes technológiai tudásukat kihasználva az egyes üzleti műveletekhez tartozó.
 
@@ -107,10 +106,10 @@ A folyamat, valamint a értekezlet saját igényeinek megfelelően módosítani 
 ## <a name="recommended-resources"></a>Ajánlott erőforrások
 
 - [Szoftverminőség alappillérei](../../guide/pillars.md).
-Az Azure architektúra-útmutató ezen szakasza a szoftverminőség öt alappillérét ismerteti: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
+    Az Azure architektúra-útmutató ezen szakasza a szoftverminőség öt alappillérét ismerteti: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
 - [10 tervezési elvek, az Azure-alkalmazásokhoz](../../guide/design-principles/index.md).
-Az Azure architektúra-útmutató ezen szakasza ismerteti a tervezési alapelveket az alkalmazás méretezhető, rugalmas és kezelhető egy készletét.
+    Az Azure architektúra-útmutató ezen szakasza ismerteti a tervezési alapelveket az alkalmazás méretezhető, rugalmas és kezelhető egy készletét.
 - [Rugalmas alkalmazások tervezése az Azure](../../resiliency/index.md).
-Ez az útmutató a kifejezés rugalmasság és a kapcsolódó fogalmak ismertetésével kezdődik. Ezután ismerteti a rugalmasság elérésének egy, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig terjedő folyamatát, amely az alkalmazások élettartama során strukturált megközelítést használ.
+    Ez az útmutató a kifejezés rugalmasság és a kapcsolódó fogalmak ismertetésével kezdődik. Ezután ismerteti a rugalmasság elérésének egy, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig terjedő folyamatát, amely az alkalmazások élettartama során strukturált megközelítést használ.
 - [Tervezési minták felhőkhöz](../../patterns/index.md).
-Ezek a tervezési minták hasznosak fejlesztőcsapatai a szoftverminőség alappillérei alkalmazások készítése során.
+    Ezek a tervezési minták hasznosak fejlesztőcsapatai a szoftverminőség alappillérei alkalmazások készítése során.

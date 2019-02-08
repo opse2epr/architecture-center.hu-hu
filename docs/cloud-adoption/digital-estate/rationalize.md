@@ -1,20 +1,21 @@
 ---
-title: A digitális tulajdon észszerűsítése
-titleSuffix: Enterprise Cloud Adoption
-description: A legjobb módszer üzemeltetheti azokat a felhőben található digitális eszközök értékelésére szolgáló folyamat.
+title: 'CAF: A digitális tulajdon észszerűsítése'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+description: Értékelje ki a digitális eszközök segítségével meghatározhatja, hogy az hogyan legjobban üzemeltetéséhez, őket a felhőben.
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 2002b5273aed4aef2d283f23f83aa08d1d6f5c95
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 02189c9edcbfea0a55fe69a53bf610e85470a4d0
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485723"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897201"
 ---
-# <a name="enterprise-cloud-adoption-rationalize-the-digital-estate"></a>Enterprise Cloud Adoption: A digitális tulajdon észszerűsítése
+# <a name="rationalize-the-digital-estate"></a>A digitális tulajdon észszerűsítése
 
 Felhőbeli ésszerűsítés az a folyamat kiértékelése adategységeket az üzemeltető őket a felhőben a legjobb módja határozza meg. Egyszer egy [megközelítés](approach.md) meghatározása és [készlet](inventory.md) lett összesítve, felhőalapú ésszerűsítés megkezdheti. A [ésszerűsítés az 5 Rs](5-rs-of-rationalization.md) a leggyakoribb ésszerűsítés lehetőségeket ismerteti.
 
@@ -112,9 +113,9 @@ Az első számítási feladatok gyakran helyezik üzembe egy kísérleti környe
 
 ### <a name="qualitative-analysis"></a>Minőségi elemzése
 
-A felhőre való áttérés és Felhőstratégia teamss együttműködése hogyan e kis méretű számítási feladatok elemzése. Ez létrehoz egy hozhat létre és tesztelhet a minőségi elemzés során ellenőrzött lehetőséget. A kisebb népesség hoz létre a felmérési az érintett felhasználók minőségi részletes elemzés végrehajtásához, egy hét vagy még kevesebb lehetőséget. Közös minőségi elemzési tényező befolyásolja, lásd: a konkrét ésszerűsítés célhelyet a [ésszerűsítés 5 Rs](5-rs-of-rationalization.md).
+A felhőre való áttérés és Felhőstratégia teams együttműködése hogyan e kis méretű számítási feladatok elemzése. Ez létrehoz egy hozhat létre és tesztelhet a minőségi elemzés során ellenőrzött lehetőséget. A kisebb népesség hoz létre a felmérési az érintett felhasználók minőségi részletes elemzés végrehajtásához, egy hét vagy még kevesebb lehetőséget. Közös minőségi elemzési tényező befolyásolja, lásd: a konkrét ésszerűsítés célhelyet a [ésszerűsítés 5 Rs](5-rs-of-rationalization.md).
 
-### <a name="migration"></a>Áttelepítés
+### <a name="migration"></a>Migrálás
 
 Folyamatos ésszerűsítés párhuzamosan a felhőre való áttérés csapat megkezdheti a kis munkaterhelés bontsa ki a következő kulcsterületeket learning áttelepítése:
 
@@ -122,7 +123,7 @@ Folyamatos ésszerűsítés párhuzamosan a felhőre való áttérés csapat meg
 - Határozza meg, a core szolgáltatások (és az Azure megfelelőségi) megfelelően a hosszú távú stratégiai szükséges.
 - Jobban megismerheti, hogyan előfordulhat, hogy a műveletek később az átalakítás ki kell.
 - Ismerje meg bármely járó üzleti kockázatot és az üzleti szempontból tűrés az említett kockázatok.
-- Az üzleti szempontból kockázattűrése alapján cégirányítási létrehozni egy alapkonfigurációt, vagy a minimálisan életképes termék (MVP)
+- Az üzleti szempontból kockázattűrése alapján cégirányítási létrehozni egy alapkonfigurációt, vagy a termék minimális működőképes (MVP).
 
 ## <a name="release-planning"></a>Tartalomkiadás tervezése
 
@@ -154,7 +155,7 @@ Bizonyos esetekben a pénzügyi minta túl szoros a döntéshozáshoz való műk
 
 ## <a name="next-steps"></a>További lépések
 
-Egy ésszerűsítés erőfeszítés kimenete egy rangsorolt várakozó fájlok számát a kiválasztott átalakítás által érintett összes eszköz. A várakozó fájlok számát a cloud Services költségszámítási modellek alapját egyikükön készen áll.
+Egy ésszerűsítés erőfeszítés kimenete egy rangsorolt mappájában várakozó fájlok számát az összes olyan eszköz, amely a kiválasztott átalakítási érinti. A várakozó fájlok számát a cloud Services költségszámítási modellek alapját egyikükön készen áll.
 
 > [!div class="nextstepaction"]
 > [A digitális hagyatéki a költségmodellek igazítása](calculate.md)

@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, Linux
 social_image_url: /azure/architecture/example-scenario/infrastructure/media/azure-citrix-sample-diagram.png
-ms.openlocfilehash: d236ff9fb61660553c7ea512f0298663dbcc303c
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: 77093cba0e5646146ec9de68655754d9ac1e5461
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908301"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897711"
 ---
 # <a name="linux-virtual-desktops-with-citrix"></a>Linux rendszerű virtuális asztalok Citrix-szel
 
@@ -71,7 +71,7 @@ Ebben a forgatókönyvben a következő termékváltozatok használhatók:
 - [Az Azure SQL Database](/azure/sql-database/sql-database-technical-overview) egy relációs adatbázis-a-szolgáltatás (DBaaS) a Microsoft SQL Server adatbázismotor legújabb stabil verziója alapján. A Citrix-adatbázisokat üzemeltető lesz.
 - [Az ExpressRoute](/azure/expressroute/expressroute-introduction) lehetővé teszi, kiterjesztheti helyszíni hálózatait a Microsoft cloud, amelyet egy kapcsolatszolgáltató biztosít egy privát kapcsolaton keresztül.
 - [Az active Directory Domain Services szolgál a Directory Services és a felhasználó hitelesítése
-- [Az Azure globális csoportok](/azure/virtual-machines/windows/tutorial-availability-sets) biztosíthatja, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ezáltal biztosítható, hogy ha hardveres vagy szoftveres hiba fordul elő az Azure-ban, az a virtuális gépeknek csak egy részhalmazát érintse, és a teljes megoldás továbbra is elérhető és működőképes maradjon.
+- [Az Azure globális csoportok](/azure/virtual-machines/windows/tutorial-availability-sets) biztosíthatja, hogy az Azure-ban üzembe helyezett virtuális gépek egy fürtben több elkülönített hardvercsomópont között legyenek elosztva. Ezáltal biztosítható, hogy ha egy hardveres vagy szoftveres hiba az Azure-ban történik, a virtuális gépeknek csak egy részhalmazát érinti, és, hogy a teljes megoldás elérhető és működőképes maradjon.
 - [A Citrix ADC (NetScaler)](https://www.citrix.com/products/citrix-adc) van egy alkalmazáskézbesítési vezérlőként, amely végrehajtja az alkalmazásspecifikus forgalomelemzés intelligensen terjesztéséhez, optimalizálhatja és biztonságossá tétele (4. rétegbeli – 7. rétegbeli) 4-Layer-7. rétegbeli hálózati forgalmat a webes alkalmazásokhoz.
 - [A Citrix kirakat](https://www.citrix.com/products/citrix-virtual-apps-and-desktops/citrix-storefront.html) van egy vállalati alkalmazás-áruházban, amely biztonságosabbá teszi és leegyszerűsíti a telepítéseket, a modern, páratlan csaknem felhasználói környezet megvalósítása Citrix fogadó között bármilyen platformon. Kirakat megkönnyíti a többhelyes és többverziós Citrix virtuális alkalmazások és asztali környezeteit.
 - [A Citrix licenckiszolgáló](https://www.citrix.com/buy/licensing/overview.html) Citrix termékek licenceinek fogják kezelni.

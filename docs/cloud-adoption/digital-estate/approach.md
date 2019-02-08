@@ -1,20 +1,21 @@
 ---
-title: A digitális tulajdonnal kapcsolatos tervezés megközelítései
-titleSuffix: Enterprise Cloud Adoption
+title: 'CAF: A digitális tulajdonnal kapcsolatos tervezés megközelítései'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
 description: Néhány olyan módszert a digitális hagyatéki tervezési ismerteti
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.service: architecture-center
-ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 59c9e208254eaa0e8beb365718ef59d0694094f3
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 8b6c680cf477ea188cbd263ecc04389d6daaed89
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482221"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898017"
 ---
-# <a name="enterprise-cloud-adoption-approaches-to-digital-estate-planning"></a>Enterprise Cloud Adoption: A digitális tulajdonnal kapcsolatos tervezés megközelítései
+# <a name="approaches-to-digital-estate-planning"></a>A digitális tulajdonnal kapcsolatos tervezés megközelítései
 
 Digitális hagyatéki tervezési alakzatokat, a kívánt eredmények és a meglévő hagyatéki méretétől függően több is igénybe vehet. Nincsenek is számos lehetőséget a megközelítést kapcsolatban. Fontos közölheti az elvárásokat kapcsolatban a megközelítés a korai tervezési ciklusokat. Nem egyértelmű elvárások gyakran az késleltetések további Hardverleltár összegyűjtéséhez gyakorlatok társított vezethet. Ez a cikk három megközelítése elemzési vázolja fel.
 
@@ -36,7 +37,7 @@ Az eszközintelligencia-képzéstől eltérve az eszközöket, amelyek támogatj
 
 ## <a name="incremental-approach"></a>Növekményes módszer
 
-Nagy része az Enterprise Cloud Adoption keretrendszert, például növekményes megközelítés erősen ajánlott. Esetén digitális hagyatéki tervezési, amely-adatbázisnak felel meg a többfázisú folyamat a következő:
+CAF számos, hasonló egy növekményes megközelítés magas ajánlott. Esetén digitális hagyatéki tervezési, amely-adatbázisnak felel meg a többfázisú folyamat a következő:
 
 - Kezdeti költségek elemzése: Pénzügyi érvényesítésre szükség, ha egy eszköz adatvezérelt megközelítéssel, beolvasni egy kezdeti költségek kiszámítása a teljes digitális hagyatéki nincs ésszerűsítés a fent ismertetett elindításához. Ez létrehozza a legrosszabb referenciaalap.
 

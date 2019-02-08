@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 8fa15c82275f18af78d1f42ec1750ab9b28119fb
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 5c5486618adeb5f970f057ceb14cf550b1a58151
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487113"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897915"
 ---
 # <a name="build-a-real-time-recommendation-api-on-azure"></a>Valós idejű ajánlás API létrehozása az Azure-ban
 
@@ -98,7 +98,7 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
 
 2. Hozzon létre egy új fürtöt az Azure Databricksben. Az alábbi konfigurációra szükség:
 
-    - Fürt üzemmód: Szokásos
+    - Fürt üzemmód: Standard
     - Databricks futtatókörnyezet-verziója: 4.1 (tartalmazza az Apache Spark 2.3.0-át és Scala 2.11-et)
     - Python-verzió: 3
     - Illesztőprogram típusa: Standard\_DS3\_v2
@@ -161,12 +161,12 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
 [notebook]: https://github.com/Microsoft/Recommenders/notebooks/00_quick_start/als_pyspark_movielens.ipynb
 [partition-data]: /azure/cosmos-db/partition-data
 [redis]: /azure/redis-cache/cache-overview
-[regions]: https://azure.microsoft.com/en-us/global-infrastructure/services/?products=virtual-machines&regions=all
+[regions]: https://azure.microsoft.com/global-infrastructure/services/?products=virtual-machines&regions=all
 [resiliency]: /azure/architecture/resiliency/
 [ru]: /azure/cosmos-db/request-units
 [sec-docs]: /azure/security/
 [setup]: https://github.com/Microsoft/Recommenders/blob/master/SETUP.md%60
 [scale]: /azure/aks/tutorial-kubernetes-scale
-[sla]: https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_8/
+[sla]: https://azure.microsoft.com/support/legal/sla/virtual-machines/v1_8/
 [vm-size]: /azure/virtual-machines/virtual-machines-linux-change-vm-size
 [workspace]: https://docs.azuredatabricks.net/getting-started/index.html
