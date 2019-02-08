@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: f3b637d61c929e5523ea5409426f3d7a72096dfa
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: ac7ab8b8dd154999a05dc531e41b0994f66ddf10
+ms.sourcegitcommit: 700a4f6ce61b1ebe68e227fc57443e49282e35aa
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484125"
+ms.lasthandoff: 02/07/2019
+ms.locfileid: "55887403"
 ---
 # <a name="microservices-architecture-on-azure-kubernetes-service-aks"></a>A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 
@@ -360,7 +360,7 @@ Ha a build sikeres lesz, aktivál egy folyamatot egy Azure-folyamatok használat
 
 1. Futtatás `helm upgrade` környezetben való üzembe helyezéséhez a Helm-diagramot a QA.
 1. Jóváhagyó jelentkezik, mielőtt a csomagot az éles környezetbe helyezi át. Lásd: [kiadási központi telepítés ellenőrzési jóváhagyások használatával](/azure/devops/pipelines/release/approvals/approvals).
-1. A Docker-rendszerképet az Azure Container Registry a termelési névtér újra címkékkel. Például, ha az aktuális címke `myrepo.azurecr.io/delivery:v1.0.2`, az éles címke `reponame.azurecr.io/prod/delivery:v1.0.2`.
+1. A Docker-rendszerképet az Azure Container Registry a termelési névtér újra címkékkel. Például, ha az aktuális címke `myrepo.azurecr.io/delivery:v1.0.2`, az éles címke `myrepo.azurecr.io/prod/delivery:v1.0.2`.
 1. Futtatás `helm upgrade` üzembe helyezéséhez a Helm-diagram az éles környezetbe.
 
 ![CI/CD-munkafolyamat](./_images/aks-cicd-3.png)
