@@ -357,6 +357,8 @@ items:
       href: reference-architectures/ai/batch-scoring-deep-learning.md
     - name: A Python-modellek kötegelt kiértékelése
       href: reference-architectures/ai/batch-scoring-python.md
+    - name: Spark-modellek kötegelt kiértékelése az Azure Databricksben
+      href: reference-architectures/ai/batch-scoring-databricks.md
     - name: Python- és mélytanulási modellek valós idejű pontozása
       href: reference-architectures/ai/realtime-scoring-python.md
     - name: Machine Learning-modellek valós idejű pontozása
@@ -815,9 +817,9 @@ items:
           href: cloud-adoption/decision-guides/software-defined-network/hub-spoke.md
       - name: Naplók és jelentéskészítés
         href: cloud-adoption/decision-guides/log-and-report/overview.md
-ms.openlocfilehash: 608761d954c2a26968a970c99f506ee03b40867d
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 2ba7e4b0b9eb049c0492557a0543778d2fbb2518
+ms.sourcegitcommit: a68f248402c598f9d25bc1dc62f27a6a934ff001
 ms.translationtype: HT
 ms.contentlocale: hu-HU
 ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898459"
+ms.locfileid: "55903248"
