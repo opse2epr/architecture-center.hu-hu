@@ -537,7 +537,7 @@ items:
     href: checklist/resiliency-per-service.md
   - name: Méretezhetőségi ellenőrzőlisták
     href: checklist/scalability.md
-- name: A nagyvállalati felhőmegoldások bevezetése
+- name: A felhő bevezetésének keretrendszere
   items:
   - name: Bevezetés
     href: cloud-adoption/overview.md
@@ -549,14 +549,16 @@ items:
       href: cloud-adoption/getting-started/what-is-azure.md
     - name: Mi az a felhőerőforrás-szabályozás?
       href: cloud-adoption/getting-started/what-is-governance.md
-    - name: Az Azure erőforrás-hozzáférési szabályozása
+    - name: Erőforráshozzáférés-kezelés az Azure-ban
       href: cloud-adoption/getting-started/azure-resource-access.md
   - name: Üzleti indoklás
     items:
     - name: Üzleti terv létrehozása felhőbe végzett migráláshoz
       href: cloud-adoption/business-strategy/cloud-migration-business-case.md
-    - name: A pénzügyi modellek megértése
+    - name: Felhőátalakításra vonatkozó pénzügyi modell létrehozása
       href: cloud-adoption/business-strategy/financial-models.md
+    - name: Példák költségvetési eredményekre
+      href: cloud-adoption/business-strategy/business-outcomes/fiscal-outcomes.md
   - name: Digitális tulajdon
     items:
     - name: Az észszerűsítés 5 fontos eleme
@@ -569,27 +571,211 @@ items:
       href: cloud-adoption/digital-estate/inventory.md
     - name: A digitális tulajdon észszerűsítése
       href: cloud-adoption/digital-estate/rationalize.md
-    - name: Felhőköltségek előrejelzése
+    - name: Költségmodellek igazítása a költségek előrejelzéséhez
       href: cloud-adoption/digital-estate/calculate.md
   - name: Szabályozás
     items:
     - name: Áttekintés
       href: cloud-adoption/governance/overview.md
-    - name: Szabályozási terv egyetlen csapathoz
-      href: cloud-adoption/governance/governance-single-team.md
-    - name: Szabályozási terv több csapathoz
-      href: cloud-adoption/governance/governance-multiple-teams.md
+    - name: Végrehajtható szabályozási folyamatok
+      items:
+      - name: A folyamatok áttekintése
+        href: cloud-adoption/governance/journeys/overview.md
+      - name: Kis- és középvállalati folyamat
+        items:
+        - name: Ajánlott eljárás
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/overview.md
+        - name: Beszámoló
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/narrative.md
+        - name: Kezdeti vállalati szabályzat
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/initial-corporate-policy.md
+        - name: Ajánlott eljárás magyarázata
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/best-practice-explained.md
+        - name: A biztonsági alapkonfiguráció fejlődése
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/security-baseline-evolution.md
+        - name: Az erőforrás-konzisztencia fejlődése
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/resource-consistency-evolution.md
+        - name: A Cost Management fejlődése
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/cost-management-evolution.md
+        - name: Többfelhős fejlődés
+          href: cloud-adoption/governance/journeys/small-to-medium-enterprise/multi-cloud-evolution.md
+      - name: Nagyvállalati folyamat
+        items:
+        - name: Ajánlott eljárás
+          href: cloud-adoption/governance/journeys/large-enterprise/overview.md
+        - name: Beszámoló
+          href: cloud-adoption/governance/journeys/large-enterprise/narrative.md
+        - name: Kezdeti vállalati szabályzat
+          href: cloud-adoption/governance/journeys/large-enterprise/initial-corporate-policy.md
+        - name: Ajánlott eljárás magyarázata
+          href: cloud-adoption/governance/journeys/large-enterprise/best-practice-explained.md
+        - name: Az identitáskezelési alapkonfiguráció fejlődése
+          href: cloud-adoption/governance/journeys/large-enterprise/identity-baseline-evolution.md
+        - name: A biztonsági alapkonfiguráció fejlődése
+          href: cloud-adoption/governance/journeys/large-enterprise/security-baseline-evolution.md
+        - name: Az erőforrás-konzisztencia fejlődése
+          href: cloud-adoption/governance/journeys/large-enterprise/resource-consistency-evolution.md
+        - name: A Cost Management fejlődése
+          href: cloud-adoption/governance/journeys/large-enterprise/cost-management-evolution.md
+        - name: Többfelhős fejlődés
+          href: cloud-adoption/governance/journeys/large-enterprise/multi-cloud-evolution.md
+        - name: Többrétegű szabályozás
+          href: cloud-adoption/governance/journeys/large-enterprise/multiple-layers-of-governance.md
+    - name: Szabályozáselmélet
+      items:
+      - name: Felhőszabályozási stratégia implementálása
+        href: cloud-adoption/governance/corporate-policy.md
+      - name: A felhőszabályozás öt szemlélete
+        href: cloud-adoption/governance/governance-disciplines.md
+      - name: A vállalati szabályzat és megfelelőség fejlesztése
+        items:
+        - name: Hogyan készíthető elő a vállalati informatikai szabályzat a felhő használatára?
+          href: cloud-adoption/governance/policy-compliance/overview.md
+        - name: Üzleti kockázatok felmérése
+          href: cloud-adoption/governance/policy-compliance/understanding-business-risk.md
+        - name: Kockázattűrés értékelése
+          href: cloud-adoption/governance/policy-compliance/risk-tolerance.md
+        - name: Vállalati szabályzattal kapcsolatos nyilatkozatok meghatározása
+          href: cloud-adoption/governance/policy-compliance/define-policy.md
+        - name: Architektúratervezési útmutatók igazítása
+          href: cloud-adoption/governance/policy-compliance/align-governance-journeys.md
+        - name: Szabályzatbetartási folyamatok kifejlesztése
+          href: cloud-adoption/governance/policy-compliance/processes.md
+        - name: Mi az a szabályozási megfelelőség?
+          href: cloud-adoption/governance/policy-compliance/what-is-regulatory-compliance.md
+        - name: Mi az a felhőszabályzat-felülvizsgálat?
+          href: cloud-adoption/governance/policy-compliance/what-is-a-cloud-policy-review.md
+        - name: Hogyan készülhet fel az adatvédelmi felelős a felhő használatára?
+          href: cloud-adoption/governance/policy-compliance/how-can-a-ciso-prepare-for-the-cloud.md
+        - name: Mi az adatbesorolás?
+          href: cloud-adoption/governance/policy-compliance/what-is-data-classification.md
+      - name: A felhőszabályozás öt szemléletének implementálása
+        items:
+        - name: Cost Management
+          items:
+          - name: A Cost Management szemlélet áttekintése
+            href: cloud-adoption/governance/cost-management/overview.md
+          - name: A sablon letöltése
+            href: cloud-adoption/governance/cost-management/template.md
+          - name: Üzleti kockázatok felmérése
+            href: cloud-adoption/governance/cost-management/business-risks.md
+          - name: Kockázattűrési mérőszámok és mutatók
+            href: cloud-adoption/governance/cost-management/metrics-tolerance.md
+          - name: Példák szabályzatnyilatkozatokra
+            href: cloud-adoption/governance/cost-management/policy-statements.md
+          - name: A szabályzatmegfelelőség folyamatai
+            href: cloud-adoption/governance/cost-management/compliance-processes.md
+          - name: Szemléletfejlődés
+            href: cloud-adoption/governance/cost-management/discipline-improvement.md
+          - name: Azure-specifikus eszközlánc
+            href: cloud-adoption/governance/cost-management/toolchain.md
+        - name: Biztonsági alapkonfiguráció
+          items:
+          - name: A biztonsági alapkonfiguráció szemléletének áttekintése
+            href: cloud-adoption/governance/security-baseline/overview.md
+          - name: A sablon letöltése
+            href: cloud-adoption/governance/security-baseline/template.md
+          - name: Üzleti kockázatok felmérése
+            href: cloud-adoption/governance/security-baseline/business-risks.md
+          - name: Kockázattűrési mérőszámok és mutatók
+            href: cloud-adoption/governance/security-baseline/metrics-tolerance.md
+          - name: Példák szabályzatnyilatkozatokra
+            href: cloud-adoption/governance/security-baseline/policy-statements.md
+          - name: A szabályzatmegfelelőség folyamatai
+            href: cloud-adoption/governance/security-baseline/compliance-processes.md
+          - name: Szemléletfejlődés
+            href: cloud-adoption/governance/security-baseline/discipline-improvement.md
+          - name: Natív felhőbeli biztonsági alapkonfiguráció
+            href: cloud-adoption/governance/security-baseline/cloud-native-policy.md
+          - name: További biztonsági útmutatás az Azure-hoz
+            href: cloud-adoption/governance/security-baseline/azure-security-guidance.md
+          - name: Azure-specifikus eszközlánc
+            href: cloud-adoption/governance/security-baseline/toolchain.md
+        - name: Identitáskezelési alapkonfiguráció
+          items:
+          - name: Az identitáskezelési alapkonfiguráció áttekintése
+            href: cloud-adoption/governance/identity-baseline/overview.md
+          - name: A sablon letöltése
+            href: cloud-adoption/governance/identity-baseline/template.md
+          - name: Üzleti kockázatok felmérése
+            href: cloud-adoption/governance/identity-baseline/business-risks.md
+          - name: Kockázattűrési mérőszámok és mutatók
+            href: cloud-adoption/governance/identity-baseline/metrics-tolerance.md
+          - name: Példák szabályzatnyilatkozatokra
+            href: cloud-adoption/governance/identity-baseline/policy-statements.md
+          - name: A szabályzatmegfelelőség folyamatai
+            href: cloud-adoption/governance/identity-baseline/compliance-processes.md
+          - name: Szemléletfejlődés
+            href: cloud-adoption/governance/identity-baseline/discipline-improvement.md
+          - name: Azure-specifikus eszközlánc
+            href: cloud-adoption/governance/identity-baseline/toolchain.md
+        - name: Erőforrás-konzisztencia
+          items:
+          - name: Az erőforrás-konzisztencia szemléletének áttekintése
+            href: cloud-adoption/governance/resource-consistency/overview.md
+          - name: A sablon letöltése
+            href: cloud-adoption/governance/resource-consistency/template.md
+          - name: Üzleti kockázatok felmérése
+            href: cloud-adoption/governance/resource-consistency/business-risks.md
+          - name: Kockázattűrési mérőszámok és mutatók
+            href: cloud-adoption/governance/resource-consistency/metrics-tolerance.md
+          - name: Példák szabályzatnyilatkozatokra
+            href: cloud-adoption/governance/resource-consistency/policy-statements.md
+          - name: A szabályzatmegfelelőség folyamatai
+            href: cloud-adoption/governance/resource-consistency/compliance-processes.md
+          - name: Szemléletfejlődés
+            href: cloud-adoption/governance/resource-consistency/discipline-improvement.md
+          - name: Erőforráshozzáférés-kezelés
+            href: cloud-adoption/governance/resource-consistency/azure-resource-access.md
+          - name: Szabályozási terv egyszerű számítási feladathoz
+            href: cloud-adoption/governance/resource-consistency/governance-simple-workload.md
+          - name: Szabályozási terv több csapathoz
+            href: cloud-adoption/governance/resource-consistency/governance-multiple-teams.md
+          - name: Azure-specifikus eszközlánc
+            href: cloud-adoption/governance/resource-consistency/toolchain.md
+        - name: Üzembe helyezés gyorsítása
+          items:
+          - name: Az üzembehelyezés-gyorsítás szemléletének áttekintése
+            href: cloud-adoption/governance/deployment-acceleration/overview.md
+          - name: A sablon letöltése
+            href: cloud-adoption/governance/deployment-acceleration/template.md
+          - name: Üzleti kockázatok felmérése
+            href: cloud-adoption/governance/deployment-acceleration/business-risks.md
+          - name: Kockázattűrési mérőszámok és mutatók
+            href: cloud-adoption/governance/deployment-acceleration/metrics-tolerance.md
+          - name: Példák szabályzatnyilatkozatokra
+            href: cloud-adoption/governance/deployment-acceleration/policy-statements.md
+          - name: A szabályzatmegfelelőség folyamatai
+            href: cloud-adoption/governance/deployment-acceleration/compliance-processes.md
+          - name: Szemléletfejlődés
+            href: cloud-adoption/governance/deployment-acceleration/discipline-improvement.md
+          - name: Azure-specifikus eszközlánc
+            href: cloud-adoption/governance/deployment-acceleration/toolchain.md
   - name: Infrastruktúra
     items:
-    - name: Alapszintű számítási feladat üzembe helyezése
-      href: cloud-adoption/infrastructure/basic-workload.md
+    - name: Virtuális gépek
+      items:
+      - name: Alapszintű számítási feladat üzembe helyezése
+        href: cloud-adoption/infrastructure/virtual-machines/basic-workload.md
+    - name: Nagyszámítógép migrálása
+      items:
+      - name: Áttekintés
+        href: cloud-adoption/infrastructure/mainframe-migration/overview.md
+      - name: Tévhitek és tények
+        href: cloud-adoption/infrastructure/mainframe-migration/myths-and-facts.md
+      - name: Migrálási stratégiák
+        href: cloud-adoption/infrastructure/mainframe-migration/migration-strategies.md
+      - name: Alkalmazásstratégiák
+        href: cloud-adoption/infrastructure/mainframe-migration/application-strategies.md
+    - name: Hibrid felhőkonzisztencia létrehozása
+      href: cloud-adoption/infrastructure/misc/hybrid-consistency.md
   - name: Műveletek
     items:
     - name: Áttekintés
       href: cloud-adoption/operations/overview.md
     - name: Működésiállapot-áttekintés létrehozása
       href: cloud-adoption/operations/operational-fitness-review.md
-  - name: Függelék
+  - name: Referencia
     items:
     - name: Virtuális adatközpont (VDC)
       href: vdc/index.md
@@ -597,9 +783,41 @@ items:
       href: cloud-adoption/appendix/azure-scaffold.md
     - name: Azure Enterprise-szerkezet implementálása
       href: cloud-adoption/appendix/azure-scaffold-examples.md
-ms.openlocfilehash: 82543ba5afed9d4bb32f0779b332d1425d089cfe
-ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
+    - name: Útmutatók döntésekhez
+      items:
+      - name: Áttekintés
+        href: cloud-adoption/decision-guides/overview.md
+      - name: Előfizetések
+        href: cloud-adoption/decision-guides/subscriptions/overview.md
+      - name: Identitás
+        href: cloud-adoption/decision-guides/identity/overview.md
+      - name: Szabályzatbetartatás
+        href: cloud-adoption/decision-guides/policy-enforcement/overview.md
+      - name: Erőforrás-konzisztencia
+        href: cloud-adoption/decision-guides/resource-consistency/overview.md
+      - name: Erőforrás-címkézés
+        href: cloud-adoption/decision-guides/resource-tagging/overview.md
+      - name: Titkosítás
+        href: cloud-adoption/decision-guides/encryption/overview.md
+      - name: Szoftveralapú hálózatok
+        items:
+        - name: Áttekintés
+          href: cloud-adoption/decision-guides/software-defined-network/overview.md
+        - name: Csak PaaS esetén
+          href: cloud-adoption/decision-guides/software-defined-network/paas-only.md
+        - name: Natív felhőalapú
+          href: cloud-adoption/decision-guides/software-defined-network/cloud-native.md
+        - name: Felhőalapú DMZ
+          href: cloud-adoption/decision-guides/software-defined-network/cloud-dmz.md
+        - name: Hibrid
+          href: cloud-adoption/decision-guides/software-defined-network/hybrid.md
+        - name: Küllős modell
+          href: cloud-adoption/decision-guides/software-defined-network/hub-spoke.md
+      - name: Naplók és jelentéskészítés
+        href: cloud-adoption/decision-guides/log-and-report/overview.md
+ms.openlocfilehash: 608761d954c2a26968a970c99f506ee03b40867d
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/31/2019
-ms.locfileid: "55483045"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898459"
