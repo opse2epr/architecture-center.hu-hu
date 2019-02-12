@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: aa69746b59ddfff02381dd811caa9a7aa62d8b7b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 9b6bef0fd803db5b488e93d246642d4e3681a94c
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484805"
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55897762"
 ---
 # <a name="api-implementation"></a>API-implementáció
 
@@ -582,7 +582,7 @@ ServicePoint sp = ServicePointManager.FindServicePoint(uri);
 sp.Expect100Continue = false;
 ```
 
-A statikus is beállíthat `Expect100Continue` tulajdonságát a `ServicePointManager` osztály ezt követően az összes adja meg ennek a tulajdonságnak az alapértelmezett érték a létrehozott [ServicePoint](/dotnet/api/system.net.servicepoint) objektumokat.
+A statikus is beállíthat `Expect100Continue` tulajdonságát a `ServicePointManager` osztály ezt követően az összes adja meg ennek a tulajdonságnak az alapértelmezett érték a létrehozott [ServicePoint]](/dotnet/api/system.net.servicepoint) objektumokat.
 
 ### <a name="support-pagination-for-requests-that-may-return-large-numbers-of-objects"></a>Tördelés támogatása olyan kéréseknél, amelyek esetlegesen nagy számú objektumot adhatnak vissza
 
@@ -614,7 +614,7 @@ Egy ügyfélalkalmazás kiadhat olyan kérelmet, amely 30 rendelést kér le 50-
 
 ## <a name="maintaining-responsiveness-scalability-and-availability"></a>A válaszképesség, a skálázhatóság és a rendelkezésre állás fenntartása
 
-Egy adott webes API-t számos ügyfélalkalmazás használhat a világ bármely részén. Fontos, hogy a webes API úgy legyen megvalósítva, hogy válaszképes legyen nagy mértékű terhelés alatt is, hogy skálázható legyen a nagymértékben ingadozó számítási feladatok kezeléséhez, és hogy garantáltan rendelkezésre álljon az üzleti szempontból kulcsfontosságú műveleteket végző ügyfelek számára. Mindezen követelmények teljesítése érdekében vegye figyelembe a következő szempontokat:
+Egy webes API számos ügyfélalkalmazás bárhol a világon használhatják. Fontos, hogy a webes API úgy legyen megvalósítva, hogy válaszképes legyen nagy mértékű terhelés alatt is, hogy skálázható legyen a nagymértékben ingadozó számítási feladatok kezeléséhez, és hogy garantáltan rendelkezésre álljon az üzleti szempontból kulcsfontosságú műveleteket végző ügyfelek számára. Mindezen követelmények teljesítése érdekében vegye figyelembe a következő szempontokat:
 
 ### <a name="provide-asynchronous-support-for-long-running-requests"></a>A hosszan futó kérelmek aszinkron támogatásának biztosítása
 
