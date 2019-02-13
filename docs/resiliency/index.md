@@ -7,12 +7,12 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
-ms.openlocfilehash: 1cca2bd39339ba671ee8a298f2ded73d3e252c32
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 7fd0e1bd42266b5e5718be4519352d99b58c0584
+ms.sourcegitcommit: 644c2692a80e89648a80ea249fd17a3b17dc0818
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897780"
+ms.lasthandoff: 02/11/2019
+ms.locfileid: "55987155"
 ---
 # <a name="designing-resilient-applications-for-azure"></a>Rugalmas alkalmazások tervezése az Azure-hoz
 
@@ -103,7 +103,7 @@ Az Azure-ban a [szolgáltatási szerződés][sla] (SLA) ismerteti a Microsoft az
 > [!NOTE]
 > Az Azure SLA jóváírást is biztosít, ha az SLA nem valósul meg, valamint az egyes szolgáltatások „rendelkezésre állásának” adott definícióit is megadja. Az SLA ezen eleme kényszerítési házirendként működik.
 
-Saját cél SLA-kat kell meghatároznia a megoldás összes számítási feladatához. Az SLA lehetővé teszi annak kiértékelését, hogy az architektúra megfelel-e az üzleti követelményeknek. Ha például egy számítási feladat 99,99%-os üzemidőt igényel, de egy 99,9%-os SLA-val rendelkező szolgáltatásra támaszkodik, akkor a szolgáltatás nem lehet rendszerkritikus meghibásodási pont. Az egyik megoldás az, ha a szolgáltatás meghibásodása esetére rendelkezik egy tartalék elérési úttal, vagy ha más intézkedéseket tesz a szolgáltatás hibájából való helyreállításhoz.
+Saját cél SLA-kat kell meghatároznia a megoldás összes számítási feladatához. Az SLA lehetővé teszi annak kiértékelését, hogy az architektúra megfelel-e az üzleti követelményeknek. Hajtson végre egy függőségi leképezési gyakorlatot a belső és külső függőségek, például az Active Directory vagy egy külső szolgáltatás (fizetési szolgáltató, levelezési szolgáltatás stb.) azonosításához. Fordítson különös figyelmet a külső függőségekre, amelyek rendszerkritikus meghibásodási ponttá válhatnak vagy szűk keresztmetszetet eredményezhetnek egy esemény során. Ha például egy számítási feladat 99,99%-os üzemidőt igényel, de egy 99,9%-os SLA-val rendelkező szolgáltatásra támaszkodik, akkor a szolgáltatás nem lehet rendszerkritikus meghibásodási pont. Az egyik megoldás az, ha a szolgáltatás meghibásodása esetére rendelkezik egy tartalék elérési úttal, vagy ha más intézkedéseket tesz a szolgáltatás hibájából való helyreállításhoz.
 
 Az alábbi táblázat a különböző SLA-szintek lehetséges halmozott állásidejét mutatja be.
 
@@ -209,6 +209,8 @@ Ha rendelkezésreállási zónák használatát tervezi az üzemelő példányba
 
 Amikor többrégiós alkalmazásokat tervez, vegye figyelembe, hogy a régiók közötti hálózati késés magasabb, mint egy régión belül. Például, ha egy adatbázist replikál a feladatátvétel támogatása érdekében, használjon szinkron adatreplikációt a régión belül, míg aszinkron adatreplikációt a régiók között.
 
+Párosított régiók kiválasztásakor győződjön meg arról, hogy mindkét régió rendelkezik a szükséges Azure-szolgáltatásokkal. A régiónként elérhető szolgáltatásokat a [régiónként elérhető termékek](https://azure.microsoft.com/global-infrastructure/services/) listájában tekintheti meg. Szintén kulcsfontosságú a megfelelő üzembe helyezési topológia kiválasztása a vészhelyreállításhoz, különösen, ha az RPO/RTO rövid. Ahhoz, hogy a feladatátvételi régió biztosan elegendő kapacitással rendelkezzen a számítási feladatok támogatásához, válasszon aktív/passzív (teljes replika) vagy aktív/aktív topológiát. Ne feledje, hogy ezek az üzembehelyezési topológiák növelhetik az összetettséget és a költségeket, mivel az erőforrások előzetesen ki vannak építve a másodlagos régióban, és tétlenek lehetnek. További információ: [Üzembehelyezési topológiák vészhelyreállításhoz][deployment-topologies].
+
 | &nbsp; | Rendelkezésre állási csoport | Rendelkezésre állási zóna | Azure Site Recovery/párosított régió |
 |--------|------------------|-------------------|---------------|
 | Hiba hatóköre | Kiszolgálószekrény | Adatközpont | Régió |
@@ -258,7 +260,7 @@ Az alkalmazások adatforgalmának esetleges hirtelen kiugrásai túlterhelhetik 
 
 **Kritikus erőforrások elkülönítése**. Egy alrendszerben bekövetkező meghibásodás időnként kaszkádolás révén elterjedhet, az alkalmazás más részein is meghibásodásokat okozva. Ilyen akkor történhet, ha egy hiba miatt bizonyos erőforrások, mint például szálak vagy szoftvercsatornák, nem szabadulnak fel időben, ami erőforrásfogyáshoz vezet.
 
-Ennek elkerülése végett a rendszer elkülönített csoportokra particionálható, aminek eredményeképpen az egy partícióban bekövetkező hiba nem vezet a teljes rendszer leállásához. Ezt a módszert Válaszfal mintának is szokás nevezni.
+Ennek elkerülése végett a rendszer elkülönített csoportokra particionálható, aminek eredményeképpen az egy partícióban bekövetkező hiba nem vezet a teljes rendszer leállásához. Ezt a módszert [Válaszfal mintának][bulkhead-pattern] is szokás nevezni.
 
 Példák:
 
@@ -303,9 +305,9 @@ Miután egy alkalmazás éles telepítése megtörtént, a frissítések hibafor
 
 A lényeg, hogy a manuális telepítés során gyakran fordul elő hiba – emiatt ajánlott automatizált, idempotens folyamat alkalmazása, amely igény szerint futtatható, meghibásodás esetén pedig újból futtatható.
 
-- Automatizálja az Azure-erőforrások kiépítését Azure Resource Manager-sablonokkal.
-- Használja az [Azure Automation célállapot-konfigurációt][dsc] (DSC) a virtuális gépek konfigurálásához.
-- Használjon automatizált üzembehelyezési folyamatot az alkalmazáskódhoz.
+* Az Azure-erőforrások kiépítésének automatizálásához a következőket használhatja: [Terraform][terraform], [Ansible][ansible], [Chef][chef], [Puppet][puppet], [PowerShell][powershell], [CLI][cli] vagy [Azure Resource Manager-sablonok][template-deployment]
+* Használja az [Azure Automation célállapot-konfigurációt][dsc] (DSC) a virtuális gépek konfigurálásához. Linux rendszerű virtuális gépek esetében a [Cloud-init][cloud-init] használható.
+* Az alkalmazások üzembe helyezését az [Azure DevOps Services][azure-devops-services] vagy a [Jenkins][jenkins] használatával automatizálhatja.
 
 Az *infrastruktúra mint kód* és a *megváltoztathatatlan infrastruktúra* két, rugalmas üzembe helyezéshez kapcsolódó fogalom.
 
@@ -314,25 +316,24 @@ Az *infrastruktúra mint kód* és a *megváltoztathatatlan infrastruktúra* ké
 
 Kérdéses lehet még az alkalmazásfrissítések bevezetésének mikéntje. Ajánlott a kék-zöld üzembe helyezés vagy a tesztcsoportos kiadások használata; mindkét módszer a frissítések szigorúan ellenőrzött bevezetését alkalmazza az esetleges rossz üzembe helyezés hatásainak minimalizálása céljából.
 
-- [A kék-zöld üzembe helyezés][blue-green] módszere esetében a rendszer az élő alkalmazástól elkülönített éles környezetben helyezi üzembe a frissítést. Az üzemelő példány ellenőrzése után irányítsa át a forgalmat a frissített verzióhoz. Ez például az Azure App Service Web Appsban előkészítési pontok használatával lehetséges.
+- [A kék-zöld üzembe helyezés][blue-green] módszere esetében a rendszer az élő alkalmazástól elkülönített éles környezetben helyezi üzembe a frissítést. Az üzemelő példány ellenőrzése után irányítsa át a forgalmat a frissített verzióhoz. Ez például az Azure App Service Web Appsben [előkészítési pontok][staging-slots] használatával lehetséges.
 - [A tesztcsoportos kiadások][canary-release] a kék-zöld üzembe helyezéshez hasonlóan működnek. A teljes forgalom frissített verzióhoz való átirányítása helyett csak a felhasználók egy kis csoportja számára kell bevezetni a frissítést, a forgalom egy részét irányítva át az új üzemelő példányhoz. Ha probléma merül fel, váltson vissza a régi üzemelő példányra. Ellenkező esetben fokozatosan irányítsa át a forgalom többi részét az új verzióhoz, amíg az adatforgalom 100%-a át nem kerül.
 
-Bármelyik módszert is választja, biztosítsa a legutóbbi biztosan jól működő üzemelő példányhoz való visszatérés lehetőségét arra az esetre, ha az új verzió nem működne. Továbbá ha hiba lép fel, az alkalmazásnaplóknak jelezniük kell, melyik verzió okozta a hibát.
+Bármelyik módszert is választja, biztosítsa a legutóbbi biztosan jól működő üzemelő példányhoz való visszatérés lehetőségét arra az esetre, ha az új verzió nem működne. Dolgozzon ki egy stratégiát az adatbázisok és más függő szolgáltatások módosításainak visszaállítására is. Hiba esetén az alkalmazásnaplóknak jelezniük kell, melyik verzió okozta a hibát.
 
 ## <a name="monitor-to-detect-failures"></a>Monitorozás a hibák észlelése érdekében
+A megfigyelés kulcsfontosságú a rugalmasság szempontjából. Ha hiba lép fel, tudnia kell róla, hogy hiba történt, és a hiba kiváltó okairól szóló információkra is szüksége van. 
 
-A megfigyelés és a diagnosztika létfontosságú a rugalmasság szempontjából. Ha hiba lép fel, tudnia kell róla, hogy hiba történt, és a hiba kiváltó okairól szóló információkra is szüksége van.
+A kiterjedt, elosztott rendszerek megfigyelése meglehetősen nehéz. Vegyünk például egy néhány tucat virtuális gépen futó alkalmazást – nem célszerű minden egyes virtuális gépre bejelentkezni, és egyenként végignézni a naplófájlokat a hiba elhárítása céljából. Valószínű, hogy a virtuálisgép-példányok száma sem statikus, mivel az alkalmazás skálázása során nőhet vagy csökkenhet, időnként pedig egy-egy példány meghibásodhat, és az újbóli kiépítésére lehet szükség. Ezen felül a felhőalkalmazások általában több adattárral (Azure Storage, SQL Database, Cosmos DB, Redis Cache) dolgoznak, és egyetlen felhasználói művelet több alrendszerre is kiterjedhet. 
 
-A kiterjedt, elosztott rendszerek megfigyelése meglehetősen nehéz. Vegyünk például egy néhány tucat virtuális gépen futó alkalmazást – nem célszerű minden egyes virtuális gépre bejelentkezni, és egyenként végignézni a naplófájlokat a hiba elhárítása céljából. Valószínű, hogy a virtuális gépek példányszáma sem statikus. A virtuális gépek száma nőhet vagy csökkenhet az alkalmazás skálázása során, időnként pedig meghibásodhat egy-egy példány, és az újbóli kiépítésére lehet szükség. Ezen felül a felhőalkalmazások általában több adattárral (Azure Storage, SQL Database, Cosmos DB, Redis Cache) dolgoznak, és egyetlen felhasználói művelet több alrendszerre is kiterjedhet.
-
-A megfigyelés és diagnosztika folyamata több különálló szakaszból áll:
+A megfigyelés folyamatra tekinthet egy számos, különálló szakaszból álló folyamatként:
 
 ![Összetett SLA](./images/monitoring.png)
 
-- **Rendszerállapot**. A megfigyeléshez és diagnosztikához szükséges nyers adatok különböző forrásokból származhatnak, beleértve az alkalmazásnaplókat, webkiszolgáló-naplókat, az operációs rendszer teljesítményszámlálóit, adatbázisnaplókat és az Azure-platformba beépített diagnosztikákat. A legtöbb Azure-szolgáltatás rendelkezik diagnosztikai funkcióval, amely a problémák okainak feltárására használható.
-- **Gyűjtés és tárolás**. A nyers rendszerállapot-megfigyelési adatokat különböző helyeken és formátumokban tárolhatja a rendszer (pl.: alkalmazáskövetési naplók, IIS-naplók, teljesítményszámlálók). E különálló forrásokat össze kell gyűjteni, összesíteni kell, és megbízható tárolóban kell elhelyezni.
-- **Elemzés és diagnosztika**. Az adatok összesítése után, az elemzésük révén végezhető el a hibaelhárítás és tekinthető át az alkalmazás állapota.
-- **Megjelenítés és riasztások**. Ebben a szakaszban a telemetriaadatok olyan formában jelennek meg, amelyben a kezelő gyorsan észre tudja venni a problémákat vagy tendenciákat. Ilyenek például az irányítópultok vagy az email-riasztások.  
+* **Rendszerállapot**. A megfigyeléshez szükséges nyers adatok különböző forrásokból származhatnak, beleértve az [alkalmazásnaplókat](/azure/application-insights/app-insights-overview?toc=/azure/azure-monitor/toc.json), az [operációs rendszer teljesítményszámlálóit](/azure/azure-monitor/platform/agents-overview), az [Azure-erőforrásokat](/azure/monitoring-and-diagnostics/monitoring-supported-metrics?toc=/azure/azure-monitor/toc.json), az [Azure-előfizetéseket](/azure/service-health/service-health-overview) és az [Azure-bérlőket](/azure/active-directory/reports-monitoring/howto-integrate-activity-logs-with-log-analytics). A legtöbb Azure-szolgáltatás közzé tesz [metrikákat](/azure/azure-monitor/platform/data-collection), amelyek a problémák okainak elemzésére és feltárására használhatók.
+* **Gyűjtés és tárolás**. A nyers rendszerállapot-megfigyelési adatokat különböző helyeken és formátumokban tárolhatja a rendszer (pl.: alkalmazáskövetési naplók, IIS-naplók, teljesítményszámlálók). E különálló források az összegyűjtésüket és összesítésüket követően megbízható adattárakba (pl. Application Insights, Azure Monitor-metrikák, Service Health, tárfiókok és Log Analytics) kerülnek.
+* **Elemzés és diagnosztika**. Az adatok ezekben a különböző adattárakban történő összesítése után elemzés végezhető el rajtuk a hibaelhárítás és az alkalmazás állapotának általános áttekintése érdekében. Az Application Insights és a Log Analytics adataira [Kusto-lekérdezésekkel](/azure/log-analytics/log-analytics-queries) kereshet. Az Azure Advisor főleg a [rugalmasság](/azure/advisor/advisor-high-availability-recommendations) és az [optimalizáció](/azure/advisor/advisor-performance-recommendations) tekintetében szolgál javaslatokkal. 
+* **Megjelenítés és riasztások**. Ebben a szakaszban a telemetriaadatok olyan formában jelennek meg, amelyben a kezelő gyorsan észre tudja venni a problémákat vagy tendenciákat. Ilyenek például az irányítópultok vagy az email-riasztások. A [Azure-irányítópultok](/azure/azure-portal/azure-portal-dashboards) segítségével egy betekintést nyújtó nézetet hozhat létre a monitorozási gráfokról, amelyek származási helye az Application Insights, a Log Analytics, az Azure Monitor-metrikák és a szolgáltatások állapota. Az [Azure Monitor-riasztások](/azure/monitoring-and-diagnostics/monitoring-overview-alerts?toc=/azure/azure-monitor/toc.json) segítségével riasztásokat hozhat létre a szolgáltatás- és erőforrás-állapothoz.
 
 A megfigyelés nem ugyanaz, mint a hibaészlelés. Egy alkalmazás például észlelhet átmeneti hibát, és újból próbálkozhat, szolgáltatáskiesés nélkül. Viszont naplóznia is kell az újrapróbálkozás műveletét, ami által megfigyelhető a hiba gyakorisága, és általános képet kaphat az alkalmazás állapotáról.
 
@@ -347,19 +348,17 @@ Az alkalmazásnaplók a diagnosztikai adatok fontos forrását képezik. Ajánlo
 A megfigyeléssel és diagnosztikával kapcsolatos további információkért lásd a [megfigyelési és diagnosztikai útmutatót][monitoring-guidance] tartalmazó szakaszt.
 
 ## <a name="respond-to-failures"></a>Válasz a hibákra
-
 A korábbi szakaszok az automatizált helyreállítási stratégiákról szóltak, amelyek létfontosságúak a magas rendelkezésre állás szempontjából. Időnként azonban kézi beavatkozás szükséges.
 
-- **Riasztások**. Kísérje figyelemmel az alkalmazása olyan figyelmeztető jeleit, amelyek proaktív beavatkozást igényelhetnek. Ha például az SQL Database vagy a Cosmos DB rendszeresen szabályozza az alkalmazását, lehetséges, hogy növelnie kell az adatbázis-kapacitását, vagy optimalizálnia kell a lekérdezéseit. Ebben a példában, bár az alkalmazás képes átláthatóan kezelni a szabályozási hibákat, a telemetria riasztást küld, hogy nyomon követhesse az eseményeket.  
-- **Manuális feladatátvétel**. Egyes rendszerek nem tudják automatikusan átadni a feladataikat. Az ilyen esetekben manuális feladatátvételre van szükség. Az [Azure Site Recoveryvel][site-recovery] konfigurált Azure-beli virtuális gépeken [feladatátvételt hajthat végre][site-recovery-failover], és percek alatt helyreállíthatja a virtuális gépeit egy másik régióban.
-- **Működési készenlét tesztelése**. Ha az alkalmazás egy másodlagos régióba adja át a feladatait, akkor tesztelje a működési készenlétet, mielőtt visszaadja a feladatokat az elsődleges régióba. A teszt ellenőrzi, hogy az elsődleges régió állapota megfelelő-e, és készen áll-e a forgalom újbóli fogadására.
-- **Adatkonzisztencia-ellenőrzés**. Ha egy adattár meghibásodik, adatinkonzisztencia jelentkezhet, amikor a tároló ismét elérhetővé válik. Ez főleg akkor jellemző, ha a rendszer replikálta az adatokat.
-- **Visszaállítás biztonsági másolatból**. Ha például az SQL Database-ben regionális leállás történik, a georedundáns visszaállítással helyre tudja állítani az adatbázist a legutóbbi biztonsági másolatból.
+* **Riasztások**. Kísérje figyelemmel az alkalmazása olyan figyelmeztető jeleit, amelyek proaktív beavatkozást igényelhetnek. Ha például az SQL Database vagy a Cosmos DB rendszeresen szabályozza az alkalmazását, lehetséges, hogy növelnie kell az adatbázis-kapacitását, vagy optimalizálnia kell a lekérdezéseit. Ebben a példában, bár az alkalmazás képes átláthatóan kezelni a szabályozási hibákat, a telemetria riasztást küld, hogy nyomon követhesse az eseményeket. Érdemes riasztásokat konfigurálni az Azure-erőforrások metrikáihoz és a diagnosztikai naplókhoz a szolgáltatások korlátozásai és a kvóták határértékei kapcsán. Javasoljuk, hogy a riasztásokat a metrikákhoz állítsa be, mivel kisebb késést biztosítanak a diagnosztikai naplókhoz képest. Az Azure továbbá azonnal elérhető állapotadatokkal is tud szolgálni az [erőforrás állapotán](https://docs.microsoft.com/en-us/azure/service-health/resource-health-checks-resource-types) keresztül, amely segítheti diagnosztizálni az Azure-szolgáltatások szabályozását.    
+* **Feladatátvétel**. Konfiguráljon vészhelyreállítási stratégiát az alkalmazáshoz. A megfelelő stratégia az SLA-tól függ. Több forgatókönyv esetén elegendő egy aktív-passzív implementáció. További információ: [Üzembehelyezési topológiák vészhelyreállításhoz](./disaster-recovery-azure-applications.md#deployment-topologies-for-disaster-recovery). A legtöbb Azure-szolgáltatás lehetővé teszi a manuális és az automatikus feladatátvételt is. Például egy IaaS-alkalmazásban használja az [Azure Site Recoveryt](/azure/site-recovery/azure-to-azure-architecture) a webes és a logikai szintekhez, az adatbázis szintjéhez pedig az [SQL AlwaysOn rendelkezésre állási csoportokat](/azure/virtual-machines/windows/sql/virtual-machines-windows-portal-sql-availability-group-dr). A [Traffic Manager](https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-overview) automatizált feladatátvételt biztosít a régiók között.
+* **Működési készenlét tesztelése**. Tesztelje a működési készenlétet mind a másodlagos régióba történő feladatátvétel, mind az elsődleges régióba történő feladat-visszavétel esetében. Sok Azure-szolgáltatás támogatja a manuális feladatátvételt vagy a feladatátvételi teszteket vészhelyreállítási próbák végrehajtása céljából. Emellett bizonyos szolgáltatások leállításával vagy eltávolításával is szimulálhat leállást.
+* **Adatkonzisztencia-ellenőrzés**. Ha egy adattár meghibásodik, adatinkonzisztencia jelentkezhet, amikor a tároló ismét elérhetővé válik. Ez főleg akkor jellemző, ha a rendszer replikálta az adatokat. A régiókon átívelő replikációt biztosító Azure-szolgáltatások használatakor tekintse meg az RTO-t és az RPO-t, hogy felmérhesse, milyen mértékű adatvesztésre számíthat meghibásodás esetén. Az Azure-szolgáltatásokhoz tartozó SLA-k áttekintésével megtudhatja, hogy a régiókon átívelő feladatátvétel manuálisan is kezdeményezhető, vagy a Microsoft kezdeményezi azt. Néhány szolgáltatás esetében a Microsoft dönt a feladatátvétel végrehajtásának időpontjáról. A Microsoft előnyben részesítheti az elsődleges régió adatainak helyreállítását, ezért csak akkor végez feladatátvételt a másodlagos régióba, ha az elsődleges régióban lévő adatokat helyreállíthatatlannak ítéli. A [georedundáns tárolás](/azure/storage/common/storage-redundancy-grs) és a [Key Vault](/azure/key-vault/key-vault-disaster-recovery-guidance) például ezt a modellt követi.
+* **Visszaállítás biztonsági másolatból**. Néhány esetben a biztonsági másolatból történő visszaállítás csak egy adott régión belül lehetséges. Ez érvényes például az [Azure-beli virtuális gépek biztonsági másolataira](/azure/backup/backup-azure-vms-first-look-arm). Más Azure-szolgáltatások georeplikált biztonsági másolatokat biztosítanak, mint amilyenek a [Redis Cache georeplikái](/azure/redis-cache/cache-how-to-geo-replication). A biztonsági másolatok célja, hogy az alkalmazás egy korábbi, működő verziójának visszaállításával védelmet nyújtson az adatok véletlen törlésével vagy károsodásával szemben. Így a biztonsági másolatok bizonyos esetekben vészhelyreállítási megoldásként is szolgálhatnak, azonban ennek a fordítottja nem mindig igaz: A vészhelyreállítás nem véd a véletlen törlésekkel és az adatkárosodással szemben.  
 
-Dokumentálja és tesztelje a vészhelyreállítási tervet. Értékelje az alkalmazáshibák üzletmenetre gyakorolt hatását. A lehető legnagyobb mértékben automatizálja a folyamatot, és dokumentálja az összes manuális lépést, például a manuális feladatátvételt vagy az adatok biztonsági másolatból történő visszaállítását. A terv ellenőrzéséhez és továbbfejlesztéséhez rendszeresen tesztelje a vészhelyreállítási folyamatot.
+Dokumentálja és tesztelje a vészhelyreállítási tervet. Értékelje az alkalmazáshibák üzletmenetre gyakorolt hatását. A lehető legnagyobb mértékben automatizálja a folyamatot, és dokumentálja az összes manuális lépést, például a manuális feladatátvételt vagy az adatok biztonsági másolatból történő visszaállítását. A terv ellenőrzéséhez és továbbfejlesztéséhez rendszeresen tesztelje a vészhelyreállítási folyamatot. Állítson be riasztásokat az alkalmazás által igénybe vett Azure-szolgáltatásokhoz.
 
 ## <a name="summary"></a>Összegzés
-
 A cikk holisztikus szempontból tárgyalta a rugalmasságot, és kiemelte a felhőalapú környezet néhány egyedi kihívását. Ezek közé tartozik a felhőalapú számítógép-használat elosztott jellege, a hagyományos hardverek használata és az átmeneti hálózati hibák jelenléte.
 
 A cikk lényeges pontjai a következők:
@@ -374,12 +373,12 @@ A cikk lényeges pontjai a következők:
 
 [blue-green]: https://martinfowler.com/bliki/BlueGreenDeployment.html
 [canary-release]: https://martinfowler.com/bliki/CanaryRelease.html
-[circuit-breaker-pattern]: https://msdn.microsoft.com/library/dn589784.aspx
-[compensating-transaction-pattern]: https://msdn.microsoft.com/library/dn589804.aspx
+[circuit-breaker-pattern]: ../patterns/circuit-breaker.md
+[compensating-transaction-pattern]: ../patterns/compensating-transaction.md
 [containers]: https://en.wikipedia.org/wiki/Operating-system-level_virtualization
 [dsc]: /azure/automation/automation-dsc-overview
 [contingency-planning-guide]: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf
-[fma]: failure-mode-analysis.md
+[fma]: ./failure-mode-analysis.md
 [hystrix]: https://medium.com/netflix-techblog/introducing-hystrix-for-resilience-engineering-13531c1ab362
 [jmeter]: https://jmeter.apache.org/
 [load-leveling-pattern]: ../patterns/queue-based-load-leveling.md
@@ -394,6 +393,19 @@ A cikk lényeges pontjai a következők:
 [tm]: https://azure.microsoft.com/services/traffic-manager/
 [tm-failover]: /azure/traffic-manager/traffic-manager-monitoring
 [tm-sla]: https://azure.microsoft.com/support/legal/sla/traffic-manager
-[site-recovery]:/azure/site-recovery/azure-to-azure-quickstart/
-[site-recovery-test-failover]:/azure/site-recovery/azure-to-azure-tutorial-dr-drill/
-[site-recovery-failover]:/azure/site-recovery/azure-to-azure-tutorial-failover-failback/
+[site-recovery]: /azure/site-recovery/azure-to-azure-quickstart/
+[site-recovery-test-failover]: /azure/site-recovery/azure-to-azure-tutorial-dr-drill/
+[site-recovery-failover]: /azure/site-recovery/azure-to-azure-tutorial-failover-failback/
+[deployment-topologies]: ./disaster-recovery-azure-applications.md#deployment-topologies-for-disaster-recovery
+[bulkhead-pattern]: ../patterns/bulkhead.md
+[terraform]: /azure/virtual-machines/windows/infrastructure-automation#terraform
+[ansible]: /azure/virtual-machines/windows/infrastructure-automation#ansible
+[chef]: /azure/virtual-machines/windows/infrastructure-automation#chef
+[puppet]: /azure/virtual-machines/windows/infrastructure-automation#puppet
+[template-deployment]: /azure/azure-resource-manager/resource-group-overview#template-deployment
+[cloud-init]: /azure/virtual-machines/windows/infrastructure-automation#cloud-init
+[azure-devops-services]: /azure/virtual-machines/windows/infrastructure-automation#azure-devops-services
+[jenkins]: /azure/virtual-machines/windows/infrastructure-automation#jenkins
+[staging-slots]: /azure/app-service/deploy-staging-slots
+[powershell]: /powershell/azure/overview
+[cli]: /cli/azure
