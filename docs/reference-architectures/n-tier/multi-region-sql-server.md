@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 384634acb8690c64f75eabbfebc5f1de414f6da2
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 9fce082a0e762e25981929f6fa8685033017f3eb
+ms.sourcegitcommit: f4ed242dff8b204cfd8ebebb7778f356a19f5923
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484618"
+ms.lasthandoff: 02/13/2019
+ms.locfileid: "56224181"
 ---
 # <a name="run-an-n-tier-application-in-multiple-azure-regions-for-high-availability"></a>Futtatása egy N szintű alkalmazás több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -63,7 +63,7 @@ Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi ter�
 - A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
 - A párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához (lásd: [Szolgáltatások régiónként][services-by-region]). További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Az Azure párosított régiói][regional-pairs].
 
 ### <a name="traffic-manager-configuration"></a>A Traffic Manager konfigurációja
 
@@ -119,7 +119,7 @@ Az rendelkezésre állási csoport konfigurálása:
     ```
 
 - Hozzon létre egy [Windows Server feladatátvételi fürtszolgáltatást][wsfc] (WSFC) fürtöt, amely mindkét régióban tartalmazza SQL Server-példányokat.
-- Hozzon létre egy SQL Server Always On rendelkezésre állási csoportot, amely tartalmazza az elsődleges és a másodlagos régió SQL Server-példányait. Ennek lépéseit az [Always On rendelkezésre állási csoport kiterjesztése távoli Azure adatközpontra (PowerShell)](https://blogs.msdn.microsoft.com/sqlcat/2014/09/22/extending-alwayson-availability-group-to-remote-azure-datacenter-powershell/) című cikkben találja.
+- Hozzon létre egy SQL Server Always On rendelkezésre állási csoportot, amely tartalmazza az elsődleges és a másodlagos régió SQL Server-példányait. Ennek lépéseit az [Always On rendelkezésre állási csoport kiterjesztése távoli Azure adatközpontra (PowerShell)](https://techcommunity.microsoft.com/t5/DataCAT/Extending-AlwaysOn-Availability-Group-to-Remote-Azure-Datacenter/ba-p/305217) című cikkben találja.
 
   - Az elsődleges régiót helyezze az elsődleges régióba.
   - Helyezzen egy vagy több másodlagos replikát az elsődleges régióba. Konfigurálja azokat a szinkron véglegesítés használatára, automatikus feladatátvétellel.
@@ -163,7 +163,7 @@ Tesztelje a rendszer meghibásodásokkal szembeni rugalmasságát. Alább talál
 
 Mérje meg a helyreállítási időtartamokat, és győződjön meg róla, hogy azok megfelelnek az üzleti követelményeinek. Több hibaállapot kombinációját is tesztelje.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

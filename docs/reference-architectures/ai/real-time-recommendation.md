@@ -7,18 +7,18 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 5c5486618adeb5f970f057ceb14cf550b1a58151
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c4bfd6e92fc9c770a03a63355fc922d19ef27b7b
+ms.sourcegitcommit: f4ed242dff8b204cfd8ebebb7778f356a19f5923
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897915"
+ms.lasthandoff: 02/13/2019
+ms.locfileid: "56224164"
 ---
 # <a name="build-a-real-time-recommendation-api-on-azure"></a>Valós idejű ajánlás API létrehozása az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja egy Azure Databricks használatával javaslat modell betanítását, és helyezze üzembe, API-k az Azure Cosmos DB, az Azure Machine Learning és az Azure Kubernetes Service (AKS) használatával. Ez az architektúra is általánosítható legtöbb javaslat motor helyzetekre, termékek, filmek és hírek is.
 
-Az architektúra egy referenciaimplementációt érhető el az [GitHub](https://github.com/Microsoft/Recommenders/blob/master/notebooks/04_operationalize/als_movie_o16n.ipynb).
+Az architektúra egy referenciaimplementációt érhető el az [GitHub](https://github.com/Microsoft/Recommenders/blob/master/notebooks/05_operationalize/als_movie_o16n.ipynb).
 
 ![A gépi tanulási modell betanításához filmjánlásokat architektúrája](./_images/recommenders-architecture.png)
 
@@ -132,6 +132,10 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
 
 7. A jegyzetfüzet futtatásához használja ALS Movie Operacionalizálás API, amely az adott felhasználó számára a top-10 movie ajánlásokkal ajánlás létrehozásához szükséges erőforrások létrehozásához.
 
+## <a name="related-architectures"></a>Kapcsolódó referenciaarchitektúrák
+
+Is készítettük el egy referencia-architektúra, amely a Spark és az Azure Databricks végrehajtásához ütemezett [kötegelt pontozási folyamatokat][batch-scoring]. A referenciaarchitektúra egy új javaslatok rendszeresen létrehozásához ajánlott módszer megismeréséhez tekintse meg.
+
 <!-- links -->
 [aci]: /azure/container-instances/container-instances-overview
 [aad]: /azure/active-directory-b2c/active-directory-b2c-overview
@@ -141,6 +145,7 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
 [autoscaling]: https://docs.azuredatabricks.net/user-guide/clusters/sizing.html
 [autoscale]: https://docs.azuredatabricks.net/user-guide/clusters/sizing.html#autoscaling
 [availability]: /azure/architecture/checklist/availability
+[batch-scoring]: /azure/architecture/reference-architectures/ai/batch-scoring-databricks
 [blob]: /azure/storage/blobs/storage-blobs-introduction
 [blog]: https://blogs.technet.microsoft.com/machinelearning/2018/03/20/scaling-azure-container-service-cluster/
 [clusters]: https://docs.azuredatabricks.net/user-guide/clusters/configure.html

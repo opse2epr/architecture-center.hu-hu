@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 26d9eee8783b5185fbb7f039e6abda40dec6d4d2
-ms.sourcegitcommit: 287344b6c220bdbd8076aed7a281eb02253e15be
+ms.openlocfilehash: af56a010e90fb176b13c1110ad4000dcababe009
+ms.sourcegitcommit: f4ed242dff8b204cfd8ebebb7778f356a19f5923
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/04/2019
-ms.locfileid: "55712133"
+ms.lasthandoff: 02/13/2019
+ms.locfileid: "56224147"
 ---
 # <a name="create-a-stream-processing-pipeline-with-azure-stream-analytics"></a>Az Azure Stream Analytics egy adatfolyam-feldolgozási folyamat létrehozása
 
@@ -47,7 +47,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 Adatforrás szimulálásához, ez a referenciaarchitektúra használja a [New York City-i taxik adatait](https://uofi.app.box.com/v/NYCtaxidata/folder/2332218797) adatkészlet<sup>[[1]](#note1)</sup>. Ez az adatkészlet taxi lelassítja a New York City kapcsolatos adatokat tartalmaz egy 4 éven keresztül (2010 &ndash; 2013). Kétféle típusú rekordot tartalmaz: Adatok ledolgozni, és adatokat díjszabás. Indításáról adatok út időtartama, trip távolság és begyűjtés és dropoff helye tartalmaz. Diszkont szerepel diszkont, adózási és tipp összegeket. Mindkét rekord típusa közös mező például medallion száma, a feltörés licenc és a gyártó azonosítóját. Együttesen ezek három mezőt azonosítja egy taxi és a egy illesztőprogramot. Az adatok CSV formátumban tárolódik.
 
-[1] <span id="note1">Donovan, Brian; Munkahelyi, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
+<span id="note1">[1] </span> Donovan, Brian; Munkahelyi, Dan (2016): New York City Taxi Útadatok (2010, 2013). Egyetemi Illinois, Urbana-Champaignben. https://doi.org/10.13012/J8PN93H8
 
 <!-- markdownlint-enable MD033 -->
 
