@@ -1,20 +1,15 @@
 ---
 title: Felesleges beolvasások kizárási minta
 titleSuffix: Performance antipatterns for cloud apps
-description: Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet.
+description: 'Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet.'
 author: dragon119
 ms.date: 06/05/2017
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: c1172531b332854a6d4940c072b61cb3f6bcd7ba
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488188"
 ---
+
 # <a name="extraneous-fetching-antipattern"></a>Felesleges beolvasások kizárási minta
 
 Ha egyes üzleti műveletekhez a szükségesnél több adatot kér le, az szükségtelen I/O túlműködést eredményez, és csökkenti a válaszképességet.

@@ -1,18 +1,13 @@
 ---
 title: Big data-architektúrák
-description: ''
+description: null
 author: zoinerTejada
 ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 269a4c2b8fd0c186e1b44b6c0cfdcbfa4d37b57c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486934"
 ---
+
 # <a name="big-data-architectures"></a>Big data-architektúrák
 
 A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára. Minden cégnél eltér, hogy milyen adatmennyiségnél kezdik el a big data használatát. Ez függ a felhasználók képességeitől és a rendelkezésre álló eszközöktől is. Egyeseknél már több száz gigabájt, másoknál csak több száz terabájt esetén van rá szükség. A big data kezelésére szolgáló eszközök folyamatosan fejlődnek, de változik az is, hogy mit értünk big data alatt. A kifejezés egyre inkább a nyers adathalmazokból fejlett elemzési módszerekkel kinyerhető értéket jelenti, és nem egyszerűen sok adatot, bár az elemzést többnyire nagy adathalmazokon szokták végezni.

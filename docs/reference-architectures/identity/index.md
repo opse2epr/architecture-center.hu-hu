@@ -6,14 +6,9 @@ ms.date: 07/02/2018
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.custom: seodec18, identity
-ms.openlocfilehash: 706cb63a65ce521e72ebc41a997dc900afacaab9
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483904"
+ms.custom: 'seodec18, identity'
 ---
+
 # <a name="choose-a-solution-for-integrating-on-premises-active-directory-with-azure"></a>Válasszon egy megoldást a helyszíni Active Directory Azure-ban való integráláshoz.
 
 Ez a cikk a helyszíni Active Directory (AD) környezet Azure-hálózattal való integrálásának lehetőségeit hasonlítja össze. Mindegyik lehetőséghez elérhető egy referenciaarchitektúra.

@@ -8,13 +8,8 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 5c3062c0a17de708ada83ba81dcb111e6b1f8440
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488052"
 ---
+
 # <a name="no-caching-antipattern"></a>Nincs gyorsítótárazás – kizárási minta
 
 Ha egy számos egyidejű kérést kezelő felhőalkalmazásban ismételten beolvassa ugyanazokat az adatokat, csökkenhet a teljesítmény és a méretezhetőség.

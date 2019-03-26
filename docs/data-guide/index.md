@@ -1,19 +1,14 @@
 ---
 title: Útmutató az Azure-adatarchitektúrához
-description: ''
+description: null
 author: zoinerTejada
 ms.date: 02/12/2018
 layout: LandingPage
 ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 5fb74c6323f8dc571d827eb9a4c65a6c87d0ae36
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488001"
 ---
+
 # <a name="azure-data-architecture-guide"></a>Útmutató az Azure-adatarchitektúrához
 
 Ez az útmutató az adatközpontú megoldások a Microsoft Azure-ban történő kialakításához szolgál egy strukturált megközelítéssel. Az útmutató az ügyfélesetekből származó tapasztalatok alapján készült.

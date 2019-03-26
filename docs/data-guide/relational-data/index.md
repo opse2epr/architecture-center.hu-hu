@@ -1,18 +1,13 @@
 ---
 title: Relációs adatok
-description: ''
+description: null
 author: zoinerTejada
 ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: d68bddcb75e5c8f786a7739e85de2645a2c3d641
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484932"
 ---
+
 # <a name="traditional-relational-database-solutions"></a>Hagyományos relációsadatbázis-megoldások
 
 Relációs adatnak a relációs modell használatával modellezett adatokat nevezzük. Ebben a modellben az adatok rekordként vannak kifejezve. A *rekord* attribútum-érték párok készletét jelenti. Egy rekord például lehet a következő: (itemid = 5, orderid = 1, item = "Chair", amount = 200.00). Az ugyanazon attribútumokkal rendelkező rekordokat nevezzük *relációnak*.
