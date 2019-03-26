@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 9f14b47a9659ad0b7451d106168f4d7b5a6ab0c7
-ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
+ms.openlocfilehash: 87869d1b38d2b4a71cd5b604436e04deab993131
+ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/06/2019
-ms.locfileid: "55782081"
+ms.lasthandoff: 03/25/2019
+ms.locfileid: "58420022"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -84,6 +84,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 |Erőforráscsoport |Előfizetés |1–90 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus, aláhúzásjel, zárójel, kötőjel, időszak (kivéve a végén), és a Unicode-karaktereket, amelyek megfelelnek a következő reguláris kifejezésre dokumentált [Itt](/rest/api/resources/resourcegroups/createorupdate). |`<service short name>-<environment>-rg` |`profx-prod-rg` |
 |Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, speciális karakterek kivételével `<`, `>`, `%`, `&`, `\`, `?`, `/`. Tekintse meg a korlátozások [Itt](/azure/azure-resource-manager/resource-group-using-tags). |`"key" : "value"` |`"department" : "Central IT"` |
+|Webalkalmazás |Globális |1–60 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<app_name>-<source-slot-name>` |`contoso-staging` |
 
 ### <a name="compute"></a>Compute
 
@@ -128,6 +129,12 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
 |Container Registry | Globális |5-50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karakterek |`<service short name>registry` |`app1registry` |
+
+### <a name="service-bus"></a>Service Bus
+
+| Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
+| --- | --- | --- | --- | --- | --- | --- |
+|Service Bus-névtér | Globális |6-50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karaktereket, kötőjelet, leter; kell kezdődnie Lásd: [Itt](/rest/api/servicebus/create-namespace) részleteiről. |`<service short name>-bus` |`app1-bus` |
 
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 

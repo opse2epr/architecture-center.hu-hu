@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
-ms.openlocfilehash: 931d247f088055286a2832b886992dca8565b6a7
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 67f23ae3676d0fb95ef484fa6dcb7a8bb92e0fa2
+ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897643"
+ms.lasthandoff: 03/25/2019
+ms.locfileid: "58420005"
 ---
 # <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
 
@@ -48,7 +48,7 @@ Az alábbi javaslatok a legtöbb forgatókönyvre vonatkoznak. Kövesse ezeket a
 
 Határozza meg a [virtuális gép méretkövetelményeit][vm-windows-sizes] a hitelesítési kérelmek várt mérete alapján. Kiindulópontként használja az AD DS-t helyszínen üzemeltető gépek specifikációit, és egyeztesse őket az Azure-beli virtuális gépek méreteivel. Telepítés után monitorozza a kihasználtságot, és a virtuális gép tényleges terhelése alapján vertikálisan skálázza fel vagy le a kapacitást. További információ az AD DS-tartományvezérlők méretezéséről: [Az Active Directory Domain Services kapacitásának tervezése][capacity-planning-for-adds].
 
-Hozzon létre egy külön virtuális adatlemezt az Active Directoryhoz tartozó adatbázis, naplók és SYSVOL tárolásához. Ezeket ne ugyanazon a lemezen tárolja, amelyen az operációs rendszer van. Vegye figyelembe, hogy a virtuális géphez csatolt adatlemezek alapértelmezés szerint visszaírt gyorsítótárazást használnak. A gyorsítótárazás ezen formája azonban ütközhet az AD DS követelményeivel. Ezért az adatlemez *Host Cache Preference* (Gazdagép gyorsítótár-beállítása) beállítást állítsa *None* (Nincs) értékre. További információkért lásd: [központi telepítése Windows Server Active Directory az Azure Virtual Machinesben irányelvek][adds-data-disks].
+Hozzon létre egy külön virtuális adatlemezt az Active Directoryhoz tartozó adatbázis, naplók és SYSVOL tárolásához. Ezeket ne ugyanazon a lemezen tárolja, amelyen az operációs rendszer van. Vegye figyelembe, hogy a virtuális géphez csatolt adatlemezek alapértelmezés szerint visszaírt gyorsítótárazást használnak. A gyorsítótárazás ezen formája azonban ütközhet az AD DS követelményeivel. Ezért az adatlemez *Host Cache Preference* (Gazdagép gyorsítótár-beállítása) beállítást állítsa *None* (Nincs) értékre.
 
 Helyezzen üzembe tartományvezérlőként legalább két, AD DS-t futtató virtuális gépet, és adja hozzá őket egy [rendelkezésre állási csoporthoz][availability-set].
 
@@ -108,15 +108,15 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [GitHub-adattár](https://github.com/mspnp/identity-reference-architectures).
 
-2. Telepítés [az Azure CLI 2.0](/cli/azure/install-azure-cli?view=azure-cli-latest).
+2. Telepítse az [Azure CLI 2.0-t.](/cli/azure/install-azure-cli?view=azure-cli-latest)
 
-3. Telepítse a [Azure építőelemeiről](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomag.
+3. Telepítse [az Azure építőelemei](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomagot.
 
    ```bash
    npm install -g @mspnp/azure-building-blocks
    ```
 
-4. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
+4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból a következő módon:
 
    ```bash
    az login

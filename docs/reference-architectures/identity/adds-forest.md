@@ -11,12 +11,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
-ms.openlocfilehash: bf62544028741d500e9c4172d4ac0206c95cb919
-ms.sourcegitcommit: 40f3561cc94f721eca50d33f2d75dc974cb6f92b
+ms.openlocfilehash: 5fe966f657782b41ec1926d0fd4bb83eb7a3c0fb
+ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/29/2019
-ms.locfileid: "55147314"
+ms.lasthandoff: 03/25/2019
+ms.locfileid: "58420039"
 ---
 # <a name="create-an-active-directory-domain-services-ad-ds-resource-forest-in-azure"></a>Active Directory Domain Services- (AD DS-) erőforráserdő létrehozása az Azure-ban
 
@@ -44,10 +44,7 @@ Az architektúra a következő összetevőket tartalmazza.
 
 ## <a name="recommendations"></a>Javaslatok
 
-Az Active Directory Azure-ban való megvalósítására vonatkozó konkrét ajánlásokért tekintse meg az alábbi cikkeket:
-
-- [Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra][adds-extend-domain].
-- [Útmutató a Windows Server Active Directory szolgáltatás Azure-beli virtuális gépekre való telepítéséhez][ad-azure-guidelines].
+Konkrét javaslatokért az Active Directory implementálása az Azure-ban, tekintse meg a [kiterjesztése az Active Directory tartományi szolgáltatások (AD DS) az Azure-bA][adds-extend-domain].
 
 ### <a name="trust"></a>Bizalmi kapcsolat
 
@@ -98,15 +95,15 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [GitHub-adattár](https://github.com/mspnp/identity-reference-architectures).
 
-2. Telepítés [az Azure CLI 2.0](/cli/azure/install-azure-cli?view=azure-cli-latest).
+2. Telepítse az [Azure CLI 2.0-t.](/cli/azure/install-azure-cli?view=azure-cli-latest)
 
-3. Telepítse a [Azure építőelemeiről](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomag.
+3. Telepítse [az Azure építőelemei](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomagot.
 
    ```bash
    npm install -g @mspnp/azure-building-blocks
    ```
 
-4. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
+4. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból a következő módon:
 
    ```bash
    az login

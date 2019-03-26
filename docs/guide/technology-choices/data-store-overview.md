@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 91a551025ae697d5828fc1e398b204d2901d17f6
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: c76b28fc53f36024867838e8ac36f256b242bf4a
+ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486182"
+ms.lasthandoff: 03/25/2019
+ms.locfileid: "58419954"
 ---
 # <a name="choose-the-right-data-store"></a>A megfelelő adattároló kiválasztása
 
@@ -35,11 +35,13 @@ Egy RDBMS általában egy írásiséma-modellt támogat, amelyben az adatok stru
 
 Egy RDBMS akkor igazán hasznos, ha fontos a garantáltan erős konzisztencia, ahol minden módosítás atomi jellegű, a tranzakciók pedig mindig konzisztens állapotban tartják az adatokat. Az alapul szolgáló struktúrák horizontális felskálázása azonban a tárterület felosztásával és a több gépen végzett feldolgozással nem lehetséges. Emellett az RDBMS-ben tárolt információkat relációs struktúrába kell rendezni az alábbi normalizálási folyamat lépéseit követve. Bár a folyamat jól ismert, mégis a hatékonyság csökkenéséhez vezethet, mivel a logikai entitásokat először külön táblákban szereplő sorokra kell szétbontani, majd a lekérdezések futtatásakor az adatokat újból össze kell állítani.
 
-Kapcsolódó Azure-szolgáltatás:
+Kapcsolódó Azure-szolgáltatások:
 
 - [Azure SQL Database][sql-db]
 - [Azure Database for MySQL][mysql]
 - [Azure Database for PostgreSQL][postgres]
+- [Azure Database for MariaDB][mariadb]
+
 
 ## <a name="keyvalue-stores"></a>Kulcs/érték tárolók
 
@@ -112,6 +114,7 @@ Kapcsolódó Azure-szolgáltatások:
 
 - [SQL Data Warehouse][sql-dw]
 - [Azure Data Lake][data-lake]
+- [Azure Data Explorer](https://azure.microsoft.com/services/data-explorer/)
 
 ## <a name="search-engine-databases"></a>Keresőmotor-adatbázisok  
 
@@ -152,6 +155,7 @@ Kapcsolódó Azure-szolgáltatás: [File Storage][file-storage]
 [hbase]: /azure/hdinsight/hdinsight-hbase-overview
 [mysql]: https://azure.microsoft.com/services/mysql/
 [postgres]: https://azure.microsoft.com/services/postgresql/
+[mariadb]: https://azure.microsoft.com/services/mariadb/
 [redis-cache]: https://azure.microsoft.com/services/cache/
 [search]: https://azure.microsoft.com/services/search/
 [sql-db]: https://azure.microsoft.com/services/sql-database
