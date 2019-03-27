@@ -9,16 +9,16 @@ description: Biztonsági alapkonfiguráció fegyelem áttekintése
 author: BrianBlanchard
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 81398ff943a9a582ae3cc29d9ff7519a0d1f8e54
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 189fbd93371055f6aec63323988138f5bf90fd30
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899186"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299360"
 ---
 # <a name="caf-security-baseline-discipline-overview"></a>CAF: Biztonsági alapkonfiguráció fegyelem áttekintése
 
-Alapvető biztonsági az egyik a [öt oktatnak, felhőalapú Cégirányítási](../governance-disciplines.md) belül a [CAF Cégirányítási modell](../overview.md). Biztonsági bármely informatikai üzembe helyezés részét képező, és a felhő egyedi biztonsági aggályokat vezet be. Számos vállalat vonatkoznak rá szabályozási követelményeknek, amelyek bizalmas adatok védelmének szervezeti nagyobb prioritást egy felhőbeli átalakítás mérlegelése során. A felhőalapú környezetét az esetleges biztonsági fenyegetések azonosítása és a folyamatok és eljárások címzéshez ezek a kártevők kell lennie minden olyan informatikai biztonsági vagy internetes biztonsági csapat számára. A biztonsági alapkonfiguráció fegyelem biztosítja a műszaki követelményeknek, és biztonsági okokból egységesen érvényesek felhőalapú környezetekben, mivel ezek a követelmények részletes.
+Alapvető biztonsági az egyik a [öt oktatnak, felhőalapú Cégirányítási](../governance-disciplines.md) belül a [CAF Cégirányítási modell](../overview.md). Biztonsági bármely informatikai üzembe helyezés részét képező, és a felhő egyedi biztonsági aggályokat vezet be. Számos vállalat vonatkoznak rá szabályozási követelményeknek, amelyek bizalmas adatok védelmének szervezeti nagyobb prioritást egy felhőbeli átalakítás mérlegelése során. A felhőalapú környezetét az esetleges biztonsági fenyegetések azonosítása és a folyamatok és eljárások címzéshez ezek a kártevők kell lennie minden olyan informatikai biztonsági vagy Kiberbiztonsági csapata számára. A biztonsági alapkonfiguráció fegyelem biztosítja a műszaki követelményeknek, és biztonsági okokból egységesen érvényesek felhőalapú környezetekben, mivel ezek a követelmények részletes.
 
 > [!NOTE]
 > Biztonsági alapkonfiguráció cégirányítási nem helyettesíti a meglévő informatikai csapatok, folyamatok és eljárások, amelyek a szervezete felhőben üzembe helyezett erőforrások védelme. Ezen a területen elsődleges célja, hogy üzleti biztonsági kockázatok azonosítása és kockázatcsökkentő útmutatást nyújt az informatikai munkatársak biztonsági infrastruktúra felelős. Ki, a cégirányítási szabályzatokat és folyamatok ügyeljen arra, hogy megfelelő IT-csoportoknak bevonja a tervezési és folyamatok ellenőrzése.

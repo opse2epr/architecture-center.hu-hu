@@ -1,102 +1,187 @@
 ---
-title: Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban Kubernetes használatával
-description: Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban.
-author: MikeWasson
-ms.date: 10/23/2018
-ms.topic: guide
-ms.service: architecture-center
-ms.subservice: reference-architecture
-ms.custom: microservices
-ms.openlocfilehash: 90a6550264e5afd1fc2eda79eeff6557dc7c4163
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897727"
+title: Mikroszolgáltatások létrehozása az Azure-ban
+description: 'Mikroszolgáltatási architektúrák tervezése, létrehozása és működtetése az Azure-ban'
+ms.date: 03/07/2019
+layout: LandingPage
+ms.topic: landing-page
 ---
-# <a name="designing-building-and-operating-microservices-on-azure"></a><span data-ttu-id="6f5d2-103">Mikroszolgáltatások tervezése, létrehozása és működtetése az Azure-ban</span><span class="sxs-lookup"><span data-stu-id="6f5d2-103">Designing, building, and operating microservices on Azure</span></span>
 
-![Egy drónos szállítási szolgáltatás ábrája](./images/drone.svg)
+# <a name="building-microservices-on-azure"></a>Mikroszolgáltatások létrehozása az Azure-ban
 
-<span data-ttu-id="6f5d2-105">A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-105">Microservices have become a popular architectural style for building cloud applications that are resilient, highly scalable, independently deployable, and able to evolve quickly.</span></span> <span data-ttu-id="6f5d2-106">Azonban ahhoz, hogy ez több legyen, mint egy divatos kifejezés, a mikroszolgáltatások esetén új megközelítés szükséges az alkalmazások tervezésekor és létrehozásakor.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-106">To be more than just a buzzword, however, microservices require a different approach to designing and building applications.</span></span>
+<!-- markdownlint-disable MD033 -->
 
-<span data-ttu-id="6f5d2-107">Ezekben a cikkekben megismerjük, hogyan hozhat létre és futtathat egy mikroszolgáltatási architektúrát az Azure-ban.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-107">In this set of articles, we explore how to build and run a microservices architecture on Azure.</span></span> <span data-ttu-id="6f5d2-108">A témakörök a következők:</span><span class="sxs-lookup"><span data-stu-id="6f5d2-108">Topics include:</span></span>
+<img src="../_images/microservices.svg" style="float:left; margin-top:8px; margin-right:8px; max-width: 80px; max-height: 80px;"/>
 
-- <span data-ttu-id="6f5d2-109">Mikroszolgáltatási architektúra tervezése tartományvezérelt tervezéssel (Domain Driven Design, DDD).</span><span class="sxs-lookup"><span data-stu-id="6f5d2-109">Using Domain Driven Design (DDD) to design a microservices architecture.</span></span>
-- <span data-ttu-id="6f5d2-110">A megfelelő Azure-technológiák kiválasztása a kialakítás számítási, tárolási, üzenetküldési és egyéb elemeihez.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-110">Choosing the right Azure technologies for compute, storage, messaging, and other elements of the design.</span></span>
-- <span data-ttu-id="6f5d2-111">A mikroszolgáltatások tervezési mintáinak ismertetése.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-111">Understanding microservices design patterns.</span></span>
-- <span data-ttu-id="6f5d2-112">Rugalmasságot, méretezhetőséget és teljesítményt szem előtt tartó tervezés.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-112">Designing for resiliency, scalability, and performance.</span></span>
-- <span data-ttu-id="6f5d2-113">CI-/CD-folyamatok létrehozása.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-113">Building a CI/CD pipeline.</span></span>
+A mikroszolgáltatás egy népszerű architekturális stílus a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető alkalmazások létrehozásához. De a sikeres mikroszolgáltatási architektúrához új megközelítés szükséges az alkalmazások tervezésekor és létrehozásakor.
 
-<span data-ttu-id="6f5d2-114">Végig egy teljes körű forgatókönyvre koncentrálunk: egy drónos szállítási szolgáltatásra, amely segítségével az ügyfelek csomagok drónos felvételét és kézbesítését ütemezhetik.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-114">Throughout, we focus on an end-to-end scenario: A drone delivery service that lets customers schedule packages to be picked up and delivered via drone.</span></span> <span data-ttu-id="6f5d2-115">A referenciaimplementáció kódját a GitHubon találja.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-115">You can find the code for our reference implementation on GitHub</span></span>
+<ul  class="panelContent cardsZ">
+<li style="display: flex; flex-direction: column;">
+    <a href="./introduction.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Mik azok a mikroszolgáltatások?</h3>
+                        <p>Miben különböznek a mikroszolgáltatások a többi architektúrától, illetve mikor érdemes használni őket?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="../guide/architecture-styles/microservices.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Mikroszolgáltatási architektúrastílus</h3>
+                        <p>A mikroszolgáltatási architektúrastílus magas szintű áttekintése</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
 
-<span data-ttu-id="6f5d2-116">[![GitHub](../_images/github.png) referenciaimplementáció][drone-ri]</span><span class="sxs-lookup"><span data-stu-id="6f5d2-116">[![GitHub](../_images/github.png) Reference implementation][drone-ri]</span></span>
+## <a name="examples-of-microservices-architectures"></a>Példák mikroszolgáltatási architektúrákra
 
-<span data-ttu-id="6f5d2-117">Elsőként kezdjük az alapokkal.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-117">But first, let's start with fundamentals.</span></span> <span data-ttu-id="6f5d2-118">Mik azok a mikroszolgáltatások, és mik a mikroszolgáltatási architektúra bevezetésének előnyei?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-118">What are microservices, and what are the advantages of adopting a microservices architecture?</span></span>
+<ul  class="panelContent cardsZ">
+<li style="display: flex; flex-direction: column;">
+    <a href="../example-scenario/infrastructure/service-fabric-microservices.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>A Service Fabric használata monolitikus alkalmazások felbontásához</h3>
+                        <p>Az ASP.NET-webhelyek mikroszolgáltatásokra való felbontásának iteratív megközelítése.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="../example-scenario/data/ecommerce-order-processing.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Skálázható rendelésfeldolgozás az Azure-ban</h3>
+                        <p>Rendelésfeldolgozás mikroszolgáltatásokkal implementált funkcionális programozási modellel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
 
-<!-- markdownlint-disable MD026 -->
+## <a name="build-a-microservices-application"></a>Mikroszolgáltatás-alkalmazás készítése
 
-## <a name="why-build-microservices"></a><span data-ttu-id="6f5d2-119">Miért érdemes mikroszolgáltatásokat létrehozni?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-119">Why build microservices?</span></span>
+<ul  class="panelContent cardsZ">
+<li style="display: flex; flex-direction: column;">
+    <a href="./model/domain-analysis.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Mikroszolgáltatások modellezése tartományelemzéssel</h3>
+                        <p>A mikroszolgáltatások tervezésekor a gyakori buktatók elkerülése érdekében határozza meg a mikroszolgáltatás határait tartományelemzés segítségével.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="../reference-architectures/microservices/aks.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Az Azure Kubernetes Services (AKS) referenciaarchitektúrája</h3>
+                        <p>Ez a referenciaarchitektúra egy olyan alapvető AKS-konfigurációt mutat be, amely a legtöbb üzemelő példány kiindulópontjaként szolgálhat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="../reference-architectures/microservices/service-fabric.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Az Azure Service Fabric referenciaarchitektúrája</h3>
+                        <p>Ez a referenciaarchitektúra olyan javasolt konfigurációt mutat be, amely a legtöbb üzemelő példány kiindulópontjaként szolgálhat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./design/index.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Mikroszolgáltatási architektúra tervezése</h3>
+                        <p>Ezek a cikkek részletesen bemutatják, hogyan készíthet mikroszolgáltatás-alkalmazást az Azure Kubernetes Servicest (AKS) használó referenciaimplementáció alapján.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./design/patterns.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Tervezési minták</h3>
+                        <p>Hasznos tervezési minták mikroszolgáltatásokhoz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>
 
-<!-- markdownlint-enable MD026 -->
+## <a name="operate-microservices-in-production"></a>A mikroszolgáltatások működtetése éles környezetben
 
-<span data-ttu-id="6f5d2-120">A mikroszolgáltatási architektúrákat kisebb, független szolgáltatások alkotják.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-120">In a microservices architecture, the application is composed of small, independent services.</span></span> <span data-ttu-id="6f5d2-121">Íme néhány a mikroszolgáltatások meghatározó jellemzői közül:</span><span class="sxs-lookup"><span data-stu-id="6f5d2-121">Here are some of the defining characteristics of microservices:</span></span>
-
-- <span data-ttu-id="6f5d2-122">Mindegyik mikroszolgáltatás egyetlen üzleti képességet valósít meg.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-122">Each microservice implements a single business capability.</span></span>
-- <span data-ttu-id="6f5d2-123">A mikroszolgáltatások általában elég kis méretűek ahhoz, hogy fejlesztők egy kis csoportja alkalmas legyen a megírásukra és fenntartásukra.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-123">A microservice is small enough that a single small team of developers can write and maintain it.</span></span>
-- <span data-ttu-id="6f5d2-124">A mikroszolgáltatások külön folyamatokban futnak, jól meghatározott API-kon vagy üzenetkezelési mintákon keresztül kommunikálva.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-124">Microservices run in separate processes, communicating through well-defined APIs or messaging patterns.</span></span>
-- <span data-ttu-id="6f5d2-125">A mikroszolgáltatások nem osztoznak az adattárolókon vagy adatsémákon.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-125">Microservices do not share data stores or data schemas.</span></span> <span data-ttu-id="6f5d2-126">Mindegyik mikroszolgáltatás a saját adatainak kezeléséért felelős.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-126">Each microservice is responsible for managing its own data.</span></span>
-- <span data-ttu-id="6f5d2-127">A mikroszolgáltatások külön kódbázissal és forráskóddal rendelkeznek.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-127">Microservices have separate code bases, and do not share source code.</span></span> <span data-ttu-id="6f5d2-128">Használhatnak azonban közös segédprogramkódtárat.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-128">They may use common utility libraries, however.</span></span>
-- <span data-ttu-id="6f5d2-129">Mindegyik mikroszolgáltatás a többi szolgáltatástól függetlenül telepíthető és frissíthető.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-129">Each microservice can be deployed and updated independently of other services.</span></span>
-
-<span data-ttu-id="6f5d2-130">Megfelelő felhasználás esetén a mikroszolgáltatások számos hasznos előnyt biztosítanak:</span><span class="sxs-lookup"><span data-stu-id="6f5d2-130">Done correctly, microservices can provide a number of useful benefits:</span></span>
-
-- <span data-ttu-id="6f5d2-131">**Rugalmasság.**</span><span class="sxs-lookup"><span data-stu-id="6f5d2-131">**Agility.**</span></span> <span data-ttu-id="6f5d2-132">Mivel a mikroszolgáltatások egymástól függetlenül üzemelnek, a hibajavítások és a funkciók kiadása egyszerűbben felügyelhető.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-132">Because microservices are deployed independently, it's easier to manage bug fixes and feature releases.</span></span> <span data-ttu-id="6f5d2-133">A szolgáltatásokat a teljes alkalmazás ismételt üzembe helyezése nélkül frissítheti, illetve visszavonhat egy frissítést, ha valami probléma merül fel.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-133">You can update a service without redeploying the entire application, and roll back an update if something goes wrong.</span></span> <span data-ttu-id="6f5d2-134">Számos hagyományos alkalmazásnál, ha egy hiba merül fel az egyik részében, az megállíthatja a teljes kiadási folyamatot, amely eredményeként az új funkciók bevezetéséhez meg kell várni a hibajavítás integrálását, tesztelését és kiadását.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-134">In many traditional applications, if a bug is found in one part of the application, it can block the entire release process; as a result, new features may be held up waiting for a bug fix to be integrated, tested, and published.</span></span>
-
-- <span data-ttu-id="6f5d2-135">**Kis kód, kis csapatok.**</span><span class="sxs-lookup"><span data-stu-id="6f5d2-135">**Small code, small teams.**</span></span> <span data-ttu-id="6f5d2-136">A mikroszolgáltatásoknak elég kis méretűnek kell lenniük ahhoz, hogy egyetlen termékfejlesztő-csapat képes legyen elkészíteni, tesztelni és üzembe helyezni azokat.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-136">A microservice should be small enough that a single feature team can build, test, and deploy it.</span></span> <span data-ttu-id="6f5d2-137">A kis kódbázisok könnyebben átláthatóak.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-137">Small code bases are easier to understand.</span></span> <span data-ttu-id="6f5d2-138">A nagy, monolitikus alkalmazások esetén idővel gyakran a kódfüggőségek összekuszálódnak, ezért az új funkciók hozzáadásához a kódot számos helyen módosítani kell.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-138">In a large monolithic application, there is a tendency over time for code dependencies to become tangled, so that adding a new feature requires touching code in a lot of places.</span></span> <span data-ttu-id="6f5d2-139">Mivel nem osztoznak a kódon vagy adattárakon, a mikroszolgáltatási architektúrák minimalizálják a függőségeket, így az új funkciók hozzáadása egyszerűbben elvégezhető.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-139">By not sharing code or data stores, a microservices architecture minimizes dependencies, and that makes it easier to add new features.</span></span> <span data-ttu-id="6f5d2-140">A kis csapatméret elősegíti a nagyobb fokú rugalmasságot.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-140">Small team sizes also promote greater agility.</span></span> <span data-ttu-id="6f5d2-141">A „kétpizzás szabály” szerint egy csapatnak elég kicsinek kell lennie ahhoz, hogy két pizzával jóllakjon mindenki.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-141">The "two-pizza rule" says that a team should be small enough that two pizzas can feed the team.</span></span> <span data-ttu-id="6f5d2-142">Természetesen ez nem egy pontos metrika, és a csapat étvágyától is függ!</span><span class="sxs-lookup"><span data-stu-id="6f5d2-142">Obviously that's not an exact metric and depends on team appetites!</span></span> <span data-ttu-id="6f5d2-143">A lényeg azonban az, hogy a nagy csoportok általában kevésbé hatékonyak, mivel a kommunikáció lassabb, a vezetési költségek magasabbak és a rugalmasság csökken.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-143">But the point is that large groups tend be less productive, because communication is slower, management overhead goes up, and agility diminishes.</span></span>
-
-- <span data-ttu-id="6f5d2-144">**Technológiák vegyítése**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-144">**Mix of technologies**.</span></span> <span data-ttu-id="6f5d2-145">A csapatok kiválaszthatják a szolgáltatásukhoz legmegfelelőbb technológiát, illetve szükség szerint ezek elegyét.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-145">Teams can pick the technology that best fits their service, using a mix of technology stacks as appropriate.</span></span>
-
-- <span data-ttu-id="6f5d2-146">**Rugalmasság**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-146">**Resiliency**.</span></span> <span data-ttu-id="6f5d2-147">Ha egy adott mikroszolgáltatás elérhetetlenné válik, az nem zavarja meg a teljes alkalmazást, amennyiben a fölérendelt mikroszolgáltatások úgy vannak megtervezve, hogy megfelelően kezeljék a hibákat (például áramköri megszakítás bevezetésével).</span><span class="sxs-lookup"><span data-stu-id="6f5d2-147">If an individual microservice becomes unavailable, it won't disrupt the entire application, as long as any upstream microservices are designed to handle faults correctly (for example, by implementing circuit breaking).</span></span>
-
-- <span data-ttu-id="6f5d2-148">**Méretezhetőség**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-148">**Scalability**.</span></span> <span data-ttu-id="6f5d2-149">A mikroszolgáltatási architektúra lehetővé teszi, hogy az összes mikroszolgáltatást egymástól függetlenül méretezhesse.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-149">A microservices architecture allows each microservice to be scaled independently of the others.</span></span> <span data-ttu-id="6f5d2-150">Így horizontálisan felskálázhatja a több erőforrást igénylő alrendszereket anélkül, hogy a teljes alkalmazást méreteznie kellene.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-150">That lets you scale out subsystems that require more resources, without scaling out the entire application.</span></span> <span data-ttu-id="6f5d2-151">Ha tárolókon belül helyez üzembe szolgáltatásokat, a mikroszolgáltatásokat nagyobb sűrűségben helyezheti egyetlen gazdagépre, így hatékonyabban használhatja fel az erőforrásokat.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-151">If you deploy services inside containers, you can also pack a higher density of microservices onto a single host, which allows for more efficient utilization of resources.</span></span>
-
-- <span data-ttu-id="6f5d2-152">**Adatelkülönítés**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-152">**Data isolation**.</span></span> <span data-ttu-id="6f5d2-153">A sémafrissítések végrehajtása sokkal egyszerűbb, mivel csak egyetlen mikroszolgáltatást érintenek.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-153">It is much easier to perform schema updates, because only a single microservice is affected.</span></span> <span data-ttu-id="6f5d2-154">A monolitikus alkalmazásokban a sémafrissítések nagy nehézséget jelenthetnek, mivel az alkalmazás különböző részei ugyanazokat az adatokat használhatják, kockázatossá téve ezzel a séma módosítását.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-154">In a monolithic application, schema updates can become very challenging, because different parts of the application may all touch the same data, making any alterations to the schema risky.</span></span>
-
-## <a name="no-free-lunch"></a><span data-ttu-id="6f5d2-155">Nincs ingyenebéd</span><span class="sxs-lookup"><span data-stu-id="6f5d2-155">No free lunch</span></span>
-
-<span data-ttu-id="6f5d2-156">Ezeket az előnyöket nem adják ingyen.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-156">These benefits don't come for free.</span></span> <span data-ttu-id="6f5d2-157">Ennek a cikksorozatnak a célja, hogy segítsen megoldani a rugalmas, méretezhető és felügyelhető mikroszolgáltatások fejlesztésének kihívásait.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-157">This series of articles is designed to address some of the challenges of building microservices that are resilient, scalable, and manageable.</span></span>
-
-- <span data-ttu-id="6f5d2-158">**Szolgáltatáshatárok**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-158">**Service boundaries**.</span></span> <span data-ttu-id="6f5d2-159">Amikor mikroszolgáltatásokat fejleszt, alaposan meg kell fontolnia, hol húzza meg a határokat a szolgáltatások között.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-159">When you build microservices, you need to think carefully about where to draw the boundaries between services.</span></span> <span data-ttu-id="6f5d2-160">Miután a szolgáltatásokat létrehozta és éles környezetben üzembe helyezte, a határok újratervezése nehézkes lehet.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-160">Once services are built and deployed in production, it can be hard to refactor across those boundaries.</span></span> <span data-ttu-id="6f5d2-161">A megfelelő szolgáltatáshatárok kiválasztása az egyik legnagyobb kihívás a mikroszolgáltatási architektúrák tervezésekor.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-161">Choosing the right service boundaries is one of the biggest challenges when designing a microservices architecture.</span></span> <span data-ttu-id="6f5d2-162">Mekkorák legyenek az egyes szolgáltatások?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-162">How big should each service be?</span></span> <span data-ttu-id="6f5d2-163">Mikor érdemes a funkciókat több szolgáltatás között megosztani, és mikor érdemes egy szolgáltatáson belül tartani?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-163">When should functionality be factored across several services, and when should it be kept inside the same service?</span></span> <span data-ttu-id="6f5d2-164">Ebben az útmutatóban ismertetünk egy megközelítést, amely tartományvezérelt tervezéssel állapítja meg a szolgáltatások határait.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-164">In this guide, we describe an approach that uses domain-driven design to find service boundaries.</span></span> <span data-ttu-id="6f5d2-165">Először [tartományelemzéssel](./domain-analysis.md) azonosítjuk a kapcsolódó kontextusokat, majd [taktikai DDD-minták](./microservice-boundaries.md) készletét alkalmazzuk a funkcionális és nem funkcionális követelmények alapján.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-165">It starts with [Domain analysis](./domain-analysis.md) to find the bounded contexts, then applies a set of [tactical DDD patterns](./microservice-boundaries.md) based on functional and non-functional requirements.</span></span>
-
-- <span data-ttu-id="6f5d2-166">**Adatkonzisztencia és -integritás**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-166">**Data consistency and integrity**.</span></span> <span data-ttu-id="6f5d2-167">A mikroszolgáltatások egyik alapelve, hogy mindegyik szolgáltatás a saját adatait felügyeli.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-167">A basic principle of microservices is that each service manages its own data.</span></span> <span data-ttu-id="6f5d2-168">Így a szolgáltatások különállók maradnak, azonban kihívásokkal szembesülhet az adatintegritás vagy a redundancia terén.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-168">This keeps services decoupled, but can lead to challenges with data integrity or redundancy.</span></span> <span data-ttu-id="6f5d2-169">Ezeket a problémákat az [adatkezelési szempontokkal](./data-considerations.md) foglalkozó témakörben tárgyaljuk.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-169">We explore some of these issues in the [Data considerations](./data-considerations.md).</span></span>
-
-- <span data-ttu-id="6f5d2-170">**Hálózati torlódás és késleltetés**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-170">**Network congestion and latency**.</span></span> <span data-ttu-id="6f5d2-171">A sok kis részletes szolgáltatás használata több szolgáltatások közötti kommunikációt és hosszabb végpontok közötti késleltetést eredményezhet.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-171">The use of many small, granular services can result in more interservice communication and longer end-to-end latency.</span></span> <span data-ttu-id="6f5d2-172">A [szolgáltatások közötti kommunikációt](./interservice-communication.md) bemutató fejezet ismerteti a szolgáltatások közötti üzenetküldés megfontolandó szempontjait.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-172">The chapter [Interservice communication](./interservice-communication.md) describes considerations for messaging between services.</span></span> <span data-ttu-id="6f5d2-173">A szinkron és aszinkron kommunikációnak is van helye a mikroszolgáltatási architektúrákban.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-173">Both synchronous and asynchronous communication have a place in microservices architectures.</span></span> <span data-ttu-id="6f5d2-174">Fontos a jó [API-tervezés](./api-design.md), hogy a szolgáltatások lazán összekapcsolva maradjanak, valamint egymástól függetlenül üzembe helyezhetők és frissíthetők legyenek.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-174">Good [API design](./api-design.md) is important so that services remain loosely coupled, and can be independently deployed and updated.</span></span>
-
-- <span data-ttu-id="6f5d2-175">**Összetettség**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-175">**Complexity**.</span></span> <span data-ttu-id="6f5d2-176">A mikroszolgáltatás-alkalmazások több mozgó részből állnak.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-176">A microservices application has more moving parts.</span></span> <span data-ttu-id="6f5d2-177">Habár az egyes szolgáltatások egyszerűek lehetnek, együttműködésük elengedhetetlen.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-177">Each service may be simple, but the services have to work together as a whole.</span></span> <span data-ttu-id="6f5d2-178">Egyetlen felhasználói művelet több szolgáltatást is igénybe vehet.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-178">A single user operation may involve multiple services.</span></span> <span data-ttu-id="6f5d2-179">Az [adatfeldolgozást és a munkafolyamatokat](./ingestion-workflow.md) ismertető fejezetben a kérések magasabb átviteli sebességen történő feldolgozásakor, a munkafolyamatok koordinálásakor és a hibák kezelésekor felmerülő problémákat vizsgáljuk meg.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-179">In the chapter [Ingestion and workflow](./ingestion-workflow.md), we examine some of the issues around ingesting requests at high throughput, coordinating a workflow, and handling failures.</span></span>
-
-- <span data-ttu-id="6f5d2-180">**Kommunikáció az ügyfelek és az alkalmazás között.**</span><span class="sxs-lookup"><span data-stu-id="6f5d2-180">**Communication between clients and the application.**</span></span>  <span data-ttu-id="6f5d2-181">Amikor egy alkalmazást több kis szolgáltatásra bont, hogyan kommunikálhatnak az ügyfelek ezekkel a szolgáltatásokkal?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-181">When you decompose an application into many small services, how should clients communicate with those services?</span></span> <span data-ttu-id="6f5d2-182">Minden egyes szolgáltatást közvetlenül meg kell hívni, vagy a kérések egy [API-átjárón](./gateway.md) keresztül legyenek átirányítva?</span><span class="sxs-lookup"><span data-stu-id="6f5d2-182">Should a client call each individual service directly, or route requests through an [API Gateway](./gateway.md)?</span></span>
-
-- <span data-ttu-id="6f5d2-183">**Figyelés**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-183">**Monitoring**.</span></span> <span data-ttu-id="6f5d2-184">Az elosztott alkalmazások figyelése sokkal nehezebb lehet, mint a monolitikus alkalmazásoké, mivel több szolgáltatás telemetriaadatait kell korrelálni.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-184">Monitoring a distributed application can be a lot harder than a monolithic application, because you must correlate telemetry from multiple services.</span></span> <span data-ttu-id="6f5d2-185">A [naplózást és figyelést](./logging-monitoring.md) ismertető fejezet megoldásokat kínál ezekre a problémákra.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-185">The chapter [Logging and monitoring](./logging-monitoring.md) addresses these concerns.</span></span>
-
-- <span data-ttu-id="6f5d2-186">**Folyamatos integráció és teljesítés (CI/CD)**.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-186">**Continuous integration and delivery (CI/CD)**.</span></span> <span data-ttu-id="6f5d2-187">A mikroszolgáltatások egyik fő célja a rugalmasság.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-187">One of the main goals of microservices is agility.</span></span> <span data-ttu-id="6f5d2-188">Ennek érdekében automatizált és robusztus [CI-re/CD-re](./ci-cd.md) van szüksége, hogy gyorsan és megbízhatóan tudjon egyes szolgáltatásokat tesztelési és éles környezetben üzembe helyezni.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-188">To achieve this, you must have automated and robust [CI/CD](./ci-cd.md), so that you can quickly and reliably deploy individual services into test and production environments.</span></span>
-
-## <a name="the-drone-delivery-application"></a><span data-ttu-id="6f5d2-189">A Drone Delivery alkalmazás</span><span class="sxs-lookup"><span data-stu-id="6f5d2-189">The Drone Delivery application</span></span>
-
-<span data-ttu-id="6f5d2-190">Annak érdekében, hogy körüljárjuk ezeket a problémákat és illusztráljuk a mikroszolgáltatási architektúrák néhány ajánlott eljárását, létrehoztunk egy referenciaimplementációt, a Drone Delivery alkalmazást.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-190">To explore these issues, and to illustrate some of the best practices for a microservices architecture, we created a reference implementation that we call the Drone Delivery application.</span></span> <span data-ttu-id="6f5d2-191">A referenciaimplementációt a [GitHubon][drone-ri] találja meg.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-191">You can find the reference implementation on [GitHub][drone-ri].</span></span>
-
-<span data-ttu-id="6f5d2-192">A Fabrikam vállalat egy drónos szállítási szolgáltatást indít.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-192">Fabrikam, Inc. is starting a drone delivery service.</span></span> <span data-ttu-id="6f5d2-193">A cég egy drónokból álló flottát kezel.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-193">The company manages a fleet of drone aircraft.</span></span> <span data-ttu-id="6f5d2-194">A vállalkozások regisztrálnak a szolgáltatásban, és a felhasználók kérhetik egy termék drónos kézbesítését.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-194">Businesses register with the service, and users can request a drone to pick up goods for delivery.</span></span> <span data-ttu-id="6f5d2-195">Amikor az ügyfél ütemezi a felvételt, egy háttérrendszer hozzárendel egy drónt, és értesíti a felhasználót a várható szállítási időről.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-195">When a customer schedules a pickup, a backend system assigns a drone and notifies the user with an estimated delivery time.</span></span> <span data-ttu-id="6f5d2-196">Amíg a kézbesítés folyamatban van, az ügyfél nyomon követheti a drón helyét, miközben a becsült érkezési időpont folyamatosan frissül.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-196">While the delivery is in progress, the customer can track the location of the drone, with a continuously updated ETA.</span></span>
-
-<span data-ttu-id="6f5d2-197">Ez a forgatókönyv egy viszonylag összetett tartományt foglal magába.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-197">This scenario involves a fairly complicated domain.</span></span> <span data-ttu-id="6f5d2-198">A vállalat számára problémát jelenthet a drónok ütemezése, a csomagok nyomon követése, a felhasználói fiókok felügyelete, valamint az előzményadatok tárolása és elemzése.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-198">Some of the business concerns include scheduling drones, tracking packages, managing user accounts, and storing and analyzing historical data.</span></span> <span data-ttu-id="6f5d2-199">Ezenkívül a Fabrikam gyorsan piacra szeretne lépni, majd gyors iterációkat kíván végezni, új funkciók és képességek hozzáadásával.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-199">Moreover, Fabrikam wants to get to market quickly and then iterate quickly, adding new functionality and capabilities.</span></span> <span data-ttu-id="6f5d2-200">Az alkalmazásnak felhőszinten kell üzemelnie, magas szolgáltatási szintű célkitűzéssel (service level objective, SLO).</span><span class="sxs-lookup"><span data-stu-id="6f5d2-200">The application needs to operate at cloud scale, with a high service level objective (SLO).</span></span> <span data-ttu-id="6f5d2-201">A Fabrikam emellett arra számít, hogy a rendszer különböző részeinek nagyon eltérő adattárolási és lekérdezési igényei lesznek.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-201">Fabrikam also expects that different parts of the system will have very different requirements for data storage and querying.</span></span> <span data-ttu-id="6f5d2-202">A megfontolandó szempontok alapján a Fabrikam azt a döntést hozta, hogy egy mikroszolgáltatási architektúrát választ a Drone Delivery alkalmazáshoz.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-202">All of these considerations lead Fabrikam to choose a microservices architecture for the Drone Delivery application.</span></span>
-
-> [!NOTE]
-> <span data-ttu-id="6f5d2-203">Amennyiben segítségre van szüksége a mikroszolgáltatási architektúra és egyéb architekturális stílusok közötti választáshoz, tekintse meg az [Azure-alkalmazásarchitektúrákhoz készült útmutatót](../guide/index.md).</span><span class="sxs-lookup"><span data-stu-id="6f5d2-203">For help in choosing between a microservices architecture and other architectural styles, see the [Azure Application Architecture Guide](../guide/index.md).</span></span>
-
-<span data-ttu-id="6f5d2-204">A referenciaimplementáció Kubernetest és [Azure Kubernetes Service-t](/azure/aks/) (AKS) használ.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-204">Our reference implementation uses Kubernetes with [Azure Kubernetes Service](/azure/aks/) (AKS).</span></span> <span data-ttu-id="6f5d2-205">A magas szintű architekturális döntések és kihívások azonban minden tárolóvezénylőre érvényesek, beleértve az [Azure Service Fabricet](/azure/service-fabric/) is.</span><span class="sxs-lookup"><span data-stu-id="6f5d2-205">However, many of the high-level architectural decisions and challenges will apply to any container orchestrator, including [Azure Service Fabric](/azure/service-fabric/).</span></span>
-
-> [!div class="nextstepaction"]
-> [<span data-ttu-id="6f5d2-206">Tartományelemzés</span><span class="sxs-lookup"><span data-stu-id="6f5d2-206">Domain analysis</span></span>](./domain-analysis.md)
-
-<!-- links -->
-
-[drone-ri]: https://github.com/mspnp/microservices-reference-implementation
+<ul  class="panelContent cardsZ">
+<li style="display: flex; flex-direction: column;">
+    <a href="./logging-monitoring.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Naplózás és figyelés</h3>
+                        <p>A mikroszolgáltatási architektúrák elosztott jellege miatt különösen fontos a naplózás és a monitorozás.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li style="display: flex; flex-direction: column;">
+    <a href="./ci-cd.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardText">
+                        <h3>Folyamatos integráció és üzembe helyezés</h3>
+                        <p>A folyamatos integráció és teljesítés (CI/CD) kulcsfontosságú a mikroszolgáltatások sikeréhez.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+</ul>

@@ -3,13 +3,7 @@ title: Azure-referenciaarchitektúrák
 description: Referenciaarchitektúrák és implementálási útmutatók az Azure-ban végzett gyakori számítási feladatokhoz.
 layout: LandingPage
 ms.topic: landing-page
-ms.date: 02/07/2019
-ms.openlocfilehash: 44111f5f10997c7aba38414b518245c5791d1cd0
-ms.sourcegitcommit: a68f248402c598f9d25bc1dc62f27a6a934ff001
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55903231"
+ms.date: 03/07/2019
 ---
 <!-- This file is generated! -->
 <!-- See the templates in ./build/reference-architectures  -->
@@ -40,6 +34,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     <div class="cardText">
                         <h3>Mélytanulási modellek elosztott betanítása</h3>
                         <p>Mélytanulási modellek elosztott betanításának futtatása GPU-kompatibilis virtuális gépek fürtjein.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!-- Training of Python scikit-learn models -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/training-python-models.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/python-powered-h.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>A Python scikit-learn modellek betanítása</h3>
+                        <p>Scikit-learn Python-modell hiperparamétereinek hangolására vonatkozó ajánlott eljárások.</p>
                     </div>
                 </div>
             </div>
@@ -79,7 +93,7 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     </div>
                     <div class="cardText">
                         <h3>A Python-modellek kötegelt kiértékelése</h3>
-                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Batch AI használatával.</p>
+                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Machine Learning használatával.</p>
                     </div>
                 </div>
             </div>
@@ -314,7 +328,27 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     </div>
                     <div class="cardText">
                         <h3>Mikroszolgáltatások az Azure Kubernetes Service-en (AKS)</h3>
-                        <p>Ajánlott architektúra mikroszolgáltatási architektúra AKS-en való üzembe helyezéséhez.</p>
+                        <p>Ajánlott architektúra mikroszolgáltatások AKS-en való üzembe helyezéséhez.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!-- Microservices architecture on Azure Service Fabric -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./microservices/service-fabric.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/sf.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Mikroszolgáltatási architektúra az Azure Service Fabricen</h3>
+                        <p>Ajánlott architektúra a mikroszolgáltatásokhoz a Service Fabricen.</p>
                     </div>
                 </div>
             </div>
