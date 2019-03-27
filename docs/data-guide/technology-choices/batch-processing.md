@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 53f8b233b0e0c1ff83a72a04b2707caa528d6f6b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486454"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299508"
 ---
 # <a name="choosing-a-batch-processing-technology-in-azure"></a>Egy köteg feldolgozása az Azure-ban technológia kiválasztása
 
@@ -87,26 +87,26 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Azure Data Lake Analytics | Azure SQL Data Warehouse | HDInsight | Azure Databricks |
 | --- | --- | --- | --- | --- | --- |
 | A felügyelt szolgáltatás | Igen | Igen | Igen <sup>1</sup> | Igen |
-| Relációs adattároló | Igen | Igen | Nem | Nincs |
+| Relációs adattároló | Igen | Igen | Nem | Nem |
 | Díjszabási modell | Egy batch-feladat | A fürt óra | A fürt óra | Databricks-egység<sup>2</sup> + a fürt óra |
 
 [1] a kézi konfigurálás és a méretezést.
 
 [2] egy Databricks egységek (DBU) óránkénti feldolgozási egységet jelent.
 
-### <a name="capabilities"></a>Képességek
+### <a name="capabilities"></a>Funkciók
 
 | | Azure Data Lake Analytics | SQL Data Warehouse | A Spark HDInsight | HDInsight Hive-val | HDInsight Hive LLAP-val | Azure Databricks |
 | --- | --- | --- | --- | --- | --- | --- |
-| Automatikus skálázás | Nincs | Nem | Nem | Nem | Nem | Igen |
+| Automatikus skálázás | Nem | Nem | Nem | Nem | Nem | Igen |
 | Horizontális felskálázás részletessége  | Feladatonként | Fürtönként | Fürtönként | Fürtönként | Fürtönként | Fürtönként |
-| Memóriában történő gyorsítótárazás az adatok | Nincs | Igen | Igen | Nem | Igen | Igen |
+| Memóriában történő gyorsítótárazás az adatok | Nem | Igen | Igen | Nem | Igen | Igen |
 | Külső relációs áruházakból származó lekérdezése | Igen | Nem | Igen | Nem | Nem | Igen |
-| Hitelesítés  | Azure AD | SQL / Azure AD | Nincs | Azure AD<sup>1</sup> | Azure AD<sup>1</sup> | Azure AD |
-| Naplózás  | Igen | Igen | Nincs | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen |
-| Sorszintű biztonság | Nincs | Nem | Nincs | Igen <sup>1</sup> | Igen <sup>1</sup> | Nincs |
-| Támogatja a tűzfalak | Igen | Igen | Igen | Igen <sup>2</sup> | Igen <sup>2</sup> | Nincs |
-| Dinamikus adatmaszkolás | Nincs | Nem | Nincs | Igen <sup>1</sup> | Igen <sup>1</sup> | Nincs |
+| Authentication  | Azure AD | SQL / Azure AD | Nem | Azure AD<sup>1</sup> | Azure AD<sup>1</sup> | Azure AD |
+| Naplózás  | Igen | Igen | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen |
+| Sorszintű biztonság | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Nem |
+| Támogatja a tűzfalak | Igen | Igen | Igen | Igen <sup>2</sup> | Igen <sup>2</sup> | Nem |
+| Dinamikus adatmaszkolás | Nem | Nem | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Nem |
 
 <!-- markdownlint-enable MD033 -->
 

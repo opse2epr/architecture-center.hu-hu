@@ -6,13 +6,13 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 description: Útmutató a több csapat, több számítási feladatot és több környezetet az Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
-ms.date: 2/11/2019
-ms.openlocfilehash: d0f3256e1d7b752789efd709f917e4eb2e996175
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.date: 02/11/2019
+ms.openlocfilehash: a235c73ebef0fe1b6067ed25f1948446486c3ca8
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899318"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299365"
 ---
 # <a name="governance-design-for-multiple-teams"></a>Szabályozási terv több csapathoz
 
@@ -192,7 +192,7 @@ Ez azt jelenti, hogy **app2 számítási feladatok felelőse** saját alhálóza
 
 Ezután nézzük meg a különböző környezetekben és számítási feladatok több erőforrások csoportjainak egyetlen előfizetéssel. Vegye figyelembe, hogy az előző példában szereplő, az erőforrásokat az egyes környezetekhez is könnyen azonosítható, mert ugyanazt az erőforráscsoportot. Most, hogy a csoporton már nem rendelkezik, akkor erőforrás csoport elnevezési funkció támaszkodik.
 
-1. A **megosztott infrastruktúra** változatlan marad, így erőforrások továbbra is fennáll egy külön erőforráscsoportot ebben a modellben. Minden számítási feladathoz szükséges két erőforráscsoport - mindegyikéhez a **fejlesztési** és **éles** környezetekben. Az első számítási feladathoz a **előfizetés tulajdonosa** két erőforráscsoport hoz létre. Az első nevű **app1-éles-rg** és a másodikat nevű **app1-dev-rg**. Ahogy arra már korábban, ezt az elnevezési konvenciót azonosítja az erőforrásokat, mint az első számítási feladatok, a társítás **app1**, és a **fejlesztési** vagy **prod** környezetben. Ismét a *előfizetés* hozzáad a tulajdonosának **app1 számítási feladatok felelőse** az erőforráscsoportot, a **közreműködői** szerepkör.
+1. A **megosztott infrastruktúra** változatlan marad, így erőforrások továbbra is fennáll egy külön erőforráscsoportot ebben a modellben. Minden számítási feladathoz szükséges két erőforráscsoport - mindegyikéhez a **fejlesztési** és **éles** környezetekben. Az első számítási feladathoz a **előfizetés tulajdonosa** két erőforráscsoport hoz létre. Az első nevű `app1-prod-rg` és a második nevű `app1-dev-rg`. Ahogy arra már korábban, ezt az elnevezési konvenciót azonosítja az erőforrásokat, mint az első számítási feladatok, a társítás **app1**, és a **fejlesztési** vagy **prod** környezetben. Ismét a *előfizetés* hozzáad a tulajdonosának *app1 számítási feladatok* tulajdonosához, az erőforráscsoportot és a **közreműködői** szerepkör.
     ![](../../_images/governance-3-12.png)
 2. Az első példához hasonló **app1 számítási feladatok felelőse** helyez üzembe egy nevű virtuális hálózatot **app1-éles-vnet** , a **éles** környezet és a egy másik nevesített **app1-dev-vnet** , a **fejlesztési** környezetben. Ismét **app1 számítási feladatok felelőse** kérelmet küld a **hálózati műveletek** felhasználói társviszony-létesítési kapcsolat létrehozásához. Vegye figyelembe, hogy **app1 számítási feladatok felelőse** ad hozzá ugyanazt a címkét, az első példa, valamint a korlát számláló lett csökken az előfizetés fennmaradó 997 virtuális hálózatokhoz.
     ![](../../_images/governance-3-13.png)
@@ -205,10 +205,10 @@ Ezután nézzük meg a különböző környezetekben és számítási feladatok 
 
 Az eredményül kapott felügyeleti modell számos fontos különbség az első példában hasonlít:
 
-* A két számítási mindegyike el különítve, számítási feladatok és a környezetben.
-* Ez a modell, mint az első példa modell két további virtuális hálózat szükséges. Bár ez nem fontos különbség a két számítási feladatokkal, a számítási feladatok ehhez a modellhez száma elméleti korlátja: 24.
-* Erőforrások már nem az egyes környezetekhez egyetlen erőforráscsoportban vannak csoportosítva. Erőforrások csoportosítása az egyes környezetekben használt elnevezési konvencióinak ismeretét igényli.
-* A virtuális Társhálózat-kapcsolatokat mindegyike volt és által hagyja jóvá a *hálózati műveletek* felhasználói.
+- A két számítási mindegyike el különítve, számítási feladatok és a környezetben.
+- Ez a modell, mint az első példa modell két további virtuális hálózat szükséges. Bár ez nem fontos különbség a két számítási feladatokkal, a számítási feladatok ehhez a modellhez száma elméleti korlátja: 24.
+- Erőforrások már nem az egyes környezetekhez egyetlen erőforráscsoportban vannak csoportosítva. Erőforrások csoportosítása az egyes környezetekben használt elnevezési konvencióinak ismeretét igényli.
+- A virtuális Társhálózat-kapcsolatokat mindegyike volt és által hagyja jóvá a *hálózati műveletek* felhasználói.
 
 Most lássuk a resource management-modellben több előfizetést. Ebben a modellben, fog igazítása külön előfizetésre három környezeteket: egy **megosztott szolgáltatások** -előfizetéssel, **éles** előfizetését, és végül egy **fejlesztési** előfizetés. Ez a modell szempontjai a modell használatával egy előfizetéshez, hogy annak eldöntése, hogyan igazítása a számítási feladatok erőforráscsoportok kell hasonlóak. Már meg van határozva, hogy az egyes munkaterhelésekhez tartozó erőforráscsoport létrehozása eleget tesz a számítási feladatok elkülönítése követelmény, így az ebben a példában a modell en mutatjuk van.
 

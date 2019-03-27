@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Üzembe helyezés gyorsítás mintautasítások házirend
 author: alexbuckgit
-ms.openlocfilehash: 4f7d59e6653c29db03f966d1c7105524b72586fc
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 2bd134a0bff0bd159279cd463d99b2adb41a8791
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899295"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298621"
 ---
 # <a name="deployment-acceleration-sample-policy-statements"></a>Üzembe helyezés gyorsítás mintautasítások házirend
 
@@ -57,7 +57,7 @@ A cikkben említett kiindulási pontként minták segítségével házirendeket,
 
 A saját egyéni házirend-utasítások identitáskezeléshez kapcsolódó fejlesztésének megkezdéséhez töltse le a [identitásra építve sablon](template.md).
 
--K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható Cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
+-K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
 
 > [!div class="nextstepaction"]
 > [Gyakorlatban hasznosítható Cégirányítási Journey](../journeys/overview.md)
