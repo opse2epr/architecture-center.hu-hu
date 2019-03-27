@@ -7,14 +7,14 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – erőforrás-konzisztencia fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 9fc6ca015310c02338463d3c8aa53ddfc74699df
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 06d9b8c0007a40fdf0c16d6d5c6e045cab56f0c6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899202"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298529"
 ---
-# <a name="large-enterprise-resource-consistency-evolution"></a>Nagyvállalati: Erőforrás konzisztencia fejlődést szem előtt tartva
+# <a name="large-enterprise-resource-consistency-evolution"></a>Nagyvállalati: Az erőforrás-konzisztencia fejlődése
 
 Ez a cikk a narratíva haladásával erőforrás konzisztencia-ellenőrzések ad hozzá a cégirányítási MVP alapvető fontosságú alkalmazásokhoz.
 
@@ -68,7 +68,7 @@ Az alábbi eltérésekkel házirend segítségével csökkentheti a kockázatoka
 9. Cégirányítási eszközök ellenőrizni kell a címkézés kapcsolatos költségek, kritikusság, SLA-t, alkalmazások és adatok besorolása. Minden érték igazítás kell a felhő Cégirányítási csapata által kezelt előre meghatározott értékeket.
 10. Cégirányítási folyamatok naplózások üzembehelyezési ponton kell megadni, és az összes eszköz közötti összhangot rendszeres ciklusokat, tartalmaznia kell.
 11. Trendek és az azokat kihasználó támadások ellen, amelyek hatással lehetnek a magánfelhők számára meg kell vizsgálni rendszeresen a biztonsági csapat számára a felhőben használt alapvető biztonsági eszközök által.
-12. Kiadási éles környezetbe, mielőtt az összes alapvető fontosságú alkalmazások és a védett adatok hozzá kell adni a kijelölt működési figyelési megoldáshoz. A kiválasztott IT-üzemeltetési eszközök által nem felderített eszközök nem oldhatók fel éles környezetben való használatra. A megfelelő központi telepítési folyamat eszközök lesz észlelhető a későbbiekben biztosítása érdekében, hogy az eszközök felderíthető szükséges módosításokat kell bocsátani.
+12. Mielőtt éles környezetben az összes alapvető fontosságú alkalmazások és a védett adatok hozzá kell adni a kijelölt működési figyelési megoldáshoz. A kiválasztott IT-üzemeltetési eszközök által nem felderített eszközök nem oldhatók fel éles környezetben való használatra. A megfelelő központi telepítési folyamat eszközök lesz észlelhető a későbbiekben biztosítása érdekében, hogy az eszközök felderíthető szükséges módosításokat kell bocsátani.
 13. Felderítés, hogy az eszköz méretezési az lehet érvényesíteni a felügyeleti csoportok ellenőrzése, hogy az eszköz megfelel-e a teljesítményre vonatkozó követelmények.
 14. Központi telepítési eszközkészlet jóvá kell hagynia a felhő Cégirányítási csapatától folyamatos irányítás az üzembe helyezett eszközök.
 15. Üzembehelyezési szkriptek fenn kell tartani a központi tárházban elérhető-e a felhő Cégirányítási csapat rendszeres áttekintése és a naplózási.

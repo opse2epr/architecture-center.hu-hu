@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: Core szolgáltatásként az Azure áttelepítések a szoftver meghatározott hálózatok vitafórum
 author: rotycenh
 ms.openlocfilehash: d164ba488552715dc97719329ae9de3fcf5d83ed
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899342"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298789"
 ---
 # <a name="caf-software-defined-network-decision-guide"></a>CAF: Szoftver szoftveralapú hálózati döntési útmutató
 
@@ -40,7 +40,7 @@ Számos módon végrehajtja a szoftveralapú Hálózatkezelési technológiákat
 
 Melyik virtuális hálózati architektúrát vagy architektúrák tervezésekor a felhőbe való migrálást kombinációját megtervezésekor vegye figyelembe a következő kérdéseket, annak meghatározásához, hogy a szervezete szükségleteinek:
 
-| Kérdés | PaaS Only | Felhőre tervezett | Szegélyhálózat (DMZ) felhő | Hibrid | Küllős topológiájú |
+| Kérdés | Csak PaaS esetén | Natív felhőalapú | Felhőalapú DMZ | Hibrid | Küllős topológiájú |
 |-----|-----|-----|-----|-----|-----|
 | Lesz a számítási feladat csak a PaaS-szolgáltatások használata és hálózati képességek a szolgáltatások által biztosított ismertetettek igényel? | Igen | Nem | Nem | Nem | Nem |
 | Nem a számítási feladatok helyszíni alkalmazásokkal való integrációra van szükség? | Nem | Nem | Igen | Igen | Igen |

@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, serverless
-ms.openlocfilehash: 60af3df5bbb75d97d6ba797874c8b37319b2fad5
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 0307ff6045e4e4b55c9d4530d9888db9209ba631
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487389"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299237"
 ---
 # <a name="serverless-web-application-on-azure"></a>Kiszolgáló nélküli webalkalmazás az Azure-ban
 
@@ -59,7 +59,7 @@ Az API Management is használható például általános megfontolások megvaló
 
 Ha már nincs szüksége az összes az API Management által biztosított funkciókat, egy másik lehetőség, hogy használja [Functions-proxyk][functions-proxy]. Ez a funkció az Azure Functions lehetővé teszi, hogy egyetlen API-felületet több függvényalkalmazásra háttér-funkciók útvonalak létrehozásával meghatározhatja. Függvényproxykat korlátozott átalakításokat is elvégezheti a HTTP-kérés és válasz. Azonban nem biztosítanak azonos gazdag csoportházirend-alapú képességeit az API Management.
 
-**A cosmos DB**. [A cosmos DB] [ cosmosdb] többmodelles adatbázis-szolgáltatás. A jelen esetben a függvény alkalmazás olvas be dokumentumok Cosmos DB az ügyfél HTTP GET kérések válaszul.
+**Cosmos DB**. [A cosmos DB] [ cosmosdb] többmodelles adatbázis-szolgáltatás. A jelen esetben a függvény alkalmazás olvas be dokumentumok Cosmos DB az ügyfél HTTP GET kérések válaszul.
 
 **Azure Active Directory** (Azure AD). Felhasználók jelentkezzen be a webalkalmazás az Azure AD hitelesítő adatait. Az Azure AD hozzáférési jogkivonatot az API-hoz, a webes alkalmazás használó API-kérések hitelesítéséhez adja vissza. (lásd: [hitelesítési](#authentication)).
 
@@ -137,7 +137,7 @@ Az üzembe helyezés itt látható egy adott Azure-régióban található. A vé
 
 ### <a name="authentication"></a>Hitelesítés
 
-A `GetStatus` API-referencia megvalósítása az Azure AD-kérések hitelesítéséhez. Az Azure AD támogatja az Open ID Connect protokollal, ami egy olyan hitelesítési protokoll az OAuth 2 protokoll épülnek.
+A `GetStatus` API-referencia megvalósítása az Azure AD-kérések hitelesítéséhez. Az Azure AD támogatja az OpenID Connect protokollal, ami egy olyan hitelesítési protokoll az OAuth 2 protokoll épülnek.
 
 Ebben az architektúrában az ügyfélalkalmazás egy egyoldalas alkalmazás (SPA), amely futtatja a böngészőben. Így az implicit engedélyezési folyamat megfelelő ügyfélalkalmazás az ilyen típusú ügyfélkódot vagy az engedélyezési kódot, rejtett, nem vezetnek. (Lásd: [melyik OAuth 2.0-s folyamat használjam?] [oauth-flow]). Itt látható a teljes folyamat:
 
@@ -329,7 +329,7 @@ Ez a referenciaarchitektúra üzembe helyezéséhez keresse meg a [GitHub inform
 [functions-zip-deploy]: /azure/azure-functions/deployment-zip-push
 [graph]: https://developer.microsoft.com/graph/docs/concepts/overview
 [key-vault-web-app]: /azure/key-vault/tutorial-web-application-keyvault
-[microservices-domain-analysis]: ../../microservices/domain-analysis.md
+[microservices-domain-analysis]: ../../microservices/model/domain-analysis.md
 [monitor]: /azure/azure-monitor/overview
 [oauth-flow]: https://auth0.com/docs/api-auth/which-oauth-flow-to-use
 [partition-key]: /azure/cosmos-db/partition-data

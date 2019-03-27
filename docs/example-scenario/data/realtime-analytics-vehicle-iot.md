@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, IoT
 social_image_url: /azure/architecture/example-scenario/data/media/architecture-realtime-analytics-vehicle-data1.png
-ms.openlocfilehash: 95a59ed84870c9ce9d3c6637d9ba56fcd6935b53
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: 846106106d5bd9f6b51f952734bfe23cd06cdc71
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54908402"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299069"
 ---
 # <a name="ingestion-and-processing-of-real-time-automotive-iot-data"></a>Gépjárművek valós idejű IoT-adatainak betöltése és feldolgozása
 
@@ -55,7 +55,7 @@ IoT-eszközök által létrehozott események (adatok vagy üzenetek) vannak bet
 - [Az Azure Databricks](/services/databricks) az Adatátalakítási és elemzési rétegben található. Databricks-jegyzetfüzeteket megvalósítása a Kafka-fogyasztók API-t az adatok beolvasása a Kafka-témakört.
 - [Az Azure Cosmos DB](/services/cosmos-db), [Azure SQL Database](/azure/sql-database/sql-database-technical-overview), és a storage kiszolgálórétegbe, ahol az Azure Databricks adatösszekötők keresztül adatokat írni az Azure SQL Data Warehouse.
 - [Az Azure SQL Data Warehouse](/azure/sql-data-warehouse/sql-data-warehouse-overview-what-is) egy elosztott rendszer tárolására és elemzésére a nagyméretű adathalmazok. A masszív párhuzamos feldolgozási (MPP) is teszi megfelelő a futó, nagy teljesítményű elemzési.
-- [Power bi-ban](https://docs.microsoft.com/power-bi) adatok elemzése és elemzéseket oszthat meg üzleti elemzési eszközök együttese. Power BI lekérdezhesse az Analysis Servicesben tárolt szemantikai modellt, vagy közvetlenül lekérdezheti azt az SQL Data warehouse-bA.
+- [Power bi-ban](/power-bi) adatok elemzése és elemzéseket oszthat meg üzleti elemzési eszközök együttese. Power BI lekérdezhesse az Analysis Servicesben tárolt szemantikai modellt, vagy közvetlenül lekérdezheti azt az SQL Data warehouse-bA.
 - [Az Azure Active Directory (Azure AD)](/azure/active-directory) hitelesíti a felhasználókat, amikor csatlakozik [Azure Databricks](https://azure.microsoft.com/services/databricks). Ha szeretné készítünk egy adatkockát [Analysis Services](/azure/analysis-services) alapján a modellt az Azure SQL Data Warehouse-adatok alapján, sikerült használjuk aad-ben a Power bi-ban Analysis Services-kiszolgálóhoz való csatlakozáshoz. A Data Factory segítségével is az Azure AD egyszerű szolgáltatás vagy a Felügyeltszolgáltatás-identitás (MSI) az SQL Data Warehouse hitelesítéséhez.
 - [Az Azure App Services](/azure/app-service/app-service-web-overview), különösen [API-alkalmazás](/services/app-service/api) adatok külső felek számára, a szolgáltató rétegben tárolt adatok alapján is használható.
 
@@ -92,8 +92,8 @@ Ebben az architektúrában a technológiák a méretezési csoport szükség fel
 Felülvizsgálat [Azure Databricks díjszabása](https://azure.microsoft.com/pricing/details/databricks), [Azure HDInsight díjszabása](https://azure.microsoft.com/pricing/details/hdinsight), [díjszabása a minta egy adatraktározási forgatókönyv](https://azure.com/e/b798fb70c53e4dd19fdeacea4db78276) keresztül az Azure díjkalkulátorát. Állítsa be az értékek megtekintéséhez, hogyan érinti az igényeinek a költségeit.
 
 - [Az Azure HDInsight](/azure/hdinsight) egy teljes körűen felügyelt felhőszolgáltatás, amely segítségével könnyen, gyorsan és költséghatékonyan folyamat nagy mennyiségű adat
-- [Az Azure Databricks](https://azure.microsoft.com/services/databricks) számos két különálló számítási [Virtuálisgép-példányok](https://azure.microsoft.com/pricing/details/databricks/#instances) munkafolyamattal szabott – adatfeldolgozási számítási segítségével hozhatnak létre és futtathatnak feladatokat, és az adatok az adattervezők egyszerűen Analytics munkafolyamatokra megismerését, megjelenítése, módosítására és megoszthatják az adatokat és elemzéseket-interaktív módon adatszakértők számára.
-- [Az Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db) számjegy-ezredmásodperces a világ bármely pontján található 99 százalékon garantálja, kínál [többszörös, jól definiált konzisztenciamodellekkel](/azure/cosmos-db/consistency-levels) finomhangolása a teljesítmény és a magas garanciák rendelkezésre állást biztosít többkiszolgálós képességekkel – az iparág vezető átfogó [szolgáltatói szerződések](https://azure.microsoft.com/support/legal/sla/cosmos-db) (SLA).
+- [Az Azure Databricks](https://azure.microsoft.com/services/databricks) számos két különálló számítási [Virtuálisgép-példányok](https://azure.microsoft.com/pricing/details/databricks/#instances) munkafolyamattal szabott &mdash; adatfeldolgozási számítási segítségével hozhat létre, és hajtsa végre az adattervezők egyszerűen feladatok és az adatelemzési számítási feladattal egyszerűen megismerését, megjelenítése, módosítására és megoszthatják az adatokat és elemzéseket-interaktív módon adatszakértők számára.
+- [Az Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db) számjegy-ezredmásodperces a világ bármely pontján található 99 százalékon garantálja, kínál [többszörös, jól definiált konzisztenciamodellekkel](/azure/cosmos-db/consistency-levels) finomhangolása a teljesítmény és a magas garanciák rendelkezésre állást biztosít többkiszolgálós képességekkel &mdash; által iparágvezető átfogó [szolgáltatói szerződések](https://azure.microsoft.com/support/legal/sla/cosmos-db) (SLA).
 - [Az Azure SQL Data Warehouse](https://azure.microsoft.com/pricing/details/sql-data-warehouse/gen2) lehetővé teszi, hogy egymástól függetlenül méretezheti a számítási és tárolási szintek. A számítási erőforrások számlázása óránként történik, és igény szerint ezeket az erőforrásokat szüneteltetheti vagy méretezhetők. Tárolási erőforrások számlázása terabájt, így növeli a költségeket, akkor több adatot képes feldolgozni.
 - [Analysis Services](https://azure.microsoft.com/pricing/details/analysis-services) fejlesztői, alapszintű és standard szinten érhető el. Példányok díjszabása alapján lekérdezésfeldolgozó egységek (qpu-ra) és a rendelkezésre álló memória. Hogy a költség alacsonyabb, a lekérdezések feldolgozásához, hogy mennyi adatot futtatja, a lehető legkevesebb, és milyen gyakran futnak.
 - [Power bi-ban](https://powerbi.microsoft.com/pricing) különböző termék lehetőséget eltérő követelmények vonatkoznak. [Power BI Embedded](https://azure.microsoft.com/pricing/details/power-bi-embedded) beágyazásához Power BI funkcióit belül az alkalmazások Azure-alapú lehetőséget biztosít. A Power BI Embedded-példány a fenti díjszabási mintát tartalmazza.

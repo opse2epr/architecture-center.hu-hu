@@ -7,14 +7,14 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: MAGYARÁZAT kis és közepes méretű vállalati – alapvető biztonsági fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 5714b886ef63cc2392905250d97ea905839f6011
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 05bb2f7023c999cdf7154b8189a104ba06950720
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899134"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299374"
 ---
-# <a name="caf-small-to-medium-enterprise-security-baseline-evolution"></a>CAF: Small-to-medium enterprise: Biztonsági alapkonfiguráció fejlődést szem előtt tartva
+# <a name="caf-small-to-medium-enterprise-security-baseline-evolution"></a>CAF: Small-to-medium enterprise: A biztonsági alapkonfiguráció fejlődése
 
 Ez a cikk a narratíva haladásával biztonsági ellenőrzéseket, amely támogatja a védett adatokról a felhőre való hozzáadásával.
 
@@ -24,9 +24,9 @@ Informatikai és üzleti vezető volt elégedett az informatikai, alkalmazásfej
 
 ### <a name="evolution-of-the-cloud-governance-team"></a>A felhő Cégirányítási csapat a fejlődést szem előtt tartva
 
-Adja meg a változó narratíva és eddig biztosítunk támogatást a hatását, a felhő Cégirányítási csapata most már megtekintett eltérően. A két rendszergazdák, akik a csapat lépések most már tapasztalt felhőben dolgozó tervezők, tekinthetők meg. Ez narratíva fejleszt, mint a érzete árkonstrukcióra legyenek a felhő jegyektől több egy felhőalapú gazdagépőr szolgáltatás szerepkört.
+Adja meg a változó narratíva, és az eddig biztosítunk támogatást, a felhő Cégirányítási csapata most már megtekintett eltérően. A két rendszergazdák, akik a csapat lépések most már tapasztalt felhőben dolgozó tervezők, tekinthetők meg. Ez narratíva fejleszt, mint a érzete árkonstrukcióra legyenek a felhő jegyektől több egy felhőalapú gazdagépőr szolgáltatás szerepkört.
 
-Bár a különbség a változás is, ez fontos különbség informatikai kulturális környezet létrehozásához egy cégirányítási – fókuszban lévő. A felhő Gondviselője megtisztítja a kantinjaik innovatív felhőben dolgozó tervezők által végzett. A két lehetséges szerepkör a természetes fennakadások nélkül használható, és célok ellentétes rendelkezik. Másrészről egy Felhőbeli Gazdagépőr segít biztonságban a felhőben, így más felhőben dolgozó tervezők gyorsabban, kisebb kantinjaik a helyezheti át. Ezenkívül egy felhőalapú Gazdagépőr van készítéshez kapcsolódó sablonokat, amelyek gyorsabb üzembe helyezési és bevezetési, így az innováció gyorsító, valamint egy felhőbeli állapítják defender.
+Bár a különbség a változás is, ez fontos különbség informatikai kulturális környezet létrehozásához egy cégirányítási – fókuszban lévő. A felhő Gondviselője megtisztítja a kantinjaik innovatív felhőben dolgozó tervezők által végzett. A két lehetséges szerepkör a természetes fennakadások nélkül használható, és célok ellentétes rendelkezik. Másrészről egy Felhőbeli Gazdagépőr segít biztonságban a felhőben, így más felhőben dolgozó tervezők gyorsabban, kisebb kantinjaik a helyezheti át. Ezenkívül egy felhőalapú Gazdagépőr van készítéshez kapcsolódó sablonok, amelyek gyorsabb üzembe helyezési és bevezetési, így az innováció gyorsító, valamint a felhő irányítási öt oktatnak a defender.
 
 ### <a name="evolution-of-the-current-state"></a>Az aktuális állapot a fejlődést szem előtt tartva
 

@@ -1,5 +1,5 @@
 ---
-title: 'CAF: Felhőre vonatkozó pénzügyi minta létrehozása'
+title: 'CAF: Felhőátalakításra vonatkozó pénzügyi modell létrehozása'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
@@ -8,14 +8,14 @@ description: Hogyan hozhat létre a felhőre vonatkozó pénzügyi minta.
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: 4fe9b178962bf2cd6a79233278c73085237772f0
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: e74a4782db5733271a575ce47cd79829f9114508
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898204"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299442"
 ---
-# <a name="create-a-financial-model-for-cloud-transformation"></a>Felhőre vonatkozó pénzügyi minta létrehozása
+# <a name="create-a-financial-model-for-cloud-transformation"></a>Felhőátalakításra vonatkozó pénzügyi modell létrehozása
 
 Egy pénzügyi modellt, amely pontosan tükrözi a teljes üzleti értéket bármely felhőbeli átalakítás létrehozása bonyolult feladatnak bizonyulhat. Pénzügyi modelleket és üzleti a indoklások általában a következő egy szervezet különböző. Ez a cikk néhány képletek és a pontokat, amelyek gyakran kimaradt a pénzügyi minta létrehozásakor néhány dolgot végre hoz létre.
 
@@ -75,7 +75,7 @@ Bizonyos esetekben a kivont eszközök árusíthatók bevétel forrásaként. Gy
 
 A vállalkozás működtetéséhez szükséges ismétlődő kiadásokat gyakran nevezzük működési költségeket. OpEx egy nagyon tág kategóriába. Szoftverlicencelés, üzemeltetési költségek, számlák Electric vállalattal, ingatlan bérlését, hűtési költségei, operations, berendezések bérlését, cserealkatrészekre, karbantartási-szerződéseket, javítása szükséges ideiglenes alkalmazottak kellene benne a legtöbb számlázási modellek Üzleti folytonosság és vész-helyreállítási BC/szolgáltatások, és számos egyéb kiadások, amelyek nem igényelnek beruházna jóváhagyásokat.
 
-Ebben a kategóriában a legnagyobb eredmény terület egyikének akkor, ha figyelembe véve a egy működési Átalakulásunkhoz is. Így ezt a listát az alábbi befektettek idő ritkán kihasználatlan. A CIO kérdéseket tehet fel, és annak biztosítása érdekében üzemeltetési költségek minden pénzügyi csapata számolják.
+Ebben a kategóriában a legnagyobb eredmény terület egyikének akkor, ha a működési átalakulása a mérlegeli is. Így ezt a listát az alábbi befektettek idő ritkán kihasználatlan. A CIO kérdéseket tehet fel, és annak biztosítása érdekében üzemeltetési költségek minden pénzügyi csapata számolják.
 
 ### <a name="cost-avoidance"></a>Költségek elkerülése
 
@@ -95,7 +95,7 @@ Kivétel akkor, ha a működési kapacitását egy harmadik féltől származó 
 
 ### <a name="capital-expense-reductions-or-avoidance"></a>Beruházna vagy a elkerülése
 
-A beruházási költségek (CapEx) némileg eltérőek, hogy működési kiadásait. Általában ez a kategória határozzák meg az adatfrissítési ciklusok vagy az Adatközpont bővítése. Például egy adatközpont bővítése lenne egy új nagy teljesítményű fürt futtatásához egy Big Data megoldás, sem az adattárházra, és általában lenne illik CapEx kategória. Gyakori olyan alapszintű frissítési ciklusok. Egyes vállalatok frissítési ciklusok merev hardver, jelentése eszközök vannak elavult, és rendszeres időközönként (általában minden 3, 5 vagy 8 év) helyettesíti. Ezeket a ciklusok gyakran eszköz bérleti ciklusok egybe vagy berendezések gyűjteményszintű előrejelzett. Ha egy frissítés során rákeres, informatikai Rajzolás CapEx új berendezések beszerezni.
+A beruházási költségek (CapEx) némileg eltérőek, hogy működési kiadásait. Általában ez a kategória határozzák meg az adatfrissítési ciklusok vagy az Adatközpont bővítése. Például egy adatközpont bővítése lenne egy új nagy teljesítményű fürt futtatásához egy Big Data megoldás, sem az adattárházra, és általában lenne illik CapEx kategória. Gyakori olyan alapszintű frissítési ciklusok. Egyes vállalatok frissítési ciklusok merev hardver, jelentése eszközök vannak elavult, és rendszeres időközönként (általában minden három, öt vagy 8 év) helyettesíti. Ezeket a ciklusok gyakran eszköz bérleti ciklusok egybe vagy berendezések gyűjteményszintű előrejelzett. Ha egy frissítés során rákeres, informatikai Rajzolás CapEx új berendezések beszerezni.
 
 Ha egy frissítés során, és a tervezett, a felhő átalakítási segíti, hogy a költség megszüntetéséhez. Egy frissítési ciklus tervezett, de még nem jóváhagyott, ha a felhő átalakítási létrehozhat egy beruházási költségek elkerülését. A költségek különbözeti mindkét forgatókönyvet kell hozzáadni.
 

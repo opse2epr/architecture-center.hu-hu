@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Biztonsági alapkonfiguráció mintautasítások házirend
 author: BrianBlanchard
-ms.openlocfilehash: ac40e022f8dff0c3021c04cd9d6ae42d28afaf1f
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 00a1ac274b3ab095ac1b915852f6c950ed19eeed
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899097"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299361"
 ---
 # <a name="security-baseline-sample-policy-statements"></a>Biztonsági alapkonfiguráció mintautasítások házirend
 
@@ -94,7 +94,7 @@ A minták segítségével a jelen cikkben említett kiindulási pontként házir
 
 A saját egyéni házirend-utasítások kapcsolatos alapvető biztonsági fejlesztésének megkezdéséhez töltse le a [biztonsági alapterv sablon](template.md).
 
--K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható Cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
+-K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
 
 > [!div class="nextstepaction"]
 > [Gyakorlatban hasznosítható Cégirányítási Journey](../journeys/overview.md)

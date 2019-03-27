@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: A Cost Management motivációit és az üzleti kockázatok
 author: BrianBlanchard
 ms.openlocfilehash: b9bf31a796ea1a7530c6a668a231d74b9b765509
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899227"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299387"
 ---
 # <a name="cost-management-motivations-and-business-risks"></a>A Cost Management motivációit és az üzleti kockázatok
 

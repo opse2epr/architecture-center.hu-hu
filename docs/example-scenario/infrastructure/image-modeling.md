@@ -1,22 +1,22 @@
 ---
-title: Gyorsítsa fel a digitális lemezkép-alapú modellezés az Azure-ban
+title: A digitális lemezképen alapuló modellezés felgyorsítása az Azure-ban
 titleSuffix: Azure Example Scenarios
-description: Gyorsítsa fel a digitális lemezkép-alapú modellezési Avere és Agisoft PhotoScan használata Azure-ban
+description: A digitális lemezképen alapuló modellezés felgyorsítása az Azure-ban az Avere és az Agisoft PhotoScan segítségével
 author: adamboeglin
-ms.date: 1/11/2019
+ms.date: 01/11/2019
 ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: cat-team, Linux, HPC
 social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-image-modeling.png
-ms.openlocfilehash: 87b43347fb5f4baec0081a67c8b003dccd2fdf0d
-ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
+ms.openlocfilehash: 0acfebf0ecdd81becdc939bfd5c4d55184fbae83
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/31/2019
-ms.locfileid: "55483011"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299208"
 ---
-# <a name="accelerate-digital-image-based-modeling-on-azure"></a>Gyorsítsa fel a digitális lemezkép-alapú modellezés az Azure-ban
+# <a name="accelerate-digital-image-based-modeling-on-azure"></a>A digitális lemezképen alapuló modellezés felgyorsítása az Azure-ban
 
 Ebben a példában a forgatókönyvben minden olyan szervezet, amely az Azure infrastruktúra--szolgáltatásként (IaaS) hajthat végre lemezképalapú modellezési szeretne architektúra és kialakítás útmutatást nyújt. A forgatókönyv photogrammetry szoftvereket futtató Azure virtuális gépeken (VM-EK) használatával nagy teljesítményű tárolási, feldolgozási időt gyorsító lett tervezve. A környezet felfelé és lefelé igény szerint skálázhatók, és támogatja a terabájt tárhely teljesítményét feláldozása nélkül.
 
@@ -50,7 +50,7 @@ Ez az architektúra az Active Directory-tartományvezérlőket az Azure-erőforr
 - [Avere vFXT](/azure/avere-vfxt/avere-vfxt-overview) gyorsítótárazási megoldás, amely a objektum tárolási és a hagyományos hálózati tárolóeszközök (NAS) használja a nagyméretű adathalmazok tárolási költségek optimalizálására a fájl. Ezek a következők:
   - Avere vezérlő. Ez a virtuális gép, amely a Avere vFXT fürtöt telepít, és Ubuntu LTS-18.04 futtatja a szkriptet hajt végre. A virtuális gép később használható, hozzáadása vagy eltávolítása a fürtcsomópontokat, és semmisítse meg a fürtöt is.
   - vFXT fürt. Legalább három virtuális gépet használ, egyet a Avere vFXT csomópontok Avere OS 5.0.2.1 alapján. Ezek a virtuális gépek alkotják a vFXT fürt, az Azure Blob storage-van csatolva.
-- [A Microsoft Active Directory-tartományvezérlők](/windows/desktop/ad/active-directory-domain-services) a gazdagép tartomány erőforrások hozzáférésének engedélyezéséhez, és adja meg a DNS-név feloldása. Avere vFXT számos olyan rekordot ad hozzá – például minden egyes rekord vFXT fürtben az egyes Avere vFXT csomópontok IP-cím mutat. Az ezzel a beállítással az összes virtuális gépek használata a Ciklikus időszeleteléses minta vFXT eléréséhez exportálja.
+- [A Microsoft Active Directory-tartományvezérlők](/windows/desktop/ad/active-directory-domain-services) a gazdagép tartomány erőforrások hozzáférésének engedélyezéséhez, és adja meg a DNS-név feloldása. Avere vFXT számos olyan rekordot ad hozzá &mdash; például minden egyes rekord vFXT fürtben az egyes Avere vFXT csomópontok IP-cím mutat. Az ezzel a beállítással az összes virtuális gépek használata a Ciklikus időszeleteléses minta vFXT eléréséhez exportálja.
 - [Más virtuális gépek](/azure/virtual-machines/) szolgál, a rendszergazda által az ütemezőt és a feldolgozó csomópontok eléréséhez használt mezők ugorhat. A Windows jumpbox megadása kötelező, hogy a rendszergazda távoli asztali protokollon keresztül a fő csomópont eléréséhez. A második jumpbox nem kötelező, és a Linux fut a feldolgozó csomópontok felügyeletéhez.
 - [Hálózati biztonsági csoportok](/azure/virtual-network/manage-network-security-group) (NSG-k) nyilvános IP-cím (PIP) való hozzáférés korlátozására, és lehetővé teszi a 3389-es port és a 22-es hozzáférés a virtuális gépekhez csatolt a Jumpbox alhálózatára.
 - [Virtuális hálózatok közötti társviszony](/azure/virtual-network/virtual-network-peering-overview) PhotoScan virtuális hálózatot csatlakoztat egy Avere virtuális hálózathoz.

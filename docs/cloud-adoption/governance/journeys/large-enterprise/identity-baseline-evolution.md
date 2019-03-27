@@ -7,14 +7,14 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – identitásra építve fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: efda14819bfbc70632dc9bb8b4c6c5aca96004c0
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 7eff9d8e8fd0fd40afa1d9815941fcce8d447579
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899178"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298637"
 ---
-# <a name="large-enterprise-identity-baseline-evolution"></a>Nagyvállalati: Identitás alapkonfiguráció fejlődést szem előtt tartva
+# <a name="large-enterprise-identity-baseline-evolution"></a>Nagyvállalati: Az identitáskezelési alapkonfiguráció fejlődése
 
 Ez a cikk a narratíva haladásával a cégirányítási MVP identitásra építve vezérlőelemek hozzáadásával.
 
@@ -35,7 +35,7 @@ A felhő Cégirányítási csapata folyamatosan bővül. Miatt a további támog
 
 ### <a name="evolution-of-the-current-state"></a>Az aktuális állapot a fejlődést szem előtt tartva
 
-Az informatikai csapat jóváhagyás előrelépés két adatközpont kivonja a CIO és a pénzügyi igazgató az Igazgatókra csomagokkal rendelkezik. Azonban informatikai illetően, hogy 750 (15 %) az eszközök ezen adatközpontokban lesz-e valahol áthelyezésének kivételével a felhőben.
+Az informatikai csapat jóváhagyás előrelépés két adatközpont kivonja a CIO és a pénzügyi igazgató az Igazgatókra csomagokkal rendelkezik. Azonban informatikai van, az érintett 750 (15 %) az eszközök ezen adatközpontokban kell valahol a felhőben nem helyezhetők.
 
 ### <a name="evolution-of-the-future-state"></a>A jövőbeli állapot a fejlődést szem előtt tartva
 

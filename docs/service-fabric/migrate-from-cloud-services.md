@@ -6,12 +6,12 @@ ms.date: 04/11/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.openlocfilehash: e2b89fa51abdb7be6124ded6e64889b5b54854a4
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 66f1431f45a0c9accf3a8227fa8cbb5966568372
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487899"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299446"
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása 
 
@@ -73,15 +73,15 @@ A Service Fabric egy elosztott felhőalkalmazások létrehozásához már bizony
 
 Az alábbi táblázatban összefoglaltuk a Cloud Services és a Service Fabric-alkalmazások közötti különbség. Részletesebb, lásd: [való migrálás előtt a Cloud Services és a Service Fabric közötti különbségekről további alkalmazások][sf-compare-cloud-services].
 
-|        | Cloud Services | Service Fabric-példány |
+|        | Cloud Services | Service Fabric |
 |--------|---------------|----------------|
 | Alkalmazás összeállítása | Szerepkörök| Szolgáltatások |
 | Sűrűség |Egy szerepkörpéldány virtuális gépenként | Az egyetlen csomópont több szolgáltatást |
 | Csomópontok minimális száma | 2 / szerepkör | fürtönként, éles környezetekben üzemelő példányok 5 |
 | Állapotkezelés | Állapot nélküli | Állapot nélküli vagy állapotalapú |
-| Hosting | Azure | Felhőalapú vagy helyszíni. |
+| Üzemeltetés | Azure | Felhőalapú vagy helyszíni. |
 | Webes üzemeltetés | IIS** | Self-hosting |
-| Telepítési modell | [Klasszikus üzemi modellben][azure-deployment-models] | [Resource Manager][azure-deployment-models]  |
+| Üzemi modell | [Klasszikus üzemi modellben][azure-deployment-models] | [Resource Manager][azure-deployment-models]  |
 | Csomagolás | Cloud service csomagfájlok (.cspkg) | Alkalmazás- és szolgáltatási csomagok |
 | Alkalmazás frissítése | Virtuális IP-címek felcserélése vagy működés közbeni frissítés | A működés közbeni frissítés |
 | Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Az automatikus Virtuálisgép-méretezési csoportok horizontális felskálázás |
@@ -202,7 +202,7 @@ Az alkalmazáscsomag, üzembe helyezése. Egy vagy több szolgáltatási csomago
 
 Service Fabric-alkalmazás a következő konfigurációs fájlokat tartalmazza:
 
-| Fájl | Tartózkodási hely | Leírás |
+| Fájl | Hely | Leírás |
 |------|----------|-------------|
 | ApplicationManifest.xml | Alkalmazáscsomag | Meghatározza a szolgáltatások, az alkalmazás alkotó. |
 | ServiceManifest.xml | Szolgáltatási csomag| Egy vagy több szolgáltatást ismerteti. |
@@ -309,7 +309,7 @@ Most, hogy a Surveys alkalmazás sikeresen már Tailspin szeretné a Service Fab
 [cloud-service-autoscale]: /azure/cloud-services/cloud-services-how-to-scale-portal
 [cloud-service-config]: /azure/cloud-services/cloud-services-model-and-package
 [cloud-service-endpoints]: /azure/cloud-services/cloud-services-enable-communication-role-instances#worker-roles-vs-web-roles
-[kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel
+[kestrel]: /aspnet/core/fundamentals/servers/kestrel
 [lb-probes]: /azure/load-balancer/load-balancer-custom-probe-overview
 [owin]: https://www.asp.net/aspnet/overview/owin-and-katana
 [refactor-surveys]: refactor-migrated-app.md

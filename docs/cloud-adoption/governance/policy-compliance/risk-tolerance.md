@@ -3,12 +3,12 @@ title: 'CAF: Milyen üzleti kockázatai társítva egy Felhőbeli átalakítás?
 description: Egy felhőalapú átalakítás kapcsolódó üzleti kockázat magyarázata?
 author: BrianBlanchard
 ms.date: 10/10/2018
-ms.openlocfilehash: bfd91da42d20a85004debc6b767a1482ba3e158d
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c8c3172d76fe3e7559f3f25f96880e6e0bbbdb92
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899423"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299147"
 ---
 # <a name="evaluating-risk-tolerance"></a>Kockázattűrés kiértékelése
 
@@ -26,9 +26,9 @@ A valódi üzleti kockázatok a a mi alapján sadly, és hogyan meghatározott �
 
 * Data Protection kockázati: A szám egy kockázatának bármely átalakítási adatok védelmére. A mai digitális korszakban üzleti az adatok az új olaj el. Azt ad lendületet az gazdaság, azt az office warms, azt delights ügyfelek. Azonban elveszít azt, az eredmény esetén egyaránt romboló. Bármely módosul az adatok tárolása, feldolgozott vagy használt jelenthet. Felhőbeli átalakítások hozzon létre magas fokú vonatkozásában felügyeletéhez, módosítás, hogy a kockázat enyhén nem kell venni. [Alapvető biztonsági](../security-baseline/overview.md), [Adatbesorolás](./what-is-data-classification.md), és [növekményes ésszerűsítés](../../digital-estate/rationalize.md#incremental-rationalization) egyes segít a kockázat csökkentése érdekében.
 
-* Operations & vásárlói élmény kockázati: Üzleti műveletek és az ügyfelek az erősen támaszkodnak műszaki műveletek. Felhőbeli átalakítások módosítása műszaki operations (TechOps) hozhat létre. Egyes szervezetekben, hogy módosítsa kevés adattal egyaránt & egyszerűen módosul. Más szervezetek TechOps módosításai szükségük retooling reskilling, vagy új módszerek támogatásához. Minél nagyobb a módosítást, a nagyobb méretű a lehetséges hatással az üzleti tevékenységét és felhasználói élményt nyújt. Csökkenti a kockázatokat a átalakítási tervezés az üzleti bevonása származnak. Tervezési és az első számítási feladat kiválasztása a kiadás a [növekményes ésszerűsítés](../../digital-estate/rationalize.md#incremental-rationalization) cikk ismertetik átalakítási projektek számítási feladatokhoz válassza. Az üzleti szempontból, hogy a tevékenységben szerepe való kommunikációhoz a rangsorolt számítási feladatok változások üzleti kockázat. Segítse informatikai válassza ki a számítási feladatok, amely hatással lenne a csökkentett operations, csökkenti a teljes kockázatot.
+* Műveletek és a vásárlói élmény kockázati: Üzleti tevékenységét és a vásárlói tapasztalatok erősen támaszkodnak műszaki műveleteket. Felhőbeli átalakítások módosítása műszaki operations (TechOps) hozhat létre. Egyes szervezetekben, hogy módosítsa kicsi, és könnyedén módosul. Más szervezetek TechOps módosításai szükségük retooling reskilling, vagy új módszerek támogatásához. Annál nagyobb a módosítást, annál nagyobb a potenciális hatása üzleti tevékenységét és a felhasználói élmény. Csökkenti a kockázatokat a átalakítási tervezés az üzleti bevonása származnak. Tervezési és az első számítási feladat kiválasztása a kiadás a [növekményes ésszerűsítés](../../digital-estate/rationalize.md#incremental-rationalization) cikk ismertetik átalakítási projektek számítási feladatokhoz válassza. Az üzleti szerepkör abban, hogy a tevékenységet, a módosítás üzleti műveletek kockázatát kommunikációhoz rangsorolt számítási feladatokhoz. Segítse informatikai válassza ki a számítási feladatok, amelyek egy kisebb hatással vannak a műveletek csökkenti a teljes kockázatot.
 
-* A Cost kockázat: A Cost modellek módosítsa a felhőben. Ez a változás kapcsolódó költségek meghaladása vagy a működési költségek áruk Sold (COGS), különösen közvetlenül teljesítménykapacitást növekedése hozhat létre. Ha üzleti szorosan együttműködik az olyan informatikai megvalósítható átláthatóságára költségek és a különböző üzleti egységek, programok, projektek és egyéb által igénybe vett szolgáltatások létrehozása... [Cost Management] biztosít ötletet üzleti és az informatikai részleg ebben a témakörben található partnerré.
+* A Cost kockázat: A Cost modellek módosítsa a felhőben. Ez a változás kapcsolódó költségek meghaladása vagy a működési költségek áruk Sold (COGS), különösen közvetlenül teljesítménykapacitást növekedése hozhat létre. Ha üzleti szorosan együttműködik az olyan informatikai megvalósítható átláthatóságára költségek és a különböző üzleti egységek, a programok által igénybe vett szolgáltatások létrehozásához, és a projektek. [Cost Management](../cost-management/overview.md) ötletet üzleti és informatikai részleg ebben a témakörben található partnerré.
 
 A fenti közé tartoznak az ügyfelek által említett leggyakoribb kockázatok. A felhő Cégirányítási csapat és a felhő bevezetésének csapatok fejlesztése egy kockázatú profil, a számítási feladatok migrálása, és éles kiadás readied megkezdheti. Elő kell készíteni a beszélgetések, pontosíthatja, és a kívánt üzleti eredmények és az átalakítási tevékenységi alapján kockázatok csökkentése.
 
@@ -41,24 +41,24 @@ Kockázatazonosítás viszonylag közvetlen folyamat során a rendszer. Kockáza
 Kockázattűrés megismerése érdekében most vizsgálja meg a vásárlói adatokat. A vállalat minden iparág közzéteszi a vásárlói adatokat egy védett kiszolgálón, ha az adatokat, hogy feltörhetik vagy ellophatják kockázatát a viszonylag megegyezik. Azonban az adatok és a kockázat, hogy a vállalatok tolerancia jellege kampánya módosul.
 
 * Az egészségügyben cégek és az Egyesült Államokban pénzügyi merev, harmadik féltől megfelelőségi követelmények vonatkoznak rájuk. Azt feltételezzük, hogy személyes azonosításra alkalmas adatok (PII) vagy egészségügyi ellátással kapcsolatos adatok nem rendkívül bizalmas. Nincsenek súlyos következményekkel cég, ezen típusok esetén, ha azok a kockázatok a fenti forgatókönyv részt. A tolerancia rendkívül alacsony lesz. Közzétett belüli és kívüli hálózati ügyféladatok kell ezen külső megfelelőségi házirendek szabályozzák.
-* Egy játékokkal foglalkozó vállalatot, amelynek ügyféladatok korlátozódik, egy felhasználónevet, a play idők és a legjobb eredmények valószínűleg nem is rontja az összteljesítményt bármely jelentősen befolyásolhatja, ha a fenti kockázatos viselkedés részt vesznek. Bármely nem titkosított adat van veszélyben adott kockázati hatása lesz kis. Ezért a kockázati szintű ebben az esetben túl magas.
-* Közepes méretű vállalat által biztosított szolgáltatásokat több ezer ügyfelünk tisztítás carpet ezek tolerancia két szélsőséges között csökken. Vásárlói adatok lehet még robusztusabbá, és más részleteknek, például címet vagy telefonszámot tartalmazó. Mindkét lehet tekinteni, személyazonosításra alkalmas adatok, és meg kell védeni. Azonban nem lehet bármely adott cégirányítási követelmény devizaellenőrzési, hogy az adatok kell védeni. Informatikai szempontból a válasz egyszerű, az adatok védelmére. Egy üzleti szempontból nem lehet egyszerű. Az üzleti kellene további részleteket, mielőtt sikerült meghatározni a tolerancia az a kockázat szintjének.
+* Egy játékokkal foglalkozó vállalatot, amelynek ügyféladatok korlátozva, egy felhasználónevet, a play idők és a legjobb eredmények valószínűleg nem is rontja az összteljesítményt bármely jelentősen befolyásolhatja, ha a fenti kockázatos viselkedés részt vesznek. Nem védett adatok veszélyben van, míg a hatását, hogy a kockázat kis. Ezért a kockázati szintű ebben az esetben túl magas.
+* Egy közepes méretű vállalat carpet tisztítás több ezer ügyfelünk szolgáltatásokat biztosító ezek tolerancia két szélsőséges között csökken. Vásárlói adatok lehet még robusztusabbá, és más részleteknek, például címet vagy telefonszámot tartalmazó. Mindkettő lehet tekinteni, személyazonosításra alkalmas adatok, és meg kell védeni. Azonban nem lehet bármely adott cégirányítási követelmény devizaellenőrzési, hogy az adatok kell védeni. Informatikai szempontból a válasz egyszerű, az adatok védelmére. Egy üzleti szempontból nem lehet egyszerű. Az üzleti kellene további részleteket, mielőtt sikerült meghatározni a tolerancia az a kockázat szintjének.
 
 A következő szakaszban néhány mintakérdések, amely segíti a szervezet kockázattűrési határát, a fenti használati esetekhez vagy mások szintet határozza meg az üzleti fájlmegosztások.
 
 ## <a name="risk-tolerance-questions"></a>Kockázati tolerancia kérdések
 
-Ez a szakasz felsorolja a beszélgetés szikrák három kategóriába kérdéseket: Adatvesztés hatása, valószínűsége az adatvesztést és kockázatcsökkentési költségeket. Ha üzleti és informatikai partnert cím a következő területeken, csökkentheti a kockázatokat és a egy adott kockázati általános tolerancia döntés egyszerűen lehet meghatározni.
+Ez a szakasz felsorolja a beszélgetés szikrák három kategóriába kérdéseket: Adatvesztés hatása, valószínűsége az adatvesztést, és kockázatcsökkentési költségeket. Ha üzleti és informatikai partnert cím a következő területeken, csökkentheti a kockázatokat és a egy adott kockázati általános tolerancia döntés egyszerűen lehet meghatározni.
 
 **Adatvesztés hatása**: Kérdések a kockázat hatásának megállapításához. Ezek a kérdések nehéz lehet (néha lehetetlen) választ. A hatás mennyiségi meghatározására ajánlott, de néha a beszélgetés önmagában is elegendő tolerancia megértéséhez. Tartományokat is elfogadhatók, különösen akkor, ha a tartományokat határozza meg, amelyek tartalmazzák.
 
 * Nem a kockázat sértsék harmadik fél megfelelőségi követelményeknek?
 * A kockázat megsértik nem a belső vállalati házirendeket?
-* Sikerült a költségek kockázati ügyfelek vagy a piaci meg? Ha így is számszerűen a hatás?
-* A kockázat, létrehozhat negatív felhasználói élményt? Valószínűleg ezek a tapasztalatok hatással értékesítési vagy bevétel megvalósítási?
+* Sikerült a költségek kockázati ügyfelek vagy a piaci meg? Ha így is számszerűen a költségeket?
+* A kockázat, létrehozhat negatív felhasználói élményt? Ezeket a funkciókat valószínűleg hatással a sales és a bevétel megvalósítási?
 * Sikerült létrehozni a kockázat új jogi felelősség? Ha igen, van-e a károk díjazottjai az esetekben az ilyen típusú precedenciáját?
 * Sikerült leállítani a kockázat üzleti műveletek? Ha igen, mennyi ideig szeretné műveletek nem működik?
-* Sikerült a kockázat lassú üzleti műveletek? Ha igen, hogyan lassú & mennyi?
+* Sikerült a kockázat lassú üzleti műveletek? Ha igen, mennyi ideig, és hogyan lassú?
 * Ezen a ponton az átalakítást a ez egyszeri kockázata vagy ismétlődik,?
 * Nem a kockázat növelheti vagy csökkentheti a átalakítási előrehaladtával gyakorisággal?
 * Nem a kockázat növelése vagy csökkentése érdekében a valószínűsége, hogy idővel?
@@ -84,18 +84,18 @@ Ezek a kérdések keresztül egyszerűsítése a kockázatok enyhítéséhez sz�
 * Tekintse meg további, hogy más vállalatok általában elérte a kockázat alapján vannak?
 * A kockázat egyedi valami a vállalat által elvégzett rosszul van?
 
-Fogadás után ezek a kérdések és további kérdései vannak a felhőben Cégirányítási csapat határoz meg, mekkora valószínűséggel csoportosításain lesz valószínűleg alakulnak ki. Az alábbiakban néhány egyesülés különböző minták segítik a kezdéshez:
+Kérdések a Cloud Cégirányítási csapat határoz meg együtt a kérdések megválaszolása után valószínűségi csoportosításain lesz valószínűleg alakulnak ki. Az alábbiakban néhány egyesülés különböző minták segítik a kezdéshez:
 
-* Semmi nem jelzi: Nincs elég kutatási valószínűség megállapításához befejeződött
-* Alacsony kockázatot jelentő: Aktuális kutatásokon javasol a kockázat valószínűleg nem kell megvalósítani
-* Jövőbeli kockázat: Az aktuális valószínűség alacsony kockázat. Azonban a folyamatos bevezetési lép működésbe egy friss elemzés
-* Közepes kockázatú: Valószínű, hogy a kockázat az üzleti negatív hatással lesz.
-* Magas kockázatot jelentő: Túlóra azt növekszik a kevésbé valószínű, hogy az üzleti hatással a kockázat elkerülése érdekében.
+* Semmi nem jelzi: Nincs elég kutatási kész valószínűség megállapításához.
+* Alacsony kockázatot jelentő: Aktuális kutatásokon javasol a kockázat valószínűleg nem kell megvalósítani.
+* Jövőbeli kockázat: Az aktuális valószínűség alacsony kockázat. Folyamatos bevezetési azonban egy friss elemzési lép működésbe.
+* Közepes kockázatú: Valószínű, hogy a kockázat lesz hatással lennének üzletére.
+* Magas kockázatot jelentő: Túlóra azt növekszik kevésbé valószínű, hogy az üzleti hatással a kockázat elkerülése érdekében.
 * Kockázati elutasítása: A kockázat: Közepes, magas. Azonban a műveletek informatikai és üzleti csökkentheti annak lehetőségét, hogy az befolyásolná.
 
 **Tolerancia meghatározása:**
 
-A fenti három kérdésére készletek kell laboratóriumában elég adat a kezdeti tolerancia határozza meg. Amikor kockázati & valószínűség alacsony, és kockázatcsökkentési költség túl magas, az üzleti valószínű, hogy a szervizelés alatt álló befektetni. Ha a kockázati & valószínűség magas, az üzleti valószínű kell figyelembe venni, befektetés mindaddig, amíg a költségek nem haladhatja meg az esetleges kockázatokat.
+A fenti három kérdésére készletek kell laboratóriumában elég adat a kezdeti tolerancia határozza meg. Ha alacsony kockázat, valamint a hibalehetőségek, és kockázatcsökkentési költség túl magas, az üzleti valószínű, hogy a szervizelés alatt álló befektetni. Ha kockázatot, valamint a hibalehetőségek magas, az üzleti valószínű, hogy fontolja meg, befektetés mindaddig, amíg a költségek nem haladhatja meg az esetleges kockázatokat.
 
 ## <a name="next-steps"></a>További lépések
 

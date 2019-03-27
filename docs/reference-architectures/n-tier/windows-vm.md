@@ -8,11 +8,11 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.openlocfilehash: a25488357eb11b80e8f79ddae7f7d69735a6bec3
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485264"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298706"
 ---
 # <a name="run-a-windows-virtual-machine-on-azure"></a>Windows virtuális gép futtatása az Azure-ban
 
@@ -50,7 +50,7 @@ Az operációsrendszer-lemez egy, az [Azure Storage-ban][azure-storage] tárolt 
 
 A virtuális gép is létrejön egy ideiglenes lemezzel (a `D:` Windows meghajtóján). A lemez a gazdagép egyik fizikai meghajtóján található. *Nincs* mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol.
 
-## <a name="network"></a>Hálózat
+## <a name="network"></a>Network (Hálózat)
 
 A hálózati összetevők közé tartoznak az alábbi forrásanyagokat:
 

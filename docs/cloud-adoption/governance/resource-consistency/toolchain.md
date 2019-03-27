@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: Az Azure-ban konzisztencia erőforráseszközök
 author: BrianBlanchard
 ms.openlocfilehash: 68503289f60fbb3682264ff39546ca7b7700cef5
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899346"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298437"
 ---
 # <a name="resource-consistency-tools-in-azure"></a>Az Azure-ban konzisztencia erőforráseszközök
 

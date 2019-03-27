@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, networking
-ms.openlocfilehash: fba07823d49aa43fdb67652f99a26bd7df3a57c3
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 503320c2ed429c97c6581cd7b48ce328996df6c6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488290"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298393"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute-with-vpn-failover"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával
 
@@ -62,7 +62,7 @@ $vnet = Get-AzureRmVirtualNetworkGateway -Name <yourvnetname> -ResourceGroupName
 Remove-AzureRmVirtualNetworkSubnetConfig -Name GatewaySubnet -VirtualNetwork $vnet
 ```
 
-Ha a virtuális hálózat nem tartalmaz **GatewaySubnet** nevű alhálózatot, hozzon létre egy újat az alábbi PowerShell-paranccsal:
+Ha a virtuális hálózat nem tartalmaz nevű alhálózattal **GatewaySubnet**, hozzon létre egy újat a következő PowerShell-paranccsal:
 
 ```powershell
 $vnet = Get-AzureRmVirtualNetworkGateway -Name <yourvnetname> -ResourceGroupName <yourresourcegroup>
@@ -74,7 +74,7 @@ $vnet = Set-AzureRmVirtualNetwork -VirtualNetwork $vnet
 
 Gondoskodjon róla, hogy a cég megfeleljen az [ExpressRoute előfeltételeinek][expressroute-prereq], mert ezek hiányában nem tud az Azure-hoz csatlakozni.
 
-Ha az Azure virtuális hálózat már rendelkezik VPN virtuális hálózati átjáró, használja a következő Powershell-paranccsal távolítsa el a:
+Ha az Azure virtuális hálózat már rendelkezik VPN virtuális hálózati átjáró, használja a következő PowerShell-paranccsal távolítsa el a:
 
 ```powershell
 Remove-AzureRmVirtualNetworkGateway -Name <yourgatewayname> -ResourceGroupName <yourresourcegroup>

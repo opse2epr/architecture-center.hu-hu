@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency, checklist
 ms.openlocfilehash: b96195ced1cad091d0ec843ffcc0007b46f05f8d
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486250"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298877"
 ---
 # <a name="resiliency-checklist"></a>Rugalmasságra vonatkozó ellenőrzőlista
 
@@ -48,7 +48,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc.
 
-**Vegye figyelembe, hogy az alkalmazás üzembe helyezése több régióban.** Ha az alkalmazás egyetlen régióban üzembe, az esemény ritkán fordul elő a teljes régió elérhetetlenné válik, az alkalmazás még nem lesz elérhető. Lehet, hogy ez elfogadhatatlan az alkalmazás szolgáltatásiszint-szerződés feltételei szerint. Ha igen, fontolja meg az alkalmazás és a hozzá tartozó szolgáltatások telepítése több régióban. Egy többrégiós üzembe helyezés az egy aktív-aktív minta (kérelmek elosztásával aktív példányok) vagy egy aktív-passzív minta (tartja "meleg" példány számára fenntartott, abban az esetben, ha az elsődleges példány sikertelen). Azt javasoljuk, hogy több-példányok üzembe helyezésekor az alkalmazásszolgáltatások között regionális párokról. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions).
+**Vegye figyelembe, hogy az alkalmazás üzembe helyezése több régióban.** Ha az alkalmazás egyetlen régióban üzembe, az esemény ritkán fordul elő a teljes régió elérhetetlenné válik, az alkalmazás még nem lesz elérhető. Lehet, hogy ez elfogadhatatlan az alkalmazás szolgáltatásiszint-szerződés feltételei szerint. Ha igen, fontolja meg az alkalmazás és a hozzá tartozó szolgáltatások telepítése több régióban. Egy többrégiós üzembe helyezés az egy aktív-aktív minta (kérelmek elosztásával aktív példányok) vagy egy aktív-passzív minta (tartja "meleg" példány számára fenntartott, abban az esetben, ha az elsődleges példány sikertelen). Azt javasoljuk, hogy több-példányok üzembe helyezésekor az alkalmazásszolgáltatások között regionális párokról. További információ: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions).
 
 **Az Azure Traffic Manager használatával irányíthatja a forgalmat az alkalmazás különböző régiókban.**  [Az Azure Traffic Manager] [ traffic-manager] terheléselosztás, a DNS szintjén végzi, és átirányítja a forgalmat alapján különböző régiók a [forgalom-útválasztást] [ traffic-manager-routing] metódus azt adja meg, és az alkalmazás végpontok állapotát. Nélkül Traffic Manager, pedig csak egyetlen régióban, amely korlátozza a skálázási, növeli az egyes felhasználók közel valós idejű és régióra kiterjedő szolgáltatáskimaradás esetén alkalmazás állásidőt okoz az üzembe helyezéshez.
 
@@ -85,7 +85,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 > [!NOTE]
 > A virtuális gépek esetében ne támaszkodjon kizárólag RA-GRS replikáció visszaállítása a Virtuálisgép-lemezek (VHD-fájlok). Ehelyett használjon [Azure Backup](/azure/backup).
 
-## <a name="security"></a>Biztonsági
+## <a name="security"></a>Biztonság
 
 **Az elosztott szolgáltatásmegtagadási (DDoS-) támadások elleni alkalmazásszintű védelem megvalósításához.** Azure-szolgáltatások a hálózati rétegen DDos-támadásokkal szembeni védettek. Azonban az Azure nem alkalmazásréteg támadásokkal szembeni, mert nehéz megkülönböztetni a valós felhasználói kérések a rosszindulatú felhasználók-kérelmek. "DDoS elleni védelem" című szakaszában talál további tájékoztatást az alkalmazásréteg DDoS-támadásokkal szembeni védelme [a Microsoft Azure hálózati biztonság](https://download.microsoft.com/download/C/A/3/CA3FC5C0-ECE0-4F87-BF4B-D74064A00846/AzureNetworkSecurity_v3_Feb2015.pdf) (letölthető PDF-fájl).
 
@@ -99,7 +99,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Futtasson teszteket használata szintetikus és a valós felhasználói adatainak, mind éles környezetben.** Tesztelési és éles megegyeznek a ritkán, ezért fontos, kék vagy zöld vagy a tesztcsoportos központi telepítés és az alkalmazás tesztelése éles környezetben. Ez lehetővé teszi, hogy az alkalmazás tesztelése a valódi terhelés alatt éles környezetben, és győződjön meg arról, teljes körűen telepítésekor várt módon működik.
 
-## <a name="deployment"></a>Üzemelő példány
+## <a name="deployment"></a>Környezet
 
 **A dokumentum a kibocsátási folyamat az alkalmazáshoz.** Nélkül részletes kibocsátási folyamat dokumentációja az operátornak előfordulhat, hogy egy rossz frissítés üzembe helyezése vagy az alkalmazás nem megfelelően konfigurálja. Egyértelműen határozza meg és dokumentálja a kibocsátási folyamat, és győződjön meg arról, hogy azt a teljes üzemeltetési csapat rendelkezésére.
 
@@ -159,7 +159,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 **Használjon erőforrászárat a kritikus fontosságú erőforrások, például virtuális gépeket.** Erőforrás-zárolások megakadályozza, hogy az operátor véletlenül töröl egy erőforrást. További információkért lásd: [zárolhat erőforrásokat az Azure Resource Managerrel](/azure/azure-resource-manager/resource-group-lock-resources/)
 
-**Válassza ki a regionális párokról.** Ha két régióban is üzembe helyeznek, régiókat azonos regionális párokból érdemes választani. Széles körű leállás esetén minden párból az egyik régió helyreállítása előnyt élvez. Egyes szolgáltatások, például a Georedundáns tárolás adja meg a replikálás automatikus, a párosított régióba. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions)
+**Válassza ki a regionális párokról.** Ha két régióban is üzembe helyeznek, régiókat azonos regionális párokból érdemes választani. Széles körű leállás esetén minden párból az egyik régió helyreállítása előnyt élvez. Egyes szolgáltatások, például a Georedundáns tárolás adja meg a replikálás automatikus, a párosított régióba. További információ: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions)
 
 **Erőforráscsoportok függvény és életciklus rendszerezheti.**  Általában egy erőforráscsoport tartalmaznia kell az azonos életciklussal rendelkező erőforrások. Ez megkönnyíti a központi telepítések felügyeletéhez szükséges, a tesztkörnyezetek törlését és a adhatnak hozzáférési jogokat csökkenti annak az esélyét, hogy éles környezet véletlenül törölték vagy módosították. Hozzon létre külön erőforráscsoportok éles környezetben, fejlesztési, és tesztelési környezetek. A több régióból álló üzemelő külön erőforráscsoportok minden olyan régió esetében az erőforrások üzembe. Ez megkönnyíti az ismételt üzembe helyezése több régióban anélkül, hogy befolyásolná a többi régió(k).
 

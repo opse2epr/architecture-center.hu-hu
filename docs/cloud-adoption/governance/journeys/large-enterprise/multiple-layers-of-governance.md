@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – irányítás nagyvállalatoknak az többrétegű
 author: BrianBlanchard
-ms.openlocfilehash: 42f4159ca0701c6a798f239359509a3e3b246c38
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 5d79d54f94a39aa1e16018b9c3c9f02c6862fff2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899314"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299376"
 ---
 # <a name="multiple-layers-of-governance-in-large-enterprises"></a>A nagyobb vállalatok a cégirányítási rétege
 
@@ -30,7 +30,7 @@ Ez a cikk bemutatja, keresse meg az ilyen típusú összetettséget néhány mó
 
 Létrehozott nagyvállalatoknak gyakran a csapatok vagy alkalmazottak, akik a teljes folyamaton említett állapítják rendelkeznek. Tartson a folyamatban cégirányítási egy megközelítését egy csapat sport mutatja be.
 
-Számos nagy méretű vállalatok számára felhőalapú cégirányítási állapítják lehet blockers való bevezetését. Az identitás, biztonság, műveletek, központi telepítések és konfigurációs tapasztalatra a felhőszolgáltatások kezelésében fejlesztése a vállalaton belül időt vesz igénybe. Informatikai cégirányítási házirend- és informatikai biztonsági azok alkalmazásfüggőségeit végrehajtási is innováció, hónapok szerint lassú vagy akár év. Az üzleti igény az innováció és a meglévő erőforrások védelmét kell irányítási Balancing olyan kényes.
+Számos nagy méretű vállalatok számára, az a felhő Cégirányítási öt oktatnak blockers való bevezetésének lehet. Az identitás, biztonság, műveletek, központi telepítések és konfigurációs tapasztalatra a felhőszolgáltatások kezelésében fejlesztése a vállalaton belül időt vesz igénybe. Informatikai cégirányítási házirend- és informatikai biztonsági azok alkalmazásfüggőségeit végrehajtási is innováció, hónapok szerint lassú vagy akár év. Az üzleti igény az innováció és a meglévő erőforrások védelmét kell irányítási Balancing olyan kényes.
 
 A felhőben rejlő képességeit is akadályok az innovációt, de növeli a kockázatokat. A cégirányítási utazás megmutattuk, a példában szereplő vállalat hogyan hozott létre guardrails a kockázatok csökkentése érdekében. Ahelyett, amelyek mindegyike a környezet védelméhez szükséges állapítják, a felhő Cégirányítási csapatvezetők a kockázatalapú megközelítés annak a szabályozására, hogy mi is telepíthető, amíg a többi csapatban szükséges felhőbeli futamidejét hozhat létre. Ennél is fontosabb minden egyes csapat eléri a felhőalapú lejárat, cégirányítási alkalmazza a megoldásaik azok alkalmazásfüggőségeit. Mivel minden egyes csapat kiforrottabbá válik, és a teljes megoldás ad hozzá, a felhő Cégirányítási csapat fázis kapuk, lehetővé téve a további innovációs és gyarapodhatnak elfogadása is megnyithatja.
 

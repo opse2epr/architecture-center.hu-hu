@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, networking
-ms.openlocfilehash: 45ae8de1138b738fdfb42bdf57402711e1be6ebb
-ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
+ms.openlocfilehash: 2595352075c708e015a0f0c536be31ceb5614fcd
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/31/2019
-ms.locfileid: "55482909"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299200"
 ---
 # <a name="implement-a-dmz-between-azure-and-the-internet"></a>Implementálhat DMZ-t az Azure és az Internet között
 
@@ -101,12 +101,10 @@ Az ezeknek a javaslatoknak a figyelembe vételével megvalósított referenciaar
     azbb -s <subscription_id> -g <resource_group_name> -l <region> -p onprem.json --deploy
     ```
 
-3. Keresse meg a `/dmz/ssecure-vnet-hybrid` referencia architektúrák GitHub-adattár mappát.
-
 4. Futtassa az alábbi parancsot:
 
     ```bash
-    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p secure-vnet-hybrid.json --deploy
+    azbb -s <subscription_id> -g <resource_group_name> -l <region> -p secure-vnet-dmz.json --deploy
     ```
 
 ### <a name="connect-the-on-premises-and-azure-gateways"></a>A helyszíni és az Azure-átjárók csatlakoztatása

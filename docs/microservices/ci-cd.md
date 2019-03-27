@@ -7,16 +7,16 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: 026d22bb9cfdcb69b1a12294410af748e7af5c39
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 219c50fb002a97874310b76de6f3bdbc34eaac6d
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54480793"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298593"
 ---
 # <a name="designing-microservices-continuous-integration"></a>Mikroszolgáltatások tervezése: Folyamatos integráció
 
-Folyamatos integráció és folyamatos készregyártás (CI/CD) egy kulcsfontosságú követelmény az sikeres a mikroszolgáltatás-alapú eléréséhez. Egy jó CI/CD-folyamat nélkül, nem éri el a rugalmasságot, mellyel a mikroszolgáltatások garantálniuk. Néhány a mikroszolgáltatások a CI/CD kapcsolatban felmerülő kihívások merülnek fel, több kódbázissal és életciklusainak buildkörnyezeteket, a különböző szolgáltatások esetében nem. Ez a fejezet a kihívásokat ismerteti, és javasolja a probléma néhány olyan módszert.
+Folyamatos integráció és folyamatos készregyártás (CI/CD) egy kulcsfontosságú követelmény az sikeres a mikroszolgáltatás-alapú eléréséhez. Egy jó CI/CD-folyamat nélkül, nem éri el a rugalmasságot, mellyel a mikroszolgáltatások garantálniuk. Néhány a mikroszolgáltatások a CI/CD kapcsolatban felmerülő kihívások merülnek fel, több kódbázissal és életciklusainak buildkörnyezeteket, a különböző szolgáltatások esetében nem. Ez a cikk a kihívásokat ismerteti, és javasolja a probléma néhány olyan módszert.
 
 ![CI/CD a mikroszolgáltatásokat ábrája](./images/ci-cd.png)
 

@@ -1,10 +1,11 @@
 <!-- TEMPLATE FILE - DO NOT ADD METADATA -->
+<!-- markdownlint-disable MD002 MD041 -->
 
 ### <a name="governance-of-resources"></a>Az erőforrások cégirányítási
 
 Cégirányítási kényszerítése az előfizetések közötti Azure tervezetek és a kapcsolódó eszközök belül a tervezet származnak.
 
-1. Hozzon létre egy Azure tervezet "Cégirányítási MVP" nevű.
+1. Hozzon létre egy nevű tervezet `governance-baseline`.
     1. Standard szintű Azure-szerepkörök használatának kényszerítése.
     2. Kényszerítéséhez, hogy a felhasználók csak hitelesítésre meglévő RBAC meghatározásában.
     3. Ez a megoldás összes előfizetést a felügyeleti csoporton belül érvényesek.
@@ -12,7 +13,7 @@ Cégirányítási kényszerítése az előfizetések közötti Azure tervezetek 
     1. Erőforrás-címkézési kell értékekre van szükség, üzleti funkciót, az Adatbesorolás, kritikusság, SLA-t, környezet és alkalmazás.
     2. Az alkalmazás címke értékének egyeznie kell az erőforráscsoport nevét.
     3. Ellenőrizze a szerepkör-hozzárendelések minden erőforráscsoport és erőforrások.
-3. Tegye közzé, és a "Cégirányítási MVP" Azure tervezet alkalmazása minden egyes felügyeleti csoporthoz.
+3. Közzététel és a alkalmazni a `governance-baseline` tervezet egyes felügyeleti csoporthoz.
 
 Ezek a minták lehetővé teszik az erőforrások felderítése és nyomon követi, és alapszintű szerepkörkezelés kényszerítése.
 
@@ -24,8 +25,8 @@ Szokás bizonyos szintű hozzáférést a helyszíni erőforrásokhoz az adott e
     1. A [felhőalapú DMZ referenciaarchitektúráit](/azure/architecture/reference-architectures/dmz/secure-vnet-hybrid) hoz létre egy minta és az üzembe helyezési modellt VPN-átjáró létrehozása az Azure-ban.
     2. Ellenőrizze, hogy DMZ-t megfelelő kapcsolati és biztonsági követelmények vannak érvényben a egy helyi peremhálózati eszköz, a helyi adatközpontban.
     3. Ellenőrizze, hogy a helyi peremhálózati eszköz kompatibilis az Azure VPN-átjáróra vonatkozó követelmények.
-    4. A helyszíni VPN-kapcsolat ellenőrzése megtörtént, miután rögzíti a hozta létre, hogy a referenciaarchitektúra Resource Manager-sablon.
-2. Hozzon létre egy második, "DMZ" nevű tervezet.
+    <!-- 4. Once connection to the on-premisess VPN has been verified, capture the Resource Manager template created by that reference architecture. -->
+2. Hozzon létre egy második tervezet nevű `dmz`.
     1. A Resource Manager-sablon hozzáadása a VPN Gateway a tervezethez.
 3. A szegélyhálózat (DMZ) tervezet alkalmazása bármilyen helyszíni internetkapcsolatának előfizetésekhez. Ez a megoldás a cégirányítási MVP tervezet mellett kell alkalmazni.
 

@@ -1,20 +1,20 @@
 ---
-title: 'CAF: Nagyvállalati – további dechnical tetails egy cégirányítási MVP kapcsolatban'
+title: 'CAF: Nagyvállalati – ajánlott eljárás ismertetése'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: Nagyvállalati – cégirányítási MVP kapcsolatos további technikai részleteket
+description: Nagyvállalati – ajánlott eljárás ismertetése
 author: BrianBlanchard
-ms.openlocfilehash: 50b0ae1ebb386d2f0b693a347d599ff29680a9cb
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: db630b93cd9d5118a8fc29b424ef78e0c1d8848a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899254"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298446"
 ---
-# <a name="large-enterprise-best-practice-explained"></a>Nagyvállalati: Bevált gyakorlat ismertetése
+# <a name="large-enterprise-best-practice-explained"></a>Nagyvállalati: Ajánlott eljárás magyarázata
 
 A cégirányítási utazás elindítja a kezdeti vannak beállítva [vállalati szabályzatok](./initial-corporate-policy.md). Ezek a szabályzatok cégirányítási tükröző minimális működőképes termékek (MVP) létrehozásához használt [ajánlott eljárások](./overview.md).
 
@@ -90,7 +90,7 @@ A házirend-utasítások némelyike nem vagy automatizált azokat az eszközöke
 
 **Képzési mérnök**: A felhő Cégirányítási csapat hozott létre a két videó mérnökök számára, és a bi-havi képzés kínál. Mindkét erőforrás lekérése gyorsan cégirányítási kulturális környezetet, és hogyan történik a központi telepítések a mérnökök segítségével. A csapat a bővíti a betanítási eszközök használatával mutatja be az új szabályzatok hatása a felhasználókra bevezetési mérnökök segít éles környezetben, és nem éles üzemelő példányok közötti különbség. Ez biztosítja, egységes központi telepítések szigorúan a megfelelést kényszerítése nélkül.
 
-**Üzembe helyezés megtervezése**: Bármely eszközre, amely tartalmazza a védett adatok telepítené a felhő Cégirányítási csapat felelőssége üzembehelyezési szkriptek ellenőrzése cégirányítási igazítás áttekintése. Meglévő csoportokat, korábban jóváhagyott központi telepítések naplózva lesz szoftveres eszközök használatával.
+**Üzembe helyezés megtervezése**: Bármely eszköz tartalmazó telepítése védett adatokat, mielőtt a felhő Cégirányítási csapat felelőssége üzembehelyezési szkriptek ellenőrzése cégirányítási igazítás áttekintése. Meglévő csoportokat, korábban jóváhagyott központi telepítések naplózva lesz szoftveres eszközök használatával.
 
 **Havi naplózási és jelentéskészítési**: Havonta, a felhő Cégirányítási csapat futtatja a naplózási házirend folyamatos igazítás ellenőrzése központi telepítések cloud. Eltérések észlelésekor dokumentált, és a felhő bevezetésének csapatok megosztva. Amikor a végrehajtás nem fennáll a veszélye, egy üzleti megszakítás és adatvesztés, a házirendek automatikusan érvényben vannak. Az ellenőrzés végén a felhő Cégirányítási csapat lefordítja az Felhőstratégia és minden felhő bevezetését való kommunikációhoz házirend általános betartása a jelentést. A jelentés is tárolja a naplózási és jogi célú.
 

@@ -1,20 +1,20 @@
 ---
-title: 'CAF: Kis és közepes méretű vállalati – erőforrás-konzisztencia fejlődést szem előtt tartva '
+title: 'CAF: Kis és közepes méretű vállalati – erőforrás-konzisztencia fejlődést szem előtt tartva'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: MAGYARÁZAT kis és közepes méretű vállalati – erőforrás-konzisztencia fejlődést szem előtt tartva
+description: Kis és közepes méretű vállalati – erőforrás-konzisztencia fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 402bb3ff4182123cdc8825522f965f7cf8637980
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: caacd62da9da526ec01ab935896598065f64d9d1
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899250"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299282"
 ---
-# <a name="small-to-medium-enterprise-resource-consistency-evolution"></a>Small-to-medium enterprise: Erőforrás konzisztencia fejlődést szem előtt tartva
+# <a name="small-to-medium-enterprise-resource-consistency-evolution"></a>Small-to-medium enterprise: Az erőforrás-konzisztencia fejlődése
 
 Ez a cikk a narratíva haladásával erőforrás konzisztencia vezérlőelemeket alapvető fontosságú alkalmazások támogatásához.
 

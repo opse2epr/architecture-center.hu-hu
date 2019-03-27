@@ -1,22 +1,22 @@
 ---
-title: 'CAF: Egy felhőalapú adatirányítási stratégia megvalósításához'
+title: 'CAF: Felhőszabályozási stratégia implementálása'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 description: Ismerje meg a Microsoft Cloud bevezetési keretrendszert Azure (CAF) használatával a felhőbeli adatirányítási stratégia megvalósításához.
 author: BrianBlanchard
-ms.date: 1/3/2019
+ms.date: 01/03/2019
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 88aeb92157a37baacc34884de67024ec87b20980
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 9da73502ad3a6243572128b5bf72399aad648353
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899290"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299388"
 ---
-# <a name="implement-a-cloud-governance-strategy"></a>Egy felhőalapú adatirányítási stratégia megvalósításához
+# <a name="implement-a-cloud-governance-strategy"></a>Felhőszabályozási stratégia implementálása
 
 <!-- markdownlint-disable MD033 -->
 
@@ -26,7 +26,7 @@ ms.locfileid: "55899290"
         <div class="cardPadding" style="padding-bottom:10px;">
             <div class="card" style="padding-bottom:10px;">
                 <div class="cardText" style="padding-left:0px;">
-Bármilyen üzleti folyamatokat és a technológiai platform változás kockázata üzleti mutatja be. Felhőalapú cégirányítási csapatok, amelynek tagjai is ismertek felhőalapú jegyektől, minimális megszakítással használhatja tovább elfogadását, vagy az innováció eszköztárát kockázatok csökkentése is biztosítja.<br/><br/>Felhőalapú cégirányítási azonban több, mint a gyakorlati megvalósításról igényel. Változás is történt a vállalati nyújt narratíva vagy vállalati házirendek jelentős hatással lehet bevezetési erőfeszítéseket. Előtt, fontos, hogy túllépjünk informatikai vállalati szabályzat meghatározása során.<br/><br/>
+Bármilyen üzleti folyamatokat és a technológiai platform változás kockázata üzleti mutatja be. Felhőalapú cégirányítási csapatok, amelynek tagjai is ismertek felhőalapú jegyektől, minimális megszakítással használhatja tovább elfogadását, vagy az innováció eszköztárát kockázatok csökkentése is biztosítja.<br/><br/>Felhőalapú cégirányítási azonban több, mint a gyakorlati megvalósításról igényel. Változás is történt a vállalati nyújt narratíva vagy vállalati házirendek jelentős hatással lehet bevezetési erőfeszítéseket. Végrehajtás előtt fontos, hogy túllépjünk informatikai vállalati szabályzat meghatározása során.<br/><br/>
                 </div>
             </div>
         </div>

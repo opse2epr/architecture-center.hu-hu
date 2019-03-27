@@ -5,16 +5,16 @@ ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: MAGYARÁZAT kis és közepes méretű vállalat – többfelhős fejlődést szem előtt tartva
+description: Kis és közepes méretű vállalat – többfelhős fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: a5b09c92acc4e165590b5a35827b88b0ca099bed
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 8bfe56f999ddef9d954fad9a157277301d81a98e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899410"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298853"
 ---
-# <a name="small-to-medium-enterprise-multi-cloud-evolution"></a>Small-to-medium enterprise: Több felhő fejlődést szem előtt tartva
+# <a name="small-to-medium-enterprise-multi-cloud-evolution"></a>Small-to-medium enterprise: Többfelhős fejlődés
 
 Ez a cikk a narratíva haladásával vezérlőelemeket több felhő bevezetésére vonatkozóan.
 

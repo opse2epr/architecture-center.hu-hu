@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: bf432444587216d7f635b0a5f26fed9223e85c44
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: ebfd949e28443a7554426d51eccdcadfed4179ac
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482051"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299482"
 ---
 # <a name="scheduler-agent-supervisor-pattern"></a>Feladatütemező ügynök felügyeleti mintája
 
@@ -113,7 +113,7 @@ A beküldési folyamat által a rendeléshez létrehozott állapotinformáció a
 Ebben az állapotinformációban az `OrderID` mező az új rendelés rendelésazonosítójából lett kimásolva. A `LockedBy` és `CompleteBy` mező értéke `null`, a `ProcessState` mező értéke `Pending`, a `FailureCount` mező értéke pedig 0.
 
 > [!NOTE]
-> Ebben a példában a rendeléskezelő logika viszonylag egyszerű, és csak egyetlen lépése van, amely távoli szolgáltatást hív meg. Egy összetettebb, többlépéses forgatókönyv esetében a folyamat vélhetően több lépést tartalmaz, így az állapottárolóban is több, egy adott lépés állapotát leíró rekord készül.
+> Ebben a példában a rendeléskezelő logika viszonylag egyszerű, és csak egyetlen lépése van, amely távoli szolgáltatást hív meg. Egy összetettebb, többlépéses forgatókönyv szerint az a folyamat akkor vélhetően több lépést tartalmaz, és így az állapottárolóban jön &mdash; mindegyike egy-egy adott lépés állapotát leíró.
 
 Az ütemező szintén a feldolgozói szerepkör részeként fut, és implementálja a rendelést kezelő üzleti logikát. Az ütemező egy új rendeléseket kereső példánya olyan rekordokat vizsgál az állapottárolóban, amelyekben a `LockedBy` mező értéke null, a `ProcessState` mezőé pedig „Pending”. Amikor az ütemező új rendelést talál, azonnal kitölti a `LockedBy` mezőt a saját példányazonosítójával, a `CompleteBy` mezőt egy megfelelő időpontra állítja be, a `ProcessState` mezőt pedig „Processing” értékre állítja. A kód kizárólagos és atomi tervezése biztosítja, hogy az ütemező két párhuzamosan futó példánya ne kezelhesse egyszerre ugyanazt a rendelést.
 

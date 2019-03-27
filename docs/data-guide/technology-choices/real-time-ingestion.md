@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 9f787a0de5db97f5c0a5651b510e49762fbc44b9
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482995"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299097"
 ---
 # <a name="choosing-a-real-time-message-ingestion-technology-in-azure"></a>Egy valós idejű üzenetek feldolgozási technológia kiválasztása az Azure-ban
 
@@ -72,11 +72,11 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | IoT Hub | Event Hubs | Kafka on HDInsight |
 | --- | --- | --- | --- |
-| Felhőből az eszközre irányuló kommunikáció | Igen | Nem | Nincs |
-| Eszköz által kezdeményezett fájl feltöltése | Igen | Nem | Nincs |
-| Eszközállapot-adatokat | [Ikereszközök](/azure/iot-hub/iot-hub-devguide-device-twins) | Nincs | Nincs |
+| Felhőből az eszközre irányuló kommunikáció | Igen | Nem | Nem |
+| Eszköz által kezdeményezett fájl feltöltése | Igen | Nem | Nem |
+| Eszközállapot-adatokat | [Ikereszközök](/azure/iot-hub/iot-hub-devguide-device-twins) | Nem | Nem |
 | Protokolltámogatás | MQTT, AMQP, HTTPS <sup>1</sup> | AMQP, HTTPS | [A Kafka-protokoll](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol) |
-| Biztonsági | Eszközönkénti identitás; visszavonható hozzáférés-vezérlés. | Megosztott elérési házirendeket; korlátozott visszavonása a közzétevői házirendek használatával. | Hitelesítés az SASL; moduláris engedélyezési; külső hitelesítés támogatott szolgáltatások integrációja. |
+| Biztonság | Eszközönkénti identitás; visszavonható hozzáférés-vezérlés. | Megosztott elérési házirendeket; korlátozott visszavonása a közzétevői házirendek használatával. | Hitelesítés az SASL; moduláris engedélyezési; külső hitelesítés támogatott szolgáltatások integrációja. |
 
 <!-- markdownlint-enable MD026 -->
 

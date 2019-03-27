@@ -7,12 +7,12 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
-ms.openlocfilehash: a567b138580999c7b7a6ae8dedb244f4e37970e7
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 1a7c892168a0730b0e13169c391069a6c522f220
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486046"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298817"
 ---
 [!INCLUDE [header](../_includes/header.md)]
 
@@ -69,7 +69,7 @@ Az Azure Virtual Machines, a platformszolgáltatás (PaaS) szerepkörök több s
 
 PaaS szerepkörpéldányok, ellentétben a virtuális gép meghajtókon tárolt adatokat az állandó akkor is, ha a virtuális gép van más helyre. Az Azure virtual machines létező Virtuálisgép-lemezek használjuk az Azure Storage-blobokat. Azure Storage rendelkezésre állási jellemzőinek miatt a virtuális gépek meghajtókon tárolt adatokat is magas rendelkezésre állású.
 
-Vegye figyelembe, hogy D meghajtó (a Windows VM-EK) az ezen szabály alól. D meghajtó a rack kiszolgálón, amelyen a virtuális gép tényleges fizikai tárhelyet, és az adatok elvesznek, ha a virtuális gép újraindul. D meghajtó csak ideiglenes tároló szól. A Linux Azure "általában" (de nem mindig) tesz elérhetővé a helyi ideiglenes lemez /dev/sdb blokk eszközként. Gyakran csatlakoztatva van az Azure Linux-ügynök által /mnt/resource vagy /mnt csatlakoztatási pontokra (/etc/waagent.conf keresztül konfigurálható).
+Vegye figyelembe, hogy D meghajtó (a Windows VM-EK) az ezen szabály alól. D meghajtó a rack kiszolgálón, amelyen a virtuális gép tényleges fizikai tárhelyet, és az adatok elvesznek, ha a virtuális gép újraindul. D meghajtó csak ideiglenes tároló szól. A Linux, Azure _általában_ (de nem mindig) tesz elérhetővé a helyi ideiglenes lemez/dev/sdb blokk eszközt. Gyakran csatlakoztatva van az Azure Linux-ügynök által /mnt/resource vagy /mnt csatlakoztatási pontokra (/etc/waagent.conf keresztül konfigurálható).
 
 <!-- markdownlint-disable MD024 -->
 
@@ -85,7 +85,7 @@ A fenti ábrán az Internet Information Services (IIS) szint (amely a web app r�
 
 A virtuális gépek elosztott azok között forgalmat kell rendelkeznie, ha egy alkalmazás és a terhelés elosztása a virtuális gépek között egy adott TCP vagy UDP-végpontnak kell csoportosítja. További információkért lásd: [terheléselosztási virtuális gépek](/azure/virtual-machines/virtual-machines-linux-load-balance/?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). Ha a virtuális gépek bemeneti más forrásból (például egy üzenetsor-kezelési mechanizmust) kap, a load balancer, nem szükséges. A load balancer alapszintű állapot-ellenőrzése alapján határozza meg, hogy kell-e forgalmat küldeni a csomópontra. Az is lehet létrehozni a saját mintavételek megvalósításához és alkalmazásspecifikus mérőszámok, amelyek meghatározzák, hogy a virtuális gép jár-e a forgalmat.
 
-## <a name="storage"></a>Tárhely
+## <a name="storage"></a>Storage
 
 Az Azure Storage szolgáltatása a referenciakonfiguráció hosszú élettartamú adatok az Azure-hoz. Blob, table, queue és virtuális gép lemezes tárolás biztosít. Replikáció és az erőforrás-kezelés együttes használatával magas rendelkezésre állás egyetlen adatközponton belül. Az Azure Storage rendelkezésre állási SLA biztosítja azt, hogy legalább 99,9 %-ában:
 
@@ -108,7 +108,7 @@ Az Azure Storage adná ugyanazokat tartósság és a méretezhetőség tulajdons
 
 ## <a name="database"></a>Adatbázis
 
-### <a name="sql-database"></a>SQL-adatbázis
+### <a name="sql-database"></a>SQL Database
 
 Az Azure SQL Database-adatbázist kínál szolgáltatásként. Lehetővé teszi alkalmazások gyors üzembe helyezése, helyezze be az adatokat, és a relációs adatbázisok lekérdezése. Az ismerős SQL-kiszolgálói szolgáltatásairól és funkcióiról, számos hardver, konfigurációs, javítási és rugalmasság terhe paltformfüggetlen közben biztosít.
 

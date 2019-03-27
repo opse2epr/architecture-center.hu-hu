@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Ez narratíva hoz létre egy alkalmazási helyzet nagyvállalati cégirányítási útra.
 author: BrianBlanchard
-ms.openlocfilehash: 2f8e18a7a845d39fd5aa1632a9d025a502518a94
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: b6570b7518f129e5ac14f1639a4bf57e1b4ade69
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899450"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298654"
 ---
 # <a name="large-enterprise-the-narrative-behind-the-governance-strategy"></a>Nagyvállalati: A cégirányítási stratégia mögött narratíva
 

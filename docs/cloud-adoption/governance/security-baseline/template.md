@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: A koncepció biztonsági alapterv viszonyítva felhőalapú cégirányítási ismertetése
 author: BrianBlanchard
 ms.openlocfilehash: 93622fee899824fffe604d7b3f588f5ed179b371
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899187"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298458"
 ---
 # <a name="security-baseline-template"></a>Biztonsági alapkonfiguráció sablon
 

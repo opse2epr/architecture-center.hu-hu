@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
 ms.openlocfilehash: 95f634284fe821386704174894a85a4dbca815f7
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485077"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299524"
 ---
 # <a name="run-a-basic-web-application-in-azure"></a>Alapszintű webalkalmazás futtatása az Azure-ban
 
@@ -85,7 +85,7 @@ Az App Service-alkalmazások skálázásának két módja van:
 
   A horizontális felskálázás elvégezhető a példányszám manuális módosításával vagy [automatikus skálázással][web-app-autoscale], amikor az Azure egy ütemezés és/vagy teljesítménymetrikák alapján automatikusan hozzáad vagy eltávolít példányokat a csomagból. Az egyes skálázási műveletek gyorsan, általában másodpercek alatt lezajlanak.
 
-  Az automatikus skálázás engedélyezéséhez hozzon létre egy automatikus skálázási *profilt*, amely meghatározza a példányok minimális és maximális számát. A profilok ütemezhetőek. Létrehozhat például külön profilokat munkanapokra és hétvégére. A profilok arra vonatkozó szabályokat is tartalmazhatnak, hogy mikor kell példányokat hozzáadni vagy eltávolítani. (Példa: Két példány hozzáadása, ha CPU-használat 70 % fölé emelkedik 5 perce.)
+  Az automatikus skálázás engedélyezéséhez hozzon létre egy automatikus skálázási *profilt*, amely meghatározza a példányok minimális és maximális számát. A profilok ütemezhetőek. Létrehozhat például külön profilokat munkanapokra és hétvégére. A profilok arra vonatkozó szabályokat is tartalmazhatnak, hogy mikor kell példányokat hozzáadni vagy eltávolítani. (Például: Két példány hozzáadása, ha CPU-használat 70 % fölé emelkedik 5 perce.)
 
 Javaslatok webalkalmazások skálázásához:
 

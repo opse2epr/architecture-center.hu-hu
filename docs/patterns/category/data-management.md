@@ -10,11 +10,11 @@ ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
 ms.openlocfilehash: 25571a431836656856ed3f299455dfdb94ae3477
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486981"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298730"
 ---
 # <a name="data-management-patterns"></a>Adatkezelési minták
 
@@ -22,7 +22,7 @@ ms.locfileid: "54486981"
 
 Az adatkezelés a felhőalapú alkalmazások kulcsfontosságú eleme, és befolyásolja a legtöbb minőségi attribútumot. Az adatok általában különböző helyeken, több kiszolgálón találhatók a teljesítmény, a skálázhatóság vagy a rendelkezésre állás miatt, ez pedig különféle kihívásokat jelenthet. Fenn kell tartani például az adatok konzisztenciáját, és az adatokat jellemzően több különböző hely között kell szinkronizálni.
 
-|                        Pattern                         |                                                                  Összefoglalás                                                                  |
+|                        Mintázat                         |                                                                  Összegzés                                                                  |
 |--------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 |            [Cache-Aside](../cache-aside.md)            |                                            Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból                                             |
 |                   [CQRS](../cqrs.md)                   |                    Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                     |

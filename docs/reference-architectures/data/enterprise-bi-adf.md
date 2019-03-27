@@ -8,18 +8,22 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 020c401e9db85b76fd48c6df9be9c80d2ba5c7e4
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: d52d2a323727760463c0b5694b9116e0ed469c93
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481473"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298890"
 ---
 # <a name="automated-enterprise-bi-with-sql-data-warehouse-and-azure-data-factory"></a>Az SQL Data Warehouse és az Azure Data Factory automatizált vállalati bi-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan hajthat végre a növekményes betöltése egy [kinyerése, betöltése és átalakítási (ELT)](../../data-guide/relational-data/etl.md#extract-load-and-transform-elt) folyamat. Azure Data Factory használatával az ELT folyamatok automatizálásához. A folyamat növekményes helyezi át a legújabb OLTP adatokat a helyszíni SQL Server-adatbázisból az SQL Data Warehouse-bA. Tranzakciós adatok átalakításának egy táblázatos modell elemzés céljából.
 
+<!-- markdownlint-disable MD034 -->
+
 > [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2Gnz2]
+
+<!-- markdownlint-enable MD034 -->
 
 Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
@@ -204,7 +208,7 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 - Az Azure Analysis Services-példányt.
 - Az Azure Data Factory és a Data Factory-folyamatot a ELT-feladathoz.
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

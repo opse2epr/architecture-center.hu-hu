@@ -8,12 +8,12 @@ ms.topic: checklist
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency, checklist
-ms.openlocfilehash: fbb7501a663c8b5e326b2b601685419c8e5a0806
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 647a17feb347fbb23e9ffa015ab9d640e8864439
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486913"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298474"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
@@ -73,7 +73,7 @@ Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és t
 
 Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként használ, ezek a javaslatok nem alkalmazható.
 
-## <a name="search"></a>Search
+## <a name="search"></a>Keresés
 
 **Több replika üzembe helyezhető.** Legalább két replika használata olvasási magas rendelkezésre állású, vagy három az olvasási és írási magas rendelkezésre állású.
 
@@ -97,7 +97,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Használja a Geo-Disaster Recovery**. GEO-vészhelyreállítás biztosítja, hogy adatfeldolgozási továbbra is megfelelően működjenek, eltérő régióban vagy datacenter, ha egy teljes Azure-régiót vagy datacenter katasztrófa miatt elérhetetlenné válik. További információkért lásd: [Azure Service Bus Geo-disaster recovery](/azure/service-bus-messaging/service-bus-geo-dr).
 
-## <a name="storage"></a>Tárhely
+## <a name="storage"></a>Storage
 
 **Az alkalmazásadatok esetében használja az írásvédett georedundáns tárolás (RA-GRS).** RA-GRS tároló egy másodlagos régióba replikálja az adatokat, és a másodlagos régióból a csak olvasási hozzáférést biztosít. Ha a társzolgáltatás kimaradása az elsődleges régióban, az alkalmazás olvashatja az adatokat a másodlagos régióból. További információkért lásd: [Azure Storage replikáció](/azure/storage/storage-redundancy/).
 
@@ -105,7 +105,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **A Queue storage hozzon létre egy biztonsági várólistát egy másik régióban.** A Queue storage, a csak olvasható replika korlátozott használja, mert nem lehet üzenetsor vagy elemek eltávolítása a sorból. Ehelyett hozzon létre egy biztonsági várólistát a storage-fiókban egy másik régióban. Ha a társzolgáltatás kimaradása, az alkalmazás a biztonsági várólistát használhatja, az elsődleges régió amíg elérhetővé nem válik újra. Ezzel a módszerrel az alkalmazás továbbra is az új kérelmek tud feldolgozni.
 
-## <a name="sql-database"></a>SQL-adatbázis
+## <a name="sql-database"></a>SQL Database
 
 **Használjon Standard vagy prémium csomagra.** Ezek a rétegek adjon meg egy már időponthoz visszaállítás ideje (35 nap). További információkért lásd: [SQL Database beállításai és teljesítménye](/azure/sql-database/sql-database-service-tiers/).
 
@@ -143,7 +143,7 @@ Ha a Redis Cache ideiglenes gyorsítótárként, és nem állandó tárolóként
 
 **Mindössze az egyes alkalmazásrétegek külön rendelkezésre állási csoportban.** Az N szintű alkalmazáshoz ne helyezzen virtuális gépet a különböző szintek az azonos rendelkezésre állási csoportba. Virtuális gépet egy rendelkezésre állási csoportban vannak elhelyezve a tartalék tartományok között, és frissítési tartományok (UD). Azonban a redundancia élvezheti a tartalék és frissítési tartománnyal, a rendelkezésre állási csoportban lévő összes virtuális Géphez kell tudni az azonos ügyfélkérelmek kezelését.
 
-**Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc. Vészhelyreállítási próba annyiszor azt szeretné, az éles alkalmazás vagy a folyamatban lévő replikáció befolyásolása nélkül végezhet. További információkért lásd: [vészhelyreállítási gyakorlatának futtatása az Azure-bA][site-recovery-test].
+**Az Azure Site Recovery virtuális gépeket replikálni.** Amikor replikálhat Azure virtuális gépek [Site Recovery][site-recovery], a Virtuálisgép-lemezek folyamatosan replikálja a rendszer a célként megadott régióban aszinkron módon történik. A helyreállítási pontok jönnek létre néhány perces időközönként. Ez lehetővé teszi a helyreállítási időkorlátot (RPO) sorrendjében perc. Vészhelyreállítási próba annyiszor azt szeretné, anélkül, hogy ez hatással lenne az éles alkalmazás vagy a folyamatban lévő replikáció végezhet. További információkért lásd: [vészhelyreállítási gyakorlatának futtatása az Azure-bA][site-recovery-test].
 
 **Válassza ki a megfelelő Virtuálisgép-méret, teljesítmény-követelmények alapján.** Amikor helyez át egy meglévő számítási feladatok Azure-ba, indítsa el a Virtuálisgép-méretet, amely a leginkább egyezik a helyszíni kiszolgálókhoz. Ezután mérheti a CPU, memória és a lemez iops-t a valós számítási feladat teljesítményét, és módosítsa a méretet, ha szükséges. Ezzel biztosíthatja az alkalmazás egy felhőalapú környezetben a várt módon viselkedik. Is ha több hálózati adapter van szüksége, vegye figyelembe a hálózati adapter korlát méreteire vonatkoztatva.
 

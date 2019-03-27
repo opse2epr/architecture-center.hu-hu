@@ -65,82 +65,6 @@ items:
         href: guide/design-principles/build-for-business.md
     - name: A szoftverminőség alappillérei
       href: guide/pillars.md
-  - name: Útmutató az adatarchitektúrához
-    items:
-    - name: Bevezetés
-      href: data-guide/index.md
-    - name: Hagyományos RDBMS számítási feladatok
-      items:
-      - name: Áttekintés
-        href: data-guide/relational-data/index.md
-      - name: Online tranzakciófeldolgozás (OLTP)
-        href: data-guide/relational-data/online-transaction-processing.md
-      - name: Adatraktározás
-        href: data-guide/relational-data/data-warehousing.md
-      - name: Online analitikus feldolgozás (OLAP)
-        href: data-guide/relational-data/online-analytical-processing.md
-      - name: Kinyerés, átalakítás és betöltés (ETL)
-        href: data-guide/relational-data/etl.md
-    - name: Big data-architektúrák
-      items:
-      - name: Áttekintés
-        href: data-guide/big-data/index.md
-      - name: Kötegelt feldolgozás
-        href: data-guide/big-data/batch-processing.md
-      - name: Valós idejű feldolgozás
-        href: data-guide/big-data/real-time-processing.md
-      - name: Gépi tanulás nagy léptékben
-        href: data-guide/big-data/machine-learning-at-scale.md
-      - name: Nem relációs adattárak
-        href: data-guide/big-data/non-relational-data.md
-      - name: Forgatókönyvek
-        items:
-        - name: Bővített analitika
-          href: data-guide/scenarios/advanced-analytics.md
-        - name: Data lake tárolók
-          href: data-guide/scenarios/data-lake.md
-        - name: Szabad formátumú szöveges keresés
-          href: data-guide/scenarios/search.md
-        - name: Interaktív adatfeltárás
-          href: data-guide/scenarios/interactive-data-exploration.md
-        - name: Természetes nyelvek feldolgozása
-          href: data-guide/scenarios/natural-language-processing.md
-        - name: Idősorozattal kapcsolatos megoldások
-          href: data-guide/scenarios/time-series.md
-        - name: CSV- és JSON-fájlok használata
-          href: data-guide/scenarios/csv-and-json.md
-      - name: Technológiai lehetőségek
-        items:
-        - name: Analitikus adattárak
-          href: data-guide/technology-choices/analytical-data-stores.md
-        - name: Elemzések és jelentéskészítés
-          href: data-guide/technology-choices/analysis-visualizations-reporting.md
-        - name: Kötegelt feldolgozás
-          href: data-guide/technology-choices/batch-processing.md
-        - name: Kognitív szolgáltatások
-          href: data-guide/technology-choices/cognitive-services.md
-        - name: Adattárolás
-          href: data-guide/technology-choices/data-storage.md
-        - name: Gépi tanulás
-          href: data-guide/technology-choices/data-science-and-machine-learning.md
-        - name: Természetes nyelvek feldolgozása
-          href: data-guide/technology-choices/natural-language-processing.md
-        - name: Folyamatvezénylés
-          href: data-guide/technology-choices/pipeline-orchestration-data-movement.md
-        - name: Valós idejű üzenetbetöltés
-          href: data-guide/technology-choices/real-time-ingestion.md
-        - name: Adattárolók keresése
-          href: data-guide/technology-choices/search-options.md
-        - name: Stream-feldolgozás
-          href: data-guide/technology-choices/stream-processing.md
-    - name: Általános megfontolások
-      items:
-      - name: Adatátvitel
-        href: data-guide/scenarios/data-transfer.md
-      - name: Helyszíni adatmegoldások kiterjesztése a felhőre
-        href: data-guide/scenarios/hybrid-on-premises-and-cloud.md
-      - name: Adatmegoldások védelme
-        href: data-guide/scenarios/securing-data-solutions.md
   - name: Tervezési minták felhőkhöz
     items:
     - name: Áttekintés
@@ -175,6 +99,8 @@ items:
       href: patterns/cache-aside.md
     - name: Circuit Breaker
       href: patterns/circuit-breaker.md
+    - name: Claim Check
+      href: patterns/claim-check.md
     - name: Command and Query Responsibility Segregation (CQRS)
       href: patterns/cqrs.md
     - name: Compensating Transaction
@@ -313,7 +239,7 @@ items:
       href: example-scenario/apps/apim-api-scenario.md
     - name: Keresés e-kereskedelmi termékek között
       href: example-scenario/apps/ecommerce-search.md
-  - name: Adatok és elemzések
+  - name: Adatok és analitika
     items:
     - name: Hibrid ETL Data Factoryval
       href: example-scenario/data/hybrid-etl-with-adf.md
@@ -353,6 +279,8 @@ items:
     items:
     - name: Mélytanulási modellek elosztott betanítása
       href: reference-architectures/ai/training-deep-learning.md
+    - name: A Python scikit-learn modellek betanítása
+      href: reference-architectures/ai/training-python-models.md
     - name: Mélytanulási modellek kötegelt kiértékelése
       href: reference-architectures/ai/batch-scoring-deep-learning.md
     - name: A Python-modellek kötegelt kiértékelése
@@ -417,6 +345,8 @@ items:
     items:
     - name: Azure Kubernetes Service (AKS)
       href: reference-architectures/microservices/aks.md
+    - name: Azure Service Fabric
+      href: reference-architectures/microservices/service-fabric.md
   - name: Hálózati DMZ
     items:
     - name: Szegélyhálózat (DMZ) az Azure és a helyszíni hely között
@@ -465,30 +395,132 @@ items:
       href: reference-architectures/app-service-web-app/multi-region.md
     - name: Webalkalmazás-monitorozás
       href: reference-architectures/app-service-web-app/app-monitoring.md
-- name: Tervezési útmutatók
+- name: Mikroszolgáltatások létrehozása az Azure-ban
   items:
-  - name: Mikroszolgáltatások létrehozása az Azure-ban
+  - name: Áttekintés
+    href: microservices/index.md
+  - name: A mikroszolgáltatások bemutatása
+    href: microservices/introduction.md
+  - name: Mikroszolgáltatások modellezése
+    items:
+    - name: Tartományelemzés
+      href: microservices/model/domain-analysis.md
+    - name: Taktikai DDD
+      href: microservices/model/tactical-ddd.md
+    - name: Mikroszolgáltatások határainak azonosítása
+      href: microservices/model/microservice-boundaries.md
+  - name: Mikroszolgáltatási architektúra tervezése
     items:
     - name: Bevezetés
-      href: microservices/index.md
-    - name: Tartományelemzés
-      href: microservices/domain-analysis.md
-    - name: Mikroszolgáltatások határainak azonosítása
-      href: microservices/microservice-boundaries.md
-    - name: Adatkezelési szempontok
-      href: microservices/data-considerations.md
+      href: microservices/design/index.md
+    - name: Számítási lehetőség kiválasztása
+      href: microservices/design/compute-options.md
     - name: Szolgáltatások közötti kommunikáció
-      href: microservices/interservice-communication.md
+      href: microservices/design/interservice-communication.md
     - name: API-tervezés
-      href: microservices/api-design.md
-    - name: Adatfeldolgozás és munkafolyamatok
-      href: microservices/ingestion-workflow.md
+      href: microservices/design/api-design.md
     - name: API-átjárók
-      href: microservices/gateway.md
+      href: microservices/design/gateway.md
+    - name: Adatkezelési szempontok
+      href: microservices/design/data-considerations.md
+    - name: A mikroszolgáltatások tervezési mintái
+      href: microservices/design/patterns.md
+  - name: A mikroszolgáltatások működtetése éles környezetben
+    items:
     - name: Naplózás és figyelés
       href: microservices/logging-monitoring.md
     - name: CI/CD
       href: microservices/ci-cd.md
+- name: Tervezési útmutatók
+  items:
+  - name: Útmutató az adatarchitektúrához
+    items:
+    - name: Bevezetés
+      href: data-guide/index.md
+    - name: Hagyományos RDBMS számítási feladatok
+      items:
+      - name: Áttekintés
+        href: data-guide/relational-data/index.md
+      - name: Online tranzakciófeldolgozás (OLTP)
+        href: data-guide/relational-data/online-transaction-processing.md
+      - name: Adatraktározás
+        href: data-guide/relational-data/data-warehousing.md
+      - name: Online analitikus feldolgozás (OLAP)
+        href: data-guide/relational-data/online-analytical-processing.md
+      - name: Kinyerés, átalakítás és betöltés (ETL)
+        href: data-guide/relational-data/etl.md
+    - name: Big data-architektúrák
+      items:
+      - name: Áttekintés
+        href: data-guide/big-data/index.md
+      - name: Kötegelt feldolgozás
+        href: data-guide/big-data/batch-processing.md
+      - name: Valós idejű feldolgozás
+        href: data-guide/big-data/real-time-processing.md
+      - name: Gépi tanulás nagy léptékben
+        href: data-guide/big-data/machine-learning-at-scale.md
+      - name: Nem relációs adattárak
+        href: data-guide/big-data/non-relational-data.md
+      - name: Forgatókönyvek
+        items:
+        - name: Bővített analitika
+          href: data-guide/scenarios/advanced-analytics.md
+        - name: Data lake tárolók
+          href: data-guide/scenarios/data-lake.md
+        - name: Szabad formátumú szöveges keresés
+          href: data-guide/scenarios/search.md
+        - name: Interaktív adatfeltárás
+          href: data-guide/scenarios/interactive-data-exploration.md
+        - name: Természetes nyelvek feldolgozása
+          href: data-guide/scenarios/natural-language-processing.md
+        - name: Idősorozattal kapcsolatos megoldások
+          href: data-guide/scenarios/time-series.md
+        - name: CSV- és JSON-fájlok használata
+          href: data-guide/scenarios/csv-and-json.md
+      - name: Technológiai lehetőségek
+        items:
+        - name: Analitikus adattárak
+          href: data-guide/technology-choices/analytical-data-stores.md
+        - name: Elemzések és jelentéskészítés
+          href: data-guide/technology-choices/analysis-visualizations-reporting.md
+        - name: Kötegelt feldolgozás
+          href: data-guide/technology-choices/batch-processing.md
+        - name: Kognitív szolgáltatások
+          href: data-guide/technology-choices/cognitive-services.md
+        - name: Adattárolás
+          href: data-guide/technology-choices/data-storage.md
+        - name: Gépi tanulás
+          href: data-guide/technology-choices/data-science-and-machine-learning.md
+        - name: Természetes nyelvek feldolgozása
+          href: data-guide/technology-choices/natural-language-processing.md
+        - name: Folyamatvezénylés
+          href: data-guide/technology-choices/pipeline-orchestration-data-movement.md
+        - name: Valós idejű üzenetbetöltés
+          href: data-guide/technology-choices/real-time-ingestion.md
+        - name: Adattárolók keresése
+          href: data-guide/technology-choices/search-options.md
+        - name: Stream-feldolgozás
+          href: data-guide/technology-choices/stream-processing.md
+    - name: Általános megfontolások
+      items:
+      - name: Adatátvitel
+        href: data-guide/scenarios/data-transfer.md
+      - name: Helyszíni adatmegoldások kiterjesztése a felhőre
+        href: data-guide/scenarios/hybrid-on-premises-and-cloud.md
+      - name: Adatmegoldások védelme
+        href: data-guide/scenarios/securing-data-solutions.md
+  - name: Az Azure Resource Manager-sablonok bővítése
+    items:
+    - name: Bevezetés
+      href: building-blocks/extending-templates/index.md
+    - name: Erőforrás frissítése
+      href: building-blocks/extending-templates/update-resource.md
+    - name: Erőforrás feltételes üzembe helyezése
+      href: building-blocks/extending-templates/conditional-deploy.md
+    - name: Objektum használata paraméterként
+      href: building-blocks/extending-templates/objects-as-parameters.md
+    - name: Tulajdonságátalakító és -gyűjtő
+      href: building-blocks/extending-templates/collector.md
   - name: Több-bérlős identitások kezelése
     items:
     - name: Bevezetés
@@ -817,9 +849,9 @@ items:
           href: cloud-adoption/decision-guides/software-defined-network/hub-spoke.md
       - name: Naplók és jelentéskészítés
         href: cloud-adoption/decision-guides/log-and-report/overview.md
-ms.openlocfilehash: 2ba7e4b0b9eb049c0492557a0543778d2fbb2518
-ms.sourcegitcommit: a68f248402c598f9d25bc1dc62f27a6a934ff001
+ms.openlocfilehash: 179f4bc613b29f4090e5713c9abebdf1af8d54a7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55903248"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346178"

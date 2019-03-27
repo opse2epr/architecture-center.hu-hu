@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 4f973a6173e882d6ae839833bd3c5bf86f8d7fb6
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 43838592ef4176c28e11b90180727a63b1e1f8f6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898136"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298485"
 ---
 # <a name="data-partitioning-strategies"></a>Adatok particionálási stratégiái
 
@@ -135,7 +135,7 @@ Az Azure tároló-üzenetsorok használatával folyamatok közötti aszinkron ü
 
 Minden egyes üzenetsor egyedi névvel rendelkezik a tárfiókon belül, amelyben található. Az Azure név alapján particionálja az üzenetsorokat. Az egy üzenetsorba tartozó üzeneteket egy partíció tárolja, amelyet egy kiszolgáló vezérel. A különböző üzenetsorok a terhelés elosztása érdekében futtathatók külön kiszolgálókon. Az üzenetsorok kiszolgálókra való leosztása az alkalmazások és a felhasználók számára transzparens módon történik.
 
-A nagy alkalmazásokban ne ugyanazt az üzenetsort használja az alkalmazás összes példányához, mivel így az üzenetsort futtató kiszolgáló kritikus ponttá válhat. Használjon inkább külön üzenetsorokat az alkalmazás különböző funkcionális területei szerint. Az Azure tároló-üzenetsorok nem támogatják a tranzakciókat, ezért ha az üzeneteket külön üzenetsorokra irányítja, ez nem befolyásolja az üzenetkonzisztenciát.
+A nagy alkalmazásokban ne ugyanazt az üzenetsort használja az alkalmazás összes példányához, mivel így az üzenetsort futtató kiszolgáló kritikus ponttá válhat. Használjon inkább külön üzenetsorokat az alkalmazás különböző funkcionális területei szerint. Az Azure storage üzenetsorok nem támogatják a tranzakciókat, így az üzeneteket külön üzenetsorokra irányítja az üzenetkonzisztenciát kis hatás kell rendelkeznie.
 
 Az egyes Azure tároló-üzenetsorok másodpercenként 2000 üzenetet képesek feldolgozni. Ha ennél nagyobb sebességre van szüksége, érdemes több üzenetsort létrehoznia. Például egy globális alkalmazás esetében hozzon létre külön tároló-üzenetsorokat külön tárfiókokban az egyes régiókban futó alkalmazáspéldányok kezelésére.
 

@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
 ms.openlocfilehash: 8b1d614460b8c0bd9655d7b75cd971767e34ee3f
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483615"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298806"
 ---
 # <a name="autoscaling"></a>Automatikus skálázás
 
@@ -32,7 +32,7 @@ Számos felhőalapú rendszer, köztük a Microsoft Azure is támogatja az autom
 > [!NOTE]
 > Az automatikus skálázás legfőképp a számítási erőforrásokra vonatkozik. Bár egy adatbázis vagy az üzenetsorok horizontális skálázása is, ez általában magában foglalja a [adatparticionálás](./data-partitioning.md), ami legtöbbször nem automatizált.
 
-## <a name="overview"></a>Áttekintés (klasszikus)
+## <a name="overview"></a>Áttekintés
 
 Az automatikus skálázási stratégia általában a következőket foglalja magába:
 

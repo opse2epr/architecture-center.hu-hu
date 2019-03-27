@@ -9,12 +9,12 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authorize
 pnp.series.next: token-cache
-ms.openlocfilehash: a895276a77c111e660f29397d250373bee53f29e
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 7d99aca8865ccb29c54c3819dc82de503de7e4fc
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54480768"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298426"
 ---
 # <a name="secure-a-backend-web-api"></a>Egy háttéralkalmazás webes API biztonságossá tétele
 
@@ -47,7 +47,7 @@ A webes API nem engedélyezi a névtelen kérésekkel, így a web app hitelesít
 Nincsenek két fő megközelítés közül választhat:
 
 * Felhasználói identitás delegált. A webes alkalmazás hitelesíti a felhasználó identitását.
-* Identita aplikace. A webalkalmazás az ügyfél-azonosító, ügyfél-hitelesítő adatok folyamata OAuth2 használatával végzi a hitelesítést.
+* Identita aplikace. A webalkalmazás az ügyfél-azonosító, ügyfél-hitelesítő adatok folyamata OAuth 2 használatával végzi a hitelesítést.
 
 A Tailspin alkalmazás megvalósítja a felhasználó delegált identitása. Az alábbiakban a fő különbség:
 
@@ -116,7 +116,7 @@ Az alábbiakban a különböző paraméterek szükségesek:
 * `authorizationCode`. a hitelesítési kódot, amely az identitásszolgáltató vissza lett.
 * `clientId`. A webes alkalmazás ügyfél-azonosítót.
 * `clientSecret`. A webes alkalmazás titkos ügyfélkódja.
-* `redirectUri`. Az átirányítási URI-t, amelyet beállított OpenID connect. Ez a, amelyben az Identitásszolgáltató visszahívja a jogkivonattal.
+* `redirectUri`. Az átirányítási URI-t, amely az OpenID Connect állítja be. Ez a, amelyben az Identitásszolgáltató visszahívja a jogkivonattal.
 * `resourceID`. Az Alkalmazásazonosító URI a webes API-t, a webes API Azure AD-ben való regisztrálásakor létrehozott
 * `tokenCache`. Gyorsítótárazza a hozzáférési jogkivonatok objektum. Lásd: [Token-gyorsítótárazási].
 
@@ -226,7 +226,7 @@ public override async Task TokenValidated(TokenValidatedContext context)
 
 Mivel ez a példa bemutatja, is használhatja a **TokenValidated** eseményhez, és módosíthatja a jogcímeket. Ne feledje, hogy a jogcímek származnak, közvetlenül az Azure ad-ből. A webes alkalmazás módosítja a jogcímeket kap, ha ezek a módosítások nem jelennek meg a tulajdonosi jogkivonat, amely megkapja a webes API-t. További információkért lásd: [jogcím-átalakítást][claims-transformation].
 
-## <a name="authorization"></a>Jogosultság
+## <a name="authorization"></a>Engedélyezés
 
 Általános engedélyezési, lásd: [szerepkör- és erőforrás-alapú hitelesítés][Authorization].
 

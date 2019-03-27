@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 76a101b76497ae2b2aacff973175bb0fe4703d9e
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482442"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299219"
 ---
 # <a name="choosing-a-data-pipeline-orchestration-technology-in-azure"></a>Egy data pipeline vezénylési technológia kiválasztása az Azure-ban
 
@@ -47,7 +47,7 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 | | Azure Data Factory | SQL Server Integration Services (SSIS) | A HDInsight Oozie
 | --- | --- | --- | --- |
-| Felügyelt | Igen | Nem | Igen |
+| Managed | Igen | Nem | Igen |
 | Felhőalapú | Igen | Nincs (helyi) | Igen |
 | Előfeltétel | Azure-előfizetés | SQL Server  | Azure-előfizetéssel, HDInsight-fürt |
 | Felügyeleti eszközök | Azure Portal, PowerShell, CLI, .NET SDK | SSMS, PowerShell | A bash rendszerhéj, az Oozie REST API-t, az Oozie webes felhasználói felületen |
@@ -59,20 +59,20 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | --- | --- | --- | --- |
 | Adatok másolása | Igen | Igen | Igen |
 | Egyéni átalakítások | Igen | Igen | Igen (a MapReduce, a Pig és a Hive-feladatok) |
-| Azure Machine Learning scoring | Igen | Igen (szkriptek) | Nincs |
-| HDInsight igény szerinti | Igen | Nem | Nincs |
-| Azure Batch | Igen | Nem | Nincs |
+| Azure Machine Learning scoring | Igen | Igen (szkriptek) | Nem |
+| HDInsight igény szerinti | Igen | Nem | Nem |
+| Azure Batch | Igen | Nem | Nem |
 | Pig, Hive, MapReduce | Igen | Nem | Igen |
-| Spark | Igen | Nem | Nincs |
-| SSIS-csomag végrehajtása | Igen | Igen | Nincs |
+| Spark | Igen | Nem | Nem |
+| SSIS-csomag végrehajtása | Igen | Igen | Nem |
 | Átvitelvezérlés | Igen | Igen | Igen |
-| Helyszíni adatok elérése | Igen | Igen | Nincs |
+| Helyszíni adatok elérése | Igen | Igen | Nem |
 
 ### <a name="scalability-capabilities"></a>Skálázhatósági képességeket.
 
 | | Azure Data Factory | SQL Server Integration Services (SSIS) | A HDInsight Oozie
 | --- | --- | --- | --- |
-| Felskálázás | Igen | Nem | Nincs |
-| Horizontális felskálázás | Igen | Nincs | Igen (a fürt munkavégző csomópontok hozzáadásával) |
+| Vertikális felskálázás | Igen | Nem | Nem |
+| Horizontális felskálázás | Igen | Nem | Igen (a fürt munkavégző csomópontok hozzáadásával) |
 | Big Data-optimalizált | Igen | Nem | Igen |
 

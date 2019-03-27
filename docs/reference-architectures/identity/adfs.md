@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
 ms.openlocfilehash: 22a2a2042c85e70d0d5a523c9ecf72395a9e774c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488273"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298998"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -239,7 +239,7 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 1. Nyissa meg az `adfs-farm-first.json` fájlt.  Keresse meg `AdminPassword` , és cserélje le az alapértelmezett jelszót.
 
-1. Futtassa a következő parancsot:
+1. Futtassa az alábbi parancsot:
 
     ```bash
     azbb -s <subscription_id> -g <resource group> -l <location> -p adfs-farm-first.json --deploy

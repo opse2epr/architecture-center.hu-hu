@@ -3,20 +3,20 @@ title: Ajánlott eljárások Azure-bA nagyvállalatok számára
 description: A vállalatok számára is annak biztosítására, biztonságos és kezelhető környezetet használó scaffold ismerteti.
 author: rdendtler
 ms.author: rodend
-ms.date: 9/22/2018
+ms.date: 09/22/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 86ac3a1c696479279962a17b01c2df73fb5a9849
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: f92f448c97d8adc8d2f88b6288f354dcc21909f9
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898323"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298794"
 ---
 # <a name="azure-enterprise-scaffold-prescriptive-subscription-governance"></a>Az Azure enterprise scaffold: Előíró előfizetés-irányítás
 
-Vállalatok egyre inkább vannak bevezetése a nyilvános felhő rugalmasságát és rugalmasságot biztosít. A felhő erősségeit bevételi lehetőségeket, és a vállalati erőforrás-használat optimalizálása azok használatára. Microsoft Azure lehetőséget kínál számos szolgáltatásokat és képességeket, hogy a vállalatok számára állítsa össze a például a számítási feladatok és alkalmazások széles választékának cím építőelemeket.
+Vállalatok egyre inkább vannak bevezetése a nyilvános felhő rugalmasságát és rugalmasságot biztosít. A felhő erősségeit bevételi lehetőségeket, és a vállalati erőforrás-használat optimalizálása támaszkodnak. Microsoft Azure lehetőséget kínál számos szolgáltatásokat és képességeket, hogy a vállalatok számára állítsa össze a például a számítási feladatok és alkalmazások széles választékának cím építőelemeket.
 
 A Microsoft Azure használata mellett döntenek csak az első lépés a felhő előnyeinek eléréséhez. A második lépés van megértése, hogyan a vállalat hatékonyan használható az Azure és azonosíthatja a referenciakonfiguráció-képességeket, amelyek hasonló kérdések cím teljesülniük kell:
 
@@ -24,7 +24,7 @@ A Microsoft Azure használata mellett döntenek csak az első lépés a felhő e
 * "Hogyan tudom mi az egyes erőforrások támogatja az így I számlája, és pontosan vissza számláját?"
 * "Szeretnék győződjön meg arról, hogy minden Microsoft üzembe helyezése, vagy hajtsa végre a nyilvános felhőben elindítja a biztonsági így először Hogyan tudok segíti, hogy megkönnyítsék?"
 
-A potenciális a nincs guard rails-üres előfizetés tűnhet. Az üres helyet a áthelyezése az Azure-ba is akadályozhatják.
+A potenciális nem guardrails az egy üres előfizetés tűnhet. Az üres helyet a áthelyezése az Azure-ba is akadályozhatják.
 
 Ez a cikk kiindulási pontot kell irányítási és kiegyensúlyozása, agilitást és műszaki szakembereknek szánt biztosít. Ez bemutatja a, az enterprise scaffold, amely végigvezeti a szervezetek megvalósítása és kezelése az Azure-környezetek biztonságos módon. A keretrendszer leghatékonyabb vezérlők fejlesztéséhez nyújt.
 
@@ -34,7 +34,7 @@ Az Azure-ba történő áthelyezésekor kell venni a cégirányítási elején a
 
 Épület létrehozásakor szerkezetkialakító segítségével hozzon létre egy struktúra alapját. A scaffold végigvezeti az általános elvet követik, és állandó rendszerek csatlakoztatnia kell a forráshorgony pontokat biztosít. Egy enterprise scaffold ugyanez: rugalmas vezérlők és az Azure-képességek a környezetben, és a központi jellegűek struktúrát biztosító a nyilvános felhő alapú szolgáltatások. A kapcsolat építői biztosít (informatikai és üzleti csoportok) létrehozásához és csatlakoztatásához az új szolgáltatások gyors kézbesítés szem alapját.
 
-A scaffold tudjuk a különböző fürtméretekkel járó az ügyfelek számos marketingmódszerek kigyűjtötte tanácsok alapul. Ezek az ügyfelek köre a kisebb szervezetek natív felhőalapú megoldások fejlesztésével és a felhőben is nagyobb a multinacionális cégeknek, és független szoftverszállítók számítási feladatokhoz való-megoldások fejlesztése. Az enterprise scaffold "célirányosan" rugalmas hagyományos informatikai számítási feladatok és a rugalmas számítási feladatok; támogatásához például a szoftver--szolgáltatásként (SaaS) alkalmazásokat létrehozó fejlesztők az Azure platform képességei alapján.
+A scaffold tudjuk a különböző fürtméretekkel járó az ügyfelek számos marketingmódszerek kigyűjtötte tanácsok alapul. Ezek az ügyfelek köre a kisebb szervezetek natív felhőalapú megoldások fejlesztésével és a felhőben is nagyobb a multinacionális cégeknek, és független szoftverszállítók számítási feladatokhoz való-megoldások fejlesztése. Az enterprise scaffold "célirányosan" rugalmas hagyományos informatikai számítási feladatok és a rugalmas számítási feladatok; támogatásához például a fejlesztők számára, mint a szoftverszolgáltatások (SaaS) alkalmazások szoftver létrehozása Azure-platform képességei alapján.
 
 Az enterprise scaffold minden új előfizetés Azure-ban alapjául szolgál. Ez lehetővé teszi, hogy a rendszergazdáival együttműködve biztosítják a számítási feladatok megfelelnek a minimális cégirányítási követelmények a szervezet meggátolja, hogy üzleti csoportokat vagy a fejlesztők gyorsan felel meg a saját céljainak nélkül. Az a tapasztalat, hogy ez jelentősen lerövidíti ahelyett, hogy akadályozza a nyilvános felhőben növekedési.
 
@@ -82,7 +82,7 @@ A Microsoft nemrég kiadott egy új lehetőség a modellezés, a hierarchiában:
 
 ### <a name="subscriptions"></a>Előfizetések
 
-Amikor eldönti, a szervezeti fiókok (vagy egy felügyeleti csoportok), elsősorban helyzet hogyan, az Azure-környezet a szervezet megfelelő elosztására használ. Előfizetések, azonban akkor is, ahol a tényleges munka történik, és itt a döntések befolyásolja a biztonsággal, méretezhetőséggel és a számlázás.  Számos szervezetben az útmutatókat, tekintse meg a következő minták:
+Amikor eldönti, a szervezeti fiókok (vagy egy felügyeleti csoportok), elsősorban helyzet hogyan, az Azure-környezet a szervezet megfelelő elosztására használ. Az előfizetések, azonban akkor is, ahol a tényleges munka történik, és itt a döntések befolyásolják a biztonsággal, méretezhetőséggel és a számlázás.  Számos szervezetben az útmutatókat, tekintse meg a következő minták:
 
 * **Alkalmazás/szolgáltatás**: Előfizetések képviseli egy alkalmazás vagy szolgáltatás (alkalmazások portfólióját)
 * **Életciklus**: Előfizetések képviseli egy olyan szolgáltatás, például éles vagy fejlesztői életciklusát.
@@ -108,6 +108,7 @@ Az első oszlop a scaffold, egy egységes elnevezési szabványnak. Jól megterv
 
 > [!TIP]
 > Az elnevezési konvenciók:
+>
 > * Tekintse át, és ahol lehetséges elfogadja a [Patterns and practices nevű útmutató](/azure/architecture/best-practices/naming-conventions). Ez az útmutató segítségével könnyebben meghatározhatja az egy jelentéssel bíró elnevezési szabványnak, és a széles körű példákat talál.
 > * Resource Manager-házirendek használatával segít, hogy elnevezési szabályai
 >
@@ -126,16 +127,16 @@ A címkék a felügyeleti és számlázási túl sok szempontból használnak. E
 
 ## <a name="azure-policy-and-initiatives"></a>Az Azure Policy és kezdeményezések
 
-A második pillar, a scaffold keretein belül a [Azure Policy és kezdeményezések](/azure/azure-policy/azure-policy-introduction) kockázat kezelése (a hatások) szabályok tartat be az erőforrásokat és szolgáltatásokat az előfizetésekben keresztül. Az Azure kezdeményezések házirendeket, amelyek célja, hogy egyetlen cél elérése gyűjteményei. Az Azure policy és kezdeményezések majd hozzárendelt erőforrás hatókört az egyes házirendek kényszerítését a kezdéshez.
+A második pillar, a scaffold keretein belül a [Azure Policy és kezdeményezések](/azure/azure-policy/azure-policy-introduction) kockázat kezelése (a hatások) szabályok tartat be az erőforrásokat és szolgáltatásokat az előfizetésekben keresztül. Az Azure kezdeményezések házirendeket, amelyek célja, hogy egyetlen cél elérése gyűjteményei. Azure házirendek és a kezdeményezések majd hozzárendelt erőforrás hatókört az egyes házirendek kényszerítését a kezdéshez.
 
-Azure házirend- és kezdeményezések még hatékonyabbak lehetnek, a felügyeleti csoportok a korábban említett együtt használva. Felügyeleti csoportok engedélyezése a hozzárendelését egy kezdeményezést vagy előfizetések teljes készletéhez.
+Szabályzatok és a kezdeményezések is még hatékonyabbak lehetnek, a felügyeleti csoportok a korábban említett együtt használva. Felügyeleti csoportok engedélyezése a hozzárendelését egy kezdeményezést vagy előfizetések teljes készletéhez.
 
 ### <a name="common-uses-of-resource-manager-policies"></a>Gyakori használati Resource Manager-házirendek
 
 Az Azure-házirendek és kezdeményezések az Azure-eszközkészlet egy hatékony eszköz. Szabályzatok lehetővé teszik a cégeket azzal, hogy szabályozza a "Hagyományos informatikai" számítási feladatokhoz, amelyek lehetővé teszik a stabilitását, miközben is lehetővé teszi a munkaterhelések "Agile"; szükséges – üzletági alkalmazások például anélkül, hogy a vállalatok számára, további kockázati megnyitását vevő alkalmazások fejlesztéséhez használható. A leggyakrabban használt minták házirendek láthatjuk a következők:
 
 * **GEO-megfelelőségi/adatszuverenitás**. Az Azure-régiók – folyamatosan bővülő listájának rendelkezik világszerte. Vállalatok gyakran kell biztosítja, hogy egy adott hatókörben található erőforrások szabályozási követelmények teljesítésére egy földrajzi régióban maradjanak.
-* **Kerülje az adatokhoz hozzáférést biztosító kiszolgálók nyilvánosan**. Az Azure policy is tiltják a telepítésben az egyes erőforrásokhoz. A leggyakrabban használt, hogy hozzon létre egy házirendet, hogy megtagadja a nyilvános IP-cím egy adott hatókörön belül nem szándékolt módon kiszolgáló kapcsolódik az internethez elkerülve létrehozását.
+* **Kerülje az adatokhoz hozzáférést biztosító kiszolgálók nyilvánosan**. Az Azure Policy is tiltják az egyes erőforrástípusok telepítését. Szokás hozzon létre egy házirendet, hogy megtagadja a nyilvános IP-cím egy adott hatókörön belül nem szándékolt módon kiszolgáló kapcsolódik az internethez elkerülve létrehozását.
 * **Cost Management és a metaadatok**. Erőforráscímkék erőforrásra és erőforráscsoportra, például a CostCenter, tulajdonosa, és egyéb fontos számlázási adatok hozzáadása gyakran használják. Ezekkel a címkékkel hasznosak a pontos számlázáshoz és az erőforrások kezelését. Házirendeket alkalmazhatnak az alkalmazás összes telepített erőforrás, így könnyebben kezelheti az erőforrások címkék.
 
 ### <a name="common-uses-of-initiatives"></a>Gyakori használati irányelveinek
@@ -180,14 +181,14 @@ Tervezése és előkészítése az identitás és hozzáférés-vezérlés és a
 
 ## <a name="security"></a>Biztonság
 
-Biztonsági aggályokat volt a legnagyobb blockers hagyományosan a felhőre való egyikét. Informatikai kockázatkezelők és biztonsági osztályok kell győződjön meg arról, hogy az Azure-erőforrások védettek, és alapértelmezés szerint biztonságos. Az Azure számos olyan képességet, amelyek kihasználhatják a erőforrások védelmét, valamint észlelheti és elkerülése érdekében fenyegetések elleni ezeket az erőforrásokat biztosít.
+Biztonsági aggályokat volt a legnagyobb blockers hagyományosan a felhőre való egyikét. Informatikai kockázatkezelők és biztonsági osztályok kell győződjön meg arról, hogy az Azure-erőforrások védettek, és alapértelmezés szerint biztonságos. Az Azure számos olyan képességet, amellyel erőforrások védelmében és a fenyegetések elleni ezeket az erőforrásokat észlelése és megelőzése biztosít.
 
 ### <a name="azure-security-center"></a>Azure Security Center
 
 A [az Azure Security Center](/azure/security-center/security-center-intro) erőforrások biztonsági állapotát egyesített áttekintést nyújt a komplex veszélyforrások elleni védelem mellett a környezetben. Az Azure Security Center nyílt platformon, amely lehetővé teszi, hogy a szoftver, amely rendkívüli létrehozása Microsoft-partnerek és a képességek javításához. Az alapkonfiguráció képességeit az Azure Security Center (ingyenes csomag) biztosít az értékelés és javaslatok előmozdító benyomásokkal meg biztonsági állapotát. A fizetős szintek például igény szerinti rendszergazdai hozzáférés és az adaptív alkalmazásvezérlők (Engedélyezés) további és értékes képességek engedélyezéséhez.
 
 > [!TIP]
->Az Azure security center folyamatosan fokozott rendkívül hatékonyan hozhatók létre, és új funkciókat tartalmazó kihasználhatja a fenyegetések és a vállalati védelme. Erősen ajánlott mindig az ASC engedélyezéséhez.
+>Az Azure Security Center egy hatékony eszköz, amely rendszeres segítségével észlelheti a fenyegetéseket, és a vállalati védelme új képességekkel bővült. Erősen ajánlott mindig az Azure Security Center engedélyezése.
 
 ### <a name="azure-resource-locks"></a>Az Azure erőforrás-zárolások
 
@@ -237,7 +238,7 @@ Ezek az információk tekinthetők meg és több szinten megtudjuk, és folyamat
 
 * **Az Azure Advisor**: Az Azure Advisor folyamatosan figyeli a telemetriát az előfizetések és a környezetek között, valamint ajánlásokkal pénzt takaríthat meg, és jobb teljesítmény, biztonság és az erőforrások rendelkezésre állása az Azure-erőforrások optimalizálása érdekében ajánlott eljárásait, amely az alkalmazások alkotják.
 
-* **Állapotfigyelő szolgáltatás**: Az Azure Service Health az Azure-szolgáltatásokkal, amely befolyásolhatja az alkalmazások, valamint a segítséget nyújt az ütemezett karbantartási időszak tervezése azonosítja a problémákat.
+* **Állapotfigyelő szolgáltatás**: Az Azure Service Health az Azure-szolgáltatásokkal, amelyek hatással lehetnek az alkalmazások, valamint a segítséget nyújt az ütemezett karbantartási időszak tervezése azonosítja a problémákat.
 
 * **Tevékenységnapló**: A tevékenységnapló előfizetés erőforrásainak összes műveletet ismerteti. Biztosít auditnaplót meghatározni a "mi", "ki" és "when" bármely létesítése, frissítése és törlési művelet erőforrásokon. Tevékenységnapló eseményeit tárolja a platform és 90 napig lekérdezhetők. Betöltheti az Tevékenységnaplók Log analyticsbe hosszabb megőrzési időszakok beállításának és mélyebb lekérdezését és elemzését az között több erőforrást.
 
@@ -260,7 +261,7 @@ Ezek az információk tekinthetők meg és több szinten megtudjuk, és folyamat
 
 ## <a name="cost-management"></a>Költségkezelés
 
-A kapcsoló, amely a helyszínen a felhőből a nyilvános felhőbe való áthelyezésekor fognak adódni fontosabb változását foglalja össze egyik, tőkeráfordítási (hardvervásárlással) származó működési kiadásokat (kellene fizetnie szolgáltatás használata során azt). Ez a kapcsoló az állomások CAPEX költségekké alakítását is elérhetővé teszi a több gondosan felügyelnie a költségeket. A felhő előnye, hogy, alapvetően és pozitív hatással lehet a költségét, csupán kikapcsolt (vagy átméretezési) bekapcsolja azt, nincs szükség esetén használja. Szándékosan a költségkezeléshez a felhőben, ajánlott gyakorlat és a egy érett ügyfelek által naponta.
+A kapcsoló, amely a helyszínen a felhőből a nyilvános felhőbe való áthelyezésekor fognak adódni fontosabb változását foglalja össze egyik, tőkeráfordítási (hardvervásárlással) származó működési kiadásokat (kellene fizetnie szolgáltatás használata során azt). Ez a kapcsoló az állomások CAPEX költségekké alakítását is elérhetővé teszi a több gondosan felügyelnie a költségeket. A felhő előnye, hogy egy szolgáltatás használhat egyszerűen bekapcsolásával költsége alapvetően csökkentheti ki (vagy méretezés) Ha nincs rá szükség. Szándékosan a költségkezeléshez a felhőben, ajánlott gyakorlat és a egy érett ügyfelek által naponta.
 
 A Microsoft biztosít egy több eszközt, hogy tud-e a vizualizációra, nyomon követheti, és kezelheti a költségeket. Is biztosítunk teljes körű API-k és testreszabását cost management integrálható a saját eszközök és az irányítópultok engedélyezéséhez. Ezek az eszközök lazán vannak csoportosítva: Az Azure Portal-funkciók és a külső funkciók
 
@@ -283,7 +284,7 @@ Amikor az ügyfelek, akik használta a felhőbeli hosszú ideig, és azok haszn�
 
 * **Aktívan figyeljük költségek**. Érett az Azure-felhasználók folyamatosan azok a szervezetek, költségek figyelése, és szükség esetén tegye. Egyes szervezetek még dedikált elemzéseket végezhet és használati módosítási javaslatokat tehet, és ezek a személyek több mint fizet magukat egy fel nem használt HDInsight-fürtöt, amely a futási idejének hónapok megtalálják az első alkalommal.
 * **A fenntartott példányok használatához**. A felhőbeli költségek kezelése egy másik kulcsfontosságú alapelvek közé, hogy az ideális eszközt használva az adott feladathoz. Ha egy 24 x 7-es kell maradnia IaaS virtuális Gépen, majd a fenntartott példány használatával menti, jelentős költséget takaríthat meg. Az egyensúlyt a virtuális gépek leállítását automatizálása és a fenntartott példányok használatával között találja a felhasználói élményt és -elemzés vesz igénybe.
-* **Automation hatékony használata**: Számos számítási feladatok nem kell futnia minden nap. Akár kikapcsolásával egy virtuális gép naponta 4 órás időszakra takaríthat meg, 15 %-a költségek. Automation gyorsan fizet a saját maga.
+* **Automation hatékony használata**: Számos számítási feladatok nem kell futnia minden nap. Még kikapcsolja a virtuális gép naponta négy órás időszakra takaríthat meg, a költség 15 %-át. Automation gyorsan fizet a saját maga.
 * **Az erőforráscímkék használata láthatósági**: Ebben a dokumentumban említett máshol, az erőforráscímkék használata teszi lehetővé a költségek jobb elemzés céljából.
 
 A Cost management egy, core, a hatékony és hatékony az nyilvános felhő futtató szakterületi. Olyan vállalatok, amelyek sikeres érhet el fogja tudni a költségek csökkentését és a tényleges igény szerint figyelésekor overbuying való, és igény szerint bízva származnak.
@@ -309,12 +310,12 @@ Kiemelt az automatizálás szakaszban a cél szervezetként kell verzióköveté
 
 Például a cikk [ehhez](https://blogs.msdn.microsoft.com/mvpawardprogram/2018/05/01/azure-resource-manager/) adjon meg egy kiváló vitafórum kapcsolatos ajánlott eljárásokat és Azure Resource Manager-sablonok alkalmazása egy fejlesztési és üzemeltetési megközelítés tapasztalatokat a [Azure DevOps](/azure/devops/user-guide/?view=vsts) eszközlánc. Az idő és munka, alakítson ki core sablonok jellemző a szervezet követelményeinek, valamint fejlesztési és üzemeltetési fordíthatók (például az Azure DevOps, a Jenkins, bambusz, Teamcity, Sétatér), a folyamatos teljesítés folyamatok fejlesztése is kifejezetten rendszergazdák számára a éles és QA környezetekben. Az egy nagy könyvtár [Azure gyors üzembe helyezési sablonokat](https://github.com/Azure/azure-quickstart-templates) a Githubon, hogy a kiindulási pontként használható sablonokat, és gyorsan hozhat létre felhőalapú kézbesítési folyamatok Azure DevOps.
 
-Ajánlott eljárásként éles előfizetések vagy erőforráscsoportok a cél kell kell használó RBAC security alapértelmezés szerint és a folyamatos készregyártás automatizált folyamatok alapján az egyszerű szolgáltatások összes erőforrás kiépítéséhez használatával interaktív felhasználó letiltása és minden alkalmazás kódját. Nem rendszergazdai vagy a fejlesztői érintse interaktív módon az erőforrások konfigurálása az Azure Portalon. Ezt a szintű DevOps összehangolt vesz igénybe, és az Azure scaffold funkcióira használja, és, hogy az megfeleljen a szervezetek számára, hogy növelje a méretezési csoport egységes és biztonságosabb környezetet biztosít.
+Ajánlott eljárásként éles előfizetések vagy erőforráscsoportok, a cél kell használnia RBAC biztonsági, letilthatja a interaktív alapértelmezés szerint és automatizált folyamatos szolgáltatásnyújtással alapján az egyszerű szolgáltatások összes erőforrás kiépítéséhez és minden alkalmazás kódja kézbesítéséhez. Nem rendszergazdai vagy a fejlesztői érintse interaktív módon az erőforrások konfigurálása az Azure Portalon. Ezt a szintű DevOps összehangolt vesz igénybe, és az Azure scaffold funkcióira segítségével biztosít olyan egységes és biztonságosabb környezet, amely megfelel a szervezet szeretné méretezni.
 
 > [!TIP]
 > Tervezése és fejlesztése összetett Azure Resource Manager-sablonok, [kapcsolódó sablonok](/azure/azure-resource-manager/resource-group-linked-templates) rendszerezése és újrabontás bonyolult erőforrás kapcsolatok monolitikus JSON-fájlokból. Ez lehetővé teszi, hogy külön-külön kezelheti az erőforrásokat, és könnyebben olvasható, testable és újrafelhasználható, győződjön meg a sablonokat.
 
-Azure egy nagy kapacitású felhőszolgáltatók és a helyszíni kiszolgálók rengeteg a szervezet áthelyezése a felhőbe, mert ugyanezek a fogalmak, amely a felhőbeli szolgáltatók és az SaaS-alkalmazások használatával használata nyújt a szervezet tudunk reagálni az üzleti igényeire sokkal hatékonyabb módja.
+Azure-ban egy nagy kapacitású felhőszolgáltató. A helyszíni kiszolgálók a szervezet áthelyezése a felhőbe, támaszkodva ugyanezek a fogalmak, amely a felhőbeli szolgáltatók és az SaaS-alkalmazások használata segít a szervezet hatékonyabban reagálhat a szinte korlátlanul bővítheti üzleti igényeinek.
 
 ## <a name="core-network"></a>A központi hálózat
 
@@ -329,9 +330,9 @@ Az Azure scaffold referenciamodellje végső összetevője mag, hogyan a szervez
 > [!TIP]
 > Szolgáltatáscímkéket és alkalmazásbiztonsági csoportokból használja a hálózati biztonsági csoportokban nem csupán a szabályok áttekinthetősége &mdash; ismertetése hatás lényeges &mdash; , de még nagyobb alhálózat belüli hatékony microsegmentation engedélyezése , csökkentve a fölösleges terhelése, és növeli a rugalmasságot.
 
-### <a name="virtual-data-center"></a>Virtual Data Center
+### <a name="virtual-datacenter"></a>Virtual Datacenter
 
-Az Azure biztosít mind a belső funkciókat biztosítanak, és a külső a funkciók a kiterjedt partneri hálózat, amelyek lehetővé teszik, hogy rendelkezik egy érvényes biztonsági forgalmazóval. Ami még fontosabb, a Microsoft biztosít, ajánlott eljárások és útmutató formájában a [Azure virtuális adatközpont](/azure/architecture/vdc/networking-virtual-datacenter). Helyezi át az egyetlen számítási feladat több számítási feladatok, amelyek hibrid képességeit kihasználva, mivel a VDC útmutatást biztosít Önnek "recept" növekszik, ahogy a számítási feladatokat az Azure-ban növelheti a rugalmas, hálózat engedélyezéséhez.
+Az Azure biztosít mind a belső funkciókat biztosítanak, és a külső a funkciók a kiterjedt partneri hálózat, amelyek lehetővé teszik, hogy rendelkezik egy érvényes biztonsági forgalmazóval. Ami még fontosabb, a Microsoft biztosít, ajánlott eljárások és útmutató formájában a [Azure Virtual Datacenter](/azure/architecture/vdc/networking-virtual-datacenter). Váltáskor egyetlen számítási feladat a hibrid képességekkel, amelyek több számítási feladat, a VDC útmutatást biztosít Önnek "recept" növekszik, ahogy a számítási feladatokat az Azure-ban növelheti a rugalmas, hálózat engedélyezéséhez.
 
 ## <a name="next-steps"></a>További lépések
 

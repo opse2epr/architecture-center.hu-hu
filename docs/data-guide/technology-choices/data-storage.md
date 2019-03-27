@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 0aac064f30c384520a27d2e42b21c9243d5914b2
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483462"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298929"
 ---
 # <a name="choosing-a-big-data-storage-technology-in-azure"></a>A big Data típusú adatok tárolási technológia kiválasztása az Azure-ban
 
@@ -105,9 +105,9 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | Cél | A big data-elemzési célokra tárolás |Általános célú objektum tárolni a storage-forgatókönyvek széles választéka |
 | Használati esetek | Kötegelt, például a streaming analytics és a machine learning adat naplófájlokból, IoT-adatokat, kattintson az adatfolyamot, a nagyméretű adathalmazok | Bármilyen típusú szöveget vagy bináris adatot, például az alkalmazás biztonsági célból, biztonsági mentési adatokat, a streamelési és az általános célú adatok médiatárolónkba |
 | struktúra | Hierarchikus fájlrendszer | Objektumtároló strukturálatlan névtér esetében |
-| Hitelesítés | Alapján [az Azure Active Directory-identitásokkal](/azure/active-directory/active-directory-authentication-scenarios) | A közös titkos kulcsot alapján [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account) és [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1), és [szerepköralapú hozzáférés-vezérlés (RBAC)](/azure/security/security-storage-overview) |
+| Authentication | Alapján [az Azure Active Directory-identitásokkal](/azure/active-directory/active-directory-authentication-scenarios) | A közös titkos kulcsot alapján [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account) és [megosztott hozzáférési aláírást kulcsok](/azure/storage/common/storage-dotnet-shared-access-signature-part-1), és [szerepköralapú hozzáférés-vezérlés (RBAC)](/azure/security/security-storage-overview) |
 | Hitelesítési protokoll | OAuth 2.0. Hívások tartalmaznia kell egy Azure Active Directory által kiadott érvénytelen JWT (JSON webes jogkivonat) | Üzenet kivonat-alapú hitelesítési kód (HMAC). Hívások a Base64-kódolású SHA-256 kivonatoló tartalmaznia kell a HTTP-kérelem egy része felett. |
-| Jogosultság | A POSIX hozzáférés-vezérlési listák (ACL). Fájl- és szintű hozzáférés-vezérlési listák az Azure Active Directory-identitások alapján állítható be. | A fiókszintű engedélyezési használja [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account). A fiók, tárolót vagy blobot engedélyezési használja [közös hozzáférési aláírási kulcsokat](/azure/storage/common/storage-dotnet-shared-access-signature-part-1). |
+| Engedélyezés | A POSIX hozzáférés-vezérlési listák (ACL). Fájl- és szintű hozzáférés-vezérlési listák az Azure Active Directory-identitások alapján állítható be. | A fiókszintű engedélyezési használja [hozzáférési kulcsainak](/azure/storage/common/storage-create-storage-account#manage-your-storage-account). A fiók, tárolót vagy blobot engedélyezési használja [közös hozzáférési aláírási kulcsokat](/azure/storage/common/storage-dotnet-shared-access-signature-part-1). |
 | Naplózás | Érhető el.  |Elérhető |
 | Titkosítás inaktív állapotban | Transzparens, kiszolgálóoldali | Átlátszó, kiszolgálóoldali; Ügyféloldali titkosítás |
 | Fejlesztői SDK-k | .NET, Java, Python, Node.js | .Net, Java, Python, Node.js, C++, Ruby |
@@ -120,9 +120,9 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 |                                    |                                           Azure Cosmos DB                                           |                                                             HBase on HDInsight                                                             |
 |------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |       Elsődleges adatbázismodell       |                      Dokumentum-tároló, gráf, kulcs-érték tároló, széles oszloptár                      |                                                             Széles körű oszloptár                                                              |
-|         A másodlagos indexek          |                                                 Igen                                                 |                                                                     Nincs                                                                     |
+|         A másodlagos indexek          |                                                 Igen                                                 |                                                                     Nem                                                                     |
 |        SQL nyelvi támogatás        |                                                 Igen                                                 |                                     Igen (használatával a [Phoenix](https://phoenix.apache.org/) JDBC-illesztőprogram)                                      |
 |            Konzisztencia             |                   Erős, kötött elavulás, munkamenet, konzisztens előtag, végleges                   |                                                                   Erős                                                                   |
-| Natív integráció az Azure Functions |                        [Igen](/azure/cosmos-db/serverless-computing-database)                        |                                                                     Nincs                                                                     |
+| Natív integráció az Azure Functions |                        [Igen](/azure/cosmos-db/serverless-computing-database)                        |                                                                     Nem                                                                     |
 |   Automatikus globális terjesztés    |                          [Igen](/azure/cosmos-db/distribute-data-globally)                           | Nem [HBase-fürt replikációja konfigurálható](/azure/hdinsight/hbase/apache-hbase-replication) régióban, végleges konzisztencia |
 |           Díjszabási modell            | Másodpercalapú díjat számítunk fel, ha szükséges, rugalmasan méretezhető tárhelyért rugalmasan méretezhető kérelemegységet (RU) |                              Percenkénti díjszabás HDInsight-fürt (vízszintes méretezés a csomópontok), tárolás                               |

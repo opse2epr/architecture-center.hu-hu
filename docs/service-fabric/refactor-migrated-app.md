@@ -6,12 +6,12 @@ ms.date: 02/02/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.openlocfilehash: 1fd6bb5df18b46c8df3719fd107dd53a18dfd4ff
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 42c48284502d612c4d5817c5b3c955877ed4595b
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487287"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299443"
 ---
 # <a name="refactor-an-azure-service-fabric-application-migrated-from-azure-cloud-services"></a>Azure Cloud Servicesből migrált Azure Service Fabric-alkalmazások újrabontása
 
@@ -26,11 +26,12 @@ Az előző cikkben leírt módon [áttelepítése egy Azure Cloud Services-alkal
 ![](./images/tailspin01.png)
 
 A **Tailspin.Web** webes szerepkör futtatja az ASP.NET MVC-hely Tailspin ügyfelek által használt:
-* Iratkozzon fel a Surveys alkalmazás
-* létrehozása vagy törlése egy egyetlen felmérés
-* egyetlen felmérést, az eredmények megtekintése
-* kérés, hogy az SQL-felmérés eredménye exportálva és
-* megtekintheti az összesített felmérés eredményét és elemzését.
+
+- Iratkozzon fel a Surveys alkalmazás
+- létrehozása vagy törlése egy egyetlen felmérés
+- egyetlen felmérést, az eredmények megtekintése
+- kérés, hogy az SQL-felmérés eredménye exportálva és
+- megtekintheti az összesített felmérés eredményét és elemzését.
 
 A **Tailspin.Web.Survey.Public** webes szerepkört is futtat egy ASP.NET MVC-hely, amely a nyilvános felkeresi a felmérés kitöltéséhez. Ezek a válaszok mentését sorba kerülnek.
 
@@ -46,22 +47,23 @@ A **Tailspin.Web.Survey.Public** szolgáltatást az eredeti ültették át a ren
 
 A **Tailspin.AnswerAnalysisService** szolgáltatást az eredeti ültették át a rendszer *Tailspin.Workers.Survey* feldolgozói szerepkörben.
 
-> [!NOTE] 
+> [!NOTE]
 > Közben csak minimális mennyiségű kódra módosítások történtek a webes és feldolgozói szerepkörök mindegyike **Tailspin.Web** és **Tailspin.Web.Survey.Public** úgy módosították, hogy integrációsmodul- [Kestrel] webes a kiszolgáló. A korábbi Surveys alkalmazás Interet Information Services (IIS) üzemeltetett ASP.NET-alkalmazás, de már nem az IIS-t futtató Service Fabric szolgáltatásként. Ezért bármely web kiszolgáló kell lennie arra, hogy a saját üzemeltetésű, mint például [Kestrel]. Az IIS-t futtató Service fabric egy tárolóban, bizonyos esetekben lehetőség. Lásd: [tárolók használatára vonatkozó forgatókönyvek] [ container-scenarios] további információt.  
 
 Tailspin, az újrabontás a Surveys alkalmazás részletesebb architektúra. A tailspin motiváció, az újrabontás, hogy könnyebben fejleszthet, felépíthet és telepíthet a Surveys alkalmazás. A meglévő webes és feldolgozói szerepkörök részletesebb architektúra decomposing, amelyet Tailspin szeretné távolítsa el a meglévő szorosan összekapcsolt kommunikációs és függőségeket ezek a szerepkörök között.
 
 Tailspin számára jelenik meg más áthelyezése a Surveys alkalmazás részletesebb architektúra előnye van:
-* Minden egyes szolgáltatás csomagolható be egy kis csapata által kezelt kellően kicsire hatókörrel rendelkező független projektek.
-* Minden egyes szolgáltatás egymástól függetlenül rendszerverzióval ellátott, telepített lehet.
-* Minden egyes is megvalósítható, hogy a szolgáltatás a legjobb technológiával. Például egy service fabric-fürt szolgáltatások különböző verzióit a .net-keretrendszert, Java vagy más C, C++ nyelv használatával is tartalmazhat.
-* Minden egyes szolgáltatás egymástól függetlenül skálázhatók való reagálás a növekszik és csökken a terhelés.
 
-> [!NOTE] 
+- Minden egyes szolgáltatás csomagolható be egy kis csapata által kezelt kellően kicsire hatókörrel rendelkező független projektek.
+- Minden egyes szolgáltatás egymástól függetlenül rendszerverzióval ellátott, telepített lehet.
+- Minden egyes is megvalósítható, hogy a szolgáltatás a legjobb technológiával. Például egy service fabric-fürt szolgáltatások különböző verzióit a .net-keretrendszert, Java vagy más C, C++ nyelv használatával is tartalmazhat.
+- Minden egyes szolgáltatás egymástól függetlenül skálázhatók való reagálás a növekszik és csökken a terhelés.
+
+> [!NOTE]
 > Több-bérlős módhoz az alkalmazás újrabontása hatókörén kívül esik. Tailspin különböző lehetőséget is kínál, támogatja a több-bérlős, és lehetővé teszi a tervezési döntéseket később a kezdeti terv befolyásolása nélkül. Tailspin például a szolgáltatások a fürtön belül minden bérlő külön példányának létrehozása vagy egy különálló fürt létrehozása az egyes bérlők számára.
 
 ## <a name="design-considerations"></a>Kialakítási szempontok
- 
+
 Az alábbi ábrán a Surveys alkalmazás részletesebb architektúra újratervezhetők architektúráját mutatja be:
 
 ![](./images/surveys_03.png)
@@ -81,10 +83,11 @@ Az alábbi ábrán a Surveys alkalmazás részletesebb architektúra újratervez
 ## <a name="stateless-versus-stateful-services"></a>Állapot nélküli és állapotalapú szolgáltatások
 
 Az Azure Service Fabric támogatja a következő programozási modellekről:
-* A Vendég végrehajtható modell lehetővé teszi, hogy bármilyen végrehajtható formátum, a szolgáltatás csomagolni és telepíteni kell a Service Fabric-fürtön. A Service Fabric hangolja össze, és a Vendég végrehajtható végrehajtási kezeli.
-* A tároló modell lehetővé teszi a tárolórendszerképeket a szolgáltatások üzembe helyezéséhez. Service Fabric-tárolók épülő Linux-kernel tárolókat, valamint a Windows Server-tárolók létrehozása és kezelése támogatja. 
-* Az a reliable services programozási modell lehetővé teszi az állapot nélküli vagy állapotalapú szolgáltatások, amelyekbe beépül az összes Service Fabric platformfunkciók létrehozását. Állapotalapú szolgáltatások lehetővé teszik a Service Fabric-fürtön tárolja a replikált állapot. Állapotmentes szolgáltatások viszont nem.
-* A reliable actors programozási modell lehetővé teszi, hogy a virtuális szereplő minta megvalósítása szolgáltatások létrehozását.
+
+- A Vendég végrehajtható modell lehetővé teszi, hogy bármilyen végrehajtható formátum, a szolgáltatás csomagolni és telepíteni kell a Service Fabric-fürtön. A Service Fabric hangolja össze, és a Vendég végrehajtható végrehajtási kezeli.
+- A tároló modell lehetővé teszi a tárolórendszerképeket a szolgáltatások üzembe helyezéséhez. Service Fabric-tárolók épülő Linux-kernel tárolókat, valamint a Windows Server-tárolók létrehozása és kezelése támogatja.
+- Az a reliable services programozási modell lehetővé teszi az állapot nélküli vagy állapotalapú szolgáltatások, amelyekbe beépül az összes Service Fabric platformfunkciók létrehozását. Állapotalapú szolgáltatások lehetővé teszik a Service Fabric-fürtön tárolja a replikált állapot. Állapotmentes szolgáltatások viszont nem.
+- A reliable actors programozási modell lehetővé teszi, hogy a virtuális szereplő minta megvalósítása szolgáltatások létrehozását.
 
 A Surveys alkalmazás összes szolgáltatásban is állapot nélküli reliable services esetében, az alábbiakat kivéve a *Tailspin.SurveyResponseService* szolgáltatás. Ez a szolgáltatás valósít meg egy [ReliableConcurrentQueue] [ reliable-concurrent-queue] feldolgozni a felmérésre adott válaszok érkezésükkor. Válaszok a ReliableConcurrentQueue az Azure Blob Storage-bA mentett és átadott a *Tailspin.SurveyAnalysisService* elemzés céljából. Tailspin egy ReliableConcurrentQueue úgy dönt, mert a válaszok nem igénylik a szigorú első-first out (FIFO) rendezése például az Azure Service Bus-várólista által biztosított. Egy ReliableConcurrentQueue is célja, hogy a nagy átviteli sebességű és kis késésű várólista és eltávolítása a sorból műveleteket.
 
@@ -93,11 +96,12 @@ Vegye figyelembe, hogy egy ReliableConcurrentQueue el távolítva a sorból elem
 ## <a name="communication-framework"></a>Kommunikációs keretrendszer
 
 Minden egyes szolgáltatás a Surveys alkalmazás RESTful webes API-k segítségével kommunikál. RESTful API-k az alábbi előnyöket kínálják:
-* Könnyű használat: minden egyes szolgáltatás az ASP.NET Core MVC, amelyek natív módon támogatja a webes API-k használatával lett összeállítva.
-* Biztonság: Egyes szolgáltatások nem követeli meg az SSL, miközben Tailspin ehhez minden egyes szolgáltatást igényel. 
-* Verziókezelés: az ügyfelek is nyelven íródott, és webes API-k egy adott verzióját tesztelve lett.
 
-Szolgáltatásokat alkalmazás ellenőrizze a felmérés felhasználása a [fordított proxy] [ reverse-proxy] Service Fabric által megvalósított. Fordított proxy egy szolgáltatása, amely a Service Fabric-fürt minden csomópontján lefut, és megadja a végpontot, az automatikus újrapróbálkozás, és kezeli a csatlakozási hibák egyéb típusú. A fordított proxy használatára, egy RESTful API-hívás egy adott szolgáltatáshoz végzett fordított proxy előre meghatározott portot használ.  Például, ha a fordított proxy portjával van beállítva **19081**, hívása a *Tailspin.SurveyAnswerService* módon lehet tenni:
+- Könnyű használat: minden egyes szolgáltatás az ASP.NET Core MVC, amelyek natív módon támogatja a webes API-k használatával lett összeállítva.
+- Biztonság: Egyes szolgáltatások nem követeli meg az SSL, miközben Tailspin ehhez minden egyes szolgáltatást igényel.
+- Verziókezelés: az ügyfelek is nyelven íródott, és webes API-k egy adott verzióját tesztelve lett.
+
+A felmérés alkalmazás használatban lévő szolgáltatások a [fordított proxy] [ reverse-proxy] Service Fabric által megvalósított. Fordított proxy egy szolgáltatása, amely a Service Fabric-fürt minden csomópontján lefut, és megadja a végpontot, az automatikus újrapróbálkozás, és kezeli a csatlakozási hibák egyéb típusú. A fordított proxy használatára, egy RESTful API-hívás egy adott szolgáltatáshoz végzett fordított proxy előre meghatározott portot használ.  Például, ha a fordított proxy portjával van beállítva **19081**, hívása a *Tailspin.SurveyAnswerService* módon lehet tenni:
 
 ```csharp
 static SurveyAnswerService()
@@ -108,6 +112,7 @@ static SurveyAnswerService()
     };
 }
 ```
+
 Ahhoz, hogy a fordított proxy, adja meg a Service Fabric-fürt létrehozása során egy fordított proxy portjával. További információkért lásd: [fordított proxy] [ reverse-proxy] az Azure Service Fabricben.
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
@@ -157,8 +162,8 @@ Ha meg van még csak most ismerkedik [Azure Service Fabric][service-fabric], el�
 <!-- links -->
 [azure-sdk]: https://azure.microsoft.com/downloads/archive-net-downloads/
 [container-scenarios]: /azure/service-fabric/service-fabric-containers-overview
-[kestrel]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore2x
-[kestrel-intro]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore1x
+[kestrel]: /aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore2x
+[kestrel-intro]: /aspnet/core/fundamentals/servers/kestrel?tabs=aspnetcore1x
 [migrate-from-cloud-services]: migrate-from-cloud-services.md
 [monitoring-diagnostics]: /azure/service-fabric/service-fabric-diagnostics-overview
 [reliable-concurrent-queue]: /azure/service-fabric/service-fabric-reliable-services-reliable-concurrent-queue
@@ -166,4 +171,4 @@ Ha meg van még csak most ismerkedik [Azure Service Fabric][service-fabric], el�
 [sample-code]: https://github.com/mspnp/cloud-services-to-service-fabric/tree/master/servicefabric-phase-2
 [service-fabric]: /azure/service-fabric/service-fabric-get-started
 [service-fabric-sdk]: /azure/service-fabric/service-fabric-get-started
-[weblistener]: https://docs.microsoft.com/aspnet/core/fundamentals/servers/weblistener
+[weblistener]: /aspnet/core/fundamentals/servers/weblistener

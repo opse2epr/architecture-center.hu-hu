@@ -8,11 +8,11 @@ ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
 ms.openlocfilehash: 6d0f58161c5b9d5922c21f24b1b1a50bab836bb1
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484278"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299454"
 ---
 # <a name="failure-mode-analysis"></a>A hibaállapot elemzése
 
@@ -253,7 +253,7 @@ Fontolja meg az Azure Service Bus-üzenetkezelés várólisták, amely biztosít
 
 **Diagnosztikai**. Használat [Redis gyorsítótár-diagnosztikát][redis-monitor].
 
-## <a name="sql-database"></a>SQL-adatbázis
+## <a name="sql-database"></a>SQL Database
 
 ### <a name="cannot-connect-to-the-database-in-the-primary-region"></a>Nem lehet csatlakozni az adatbázis az elsődleges régióba.
 
@@ -353,7 +353,7 @@ További információkért lásd: [a Service Bus – áttekintés kézbesíthete
 
 **Diagnosztikai**. Minden alkalommal, amikor az alkalmazás egy üzenetet helyezi át a kézbesítetlen levelek várólistájára vonatkozik, az esemény írni az alkalmazásnaplókat.
 
-## <a name="service-fabric"></a>Service Fabric-példány
+## <a name="service-fabric"></a>Service Fabric
 
 ### <a name="a-request-to-a-service-fails"></a>Egy szolgáltatás irányuló kérelem sikertelen lesz.
 
@@ -375,7 +375,7 @@ További információkért lásd: [a Service Bus – áttekintés kézbesíthete
 
 **Diagnosztikai**. Alkalmazásnaplók
 
-## <a name="storage"></a>Tárhely
+## <a name="storage"></a>Storage
 
 ### <a name="writing-data-to-azure-storage-fails"></a>Írás adatokat az Azure Storage sikertelen
 
@@ -432,13 +432,13 @@ További információkért lásd: [a Service Bus – áttekintés kézbesíthete
 
 ### <a name="operator-accidentally-shuts-down-a-vm"></a>Operátor véletlenül a virtuális gép leáll.
 
-**Észlelési**. N. a.
+**Észlelési**. –
 
 **Helyreállítási**. Állítsa be az erőforrás-kezelővel rendelkező `ReadOnly` szintjét. Lásd: [zárolhat erőforrásokat az Azure Resource Manager][rm-locks].
 
 **Diagnosztikai**. Használat [Azure-Tevékenységnaplók][azure-activity-logs].
 
-## <a name="webjobs"></a>WebJobs-feladatok
+## <a name="webjobs"></a>WebJobs
 
 ### <a name="continuous-job-stops-running-when-the-scm-host-is-idle"></a>Folyamatos feladat nem fut, ha az SCM állomást inaktív.
 

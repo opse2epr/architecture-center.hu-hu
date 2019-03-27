@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: Erőforrás konzisztencia sablon
 author: BrianBlanchard
 ms.openlocfilehash: 91c9681aaf94b79823a3da9cb34b1e7f584f00fe
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899040"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298609"
 ---
 # <a name="caf-resource-consistency-template"></a>CAF: Erőforrás konzisztencia sablon
 

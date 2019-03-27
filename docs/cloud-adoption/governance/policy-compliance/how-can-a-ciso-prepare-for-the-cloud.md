@@ -3,12 +3,12 @@ title: 'CAF: Adatvédelmi készültségi'
 description: Hogyan készítheti elő a CISO a felhőben
 author: BrianBlanchard
 ms.date: 10/03/2018
-ms.openlocfilehash: cedb86488304e2fc84897e1da373730768adce66
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: a4535163990797decdacdacdcb6a33f0118366e9
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899467"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299366"
 ---
 # <a name="ciso-cloud-readiness-guide"></a>Adatvédelmi cloud készültségi útmutató
 
@@ -38,7 +38,7 @@ Biztonsági platform erőforrások:
 * [Kötelező biztonsági képzés, a háttér-ellenőrzések](https://downloads.cloudsecurityalliance.org/star/self-assessment/StandardResponsetoRequestforInformationWindowsAzureSecurityPrivacy.docx)
 * [Behatolásvizsgálat, behatolásérzékelési, DDoS, naplózás és naplózás](https://www.microsoft.com/trustcenter/Security/AuditingAndLogging)
 * [Állapot-az-a legújabb adatközpont](https://www.microsoft.com/cloud-platform/global-datacenters), fizikai biztonsági [biztonságos hálózati](/azure/security/security-network-overview)
-* [A Microsoft Azure Security Response a felhőben (PDF)](http://aka.ms/SecurityResponsePaper)
+* [A Microsoft Azure Security Response a felhőben (PDF)](https://aka.ms/SecurityResponsePaper)
 
 Adatvédelem és a vezérlők:
 
@@ -58,7 +58,7 @@ Megfelelőség:
 Átláthatóság:
 
 * [Hogyan teszi biztonságossá a Microsoft az ügyféladatokat az Azure-szolgáltatások](https://www.microsoft.com/trustcenter/Transparency/default.aspx)
-* [Hogyan kezeli a Microsoft az adatok helye az Azure-szolgáltatások](http://azuredatacentermap.azurewebsites.net/)
+* [Hogyan kezeli a Microsoft az adatok helye az Azure-szolgáltatások](https://azuredatacentermap.azurewebsites.net/)
 * [Milyen feltételekkel, akik a Microsoft is elérhetők az adatok](https://www.microsoft.com/trustcenter/Privacy/Who-can-access-your-data-and-on-what-terms)
 * [Hogyan teszi biztonságossá a Microsoft az ügyféladatokat az Azure-szolgáltatások](https://www.microsoft.com/trustcenter/Transparency/default.aspx)
 * [Tekintse át az Azure-szolgáltatásokhoz, átláthatóság hub hitelesítő](https://www.microsoft.com/trustcenter/Compliance/default.aspx)

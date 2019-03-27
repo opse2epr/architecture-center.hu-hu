@@ -7,12 +7,12 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
 author: alexbuckgit
-ms.openlocfilehash: 08046a4ae199a8714393d2aba3841dd84008d836
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: d469c3ba6fb53c5412c615886d449d9b59c2378e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899166"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299294"
 ---
 # <a name="deployment-acceleration-policy-compliance-processes"></a>Gyorsulás szabályzat megfelelőségi folyamatok
 
@@ -24,7 +24,7 @@ A felhőben a legjobb telepítési gyorsítás eszközök csak annyira jók a fo
 
 **A hitelkockázat értékelése és tervezése a kezdeti**: A kezdeti bevezetését az üzembe helyezés gyorsítás fegyelem részeként azonosítsa az alapvető üzleti kockázatot és a kapcsolódó üzleti alkalmazásai üzembe helyezését az eltérések. Ezt az információt használja adott technikai kockázatok egyeztetnie, az IT-üzemeltetői csapatnak, és a biztonsági csapat tagjai, valamint hozhat létre a központi telepítési és konfigurációs szabályzatok létrehozására, a kezdeti adatirányítási stratégia kockázatok csökkentése alapkészletével.
 
-**Üzembe helyezés megtervezése**: Bármely eszköz telepítés előtt minden olyan új kockázatok azonosítása, és minden hozzáférés és az adatok biztonsági házirend követelményeinek teljesítése biztonsági felülvizsgálat végrehajtása.
+**Üzembe helyezés megtervezése**: Bármely eszköz üzembe helyezése előtt minden olyan új kockázatok azonosítása, és minden hozzáférés és az adatok biztonsági házirend követelményeinek teljesítése biztonsági felülvizsgálat végrehajtása.
 
 **Központi telepítés tesztelése**: Bármely eszköz a telepítési folyamat részeként a vállalati biztonsági csoportokkal együttműködésben felhőalapú Cégirányítási csapat felelős biztonsági szabályzatoknak való megfelelés ellenőrzése az üzembe helyezés áttekintése.
 

@@ -8,12 +8,12 @@ description: Néhány olyan módszert a digitális hagyatéki tervezési ismerte
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: 8b6c680cf477ea188cbd263ecc04389d6daaed89
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: fc30c9034e14b451b7e9ec9dfc023d72f248b37c
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898017"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299297"
 ---
 # <a name="approaches-to-digital-estate-planning"></a>A digitális tulajdonnal kapcsolatos tervezés megközelítései
 
@@ -45,7 +45,7 @@ CAF számos, hasonló egy növekményes megközelítés magas ajánlott. Esetén
 
 - A kiadás tervezési: Az áttelepítés várakozó fájlok számát, minden kiadás törli és újra Priorizált a leginkább releváns hatás az üzletmenetre koncentrálhat. A folyamat során meg a következő 5&ndash;10 számítási feladatok rangsorolt kiadások választotta volna. Ezen a ponton a Felhőstratégia csapat lenne fektet az idő, teljes körű munkaterhelés adatvezérelt megközelítés végrehajtásában. Az értékelés késleltetése, amíg egy kiadási feliratán, jobban figyelembe veszi a érintettek idején. Is késlelteti a befektetés teljes elemzés, addig az üzleti elindítja az származó erőfeszítéseket korábbi eredményeinek megtekintéséhez.
 
-- Végrehajtási elemzése: A migrálás, korszerűsítése vagy bármely eszköz replikációs előtt az eszköz fel kell mérni külön-külön és a egy csoportos kiadás részeként. Ezen a ponton a kezdeti eszköz adatvezérelt megközelítés származó adatokat is mindkettőnek pontos méretezése és üzemeltetési korlátozások biztosításához.
+- Végrehajtási elemzése: Telepít át, mielőtt modernizálhatja vagy replikálásához bármely eszközre minden egyes fel kell mérni külön-külön és csoportos kiadás részeként. Ezen a ponton a kezdeti eszköz adatvezérelt megközelítés származó adatokat is mindkettőnek pontos méretezése és üzemeltetési korlátozások biztosításához.
 
 > [!TIP]
 > A növekményes megközelítés lehetővé teszi a zökkenőmentes tervezési, és gyorsított eredményeket. Nagyon fontos, hogy a résztvevő felek a módszer késleltetett döntéshozatal érdekében megismeréséhez. Ugyanilyen fontos, hogy minden egyes fázisában előzetesen kalkulált dokumentálni kell részletek adatvesztés elkerülése érdekében.

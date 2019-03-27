@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: b93041d87ec1edde91724f6cf6374cb00b8a4941
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 20f1e5c155aff445e2b2f15e07a5adf1dcc4c338
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488494"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298494"
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -144,7 +144,7 @@ Kerülje a gyorsítótár elsődleges adattárként való használatát; erre az
 
 Ezért az alkalmazásoknak képesnek kell lenniük a gyorsítótár-szolgáltatás rendelkezésre állási állapotának észlelésére, illetve az eredeti adattárra való visszaváltásra, ha a gyorsítótár nem érhető el. Ebben az esetben az [áramköri megszakítási minta](../patterns/circuit-breaker.md) használható eredményesen. A gyorsítótárat üzemeltető szolgáltatás visszaállítható, és amint elérhetővé válik, a gyorsítótár újból feltölthető, mivel az adatokat a rendszer az eredeti adattárból olvassa be, egy olyan stratégiát követve, amilyen például a [gyorsítótár-feltöltési minta](../patterns/cache-aside.md).
 
-Ha azonban az alkalmazás visszavált az eredeti adattárra, amikor a gyorsítótár ideiglenesen nem érhető el, az hatással lehet a rendszer méretezhetőségére. A gyorsítótár helyreállítása közben az eredeti adattárat eláraszthatják az adatkérések, ami időtúllépéseket és sikertelen kapcsolatokat eredményezhet.
+Rendszer skálázhatósági azonban érintheti, ha az alkalmazás visszavált az eredeti adattárra, amikor a gyorsítótár ideiglenesen nem érhető el. A gyorsítótár helyreállítása közben az eredeti adattárat eláraszthatják az adatkérések, ami időtúllépéseket és sikertelen kapcsolatokat eredményezhet.
 
 Érdemes lehet létrehozni egy helyi, privát gyorsítótárat mindegyik alkalmazáspéldányhoz a megosztott gyorsítótár mellett, amelyhez az összes alkalmazáspéldány hozzá tud férni. Amikor az alkalmazás lekér egy adott elemet, először a helyi, majd a megosztott gyorsítótárban, végül pedig az eredeti adattárban kereshet. A helyi gyorsítótár a megosztott gyorsítótárban vagy (ha a megosztott gyorsítótár nem érhető el) az adatbázisban lévő adatokból is feltölthető.
 
@@ -297,7 +297,7 @@ További információkért lásd [az Azure Redis Cache ASP.NET munkamenetállapo
 > [!NOTE]
 > Ne használja az Azure Redis Cache munkamenetállapot-szolgáltatóját Azure-környezeten kívül futtatott ASP.NET-alkalmazásokkal. Az Azure-on kívüli gyorsítótár hozzáférésének késleltetése miatt előfordulhat, hogy az adatok gyorsítótárazásának teljesítménybeli előnyei nem használhatók ki.
 
-Hasonlóképpen, az Azure Redis Cache kimeneti gyorsítótár-szolgáltatója az ASP.NET-webalkalmazások által létrehozott HTTP-válaszok mentését is lehetővé teszi. Az Azure Redis Cache kimeneti gyorsítótár-szolgáltatójának használatával csökkenthető az összetett HTML-kimeneteket renderelő alkalmazások válaszideje. A hasonló válaszokat visszaadó alkalmazáspéldányok a gyorsítótárban lévő megosztott kimeneti töredékeket használhatják a HTML-kimenet újbóli létrehozása helyett. További információkért lásd [az Azure Redis Cache ASP.NET-es kimeneti gyorsítótár-szolgáltatóját](/azure/redis-cache/cache-aspnet-output-cache-provider/) ismertető cikket.
+Hasonlóképpen, az Azure Redis Cache kimeneti gyorsítótár-szolgáltatója az ASP.NET-webalkalmazások által létrehozott HTTP-válaszok mentését is lehetővé teszi. Az Azure Redis Cache kimeneti gyorsítótár-szolgáltatójának használatával csökkenthető az összetett HTML-kimeneteket renderelő alkalmazások válaszideje. Hasonló válaszokat visszaadó alkalmazáspéldányok a HTML-kimenet újbóli létrehozása helyett a gyorsítótárban lévő megosztott kimeneti töredékeket használhatják. További információkért lásd [az Azure Redis Cache ASP.NET-es kimeneti gyorsítótár-szolgáltatóját](/azure/redis-cache/cache-aspnet-output-cache-provider/) ismertető cikket.
 
 ## <a name="building-a-custom-redis-cache"></a>Egyéni Redis-gyorsítótár kiépítése
 
@@ -651,7 +651,7 @@ A meglévő készleteket új készletek létrehozásához az SDIFF (különbség
 
 Az alábbi kódrészletek azt mutatják be, hogyan alkalmazhatók a készletek a kapcsolódó elemek gyűjteményének gyors tárolására és lekérdezésére. A kód által használt `BlogPost` típust a jelen cikk korábbi, „Redis gyorsítótár-ügyfélalkalmazások megvalósítása” című szakaszában mutattuk be.
 
-A `BlogPost` objektum a következő négy mezőt tartalmazza: azonosító, cím, rangsorolási pontszám és címkék gyűjteménye. Az alábbi első kódrészlet azokat a mintaadatokat mutatja be, amelyeket a rendszer a `BlogPost` objektumok C# listájának feltöltéséhez használ:
+A `BlogPost` objektum tartalmazza a négy mezőt &mdash; azonosító, cím, rangsorolási pontszám és címkék gyűjteménye. Az alábbi első kódrészlet azokat a mintaadatokat mutatja be, amelyeket a rendszer a `BlogPost` objektumok C# listájának feltöltéséhez használ:
 
 ```csharp
 List<string[]> tags = new List<string[]>
@@ -700,7 +700,7 @@ foreach (BlogPost post in posts)
     await cache.SetAddAsync(
         redisKey, post.Tags.Select(s => (RedisValue)s).ToArray());
 
-    // Now do the inverse so we can figure how which blog posts have a given tag
+    // Now do the inverse so we can figure out which blog posts have a given tag
     foreach (var tag in post.Tags)
     {
         await cache.SetAddAsync(string.Format(CultureInfo.InvariantCulture,

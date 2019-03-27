@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 85d04f179b988fd5b00b361149f2170d13608e6d
-ms.sourcegitcommit: 700a4f6ce61b1ebe68e227fc57443e49282e35aa
+ms.openlocfilehash: 7b13e9c0e319f89abb7874003014dcdb1ff08fce
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/07/2019
-ms.locfileid: "55887386"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298590"
 ---
 # <a name="batch-scoring-on-azure-for-deep-learning-models"></a>Kötegelt pontozási az Azure-on deep learning-modellek
 
@@ -23,9 +23,13 @@ Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkal
 
 **A forgatókönyv**: Egy media szervezete egy videót, amelynek stílusát, így jelenik meg szeretne, például egy adott festmény. A szervezet szeretne tudni a stílus alkalmazása időben, és automatizált módon zajlik a videó minden keretet. További ismereteket a Neurális stílus átviteli algoritmusok, lásd: [kép stílus átvitel használata Konvolúciós Neurális hálózatokkal] [ image-style-transfer] (PDF).
 
+<!-- markdownlint-disable MD033 -->
+
 | Style-lemezképet: | A videó bemeneti/tartalom: | Kimeneti videót: |
 |--------|--------|---------|
 | <img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/style_image.jpg" width="300"> | [<img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/input_video_image_0.jpg" width="300" height="300">](https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/input_video.mp4 "A videó bemeneti") *kattintson ide a megtekintéshez videó* | [<img src="https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/output_video_image_0.jpg" width="300" height="300">](https://happypathspublic.blob.core.windows.net/assets/batch_scoring_for_dl/output_video.mp4 "A videó kimeneti") *kattintson ide a megtekintéshez videó* |
+
+<!-- markdownlint-enable MD033 -->
 
 Ez a referenciaarchitektúra a számítási feladatokat az Azure storage-ban új adathordozó jelenléte által aktivált lett tervezve.
 
@@ -42,7 +46,7 @@ Ez az architektúra a következő összetevőkből áll.
 
 ### <a name="compute"></a>Compute
 
-**[Az Azure Machine Learning szolgáltatás] [ amls]**  Azure Machine Learning-folyamatokat hozhat létre reprodukálható és könnyen kezelhető feladatütemezések számítási használ. Emellett egy felügyelt számítási célnak (amelyen folyamat számítást futtatható) nevű [Azure Machine Learning Compute] [ aml-compute] képzés, üzembe helyezése és pontozás a machine learning-modellek. 
+**[Az Azure Machine Learning szolgáltatás] [ amls]**  Azure Machine Learning-folyamatokat hozhat létre reprodukálható és könnyen kezelhető feladatütemezések számítási használ. Emellett egy felügyelt számítási célnak (amelyen folyamat számítást futtatható) nevű [Azure Machine Learning Compute] [ aml-compute] képzés, üzembe helyezése és pontozás a machine learning-modellek.
 
 ### <a name="storage"></a>Storage
 
@@ -64,21 +68,21 @@ Ez a referenciaarchitektúra egy fa a Képanyag-orangutan használja. Letölthet
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
-### <a name="gpu-vs-cpu"></a>GPU-és CPU
+### <a name="gpu-versus-cpu"></a>Processzor és GPU
 
 A deep learning számítási feladatokhoz gpu-k általánosan élekről végez, és processzorokat sávszélességétől, az processzorok marketingre fürt általában szükség hasonló teljesítmény eléréséhez. Bár a lehetőség csak processzorokat használata ebben az architektúrában, gpu-k egy sokkal jobb költség/teljesítmény profilt biztosít. Azt javasoljuk, hogy a legújabb [NCv3 sorozat] virtuálisgép-méretek – gpu használatával GPU-optimalizált virtuális gépek.
 
 Az összes régióban alapértelmezés szerint nem engedélyezettek a GPU-kkal. Ellenőrizze, hogy válasszon ki egy régiót a GPU-k engedélyezve van. Emellett az előfizetések nulla magok alapértelmezett kvóta tartozik GPU-optimalizált virtuális gépek számára. Nyissa meg a támogatási kérelmet a kvóta is növelheti. Győződjön meg arról, hogy előfizetése rendelkezik-e elegendő kvótával a számítási feladatok futtatásához.
 
-### <a name="parallelizing-across-vms-vs-cores"></a>Virtuális gépek és magok közötti párhuzamosan futtatni
+### <a name="parallelizing-across-vms-versus-cores"></a>Magok és a virtuális gépen párhuzamosan futtatni
 
 Batch-feladat egy stílust átviteli folyamat fut, amikor a feladatok elsősorban a GPU-n futó virtuális gépek között méretezésnek megfelelően kell. Két módszer is lehetséges: Egyetlen GPU rendelkező virtuális gépeken nagyobb méretű fürtöt létrehozni, vagy hozzon létre egy kisebb fürtöt használó virtuális gépek sok gpu-kkal.
 
 Ilyen számítási feladatok esetében két lesz hasonló teljesítményt. Virtuális gépenként több gpu-kkal kevesebb virtuális gépek használatával segíthet csökkenteni az adatok áthelyezését. A számítási feladatonként adatmennyiség viszont nem nagyon nagy, ezért nem vizsgálja meg, mennyi szabályozás blob Storage.
 
-### <a name="mpi-step"></a>MPI lépés 
+### <a name="mpi-step"></a>MPI lépés
 
-Amikor létrehoz egy folyamatot az Azure Machine Learning, a párhuzamos számítások végrehajtásához használt lépéseket egyik az MPI-lépés. Az MPI-lépés segít az adatok egyenletes felosztása elérhető csomópontok között. Az MPI-lépés a rendszer nem hajtotta végre, amíg készen áll a kért csomópontok. Kell egy csomópont sikertelen, vagy a felfüggesztett beolvasása (ha az alacsony prioritású virtuális gép), az MPI lépést kell újra futtatni. 
+Amikor létrehoz egy folyamatot az Azure Machine Learning, a párhuzamos számítások végrehajtásához használt lépéseket egyik az MPI-lépés. Az MPI-lépés segít az adatok egyenletes felosztása elérhető csomópontok között. Az MPI-lépés a rendszer nem hajtotta végre, amíg készen áll a kért csomópontok. Kell egy csomópont sikertelen, vagy a felfüggesztett beolvasása (ha az alacsony prioritású virtuális gép), az MPI lépést kell újra futtatni.
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
@@ -94,7 +98,7 @@ Ez a referenciaarchitektúra stílus átvitelt használ példaként szolgál a k
 
 ### <a name="securing-your-computation-in-a-virtual-network"></a>A számítási virtuális hálózat biztonságossá tétele
 
-A Machine Learning számítási fürt üzembe helyezésekor, konfigurálhatja a fürt egy alhálózatán belül üzembe helyezhető egy [virtuális hálózat][virtual-network]. Ez lehetővé teszi a számítási csomópontok, a fürt más virtuális gépek biztonságos kommunikációhoz. 
+A Machine Learning számítási fürt üzembe helyezésekor, konfigurálhatja a fürt egy alhálózatán belül üzembe helyezhető egy [virtuális hálózat][virtual-network]. Ez lehetővé teszi a számítási csomópontok, a fürt más virtuális gépek biztonságos kommunikációhoz.
 
 ### <a name="protecting-against-malicious-activity"></a>Rosszindulatú tevékenység elleni védelme
 
@@ -136,7 +140,6 @@ Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lép
 
 > [!NOTE]
 > A kötegelt pontozási architektúra deep learning-modellek az Azure Kubernetes Service használatával is telepítheti. A jelen ismertetett lépéseket követve [Github-adattárat][deployment2].
-
 
 <!-- links -->
 

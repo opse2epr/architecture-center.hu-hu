@@ -7,21 +7,18 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: ac7ab8b8dd154999a05dc531e41b0994f66ddf10
-ms.sourcegitcommit: 700a4f6ce61b1ebe68e227fc57443e49282e35aa
+ms.openlocfilehash: c8ce4c77666ab7b9c55e6f144d514fadc6b6ad73
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/07/2019
-ms.locfileid: "55887403"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299240"
 ---
 # <a name="microservices-architecture-on-azure-kubernetes-service-aks"></a>A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 
 A referenciaarchitektúrák a mikroszolgáltatás-alkalmazások üzembe helyezett Azure Kubernetes Service (AKS) jeleníti meg. A legtöbb telepítés esetén a kiindulási pont lehet AKS alapkonfiguráció mutatja. Fejlettebb lehetőségeket, ideértve a speciális hálózati beállításokat, egy különálló referenciaarchitektúrában található tárgyalja.
 
 Ez a cikk a Kubernetes alapszintű ismeretét feltételezi. A cikk elsősorban az infrastruktúra és a fejlesztési és üzemeltetési megfontolások az aks-en futó a mikroszolgáltatási architektúra szolgál. Domain Driven tervezési (DDD) szempontból mikroszolgáltatások tervezési útmutatóért lásd: [tervezése, létrehozása és működtetése az Azure mikroszolgáltatások](/azure/architecture/microservices).
-
-> [!NOTE]
-> Dolgozunk a referenciaimplementációt (RI) kísérő ebben a cikkben, amely várhatóan közzététele az előzetes verzióját 2019. Ez a cikk építhetnek be további ajánlott eljárásait a fenntartott példány frissül.
 
 ![Az AKS a referencia-architektúra](./_images/aks.png)
 
@@ -310,7 +307,7 @@ Ebben a szakaszban azt jelenleg egy lehetséges CI/CD-munkafolyamatot, a követk
 - A csapata által használt [Azure folyamatok](/azure/devops/pipelines) a CI/CD-folyamat futtatását.
 - A csapata által használt [névterek](/azure/container-registry/container-registry-best-practices#repository-namespaces) az Azure Container Registry rendszerképek éles környezetben, amely továbbra is tesztelik rendszerképekből jóváhagyott elkülönítésére.
 
-Ebben a példában egy fejlesztői dolgozik egy mikroszolgáltatás-kézbesítési szolgáltatás neve. (A név a leírt referenciaimplementációt származik [Itt](../../microservices/index.md#the-drone-delivery-application).) Egy új szolgáltatás fejlesztésekor a fejlesztői egy funkciót a főágban kód ellenőrzi.
+Ebben a példában egy fejlesztői dolgozik egy mikroszolgáltatás-kézbesítési szolgáltatás neve. (A név a leírt referenciaimplementációt származik [Itt](../../microservices/design/index.md#scenario).) Egy új szolgáltatás fejlesztésekor a fejlesztői egy funkciót a főágban kód ellenőrzi.
 
 ![CI/CD-munkafolyamat](./_images/aks-cicd-1.png)
 

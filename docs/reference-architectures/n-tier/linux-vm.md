@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
 ms.openlocfilehash: ec71e35bec0fa9fad604456130f8596fcf127ebb
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485655"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299460"
 ---
 # <a name="run-a-linux-virtual-machine-on-azure"></a>Linux rendszerű virtuális gép futtatása az Azure-ban
 
@@ -69,7 +69,7 @@ Adatlemez hozzáadásakor a rendszer hozzárendel egy logikaiegység-szám (LUN)
 
 A VM egy ideiglenes lemezzel jön létre. A lemez a gazdagép egyik fizikai meghajtóján található. *Nincs* mentve az Azure Storage-ban, és előfordulhat, hogy törlődik az újraindítások és más VM-életciklusesemények során. Ez a lemez csak ideiglenes adatokat, például lapozófájlokat tárol. Linux virtuális gépeknél az ideiglenes lemez a `/dev/sdb1`, és a csatlakoztatásának helye `/mnt/resource` vagy `/mnt`.
 
-## <a name="network"></a>Hálózat
+## <a name="network"></a>Network (Hálózat)
 
 A hálózati összetevők közé tartoznak az alábbi forrásanyagokat:
 

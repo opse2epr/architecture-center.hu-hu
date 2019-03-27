@@ -1,14 +1,17 @@
 ---
 title: 'CAF: Erőforráshozzáférés-kezelés az Azure-ban'
 description: Erőforráshozzáférés-kezelés ismertetése az Azure-ban – Azure Resource Manager, az előfizetések, erőforráscsoportok és erőforrásokat hoz létre.
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.date: 02/11/2019
 author: petertaylor9999
-ms.date: 2/11/2019
-ms.openlocfilehash: f23540a03c82fbc46872645ac0fd82d574db353a
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: a72e9fbd6f5f320440d63d55d4e0f2aa2009a2d1
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898119"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298454"
 ---
 # <a name="resource-access-management-in-azure"></a>Erőforráshozzáférés-kezelés az Azure-ban
 
@@ -46,7 +49,7 @@ Azure-előfizetés nagyon hasonlít egy erőforráscsoportot, abban, hogy egy lo
 A [Azure működése?](what-is-azure.md) megtanulta, hogy az Azure számos olyan szolgáltatás, amely az Azure minden funkcióját összehangolására az "előtér" tartalmaz. Ezek a szolgáltatások egyik [Resource Manager](/azure/azure-resource-manager/), és ez a szolgáltatás üzemelteti a RESTful API-ügyfelek által használt erőforrások kezeléséhez.
 
 ![](../_images/governance-1-12.png)
-*4. ábra. Az Azure resource manager.*
+*4. ábra. Az Azure Resource Manager.*
 
 A következő ábrán látható három ügyfelek: [PowerShell](/powershell/azure/overview), a [az Azure portal](https://portal.azure.com), és a [Azure parancssori felület (CLI)](/cli/azure):
 
@@ -65,7 +68,7 @@ Amikor egy ügyfél kérést küld egy adott erőforrás kezeléséhez, a Resour
 
 Resource Manager megköveteli, hogy adja meg az előfizetés és az erőforráscsoport azonosítóját ahhoz, hogy a virtuális gép típusú erőforrást kezelése az ügyfél.
 
-Most, hogy hogyan működik a Resource Manager megértését, nézzük térjen vissza a hozzászólás, hogyan Azure-előfizetéssel társítva az Azure resource manager által használt vezérlőkkel. Mielőtt bármely erőforrás felügyeleti kérelem Resource Manager által hajtható végre, a vezérlők be van jelölve.
+Most, hogy hogyan működik a Resource Manager megértését, nézzük térjen vissza a hozzászólás, milyen Azure-előfizetéssel társítva az Azure Resource Manager által használt vezérlőkkel. Mielőtt bármely erőforrás felügyeleti kérelem Resource Manager által hajtható végre, a vezérlők be van jelölve.
 
 Az első vezérlőelem, hogy a kérelmet kell kezdeményeznie, ha igazolt felhasználója, és a Resource Manager megbízható kapcsolattal rendelkezik [Azure Active Directory](/azure/active-directory/) (Azure AD) felhasználói identitáskezelési funkciókat biztosít.
 

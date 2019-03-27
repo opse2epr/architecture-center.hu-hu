@@ -8,11 +8,11 @@ ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
 ms.openlocfilehash: e28f26683c6d7dba196d4351ef3942830c9e7fc2
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486307"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298677"
 ---
 # <a name="recover-from-data-corruption-or-accidental-deletion"></a>Helyreállítás adatsérülés vagy véletlen törlés
 
@@ -22,7 +22,7 @@ Ha az adatok beolvasása sérült vagy véletlenül törölt egy robusztus üzle
 
 Azure Virtual Machines (VM) az alkalmazáshibák vagy véletlen törlés elleni védelme, használja a [Azure Backup](/azure/backup/). Az Azure Backup lehetővé teszi több virtuális gép lemezeinek konzisztensek legyenek biztonsági mentések létrehozását. Emellett a Backup-tárolóban adja meg a helyreállítási régióban elmaradásából-régiók közötti replikálható.
 
-## <a name="storage"></a>Tárhely
+## <a name="storage"></a>Storage
 
 Az Azure Storage biztosítja az adatok rugalmasságát biztosítja az automatikus replikációval. Azonban ez nem akadályozza alkalmazáskód vagy a felhasználók hibás adatokból, hogy véletlenül vagy kártételi. Fejlett technikák, például az adatok másolásának auditálási naplóba kerülnek a másodlagos tárolóhelyre karbantartása adathűséget alkalmazás vagy felhasználó hiba esetén van szükség.
 

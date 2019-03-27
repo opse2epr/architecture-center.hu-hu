@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: 'Erőforráshozzáférés-kezelés magyarázata hoz létre az Azure-ban: Az Azure Resource Manager, az előfizetések, erőforráscsoportok és erőforrások'
 author: petertaylor9999
 ms.openlocfilehash: b98cdc94d6d3a37c1e65da1d4de35d5d9520d6eb
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899459"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298761"
 ---
 # <a name="resource-access-management-in-azure"></a>Erőforráshozzáférés-kezelés az Azure-ban
 

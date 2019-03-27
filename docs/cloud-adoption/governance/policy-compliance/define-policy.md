@@ -1,14 +1,14 @@
 ---
-title: 'CAF: Adja meg a vállalati házirend-utasítások'
+title: 'CAF: Vállalati szabályzattal kapcsolatos nyilatkozatok meghatározása'
 description: Hogyan kíván létrehozni a kockázatok csökkentése, és a szabályzatot?
 author: BrianBlanchard
 ms.date: 01/02/2019
-ms.openlocfilehash: 97a2c25fea621e5418e505375eb0e80007ddb0de
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 94645d55cb30aea55dceeb96a2cb9a4af6098b5a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899407"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299371"
 ---
 <!---
 I understand risk and tolerance, now what do I do?
@@ -21,7 +21,7 @@ Miután elemzett az ismert kockázatok és kockázati tolerancia az a szervezet 
 
 <!-- markdownlint-disable MD026 -->
 
-## <a name="how-can-corporate-it-policy-become-cloud-ready"></a>Hogyan válhat a vállalati informatikai házirend felhőbeli használatra kész?
+## <a name="how-can-corporate-it-policy-become-cloud-ready"></a>Hogyan készíthető elő a vállalati informatikai szabályzat a felhő használatára?
 
 A hagyományos cégirányítási és a növekményes cégirányítási a vállalati szabályzat cégirányítási működő definíciója hoz létre. A legtöbb informatikai Cégirányítási műveletek oly módon figyelheti, kényszerítése, működnek, és ezek a vállalati házirendek automatizálása technológiát. Felhőalapú Cégirányítási hasonló fogalmak épül.
 
@@ -33,7 +33,7 @@ A fenti képen üzleti kockázat, a házirend és megfelelőség, közötti inte
 
 Felhőalapú cégirányítási az létrehoztunk egy folyamatos átállást szorzatát az idő múlásával, mivel a átalakítási tartó valódi éjjelente nem történik. Teljes körű felhőalapú cégirányítási előtt kulcsfontosságú vállalati házirend módosításai ritkán metódussal egy gyors agresszív címzés kézbesítését a kívánt eredményt ad. Ehelyett azt javasoljuk egy növekményes módszert.
 
-Mi a cloud bevezetési keretrendszert, a vásárlási ciklus, és hogyan hatását, ciklus a hiteles átalakítást is engedélyezheti. Mivel az nem áll a big Data típusú (CapEx) Tőkeráfordítási beszerzési követelmény, mérnökök megkezdheti a Kísérletezési és bevezetési hamarabb. A legtöbb vállalati kultúrák a CapEx-korlát bevezetését, megszüntetésére vezethet szigorúbb visszajelzési hurkokat ösztönözhetnek és a növekményes végrehajtását.
+Mi a cloud bevezetési keretrendszert a vásárlási ciklus, és engedélyezheti a hiteles átalakításában. Mivel az nem áll a big Data típusú (CapEx) Tőkeráfordítási beszerzési követelmény, mérnökök megkezdheti a Kísérletezési és bevezetési hamarabb. A legtöbb vállalati kultúrák a CapEx-korlát bevezetését, megszüntetésére vezethet szigorúbb visszajelzési hurkokat ösztönözhetnek és a növekményes végrehajtását.
 
 A felhőre való áttérés a shift kell irányítási eltolódása. Számos szervezet vállalati szabályzat átalakítás lehetővé teszi a jobb irányítás és a megfelelést növekményes az irányelvek változásai keresztül, a nagyobb sebesség és a módosításokat, konfigurálnia kell az újonnan definiált képességek segítségével automatizált érvényesítése a felhőszolgáltató.
 

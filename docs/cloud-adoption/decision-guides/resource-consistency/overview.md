@@ -7,29 +7,25 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Tudnivalók az erőforrás konzisztencia, egy Azure áttelepítés tervezése során.
 author: rotycenh
-ms.openlocfilehash: 8170bfd09218a451e086a57e0631b7e567eb2b82
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c2ff9a274692421e50775048586088134ff4c225
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899163"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299430"
 ---
 # <a name="caf-resource-consistency-decision-guide"></a>CAF: Erőforrás konzisztencia döntési útmutató
 
-Azure [előfizetések kialakítása](../subscriptions/overview.md) határozza meg, miként célszerű megszerveznie a felhőbeli eszközöket a szervezet általános struktúra viszonyítva. Ezenkívül integrálás a meglévő informatikai felügyeleti szabványok és a szervezeti szabályzatok attól függ, hogyan üzembe helyezése és az egy előfizetésen belül a felhőbeli erőforrások rendezéséhez.
-
-Az erőforrás üzembe helyezés, a csoportosítás és a felügyeleti tervek megvalósításához használható eszközök felhőplatform változhat. Egyes megoldások általában az alábbi szolgáltatásokat tartalmazza:
-
-- Egy logikai csoportosítási mechanizmusok, az előfizetés vagy a számla szint alá.
-- Erőforrások API-k programozott módon üzembe helyezése lehetővé teszi.
-- Sablonok szabványosított központi telepítések létrehozását.
-- Az előfizetés, a fiók és a csoportosítási szintek erőforrás szabályok telepítése lehetővé teszi.
+Azure [előfizetések kialakítása](../subscriptions/overview.md) határozza meg, miként célszerű megszerveznie a felhőbeli eszközöket a szervezet struktúra, a számlázási eljárások és a számítási feladatok követelményeit. Ezen a szinten minden olyan mappaszerkezet mellett a szervezeti cégirányítási házirend követelményeinek teljesítése között a felhőbeli hagyatéki szüksége van arra, konzisztens módon rendszerezheti, üzembe helyezése és egy előfizetésen belüli erőforrások kezelése.
 
 ![A legkevésbé erőforrás konzisztenciabeállítás küldik az ábrázolást a legösszetettebb, az alábbi hivatkozások a jump igazítva](../../_images/discovery-guides/discovery-guide-resource-consistency.png)
 
 Ugrás ide: [Alapvető csoportosítási](#basic-grouping) | [üzembe helyezési konzisztencia](#deployment-consistency) | [házirend konzisztencia](#policy-consistency) | [hierarchikus konzisztencia](#hierarchical-consistency)  |  [Automatikus konzisztencia](#automated-consistency)
 
-Ezek a tényezők elsősorban alakítják erőforrás üzembe helyezési és csoportosítási döntések: áttelepítés utáni digitális hagyatéki mérete, üzleti vagy környezeti összetettségét, amely nem fér el eligazíthatja a meglévő előfizetés tervezési megközelítés vagy érvényesíteni kell belül cégirányítási idővel erőforrások üzembe helyezése után. Speciális erőforrás csoportosítási tervek pontos csoportosítása érdekében egy nagyobb erőfeszítésekre van szükség, és ennek eredményeképp az idő növekedése a változáskezelés és követési töltött.
+A felhő hagyatéki konzisztencia erőforrásigényei szintjét kapcsolatos döntéseket elsősorban alakítják tényezők: áttelepítés utáni digitális hagyatéki mérete, üzleti vagy a meglévő előfizetésében eligazíthatja nem illő környezeti követelmények tervezési megközelítés, vagy a kell irányítási erőforrások üzembe helyezése után idővel kényszerítése. 
+
+Mivel ezek a tényezők növekedése fontosként, egységes üzembe helyezést, a csoportosítás és a felhőbeli erőforrások kezelését biztosító előnyeit fontosabbá válik. További speciális szintek növekvő igényeknek erőforrás konzisztencia megvalósítása igényel nagyobb munkát, automatizálás, azokat az eszközöket és konzisztencia kényszerítési töltött, és ennek eredményeként egy több időt töltött változáskezelés és nyomon követését.
+
 
 ## <a name="basic-grouping"></a>Alapszintű csoportosítás
 
@@ -42,11 +38,11 @@ Erőforráscsoportok tárolóként szolgálnak egy közös életciklussal rendel
 
 ## <a name="deployment-consistency"></a>Üzembe helyezés konzisztencia
 
-Készít a csoportosítási mechanizmus alap erőforrás felett, a legtöbb felhőalapú platformon rendszert biztosítanak a sablonok használatával helyezhet üzembe az erőforrásokat a felhőalapú környezetben. A sablonokkal hozhat létre egységes szervezet és elnevezési konvenciók tevékenységprofilok, amikor az erőforrás üzembe helyezési és kezelési kialakítási szempontjaival kényszerítése.
+Épület csoportosítási mechanizmus az alapvető erőforrás felett, az Azure platform rendszert biztosít a sablonok használatával helyezhet üzembe az erőforrásokat a felhőalapú környezetben. A sablonokkal hozhat létre egységes szervezet és elnevezési konvenciók tevékenységprofilok, amikor az erőforrás üzembe helyezési és kezelési kialakítási szempontjaival kényszerítése.
 
 [Az Azure Resource Manager-sablonok](/azure/azure-resource-manager/resource-group-overview#template-deployment) többször is telepíthet az erőforrások egy előre meghatározott konfigurációs és erőforrásfájlról csoportszerkezetet használatával konzisztens lesz. Resource Manager-sablonok segítségével meghatározhatja a vonatkozó szabványok a központi telepítések alapjaként.
 
-Rendelkezhet például egy standard sablon, amely tartalmazza a két virtuális gépet, a kiszolgálók közötti forgalom kezelésére terheléselosztó kombinálva webkiszolgálók web server számítási feladatok üzembe helyezéséhez. Ezután felhasználhatja a sablon szerkezete azonos üzemelő példányok létrehozása, amikor egy új web server számítási feladatok van szükség, a központi telepítés nevét és IP-címek csak módosítása vesz részt.
+Rendelkezhet például egy standard sablon, amely tartalmazza a két virtuális gépet, a kiszolgálók közötti forgalom elosztására terheléselosztó kombinálva webkiszolgálók web server számítási feladatok üzembe helyezéséhez. Ezután felhasználhatja a sablon szerkezete azonos virtuális gépek létrehozása és a terheléselosztó, amikor szükség van az ilyen típusú számítási feladatok, a központi telepítés nevét és IP-címek csak módosítása vesz részt.
 
 Vegye figyelembe, hogy programozott módon is üzembe helyezheti ezeket a sablonokat, majd a CI/CD-rendszerekkel való integrációt segítik őket.
 
@@ -62,9 +58,9 @@ Részletesebb érvényesítésének a házirendet érintő döntések belül üz
 
 ## <a name="hierarchical-consistency"></a>Hierarchikus konzisztencia
 
-A felhő hagyatéki méretének növekedésével szükség lehet, mint az Azure nagyvállalati szerződéssel vállalati/szervezeti egység/fiók vagy előfizetés hierarchia használatával támogatható bonyolultabb cégirányítási követelmények támogatására. Erőforráscsoportok lehetővé teszi, hogy támogatja az Azure Policy szabályok alkalmazása a szervezeten belül hierarchia szintű és hozzáférés-vezérlés egy erőforráscsoport szintjén.
+Erőforráscsoportok lehetővé teszi, hogy támogatja az Azure Policy szabályok alkalmazása a szervezetben az előfizetésen belüli hierarchia szintű és hozzáférés-vezérlés egy erőforráscsoport szintjén. Azonban a felhő hagyatéki méretének növekedésével szükség lehet, mint az Azure nagyvállalati szerződéssel vállalati/szervezeti egység/fiók vagy előfizetés hierarchia használatával támogatható bonyolultabb előfizetések közötti cégirányítási követelmények támogatására. 
 
-[Az Azure felügyeleti csoportok](../subscriptions/overview.md#management-groups) egy alternatív hierarchia felett a nagyvállalati szerződés struktúra átfedő bonyolultabb szervezeti felépítés is támogatja. Ez lehetővé teszi az előfizetések és az erőforrások hozzáférés-vezérléshez és a házirend kényszerítő mechanizmust szervezeti üzleti igényeinek megfelelő rendezve támogatásához.
+[Az Azure felügyeleti csoportok](../subscriptions/overview.md#management-groups) lehetővé teszi, hogy a szervezet előfizetés kifinomultabb szervezeti felépítés struktúra a nagyvállalati szerződés által létrehozott egy másik hierarchiában csoportosítási előfizetések által. Ez a hierarchia másik lehetővé teszi, hogy több előfizetést és az erőforrások hozzáférés-vezérléshez és a házirend kényszerítő mechanizmust alkalmazhat. Felügyeleti csoport-hierarchiái a megfelelő műveleteket és üzleti cégirányítási követelmények a felhő hagyatéki előfizetésekre használható. 
 
 ## <a name="automated-consistency"></a>Az automatikus konzisztencia
 

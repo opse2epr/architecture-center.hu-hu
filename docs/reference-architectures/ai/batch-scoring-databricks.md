@@ -1,5 +1,5 @@
 ---
-title: Batch-pontozás az Azure Databricks Spark-modellek
+title: Spark-modellek kötegelt kiértékelése az Azure Databricksben
 description: Hozzon létre egy méretezhető megoldás, a kötegelt pontozási egy Apache Spark osztályozási modell egy ütemezés szerint az Azure Databricks használatával.
 author: njray
 ms.date: 02/07/2019
@@ -8,19 +8,19 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
 ms.openlocfilehash: 1b6f10edf098ed8d9fa14c16de113fc765372835
-ms.sourcegitcommit: a68f248402c598f9d25bc1dc62f27a6a934ff001
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55903297"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299473"
 ---
-# <a name="batch-scoring-of-spark-models-on-azure-databricks"></a>Batch-pontozás az Azure Databricks Spark-modellek
+# <a name="batch-scoring-of-spark-models-on-azure-databricks"></a>Spark-modellek kötegelt kiértékelése az Azure Databricksben
 
 Ez a referenciaarchitektúra bemutatja, hogyan hozhat létre egy méretezhető megoldás, a kötegelt pontozási egy Apache Spark osztályozási modell egy ütemezés szerint az Azure Databricks, egy Azure-ra optimalizált Apache Spark-alapú elemzési platform használatával. A megoldás, amely más forgatókönyvek is általánosítva sablonként is használható.
 
 Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 
-![Batch-pontozás az Azure Databricks Spark-modellek](./_images/batch-scoring-spark.png)
+![Spark-modellek kötegelt kiértékelése az Azure Databricksben](./_images/batch-scoring-spark.png)
 
 **A forgatókönyv**: Az eszközintelligencia-(nagy erőforrásigényű) iparági szeretne a költségek és a társított vehesse a műszaki hibáknak váratlan állásidő minimalizálása érdekében. IoT-adatok használatával gyűjtött gépeik, létrehozhat egy prediktív karbantartási modellt. Ez a modell lehetővé teszi, hogy az üzleti összetevők karbantartása proaktív módon, és javítsa ki őket, mielőtt meghiúsulnak. A lehető legnagyobb vehesse a műszaki összetevő használja, akkor költségek csökkentését és csökkenthető a leállások.
 

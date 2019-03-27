@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
-ms.openlocfilehash: 3dc70c7eaea18f010d67befa5969d1be0423239c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 81053a4eda5e30ca614b2c18b92ddf411a05eac9
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484397"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298990"
 ---
 # <a name="integrate-on-premises-active-directory-domains-with-azure-active-directory"></a>Helyszíni Active Directory-tartományok integrálása az Azure Active Directoryval
 
@@ -45,7 +45,7 @@ Az architektúra a következő összetevőket tartalmazza.
 
 - **Azure AD-bérlő**. A vállalat által létrehozott [Azure AD][azure-active-directory]-példány. Ez a helyszíni Active Directoryból másolt objektumok tárolásával címtárszolgáltatásként szolgál a felhőalapú alkalmazásokhoz, valamint identitásszolgáltatásokat biztosít.
 - **Alhálózat a webes rétegben**. Ez az alhálózat webalkalmazásokat futtató virtuális gépeket tartalmaz. Az Azure AD szolgálhat identitásközvetítőként ehhez az alkalmazáshoz.
-- **Helyszíni AD DS-kiszolgáló**. Egy helyszíni címtár- és identitásszolgáltatás. Az AD FS-címtár szinkronizálható az Azure AD-vel, így az képessé tehető a helyszíni felhasználók hitelesítésére.
+- **Helyszíni AD DS-kiszolgáló**. Egy helyszíni címtár- és identitáskezelési szolgáltatás. Az AD FS-címtár szinkronizálható az Azure AD lehetővé teszi a helyszíni felhasználók hitelesítésére.
 - **Azure AD Connect szinkronizálási kiszolgáló**. Az [Azure AD Connect][azure-ad-connect] szinkronizálási szolgáltatást futtató helyszíni számítógép. Ez a szolgáltatás szinkronizálja az Active Directoryban tárolt adatokat az Azure AD-vel. Például ha a helyszíni környezetben kioszt vagy megszüntet csoportokat vagy felhasználókat, ezeket a változásokat az Azure AD-be is propagálja a rendszer.
 
   > [!NOTE]
@@ -146,7 +146,7 @@ Az Azure AD Connect több szabályt is alkalmaz a felhasználói, kapcsolattart�
 
 Saját szűrők megadásával korlátozhatja a tartomány vagy szervezeti egység által szinkronizálandó objektumok mennyiségét. Azt is megteheti, alkalmazhat összetettebb egyéni szűrőket például ismertetett [Azure AD Connect szinkronizálása: A szűrés konfigurálása][aad-filtering].
 
-### <a name="monitoring"></a>Monitoring
+### <a name="monitoring"></a>Figyelés
 
 Az állapotmonitorozást a következő, helyszínen telepített ügynökök végzik:
 

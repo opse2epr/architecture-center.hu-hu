@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: c0362ff3bc6c115399892d0f066650aaa96af2dd
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486556"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298930"
 ---
 # <a name="choosing-a-search-data-store-in-azure"></a>Az Azure search adattár kiválasztása
 
@@ -52,37 +52,37 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL-adatbázis |
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
 | --- | --- | --- | --- | --- |
 | A felügyelt szolgáltatás | Igen | Nem | Igen | Igen |  
-| REST API | Igen | Igen | Igen | Nincs |
+| REST API | Igen | Igen | Igen | Nem |
 | Programozhatóság | .NET | Java | Java | T-SQL |
-| A dokumentum az indexelők a gyakori fájltípusokból (PDF, DOCX, TXT és így tovább) | Igen | Nem | Igen | Nincs |
+| A dokumentum az indexelők a gyakori fájltípusokból (PDF, DOCX, TXT és így tovább) | Igen | Nem | Igen | Nem |
 
 ### <a name="manageability-capabilities"></a>Kezelhetőségi képességeit
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL-adatbázis |
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
 | --- | --- | --- | --- | --- |
-| Frissíthető séma | Nincs | Igen | Igen | Igen |
-| Támogatja a horizontális felskálázás  | Igen | Igen | Igen | Nincs |
+| Frissíthető séma | Nem | Igen | Igen | Igen |
+| Támogatja a horizontális felskálázás  | Igen | Igen | Igen | Nem |
 
 ### <a name="analytic-workload-capabilities"></a>Elemzési számítási feladatok képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL-adatbázis |
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
 | --- | --- | --- | --- | --- |
-| A teljes szöveges keresés túl az elemzést támogatja | Nincs | Igen | Igen | Igen |
-| A log analytics kifejlesztése | Nincs | Igen (elk-val) |  Nincs | Nincs |
+| A teljes szöveges keresés túl az elemzést támogatja | Nem | Igen | Igen | Igen |
+| A log analytics kifejlesztése | Nem | Igen (elk-val) |  Nem | Nem |
 | Szemantikai támogatja a keresést | Igen (keresési hasonló csak dokumentumok) | Igen | Igen | Igen |
 
 ### <a name="security-capabilities"></a>Biztonsági képességek
 
-| | Azure Search | Elasticsearch | A Solr HDInsight | SQL-adatbázis |
+| | Azure Search | Elasticsearch | A Solr HDInsight | SQL Database |
 | --- | --- | --- | --- | --- |
 | Sorszintű biztonság | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Részlegesen (csoportazonosító szerinti szűréshez használandó alkalmazás lekérdezést igényel) | Igen | Igen |
-| Transzparens adattitkosítás | Nincs | Nem | Nem | Igen |  
-| Adott IP-címek való hozzáférés korlátozása | Nincs | Igen | Igen | Igen |
-| Korlátozhatja a hozzáférést, csak a virtuális hálózati hozzáférés engedélyezése | Nincs | Igen | Igen | Igen |  
-| Az Active Directory-hitelesítés (integrált hitelesítés) | Nincs | Nem | Nem | Igen |
+| Transzparens adattitkosítás | Nem | Nem | Nem | Igen |  
+| Adott IP-címek való hozzáférés korlátozása | Nem | Igen | Igen | Igen |
+| Korlátozhatja a hozzáférést, csak a virtuális hálózati hozzáférés engedélyezése | Nem | Igen | Igen | Igen |  
+| Az Active Directory-hitelesítés (integrált hitelesítés) | Nem | Nem | Nem | Igen |
 
 ## <a name="see-also"></a>Lásd még
 

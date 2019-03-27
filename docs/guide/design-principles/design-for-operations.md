@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
 ms.openlocfilehash: 75eaa7f8e322c66a83d2b43d180780a2fdcd745b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54480484"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299195"
 ---
 # <a name="design-for-operations"></a>Tervezzen műveletekhez
 
@@ -21,9 +21,9 @@ ms.locfileid: "54480484"
 
 A felhő drámai mértékben megváltoztatta az üzemeltetési csapat szerepét. Többé már nem felelősek a hardverek és az alkalmazásokat futtató infrastruktúra felügyeletéért.  Ezzel együtt az üzemeltetés továbbra is kritikus részét képezi egy sikeres felhőalkalmazás futtatásának. Az üzemeltetési csapat fontos feladatai közé az alábbiak tartoznak:
 
-- Üzemelő példány
-- Monitoring
-- Eszkalációs
+- Környezet
+- Figyelés
+- Eszkalálás
 - Incidensmegoldás
 - Biztonsági naplózás
 

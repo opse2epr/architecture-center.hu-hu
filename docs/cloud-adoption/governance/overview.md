@@ -1,16 +1,19 @@
 ---
-title: 'CAF: Felhő-irányítás'
-description: Bevezetés a felhőalapú Cégirányítási tartalom
+title: 'CAF: Irányítás az Azure-hoz a Microsoft CAF'
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
+description: Irányítás az Azure-hoz a Microsoft CAF
 author: BrianBlanchard
-ms.date: 2/11/2019
-ms.openlocfilehash: 8a9701677eec913788ca72f86444a3600e170d07
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: b7a0739a42a27def34955577acffc7ab7292ac50
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897371"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299370"
 ---
-# <a name="cloud-governance-in-the-microsoft-caf-for-azure"></a>Felhőalapú irányítás az Azure-hoz a Microsoft CAF
+# <a name="governance-in-the-microsoft-caf-for-azure"></a>Irányítás az Azure-hoz a Microsoft CAF
 
 A felhő üzleti támogató technológiákat kapcsolatos új paradigmákat hoz létre. Ezek új paradigmákat műszakok is okozhatja a hogyan olyan technológiák is elfogadott, felügyelt és szabályozott. Akár egész adatközpontok megsemmisül, és újból végre egy felügyelet nélküli folyamat egy kódsorral is, ha rendelkezünk újragondolja a hagyományos megközelítés. Ez a egyaránt igaz, amikor a cégirányítási.
 
@@ -35,11 +38,11 @@ A Felhőtervező szolgál gondolkodási vezető egyeztető ezek célközönségg
 
 Az olvasók, akik ezt az útmutatót az elejétől a végéig ezt a tartalmat fog támogatási párhuzamosan, egy stabil felhőalapú adatirányítási stratégia kidolgozásában felhőalapú megvalósítás. Az útmutató végigvezeti az olvasót az elmélet, és ez a stratégia megvalósítását.
 
-A tanfolyamot elmélet és gyors elérése az Azure végrehajtása, a használatának első lépései a [áttekintése, gyakorlatban hasznosítható Cégirányítási Journey](./journeys/overview.md). Ez az útmutató segítségével az olvasó kezdhetik, és fejlesztheti tovább a felhő bevezetését erőfeszítések párhuzamos szabályozási igényeiknek.
+A tanfolyamot elmélet és gyors elérése az Azure végrehajtása, a használatának első lépései a [gyakorlatban hasznosítható cégirányítási Journey áttekintése](./journeys/overview.md). Ez az útmutató segítségével az olvasó kezdhetik, és fejlesztheti tovább a felhő bevezetését erőfeszítések párhuzamos szabályozási igényeiknek.
 
 ## <a name="next-steps"></a>További lépések
 
-Tekintse át a gyakorlatban hasznosítható Cégirányítási Journey.
+Tekintse át a gyakorlatban hasznosítható cégirányítási Journey.
 
 > [!div class="nextstepaction"]
 > [Gyakorlatban hasznosítható Cégirányítási Journey](./journeys/overview.md)

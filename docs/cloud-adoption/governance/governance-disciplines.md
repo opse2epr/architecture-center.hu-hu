@@ -1,5 +1,5 @@
 ---
-title: 'CAF: Felhőalapú irányítási öt állapítják'
+title: 'CAF: A felhőszabályozás öt szemlélete'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
@@ -9,14 +9,14 @@ description: Cégirányítási tartalmakra CAF áttekintése
 author: BrianBlanchard
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 1721e2ff7b4e7879637a7c09a40a5571b73c9ace
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 80bdfc6f55b76fc3ae57d8fc25ce68c385eaa009
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899338"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298457"
 ---
-# <a name="the-five-disciplines-of-cloud-governance"></a>Felhőalapú irányítási öt állapítják
+# <a name="the-five-disciplines-of-cloud-governance"></a>A felhőszabályozás öt szemlélete
 
 <!-- markdownlint-disable MD033 -->
 
@@ -40,7 +40,7 @@ ms.locfileid: "55899338"
                     <div class="cardText" style="padding-left:0px;">
 <img src="../_images/operational-transformation-govern-highres.png" alt="Diagram of the CAF governance model: Corporate policy and governance disciplines">
 <br>
-<i>1. ábra Vállalati házirend-és öt Felhőbeli Cégirányítási oktatnak Visual</i>
+<i>1. ábra Vállalati szabályzatok és a felhő Cégirányítási öt oktatnak ábrája</i>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@ ms.locfileid: "55899338"
 
 ## <a name="disciplines-of-cloud-governance"></a>Felhőalapú irányítási oktatnak
 
-Minden felhőszolgáltató között vannak közös tájékoztatja a házirendek és eszközlánccal való igazítása útmutató alapul szolgálhat felhő cégirányítási szakterületen. Ezek a szabályok megfelelő szintű automation és a vállalati szabályzat kényszerítésének kapcsolatos döntések útmutató felhőszolgáltatók között.
+Minden felhőszolgáltató között vannak közös cégirányítási oktatnak, amely tájékoztatja a házirendek és eszközlánccal való igazítása útmutató alapul szolgálhat. Ezek a szabályok megfelelő szintű automation és a vállalati szabályzat kényszerítésének kapcsolatos döntések útmutató felhőszolgáltatók között.
 
 <!-- markdownlint-disable MD033 -->
 
@@ -107,7 +107,7 @@ Minden felhőszolgáltató között vannak közös tájékoztatja a házirendek 
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Identitásra építve</h3>
+                        <h3>Identitáskezelési alapkonfiguráció</h3>
                         <p>Identitással kapcsolatos követelmények alkalmazását lévő inkonzisztenciák növelheti az illetéktelen behatolás kockázatát. Az identitásra építve fegyelem módja annak, identitás következetesen alkalmazzák között a felhő bevezetésének erőfeszítések összpontosít.</p>
                     </div>
                 </div>
@@ -145,7 +145,7 @@ Minden felhőszolgáltató között vannak közös tájékoztatja a házirendek 
                         </div>
                     </div>
                     <div class="cardText">
-                        <h3>Üzembe helyezés gyorsítás</h3>
+                        <h3>Üzembe helyezés gyorsítása</h3>
                         <p>Forrásadattárakból szabványügyi szervezet és a telepítési és konfigurációs módszer konzisztencia javítása eljárásaink. Eszközök felhőalapú cégirányítási érhetők el, ha azok hozzon létre egy felhőalapú tényező, amely meggyorsíthatja a telepítési műveletek.</p>
                     </div>
                 </div>

@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 475b9572cb5b34850944fdf03061dc56ea6d0bf9
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 09e2b55aa009d55037e7a0feb0ba3c4f65d9de16
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485145"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299536"
 ---
 # <a name="health-endpoint-monitoring-pattern"></a>Állapot végponti monitorozását végző minta
 
@@ -109,7 +109,7 @@ Ez a minta az alábbi esetekben hasznos:
 
 Az alábbi példakódok a `HealthCheckController` osztályból származnak (egy, ezt a mintát bemutató mintakód elérhető a [GitHubon](https://github.com/mspnp/cloud-design-patterns/tree/master/health-endpoint-monitoring)), és azt mutatják be, hogyan lehet elérhetővé tenni a végpontokat különböző állapot-ellenőrzések elvégzéséhez.
 
-A `CoreServices` metódus, amely lent, C# nyelven látható, egy sor ellenőrzést hajt végre az alkalmazás által használt szolgáltatásokon. Ha mindegyik teszt hiba nélkül lefut, a metódus 200-as (OK) állapotkódot ad vissza. Ha bármelyik teszt kivételt jelez, a metódus 500-as (Belső hiba) állapotkódot ad vissza. Ha hiba történik, a metódus igény szerint további információkat adhat vissza, ha a monitorozási eszköz vagy keretrendszer használni tudja azokat.
+A `CoreServices` metódus, amely lent, C# nyelven látható, egy sor ellenőrzést hajt végre az alkalmazás által használt szolgáltatásokon. Ha mindegyik teszt hiba nélkül lefut, a metódus 200-as (OK) állapotkódot ad vissza. Ha bármelyik teszt kivételt jelez, a metódus 500-as (Belső hiba) állapotkódot ad vissza. A metódus sikerült igény szerint további információkat adhat vissza hiba esetén a monitorozási eszköz vagy keretrendszer nem használhatja, ha.
 
 ```csharp
 public ActionResult CoreServices()

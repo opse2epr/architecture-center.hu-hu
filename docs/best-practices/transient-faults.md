@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 43356f4e94c3f35fcb419338a41eb53025ce63b6
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: b7728a9cd06fc7788e83db3973f797ae6d696916
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482595"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298470"
 ---
 # <a name="transient-fault-handling"></a>Átmeneti hibák kezelése
 
@@ -41,7 +41,7 @@ A felhőalapú üzemeltetés, a magánfelhő-alapú rendszereket is beleértve, 
 
 ## <a name="challenges"></a>Problémák
 
-Az átmeneti hibák nagymértékben befolyásolhatják az alkalmazás észlelhető rendelkezésre állását, még akkor is, ha az alkalmazást alapos tesztelésnek vetették alá, az összes előrelátható körülmény figyelembevételével. Ahhoz, hogy a felhőben üzemeltetett alkalmazások megbízhatóan működjenek, meg kell tudniuk felelni a következő kihívásoknak:
+Az átmeneti hibák egy nagyon nagy hatással lehet a egy alkalmazás észlelhető rendelkezésre állását még akkor is, ha alapos teszteléssel alatt összes előrelátható körülmény figyelembevételével. Ahhoz, hogy a felhőben üzemeltetett alkalmazások megbízhatóan működjenek, meg kell tudniuk felelni a következő kihívásoknak:
 
 - Az alkalmazásnak észlelnie kell a hibákat, amikor azok bekövetkeznek, és meg kell tudnia határozni, hogy ezek a hibák várhatóan átmenetiek, annál tartósabbak, vagy végzetesek. A különböző erőforrások hiba esetén nagy eséllyel eltérő válaszokat adnak vissza, és ezek a válaszok a művelet kontextusától függően is eltérhetnek. Például az erőforrások más választ adhatnak a tárolóból való olvasásakor jelentkező hibára, mint a tárolóba való íráskor jelentkező hibára. Sok erőforrás és szolgáltatás részletesen dokumentált átmeneti meghibásodási szerződésekkel rendelkezik. Azonban ha nem állnak rendelkezésre ilyen adatok, nehéz lehet kideríteni a hiba jellegét és tartósságát.
 
@@ -133,7 +133,7 @@ Az alábbi irányelvek segítenek megtervezni egy megfelelő átmeneti hibakezel
 
 - **Naplózza és kövesse nyomon az átmeneti és nem átmeneti hibákat:**
 
-  - Az újrapróbálkozási stratégiába foglaljon bele kivételkezelést, és olyan rendszerállapotokat, amelyek naplózzák az újrapróbálkozási kísérleteket. Míg az esetenként előforduló átmeneti hibákra és újrapróbálkozásokra számítani lehet, és nem utalnak hibára, a rendszeresen és egyre nagyobb számban előforduló újrapróbálkozások gyakran olyan problémát jeleznek, amely meghibásodást okozhat, vagy jelenleg is kihat az alkalmazás teljesítményére és rendelkezésre állására.
+  - Az újrapróbálkozási stratégiába foglaljon bele kivételkezelést, és olyan rendszerállapotokat, amelyek naplózzák az újrapróbálkozási kísérleteket. Bár egy átmeneti hibákra alkalmanként és számítani lehet, és jelzi, hogy hibás, rendszeresen és egyre nagyobb számú újrapróbálkozás általában azt jelzi, hogy a hibát, amely meghibásodást okozhat, vagy van jelenleg gyorsítótárazhatók az alkalmazások teljesítményéről és rendelkezésre állás.
 
   - Az átmeneti hibákat „Hiba” bejegyzések helyett naplózza „Figyelmeztetés” bejegyzésként, nehogy a monitorozó rendszerek alkalmazáshibaként észleljék őket, és téves riasztásokat küldjenek.
 

@@ -6,12 +6,12 @@ ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 7ce405f2b5a594b4a7d165a0ae247e6d59a40b24
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 0a2f681059749115087b8b0d40eb6b5383f8f26e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484669"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299090"
 ---
 # <a name="securing-data-solutions"></a>Adatmegoldások védelme
 
@@ -67,7 +67,7 @@ További információkért lásd: [Azure-naplózás és a naplózási](/azure/se
 
 ### <a name="rights-management"></a>Rights management
 
-[Az Azure Rights Management](/information-protection/understand-explore/what-is-azure-rms) egy felhőalapú szolgáltatás, amely biztonságos fájlok és e-mailek titkosítási, identitáskezelési és engedélyezési házirendeket használ. Több eszközön működik – például telefonokon, táblagépeken és számítógépeken. Információk védelme biztosítható a szervezeten belül, mind a szervezeten kívüli mert is védettek maradnak az adatokat, akkor is, ha elhagyják a szervezet területét.
+[Az Azure Rights Management](/information-protection/understand-explore/what-is-azure-rms) egy felhőalapú szolgáltatás, amely biztonságos fájlok és e-mailek titkosítási, identitáskezelési és engedélyezési házirendeket használ. Több eszközön működik &mdash; telefonokon, táblagépeken és számítógépeken. Információk védelme biztosítható a szervezeten belül, mind a szervezeten kívüli mert is védettek maradnak az adatokat, akkor is, ha elhagyják a szervezet területét.
 
 ### <a name="access-control"></a>Hozzáférés-vezérlés
 
@@ -77,7 +77,7 @@ Használat [feltételes hozzáférés az Azure Active Directory](/azure/active-d
 
 [Az Azure AD Privileged Identity Management](/azure/active-directory/active-directory-privileged-identity-management-configure) segítségével szabályozhatja, kezelhetők és figyelheti a felhasználók és milyen feladatokat számos vannak végrehajtása a rendszergazdai jogosultságokat. Ez egy fontos lépés a vállalatnál ki is végrehajthasson privilegizált műveleteket az Azure AD-ben korlátozza az Azure, Office 365-höz, vagy SaaS-alkalmazások, valamint figyelő tevékenységeik.
 
-### <a name="network"></a>Hálózat
+### <a name="network"></a>Network (Hálózat)
 
 Az átvitt adatok védelme érdekében mindig használja az SSL/TLS különböző helyek közötti adatcsere során. Előfordulhat, hogy a teljes kommunikációs csatornát a helyszíni közötti azonosíthatók, és virtuális magánhálózati (VPN) felhőalapú infrastruktúra használatával kell vagy [ExpressRoute](/azure/expressroute/). További információkért lásd: [a felhő helyszíni Adatmegoldások kiterjesztése](../scenarios/hybrid-on-premises-and-cloud.md).
 
@@ -89,7 +89,7 @@ Az Azure Virtual Network (VNet) belüli virtuális gépek biztonságosan kommuni
 
 További információkért lásd: [Azure hálózati biztonság](/azure/security/azure-network-security)
 
-### <a name="monitoring"></a>Monitoring
+### <a name="monitoring"></a>Figyelés
 
 [Az Azure Security Center](/azure/security-center/security-center-intro) automatikusan gyűjti, elemzi és integrálja az Azure-erőforrások, a hálózati és a csatlakoztatott partneri megoldások, például tűzfal-megoldások, a valós fenyegetések észlelése és csökkenti a vakriasztások naplóadatait.
 

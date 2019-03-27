@@ -10,11 +10,11 @@ pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authenticate
 pnp.series.next: signup
 ms.openlocfilehash: 8b8cbd2b857493d94103e80f53f187207feaa11e
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486505"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298433"
 ---
 # <a name="work-with-claims-based-identities"></a>Jogcímalapú identitások használata
 
@@ -38,11 +38,11 @@ Az OpenID Connect, kap jogcímkészletet vezérli a [hatókör-paramétert] a hi
 | Azonosító jogkivonat a jogcím típusa | Leírás |
 | --- | --- |
 | AUD |Akik a jogkivonat van kiadva. Ez lesz az alkalmazás ügyfél-azonosítót. Általában nem kell aggódnia a kérelmet, mert az a közbenső automatikusan érvényesíti. Példa:  `"91464657-d17a-4327-91f3-2ed99386406f"` |
-| Csoportok |AAD-csoportokat, amely tagja a felhasználó listáját. Például: `["93e8f556-8661-4955-87b6-890bc043c30f", "fc781505-18ef-4a31-a7d5-7d931d7b857e"]` |
+| csoportok |AAD-csoportokat, amely tagja a felhasználó listáját. Például: `["93e8f556-8661-4955-87b6-890bc043c30f", "fc781505-18ef-4a31-a7d5-7d931d7b857e"]` |
 | iss |A [Kiállító] OIDC jogkivonat. Például: `https://sts.windows.net/b9bd2162-77ac-4fb2-8254-5c36e9c0a9c4/` |
 | név |A felhasználó megjelenített neve. Például: `"Alice A."` |
 | objektumazonosító |Az aad-ben a felhasználói objektum azonosítója. Ez az érték a felhasználó azonosítója nem módosítható és nem újrahasználható. Az érték, email, használja a felhasználók számára; egyedi azonosítóként e-mail-címet használva módosítható. Az Azure AD Graph API használata az alkalmazásban, objektumazonosító:-e a lekérdezés profiladatok használt érték. Például: `"59f9d2dc-995a-4ddf-915e-b3bb314a7fa4"` |
-| szerepkörök |A felhasználó alkalmazás-szerepkörök listáját.    Például: `["SurveyCreator"]` |
+| roles |A felhasználó alkalmazás-szerepkörök listáját.    Például: `["SurveyCreator"]` |
 | TID |Bérlő azonosítója. Ezt az értéket az Azure AD-ben az egyedi azonosító a bérlő számára. Például: `"b9bd2162-77ac-4fb2-8254-5c36e9c0a9c4"` |
 | unique_name |A felhasználó az emberi olvasható megjelenített neve. Például: `"alice@contoso.com"` |
 | egyszerű felhasználónév |Egyszerű felhasználónév. Például: `"alice@contoso.com"` |

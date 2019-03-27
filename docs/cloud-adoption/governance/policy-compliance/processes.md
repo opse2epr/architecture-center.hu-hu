@@ -1,14 +1,18 @@
 ---
 title: 'CAF: Ellenőrizni és érvényesíteni a szabályzat betartása'
 description: Hogyan gondoskodik az eszközmegfelelőségi szabályzatok a?
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
 author: BrianBlanchard
-ms.date: 1/4/2019
-ms.openlocfilehash: 9066f33c8baa183476a9632e82d6eb960d03752c
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 66df08b5ed66625c49907ac944f83d7af3ed1b53
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899055"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298614"
 ---
 <!-- markdownlint-disable MD026 -->
 
@@ -20,7 +24,7 @@ I've defined policies, I've provided an architecture guide. Now how do I monitor
 
 Létrehozó a felhő házirend-utasítások és a egy kialakítási útmutató tervezése, után kell létrehozni egy stratégiát, hogy a felhőbeli üzembe helyezés marad megfelelnek-e a házirend követelményeinek. Ezt a stratégiát kell foglalnia a felhő Cégirányítási csapata folyamatban lévő felülvizsgálati és kommunikációs folyamatok, mikor szabálymegsértéseknek igényli-e a művelet, és az automatikus figyelési és megfelelőségi rendszerekhez, amelynek az a követelmények meghatározásánál tart feltételek létrehozása megsértésének észlelése és javítási műveletek indításához.
 
-Tekintse meg a vállalati házirend szakasza a [gyakorlatban hasznosítható Cégirányítási Journey](../journeys/overview.md) példákat arra, hogyan illik az szabályzat betartása folyamatot egy felhőbeli cégirányítási terv.
+Tekintse meg a vállalati házirend szakasza a [gyakorlatban hasznosítható cégirányítási Journey](../journeys/overview.md) példákat arra, hogyan illik az szabályzat betartása folyamatot egy felhőbeli cégirányítási terv.
 
 ## <a name="prioritize-policy-adherence-processes"></a>Szabályzat betartása folyamatok rangsorolása
 

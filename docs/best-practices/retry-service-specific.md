@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: d99c63b9cb5f2ed7ffcd869b5b8ac7910b9dabe3
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 1d55d859937785ce8803438d9ed62c9afe8ad133
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487137"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298489"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -67,8 +67,8 @@ A következő kezdőbeállításokat javasoljuk az újrapróbálkozási művelet
 
 | **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />igaz |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />hamis |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér vagy<br />kötegelt |60 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
 
 ### <a name="more-information"></a>További információ
 
@@ -169,7 +169,7 @@ Az Azure Redis Cache gyors adathozzáférést és alacsony késést kínáló gy
 
 Ebben az útmutatóban azt feltételezzük, hogy a StackExchange.Redis ügyfelet használja a gyorsítótár eléréséhez. A további alkalmas ügyfelek listája a [Redis webhelyén](https://redis.io/clients) tekinthető meg, ám ezeknek eltérő újrapróbálkozási mechanizmusai lehetnek.
 
-Vegye figyelembe, hogy a StackExchange.Redis ügyfél egyetlen kapcsolaton keresztül végez multiplexálást. A javasolt felhasználás az, ha létrehozza az ügyfél egy példányát az alkalmazás indításakor, és ezt a példányt használja a gyorsítótár elérését célzó összes művelethez. Így a gyorsítótárral való kapcsolat csak egyszer jön létre, ezért az ebben a szakaszban leírt összes útmutatás ezen első kapcsolat újrapróbálkozási szabályzatára vonatkozik, nem pedig a gyorsítótárhoz hozzáférő egyes műveletekre.
+Vegye figyelembe, hogy a StackExchange.Redis ügyfél egyetlen kapcsolaton keresztül végez multiplexálást. A javasolt felhasználás az, ha létrehozza az ügyfél egy példányát az alkalmazás indításakor, és ezt a példányt használja a gyorsítótár elérését célzó összes művelethez. Ebből kifolyólag a kapcsolat a gyorsítótárhoz csak egyszer jön létre, és így az összes szakaszban található útmutatás ezen első kapcsolat újrapróbálkozási szabályzat kapcsolatos &mdash; , nem pedig a gyorsítótárhoz hozzáférő egyes műveletekre.
 
 ### <a name="retry-mechanism"></a>Újrapróbálkozási mechanizmus
 
@@ -426,7 +426,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzat alap�
 
 A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez. Ezek általános célú beállítások, ezért javasoljuk, hogy monitorozza műveleteit, és finomhangolja az értékeket saját igényei szerint.
 
-| Környezet | Példa a maximális késésre | Újrapróbálkozási házirend | Beállítások | A működési elv |
+| Környezet | Példa a maximális késésre | Újrapróbálkozási szabályzat | Beállítások | Működés |
 |---------|---------|---------|---------|---------|
 | Interaktív, felhasználói felület vagy előtér | 2 másodperc*  | Exponenciális | MinimumBackoff = 0 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 300 ms <br/> TimeBuffer = 300 ms <br/> MaxRetryCount = 2 | 1. kísérlet: 0 mp. késleltetés. <br/> 2. kísérlet: MS késleltetés 300 KB. <br/> 3. kísérlet: MS késleltetés ~ 900. |
 | Háttér vagy kötegelt | 30 másodperc | Exponenciális | MinimumBackoff = 1 <br/> MaximumBackoff = 30 mp. <br/> DeltaBackoff = 1,75 mp. <br/> TimeBuffer = 5 mp. <br/> MaxRetryCount = 3 | 1. kísérlet: KB. 1 mp. késleltetés. <br/> 2. kísérlet: KB. 3 mp. késleltetés. <br/> 3. kísérlet: MS késleltetés KB. 6. <br/> 4. kísérlet: MS késleltetés ~ 13. |
@@ -545,7 +545,7 @@ namespace RetryCodeSamples
 
 - [Aszinkron üzenetkezelési minták és magas rendelkezésre állás](/azure/service-bus-messaging/service-bus-async-messaging)
 
-## <a name="service-fabric"></a>Service Fabric-példány
+## <a name="service-fabric"></a>Service Fabric
 
 A megbízható szolgáltatások Service Fabric-fürtön belüli elosztásával a cikkben tárgyalt legtöbb átmeneti hiba elkerülhető. Azonban így is előfordulhatnak átmeneti hibák. Előfordulhat például, hogy a kérés érkezésekor az elnevezési szolgáltatás egy útválasztási változtatást végez, ami kivételt eredményez. Ugyanez a kérés 100 milliszekundummal később talán sikeres lett volna.
 
@@ -598,8 +598,8 @@ A következő beállításokat javasoljuk az újrapróbálkozási műveletekhez.
 
 | **Környezet** | **Mintacél E2E<br />max. késleltetése** | **Újrapróbálkozási stratégia** | **Beállítások** | **Értékek** | **Működés** |
 | --- | --- | --- | --- | --- | --- |
-| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />igaz |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
-| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Újrapróbálkozások száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />hamis |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
+| Interaktív, felhasználói felület<br />vagy előtér |2 másodperc |FixedInterval |Ismétlések száma<br />Újrapróbálkozási időköz<br />Első gyors újrapróbálkozás |3<br />500 ms<br />true |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – 500 ms késleltetés<br />3. kísérlet – 500 ms késleltetés |
+| Háttér<br />vagy kötegelt |30 másodperc |ExponentialBackoff |Ismétlések száma<br />Visszatartás (min.)<br />Visszatartás (max.)<br />Visszatartás (változás)<br />Első gyors újrapróbálkozás |5<br />0 másodperc<br />60 másodperc<br />2 másodperc<br />false |1. kísérlet – 0 mp. késleltetés<br />2. kísérlet – kb. 2 mp. késleltetés<br />3. kísérlet – kb. 6 mp. késleltetés<br />4. kísérlet – kb. 14 mp. késleltetés<br />5. kísérlet – kb. 30 mp. késleltetés |
 
 > [!NOTE]
 > A végpontok közötti késés célértéke az alapértelmezett időtúllépési érték használatát feltételezi a szolgáltatáskapcsolatokhoz. Ha magasabb értéket ad meg a kapcsolatok időtúllépésére, a végpontok közötti késés minden újrapróbálkozási kísérlet esetében ennyivel lesz meghosszabbítva.
@@ -955,7 +955,7 @@ A következő táblázatban a beépített újrapróbálkozási szabályzatok ala
 
 - Használja a Microsoft.WindowsAzure.Storage.RetryPolicies névtérben található beépített újrapróbálkozási szabályzatokat, amennyiben azok megfelelnek az elvárásainak. A legtöbb esetben ezek a szabályzatok is elégségesek.
 
-- Az **ExponentialRetry** szabályzatot kötegelt műveletek, háttérfeladatok vagy nem interaktív forgatókönyvek esetében használja. Ezekben az esetekben általában több idő áll rendelkezésre megvárni, amíg a szolgáltatás helyreáll, ami növeli a művelet sikeres teljesítésének esélyét.
+- Az **ExponentialRetry** szabályzatot kötegelt műveletek, háttérfeladatok vagy nem interaktív forgatókönyvek esetében használja. Ezekben az esetekben általában lehetővé teszi a több idő áll a szolgáltatás helyreáll a &mdash; az, ami növeli a művelet sikeres teljesítésének esélyét.
 
 - Érdemes megadni a **RequestOptions** paraméter **MaximumExecutionTime** tulajdonságát a teljes végrehajtási idő korlátozásához, de az időtúllépési érték megadásakor vegye figyelembe a művelet típusát és méretét.
 

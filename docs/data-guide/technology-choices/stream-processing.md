@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 342e44d960682c72901a7482caaf328514eb73d8
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486115"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299262"
 ---
 # <a name="choosing-a-stream-processing-technology-in-azure"></a>Egy adatfolyam-feldolgozó az Azure-ban technológia kiválasztása
 
@@ -63,16 +63,16 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Azure Stream Analytics | HDInsight Spark Streamelési | Apache Spark az Azure Databricksben | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
 | --- | --- | --- | --- | --- | --- | --- |
 | Bemenetek | Azure Event Hubs, Azure IoT Hub, Azure Blob storage  | Event Hubs, IoT Hub, Kafka, HDFS, Storage Blobs, Azure Data Lake Store  | Event Hubs, IoT Hub, Kafka, HDFS, Storage Blobs, Azure Data Lake Store  | Event Hubs, IoT Hub, Storage Blobs, Azure Data Lake Store  | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, tároló-üzenetsorok, Storage-Blobokkal, az Event Hubs, Webhookok, Cosmos DB-fájlok |
-| fogadóként |  Az Azure Data Lake Store, az Azure SQL Database, Storage-Blobokkal, az Event Hubs, a Power bi-ban, Table Storage, Service Bus-üzenetsorok, Service Bus-témakörök, Cosmos DB, az Azure Functions  | HDFS, Kafka, Storage Blobs, Azure Data Lake Store, Cosmos DB | HDFS, Kafka, Storage Blobs, Azure Data Lake Store, Cosmos DB | Event Hubs, Service Bus, Kafka | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, tároló-üzenetsorok, Storage-Blobokkal, az Event Hubs, Webhookok, Cosmos DB-fájlok |
+| Fogadók |  Az Azure Data Lake Store, az Azure SQL Database, Storage-Blobokkal, az Event Hubs, a Power bi-ban, Table Storage, Service Bus-üzenetsorok, Service Bus-témakörök, Cosmos DB, az Azure Functions  | HDFS, Kafka, Storage Blobs, Azure Data Lake Store, Cosmos DB | HDFS, Kafka, Storage Blobs, Azure Data Lake Store, Cosmos DB | Event Hubs, Service Bus, Kafka | [Támogatott kötések](/azure/azure-functions/functions-triggers-bindings#supported-bindings) | A Service Bus, tároló-üzenetsorok, Storage-Blobokkal, az Event Hubs, Webhookok, Cosmos DB-fájlok |
 
 ### <a name="processing-capabilities"></a>Feldolgozási képességek
 
 | | Azure Stream Analytics | HDInsight Spark Streamelési | Apache Spark az Azure Databricksben | HDInsight Storm | Azure Functions | Azure App Service WebJobs |
 | --- | --- | --- | --- | --- | --- | --- |
-| Beépített historikus ablakkezelési/támogatása | Igen | Igen | Igen | Igen | Nem | Nincs |
+| Beépített historikus ablakkezelési/támogatása | Igen | Igen | Igen | Igen | Nem | Nem |
 | A bemeneti adatok formátumok | Az Avro, JSON vagy CSV, UTF-8 kódolású | Tetszőleges méretű, egyéni kód használatával | Tetszőleges méretű, egyéni kód használatával | Tetszőleges méretű, egyéni kód használatával | Tetszőleges méretű, egyéni kód használatával | Tetszőleges méretű, egyéni kód használatával |
 | Méretezhetőség | [Lekérdezési partíciók](/azure/stream-analytics/stream-analytics-parallelization) | Amelyet a fürt mérete | Databricks-fürt méretezés konfigurálása, amelyet | Amelyet a fürt mérete | Akár 200 függvény alkalmazáspéldány párhuzamos feldolgozása | Amelyet az app service kapacitás megtervezése |
-| Késedelmes beérkezés és sorrendben eseménykezelést | Igen | Igen | Igen | Igen | Nem | Nincs |
+| Késedelmes beérkezés és sorrendben eseménykezelést | Igen | Igen | Igen | Igen | Nem | Nem |
 
 Lásd még:
 

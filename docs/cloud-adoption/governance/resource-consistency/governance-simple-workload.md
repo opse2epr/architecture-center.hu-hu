@@ -1,20 +1,20 @@
 ---
-title: 'CAF: Egy egyszerű számítási feladat cégirányítási tervezése'
+title: 'CAF: Szabályozási terv egyszerű számítási feladathoz'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 description: Útmutató ahhoz, hogy egy felhasználó egy egyszerű számítási feladat üzembe helyezéséhez Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
-ms.date: 2/11/2019
-ms.openlocfilehash: ce090562bf256a34078cfe1a9e9f678dbdf10ffe
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.date: 02/11/2019
+ms.openlocfilehash: 0b6f16ee30ce3af8a533b6e153fbe318252c23e7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899094"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299275"
 ---
-# <a name="governance-design-for-a-simple-workload"></a>Egy egyszerű számítási feladat cégirányítási tervezése
+# <a name="governance-design-for-a-simple-workload"></a>Szabályozási terv egyszerű számítási feladathoz
 
 Ez az útmutató célja, amely megkönnyíti a folyamatot az Azure-ban egy csoportot, és a egy egyszerű számítási feladatok támogatására erőforrás cégirányítási modell létrehozása. Tekintse meg elméleti cégirányítási követelményeket lesz, majd több szolgálnak példákkal, amelyek megfelelnek-e ezeknek a követelményeknek meg.
 

@@ -10,11 +10,11 @@ pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: adfs
 pnp.series.next: key-vault
 ms.openlocfilehash: a1ea65ca8f6b98932f0c42a1b029efeca4d50710
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482425"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299494"
 ---
 # <a name="use-client-assertion-to-get-access-tokens-from-azure-ad"></a>Ügyféltény használatával hozzáférési tokenek beszerzése az Azure ad-ből
 
@@ -24,7 +24,7 @@ ms.locfileid: "54482425"
 
 OpenID Connect hitelesítési kódfolyamat vagy hibrid folyamatot használ, amikor az ügyfél hozzáférési jogkivonatot engedélyezési kódjának adatcseréihez használható. Ezzel a lépéssel az ügyfél rendelkezik, hitelesítse magát a kiszolgálót.
 
-![Titkos ügyfélkód](./images/client-secret.png)
+![Titkos ügyfélkulcs](./images/client-secret.png)
 
 Az ügyfél hitelesítésére egy úgy, hogy egy ügyfél titkos kulcs használatával. Hogy a [Tailspin Surveys] [ Surveys] alkalmazás alapértelmezés szerint van konfigurálva.
 

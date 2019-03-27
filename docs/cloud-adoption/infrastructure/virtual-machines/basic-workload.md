@@ -3,12 +3,12 @@ title: 'CAF: egy alapvető számítási feladatok üzembe helyezése'
 description: Ismerteti, hogyan helyezhet üzembe egy alapvető számítási feladatok Azure-bA
 author: petertaylor9999
 ms.date: 12/31/2018
-ms.openlocfilehash: bd3d006100e68f2fa1d71deeb0c72180ad4c19ea
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 15495f4306d816df5e54bb8a35819718791f6820
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899414"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298594"
 ---
 # <a name="deploy-a-basic-workload-in-azure"></a>Az Azure-ban egy alapvető számítási feladatok üzembe helyezése
 
@@ -31,7 +31,7 @@ Függetlenül attól, hogy a számítási feladatok egy webalkalmazás vagy egy 
 
 ## <a name="basic-web-application-paas"></a>Alapszintű webalkalmazás (PaaS)
 
-Alapszintű webalkalmazás, válassza az 5 perces gyors útmutatók az egyik a [web apps-dokumentáció](/azure/app-service?toc=/azure/architecture/cloud-adoption-guide/toc.json) , és kövesse a lépéseket.
+Alapszintű webalkalmazás, válassza az ötperces gyors ismertetőkkel az egyik a [web apps-dokumentáció](/azure/app-service?toc=/azure/architecture/cloud-adoption-guide/toc.json) , és kövesse a lépéseket.
 
 > [!NOTE]
 > Alapértelmezés szerint a gyors útmutatók némelyike fogja telepíteni egy erőforráscsoportot. Ebben az esetben azt nem kell explicit módon hozzon létre egy erőforráscsoportot. Ellenkező esetben üzembe helyezése a webalkalmazás a fent létrehozott erőforráscsoportot.

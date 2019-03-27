@@ -1,20 +1,20 @@
 ---
-title: 'CAF: Nagyvállalati – Többfelhős fejlődést szem előtt tartva'
+title: 'CAF: Nagyvállalati – többfelhős fejlődést szem előtt tartva'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: Nagyvállalati – Többfelhős fejlődést szem előtt tartva
+description: Nagyvállalati – többfelhős fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 5ef29aa523c04ff93b2d4f983482f94654a4a039
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c72040912a99ad232e367ae750e9bb2caa77cbf2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899287"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299378"
 ---
-# <a name="large-enterprise-multi-cloud-evolution"></a>Nagyvállalati: Több felhő fejlődést szem előtt tartva
+# <a name="large-enterprise-multi-cloud-evolution"></a>Nagyvállalati: Többfelhős fejlődés
 
 ## <a name="evolution-of-the-narrative"></a>A narratíva fejlődésére
 
@@ -82,7 +82,7 @@ A többszörös felhőre való áttérés növekedésével a fenti tervezési fe
 
 ## <a name="next-steps"></a>További lépések
 
-Számos nagy méretű vállalatok számára felhőalapú cégirányítási állapítják lehet blockers való bevezetését. A következő cikk rendelkezik néhány záró gondolatait lefedő cégirányítási egy csapat sport segítik a hosszú távú sikert a felhőben.
+Számos nagy méretű vállalatok számára, az a felhő Cégirányítási öt Dsciplines való bevezetésének blockers lehet. A következő cikk rendelkezik néhány további ötlete, így cégirányítási egy csapat sport segítik a hosszú távú sikert a felhőben.
 
 > [!div class="nextstepaction"]
 > [Cégirányítási rétege](./multiple-layers-of-governance.md)

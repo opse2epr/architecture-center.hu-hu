@@ -7,12 +7,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: d8263306db4f4c93157ac1d120094338570b4b86
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 68d0c8255744ebae0243759bc522d58fae4c81a6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482204"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299246"
 ---
 # <a name="designing-microservices-logging-and-monitoring"></a>Mikroszolgáltatások tervezése: Naplózás és figyelés
 
@@ -114,7 +114,7 @@ Egy másik lehetőség, hogy az Operations Management Suite (OMS) Log Analytics 
 
 ## <a name="example-logging-with-correlation-ids"></a>Példa: Korrelációs azonosítók való bejelentkezés
 
-Egyes ebben a fejezetben ismertetett pontok megmutatják, Íme egy kiterjesztett példa hogyan a a csomag szolgáltatás biztosítja a naplózás. A csomag szolgáltatás íródott, a TypeScript, és használja a [Koa](https://koajs.com/) Node.js webes keretrendszer. Nincsenek számos Node.js naplózási függvénytárak közül választhat. Hogy kivételezett [Winston](https://github.com/winstonjs/winston), a teljesítményre vonatkozó követelmények teljesítése tesztelt, amikor egy elterjedt naplózási könyvtár.
+Egyes ebben a cikkben tárgyalt pontok megmutatják, Íme egy kiterjesztett példa hogyan a a csomag szolgáltatás biztosítja a naplózás. A csomag szolgáltatás íródott, a TypeScript, és használja a [Koa](https://koajs.com/) Node.js webes keretrendszer. Nincsenek számos Node.js naplózási függvénytárak közül választhat. Hogy kivételezett [Winston](https://github.com/winstonjs/winston), a teljesítményre vonatkozó követelmények teljesítése tesztelt, amikor egy elterjedt naplózási könyvtár.
 
 A gyakorlati kivitelezés részleteinek tárolják, egy absztrakt meghatározott `ILogger` felületen:
 

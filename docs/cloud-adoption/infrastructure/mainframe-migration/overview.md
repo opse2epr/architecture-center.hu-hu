@@ -4,11 +4,11 @@ description: A nagyszámítógépes környezetek alkalmazásokat át az Azure-ba
 author: njray
 ms.date: 12/27/2018
 ms.openlocfilehash: 41fc799f15500276ada1667121e5f1fce3413a3a
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899088"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299358"
 ---
 # <a name="mainframe-migration-overview"></a>A nagyszámítógépes áttelepítése – áttekintés
 

@@ -4,11 +4,11 @@ description: A nagyszámítógépes környezetek alkalmazásokat át az Azure-ba
 author: njray
 ms.date: 12/26/2018
 ms.openlocfilehash: 9243f757182f95cc227fd6cd7a5374f9c1371ccc
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899474"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298742"
 ---
 # <a name="make-the-switch-from-mainframes-to-azure"></a>Győződjön meg arról, a kapcsoló Nagyszámítógépek az Azure-bA
 

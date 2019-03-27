@@ -7,14 +7,16 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: További információ a cloud platform-előfizetésekhez Azure áttelepítések core szolgáltatás.
 author: rotycenh
-ms.openlocfilehash: c0781f6af25150d359395b1b80506dd0cfee8e3c
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c586e348feca8f632af4e6419df3def6a09f40a2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899103"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299392"
 ---
 # <a name="subscription-decision-guide"></a>Előfizetés döntési útmutató
+
+Előfizetések kialakítása az egyik leggyakoribb stratégiákat vállalat létrehozni a struktúrát, vagy a felhőre való áttérés során az Azure-ban eszközök rendszerezéséhez használja.
 
 Minden felhőalapú platform alapvető tulajdonjog modell, amely révén a szervezetek számos erőforrás és számlázási lehetőségek alapulnak. A struktúra, amely Azure eltér a más felhőszolgáltatók, mert tartalmazza a szervezeti hierarchia különböző támogatási lehetőségeket és előfizetés tulajdonjogának csoportosítva. Függetlenül attól nincs általában egy egyéni felelős a számlázási és a egy másik, akinek ki lett osztva a legfelső szintű tulajdonosaként-erőforrások kezeléséhez.
 
@@ -22,11 +24,9 @@ Minden felhőalapú platform alapvető tulajdonjog modell, amely révén a szerv
 
 Ugrás ide: [Előfizetések kialakítása és az Azure Enterprise-megállapodások](#subscriptions-design-and-azure-enterprise-agreements) | [előfizetés tervezési minták](#subscription-design-patterns) | [felügyeleti csoportok](#management-groups)  |  [Szervezet az előfizetés szintjén](#organization-at-the-subscription-level)
 
-Előfizetések kialakítása a vállalat létrehozni a struktúrát, vagy eszközök rendszerezése a felhőre való áttérés során használja a leggyakrabban használt stratégiákat egyike.
+**Előfizetés hierarchia**: A *előfizetés* olyan logikai gyűjtemény, az Azure-erőforrások (például virtuális gépek, a SQL DB, az App Services vagy a tárolók). Az Azure-ban minden egyes eszköz egyetlen előfizetéshez van telepítve. Az egyes előfizetésekhez majd tulajdonában van egy *fiók*. Ezt a fiókot egy felhasználói fiókot (vagy lehetőleg egy szolgáltatásfiók), amely a számlázási és a rendszergazdai hozzáférést biztosít egy előfizetésből. Azok a vásárlóknak, akik rendelkeznek adatközpontjainak szén-használata az Azure segítségével egy nagyvállalati szerződés (EA) meghatározott mennyiségű, egy másik szinten a nevű egy *részleg* kerül. A nagyvállalati szerződés portál, előfizetési, fiókok és szervezeti egységek használható egy hierarchia, felügyeleti és számlázási célból.
 
-**Előfizetés hierarchia**: A *előfizetés* olyan logikai gyűjtemény, az Azure-szolgáltatások (például virtuális gépek, a SQL DB, az App Services vagy a tárolók). Az Azure-ban minden egyes eszköz egyetlen előfizetéshez van telepítve. Az egyes előfizetésekhez majd tulajdonában van egy *fiók*. Ezt a fiókot egy felhasználói fiókot (vagy lehetőleg egy szolgáltatásfiók), amely a számlázási és a rendszergazdai hozzáférést biztosít egy előfizetésből. Azok a vásárlóknak, akik rendelkeznek adatközpontjainak szén-használata az Azure segítségével egy nagyvállalati szerződés (EA) meghatározott mennyiségű, egy másik szinten a nevű egy *részleg* kerül. A nagyvállalati szerződés portál, előfizetési, fiókok és szervezeti egységek használható egy hierarchia, felügyeleti és számlázási célból.
-
-Előfizetés tervek összetettsége változik. Kapcsolatos stratégia tervezési döntéseket, azok általában olyan üzleti és informatikai megkötések is egyedi nincsenek pontok vannak. Technikai döntéseket hozhat, IT-tervezők és döntési elvégzése előtt a döntéshozók működnie kell az üzleti résztvevőkkel és a felhő stratégia csapat a kívánt felhő számlázási megközelítés, belül az üzleti egység, és a globális költségelszámolási eljárások megismeréséhez piaci a szervezet igényeinek.
+Előfizetés stratégia tervezési döntésekre egyedi nincsenek pontok, azok általában olyan üzleti és informatikai megkötések is lehet. Technikai döntéseket hozhat, IT-tervezők és döntési elvégzése előtt a döntéshozók működnie kell az üzleti résztvevőkkel és a felhő stratégia csapat a kívánt felhő számlázási megközelítés, belül az üzleti egység, és a globális költségelszámolási eljárások megismeréséhez piaci a szervezet igényeinek.
 
 **Kihasználás**: A fenti képen a szaggatott vonal hivatkozik-kihasználás is egyszerű és bonyolultabb előfizetés tervezési minták között. További technikai döntési digitális hagyatéki mérete és az Azure-előfizetés korlátai, elkülönítési és elkülönítése házirendek és operatív IT-részlegek általában alapján pontokat előfizetések kialakítása jelentős hatással lehet.
 
@@ -34,7 +34,7 @@ Előfizetés tervek összetettsége változik. Kapcsolatos stratégia tervezési
 
 Üzembe helyezési struktúrája, az automatizálást és új megközelítést kíván erőforrások csoportosítása hatással lehet a struktúra előfizetések kialakítása. Fontolja meg egy előfizetés tervezési többszöri hogyan [erőforrás konzisztencia](../resource-consistency/overview.md) döntések befolyásolhatja a tervezési döntések. Ha például egy nagy, multinacionális szervezet kezdetben érdemes lehet egy bonyolult mintával az előfizetés-kezelési. Azonban, hogy ugyanazzal a vállalati előfordulhat, hogy valósíthat meg nagyobb előnyei és üzleti egység mintát egyszerűbb felügyeleti csoport hierarchia hozzáadásával.
 
-## <a name="subscriptions-design-and-azure-enterprise-agreements"></a>Előfizetések kialakítása és az Azure nagyvállalati szerződések
+## <a name="subscriptions-design-and-azure-enterprise-agreements"></a>Előfizetések kialakítása és az Azure Enterprise-megállapodások
 
 Minden Azure-előfizetés társítva egy fiókot, amely minden egyes előfizetés számlázási és a legfelső szintű hozzáférés-vezérlés csatlakozik. Egy olyan fiók több előfizetéssel rendelkezhet, és előfizetések szervezet alapszinten tud biztosítani.
 
@@ -48,21 +48,21 @@ Minden egyes Azure nagyvállalati szerződéssel lehetőséget kínál a tovább
 
 Minden vállalati eltér. Ezért a részleg/fiók /-előfizetéséből hierarchiában engedélyezve van a teljes Azure nagyvállalati szerződés lehetővé teszi, hogy jelentős rugalmasságot nyújt, az Azure hogyan vannak rendszerezve. A számlázás, erőforrás-kezelést és erőforrás-hozzáférés a vállalat igényeinek megfelelően a szervezet hierarchiáján modellezési-e a első és legfontosabb, döntés, amely a nyilvános felhőben indítása során.
 
-A következő előfizetés minták általános növekedése tükrözik előfizetés tervezési összetettebbé válnak lehetséges szervezeti prioritások támogatásához:
+A következő előfizetés minták előfizetés tervezési kifinomultabbak lehetséges szervezeti prioritások támogatásához általános növekedését tükrözze:
 
 ### <a name="single-subscription"></a>Egy előfizetés
 
 Olyan szervezeteknek, amelyek kell üzembe helyeznie a felhőben üzemeltetett eszközök kis számú elegendő fiókonként egyetlen előfizetéssel. Ez gyakran az az első előfizetés minta megvalósítása során kezdve a felhő bevezetésének folyamatát, így semmibe kísérleti vagy megvalósíthatósági példában egy felhőalapú platform funkcióinak megismerése fogalmat telepítések.
 
-Azonban lehetnek olyan technikai korlátozását, egyetlen előfizetéssel támogató erőforrások száma. A felhő hagyatéki méretének növekedésével valószínűleg érdemes is támogatja a jobb rendszerezése szabályzatok, és hozzáférés-vezérlés oly módon, egyetlen előfizetéssel nem támogatott az erőforrások rendszerezéséhez.
+Vannak azonban egy előfizetés támogató erőforrások száma kapcsolatos technikai korlátozását. A felhő hagyatéki méretének növekedésével valószínűleg érdemes is támogatja a jobb rendszerezése szabályzatok, és hozzáférés-vezérlés oly módon, egyetlen előfizetéssel nem támogatott az erőforrások rendszerezéséhez.
 
 ### <a name="application-category-pattern"></a>Kategória alkalmazásminta
 
 A szervezet felhőbeli tárhely méretének növekedésével egyre nagyobb valószínűséggel válik több előfizetés használata. Ebben a forgatókönyvben az előfizetések általában jönnek létre az alkalmazásokat, az üzleti kritikusság, a megfelelőségi követelmények, a hozzáférés-vezérlés vagy az adatvédelmi igényeket alapvető különbség támogatásához. Az előfizetések és -fiókok ezek Alkalmazáskategóriák támogató összes szerveződnek egy egyetlen osztály birtokolt és felügyelt központi informatikai munkatársak alatt.
 
-Minden egyes szervezet alkalmazások eltérően, kategorizálásának fog választani, gyakran elválasztó alapján meghatározott alkalmazások vagy szolgáltatások vagy alkalmazások archetypes a témakörgyűjtemény előfizetések. Előfordulhat, hogy adja meg ezt a mintát egy külön előfizetés számítási feladatok a következők:
+Minden egyes szervezet alkalmazások eltérően, kategorizálásának fog választani, gyakran elválasztó alapján meghatározott alkalmazások vagy szolgáltatások vagy alkalmazások archetypes a témakörgyűjtemény előfizetések. A kategorizálási gyakran célja, hogy támogatja a számítási feladatok, amelyek valószínűséggel fogyasztják azokat a erőforráskorlátok az előfizetés, a legtöbb vagy annak biztosítására, alapvető fontosságú számítási feladatokhoz külön nem versengő elleni más számítási feladatok, ezek a korlátok alapján. Néhány példa a számítási feladatokhoz tartozó ezt a mintát egy külön előfizetésre lehet, hogy adja meg a következők:
 
-- Kísérleti vagy alacsony kockázatú alkalmazások
+- Kísérleti alkalmazások
 - Védett adatok rendelkező alkalmazások
 - Alapvető fontosságú számítási feladatokhoz
 - Alkalmazások (például a HIPAA vagy a FedRAMP) szabályozási követelmények teljesítése
@@ -71,9 +71,7 @@ Minden egyes szervezet alkalmazások eltérően, kategorizálásának fog válas
 - Tárolóalapú számítási feladatokra, például a Kubernetes üzembe helyezési vezénylők alkalmazásával
 - Elemzési számítási feladatok
 
-Ez a minta több fiókok adott munkaterhelés konkrét felelős tulajdonosok támogatja. Gyakorta nem áll rendelkezésre a szervezeti egység szintjén a nagyvállalati szerződés hierarchia összetettebb struktúra, mivel ez a minta nem igényel Azure nagyvállalati szerződés megvalósítása.
-
-![Kategória alkalmazásminta](../../_images/infra-subscriptions/application.png)
+Ez a minta több fiókok adott munkaterhelés konkrét felelős tulajdonosok támogatja, és az Azure nagyvállalati szerződés nélkül is megvalósítható.
 
 ### <a name="functional-pattern"></a>Funkcionális minta
 
@@ -95,7 +93,7 @@ A szervezet számára a globális műveleteket ez a minta előfizetések és fi�
 
 ### <a name="mixed-patterns"></a>Vegyes minták
 
-Enterprise részleg/fiók/előfizetések hierarchia. Azonban minták, mint például a földrajzi régióban, és a részleg összetettebb megfelelően kombinálhatja számlázási és szervezeti struktúrák a vállalaton belül. Emellett a [erőforrás konzisztencia tervezési](../resource-consistency/overview.md) kiterjeszthető a cégirányítási és az előfizetések kialakítása szervezeti struktúráját.
+Az Azure Enterprise-megállapodások korlátozva, a negyedik szintű enterprise részleg/fiók/előfizetések hierarchiában. Azonban minták, mint például a földrajzi régióban, és a részleg összetettebb megfelelően kombinálhatja számlázási és szervezeti struktúrák a vállalaton belül. Emellett a [erőforrás konzisztencia tervezési](../resource-consistency/overview.md) kiterjeszthető a cégirányítási és az előfizetések kialakítása szervezeti struktúráját.
 
 Felügyeleti csoportok, a következő szakaszban leírt módon segíthet bonyolultabb szervezeti felépítés támogatja.
 
@@ -114,13 +112,13 @@ Példák erre vonatkozóan:
 
 ## <a name="organization-at-the-subscription-level"></a>Az előfizetés szintjén szervezet
 
-Annak meghatározása, a szervezeti fiókok (vagy egy felügyeleti csoportok), elsősorban kell annak eldöntése, hogyan fog osztani az Azure-környezet a szervezet megfelelően. Előfizetések azonban olyan, ahol a tényleges munka történik, és ezek a döntések befolyásolják a biztonsággal, méretezhetőséggel és a számlázás.
+Annak meghatározása, a szervezeti fiókok (vagy egy felügyeleti csoportok), elsősorban kell annak eldöntése, hogyan fog osztani az Azure-környezet a szervezet megfelelően. Előfizetések azonban olyan, ahol a tényleges munka történik, és biztonsággal, méretezhetőséggel és számlázási befolyásolják.
 
 Vegye figyelembe a következő minták, útmutatók:
 
 - **Alkalmazás/szolgáltatás**: Előfizetések képviseli egy alkalmazás vagy szolgáltatás (alkalmazások portfólióját).
 
-- **Életciklus**: Előfizetések képviseli egy olyan szolgáltatás, például éles vagy fejlesztői életciklusát.
+- **Telepítési környezet**: Az előfizetések a szolgáltatás, például éles vagy fejlesztői életciklusfázis képviseli.
 
 - **Részleg**: Előfizetések képviselik a szervezetben lévő részlegek számára.
 

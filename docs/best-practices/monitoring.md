@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: fa4ed5fde2e52e87763c1b528661aea1b7f90bcf
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 09aeba60414b6e7a535b26af72efde65efb18ad7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485009"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298478"
 ---
 # <a name="monitoring-and-diagnostics"></a>Monitorozás és diagnosztika
 
@@ -367,7 +367,7 @@ Ha a felhasználó egy olyan problémát jelent, amelynek már létezik megoldá
 
 ## <a name="tracing-operations-and-debugging-software-releases"></a>A műveletek nyomon követése, és a szoftverkiadások hibáinak elhárítása
 
-Amikor egy felhasználó problémát jelent, a felhasználó gyakran csak a saját műveleteire kifejtett közvetlen hatásnak van tudatában. A felhasználó csak az általa tapasztalt működés eredményét tudja jelenteni a rendszer karbantartásáért felelős operátor számára. Ezek a tapasztalatok rendszerint csak a látható tünetei egy vagy több alapvető problémáknak. Sok esetben egy elemzőnek alaposan át kell tekintenie a mögöttes műveletek kronológiáját a probléma kiváltó okának meghatározásához. Ezt az eljárást *a kiváltó okok elemzésének* nevezik.
+Amikor egy felhasználó problémát jelent, a felhasználó gyakran csak akkor tudomást az azonnali hatállyal, a üzemeltetési feladataik. A felhasználó csak az általa tapasztalt működés eredményét tudja jelenteni a rendszer karbantartásáért felelős operátor számára. Ezek a tapasztalatok rendszerint csak a látható tünetei egy vagy több alapvető problémáknak. Sok esetben egy elemzőnek alaposan át kell tekintenie a mögöttes műveletek kronológiáját a probléma kiváltó okának meghatározásához. Ezt az eljárást *a kiváltó okok elemzésének* nevezik.
 
 > [!NOTE]
 > A kiváltó okok elemzése feltárhatja az alkalmazás tervezési hiányosságait. Ilyen esetekben át lehet dolgozni az érintett elemeket, és egy későbbi kiadás részeként telepíteni lehet azokat. Ez a folyamat alapos tervezést igényel, és a frissített összetevőket gondosan monitorozni kell.
@@ -404,7 +404,7 @@ A monitorozási folyamat által használt által információk számos különb�
 
 Az összes kivételt és figyelmeztetést naplózni kell, és gondoskodni kell a beágyazott kivételek és figyelmeztetések teljes nyomkövetésének a megőrzéséről. Ideális esetben a kódot futtató felhasználót azonosító adatokat is rögzíteni kell, a tevékenységek korrelálására szolgáló adatokkal egyetemben (a kérések nyomon követésére, miközben áthaladnak a rendszeren). Emellett naplózni kell az erőforrások, például az üzenetsorok, adatbázisok, fájlok és egyéb függő szolgáltatások elérésére tett kísérleteket is. Ezek az információk mérési és naplózási célokra használhatók.
 
-Számos alkalmazás használ kódtárakat és keretrendszereket az általános feladatok végrehajtására, például az adattárak eléréséhez vagy a hálózaton keresztüli kommunikációhoz. Ezek a keretrendszerek konfigurálhatók saját nyomkövetési üzenetek és nyers diagnosztikai információk biztosítására, ilyen például a tranzakciók sebessége vagy az adatátvitel sikeressége és sikertelensége.
+Számos alkalmazás használ kódtárakat és keretrendszereket hajthat végre gyakori feladatokat, például az adattárak eléréséhez vagy a hálózaton keresztüli kommunikációhoz. Ezek a keretrendszerek konfigurálhatók saját nyomkövetési üzenetek és nyers diagnosztikai információk biztosítására, ilyen például a tranzakciók sebessége vagy az adatátvitel sikeressége és sikertelensége.
 
 > [!NOTE]
 > Számos modern keretrendszer automatikusan közzéteszi a teljesítményt és a nyomkövetési eseményeket. Ezen információk rögzítéséhez csupán eszközt kell biztosítani a lekérésükhöz, és olyan helyen kell tárolni őket, ahol feldolgozhatók és elemezhetők.

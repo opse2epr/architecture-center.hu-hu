@@ -7,12 +7,12 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
-ms.openlocfilehash: bb9045e5656f86fe6b164b5ba831c1069cef6183
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: e8fbef2bcee9d9ba24937483e3437efd8339027b
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486831"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299522"
 ---
 # <a name="disaster-recovery-for-azure-applications"></a>Az Azure-alkalmazások vészhelyreállítása
 
@@ -28,7 +28,7 @@ Az Azure biztosít a rendelkezésre állási lehetőségekért [rugalmasság mű
 
 ## <a name="multiple-datacenter-regions"></a>Több adatközpont-régió
 
-Az Azure számos régióban, a világ különböző pontjain található adatközpontokban tárolja. Ez az infrastruktúra támogatja a több vész-helyreállítási helyzetekben, például a rendszer által biztosított georeplikáció az Azure Storage másodlagos régióban. Emellett egyszerűen és alacsony költséggel valósíthatnak telepíthet egy felhőalapú szolgáltatás, a világ különböző pontjain található. Hasonlítsa össze ennek költségét és nehézségét a létrehozása és karbantartása a saját adatközpontok, több régióban a. Adatok és szolgáltatások telepítése több régióban megvédi az alkalmazás egy adott régióban jelentős meghibásodás után. A vész-helyreállítási terv kialakításakor, fontos tudni, hogy a társított két régió bármelyikén fogalmát. További információkért lásd: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions).
+Az Azure számos régióban, a világ különböző pontjain található adatközpontokban tárolja. Ez az infrastruktúra támogatja a több vész-helyreállítási helyzetekben, például a rendszer által biztosított georeplikáció az Azure Storage másodlagos régióban. Emellett egyszerűen és alacsony költséggel valósíthatnak telepíthet egy felhőalapú szolgáltatás, a világ különböző pontjain található. Hasonlítsa össze ennek költségét és nehézségét a létrehozása és karbantartása a saját adatközpontok, több régióban a. Adatok és szolgáltatások telepítése több régióban megvédi az alkalmazás egy adott régióban jelentős meghibásodás után. A vész-helyreállítási terv kialakításakor, fontos tudni, hogy a társított két régió bármelyikén fogalmát. További információ: [Üzletmenet-folytonosság és vészhelyreállítás (BCDR): Azure – párosított régiók](/azure/best-practices-availability-paired-regions).
 
 ## <a name="azure-site-recovery"></a>Azure Site Recovery
 
@@ -82,7 +82,7 @@ Az Azure számos olyan szolgáltatás, amely a rendszeres szoftverkarbantartás 
 
 Az Azure Redis Cache az alkalmazásnak a belül a felhőszolgáltatás üzembe helyezésének, amely katasztrófa utáni helyreállítás értékelemeket biztosít gyorsítótárazást biztosítja. Először a szolgáltatás most a szerepkörök, amelyek helyi az üzemelő példány fog futni. Ezért most már jobban tudja figyelheti és kezelheti a gyorsítótár állapotát a felügyeleti folyamatok a felhőalapú szolgáltatás részeként. Az ilyen típusú gyorsítótár is közzétesz az új funkciók, például a magas rendelkezésre állás a gyorsítótárazott adatokat, amely megőrzi a gyorsítótárban lévő adatok duplikált más csomópontokon megőrzése egyetlen csomópont meghibásodásakor.
 
-Vegye figyelembe, hogy magas rendelkezésre állású csökkenti az átviteli sebességet, és növeli a késés, mivel az írási műveletek is kell upedate minden másodlagos példánya. A gyorsítótárazott adatok tárolásához szükséges memória hatékonyan megduplázódott, amely kell figyelembe venni kapacitásának tervezése során.  Ez a példa bemutatja, hogy minden függő szolgáltatás előfordulhat, hogy képességekkel rendelkeznek, javíthatja a rendelkezésre állás és a megrögzöttség végzetes hibák.
+Vegye figyelembe, hogy magas rendelkezésre állású csökkenti az átviteli sebességet, és növeli a késés, mivel az írási műveletek is frissítenie kell a másodlagos példányokra. A gyorsítótárazott adatok tárolásához szükséges memória hatékonyan megduplázódott, amely kell figyelembe venni kapacitásának tervezése során.  Ez a példa bemutatja, hogy minden függő szolgáltatás előfordulhat, hogy képességekkel rendelkeznek, javíthatja a rendelkezésre állás és a megrögzöttség végzetes hibák.
 
 És minden függő szolgáltatás a szolgáltatás megszűnésének következményei tisztában kell lennie. A gyorsítótárazási példában lehet érhetők el az adatokat közvetlenül az adatbázis mindaddig, amíg a gyorsítótár visszaállítását. Ez azt eredményezi csökkentett teljesítményt, miközben alkalmazásadatok teljes hozzáférést biztosít.
 
@@ -127,7 +127,7 @@ A következő részekben bemutatjuk a katasztrófa utáni helyreállítással ka
 
 Rendszeres biztonsági mentést készít az egyes vész-helyreállítási helyzetekben képes támogatni. Más tárolási erőforrások szükséges különböző módszereket.
 
-#### <a name="sql-database"></a>SQL-adatbázis
+#### <a name="sql-database"></a>SQL Database
 
 A Basic, Standard és prémium szintű SQL Database-szinten akkor kihasználhatja időponthoz visszaállítás az adatbázis helyreállítása. További információkért lásd: [áttekintése: A felhő üzleti folytonossági és adatbázis katasztrófa utáni helyreállítás az SQL Database](/azure/sql-database/sql-database-business-continuity/). Egy másik lehetőség, az aktív Georeplikáció által használandó SQL Database-hez. Ez automatikusan replikál a adatbázis másodlagos adatbázisok ugyanazon Azure-régióban, vagy akár egy másik régióba. Ez néhány ebben a cikkben bemutatott több manuális adatok szinkronizálási módszert lehetséges alternatívát kínál. További információkért lásd: [áttekintése: Az SQL adatbázis aktív Georeplikációt](/azure/sql-database/sql-database-geo-replication-overview/).
 
@@ -175,7 +175,7 @@ Az alábbi ábrán látható az architektúra, ahol a kiszolgáló adatbázis-r�
 
 A legnagyobb kihívás, ez az architektúra implementálása a régiók közötti replikációs stratégiát. A [Azure SQL Data Sync](/azure/sql-database/sql-database-get-started-sql-data-sync/) szolgáltatás lehetővé teszi az ilyen típusú replikáció. A jelen cikk írásakor, a szolgáltatás előzetes verzióban érhető el, és még nem javasolt éles környezetben. További információkért lásd: [áttekintése: A felhő üzleti folytonossági és adatbázis katasztrófa utáni helyreállítás az SQL Database](/azure/sql-database/sql-database-business-continuity/). Az éles környezetben egy külső megoldás beruházni vagy a saját replikációs logika létrehozása a code-ban. Függően az architektúra a replikáció lehet kétirányú, amely összetettebb.
 
-Egy lehetséges megvalósítása processzorkihasználtsága használja, az előző példában a köztes várólista. A feldolgozói szerepkör, amely feldolgozza az adatokat a végső célhelyet, előfordulhat, hogy a módosításnak az elsődleges régióban, mind a másodlagos régióba. Ezek nem triviális feladat, és teljes körű útmutatást replikációs kód van ez a cikk nem foglalkozik. Jelentős mennyiségű időt és a tesztelés módszere a másodlagos régióba replikálja az adatokat az befektetni. További feldolgozás és tesztelési segítségével, győződjön meg arról, hogy a feladatátvételi és helyreállítási folyamatok megfelelően kezelni minden lehetséges adatinkonzisztencia vagy ismétlődő tranzakciók.
+Egy lehetséges megvalósítása az előző példában a köztes várólista használhatnak. A feldolgozói szerepkör, amely feldolgozza az adatokat a végső célhelyet, előfordulhat, hogy a módosításnak az elsődleges régióban, mind a másodlagos régióba. Ezek nem triviális feladat, és teljes körű útmutatást replikációs kód van ez a cikk nem foglalkozik. Jelentős mennyiségű időt és a tesztelés módszere a másodlagos régióba replikálja az adatokat az befektetni. További feldolgozás és tesztelési segítségével, győződjön meg arról, hogy a feladatátvételi és helyreállítási folyamatok megfelelően kezelni minden lehetséges adatinkonzisztencia vagy ismétlődő tranzakciók.
 
 > [!NOTE]
 > Ez a tanulmány a legtöbb összpontosít platform (PaaS) szolgáltatás. Hibrid alkalmazások további replikáció és a rendelkezésre állási lehetőségek azonban az Azure Virtual Machines használatához. Ezek a hibrid alkalmazások szolgáltatás (IaaS) infrastruktúra használatával futtatni az SQL Server az Azure-beli virtuális gépeken. Ez lehetővé teszi a hagyományos rendelkezésre állási megközelítések az SQL Server AlwaysOn rendelkezésre állási csoportok vagy Naplóküldést például. Egyes technikák, például az AlwaysOn, csak a helyszíni SQL Server-példányokat és az Azure-beli virtuális gépek között működik. További információkért lásd: [az SQL Server Azure virtuális gépek magas rendelkezésre állás és vészhelyreállítás helyreállítási](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-high-availability-dr/).
@@ -301,9 +301,9 @@ A hibrid forgatókönyv-feladatátvétel a központi telepítések a korábbi v�
 
 A Vészhelyreállítás stratégiájának megbízhatóak több felhőalapú platform, hogy értékes absztrakciós réteg szerepeljenek a megoldás kialakítását. Ez így nem kell a fejlesztéséhez és karbantartásához ugyanazt az alkalmazást, másik felhőalapú platformon vészhelyzet két különböző verzióit. Mint a hibrid forgatókönyv az Azure Virtual Machines vagy az Azure Container Service használata lehet egyszerűbben ezekben az esetekben a felhőspecifikus PaaS minták használatát.
 
-## <a name="automation"></a>Automatizálás
+## <a name="automation"></a>Automation
 
-Az imént említett mintáit szükséges offline telepítés gyors aktiválásának, valamint a rendszer bizonyos részeit visszaállítása. Automatizálási szkriptek erőforrások igény szerint aktiválhatja és megoldások gyors üzembe helyezését. Alábbi használja a DR-kapcsolódó automation példák [Azure PowerShell-lel](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI-vel](https://docs.microsoft.com/cli/azure/get-started-with-azure-cli) vagy a [Service Management REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) is jó lehetőségei vannak.
+Az imént említett mintáit szükséges offline telepítés gyors aktiválásának, valamint a rendszer bizonyos részeit visszaállítása. Automatizálási szkriptek erőforrások igény szerint aktiválhatja és megoldások gyors üzembe helyezését. Alábbi használja a DR-kapcsolódó automation példák [Azure PowerShell-lel](https://msdn.microsoft.com/library/azure/jj156055.aspx), de használatával a [Azure CLI-vel](/cli/azure/get-started-with-azure-cli) vagy a [Service Management REST API](https://msdn.microsoft.com/library/azure/ee460799.aspx) is jó lehetőségei vannak.
 
 Automatizálási szkriptek DR nem transzparens módon kezeli az Azure-os eleme felügyelhető. Ez a minimálisra csökkentik az emberi hibák egységes és megismételhető eredményeket hoz létre. Előre definiált Vészhelyreállítási szkripteket is egy katasztrófa során a rendszer, és azok részlegei újraépítése idő csökkentése érdekében. Nem szeretné manuálisan döntse el, a hely visszaállítása, bár le, és elveszett pénzt percenként próbál.
 
@@ -333,14 +333,14 @@ Számos egyéb módszert is tesztelheti a vészhelyreállítási terveket. Azonb
 
 Az alábbi témakörök ismertetik a katasztrófa utáni helyreállítás adott Azure-szolgáltatások:
 
-| Szolgáltatás | Téma |
+| Szolgáltatás | Témakör |
 |---------|-------|
 | Azure Database for MySQL | [Az Azure Database for MySQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/mysql/concepts-business-continuity) |
 | Azure Database for PostgreSQL | [Az Azure Database for PostgreSQL üzletmenet-folytonossági funkcióinak áttekintése](/azure/postgresql/concepts-business-continuity)
 | Cloud Services | [Mi a teendő az Azure Cloud Servicest befolyásoló Azure szolgáltatás kiesése esetén?](/azure/cloud-services/cloud-services-disaster-recovery-guidance) |
 | Cosmos DB | [Automatikus régiónkénti feladatátvétel az üzletmenet folytonossága érdekében az Azure Cosmos DB-ben](/azure/cosmos-db/regional-failover)
 | Key Vault | [Az Azure Key Vault rendelkezésre állás és redundancia](/azure/key-vault/key-vault-disaster-recovery-guidance) |
-|Tárhely | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
-| SQL-adatbázis | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |
-| Virtual machines | [Mi a teendő abban az esetben, ha egy Azure-szolgáltatáskimaradás hatással van az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
+|Storage | [Mi a teendő az Azure Storage leállása esetén?](/azure/storage/storage-disaster-recovery-guidance) |
+| SQL Database | [Visszaállítása egy Azure SQL Database vagy feladatátvétel a másodlagos kiszolgálóra](/azure/sql-database/sql-database-disaster-recovery) |
+| Virtual machines (Virtuális gépek) | [Mi a teendő abban az esetben, ha egy Azure-szolgáltatáskimaradás hatással van az Azure-beli virtuális gépek](/azure/virtual-machines/virtual-machines-disaster-recovery-guidance) |
 | Virtuális hálózatok | [Virtuális hálózat – üzletmenet-folytonossági](/azure/virtual-network/virtual-network-disaster-recovery-guidance) |

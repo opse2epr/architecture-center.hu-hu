@@ -4,15 +4,15 @@ titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
-ms.date: 2/11/2019
+ms.date: 02/11/2019
 description: Nagyvállalati - kezdeti vállalati szabályzat a adatirányítási stratégia mögött.
 author: BrianBlanchard
-ms.openlocfilehash: d3bc31f95229a82cbc2f6ac6e684a87107783c07
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 51b709b3ae6d704a229a08611a3cbc0da974c6c2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899387"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299379"
 ---
 # <a name="large-enterprise-initial-corporate-policy-behind-the-governance-strategy"></a>Nagyvállalati: A cégirányítási stratégia mögött kezdeti vállalati szabályzat
 
@@ -23,7 +23,7 @@ A következő vállalati szabályzat határozza meg a kezdeti cégirányítási 
 
 ## <a name="cloud-governance-team"></a>A felhő Cégirányítási csapata
 
-A CIO nemrég tartott egy értekezlet megértéséhez a személyazonosításra alkalmas adatok és a kritikus fontosságú házirendek előzményeit, és tekintse át ezeket a szabályzatokat módosításának hatása az informatikai szabályozással csapatával. Ő is olvashat a teljes lehetséges a felhőben az informatikai és a vállalat.
+A CIO nemrég tartani az informatikai szabályozással csapatával az előzményeit a személyazonosításra alkalmas adatok és a kritikus fontosságú házirendek megértéséhez, valamint ellenőrizze annak hatását, ezek a házirendek módosítása az értekezletről. Ő is olvashat a teljes lehetséges a felhőben az informatikai és a vállalat.
 
 A konferencia után az informatikai szabályozással csoport két tagjára kutatási és támogatja a felhő tervezése erőfeszítések engedélyt kért. FELISMERVE kell irányítási és informatikai árnyék-infrastruktúra korlátozása lehetőséghez, Informatikai igazgató Cégirányítási támogatja ezt az elképzelést. Az adott a felhő Cégirányítási csapat született. A következő néhány hónapban, a karbantartás során feltárása a felhőben a cégirányítási szempontjából sok a hiba, öröklik. Ez kap őket a Felhőbeli jegyektől a kézjegy. A későbbi fejlesztések folyamaton jelennek meg hogyan azok a szerepkörök az idő előrehaladtával változik.
 

@@ -8,12 +8,12 @@ description: Igazítás a digitális hagyatéki felhőköltségek az előre jelz
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: b37d833106ad487faadab7c4b7ae397fa237d3d3
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: cb17ffd595a55bf49d9ecfd3b54f178cc9655a48
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897789"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298641"
 ---
 # <a name="align-cost-models-with-the-digital-estate-to-forecast-cloud-costs"></a>A digitális hagyatéki felhőköltségek az előre jelzett költség modelleket igazítása
 
@@ -25,6 +25,6 @@ Az Azure eszközök, amelyekkel kezelheti a felhő költségeinek átlátható �
 
 - [Teljes bekerülési költséget számító költsége](https://azure.com/tco). Csökkentheti a teljes tulajdonosi költség, a helyszíni infrastruktúra és az Azure-felhő platform. Az Azure költségkalkulátor segítségével megbecsülheti a költségmegtakarítást is kiderülhet által az alkalmazás számítási feladatok migrálása az Azure-bA. Egyszerűen adjon meg egy rövid leírást a helyszíni környezet egy azonnali jelentés.
 
-- [Díjkalkulátor](https://azure.microsoft.com/en-in/pricing/). Becsülje meg a várható havi számla díjkalkulátorunk használatával. Nyomon követheti tényleges fiókhasználatát és számláját a számlázási portálon bármikor. Állítsa be elszámolási értesítések automatikus e-mail értesítést kapjon, ha költségei túllépik a összeget.
+- [Díjkalkulátor](https://azure.microsoft.com/pricing). Becsülje meg a várható havi számla díjkalkulátorunk használatával. Nyomon követheti tényleges fiókhasználatát és számláját a számlázási portálon bármikor. Állítsa be elszámolási értesítések automatikus e-mail értesítést kapjon, ha költségei túllépik a összeget.
 
-- [Az Azure Cost Management](https://azure.microsoft.com/services/cost-management/). A Microsoft kisegítő a Cloudyn által licencelt Azure Cost Management egy többfelhős költségkezelő felügyeleti megoldás, amely segít a legjobb és a felügyelhető az Azure és egyéb felhőerőforrások. Felhőalapú használati és számlázási adatok alkalmazás program felületek (API) keresztül gyűjt az Azure, Amazon Web Services és a Google Cloud Platform. Az így nyert adatok alapján egy egységes nézetben juthat részletes információhoz az összes platform erőforrás-felhasználásáról és költségeiről. Folyamatosan figyelheti a felhőhasználatot és a költségek időbeli alakulását. A túlköltekezés elkerülése érdekében összehasonlíthatja tényleges felhőbeli költéseit az előirányzott költségvetéssel. Feltárhatja a szokásostól eltérő kiadásokat és a nem hatékony felhasználási módokat is. Előzményadatok használatával a felhőhasználatot és az előrejelzési pontosság növeléséhez.
+- [Az Azure Cost Management](https://azure.microsoft.com/services/cost-management/). A Microsoft kisegítő a Cloudyn által licencelt Azure Cost Management egy többfelhős költség felügyeleti megoldás, amely segít a legjobb használata és kezelése az Azure és egyéb felhőerőforrások. Felhőalapú használati és számlázási adatok alkalmazás program felületek (API) keresztül gyűjt az Azure, Amazon Web Services és a Google Cloud Platform. Az így nyert adatok alapján egy egységes nézetben juthat részletes információhoz az összes platform erőforrás-felhasználásáról és költségeiről. Folyamatosan figyelheti a felhőhasználatot és a költségek időbeli alakulását. A túlköltekezés elkerülése érdekében összehasonlíthatja tényleges felhőbeli költéseit az előirányzott költségvetéssel. Feltárhatja a szokásostól eltérő kiadásokat és a nem hatékony felhasználási módokat is. Előzményadatok használatával a felhőhasználatot és az előrejelzési pontosság növeléséhez.

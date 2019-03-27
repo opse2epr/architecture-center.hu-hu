@@ -7,18 +7,21 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: aa5c2b4357ed53da9bebf4795fcbefb89afe0c78
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 75aef5aec7f4663abff45ebdba5dbea245d3ac17
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482571"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299500"
 ---
 # <a name="designing-microservices-ingestion-and-workflow"></a>Mikroszolgáltatások tervezése: Adatfeldolgozás és munkafolyamatok
 
 Mikroszolgáltatások gyakran rendelkeznek egy munkafolyamatot egy tranzakció több szolgáltatást is. A munkafolyamat megbízható; kell lennie. nem lehet tranzakció megszakad vagy részlegesen befejezett állapotban hagyja őket. Emellett fontos szabályozni azt a bejövő kérelmek feldolgozási sebességet. Sok kis szolgáltatással kommunikál egymással a bejövő kérések hirtelen kiugrásai túlterhelhetik futó a szolgáltatások közötti kommunikációt eredményezhet.
 
 ![A betöltési munkafolyamatának ábrája](./images/ingestion-workflow.png)
+
+> [!NOTE]
+> Ez a cikk egy mikroszolgáltatás-alapú referenciaimplementációt nevű alapul a [Drone Delivery alkalmazás](./design/index.md).
 
 ## <a name="the-drone-delivery-workflow"></a>A drone delivery munkafolyamat
 
@@ -176,7 +179,7 @@ Ha a kompenzáló tranzakciók logika összetett, érdemes lehet külön szolgá
 
 ![A felügyelő mikroszolgáltatás bemutató ábra.](./images/supervisor.png)
 
-## <a name="idempotent-vs-non-idempotent-operations"></a>Idempotens vs nem idempotens műveletek
+## <a name="idempotent-versus-non-idempotent-operations"></a>Idempotens, és nem idempotens műveletek
 
 Kérések elveszhetnek, a Feladatütemező szolgáltatás biztosítania kell, hogy minden üzenet legalább egyszer feldolgozása. Az Event Hubs tud garantálni, legalább egyszeri kézbesítési, ha az ügyfél ellenőrzőpontokat megfelelően.
 
@@ -239,9 +242,6 @@ public async Task<IActionResult> Put([FromBody]Delivery delivery, string id)
 ```
 
 Valószínű, hogy a legtöbb kérelmek létrehoz egy új entitást, így optimistically metódushívások `CreateAsync` a tárház objektum majd kezeli az olyan ismétlődő-erőforrás kivételek, amelyek inkább az erőforrás frissítésével.
-
-> [!div class="nextstepaction"]
-> [API-átjárókat](./gateway.md)
 
 <!-- links -->
 

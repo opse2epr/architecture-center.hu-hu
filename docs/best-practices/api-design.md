@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: b15b97de2042a0e213192dd586ffdcc4c51b1f11
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 4b5842c3aac4cea34929ed72ad86071494b1fc1e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897983"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298469"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -442,7 +442,7 @@ Több URI megadása helyett megadhat az erőforrás verziója egy paraméterrel 
 Ez a megközelítés azzal a szemantikai előnnyel rendelkezik, hogy ugyanazt az erőforrást a rendszer mindig ugyanabból az URI-ból kéri le, de függ attól a programkódtól, amely kezeli a lekérdezési sztring elemzésére vonatkozó kérést, és visszaküldi a megfelelő HTTP-választ. E megközelítés a HATEOAS implementálása terén ugyanazzal a hátránnyal rendelkezik, mint az URI-verziókezelési mechanizmus.
 
 > [!NOTE]
-> Egyes régebbi webböngészők és webes proxyk nem gyorsítótárazzák a válaszokat olyan kérésekre, amelyek URI-jai lekérdezési sztringet is tartalmaznak. Ez kedvezőtlen hatással lehet az olyan webes alkalmazások teljesítményére, amelyek webes API-t használnak, illetve amelyek például egy böngészőből futnak.
+> Egyes régebbi webböngészők és webes proxyk nem gyorsítótárazzák a válaszokat olyan kérésekre, amelyek URI-jai lekérdezési sztringet is tartalmaznak. Ez ronthatja a teljesítményt, amely egy webes API-t használja, és futtatni egy webes böngésző belül, amely webalkalmazások.
 
 ### <a name="header-versioning"></a>Fejléc-verziókezelés
 

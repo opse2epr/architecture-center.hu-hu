@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: További információ a identitás Azure áttelepítések core szolgáltatás.
 author: rotycenh
-ms.openlocfilehash: addc11928a0bc72917a28b468a04880720a1fdf4
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 511e27c7d63968417a7eb47764d2e7768496d34f
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899203"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298674"
 ---
 # <a name="identity-decision-guide"></a>Identitáskezelés döntési – útmutató
 
@@ -24,54 +24,54 @@ Ugrás ide: [Identity Integration követelmények meghatározása](#determine-id
 
 Többféleképpen is Identitáskezelés a felhőalapú környezetekben, amelyek eltérőek lehetnek a költségek és munkaráfordítás alól. A felhőalapú identitás-szolgáltatások strukturálja kulcsfontosságú tényező az integráció a meglévő helyszíni identitás-infrastruktúrát a szükséges.
 
-A szoftverszolgáltatások (SaaS) identitáskezelési megoldások szoftver felhőalapú adja meg a felhőbeli erőforrások hozzáférés-vezérléshez és identitáskezeléshez kezelés alapszinten. Azonban ha a szervezet Active Directory (AD) infrastruktúra rendelkezik olyan összetett erdő struktúrájába vagy testre szabott szervezeti egységhez (OU), a felhőalapú számítási feladatokhoz szükség lehet címtárreplikáció a felhőbe az identitások, csoportok, a konzisztens és a szerepkörök között a helyszíni és felhőalapú környezetekben. Kötelező globális megoldás directory replikáció esetén bonyolultságát jelentősen növelheti. Emellett függ az örökölt hitelesítési mechanizmusok alkalmazások támogatása a tartományi szolgáltatások a felhőben üzembe helyezési lehet szükség.
+Az Azure-ban az Azure Active Directory (Azure AD) felhőalapú erőforrások hozzáférés-vezérléshez és identitáskezeléshez kezelés alapszinten biztosít. Azonban ha a szervezet Active Directory (AD) infrastruktúra rendelkezik olyan összetett erdő struktúrájába vagy testre szabott szervezeti egységhez (OU), a felhőalapú számítási feladatokhoz szükség lehet az Azure AD-címtár-szinkronizálás identitások konzisztens halmazát csoportok és szerepkörök között a helyszíni és felhőalapú környezetekben. Emellett függ az örökölt hitelesítési mechanizmusok alkalmazások támogatása az Active Directory Domain Services (AD DS) a felhőben telepítését lehet szükség.
 
 ## <a name="determine-identity-integration-requirements"></a>Identity integration követelmények meghatározása
 
 | Kérdés | Felhő-alapkonfiguráció | A címtár-szinkronizálás | Cloud-hosted Domain Services | AD összevonási szolgáltatások |
 |------|------|------|------|------|
 | Jelenleg nincs egy helyi címtárszolgáltatás? | Igen | Nem | Nem | Nem |
-| Szükség van a számítási feladatokat a helyszíni identitás-szolgáltatások hitelesítése? | Nem | Igen | Nem | Nem |
-| Hajtsa végre a számítási feladatok függ az örökölt hitelesítési mechanizmusok, például a Kerberos vagy NTLM? | Nem | Nem | Igen | Nem |
-| Integráció az között felhőalapú és helyszíni identitás-szolgáltatások lehetetlen? | Nem | Nem | Igen | Nem |
+| A számítási feladatokhoz szükséges használata a felhasználók és csoportok a felhőben és helyszíni környezetben között? | Nem | Igen | Nem | Nem |
+| Hajtsa végre a számítási feladatok függ az örökölt hitelesítési mechanizmusok, például a Kerberos vagy NTLM? | Nem | Nem | Igen | Igen |
 | Szükség van az egyszeri bejelentkezés több identitásszolgáltató között? | Nem | Nem | Nem | Igen |
 
 Az Azure-bA a migrálás tervezése részeként kell határozza meg, hogyan lehet a legjobban integrálható a meglévő identity management és a felhőalapú identitás-szolgáltatások. Az alábbiakban gyakori integrációs forgatókönyvek.
 
 ### <a name="cloud-baseline"></a>Felhő-alapkonfiguráció
 
-Nyilvános felhő platformok natív IAM rendszert biztosítanak a felhasználók és csoportok el felügyeleti funkciókat az. Ha a szervezet nem rendelkezik egy jelentős helyszíni identitáskezelési megoldás, és azt tervezi, hogy felhőalapú hitelesítési mechanizmusok való kompatibilitás számítási feladatok migrálása, kialakítson a személyazonosság-infrastruktúra használatával olyan natív felhőalapú identitásszolgáltatás.
+Azure ad-ben, a natív identitás- és hozzáférés-kezelés (IAM) rendszer felhasználók és csoportok el az felügyeleti funkciókat az Azure platformon. Ha a szervezet nem rendelkezik egy jelentős helyszíni identitáskezelési megoldás, és azt tervezi, hogy felhőalapú hitelesítési mechanizmusok való kompatibilitás számítási feladatok migrálása, gondoskodjon az Ön identitáskezelési infrastruktúráját az Azure AD alapként fejlesztéséhez.
 
 **A felhő alapvető feltételezések**. Egy teljesen natív felhőalapú identitás-infrastruktúra használata feltételezi, hogy a következő:
 
-- A felhőalapú erőforrások nem lesznek a helyszíni címtárszolgáltatások és az Active Directory-kiszolgálók függőségekkel rendelkeznek, vagy a számítási feladatok módosítható, hogy távolítsa el ezeket a függőségeket a.
-- Az alkalmazás vagy szolgáltatás-munkaterhelések migrált felhőalapú identitás-szolgáltatóktól kompatibilis hitelesítési mechanizmusok támogatásához, vagy támogatja azokat könnyen módosítható. Felhőbeli natív Identitásszolgáltatók internetes használatra kész hitelesítési mechanizmusokkal, mint például a SAML, OAuth és OpenID Connect támaszkodnak. Meglévő számítási feladatok ettől az örökölt hitelesítési protokollok, mint például a Kerberos vagy NTLM használatával kell újratervezhetők lehet a felhőbe való migrálás előtt.
+- A felhőalapú erőforrások nem lesznek a helyszíni címtárszolgáltatások és az Active Directory-kiszolgálók függőségekkel rendelkeznek, vagy távolítsa el ezeket a függőségeket a számítási feladatok módosíthatók.
+- Az alkalmazás vagy szolgáltatás-munkaterhelések migrált kompatibilis az Azure AD-hitelesítési mechanizmusok támogatásához, vagy támogatja azokat könnyen módosítható. Az Azure AD csak internetes használatra kész hitelesítési mechanizmusokkal, mint például a SAML, OAuth és OpenID Connect támaszkodik. Meglévő számítási feladatok ettől az örökölt hitelesítési protokollok, mint például a Kerberos vagy NTLM használatával kell újratervezhetők kell a felhő alapvető minta használatával a felhőbe való migrálás előtt.
 
 > [!TIP]
-> A legtöbb natív felhőalapú identitás-szolgáltatások nem teljes helyettesítik a hagyományos helyszíni címtárak el. Címtárszolgáltatások, például a számítógép-felügyelet vagy a csoport házirend nem lehet elérhető a további eszközök vagy a szolgáltatások használata nélkül.
-
-Teljes áttelepítés az identitás-szolgáltatások felhőalapú szolgáltatóra szükségtelenné teszi a saját identitás-infrastruktúrát, jelentősen leegyszerűsíti az informatikai felügyelet karbantartása.
+> Teljes egészében az Azure AD-ba való migrálás az identitás-szolgáltatások szükségtelenné teszi a saját identitás-infrastruktúrát, jelentősen leegyszerűsíti az informatikai felügyelet karbantartása.
+>
+> Az Azure AD viszont nem egy hagyományos helyszíni Active Directory-infrastruktúra teljes értékű alternatívájaként. Címtárszolgáltatások, például az örökölt hitelesítési módszereket, a számítógép-kezelés vagy a csoportházirend nem lehet elérhető a felhőbeli üzembe helyezés további eszközöket vagy szolgáltatások nélkül.
+>
+> Forgatókönyvek, ahol meg kell integrálhatja a helyszíni identitások vagy a domain services és a magánfelhők számára, lásd: a címtár-szinkronizálás és a felhőben üzemeltetett domain services-minták az alábbiak ismertetik.
 
 ### <a name="directory-synchronization"></a>A címtár-szinkronizálás
 
-Egy meglévő identitás-infrastruktúrát használó szervezetek számára a címtár-szinkronizálás legtöbbször a legjobb megoldást a meglévő felhasználó- és hozzáférés-kezelés megőrzése szükséges IAM képességet biztosít a felhőbeli erőforrások kezelése során. Ez a folyamat folyamatosan a címtáradatok a felhő között replikálja, és a helyszíni környezetben, egyszeri bejelentkezés (SSO) engedélyezése a felhasználók és a egy egységes identitások, a szerepkör és a jogosultsági rendszert a teljes szervezet számára.
+A szervezet számára a meglévő helyszíni Active Directory infrastruktúrával a címtár-szinkronizálás legtöbbször a legjobb megoldást a meglévő felhasználó- és hozzáférés-kezelés megőrzése szükséges IAM képességet biztosít a felhőbeli erőforrások kezelése során. Ez a folyamat folyamatosan az Azure AD között replikálja a címtáradatok és a helyszíni címtárszolgáltatások, lehetővé teszi a közös hitelesítő adatokat a felhasználók és a egy egységes identitások, a szerepkör és a jogosultsági rendszert a teljes szervezet számára.
 
 Megjegyzés: Office 365 elfogadó szervezetek már megvalósított [címtár-szinkronizálás](/office365/enterprise/set-up-directory-synchronization) azok a helyszíni Active Directory-infrastruktúrát és az Azure Active Directory között.
 
 **Címtár-szinkronizálás feltételezések**. Szinkronizált identitáskezelési megoldások használata feltételezi, hogy a következő:
 
 - Kell egy közös felhasználói fiókok és csoportok a felhőben és helyszíni informatikai infrastruktúra karbantartása.
-- A helyszíni identitás-szolgáltatások támogatja a replikációt a felhőalapú identitás-szolgáltatónál.
-- Egyszeri bejelentkezés mechanizmusok felhőbeli és helyszíni identitás-szolgáltatóktól hozzáférő felhasználók van szükség.
+- A helyszíni identitás-szolgáltatások támogatják az Azure AD-replikációt.
 
 > [!TIP]
-> Felhőalapú számítási feladatokat, amelyek az örökölt hitelesítési mechanizmusok, például az Azure ad-ben továbbra is szükséges a helyszíni tartományi szolgáltatásokhoz való kapcsolódás, vagy virtuális kiszolgálók a felhőalapú környezetben nem felhőalapú identitás-szolgáltatások által támogatott függenek. Ezek a szolgáltatások biztosítása. A helyszíni identitás-szolgáltatások használatával is a felhőbeli és helyszíni hálózat közötti kapcsolat függőségekkel mutatja be.
+> Felhőalapú számítási feladatokat, amelyek a helyszíni Active Directory-kiszolgálók által biztosított örökölt hitelesítési mechanizmusok függenek, és nem támogatottak az Azure AD a helyszíni tartományi szolgáltatásokhoz való kapcsolódás, vagy a virtuális kiszolgálók továbbra is szükséges a Ezek a szolgáltatások nyújtásához a felhőalapú környezetben. A helyszíni identitás-szolgáltatások használatával is a felhőbeli és helyszíni hálózat közötti kapcsolat függőségekkel mutatja be.
 
 ### <a name="cloud-hosted-domain-services"></a>Felhőben futó tartományi szolgáltatások
 
 Ha munkaterheléseknek, amelyek a jogcímalapú hitelesítés örökölt protokollok, mint például a Kerberos vagy NTLM használatával, és azokat a munkaterheléseket nem refactored, modern hitelesítési protokollok, mint például a SAML vagy OAuth és OpenID Connect fogadására, szükség lehet áttelepítése néhány, a tartományi szolgáltatások a felhőbe, a felhőbeli üzemelő példány részeként.
 
-A központi telepítési típus magában foglalja a felhő alapú virtuális hálózatok adja meg a tartományi szolgáltatások a felhőben lévő erőforrásokhoz az Active Directory futó virtuális gépek üzembe helyezéséről. Meglévő alkalmazások és szolgáltatások áttelepítése a felhőbeli hálózati használatát a felhőben üzemeltetett címtárkiszolgálók kisebb módosításokkal képesnek kell lennie.
+Ez a minta magában foglalja a felhő alapú virtuális hálózataihoz adja meg az Active Directory Domain Services (AD DS) a felhőben lévő erőforrások Active Directory futó virtuális gépek üzembe helyezéséről. Meglévő alkalmazások és szolgáltatások áttelepítése a felhőbeli hálózati kell tudni használni ezeket a felhőben üzemeltetett címtárkiszolgálók kisebb módosításokkal.
 
 Valószínű, hogy a meglévő címtárakban és a tartományi szolgáltatások továbbra is a helyszíni környezetben használható. Ebben a forgatókönyvben javasoljuk, hogy is használhatja a címtár-szinkronizálás közös biztosítja a felhasználók és szerepkörök a felhőben és a helyszíni környezetben.
 

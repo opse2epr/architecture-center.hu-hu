@@ -7,26 +7,26 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: További információ a titkosítási Azure áttelepítések core szolgáltatás.
 author: rotycenh
-ms.openlocfilehash: 660206d57ded9a93d73c57ba9cb8058020d87525
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 8735800fe481a0e0292a6a0c7555e883e29f8ee2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899130"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298473"
 ---
 # <a name="encryption-decision-guide"></a>Titkosítási döntési útmutató
 
 Titkosított adatokat védi jogosulatlan hozzáféréssel szemben. Megfelelően megvalósított titkosítási házirend biztosít további biztonsági rétegeket, a felhőalapú számítási feladatokhoz és a támadók és a szervezet és a hálózatok kívül és belül is a jogosulatlan felhasználóktól őröket.
 
-Noha az erőforrások titkosítására általában célszerű, titkosítási rendelkezik, amely növelheti a késést és a teljes erőforrás-használat költségeit. Erőforrás-igényű számítási feladatokhoz, titkosítás és a teljesítmény közötti megfelelő egyensúly beírásával elengedhetetlen.
-
 ![Titkosítási beállítások a legkevésbé küldik az ábrázolást a legösszetettebb, az alábbi hivatkozások a jump igazítva](../../_images/discovery-guides/discovery-guide-encryption.png)
 
 Ugrás ide: [Kulcskezelés](#key-management) | [adattitkosítás](#data-encryption) | [további](#learn-more)
 
-A kihasználás is egy titkosítási stratégia meghatározása során a vállalati házirend és megfelelőség megbízások összpontosít.
+Titkosítási stratégia a vállalati házirend és megfelelőség megbízások összpontosít. Erőforrások titkosítása általában célszerű, és az Azure-ban például az Azure Storage és Azure SQL Database számos szolgáltatás titkosítási alapértelmezés szerint engedélyezi. Titkosítási azonban rendelkezik, amely növelheti a késést és a teljes erőforrás-használat költségeit.
 
-Többféle módon titkosítási megvalósítása a felhőalapú környezetben, a különböző költségek és munkaráfordítás alól. Vállalati házirend és megfelelőség külső eszközillesztőket a legnagyobb egy titkosítási stratégia tervezésekor. A legtöbb felhőalapú megoldás szabványos mechanizmusokon adatok titkosításához e inaktív és átvitel közben adjon meg. Azonban a házirendek és a megfelelőségi követelmények, amelyek szigorúbb vezérlők, például szabványos titkos kulcsok és kulcsok kezelését, titkosítási használatban lévő vagy adott adattitkosítás, valószínűleg szüksége lesz egy összetett megoldást valósíthat meg.
+Erőforrás-igényű számítási feladatokhoz, titkosítás és a teljesítmény közötti megfelelő egyensúly beírásával és annak meghatározása, adatok és az adatforgalom titkosított hogyan lehet alapvető. Titkosítási mechanizmusok eltérőek lehetnek a költségek és munkaráfordítás alól, és a döntéseket hozhat, hogy a rendszer titkosítást alkalmaz, és hogyan tárolhatja és kezelheti a létfontosságú kulcsok és titkok befolyásolhatja a műszaki és a házirend követelményeinek.
+
+Vállalati házirend és megfelelőség külső eszközillesztőket a legnagyobb egy titkosítási stratégia tervezésekor. Az Azure biztosít, amely megfelel a titkosított adatok, e inaktív és átvitel vonatkozó gyakori követelmények több standard mechanizmusokat. Azonban a házirendek és a megfelelőségi követelményeknek, hogy igény szerint szigorúbb vezérlők, például szabványos titkos kulcsok és kulcsok kezelését, titkosítási használatban lévő vagy adott adattitkosítás, ki kell támogatja ezeket a titkosítási ennél kifinomultabb stratégiát fejlesztéséhez követelmények.
 
 ## <a name="key-management"></a>Kulcskezelés
 
@@ -34,28 +34,29 @@ A modern kulcskezelés rendszerek kell nyújt támogatást a kulcsokat hardveres
 
 Felhőbe történő migrálás megtervezésekor a következő táblázat ismerteti, hogyan tárolhatja és kezelheti a titkosítási kulcsokat, tanúsítványok és titkos kódok, amelyek létfontosságúak a biztonságos és kezelhető magánfelhők létrehozása:
 
-| Kérdés | Felhőre tervezett | Hibrid | Helyszíni követelmények |
+| Kérdés | Natív felhőalapú | Hibrid | Helyszíni követelmények |
 |---------------------------------------------------------------------------------------------------------------------------------------|--------------|--------|-------------|
 | Nem a szervezet nem rendelkezik a központosított kulcs és titkos kódok kezelése?                                                                    | Igen          | Nem     | Nem          |
 | Szükség lesz korlátozni a kulcsok és titkok eszközökhöz, a helyszíni hardver létrehozása során ezek a kulcsok használatára a felhőben? | Nem           | Igen    | Nem          |
-| Rendelkezik a szervezete szabályokat, vagy a házirendekkel, amely megakadályozná a kulcsok és titkos kulcsok nem külső helyszínen tárolt?                | Nem           | Nem     | Igen         |
+| Rendelkezik a szervezete szabályokat, vagy a házirendekkel, amely megakadályozná a kulcsok nem külső helyszínen tárolt?                | Nem           | Nem     | Igen         |
 
 ### <a name="cloud-native"></a>Natív felhőalapú
 
-Felhőbeli natív kulcskezelés, az összes kulcsot és titkos kulcsok létrehozott, felügyelt, és felhőalapú tárolóban tárolt. Ez a megközelítés leegyszerűsíti a kulcskezelési kapcsolódó számos informatikai feladatokat.
+Felhőbeli natív kulcskezelés, az összes kulcsot és titkos kulcsok létrehozott, felügyelt, és egy felhőalapú tárolót, például az Azure Key Vaultban tárolt. Ez a megközelítés leegyszerűsíti a kulcskezelési, például a kulcs biztonsági mentése, a storage és a megújítási kapcsolódó számos informatikai feladatokat.
 
-Felhőbeli natív kulcskezelés feltételezések: Felhőbeli natív kulcskezelés rendszert használ a következőket feltételezi:
+Felhőbeli natív kulcskezelés rendszert használ a következőket feltételezi:
 
 - A felhőmegoldás kulcskezelés létrehozása, kezelése és a szervezet kulcsok és titkok üzemeltető megbízik.
 - A helyszíni alkalmazások és szolgáltatások, a titkosítási szolgáltatások vagy a titkos kulcsok hozzáférhetnek a felhőbeli kulcskezelés rendszerhez való hozzáférés használó engedélyezi.
 
 ### <a name="hybrid-bring-your-own-key"></a>Hibrid (a saját kulcs használata)
 
-A bring-your-saját-key módszert használja hozzon létre dedikált HSM hardveren kulcsokat, a helyszíni környezetben, majd át a kulcsok egy biztonságos felhőalapú kulcskezelés rendszer a felhőbeli erőforrások segítségével.
+Ezzel a módszerrel hozzon létre dedikált HSM hardveren kulcsokat, a helyszíni környezetben, majd a kulcsok átvitele a key vault védelmet biztosítani a felhőnek a felhőbeli erőforrások segítségével.
 
 Hibrid kulcskezelés feltételezések: Hibrid kulcskezelés rendszert használ a következőket feltételezi:
 
 - Az alapul szolgáló biztonsági és a vezérlő infrastruktúra, a üzemeltetési és a kulcsok és titkos kulcsok használatával a felhőalapú platform megbízik.
+- A felhőben üzemeltetett alkalmazások és szolgáltatások eléri és használja a kulcsok és titkos kulcsok egy hatékony és biztonságos módon.
 - Szabályozási vagy a szervezeti házirend létrehozásának és felügyeletének kulcsokat a helyszíni és a szervezet titkok tartani szükséges.
 
 ### <a name="on-premises-hold-your-own-key"></a>A helyszíni (saját tulajdonú kulcs)

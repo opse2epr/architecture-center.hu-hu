@@ -10,11 +10,11 @@ pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: signup
 pnp.series.next: authorize
 ms.openlocfilehash: 097b150f3706614b0814bb83d0af01f9b502c5ea
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483479"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299496"
 ---
 # <a name="application-roles"></a>Alkalmazás-szerepkörök
 
@@ -53,7 +53,7 @@ Hátrányai:
 * Prémium szintű Azure AD nem rendelkező ügyfelek biztonsági csoportok nem rendelhető szerepköröket. Ezen ügyfelek számára egy AD-rendszergazda felhasználó összes hozzárendelést kell elvégezni.
 * Egy háttéralkalmazás webes API-t, amely a webalkalmazást ügynökellenőrzést, ha a webes alkalmazás szerepkör-hozzárendeléseit a webes API-k nem vonatkoznak. Ezen a ponton További ismertetéséhez lásd: [egy háttéralkalmazás webes API biztonságossá tétele].
 
-### <a name="implementation"></a>Implementáció
+### <a name="implementation"></a>Megvalósítás
 
 **A szerepkörök meghatározása.** Az SaaS-szolgáltatónak az alkalmazás-szerepkörök deklarálja a [alkalmazásjegyzék]. Ha például itt látható a jegyzékfájl bejegyzést a Surveys alkalmazás:
 
@@ -123,7 +123,7 @@ Hátrányait:
 
 <!-- markdownlint-disable MD024 -->
 
-### <a name="implementation"></a>Implementáció
+### <a name="implementation"></a>Megvalósítás
 
 <!-- markdownlint-enable MD024 -->
 

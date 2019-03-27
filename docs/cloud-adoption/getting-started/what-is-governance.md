@@ -1,14 +1,17 @@
 ---
 title: 'CAF: Mi az a felhőerőforrás-szabályozás?'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.date: 02/11/2019
 description: MAGYARÁZAT felhőalapú erőforrás-szabályozása az Azure-ban
 author: petertaylor9999
-ms.date: 2/11/2019
-ms.openlocfilehash: ec8b0b04ac8a4782c215359cf907c3c092ae2f4d
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
-ms.translationtype: MT
+ms.openlocfilehash: 5d022e83a1c97a5e5af8208ec00339575bb88be1
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897949"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298545"
 ---
 <!-- markdownlint-disable MD026 -->
 
@@ -20,7 +23,11 @@ Azonban amíg így unrestricted erőforrás-hozzáférés a fejlesztők számár
 
 A megoldás a probléma az erőforrás-hozzáférés **cégirányítási**. Cégirányítási kezelését, megfigyelését és naplózás használata Azure-erőforrások megfelelnek a kitűzött célokat, és a szervezet követelményeinek folyamatban hivatkozik.
 
+<!-- markdownlint-disable MD034 -->
+
 > [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE2ii94]
+
+<!-- markdownlint-enable MD034 -->
 
 Következő célokat és követelményeket egyediek-e az egyes cégeknek, ezért nem lehetséges, hogy a cégirányítási időkorlátokat. Inkább az Azure csomagszűrő két elsődleges cégirányítási eszközök, **szerepköralapú hozzáférés-vezérlés (RBAC)**, és **erőforrás-szabályzat**, és a szolgáltatás minden szervezet számára a használatuk cégirányítási modell tervezéséhez.
 

@@ -7,18 +7,18 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: A Cost Management-sablonnal
 author: BrianBlanchard
-ms.openlocfilehash: 2d484ab7c770dbb785072f740e42440bc0808b45
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 35f653ca18abb9d05abb39c2da196e38c0979927
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899391"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298530"
 ---
 # <a name="cost-management-template"></a>A Cost Management-sablonnal
 
 Az első lépés a változások kommunikál-e a kívánt módosítást. Ugyanez igaz akkor eljárásaink módosításakor. A sablon az alábbi házirend-utasítások, amelyek szabályozzák a felhőben a Cost Management dokumentálja a és kiindulási pontként szolgál.
 
-Bár a Cost Management fegyelem kapcsolódó példa tartalmakat tartalmaz, ez a sablon használható alapjaként rögzítése az üzleti kockázatok, kockázati tolerancia, megfelelőségi folyamatok és eszközök segítségével határozhatók meg a felhő minden házirend-utasítások cégirányítási szakterületen.
+Bár a Cost Management fegyelem kapcsolódó példa tartalmakat tartalmaz, ez a sablon használható alapjaként rögzítése az üzleti kockázatok, kockázati tolerancia, megfelelőségi folyamatok és eszközök segítségével határozhatók meg a házirend-utasítások bármely az öt Felhőalapú irányítási szakterületen.
 
 > [!IMPORTANT]
 > A sablon rendkívül korlátozott mintát. Ez a sablon a követelményeknek megfelelően-frissítése előtt tekintse át a következő lépésekben egy hatékony Cost Management területen belül a felhő adatirányítási stratégia meghatározása.

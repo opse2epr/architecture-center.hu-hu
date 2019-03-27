@@ -10,12 +10,12 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: virtual-network
 ms.date: 11/28/2018
 ms.author: jonor
-ms.openlocfilehash: 484f41f64b676b08ae8adb4ba082f9bff75a6a54
-ms.sourcegitcommit: 14226018a058e199523106199be9c07f6a3f8592
+ms.openlocfilehash: 8941195c5342036521d5176bfd5420b538dfa4a7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/31/2019
-ms.locfileid: "55483113"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299167"
 ---
 # <a name="azure-virtual-datacenter-a-network-perspective"></a>Az Azure virtual datacenter: A hálózati nézőpont
 
@@ -76,7 +76,7 @@ A VDC-megvalósítás megtervezésekor van több pivotal tényezőt érdemes fig
 
 ### <a name="identity-and-directory-service"></a>Identitás- és címtárszolgáltatás
 
-Identitás- és címtárszolgáltatásokat rendszer egyik fontos szempontja a minden adatközpontot, mind a helyszíni és a felhőben. Hozzáférés és -engedélyezést, a VDC-megvalósítás szolgáltatásai minden aspektusát identitás kapcsolódik. Annak biztosítására, hogy csak a jogosult felhasználók és a folyamatok hozzá az Azure-fiók és -erőforrások, Azure, számos különböző típusú hitelesítő adatokat használ. Ezek közé tartoznak a jelszavak (az Azure-fiók eléréséhez), a kriptográfiai kulcsokat, a digitális aláírások és a tanúsítványok. [Az Azure multi-factor Authentication (MFA)] [ MFA] van egy további Azure-szolgáltatások eléréséhez szükséges biztonsági réteget. Az Azure MFA több egyszerű ellenőrzési lehetőség erős hitelesítést tesz lehetővé – telefonhívás, SMS vagy mobilalkalmazásbeli értesítés –, és lehetővé teszi ügyfeleink számára válassza a tetszőlegesen választhatnak.
+Identitás- és címtárszolgáltatásokat rendszer egyik fontos szempontja a minden adatközpontot, mind a helyszíni és a felhőben. Hozzáférés és -engedélyezést, a VDC-megvalósítás szolgáltatásai minden aspektusát identitás kapcsolódik. Annak biztosítására, hogy csak a jogosult felhasználók és a folyamatok hozzá az Azure-fiók és -erőforrások, Azure, számos különböző típusú hitelesítő adatokat használ. Ezek közé tartoznak a jelszavak (az Azure-fiók eléréséhez), a kriptográfiai kulcsokat, a digitális aláírások és a tanúsítványok. [Az Azure multi-factor Authentication (MFA)] [ MFA] van egy további Azure-szolgáltatások eléréséhez szükséges biztonsági réteget. Az Azure MFA több egyszerű ellenőrzési lehetőség erős hitelesítést nyújt &mdash; telefonhívás, SMS vagy mobilalkalmazásbeli értesítés &mdash; , és lehetővé teszi ügyfeleink számára válassza a tetszőlegesen választhatnak.
 
 Minden olyan nagyvállalati kell egy leíró egyedi azonosítók kezelését, a hitelesítés, engedélyezés, szerepkörök és jogosultságok belül vagy között VDC végrehajtásuk identity management folyamat megadása. Ez a folyamat célja a biztonság és hatékonyság közben csökkentésével költségeket, leállás és ismétlődő manuális feladatokat kell lennie.
 

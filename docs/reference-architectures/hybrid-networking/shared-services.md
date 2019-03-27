@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, networking
-ms.openlocfilehash: dd7632c3a84f6a0cee5d8b35e6a943ab8c52caf8
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 982505b4661ec907a86d59f567f2dc09e916b9a7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488307"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298573"
 ---
 # <a name="implement-a-hub-spoke-network-topology-with-shared-services-in-azure"></a>Közös szolgáltatásokkal küllős hálózati topológia implementálása az Azure-ban
 
@@ -61,7 +61,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 - **Küllő virtuális hálózatok**. Egy vagy több Azure virtuális hálózat, amelyek küllőként használatosak a küllős topológiában. A küllőkkel elszigetelhetőek a számítási feladatok saját virtuális hálózataikban, így más küllőktől elkülönülten kezelhetőek. Minden számítási feladat több szintet tartalmazhat, amelyek alhálózatait Azure-terheléselosztók kapcsolják össze. További információ az alkalmazás-infrastruktúrával kapcsolatban: [Windows rendszerű virtuális gépek számítási feladatainak futtatása][windows-vm-ra] és [Számítási feladatok futtatása Linux rendszerű virtuális gépeken][linux-vm-ra].
 
-- **Virtuális társhálózatok létesítése**. Két, ugyanabban az Azure-régióban található virtuális hálózatot egy [társviszonykapcsolat][vnet-peering] használatával lehet összekapcsolni. A társviszonykapcsolatok a virtuális hálózatok közötti nem tranzitív, alacsony késleltetésű kapcsolatok. A társviszonyba kapcsolt virtuális hálózatok az Azure gerinchálózatát használva, útválasztó igénye nélkül váltanak forgalmat egymás között. Egy küllős hálózati topológiában a virtuális társhálózatok létesítésével lehetséges az agyat minden egyes küllőhöz kapcsolni.
+- **Virtuális társhálózatok létesítése**. Két virtuális hálózat hitelesítéssel lehet csatlakozni egy [társviszonykapcsolat][vnet-peering]. A társviszonykapcsolatok a virtuális hálózatok közötti nem tranzitív, alacsony késleltetésű kapcsolatok. A társviszonyba kapcsolt virtuális hálózatok az Azure gerinchálózatát használva, útválasztó igénye nélkül váltanak forgalmat egymás között. Egy küllős hálózati topológiában a virtuális társhálózatok létesítésével lehetséges az agyat minden egyes küllőhöz kapcsolni. Az ugyanabban a régióban, vagy (globális virtuális hálózatok közötti Társviszony) különböző régiókban található virtuális hálózatok társviszonyt. További információkért lásd: [-követelmények és korlátozások][vnet-peering-requirements].
 
 > [!NOTE]
 > Ez a cikk csak a [Resource Manager](/azure/azure-resource-manager/resource-group-overview) üzemelő példányokat mutatja be, de ugyanabban az előfizetésben klasszikus virtuális hálózatot is csatlakoztathat Resource Manager virtuális hálózathoz. Így a küllők tárolhatnak klasszikus üzemelő példányokat, mégis profitálhatnak az agyban megosztott szolgáltatásokból.
@@ -76,7 +76,7 @@ Emellett az alábbi javaslatok a a megosztott szolgáltatások legtöbb forgató
 
 A legtöbb vállalati szervezetek Active Directory Directory Services (ADDS) környezet rendelkezik a helyszíni adatközpontját. Felügyeleti eszközök a helyszíni hálózatból az Azure-bA áthelyezni, ettől az ADDS elősegítése érdekében ajánlott gazdagép ADDS-tartományvezérlőkhöz az Azure-ban.
 
-Ha használja a csoportházirend-objektumok, külön-külön szabályozhatja az Azure és a helyszíni környezetben, a kívánt használja egy másik Active Directory-hely az egyes Azure-régióban. Helyezze a tartományvezérlők egy központi virtuális hálózatban (hub) függő számítási feladatokhoz férhet hozzá.
+Ha csoportházirend-objektumok, külön-külön szabályozhatja az Azure és a helyszíni környezetben, a kívánt használhatja egy másik Active Directory-hely az egyes Azure-régióban. Helyezze a tartományvezérlők egy központi virtuális hálózatban (hub) függő számítási feladatokhoz férhet hozzá.
 
 ### <a name="security"></a>Biztonság
 
@@ -266,6 +266,7 @@ Test-NetConnection 10.2.0.68 -CommonTCPPort RDP
 [virtuális adatközpont]: https://aka.ms/vdc
 [vnet-peering]: /azure/virtual-network/virtual-network-peering-overview
 [vnet-peering-limit]: /azure/azure-subscription-service-limits#networking-limits
+[vnet-peering-requirements]: /azure/virtual-network/virtual-network-peering-overview#requirements-and-constraints
 [vpn-appliance]: /azure/vpn-gateway/vpn-gateway-about-vpn-devices
 [windows-vm-ra]: ../virtual-machines-windows/index.md
 

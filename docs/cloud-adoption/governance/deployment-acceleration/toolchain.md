@@ -7,12 +7,12 @@ ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
 author: BrianBlanchard
-ms.openlocfilehash: 8d2cae87b8a3a11bfde87aafc04d4d2ef55cbbe9
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: cd00f2fa132f5f177ccc12f61be8b5342b71197d
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899358"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299380"
 ---
 # <a name="deployment-acceleration-tools-in-azure"></a>Központi telepítési gyorsítás eszközök az Azure-ban
 
@@ -22,7 +22,7 @@ Felhőalapú jegyektől, a felhő őrei és a felhőben dolgozó tervezők érde
 
 Az Azure-eszközök, amelyek segíthetnek a házirendek és a folyamatok, amelyek támogatják a cégirányítási fegyelem részletes listáját a következő:
 
-|  |Azure Policy  |Azure-beli felügyeleti csoportok  |Az Azure Resource Manager-sablonok  |Azure Blueprints  | Azure Resource Graph | Azure Cost Management |
+|  | Azure Policy | Azure-beli felügyeleti csoportok | Az Azure Resource Manager-sablonok | Azure Blueprints | Azure Resource Graph | Azure Cost Management |
 |---------|---------|---------|---------|---------|---------|---------|
 |Vállalati házirendek megvalósítása     |Igen |Nem  |Nem  |Nem | Nem |Nem |
 |Szabályzatok alkalmazása az előfizetések között     |Szükséges |Igen  |Nem  |Nem | Nem |Nem |

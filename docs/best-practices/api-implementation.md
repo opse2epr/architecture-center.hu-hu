@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 9b6bef0fd803db5b488e93d246642d4e3681a94c
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 7a484aa9e4fde8fd5056608ca5dd98aefbc077b7
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897762"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298966"
 ---
 # <a name="api-implementation"></a>API-implementáció
 
@@ -582,7 +582,7 @@ ServicePoint sp = ServicePointManager.FindServicePoint(uri);
 sp.Expect100Continue = false;
 ```
 
-A statikus is beállíthat `Expect100Continue` tulajdonságát a `ServicePointManager` osztály ezt követően az összes adja meg ennek a tulajdonságnak az alapértelmezett érték a létrehozott [ServicePoint]](/dotnet/api/system.net.servicepoint) objektumokat.
+Is beállíthat a statikus `Expect100Continue` tulajdonságát a `ServicePointManager` osztály az alapértelmezett érték a tulajdonság adja meg minden ezután létrehozott [ServicePoint](/dotnet/api/system.net.servicepoint) objektumokat.
 
 ### <a name="support-pagination-for-requests-that-may-return-large-numbers-of-objects"></a>Tördelés támogatása olyan kéréseknél, amelyek esetlegesen nagy számú objektumot adhatnak vissza
 

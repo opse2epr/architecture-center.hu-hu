@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: A Cost Management szabályzat megfelelőségi folyamat
 author: BrianBlanchard
-ms.openlocfilehash: 5fd007546589020f376107382c54c391cc5d05ad
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 62547f4af8a873536499c35f58d323b03b828a74
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899058"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299385"
 ---
 # <a name="cost-management-policy-compliance-processes"></a>A Cost Management szabályzat megfelelőségi folyamat
 
@@ -24,7 +24,7 @@ A felhőben a legjobb Cost Management tools csak annyira jók a folyamatok és a
 
 **A hitelkockázat értékelése és tervezése a kezdeti**: A Cost Management tantárgy kezdeti elfogadását részeként azonosítsa az alapvető üzleti kockázatok és a felhőköltségek kapcsolatos tolerancia. Ezen információk használatával bemutatjuk a költségvetés és a költségek kapcsolatos kockázatokat az üzleti csapatok olyan tagjai, és alakítson ki alaptervi házirendek létrehozására, a kezdeti adatirányítási stratégia kockázatok csökkentése.
 
-**Üzembe helyezés megtervezése:** Bármely eszköz telepítené a várt felhőbeli hozzárendelés alapján előre jelzett költségvetési létesíteni. Győződjön meg arról, hogy a központi telepítés tulajdonosi és a naplózási adatok szerződését.  
+**Üzembe helyezés megtervezése:** Bármely eszköz üzembe helyezése előtt létrehozni a várt felhőbeli hozzárendelés alapján előre jelzett költségvetési. Győződjön meg arról, hogy a központi telepítés tulajdonosi és a naplózási adatok szerződését.  
 
 **Éves tervezési:** Évente hajtsa végre az összes üzembe helyezett és to-be telepített eszköz egy összesítő elemzése. Üzleti egység, részlegek, csapatok és egyéb megfelelő szakaszainak körvonalszínét megjelenő új önkiszolgáló bevezetési költségvetése igazítása Győződjön meg arról, hogy a költségvetés és nyomon követheti a Költekezési annak tudatában, hogy mindegyik számlázási egység vezetője.
 

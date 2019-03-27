@@ -1,18 +1,22 @@
 ---
-title: 'CAF: Mi az adatok besorolását'
-description: Mi az adatok besorolását?
+title: 'CAF: Mi az adatbesorolás?'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
+description: Mi az adatbesorolás?
 author: BrianBlanchard
-ms.date: 2/11/2019
-ms.openlocfilehash: 07268e7242d92ac2581bf28b378a3c43d166620c
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: bb40745b02e4ad6d7faa7054bf62443964f6784b
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899199"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299146"
 ---
 <!-- markdownlint-disable MD026 -->
 
-# <a name="what-is-data-classification"></a>Mi az adatok besorolását?
+# <a name="what-is-data-classification"></a>Mi az adatbesorolás?
 
 Ez a bevezető cikk általános témakörről az adatok besorolását. Az adatbesorolás valamennyi cégirányítási a nagyon gyakori kiindulópontként szolgál.
 
@@ -24,7 +28,7 @@ A szervezetek többségében három üzleti kockázatai cégirányítási beruh�
 * Az üzleti valamilyen okból kimaradás lép a megszakítás
 * Nem tervezett vagy váratlan kiadások
 
-Nincsenek három üzleti kockázatok számos változata. Azonban a tend kell a leggyakrabban használt.
+Nincsenek három üzleti kockázatok számos változata. Azonban ezek általában a leggyakrabban használt.
 
 ## <a name="understand-then-mitigate"></a>Megismerheti, majd csökkentése
 
@@ -51,4 +55,4 @@ Minden felhőszolgáltató kell biztosít a metaadatokat, bármely eszköz. Meta
 Az adatbesorolásokat alkalmazni a gyakorlatban hasznosítható cégirányítási utak egyike során.
 
 > [!div class="nextstepaction"]
-> [A gyakorlatban hasznosítható Cégirányítási Journey megkezdése](../journeys/overview.md)
+> [Kezdje egy gyakorlatban hasznosítható Cégirányítási utazás](../journeys/overview.md)

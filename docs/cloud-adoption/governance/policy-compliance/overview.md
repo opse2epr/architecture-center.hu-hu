@@ -1,22 +1,26 @@
 ---
-title: 'CAF: Hogyan válhat a vállalati informatikai házirend felhőbeli használatra kész?'
+title: 'CAF: Hogyan készíthető elő a vállalati informatikai szabályzat a felhő használatára?'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
 description: A vállalati szabályzat viszonyítva felhőalapú cégirányítási fogalmát ismertetése
 author: BrianBlanchard
-ms.date: 2/8/2019
-ms.openlocfilehash: e15f4ef4e6fa9a64ea2bb78cd1df6c5867528383
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 8912e116232f8e5aa2e658ea45a5451479ba9094
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899475"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298546"
 ---
 <!-- markdownlint-disable MD026 -->
 
-# <a name="caf-how-can-corporate-it-policy-become-cloud-ready"></a>CAF: Hogyan válhat a vállalati informatikai házirend felhőbeli használatra kész?
+# <a name="caf-how-can-corporate-it-policy-become-cloud-ready"></a>CAF: Hogyan készíthető elő a vállalati informatikai szabályzat a felhő használatára?
 
 Felhőalapú cégirányítási az létrehoztunk egy folyamatos átállást szorzatát az idő múlásával, mivel a átalakítási tartó valódi éjjelente nem történik. Teljes körű felhőalapú cégirányítási előtt kulcsfontosságú vállalati házirend módosításai ritkán metódussal egy gyors agresszív címzés kézbesítését a kívánt eredményt ad. Ehelyett azt javasoljuk egy növekményes módszert.
 
-Mi a felhő bevezetésének keretrendszer, a vásárlási ciklus, és az, hogy a ciklus hiteles átalakítási engedélyezheti, hogy hogyan hatását. Mivel az nem áll a big Data típusú (CapEx) Tőkeráfordítási beszerzési követelmény, mérnökök megkezdheti a Kísérletezési és bevezetési hamarabb. A legtöbb vállalati kultúrák a CapEx-korlát bevezetését, megszüntetésére vezethet szigorúbb visszajelzési hurkokat ösztönözhetnek és a növekményes végrehajtását.
+Mi a felhő bevezetésének keretrendszer, a vásárlási ciklus, és hogyan engedélyezheti a hiteles átalakításában. Mivel az nem áll a big Data típusú (CapEx) Tőkeráfordítási beszerzési követelmény, mérnökök megkezdheti a Kísérletezési és bevezetési hamarabb. A legtöbb vállalati kultúrák a CapEx-korlát bevezetését, megszüntetésére vezethet szigorúbb visszajelzési hurkokat ösztönözhetnek és a növekményes végrehajtását.
 
 A felhőre való áttérés a shift kell irányítási eltolódása. Számos szervezet vállalati szabályzat átalakítás lehetővé teszi a jobb irányítás és a megfelelést növekményes az irányelvek változásai keresztül, a nagyobb sebesség és a módosításokat, konfigurálnia kell az újonnan definiált képességek segítségével automatizált érvényesítése a felhőszolgáltató.
 

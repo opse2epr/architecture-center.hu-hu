@@ -1,16 +1,16 @@
 ---
-title: 'CAF: Hibrid felhő konzisztencia'
+title: 'CAF: Hibrid felhőkonzisztencia létrehozása'
 description: A hibrid felhő konzisztencia megközelítés meghatározása
 author: BrianBlanchard
 ms.date: 12/27/2018
-ms.openlocfilehash: 726ea56f52d68f6c9b0d1478d19a91c2b7f12fdd
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 22637a0496dc1e776d00570c3ef9844cc185a35d
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899466"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298738"
 ---
-# <a name="create-hybrid-cloud-consistency"></a>Hibrid felhő konzisztencia
+# <a name="create-hybrid-cloud-consistency"></a>Hibrid felhőkonzisztencia létrehozása
 
 Ez a cikk végigvezeti a magas szintű megközelítések a hibrid felhő konzisztencia létrehozásához.
 
@@ -56,7 +56,7 @@ Az Azure Stack két üzembe helyezési lehetőség érhető el:
 
 ## <a name="azure-stack-one-cloud-ecosystem"></a>Azure Stack One Cloud Ecosystem
 
-Azure Stack kezdeményezések felgyorsíthatja a teljes Azure-ökoszisztéma kihasználva:
+Azure Stack kezdeményezések felgyorsíthatja a teljes Azure-ökoszisztéma használatával:
 
 - Az Azure gondoskodik arról, hogy a legtöbb alkalmazás és szolgáltatás, az Azure certified fog működni az Azure Stacken. Több független szoftverszállítók &mdash; többek között a Bitnami, a Docker, a Kemp technológiák, a Pivotal Cloud Foundry-hoz, a Red Hat Enterprise Linux és a SUSE Linux &mdash; kiterjesztése megoldásaikat az Azure Stackhez.
 - Kérheti, hogy az Azure Stack-i és a egy teljes körűen felügyelt szolgáltatásként működik. Számos partnerünk &mdash; Tieto, Yourhosting, Revera, Pulsant és NTT &mdash; fog felügyelt szolgáltatásajánlatok Azure és az Azure Stackben kis türelmet kérünk. Ezek a partnerek a Cloud Solution Provider (Felhőszolgáltatók) programon keresztül az Azure felügyelt szolgáltatások lett kidolgozását, és most kiterjesztése ajánlataik hibrid megoldásokat tartalmazza.

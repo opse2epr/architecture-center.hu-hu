@@ -1,18 +1,22 @@
 ---
 title: 'CAF: Mit jelent a felhő házirend felülvizsgálat?'
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
 description: Mit jelent a felhő házirend áttekintése?
 author: BrianBlanchard
-ms.date: 2/8/2019
-ms.openlocfilehash: b879f261e16ffc72180417e2e0f533e2eaa435ba
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 2e50c6bac0118db1b6a223244cf8efc43a4ab438
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899291"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298537"
 ---
 <!-- markdownlint-disable MD026 -->
 
-# <a name="what-is-a-cloud-policy-review"></a>Mit jelent a felhő házirend felülvizsgálat?
+# <a name="what-is-a-cloud-policy-review"></a>Mi az a felhőszabályzat-felülvizsgálat?
 
 A **házirend tekintse át a felhő** felé az első lépés [cégirányítási lejárat](../overview.md) a felhőben. Ez a folyamat célja a korszerűsítheti a már meglévő vállalati informatikai házirendeknek. Amikor elkészült, a frissített házirendeket kockázatcsökkentés felhőalapú erőforrások azonos szintű adja meg. Ez a cikk ismerteti a felhő házirend-ellenőrzés során, és annak fontossága.
 
@@ -22,10 +26,10 @@ A legtöbb vállalkozás kezelése informatikai folyamatok végrehajtásának ke
 
 Vállalatok részletes vállalati informatikai házirendeknek, korábbi technikai döntések függőségek seep szabályzatok betartatását, ami kell. Például az általános vész helyreállítási folyamatok közé tartozik a szabályzatot, amely az előírásoknak, külső helyszíni tárolásra szalagos biztonsági másolatok megtekintéséhez. A belefoglalási feltételezi, hogy egy függőség egy típust (szalagos biztonsági mentések) technológia, amely már nem lehet a leginkább megfelelő megoldást.
 
-Felhőbeli átalakítások hozzon létre egy természetes kihasználás is, gondolja át az örökölt szabályzat a döntéseket hozhat a múltbeli. Technikai funkciók és folyamatok alapértelmezés módosítása jelentősen a felhőben, mint öröklése a kockázatokat. Az előző példa felhasználásával, a szalagos biztonsági mentési szabályzat bevezetéséből származik az egypontos meghibásodás kockázatát által gondoskodik az adatok egy helyen, és az üzleti igények szerint a kockázat csökkentéséhez a kockázatú profil minimalizálása érdekében. A felhőbeli üzembe helyezés többféle módon, amely azonos kockázatcsökkentés sokkal alacsonyabb helyreállítási idő célkitűzései (RTO) való kézbesítéséhez. Például:
+Felhőbeli átalakítások hozzon létre egy természetes kihasználás is, gondolja át az örökölt szabályzat a döntéseket hozhat a múltbeli. Technikai funkciók és folyamatok alapértelmezés módosítása jelentősen a felhőben, mint öröklése a kockázatokat. Az előző példában használja, a szalagos biztonsági mentési szabályzat bevezetéséből származik az egypontos meghibásodás kockázatát által gondoskodik az adatok egy helyen, és az üzleti igények szerint a kockázat csökkentéséhez a kockázatú profil minimalizálása érdekében. A felhőbeli üzembe helyezés többféle módon, amely azonos kockázatcsökkentés sokkal alacsonyabb helyreállítási idő célkitűzései (RTO) való kézbesítéséhez. Például:
 
 - Egy natív felhőalapú megoldás sikerült engedélyezni az SQL Azure adatbázis georeplikációs
-- Hibrid megoldás hasznosíthatja az Azure Site helyreállítás (ASR) egy iaas típusú munkaterhelésének több adatközpont replikálása
+- Hibrid megoldás az Azure Site Recovery használatával több adatközpontba egy IaaS számítási feladat replikálható.
 
 Egy felhőalapú átalakítás végrehajtásakor szabályzatok gyakran meghatározzák számos, az eszközök, szolgáltatások és a felhő bevezetésének csapatok számára elérhető folyamatok. Ha ezek a házirendek örökölt technológiák alapulnak, gátolják előfordulhat, hogy a csapat erőfeszítések meghajtó módosítása. A legrosszabb esetben fontos házirendek teljesen figyelmen kívül hagyják a migrálás csapat megkerülő megoldások engedélyezése. Sem lesz egy elfogadható serkenti az eredményt.
 

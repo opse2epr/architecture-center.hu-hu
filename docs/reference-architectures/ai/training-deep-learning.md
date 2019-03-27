@@ -4,12 +4,12 @@ description: Ez a referenciaarchitektúra bemutatja, hogyan elosztott-betanítá
 author: njray
 ms.date: 01/14/19
 ms.custom: azcat-ai
-ms.openlocfilehash: 800defeb851f5a31dc730038c3699e1a3d54b923
-ms.sourcegitcommit: d5ea427c25f9f7799cc859b99f328739ca2d8c1c
+ms.openlocfilehash: 0e63ed24c1e19333e7c9d48d531a7ddc778f3d86
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/15/2019
-ms.locfileid: "54307837"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298598"
 ---
 # <a name="distributed-training-of-deep-learning-models-on-azure"></a>Elosztott-betanítás deep learning-modellek az Azure-ban
 
@@ -137,7 +137,7 @@ A referenciaimplementációt a jelen architektúra érhető el az [GitHub][githu
 
 Ez az architektúra a kimenete a betanított modell mentett blob storage-bA. Ez a modell, valós idejű pontozási vagy kötegelt pontozási is üzembe helyezheti. További információkért tekintse meg a következő referenciaarchitektúrákat:
 
-- [Valós idejű pontozási Python Scikit-ismerje meg, és a deep learning-modellek az Azure-ban][real-time-scoring]
+- [Python scikit valós idejű pontozási – ismerje meg, és a deep learning-modellek az Azure-ban][real-time-scoring]
 - [Kötegelt pontozási az Azure-on deep learning-modellek][batch-scoring]
 
 [0]: ./_images/distributed_dl_architecture.png

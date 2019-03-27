@@ -6,12 +6,12 @@ ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: b54f56fbc6aab526f37d537c201f4e4955a112fd
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: dcffe32883e379dd17c1f54a7eeebda3dab8d808
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486949"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298941"
 ---
 # <a name="extending-on-premises-data-solutions-to-the-cloud"></a>Helyszíni adatmegoldások kiterjesztése a felhőre
 
@@ -72,7 +72,7 @@ Az alábbiakban néhány használati esetek, Azure és az Azure Stack:
 
 ## <a name="sql-server-data-stores"></a>Az SQL Server-adattárak
 
-Ha a helyszíni SQL Server futtatja, biztonsági mentést a Microsoft Azure Blob Storage-szolgáltatás használata, és állítsa vissza. További információkért lásd: [SQL Server biztonsági mentés és helyreállítás a Microsoft Azure Blob Storage szolgáltatás](/sql/relational-databases/backup-restore/sql-server-backup-and-restore-with-microsoft-azure-blob-storage-service). Ezt a képességet biztosít korlátlan méretű telephelyen kívüli tárhelyet, és lehetővé teszi, hogy az azonos biztonsági mentések a helyszíni és az Azure-beli virtuális gépeken futó SQL Server rendszert futtató SQL Server között.
+Ha a helyszíni SQL Server futtatja, biztonsági mentést a Microsoft Azure Blob Storage-szolgáltatás használata, és állítsa vissza. További információkért lásd: [SQL Server biztonsági mentés és helyreállítás a Microsoft Azure Blob Storage szolgáltatás](/sql/relational-databases/backup-restore/sql-server-backup-and-restore-with-microsoft-azure-blob-storage-service). Ezt a képességet biztosít korlátlan külső helyszínen történő tárolás, és lehetővé teszi, hogy az azonos biztonsági mentések a helyszíni és az Azure-beli virtuális gépeken futó SQL Server rendszert futtató SQL Server között.
 
 [Az Azure SQL Database](/azure/sql-database/) egy felügyelt relációs adatbázis-szolgáltatásként van. Mivel az Azure SQL Database a Microsoft SQL Server motort használja, az alkalmazások férhetnek mindkét technológiáival ugyanúgy adataihoz. Az Azure SQL Database is kombinálható az SQL Server hasznos módon. Ha például a [SQL Server Stretch Database](/sql/sql-server/stretch-database/stretch-database) funkció lehetővé teszi, hogy egy alkalmazás eléréséhez, hogyan néz ki az SQL Server-adatbázis, míg egyetlen tábla, vagy adott tábla összes sora előfordulhat, hogy tárolja, az Azure SQL Database-ben. Ez a technológia automatikusan áthelyezi az adatokat, amely nem érhető el egy meghatározott ideig a felhőbe. Ezek az adatok olvasása alkalmazások deduplikálta, hogy minden adat áthelyezése megtörtént a felhőbe.
 

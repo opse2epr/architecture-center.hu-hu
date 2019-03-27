@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Erőforrás konzisztencia szabályzat megfelelőségi folyamat
 author: BrianBlanchard
-ms.openlocfilehash: 26c2d60635a98a3ce061352979ddf01426947e08
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: bfe241dd7aa723dc5a8c0109a07c86de98418690
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899263"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299145"
 ---
 # <a name="resource-consistency-policy-compliance-processes"></a>Erőforrás konzisztencia szabályzat megfelelőségi folyamat
 
@@ -26,7 +26,7 @@ Az alábbiakban látható példa folyamatok gyakran erőforrás konzisztencia ta
 
 **A hitelkockázat értékelése és tervezése a kezdeti**: A kezdeti bevezetését az erőforrás konzisztencia fegyelem részeként azonosítsa az alapvető üzleti kockázatok és üzemeltetési és informatikai felügyeleti kapcsolódó tolerancia. Ezt az információt használja adott technikai kockázatok egyeztetnie, tagok számítási feladatok tulajdonosai számára tervezett, kockázatok csökkentése érdekében erőforrás konzisztencia házirendek alapkészletével fejlesztése és informatikai csapata hozza létre a kezdeti adatirányítási stratégia kialakítása.
 
-**Üzembe helyezés megtervezése**: Bármely eszköz telepítés előtt minden olyan új működési kockázatok azonosításához felülvizsgálat végrehajtása. Erőforrás-követelmények vonatkoznak, és várt igény szerinti létrehozása, illetve méretezhetőséget igénylő és esetleges használati optimalizálási lehetőségek azonosításához. Emellett ellenőrizze, biztonsági mentési és helyreállítási tervek vannak érvényben.
+**Üzembe helyezés megtervezése**: Bármely eszköz üzembe helyezése előtt minden olyan új működési kockázatok azonosításához felülvizsgálat végrehajtása. Erőforrás-követelmények vonatkoznak, és várt igény szerinti létrehozása, illetve méretezhetőséget igénylő és esetleges használati optimalizálási lehetőségek azonosításához. Emellett ellenőrizze, biztonsági mentési és helyreállítási tervek vannak érvényben.
 
 **Központi telepítés tesztelése**: Központi telepítésének részeként a felhő Cégirányítási munkatársaival, a felhő üzemeltetői csapatokat együttműködve lesz felelős erőforrás konzisztencia szabályzatoknak való megfelelés ellenőrzése az üzembe helyezés áttekintése.
 

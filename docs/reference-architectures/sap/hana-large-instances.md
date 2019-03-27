@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, SAP
-ms.openlocfilehash: 711e233de534597f9cd06ccaa95481a51acc4468
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 6b7c14076e7a86d570dec72bd408a7bc526e8886
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485341"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299458"
 ---
 # <a name="run-sap-hana-on-azure-large-instances"></a>Nagyméretű Azure-példányokon futó SAP HANA futtatása
 
@@ -56,7 +56,7 @@ Követelmények is eltérőek lehetnek, ezért ezeket a javaslatokat kiindulópo
 
 ### <a name="hana-large-instances-compute"></a>Nagyméretű HANA-példányok számítási
 
-[Nagyméretű példányok] [ physical] fizikai kiszolgálókat az Intel EX E7 CPU architektúra alapján, és a egy nagyméretű szolgáltatáspéldányban konfigurálva –, egy meghatározott készletének kiszolgálók vagy a többi panelen. Egy számítási egység egyenlő egy kiszolgáló vagy panelen, és a egy stamp tevődik össze több kiszolgálóhoz vagy a többi panelen. Egy nagyméretű szolgáltatáspéldányban kiszolgálók nem megosztott, és egy ügyfél központi telepítését az SAP HANA futtatása dedikált.
+[Nagyméretű példányok] [ physical] a fizikai kiszolgálók az Intel EX E7 CPU architektúra alapján, és a egy nagyméretű szolgáltatáspéldányban konfigurált &mdash; , hogy egy adott készletét kiszolgálók vagy a többi panelen. Egy számítási egység egyenlő egy kiszolgáló vagy panelen, és a egy stamp tevődik össze több kiszolgálóhoz vagy a többi panelen. Egy nagyméretű szolgáltatáspéldányban kiszolgálók nem megosztott, és egy ügyfél központi telepítését az SAP HANA futtatása dedikált.
 
 SKU-k különböző HANA nagyméretű példányokhoz, 20 TB-ig egyetlen példányra (60 TB-os horizontális felskálázás) memóriát az S/4HANA vagy egyéb SAP HANA számítási feladatainak támogatása érhetők el. [Két osztályba] [ classes] kiszolgálók érhetők el:
 
@@ -78,7 +78,7 @@ Támogatja a magas rendelkezésre állás az elsődleges helyen, használjon má
 
 ### <a name="networking"></a>Hálózat
 
-Ez az architektúra és a fizikai, mind a virtuális hálózatokat használ. A virtuális hálózat része az Azure IaaS és a egy különálló HANA nagyméretű példányok fizikai hálózaton keresztül kapcsolódik [ExpressRoute][expressroute]] Kapcsolatcsoportok. Létesítmények közötti átjáró csatlakozik a helyszíni hely a számítási feladatokat az Azure virtuális hálózatban.
+Ez az architektúra és a fizikai, mind a virtuális hálózatokat használ. A virtuális hálózat része az Azure IaaS és a egy különálló HANA nagyméretű példányok fizikai hálózaton keresztül kapcsolódik [ExpressRoute] [ expressroute] Kapcsolatcsoportok. Létesítmények közötti átjáró csatlakozik a helyszíni hely a számítási feladatokat az Azure virtuális hálózatban.
 
 Nagyméretű HANA-példányokhoz hálózatok különítve egymástól a biztonság. Különböző régiókban levő példányok nem kommunikálnak egymással, a dedikált tárreplikáció kivételével. Azonban a HSR használatához régiók közötti kommunikáció szükség. [IP-útválasztási táblázatok] [ ip] vagy proxyk engedélyezése több régiót HSR használható.
 
@@ -161,7 +161,7 @@ Ha további számítási képesség, be kell szereznie egy nagyobb Termékválto
 
 - A fizikai biztonság érdekében az Azure-adatközpontokhoz, korlátozott csak az arra jogosult személyek. Nincsenek felhasználók férhetnek hozzá a fizikai kiszolgálók.
 
-További információkért lásd: [SAP HANA biztonsági – áttekintés][sap-security]. () Egy SAP Service Marketplace-fiók megadása kötelező a hozzáféréshez)
+További információkért lásd: [SAP HANA biztonsági &mdash; áttekintés][sap-security]. () Egy SAP Service Marketplace-fiók megadása kötelező a hozzáféréshez)
 
 ## <a name="communities"></a>Közösségek
 
@@ -172,7 +172,7 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Az SAP közösségi][sap-community]
 - [A stack Overflow SAP][stack-overflow]
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

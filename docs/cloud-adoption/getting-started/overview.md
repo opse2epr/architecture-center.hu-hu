@@ -5,14 +5,13 @@ ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 description: Az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintését ismerteti.
-author: petertaylor9999
-ms.date: 2/11/2019
-ms.openlocfilehash: bfa325ded8c39915ad4d495b4309b700abd71cc2
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.date: 02/11/2019
+ms.openlocfilehash: 7af68cd04be1bb3c9a6acdccbdf1a09e3cad55be
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898357"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298461"
 ---
 # <a name="getting-started-with-the-cloud-adoption-framework"></a>A Cloud bevezetési keretrendszert – első lépések
 
@@ -59,7 +58,7 @@ Speciális tanulási a fogalmakkal és tervezési útmutatókat a tartalomjegyz�
 
 ## <a name="step-3-identify-gaps-in-business-strategy"></a>3. lépés: Üzleti stratégia hiányosságok azonosítása
 
-A következő lépés a felhő stratégia csapat számbavétele az üzleti problémák, amelyek a digitális átalakulás megoldásra van szüksége van. Vállalati például előfordulhat, hogy rendelkezik egy meglévő helyszíni adatközpont teljes életciklusa hardver cseréje szükséges. Egy másik példa vállalati-piacra új funkciók és szolgáltatások nehézségeik léphetnek fel, és a verseny is csökken. Ezek hézagok képviselik a *célok* , a vállalati digitális átalakulást.
+A következő lépés a felhő stratégia csapat számbavétele az üzleti problémák, amelyek a digitális átalakulás megoldásra van szüksége van. Vállalati például előfordulhat, hogy rendelkezik egy meglévő helyszíni adatközpont teljes életciklusa hardver cseréje igénylő. Egy másik példa vállalati-piacra új funkciók és szolgáltatások nehézségeik léphetnek fel, és a verseny is csökken. Ezek hézagok képviselik a *célok* , a vállalati digitális átalakulást.
 
 Üzleti stratégia hiányosságok is kell besorolni, a következő kategóriákba sorolhatók:
 
@@ -108,7 +107,7 @@ Informatikai előfordulhat, hogy nyugtalan a szerepkörökről és pozíciók, a
 A digitális átalakulás során minden egyes csapat rögzíteni kell minden személyzeti aggályokat információforrásait. A problémák rögzítésekor határozza meg a következőket:
 
 * Probléma típusa. Például a munkavállalók ellenállóbbá tehesse a feladatkörhöz abban a digitális átalakulás változásokat lehet.
-* A probléma, ha a nem neki címzett hatását. Például a digitális átalakulás szembeni ellenállás lehet a szükséges módosítások végrehajtásához lassú feldolgozók eredményez.
+* A hatása, ha a probléma nem képes kezelni. Például a digitális átalakulás szembeni ellenállás lehet a szükséges módosítások végrehajtásához lassú feldolgozók eredményez.
 * A terület, a probléma megoldása érdekében. Például ha az informatikai részleg feldolgozók szerezni az új ismeretek migrál, az informatikai érdekelt terület legjobb rendelkezik a ezen probléma megoldásának. Törölje az egyes problémák azonosítása a terület lehet, és ezekben az esetekben szükség lehet eszkalálni a végrehajtó vezetői.
 
 ### <a name="identify-gaps"></a>Hézagok azonosítása

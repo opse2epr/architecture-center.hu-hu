@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Biztonsági alapkonfiguráció szabályzat megfelelőségi folyamat
 author: BrianBlanchard
-ms.openlocfilehash: 8f115436d7021fe725118dcc0dfd64167c4cbfa1
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 4002791808a0e02fed9bf8564e5851b3b6360221
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899378"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298850"
 ---
 # <a name="security-baseline-policy-compliance-processes"></a>Biztonsági alapkonfiguráció szabályzat megfelelőségi folyamat
 
@@ -24,7 +24,7 @@ A felhőben a legjobb biztonsági alapterv eszközök csak annyira jók a folyam
 
 **A hitelkockázat értékelése és tervezése a kezdeti**: A kezdeti bevezetését az alapvető biztonsági fegyelem részeként azonosítsa az alapvető üzleti kockázatot és az adott felhő biztonsággal kapcsolatos. Ezt az információt használja adott technikai kockázatok egyeztetnie, az informatikai RÉSZLEG tagjai és biztonsági csapatok és a biztonsági szabályzatok létrehozására, a kezdeti adatirányítási stratégia kockázatok csökkentése alapkészletével fejlesztése.
 
-**Üzembe helyezés megtervezése**: Bármilyen számítási feladatok vagy az eszköz telepítése előtt minden olyan új kockázatok azonosítása, és minden hozzáférés és az adatok biztonsági házirend követelményeinek teljesítése biztonsági felülvizsgálat végrehajtása.
+**Üzembe helyezés megtervezése**: Bármilyen számítási feladatok vagy az eszköz üzembe helyezése előtt minden olyan új kockázatok azonosítása, és minden hozzáférés és az adatok biztonsági házirend követelményeinek teljesítése biztonsági felülvizsgálat végrehajtása.
 
 **Központi telepítés tesztelése**: Bármilyen számítási feladatot, a felhő Cégirányítási csapat vagy eszköz számára a telepítési folyamat részeként a vállalati biztonsági együttműködve teamsben felelős biztonsági szabályzatoknak való megfelelés ellenőrzése az üzembe helyezés áttekintése.
 

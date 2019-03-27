@@ -8,14 +8,14 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: ba2d9a295e5a231f0ffca9e3cf2d53ace4deddfe
-ms.sourcegitcommit: 1ee873aaf40010eb2a38314ac56974bc9e227736
+ms.openlocfilehash: e6ef96f89d93f2b15055e812f10bdf92c6c77fe8
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/28/2019
-ms.locfileid: "55141033"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298897"
 ---
-# <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Valós idejű pontozási Python Scikit-ismerje meg, és a deep learning-modellek az Azure-ban
+# <a name="real-time-scoring-of-python-scikit-learn-and-deep-learning-models-on-azure"></a>Python scikit valós idejű pontozási – ismerje meg, és a deep learning-modellek az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan helyezhet üzembe Python modelleket webszolgáltatásként, hogy az Azure Machine Learning szolgáltatás használatával valós idejű előrejelzéseket végezzen. Két esetben terjed ki: reguláris Python-modellek és a konkrét követelmények, deep learning-modellek üzembe helyezésének telepítése. Mindkét forgatókönyvet használja az architektúra látható.
 

@@ -8,11 +8,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat
 ms.openlocfilehash: 5219d08fce5cf09b075b6d7adfb73970e007ded4
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487933"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299525"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
@@ -80,7 +80,7 @@ Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány k
 
 Magas rendelkezésre állási szempontok futtatja, az alkalmazás azonban olyan a fejlesztő feladata. Skála kapcsolatos információkért lásd a [méretezési szempontok](#scalability-considerations) az alapszintű webalkalmazás referenciaarchitektúrája szakaszát. Alkalmazás üzembe helyezését követően beállíthatja-tesztek [a rendelkezésre állás monitorozása] [ monitor its availability] Application Insights használatával.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 Bizalmas információkat és megfelelőségi követelmények hatással az adatgyűjtés, megőrzés és -tárolás. Tudjon meg többet [Application Insights] [ application-insights] és [Log Analytics] [ log-analytics] telemetriai adatok kezeléséhez.
 
@@ -115,7 +115,7 @@ Tekintse meg ezeket az erőforrásokat, amelyek segítségével a saját figyel�
 
 [Azure virtuális gépekről történő adatgyűjtést][Collect data about Azure Virtual Machines]
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 [Az Azure-alkalmazások és erőforrások figyelése][Monitoring Azure applications and resources]
 

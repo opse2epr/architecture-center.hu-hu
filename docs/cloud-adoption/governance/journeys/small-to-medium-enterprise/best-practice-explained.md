@@ -1,20 +1,20 @@
 ---
-title: 'CAF: Kis és közepes méretű vállalat – a cégirányítási MVP kapcsolatos további technikai részleteket'
+title: 'CAF: Kis és közepes méretű vállalat – ajánlott eljárás ismertetése'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: MAGYARÁZAT kis és közepes méretű vállalat – a cégirányítási MVP kapcsolatos további technikai részleteket
+description: Kis és közepes méretű vállalat – ajánlott eljárás ismertetése
 author: BrianBlanchard
-ms.openlocfilehash: e726213459c8bee63e3cc77ab54868fe7196b3ac
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: c3b4ab69e3cf5f664a5297d7bc3c2460d8d5d182
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899171"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298858"
 ---
-# <a name="small-to-medium-enterprise-best-practice-explained"></a>Small-to-medium enterprise: Bevált gyakorlat ismertetése
+# <a name="small-to-medium-enterprise-best-practice-explained"></a>Small-to-medium enterprise: Ajánlott eljárás magyarázata
 
 A cégirányítási utazás elindítja a kezdeti vannak beállítva [vállalati szabályzatok](./initial-corporate-policy.md). Ezek a szabályzatok egy cégirányítási, amely tartalmazza az MVP létrehozására használt [ajánlott eljárások](./overview.md).
 
@@ -22,7 +22,7 @@ Ebben a cikkben bemutatjuk a magas szintű stratégia, hozzon létre egy cégir�
 
 ## <a name="governance-mvp-cloud-adoption-foundation"></a>Cégirányítási MVP (a felhő bevezetését Foundation)
 
-Gyors bevezetésére vonatkozó cégirányítási és a vállalati házirend elérhető, Köszönjük néhány egyszerű alapelvek és felhőalapú cégirányítási azokat az eszközöket. Ezek a az első megközelítés bármilyen irányítási folyamat három felhőalapú Cégirányítási szakterületen. Minden egyes kibontásra váró ebben a cikkben.
+Gyors bevezetésére vonatkozó cégirányítási és a vállalati házirend elérhető, Köszönjük néhány egyszerű alapelvek és felhőalapú cégirányítási azokat az eszközöket. Ezek a megközelítést bármilyen irányítási folyamat első három szakterületen. Minden egyes kibontásra váró ebben a cikkben.
 
 Létesíteni a kiindulási pont, ez a cikk bemutatja, hogyan lehet a magas szintű stratégiákat identitásra építve, biztonsági Alapértékeken és üzembe helyezési gyorsítás mögött kell létrehoznia egy cégirányítási MVP, amely az összes bevezetési alapját erre a célra.
 
@@ -67,7 +67,7 @@ A **üzembe helyezési konzisztencia** minta egy erőforrás konzisztencia lett 
 - Az Azure felügyeleti csoportok vállalati szabályzat kiforrottá cégirányítási frissítési tervek engedélyezze.
 - Széles körű megvalósítása az Azure Policy túllépheti a csapat vállalt, és nem nyújthat az érték nagy fokú jelenleg. Azonban egy egyszerű alapértelmezett szabályzatot kell létrehozni és alkalmazni az aktuális felhő cégirányítási házirend-utasítások kis számú kényszerítéséhez minden egyes felügyeleti csoporthoz. Ez a szabályzat adott cégirányítási követelmények végrehajtására fogja meghatározni. Ezen megvalósításokhoz alkalmazható az összes üzembe helyezett eszközök között.
 
-### <a name="resource-tagging"></a>Erőforrások címkézése
+### <a name="resource-tagging"></a>Erőforrás-címkézés
 
 A **besorolási** címkézés, a minta egy modellt az erőforrás-címkézési lett kiválasztva.
 

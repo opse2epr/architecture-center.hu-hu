@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, SAP, Linux
-ms.openlocfilehash: 519dac655065d53df5c918b55bda06ce8751c012
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 4e15fcc17ac5363a84c42903339a0e76333acc83
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485740"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298705"
 ---
 # <a name="sap-s4hana-for-linux-virtual-machines-on-azure"></a>SAP S/4HANA, a Linux rendszerű virtuális gépek az Azure-ban
 
@@ -183,7 +183,7 @@ Az erőforrások és az SAP-infrastruktúra szolgáltatási teljesítményéhez 
 
 ## <a name="security-considerations"></a>Biztonsági szempontok
 
-Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [SAP HANA biztonsági – áttekintés](https://archive.sap.com/documents/docs/DOC-62943) (SAP Service Marketplace-fiók szükséges a hozzáféréshez.)
+Az SAP egy saját felhasználófelügyeleti motorral (UME-vel) vezérli a szerepköralapú hozzáféréseket és az engedélyezést az SAP alkalmazáson belül. További információkért lásd: [SAP HANA biztonsági &mdash; áttekintés](https://archive.sap.com/documents/docs/DOC-62943) (SAP Service Marketplace-fiók szükséges a hozzáféréshez.)
 
 A további hálózati biztonság érdekében vegye fontolóra egy [hálózati DMZ](/azure/architecture/reference-architectures/dmz/secure-vnet-hybrid), melyik egy hálózati virtuális készüléket használ egy tűzfal elé Web Dispatcher és Fiori előtér-kiszolgáló készletek az alhálózat létrehozásához.
 
@@ -205,7 +205,7 @@ A közösségek választ adhatnak a kérdéseire, továbbá segíthetnek a siker
 - [Az SAP közösségi](https://www.sap.com/community.html)
 - [Stack Overflow](https://stackoverflow.com/tags/sap/)
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

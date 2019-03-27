@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, networking
-ms.openlocfilehash: a0973fad14bd9b4e81ec9940c83b8ebb31e9599b
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 18a8620d835488be7a3639e8fbde86f9f10f946c
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486788"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299118"
 ---
 # <a name="deploy-highly-available-network-virtual-appliances"></a>Magas rendelkezésre állású virtuális hálózati berendezések üzembe helyezése
 
@@ -54,7 +54,7 @@ Az alábbi ábrán egy magas rendelkezésre állású architektúra látható, a
 Az ilyen architektúra előnye, hogy minden NVA aktív, és ha az egyik meghibásodik, akkor a terheléselosztó átirányítja a hálózati forgalmat egy másikra. Mindkét NVA a belső terheléselosztóra irányítja a forgalmat, így mindaddig, amíg egy NVA aktív, a forgalom nem akad el. Az NVA-knak le kell zárnia a webes szintű virtuális gépek felé tartó SSL-forgalmat. Ezek az NVA-k nem használhatók a helyszíni forgalom kezelésére, mert a helyszíni forgalom egy másik, saját hálózati útvonalakkal rendelkező dedikált NVA-készletet igényel.
 
 > [!NOTE]
-> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-prem] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
+> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-premises] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
 
 ## <a name="egress-with-layer-7-nvas"></a>Kimenő forgalom 7-es rétegű NVA-kkal
 
@@ -65,7 +65,7 @@ Az előző architektúra bővíthető oly módon, hogy egy kimenő forgalmi DMZ-
 Ebben az architektúrában az Azure-ból származó összes forgalom át van irányítva egy belső terheléselosztóra. A terheléselosztó elosztja a kimenő kérelmeket egy NVA-készlet tagjai között. Ezek az NVA-k az internetre irányítják a forgalmat saját nyilvános IP-címeik használatával.
 
 > [!NOTE]
-> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-prem] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
+> Ezt az architektúrát az [Azure és a helyszíni adatközpont közötti DMZ][dmz-on-premises] és az [Azure és az internet közötti DMZ][dmz-internet] referenciaarchitektúrákban használják. Ezen referenciaarchitektúrák mindegyike tartalmaz egy felhasználható üzembehelyezési megoldást. További információkért kövesse a hivatkozásokat.
 
 ## <a name="ingress-egress-with-layer-7-nvas"></a>Bejövő és kimenő forgalom 7-es rétegű NVA-kkal
 
@@ -118,14 +118,14 @@ Válassza a mintavétel a függvényalkalmazás konfigurálásakor használni k�
 
 ## <a name="next-steps"></a>További lépések
 
-- Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-prem] 7-es rétegű NVA-k használatával.
+- Megtudhatja, hogyan [implementálhat DMZ-t az Azure és a helyszíni adatközpont között][dmz-on-premises] 7-es rétegű NVA-k használatával.
 - Megtudhatja, hogyan [implementálhat DMZ-t az Azure és az internet között][dmz-internet] 7-es rétegű NVA-k használatával.
 - [Az Azure-ban a hálózati virtuális berendezés hibák elhárítása](/azure/virtual-network/virtual-network-troubleshoot-nva)
 
 <!-- links -->
 
 [cloud-security]: /azure/best-practices-network-security
-[dmz-on-prem]: ./secure-vnet-hybrid.md
+[dmz-on-premises]: ./secure-vnet-hybrid.md
 [dmz-internet]: ./secure-vnet-dmz.md
 [egress-with-layer-7]: #egress-with-layer-7-nvas
 [ingress-with-layer-7]: #ingress-with-layer-7-nvas

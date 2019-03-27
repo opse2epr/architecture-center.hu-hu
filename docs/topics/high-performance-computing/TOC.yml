@@ -1,0 +1,139 @@
+items:
+- name: Nagy teljesítményű feldolgozás (HPC) az Azure-ban
+  href: /azure/architecture/topics/high-performance-computing
+- name: Miben más a felhőbeli HPC?
+  items:
+  - name: A Big Compute architektúrastílus
+    href: /azure/architecture/guide/architecture-styles/big-compute?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Automatikus skálázással kapcsolatos ajánlott eljárások
+    href: /azure/architecture/best-practices/auto-scaling?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: Infrastruktúra
+  items:
+  - name: Példák HPC-architektúrákra
+    items:
+    - name: CAE-szolgáltatások az Azure-ban
+      href: /azure/architecture/example-scenario/apps/hpc-saas?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Számítási folyadékdinamikai (CFD) szimulációk az Azure-ban
+      href: /azure/architecture/example-scenario/infrastructure/hpc-cfd?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: 3D-s videórenderelés az Azure-ban
+      href: /azure/architecture/example-scenario/infrastructure/video-rendering?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Compute
+    items:
+    - name: CPU-alapú virtuális gépek
+      items:
+      - name: Linux rendszerű virtuális gépek
+        href: /azure/virtual-machines/linux/sizes-hpc?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+      - name: Windows rendszerű virtuális gépek
+        href: /azure/virtual-machines/windows/sizes-hpc?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+      - name: Virtuális gépek vCPU-kvótái
+        href: /azure/virtual-machines/linux/quotas?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: GPU-kompatibilis virtuális gépek
+      items:
+      - name: Linux rendszerű virtuális gépek
+        href: /azure/virtual-machines/linux/sizes-gpu?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+      - name: Windows rendszerű virtuális gépek
+        href: /azure/virtual-machines/windows/sizes-gpu?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Storage
+    items:
+    - name: Tárolásra optimalizált virtuális gépek
+      href: /azure/virtual-machines/windows/sizes-storage?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Blob, tábla és Queue Storage
+      href: /azure/storage/storage-introduction?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Azure SMB fájltároló
+      href: /azure/storage/files/storage-files-introduction?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Hálózat
+    items:
+    - name: RDMA-kompatibilis példányok
+      href: /azure/virtual-machines/windows/sizes-hpc?context=/azure/architecture/topics/high-performance-computing/context/hpc-context#rdma-capable-instances
+    - name: Virtual Network
+      href: /azure/virtual-network/virtual-networks-overview?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: ExpressRoute
+      href: /azure/expressroute/expressroute-introduction?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: Kezelés
+  items:
+  - name: Önkiszolgáló
+    items:
+    - name: Virtuálisgép-méretezési csoportok
+      href: /azure/virtual-machine-scale-sets/overview?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Hibrid és felhőalapú teljesítménynövelés
+    items:
+    - name: A helyszíni hálózat Azure-hoz való csatlakoztatásának lehetőségei
+      href: /azure/architecture/reference-architectures/hybrid-networking/?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-átjáró használatával
+      href: /azure/architecture/reference-architectures/hybrid-networking/vpn?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
+      href: /azure/architecture/reference-architectures/hybrid-networking/expressroute?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Helyszíni hálózat csatlakoztatása az Azure-hoz VPN-feladatátvételt biztosító ExpressRoute használatával
+      href: /azure/architecture/reference-architectures/hybrid-networking/expressroute-vpn-failover?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: A Marketplace-ről származó megoldások
+    items:
+    - name: Windows és Linux rendszerhez való Azure Data Science VM
+      href: /azure/machine-learning/data-science-virtual-machine/overview?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Azure Batch
+    items:
+    - name: Azure Batch
+      href: /azure/batch/batch-technical-overview?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: A fejlesztés megkezdése a Batch használatával
+      href: /azure/batch/quick-run-dotnet?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Alacsony prioritású virtuális gépek használata a Batch szolgáltatással
+      href: /azure/batch/batch-low-pri-vms?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Azure CycleCloud
+    items:
+    - name: Azure CycleCloud
+      href: /azure/cyclecloud/?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Számításifeladat-kezelők
+    items:
+    - name: Windows rendszerhez készült HPC Pack
+      href: /azure/virtual-machines/windows/hpcpack-cluster-options?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Linux rendszerhez készült HPC Pack
+      href: /azure/virtual-machines/linux/hpcpack-cluster-options?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+    - name: Containers
+      items:
+      - name: Azure Kubernetes Service (AKS)
+        href: /azure/aks/intro-kubernetes?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+      - name: Container Registry
+        href: /azure/container-registry/container-registry-intro?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: Cost Management
+  items:
+  - name: Alacsony prioritású virtuális gépek
+    href: /azure/virtual-machine-scale-sets/virtual-machine-scale-sets-use-low-priority?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: Biztonság
+  items:
+  - name: Az Azure Security dokumentációja
+    href: /azure/security/azure-security?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Küllős hálózati topológia implementálása az Azure-ban
+    href: /azure/architecture/reference-architectures/hybrid-networking/hub-spoke?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Küllős hálózati topológia implementálása megosztott szolgáltatásokkal az Azure-ban
+    href: /azure/architecture/reference-architectures/hybrid-networking/shared-services?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: HPC-alkalmazások
+  items:
+  - name: Mérnöki alkalmazások
+    items:
+    - name: MATLAB Distributed Computing Server
+      href: /azure/virtual-machines/windows/matlab-mdcs-cluster?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: Grafika és renderelés
+    items:
+    - name: Autodesk Maya, 3ds Max és Arnold
+      href: /azure/batch/batch-rendering-service?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+  - name: AI és mély tanulás
+    items:
+    - name: Microsoft Cognitive Toolkit
+      href: /cognitive-toolkit/cntk-on-azure
+  - name: MPI-szolgáltatók
+    items:
+    - name: Microsoft MPI
+      href: /message-passing-interface/microsoft-mpi
+- name: Távoli vizualizáció
+  items:
+  - name: Linux rendszerű virtuális asztali környezetek a Citrix-szel
+    href: /azure/architecture/example-scenario/infrastructure/linux-vdi-citrix?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+- name: Teljesítménymérések
+  items:
+  - name: Számításiteljesítmény-mérések
+    href: /azure/virtual-machines/windows/compute-benchmark-scores?context=/azure/architecture/topics/high-performance-computing/context/hpc-context
+ms.openlocfilehash: 6934509e2019f342134327621606a0957dd38bb1
+ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/25/2019
+ms.locfileid: "58419988"

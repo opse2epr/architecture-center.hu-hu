@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 8d37bc2aed17bfef4d54f29f269b23ce4a5c52c0
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: edd73fd68ca4708faed92c6b1bcf5cfa3e6b2f07
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897660"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298589"
 ---
 # <a name="retry-pattern"></a>Újrapróbálkozási minta
 
@@ -52,7 +52,7 @@ Az alkalmazásnak olyan kódba kell csomagolnia a távoli szolgáltatások elér
 
 Az alkalmazásoknak naplózniuk kell a hibák és a sikertelen műveletek részleteit. Ez az információ hasznos az operátorok számára. Ha egy szolgáltatás gyakran elérhetetlen vagy foglalt, azt leggyakrabban a szolgáltatás erőforrásainak kimerülése okozza. A szolgáltatás horizontális felskálázásával csökkentheti ezeknek a hibáknak a gyakoriságát. Ha például egy adatbázis-szolgáltatás folyamatosan túlterhelt, érdemes lehet particionálni az adatbázist, és több kiszolgáló között elosztani a terhelést.
 
-> A [Microsoft Entity Framework](https://docs.microsoft.com/ef/) számos eszközt nyújt az adatbázis-műveletek újrapróbálásához. Emellett a legtöbb Azure-szolgáltatás és ügyféloldali SDK is tartalmaz újrapróbálkozási mechanizmust. További információkért tekintse meg [az adott szolgáltatásokra vonatkozó újrapróbálkozási útmutatást](/azure/architecture/best-practices/retry-service-specific).
+> A [Microsoft Entity Framework](/ef) számos eszközt nyújt az adatbázis-műveletek újrapróbálásához. Emellett a legtöbb Azure-szolgáltatás és ügyféloldali SDK is tartalmaz újrapróbálkozási mechanizmust. További információkért tekintse meg [az adott szolgáltatásokra vonatkozó újrapróbálkozási útmutatást](/azure/architecture/best-practices/retry-service-specific).
 
 ## <a name="issues-and-considerations"></a>Problémák és megfontolandó szempontok
 
@@ -177,4 +177,4 @@ private bool IsTransient(Exception ex)
 
 - [Áramkör-megszakítási minta](./circuit-breaker.md). Az újrapróbálkozási minta átmeneti hibák kezeléséhez hasznos. Ha egy hiba várhatóan tartósabb, célszerűbb lehet az áramkör-megszakítási mintát implementálni. Az újrapróbálkozási minta áramkör-megszakítási mintával együtt is használható a hibák átfogóbb kezelése érdekében.
 - [Újrapróbálkozási útmutatás adott szolgáltatásoknál](/azure/architecture/best-practices/retry-service-specific)
-- [Kapcsolat rugalmassága](https://docs.microsoft.com/ef/core/miscellaneous/connection-resiliency)
+- [Kapcsolat rugalmassága](/ef/core/miscellaneous/connection-resiliency)

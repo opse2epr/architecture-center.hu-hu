@@ -8,11 +8,11 @@ ms.date: 02/11/2019
 description: Biztonsági alapmértékekkel, a mutatók és a szervezet kockázattűrési határát
 author: BrianBlanchard
 ms.openlocfilehash: 30deafca59b2e09c78432ad3b59d328fb27a1e2c
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899294"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298430"
 ---
 # <a name="security-baseline-metrics-indicators-and-risk-tolerance"></a>Biztonsági alapmértékekkel, a mutatók és a szervezet kockázattűrési határát
 

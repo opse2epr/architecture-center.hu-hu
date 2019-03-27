@@ -1,14 +1,18 @@
 ---
 title: 'CAF: Bevezetés a szabályozásoknak való megfelelőséget'
-description: Mit jelent a szabályozásoknak való megfelelőséget
+titleSuffix: Microsoft Cloud Adoption Framework for Azure
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
+description: Bevezetés a szabályozásoknak való megfelelőséget
 author: BrianBlanchard
-ms.date: 2/8/2019
-ms.openlocfilehash: 5ff7b591d7cab647a99cee223e6271928e185a2f
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 3703367dd03b63e5ecf86408ab29dafc7a6e494d
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899406"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298605"
 ---
 # <a name="introduction-to-regulatory-compliance"></a>Bevezetés a szabályozásoknak való megfelelőséget
 
@@ -36,7 +40,7 @@ Személyes azonosításra alkalmas adatok (PII) minden olyan datapoint egy fogya
 
 ## <a name="gdpr"></a>GDPR
 
-Ez a terület legfontosabb végbement egyik, a legutóbbi hatálybalépésével tovább bővült az Európai Bizottság, az általános adatvédelmi rendelet (GDPR), megerősítése az Európai Unióban egyéni felhasználók számára az adatok védelmére terveztek. GDPR igényel adataink egyéni felhasználók számára, mint például "nevét, egy otthoni cím, egy fényképet, egy e-mail-címet, banki részletei, közzéteszi a közösségi hálózati webhelyek, orvosi adatok vagy a számítógép IP-cím" megőrzi az EU-kiszolgálók és a ki nem viszi át azt. Vállalatok felhasználók bármilyen adatokat adatszivárgás értesítést kap, és, amely a vállalatok megbízások rendelkezik egy adatvédelmi tisztviselő is szükséges. Más országok van, vagy fejleszt szabályzat hasonló típusú.
+Ez a terület legfontosabb végbement egyik, a legutóbbi hatálybalépésével tovább bővült az Európai Bizottság, az általános adatvédelmi rendelet (GDPR), megerősítése az Európai Unióban egyéni felhasználók számára az adatok védelmére terveztek. Általános adatvédelmi rendelet igényli az egyéni felhasználók számára vonatkozó adatokat (például "nevét, egy otthoni cím, egy fényképet, egy e-mail-címet, banki részletei, közösségi hálózati webhelyek, orvosi adatok vagy a számítógép IP-cím bejegyzések") megőrzi az EU-kiszolgálók és a ki nem viszi át azt. Vállalatok felhasználók bármilyen adatokat adatszivárgás értesítést kap, és, amely a vállalatok megbízások rendelkezik egy adatvédelmi tisztviselő is szükséges. Más országok van, vagy fejleszt szabályzat hasonló típusú.
 
 ## <a name="compliant-foundation-in-azure"></a>Az Azure-ban alapot
 

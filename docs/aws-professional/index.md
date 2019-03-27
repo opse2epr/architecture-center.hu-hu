@@ -1,21 +1,16 @@
 ---
 title: Azure AWS-szakembereknek
 titleSuffix: Azure Architecture Center
-description: Megismerkedhet a Microsoft Azure-fiókok, -szolgáltatások és -platform alapjaival. Emellett az AWS és az Azure platform legfontosabb hasonlóságait és különbségeit is megismerheti. Hasznosítsa az AWS-sel kapcsolatos tapasztalatait az Azure-ban.
-keywords: AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlítása, azure és aws közötti különbségek, azure és aws
+description: 'Megismerkedhet a Microsoft Azure-fiókok, -szolgáltatások és -platform alapjaival. Emellett az AWS és az Azure platform legfontosabb hasonlóságait és különbségeit is megismerheti. Hasznosítsa az AWS-sel kapcsolatos tapasztalatait az Azure-ban.'
+keywords: 'AWS-szakértők, az Azure összehasonlítása, az AWS összehasonlítása, azure és aws közötti különbségek, azure és aws'
 author: lbrader
 ms.date: 09/19/2018
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: c61758494435f61814953ab5ba48d8fed1e709ab
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897592"
 ---
+
 # <a name="azure-for-aws-professionals"></a>Azure AWS-szakembereknek
 
 Ennek a cikknek a segítségével az Amazon Web Services- (AWS-) szakértők megismerkedhetnek a Microsoft Azure-fiókok, -szolgáltatások és -platform alapjaival. Emellett az AWS és az Azure platform legfontosabb hasonlóságait és különbségeit is ismerteti.
@@ -300,9 +295,9 @@ Az Azure hasonló, helyek közötti dedikált kapcsolatokat nyújt az [ExpressRo
 
 Az Azure több különböző relációsadatbázis-szolgáltatást kínál, amelyek az AWS Relational Database Service (RDS) megfelelői.
 
-- [SQL Database](https://docs.microsoft.com/azure/sql-database/sql-database-technical-overview)
-- [Azure Database for MySQL](https://docs.microsoft.com/azure/mysql/overview)
-- [Azure Database for PostgreSQL](https://docs.microsoft.com/azure/postgresql/overview)
+- [SQL Database](/azure/sql-database/sql-database-technical-overview)
+- [Azure Database for MySQL](/azure/mysql/overview)
+- [Azure Database for PostgreSQL](/azure/postgresql/overview)
 
 Egyéb adatbázismotorok, például az [SQL Server](https://azure.microsoft.com/services/virtual-machines/sql-server/), az [Oracle](https://azure.microsoft.com/campaigns/oracle/) és a [MySQL](https://azure.microsoft.com/documentation/articles/virtual-machines-windows-classic-mysql-2008r2/), Azure-beli virtuálisgép-példányokkal helyezhetők üzembe.
 

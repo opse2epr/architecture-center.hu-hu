@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
 ms.openlocfilehash: 14adb9de7f46c3196e893451859385d87212b375
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54482392"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298893"
 ---
 # <a name="enterprise-bi-in-azure-with-sql-data-warehouse"></a>Vállalati bi-ban az Azure SQL Data Warehouse-ban
 
@@ -206,7 +206,7 @@ A telepítés, és futtassa a referenciaimplementációt, kövesse a lépéseket
 
 - Azure Data Factory használatával az ELT folyamatok automatizálásához. Lásd: [vállalati bi-ban az SQL Data Warehouse és az Azure Data Factory automatikus][adf-ra].
 
-## <a name="related-resources"></a>Kapcsolódó erőforrások
+## <a name="related-resources"></a>Kapcsolódó források (lehet, hogy a cikkek angol nyelvűek)
 
 Tekintse át az alábbiakat érdemes [Azure példaforgatókönyvek](/azure/architecture/example-scenario) , amelyek bemutatják, hogy egyes technológiákat használó adott megoldások:
 

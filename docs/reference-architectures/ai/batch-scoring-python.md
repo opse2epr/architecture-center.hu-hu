@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai, AI
-ms.openlocfilehash: 81dc353735eaa6573c72d9e588c949fe96a329ef
-ms.sourcegitcommit: eee3a35dd5a5a2f0dc117fa1c30f16d6db213ba2
+ms.openlocfilehash: 8ecaed9f69d030de7a9e12ea8d6acb493a5e7c83
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/06/2019
-ms.locfileid: "55782013"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299528"
 ---
 # <a name="batch-scoring-of-python-models-on-azure"></a>Batch-pontozás Python-modellek az Azure-ban
 
@@ -49,9 +49,9 @@ Ez az architektúra a következő összetevőkből áll:
 
 ## <a name="performance-considerations"></a>A teljesítménnyel kapcsolatos megfontolások
 
-Standard Python-modellek általánosan elfogadott, hogy a processzorok elegendőek a számítási feladatok kezelésére. Ez az architektúra processzorokat használ. Azonban a [mély tanulási célú számítási feladatokhoz][deep], gpu-k általában teljesítményben felülmúlják CPU jelentős szerint – processzorok marketingre fürt általában szükség hasonló teljesítmény eléréséhez.
+Standard Python-modellek általánosan elfogadott, hogy a processzorok elegendőek a számítási feladatok kezelésére. Ez az architektúra processzorokat használ. Azonban a [mély tanulási célú számítási feladatokhoz][deep], gpu-k általában teljesítményben felülmúlják CPU jelentős által &mdash; processzorok marketingre fürt általában szükség hasonló teljesítmény eléréséhez.
 
-### <a name="parallelizing-across-vms-vs-cores"></a>Virtuális gépek és magok közötti párhuzamosan futtatni
+### <a name="parallelizing-across-vms-versus-cores"></a>Magok és a virtuális gépen párhuzamosan futtatni
 
 Futó folyamatok sok modellek pontozása kötegelt módban, a feladatok kell példánylista méretezésnek megfelelően. Két módszer is lehetséges:
 
@@ -87,7 +87,7 @@ Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lép
 [amls]: /azure/machine-learning/service/overview-what-is-azure-ml
 [automatic-scaling]: /azure/batch/batch-automatic-scaling
 [azure-files]: /azure/storage/files/storage-files-introduction
-[cli]: https://docs.microsoft.com/en-us/cli/azure
+[cli]: /cli/azure
 [create-resources]: https://github.com/Microsoft/AMLBatchScoringPipeline/blob/master/01_create_resources.ipynb
 [deep]: /azure/architecture/reference-architectures/ai/batch-scoring-deep-learning
 [event-hubs]: /azure/event-hubs/event-hubs-geo-dr
@@ -95,10 +95,10 @@ Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lép
 [github]: https://github.com/Microsoft/AMLBatchScoringPipeline
 [one-class-svm]: http://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html
 [portal]: https://portal.azure.com
-[ml-workspace]: https://docs.microsoft.com/en-us/azure/machine-learning/studio/create-workspace
+[ml-workspace]: /azure/machine-learning/studio/create-workspace
 [python-script]: https://github.com/Azure/BatchAIAnomalyDetection/blob/master/batchai/predict.py
 [pyscript]: https://github.com/Microsoft/AMLBatchScoringPipeline/blob/master/scripts/predict.py
 [storage]: /azure/storage/blobs/storage-blobs-overview
 [stream-analytics]: /azure/stream-analytics/
-[sql-database]: https://docs.microsoft.com/en-us/azure/sql-database/
-[app-insights]: https://docs.microsoft.com/en-us/azure/application-insights/app-insights-overview
+[sql-database]: /azure/sql-database/
+[app-insights]: /azure/application-insights/app-insights-overview

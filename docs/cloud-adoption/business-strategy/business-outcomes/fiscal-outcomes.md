@@ -1,21 +1,21 @@
 ---
-title: 'CAF: Példák a pénzügyi eredmények'
+title: 'CAF: Példák költségvetési eredményekre'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
-description: Példák a pénzügyi eredmények
+description: Példák költségvetési eredményekre
 author: BrianBlanchard
 ms.date: 10/10/2018
 ms.topic: guide
-ms.openlocfilehash: c181133aa238bb631d844cd72a21165b85e47936
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: a38c87254b368c45fc4b70e6ee1f94e86ad1068f
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897082"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298666"
 ---
-# <a name="examples-of-fiscal-outcomes"></a>Példák a pénzügyi eredmények
+# <a name="examples-of-fiscal-outcomes"></a>Példák költségvetési eredményekre
 
 A legfelső szinten pénzügyi beszélgetések három alapvető fogalmait áll:
 
@@ -50,23 +50,23 @@ Ritkán nem egyetlen erőfeszítés egyszerre bevétel növelésében és a köl
 
 ### <a name="cost-reduction"></a>Költségcsökkentés
 
-A felhő-számítástechnika, csökkentheti a beruházási költségek (CapEx) kapcsolatos hardver- és mentesülhet, adatközpontok beállítása, futtató helyszíni adatközpontokban, és így tovább... A kiszolgálók állványokon, non-stop tápellátáshoz és áram, és az informatikai szakértők az infrastruktúra kezelésére alkalmas hozzáadja gyorsan. Egy adatközpont leáll, csökkentheti a CapEx kötelezettségvállalás. Ezt gyakran nevezik "Első kívüli the Data Center üzleti". Költségcsökkentés aktuális költségvetést, 1 – 5 évig, attól függően, hogyan kezeli a pénzügyi vezetőnek Követnie a pénzügyi sikerült span dollárban általában mérjük.
+A felhő-számítástechnika, csökkentheti a beruházási költségek (CapEx) kapcsolatos hardver- és mentesülhet, adatközpontok beállítása, futtató helyszíni adatközpontokban, és így tovább... A kiszolgálók állványokon, non-stop tápellátáshoz és áram, és az informatikai szakértők az infrastruktúra kezelésére alkalmas hozzáadja gyorsan. Egy adatközpont leáll, csökkentheti a CapEx kötelezettségvállalás. Ez a más néven "nem a datacenter első". Költségcsökkentés általában öt évig attól függően, hogyan kezeli a pénzügyi vezetőnek Követnie a pénzügyi sikerült span aktuális költségvetési dollárban mérjük.
 
-* 1. példa: A vállalati adatközpontban elég nagy százalékos éves informatikai költségvetésének keresztül. Informatikai úgy dönt, hogy hajtsa végre a egy működési átalakítást egy áttelepíti az eszközök abban, hogy az Adatközpont-infrastruktúra-szolgáltatás (IaaS) megoldások, mint a 3 éves költségek csökkentéséhez létrehozása.
-* 2. példa Egy nemrég felvásárolta az új vállalat. A beszerzési a feltételek szabályozzák, hogy az új entitást el kell távolítani az aktuális adatközpontokból 6 hónapon belül. Ezt a $1 millió/hó finom üzem vállalatnak eredményez. A digitális eszközeit a felhőre való a egy működési átalakításában szerepel a régi eszközök egy gyors decommission tehet lehetővé.
+* 1. példa: A vállalati adatközpont álló éves informatikai költségvetésének számlák. Informatikai úgy dönt, hogy hajtsa végre a egy működési átalakítást egy áttelepíti az eszközöket, hogy az adatközpontban infrastruktúra-szolgáltatás (IaaS) megoldások, mint egy három éves költségek csökkentéséhez létrehozása.
+* 2. példa Egy nemrég felvásárolta az új vállalat. A beszerzési feltételei szabályozzák, hogy az új entitást el kell távolítani az aktuális adatközpontokból hat hónapon belül. Ezt a $1 millió/hó finom üzem vállalatnak eredményez. A digitális eszközeit a felhőre való a egy működési átalakításában szerepel a régi eszközök egy gyors decommission tehet lehetővé.
 * 3. példa: Egy adó vállalat, amely a fogyasztók számára caters éves bevétel 70 %-át élmény az év első három hónapjában. Az év, a nagyméretű informatikai befektetések megszabhatja viszonylag inaktív része. Egy operatív átalakítással lehetővé teszi, hogy a számítási és tároló üzembe ezen három hónapig szükséges kapacitás. A fennmaradó kilenc hónap során az IaaS lehetne jelentősen csökkenteni a költségeket a számítási erőforrás-igényű zsugorításával.
 
 ### <a name="coverdell"></a>Coverdell
 
-Coverdell modernizálja alapjául az Azure-ral rekord költségmegtakarítást infrastruktúrán. Sikerült a vállalat minden eddiginél várt további költségmegtakarítást Coverdell a döntés fektet az Azure-ban, és a webhelyek, alkalmazások, adatok és infrastruktúra ebben a környezetben lévő hálózati egyesítése vezetett. A migrálás csak az Azure-környezethez 54 000 USD-t a bérelt kiszolgálói szolgáltatások havi költségek nem szükséges. A vállalat új, Egyesült infrastruktúrával önmagában Coverdell vár egy becsült 1 millió USD-t menteni a következő évben 2 – 3.
+Coverdell modernizálja alapjául az Azure-ral rekord költségmegtakarítást infrastruktúrán. Sikerült a vállalat minden eddiginél várt további költségmegtakarítást Coverdell a döntés fektet az Azure-ban, és a webhelyek, alkalmazások, adatok és infrastruktúra ebben a környezetben lévő hálózati egyesítése vezetett. Csak az Azure-környezetben való migrálás 54 000 USD a bérelt kiszolgálói szolgáltatások havi költségek nem szükséges. A vállalat új, Egyesült infrastruktúrával önmagában Coverdell vár egy becsült $1 M USD-t menteni a következő két-három évben.
 "Az ajtó néhány skálázható, könnyen megvalósítható és költséghatékony, magas rendelkezésre állású megoldások férhető hozzá a az Azure-technológiák megnyílik. Ez lehetővé teszi a megoldástervezők az nyújtanak megoldások sokkal kreatívabb is."
-Ryan Sorensen: Alkalmazások fejlesztése és a vállalati architektúra Coverdell igazgató
+Ryan Sorensen, igazgató, alkalmazásfejlesztés és a vállalati architektúra Coverdell
 
 ### <a name="cost-avoidance"></a>Költségek elkerülése
 
-Megszakítást okozó adatközpontokban is lehetővé teszi költségek elkerülését, megakadályozzák, hogy a későbbi adatfrissítési ciklusok. A frissítés során a rendszer új hardver vásárlása és elévülési lecserélik a helyszíni rendszerekben. Az Azure-ban hardver- és az operációs rendszer rendszeresen tartani, javítva, és frissíti az ügyfelek számára további költségek nélkül. Ez lehetővé teszi egy pénzügyi igazgató, távolítsa el a tervezett jövőbeli hosszú távú pénzügyi előrejelzések a költségek. Költsége elkerülő dollárban mérjük. Költségcsökkentés, annak, hogy általánosan foglalkozik, amely nincs teljes mértékben jóváhagyva még jövőbeni költségvetési abban különbözik.
+Megszakítást okozó adatközpontokban is eredményezhet költségek elkerülését megakadályozzák, hogy a későbbi adatfrissítési ciklusok. A frissítés során a rendszer új hardver vásárlása és elévülési lecserélik a helyszíni rendszerekben. Az Azure-ban hardver- és az operációs rendszer rendszeresen tartani, javítva, és frissíti az ügyfelek számára további költségek nélkül. Ez lehetővé teszi egy pénzügyi igazgató, távolítsa el a tervezett jövőbeli hosszú távú pénzügyi előrejelzések a költségek. Költsége elkerülő dollárban mérjük. Költségcsökkentés, annak, hogy általánosan foglalkozik, amely nincs teljes mértékben jóváhagyva még jövőbeni költségvetési abban különbözik.
 
-* Példa: A vállalati adatközpontban regisztrálásához a bérlet megújítási van 6 hónap. Data center által lett 8 évig szolgáltatásban. 4 évvel ezelőtt, a kiszolgálók mindegyikének lettek frissítve, és a vállalat ára $ virtualizált több millió. Következő év, a vállalat újból frissíteni a hardver- és a tervet. Az eszközök, adatközpont migrálása a egy működési átalakítást részeként kell létrehoznia a költségek elkerülése, a tervezett frissítés távolítsa el a következő évre előre jelzett költségvetés. Ez sikerült is előállíthat a költségek csökkentéséhez csökkentésével, vagy távolítsa el a ingatlan bérleti költségeket.
+* Példa: A vállalati adatközpont hat hónapon belül van a bérlet megújítási regisztrálásához. Azt az adatközpontot nyolc éve service-ben lett. Négy évvel ezelőtt, a kiszolgálók mindegyikének lettek frissítve, és a vállalat ára $ virtualizált több millió. Következő év, a vállalat újból frissíteni a hardver- és a tervet. Áttelepítés az eszközöket a vállalati adatközpontban, a egy működési átalakítást részeként kell létrehoznia a költségek elkerülését, a tervezett frissítés a következő évre előre jelzett költségvetés eltávolításával. Ez sikerült is előállíthat a költségek csökkentéséhez csökkentésével, vagy távolítsa el a ingatlan bérleti költségeket.
 
 ### <a name="capex-versus-opex"></a>CapEx helyett OpEx
 
@@ -78,7 +78,7 @@ Az alábbi feltételek célja, hogy az állomások CapEx- és OpEx közötti kü
 * **Beruházási költségek (CapEx)** ráfordítás által generált számos előnyt biztosít, hosszú távon van. Az ilyen költség általában nem ismétlődő és állandó eszközök beszerzése eredményez. Alkalmazás készítése egy beruházna sikerült minősülnek.
 * **Üzemeltetési költségek (OpEx)** -kiadás, amely egy üzleti tevékenységet folytató folyamatos költsége van. A cloud services, a használatalapú modell felhasználása az üzemeltetési költségek minősülnek sikerült.
 * Az eszközintelligencia egy gazdasági erőforrás tulajdonosa vagy ellenőrzött értéket. Kiszolgálók, a Data Lake tárolók és az alkalmazások összes tekinthető eszközök.
-* **Amortizációs** hogyan idővel csökken az érték egy eszköz van. Az állomások CapEx-és OpEx beszélgetés relevánsabb egy eszköz a költségek kiosztás, amelyben használt időszakok között. Például ha hoz létre egy alkalmazást ebben az évben, de azt kellene rendelkeznie, egy átlagos kereskedelmi-élettartama (például a legtöbb kereskedelmi alkalmazások) 5 évig, majd a fejlesztői csapat és a szükséges eszközök létrehozása és üzembe helyezése a kódbázis szükséges lenne kell értékcsökkentett egyenletesen öt y keresztül füleken.
+* **Amortizációs** hogyan idővel csökken az érték egy eszköz van. Az állomások CapEx-és OpEx beszélgetés relevánsabb egy eszköz a költségek kiosztás, amelyben használt időszakok között. Például ha hoz létre egy alkalmazást ebben az évben, de azt kellene rendelkeznie, egy átlagos kereskedelmi-élettartama (például a legtöbb kereskedelmi alkalmazások) öt évig, majd a fejlesztői csapat és a szükséges eszközök létrehozása és üzembe helyezése a kódbázis szükséges lenne kell értékcsökkentett egyenletes több mint öt év során.
 * **Értékelési** becslése mennyi egy vállalat, amely egyenértékű során a rendszer. A legtöbb iparágakban értékelési alapján a vállalat képes készítése a bevétel és a profitot, a működési költségek mellett kell létrehoznia a cikkeket, adja meg, hogy a bevétel felhőplatformon. Bizonyos szektorokban, például a kereskedelmi, vagy privát tőke például néhány tranzakciótípusok eszközök és amortizációs lejátszhatja nagy részét a cég értékelési.
 
 Ez a legtöbbször egy biztonságos tippet, hogy különböző vezetők, beleértve a CIO folytatott tanácskozások, nő a vállalat a megfelelő irányba tőke használható a leghatékonyabban. Jogosultságot ad a CIO versenyhelyzetében CapEx átalakításával azt jelenti, hogy a beszélgetések egyértelmű OpEx accountability be egy vonzó serkenti az eredményt önmagában lehet. Számos iparágban vezető pénzügyi igazgatók (pénzügyi) vannak aktívan értelmezéséért jobban a alatt eladott termékek ára a pénzügyi accountability társítása.
@@ -87,4 +87,4 @@ Azonban bármely Átalakulásunkhoz társítása CapEx OpEx átalakítás ilyen 
 
 OpEx akkor javasolt, ha az alábbi példa lehet egy működőképes üzleti eredmény:
 
-* Példa: A vállalati adatközpontban, a következő 3 évig évenként $X jelenleg van függvényében. Szeretné frissíteni a hardvert a következő évben egy további $Y várható. Azt is alakítják át az összes, hogy az állomások CapEx-még akkor is, $Z áfatartalma OpEx modellre/hónap, amely lehetővé teszi a hatékonyabb felügyelet és felelősségre vonhatóság, az operációs költségek technológia.
+* Példa: A vállalati adatközpont jelenleg függvényében, a következő három év esetében évenként $X címen. Szeretné frissíteni a hardvert a következő évben egy további $Y várható. Azt is alakítják át az összes, hogy az állomások CapEx-még akkor is, $Z áfatartalma OpEx modellre/hónap, amely lehetővé teszi a hatékonyabb felügyelet és felelősségre vonhatóság, az operációs költségek technológia.

@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
 ms.openlocfilehash: f4ffe9c5cdd7a53ab8359ef303076c5e53e9e45c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485213"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299570"
 ---
 # <a name="content-delivery-networks-cdns"></a>Tartalomkézbesítési hálózatok (CDN)
 
@@ -73,7 +73,7 @@ Forgatókönyvek, ahol a CDN nem túl hasznos megoldás:
 
 A CDN használata kiváló módszer az alkalmazások terhelésének minimalizálására, valamint a lehető legmagasabb szintű rendelkezésre állás és teljesítmény elérésére. Érdemes lehet ezt a stratégiát alkalmazni az alkalmazás által használt összes megfelelő tartalomhoz és erőforráshoz. Amikor megtervezi a CDN-használati stratégiáját, vegye figyelembe az alábbi szempontokat.
 
-### <a name="deployment"></a>Üzemelő példány
+### <a name="deployment"></a>Környezet
 
 Előfordulhat, hogy a statikus tartalmat az alkalmazástól függetlenül kell létrehozni és telepíteni, ha nem vonja be az alkalmazástelepítési csomagba vagy folyamatba. Gondolja végig, milyen hatással lesz ez az alkalmazás összetevői és a statikus erőforrás-tartalom kezeléséhez használt verziókezelési stratégiára.
 
@@ -103,7 +103,7 @@ További információkért lásd: [A gyorsítótárazás működése](/azure/cdn
 
 Ha azt szeretné, hogy bizonyos objektumok ne legyenek elérhetők a CDN-en, törölheti őket a forrásról, eltávolíthatja vagy törölheti a CDN-végpontot, illetve Blob Storage esetén priváttá teheti a tárolót vagy blobot. Az elemek azonban az alapértelmezett élettartam lejártáig nem törlődnek. A CDN-végpontok manuálisan is véglegesen törölhetők.
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 A CDN a CDN által kiállított tanúsítvány használatával képes HTTPS (SSL) protokollon keresztül is kézbesíteni tartalmat, és standard HTTP-n keresztül is. A böngészőben megjelenő figyelmeztetések és a vegyes tartalom elkerülése érdekében érdemes HTTPS protokollon keresztül elérnie a HTTPS-en keresztül betöltött oldalakon megjelenő statikus tartalmat.
 

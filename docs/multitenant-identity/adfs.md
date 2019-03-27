@@ -9,12 +9,12 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: token-cache
 pnp.series.next: client-assertion
-ms.openlocfilehash: d095283531c1183726ebf132707aaede1f03f09b
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: b129d2de8ea3f19df8aa38cc4660885f22f9d9c6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897269"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299638"
 ---
 # <a name="federate-with-a-customers-ad-fs"></a>Összevonás az ügyfél AD FS szolgáltatásával
 
@@ -24,7 +24,7 @@ Ez a cikk bemutatja, hogyan egy több-bérlős SaaS-alkalmazáshoz is támogatj�
 
 Az Azure Active Directory (Azure AD) megkönnyíti a felhasználók az Azure AD-bérlő, többek között az Office 365 és Dynamics CRM Online ügyfelek. De mi a helyzet ügyfeleink, akik a helyszíni Active Directory a vállalati intraneten?
 
-Az egyik lehetőség van, ezek az ügyfelek számára a helyszíni AD és az Azure AD szinkronizálása használatával [Azure AD Connect]. Egyes ügyfeleink azonban nem használható ezzel a módszerrel a vállalati informatikai házirend miatt vagy egyéb okból kifolyólag lehet. Ebben az esetben egy másik lehetőség, hogy az Active Directory összevonási szolgáltatások (AD FS) keresztül vonhat össze.
+Az egyik lehetőség van, ezek az ügyfelek számára, hogy szinkronizálja a helyszíni AD és az Azure AD használatával [Azure AD Connect]. Egyes ügyfeleink azonban nem használható ezzel a módszerrel a vállalati informatikai házirend miatt vagy egyéb okból kifolyólag lehet. Ebben az esetben egy másik lehetőség, hogy az Active Directory összevonási szolgáltatások (AD FS) keresztül vonhat össze.
 
 Ebben a forgatókönyvben engedélyezése:
 

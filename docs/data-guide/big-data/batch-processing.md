@@ -6,12 +6,12 @@ ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 6483b600e657cf0325fc63a645621ccf6c404bb4
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: ea8eb7ca5e4c06c03729f54428931d28a4f3fa5b
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481983"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298849"
 ---
 # <a name="batch-processing"></a>Kötegelt feldolgozás
 
@@ -53,7 +53,7 @@ A következő technológiákat használata akkor javasolt lehetőségek a köteg
 
 ### <a name="data-storage"></a>Adattárolás
 
-- **Az Azure Storage-Blobtárolók**. Számos meglévő Azure üzleti folyamat már használatba az Azure blob storage, ami megfelelő választás az olyan big data store-ban.
+- **Az Azure Storage-Blobtárolók**. Számos meglévő Azure üzleti folyamatok már használja az Azure blob storage, ami megfelelő választás az olyan nagy adattárban.
 - **Az Azure Data Lake Store**. Az Azure Data Lake Store bármilyen méretű fájlt, és a széles körű biztonsági beállítások, az gyakorlatilag korlátlan tárhelyet kínál, így a megfelelő választás az olyan rendkívül nagy méretű big data-megoldás, amely egy központi tárolóban igényel a heterogén formátumú adatokat.
 
 További információkért lásd: [adattárolás](../technology-choices/data-storage.md).
@@ -88,7 +88,7 @@ További információkért lásd: [analitikus adattárak](../technology-choices/
 
 További információkért lásd: [elemzések és jelentéskészítés](../technology-choices/analysis-visualizations-reporting.md).
 
-### <a name="orchestration"></a>Vezénylés
+### <a name="orchestration"></a>Adat-előkészítés
 
 - **Az Azure Data Factory**. Az Azure Data Factory-folyamatok ismétlődő historikus windows az ütemezett tevékenységek sorozatát meghatározására használható. Ezek a tevékenységek kezdeményezheti a másolási műveletek, valamint igény szerinti HDInsight-fürtök; Hive, Pig, MapReduce vagy Spark-feladatok Az Azure dátum Lake Analyticsben; U-SQL-feladatok és az Azure SQL Data Warehouse vagy az Azure SQL Database tárolt eljárásokat.
 - **Az Oozie** és **Sqoop**. Oozie szolgáló feladat automatizálási motor az Apache Hadoop-ökoszisztéma és kezdeményezése a másolási műveletek, valamint a Hive, Pig és MapReduce-feladatok adatok feldolgozását és másolhat adatokat a HDFS- és SQL-adatbázisok közötti Sqoop feladatok is használható.

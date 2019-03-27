@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 70c18e1a5294b09bb156d2af06af7a32d33858da
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485474"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299250"
 ---
 # <a name="online-analytical-processing-olap"></a>Online analitikus feldolgozás (OLAP)
 
@@ -60,14 +60,14 @@ Szemantikai modellezés és analitikus feldolgozás általában a következő je
 | Követelmény | Leírás |
 | --- | --- |
 | Séma | Séma, erősen kényszerítése|
-| Használja a tranzakciók | Nincs |
+| Használja a tranzakciók | Nem |
 | Zárolási stratégia | None |
 | Updateable | Nem (legtöbbször adatkocka újraszámítása) |
 | Appendable | Nem (legtöbbször adatkocka újraszámítása) |
 | Számítási feladat | Nehéz olvasási, csak olvasható |
 | Indexelés | Többdimenziós indexelése |
 | Datum mérete | Kis és közepes méretű |
-| Típus | Többdimenziós |
+| Modell | Többdimenziós |
 | Adatalakzat:| Adatkocka vagy a csillag/snowflake-séma |
 | Rugalmas lekérdezés | Rendkívül rugalmas |
 | Méretezési csoport: | Nagy méretű (10 egység-100s GB) |
@@ -134,12 +134,12 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | | Azure Analysis Services | SQL Server Analysis Services | Az Oszlopcentrikus indexek az SQL Server | Az Oszlopcentrikus indexek az Azure SQL Database |
 | --- | --- | --- | --- | --- |
 | A felügyelt szolgáltatás | Igen | Nem | Nem | Igen |
-| Többdimenziós kockák támogatja | Nincs | Igen | Nem | Nincs |
-| Támogatja a táblázatos szemantikai modelleket | Igen | Igen | Nem | Nincs |
+| Többdimenziós kockák támogatja | Nem | Igen | Nem | Nem |
+| Támogatja a táblázatos szemantikai modelleket | Igen | Igen | Nem | Nem |
 | Egyszerű integrálás több adatforráshoz | Igen | Igen | No <sup>1</sup> | No <sup>1</sup> |
-| Támogatja a valós idejű elemzés | Nincs | Nem | Igen | Igen |
-| Folyamat adatokat másol (ok) hoz van szükség | Igen | Igen | Nem | Nincs |
-| Az Azure AD-integráció | Igen | Nincs | Nem <sup>2</sup> | Igen |
+| Támogatja a valós idejű elemzés | Nem | Nem | Igen | Igen |
+| Folyamat adatokat másol (ok) hoz van szükség | Igen | Igen | Nem | Nem |
+| Az Azure AD-integráció | Igen | Nem | Nem <sup>2</sup> | Igen |
 
 <!-- markdownlint-enable MD033 -->
 
@@ -152,5 +152,5 @@ A(z) [2] csatlakozás egy Azure virtuális gépen futó SQL Server egy Azure AD-
 |                                                  | Azure Analysis Services | SQL Server Analysis Services | Az Oszlopcentrikus indexek az SQL Server | Az Oszlopcentrikus indexek az Azure SQL Database |
 |--------------------------------------------------|-------------------------|------------------------------|-------------------------------------|---------------------------------------------|
 | Redundáns regionális kiszolgálók magas rendelkezésre állás érdekében |           Igen           |              Nem              |                 Igen                 |                     Igen                     |
-|             Támogatja a lekérdezés horizontális felskálázás             |           Igen           |              Nem              |                 Igen                 |                     Nincs                      |
-|          A dinamikus méretezhetőség (vertikális felskálázási)          |           Igen           |              Nem              |                 Igen                 |                     Nincs                      |
+|             Támogatja a lekérdezés horizontális felskálázás             |           Igen           |              Nem              |                 Igen                 |                     Nem                      |
+|          A dinamikus méretezhetőség (vertikális felskálázási)          |           Igen           |              Nem              |                 Igen                 |                     Nem                      |

@@ -7,19 +7,19 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Ismerje meg erőforrás-szervezetben és a címkézés Azure áttelepítések core szolgáltatás.
 author: rotycenh
-ms.openlocfilehash: 0da9f698fc7ac2db876409ad451adf7b12cf6e6b
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: e7f39fe31dc809286cdb45b857f1d7370e3bf9d4
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899106"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298453"
 ---
 # <a name="resource-organization-and-tagging-decision-guide"></a>Erőforrás-szervezetben és címkézési döntési útmutató
 
 Felhőalapú erőforrások rendszerezéséhez az egyik legfontosabb feladatai informatikai, kivéve, ha nagyon egyszerű üzembe. Az erőforrások rendszerezéséhez szolgálja ki a három elsődleges célja:
 
 - **Az erőforrás-kezelés**. Az IT-csoportoknak kell gyorsan megtalálhatja az adott számítási feladatokhoz, környezetek, tulajdonosi csoportok vagy egyéb fontos információk társított erőforrások. Erőforrások rendszerezése fontos szervezeti szerepköröket és a hozzáférési engedélyeket az erőforrás-kezelés hozzárendelését.
-- **Műveletek**. Amellett erőforrások számára könnyebb informatikai részleg felügyelje, a megfelelő szervezeti séma lehetővé teszi, hogy kihasználni az automatizálás az erőforrás-létrehozás, a műveletek figyelése és a fejlesztési és üzemeltetési folyamatok létrehozásának részeként.
+- **Automation**. Amellett erőforrások számára könnyebb informatikai részleg felügyelje, a megfelelő szervezeti séma lehetővé teszi, hogy kihasználni az automatizálás az erőforrás-létrehozás, a műveletek figyelése és a fejlesztési és üzemeltetési folyamatok létrehozásának részeként.
 - **Nyilvántartás**. Így üzleti csoportok felhőalapú erőforrás-használat tisztában van szükség, hogy megérteni, milyen számítási feladatokat és a csapatok mely erőforrásokat használják. Támogatja a módszerekkel, például a jóváírás és költséghelyi elszámolási, a felhőbeli erőforrások kell tulajdonosi és a használat lehetséges felépítésére.
 
 ## <a name="tagging-decision-guide"></a>Címkézési döntési útmutató
@@ -30,13 +30,13 @@ Ugrás ide: [Alapkonfiguráció elnevezési konvenciók](#baseline-naming-conven
 
 A címkézési módszer lehet egyszerű vagy összetett, és a támogató felhőalapú számítási feladatokhoz, integrálható a teljes üzleti minden aspektusát vonatkozó információk kezelése informatikai csapata hozza létre a hangsúlyt.
 
-Egy informatikai igazított címkézési fókusz figyelési eszközök összetettségének csökkentésére, és a funkciókat és sokkal könnyebben besorolás alapján felügyeleti döntéseket.
+Az informatikai címkézési fókusz igazított, például címkézése a számítási feladatok, a függvény vagy a környezetben, fog egyszerűsítse felügyeleti eszközök és sokkal könnyebben működési követelmények alapján felügyeleti döntéseket.
 
-Címkézés nem informatikai házirendek is tartalmazó sémák egy nagyobb időbefektetést követelne címkézési olyan szabványok gyűjteménye, amelyek üzleti érdekében, és a karbantartásához szabványokat létrehozására lehet szükség. Azonban ez a folyamat eredménye egy címkézési system, ami egy továbbfejlesztett lehetőség a fiókra a költségek és az IT-eszközeivel értékét. Ezt a társítást egy eszköz érték, a üzemeltetési költségek egyike a költségek center érzete módosítása első lépése a szervezet számítástechnikai környezetét.
+Fókusz, egy üzleti tartalmazó sémák címkézés igazított, például számlázás, üzleti tulajdonosi vagy üzleti kritikusság szükség lehet egy nagyobb időbefektetést követelne címkézési olyan szabványok gyűjteménye, amelyek üzleti érdekében, és a karbantartásához szabványokat létrehozásához. Azonban ez a folyamat eredménye egy címkézési system, ami egy továbbfejlesztett lehetőség a fiókra a költségek és az IT-eszközeivel átfogó üzleti értékét. Ezt a társítást az eszköz üzleti érték, a üzemeltetési költségek egyike a költségek center érzete módosítása első lépése a szélesebb körű szervezet számítástechnikai környezetét.
 
 ## <a name="baseline-naming-conventions"></a>Alapkonfiguráció elnevezési konvenciók
 
-Szabványos elnevezési szolgál kiindulópontként a a felhőben futó erőforrások rendszerezéséhez. A megfelelően felépített elnevezési rendszer lehetővé teszi, hogy gyorsan azonosíthatja a felügyeleti és számlázási célból erőforrásokat. Ha meglévő informatikai elnevezési konvenciók a szervezet többi részének, érdemes lehet-e a felhő-erőforrások elnevezési konvenciói velük kell igazítani, vagy ha külön felhőalapú szabványok kell létesítenie.
+Szabványos elnevezési szolgál kiindulópontként a a felhőben futó erőforrások rendszerezéséhez. A megfelelően felépített elnevezési rendszer lehetővé teszi, hogy gyorsan azonosíthatja a felügyeleti és számlázási célból erőforrásokat. Ha meglévő informatikai elnevezési konvenciók a szervezet többi részének, érdemes lehet-e az elnevezési konvenciók felhőbeli velük kell igazítani, vagy ha külön felhőalapú szabványok kell létesítenie.
 
 Vegye figyelembe továbbá, hogy különböző Azure-erőforrástípusra jellemzők különböző [elnevezési követelményeknek](../../../best-practices/naming-conventions.md#naming-rules-and-restrictions). Az elnevezési konvenciók elnevezési követelménynek kompatibilisnek kell lennie.
 
@@ -65,7 +65,7 @@ Az alábbiakban néhány gyakori címkézési minták példát:
 A kiosztási és címkézési szabályzat idővel fejlődik. Azonban a felhőbe történő migrálás kezdettől fogva core szervezeti prioritások meghatározásakor, kritikus fontosságú. A tervezési folyamat részeként a alaposan gondolja át az alábbi kérdésekre:
 
 - Hogyan érdemes az elnevezési és címkézési házirendek integrálható a meglévő elnevezési és a szervezeti szabályzatok a szervezeten belül?
-- Végrehajtja a visszatérítés vagy visszajelzés könyvelési rendszer? Hogyan történik a részlegek, üzleti csoportokat vagy a szervezeti struktúrában jelölt csapatok?
+- Végrehajtja a visszatérítés vagy visszajelzés könyvelési rendszer? Szükség lesz a részlegek, az üzleti csoportok és a csapatok részletesebben, mint egy egyszerű előfizetés-szintű lebontása lehetővé teszi, hogy adja meg a számlázási adatokat?
 - Címkézési információkról igazolni szükséges összes erőforrást? Címkézési információkról megvalósításához, vagy nem implementálja az egyes csapatok legfeljebb marad?
 - Nem, amelyek részleteket címkézési kell egy erőforrás jogszabályi követelményeknek? Mi a helyzet a műveleti adatokat, például az üzemidővel kapcsolatos elvárásainak, javítási ütemezések, vagy a biztonsági követelményeknek?
 

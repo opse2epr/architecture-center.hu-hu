@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
 ms.openlocfilehash: 76870f58fc957f6d82f6dc176d1c538c795a7d20
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54486233"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298733"
 ---
 # <a name="pillars-of-software-quality"></a>A szoftverminőség alappillérei
 
@@ -25,7 +25,7 @@ Egy sikeres felhőalkalmazás a szoftverminőség következő öt alappillérér
 | Rendelkezésre állás | Az az időarány, amíg a rendszer működik és üzemel. |
 | Rugalmasság | A rendszer azon képessége, hogy helyreálljon a hibák után, és folytassa a működést. |
 | Kezelés | A rendszert termelési állapotban tartó működési folyamatok. |
-| Biztonsági | Az alkalmazások és adatok védelme a fenyegetésekkel szemben. |
+| Biztonság | Az alkalmazások és adatok védelme a fenyegetésekkel szemben. |
 
 ## <a name="scalability"></a>Méretezhetőség
 
@@ -65,7 +65,7 @@ A rendelkezésre állást gyakran „kilencesekkel” írják le, például a �
 | Üzemidő %-ban | Állásidő hetente | Állásidő havonta | Állásidő évente |
 |----------|-------------------|--------------------|-------------------|
 | 99% | 1,68 óra | 7,2 óra | 3,65 nap |
-| 99,9% | 10 perc | 43,2 perc | 8,76 óra |
+| 99.9% | 10 perc | 43,2 perc | 8,76 óra |
 | 99.95% | 5 perc | 21,6 perc | 4,38 óra |
 | 99.99% | 1 perc | 4,32 perc | 52,56 perc |
 | 99.999% | 6 másodperc | 26 másodperc | 5,26 perc |
@@ -134,7 +134,7 @@ A [fejlesztési és üzemeltetési ellenőrzőlista][devops-checklist] alapján 
 - [Tervezési minták a felügyelethez és monitorozáshoz][management-patterns]
 - Ajánlott eljárások: [Monitorozás és diagnosztika][monitoring]
 
-## <a name="security"></a>Biztonsági
+## <a name="security"></a>Biztonság
 
 A biztonsági megoldásokat alaposan át kell gondolni az alkalmazás teljes életciklusára vonatkozóan, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig. Az Azure platform védelmet nyújt különböző fenyegetések, például hálózati behatolások és DDoS-támadások ellen. Az alkalmazásokba és a fejlesztési és üzemeltetési folyamatokba azonban így is be kell építeni biztonsági megoldásokat.
 

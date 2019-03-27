@@ -8,12 +8,12 @@ description: Értékelje ki a digitális eszközök segítségével meghatározh
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: 02189c9edcbfea0a55fe69a53bf610e85470a4d0
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: d10e990192f2b52a2a9560c430d4bd34fb361a01
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897201"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298626"
 ---
 # <a name="rationalize-the-digital-estate"></a>A digitális tulajdon észszerűsítése
 
@@ -33,7 +33,7 @@ Legyen könnyen érthető ésszerűsítés, amikor jelenítenek meg, például e
 
 ## <a name="rationalization-at-enterprise-scale"></a>Nagyvállalati szintű ésszerűsítés
 
-Ha ebből a törekvésből időigényes és a egy 50 – virtuális gép digitális hagyatéki tűnhet, imagine meghajtó vállalatok átalakulását a több ezer virtuális gép és az alkalmazások több száz olyan környezetben, szükséges munkát. 1500 FTE óra és 9 hónapig tervezése könnyen lépheti túl a szükséges emberi beavatkozást.
+Ha ebből a törekvésből időigényes és a egy 50 – virtuális gép digitális hagyatéki tűnhet, imagine meghajtó vállalatok átalakulását a több ezer virtuális gép és az alkalmazások több száz olyan környezetben, szükséges munkát. 1500 FTE óra és tervezési kilenc hónap egyszerűen lépheti túl a szükséges emberi beavatkozást.
 
 Bár teljes ésszerűsítés befejezési állapota és a egy nagyszerű iránya a digitalizáció felé, ritkán küld egy magas megtérülés az időt és energiát viszonyítva.
 
@@ -67,9 +67,9 @@ A lehetséges kimenetek számának csökkentésével egyszerűbb legyen a jövő
 
 A fenti példa folytatása, ha a lehetőségek korlátozottak áthelyezési vagy teljes, valójában csak egy kérdést tehet fel és üzleti ésszerűsítés kezdeti során &mdash; kivonása,-e.
 
-"Analysis javasolja, hogy nincsenek-e az eszköz aktívan kihasználva felhasználók. Hogy pontos vagy kell hogy kihagyott valami? " Bináris kérdése általában sokkal könnyebb haladjon végig a minőségi elemzésre.
+"Analysis javasolja, hogy nincsenek-e az eszköz aktívan használnak felhasználók. Hogy pontos vagy kell hogy kihagyott valami? " Bináris kérdése általában sokkal könnyebb haladjon végig a minőségi elemzésre.
 
-Ez a megközelítés egyszerű alapkonfigurációkat, pénzügyi tervek, stratégia és iránya eredményez. Minden eszköz későbbi tevékenységek további ésszerűsítés és egyéb beállítások kiértékeléséhez minőségi elemzés révén keresse meg lenne. A kezdeti ésszerűsítés az összes kalkulált végrehajtása előtt szeretne vizsgálni.
+Ez a megközelítés egyszerű alapkonfigurációkat, pénzügyi tervek, stratégia és iránya eredményez. Minden eszköz későbbi tevékenységek további ésszerűsítés és egyéb beállítások kiértékeléséhez minőségi elemzés révén keresse meg lenne. A kezdeti ésszerűsítés az összes kalkulált végrehajtása előtt ellenőrizze az lenne.
 
 ## <a name="challenging-assumptions"></a>Nagy kihívást jelentő feltételezések
 
@@ -77,7 +77,7 @@ Az előző szakaszban eredményét egy hozzávetőleges ésszerűsítés feltét
 
 ### <a name="retiring-assets"></a>Eszközök kivonása
 
-A hagyományos helyszíni környezetben kis méretű, használaton kívüli eszközök ritkán üzemeltető hatására jelentős hatással az éves költség. Néhány kivételtől eltekintve a költségmegtakarítást, törlési és azok az eszközök kivonásáról társított ellensúlyozza elemzésére és a tényleges eszköz kivonása szükséges FTE munkát.
+A hagyományos helyszíni környezetben kis fel nem használt eszközök ritkán üzemeltető éves költségei is nő. Néhány kivételtől eltekintve a költségmegtakarítást, törlési és azok az eszközök kivonásáról társított ellensúlyozza elemzésére és a tényleges eszköz kivonása szükséges FTE munkát.
 
 Azonban a felhő számlázási modell áthelyezésekor eszközök kivonása hozhat létre az éves működési költségek és erőfeszítések kezdeti áttelepítés jelentős megtakarítást.
 

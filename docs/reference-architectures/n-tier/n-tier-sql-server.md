@@ -7,12 +7,12 @@ ms.date: 11/12/2018
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.openlocfilehash: 22bad71910509a112ecee3b3639b4444b6a3d6ed
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 200d2e18890582a7c1551ef5053e388c4a5f29a3
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898000"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298710"
 ---
 # <a name="windows-n-tier-application-on-azure-with-sql-server"></a>Az Azure-ban az SQL Server Windows N szintű alkalmazás
 
@@ -62,7 +62,7 @@ Az Ön követelményei eltérhetnek az itt leírt architektúrától. Ezeket a j
 
 A virtuális hálózat létrehozásakor határozza meg az egyes alhálózatok erőforrásai által igényelt IP-címek számát. [CIDR] jelöléssel adjon meg egy alhálózati maszkot és egy virtuális hálózati címtartományt, amely elég nagy a szükséges IP-címekhez. Használjon a szabványos [magánhálózati IP-címblokkokba][private-ip-space] eső címterületet. Ezek az IP-címblokkok a következők: 10.0.0.0/8, 172.16.0.0/12 és 192.168.0.0/16.
 
-Válasszon olyan címtartományt, amely nincs átfedésben a helyszíni hálózattal, arra az esetre, ha később átjárót kell beállítania a virtuális hálózat és a helyszíni hálózat között. A virtuális hálózat létrehozása után a címtartomány nem módosítható.
+Válasszon olyan címtartományt, amely nincs átfedésben a helyszíni hálózattal, hogy később átjárót lehessen beállítani a virtuális és a helyszíni hálózat között. A virtuális hálózat létrehozása után a címtartomány nem módosítható.
 
 Az alhálózatokat a funkciók és a biztonsági követelmények szem előtt tartásával tervezze meg. Minden ugyanazon szinthez vagy szerepkörhöz tartozó virtuális gépnek egyazon alhálózaton kell lennie. Ez az alhálózat biztonsági korlátot is képezhet. A virtuális hálózatok és alhálózatok megtervezésével kapcsolatos további információkért lásd az [Azure-beli virtuális hálózatok tervezésével és kialakításával][plan-network] foglalkozó témakört.
 

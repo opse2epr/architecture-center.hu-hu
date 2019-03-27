@@ -1,18 +1,22 @@
 ---
+title: A Microsoft Cloud bevezetésének keretrendszere az Azure-hoz
+ms.service: architecture-center
+ms.subservice: enterprise-cloud-adoption
+ms.custom: governance
+ms.date: 02/11/2019
 layout: LandingPage
 ms.topic: landing-page
 author: BrianBlanchard
-ms.date: 2/11/2019
-ms.openlocfilehash: b67b58348d6a7dffdb63b0cc776a9eea02c2fb36
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: f4e97d98297f6c7f56c5f48eae39f37b84b95783
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897456"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299356"
 ---
-# <a name="microsoft-cloud-adoption-framework-for-azure"></a>A Microsoft Cloud bevezetési keretrendszert az Azure-hoz
+# <a name="microsoft-cloud-adoption-framework-for-azure"></a>A Microsoft Cloud bevezetésének keretrendszere az Azure-hoz
 
-A felhő alapvető változást jelent a vállalatok számára a technológiai erőforrások beszerzése és felhasználása terén. A múltban a tulajdonjog és a felelősség teljes egészében a vállalatokra hárult a technológia minden szintjén, az infrastruktúrától a szoftverekig. A felhővel most új lehetőségek nyílnak meg a vállalatok számára a technológia kiaknázása terén az erőforrások igény szerinti kiépítésének és felhasználásának köszönhetően. Bár a felhő szinte korlátlan rugalmasságot biztosít a tervezés terén, vállalati szempontból bevált és következetes módszertanra is szükség van a felhőalapú technológiák bevezetéséhez. A felhő bevezetésének keretrendszer (CAF) való döntések bevezetési útmutató a kívánt keretrendszert biztosít.
+A felhő alapvető változást jelent a módon, hogy a vállalatok be kell szereznie és technológiai erőforrások használatára. A múltban a tulajdonjog és a felelősség teljes egészében a vállalatokra hárult a technológia minden szintjén, az infrastruktúrától a szoftverekig. Most a felhő lehetőséget kínál a vállalatok számára használja a technológia kiépítésének és felhasználásának erőforrások igény szerint nyílnak meg. Bár a felhő szinte korlátlan rugalmasságot biztosít a tervezés terén, vállalati szempontból bevált és következetes módszertanra is szükség van a felhőalapú technológiák bevezetéséhez. A felhő bevezetésének keretrendszer (CAF) való döntések bevezetési útmutató a kívánt keretrendszert biztosít.
 
 Ugyanakkor a felhő bevezetésének egy azt jelenti, hogy, nem a végső cél. Valóban hatékony, felhőre való áttérés kezdődik, jóval azelőtt, hogy a cloud platform szállító van kiválasztva. Felhőre való áttérés kezdődik, amikor a döntéshozók döntései informatikai és üzleti vegye figyelembe, hogy a felhő gyorsítható fel egy adott üzleti átalakítást célkitűzést. A felhő bevezetésének keretrendszer (CAF) segédeszközök stratégiát, a kulturális környezet és a kívánt üzleti eredmények megjelenő új technikai változáskezelési igazítása. A Cloud bevezetési keretrendszert biztosít a Microsoft Azure-bA kapcsolatos műszaki útmutatást. Tiszteletben tartja, hogy az ügyfelek továbbra is lehet folyamatban egy felhőbeli szállítói kiválasztása, ezt a keretrendszert nyújt felhőalapú független útmutatást megkönnyítése érdekében a magasabb szintű döntéseket hozhat, amikor csak lehetséges.
 

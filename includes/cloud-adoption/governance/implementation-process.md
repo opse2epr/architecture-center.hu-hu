@@ -4,7 +4,7 @@
 
 A következő döntéseket hozhat a teams, a felhő Cégirányítási csapat kívül származnak. Minden egyes végrehajtását azonos csoportok származnak. Azonban a felhő Cégirányítási csapat felelős ellenőrizze, hogy ezek megvalósításokhoz következetesen alkalmazzák megoldás megvalósításáról.
 
-### <a name="identity-baseline"></a>Identitásra építve
+### <a name="identity-baseline"></a>Identitáskezelési alapkonfiguráció
 
 Identitásra építve az alapvető kiindulási pontként valamennyi cégirányítási. Mielőtt megpróbálja alkalmazni a cégirányítási, identitás kell létrehozni. A létrehozott identitás stratégia alkalmazza a cégirányítási megoldásokkal.
 A cégirányítási tartson a folyamatban, az Identitáskezelés csapata is megköveteli a **címtár-szinkronizálás** minta:
@@ -36,7 +36,7 @@ Ezen a ponton egy **Felhőbeli natív** titkosítási mintát javasolt, de nem s
 - Cégirányítási követelmények nem állította titkosítás használatával kapcsolatban, mert a jelenlegi vállalati szabályzat nem teszi lehetővé a felhőbeli üzleti szempontból kritikus vagy a védett adatok.
 - További elemzést védett adatokat vagy alapvető fontosságú számítási feladatokhoz kibocsátása előtt meg kell adni
 
-## <a name="policy-enforcement"></a>Szabályzat érvénybe léptetése
+## <a name="policy-enforcement"></a>Szabályzatbetartatás
 
 Az első döntés, üzembe helyezési gyorsítás kapcsolatban a minta kényszerítésre kijelölt. Ez narratíva a cégirányítási csapat úgy döntött, hogy végrehajtja a **automatikus végrehajtás** mintát.
 

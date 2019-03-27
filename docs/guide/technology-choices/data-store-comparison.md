@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
 ms.openlocfilehash: f7c19501b9f28db3892285b5f35a33f02edd87ab
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488137"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298586"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -69,7 +69,7 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 
 - **Költséghatékonyság**. Lehetséges-e az adatok particionálása a költséghatékonyabb tárolás érdekében? Például áthelyezhetők-e a nagy méretű objektumok egy költséges relációs adatbázisból egy objektumtárolóba?
 
-### <a name="security"></a>Biztonsági
+### <a name="security"></a>Biztonság
 
 - **Biztonság**. Milyen típusú titkosításra van szüksége? Szüksége van titkosításra inaktív állapotban? Milyen hitelesítési mechanizmust szeretne használni az adatokhoz való kapcsolódáshoz?
 
@@ -278,7 +278,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
             <li>Személyre szabás</li>
             <li>Érzékelői adatok</li>
             <li>Telemetria</li>
-            <li>Üzenetküldés</li>
+            <li>Üzenetkezelés</li>
             <li>Közösségi médiaelemzés</li>
             <li>Webes elemzés</li>
             <li>Tevékenység figyelése</li>
@@ -358,7 +358,7 @@ A következő szakaszokban különböző adattármodelleket hasonlítunk össze 
 <tr><td><strong>Számítási feladat</strong></td>
     <td>
         <ul>
-            <li>Egy elsöprő időarány, amíg a műveletek (95 – 99 %) írási műveletek.</li>
+            <li>Az elsöprő hányadát operations (95 – 99 %) írási műveletek vannak.</li>
             <li>A rekordok hozzáfűzése általában időrend szerint történik.</li>
             <li>A frissítések ritkák.</li>
             <li>A törlések tömegesen fordulnak elő, céljaik általában egybefüggő blokkok vagy rekordok.</li>

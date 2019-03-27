@@ -1,21 +1,16 @@
 ---
 title: Tervezési minták felhőkhöz
 titleSuffix: Azure Architecture Center
-description: Tervezési minták megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.
+description: 'Tervezési minták megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.'
 keywords: Azure
 author: dragon119
-ms.date: 12/10/2018
+ms.date: 03/01/2018
 ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 1f3a76a104f0157526db3cff338c2b8b08dd573c
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54488256"
 ---
+
 # <a name="cloud-design-patterns"></a>Tervezési minták felhőkhöz
 
 Ezek a tervezési minták hasznosak a megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.
@@ -95,10 +90,11 @@ Mindegyik minta ismerteti az általa kezelt problémát, a minta alkalmazásána
 |                       [Bulkhead](./bulkhead.md)                       |                                                        Készletekbe választja szét egy alkalmazás elemeit, hogy ha az egyik meghibásodna, a többi tovább üzemeljen.                                                        |
 |                    [Cache-Aside](./cache-aside.md)                    |                                                                                   Igény szerint tölthet be adatokat egy gyorsítótárba egy adattárolóból                                                                                    |
 |                [Circuit Breaker](./circuit-breaker.md)                |                                                     Ha távoli szolgáltatáshoz vagy erőforráshoz csatlakozik, kezelheti azokat a hibákat, amelyek javítása esetleg sok időt venne igénybe.                                                     |
-|                           [CQRS](./cqrs.md)                           |                                                           Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                                                            |
+| [Claim Check](./claim-check.md) | A nagy méretű üzeneteket jogcímellenőrzésre és hasznos adatra oszthatja fel, hogy elkerülje az üzenetbusz túlterhelését. |
 |       [Compensating Transaction](./compensating-transaction.md)       |                                                         Visszavonhat egy sorozatnyi, együttesen végül konzisztens műveletet meghatározó lépés által végrehajtott munkát.                                                         |
 |            [Competing Consumers](./competing-consumers.md)            |                                                            Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket.                                                             |
 | [Compute Resource Consolidation](./compute-resource-consolidation.md) |                                                                        Egyetlen számítási egységbe konszolidálhat több feladatot vagy műveletet                                                                        |
+|                           [CQRS](./cqrs.md)                           |                                                           Különböző felületek használatával elkülönítheti az adatolvasó műveleteket az adatfrissítő műveletektől.                                                            |
 |                 [Event Sourcing](./event-sourcing.md)                 |                                                      Használhat egy csak hozzáfűzéssel bővíthető tárat az egy tartomány adatain elvégzett műveleteket leíró események teljes sorozatának rögzítésére.                                                      |
 |   [External Configuration Store](./external-configuration-store.md)   |                                                           A konfigurációs adatokat áthelyezheti az alkalmazás üzembehelyezési csomagjából egy központi helyre.                                                           |
 |             [Federated Identity](./federated-identity.md)             |                                                                                A hitelesítést delegálhatja egy külső identitásszolgáltatónak.                                                                                |

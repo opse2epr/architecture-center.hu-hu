@@ -1,20 +1,15 @@
 ---
 title: Jenkins-kiszolgáló futtatása az Azure-on
 titleSuffix: Azure Reference Architectures
-description: Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
+description: 'Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.'
 author: njray
 ms.date: 04/30/2018
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 2717b3b11f0315b698d43d067b30472481ffa527
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483428"
 ---
+
 # <a name="run-a-jenkins-server-on-azure"></a>Jenkins-kiszolgáló futtatása az Azure-on
 
 Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on. Az architektúra emellett az Azure Monitor használatával monitorozza a Jenkins-kiszolgáló állapotát. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
@@ -65,7 +60,7 @@ Az Azure-előfizetés [Azure AD][azure-ad]-bérlője segítségével engedélyez
 
 Az egyszeri bejelentkezés hitelesítését és engedélyezését a Jenkins-kiszolgálón telepített Azure AD beépülő modul teszi lehetővé. Az egyszeri bejelentkezés használatával a felhasználók az Azure AD-ből származó vállalati hitelesítő adataikkal hitelesítők a Jenkins-kiszolgálóra való bejelentkezéskor. Az Azure AD beépülő modul konfigurálásakor megadhatja, hogy az egyes felhasználók milyen szintű hozzáféréssel rendelkezzenek a Jenkins-kiszolgálóhoz.
 
-A Jenkins-feladatok az Azure-erőforrásokhoz való hozzáférésének biztosításához az Azure AD-rendszergazdák egyszerű szolgáltatásokat hozhatnak létre. Ezek [hitelesített és engedélyezett hozzáférést][ad-sp] biztosítanak az alkalmazások – esetünkben a Jenkins-feladatok – számára az Azure-erőforrásokhoz.
+A Jenkins-feladatok az Azure-erőforrásokhoz való hozzáférésének biztosításához az Azure AD-rendszergazdák egyszerű szolgáltatásokat hozhatnak létre. Ezek [hitelesített és engedélyezett hozzáférést][ad-sp] biztosítanak az alkalmazások &mdash; esetünkben a Jenkins-feladatok &mdash; számára az Azure-erőforrásokhoz.
 
 Az [RBAC][rbac] segítségével tovább szabályozható a felhasználók vagy egyszerű szolgáltatások hozzáférése az Azure-erőforrásokhoz a hozzárendelt szerepköreik alapján. A beépített és az egyéni szerepkörök egyaránt támogatottak. A szerepkörök segítségével emellett biztonságossá tehető a folyamat, továbbá biztosítható, hogy a felhasználók vagy ügynökök felelősségi körei megfelelően legyenek kiosztva és engedélyezve. Emellett az RBAC beállításával korlátozható az Azure-objektumok elérése is. A felhasználók például kizárólag egy adott erőforráscsoport objektumainak használatára korlátozhatók.
 
@@ -123,7 +118,7 @@ A Jenkins-kiszolgálók esetében a rendelkezésre állás azt jelenti, hogy ké
 
 - A Helyreállítási pont-célkitűzés (RPO) határozza meg az elfogadható adatveszteség mértékét, ha a szolgáltatás leállása érinti a Jenkinst.
 
-A gyakorlatban az RTO és az RPO a redundanciát és a biztonsági mentést jelölik. A rendelkezésre állás nem hardveres helyreállítás kérdése, az ugyanis az Azure részét képezi, hanem a Jenkins-kiszolgáló állapota fenntartásának biztosítását jelenti. A Microsoft [szolgáltatói szerződést][sla] (SLA) kínál az egyes virtuálisgép-példányokhoz. Amennyiben ez az SLA nem felel meg az üzemidővel kapcsolatos elvárásainak, mindenképp gondoskodjon egy vészhelyreállítási tervről, vagy vegye fontolóra egy [több főkiszolgálós Jenkins-kiszolgáló][multi-master] üzembe helyezését (a jelen dokumentum erre nem tér ki).
+A gyakorlatban az RTO és az RPO a redundanciát és a biztonsági mentést jelölik. A rendelkezésre állás nem hardveres helyreállítás kérdése &mdash; az ugyanis az Azure részét képezi &mdash;, hanem a Jenkins-kiszolgáló állapota fenntartásának biztosítását jelenti. A Microsoft [szolgáltatói szerződést][sla] (SLA) kínál az egyes virtuálisgép-példányokhoz. Amennyiben ez az SLA nem felel meg az üzemidővel kapcsolatos elvárásainak, mindenképp gondoskodjon egy vészhelyreállítási tervről, vagy vegye fontolóra egy [több főkiszolgálós Jenkins-kiszolgáló][multi-master] üzembe helyezését (a jelen dokumentum erre nem tér ki).
 
 Vegye fontolóra vészhelyreállítási [szkriptek][disaster] alkalmazását az üzembe helyezés 7. lépésében, amelyek segítségével egy Azure Storage-fiók hozható létre felügyelt meghajtókkal a Jenkins-kiszolgáló állapotának tárolásához. Ha a Jenkins leáll, visszaállítható az ezen a külön tárfiókon tárolt állapotára.
 

@@ -3,12 +3,12 @@ title: 'Nagyszámítógépek migrálása: A nagyszámítógépes alkalmazások �
 description: A nagyszámítógépes környezetek alkalmazásokat át az Azure-ba, a bevált, magas rendelkezésre állású és méretezhető infrastruktúrát Nagyszámítógépek a jelenleg futó rendszerek
 author: njray
 ms.date: 12/26/2018
-ms.openlocfilehash: dcae5077e26ab8ba9b08e0da71a5e69d0d9f62e3
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 2a22eb038da693671ce309c76afcfc41946034f3
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899119"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299271"
 ---
 # <a name="mainframe-application-migration"></a>A nagyszámítógépes alkalmazások áttelepítése
 
@@ -168,7 +168,7 @@ Az Azure-bA a nagyszámítógépes megoldások áthelyezését is igénybe vehet
 
 Gyakran előfordul, hogy egy alkalmazás az adatok a nagyszámítógépes a az alkalmazás által használt Azure-bA. Szoftver lehetővé teszik az alkalmazások az Azure-ban érheti el adatait a nagyszámítógépes szolgál. Szerencsére a megoldások széles skáláját adja meg az Azure és a meglévő nagyszámítógépes környezetek közötti integrációja, támogatja a hibrid forgatókönyvek kialakítását és migrálása idővel. Microsoft-partnerek, független szoftverszállítók és rendszerintegrátorok segítségével együttműködjünk.
 
-Az egyik lehetőség van [Microsoft Host Integration Server](https://docs.microsoft.com/host-integration-server/) (a), a megoldás, amely az elosztott relációs adatbázis-architektúra (DRDA) szükséges hozzáférés az adatokhoz a DB2, amely továbbra is megtalálható a nagyszámítógépes alkalmazások az Azure-ban. A nagyszámítógépes – Azure-integráció más lehetőségek IBM, a az Attunity, Codit, más gyártók és a nyílt forráskódú lehetőségeket a megoldásokkal.
+Az egyik lehetőség van [Microsoft Host Integration Server](/host-integration-server) (a), a megoldás, amely az elosztott relációs adatbázis-architektúra (DRDA) szükséges hozzáférés az adatokhoz a DB2, amely továbbra is megtalálható a nagyszámítógépes alkalmazások az Azure-ban. A nagyszámítógépes – Azure-integráció más lehetőségek IBM, a az Attunity, Codit, más gyártók és a nyílt forráskódú lehetőségeket a megoldásokkal.
 
 ## <a name="partner-solutions"></a>Partneri megoldások
 
@@ -188,4 +188,4 @@ További információkért lásd a következőket:
 
 - [IBM DB2-höz pureScale Azure-beli üzembe helyezése](https://azure.microsoft.com/resources/deploy-ibm-db2-purescale-on-azure)
 
-- [Host Integration Server (HIS) dokumentációja](https://docs.microsoft.com/host-integration-server/)
+- [Host Integration Server (HIS) dokumentációja](/host-integration-server)

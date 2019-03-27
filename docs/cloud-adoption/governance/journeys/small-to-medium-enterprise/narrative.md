@@ -1,5 +1,5 @@
 ---
-title: 'CAF: Kis és közepes méretű Enterprise - mögött a adatirányítási stratégia kezdeti Narratíva'
+title: 'CAF: Kis és közepes méretű enterprise - mögött a adatirányítási stratégia a narratíva'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Ez narratíva hoz létre egy alkalmazási helyzet a kis és közepes méretű vállalat cégirányítási útra.
 author: BrianBlanchard
-ms.openlocfilehash: 6173b01f310169017761110d6641acfa51d45df8
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 563e909ffc2a39b0b52bd26d3a88715fa969a9c2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899487"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299375"
 ---
 # <a name="small-to-medium-enterprise-the-narrative-behind-the-governance-strategy"></a>Small-to-medium enterprise: A cégirányítási stratégia mögött narratíva
 

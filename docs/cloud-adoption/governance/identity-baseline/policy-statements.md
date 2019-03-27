@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Identitás alapkonfiguráció mintautasítások házirend
 author: BrianBlanchard
-ms.openlocfilehash: 5fad9265b9c048ee502c7e084ddd03faa0ad3e23
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 5a106dc73cfc1fc97084853507372610b3f1c69c
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899399"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299280"
 ---
 # <a name="identity-baseline-sample-policy-statements"></a>Identitás alapkonfiguráció mintautasítások házirend
 
@@ -81,7 +81,7 @@ A cikkben említett kiindulási pontként minták segítségével házirendeket,
 
 A saját egyéni házirend-utasítások identitásra építve kapcsolatos fejlesztésének megkezdéséhez töltse le a [identitásra építve sablon](template.md).
 
--K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható Cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
+-K gyorsabb elfogadása, ezen a területen, válassza a [gyakorlatban hasznosítható cégirányítási utazás](../journeys/overview.md) , hogy a legtöbb szorosan igazodik a környezetében. Ezután módosítsa a kialakítás révén az adott vállalati házirendet érintő döntések.
 
 > [!div class="nextstepaction"]
 > [Gyakorlatban hasznosítható Cégirányítási Journey](../journeys/overview.md)

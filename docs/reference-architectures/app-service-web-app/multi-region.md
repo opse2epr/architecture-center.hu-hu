@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
 ms.openlocfilehash: 676d968b13625048a9d83d365a1efe05c6093148
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54484329"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298397"
 ---
 # <a name="run-a-web-application-in-multiple-azure-regions-for-high-availability"></a>Webalkalmazás futtatása több Azure-régióban a magas rendelkezésre állás érdekében
 
@@ -54,7 +54,7 @@ Minden egyes Azure-régió párban áll egy másikkal egy azonos földrajzi ter�
 - A tervezett Azure-rendszerfrissítések egyszerre csak a régiópár egyik tagján jelennek meg, ami csökkenti az állásidőt.
 - A legtöbb esetben a regionális párok azonos földrajzi helyen belül találhatók, hogy megfeleljenek az adatok tárolási helyére vonatkozó előírásoknak.
 
-Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához. Lásd: [Szolgáltatások régiónként][services-by-region]. További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Azure – párosított régiók][regional-pairs].
+Azonban győződjön meg arról, hogy mindkét régió támogatja az összes Azure-szolgáltatást, amely szükséges az alkalmazásához. Lásd: [Szolgáltatások régiónként][services-by-region]. További információ a regionális párokról: [üzleti folytonossági és vészhelyreállítási helyreállítási (BCDR): Az Azure párosított régiói][regional-pairs].
 
 ### <a name="resource-groups"></a>Erőforráscsoportok
 
@@ -70,7 +70,7 @@ Ajánlott eljárásként hozzon létre egy olyan állapotminta-végpontot, amely
 
 Másrészről viszont ne használja az állapotmintát alacsonyabb prioritású szolgáltatások ellenőrzéséhez. Ha például egy e-mail-szolgáltatás áll le, az alkalmazás képes egy második szolgáltatóra váltani, vagy egyszerűen később elküldeni az e-maileket. Ez nem elég magas prioritás ahhoz, hogy az alkalmazás feladatátvételt kezdeményezzen. További információkért lásd: a [állapot végponti Monitorozását végző minta][health-endpoint-monitoring-pattern].
 
-### <a name="sql-database"></a>SQL-adatbázis
+### <a name="sql-database"></a>SQL Database
 
 Használjon [aktív georeplikációt][sql-replication] olvasható másodlagos replika létrehozásához egy másik régióban. Legfeljebb négy olvasható másodlagos replikával rendelkezhet. Alkalmazzon feladatátvételt egy másodlagos adatbázisba, ha az elsődleges adatbázis meghibásodik vagy offline állapotba kell helyezni. Az aktív georeplikáció bármilyen rugalmas adatbáziskészlet bármilyen adatbázishoz konfigurálható.
 

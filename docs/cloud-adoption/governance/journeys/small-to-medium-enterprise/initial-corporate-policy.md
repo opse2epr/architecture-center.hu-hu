@@ -1,18 +1,18 @@
 ---
-title: 'CAF: Kis és közepes méretű Enterprise - mögött a adatirányítási stratégia kezdeti vállalati szabályzat'
+title: 'CAF: Kis és közepes méretű enterprise - kezdeti vállalati szabályzat a adatirányítási stratégia mögött'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
-ms.date: 2/11/2019
-description: Kis és közepes méretű Enterprise - mögött a adatirányítási stratégia kezdeti vállalati szabályzat
+ms.date: 02/11/2019
+description: Kis és közepes méretű enterprise - kezdeti vállalati szabályzat a cégirányítási strateg mögött
 author: BrianBlanchard
-ms.openlocfilehash: 4f49d0aae2c6ab5a5c8feba669cbbb904af2773b
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 35c9398684416b5f4df1d5ea69ac3634b2f73ff3
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899082"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298441"
 ---
 # <a name="small-to-medium-enterprise-initial-corporate-policy-behind-the-governance-strategy"></a>Small-to-medium enterprise: A cégirányítási stratégia mögött kezdeti vállalati szabályzat
 

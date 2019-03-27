@@ -8,11 +8,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
 ms.openlocfilehash: 0f5de0eca6fbd35cca1a0e8443f363df09ffc6aa
-ms.sourcegitcommit: 287344b6c220bdbd8076aed7a281eb02253e15be
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/04/2019
-ms.locfileid: "55712150"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299527"
 ---
 # <a name="enterprise-grade-conversational-bot"></a>Nagyvállalati szintű beszélgetőrobot
 

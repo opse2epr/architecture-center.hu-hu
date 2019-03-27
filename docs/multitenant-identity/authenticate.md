@@ -9,12 +9,12 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: tailspin
 pnp.series.next: claims
-ms.openlocfilehash: b4a833a18b44e40f544449a222fb082d71e4268d
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 38e173a6bffd6772c769f56c91b1ef24315094fc
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481643"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299186"
 ---
 # <a name="authenticate-using-azure-ad-and-openid-connect"></a>Hitelesítés az Azure AD-vel és az OpenID Connect
 
@@ -157,7 +157,7 @@ A hitelesítési folyamat során az OpenID Connect közbenső szoftvert esemény
 
 Adja meg visszahívások ezeket az eseményeket, állítsa be a **események** a közbenső szoftverek lehetőséget. Az eseménykezelőket deklarálnia két különböző módja van: Beágyazott lambdas, vagy az a osztálynak **OpenIdConnectEvents**. A második megközelítéssel ajánlott, ha az esemény-visszahívások bármely jelentős logikát, így azok feleslegesen ne tűzdelje tele az indítási osztályt. Referenciaimplementáció ezt a módszert használja.
 
-### <a name="openid-connect-endpoints"></a>OpenID connect-végpontok
+### <a name="openid-connect-endpoints"></a>OpenID Connect végpontok
 
 Az Azure AD támogatja [OpenID Connect-felderítési](https://openid.net/specs/openid-connect-discovery-1_0.html), viselkedésmintáit az identitásszolgáltató (IDP) adja vissza a JSON-metaadatok dokumentumok egy [jól ismert végpont](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig). A metaadat-dokumentum például tartalmaz információkat:
 
@@ -167,7 +167,7 @@ Az Azure AD támogatja [OpenID Connect-felderítési](https://openid.net/specs/o
 
 Alapértelmezés szerint a OIDC közbenső meg tudja beolvasni a metaadatok. Állítsa be a **hatóság** opcióhoz a közbenső szoftver, és a közbenső szoftver hoz létre a metaadatok URL-CÍMÉT. (Beállításával felülbírálhatja a metaadatok URL-címe a **MetadataAddress** beállítás.)
 
-### <a name="openid-connect-flows"></a>OpenID connect folyamatok
+### <a name="openid-connect-flows"></a>OpenID Connect folyamatok
 
 Alapértelmezés szerint a OIDC közbenső hibrid folyamat használja az űrlap post Válaszmód.
 

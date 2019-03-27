@@ -7,18 +7,18 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: c4bfd6e92fc9c770a03a63355fc922d19ef27b7b
-ms.sourcegitcommit: f4ed242dff8b204cfd8ebebb7778f356a19f5923
+ms.openlocfilehash: 7f10c422c65967701084859e41f9656c818ed818
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/13/2019
-ms.locfileid: "56224164"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298398"
 ---
 # <a name="build-a-real-time-recommendation-api-on-azure"></a>Valós idejű ajánlás API létrehozása az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja egy Azure Databricks használatával javaslat modell betanítását, és helyezze üzembe, API-k az Azure Cosmos DB, az Azure Machine Learning és az Azure Kubernetes Service (AKS) használatával. Ez az architektúra is általánosítható legtöbb javaslat motor helyzetekre, termékek, filmek és hírek is.
 
-Az architektúra egy referenciaimplementációt érhető el az [GitHub](https://github.com/Microsoft/Recommenders/blob/master/notebooks/05_operationalize/als_movie_o16n.ipynb).
+Az architektúra egy referenciaimplementációt érhető el az [GitHub][als-example].
 
 ![A gépi tanulási modell betanításához filmjánlásokat architektúrája](./_images/recommenders-architecture.png)
 
@@ -92,14 +92,14 @@ Az Azure Databricks költségek kezelése az átképezési ritkábban, és kikap
 
 ## <a name="deploy-the-solution"></a>A megoldás üzembe helyezése
 
-Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Databricks környezetet előkészíti az adatokat, és a egy ajánló modell betanításához:
+Ez az architektúra üzembe helyezéséhez kövesse a **Azure Databricks** utasításait a [telepítő dokumentum][setup]. Röviden utasításokat kell tennie:
 
 1. Hozzon létre egy [Azure Databricks-munkaterület][workspace].
 
-2. Hozzon létre egy új fürtöt az Azure Databricksben. Az alábbi konfigurációra szükség:
+2. Hozzon létre egy új fürtöt az Azure Databricksben a következő beállításokkal:
 
     - Fürt üzemmód: Standard
-    - Databricks futtatókörnyezet-verziója: 4.1 (tartalmazza az Apache Spark 2.3.0-át és Scala 2.11-et)
+    - Databricks futtatókörnyezet-verziója: 4.3-as (tartalmazza az Apache Spark 2.3.1, Scala 2.11-et)
     - Python-verzió: 3
     - Illesztőprogram típusa: Standard\_DS3\_v2
     - Feldolgozó típusa: Standard szintű\_DS3\_v2 (minimális és maximális száma szükség szerint)
@@ -107,30 +107,27 @@ Ez az architektúra üzembe helyezéséhez először hozzon létre egy Azure Dat
     - Spark-Config: (a megadása kötelező)
     - Környezeti változók: (kötelezőként)
 
-3. Klónozás a [Microsoft Recommenders] [ github] tárházat a helyi számítógépen.
+3. Hozzon létre egy személyes hozzáférési tokent belül a [Azure Databricks-munkaterület][workspace]. Tekintse meg az Azure Databricks hitelesítési [dokumentáció] [ adbauthentication] részleteiről.
 
-4. Zip-a tartalmat a Recommenders mappában:
+3. Klónozás a [Microsoft Recommenders] [ github] környezetbe adattár, ahol futtathat parancsfájlokat (pl. a helyi számítógép).
 
-    ```console
-    cd Recommenders
-    zip -r Recommenders.zip
-    ```
+4. Kövesse a **rövid telepítési** telepítési utasításokat a [a megfelelő kódtárak telepítése] [ setup] az Azure databricks szolgáltatásban.
 
-5. A következő csatolása a Recommenders könyvtár a fürthöz:
+5. Kövesse a **rövid telepítési** telepítési utasításokat a [előkészítése az Azure Databricks az operacionalizáláshoz][setupo16n].
 
-    1. A következő menü, amelynek segítségével importálhatja egy könyvtárat ("importálása egy könyvtár, például egy jar- vagy a tojás, kattintson ide"), és nyomja le az **ide**.
+6. Importálás a [ALS Movie Operacionalizálás notebook] [ als-example] egyszerűen a munkaterületre. Miután bejelentkezett az Azure Databricks-munkaterület, tegye a következőket:
 
-    2. Az első legördülő menüben válassza a **feltöltése Python tojás vagy PyPI** lehetőséget.
+    a. Kattintson a **kezdőlap** a munkaterület bal oldalán.
 
-    3. Válassza ki **könyvtár tojás itt dobja el a feltöltése** , és válassza ki az imént létrehozott Recommenders.zip fájlt.
+    b. Kattintson a jobb gombbal az üres helyet a kezdőkönyvtárban. Válassza ki **importálás**.
+    
+    c. Válassza ki **URL-cím**, és illessze be a következőt a szövegmezőhöz: `https://github.com/Microsoft/Recommenders/blob/master/notebooks/05_operationalize/als_movie_o16n.ipynb`
+    
+    d. Kattintson az **Importálás** gombra.
 
-    4. Válassza ki **létrehozás könyvtár** töltse fel a .zip fájlt, és elérhetővé tétele a munkaterületén.
+7. Nyissa meg a notebook az Azure databricksben, és csatolja a konfigurált fürtöt.
 
-    5. A fürt a tár csatolása a következő menüben.
-
-6. Importálja a munkaterületén a [ALS Movie Operacionalizálás példa][als-example].
-
-7. A jegyzetfüzet futtatásához használja ALS Movie Operacionalizálás API, amely az adott felhasználó számára a top-10 movie ajánlásokkal ajánlás létrehozásához szükséges erőforrások létrehozásához.
+8. A jegyzetfüzet futtatásához használja a javaslatok API létrehozásához szükséges Azure-erőforrások létrehozása, amely az adott felhasználó számára a top-10 movie javaslatot is tartalmaz.
 
 ## <a name="related-architectures"></a>Kapcsolódó referenciaarchitektúrák
 
@@ -139,9 +136,10 @@ Is készítettük el egy referencia-architektúra, amely a Spark és az Azure Da
 <!-- links -->
 [aci]: /azure/container-instances/container-instances-overview
 [aad]: /azure/active-directory-b2c/active-directory-b2c-overview
+[adbauthentication]: https://docs.azuredatabricks.net/api/latest/authentication.html#generate-a-token
 [aks]: /azure/aks/intro-kubernetes
 [als]: https://spark.apache.org/docs/latest/ml-collaborative-filtering.html
-[als-example]: https://github.com/Microsoft/Recommenders/blob/master/notebooks/04_operationalize/als_movie_o16n.ipynb
+[als-example]: https://github.com/Microsoft/Recommenders/blob/master/notebooks/05_operationalize/als_movie_o16n.ipynb
 [autoscaling]: https://docs.azuredatabricks.net/user-guide/clusters/sizing.html
 [autoscale]: https://docs.azuredatabricks.net/user-guide/clusters/sizing.html#autoscaling
 [availability]: /azure/architecture/checklist/availability
@@ -170,7 +168,8 @@ Is készítettük el egy referencia-architektúra, amely a Spark és az Azure Da
 [resiliency]: /azure/architecture/resiliency/
 [ru]: /azure/cosmos-db/request-units
 [sec-docs]: /azure/security/
-[setup]: https://github.com/Microsoft/Recommenders/blob/master/SETUP.md%60
+[setup]: https://github.com/Microsoft/Recommenders/blob/master/SETUP.md#repository-installation
+[setupo16n]: https://github.com/Microsoft/Recommenders/blob/master/SETUP.md#prepare-azure-databricks-for-operationalization
 [scale]: /azure/aks/tutorial-kubernetes-scale
 [sla]: https://azure.microsoft.com/support/legal/sla/virtual-machines/v1_8/
 [vm-size]: /azure/virtual-machines/virtual-machines-linux-change-vm-size

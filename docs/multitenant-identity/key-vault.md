@@ -9,11 +9,11 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
 ms.openlocfilehash: 6aa8d33da0b2fd41fdc037bac28bca9f7ff09907
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54481558"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299633"
 ---
 # <a name="use-azure-key-vault-to-protect-application-secrets"></a>Azure Key Vault használata az alkalmazás titkainak védelmére
 
@@ -91,7 +91,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
 
 2. A rendszergazda eléréséhez használni kívánt előfizetés kiválasztásához.
 3. Az előfizetési panelen válassza ki a **hozzáférés-vezérlés (IAM)**.
-4. Kattintson a **Hozzáadás**lehetőségre.
+4. Kattintson a **Hozzáadás** parancsra.
 5. A **szerepkör**válassza **tulajdonosa**.
 6. Írja be a tulajdonosként hozzáadni kívánt felhasználó e-mail-címét.
 7. Válassza ki a felhasználót, és kattintson a **mentése**.

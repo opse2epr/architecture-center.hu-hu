@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: A Cost Management fegyelem fokozása
 author: BrianBlanchard
-ms.openlocfilehash: 34975d195a95b1a85ada96efe8c76a6138385ec1
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 07b6bdd6344be374142fff0d783a1d57855bbbd8
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899463"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299384"
 ---
 # <a name="cost-management-discipline-improvement"></a>A Cost Management fegyelem fokozása
 
@@ -63,7 +63,7 @@ Technikai és felhasználóknak előfeltételnek környezet sikeres áttelepít�
 **Lehetséges-tevékenységek:**
 
 * Igazítás a költségvetési terveket biztosít a [előfizetés stratégia](../../decision-guides/subscriptions/overview.md) , amely meghatározza, hogy a core tulajdonjog modellt.
-* Használja ki a [erőforrás konzisztencia stratégia](../../decision-guides/resource-consistency/overview.md) architektúra kényszerítése és irányelveket költségek időbeli alakulása.
+* Használja a [erőforrás konzisztencia stratégia](../../decision-guides/resource-consistency/overview.md) architektúra kényszerítése és irányelveket költségek időbeli alakulása.
 * Határozza meg, hogy vannak-e bármilyen költség rendellenességeket, amelyek befolyásolják a bevezetési és áttelepítési terveket.
 
 ## <a name="adopt-and-migrate"></a>Elfogadja és áttelepítése

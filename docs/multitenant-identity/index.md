@@ -1,18 +1,13 @@
 ---
 title: Identitáskezelés a több-bérlős alkalmazásokban
-description: Ajánlott eljárások hitelesítéshez, engedélyezéshez, és identitáskezeléshez több-bérlős alkalmazások esetén.
+description: 'Ajánlott eljárások hitelesítéshez, engedélyezéshez, és identitáskezeléshez több-bérlős alkalmazások esetén.'
 author: MikeWasson
 ms.date: 07/21/2017
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.openlocfilehash: f8875612ad6b1a71fdb6f7a768078ae599eb70b5
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
-ms.translationtype: HT
-ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54480547"
 ---
+
 # <a name="manage-identity-in-multitenant-applications"></a>Identitáskezelés több-bérlős alkalmazásokban
 
 A cikksorozat ajánlott eljárásokat ismertet a több-bérlős módhoz az Azure AD hitelesítésre és identitáskezelésre való használata esetén.
@@ -90,9 +85,7 @@ A több-bérlős alkalmazások esetében a felhasználókat a bérlők kontextus
 Ebben az útmutatóban kifejezetten az Azure AD-vel való identitáskezeléssel foglalkozunk.
 
 - Feltételezzük, hogy az ügyfél az Azure AD-ben tárolja felhasználói profiljait (az Office 365- és a Dynamics CRM-bérlőket is beleértve)
-- A helyszíni Active Directoryval (AD) rendelkező ügyfelek az [Azure AD Connect](/azure/active-directory/hybrid/whatis-hybrid-identity) segítségével szinkronizálhatják helyszíni AD-jüket az Azure AD-vel.
-
-Ha egy helyszíni AD-vel rendelkező ügyfél (a vállalati informatikai házirend miatt vagy egyéb okból kifolyólag) nem tudja használni az Azure AD Connect szolgáltatást, az SaaS-szolgáltató az Active Directory összevonási szolgáltatások (AD FS) használatával is összevonható az ügyfél AD-jével. Ezt a lehetőséget az [Összevonás az ügyfél AD FS szolgáltatásával](adfs.md) című rész ismerteti.
+- A helyszíni Active Directoryval rendelkező ügyfelek az [Azure AD Connect](/azure/active-directory/hybrid/whatis-hybrid-identity) segítségével szinkronizálhatják helyszíni Active Directoryjukat az Azure AD-vel. Ha egy helyszíni Active Directoryval rendelkező ügyfél (a vállalati informatikai házirend miatt vagy egyéb okból kifolyólag) nem tudja használni az Azure AD Connect szolgáltatást, az SaaS-szolgáltató az Active Directory összevonási szolgáltatások (AD FS) használatával is összevonható az ügyfél címtárával. Ezt a lehetőséget az [Összevonás az ügyfél AD FS szolgáltatásával](adfs.md) című rész ismerteti.
 
 Ez az útmutató más szempontból (pl. adatparticionálás, bérlőnkénti konfiguráció stb.) nem tárgyalja a több-bérlős architektúrákat.
 

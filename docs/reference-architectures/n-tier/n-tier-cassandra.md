@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
-ms.openlocfilehash: 6c9a2b4fe513c959e537f705beb1c024b54c7b50
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: df7c638f5ebeedcd4e04574afb655b1ac5ea65c8
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54485448"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299602"
 ---
 # <a name="linux-n-tier-application-in-azure-with-apache-cassandra"></a>Az Azure-ban az Apache Cassandra használatával Linux N szintű alkalmazás
 
@@ -156,7 +156,7 @@ Ennek a referenciaarchitektúrának egy üzemelő példánya elérhető a [GitHu
 
 Ha Linux rendszerű virtuális gépeket szeretne üzembe helyezni egy N szintű alkalmazás referenciaarchitektúrájához, kövesse az alábbi lépéseket:
 
-1. Navigáljon a fenti előfeltételek 1. lépése során klónozott adattár `virtual-machines\n-tier-linux` mappájához.
+1. Keresse meg a `virtual-machines\n-tier-linux` a fenti előfeltételek 1. lépése során klónozott adattár mappáját.
 
 2. A paraméterfájl egy alapértelmezett rendszergazdai felhasználónevet és jelszót határozza a központi telepítésben lévő mindegyik virtuális gép. Módosítsa ezeket a referenciaarchitektúra üzembe helyezése előtt. Nyissa meg az `n-tier-linux.json` fájlt, és cserélje le az egyes **adminUsername** és **adminPassword** mezők tartalmát az új beállításokra.   Mentse a fájlt.
 

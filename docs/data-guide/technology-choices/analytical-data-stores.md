@@ -7,11 +7,11 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.openlocfilehash: 236f5eaffffa8eb1206f13f3eb7fb57828f0a12d
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54483768"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299249"
 ---
 # <a name="choosing-an-analytical-data-store-in-azure"></a>Az Azure-ban egy analitikai adattár kiválasztása
 
@@ -56,12 +56,12 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 
 ### <a name="general-capabilities"></a>Általános képességek
 
-| | SQL-adatbázis | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
+| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 | --- | --- | --- | --- | --- | --- | --- |
 | A felügyelt szolgáltatás | Igen | Igen | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen | Igen |
 | Elsődleges adatbázismodell | Relációs (Oszlopalapú formátum az oszlopcentrikus indexek használata esetén) | Oszlopos szerkezetű relációs tábláival | Széles körű oszloptár | Hive és a memóriában | Szemantikai modellek táblázatos/MOLAP | Dokumentum-tároló, gráf, kulcs-érték tároló, széles oszloptár |
 | SQL nyelvi támogatás | Igen | Igen | Igen (használatával [Phoenix](https://phoenix.apache.org/) JDBC-illesztőprogram) | Igen | Nem | Igen |
-| Réteg szolgáltató gyorsaságot | Igen <sup>2</sup> | Nincs | Igen | Igen | Nem | Igen |
+| Réteg szolgáltató gyorsaságot | Igen <sup>2</sup> | Nem | Igen | Igen | Nem | Igen |
 
 [1] a kézi konfigurálás és a méretezést.
 
@@ -69,22 +69,22 @@ A(z) [2] a memóriaoptimalizált táblák és kivonatoló vagy fürtözetlen ind
  
 ### <a name="scalability-capabilities"></a>Skálázhatósági képességeket.
 
-|                                                  | SQL-adatbázis | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
+|                                                  | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 |--------------------------------------------------|--------------|--------------------|----------------------------|------------------------|-------------------------|-----------|
 | Redundáns regionális kiszolgálók magas rendelkezésre állás érdekében |     Igen      |        Igen         |            Igen             |           Nem           |           Nem            |    Igen    |
-|             Támogatja a lekérdezés horizontális felskálázás             |      Nincs      |        Igen         |            Igen             |          Igen           |           Igen           |    Igen    |
+|             Támogatja a lekérdezés horizontális felskálázás             |      Nem      |        Igen         |            Igen             |          Igen           |           Igen           |    Igen    |
 |          A dinamikus méretezhetőség (vertikális felskálázási)          |     Igen      |        Igen         |             Nem             |           Nem           |           Igen           |    Igen    |
-|        Támogatja a memórián belüli gyorsítótárazáshoz, az adatok        |     Igen      |        Igen         |             Nem             |          Igen           |           Igen           |    Nincs     |
+|        Támogatja a memórián belüli gyorsítótárazáshoz, az adatok        |     Igen      |        Igen         |             Nem             |          Igen           |           Igen           |    Nem     |
 
 ### <a name="security-capabilities"></a>Biztonsági képességek
 
-| | SQL-adatbázis | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
+| | SQL Database | SQL Data Warehouse | A HDInsight HBase/Phoenix | Hive LLAP, a HDInsight | Azure Analysis Services | Cosmos DB |
 | --- | --- | --- | --- | --- | --- | --- |
-| Hitelesítés  | SQL / Azure Active Directory (Azure AD) | SQL / Azure AD | helyi / Azure AD <sup>1</sup> | helyi / Azure AD <sup>1</sup> | Azure AD | adatbázis-felhasználók / hozzáférést az Azure AD-vezérlőt (IAM) |
+| Authentication  | SQL / Azure Active Directory (Azure AD) | SQL / Azure AD | helyi / Azure AD <sup>1</sup> | helyi / Azure AD <sup>1</sup> | Azure AD | adatbázis-felhasználók / hozzáférést az Azure AD-vezérlőt (IAM) |
 | Adat-titkosítás inaktív állapotban | Igen <sup>2</sup> | Igen <sup>2</sup> | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen | Igen |
-| Sorszintű biztonság | Igen | Nincs | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen (objektumszintű biztonság a modellben) keresztül | Nincs |
+| Sorszintű biztonság | Igen | Nem | Igen <sup>1</sup> | Igen <sup>1</sup> | Igen (objektumszintű biztonság a modellben) keresztül | Nem |
 | Támogatja a tűzfalak | Igen | Igen | Igen <sup>3</sup> | Igen <sup>3</sup> | Igen | Igen |
-| Dinamikus adatmaszkolás | Igen | Nincs | Igen <sup>1</sup> | Igen * | Nincs | Nincs |
+| Dinamikus adatmaszkolás | Igen | Nem | Igen <sup>1</sup> | Igen * | Nem | Nem |
 
 [1] használata szükséges egy [tartományhoz csatlakoztatott HDInsight-fürt](/azure/hdinsight/domain-joined/apache-domain-joined-introduction).
 

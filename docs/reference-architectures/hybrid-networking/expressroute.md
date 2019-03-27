@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, networking
-ms.openlocfilehash: eff7d3e88cc9578b6d5ff83628f7d03b00717b5f
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: 5c010df534bc43bd4c954c7f008b28cbb6a5641a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487857"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298577"
 ---
 # <a name="connect-an-on-premises-network-to-azure-using-expressroute"></a>Helyszíni hálózat csatlakoztatása az Azure-hoz ExpressRoute használatával
 
@@ -75,6 +75,7 @@ Hozzon létre egy ExpressRoute-kapcsolatcsoportot az alábbi lépéseket követv
     ```powershell
     New-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>> -Location <<location>> -SkuTier <<sku-tier>> -SkuFamily <<sku-family>> -ServiceProviderName <<service-provider-name>> -PeeringLocation <<peering-location>> -BandwidthInMbps <<bandwidth-in-mbps>>
     ```
+
 2. Küldje el az új kapcsolatcsoport `ServiceKey` kulcsát a szolgáltatónak.
 
 3. Várjon, amíg a szolgáltató üzembe helyezi a kapcsolatcsoportot. A kapcsolatcsoport üzembehelyezési állapotának az ellenőrzéséhez futtassa az alábbi PowerShell-parancsot:
@@ -116,7 +117,7 @@ Különböző régiókban található virtuális hálózatokat is csatlakoztatha
 
 ### <a name="troubleshooting"></a>Hibaelhárítás
 
-Ha egy korábban működő ExpressRoute-kapcsolatcsoport többé nem kapcsolódik, és semmilyen konfigurációs módosítást nem hajtott végre a helyszíni vagy a virtuális magánhálózaton, előfordulhat, hogy a kapcsolatszolgáltatóhoz kell fordulnia, és vele együttműködve kell elhárítania a problémát. Az alábbi PowerShell-parancsokkal ellenőrizheti, hogy sor került-e az ExpressRoute-kapcsolatcsoport üzembe helyezésére:
+Ha egy korábban működő ExpressRoute-kapcsolatcsoport többé nem kapcsolódik, és semmilyen konfigurációs módosítást nem hajtott végre a helyszíni vagy a virtuális magánhálózaton, előfordulhat, hogy a kapcsolatszolgáltatóhoz kell fordulnia, és vele együttműködve kell elhárítania a problémát. A következő PowerShell-parancsok segítségével győződjön meg arról, hogy az ExpressRoute-kapcsolatcsoport kiépítését:
 
 ```powershell
 Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>
@@ -163,7 +164,7 @@ Az ExpressRoute-kapcsolatcsoportok úgy vannak kialakítva, hogy felár nélkül
 
 Jóllehet egyes szolgáltatók engedélyezik a sávszélesség módosítását, mindenképpen olyan kezdeti sávszélességet válasszon, amely meghaladja az igényeit, és teret hagy a növekedésre. Ha a jövőben növelnie kell a sávszélességet, mindössze két lehetőség áll a rendelkezésére:
 
-- Növelheti a sávszélességet. Lehetőség szerint kerülje ezt a megoldást, mert nem minden szolgáltató teszi lehetővé a sávszélesség dinamikus növelését. Ha mindenképpen szüksége van a növelésre, egyeztessen a szolgáltatóval, hogy támogatja-e az ExpressRoute-sávszélesség módosítását PowerShell-parancsokkal. Ha támogatja, akkor futtassa az alábbi parancsokat.
+- Növelheti a sávszélességet. Lehetőség szerint kerülje ezt a megoldást, mert nem minden szolgáltató teszi lehetővé a sávszélesség dinamikus növelését. De ha mindenképpen szükség van, egyeztessen a szolgáltatóval, hogy változó ExpressRoute sávszélesség tulajdonságok PowerShell parancsaival támogatja-e. Ha támogatja, akkor futtassa az alábbi parancsokat.
 
     ```powershell
     $ckt = Get-AzureRmExpressRouteCircuit -Name <<circuit-name>> -ResourceGroupName <<resource-group>>

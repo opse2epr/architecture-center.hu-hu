@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, SAP, Windows
-ms.openlocfilehash: e866727a40551b60e74fc26878a15a5a48e69cf6
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: a93ceead8d160e8c0d0915abeb5e78782190efd6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55897626"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299457"
 ---
 # <a name="deploy-sap-netweaver-windows-for-anydb-on-azure-virtual-machines"></a>SAP NetWeaver (Windows) Azure-beli virtuális gépeken AnyDB üzembe helyezése
 
@@ -69,7 +69,7 @@ Bejelentkezési csoportokat ABAP alkalmazáskiszolgálók kezeléséhez, az SMLG
 
 ### <a name="sap-central-services-cluster"></a>Az SAP Central Services fürt
 
-Ez a referenciaarchitektúra a virtuális gépek központi szolgáltatást futtat az alkalmazás szinten. A központi szolgáltatások egy potenciálisan hibaérzékeny pont (SPOF), egyetlen virtuális gép telepítésekor – szokásos telepítése, ha magas rendelkezésre állás nem követelmény. Egy magas rendelkezésre állású megoldás bevezetésére, vagy egy megosztott lemezfürtök, vagy egy fájlkiszolgáló-megosztás fürt használható.
+Ez a referenciaarchitektúra a virtuális gépek központi szolgáltatást futtat az alkalmazás szinten. A központi szolgáltatások egy potenciálisan hibaérzékeny pont (SPOF), egyetlen virtuális gép telepítésekor &mdash; egy jellegzetes telepítést, ha magas rendelkezésre állás nem követelmény. Egy magas rendelkezésre állású megoldás bevezetésére, vagy egy megosztott lemezfürtök, vagy egy fájlkiszolgáló-megosztás fürt használja.
 
 Virtuális gépek megosztott lemezfürt konfigurálásához használja [Windows Server feladatátvételi fürt](https://blogs.sap.com/2018/01/25/how-to-create-sap-resources-in-windows-failover-cluster/). [Felhőbeli tanúsító](/windows-server/failover-clustering/deploy-cloud-witness) egy kvórum tanúsító ajánlott. A feladatátvételi fürtkörnyezetnek támogatásához [az SIOS DataKeeper Cluster Edition](https://azuremarketplace.microsoft.com/marketplace/apps/sios_datakeeper.sios-datakeeper-8) hajtja végre a fürt megosztott kötet függvény szerepét a fürtcsomópontok független lemezeinek replikálásával. Az Azure nem natív módon támogatja a megosztott lemezeket, és ezért az SIOS által biztosított megoldások igényel.
 
@@ -142,7 +142,7 @@ Lásd: [SAP-tanúsítványok és a Microsoft Azure-on futó konfigurációk](/az
 
 ### <a name="database-tier"></a>Adatbázis-szint
 
-Ez a referenciaarchitektúra azt feltételezi, hogy a forrásadatbázis on AnyDB fut – például az SQL Server, SAP ASE, IBM DB2-höz vagy az Oracle, a DBMS. Az adatbázisszint natív replikációs funkciót biztosít a replikált csomópontok közötti manuális vagy automatikus feladatátvételt.
+Ez a referenciaarchitektúra azt feltételezi, hogy a forrásadatbázis fut on AnyDB &mdash; , adatbázis-kezelő például az SQL Server, SAP ASE, IBM DB2-höz vagy Oracle. Az adatbázisszint natív replikációs funkciót biztosít a replikált csomópontok közötti manuális vagy automatikus feladatátvételt.
 
 Meghatározott adatbázis-rendszerek megvalósítási kapcsolatban lásd: [SAP NetWeaver az Azure Virtual Machines DBMS üzembe](/azure/virtual-machines/workloads/sap/dbms-guide).
 

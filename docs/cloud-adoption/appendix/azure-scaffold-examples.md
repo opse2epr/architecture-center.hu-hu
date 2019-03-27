@@ -7,12 +7,12 @@ ms.author: rodend
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 681944e082238f82cdea4dec2831bb507f4073ae
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 5ecdf1782fc274205e2750b9dc36fd2de3010e1f
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898391"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298957"
 ---
 # <a name="examples-of-implementing-azure-enterprise-scaffold"></a>Példák az Azure enterprise scaffold megvalósítása
 
@@ -24,7 +24,7 @@ Contoso egy globális vállalat, amely az ellátási lánc megoldásokat kínál
 
 A független Szoftverszállító része a vállalat több független részlegek kezelheti a termékeket egy jelentős üzleti oszlik. Mindegyik üzleti egység rendelkezik a saját fejlesztők, a termék kezelők és a tervezők munkáját.
 
-A vállalati technológiai szolgáltatások (ETS) üzleti egység központi IT-képességeket biztosít, és amelyeknél az üzleti egységek állomás alkalmazásaikat több adatközpontban kezeli. Az adatközpontok kezelése, valamint a ETS szervezet biztosít, és kezeli (például az e-mailek és a websites) központi együttműködés és a hálózati és telefonos szolgáltatások. Ezek is kisebb üzleti egység, akik nem rendelkeznek a kezelőszemélyzet ügyfelek által használt számítási feladatok kezelése.
+A vállalati technológiai szolgáltatások (ETS) üzleti egység központi IT-képességeket biztosít, és kezeli a több adatközpontok, amelyeknél az üzleti egységek állomás alkalmazásaikat. Az adatközpontok kezelése, valamint a ETS szervezet biztosít, és kezeli (például az e-mailek és a websites) központi együttműködés és a hálózati és telefonos szolgáltatások. Ezek is kisebb üzleti egység, akik nem rendelkeznek a kezelőszemélyzet ügyfelek által használt számítási feladatok kezelése.
 
 Ez a cikk alábbi használt:
 
@@ -35,7 +35,7 @@ Contoso cégnek szüksége van egy sor üzleti alkalmazás és a egy ügyfelek �
 
 ## <a name="scenario-1-line-of-business-application"></a>1. forgatókönyv: üzleti alkalmazás
 
-Contoso fejleszt egy forrás kódot (BitBucket) világszerte használják a fejlesztők a rendszer.  Az alkalmazás infrastruktúrát használja a szolgáltatás (IaaS) üzemeltetésére, és a webkiszolgálók és a egy adatbázis-kiszolgáló áll. A fejlesztők a fejlesztői környezetükben lévő kiszolgálók eléréséhez, de nincs szükségük a kiszolgálók az Azure-ban való hozzáférést. Contoso ETS szeretné engedélyezni az alkalmazás tulajdonosa és csapat az alkalmazás kezelése céljából. Az alkalmazás csak akkor használható, miközben a Contoso vállalati hálózaton. Dave konfigurálnia kell az előfizetés ehhez az alkalmazáshoz. A jövőben az előfizetés is fogja futtatni más fejlesztői kapcsolódó szoftvereket.
+Contoso fejleszt egy forrás kódot (BitBucket) világszerte használják a fejlesztők a rendszer. Az alkalmazás infrastruktúráját használja a szolgáltatás (IaaS) üzemeltetésére, és a webkiszolgálók és a egy adatbázis-kiszolgáló áll. A fejlesztők a fejlesztői környezetükben lévő kiszolgálók eléréséhez, de nincs szükségük a kiszolgálók az Azure-ban való hozzáférést. Contoso ETS szeretné engedélyezni az alkalmazás tulajdonosa és csapat az alkalmazás kezelése céljából. Az alkalmazás csak akkor használható, miközben a Contoso vállalati hálózaton. Dave konfigurálnia kell az előfizetés ehhez az alkalmazáshoz. A jövőben az előfizetés is fogja futtatni más fejlesztői kapcsolódó szoftvereket.
 
 ### <a name="naming-standards-and-resource-groups"></a>Elnevezési szabályai és -erőforráscsoportok
 
@@ -151,7 +151,7 @@ A a **éles előfizetés**, akkor hozza létre az alábbi szabályzatokat:
 
 | Mező | Következmény | Leírás |
 | --- | --- | --- |
-| location |elutasítás |Az Egyesült Államokbeli adatközpontok kívüli erőforrások létrehozásának megtagadása |
+| location |elutasítás |Megtagadja az USA-beli adatközpontok kívüli erőforrások létrehozása |
 | tags |elutasítás |Alkalmazás tulajdonosa címke megkövetelése |
 | tags |elutasítás |Szükséges a department címke |
 | tags |Hozzáfűzése |Tag hozzáfűzése minden egyes erőforrás-csoportba, amely azt jelzi, hogy éles környezetben |

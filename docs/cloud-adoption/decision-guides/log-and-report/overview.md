@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Naplózás, jelentéseket és az áttelepítés az Azure alapvető szolgáltatásai a "figyelés" ismerje meg.
 author: rotycenh
-ms.openlocfilehash: 36552488872622ec59e2fcf4816da4184c3d4fbf
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 8ab9a159b438a4ac95289d5eb5c0c0a2f4b399ae
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899242"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299439"
 ---
 # <a name="logging-and-reporting-decision-guide"></a>Naplózás és jelentéskészítés döntési útmutató
 
@@ -22,7 +22,7 @@ Minden olyan mechanizmust kell értesítésére IT-csoportoknak, teljesítmény�
 
 Ugrás ide: [A figyelési infrastruktúra tervezési](#planning-your-monitoring-infrastructure) | [Felhőbeli natív](#cloud-native) | [helyszíni bővítmény](#on-premises-extension) | [átjáró összesítés ](#gateway-aggregation)  |  [Hibrid monitorozási (helyszíni)](#hybrid-monitoring-on-premises) | [hibrid monitorozás (felhőalapú)](#hybrid-monitoring-cloud-based) | [többfelhős ](#multi-cloud)  |  [További](#learn-more)
 
-Cloud identity stratégia meghatározása során kihasználás elsősorban a szervezet által végrehajtott üzemeltetési folyamatokat, és bizonyos mértékű követelményeinek, már támogatja a többszörös felhőstratégia meglévő befektetéseken alapul.
+A kihasználás is egy felhőalapú, naplózás és jelentéskészítés a stratégia elsősorban meglévő befektetéseken alapul meghatározásakor a szervezet által végrehajtott üzemeltetési folyamatokat, és bizonyos mértékű követelményeinek, már támogatja a többszörös felhőstratégia.
 
 Többféle módon napló és a jelentés a felhőben végzett tevékenységeit. Felhőbeli natív és a központi naplózási két gyakori szoftverek olyan szoftverszolgáltatások (SaaS) közül, amelyek vezérlik az előfizetések kialakítása és az előfizetések száma.
 

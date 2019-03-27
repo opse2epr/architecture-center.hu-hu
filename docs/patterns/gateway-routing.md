@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: e5c93c98a562e790d547d08fdf312c973cfceed8
-ms.sourcegitcommit: 1b50810208354577b00e89e5c031b774b02736e2
+ms.openlocfilehash: bb797be973ecc493838cdb78fe9d24f20fcf8148
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/23/2019
-ms.locfileid: "54487228"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298717"
 ---
 # <a name="gateway-routing-pattern"></a>Átjáró-útválasztási minta
 
@@ -75,6 +75,8 @@ server {
     }
 }
 ```
+
+Az Azure-ban több szolgáltatás beállítható mögött beállítása egy [Application Gateway-példány](/azure/application-gateway/tutorial-multiple-sites-cli), amely biztosítja a 7. rétegbeli útválasztási.
 
 ## <a name="related-guidance"></a>Kapcsolódó útmutatók
 

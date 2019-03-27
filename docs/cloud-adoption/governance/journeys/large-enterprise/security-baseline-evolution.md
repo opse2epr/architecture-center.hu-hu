@@ -7,14 +7,14 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – alapvető biztonsági fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 59fb3655f1ff2a5f0a30abc760c27c77b8f802af
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: e9e8b7dc1eaeb3a8555326a51b2548ad668e0171
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55899426"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298442"
 ---
-# <a name="large-enterprise-security-baseline-evolution"></a>Nagyvállalati: Biztonsági alapkonfiguráció fejlődést szem előtt tartva
+# <a name="large-enterprise-security-baseline-evolution"></a>Nagyvállalati: A biztonsági alapkonfiguráció fejlődése
 
 Ez a cikk a narratíva haladásával biztonsági ellenőrzéseket, amely támogatja a védett adatokról a felhőre való hozzáadásával.
 
@@ -28,7 +28,7 @@ Az elmúlt 12 hónap a felhő bevezetésének csapatok törölte a legtöbb az 5
 
 A felhő Cégirányítási csapat továbbra is fejlesztheti tovább a narratíva együtt. A két igazgatótanácsi tagja a csoport immár legtiszteletreméltóbb a felhőben dolgozó tervezők, a vállalat között. Nőtt. a konfigurációs szkripteket gyűjteményét, új teams kiszolgálókon innovatív új üzembe helyezésekhez. A felhő Cégirányítási csapata is emelkedett. Legutóbb az IT-üzemeltetési csapat tagjai csatlakoztak a felhő Cégirányítási csapat tevékenységek fel a felhőbeli műveletek. A felhőben dolgozó tervezők t létrehozó szakemberektől tanulhat, ezáltal elősegíti az ebben a közösségi felhő őrei és a felhő megoldásgyorsítók láthatók.
 
-Bár a különbség a változás is, azt fontos különbség létrehozását, cégirányítási való használatra optimalizált informatikai kulturális környezetet. A felhő gondviselője megtisztítja a kantinjaik innovatív felhőben dolgozó tervezők által készített, és a két lehetséges szerepkör természetes fennakadások nélkül használható, és célok ellentétes. Egy felhőalapú gazdagépőr segít biztonságban a felhőben, így más felhőben dolgozó tervezők gyorsabban és kevesebb kantinjaik helyezheti át. Egy felhőalapú gyorsító mindkét funkciókat hajtja végre, de is részt vesz a gyorsabb üzembe helyezési és bevezetési, váljon az innováció gyorsító, valamint a defender felhőbeli állapítják-sablonok létrehozása.
+Bár a különbség a változás is, azt fontos különbség létrehozását, cégirányítási való használatra optimalizált informatikai kulturális környezetet. A felhő gondviselője megtisztítja a kantinjaik innovatív felhőben dolgozó tervezők által készített, és a két lehetséges szerepkör természetes fennakadások nélkül használható, és célok ellentétes. Egy felhőalapú gazdagépőr segít biztonságban a felhőben, így más felhőben dolgozó tervezők gyorsabban és kevesebb kantinjaik helyezheti át. Egy felhőalapú gyorsító mindkét funkciókat hajtja végre, de is részt vesz a gyorsabb üzembe helyezési és bevezetési, váljon az innováció gyorsító, valamint a felhő irányítási öt oktatnak a defender-sablonok létrehozása.
 
 ### <a name="evolution-of-the-current-state"></a>Az aktuális állapot a fejlődést szem előtt tartva
 

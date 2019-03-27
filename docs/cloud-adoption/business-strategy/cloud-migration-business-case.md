@@ -1,5 +1,5 @@
 ---
-title: 'CAF: Egy felhőbeli migrálás üzleti eset létrehozása'
+title: 'CAF: Üzleti terv létrehozása felhőbe végzett migráláshoz'
 titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
@@ -8,12 +8,12 @@ description: Szempontok a felhőmigrálás üzleti indoklásának létrehozásá
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: 21c2b877a0f329711027f020fd0047479e8c7bfb
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: 04c1944498387e2b42c96a600cc69e50cf53d024
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898306"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58299441"
 ---
 # <a name="build-a-business-justification-for-cloud-migration"></a>Migrálás a felhőbe üzleti indoklásának létrehozása
 
@@ -31,7 +31,7 @@ A migrálás a felhőbe korai az elvárt megtérülési rátát (ROI) hozhat lé
 
 - A virtualizálás, a kiszolgálók és a közbenső szoftverek díjait széles körű lehet. A felhőszolgáltatók kiküszöbölése néhány ezeket a díjakat. Két példa virtualizálási költségek csökkentése a felhőszolgáltatók a [Azure Hybrid Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/#services) és [foglalások](https://azure.microsoft.com/reservations/) programok.
 - Üzleti veszteségek leállások miatt gyorsan haladhatja meg a hardver vagy szoftver költségeket. Ha az aktuális adatközponti instabillá válhat, ahol az üzleti lehetőség költségek és a tényleges üzleti költségek tekintetében leállások hatásának számszerűsítése.
-- A környezeti költségek hatásos is. Az átlagos American család a kezdőlapja a legnagyobb befektetési és a legmagasabb díj költségvetés. Ugyanez igaz gyakran adatközpontok számára. Ingatlan, létesítmények és segédprogram költségek egy a helyszíni üzemeltetési költség valós részét képviseli. Adatközpontok kivezettük, ha ezekben a létesítményekben újrafelhasználásra kerülnek az üzlet szerint, vagy potenciálisan üzleti sikerült mentesülhet a költségek teljes egészében.
+- Lehet, hogy a környezeti költségek is jelentős. Az átlagos American család a kezdőlapja a legnagyobb befektetési és a legmagasabb díj költségvetés. Ugyanez igaz gyakran adatközpontok számára. Ingatlan, létesítmények és segédprogram költségek egy a helyszíni üzemeltetési költség valós részét képviseli. Adatközpontok kivezettük, ha ezekben a létesítményekben újrafelhasználásra kerülnek az üzlet szerint, vagy potenciálisan üzleti sikerült mentesülhet a költségek teljes egészében.
 
 **Miközben: Üzemeltetési költségek (OpEx) jobb, mint beruházási költségek (CapEx).** Csatornára. További információ a [pénzügyi eredményekkel](business-outcomes/fiscal-outcomes.md) OpEx a cikkben egy jó dolog is lehet. Azonban számos iparágban hasznosak, mint a negatív OpEx számára látható. Az alábbiakban néhány példát, amely aktiválja szorosabban együttműködnek az OpEx beszélgetés vonatkozó számlázási és az üzleti egységek:
 
@@ -70,17 +70,17 @@ Ezt a képletet kicsomagolása áttelepítési-specifikus nézet létrehozása a
 
 ## <a name="migration-specific-initial-investment"></a>Áttelepítési-specifikus kezdeti befektetések
 
-- A felhőszolgáltatók, például az Azure megbecsülni a felhőbefektetések számító kínálnak. Például ilyen egy Számológép a [Azure díjkalkulátor](https://azure.microsoft.com/en-in/pricing/).
+- A felhőszolgáltatók, például az Azure megbecsülni a felhőbefektetések számító kínálnak. Például ilyen egy Számológép a [Azure díjkalkulátor](https://azure.microsoft.com/pricing).
 - Egyes felhőszolgáltatók költség különbözeti számító is támogatják. A különbözeti költségkalkulátor például a [Azure teljes költség a tulajdonjog (TCO) Számológép](https://azure.com/tco).
 - A kifinomultabb költség struktúrák, fontolja meg egy [digitális hagyatéki tervezési](../digital-estate/overview.md) gyakorolják.
 - Becslés az áttelepítés.
-- Minden olyan várható képzési lehetőségek kiszámítása. [A Microsoft Learn](https://docs.microsoft.com/learn/) képes e költségek csökkentése érdekében.
+- Minden olyan várható képzési lehetőségek kiszámítása. [A Microsoft Learn](/learn) képes e költségek csökkentése érdekében.
 - Egyes vállalatok fektetett meglévő munkatársai által az idő tagok előfordulhat, hogy kell szerepelnie a kezdeti költségek. Útmutatásért tekintse meg a pénzügyi office.
 - Beszélje meg minden olyan további költségek és a terhet költségeket a pénzügyi Office-ellenőrzés céljából.
 
 ## <a name="migration-specific-revenue-deltas"></a>Áttelepítési-specifikus bevétel eltérések
 
-Ez a helyzet gyakran van kihagyott, egy migrálási üzleti indoklás létrehozásakor. Egyes területeken a felhőben csökkentheti költségeit. Azonban a végső bármely átalakítási célja, hogy jobb eredmények felfüggesztési idő függvényében. Érdemes tudni, hogy hosszú távú bevétel fejlesztései alsóbb rétegbeli következményeinek. Milyen új technológiák az áttelepítés, amely jelenleg nem javítható után lesz elérhető üzleti? Milyen projektek vagy üzleti célokhoz függőségek a régi technológiák által blokkolt? Milyen programok várakozó, magas cap-ex technológiai költségeiket függőben?
+Ez a helyzet gyakran van kihagyott, egy migrálási üzleti indoklás létrehozásakor. Egyes területeken a felhőben csökkentheti költségeit. Azonban a végső bármely átalakítási célja, hogy jobb eredmények felfüggesztési idő függvényében. Érdemes tudni, hogy hosszú távú bevétel fejlesztései alsóbb rétegbeli következményeinek. Milyen új technológiákat a vállalkozás számára elérhető lesz, amely jelenleg nem használható az áttelepítés után? Milyen projektek vagy üzleti célokhoz függőségek a régi technológiák által blokkolt? Milyen programok várakozó, magas cap-ex technológiai költségeiket függőben?
 
 A felhő zárolása lehetőségek figyelembe vételével, munkahelyi alapján számítja ki, a bevétel, amely növeli az üzleti ezeket a lehetőségeket sikerült származnak.
 
@@ -88,24 +88,24 @@ A felhő zárolása lehetőségek figyelembe vételével, munkahelyi alapján sz
 
 Módosításokat a javasolt áttelepítési származnak, a költségek kiszámításához. Lásd: [pénzügyi modelleket](financial-models.md) költség eltérések a különböző típusú részleteit. A felhőszolgáltatók milyen gyakran biztosítja a különbözeti költségszámításokhoz. A különbözeti költségkalkulátor például a [Azure teljes költség a tulajdonjog (TCO) Számológép](https://azure.com/tco).
 
-További példák a, amely a felhőbe történő Migrálás csökkentheti költségeit:
+További példák a, amely a felhőbe történő migrálás csökkentheti költségeit:
 
-- Data Center felmondása vagy csökkentése (környezeti költségek)
+- Csökkentési (környezeti költségek) vagy Datacenter megszűnése
 - A felhasznált energia (környezeti költségek) csökkentése
 - Állvány lezárást (fizikai eszköz helyreállítási)
-- Hardver frissítés (költségek elkerülését) megakadályozása
-- Kerülje a szoftver megújítást (működési költségek csökkentéséhez vagy költségek elkerülését)
+- Hardver frissítési megelőzése (költségek elkerülését)
+- Szoftver megújítási elkerülő (az üzemeltetési költségek csökkentése vagy a költségek elkerülését)
 - Szállítói összevonás (működési költségek csökkentéséhez és a lehetséges szoftveres költségek csökkentéséhez)
 
 ## <a name="when-roi-results-are-surprising"></a>Amikor ROI eredményeket is meglepő
 
-Ha a megtérülési RÁTÁRA, a felhőbe történő migrálás nem az elvárásoknak megfelelően, a közös tévhitet, ez a cikk elején felsorolt gondolnia hasznosak lehetnek.
+Ha a megtérülési RÁTÁRA, a felhőbe történő migrálás nem felel meg az elvárásainak, a közös tévhitet, ez a cikk elején felsorolt gondolnia hasznosak lehetnek.
 
 Fontos azonban megérteni, hogy a költség megtakarítás serkenti az eredményt értéke nem mindig lehetséges. Nincsenek további megfelelően működjenek a felhőben, mint a helyszíni alkalmazásokat, amelyek a költségek. Ezek az alkalmazások is jelentősen döntés az elemzés eredménye.
 
 A megtérülési RÁTÁRA 20 % alatt van, vegye figyelembe a [digitális hagyatéki tervezési](../digital-estate/overview.md) a gyakorlatban a figyelmet adott [ésszerűsítés](../digital-estate/rationalize.md). A mennyiségi elemzés, során a számítási feladatok, amelyek az eredmények tevékenységdiagramon található mindegyik alkalmazás felülvizsgálat végrehajtása. Elképzelhető, hogy távolítsa el azokat a munkaterheléseket a terv célszerű előre megtervezni. Használati adatok érhető el, ha fontolja meg a használatot a virtuális gépek méretének csökkentését.
 
-Ha továbbra is a helytelen igazítású a megtérülési RÁTÁRA, segítségért a Microsoft értékesítési képviselőjével vagy [tapasztalt partnerek vesznek](https://azure.microsoft.com/en-us/migration/partners/).
+Ha továbbra is a helytelen igazítású a megtérülési RÁTÁRA, segítségért a Microsoft értékesítési képviselőjével vagy [tapasztalt partnerek vesznek](https://azure.microsoft.com/migration/support).
 
 ## <a name="next-steps"></a>További lépések
 

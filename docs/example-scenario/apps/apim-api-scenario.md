@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-apim-api-scenario.png
-ms.openlocfilehash: cf3d4b7ed7fce04e6688f68e382caeec78abd100
-ms.sourcegitcommit: 3b15d65e7c35a19506e562c444343f8467b6a073
+ms.openlocfilehash: d0ced674048c3819369555f044b1e452ff79e923
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 01/25/2019
-ms.locfileid: "54907962"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298837"
 ---
 # <a name="migrating-a-legacy-web-application-to-an-api-based-architecture-on-azure"></a>Régi webalkalmazás migrálása egy API-alapú architektúrába az Azure-ban
 
@@ -49,7 +49,7 @@ Az új felhasználói felület platform (PaaS) alkalmazás az Azure-ban üzemelt
     - Fejleszti és közzétett egy [Azure PaaS webes API-alkalmazás][azure-api-apps].
     - Az engedélyezési listán (keresztül [webalkalmazás beállítások][azure-appservice-ip-restrict]) csak fogadására a [APIM VIP][apim-faq-vip].
     - Üzemel az Azure Web Apps a biztonságos átvitel/SSL engedélyezve van.
-    - Van engedélyezve, engedélyezési [az Azure App Service által biztosított] [ azure-appservice-auth] Azure Active Directory és az OAuth2 használatával.
+    - Van engedélyezve, engedélyezési [az Azure App Service által biztosított] [ azure-appservice-auth] OAuth 2 és az Azure Active Directory használatával.
 5. Az új böngésző-alapú webes alkalmazás függ az Azure API Management-példány **mindkét** a meglévő HTTP API-t és az új API-t.
 
 Az örökölt HTTP-szolgáltatások leképezése egy új API-szerződés az APIM-példányra lesz konfigurálva. Ezzel az új webes felhasználói Felületet nem észleli, az integráció az örökölt services és API-k és az új API-k készlete. A jövőben a projektcsapat fog fokozatosan port az új API-funkciókat és kivonása az eredeti szolgáltatásokat. Ezek a változások kezelésének belül APIM-konfiguráció, így nem érinti az előtér felhasználói felületi és átalakítását munkahelyi elkerülésére.

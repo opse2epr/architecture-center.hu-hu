@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Identitás alapkonfiguráció szabályzat megfelelőségi folyamat
 author: BrianBlanchard
-ms.openlocfilehash: e00427662c811fccb7e0a7261a4bb3dd3437103e
-ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.openlocfilehash: ef973a788b49d6818e9647601a16a772106b53eb
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55898753"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58298634"
 ---
 # <a name="identity-baseline-policy-compliance-processes"></a>Identitás alapkonfiguráció szabályzat megfelelőségi folyamat
 
