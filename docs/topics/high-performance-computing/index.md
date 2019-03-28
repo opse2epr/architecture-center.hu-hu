@@ -165,8 +165,8 @@ A HPC-rendszerek az alapoktól való felépítése az Azure-ban jelentős mért�
 
 1. Állítsa be saját fürtkörnyezetét az Azure-beli virtuális gépeken vagy a [virtuálisgép-méretezési csoportokban](/azure/virtual-machine-scale-sets/overview?context=/azure/architecture/topics/high-performance-computing/context/hpc-context).
 2. Helyezzen üzembe vezető [számításifeladat-kezelőket](#workload-managers), infrastruktúrát és [alkalmazásokat](#hpc-applications) Azure Resource Manager-sablonok segítségével.
-3. Válasszon [HPC és GPU virtuálisgép-méreteket](#hpc-and-gpu-sizes), amelyek speciális hardvert és hálózati kapcsolatokat tartalmaznak az MPI és GPU számítási feladatokhoz.
-4. Adjon hozzá [nagy teljesítményű tárolót](#hpc-storage) az I/O-igényes számítási feladatok számára.
+3. Válasszon HPC és GPU [virtuálisgép-méreteket](#compute), amelyek speciális hardvert és hálózati kapcsolatokat tartalmaznak az MPI és GPU számítási feladatokhoz.
+4. Adjon hozzá [nagy teljesítményű tárolót](#storage) az I/O-igényes számítási feladatok számára.
 
 ### <a name="hybrid-and-cloud-bursting"></a>Hibrid és felhőalapú teljesítménynövelés
 
@@ -231,7 +231,7 @@ Először tekintse át a dokumentáció [A helyszíni hálózat Azure-hoz való 
     </li>
 </ul>
 
-A hálózati kapcsolat biztonságos létrejötte után megkezdheti a felhőalapú számítási erőforrások igény szerinti használatát a meglévő [számításifeladat-kezelő](#workload-manager) teljesítménynövelési képességeivel.
+A hálózati kapcsolat biztonságos létrejötte után megkezdheti a felhőalapú számítási erőforrások igény szerinti használatát a meglévő [számításifeladat-kezelő](#workload-managers) teljesítménynövelési képességeivel.
 
 ### <a name="marketplace-solutions"></a>A Marketplace-ről származó megoldások
 
