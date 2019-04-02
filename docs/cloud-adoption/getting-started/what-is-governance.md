@@ -6,12 +6,12 @@ ms.subservice: enterprise-cloud-adoption
 ms.date: 02/11/2019
 description: MAGYARÁZAT felhőalapú erőforrás-szabályozása az Azure-ban
 author: petertaylor9999
-ms.openlocfilehash: 5d022e83a1c97a5e5af8208ec00339575bb88be1
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
-ms.translationtype: HT
+ms.openlocfilehash: 602ac81f2b2201c77746df971d282582ceee23f7
+ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298545"
+ms.lasthandoff: 03/27/2019
+ms.locfileid: "58503196"
 ---
 <!-- markdownlint-disable MD026 -->
 
@@ -35,11 +35,11 @@ Az RBAC szerepkörök határozza meg, és a szerepkörök határozzák meg a ké
 
 Erőforrás-házirendek erőforrás-létrehozás vonatkozó szabályok meghatározásához. Például egy erőforrás-szabályzat korlátozhatja az egy adott előtti-appproved méretű virtuális gép Termékváltozata. Másik lehetőségként egy erőforrás-szabályzat kényszerítheti a költséghely a címke hozzáadása az erőforrás létrehozásához a kérelem elküldésekor.
 
-Ezek az eszközök konfigurálása, ha fontos szempont szervezeti rugalmasság és irányítás osztja el. Ez azt jelenti, hogy a szigorúbb cégirányítási házirendjében a kevésbé rugalmas válnak a fejlesztők és informatikai dolgozók. Ennek az oka egy korlátozó goverance házirendet szükség lehet további manuális lépések, például az eszközjelszó töltsön ki egy űrlapot, vagy manuálisan hozzon létre egy erőforrást a cégirányítási csapat egy személy e-mail küldése a fejlesztő. A goverance csapata véges képességekkel rendelkezik, és előfordulhat, hogy legyen várakozó fel, Várakozás a létrehozott és a felesleges erőforrások keletkezhetnek költségek addig azokat törölni kell az erőforrások rendszer fejlesztőcsapatok eredményez.
+Ezek az eszközök konfigurálása, ha fontos szempont szervezeti rugalmasság és irányítás osztja el. Ez azt jelenti, hogy a szigorúbb cégirányítási házirendjében a kevésbé rugalmas válnak a fejlesztők és informatikai dolgozók. Ennek az oka egy cégirányítási korlátozó házirend szükség lehet további manuális lépések, például az eszközjelszó töltsön ki egy űrlapot, vagy manuálisan hozzon létre egy erőforrást a cégirányítási csapat egy személy e-mail küldése a fejlesztő. A cégirányítási csapata véges képességekkel rendelkezik, és előfordulhat, hogy legyen várakozó fel, Várakozás a létrehozott és a felesleges erőforrások keletkezhetnek költségek addig azokat törölni kell az erőforrások rendszer fejlesztőcsapatok eredményez.
 
 ## <a name="next-steps"></a>További lépések
 
-Most, hogy megismerkedett a felhőbeli erőforrások goverance fogalmát, tudjon meg többet az erőforrásokhoz való hozzáférés kezelésének módját az Azure-ban.
+Most, hogy megismerkedett a felhőbeli erőforrás-szabályozás fogalmát, tudjon meg többet az erőforrásokhoz való hozzáférés kezelésének módját az Azure-ban.
 
 > [!div class="nextstepaction"]
 > [További tudnivalók az Azure-beli erőforrás-hozzáférés](azure-resource-access.md)

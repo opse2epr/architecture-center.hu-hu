@@ -6,12 +6,12 @@ ms.date: 03/06/2019
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 69391133f11445283b9835cc0742bde6f2bc334d
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
-ms.translationtype: HT
+ms.openlocfilehash: 1020e938a04c6a82e6cc831e6620ec17c9a10cc7
+ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299224"
+ms.lasthandoff: 03/27/2019
+ms.locfileid: "58503230"
 ---
 # <a name="what-are-the-machine-learning-products-at-microsoft"></a>Mik azok a machine learning-termékek, a Microsoft?
 
@@ -75,7 +75,7 @@ Próbálja ki a [Azure Machine Learning szolgáltatás ingyenes vagy fizetős ve
 
 ## <a name="azure-machine-learning-studio"></a>Azure Machine Learning Studio
 
-Az [Azure Machine Learning Studio](/azure/machine-learning/studio/what-is-ml-studio.md) interaktív, grafikus munkaterületet nyújt, amelyen az előre összeállított gépi tanuláson alapuló algoritmusok használatával könnyedén hozhat létre, tesztelhet és helyezhet üzembe modelleket. A Machine Learning Studio a modelleket webszolgáltatásként teszi közzé, amelyeket az egyéni alkalmazások vagy az Excel és más üzletiintelligencia-eszközök egyszerűen felhasználhatnak.
+Az [Azure Machine Learning Studio](/azure/machine-learning/studio/) interaktív, grafikus munkaterületet nyújt, amelyen az előre összeállított gépi tanuláson alapuló algoritmusok használatával könnyedén hozhat létre, tesztelhet és helyezhet üzembe modelleket. A Machine Learning Studio a modelleket webszolgáltatásként teszi közzé, amelyeket az egyéni alkalmazások vagy az Excel és más üzletiintelligencia-eszközök egyszerűen felhasználhatnak.
 Nincs szükség programozásra – a gépi tanuláson alapuló modellek létrehozásához elegendő az adathalmazokat és az elemzési modulokat egy interaktív vásznon összekapcsolni, ezt követően pedig a modell már néhány kattintással üzembe is helyezhető.
 
 Akkor érdemes a Machine Learning Studiót használnia, ha programkód írása nélkül szeretne modelleket fejleszteni és üzembe helyezni.
@@ -139,7 +139,7 @@ Akkor érdemes a Microsoft Machine Learning-kiszolgálót használnia, ha egy ki
 
 ## <a name="azure-data-science-virtual-machine"></a>Azure Data Science Virtual Machine
 
-Az [Azure Data Science Virtual Machine](/azure/machine-learning/data-science-virtual-machine/overview.md) egy személyre szabott virtuálisgép-környezet a Microsoft Azure-felhőben, amelyet kifejezetten adatelemzésre hoztak létre. Számos népszerű adatelemzési és egyéb eszköz található meg rajta előre telepítve és konfigurálva, amelyek jelentősen felgyorsítják az intelligens alkalmazások fejlett elemzésekhez történő összeállítását.
+Az [Azure Data Science Virtual Machine](https://docs.microsoft.com/azure/machine-learning/data-science-virtual-machine/overview) egy személyre szabott virtuálisgép-környezet a Microsoft Azure-felhőben, amelyet kifejezetten adatelemzésre hoztak létre. Számos népszerű adatelemzési és egyéb eszköz található meg rajta előre telepítve és konfigurálva, amelyek jelentősen felgyorsítják az intelligens alkalmazások fejlett elemzésekhez történő összeállítását.
 
 Azure Machine Learning szolgáltatás célként támogatja a Data Science Virtual Machine-t.
 Windows és Linux Ubuntu (az Azure Machine Learning szolgáltatás nem támogatott Linux CentOS) verzió érhető el.
