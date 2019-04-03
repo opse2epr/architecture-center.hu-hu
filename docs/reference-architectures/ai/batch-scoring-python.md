@@ -7,14 +7,14 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai, AI
-ms.openlocfilehash: 8ecaed9f69d030de7a9e12ea8d6acb493a5e7c83
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: b7607984bcf2c4bd046421aeb6e9d52dd8e7c18e
+ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299528"
+ms.lasthandoff: 04/03/2019
+ms.locfileid: "58887743"
 ---
-# <a name="batch-scoring-of-python-models-on-azure"></a>Batch-pontozás Python-modellek az Azure-ban
+# <a name="batch-scoring-of-python-machine-learning-models-on-azure"></a>Batch-pontozás Python machine learning-modellek az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan hozhat létre egy méretezhető megoldás, a kötegelt pontozási számos modellek Azure Machine Learning szolgáltatás használatával párhuzamosan ütemezés szerint. A megoldás sablonként is használható, és különböző problémákat generalize is.
 

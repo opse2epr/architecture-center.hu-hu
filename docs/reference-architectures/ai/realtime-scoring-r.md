@@ -7,14 +7,14 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 00bea3cae0c3d2f0fea2babd7b0157382cf9890a
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 5f3cc62c81c9ef9e5c3c27b1d66badd3e481c228
+ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299526"
+ms.lasthandoff: 04/03/2019
+ms.locfileid: "58887845"
 ---
-# <a name="real-time-scoring-of-r-machine-learning-models"></a>Machine Learning-modellek valós idejű pontozása
+# <a name="real-time-scoring-of-r-machine-learning-models-on-azure"></a>Valós idejű pontozás a R machine learning modellek az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan egy valós idejű (szinkron) előrejelzési szolgáltatás megvalósítása az R Microsoft Machine Learning-kiszolgáló futtatása az Azure Kubernetes Service (AKS) használatával. Ez az architektúra célja, hogy általános és bármely valós idejű szolgáltatásként telepíteni kívánt R beépített prediktív modell számára a megfelelő. **[A megoldás üzembe helyezése][github]**.
 

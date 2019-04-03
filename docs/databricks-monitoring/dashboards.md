@@ -3,18 +3,20 @@ title: Az irányítópultok használatával jelenítheti meg az Azure Databricks
 description: Hogyan helyezhet üzembe egy lesz a Grafana irányítópultja, az Azure Databricksben teljesítményének figyelése
 author: petertaylor9999
 ms.date: 03/26/2019
-ms.openlocfilehash: dbc04b00a781dd20c3224b5a031a8d98ddadce94
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: 36fcd93f6ca757e8e750d0fcbbdf0311c08560b0
+ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503312"
+ms.lasthandoff: 04/03/2019
+ms.locfileid: "58887828"
 ---
 # <a name="use-dashboards-to-visualize-azure-databricks-metrics"></a>Az irányítópultok használatával jelenítheti meg az Azure Databricks-metrikák
 
+Ez a cikk bemutatja, hogyan állítható be egy lesz a Grafana irányítópultja, teljesítménnyel kapcsolatos problémák az Azure Databricks-feladatok figyelése.
+
 [Az Azure Databricks](/azure/azure-databricks/) van egy gyors, hatékony és együttműködő [Apache Spark](https://spark.apache.org/)– alapú analitikai szolgáltatás, amely megkönnyíti az gyors fejlesztése és üzembe helyezése a big data-analitika és a mesterséges intelligencia (AI) megoldásokat. Figyelés az Azure Databricks számítási feladatokat éles környezetben működő kritikus összetevője. Az első lépéseként a metrikák begyűjtéséhez elemzéshez a munkaterületre. Az Azure-ban, a legjobb megoldás a naplóadatok kezeléséhez van [Azure Monitor](/azure/azure-monitor/). Az Azure Databricks nem támogatja natív módon az Azure monitor történő adatküldés napló, de egy [kódtára ezt a funkciót a](https://github.com/mspnp/spark-monitoring) érhető el [Github](https://github.com).
 
-Ebben a könyvtárban lehetővé teszi, hogy az Azure Databricks szolgáltatás metrikák, valamint az Apache Spark-struktúra lekérdezés esemény metrikák streamelési naplózását. Miután sikeresen telepítette az Azure Databricks-fürt ebben a könyvtárban, telepíthet egy további [Azure Monitor](/azure/azure-monitor/) vagy [Grafana](https://granfana.com) irányítópultokat az éles üzemben futó részeként üzembe helyezhető környezet. Ez a dokumentum ismerteti azokat a teljesítménnyel kapcsolatos hibákat, és hogyan azonosíthatja azokat az ilyen irányítópultok közös típusú tartalmaz.
+Ebben a könyvtárban lehetővé teszi, hogy az Azure Databricks szolgáltatás metrikák, valamint az Apache Spark-struktúra lekérdezés esemény metrikák streamelési naplózását. Miután sikeresen telepítette az Azure Databricks-fürt ebben a könyvtárban, telepíthet egy további [Grafana](https://granfana.com) irányítópultok részeként az éles környezetben üzembe helyezhető.
 
 ![Az irányítópult képernyőképe](./_images/dashboard-screenshot.png)
 
@@ -188,6 +190,11 @@ Ezután egy olyan vizualizációkat az irányítópulton, amely végrehajtó ar�
 ### <a name="shuffle-metrics"></a>Shuffle metrikák
 
 Az adatok között az összes végrehajtóval a strukturált streamelési lekérdezéshez tartozó mérőszámok shuffle Vizualizációk show végleges halmazát. Ezek közé tartozik a shuffle bájt olvasás, írt bájtok sejthető, sejthető memória és a lemezhasználatot lekérdezéseket, a fájlrendszer szolgál.
+
+## <a name="next-steps"></a>További lépések
+
+> [!div class="nextstepaction"]
+> [A teljesítmény szűk hibaelhárítása](./performance-troubleshooting.md)
 
 <!-- links -->
 
