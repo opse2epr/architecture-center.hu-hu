@@ -557,6 +557,16 @@ items:
       href: service-fabric/migrate-from-cloud-services.md
     - name: Service Fabric-alkalmazás újrabontása
       href: service-fabric/refactor-migrated-app.md
+  - name: Az Azure Databricks monitorozása
+    items:
+    - name: Áttekintés
+      href: databricks-monitoring/index.md
+    - name: A Databricks konfigurálása a metrikák az Azure Monitornak történő továbbítására
+      href: databricks-monitoring/configure-cluster.md
+    - name: Databricks-alkalmazásnaplók küldése az Azure Monitornak
+      href: databricks-monitoring/application-logs.md
+    - name: Irányítópultok használata a Databricks-metrikák megjelenítésére
+      href: databricks-monitoring/dashboards.md
 - name: Tervezésáttekintési keretrendszer
   items:
   - name: Rugalmasságot szem előtt tartó tervezés
@@ -851,9 +861,9 @@ items:
           href: cloud-adoption/decision-guides/software-defined-network/hub-spoke.md
       - name: Naplók és jelentéskészítés
         href: cloud-adoption/decision-guides/log-and-report/overview.md
-ms.openlocfilehash: 06737190911118bab802d8141d959b04f6589f0a
-ms.sourcegitcommit: ea97ac004c38c6b456794c1a8eef29f8d2b77d50
+ms.openlocfilehash: 861170224f9575dc5e45d993678bda482b0ed944
+ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/26/2019
-ms.locfileid: "58489215"
+ms.lasthandoff: 03/27/2019
+ms.locfileid: "58503247"
