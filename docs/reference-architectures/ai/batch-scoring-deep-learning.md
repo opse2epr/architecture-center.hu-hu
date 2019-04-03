@@ -8,14 +8,14 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 7b13e9c0e319f89abb7874003014dcdb1ff08fce
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: a1c0701185c85f8e7bcbc183b32c4834529fc524
+ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298590"
+ms.lasthandoff: 04/03/2019
+ms.locfileid: "58887862"
 ---
-# <a name="batch-scoring-on-azure-for-deep-learning-models"></a>Kötegelt pontozási az Azure-on deep learning-modellek
+# <a name="batch-scoring-of-deep-learning-models-on-azure"></a>Batch-pontozás deep learning-modellek az Azure-ban
 
 Ez a referenciaarchitektúra bemutatja, hogyan Neurális stílus átviteli alkalmazandó egy videót, az Azure Machine Learning segítségével. *Átviteli stílus* deep learning-módszer, amely egy másik képet stílusát egy meglévő kép composes. Ez az architektúra bármilyen forgatókönyvhöz kötegelt pontozási használatával deep learninget használó is általánosítva. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
