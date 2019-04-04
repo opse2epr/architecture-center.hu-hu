@@ -6,8 +6,13 @@ layout: LandingPage
 ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
+ms.openlocfilehash: 57f28808d3c49c74bc010133c670a186206a4466
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344529"
 ---
-
 # <a name="azure-virtual-datacenter-and-the-enterprise-control-plane"></a>Az Azure Virtual Datacenter és a vállalati vezérlősík
 
 Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az Azure-felhőplatform képességeiből a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett. Amikor vállalati számítási feladatokat helyeznek üzembe a felhőben, az informatikai cégeknek és üzleti egységeknek meg kell találniuk a szabályozás és a fejlesztőknek nyújtott rugalmasság közötti egyensúlyt. Az Azure Virtual Datacenter különböző modelleket kínál ennek kialakítására, a szabályozásra helyezve nagyobb hangsúlyt.

@@ -7,12 +7,12 @@ layout: LandingPage
 ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: example-scenario
-ms.openlocfilehash: bb71f82bac2d37bf4aec9f8b12a2a83d302d9e88
-ms.sourcegitcommit: a05494afd63a5e74dee1ef85611341e4ec964126
+ms.openlocfilehash: ad29bb3c64b3276828c00fb05f10e0fa97967e47
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/12/2019
-ms.locfileid: "56157025"
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346552"
 ---
 # <a name="azure-example-scenarios"></a>Azure-példaforgatókönyvek
 
@@ -21,6 +21,8 @@ A példaforgatókönyvek azt mutatják be, hogyan lehet megbirkózni adott üzle
 A forgatókönyvekben megtalálja az architektúradiagramokat, az adatfolyamokat és a technikai összetevők részletes leírását. A megoldás éles környezetben történő futtatásakor megfontolandó szempontokat, a megoldás költségtényezőit és a hasonló problémák megoldására szolgáló egyéb lehetőségeket is áttekintheti. Sok forgatókönyv azt a módszert is tartalmazza, amellyel könnyedén üzembe helyezheti a megoldást saját Azure-előfizetésében.
 
 Ugrás ide: [MI-használati forgatókönyvek](#ai-scenarios) | [Alkalmazáshasználati forgatókönyvek](#application-scenarios) | [Adathasználati forgatókönyvek](#data-scenarios) | [Infrastruktúrahasználati forgatókönyvek](#infrastructure-scenarios)
+
+<!-- markdownlint-disable MD033 -->
 
 <ul class="panelContent cardsL">
     <li>

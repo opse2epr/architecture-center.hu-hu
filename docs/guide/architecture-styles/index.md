@@ -7,8 +7,13 @@ ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.date: 08/30/2018
+ms.openlocfilehash: 6895ffc9c73dac29c27e7d8df68550c94f68b10a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346535"
 ---
-
 # <a name="architecture-styles"></a>Architektúrastílusok
 
 Az *architektúrastílus* olyan architektúrák családja, amelyeknek bizonyos tulajdonságai megegyeznek. Az [N szintű][n-tier] például egy gyakori architektúrastílus. Újabban a [mikroszolgáltatás-architektúrák][microservices] is egyre népszerűbbé válnak. Az architektúrastílusok használatához nincs szükség adott technológiákra, egyes technológiák azonban kifejezetten alkalmasak bizonyos architektúrákhoz. A tárolók például természetesen illeszkednek a mikroszolgáltatásokhoz.

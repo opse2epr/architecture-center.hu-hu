@@ -6,8 +6,13 @@ ms.date: 06/09/2017
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: reference-architecture
+ms.openlocfilehash: 108d82066d9867682c246c4de802849e2e561cbc
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58343832"
 ---
-
 # <a name="extend-azure-resource-manager-template-functionality"></a>Az Azure Resource Manager-sablon funkciójának bővítése
 
 2016-ban a Microsoft mintákkal és gyakorlatokkal foglalkozó csapata létrehozta az Azure Resource Manager-[sablonok építőelemeinek készletét](https://github.com/mspnp/template-building-blocks/wiki). A cél az erőforrások üzembe helyezésének egyszerűsítése volt. Mindegyik építőelem tartalmaz egy különböző paraméterfájlok által megadott erőforráskészleteket telepítő, előre létrehozott sablonokból álló készletet.

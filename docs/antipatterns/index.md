@@ -1,15 +1,20 @@
 ---
 title: Teljesítményre vonatkozó kizárási minták felhőalkalmazásoknál
 titleSuffix: Azure Architecture Center
-description: 'Gyakori eljárások, amelyek nagy eséllyel méretezhetőségi problémákat okoznak.'
+description: Gyakori eljárások, amelyek nagy eséllyel méretezhetőségi problémákat okoznak.
 author: dragon119
 ms.date: 06/05/2017
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
+ms.openlocfilehash: 212930368942728fc0be0c9b2af1a90293906b39
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344835"
 ---
-
 # <a name="performance-antipatterns-for-cloud-applications"></a>Teljesítményre vonatkozó kizárási minták felhőalkalmazásoknál
 
 A *teljesítményre vonatkozó kizárási minta* egy gyakori eljárás, amely nagy eséllyel eredményez méretezhetőségi problémákat, amikor az alkalmazás nagy terhelésnek van kitéve.

@@ -1,15 +1,20 @@
 ---
 title: Foglalt előtér kizárási minta
 titleSuffix: Performance antipatterns for cloud apps
-description: 'A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más, előtérben futó feladatok elől.'
+description: A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más, előtérben futó feladatok elől.
 author: dragon119
 ms.date: 06/05/2017
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
+ms.openlocfilehash: f1ab728d68747856fb2586804d58d45c4ea4fcc1
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344495"
 ---
-
 # <a name="busy-front-end-antipattern"></a>Foglalt előtér kizárási minta
 
 A nagy mennyiségű háttérbeli szálon végzett aszinkron feladatok elvonhatják az erőforrásokat más egyidejű előtérbeli feladatok elől, ami elfogadhatatlan mértékben megnöveli a válaszidőket.

@@ -8,8 +8,13 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
+ms.openlocfilehash: 0cce207dedd0eb42e29a152b3bb84acc2dca323a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344988"
 ---
-
 # <a name="run-a-highly-available-sharepoint-server-2016-farm-in-azure"></a>Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban
 
 A jelen referenciaarchitektúra bevált módszereket mutat be a magas rendelkezésre állású SharePoint Server 2016-farmok Azure-ban való üzembe helyezésére a MinRole topológia és az SQL Server Always On rendelkezésre állási csoportok használatával. A SharePoint-farm egy biztonságos virtuális hálózaton lesz üzembe helyezve, amelynek nincs internetes végpontja vagy jelenléte. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
