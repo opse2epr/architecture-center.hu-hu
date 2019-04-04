@@ -1,12 +1,17 @@
 ---
 title: Azure Architecture Center
-description: 'Az Azure Architecture Center a Microsoft Azure-alapú megoldások létrehozásával kapcsolatos útmutatások, tervek, minták és ajánlott eljárások hivatalos gyűjteménye, amelyet a Microsoft mintákkal és gyakorlatokkal foglalkozó csoportja állít össze.'
+description: Az Azure Architecture Center a Microsoft Azure-alapú megoldások létrehozásával kapcsolatos útmutatások, tervek, minták és ajánlott eljárások hivatalos gyűjteménye, amelyet a Microsoft mintákkal és gyakorlatokkal foglalkozó csoportja állít össze.
 layout: LandingPage
 ms.topic: landing-page
 ms.date: 09/28/2018
 google-site-verification: b-xRLveOzJ9oSOh37wgRTRB2lMOoFY8HiHf9_0DIawE
+ms.openlocfilehash: 3c48ba77b7f97c6047f5d1441a22f2bd79ee0a3e
+ms.sourcegitcommit: 273e690c0cfabbc3822089c7d8bc743ef41d2b6e
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 02/08/2019
+ms.locfileid: "55898289"
 ---
-
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
 <!-- markdownlint-disable MD033 -->
@@ -99,26 +104,6 @@ google-site-verification: b-xRLveOzJ9oSOh37wgRTRB2lMOoFY8HiHf9_0DIawE
                         <div class="cardText">
                             <h3>Útmutató az Azure-adatarchitektúrához</h3>
                             <p>Útmutató az adatközpontú megoldások strukturált kialakításához a Microsoft Azure-ban.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- HPC Topic Page -->
-    <li>
-        <a href="./topics/high-performance-computing/index.md">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/hpc-blue-multi.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Nagy teljesítményű feldolgozás (HPC) az Azure-ban</h3>
-                            <p>Tervezési útmutató és összetevőkkel kapcsolatos információ nagy teljesítményű feldolgozási (HPC) alkalmazások Azure-ban való készítéséhez.</p>
                         </div>
                     </div>
                 </div>
@@ -225,6 +210,26 @@ google-site-verification: b-xRLveOzJ9oSOh37wgRTRB2lMOoFY8HiHf9_0DIawE
             </div>
         </a>
     </li>
+    <!-- Azure Virtual Datacenter -->
+    <li>
+        <a href="./vdc/index.md">
+            <div class="cardSize">
+                <div class="cardPadding">
+                    <div class="card">
+                        <div class="cardImageOuter">
+                            <div class="cardImage">
+                                <img src="_images/virtual-datacenter.svg" alt="" />
+                            </div>
+                        </div>
+                        <div class="cardText">
+                            <h3>Azure Virtual Datacenter</h3>
+                            <p>Amikor vállalati számítási feladatokat helyeznek üzembe a felhőben, a cégeknek meg kell találniuk a szabályozás és a fejlesztőknek nyújtott rugalmasság közötti egyensúlyt. Az Azure Virtual Datacenter különböző modelleket kínál ennek kialakítására, a szabályozásra helyezve nagyobb hangsúlyt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
         <!-- Azure for AWS Professionals -->
     <li>
         <a href="/azure/architecture/aws-professional">
@@ -259,26 +264,6 @@ google-site-verification: b-xRLveOzJ9oSOh37wgRTRB2lMOoFY8HiHf9_0DIawE
                         <div class="cardText">
                             <h3>Teljesítménnyel kapcsolatos kizárási minták</h3>
                             <p>A felhőalkalmazások teljesítményével és méretezhetőségével kapcsolatos problémák leggyakoribb okainak észlelése és javítása.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- Azure Virtual Datacenter -->
-    <li>
-        <a href="./vdc/index.md">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/virtual-datacenter.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Azure Virtual Datacenter</h3>
-                            <p>Amikor vállalati számítási feladatokat helyeznek üzembe a felhőben, a cégeknek meg kell találniuk a szabályozás és a fejlesztőknek nyújtott rugalmasság közötti egyensúlyt. Az Azure Virtual Datacenter különböző modelleket kínál ennek kialakítására, a szabályozásra helyezve nagyobb hangsúlyt.</p>
                         </div>
                     </div>
                 </div>
