@@ -279,20 +279,26 @@ items:
     href: reference-architectures/index.md
   - name: AI
     items:
-    - name: Mélytanulási modellek elosztott betanítása
-      href: reference-architectures/ai/training-deep-learning.md
-    - name: A Python scikit-learn modellek betanítása
-      href: reference-architectures/ai/training-python-models.md
-    - name: Mélytanulási modellek kötegelt kiértékelése
-      href: reference-architectures/ai/batch-scoring-deep-learning.md
-    - name: A Python-modellek kötegelt kiértékelése
-      href: reference-architectures/ai/batch-scoring-python.md
+    - name: Mélytanulási és Python-modellek betanítása és kiértékelése
+      items:
+      - name: Mélytanulási modellek elosztott betanítása
+        href: reference-architectures/ai/training-deep-learning.md
+      - name: Mélytanulási modellek kötegelt kiértékelése
+        href: reference-architectures/ai/batch-scoring-deep-learning.md
+      - name: A Python scikit-learn modellek betanítása
+        href: reference-architectures/ai/training-python-models.md
+      - name: A Python-modellek kötegelt kiértékelése
+        href: reference-architectures/ai/batch-scoring-python.md
+      - name: Python- és mélytanulási modellek valós idejű pontozása
+        href: reference-architectures/ai/realtime-scoring-python.md
+    - name: R-modellek kiértékelése
+      items:
+      - name: Az R-modellek kötegelt kiértékelése
+        href: reference-architectures/ai/batch-scoring-R-models.md
+      - name: Az R-modellek valós idejű kiértékelése
+        href: reference-architectures/ai/realtime-scoring-r.md
     - name: Spark-modellek kötegelt kiértékelése az Azure Databricksben
       href: reference-architectures/ai/batch-scoring-databricks.md
-    - name: Python- és mélytanulási modellek valós idejű pontozása
-      href: reference-architectures/ai/realtime-scoring-python.md
-    - name: Machine Learning-modellek valós idejű pontozása
-      href: reference-architectures/ai/realtime-scoring-r.md
     - name: Beszélgetőrobot
       href: reference-architectures/ai/conversational-bot.md
     - name: Valós idejű javaslat API
@@ -497,6 +503,8 @@ items:
           href: data-guide/technology-choices/natural-language-processing.md
         - name: Folyamatvezénylés
           href: data-guide/technology-choices/pipeline-orchestration-data-movement.md
+        - name: Az Azure R fejlesztői útmutatója
+          href: data-guide/technology-choices/r-developers-guide.md
         - name: Valós idejű üzenetbetöltés
           href: data-guide/technology-choices/real-time-ingestion.md
         - name: Adattárolók keresése
@@ -567,6 +575,8 @@ items:
       href: databricks-monitoring/application-logs.md
     - name: Irányítópultok használata a Databricks-metrikák megjelenítésére
       href: databricks-monitoring/dashboards.md
+    - name: A teljesítménybeli szűk keresztmetszetek hibaelhárítása
+      href: databricks-monitoring/performance-troubleshooting.md
 - name: Tervezésáttekintési keretrendszer
   items:
   - name: Rugalmasságot szem előtt tartó tervezés
@@ -861,9 +871,9 @@ items:
           href: cloud-adoption/decision-guides/software-defined-network/hub-spoke.md
       - name: Naplók és jelentéskészítés
         href: cloud-adoption/decision-guides/log-and-report/overview.md
-ms.openlocfilehash: 861170224f9575dc5e45d993678bda482b0ed944
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: 953c7cbdee185a88d8470199fb4ba92244adaa84
+ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503247"
+ms.lasthandoff: 04/03/2019
+ms.locfileid: "58887777"
