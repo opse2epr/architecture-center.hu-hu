@@ -7,8 +7,13 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
+ms.openlocfilehash: 15e9aa16c0e2cfccecbfb84d217c275cc99a66fd
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344410"
 ---
-
 # <a name="designing-a-microservices-architecture"></a><span data-ttu-id="0f2f2-103">Mikroszolgáltatási architektúra tervezése</span><span class="sxs-lookup"><span data-stu-id="0f2f2-103">Designing a microservices architecture</span></span>
 
 <span data-ttu-id="0f2f2-104">A mikroszolgáltatás egy népszerű architekturális stílussá vált a rugalmas, hatékonyan méretezhető, függetlenül üzembe helyezhető és gyorsan fejleszthető felhőalkalmazások létrehozásához.</span><span class="sxs-lookup"><span data-stu-id="0f2f2-104">Microservices have become a popular architectural style for building cloud applications that are resilient, highly scalable, independently deployable, and able to evolve quickly.</span></span> <span data-ttu-id="0f2f2-105">Azonban ahhoz, hogy ez több legyen, mint egy divatos kifejezés, a mikroszolgáltatások esetén új megközelítés szükséges az alkalmazások tervezésekor és létrehozásakor.</span><span class="sxs-lookup"><span data-stu-id="0f2f2-105">To be more than just a buzzword, however, microservices require a different approach to designing and building applications.</span></span>

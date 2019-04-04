@@ -8,8 +8,13 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
+ms.openlocfilehash: e3d6fbb789e422af22ce54b0defd6bb73099f15a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346331"
 ---
-
 # <a name="monolithic-persistence-antipattern"></a><span data-ttu-id="2706d-103">Monolitikus adatmegőrzési kizárási minta</span><span class="sxs-lookup"><span data-stu-id="2706d-103">Monolithic Persistence antipattern</span></span>
 
 <span data-ttu-id="2706d-104">Egy alkalmazás összes adatának egyetlen adattárolóba való helyezése hátrányosan befolyásolhatja a teljesítményt, mert erőforrás-versengéshez vezet, vagy mert az adattároló nem alkalmas az adatok egy részének tárolására.</span><span class="sxs-lookup"><span data-stu-id="2706d-104">Putting all of an application's data into a single data store can hurt performance, either because it leads to resource contention, or because the data store is not a good fit for some of the data.</span></span>

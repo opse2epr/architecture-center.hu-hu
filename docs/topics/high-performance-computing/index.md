@@ -3,6 +3,12 @@ title: Nagy teljesítményű feldolgozás (HPC) az Azure-ban
 description: Útmutató Azure-on futó HPC számítási feladatok készítéséhez
 author: adamboeglin
 ms.date: 2/4/2019
+ms.openlocfilehash: 5263dd3a06e5244bf804df4be6ec57d789574f76
+ms.sourcegitcommit: ea97ac004c38c6b456794c1a8eef29f8d2b77d50
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/26/2019
+ms.locfileid: "58489198"
 ---
 <!-- markdownlint-disable MD033 -->
 <!-- markdownlint-disable MD026 -->

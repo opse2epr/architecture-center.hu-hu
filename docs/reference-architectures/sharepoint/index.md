@@ -8,8 +8,13 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
+ms.openlocfilehash: 0cce207dedd0eb42e29a152b3bb84acc2dca323a
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344988"
 ---
-
 # <a name="run-a-highly-available-sharepoint-server-2016-farm-in-azure"></a><span data-ttu-id="50f67-103">Magas rendelkezésre állású SharePoint Server 2016-farm futtatása az Azure-ban</span><span class="sxs-lookup"><span data-stu-id="50f67-103">Run a highly available SharePoint Server 2016 farm in Azure</span></span>
 
 <span data-ttu-id="50f67-104">A jelen referenciaarchitektúra bevált módszereket mutat be a magas rendelkezésre állású SharePoint Server 2016-farmok Azure-ban való üzembe helyezésére a MinRole topológia és az SQL Server Always On rendelkezésre állási csoportok használatával.</span><span class="sxs-lookup"><span data-stu-id="50f67-104">This reference architecture shows proven practices for deploying a highly available SharePoint Server 2016 farm on Azure, using MinRole topology and SQL Server Always On availability groups.</span></span> <span data-ttu-id="50f67-105">A SharePoint-farm egy biztonságos virtuális hálózaton lesz üzembe helyezve, amelynek nincs internetes végpontja vagy jelenléte.</span><span class="sxs-lookup"><span data-stu-id="50f67-105">The SharePoint farm is deployed in a secured virtual network with no Internet-facing endpoint or presence.</span></span> <span data-ttu-id="50f67-106">[**A megoldás üzembe helyezése.**](#deploy-the-solution)</span><span class="sxs-lookup"><span data-stu-id="50f67-106">[**Deploy this solution**](#deploy-the-solution).</span></span>

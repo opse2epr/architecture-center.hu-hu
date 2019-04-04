@@ -1,15 +1,20 @@
 ---
 title: Jenkins-kiszolgáló futtatása az Azure-on
 titleSuffix: Azure Reference Architectures
-description: 'Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.'
+description: Ajánlott architektúra, amely egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.
 author: njray
 ms.date: 04/30/2018
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
+ms.openlocfilehash: 4b8d84ef6eedd93f1a3ec948e7c6d6e3d1c465fc
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346025"
 ---
-
 # <a name="run-a-jenkins-server-on-azure"></a><span data-ttu-id="90c4b-103">Jenkins-kiszolgáló futtatása az Azure-on</span><span class="sxs-lookup"><span data-stu-id="90c4b-103">Run a Jenkins server on Azure</span></span>
 
 <span data-ttu-id="90c4b-104">Ez a referenciaarchitektúra egy egyszeri bejelentkezéssel (SSO) biztosított, skálázható, nagyvállalati szintű Jenkins-kiszolgáló üzembe helyezését és üzemeltetését mutatja be az Azure-on.</span><span class="sxs-lookup"><span data-stu-id="90c4b-104">This reference architecture shows how to deploy and operate a scalable, enterprise-grade Jenkins server on Azure secured with single sign-on (SSO).</span></span> <span data-ttu-id="90c4b-105">Az architektúra emellett az Azure Monitor használatával monitorozza a Jenkins-kiszolgáló állapotát.</span><span class="sxs-lookup"><span data-stu-id="90c4b-105">The architecture also uses Azure Monitor to monitor the state of the Jenkins server.</span></span> <span data-ttu-id="90c4b-106">[**A megoldás üzembe helyezése.**](#deploy-the-solution)</span><span class="sxs-lookup"><span data-stu-id="90c4b-106">[**Deploy this solution**](#deploy-the-solution).</span></span>

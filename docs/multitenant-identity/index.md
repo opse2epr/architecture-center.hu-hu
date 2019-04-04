@@ -1,13 +1,18 @@
 ---
 title: Identitáskezelés a több-bérlős alkalmazásokban
-description: 'Ajánlott eljárások hitelesítéshez, engedélyezéshez, és identitáskezeléshez több-bérlős alkalmazások esetén.'
+description: Ajánlott eljárások hitelesítéshez, engedélyezéshez, és identitáskezeléshez több-bérlős alkalmazások esetén.
 author: MikeWasson
 ms.date: 07/21/2017
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
+ms.openlocfilehash: be906106fb12c381d57ad40ae22e748dcff9722f
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346076"
 ---
-
 # <a name="manage-identity-in-multitenant-applications"></a><span data-ttu-id="a0b3f-103">Identitáskezelés több-bérlős alkalmazásokban</span><span class="sxs-lookup"><span data-stu-id="a0b3f-103">Manage identity in multitenant applications</span></span>
 
 <span data-ttu-id="a0b3f-104">A cikksorozat ajánlott eljárásokat ismertet a több-bérlős módhoz az Azure AD hitelesítésre és identitáskezelésre való használata esetén.</span><span class="sxs-lookup"><span data-stu-id="a0b3f-104">This series of articles describes best practices for multitenancy, when using Azure AD for authentication and identity management.</span></span>

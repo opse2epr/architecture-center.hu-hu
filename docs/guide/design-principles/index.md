@@ -8,8 +8,13 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
+ms.openlocfilehash: 8aab710ef6ffde493b80810750d2c0bc299ffaa6
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58344257"
 ---
-
 # <a name="ten-design-principles-for-azure-applications"></a><span data-ttu-id="7d9a7-103">Tíz tervezési alapelv Azure-alkalmazásokhoz</span><span class="sxs-lookup"><span data-stu-id="7d9a7-103">Ten design principles for Azure applications</span></span>
 
 <span data-ttu-id="7d9a7-104">Ezeket a tervezési alapelveket követve skálázhatóbbá, rugalmasabbá és felügyelhetőbbé teheti alkalmazását.</span><span class="sxs-lookup"><span data-stu-id="7d9a7-104">Follow these design principles to make your application more scalable, resilient, and manageable.</span></span>

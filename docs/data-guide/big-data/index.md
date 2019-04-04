@@ -1,13 +1,18 @@
 ---
 title: Big data-architektúrák
-description: null
+description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
+ms.openlocfilehash: 269a4c2b8fd0c186e1b44b6c0cfdcbfa4d37b57c
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58346161"
 ---
-
 # <a name="big-data-architectures"></a><span data-ttu-id="aaa64-102">Big data-architektúrák</span><span class="sxs-lookup"><span data-stu-id="aaa64-102">Big data architectures</span></span>
 
 <span data-ttu-id="aaa64-103">A big data típusú architektúrát olyan adatok betöltésére, feldolgozására és elemzésére tervezték, amelyek túl nagyok vagy összetettek lennének a hagyományos adatbázisrendszerek számára.</span><span class="sxs-lookup"><span data-stu-id="aaa64-103">A big data architecture is designed to handle the ingestion, processing, and analysis of data that is too large or complex for traditional database systems.</span></span> <span data-ttu-id="aaa64-104">Minden cégnél eltér, hogy milyen adatmennyiségnél kezdik el a big data használatát. Ez függ a felhasználók képességeitől és a rendelkezésre álló eszközöktől is.</span><span class="sxs-lookup"><span data-stu-id="aaa64-104">The threshold at which organizations enter into the big data realm differs, depending on the capabilities of the users and their tools.</span></span> <span data-ttu-id="aaa64-105">Egyeseknél már több száz gigabájt, másoknál csak több száz terabájt esetén van rá szükség.</span><span class="sxs-lookup"><span data-stu-id="aaa64-105">For some, it can mean hundreds of gigabytes of data, while for others it means hundreds of terabytes.</span></span> <span data-ttu-id="aaa64-106">A big data kezelésére szolgáló eszközök folyamatosan fejlődnek, de változik az is, hogy mit értünk big data alatt.</span><span class="sxs-lookup"><span data-stu-id="aaa64-106">As tools for working with big data sets advance, so does the meaning of big data.</span></span> <span data-ttu-id="aaa64-107">A kifejezés egyre inkább a nyers adathalmazokból fejlett elemzési módszerekkel kinyerhető értéket jelenti, és nem egyszerűen sok adatot, bár az elemzést többnyire nagy adathalmazokon szokták végezni.</span><span class="sxs-lookup"><span data-stu-id="aaa64-107">More and more, this term relates to the value you can extract from your data sets through advanced analytics, rather than strictly the size of the data, although in these cases they tend to be quite large.</span></span>

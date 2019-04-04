@@ -1,13 +1,18 @@
 ---
 title: Relációs adatok
-description: null
+description: ''
 author: zoinerTejada
 ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
+ms.openlocfilehash: d68bddcb75e5c8f786a7739e85de2645a2c3d641
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58345413"
 ---
-
 # <a name="traditional-relational-database-solutions"></a><span data-ttu-id="02331-102">Hagyományos relációsadatbázis-megoldások</span><span class="sxs-lookup"><span data-stu-id="02331-102">Traditional relational database solutions</span></span>
 
 <span data-ttu-id="02331-103">Relációs adatnak a relációs modell használatával modellezett adatokat nevezzük.</span><span class="sxs-lookup"><span data-stu-id="02331-103">Relational data is data modeled using the relational model.</span></span> <span data-ttu-id="02331-104">Ebben a modellben az adatok rekordként vannak kifejezve.</span><span class="sxs-lookup"><span data-stu-id="02331-104">In this model, data is expressed as tuples.</span></span> <span data-ttu-id="02331-105">A *rekord* attribútum-érték párok készletét jelenti.</span><span class="sxs-lookup"><span data-stu-id="02331-105">A *tuple* is a set of attribute/value pairs.</span></span> <span data-ttu-id="02331-106">Egy rekord például lehet a következő: (itemid = 5, orderid = 1, item = "Chair", amount = 200.00).</span><span class="sxs-lookup"><span data-stu-id="02331-106">For example, a tuple might be (itemid = 5, orderid = 1, item = "Chair", amount = 200.00).</span></span> <span data-ttu-id="02331-107">Az ugyanazon attribútumokkal rendelkező rekordokat nevezzük *relációnak*.</span><span class="sxs-lookup"><span data-stu-id="02331-107">A set of tuples that all share the same attributes is called a *relation*.</span></span>

@@ -1,7 +1,7 @@
 ---
 title: Tervezési minták felhőkhöz
 titleSuffix: Azure Architecture Center
-description: 'Tervezési minták megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.'
+description: Tervezési minták megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.
 keywords: Azure
 author: dragon119
 ms.date: 03/01/2018
@@ -9,8 +9,13 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
+ms.openlocfilehash: c8fe971e031825632c2bb157bfd23e15f56520a3
+ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.translationtype: HT
+ms.contentlocale: hu-HU
+ms.lasthandoff: 03/20/2019
+ms.locfileid: "58343475"
 ---
-
 # <a name="cloud-design-patterns"></a><span data-ttu-id="734af-104">Tervezési minták felhőkhöz</span><span class="sxs-lookup"><span data-stu-id="734af-104">Cloud Design Patterns</span></span>
 
 <span data-ttu-id="734af-105">Ezek a tervezési minták hasznosak a megbízható, skálázható és biztonságos felhőbeli alkalmazások létrehozásához.</span><span class="sxs-lookup"><span data-stu-id="734af-105">These design patterns are useful for building reliable, scalable, secure applications in the cloud.</span></span>
