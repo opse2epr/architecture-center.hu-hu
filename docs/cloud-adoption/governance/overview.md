@@ -6,12 +6,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Irányítás az Azure-hoz a Microsoft CAF
 author: BrianBlanchard
-ms.openlocfilehash: b7a0739a42a27def34955577acffc7ab7292ac50
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: ce407de0daa590e767382346692c80e0a113bb3c
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299370"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068837"
 ---
 # <a name="governance-in-the-microsoft-caf-for-azure"></a>Irányítás az Azure-hoz a Microsoft CAF
 
@@ -32,7 +32,7 @@ A tartalom a CAF hatással van, az üzleti, a technológia és a vállalatok kul
 
 A Felhőtervező szolgál gondolkodási vezető egyeztető ezek célközönséggel összegyűjthetők. Ebben a gyűjteményben az útmutatók a tartalom célja a Felhőtervező megfelelő beszélgetés, a megfelelő célközönségnek, a meghajtó szükséges döntések elősegítése érdekében. Üzleti átalakítást, amely jogosult a felhő által függ a Felhőtervező szerepkör segítségével az üzleti döntések útmutató és informatikai.
 
-**Ez a szakasz mérnök szakirány felhőalapú:** Minden egyes szakasza a CAF különböző specializáció vagy a Felhőtervező szerepkör variant jelöli. Ez a szakasza a CAF egy szenvedélyét csökkentése vagy technikai kockázatok ürítése a felhőben dolgozó tervezők lett tervezve. Ugyanezek a szakemberek felhőalapú jegyektől, tekintse meg a felhőszolgáltatók számos, hogy inkább felhőalapú őrei, vagy együttesen a felhő Cégirányítási csapat. Az egyes gyakorlatban hasznosítható vásárló által bejárt a cikkek bemutatják, hogyan az összeállítás és a szerepkör a Felhőbeli Cégirányítási csapat idővel változhat.
+**Ez a szakasz mérnök szakirány felhőalapú:** Minden egyes szakasza a CAF különböző specializáció vagy a Felhőtervező szerepkör variant jelöli. Ez a szakasza a CAF egy szenvedélyét csökkentése vagy technikai kockázatok csökkentése a felhőben dolgozó tervezők lett tervezve. Ugyanezek a szakemberek felhőalapú jegyektől, tekintse meg a felhőszolgáltatók számos, hogy inkább felhőalapú őrei, vagy együttesen a felhő Cégirányítási csapat. Az egyes gyakorlatban hasznosítható vásárló által bejárt a cikkek bemutatják, hogyan az összeállítás és a szerepkör a Felhőbeli Cégirányítási csapat idővel változhat.
 
 ## <a name="using-this-guide"></a>Ez az útmutató használata
 

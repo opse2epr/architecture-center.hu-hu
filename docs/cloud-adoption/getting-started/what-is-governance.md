@@ -6,22 +6,22 @@ ms.subservice: enterprise-cloud-adoption
 ms.date: 02/11/2019
 description: MAGYARÁZAT felhőalapú erőforrás-szabályozása az Azure-ban
 author: petertaylor9999
-ms.openlocfilehash: 602ac81f2b2201c77746df971d282582ceee23f7
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: 0989a5aad8a6290cce07fd71771c690bbd615e0d
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503196"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068854"
 ---
 <!-- markdownlint-disable MD026 -->
 
 # <a name="what-is-cloud-resource-governance"></a>Mi az a felhőerőforrás-szabályozás?
 
-A [Azure működése?](what-is-azure.md), hogy megtanulta, hogy az Azure a kiszolgálókon és hálózati hardvereivel futtató virtualizált hardver- és a felhasználók nevében. Az Azure lehetővé teszi, hogy a szervezet fejlődés és IT-részlegek számára egyszerűvé létrehozása, olvasása, frissítése és törlése az erőforrásokat, igény szerint legyünk.
+A [Azure működése?](what-is-azure.md), hogy megtanulta, hogy az Azure a kiszolgálókon és hálózati hardvereivel futtató virtualizált hardver- és a felhasználók nevében. Az Azure lehetővé teszi, hogy a munkahelyi alkalmazások fejlesztését és IT-részlegek számára egyszerűvé létrehozása, olvasása, frissítése és törlése az erőforrásokat, igény szerint, agilisek lehetnek.
 
-Azonban amíg így unrestricted erőforrás-hozzáférés a fejlesztők számára is, így nagyon hatékony, a költségek nem kívánt következményekkel is vezethet. Ha például egy fejlesztői csapat előfordulhat, hogy jóvá kell hagyni tesztelési erőforrások üzembe helyezésének, de felejtse el törölni őket, ha a tesztelés. Ezek az erőforrások továbbra is beleszámítanak a költségek, annak ellenére, hogy azok használata már nem jóváhagyott vagy szükséges.
+Azonban amíg erőforrásokhoz való korlátlan hozzáférés is, hogy a fejlesztők nagyon hatékony, is vezethet, váratlan költségek. Ha például egy fejlesztői csapat előfordulhat, hogy jóvá kell hagyni tesztelési erőforrások üzembe helyezésének, de felejtse el törölni őket, ha a tesztelés. Ezek az erőforrások továbbra is lépheti túl a költségeket, annak ellenére, hogy azok nem lesznek jóváhagyott vagy szükséges.
 
-A megoldás a probléma az erőforrás-hozzáférés **cégirányítási**. Cégirányítási kezelését, megfigyelését és naplózás használata Azure-erőforrások megfelelnek a kitűzött célokat, és a szervezet követelményeinek folyamatban hivatkozik.
+A megoldás az erőforrás-hozzáférés szabályozása. **Cégirányítási** kezelését, megfigyelését és az Azure-erőforrások megfelelnek a szervezet követelményeinek használatának naplózása folyamatban van.
 
 <!-- markdownlint-disable MD034 -->
 
@@ -29,13 +29,13 @@ A megoldás a probléma az erőforrás-hozzáférés **cégirányítási**. Cég
 
 <!-- markdownlint-enable MD034 -->
 
-Következő célokat és követelményeket egyediek-e az egyes cégeknek, ezért nem lehetséges, hogy a cégirányítási időkorlátokat. Inkább az Azure csomagszűrő két elsődleges cégirányítási eszközök, **szerepköralapú hozzáférés-vezérlés (RBAC)**, és **erőforrás-szabályzat**, és a szolgáltatás minden szervezet számára a használatuk cégirányítási modell tervezéséhez.
+Ezek a követelmények az egyes cégeknek, egyedi, így a cégirányítási időkorlátokat nem hasznos. Ehelyett szolgáltatás minden szervezet számára, azok az Azure két elsődleges cégirányítási eszközökkel cégirányítási modell tervezéséhez: **szerepköralapú hozzáférés-vezérlés (RBAC)** és **erőforrás-szabályzat**.
 
-Az RBAC szerepkörök határozza meg, és a szerepkörök határozzák meg a képességeket a szerepkörhöz rendelt felhasználók. Például a **tulajdonosa** szerepkör lehetővé teszi, hogy az összes képességek (létrehozása, olvasása, frissítése és törlése) egy erőforráshoz, amíg a **olvasó** szerepkörök lehetővé teszi, hogy a csak olvasási képességet. Szerepkörök egy széles körét, amely különféle erőforrásokhoz vonatkozik, vagy vonatkozik néhány keskeny hatóköre lehet definiálni.
+Az RBAC szerepkörök határozza meg, és a szerepkörök határozzák meg az egyes adott szerepkörhöz rendelt felhasználók képességeit. Például a **tulajdonosa** szerepkör lehetővé teszi, hogy az összes képességek (létrehozása, olvasása, frissítése és törlése) egy erőforráshoz, amíg a **olvasó** szerepkör lehetővé teszi, hogy a csak olvasási képességet. Szerepkörök egy széles körét, amely számos erőforrástípusok vonatkozik, vagy vonatkozik néhány keskeny hatóköre lehet definiálni.
 
-Erőforrás-házirendek erőforrás-létrehozás vonatkozó szabályok meghatározásához. Például egy erőforrás-szabályzat korlátozhatja az egy adott előtti-appproved méretű virtuális gép Termékváltozata. Másik lehetőségként egy erőforrás-szabályzat kényszerítheti a költséghely a címke hozzáadása az erőforrás létrehozásához a kérelem elküldésekor.
+Erőforrás-házirendek erőforrás-létrehozás vonatkozó szabályok meghatározásához. Például egy erőforrás-szabályzat korlátozhatja az egy adott előre jóváhagyott méretű virtuális gép Termékváltozata. Egy másik erőforrás-szabályzat egy hozzárendelt költséghely a címke alkalmazása sikerült kényszerítése, az erőforrás létrehozásához a kérelem elküldésekor.
 
-Ezek az eszközök konfigurálása, ha fontos szempont szervezeti rugalmasság és irányítás osztja el. Ez azt jelenti, hogy a szigorúbb cégirányítási házirendjében a kevésbé rugalmas válnak a fejlesztők és informatikai dolgozók. Ennek az oka egy cégirányítási korlátozó házirend szükség lehet további manuális lépések, például az eszközjelszó töltsön ki egy űrlapot, vagy manuálisan hozzon létre egy erőforrást a cégirányítási csapat egy személy e-mail küldése a fejlesztő. A cégirányítási csapata véges képességekkel rendelkezik, és előfordulhat, hogy legyen várakozó fel, Várakozás a létrehozott és a felesleges erőforrások keletkezhetnek költségek addig azokat törölni kell az erőforrások rendszer fejlesztőcsapatok eredményez.
+Ezek az eszközök konfigurálásakor fontos irányítási és szervezeti rugalmasságot. A szigorúbb cégirányítási házirendjében a kevésbé rugalmas a fejlesztők és informatikai dolgozók lesz. A cégirányítási korlátozó házirend további manuális lépések, például a fejlesztő töltsön ki egy űrlapot vagy e-mail üzenetet küldhet a cégirányítási csapat tagjai manuálisan hozzon létre egy erőforrást igénylő lehet szükség. A cégirányítási csapata kapacitása véges, és előfordulhat, hogy megfelelően vannak megtervezve, eredményez a fejlesztői csapatok unproductively Várakozás keletkezhetnek költségek, törlés előtt létrehozott és a felesleges erőforrások az erőforrásaikat.
 
 ## <a name="next-steps"></a>További lépések
 

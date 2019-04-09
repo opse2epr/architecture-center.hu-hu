@@ -7,12 +7,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: 219c50fb002a97874310b76de6f3bdbc34eaac6d
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 1a927beb23a2e45b509b2648a6bccce4c2ad242d
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298593"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068973"
 ---
 # <a name="designing-microservices-continuous-integration"></a>Mikroszolgáltatások tervezése: Folyamatos integráció
 
@@ -123,4 +123,4 @@ A felhasználói térben jobb felhasználói élményt rendelkezhet mérhető ü
 
 Mikroszolgáltatások a változó fekvő választ. Által decomposing a monolitikus alkalmazásokat felbonthatja lazán kapcsolódó szolgáltatásokra, azt is szabályozhatja az egyes szolgáltatásokat a kiadási ciklus, és lehetővé teszi a gyakori frissítések nélkül állásidő és a használhatatlanná tévő változásai. Mikroszolgáltatások a méretezhetőség, a hiba elkülönítési és a rugalmasság is segítenek. Eközben felhőplatformjain vannak így könnyebben hozhat létre és futtassa a mikroszolgáltatások, a számítási erőforrások automatikus üzembe helyezést, a szolgáltatás, valamint az eseményvezérelt, kiszolgáló nélküli környezetben tárolóvezénylőt.
 
-De mivel úgy tapasztaltuk, kihívások rengeteg lehetőség van mikroszolgáltatás-architektúrákat. A művelet sikeres elvégzéséhez kell elindítania egy alapos terv. A tartomány elemzése, technológiák kiválasztása, modellezési adatok, API-k tervezése és készítése egy fejlett DevOps-kultúra tanulmányozásakor kell tenni. Reméljük, hogy ez az útmutató és a kísérő [megvalósítási hivatkozhat](https://github.com/mspnp/microservices-reference-implementation), a szállítás megvilágítására segített.
+De mivel úgy tapasztaltuk, kihívások rengeteg lehetőség van mikroszolgáltatás-architektúrákat. A művelet sikeres elvégzéséhez kell elindítania egy alapos terv. A tartomány elemzése, technológiák kiválasztása, modellezési adatok, API-k tervezése és készítése egy fejlett DevOps-kultúra tanulmányozásakor kell tenni. Reméljük, hogy ez az útmutató és a kísérő [megvalósítási hivatkozhat](https://github.com/mspnp/microservices-reference-implementation/tree/v0.1.0-orig), a szállítás megvilágítására segített.

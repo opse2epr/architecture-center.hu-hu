@@ -7,36 +7,38 @@ ms.date: 02/11/2019
 layout: LandingPage
 ms.topic: landing-page
 author: BrianBlanchard
-ms.openlocfilehash: f4e97d98297f6c7f56c5f48eae39f37b84b95783
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: cb5f5a61ad71d60e0e5805fd7e8d6bd78f893293
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299356"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068803"
 ---
 # <a name="microsoft-cloud-adoption-framework-for-azure"></a>A Microsoft Cloud bevezetésének keretrendszere az Azure-hoz
 
-A felhő alapvető változást jelent a módon, hogy a vállalatok be kell szereznie és technológiai erőforrások használatára. A múltban a tulajdonjog és a felelősség teljes egészében a vállalatokra hárult a technológia minden szintjén, az infrastruktúrától a szoftverekig. Most a felhő lehetőséget kínál a vállalatok számára használja a technológia kiépítésének és felhasználásának erőforrások igény szerint nyílnak meg. Bár a felhő szinte korlátlan rugalmasságot biztosít a tervezés terén, vállalati szempontból bevált és következetes módszertanra is szükség van a felhőalapú technológiák bevezetéséhez. A felhő bevezetésének keretrendszer (CAF) való döntések bevezetési útmutató a kívánt keretrendszert biztosít.
+A felhő alapvetően megváltozik, hogyan vállalatok be kell szereznie és a technológiai erőforrások használatára. Hagyományosan egészében a vállalatokra hárult tulajdonosi és a felelősség technológia minden aspektusát infrastruktúrától szoftverre. A felhő lehetővé teszi a vállalatok kiépítésének és felhasználásának erőforrásait csak szükség esetén. A felhő tervezési döntések óriási rugalmasságot biztosít, vállalatok bevált és következetes módszer a világossá felhőtechnológiák van szükség. A Microsoft Cloud bevezetési keretrendszert Azure (CAF) megfelel ennek az igényét, így a felhőre való áttérés útmutató döntések.
 
-Ugyanakkor a felhő bevezetésének egy azt jelenti, hogy, nem a végső cél. Valóban hatékony, felhőre való áttérés kezdődik, jóval azelőtt, hogy a cloud platform szállító van kiválasztva. Felhőre való áttérés kezdődik, amikor a döntéshozók döntései informatikai és üzleti vegye figyelembe, hogy a felhő gyorsítható fel egy adott üzleti átalakítást célkitűzést. A felhő bevezetésének keretrendszer (CAF) segédeszközök stratégiát, a kulturális környezet és a kívánt üzleti eredmények megjelenő új technikai változáskezelési igazítása. A Cloud bevezetési keretrendszert biztosít a Microsoft Azure-bA kapcsolatos műszaki útmutatást. Tiszteletben tartja, hogy az ügyfelek továbbra is lehet folyamatban egy felhőbeli szállítói kiválasztása, ezt a keretrendszert nyújt felhőalapú független útmutatást megkönnyítése érdekében a magasabb szintű döntéseket hozhat, amikor csak lehetséges.
+Azonban a felhőre való áttérés vége azt jelenti, hogy. A sikeres felhőre való áttérés elindul, jóval azelőtt, hogy a cloud platform szállító van kiválasztva. Ha üzleti kezdődik, és az informatikai döntéshozókat, vegye figyelembe, hogy a felhő gyorsítható fel egy adott üzleti átalakítás cél. Igazítás, a kulturális környezet és a kívánt üzleti eredmények elérése érdekében technikai változáskezelési stratégiák CAF segédeszközök.
+
+CAF technikai útmutató a Microsoft Azure biztosít. FELISMERVE, hogy ügyfeleink továbbra is lehetnek folyamatban egy felhőbeli szállítói kiválasztása, ezt a keretrendszert a magasabb szintű döntéseket hozhat, amikor csak lehetséges felhő-agnosztikus útmutatást nyújt.
 
 ## <a name="product-truths"></a>A termék Truths
 
-CAF jelenleg nyilvános előzetesként érhető el. A keretrendszer fogják tudni elérni a általánosan elérhetővé tétel (GA), ha a fenti Mindennek az elérésére célok felismerte, hogy rendelkezik lett. A jelenlegi előzetes kiadásban CAF az elsődleges célja a [felhőalapú Cégirányítási](./governance/journeys/overview.md). CAF gyakran, mint a csapat kibomlik GA kiadás közelebb helyezi át.
+CAF jelenleg nyilvános előzetesként érhető el. A keretrendszer fogják tudni elérni az általánosan (elérhetővé tétel GA), ha a fenti Mindennek az elérésére való megfelelés miatt. A CAF előzetes verziójában, az aktuális elsődleges területe a [felhőalapú Cégirányítási](./governance/journeys/overview.md). CAF – kibomlik, mivel közelebb helyezi a GA kiadás.
 
 ## <a name="audience"></a>Célközönség
 
-CAF tartalma hatással van, az üzleti, a technológia és a vállalatok kulturális környezetét. Az érintett szerepkörök közé tartozik az üzleti vezetői, üzleti döntéshozók, az informatikai döntéshozókat, pénzügyi, vállalati rendszergazdák, informatikai műveleteket, IT-biztonsági és megfelelőségi, informatikai cégirányítási, számítási feladatok fejlesztéséért és számítási feladatok műveletekért felelős tulajdonosok teszik. Különböző szakkifejezéseivel használ minden egyes ezen funkciók és a személyeknek. Ezek mindegyike rendelkezik a különböző céljait és fő teljesítménymutatók. Nem lehet közvetlenül kezelheti az egyes ezek célközönséggel a tartalom egyetlen készletének.
+CAF tartalma van hatással, az üzleti, a technológia és a vállalatok kulturális környezetét. Az érintett szerepkörök közé tartozik az üzleti vezetői, üzleti döntéshozók, az informatikai döntéshozókat, pénzügyi, vállalati rendszergazdák, informatikai műveleteket, IT-biztonsági és megfelelőségi, informatikai cégirányítási, számítási feladatok fejlesztéséért és számítási feladatok műveletekért felelős tulajdonosok teszik. Egyes szerepkörök különböző szakkifejezéseivel használja. Ezek mindegyike rendelkezik a különböző céljait és fő teljesítménymutatók. Tartalom egyetlen készletét nem oldja meg ezeket a célközönség mindegyike hatékonyan.
 
-Adja meg a Felhőtervező: A Felhőtervező szolgál gondolkodási vezető egyeztető ezek célközönséggel összegyűjthetők. Ebben a gyűjteményben az útmutatók a tartalom célja a Felhőtervező megfelelő beszélgetés, a megfelelő célközönségnek, a meghajtó szükséges döntések elősegítése érdekében. Üzleti átalakítást, amely jogosult a felhő által függ a Felhőtervező szerepkör segítségével az üzleti döntések útmutató és informatikai.
+Adja meg a **mérnök Felhőbeli**. A Felhőtervező szolgál gondolkodási vezető egyeztető ezek célközönséggel összegyűjthetők. Ez a témakörgyűjtemény útmutatók célja a Felhőtervező megkönnyítik a megfelelő célközönséggel döntései szükséges a megfelelő beszélgetést. A felhő által felhatalmazott vállalatok átalakulását a Felhőtervező szerepkör segítségével az üzleti döntések útmutatója attól függ, hogy és informatikai.
 
-Felhőbeli mérnök szakterületek: Minden szakasza CAF különböző specializáció vagy a Felhőtervező szerepkör variant jelöli. Ezek a szakaszok lehetőségek megosztása a felhőalapú mérnök terhelés többek között a felhőben dolgozó tervezők csapata is létrehozhat. Példa: a specializáció: CAF Cégirányítási szakaszában egy szenvedélyét, a műszaki kockázatok csökkentése a felhőben dolgozó tervezők lett tervezve. Ugyanezek a szakemberek felhőalapú jegyektől, tekintse meg a felhőszolgáltatók számos, hogy inkább felhőalapú gazdagépőr szolgáltatás, vagy együttesen felhőalapú Cégirányítási csapat.
+Minden szakasza CAF különböző specializáció vagy a Felhőtervező szerepkör variant jelöli. Ezek a szakaszok lehetőségeket biztosít a felhőalapú architektúra feladatkörök megosztása a felhőben dolgozó tervezők csapata is létrehozhat. Például CAF cégirányítási szakaszában készült felhőben dolgozó tervezők együtt egy szenvedélyét, a műszaki kockázatot. Egyes felhőszolgáltatók ugyanezek a szakemberek hivatkozunk felhőalapú jegyektől; hogy inkább az előfizetési időszak **felhőalapú Gazdagépőr**, vagy együttesen a felhő Cégirányítási csapatot.
 
 ## <a name="how-to-use-the-microsoft-cloud-adoption-framework-for-azure"></a>A Microsoft Cloud bevezetési keretrendszer használata Azure-beli használatra
 
-Ha a vállalat új Azure-ba, megkezdheti az a [áttekintése](./getting-started/overview.md) a a *bevezetés* szakaszban. Ez a dokumentum a vállalati digitális átalakulást, ajánljuk figyelmébe a folyamatok egyes lépéseinek részletes útmutatást tartalmaz.
+Ha a vállalat új Azure-ba, első lépésként olvasása [– első lépések a Cloud bevezetési keretrendszert](./getting-started/overview.md). Ez az áttekintés nyújt részletes útmutatást a vállalati digitális átalakulást, hogy végigvezesse az eljárás lépéseit.
 
-A vállalat rendelkezik tapasztalattal az Azure-ban, és további részletes útmutatást és gyakorlati tanácsok a speciális területein kér, hogy vannak-e szakaszokat [cégirányítási](./governance/overview.md) és [döntési útmutatók](./decision-guides/overview.md). További szakaszokban lesz elérhető, a végleges verzió kiadási megközelítéseket.
+Ha a vállalat rendelkezik tapasztalattal az Azure-ral, és részletesebb útmutatást és gyakorlati tanácsok a speciális területein keres, tekintse át a [áttekintése szabályozási](./governance/overview.md) és a [architektúrával kapcsolatos döntés útmutatók](./decision-guides/overview.md). A végleges verzió kiadási megközelítések lesz hozzáadva. további szakaszokat.
 
 > [!div class="nextstepaction"]
 > [Első lépések](./getting-started/overview.md)

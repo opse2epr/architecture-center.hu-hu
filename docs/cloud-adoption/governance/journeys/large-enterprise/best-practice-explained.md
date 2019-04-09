@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – ajánlott eljárás ismertetése
 author: BrianBlanchard
-ms.openlocfilehash: db630b93cd9d5118a8fc29b424ef78e0c1d8848a
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 2d52797f1c3541fab1c97d97d0438210d2e66f79
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298446"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068990"
 ---
 # <a name="large-enterprise-best-practice-explained"></a>Nagyvállalati: Ajánlott eljárás magyarázata
 
@@ -38,7 +38,7 @@ Ez a megvalósítás használatával egy egyszerű feladatlista is ismerteti:
 
 1. Core függőségek kapcsolatos döntéseket hozzájárulásával: Identitás, a hálózat és a titkosítást.
 2. Határozza meg a vállalati szabályzat kényszerítése során használandó mintát.
-3. Határozza meg a megfelelő cégirányítási minták az erőforrás konzisztencia, erőforrás-címkézési és Loging és jelentéskészítési szakterületen.
+3. Az erőforrás konzisztencia, a címkézés erőforrás és a naplózási és jelentéskészítési oktatnak határozza meg a megfelelő cégirányítási mintákat.
 4. A cégirányítási eszközök illeszkedjenek a alkalmazni a függő döntéseket hozhat, és a szabályozási döntések a kiválasztott házirend kényszerítési minta megvalósításához.
 
 [!INCLUDE [implementation-process](../../../../../includes/cloud-adoption/governance/implementation-process.md)]
@@ -116,4 +116,4 @@ Ez az útmutató valósul meg, miután minden egyes cloud bevezetési csapat fol
 Mindkét csapatok a tolerancia mutatók segítségével azonosíthatja a következő fejlődést szem előtt tartva továbbra is támogatja a felhőre való áttérés szükséges. A következő lépés a vállalat tartson a folyamatban, hogy fejlesztése a csatlakoztathatóság érdekében a cégirányítási alapkonfiguráció örökölt vagy harmadik felek többtényezős hitelesítés (MFA) követelményekkel rendelkező alkalmazások támogatásához.
 
 > [!div class="nextstepaction"]
-> [Identitás alapkonfiguráció fejlődést szem előtt tartva](./identity-baseline-evolution.md)
+> [Az identitáskezelési alapkonfiguráció fejlődése](./identity-baseline-evolution.md)

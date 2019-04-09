@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: f7c19501b9f28db3892285b5f35a33f02edd87ab
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 3fd3badd66edbe561bea88576bb80d9fc3e0bb79
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298586"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068922"
 ---
 # <a name="criteria-for-choosing-a-data-store"></a>Az adattár kiválasztásának kritériumai
 
@@ -61,7 +61,7 @@ Az összehasonlítás megkezdéséhez gyűjtsön annyit az alábbi, az adatigén
 
 - **Régiónkénti rendelkezésre állás**. Felügyelt szolgáltatások esetén a szolgáltatás elérhető-e az összes Azure-régióban? A megoldást bizonyos Azure-régiókban kell-e üzemeltetni?
 
-- **Hordozhatóság**. Szükség lesz-e az adatok helyszíni vagy külső adatközpontokba, esetleg egyéb felhőalapú üzemeltetési környezetekbe történő migrálására?
+- **Hordozhatóság**. Az adatok kell a helyszíni, külső adatközpontokba vagy egyéb felhőalapú üzemeltetési környezetekbe telepíthető át?
 
 - **Licencelés**. Előnyben részesíti-e a jogvédett licencet az OSS licenctípussal szemben? Vonatkozik-e egyéb külső korlátozás a használt licenc típusára vonatkozóan?
 

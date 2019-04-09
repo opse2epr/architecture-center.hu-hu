@@ -4,14 +4,14 @@ titleSuffix: Microsoft Cloud Adoption Framework for Azure
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
-description: Az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintését ismerteti.
+description: Az első fázisa egy vállalati digitális átalakulást az Azure a felhőalapú technológiák bevezetése áttekintést nyújt.
 ms.date: 02/11/2019
-ms.openlocfilehash: 7af68cd04be1bb3c9a6acdccbdf1a09e3cad55be
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 29b02964b5f1cd09857a51c17cf94d6c64e05e88
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298461"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068956"
 ---
 # <a name="getting-started-with-the-cloud-adoption-framework"></a>A Cloud bevezetési keretrendszert – első lépések
 
@@ -64,7 +64,7 @@ A következő lépés a felhő stratégia csapat számbavétele az üzleti probl
 
 |Kategória|Leírás|
 |-----|-----|
-|Költségkezelés|A technológia a vállalat fizet módon eseményáramlási kimaradást jelöli.|
+|Cost Management|A technológia a vállalat fizet módon eseményáramlási kimaradást jelöli.|
 |Szabályozás|A folyamatok engedményezhetné szembeni helytelen használat költség túllépését, a biztonsági problémák vagy a megfelelőségi problémák eredményezheti, hogy a vállalat által használt eseményáramlási kimaradást jelöli. |
 |Megfelelőség|A vállalati betartja a saját belső folyamatok és házirendek, valamint a külső törvényeknek, előírásoknak és szabványok ugyanúgy eseményáramlási kimaradást jelöli. |
 |Biztonság|A vállalati külső fenyegetések elleni védelmet biztosít a technológia és az eszközök ugyanúgy eseményáramlási kimaradást jelöli. |
@@ -76,7 +76,7 @@ Az alábbi táblázatban néhány példa látható:
 
 |Üzleti stratégia térköz|kategória &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Megoldás &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |-----|-----|-----|
-| Jelenleg az üzemeltetett szolgáltatás a helyszíni problémákat észlel a rendelkezésre állás, rugalmasság és méretezhetőség megugrása, amely használati nagyjából tíz százalékát idő alatt. A helyi adatközpontban lévő kiszolgálók olyan teljes életciklusa. Vállalati IT azt javasolja, hogy új vásárlási a helyszíni hardver előírásoknak megugrása kezelésére használható.| Költségkezelés | Érintett meglévő helyszíni számítási feladatok migrálása kellene fizetnie, csak a felhőben, méretezhető erőforrásokhoz. |
+| Jelenleg az üzemeltetett szolgáltatás a helyszíni problémákat észlel a rendelkezésre állás, rugalmasság és méretezhetőség megugrása, amely használati nagyjából tíz százalékát idő alatt. A helyi adatközpontban lévő kiszolgálók olyan teljes életciklusa. Vállalati IT azt javasolja, hogy új vásárlási a helyszíni hardver előírásoknak megugrása kezelésére használható.| Cost Management | Érintett meglévő helyszíni számítási feladatok migrálása kellene fizetnie, csak a felhőben, méretezhető erőforrásokhoz. |
 | Külső felügyeleti törvényeknek és szabályozásoknak kell a vállalat igazodnia kell beállítani a szabványos vezérlőket, hogy új hardver- és az inaktív adatok titkosításának megkövetelése. | Adatirányítás | Adatok áthelyezése az Azure storage service encryption az inaktív adatokat. |
 | A helyi adatközpontban lévő üzemeltetett szolgáltatások lett tapasztaló elosztott szolgáltatásmegtagadásos (DDoS) támadásoktól a nyilvánosan elérhető szolgáltatásait. A támadások nehezen csökkentése és a szükséges új hardveres, szoftveres és biztonsági csoporthoz, és hatékony kezelésére. | Biztonság | Szolgáltatások migrálása az Azure-ba, és kihasználhatja az Azure DDoS Protection.|
 

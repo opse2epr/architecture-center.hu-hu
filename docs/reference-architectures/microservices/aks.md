@@ -7,18 +7,20 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: c8ce4c77666ab7b9c55e6f144d514fadc6b6ad73
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 535c53faa810f74299e715a204e427c8919ce360
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299240"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59069024"
 ---
 # <a name="microservices-architecture-on-azure-kubernetes-service-aks"></a>A Mikroszolgáltatási architektúra az Azure Kubernetes Service (AKS)
 
-A referenciaarchitektúrák a mikroszolgáltatás-alkalmazások üzembe helyezett Azure Kubernetes Service (AKS) jeleníti meg. A legtöbb telepítés esetén a kiindulási pont lehet AKS alapkonfiguráció mutatja. Fejlettebb lehetőségeket, ideértve a speciális hálózati beállításokat, egy különálló referenciaarchitektúrában található tárgyalja.
+A referenciaarchitektúrák a mikroszolgáltatás-alkalmazások üzembe helyezett Azure Kubernetes Service (AKS) jeleníti meg. A legtöbb telepítés esetén a kiindulási pont lehet AKS alapkonfiguráció ismerteti. Ez a cikk a Kubernetes alapszintű ismeretét feltételezi. A cikk elsősorban az infrastruktúra és a fejlesztési és üzemeltetési megfontolások az aks-en futó a mikroszolgáltatási architektúra szolgál. A mikroszolgáltatások tervezési útmutatóért lásd: [mikroszolgáltatások készítése az Azure-ban](../../microservices/index.md).
 
-Ez a cikk a Kubernetes alapszintű ismeretét feltételezi. A cikk elsősorban az infrastruktúra és a fejlesztési és üzemeltetési megfontolások az aks-en futó a mikroszolgáltatási architektúra szolgál. Domain Driven tervezési (DDD) szempontból mikroszolgáltatások tervezési útmutatóért lásd: [tervezése, létrehozása és működtetése az Azure mikroszolgáltatások](/azure/architecture/microservices).
+![GitHub-embléma](../../_images/github.png) egy referenciaimplementációt, a jelen architektúra érhető el az [GitHub](https://github.com/mspnp/microservices-reference-implementation).
+
+
 
 ![Az AKS a referencia-architektúra](./_images/aks.png)
 

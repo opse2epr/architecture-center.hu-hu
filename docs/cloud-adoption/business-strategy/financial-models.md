@@ -8,12 +8,12 @@ description: Hogyan hozhat létre a felhőre vonatkozó pénzügyi minta.
 author: BrianBlanchard
 ms.date: 12/10/2018
 ms.topic: guide
-ms.openlocfilehash: e74a4782db5733271a575ce47cd79829f9114508
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 1f3ed8a84b84ba577ad5e5db8b1becd318dc04a3
+ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299442"
+ms.lasthandoff: 04/08/2019
+ms.locfileid: "59068871"
 ---
 # <a name="create-a-financial-model-for-cloud-transformation"></a>Felhőátalakításra vonatkozó pénzügyi modell létrehozása
 
@@ -26,7 +26,7 @@ Az elvárt megtérülési rátát (ROI) legtöbbször fontos kritérium, a C-Sui
 ![Lépjen vissza a befektetési (ROI) eredménye (nyereség, befektetés – költség, befektetés), befektetés költség /](../_images/formula-roi.png)
 
 <!-- markdownlint-disable MD036 -->
-*Megtérülés = (szerezhet, befektetés &minus; kezdeti, befektetés) / kezdeti, befektetés*
+<!--*ROI = (Gain from Investment &minus; Initial Investment) / Initial Investment*-->
 <!-- markdownlint-enable MD036 -->
 
 A következő szakaszokban végigvezetjük a kezdeti befektetések, és a nyereség, befektetés (eredmény) kiszámításához szükséges adatok.
@@ -46,7 +46,7 @@ Bevételek kiszámításához, két változót szükség:
 ![Befektetés nyereségét egyenlő bevétel eltérések + költség eltérések](../_images/formula-gain-from-investment.png)
 
 <!-- markdownlint-disable MD036 -->
-*Szerezhet, befektetés = bevétel eltérések + költség eltérések*
+<!--*Gain from Investment = Revenue Deltas + Cost Deltas*-->
 <!-- markdownlint-enable MD036 -->
 
 Az egyes alább ismertetjük.
@@ -104,4 +104,4 @@ Ha egy frissítés során, és a tervezett, a felhő átalakítási segíti, hog
 Néhány példa egy felhőalapú átalakítás kontextusában pénzügyi eredményekkel olvasni.
 
 > [!div class="nextstepaction"]
-> [Példák a pénzügyi eredmények](./business-outcomes/fiscal-outcomes.md)
+> [Példák költségvetési eredményekre](./business-outcomes/fiscal-outcomes.md)
