@@ -50,7 +50,7 @@ Az architektúra az alábbi összetevőkből áll.
 
 [Az Azure Blob Storage] [ blob] a bemeneti adatokat, az előre betanított machine learning-modellek és az előrejelzési eredményeket tárolja. Kínál rendkívül költséghatékony tárolási megoldás, amely szükséges a számítási feladat teljesítményét.
 
-[Az Azure Container Instances] [ aci] adja meg a kiszolgáló nélküli számítási igény. Ebben az esetben a tárolópéldány indításához az előrejelzések készítése a Batch-feladatok ütemezett helyezünk üzembe. A Batch-feladatok egy R parancsfájlt az aktivált a [doAzureParallel] [ doAzureParallel] csomagot. A tárolópéldány automatikusan leáll, miután a feladat befejezve.
+[Az Azure Container Instances] [ aci] adja meg a kiszolgáló nélküli számítási igény. Ebben az esetben a tárolópéldány indításához az előrejelzések készítése a Batch-feladatok ütemezett helyezünk üzembe. A Batch-feladatok egy R parancsfájlt az aktivált a [doAzureParallel][doAzureParallel] csomagot. A tárolópéldány automatikusan leáll, miután a feladat befejezve.
 
 [Az Azure Logic Apps] [ logic-apps] a teljes munkafolyamat-trigger ütemezés szerint a tárolópéldányok üzembe helyezésével. Egy Azure Container Instances-összekötőt a Logic Apps lehetővé teszi, hogy számos olyan kiváltó események üzembe helyezni egy példányt.
 
@@ -86,13 +86,13 @@ Figyelheti, és a Batch-feladatok leállítása a **feladatok** az Azure Portalo
 
 A doAzureParallel csomag automatikusan gyűjt minden feladat az Azure Batch elküldve az összes stdout/stderr-naplóit. A telepítéskor jönnek létre storage-fiókban találhatók. Megtekintheti őket, használjon egy tárolási navigációs eszköz például [Azure Storage Explorer] [ storage-explorer] vagy az Azure Portalon.
 
-Gyors fejlesztés során a Batch-feladatok hibakereséséhez, nyomtassa ki a helyi R munkamenetet használ a naplók a [getJobFiles] [ getJobFiles] doAzureParallel funkcióját.
+Gyors fejlesztés során a Batch-feladatok hibakereséséhez, nyomtassa ki a helyi R munkamenetet használ a naplók a [getJobFiles][getJobFiles] doAzureParallel funkcióját.
 
 ## <a name="cost-considerations"></a>Költségekkel kapcsolatos szempontok
 
 Ez a referenciaarchitektúra a használt számítási erőforrások összetevői a legtöbb költséges. Ebben a forgatókönyvben egy fix méretű fürt jön létre, amikor a feladat által aktivált, majd állítsa le a feladat befejezése után. Költsége akkor lesz felszámítva, csak a fürt csomópontjai indítása, futtatása vagy leállítása közben. Ez a megközelítés egy forgatókönyvet, ahol az előrejelzések készítése szükséges számítási erőforrások továbbra is viszonylag állandó feladat feladat ideális.
 
-Olyan esetekben, ahol a feladat végrehajtásához szükséges számítási nem ismert előre lehet megfelelő automatikus méretezés használata. Ezzel a módszerrel a fürt méretét erőforrások méretezése pedig ettől felfelé vagy lefelé a projekt méretétől függően. Az Azure Batch számos meghatározásakor a fürt segítségével beállíthatók úgy automatikus méretezési képletek a [doAzureParallel] [ doAzureParallel] API-t.
+Olyan esetekben, ahol a feladat végrehajtásához szükséges számítási nem ismert előre lehet megfelelő automatikus méretezés használata. Ezzel a módszerrel a fürt méretét erőforrások méretezése pedig ettől felfelé vagy lefelé a projekt méretétől függően. Az Azure Batch számos meghatározásakor a fürt segítségével beállíthatók úgy automatikus méretezési képletek a [doAzureParallel][doAzureParallel] API-t.
 
 Bizonyos esetekben a feladatok között eltelt idő lehet túl rövid, állítsa le és indítsa el a fürtöt. Ezekben az esetekben tartsa meg a fürtön futó feladatok között, ha szükséges.
 
@@ -100,7 +100,7 @@ Az Azure Batch- és a doAzureParallel támogatja az alacsony prioritású virtu�
 
 ## <a name="deployment"></a>Környezet
 
-Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lépéseket a [GitHub] [ github] adattárat.
+Ez a referenciaarchitektúra üzembe helyezéséhez kövesse az ismertetett lépéseket a [GitHub][github] adattárat.
 
 
 [0]: ./_images/batch-scoring-r-models.png
