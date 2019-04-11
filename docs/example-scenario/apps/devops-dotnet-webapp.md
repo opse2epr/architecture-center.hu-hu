@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack, seodec18
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-devops-dotnet-webapp.svg
-ms.openlocfilehash: 22a714a49c3e722fc11f2498e9a3abd1bec46d22
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: f999b2ffdf234161f668887d5b2327ecf50f0e55
+ms.sourcegitcommit: bb75a25bd589a761c79e39f2ccdec4acc7d71d60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299216"
+ms.lasthandoff: 04/11/2019
+ms.locfileid: "59480133"
 ---
 # <a name="design-a-cicd-pipeline-using-azure-devops"></a>CI-/CD-folyamat megtervezése az Azure DevOps segítségével
 
@@ -93,11 +93,11 @@ Ez [döntési fát az Azure számítási szolgáltatások](/azure/architecture/g
 
 ### <a name="walk-through"></a>Az útmutatóban
 
-A [Azure DevOps-projekt](/azure/devops-project/azure-devops-project-github) fog üzembe helyezése az App Service-csomag, az App Service-ben és a egy App Insights-erőforrást az Ön számára, valamint az Azure DevOps-projekt konfigurálása az Ön számára.
+[Az Azure DevOps Projects](/azure/devops-project/azure-devops-project-github) fog üzembe helyezése az App Service-csomag, az App Service-ben és a egy App Insights-erőforrást az Ön számára, valamint az Ön számára egy Azure-folyamatok folyamat konfigurálásához.
 
-Az Azure DevOps-projekt üzembe helyezte, és a létrehozás befejezése után tekintse át a társított kódmódosítás szükséges, munkaelemek, és a vizsgálati eredmények. Megfigyelheti, hogy nincs teszt eredményei jelennek meg, mert a kód nem tartalmaz semmilyen tesztek futtatásához.
+Egy folyamat már konfigurálnia kell az Azure DevOps Projects, és a létrehozás befejezése után tekintse át a társított kódmódosítás szükséges, munkaelemek, és a vizsgálati eredmények. Megfigyelheti, hogy nincs teszt eredményei jelennek meg, mert a kód nem tartalmaz semmilyen tesztek futtatásához.
 
-A projekt létrehoz egy kibocsátási folyamatok és a folyamatos készregyártás eseményindítója, a fejlesztési környezetbe az alkalmazás üzembe helyezése. A folyamatos üzembe helyezési folyamat részeként jelenhet meg, amelyek több környezetet kiadások. Egy kiadási is kiterjedhet mindkét infrastruktúra (például az infrastruktúra mint kód technikák használatával), és az alkalmazáscsomagok szükséges utáni konfigurációs feladatok együtt is üzembe helyezheti.
+A folyamat hoz létre a kiadási definíció és a egy folyamatos készregyártás eseményindítója, a fejlesztési környezetbe az alkalmazás üzembe helyezése. A folyamatos üzembe helyezési folyamat részeként jelenhet meg, amelyek több környezetet kiadások. Egy kiadási is kiterjedhet mindkét infrastruktúra (például az infrastruktúra mint kód technikák használatával), és az alkalmazáscsomagok szükséges utáni konfigurációs feladatok együtt is üzembe helyezheti.
 
 ## <a name="pricing"></a>Díjszabás
 
@@ -115,7 +115,7 @@ Tekintse át a következő források további információ a CI/CD-ről és az A
 - [A Microsoft - fejlesztési és üzemeltetési munka az Azure DevOps][devops-microsoft]
 - [Lépésről lépésre haladó oktatóanyagok: A DevOps és az Azure DevOps][devops-with-vsts]
 - [Fejlesztési és üzemeltetési ellenőrzőlista][devops-checklist]
-- [CI/CD-folyamat létrehozása a .NET-hez az Azure DevOps-projekt][devops-project-create]
+- [A CI/CD-folyamat létrehozása a .NET-hez az Azure DevOps Projects segítségével][devops-project-create]
 
 <!-- links -->
 

@@ -3,17 +3,17 @@ title: Webüzenetsor-feldolgozó architektúrastílus
 titleSuffix: Azure Application Architecture Guide
 description: Előnyeit, kihívásait és ajánlott eljárások a Webüzenetsor-feldolgozó architektúráinak ismerteti az Azure-ban.
 author: MikeWasson
-ms.date: 08/30/2018
+ms.date: 04/10/2019
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: b471d270af09df7ffd58dfdd49e7d03d05bfe582
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 974b8b8595d6d9333552c41dfe1f3f2af848d264
+ms.sourcegitcommit: bb75a25bd589a761c79e39f2ccdec4acc7d71d60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299038"
+ms.lasthandoff: 04/11/2019
+ms.locfileid: "59480082"
 ---
 # <a name="web-queue-worker-architecture-style"></a>Webüzenetsor-feldolgozó architektúrastílus
 
@@ -71,15 +71,15 @@ Ez a szakasz ismertet egy ajánlott, az Azure App Service-t használó webüzene
 
 ![Webüzenetsor-feldolgozó architektúrastílus fizikai diagramja](./images/web-queue-worker-physical.png)
 
-Az előtér egy ismert Azure App Service webalkalmazásként, a feldolgozó pedig WebJob-feladatként van implementálva. A webalkalmazás és a WebJob is társítva van egy App Service-csomaghoz, amely biztosítja a virtuálisgép-példányokat.
+- Az előtér egy Azure App Service webalkalmazás van megvalósítva, és a feldolgozó megvalósítása az Azure Functions-alkalmazás. A web app és a függvényalkalmazáshoz tartozó App Service-csomag, amely a Virtuálisgép-példányok biztosít.
 
-Az üzenetsorhoz használhat Azure Service Bus- vagy Azure Storage-üzenetsort is. (Az ábrán egy Azure Storage-üzenetsor látható.)
+- Az üzenetsorhoz használhat Azure Service Bus- vagy Azure Storage-üzenetsort is. (Az ábrán egy Azure Storage-üzenetsor látható.)
 
-Az Azure Redis Cache tárolja a munkamenet állapotát, és más, alacsony késésű elérést igénylő adatokat.
+- Az Azure Redis Cache tárolja a munkamenet állapotát, és más, alacsony késésű elérést igénylő adatokat.
 
-Az Azure CDN használatával gyorsítótárazható statikus tartalom, például képek, CSS vagy HTML.
+- Az Azure CDN használatával gyorsítótárazható statikus tartalom, például képek, CSS vagy HTML.
 
-A tároláshoz válassza ki az alkalmazás igényeinek legmegfelelőbb tárolási technológiákat. Használhat több tárolási technológiát (többnyelvű adatmegőrzés). Az elképzelés ábrázolására az ábra bemutatja az Azure SQL Database-t és az Azure Cosmos DB-t.
+- A tároláshoz válassza ki az alkalmazás igényeinek legmegfelelőbb tárolási technológiákat. Használhat több tárolási technológiát (többnyelvű adatmegőrzés). Az elképzelés ábrázolására az ábra bemutatja az Azure SQL Database-t és az Azure Cosmos DB-t.
 
 További részletek: [App Service-webalkalmazás referenciaarchitektúrája][scalable-web-app].
 
@@ -89,7 +89,7 @@ További részletek: [App Service-webalkalmazás referenciaarchitektúrája][sca
 
 - Az App Service beépített automatikus skálázási szolgáltatásával horizontálisan felskálázhatja a virtuálisgép-példányok számát. Ha az alkalmazás terhelése előre megjósolható mintákat követ, használjon ütemezésalapú automatikus skálázást. Ha a terhelés nem jósolható meg előre, használjon mérőszám-alapú automatikus méretezési szabályokat.
 
-- Érdemes lehet a webalkalmazást és a WebJob-feladatot külön App Service-csomagba helyezni. Ily módon üzemeltethetők külön virtuálisgép-példányokon, és skálázhatók egymástól függetlenül.
+- Vegye figyelembe, hogy a webalkalmazás és a függvényalkalmazás üzembe külön App Service-csomagok. Ezzel a módszerrel, egymástól függetlenül skálázhatók.
 
 - Az éles üzemhez és a teszteléshez használjon külön App Service-csomagot. Ha ugyanis ugyanazt a csomagot használja az éles üzemhez és a teszteléshez, akkor a tesztek élesben működő virtuális gépeken futnak.
 

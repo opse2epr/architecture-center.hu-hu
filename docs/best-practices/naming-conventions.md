@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 87869d1b38d2b4a71cd5b604436e04deab993131
-ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
+ms.openlocfilehash: ed1811495e81965fa514ab66dcfa49d00d2a59f2
+ms.sourcegitcommit: bb75a25bd589a761c79e39f2ccdec4acc7d71d60
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/25/2019
-ms.locfileid: "58420022"
+ms.lasthandoff: 04/11/2019
+ms.locfileid: "59480099"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -85,6 +85,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 |Rendelkezésre állási csoport |Erőforráscsoport |1–80 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, aláhúzásjel és kötőjel |`<service-short-name>-<context>-as` |`profx-sql-as` |
 |Címke |Társított entitás |512 (név), 256 (érték) |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek, speciális karakterek kivételével `<`, `>`, `%`, `&`, `\`, `?`, `/`. Tekintse meg a korlátozások [Itt](/azure/azure-resource-manager/resource-group-using-tags). |`"key" : "value"` |`"department" : "Central IT"` |
 |Webalkalmazás |Globális |1–60 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<app_name>-<source-slot-name>` |`contoso-staging` |
+|API Management |Globális |1-50 |Kis- és nagybetűk megkülönböztetése nélkül |Alfanumerikus karakterek és kötőjel |`<apim-service-name>` |`contoso` |
 
 ### <a name="compute"></a>Compute
 
@@ -100,7 +101,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Tárfiók neve (adatok) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (egy függvénnyel számítson ki egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
+|Tárfiók neve (adatok) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (a függvényt használni a kiszámításához egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
 |Tárfiók neve (lemezek) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<vm name without hyphens>st<number>` |`profxsql001st0` |
 | Tárolónév |Tárfiók |3-63 |Kisbetűs |Alfanumerikus karakterek és kötőjel |`<context>` |`logs` |
 |A blob neve | Tároló |1–1024 |Kis- és nagybetűk megkülönböztetése |Bármely URL-karakter |`<variable based on blob usage>` |`<variable based on blob usage>` |
@@ -191,7 +192,7 @@ A szolgáltatás konfigurálásáról az [egyéni tartományév Blob Storage-vé
 
 A blobok, tárolók és táblák elnevezéséről a következő listában talál további információt:
 
-- [Tárolók, blobok és metaadatok elnevezése és hivatkozása](https://msdn.microsoft.com/library/dd135715.aspx)
+- [Elnevezése és hivatkozása, tárolók, Blobok és metaadatok](https://msdn.microsoft.com/library/dd135715.aspx)
 - [Üzenetsorok és metaadatok elnevezése](https://msdn.microsoft.com/library/dd179349.aspx)
 - [Táblák elnevezése](https://msdn.microsoft.com/library/azure/dd179338.aspx)
 
