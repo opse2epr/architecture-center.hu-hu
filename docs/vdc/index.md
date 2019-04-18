@@ -6,18 +6,19 @@ layout: LandingPage
 ms.topic: landing-page
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: 57f28808d3c49c74bc010133c670a186206a4466
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: f49640f4a994bf1cdca8029260fc95a5da323ff2
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58344529"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640617"
 ---
 # <a name="azure-virtual-datacenter-and-the-enterprise-control-plane"></a>Az Azure Virtual Datacenter és a vállalati vezérlősík
 
 Az Azure Virtual Datacenter arra szolgál, hogy a lehető legtöbbet hozza ki az Azure-felhőplatform képességeiből a meglévő biztonsági és hálózatkezelési szabályzatok betartása mellett. Amikor vállalati számítási feladatokat helyeznek üzembe a felhőben, az informatikai cégeknek és üzleti egységeknek meg kell találniuk a szabályozás és a fejlesztőknek nyújtott rugalmasság közötti egyensúlyt. Az Azure Virtual Datacenter különböző modelleket kínál ennek kialakítására, a szabályozásra helyezve nagyobb hangsúlyt.
- 
+
 ## <a name="resources"></a>További források
+
 <table>
 <tr>
     <td style="width: 64px; vertical-align: middle;"><a href="https://aka.ms/VDC/Concepts"><img src="../_images/virtual-datacenter.svg" alt="Virtual Datacenter eBook" /></a></td>
@@ -58,6 +59,5 @@ A számítási feladatok felhőbeli üzembe helyezése olyan fokú megbízhatós
 Az Azure Virtual Datacenter működését a következő négy összetevő teszi lehetővé: identitás, titkosítás, szoftveralapú hálózatkezelés és megfelelőség (beleértve a naplókat és a jelentéskészítést).
 
 Az Azure virtuálisadatközpont-modellben alkalmazhat elkülönítési szabályzatokat, a jól ismert fizikai adatközpontokhoz hasonlóbbá teheti a felhőt, továbbá elérheti a szükséges mértékű biztonságot és bizalmat. Ezt négy összetevő teszi lehetővé, amelyek minden vállalati informatikai csapat számára ismerősek: szoftveralapú hálózatkezelés, titkosítás, identitáskezelés és az Azure platform alapul szolgáló megfelelőségi szabványai és tanúsítványai. Ezek szükségesek ahhoz, hogy a virtuális adatközpont a meglévő infrastruktúra megbízható kiterjesztésévé váljon.
-
 
 Olvassa tovább az <a href="https://aka.ms/VDC/eBook">Azure Virtual Datacenter: Alapfogalmak</a> című e-könyvet.
