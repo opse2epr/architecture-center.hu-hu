@@ -9,11 +9,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18
 ms.openlocfilehash: 3d109cb830b7dfc8c3d4de0e654f9d8667acf101
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887794"
+ms.lasthandoff: 04/18/2019
+ms.locfileid: "59740459"
 ---
 # <a name="create-a-stream-processing-pipeline-with-azure-databricks"></a>Az Azure Databricks egy adatfolyam-feldolgozási folyamat létrehozása
 
@@ -33,7 +33,7 @@ Az architektúra a következőkben leírt összetevőkből áll.
 
 **Az Azure Databricks**. [Databricks](/azure/azure-databricks/) egy a Microsoft Azure cloud services platformra optimalizált Apache Spark-alapú elemzési platform. Databricks az taxi indításáról, összekapcsolását és adatok díjszabás és a helyek adatokat tárolja a Databricks fájlrendszerhez korrelatív adatokat feldúsítani használatos.
 
-**Cosmos DB**. Az Azure Databricks-feladat kimenete rekordoknak, amelyek írt sorozatát [Cosmos DB](/azure/cosmos-db/) a Cassandra API-val. A Cassandra API támogatja a modellezés idősorozat-adatok használata.
+**A cosmos DB**. Az Azure Databricks-feladat kimenete rekordoknak, amelyek írt sorozatát [Cosmos DB](/azure/cosmos-db/) a Cassandra API-val. A Cassandra API támogatja a modellezés idősorozat-adatok használata.
 
 **Az Azure Log Analytics**. Alkalmazás adatainak naplózása által gyűjtött [Azure Monitor](/azure/monitoring-and-diagnostics/) tárolja egy [Log Analytics-munkaterület](/azure/log-analytics). Log Analytics-lekérdezések segítségével elemezheti és metrikák megjelenítése elérhessék és vizsgálhassák azonosíthatja a problémákat az alkalmazásban lévő üzeneteket.
 

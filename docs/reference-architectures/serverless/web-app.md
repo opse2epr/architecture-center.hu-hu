@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, serverless
-ms.openlocfilehash: 0307ff6045e4e4b55c9d4530d9888db9209ba631
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: edf569b82a0a632e6ca048fee12c1dc61c039cd9
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299237"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640804"
 ---
 # <a name="serverless-web-application-on-azure"></a>Kiszolgáló nélküli webalkalmazás az Azure-ban
 
@@ -39,9 +39,6 @@ Ha külső eseményindító történik, például egy HTTP-kérelem vagy egy üz
 Az architektúra az alábbi összetevőkből áll:
 
 **A BLOB Storage-**. Statikus tartalmak, például HTML, CSS és JavaScript-fájlok, az Azure Blob Storage tárolása és kiszolgálása ügyfeleknek használatával [statikus webhelyüzemeltetésre][static-hosting]. Az összes dinamikus interakció a háttérrendszeri API-k hívása JavaScript-kód történik. Nincs kiszolgálóoldali kód megjeleníteni a weblapot. Index dokumentumok és egyéni 404-es hibalapok statikus webhelyüzemeltetésre támogatja.
-
-> [!NOTE]
-> Statikus webhely üzemeltetése jelenleg [előzetes][static-hosting-preview].
 
 **CDN**. Használat [Azure Content Delivery Network] [ cdn] (CDN) a gyorsítótár a kisebb késés és a gyorsabb tartalomkézbesítés a tartalom, valamint biztosító HTTPS-végpontokat.
 

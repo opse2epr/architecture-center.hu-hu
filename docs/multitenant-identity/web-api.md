@@ -9,12 +9,12 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: authorize
 pnp.series.next: token-cache
-ms.openlocfilehash: 7d99aca8865ccb29c54c3819dc82de503de7e4fc
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: fd0ac254604470ba51ea00537490cfb22b224e80
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298426"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640175"
 ---
 # <a name="secure-a-backend-web-api"></a>Egy háttéralkalmazás webes API biztonságossá tétele
 
@@ -230,7 +230,7 @@ Mivel ez a példa bemutatja, is használhatja a **TokenValidated** eseményhez, 
 
 Általános engedélyezési, lásd: [szerepkör- és erőforrás-alapú hitelesítés][Authorization].
 
-A JwtBearer közbenső kezeli a hitelesítési válaszokat. Például korlátozhatja egy vezérlő művelet a hitelesített felhasználók számára, használja a **[engedélyezés]** atrribute, és adja meg **JwtBearerDefaults.AuthenticationScheme** hitelesítési sémát:
+A JwtBearer közbenső kezeli a hitelesítési válaszokat. Például korlátozhatja egy vezérlő művelet a hitelesített felhasználók számára, használja a **[engedélyezés]** attribútumot, és adja meg **JwtBearerDefaults.AuthenticationScheme** hitelesítési sémát:
 
 ```csharp
 [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

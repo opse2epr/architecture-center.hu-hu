@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat
-ms.openlocfilehash: 5219d08fce5cf09b075b6d7adfb73970e007ded4
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 34c21f4b5356dc0acbd5c2c85124300a6ed13c99
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299525"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640498"
 ---
 # <a name="web-application-monitoring-on-azure"></a>Webalkalmazás-monitorozás az Azure-ban
 
@@ -78,7 +78,7 @@ Ebben a forgatókönyvben a PaaS-megoldások figyeli a nagy része, mert kényel
 
 Az Application Insights rendelkezik [korlátok] [ app-insights-limits] a hány kérelmek másodpercenkénti feldolgozási. Ha a kérés korlátot túllépi, üzenet szabályozás tapasztalhat. Szabályozás elkerülése megvalósítása [szűrés] [ message-filtering] vagy [mintavételi] [ message-sampling] adatátviteli sebesség csökkentése érdekében
 
-Magas rendelkezésre állási szempontok futtatja, az alkalmazás azonban olyan a fejlesztő feladata. Skála kapcsolatos információkért lásd a [méretezési szempontok](#scalability-considerations) az alapszintű webalkalmazás referenciaarchitektúrája szakaszát. Alkalmazás üzembe helyezését követően beállíthatja-tesztek [a rendelkezésre állás monitorozása] [ monitor its availability] Application Insights használatával.
+Magas rendelkezésre állási szempontok futtatja, az alkalmazás azonban olyan a fejlesztő feladata. Skála kapcsolatos információkért lásd a [méretezési szempontok](./basic-web-app.md#scalability-considerations) az alapszintű webalkalmazás referenciaarchitektúrája szakaszát. Alkalmazás üzembe helyezését követően beállíthatja-tesztek [a rendelkezésre állás monitorozása] [ monitor its availability] Application Insights használatával.
 
 ### <a name="security"></a>Biztonság
 

@@ -8,11 +8,11 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
 ms.openlocfilehash: cba8d272ddbdbf2c2da94f68b288e9fb79be7de2
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887811"
+ms.lasthandoff: 04/18/2019
+ms.locfileid: "59740357"
 ---
 # <a name="batch-scoring-of-spark-machine-learning-models-on-azure-databricks"></a>Batch-pontozás a Spark machine learning-modellek az Azure Databricksben
 

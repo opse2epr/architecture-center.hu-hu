@@ -9,12 +9,12 @@ ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: claims
 pnp.series.next: app-roles
-ms.openlocfilehash: a1ec441b731ba7f2166f9115452b052ec944444f
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: eb4e65b20ec3339b633b65d2adad768e98d1bdbb
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299129"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640600"
 ---
 # <a name="tenant-sign-up-and-onboarding"></a>Bérlői feliratkozás és előkészítés
 
@@ -63,7 +63,7 @@ Névtelen felhasználó meglátogat a Surveys alkalmazás, amikor a felhasznál�
 
 Ezekre a gombokra hajthatók végre műveletek, az a `AccountController` osztály.
 
-A `SignIn` művelet értéket ad vissza egy **ChallegeResult**, amely hatására az OpenID Connect közbenső szoftvert átirányítani a hitelesítési végpontra. Ez az eseményindító-hitelesítés az ASP.NET Core alapértelmezett módja.
+A `SignIn` művelet értéket ad vissza egy **ChallengeResult**, amely hatására az OpenID Connect közbenső szoftvert átirányítani a hitelesítési végpontra. Ez az eseményindító-hitelesítés az ASP.NET Core alapértelmezett módja.
 
 ```csharp
 [AllowAnonymous]
@@ -259,7 +259,7 @@ private async Task<Tenant> SignUpTenantAsync(BaseControlContext context, TenantM
 Itt látható a teljes regisztrációs folyamatot a Surveys alkalmazás összefoglalása:
 
 1. A felhasználó kattint a **regisztráció** gombra.
-2. A `AccountController.SignUp` művelet challege eredményt adja vissza.  A hitelesítési állapot "signup" értéket tartalmaz.
+2. A `AccountController.SignUp` művelet challenge eredményt adja vissza.  A hitelesítési állapot "signup" értéket tartalmaz.
 3. Az a `RedirectToAuthenticationEndpoint` esemény, adja hozzá a `admin_consent` parancssort.
 4. Az OpenID Connect közbenső szoftvert átirányítja a felhasználókat az Azure ad-ben, és a felhasználó hitelesíti magát.
 5. Az a `AuthenticationValidated` esemény, keressen a "signup" állapot.

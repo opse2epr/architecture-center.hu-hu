@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 43838592ef4176c28e11b90180727a63b1e1f8f6
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: bb810f549c78d16eabd4a96cd811cdc120cc8b6f
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298485"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640940"
 ---
 # <a name="data-partitioning-strategies"></a>Adatok particionálási stratégiái
 
@@ -57,7 +57,7 @@ A particionálási séma jelentős hatással lehet a rendszer teljesítményét.
 
 - Ugyanabban a szegmensben az együtt használt adatokat csoportosítsa, és kerülje az olyan műveleteket, amelyek több szegmens származó adatok eléréséhez. Egy szegmens egy önálló SQL-adatbázis, és adatbázisok közti összekapcsolásokat az ügyféloldalon kell végrehajtani.
 
-    Bár az SQL Database nem támogatja az adatbázisok közti összekapcsolásokat, a rugalmas Adatbáziseszközök végrehajtásához használhatja [megtalálhatjuk szegmensek közötti lekérdezéseket](/azure/sql-database/sql-database-elastic-scale-multishard-querying). Többszegmenses lekérdezés egyéni lekérdezéseket küld minden egyes adatbázishoz, és egyesíti az eredményeket.
+    Bár az SQL Database nem támogatja az adatbázisok közti összekapcsolásokat, a rugalmas Adatbáziseszközök végrehajtásához használhatja [több horizontális partíciós lekérdezések](/azure/sql-database/sql-database-elastic-scale-multishard-querying). Többszegmenses lekérdezés egyéni lekérdezéseket küld minden egyes adatbázishoz, és egyesíti az eredményeket.
 
 - Olyan rendszerek, szegmensek közötti függőségek rendelkező kialakítását. Hivatkozási integritási megkötéseket, eseményindítók és a egy adatbázisban tárolt eljárások nem hivatkozhat egy másik objektumaira.
 
