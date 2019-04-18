@@ -5,14 +5,14 @@ ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
 ms.custom: governance
 ms.date: 02/11/2019
-description: Kis és közepes méretű enterprise - kezdeti vállalati szabályzat a cégirányítási strateg mögött
+description: Kis és közepes méretű enterprise - kezdeti vállalati szabályzat a adatirányítási stratégia mögött
 author: BrianBlanchard
-ms.openlocfilehash: 35c9398684416b5f4df1d5ea69ac3634b2f73ff3
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 2133145c9933ad450ea3cc55ecd68b8a667df783
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298441"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640022"
 ---
 # <a name="small-to-medium-enterprise-initial-corporate-policy-behind-the-governance-strategy"></a>Small-to-medium enterprise: A cégirányítási stratégia mögött kezdeti vállalati szabályzat
 

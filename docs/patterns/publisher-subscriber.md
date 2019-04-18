@@ -7,16 +7,16 @@ ms.date: 12/07/2018
 ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 9b931337f7f0e5dc58f83701271c7d3491af5bfd
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: f3d15d65aeab41977e6d30b8141baaa956da29d3
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299532"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640770"
 ---
 # <a name="publisher-subscriber-pattern"></a>Közzétevő-előfizető minta
 
-Engedélyezheti egy alkalmazás számára, hogy több érdeklődő fogyasztó számára aszinkron módon, a küldők és a fogadók összekapcsolása nélkül jelentsen be eseményeket.
+Engedélyezheti egy alkalmazás jelentjük be események több érdekelt fogyasztók aszinkron módon, a fogadók a feladók kapcsoló nélkül.
 
 **Más néven**: Közzétevői/előfizetői üzenetkezelés
 
@@ -88,7 +88,7 @@ A minta megvalósítása során az alábbi pontokat vegye figyelembe:
 
 - **Ismétlődő üzenetek.** Az adott üzenet többszöri lehet küldeni. Ha például a küldő után üzenetküldés egy meghiúsulhat. Majd egy új példányát a küldő előfordulhat, hogy indítsa el, és ismételje meg az üzenetet. Az üzenetkezelési infrastruktúra az ismétlődő üzenetek észlelése és eltávolítása (más néven megszüntetéséhez duping) Üzenetazonosítók annak érdekében, hogy a legtöbb-egyszeri kézbesítési üzenetek kell megvalósítania.
 
-- **Üzenetek lejáratkor.** Előfordulhat, hogy az üzenet élettartama korlátozható. A feldolgozása ezen az időn belül nem történik, ha már nem releváns, és el kell távolítani. A küldő megadhatja egy experiation, amikor az üzenetben található adatokat részeként. Egyetlen külső eseményfogyasztó ellenőrizheti ezt az információt, mielőtt eldönti, az üzleti logikát az üzenethez társított végrehajtásához.
+- **Üzenetek lejáratkor.** Előfordulhat, hogy az üzenet élettartama korlátozható. A feldolgozása ezen az időn belül nem történik, ha már nem releváns, és el kell távolítani. A küldő megadhatja a lejárati időt részeként az üzenetben található adatokat. Egyetlen külső eseményfogyasztó ellenőrizheti ezt az információt, mielőtt eldönti, az üzleti logikát az üzenethez társított végrehajtásához.
 
 - **Üzenet az ütemezés.** Előfordulhat, hogy ideiglenesen embargoed egy üzenet, és nem kell feldolgozni egy adott dátumig és időpontig. Az üzenet nem elérhetőnek kell lennie a fogadó ez időpontig.
 
@@ -130,4 +130,4 @@ Az alábbi minták és útmutatók hasznosak lehetnek a minta megvalósításako
 
 - [A megfigyelő minta](https://en.wikipedia.org/wiki/Observer_pattern). A közzétételi-feliratkozási minta épül, amely a megfigyelő minta az aszinkron üzenetkezelés használatával megfigyelők témák leválasztásával.
 
-- [Üzenet Broker minta](https://en.wikipedia.org/wiki/Message_broker). Számos üzenetkezelő alrendszer, amelyek támogatják a közzétételi-feliratkozási modek vannak megvalósítva egy közvetítő-n keresztül.
+- [Üzenet Broker minta](https://en.wikipedia.org/wiki/Message_broker). Számos üzenetkezelő alrendszer, amelyek támogatják a közzétételi-feliratkozási modell egy közvetítő segítségével vannak megvalósítva.

@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – többfelhős fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: c72040912a99ad232e367ae750e9bb2caa77cbf2
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 62a2fdd6e340c96494354f4f0cf2f78ab572c251
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299378"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641144"
 ---
 # <a name="large-enterprise-multi-cloud-evolution"></a>Nagyvállalati: Többfelhős fejlődés
 
@@ -82,7 +82,7 @@ A többszörös felhőre való áttérés növekedésével a fenti tervezési fe
 
 ## <a name="next-steps"></a>További lépések
 
-Számos nagy méretű vállalatok számára, az a felhő Cégirányítási öt Dsciplines való bevezetésének blockers lehet. A következő cikk rendelkezik néhány további ötlete, így cégirányítási egy csapat sport segítik a hosszú távú sikert a felhőben.
+Számos nagy méretű vállalatok számára, az a felhő Cégirányítási öt oktatnak blockers való bevezetésének lehet. A következő cikk rendelkezik néhány további ötlete, így cégirányítási egy csapat sport segítik a hosszú távú sikert a felhőben.
 
 > [!div class="nextstepaction"]
 > [Cégirányítási rétege](./multiple-layers-of-governance.md)

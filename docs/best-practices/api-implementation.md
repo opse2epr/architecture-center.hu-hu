@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 7a484aa9e4fde8fd5056608ca5dd98aefbc077b7
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: dcbfa528a4fdd640b08b42904ceadb7a802b806e
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298966"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640923"
 ---
 # <a name="api-implementation"></a>API-implementáció
 
@@ -708,7 +708,7 @@ Figyeljen a válaszokban a váratlan állapotkódokra az 5xx tartományban. Ezek
 
 - Tesztelje a lekérdezési sztringekat. Ha egy műveletnek választható paraméterei is lehetnek (például tördelési kérések), tesztelje a paraméterek különböző kombinációit és sorrendjeit.
 
-- Ellenőrizze, hogy az aszinkron műveletek sikeresen befejeződnek-e. Ha a webes API támogatja streamelést a nagyméretű bináris objektumokat (például videókat vagy hangfájlokat) visszaadó kérelmeknél, akkor ügyeljen arra, hogy az ügyfélkérelmek ne legyenek blokkolva az adatok streamelése közben. Ha a webes API ciklikus lekérdezéseket használ a hosszan futó adatmódosítási műveletekhez, ellenőrizze, hogy a műveletek menet közben megfelelően jelentik-e az állapotukat.
+- Ellenőrizze, hogy az aszinkron műveletek sikeresen befejeződnek-e. Ha a webes API támogatja streamelést a nagyméretű bináris objektumokat (például videókat vagy hangfájlokat) visszaadó kérelmeknél, akkor ügyeljen arra, hogy az ügyfélkérelmek ne legyenek blokkolva az adatok streamelése közben. Ha a webes API-t valósít meg a hosszan futó adatmódosítási műveletekhez lekérdezése, győződjön meg arról, hogy a műveletek jelentik-e az állapotukat megfelelően.
 
 Emellett hozzon létre és futtasson teljesítményteszteket, amelyekkel ellenőrizheti, hogy a webes API kielégítően működik-e nagy terhelés alatt. Webes teljesítmény- és terheléses tesztelési projekteket a Visual Studio Ultimate használatával hozhat létre. További információ: [Alkalmazások teljesítményének tesztelése közzététel előtt](https://msdn.microsoft.com/library/dn250793.aspx).
 

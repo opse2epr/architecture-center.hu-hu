@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: a1c0701185c85f8e7bcbc183b32c4834529fc524
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.openlocfilehash: 3459f7895b7b57833da5853a77b2641dc7c85a9e
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887862"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639716"
 ---
 # <a name="batch-scoring-of-deep-learning-models-on-azure"></a>Batch-pontozás deep learning-modellek az Azure-ban
 
@@ -120,7 +120,7 @@ Figyelés is lehet további bővített naplók csatlakozik az Application Insigh
 
 ### <a name="logging-with-azure-machine-learning"></a>Az Azure Machine Learning-naplózás
 
-Az Azure Machine számlázásról automatikusan projekttárolóba összes stdout/stderr társítása a blob storage-fiókhoz. Ellenkező értelmű rendelkezés az Azure Machine Learning-munkaterület automatikusan kiépíteni a tárfiókot, és a naplók dump bele. A tárolók navigációs eszköz, például a Storage Explorer, amely egy sokkal egyszerűbb megoldást biztosít a naplófájlok navigáláshoz használhatja.
+Az Azure Machine Learning automatikusan projekttárolóba összes stdout/stderr társítása a blob storage-fiókhoz. Ellenkező értelmű rendelkezés az Azure Machine Learning-munkaterület automatikusan kiépíteni a tárfiókot, és a naplók dump bele. A tárolók navigációs eszköz, például a Storage Explorer, amely egy sokkal egyszerűbb megoldást biztosít a naplófájlok navigáláshoz használhatja.
 
 ## <a name="cost-considerations"></a>Költségekkel kapcsolatos szempontok
 

@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: csa-team
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-decentralized-trust.png
-ms.openlocfilehash: a3c497f91b3861bf02f05981ee92e578a22a14ca
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 3bc75e59a4d391c74a0e606f9670c88509a3375b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299260"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640447"
 ---
 # <a name="decentralized-trust-between-banks-on-azure"></a>Bankok közötti nem központosított megbízhatósági kapcsolatok az Azure-ban
 
@@ -72,8 +72,6 @@ Más kiterjesztett vagy más esetekben például tranzakciós adatvédelmi aggá
 
 [Az Azure Monitor] [ monitor] folyamatosan az a blockchain hálózati problémák rendelkezésre állásának figyelésére használható. Az Azure Monitor alapuló egyéni figyelési irányítópult mutató hivatkozást küld, a sikeres telepítés a blockchain-megoldás ebben a forgatókönyvben használt sablon. Az irányítópult megjeleníti a szívverés az elmúlt 30 percben, valamint más hasznos adatokat jelentő csomópontok.
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazhatnak egy előre beállított időn belül. Ebben a forgatókönyvben koncepció jogosultság használ, ahol ilyen méretezhetőség jobban kezelheti, mint a koncepció-az-végzett munka. A koncepció jogosultság&ndash;alapján hálózatok, a consensus résztvevők ismertek és kezelt, alkalmassá téve azt több privát blockchain konzorcium szervezet számára, hogy tudja, hogy egy másik. Például average paraméterek idő, tranzakció / perc letiltása, és a számítási erőforrás-használat az egyéni Irányítópult segítségével egyszerűen figyelhető. Erőforrások is kell beállítani, hogy ennek megfelelően a méretezési követelmények alapján.
@@ -90,7 +88,7 @@ A blockchain népszerű feladata a tranzakciók, amelyek a blockchain tartalmazh
 
 Az Ethereum PoA blockchain is maga biztosít bizonyos fokú rugalmasság az érvényesítési csomópontot is üzembe helyezhetők különböző régiókban. Az Azure rendelkezik üzembe helyezéseket több mint 54 régiókban világszerte. A blockchain, mint ahogyan az ebben a forgatókönyvben a rugalmasság növelésére együttműködés egyedi és frissítése lehetőségeket biztosít. Az ezzel járó rugalmasságot, a hálózat nem csupán biztosít az egyetlen központosított fél, de minden tagjainak. A koncepció jogosultság&ndash;alapján blockchain lehetővé teszi, hogy a hálózat rugalmasságának biztosításával, hogy még a tervezett és szándékos.
 
-Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="pricing"></a>Díjszabás
 
@@ -120,8 +118,6 @@ További információ az Ethereum koncepció jogosultság megoldássablon haszn�
 [deploy]: https://portal.azure.com/?pub_source=email&pub_status=success#create/microsoft-azure-blockchain.azure-blockchain-ethereumethereum-poa-consortium
 [source]: https://github.com/vitoc/creditscoreblockchain
 [monitor]: /azure/monitoring-and-diagnostics/monitoring-overview-azure-monitor
-[availability]: /azure/architecture/checklist/availability
 [scalability]: /azure/architecture/checklist/scalability
-[resiliency]: ../../resiliency/index.md
 [security]: /azure/security/
 [vault]: https://azure.microsoft.com/services/key-vault/

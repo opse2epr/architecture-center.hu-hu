@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: ed1811495e81965fa514ab66dcfa49d00d2a59f2
-ms.sourcegitcommit: bb75a25bd589a761c79e39f2ccdec4acc7d71d60
+ms.openlocfilehash: e67da8043beed01c99f36da689dfd0553e012535
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/11/2019
-ms.locfileid: "59480099"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640396"
 ---
 # <a name="naming-conventions-for-azure-resources"></a>Az Azure-erőforrások elnevezési konvenciói
 
@@ -64,7 +64,7 @@ Az elő- és utótagok az adott erőforrások különböző aspektusaira utalhat
 | Aspektus | Példa | Megjegyzések |
 | --- | --- | --- |
 | Környezet |dev, prod, QA (fejlesztői, éles, minőségbiztosítási) |Az erőforrás környezetét határozza meg |
-| Hely |uw (USA nyugati régiója), ue (USA keleti régiója) |A régiót jelöli, amelyben az erőforrás üzembe van helyezve |
+| Földrajzi egység |uw (USA nyugati régiója), ue (USA keleti régiója) |A régiót jelöli, amelyben az erőforrás üzembe van helyezve |
 | Példány |1, 2, ... |Az olyan erőforrásokhoz, például virtuális gépeket vagy a hálózati adapterek több megnevezett példánnyal rendelkezik. |
 | Termék vagy szolgáltatás |szolgáltatás |Az erőforrás által támogatott terméket, alkalmazást vagy szolgáltatást jelöli |
 | Szerepkör |sql, web, messaging (sql, web, üzenetkezelés) |A társított erőforrás szerepét jelöli |
@@ -101,7 +101,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Tárfiók neve (adatok) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (a függvényt használni a kiszámításához egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
+|Tárfiók neve (adatok) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<globally unique name><number>` (egy függvénnyel számítson ki egy egyedi GUID azonosítót a tárfiókok elnevezéséhez) |`profxdata001` |
 |Tárfiók neve (lemezek) |Globális |3–24 |Kisbetűs |Alfanumerikus karakterek |`<vm name without hyphens>st<number>` |`profxsql001st0` |
 | Tárolónév |Tárfiók |3-63 |Kisbetűs |Alfanumerikus karakterek és kötőjel |`<context>` |`logs` |
 |A blob neve | Tároló |1–1024 |Kis- és nagybetűk megkülönböztetése |Bármely URL-karakter |`<variable based on blob usage>` |`<variable based on blob usage>` |
@@ -135,7 +135,7 @@ Az Azure-ban minden egyes erőforrás- vagy szolgáltatástípus megszab bizonyo
 
 | Entitás | Hatókör | Hossz | Kis- és nagybetűk | Érvényes karakterek | Javasolt minta | Példa |
 | --- | --- | --- | --- | --- | --- | --- |
-|Service Bus-névtér | Globális |6-50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karaktereket, kötőjelet, leter; kell kezdődnie Lásd: [Itt](/rest/api/servicebus/create-namespace) részleteiről. |`<service short name>-bus` |`app1-bus` |
+|Service Bus-névtér | Globális |6-50 |Kis- és nagybetűk megkülönböztetése nélkül | Alfanumerikus karaktereket, kötőjelet tartalmazhat, betűvel; kell kezdődnie Lásd: [Itt](/rest/api/servicebus/create-namespace) részleteiről. |`<service short name>-bus` |`app1-bus` |
 
 ## <a name="organize-resources-with-tags"></a>Erőforrások rendszerezése címkékkel
 
@@ -192,7 +192,7 @@ A szolgáltatás konfigurálásáról az [egyéni tartományév Blob Storage-vé
 
 A blobok, tárolók és táblák elnevezéséről a következő listában talál további információt:
 
-- [Elnevezése és hivatkozása, tárolók, Blobok és metaadatok](https://msdn.microsoft.com/library/dd135715.aspx)
+- [Tárolók, blobok és metaadatok elnevezése és hivatkozása](https://msdn.microsoft.com/library/dd135715.aspx)
 - [Üzenetsorok és metaadatok elnevezése](https://msdn.microsoft.com/library/dd179349.aspx)
 - [Táblák elnevezése](https://msdn.microsoft.com/library/azure/dd179338.aspx)
 
@@ -202,4 +202,3 @@ A tárfiókok és a tárolók neve a létrehozásuk után nem módosítható. Ha
 
 > [!TIP]
 > Javasoljuk, hogy mielőtt belevágna az új szolgáltatás vagy alkalmazás fejlesztésébe, alakítson ki egy minden tárfiókra és típusra vonatkozó elnevezési konvenciót.
-

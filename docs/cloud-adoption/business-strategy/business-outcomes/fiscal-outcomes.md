@@ -8,12 +8,12 @@ description: Példák költségvetési eredményekre
 author: BrianBlanchard
 ms.date: 10/10/2018
 ms.topic: guide
-ms.openlocfilehash: a38c87254b368c45fc4b70e6ee1f94e86ad1068f
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 5b28e22fca294bd1311d29ee5f70ca45e70fae3e
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298666"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640226"
 ---
 # <a name="examples-of-fiscal-outcomes"></a>Példák költségvetési eredményekre
 
@@ -75,7 +75,7 @@ Költség következmények ismertetése, előtt fontos fontos tudni, hogy a két
 Az alábbi feltételek célja, hogy az állomások CapEx- és OpEx közötti különbségek megértése létrehozása, ha az üzleti információk a Átalakulásunkhoz érdeklődését.
 
 * **Tőke** a költséget takaríthat meg, vagy egy adott célra való közreműködéshez a vállalat által birtokolt eszközök például, növelheti a kiszolgáló kapacitásának vagy olyan alkalmazást épít ki.
-* **Beruházási költségek (CapEx)** ráfordítás által generált számos előnyt biztosít, hosszú távon van. Az ilyen költség általában nem ismétlődő és állandó eszközök beszerzése eredményez. Alkalmazás készítése egy beruházna sikerült minősülnek.
+* **Beruházási költségek (CapEx)** -kiadás, amely létrehozza az előnyök hosszú ideig van. Az ilyen költség általában nem ismétlődő és állandó eszközök beszerzése eredményez. Alkalmazás készítése egy beruházna sikerült minősülnek.
 * **Üzemeltetési költségek (OpEx)** -kiadás, amely egy üzleti tevékenységet folytató folyamatos költsége van. A cloud services, a használatalapú modell felhasználása az üzemeltetési költségek minősülnek sikerült.
 * Az eszközintelligencia egy gazdasági erőforrás tulajdonosa vagy ellenőrzött értéket. Kiszolgálók, a Data Lake tárolók és az alkalmazások összes tekinthető eszközök.
 * **Amortizációs** hogyan idővel csökken az érték egy eszköz van. Az állomások CapEx-és OpEx beszélgetés relevánsabb egy eszköz a költségek kiosztás, amelyben használt időszakok között. Például ha hoz létre egy alkalmazást ebben az évben, de azt kellene rendelkeznie, egy átlagos kereskedelmi-élettartama (például a legtöbb kereskedelmi alkalmazások) öt évig, majd a fejlesztői csapat és a szükséges eszközök létrehozása és üzembe helyezése a kódbázis szükséges lenne kell értékcsökkentett egyenletes több mint öt év során.

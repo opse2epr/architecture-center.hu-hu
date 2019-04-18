@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19, microservices
-ms.openlocfilehash: cc72f61003f4146fd65e501feebda0c0d1d27993
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 87a9dd31b6d935dd11a5a2a2950b6de11f337741
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299138"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639971"
 ---
 # <a name="microservices-architecture-style"></a>Mikroszolgáltatási architektúrastílus
 
@@ -71,7 +71,7 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 - **Kis méretű, célzott csapatok**. A csapatok egy szolgáltatásra összpontosíthatnak. Az egyes szolgáltatások kisebb hatóköre könnyebben átláthatóvá teszi a kódbázisokat, és az új csapattagok gyorsabban megismerkedhetnek a szolgáltatással.
 
-- **Hibaelkülönítés**. Ha a szolgáltatás leáll, nem áll le az egész alkalmazás is. Ez azonban önmagában nem biztosít rugalmasságot. Továbbra is követnie kell a rugalmasságra vonatkozó ajánlott eljárásokat és tervezési mintákat. Lásd: [Rugalmas alkalmazások tervezése az Azure-hoz][resiliency-overview].
+- **Hibaelkülönítés**. Ha a szolgáltatás leáll, nem áll le az egész alkalmazás is. Ez azonban önmagában nem biztosít rugalmasságot. Továbbra is követnie kell a rugalmasságra vonatkozó ajánlott eljárásokat és tervezési mintákat. Lásd: [megbízható Azure-alkalmazások tervezése][resiliency-overview].
 
 - **Vegyes technológiák**. A csapatok kiválaszthatják a szolgáltatásukhoz legmegfelelőbb technológiát.
 
@@ -113,7 +113,7 @@ Fontolja meg ennek az architektúrastílusnak a használatát a következőkhöz
 
 - A szolgáltatásoknak laza összekapcsolással és magas működési kohézióval kell rendelkezniük. A várhatóan együtt módosuló funkciókat egy csomagba kell rendezni, és együtt kell üzembe helyezni. Ha ezek külön szolgáltatásokban találhatók, a szolgáltatások végül szorosan össze lesznek kapcsolva, mert az egyik szolgáltatás módosítása a másik szolgáltatás frissítését igényli. A két szolgáltatás közötti, túl forgalmas kommunikáció a szoros összekapcsolás és az alacsony kohézió jele lehet.
 
-- Különítse el a hibákat. Használjon rugalmassági stratégiákat, hogy megelőzze a szolgáltatásban fellépő hibák halmozódását. Lásd: [Rugalmassági minták][resiliency-patterns] és [Rugalmas alkalmazások tervezése][resiliency-overview].
+- Különítse el a hibákat. Használjon rugalmassági stratégiákat, hogy megelőzze a szolgáltatásban fellépő hibák halmozódását. Lásd: [rugalmassági minták] [ resiliency-patterns] és [megbízható alkalmazások tervezése][resiliency-overview].
 
 ## <a name="next-steps"></a>További lépések
 
@@ -121,5 +121,5 @@ A mikroszolgáltatási architektúrák Azure-ban való létrehozásáról részl
 
 <!-- links -->
 
-[resiliency-overview]: ../../resiliency/index.md
+[resiliency-overview]: ../../reliability/index.md
 [resiliency-patterns]: ../../patterns/category/resiliency.md

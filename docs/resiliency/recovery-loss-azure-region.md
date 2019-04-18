@@ -7,16 +7,14 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
-ms.openlocfilehash: 7f207bbc0bb0128126f9b828dc100d43553cb100
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: b58e8fa1cc4955f90e7171e17aaa70ac0cfb7b71
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298662"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640566"
 ---
-[!INCLUDE [header](../_includes/header.md)]
-
-# <a name="azure-resiliency-technical-guidance-recovery-from-a-region-wide-service-disruption"></a>Technikai útmutató az Azure rugalmassága: régióra kiterjedő szolgáltatáskimaradás helyreállítása
+# <a name="recover-from-a-region-wide-service-disruption"></a>Régióra kiterjedő szolgáltatáskimaradás helyreállítása
 
 Azure oszlik fizikailag és logikailag egységek nevű régió. Egy régióban egy vagy több adatközpont hálózatbővítési áll.
 
@@ -121,7 +119,7 @@ Amikor megpróbálja futtatni a cloud Services több Azure-régióban, meg kell 
 
 ### <a name="service-bus"></a>Service Bus
 
-Az Azure Service Bus egy egyedi névtér, amely nem terjed ki az Azure-régiók használ. Ezért az első követelmény, állíthatja be a szükséges service bus-névterek a másodlagos régióban. Azonban szempontot is a tartósságot biztosítanak a várólistán lévő üzenetek. Többféle módon is üzenetek replikálásához az Azure-régiók között. Ezek a replikáció stratégiák és más vészhelyreállítási stratégiái részletekért lásd: [ajánlott eljárásai az alkalmazások a Service Bus leállásainak és katasztrófákkal szembeni szigetelő](/azure/service-bus-messaging/service-bus-outages-disasters/). Más rendelkezésre állási lehetőségekért lásd: [(elérhető). a Service Bus](recovery-local-failures.md#other-azure-platform-services).
+Az Azure Service Bus egy egyedi névtér, amely nem terjed ki az Azure-régiók használ. Ezért az első követelmény, állíthatja be a szükséges service bus-névterek a másodlagos régióban. Azonban szempontot is a tartósságot biztosítanak a várólistán lévő üzenetek. Többféle módon is üzenetek replikálásához az Azure-régiók között. Ezek a replikáció stratégiák és más vészhelyreállítási stratégiái részletekért lásd: [ajánlott eljárásai az alkalmazások a Service Bus leállásainak és katasztrófákkal szembeni szigetelő](/azure/service-bus-messaging/service-bus-outages-disasters/).
 
 ### <a name="app-service"></a>App Service
 
@@ -129,7 +127,7 @@ Egy másodlagos Azure-régióba az Azure App Service-ben az alkalmazás, példá
 
 ### <a name="hdinsight"></a>HDInsight
 
-Azure Blob Storage-ban alapértelmezés szerint a HDInsight társított adatokat tárolja. HDInsight megköveteli, hogy egy MapReduce-feladatok feldolgozásában, Hadoop-fürtöt kell elhelyezni, amely tartalmazza az elemzett adatok a storage-fiók ugyanabban a régióban. Használja az elérhető az Azure Storage georeplikációs szolgáltatás, a megadott férhet hozzá az adataihoz a másodlagos régió, ahol rendszer replikálta az adatokat, ha valamilyen okból az elsődleges régió már nem érhető el. A régióban, ahol az adatok replikálása, és feldolgozását, létrehozhat egy új Hadoop-fürtöt. Más rendelkezésre állási lehetőségekért lásd: [HDInsight (elérhető)](recovery-local-failures.md#other-azure-platform-services).
+Azure Blob Storage-ban alapértelmezés szerint a HDInsight társított adatokat tárolja. HDInsight megköveteli, hogy egy MapReduce-feladatok feldolgozásában, Hadoop-fürtöt kell elhelyezni, amely tartalmazza az elemzett adatok a storage-fiók ugyanabban a régióban. Használja az elérhető az Azure Storage georeplikációs szolgáltatás, a megadott férhet hozzá az adataihoz a másodlagos régió, ahol rendszer replikálta az adatokat, ha valamilyen okból az elsődleges régió már nem érhető el. A régióban, ahol az adatok replikálása, és feldolgozását, létrehozhat egy új Hadoop-fürtöt.
 
 ### <a name="sql-reporting"></a>SQL Reporting (SQL-jelentés)
 

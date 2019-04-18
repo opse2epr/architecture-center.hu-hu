@@ -6,12 +6,12 @@ ms.date: 03/06/2019
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 1020e938a04c6a82e6cc831e6620ec17c9a10cc7
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: e4c81add1a97254f427d67584ff7e2a4799f84a9
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503230"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640906"
 ---
 # <a name="what-are-the-machine-learning-products-at-microsoft"></a>Mik azok a machine learning-termékek, a Microsoft?
 
@@ -63,7 +63,7 @@ Az alábbi fejlesztési platformok és eszközök érhetők el a machine Learnin
 
 Az Azure Machine Learning szolgáltatás használatával betanításához, üzembe helyezése és kezelése a machine learning-modellek felhőszinten Python és a parancssori felület használatával.
 
-Próbálja ki a [Azure Machine Learning szolgáltatás ingyenes vagy fizetős verzióját](http://aka.ms/AMLFree).
+Próbálja ki a [Azure Machine Learning szolgáltatás ingyenes vagy fizetős verzióját](https://aka.ms/AMLFree).
 
 |||
 |-|-|
@@ -190,5 +190,5 @@ Akkor érdemes a Windows ML-t használni, ha gépi tanuláson alapuló, már bet
 
 ## <a name="next-steps"></a>További lépések
 
-- A Microsoftnál elérhető összes mesterségesintelligencia-fejlesztési termékről a [Microsoft AI-platformon](https://www.microsoft.com/ai) olvashat.
+- A Microsoft minden mesterséges intelligencia (AI) fejlesztési termék kapcsolatos további információkért lásd: [Microsoft AI-platform](https://www.microsoft.com/ai)
 - Az AI-megoldások fejlesztésével kapcsolatos képzésről a [Microsoft AI School](https://aischool.microsoft.com/learning-paths) oldalán tájékozódhat.

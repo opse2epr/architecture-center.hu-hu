@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 20f1e5c155aff445e2b2f15e07a5adf1dcc4c338
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: db97f2983d71f63b12e6e4b2f0070b1989b482c4
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298494"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641025"
 ---
 # <a name="caching"></a>Gyorsítótárazás
 
@@ -156,7 +156,7 @@ Ennél a megközelítésnél körültekintő konfigurálásra van szükség anna
 
 A viszonylag hosszú élettartamú adatokat tartalmazó, nagy méretű gyorsítótárak támogatása érdekében egyes gyorsítótár-szolgáltatások biztosítják a magas rendelkezésre állás lehetőségét, amely automatikus feladatátvételt hajt végre, ha a gyorsítótár nem érhető el. Ez a megközelítés általában magában foglalja az elsődleges gyorsítótár-kiszolgálón tárolt gyorsítótárazott adatok másodlagos gyorsítótár-kiszolgálóra történő replikációját, és ha az elsődleges kiszolgáló meghibásodik, vagy ha a kapcsolat megszakad, akkor a rendszer a másodlagos kiszolgáló használatára vált.
 
-A több célhelyre való írás okozta késleltetés csökkentése érdekében a másodlagos kiszolgálóra történő replikáció aszinkron módon is megvalósítható. Ilyenkor a rendszer az adatokat az elsődleges kiszolgáló gyorsítótárába írja. Ez a megközelítés annak lehetőségét, hogy meghibásodás esetén egyes gyorsítótárazott adatok elveszhetnek, de az időarány, amíg az adatok kis méretűnek kell lenniük a gyorsítótár teljes mérete képest vezet.
+A több célhelyre való írás okozta késleltetés csökkentése érdekében a másodlagos kiszolgálóra történő replikáció aszinkron módon is megvalósítható. Ilyenkor a rendszer az adatokat az elsődleges kiszolgáló gyorsítótárába írja. Ez azzal a veszéllyel jár, hogy meghibásodás esetén egyes gyorsítótárazott adatok elveszhetnek, az elveszett adatok részaránya azonban jóval kisebb, mint a gyorsítótár teljes mérete.
 
 Ha a megosztott gyorsítótár mérete nagy, akkor előnyös lehet a gyorsítótárban tárolt adatok csomópontokra történő particionálása a versengés kialakulási esélyének csökkentése és a méretezhetőség javítása érdekében. Sok megosztott gyorsítótár támogatja a csomópontok dinamikus hozzáadását (és eltávolítását), valamint az adatok újraegyensúlyozását a partíciók között. Ez a megközelítés magában foglalhatja a fürtözést is, amikor a csomópontgyűjtemény az ügyfélalkalmazások számára egyetlen osztatlan gyorsítótárként jelenik meg. A rendszeren belül azonban az adatok egy előre megadott elosztási stratégia szerint vannak szétosztva a csomópontok között, így egyenlítve ki a terhelést. További információ a lehetséges particionálási módszerekről: [Adatparticionálási útmutató](https://msdn.microsoft.com/library/dn589795.aspx).
 

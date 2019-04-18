@@ -8,12 +8,12 @@ ms.service: architecture-center
 ms.subservice: reference-architecture
 pnp.series.title: Manage Identity in Multitenant Applications
 pnp.series.prev: client-assertion
-ms.openlocfilehash: 6aa8d33da0b2fd41fdc037bac28bca9f7ff09907
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 170a88863fef4b97e137d7fb047a9168d6463e01
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299633"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639954"
 ---
 # <a name="use-azure-key-vault-to-protect-application-secrets"></a>Azure Key Vault használata az alkalmazás titkainak védelmére
 
@@ -103,6 +103,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
     ```powershell
     .\Setup-KeyVault.ps1 -Subject <<subject>>
     ```
+
     Az a `Subject` paramétert, tetszőleges nevet, például a "surveysapp" adja meg. A szkript létrehoz egy önaláírt tanúsítványt, és tárolja azokat az "aktuális User/Personal" tanúsítványtárolójában. A parancsprogram kimenete egy JSON-töredék. Másolja ezt az értéket.
 
 2. Az a [az Azure portal][azure-portal], lépjen abba a könyvtárba, ahol a Surveys alkalmazás regisztrálva van, a portál jobb felső sarkában a fiók kiválasztásával.
@@ -174,6 +175,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
     ```powershell
     .\Setup-KeyVault.ps1 -KeyVaultName <<key vault name> -KeyName Redis--Configuration -KeyValue "<<Redis DNS name>>.redis.cache.windows.net,password=<<Redis access key>>,ssl=true"
     ```
+
     ahol
 
    * a Key vault name = a neve, mint a key vault az előző lépésben.
@@ -214,6 +216,7 @@ Most rendelje hozzá a felhasználó az előfizetés tulajdonosaként.
     //    config["AzureAd:ClientId"],
     //    config["AzureAd:ClientSecret"]);
     ```
+
 3. Tailspin.Surveys.Web/Startup.cs, keresse meg a kódot, amely regisztrálja a `ICredentialService`. Állítsa vissza a sort, amely `CertificateCredentialService`, és tegye megjegyzésbe a sor használó `ClientCredentialService`:
 
     ```csharp

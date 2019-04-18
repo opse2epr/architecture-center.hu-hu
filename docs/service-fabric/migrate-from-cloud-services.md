@@ -6,12 +6,12 @@ ms.date: 04/11/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
-ms.openlocfilehash: 66f1431f45a0c9accf3a8227fa8cbb5966568372
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: a1fc28737b194fe69e2ae094bd996d97363eb29c
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299446"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641110"
 ---
 # <a name="migrate-an-azure-cloud-services-application-to-azure-service-fabric"></a>Egy Azure Cloud Services az Azure Service Fabric-alkalmazás migrálása 
 
@@ -26,7 +26,6 @@ A cikk elolvasása előtt lesz a Service Fabric- és mikroszolgáltatás-archite
 - [Az Azure Service Fabric áttekintése][sf-overview]
 - [Miért érdemes a mikroszolgáltatás-alapú megközelítést választani alkalmazások?][sf-why-microservices]
 
-
 ## <a name="about-the-surveys-application"></a>Tudnivalók a Surveys alkalmazás
 
 A 2012-ben a minták és gyakorlatok csoport létrehozása nevű könyvekhez Surveys, nevű alkalmazás [több-bérlős alkalmazások fejlesztése a felhőhöz][tailspin-book]. A könyv tervez, és implementálja a Surveys alkalmazás Tailspin nevű fiktív vállalat ismerteti.
@@ -35,8 +34,8 @@ Felmérések egy több-bérlős alkalmazásban, amely lehetővé teszi az ügyfe
 
 Most Tailspin szeretne áthelyezni a Surveys alkalmazás mikroszolgáltatási architektúrára, az Azure-ban futó Service Fabric használatával. Az alkalmazás a Cloud Services-alkalmazás már telepítve van, mert a Tailspin a többfázisú megközelítés fogad el:
 
-1.  Port a cloud services, Service fabric, miközben minimálisra csökkentik a módosításokat.
-2.  A Service fabric, az alkalmazás optimalizálása a mikroszolgáltatási architektúra való váltással.
+1. Port a cloud services, Service fabric, miközben minimálisra csökkentik a módosításokat.
+2. A Service fabric, az alkalmazás optimalizálása a mikroszolgáltatási architektúra való váltással.
 
 Ez a cikk bemutatja az első fázisa. Egy újabb cikk azt ismerteti, a második fázisa. A való életből vett projektben akkor valószínű, hogy mindkét szakaszok átfedésben lenne. A Service Fabric-re portol, miközben is el Újratervezés mikroszolgáltatások az alkalmazást. Később, előfordulhat, hogy finomíthatja az architektúra emellett talán értékkel való osztásának coarse-grained szolgáltatások kisebb szolgáltatásba.  
 
@@ -87,7 +86,6 @@ Az alábbi táblázatban összefoglaltuk a Cloud Services és a Service Fabric-a
 | Automatikus méretezés | [Beépített szolgáltatás][cloud-service-autoscale] | Az automatikus Virtuálisgép-méretezési csoportok horizontális felskálázás |
 | Hibakeresés | Helyi emulátor | Helyi fürt |
 
-
 \* Állapotalapú szolgáltatások használatát [a reliable collections] [ sf-reliable-collections] -állapotának tárolására replikák között, hogy olvasások helyi a fürt csomópontjaihoz. Írási műveletek replikálódnak a megbízhatóság csomópontok között. Állapotmentes szolgáltatások rendelkezhet külső állapotuk, adatbázis vagy más külső tárolási használatával.
 
 ** Feldolgozói szerepkörök is üzemeltethető helyi ASP.NET Web API OWIN-t használ.
@@ -123,7 +121,6 @@ Ahogy már említettük, a cél az ebben a fázisban a minimálisan szükséges 
 ![](./images/tailspin02.png)
 
 Ez az architektúra szándékosan nagyon hasonlít az eredeti alkalmazás. A diagram elrejti a azonban néhány fontos eltérés. Ez a cikk a többi azt vizsgáljuk meg ezeket a különbségeket. 
-
 
 ## <a name="converting-the-cloud-service-roles-to-services"></a>A cloud service szerepkörök konvertálása szolgáltatások
 
@@ -202,7 +199,7 @@ Az alkalmazáscsomag, üzembe helyezése. Egy vagy több szolgáltatási csomago
 
 Service Fabric-alkalmazás a következő konfigurációs fájlokat tartalmazza:
 
-| Fájl | Hely | Leírás |
+| Fájl | Földrajzi egység | Leírás |
 |------|----------|-------------|
 | ApplicationManifest.xml | Alkalmazáscsomag | Meghatározza a szolgáltatások, az alkalmazás alkotó. |
 | ServiceManifest.xml | Szolgáltatási csomag| Egy vagy több szolgáltatást ismerteti. |
@@ -215,7 +212,6 @@ Támogatja a különböző konfigurációs beállítások több környezethez, h
 1. A szolgáltatás a Setting.xml fájlban adja meg a beállítást.
 2. Az alkalmazásjegyzék határoz meg egy felülbírálást a beállítást.
 3. Környezet-specifikus beállításokat helyezzen alkalmazásparaméter-fájlokat.
-
 
 ## <a name="deploying-the-application"></a>Az alkalmazás üzembe helyezése
 
@@ -265,8 +261,8 @@ Az alábbi ábrán látható, amely elválasztja az előtérbeli és háttérbel
 
 Ez a megközelítés megvalósításához:
 
-1.  A fürt létrehozásakor két vagy több csomópont típust határoznak meg. 
-2.  Az egyes szolgáltatások használata [elhelyezési korlátozások] [ sf-placement-constraints] rendelhet a szolgáltatás a csomópont típusa.
+1. A fürt létrehozásakor két vagy több csomópont típust határoznak meg. 
+2. Az egyes szolgáltatások használata [elhelyezési korlátozások] [ sf-placement-constraints] rendelhet a szolgáltatás a csomópont típusa.
 
 Az Azure-ba történő telepítésekor mindegyik csomóponttípus külön Virtuálisgép-méretezési készlet van telepítve. A Service Fabric-fürt minden csomópont típus átnyúlik. További információkért lásd: [Service Fabric-csomóponttípusok és virtuálisgép-méretezési csoportok közötti kapcsolat][sf-node-types].
 
@@ -281,7 +277,6 @@ Egy nyilvános HTTPS-végpont beállítása: [erőforrások meghatározása szol
 Az alkalmazás horizontális virtuális gépek felvétele a fürtbe. Virtuálisgép-méretezési csoportok támogatása automatikus skálázást a teljesítményszámlálók alapján automatikus skálázási szabályok használatával. További információkért lásd: [és leskálázása automatikus skálázási szabályok használatával a Service Fabric-fürt skálázása][sf-auto-scale].
 
 A fürt futása közben meg kell gyűjteni a központi helyet minden csomópontján. További információkért lásd: [naplók gyűjtése az Azure Diagnostics használatával][sf-logs].   
-
 
 ## <a name="conclusion"></a>Összegzés
 

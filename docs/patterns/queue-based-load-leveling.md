@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: c736afced1b0478e8eb1a2694acc4d6a6f0c62fc
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 267d630d97a998c76a75a70191a77f9b74e801ef
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299530"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641059"
 ---
 # <a name="queue-based-load-leveling-pattern"></a>Üzenetsor-alapú terheléskiegyenlítési minta
 
@@ -67,8 +67,6 @@ Webes alkalmazás írja az adatokat egy külső adattárba. A nagy mennyiségű 
 A probléma megoldásához használhatja az alkalmazáspéldányok és az adattároló közötti terhelés kiegyenlítése érdekében egy üzenetsorba. Az Azure Functions-alkalmazás beolvassa az üzeneteket az üzenetsorból, és hajtja végre az olvasási/írási kérések az adattárba. A függvényalkalmazás az alkalmazáslogikát szabályozhatja a sebesség, amellyel kéréseket továbbít a tárolót, a tároló legyenek kihasznált elkerülése érdekében. (Ellenkező esetben a függvényalkalmazás csak újra vezet be, a háttéralkalmazás ugyanez a probléma.)
 
 ![3. ábra – üzenetsor és a egy függvényalkalmazás használata a terhelés kiegyenlítése érdekében](./_images/queue-based-load-leveling-function.png)
-
-
 
 ## <a name="related-patterns-and-guidance"></a>Kapcsolódó minták és útmutatók
 

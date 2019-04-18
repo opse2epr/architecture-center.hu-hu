@@ -9,14 +9,14 @@ ms.devlang: R
 ms.topic: article
 ms.date: 03/19/2019
 ms.author: jepeach
-ms.openlocfilehash: a14c8ce76f78baa7274f22b939eb28cb025ef87e
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.openlocfilehash: 7b263d0f49b3b41c9a25b5842de908d5e507780b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58888121"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640481"
 ---
-# <a name="r-developers-guide-to-azure"></a>R – fejlesztői útmutató az Azure-bA
+# <a name="r-developers-guide-to-azure"></a>Az Azure R fejlesztői útmutatója
 
 <img src="../images/logo_r.svg" alt="R logo" align="right" width="200" />
 
@@ -32,10 +32,10 @@ Ez a cikk ismerteti a következő Azure-szolgáltatások, amelyek támogatják a
 
 |Szolgáltatás                                                          |Leírás                                                                       |
 |-----------------------------------------------------------------|----------------------------------------------------------------------------------|
-|[Adatelemzési virtuális gép](#data-science-virtual-machine)    |a data science munkaállomás vagy egy egyéni számítás célként használandó egyéni virtuális gép|
-|[ML-szolgáltatások a HDInsighton](#ml-services-on-hdinsight)            |fürt-alapú rendszer R elemzések futtatása nagyméretű adathalmazok számos csomópont között   |
+|[Adatelemző virtuális gép](#data-science-virtual-machine)    |a data science munkaállomás vagy egy egyéni számítás célként használandó egyéni virtuális gép|
+|[A HDInsight Machine Learning-szolgáltatások](#ml-services-on-hdinsight)            |fürt-alapú rendszer R elemzések futtatása nagyméretű adathalmazok számos csomópont között   |
 |[Azure Databricks](#azure-databricks)                            |együttműködési a Spark környezet, amely támogatja az R- és más nyelveken               |
-|[Azure Machine Learning Studio](#azure-machine-learning-studio)  |az Azure machine learning-példakísérleteket az egyéni R-szkriptek futtatása                      |
+|[Az Azure Machine Learning Studióban](#azure-machine-learning-studio)  |az Azure machine learning-példakísérleteket az egyéni R-szkriptek futtatása                      |
 |[Azure Batch](#azure-batch)                                      |számos lehetőséget kínál a gazdasági szempontból a fürt több csomópontján futó R-kód|
 |[Azure Notebooks](#azure-notebooks)                              |egy ingyenes felhőalapú verziója Jupyter notebookok                  |
 |[Azure SQL Database](#azure-sql-database)                        |az SQL Server adatbázismotor alapjait az R-szkriptek futtatása                            |
@@ -45,9 +45,9 @@ Ez a cikk ismerteti a következő Azure-szolgáltatások, amelyek támogatják a
 A [adatelemző virtuális gép](https://docs.microsoft.com/azure/machine-learning/data-science-virtual-machine/overview) (DSVM) egy személyre szabott Virtuálisgép-lemezkép a Microsoft Azure felhőalapú platformon, amelyet kifejezetten adatelemzésre. Számos népszerű adatelemzési eszközök, többek között van:
 
 * [A Microsoft R Open](https://mran.microsoft.com/open/)
-* [Microsoft Machine Learning-kiszolgáló](https://docs.microsoft.com/machine-learning-server/what-is-machine-learning-server)
+* [Microsoft Machine Learning Server](https://docs.microsoft.com/machine-learning-server/what-is-machine-learning-server)
 * [Az RStudio Desktop](https://www.rstudio.com/products/rstudio/#Desktop)
-* [Az RStudio Server](https://www.rstudio.com/products/rstudio/#Server)
+* [RStudio Server](https://www.rstudio.com/products/rstudio/#Server)
 
 A DSVM üzembe lehet helyezni Windows vagy Linux operációs rendszert.  A dsvm-hez két különböző módon használható: egy interaktív munkaállomás vagy egy egyéni fürt egy számítási platform.
 
@@ -128,7 +128,6 @@ Azure notebookok ingyenes szolgáltatási szintjét beállítás kivitelezhető 
 Ezt a szolgáltatást kínál egy beágyazott, prediktív elemzési és adatelemző motor tárolt eljárások, T-SQL-parancsfájlok R utasításokat tartalmazó vagy R-kód, amely tartalmazza a T-SQL, R-kód egy SQL Server-adatbázison belül végrehajtható.  Adatok kinyerése az adatbázisból, és hogy betöltené őket az R-környezetben, helyett betölteni az R-kód közvetlenül az adatbázisba, és biztosítani, hogy az adatok mellett jobbra futtassa.
 
 Míg a Machine Learning-szolgáltatások már része a helyszíni SQL Server 2016 óta, akkor viszonylag új, az Azure SQL Database.  Jelenleg éppen [korlátozott előzetes verzió](https://docs.microsoft.com/sql/advanced-analytics/what-s-new-in-sql-server-machine-learning-services?view=sql-server-2017#azure-sql-database-roadmap) , de továbbra is fejlesztheti tovább.
-
 
 ### <a name="next-steps"></a>További lépések
 

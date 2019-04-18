@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 1d55d859937785ce8803438d9ed62c9afe8ad133
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 170a38f6b8a6c107670561e63f236e43af948d7d
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298489"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641042"
 ---
 # <a name="retry-guidance-for-specific-services"></a>Újrapróbálkozási útmutatás adott szolgáltatásoknál
 
@@ -25,7 +25,7 @@ A következő táblázat az útmutatóban érintett Azure-szolgáltatások újra
 
 | **Szolgáltatás** | **Újrapróbálkozási képességek** | **Szabályzatkonfiguráció** | **Hatókör** | **Telemetriafunkciók** |
 | --- | --- | --- | --- | --- |
-| **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Beágyazva az ADAL-kódtárba |Belső |None |
+| **[Azure Active Directory](#azure-active-directory)** |Natív, az ADAL-kódtár része |Az ADAL beágyazott |Belső |None |
 | **[Cosmos DB](#cosmos-db)** |Natív, a szolgáltatás része |Nem konfigurálható |Globális |TraceSource |
 | **Data Lake Store** |Natív, az ügyfél része |Nem konfigurálható |Egyes műveletek |None |
 | **[Event Hubs](#event-hubs)** |Natív, az ügyfél része |Szoftveres |Ügyfél |None |
@@ -1123,7 +1123,7 @@ A következők az újrapróbálkozási stratégiák időközeinek jellemző típ
 
 ### <a name="transient-fault-handling-with-polly"></a>Átmeneti hibák kezelése a Polly használatával
 
-[Polly] [ polly] van egy kódtár lehetővé teszi az újrapróbálkozások és [áramkör-megszakító](../patterns/circuit-breaker.md) stratégiák. A Polly projekt a [.NET Foundation][dotnet-foundation] keretében érhető el. A Polly olyan szolgáltatások számára kínál alternatívát, amelyekben az ügyfél nem támogatja natív módon az újrapróbálkozásokat. Megszünteti az olyan egyéni újrapróbálkozási kódok írásának szükségét, amelyeket egyébként nehéz lenne megfelelően implementálni. A Polly ezenkívül módot ad a hibák nyomon követésére, így naplózhatóvá teszi az újrapróbálkozásokat.
+[Polly] [ polly] programozott módon kezelheti az újrapróbálkozásokat kódtár és [áramkör-megszakító](../patterns/circuit-breaker.md) stratégiák. A Polly projekt a [.NET Foundation][dotnet-foundation] keretében érhető el. A Polly olyan szolgáltatások számára kínál alternatívát, amelyekben az ügyfél nem támogatja natív módon az újrapróbálkozásokat. Megszünteti az olyan egyéni újrapróbálkozási kódok írásának szükségét, amelyeket egyébként nehéz lenne megfelelően implementálni. A Polly ezenkívül módot ad a hibák nyomon követésére, így naplózhatóvá teszi az újrapróbálkozásokat.
 
 ### <a name="more-information"></a>További információ
 

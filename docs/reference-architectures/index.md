@@ -3,13 +3,13 @@ title: Azure-referenciaarchitektúrák
 description: Referenciaarchitektúrák és implementálási útmutatók az Azure-ban végzett gyakori számítási feladatokhoz.
 layout: LandingPage
 ms.topic: landing-page
-ms.date: 02/07/2019
-ms.openlocfilehash: 44111f5f10997c7aba38414b518245c5791d1cd0
-ms.sourcegitcommit: a68f248402c598f9d25bc1dc62f27a6a934ff001
+ms.date: 04/02/2019
+ms.openlocfilehash: d338559e52f16ba7df9ebac030200c6a34d89906
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 02/08/2019
-ms.locfileid: "55903231"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640685"
 ---
 <!-- This file is generated! -->
 <!-- See the templates in ./build/reference-architectures  -->
@@ -66,6 +66,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
         </div>
     </a>
 </li>
+<!-- Training of Python scikit-learn models -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/training-python-models.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/python-powered-h.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>A Python scikit-learn modellek betanítása</h3>
+                        <p>Scikit-learn Python-modell hiperparamétereinek hangolására vonatkozó ajánlott eljárások.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <!-- Batch scoring of Python models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/batch-scoring-python.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
@@ -79,27 +99,7 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     </div>
                     <div class="cardText">
                         <h3>A Python-modellek kötegelt kiértékelése</h3>
-                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Batch AI használatával.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<!-- Batch scoring of Spark models on Azure Databricks -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./ai/batch-scoring-databricks.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/databricks.png" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Spark-modellek kötegelt kiértékelése az Azure Databricksben</h3>
-                        <p>Skálázható megoldás létrehozása egy Apache Spark besorolási modell kötegelt kiértékeléséhez az Azure Databricks használatával.</p>
+                        <p>Számos Python-modell kötegelt kiértékelése végezhető el egyszerre ütemezett módon az Azure Machine Learning használatával.</p>
                     </div>
                 </div>
             </div>
@@ -126,6 +126,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
         </div>
     </a>
 </li>
+<!-- Batch scoring of R machine learning models -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/batch-scoring-R-models.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/logo-r.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>R-alapú Machine Learning-modellek kötegelt kiértékelése</h3>
+                        <p>R-modellek kötegelt kiértékelésének végrehajtása az Azure Batch segítségével</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <!-- Real-time scoring of R machine learning models -->
 <li style="display: flex; flex-direction: column;">
     <a href="./ai/realtime-scoring-r.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
@@ -140,6 +160,26 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     <div class="cardText">
                         <h3>Machine Learning-modellek valós idejű pontozása</h3>
                         <p>Valós idejű előrejelzési szolgáltatás implementálása R-ben az Azure Kubernetes Service-ben (AKS) futó Microsoft Machine Learning Serverrel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!-- Batch scoring of Spark models on Azure Databricks -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./ai/batch-scoring-databricks.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/databricks.png" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Spark-modellek kötegelt kiértékelése az Azure Databricksben</h3>
+                        <p>Skálázható megoldás létrehozása egy Apache Spark besorolási modell kötegelt kiértékeléséhez az Azure Databricks használatával.</p>
                     </div>
                 </div>
             </div>
@@ -314,7 +354,27 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     </div>
                     <div class="cardText">
                         <h3>Mikroszolgáltatások az Azure Kubernetes Service-en (AKS)</h3>
-                        <p>Ajánlott architektúra mikroszolgáltatási architektúra AKS-en való üzembe helyezéséhez.</p>
+                        <p>Ajánlott architektúra mikroszolgáltatások AKS-en való üzembe helyezéséhez.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!-- Microservices architecture on Azure Service Fabric -->
+<li style="display: flex; flex-direction: column;">
+    <a href="./microservices/service-fabric.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
+        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
+            <div class="cardPadding" style="display: flex;">
+                <div class="card">
+                    <div class="cardImageOuter">
+                        <div class="cardImage">
+                            <img src="../_images/icons/sf.svg" height="140px" />
+                        </div>
+                    </div>
+                    <div class="cardText">
+                        <h3>Mikroszolgáltatási architektúra az Azure Service Fabricen</h3>
+                        <p>Ajánlott architektúra a mikroszolgáltatásokhoz a Service Fabricen.</p>
                     </div>
                 </div>
             </div>
@@ -590,26 +650,6 @@ Ugrás ide: [MI](#ai-and-machine-learning) | [Big data](#big-data-solutions) | [
                     <div class="cardText">
                         <h3>Cassandrát használó N szintű alkalmazás</h3>
                         <p>Az Apache Cassandra használatával N szintű alkalmazáshoz konfigurált virtuális gépek Linux rendszeren.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<!-- Jenkins build server -->
-<li style="display: flex; flex-direction: column;">
-    <a href="./jenkins/index.md" style="display: flex; flex-direction: column; flex: 1 0 auto;">
-        <div class="cardSize" style="flex: 1 0 auto; display: flex;">
-            <div class="cardPadding" style="display: flex;">
-                <div class="card">
-                    <div class="cardImageOuter">
-                        <div class="cardImage">
-                            <img src="../_images/icons/jenkins.svg" height="140px" />
-                        </div>
-                    </div>
-                    <div class="cardText">
-                        <h3>Jenkins-buildkiszolgáló</h3>
-                        <p>Skálázható, nagyvállalati szintű Jenkins-kiszolgáló az Azure-ban.</p>
                     </div>
                 </div>
             </div>

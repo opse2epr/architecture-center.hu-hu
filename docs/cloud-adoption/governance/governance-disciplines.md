@@ -9,12 +9,12 @@ description: Cégirányítási tartalmakra CAF áttekintése
 author: BrianBlanchard
 layout: LandingPage
 ms.topic: landing-page
-ms.openlocfilehash: 80bdfc6f55b76fc3ae57d8fc25ce68c385eaa009
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: ddd7f5e4b7e79ebe2ddf87be7421b6c4691aced1
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298457"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639869"
 ---
 # <a name="the-five-disciplines-of-cloud-governance"></a>A felhőszabályozás öt szemlélete
 
@@ -26,7 +26,7 @@ ms.locfileid: "58298457"
         <div class="cardPadding" style="padding-bottom:10px;">
             <div class="card" style="padding-bottom:10px;">
                 <div class="cardText" style="padding-left:0px;">
-Üzleti folyamatok és a technológiai platform bármilyen változás kockázati mutatja be. Felhőalapú Cégirányítási csapatok, amelynek tagjai is ismertek felhőalapú jegyektől, minimális megszakítással használhatja tovább elfogadását, vagy az innováció eszköztárát kockázatok csökkentése is biztosítja.<br/><br/>A CAF cégirányítási modell útmutatók ezek a döntések (függetlenül a választott felhőalapú platform) való összpontosítással <a href="#corporate-policy">vállalati szabályzat fejlesztésének</a> és <a href="#disciplines-of-cloud-governance">felhőalapú Cégirányítási oktatnak</a>. <a href="#actionable-journeys">Gyakorlatban hasznosítható tervezési útmutatók</a> bemutatása az Azure-szolgáltatások használata ebben a modellben. Ez a cikk egy kezdőlapja a CAF cégirányítási modell öt állapítják funkcionál.
+Üzleti folyamatok és a technológiai platform bármilyen változás kockázati mutatja be. Felhőalapú Cégirányítási csapatok, amelynek tagjai is ismertek felhőalapú jegyektől, minimális megszakítással használhatja tovább elfogadását, vagy az innováció eszköztárát kockázatok csökkentése is biztosítja.<br/><br/>A CAF cégirányítási modell ezek a döntések (függetlenül a választott felhőalapú platform) végigvezeti a fejlesztését a vállalati házirenddel való összpontosítással és <a href="#disciplines-of-cloud-governance">felhőalapú Cégirányítási oktatnak</a>. <a href="./journeys/overview.md">Gyakorlatban hasznosítható Journey</a> bemutatása az Azure-szolgáltatások használata ebben a modellben. Ez a cikk egy kezdőlapja a CAF cégirányítási modell öt állapítják funkcionál.
                 </div>
             </div>
         </div>

@@ -8,12 +8,12 @@ ms.topic: checklist
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: checklist
-ms.openlocfilehash: 1a000c811cce57cc9b1fcda84d0eb7e2a1312aca
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: b08884d2a39550b56b4c1b52a418f6607eda00fe
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298797"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640719"
 ---
 # <a name="devops-checklist"></a>DevOps-ellenőrzőlista
 
@@ -119,7 +119,7 @@ A kezdeti kiadása után futtassa a teljesítmény és kapacitás teszteket, ami
 
 Tárolók is létrehozhat egy olyan absztrakciós réteget, az alkalmazás és az alapjául szolgáló operációs rendszerben, ami konzisztenciát biztosít a környezetek között. Ez az absztrakció is elkülönítheti a tároló más folyamatok vagy a gazdagépen futó alkalmazások.
 
-**Rugalmasság és a fürtoperátoroknak valósítanak meg.** Rugalmasság rendszer azon képessége, egy alkalmazás való helyreállításhoz. Rugalmassági stratégiák újrapróbálkozás átmeneti hibák, és átadni a feladatokat egy másodlagos példány vagy akár egy másik régiót tartalmazzák. További információkért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency]. Ezenkívül az alkalmazások, hogy azonnal jelentett problémák, és kezelheti leállások vagy más rendszer hibák.
+**Rugalmasság és a fürtoperátoroknak valósítanak meg.** Rugalmasság rendszer azon képessége, egy alkalmazás való helyreállításhoz. Rugalmassági stratégiák újrapróbálkozás átmeneti hibák, és átadni a feladatokat egy másodlagos példány vagy akár egy másik régiót tartalmazzák. További információkért lásd: [megbízható Azure-alkalmazások tervezése](../reliability/index.md) . Ezenkívül az alkalmazások, hogy azonnal jelentett problémák, és kezelheti leállások vagy más rendszer hibák.
 
 **A műveletek manuális rendelkezik.** A műveletek manuális vagy *runbook* dokumentumok az eljárások és a felügyeleti információk szükséges műveletek személyzeti rendszer fenntartására. Is, dokumentum, minden olyan forgatókönyvek az operations és kockázatcsökkentési tervek, előfordulhat, hogy méretéből hiba vagy más megszakítás alatt a szolgáltatáshoz. Hozzon létre ebben a dokumentációban a fejlesztési folyamat során, és naprakészen, ezt követően. Ez egy élő dokumentumot és kell kell vizsgálni, tesztelt a rendszeresen.
 
@@ -158,7 +158,6 @@ További információ a Devopsról: [Mi az a DevOps?] [ what-is-devops] a Visual
 [feature-toggles]: https://www.martinfowler.com/articles/feature-toggles.html
 [oms]: https://www.microsoft.com/cloud-platform/operations-management-suite
 [rbac]: /azure/active-directory/role-based-access-control-what-is
-[resiliency]: ../resiliency/index.md
 [resource-manager]: /azure/azure-resource-manager/
 [trunk-based]: https://trunkbaseddevelopment.com/
 [what-is-devops]: https://www.visualstudio.com/learn/what-is-devops/

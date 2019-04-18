@@ -1,16 +1,16 @@
 ---
-title: Az Azure Databricks alkalmazásnaplókat küldése az Azure monitornak
+title: Azure Databricks-alkalmazásnaplók küldése az Azure Monitornak
 description: Egyéni naplók és mérőszámok küldése az Azure Databricks az Azure monitornak
 author: petertaylor9999
 ms.date: 03/26/2019
-ms.openlocfilehash: 49c631687fb3e3bbd807ffbbb49d9c5f6526bfb4
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: ea67122d7871663e8aaf42b7af0043492f63b6b1
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503308"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639185"
 ---
-# <a name="send-azure-databricks-application-logs-to-azure-monitor"></a>Az Azure Databricks alkalmazásnaplókat küldése az Azure monitornak
+# <a name="send-azure-databricks-application-logs-to-azure-monitor"></a>Azure Databricks-alkalmazásnaplók küldése az Azure Monitornak
 
 Ez a cikk bemutatja, hogyan alkalmazás naplók és mérőszámok küldése az Azure Databrickshez, amely egy [Log Analytics-munkaterület](/azure/azure-monitor/platform/manage-access). Használja a [Azure Databricks-figyelő könyvtár](https://github.com/mspnp/spark-monitoring), amely is elérhető a Githubon.
 
@@ -92,7 +92,7 @@ Az Azure Log Analytics használatával az Azure Databricks alkalmazásnaplókat 
     }
     ```
 
-1. Adja hozzá az Apache Spark naplóüzenetek a kódban szükség szerint a megfelelő szinten. Például a `logDebug` metódus a hibakeresési napló meesage küldéséhez. További információkért lásd: [naplózás] [ spark-logging] a Spark-dokumentáció.
+1. Adja hozzá az Apache Spark naplóüzenetek a kódban szükség szerint a megfelelő szinten. Például a `logDebug` metódus hibakeresési napló üzenet küldése. További információkért lásd: [naplózás] [ spark-logging] a Spark-dokumentáció.
 
     ```Scala
     logTrace("Trace message")
@@ -137,7 +137,7 @@ SparkMetric_CL | where name_s contains "rowcounter" | limit 50
 Helyezze üzembe a Teljesítményfigyelő irányítópult, amely ezt a kódot könyvtárat kapcsolatos problémák elhárítása az Azure Databricks éles számítási feladatokat társul.
 
 > [!div class="nextstepaction"]
-> [Az irányítópultok használatával jelenítheti meg az Azure Databricks-metrikák](./dashboards.md)
+> [Irányítópultok használata az Azure Databricks-metrikák megjelenítésére](./dashboards.md)
 
 <!-- links -->
 

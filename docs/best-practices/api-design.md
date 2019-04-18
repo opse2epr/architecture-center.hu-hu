@@ -8,12 +8,12 @@ ms.topic: best-practice
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 4b5842c3aac4cea34929ed72ad86071494b1fc1e
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 06090b0862a7c737d9ee93512f851d3fcf2e2d9f
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298469"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640872"
 ---
 # <a name="api-design"></a>API-tervezés
 
@@ -97,7 +97,7 @@ Egy HTTP GET-kérés a gyűjtemény URI-jának történő küldése lekéri a gy
 
 Az URI-k elnevezésekor használjon egységes elnevezési módszert. Általában segít, ha hivatkozásgyűjtemények használatakor többes számú főneveket ad meg URI-ként. Javasolt a gyűjteményekhez és elemekhez tartozó URI-k hierarchiába rendezése. Például a `/customers` az ügyfélgyűjteményhez tartozó elérési út, a `/customers/5` pedig az 5-ös azonosítóval rendelkező ügyfélhez tartozó elérési út. Ez a megközelítés segít abban, hogy a webes API hosszabb távon is könnyen használható maradjon. Ezenkívül számos webes API-keretrendszer képes a kérések paraméteralapú URI-elérésiutak alapján történő irányítására, így meghatározhat egy útvonalat a következő elérési úthoz: `/customers/{id}`.
 
-Vegye figyelembe a különböző típusú erőforrások közötti kapcsolatokat, valamint a társítások elérhetővé tételének módját. Például a `/customers/5/orders` az 5-ös azonosítójú ügyfél összes rendelését reprezentálhatja. De megközelítheti a kérdést az ellenkező irányból is. Ábrázolhatja a rendeléstől az ügyfélig is a társítást egy olyan URI-val, mint a következő: `/orders/99/customer`. Ha azonban túlzottan kibővíti ezt a modellt, az nehézkessé teszi az implementálását. Jobb megoldás, ha navigálható hivatkozásokkal szolgál, amelyek a HTTP-válaszüzenet törzsében lévő, társított forrásokra mutatnak. Ezt a mechanizmust a későbbiekben, [a HATEOAS-megközelítés a kapcsolódó erőforrásokhoz való navigálás engedélyezéséhez történő használatát](#using-the-hateoas-approach-to-enable-navigation-to-related-resources) ismertető szakaszban mutatjuk be részletesen.
+Vegye figyelembe a különböző típusú erőforrások közötti kapcsolatokat, valamint a társítások elérhetővé tételének módját. Például a `/customers/5/orders` az 5-ös azonosítójú ügyfél összes rendelését reprezentálhatja. De megközelítheti a kérdést az ellenkező irányból is. Ábrázolhatja a rendeléstől az ügyfélig is a társítást egy olyan URI-val, mint a következő: `/orders/99/customer`. Ha azonban túlzottan kibővíti ezt a modellt, az nehézkessé teszi az implementálását. Jobb megoldás, ha navigálható hivatkozásokkal szolgál, amelyek a HTTP-válaszüzenet törzsében lévő, társított forrásokra mutatnak. Ez a mechanizmus a szakaszban részletesen ismertetett [HATEOAS használata a kapcsolódó erőforrásokhoz való navigáció engedélyezéséhez](#use-hateoas-to-enable-navigation-to-related-resources).
 
 Összetettebb rendszereken vonzónak tűnhet olyan URI-k biztosítása, amelyek lehetővé teszik az ügyfél számára a több szintnyi kapcsolatok közötti navigálást, például: `/customers/1/orders/99/products`. Azonban ezt az összetettségi szintet nehéz lehet fenntartani, illetve rugalmatlan, ha az erőforrások kapcsolatai később módosulnak. Törekedjen inkább az URI-k viszonylagos egyszerűségének megőrzésére. Ha egy alkalmazás hivatkozással rendelkezik egy erőforrásra, akkor célszerű biztosítani, hogy a hivatkozás által rá lehessen keresni az adott erőforráshoz kapcsolódó elemekre is. Az előző lekérdezés lecserélhető a következő URI-val: `/customers/1/orders`. Így a rendszer kiadja az 1-es ügyfélhez tartozó összes rendelést, majd a `/orders/99/products` segítségével a jelen rendelésben szereplő termékekre kereshet.
 

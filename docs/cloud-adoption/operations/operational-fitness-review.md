@@ -6,12 +6,12 @@ ms.date: 09/20/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: enterprise-cloud-adoption
-ms.openlocfilehash: afecf380b1a75d006f6f2bc0cb0e5058cd3feffc
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 7d7f6bd46fb60a190a7fb27432d5ff4b74b0c597
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298449"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640702"
 ---
 # <a name="establishing-an-operational-fitness-review"></a>Működési mentességre felülvizsgálat létrehozása
 
@@ -31,11 +31,11 @@ Amint már tudja, a [bevezetés](../../cloud-adoption/getting-started/overview.m
 
 Ez a folyamat során a hangsúly be kapcsolva gyakran a _funkciók_ a szolgáltatás. Vannak, egy kívánt _működési_ végrehajtásához szolgáltatás követelményeit. Például egy termék kézbesítési szolgáltatás a termék, a termék követési kézbesítési, felhasználói értesítések és egyéb során a forrás- és helyek meghatározásához szükséges funkciókat.
 
-Ellentétben a _nem működőképes_ követelmények vonatkoznak a tulajdonságokat, például a szolgáltatás [rendelkezésre állási](../../checklist/availability.md), [rugalmasság](../../resiliency/index.md), és [méretezhetőség](../../checklist/scalability.md). Ezek a tulajdonságok abban tér el a funkcionális követelmények, nem közvetlenül befolyásolják a szolgáltatás bármely adott funkció végső funkcióját. Azonban ezek nem funkcionális követelmények kapcsolódnak a _teljesítmény_ és _folytonossági_ a szolgáltatás.
+Ellentétben a _nem működőképes_ követelmények vonatkoznak a tulajdonságokat, például a szolgáltatás [megbízhatóság](../../reliability/index.md) és [méretezhetőség](../../checklist/scalability.md). Ezek a tulajdonságok abban tér el a funkcionális követelmények, nem közvetlenül befolyásolják a szolgáltatás bármely adott funkció végső funkcióját. Azonban ezek nem funkcionális követelmények kapcsolódnak a _teljesítmény_ és _folytonossági_ a szolgáltatás.
 
 Néhány nem funkcionális követelmények alapján a szolgáltatói szerződés (SLA) adható meg. Például tekintetében a szolgáltatás folyamatossága érdekében a szolgáltatás egy rendelkezésre állási követelmény jelöl százalékos például **elérhető 99,99 %-ában**. Egyéb nem funkcionális követelmények meghatározásához nehezebb lehet, és éles igényei megváltoznak változhatnak. Például egy fogyasztói szolgáltatás indítása előfordulhat, hogy a nem várt átviteli sebességet megkövetelő irányuló után népszerűség, megnő.
 
-! [MEGJEGYZÉS] A rugalmasság érdekében magyarázatok RPO, RTO, SLA-t és a kapcsolódó fogalmak, beleértve a követelmények meghatározásánál tart teljesítménykezelési részletesebben [rugalmas alkalmazások tervezése az Azure](../../resiliency/index.md#define-your-availability-requirements).
+! [MEGJEGYZÉS] A rugalmasság érdekében magyarázatok RPO, RTO, SLA-t és a kapcsolódó fogalmak, beleértve a követelmények meghatározásánál tart teljesítménykezelési részletesebben [követelményei rugalmas Azure-alkalmazások fejlesztése](../../reliability/requirements.md).
 
 ## <a name="operational-fitness-review-process"></a>Működési mentességre elbírálási folyamata
 
@@ -81,7 +81,7 @@ A működési mentességre csapatától a következő szerepkörök tevődik ös
 
 2. **Üzleti tanácsadó**. Ez a szerepkör felelős bontásához, üzleti műveletek alfeladatra részre, és a részeket hozzárendelése a helyszíni és a cloud services és az infrastruktúra. A szerepkör megköveteli a részletes technológiai tudásukat kihasználva az egyes üzleti műveletekhez tartozó.
 
-3. **Mérnöki csapathoz tulajdonosa**. Ez a szerepkör felelős a szolgáltatásokat az üzleti művelet társított implementating. Ezek a személyek részt vehet a tervezési, végrehajtására és bármely megoldására nem működőképes követelmény, amelyeket a működési mentességre tekintse át a csapat által megoldások üzembe helyezéséhez.
+3. **Mérnöki csapathoz tulajdonosa**. Ez a szerepkör felelős az üzleti műveletekhez kapcsolódó szolgáltatások megvalósítása. Ezek a személyek részt vehet a tervezési, végrehajtására és bármely megoldására nem működőképes követelmény, amelyeket a működési mentességre tekintse át a csapat által megoldások üzembe helyezéséhez.
 
 4. **Szolgáltatás tulajdonosa**. Ez a szerepkör felelős működő, az üzleti alkalmazásokat és szolgáltatásokat. Ezek a személyek ezen alkalmazások és szolgáltatások számára a naplózási és használati adatokat gyűjteni. Ezen adatok segítségével is azonosíthatja a problémákat, és ellenőrizze a telepítés után javításokat.
 
@@ -95,7 +95,7 @@ A folyamat, valamint a értekezlet saját igényeinek megfelelően módosítani 
 
 2. A mérnöki és a szolgáltatás tulajdonosait leképezése a **aktuális állapota** üzleti műveletek a megfelelő helyszíni és a cloud services. A hozzárendelés az egyes szolgáltatásokhoz, mint egy függőségi fán orientált összetevői listáját tevődik össze. Ha a lista és a függőségi fa jönnek létre, a **kritikus útvonalakat** a fa keresztül történik.
 
-3. A termékgondozó csoportja és a szolgáltatások tulajdonosait tekintse át a műveleti naplózás és figyelés az előző lépésben felsorolt szolgáltatások aktuális állapotát. Hatékony naplózás és figyelés kritikusak, szolgáltatás-összetevők, amelyek hozzájárulnak a nem funkcionális követelmények teljesítéséhez failuring azonosítása érdekében. Ha elegendő naplózás és figyelés nem teljesülnek, egy csomagot kell létrehozni és implementált helyen helyezi őket.
+3. A termékgondozó csoportja és a szolgáltatások tulajdonosait tekintse át a műveleti naplózás és figyelés az előző lépésben felsorolt szolgáltatások aktuális állapotát. Hatékony naplózás és figyelés kritikusak, szolgáltatás-összetevők, amelyek nem teljesítik a nem funkcionális követelmények azonosítása érdekében. Ha elegendő naplózás és figyelés nem teljesülnek, egy csomagot kell létrehozni és implementált helyen helyezi őket.
 
 4. Scorecard metrikákat hoz létre az új üzleti művelet. A stratégiai mutatószámrendszer minden szolgáltatáshoz igazítva a nem funkcionális követelmények és a egy metrika jelölő arról, hogy az összetevő megfelel-e a követelményeknek, 2. lépésben azonosított alkotó összetevők listájának tevődik össze.
 
@@ -109,7 +109,7 @@ A folyamat, valamint a értekezlet saját igényeinek megfelelően módosítani 
     Az Azure architektúra-útmutató ezen szakasza a szoftverminőség öt alappillérét ismerteti: skálázhatóság, rendelkezésre állás, rugalmasság, felügyelet és biztonság.
 - [10 tervezési elvek, az Azure-alkalmazásokhoz](../../guide/design-principles/index.md).
     Az Azure architektúra-útmutató ezen szakasza ismerteti a tervezési alapelveket az alkalmazás méretezhető, rugalmas és kezelhető egy készletét.
-- [Rugalmas alkalmazások tervezése az Azure](../../resiliency/index.md).
+- [Az Azure megbízható alkalmazások tervezése](../../reliability/index.md).
     Ez az útmutató a kifejezés rugalmasság és a kapcsolódó fogalmak ismertetésével kezdődik. Ezután ismerteti a rugalmasság elérésének egy, a tervezéstől és implementálástól a központi telepítésig és üzemeltetésig terjedő folyamatát, amely az alkalmazások élettartama során strukturált megközelítést használ.
 - [Tervezési minták felhőkhöz](../../patterns/index.md).
     Ezek a tervezési minták hasznosak fejlesztőcsapatai a szoftverminőség alappillérei alkalmazások készítése során.

@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: 2b0e46a06f7fe47f281f726f73128db1d7dd1067
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 20a63cdd935f28cc47686238d34d654da2798985
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298833"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639597"
 ---
 # <a name="sidecar-pattern"></a>Oldalkocsi minta
 
@@ -46,7 +46,7 @@ Az oldalkocsi minta használatának előnyei:
 
 - Mivel közel helyezkedik el az elsődleges alkalmazáshoz, nincs jelentős késleltetés a közöttük zajló kommunikáció során.
 
-- Még a bővítési mechanizmust nem biztosító alkalmazásoknál is használhatja az oldalkocsit a funkciók kibővítéséhez úgy, hogy saját folyamatként csatolja ugyanazon a gazdagépen vagy altárolóban, ahol az elsődleges alkalmazás is található.
+- Még a bővítési mechanizmust nem biztosító alkalmazásoknál használhatja az oldalkocsi bővíthetők az ugyanazon a gazdagépen vagy altárolóban az elsődleges alkalmazás a saját folyamatként csatolásával.
 
 Az oldalkocsi mintát gyakran használják tárolókhoz is, amely esetben oldalkocsi tároló vagy segítőtárs tároló jön létre.
 

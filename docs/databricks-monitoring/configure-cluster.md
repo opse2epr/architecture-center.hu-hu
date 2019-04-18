@@ -1,20 +1,20 @@
 ---
-title: Az Azure Databricks mérőszámok küldése az Azure Monitor konfigurálása
+title: Az Azure Databricks konfigurálása a metrikák az Azure Monitornak történő továbbítására
 description: Engedélyezze a mérőszámok figyelését, és naplózási adatok az Azure Log Analyticsben scala kódtár
 author: petertaylor9999
 ms.date: 03/26/2019
-ms.openlocfilehash: af6b6433f87964ac60c179ecf498e54129344126
-ms.sourcegitcommit: 9854bd27fb5cf92041bbfb743d43045cd3552a69
+ms.openlocfilehash: f2fc1fd19da661b74ddf032dd1d5153ce575345c
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/27/2019
-ms.locfileid: "58503309"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639886"
 ---
 <!-- markdownlint-disable MD040 -->
 
-# <a name="configure-azure-databricks-to-send-metrics-to-azure-monitor"></a>Az Azure Databricks mérőszámok küldése az Azure Monitor konfigurálása
+# <a name="configure-azure-databricks-to-send-metrics-to-azure-monitor"></a>Az Azure Databricks konfigurálása a metrikák az Azure Monitornak történő továbbítására
 
-Ez a cikk bemutatja, hogyan konfigurálhatja egy Azure Databricks-fürtön való mérőszámok küldése egy [Log Analytics-munkaterület](/azure/azure-monitor/platform/manage-access). Használja a [Azure Databricks-figyelő könyvtár](https://github.com/mspnp/spark-monitoring), amely is elérhető a Githubon. Ismeri a Java, a Scala és a Maven használata akkor javasolt, mint prerequisistes.
+Ez a cikk bemutatja, hogyan konfigurálhatja egy Azure Databricks-fürtön való mérőszámok küldése egy [Log Analytics-munkaterület](/azure/azure-monitor/platform/manage-access). Használja a [Azure Databricks-figyelő könyvtár](https://github.com/mspnp/spark-monitoring), amely is elérhető a Githubon. Előfeltételként ismeri a Java, a Scala és a Maven használata ajánlott.
 
 ## <a name="about-the-azure-databricks-monitoring-library"></a>Tudnivalók az Azure Databricks-tár figyelése
 

@@ -8,12 +8,12 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 social_image_url: /azure/architecture/example-scenario/infrastructure/media/secure-scalable-wordpress.png
-ms.openlocfilehash: 6032247dce0d090885bc560d963f1e714d91f69c
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 4f347f91d5958fb83404856ec5d36d70a7ed0d19
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299046"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640090"
 ---
 # <a name="highly-scalable-and-secure-wordpress-website"></a>Hatékonyan skálázható és biztonságos WordPress-webhely létrehozása
 
@@ -72,15 +72,13 @@ A második munkafolyamat hogyan szerzők új tartalmat közreműködőként a k�
 
 A Virtuálisgép-példányok ebben a forgatókönyvben a két keresztül RSYNC a WordPress-tartalom és a fő tartalék kiszolgálók közötti replikálás a MariaDB-fürtökhöz között replikálja az adatokat több régióban üzembe.
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 Ebben a forgatókönyvben a két webes előtér-fürt minden egyes régióban a virtual machine scale sets használ. A méretezési csoportok az előtér-alkalmazás szinten futtató Virtuálisgép-példányok száma automatikusan méretezheti az ügyfelek igényei szerint válaszul, vagy egy meghatározott ütemezés alapján. További információkért lásd: [az automatikus méretezés a virtual machine scale sets áttekintése][docs-vmss-autoscale].
 
 A háttér pedig egy MariaDB-fürt rendelkezésre állási csoportban. További információkért lásd: a [oktatóanyag MariaDB-fürtökhöz][mariadb-tutorial].
 
-Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scalability] a az Azure Architecture Centert.
+Méretezhetőség témaköröket talál az [skálázhatósági ellenőrzőlista] [méretezhetőség] az az Azure Architecture Centert.
 
 ### <a name="security"></a>Biztonság
 
@@ -92,7 +90,7 @@ Biztonságos forgatókönyvek tervezésével kapcsolatos általános útmutatás
 
 Több régióban, az adatreplikáció és a virtual machine scale sets együtt ebben a forgatókönyvben használt Azure-terheléselosztók. A hálózati összetevők csatlakoztatott Virtuálisgép-példányok forgalom elosztását, és biztosíthatja, hogy a forgalom csak megtörténik a kifogástalan állapotú virtuális gépeket az állapot-mintavételei bele. Hálózati összetevők mindegyikét vannak fronted egy CDN-n keresztül. Ez lehetővé teszi a hálózati erőforrásokhoz, és az alkalmazás rugalmas problémákra utal, amelyek egyébként zavarja a forgalom és végfelhasználói hozzáférése.
 
-Rugalmas forgatókönyvek tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmas forgatókönyvek tervezésével kapcsolatos általános útmutatásért lásd: [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="pricing"></a>Díjszabás
 
@@ -112,6 +110,4 @@ Biztosítunk egy előre konfigurált [profil költség] [ pricing] fenti Archite
 [docs-nsg]: /azure/virtual-network/security-overview
 [security]: /azure/security/
 [availability]: ../../checklist/availability.md
-[resiliency]: /azure/architecture/resiliency/
-[scalability]: /azure/architecture/checklist/scalability
 [pricing]: https://azure.com/e/a8c4809dab444c1ca4870c489fbb196b

@@ -6,12 +6,12 @@ ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 1551736d8ef3d2b82eb0a2fdb626330798ec1c65
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: aa578464947e51964fee9859395149b44b47fa00
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299251"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639988"
 ---
 # <a name="extract-transform-and-load-etl"></a>Kinyerés, átalakítás és betöltés (ETL)
 
@@ -49,7 +49,7 @@ A gyakorlatban a célzott adattár van egy [adatraktár](./data-warehousing.md) 
 
 Az adattár csak kezeli a séma az adatok, és alkalmazza a séma olvasása. Például a Hive használatával egy Hadoop-fürt le egy Hive-táblába, ahol az adatforrás lényegében a fájlokat a HDFS elérési útját. Az SQL Data Warehouse PolyBase ugyanaz az eredmény érhető el &mdash; külsőleg magában az adatbázisban tárolt adatokon, tábla létrehozása. Az adatok betöltése után a külső táblák adatok lehet feldolgozni az adattár képességeit. A big data jellegű alkalmazási Ez azt jelenti, hogy az adattár nagymértékben párhuzamos feldolgozási (MPP), amely működésképtelenné válik az adatok szeletekre, és párhuzamosan több gép között osztja el a feldolgozási az adattömbök képesnek kell lennie.
 
-Utolsó szakaszában az ELT folyamatok általában, hogy az adatok átalakítása a végleges formátumra, amely a típusú támogatott lekérdezések esetében hatékonyabb. Például előfordulhat, hogy lehet particionálni az adatokat. ELT is, Parquet, amely tárolja az adatokat soralapú Oszlopalapú módon és optimalizált providess indexelő tárolás tartalomfolyamokat használhatja.
+Utolsó szakaszában az ELT folyamatok általában, hogy az adatok átalakítása a végleges formátumra, amely a típusú támogatott lekérdezések esetében hatékonyabb. Például előfordulhat, hogy lehet particionálni az adatokat. ELT is, Parquet, amely tárolja az adatokat soralapú Oszlopalapú feldolgozza, és optimalizált indexelő biztosít tárolás tartalomfolyamokat használhatja.
 
 Kapcsolódó Azure-szolgáltatás:
 
@@ -66,7 +66,7 @@ Más eszközök:
 
 Adatfolyamatok kontextusában átvitelvezérlés biztosítja a szabályos feldolgozása feladatokhoz. Ezeket a feladatokat a megfelelő feldolgozási sorrendben kényszerítéséhez prioritású korlátozások szolgálnak. Ezek a korlátozások a munkafolyamat-diagramokon összekötőkként az alábbi képen látható módon is felfoghatók. Minden tevékenység rendelkezik egy serkenti az eredményt, például sikeres, sikertelen vagy befejezését. Bármely ezt követő feladat nem kezdeményezni, amíg az elődjéhez, ezeket a kimeneteket egyik befejeződött.
 
-Vezérlő folyamatok adatfolyamok feladatként hajtható végre. Egy adatfolyam-feladathoz, a adatok egy forrásból kinyert, alakította át, vagy betöltése egy adattárba. Egy adatfolyam-feladat kimenete a következő adatfolyam-feladat bemenete, és adatokat flowss is futtatható egyszerre. Ellentétben a control flow nem adhat hozzá korlátozásokat az adatfolyam a tevékenységek között. Tekintse át az adatokat az egyes tevékenységek által feldolgozás során az adatokat megjelenítő azonban hozzáadhatja.
+Vezérlő folyamatok adatfolyamok feladatként hajtható végre. Egy adatfolyam-feladathoz, a adatok egy forrásból kinyert, alakította át, vagy betöltése egy adattárba. Egy adatfolyam-feladat kimenete a következő adatfolyam-feladat bemenete, és adatfolyam-gyűjteményre is futtatható egyszerre. Ellentétben a control flow nem adhat hozzá korlátozásokat az adatfolyam a tevékenységek között. Tekintse át az adatokat az egyes tevékenységek által feldolgozás során az adatokat megjelenítő azonban hozzáadhatja.
 
 ![A Control Flow belül feladatként végrehajtása az adatfolyam](../images/control-flow-data-flow.png)
 

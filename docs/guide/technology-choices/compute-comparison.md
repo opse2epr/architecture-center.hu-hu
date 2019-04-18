@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 2b6b9b941bf7a3c0136b71ecb65bfe4b4a59e07b
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: c4ce7a5da196e0fcf8f85376439e53683432883e
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299192"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640464"
 ---
 # <a name="criteria-for-choosing-an-azure-compute-service"></a>Számítási szolgáltatás Azure-beli kritériumai
 
@@ -31,7 +31,7 @@ A *számítás* kifejezés azon számítási erőforrások futtatási modelljér
 | Állapotkezelés | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli vagy állapotalapú | Állapot nélküli | Állapot nélküli |
 | Webes üzemeltetés | Független | Beépített | Független | Nem alkalmazható | Független | Független | Nem |
 | Üzembe helyezhető dedikált virtuális hálózaton? | Támogatott | Támogatott<a href="#note5"><sup>5</sup></a> | Támogatott | Támogatott <a href="#note5"><sup>5</sup></a> | [Támogatott](/azure/aks/networking-overview) | Nem támogatott | Támogatott |
-| Hibrid kapcsolat | Támogatott | Támogatott <a href="#note6"><sup>6</sup></a>  | Támogatott | Támogatott <a href="#node7"><sup>7</sup></a> | Támogatott | Nem támogatott | Támogatott |
+| Hibrid kapcsolat | Támogatott | Támogatott <a href="#note6"><sup>6</sup></a>  | Támogatott | Támogatott <a href="#note7"><sup>7</sup></a> | Támogatott | Nem támogatott | Támogatott |
 
 Megjegyzések
 

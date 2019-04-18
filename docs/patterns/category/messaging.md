@@ -9,12 +9,12 @@ ms.topic: design-pattern
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: e2079d8ed33dd205c155348d455f6380fff660a3
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: f838288e10acf9af5776c93972028b6b878bd7b0
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299617"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640668"
 ---
 # <a name="messaging-patterns"></a>Üzenetkezelési minták
 
@@ -22,10 +22,10 @@ A felhőalapú alkalmazások elosztott jellege miatt szükség van egy üzenetke
 
 | Mintázat | Összegzés |
 | ------- | ------- |
-| [Jogcím-ellenőrzés](../claim-check.md) | Nagy méretű üzenet felosztása egy jogcím-ellenőrzést és a egy hasznos egy üzenetbusz túlterhelésének elkerülése érdekében. |
+| [Claim Check](../claim-check.md) | A nagy méretű üzeneteket jogcímellenőrzésre és hasznos adatra oszthatja fel, hogy elkerülje az üzenetbusz túlterhelését. |
 | [Competing Consumers](../competing-consumers.md) | Lehetővé teheti több párhuzamos felhasználó számára, hogy feldolgozzák az ugyanazon az üzenetkezelési csatornán fogadott üzeneteket. |
 | [Pipes and Filters](../pipes-and-filters.md) | Egy összetett feldolgozást végrehajtó feladatot lebonthat különálló, újrahasznosítható elemek sorává. |
 | [Priority Queue](../priority-queue.md) | Priorizálhatja a szolgáltatásoknak küldött kéréseket úgy, hogy a magasabb prioritású kéréseket a rendszer gyorsabban fogadja és dolgozza fel, mint az alacsonyabb prioritásúakat. |
-| [Publisher-Subscriber](../publisher-subscriber.md) | Engedélyezheti egy alkalmazás számára, hogy több érdeklődő fogyasztó számára aszinkron módon, a küldők és a fogadók összekapcsolása nélkül jelentsen be eseményeket. |
+| [Publisher-Subscriber](../publisher-subscriber.md) | Engedélyezheti egy alkalmazás jelentjük be események több érdekelt fogyasztók aszinkron módon, a fogadók a feladók kapcsoló nélkül. |
 | [Queue-Based Load Leveling](../queue-based-load-leveling.md) | Használhat egy pufferként szolgáló üzenetsort egy feladat és az általa meghívott szolgáltatás között, hogy kiegyenlítse az időszakos nagy terheléseket. |
 | [Scheduler Agent Supervisor](../scheduler-agent-supervisor.md) | Koordinálhat egy műveletkészletet egy elosztott szolgáltatáskészleten és más távoli erőforrásokon. |

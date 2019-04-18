@@ -8,12 +8,12 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-devops-with-aks.png
-ms.openlocfilehash: 89e50e67b2c933637442f0f01bf83ecc95743691
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 9be4f828c96c4ac321acf9d9719d0ef465fb35cf
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298926"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641178"
 ---
 # <a name="cicd-pipeline-for-container-based-workloads"></a>CI-/CD-folyamat tárolóalapú számítási feladatokhoz
 
@@ -70,8 +70,6 @@ Az alkalmazásteljesítmény monitorozásához és a jelentés a problémák, eb
 
 Az Azure Kubernetes Service-fürt részeként a terheléselosztó elosztja a forgalmat alkalmazás egy vagy több tárolók (podok) az alkalmazást futtató között. Ez a megközelítés a tárolóalapú alkalmazások Kubernetes-ben futó magas rendelkezésre állású infrastruktúrát biztosít az ügyfelek számára.
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] elérhető az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 Az Azure Kubernetes Service lehetővé teszi a fürtcsomópontok, hogy a videólejátszást az alkalmazások számát. Ahogy az alkalmazás növekszik, ki lehet terjeszteni a szolgáltatás futtatásához Kubernetes-csomópontok száma.
@@ -82,7 +80,7 @@ Méretezhetőség témaköröket talál a [méretezési ellenőrzőlista] [ scal
 
 ### <a name="security"></a>Biztonság
 
-A támadások bekövetkeztének minimalizálása érdekében ebben a forgatókönyvben nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](../../reference-architectures/jenkins/index.md).
+A támadások bekövetkeztének minimalizálása érdekében ebben a forgatókönyvben nem fedi fel a Jenkins Virtuálisgép-példány HTTP protokollon keresztül. Minden olyan felügyeleti feladatok, amely a jenkins használatával kezelheti a helyi gépen SSH-alagút használatával biztonságos távoli kapcsolatot hoz létre. A Jenkins és a Grafana Virtuálisgép-példányok csak az SSH nyilvános kulcsos hitelesítés engedélyezett. Jelszóalapú belépési kísérletek le vannak tiltva. További információkért lásd: [Jenkins-kiszolgáló futtatása az Azure-ban](./jenkins.md).
 
 Ebben a forgatókönyvben hitelesítő adataival és engedélyeivel szétválasztása, használja az Azure Active Directory (AD) dedikált szolgáltatásnév. Az egyszerű szolgáltatás hitelesítő adatai, egy biztonságos hitelesítő objektumot a Jenkins tárolódnak, így, hogy ne legyenek közvetlenül elérhetővé tett és szkriptek vagy a buildelési folyamat látható.
 
@@ -92,7 +90,7 @@ Ebben a forgatókönyvben hitelesítő adataival és engedélyeivel szétválasz
 
 Ebben a forgatókönyvben az alkalmazás az Azure Kubernetes Service használja. Kubernetes épített összetevői rugalmasság figyelő, és ha a probléma, indítsa újra a tárolókat (podok). Kombinálva több Kubernetes-csomópontokon fut, az alkalmazás működését egy pod vagy a csomópont nem érhető el.
 
-Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
@@ -147,7 +145,6 @@ Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernete
 <!-- links -->
 [architecture]: ./media/architecture-devops-with-aks.png
 [autoscaling]: ../../best-practices/auto-scaling.md
-[availability]: ../../checklist/availability.md
 [docs-aci]: /azure/container-instances/container-instances-overview
 [docs-acr]: /azure/container-registry/container-registry-intro
 [docs-aks]: /azure/aks/intro-kubernetes
@@ -157,7 +154,6 @@ Ebben a forgatókönyvben használt Azure Container Registry és Azure Kubernete
 [createsp]: /cli/azure/ad/sp#az-ad-sp-create
 [grafana]: https://grafana.com/
 [jenkins]: https://jenkins.io/
-[resiliency]: ../../resiliency/index.md
 [resource-groups]: /azure/azure-resource-manager/resource-group-overview
 [security]: /azure/security/
 [scalability]: ../../checklist/scalability.md

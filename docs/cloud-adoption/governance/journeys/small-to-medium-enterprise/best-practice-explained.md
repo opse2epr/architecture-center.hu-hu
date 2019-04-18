@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Kis és közepes méretű vállalat – ajánlott eljárás ismertetése
 author: BrianBlanchard
-ms.openlocfilehash: c3b4ab69e3cf5f664a5297d7bc3c2460d8d5d182
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: b9b385be345098bf1b9e0e1cdce7fd3cceeb5523
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298858"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639580"
 ---
 # <a name="small-to-medium-enterprise-best-practice-explained"></a>Small-to-medium enterprise: Ajánlott eljárás magyarázata
 
@@ -38,7 +38,7 @@ Ez a megvalósítás használatával egy egyszerű feladatlista is ismerteti:
 
 1. Core függőségek kapcsolatos döntéseket hozzájárulásával: Identitás, a hálózat és a titkosítást.
 2. Határozza meg a vállalati szabályzat kényszerítése során használandó mintát.
-3. Határozza meg a megfelelő cégirányítási minták az erőforrás konzisztencia, erőforrás-címkézési és Loging és jelentéskészítési szakterületen.
+3. Az erőforrás konzisztencia, a címkézés erőforrás és a naplózási és jelentéskészítési oktatnak határozza meg a megfelelő cégirányítási mintákat.
 4. A cégirányítási eszközök illeszkedjenek a alkalmazni a függő döntéseket hozhat, és a szabályozási döntések a kiválasztott házirend kényszerítési minta megvalósításához.
 
 [!INCLUDE [implementation-process](../../../../../includes/cloud-adoption/governance/implementation-process.md)]

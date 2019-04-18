@@ -7,12 +7,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: data-analytics
-ms.openlocfilehash: 72b889e2fe0d862ab1ff280cea76c2880b0fadc4
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: bfdfeefe36dd44478f407008e2f9f3749f7a70d6
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299227"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639751"
 ---
 # <a name="choosing-a-data-analytics-technology-in-azure"></a>Egy data analytics technológia kiválasztása az Azure-ban
 
@@ -73,7 +73,7 @@ Szempontok:
 
 - Szüksége számos adatforráshoz csatlakozhat egy központi helyen, a tartomány teljes adatokat számára létrehozandó jelentésekhez biztosít? Ha igen, válasszon olyan beállítás, amely lehetővé teszi, hogy az adatforrások 100s csatlakozni.
 
-- Biztosan dinamikus vizualizációkat ágyazhat be egy külső webhely vagy alkalmazás? Ha igen, válasszon egy beállítást, amely beágyazási képességeket biztosít.
+- Biztosan dinamikus Vizualizációk beágyazása külső webhely vagy alkalmazás? Ha igen, válasszon egy beállítást, amely beágyazási képességeket biztosít.
 
 - Tervezési a Vizualizációk és jelentések során szeretné offline állapotban van? Ha igen, válassza ki egy beállítást, az offline képességeiről.
 

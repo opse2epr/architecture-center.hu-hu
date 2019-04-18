@@ -7,12 +7,12 @@ ms.custom: governance
 description: Útmutató ahhoz, hogy egy felhasználó egy egyszerű számítási feladat üzembe helyezéséhez Azure cégirányítási vezérlők konfigurálása
 author: petertaylor9999
 ms.date: 02/11/2019
-ms.openlocfilehash: 0b6f16ee30ce3af8a533b6e153fbe318252c23e7
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 6bf2f15f706140955df29f7f372068c80ce1ad21
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299275"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640583"
 ---
 # <a name="governance-design-for-a-simple-workload"></a>Szabályozási terv egyszerű számítási feladathoz
 
@@ -79,7 +79,7 @@ Figyelje meg, hogy ebben a példában a **fióktulajdonos** hozzá van rendelve 
 A beépített **tulajdonosa** szerepkör az összes engedélyt megadja a **számítási feladatok felelőse** az előfizetések szintjén.
 
 > [!IMPORTANT]
-> Az Azure **fiók tulajdonosa** felelős a pénzügyi kötelezettségvállalás, az előfizetéshez tartozó, de a **számítási feladatok felelőse** ugyanazokkal az engedélyekkel rendelkezik. A **fióktulajdonos** meg kell bíznia az **számítási feladatok felelőse** erőforrást, amely az előfizetés Költségvetésen belül üzembe helyezéséhez.
+> Az Azure **fióktulajdonos** felelős a pénzügyi kötelezettségvállalás, az előfizetéshez tartozó, de a **számítási feladatok felelőse** ugyanazokkal az engedélyekkel rendelkezik. A **fióktulajdonos** meg kell bíznia az **számítási feladatok felelőse** erőforrást, amely az előfizetés Költségvetésen belül üzembe helyezéséhez.
 
 A következő szint a felügyeleti hatókör a **erőforráscsoport** szintjét. Egy erőforráscsoportot az erőforrások logikai tárolója. Műveletek a alkalmazni az erőforráscsoport szintjén alkalmazni a csoportban található összes erőforrást. Azt is vegye figyelembe, hogy minden egyes felhasználó engedélyeinek örökli a következő szintre be, ha explicit módon módosultak a hatókörben.
 

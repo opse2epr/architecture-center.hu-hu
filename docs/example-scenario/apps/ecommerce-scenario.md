@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: fasttrack
 social_image_url: /azure/architecture/example-scenario/apps/media/architecture-ecommerce-scenario.png
-ms.openlocfilehash: 989dec6afccbb836b61eb32e39904f43ffff65ac
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: b10ffaafb6479fef89e6691a686c018ac6ce5632
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298922"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640753"
 ---
 # <a name="an-e-commerce-front-end-on-azure"></a>Az Azure-ban egy e-kereskedelmi előtér
 
@@ -103,7 +103,7 @@ Egyéb lehetőségek az adatréteg számára a következők:
 - Vegye figyelembe, kihasználva a [áramkör-megszakító minta] [ circuit-breaker] biztosít hibakezelés normális kell az alkalmazás egy része nem érhető el.
 - Tekintse át a [jellemző tervezési minták a rugalmassághoz] [ design-patterns-resiliency] , és vegye fontolóra a megfelelő helyen.
 - Számos annak [ajánlott eljárások az App Service] [ resiliency-app-service] a az Azure Architecture Centert.
-- Érdemes lehet aktív [georeplikációs] [ sql-geo-replication] az adatréteg számára, és [georedundáns] [ storage-geo-redudancy] képekhez és üzenetsorok tárolására.
+- Érdemes lehet aktív [georeplikációs] [ sql-geo-replication] az adatréteg számára, és [georedundáns] [ storage-geo-redundancy] képekhez és üzenetsorok tárolására.
 - A részletesebb leírásáért lásd [rugalmasság][resiliency], az Azure Architecture Centert megfelelő témakörében talál.
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
@@ -162,4 +162,4 @@ Adtunk meg beolvasni a várt forgalom mennyisége alapján három példa költs�
 [secure-development]: https://www.microsoft.com/SDL/process/design.aspx
 [service-bus]: /azure/service-bus-messaging/
 [sql-geo-replication]: /azure/sql-database/sql-database-geo-replication-overview
-[storage-geo-redudancy]: /azure/storage/common/storage-redundancy-grs
+[storage-geo-redundancy]: /azure/storage/common/storage-redundancy-grs

@@ -1,28 +1,26 @@
 ---
 title: A hibaállapot elemzése
-description: Útmutató a hibaállapot elemzése végrehajtása az Azure-on alapuló felhőalapú megoldásokat.
+description: Útmutató a hibaállapot-elemzést végez az Azure-on alapuló felhőalapú megoldásokat.
 author: MikeWasson
 ms.date: 05/07/2018
 ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency
-ms.openlocfilehash: 6d0f58161c5b9d5922c21f24b1b1a50bab836bb1
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 0d89570ca42aa087a9c18148b5a4019b6f348e6b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299454"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640974"
 ---
-# <a name="failure-mode-analysis"></a>A hibaállapot elemzése
-
-[!INCLUDE [header](../_includes/header.md)]
+# <a name="failure-mode-analysis-for-azure-applications"></a>A hibaállapot elemzése az Azure-alkalmazásokhoz
 
 A hibaállapot elemzése (FMA) egy olyan folyamat, amellyel a rugalmasság rendszerbe, a rendszer lehetséges meghibásodási pontok azonosításával. Az FMA architektúra és kialakítás fázisai részének kell lennie, úgy, hogy a hiba utáni helyreállítás hozhat létre a rendszer az elejétől.
 
 A következő általános folyamata FMA elvégzésére:
 
-1. Azonosítsa a rendszer minden összetevője. Közé tartozik például a külső függőségei, identitás-szolgáltatóktól, harmadik féltől származó szolgáltatásokkal és így tovább.
+1. Azonosítsa a rendszer minden összetevője. Például a külső függőségei, mint például az identitás-szolgáltatóktól, harmadik féltől származó szolgáltatásokkal, és így tovább.
 2. Az egyes összetevők azonosíthatja a lehetséges hibák, amely akkor fordulhat elő. Előfordulhat, hogy az adott összetevőt egynél több hibaállapot. Például kell olvasási hibák fontolja meg, és külön-külön írja a hibák, mert a hatás és a lehetséges megoldások eltérő lesz.
 3. Minden egyes hiba mód szerint a teljes kockázatot sebessége. Vegye figyelembe a következőket:
 

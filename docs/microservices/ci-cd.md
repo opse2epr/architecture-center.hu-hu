@@ -1,5 +1,5 @@
 ---
-title: CI/CD-mikroszolgáltatások
+title: CI/CD a mikroszolgáltatásokhoz
 description: Folyamatos integráció és folyamatos készregyártás a mikroszolgáltatásokat.
 author: MikeWasson
 ms.date: 03/27/2019
@@ -7,12 +7,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: f7f3f3d48087db51c40f134e3e4cf11ec58501bb
-ms.sourcegitcommit: d58e6b2b891c9c99e951c59f15fce71addcb96b1
+ms.openlocfilehash: c52ff3d0a330f564e5f7e9b0b07f0ba84c328c8b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/12/2019
-ms.locfileid: "59533090"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639784"
 ---
 # <a name="cicd-for-microservices-architectures"></a>CI/CD-mikroszolgáltatás-architektúrákat
 
@@ -64,7 +64,7 @@ A kiadások gyors megjelenését eléréséhez a kibocsátási folyamat automati
 
 - **Kiadáskezelés**. Minden egyes csapat egy frissítés telepítése éles képesnek kell lennie. Ez nem jelenti azt, hogy minden csapattag engedélyekkel rendelkezik-e. Azonban egy központosított Kiadáskezelő szerepkör kellene csökkentheti a központi telepítések adatról van szó.
 
-    **Migitation**: A további, hogy a CI/CD-folyamat automatikus, és megbízható, a kevésbé ott kell lennie egy központi hatóság szüksége. Ugyanakkor előfordulhat, hogy kisebb hibajavítások és a főbb funkciókat frissítések kiadása különböző házirendeket. Folyamatban decentralizált nulla cégirányítási nem jelenti azt.
+    **Kockázatcsökkentési**: A további, hogy a CI/CD-folyamat automatikus, és megbízható, a kevésbé ott kell lennie egy központi hatóság szüksége. Ugyanakkor előfordulhat, hogy kisebb hibajavítások és a főbb funkciókat frissítések kiadása különböző házirendeket. Folyamatban decentralizált nulla cégirányítási nem jelenti azt.
 
 - **Szolgáltatási hírek**. Amikor új verzióra frissít egy szolgáltatás, azt más a tőle függő szolgáltatások nem szünet.
 
@@ -74,7 +74,7 @@ A kiadások gyors megjelenését eléréséhez a kibocsátási folyamat automati
 
 Mielőtt létrehozná a CI/CD munkafolyamat, ismernie kell a hogyan kódbázis fog strukturált és felügyelt.
 
-- Működnek-e a teams, külön referenciákhoz vagy egy monorepo (egyetlen adattár)?
+- Működnek-e a teams, külön tárházakban vagy egy monorepo (egyetlen adattár)?
 - Mi az az elágazási stratégia?
 - Akik beküldéssel telepíthet az éles környezetbe? Egy kiadási szerepkör van?
 

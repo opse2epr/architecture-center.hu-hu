@@ -17,10 +17,7 @@ Az Azure platformon vegye figyelembe a következő beállításokat:
 
 - [A Service Fabric](/azure/service-fabric/) csomagolása, üzembe helyezése és kezelése a mikroszolgáltatások egy elosztott rendszerplatform. Mikroszolgáltatások Service Fabric telepíthetők, tárolók, bináris végrehajtható fájlok, vagy mint [Reliable Services](/azure/service-fabric/service-fabric-reliable-services-introduction). A Reliable Services programozási modell révén szolgáltatások közvetlenül a Service Fabric programozási API-kat a rendszer, a jelentés állapotának lekérdezése, konfigurálásról és a kód módosításait az értesítések fogadásához és egyéb szolgáltatások észlelését. A Service Fabric legfontosabb különbséget az állapotalapú szolgáltatások használatával erős koncentrálhat [a Reliable Collections](/azure/service-fabric/service-fabric-reliable-services-reliable-collections).
 
-- [Az Azure Container Service](/azure/container-service/) (ACS) egy Azure-szolgáltatás, amely lehetővé teszi egy üzemkész DC/OS, Docker Swarm vagy Kubernetes-fürt üzembe helyezése.
-
-  > [!NOTE]
-  > Bár az ACS Kubernetes támogatja, ajánlott az AKS segítségével Kubernetes az Azure-ban való futtatásához. Az AKS továbbfejlesztett felügyeleti funkciók és a költséget biztosít.
+- Egyéb beállítások, például a Docker Enterprise Edition és a Mesosphere DC/OS az Azure IaaS-környezetben futtatható. A központi telepítési sablonok talál [Azure Marketplace-en](https://azuremarketplace.microsoft.com).
 
 ## <a name="containers"></a>Containers
 

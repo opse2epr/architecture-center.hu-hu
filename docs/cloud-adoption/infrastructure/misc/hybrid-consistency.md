@@ -3,12 +3,12 @@ title: 'CAF: Hibrid felhőkonzisztencia létrehozása'
 description: A hibrid felhő konzisztencia megközelítés meghatározása
 author: BrianBlanchard
 ms.date: 12/27/2018
-ms.openlocfilehash: 22637a0496dc1e776d00570c3ef9844cc185a35d
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: d5cfc8565a97c0342b5dc200512308d4c795422a
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298738"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639920"
 ---
 # <a name="create-hybrid-cloud-consistency"></a>Hibrid felhőkonzisztencia létrehozása
 
@@ -32,7 +32,7 @@ Egy igazi hibrid felhőalapú megoldás négy összetevő jelentős előnnyel j�
   
 Ezek az összetevők Azure szempontból közé:
 
-- Az Azure Active Directory (Azure AD), amely együttműködik a helyszíni Azure AD közös identitást biztosíthat minden felhasználónak. Egyszeri bejelentkezés a helyszíni és a felhőn keresztül leegyszerűsíti a felhasználók biztonságosan férhetnek hozzá az alkalmazások és eszközök szükségük van. Rendszergazdai biztonsági és cégirányítási ellenőrzéseket kezelheti, így a felhasználók mire van szükségük, rugalmasan, állítsa be ezeket az engedélyeket, anélkül, hogy befolyásolná a felhasználói élmény.
+- Az Azure Active Directory (Azure AD), amely együttműködik a helyszíni Azure AD közös identitást biztosíthat minden felhasználónak. Egyszeri bejelentkezés a helyszíni és a felhőn keresztül leegyszerűsíti a felhasználók biztonságosan férhetnek hozzá az alkalmazások és eszközök szükségük van. Rendszergazdák kezelhetik a biztonsági és cégirányítási ellenőrzéseket, így a felhasználók mire van szükségük, rugalmasan, állítsa be ezeket az engedélyeket, anélkül, hogy befolyásolná a felhasználói élmény.
 - Az Azure mindkét felhőbe integrált felügyeleti és biztonsági szolgáltatásokat nyújt a és a helyszíni infrastruktúrát, beleértve az eszközök figyelését, konfigurálását és a hibrid felhők védelmének egy integrált választékát. A teljes körű módszerrel kifejezetten címek valós kihívást a mérlegeli egy hibrid felhőmegoldás szervezetek.
 - Az Azure hybrid cloud gyakori eszközöket biztosít, amelyek zökkenőmentesen és hatékonyan, győződjön meg arról, hogy minden adat, a biztonságos hozzáférést. Konzisztens adatplatform létrehozása a Microsoft SQL Server Azure-adatszolgáltatások kombinálni. A konzisztens hibrid felhőalapú modell lehetővé teszi a felhasználóknak egyaránt üzemeltetési és elemzési adatokat, és az azonos szolgáltatásokkal a helyszínen és a felhőalapú adattárház, adatok elemzése és az adatvizualizációról működik.
 - A Microsoft Azure cloud servicesben, kombinálva a Microsoft Azure Stack a helyszíni, egységesített fejlesztést és Devopsot adja meg. A felhőben és helyszíni konzisztencia azt jelenti, hogy a fejlesztési és üzemeltetési csapat alkalmazások készíthetők, amelyek mindkét környezetben futnak javítások és üzembe helyezhetik a megfelelő helyre. Sablonok között a hibrid megoldást is, ami tovább egyszerűsítheti a DevOps-folyamatokkal felhasználhatja.

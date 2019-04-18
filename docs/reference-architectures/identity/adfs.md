@@ -8,12 +8,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
-ms.openlocfilehash: 22a2a2042c85e70d0d5a523c9ecf72395a9e774c
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 873b6a86da14e00d0a537f910d10922444cc1ded
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298998"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640736"
 ---
 # <a name="extend-active-directory-federation-services-ad-fs-to-azure"></a>Az Active Directory összevonási szolgáltatások (AD FS) kiterjesztése az Azure-ra
 
@@ -126,7 +126,7 @@ Tegye közzé vállalata webalkalmazásait, és tegye elérhetővé azokat a kü
 
 Az AD FS támogatja a jogkivonatok átalakítását és kiegészítését. Az Azure Active Directory nem biztosítja ezt a funkciót. Az AD FS-sel a megbízhatósági kapcsolatok beállításakor a következőket teheti:
 
-- Konfigurálhatja a jogcímek átalakítását az engedélyezési szabályokhoz. Például leképezheti a csoportos biztonságot egy nem Microsoft-partner által használt ábrázolásból olyan adatokká, amelyeket az Active Directory DS hitelesíteni tud az Ön vállalatában.
+- Konfigurálhatja a jogcímek átalakítását az engedélyezési szabályokhoz. Például leképezheti a csoportos biztonságot egy nem Microsoft-partner szervezet úgy, hogy az Active Directory tartományi szolgáltatások hitelesítheti a szervezet által használt ábrázolásból olyan.
 - Átalakíthatja a jogcímeket másik formátumba. Például leképezést végezhet a SAML 2.0-ról a SAML 1.1-re, ha alkalmazása csak a SAML 1.1 formátumú jogcímeket támogatja.
 
 ### <a name="ad-fs-monitoring"></a>AD FS-figyelés
@@ -199,15 +199,15 @@ Ennek az architektúrának egy üzemelő példánya elérhető a [GitHubon][gith
 
 1. Klónozza, ágaztassa vagy töltse le a zip-fájlját a [GitHub-adattár](https://github.com/mspnp/identity-reference-architectures).
 
-1. Telepítés [az Azure CLI 2.0](/cli/azure/install-azure-cli?view=azure-cli-latest).
+1. Telepítse az [Azure CLI 2.0-t.](/cli/azure/install-azure-cli?view=azure-cli-latest)
 
-1. Telepítse a [Azure építőelemeiről](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomag.
+1. Telepítse [az Azure építőelemei](https://github.com/mspnp/template-building-blocks/wiki/Install-Azure-Building-Blocks) npm-csomagot.
 
    ```bash
    npm install -g @mspnp/azure-building-blocks
    ```
 
-1. Parancsot a parancssorba bash-parancssorból vagy PowerShell-parancssorból, jelentkezzen be Azure-fiókjába a következő:
+1. Jelentkezzen be Azure-fiókjába egy parancssorból, Bash-parancssorból vagy PowerShell-parancssorból a következő módon:
 
    ```bash
    az login

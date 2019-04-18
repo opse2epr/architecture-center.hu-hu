@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: seodec18, Windows
 social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-regulated-multitier-app.png
-ms.openlocfilehash: 440d208b423703fe791dcbe2cad0609fef0e6508
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 2e3bb28abf870a1ce358dd67efeb3f422b983651
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299254"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639937"
 ---
 # <a name="building-secure-web-applications-with-windows-virtual-machines-on-azure"></a>Biztonságos webes alkalmazások létrehozása a Windows virtual machines az Azure-ban
 
@@ -67,8 +67,6 @@ Ebben a forgatókönyvben a VM-példányokon telepített [rendelkezésre állás
 
 Az adatbázisszint Always On rendelkezésre állási csoportok használatára konfigurálható. Ez az SQL Server-konfigurációval a fürtön belül több elsődleges adatbázis nyolc másodlagos adatbázisok van konfigurálva. Ha a probléma akkor fordul elő, az elsődleges adatbázissal, a fürt átadja a feladatokat egy másodlagos adatbázis, amely lehetővé teszi az alkalmazás továbbra is elérhetők. További információkért lásd: [áttekintése az Always On rendelkezésre állási csoportokat az SQL Server][sqlalwayson-docs].
 
-Több rendelkezésre állási útmutatóért lásd: a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 Ebben a forgatókönyvben a virtual machine scale sets az előtér- és összetevőket használ. A méretezési csoportok az előtér-alkalmazás szinten futtató Virtuálisgép-példányok száma automatikusan méretezheti az ügyfelek igényei szerint válaszul, vagy egy meghatározott ütemezés alapján. További információkért lásd: [az automatikus méretezés a virtual machine scale sets áttekintése][vmssautoscale-docs].
@@ -85,7 +83,7 @@ A virtuális hálózat hálózati biztonsági csoportok által védett, és a fo
 
 A rendelkezésre állási zónák és a virtual machine scale sets együtt ebben a forgatókönyvben az Azure Application Gateway és a load balancer használ. E két hálózati összetevők csatlakoztatott Virtuálisgép-példányok forgalom elosztását, és biztosíthatja, hogy a forgalom csak megtörténik a kifogástalan állapotú virtuális gépeket az állapot-mintavételei bele. Két Application Gateway-példány egy aktív-passzív konfigurációban vannak konfigurálva, és a egy zónaredundáns load balancert használja. Ez a konfiguráció lehetővé teszi a hálózati erőforrásokhoz, és az alkalmazás rugalmas problémákra utal, amelyek egyébként zavarja a forgalom és végfelhasználói hozzáférése.
 
-Rugalmas forgatókönyvek tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
@@ -133,12 +131,10 @@ Részletes megvalósítási útmutatók, tekintse át a [referenciaarchitektúra
 [appgateway-docs]: /azure/application-gateway/overview
 [architecture]: ./media/architecture-regulated-multitier-app.png
 [autoscaling]: /azure/architecture/best-practices/auto-scaling
-[availability]: ../../checklist/availability.md
 [cloudwitness-docs]: /windows-server/failover-clustering/deploy-cloud-witness
 [loadbalancer-docs]: /azure/load-balancer/load-balancer-overview
 [nsg-docs]: /azure/virtual-network/security-overview
 [ntiersql-ra]: /azure/architecture/reference-architectures/n-tier/n-tier-sql-server
-[resiliency]: /azure/architecture/resiliency/
 [security]: /azure/security/
 [scalability]: /azure/architecture/checklist/scalability
 [scaleset-docs]: /azure/virtual-machine-scale-sets/overview

@@ -1,29 +1,29 @@
 ---
-title: Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
+title: A helyszíni Active Directory-tartomány kiterjesztése az Azure-bA
 titleSuffix: Azure Reference Architectures
-description: Kiterjesztheti a helyszíni Active Directory-tartomány az Azure-bA.
+description: Az Active Directory Domain Services (AD DS) telepítése az Azure-beli virtuális hálózathoz.
 author: telmosampaio
 ms.date: 05/02/2018
 ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seodec18, identity
-ms.openlocfilehash: 67f23ae3676d0fb95ef484fa6dcb7a8bb92e0fa2
-ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
+ms.openlocfilehash: c617a0ceba900fc9cd78eff21aadf5c94f6b143b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/25/2019
-ms.locfileid: "58420005"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640345"
 ---
-# <a name="extend-active-directory-domain-services-ad-ds-to-azure"></a>Az Azure Active Directory Domain Services (AD DS) kiterjesztése az Azure-ra
+# <a name="extend-your-on-premises-active-directory-domain-to-azure"></a>A helyszíni Active Directory-tartomány kiterjesztése az Azure-bA
 
-Ez a referenciaarchitektúra bemutatja, hogyan terjeszthető ki a az Active Directory-környezetet az Azure Active Directory Domain Services (AD DS) használatával, elosztott hitelesítési szolgáltatások biztosításához. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
+Ez az architektúra bemutatja, hogyan terjeszthető ki a helyszíni Active Directory-tartomány az Azure elosztott hitelesítési szolgáltatások biztosításához. [**A megoldás üzembe helyezése.**](#deploy-the-solution)
 
 ![Biztonságos hibrid hálózati architektúra az Active Directoryval](./images/adds-extend-domain.png)
 
 *Töltse le az architektúra [Visio-fájlját][visio-download].*
 
-Az AD DS egy biztonsági tartományban található felhasználó, számítógép, alkalmazás és egyéb identitások hitelesítésére használható. Az AD DS üzemeltethető a helyszínen, de ha az alkalmazás részben a helyszínen, részben pedig az Azure-ban üzemel, a funkció Azure-ban való replikálása hatékonyabb lehet. Ez csökkentheti a késést, amelyet a hitelesítési és a helyi engedélyezési kérelmek a felhőből a helyszínen futó AD DS-be való visszaküldése okoz.
+Ha az alkalmazás üzemeltetése részben a helyszínen és a részben az Azure-ban, az Active Directory Domain Services (AD DS) az Azure-beli replikálásához hatékonyabb lehet. Ez csökkentheti a késést, hitelesítési kérések küldését a felhőből vissza a helyszínen futó Active Directory tartományi szolgáltatások által okozott.
 
 Ezt az architektúrát gyakran használják, ha a helyszíni hálózatot és az Azure-beli virtuális hálózatot VPN- vagy ExpressRoute-kapcsolat köti össze. Ez az architektúra a kétirányú replikációt is támogatja, ez azt jelenti, hogy a módosítások a helyszínen vagy a felhőben is elvégezhetők, és mindkét forrás egységes lesz. Az architektúra gyakori használati módjai közé tartoznak a hibrid alkalmazások, amelyekben a funkciók megoszlanak a helyszíni hely és az Azure között, valamint azok az alkalmazások és szolgáltatások, amelyek az Active Directoryval végzik el a hitelesítést.
 

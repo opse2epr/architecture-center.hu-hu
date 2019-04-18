@@ -8,12 +8,12 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 social_image_url: /azure/architecture/example-scenario/ai/media/architecture-commerce-chatbot.png
-ms.openlocfilehash: 48f85e7443bcd6149c8024d20fb50816c1a4df38
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: c4859cb0e43603991e4f8e6a0311a28537f29f1a
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299217"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640260"
 ---
 # <a name="conversational-chatbot-for-hotel-reservations-on-azure"></a>Beszélgető csevegőrobot szállodai foglalásokhoz az Azure-ban
 
@@ -65,8 +65,6 @@ Ebben a forgatókönyvben a természetes nyelvi robot, amely úgy működik, min
 
 Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásához. Az SQL Database szolgáltatás zóna redundáns adatbázisainak, feladatátvételi csoportok és georeplikáció. További információkért lásd: [Azure SQL Database a rendelkezésre állás][sqlavailability-docs].
 
-Rendelkezésre állási témaköröket talál a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 Ebben a példában az Azure App Service-ben. Az App Service automatikusan skálázhatja a robot futtató példányok száma. Ez a funkció lehetővé teszi a webalkalmazás és csevegőrobot kereslet kielégítésére. További információ az automatikus méretezésben: [automatikus méretezés ajánlott eljárásai] [ autoscaling] a az Azure Architecture Centert.
@@ -87,13 +85,13 @@ Ebben a forgatókönyvben az Azure SQL Database ügyfél foglalások tárolásá
 
 Az alkalmazás állapotának figyelése, az ebben a forgatókönyvben az Application Insights. Az Application Insights riasztást, és reagálni, amely hatással lenne, a felhasználói élmény és a csevegőrobot rendelkezésre állása teljesítménybeli problémák. További információkért lásd: [Mi az Application Insights?][appinsights-docs]
 
-Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmasság témaköröket talál [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
 Ez a forgatókönyv segítségével megismerheti a legtöbb összpontosított területek három összetevőből áll:
 
-- [Infrastruktúra-összetevőket](#deploy-infrastructure-components). Egy Azure Resource Manager-sablon használatával helyezhet üzembe egy App Service, webalkalmazás, az Application Insights, tárfiók, és az SQL Server és adatbázis alapvető infrastruktúra összetevők.
+- [Infrastruktúra-összetevőket](#walk-through). Egy Azure Resource Manager-sablon használatával helyezhet üzembe egy App Service, webalkalmazás, az Application Insights, tárfiók, és az SQL Server és adatbázis alapvető infrastruktúra összetevők.
 - [Webes alkalmazás Csevegőrobot](#deploy-web-app-chatbot). A robot a Bot Service és Language Understanding és Intelligent Services (LUIS) alkalmazás üzembe helyezéséhez az Azure CLI használatával.
 - [Mintaalkalmazás a C# csevegőrobot](#deploy-chatbot-c-application-code). Tekintse át a minta Szálloda foglalás C# alkalmazás kódja és a egy robot, az Azure-ban való üzembe helyezése a Visual Studio használatával.
 
@@ -170,7 +168,6 @@ Az Azure Bot Service az interaktív oktatóanyagok készletének, tekintse meg a
 [appservice-docs]: /azure/app-service/
 [architecture]: ./media/architecture-commerce-chatbot.png
 [autoscaling]: ../../best-practices/auto-scaling.md
-[availability]: ../../checklist/availability.md
 [botservice-docs]: /azure/bot-service/
 [cognitive-docs]: /azure/cognitive-services/
 [resiliency]: ../../resiliency/index.md

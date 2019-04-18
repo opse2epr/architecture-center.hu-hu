@@ -8,16 +8,16 @@ ms.topic: checklist
 ms.service: architecture-center
 ms.subservice: cloud-design-principles
 ms.custom: resiliency, checklist
-ms.openlocfilehash: 647a17feb347fbb23e9ffa015ab9d640e8864439
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: db42bd259bf71ef2ffa3e9efc5e4cd6ba2078e6b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298474"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639699"
 ---
 # <a name="resiliency-checklist-for-specific-azure-services"></a>Rugalmasságra vonatkozó ellenőrzőlista az adott Azure-szolgáltatásokhoz
 
-Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és továbbra is működnek, és az egyik a [szoftverminőség alappillérei](../guide/pillars.md). Minden technológiai rendelkezik a saját adott hibaállapot, amely, amikor figyelembe kell vennie, amelyek segítenek az alkalmazás. Az alábbi ellenőrzőlista használatával tekintse át a rugalmassággal kapcsolatos szempontok az adott Azure-szolgáltatásokhoz. Emellett tekintse át a [általános rugalmasságra vonatkozó ellenőrzőlista](./resiliency.md).
+Rugalmasság rendszer azon képessége, hogy helyreálljon a hibák után, és továbbra is működnek. Minden technológiai rendelkezik a saját adott hibaállapot, amely, amikor figyelembe kell vennie, amelyek segítenek az alkalmazás. Az alábbi ellenőrzőlista használatával tekintse át a rugalmassággal kapcsolatos szempontok az adott Azure-szolgáltatásokhoz. Rugalmas alkalmazások tervezése kapcsolatos további információkért lásd: [megbízható Azure-alkalmazások tervezése](../reliability/index.md).
 
 ## <a name="app-service"></a>App Service
 

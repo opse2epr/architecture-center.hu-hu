@@ -7,12 +7,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: microservices
-ms.openlocfilehash: 75aef5aec7f4663abff45ebdba5dbea245d3ac17
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: a36d2b4c7bfd2b26d5e1de44ddd8005fbce4bdd2
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299500"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640855"
 ---
 # <a name="designing-microservices-ingestion-and-workflow"></a>Mikroszolgáltatások tervezése: Adatfeldolgozás és munkafolyamatok
 
@@ -86,7 +86,7 @@ Egy partíción belül Event Processor Host megvárja, amíg `ProcessEventsAsync
 > [!NOTE]
 > A processzor gazdagép ténylegesen nem *várjon* abban az értelemben, a szál blokkolása. A `ProcessEventsAsync` metódus aszinkron, ezért az Processor Host végezhet egyéb műveleteket, amíg befejeződik a metódus. De azt nem az adott partíció egy másik üzenetköteget mindaddig, amíg a metódus adja vissza.
 
-A drone alkalmazásban egy üzenetköteget párhuzamosan lehet feldolgozni. De Várakozás a teljes kötegelt végrehajtásához a szűk keresztmetszetet is okozhatnak. Feldolgozási csak lehet olyan gyors kötegelt belül a leglassabb üzenetnek számít. Válaszidők bármilyen változása hozhat létre egy "hosszú tail," ahol néhány lassúak a válaszok húzza le az egész rendszert. A teljesítménytesztek kimutatta, hogy azt nem érte el a célként megadott átviteli sebességet, ezzel a megközelítéssel. Ez a kód *nem* jelenti azt, hogy lehetőleg ne Event Processor Host használatával. A nagy teljesítményű, kerülje bármely hosszú lefutású feladat található, de a `ProcesssEventsAsync` metódust. Az egyes kötegek gyorsan feldolgozni.
+A drone alkalmazásban egy üzenetköteget párhuzamosan lehet feldolgozni. De Várakozás a teljes kötegelt végrehajtásához a szűk keresztmetszetet is okozhatnak. Feldolgozási csak lehet olyan gyors kötegelt belül a leglassabb üzenetnek számít. Válaszidők bármilyen változása hozhat létre egy "hosszú tail," ahol néhány lassúak a válaszok húzza le az egész rendszert. A teljesítménytesztek kimutatta, hogy azt nem érte el a célként megadott átviteli sebességet, ezzel a megközelítéssel. Ez a kód *nem* jelenti azt, hogy lehetőleg ne Event Processor Host használatával. A nagy teljesítményű, kerülje bármely hosszú lefutású feladat található, de a `ProcessEventsAsync` metódust. Az egyes kötegek gyorsan feldolgozni.
 
 ### <a name="iothub-react"></a>IotHub React
 

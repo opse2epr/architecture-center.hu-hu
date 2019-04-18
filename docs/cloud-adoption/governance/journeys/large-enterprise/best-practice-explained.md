@@ -8,10 +8,10 @@ ms.date: 02/11/2019
 description: Nagyvállalati – ajánlott eljárás ismertetése
 author: BrianBlanchard
 ms.openlocfilehash: 2d52797f1c3541fab1c97d97d0438210d2e66f79
-ms.sourcegitcommit: 0a8a60d782facc294f7f78ec0e9033e3ee16bf4a
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/08/2019
+ms.lasthandoff: 04/17/2019
 ms.locfileid: "59068990"
 ---
 # <a name="large-enterprise-best-practice-explained"></a>Nagyvállalati: Ajánlott eljárás magyarázata
@@ -116,4 +116,4 @@ Ez az útmutató valósul meg, miután minden egyes cloud bevezetési csapat fol
 Mindkét csapatok a tolerancia mutatók segítségével azonosíthatja a következő fejlődést szem előtt tartva továbbra is támogatja a felhőre való áttérés szükséges. A következő lépés a vállalat tartson a folyamatban, hogy fejlesztése a csatlakoztathatóság érdekében a cégirányítási alapkonfiguráció örökölt vagy harmadik felek többtényezős hitelesítés (MFA) követelményekkel rendelkező alkalmazások támogatásához.
 
 > [!div class="nextstepaction"]
-> [Az identitáskezelési alapkonfiguráció fejlődése](./identity-baseline-evolution.md)
+> [Identitás alapkonfiguráció fejlődést szem előtt tartva](./identity-baseline-evolution.md)

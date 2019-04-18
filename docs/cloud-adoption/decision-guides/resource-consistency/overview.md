@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Tudnivalók az erőforrás konzisztencia, egy Azure áttelepítés tervezése során.
 author: rotycenh
-ms.openlocfilehash: c2ff9a274692421e50775048586088134ff4c225
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 3159e4b7aeddfdd99261c0f68591998d741f3359
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299430"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640046"
 ---
 # <a name="caf-resource-consistency-decision-guide"></a>CAF: Erőforrás konzisztencia döntési útmutató
 
@@ -25,7 +25,6 @@ Ugrás ide: [Alapvető csoportosítási](#basic-grouping) | [üzembe helyezési 
 A felhő hagyatéki konzisztencia erőforrásigényei szintjét kapcsolatos döntéseket elsősorban alakítják tényezők: áttelepítés utáni digitális hagyatéki mérete, üzleti vagy a meglévő előfizetésében eligazíthatja nem illő környezeti követelmények tervezési megközelítés, vagy a kell irányítási erőforrások üzembe helyezése után idővel kényszerítése. 
 
 Mivel ezek a tényezők növekedése fontosként, egységes üzembe helyezést, a csoportosítás és a felhőbeli erőforrások kezelését biztosító előnyeit fontosabbá válik. További speciális szintek növekvő igényeknek erőforrás konzisztencia megvalósítása igényel nagyobb munkát, automatizálás, azokat az eszközöket és konzisztencia kényszerítési töltött, és ennek eredményeként egy több időt töltött változáskezelés és nyomon követését.
-
 
 ## <a name="basic-grouping"></a>Alapszintű csoportosítás
 

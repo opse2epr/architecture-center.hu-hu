@@ -9,12 +9,12 @@ ms.service: architecture-center
 ms.subservice: example-scenario
 ms.custom: cat-team, Linux, HPC
 social_image_url: /azure/architecture/example-scenario/infrastructure/media/architecture-image-modeling.png
-ms.openlocfilehash: 0acfebf0ecdd81becdc939bfd5c4d55184fbae83
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 981d9f01ef12f75d9b292196f754f3a0affa791a
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299208"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640379"
 ---
 # <a name="accelerate-digital-image-based-modeling-on-azure"></a>A digitális lemezképen alapuló modellezés felgyorsítása az Azure-ban
 
@@ -71,7 +71,7 @@ Ebben a forgatókönyvben kifejezetten a nagy teljesítményű tárolást biztos
 Telepítési megfontolások függnek az alkalmazások és szolgáltatások használt, de pár megjegyzéseket a alkalmazni:
 
 - Nagy teljesítményű alkalmazások létrehozását, használja az Azure Premium Storage és [optimalizálása az alkalmazásrétegre](/azure/virtual-machines/windows/premium-storage-performance). Az Azure Blob-gyakori hozzáférés a tárolási költségek optimalizálására [ritkáról gyakori elérésű hozzáférési szint](/azure/storage/blobs/storage-blob-storage-tiers).
-- A storage használata [replikációs beállítás](/azure/storage/common/storage-redundancy) , amely megfelel a rendelkezésre állás és teljesítmény. Ebben a példában Avere vFXT van konfigurálva a magas rendelkezésre állás érdekében a helyileg redundáns tárolás (LRS) alapértelmezés szerint. A terheléselosztást, a telepítő használatban lévő összes virtuális gép a Ciklikus időszeleteléses minta vFXT eléréséhez exportálja.
+- A storage használata [replikációs beállítás](/azure/storage/common/storage-redundancy) , amely megfelel a rendelkezésre állás és a teljesítményre vonatkozó követelményeknek. Ebben a példában Avere vFXT van konfigurálva a magas rendelkezésre állás érdekében a helyileg redundáns tárolás (LRS) alapértelmezés szerint. A terheléselosztást, a telepítő használatban lévő összes virtuális gép a Ciklikus időszeleteléses minta vFXT eléréséhez exportálja.
 - Ha Windows-ügyfelek és a Linux-ügyfelek a háttérrendszer tárolási fognak használni, Samba kiszolgálók használatával támogatja a Windows-csomópontok. A [verzió](https://github.com/paulomarquesc/beegfs-template) ebben a példában a forgatókönyv BeeGFS alapján használja Samba támogatásához a HPC számítási feladatok (PhotoScan) futó Windows ütemező csomópontján. Ahhoz, mint az intelligens helyettesíti a DNS ciklikus időszeletelése helyezünk üzembe egy terheléselosztót.
 - Az olyan futtassa HPC-alkalmazások legjobb használatával a virtuális gép típusát a [Windows](/azure/virtual-machines/windows/sizes-hpc) vagy [Linux](/azure/virtual-machines/linux/sizes?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) számítási feladatot.
 - A HPC számítási feladatok a tárolási erőforrások elkülönítése, mindegyik a saját virtuális hálózat üzembe helyezése, majd a virtuális hálózat [társviszony-létesítés](/azure/virtual-network/virtual-network-peering-overview) a két csatlakozni. Társviszony-létesítés különböző virtuális hálózatok és útvonalak forgalmát a Microsoft gerincinfrastruktúráján keresztül a magánhálózati IP-címek csak az erőforrások között alacsony késleltetésű, nagy sávszélességű kapcsolatot hoz létre.
@@ -91,7 +91,7 @@ Vegye figyelembe az alábbi további az ebben a forgatókönyvben a biztonság n
 
 ## <a name="pricing"></a>Díjszabás
 
-Ez a forgatókönyv futtatásával járó költségeket is nagyban attól függően, több tényező befolyásolja.  A szám és a virtuális gépek, mennyi tárhelyre szükség, és mennyi ideig a feladat végrehajtásához mérete határozza meg a költségek.
+Ez a forgatókönyv futtatásával járó költségeket jelentősen több tényezőtől függően változhat.  A szám és a virtuális gépek, mennyi tárhelyre szükség, és mennyi ideig a feladat végrehajtásához mérete határozza meg a költségek.
 
 Az alábbi minta költsége a profil a [Azure díjkalkulátorát](https://azure.com/e/42362ddfd2e245a28a8e78bc609c80f3) Avere vFXT és PhotoScan tipikus konfigurációja alapján:
 

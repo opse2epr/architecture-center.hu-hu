@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 5e5af0be41fa892e490d556ef4286d5367144fd9
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 84bc6e5c8d78517e3dc1dc0ee8d250346a33ce43
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299650"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641195"
 ---
 # <a name="design-for-self-healing"></a>Tervezés az önjavítást szem előtt tartva
 
@@ -59,7 +59,7 @@ Emellett ne csak az olyan nagy eseményeket vegye figyelembe, mint a regionális
 
 **Véletlenszerű tesztelés alkalmazása**. A véletlenszerű tesztelés a hibabeszúrás fogalmát kibővítve véletlenszerűen szúr be hibákat vagy rendellenes feltételeket az éles példányokba.
 
-Az önjavító alkalmazások készítésének strukturált megközelítését a [Rugalmas alkalmazások tervezése az Azure-hoz][resiliency-overview] című cikkben tekintheti meg.
+Alkalmazások készítésének strukturált megközelítését önjavító, lásd: [tervezése az Azure megbízható alkalmazások][resiliency-overview].
 
 <!-- links -->
 
@@ -67,7 +67,7 @@ Az önjavító alkalmazások készítésének strukturált megközelítését a 
 [compensating-transactions]: ../../patterns/compensating-transaction.md
 [leader-election]: ../../patterns/leader-election.md
 [load-level]: ../../patterns/queue-based-load-leveling.md
-[resiliency-overview]: ../../resiliency/index.md
+[resiliency-overview]: ../../reliability/index.md
 [retry]: ../../patterns/retry.md
 [throttle]: ../../patterns/throttling.md
 [transient-fault-handling]: ../../best-practices/transient-faults.md

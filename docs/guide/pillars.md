@@ -8,12 +8,12 @@ ms.topic: guide
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: seojan19
-ms.openlocfilehash: 76870f58fc957f6d82f6dc176d1c538c795a7d20
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: d6eed98c6e224956942c45b52621ec02832be015
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298733"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59639768"
 ---
 # <a name="pillars-of-software-quality"></a>A szoftverminőség alappillérei
 
@@ -76,8 +76,6 @@ Az Azure-ban a szolgáltatási szerződés (SLA) ismerteti a Microsoftnak az üz
 
 Az alkalmazások általában több szolgáltatástól is függenek. Az egyes szolgáltatások leállásának valószínűsége általában egymástól független. Tegyük fel például, hogy egy alkalmazás két olyan szolgáltatástól függ, amelyek SLA-ja egyaránt 99,9 %. A két szolgáltatás összesített SLA-ja 99,9% &times; 99,9% &asymp; 99,8%, vagyis valamivel kisebb, mint az egyes szolgáltatások saját SLA-ja.
 
-A [rendelkezésre állási ellenőrzőlista][availability-checklist] alapján áttekintheti a terveit rendelkezésre állási szempontból.
-
 ### <a name="availability-guidance"></a>Rendelkezésre állási útmutató
 
 - [Tervezési minták a rendelkezésre álláshoz][availability-patterns]
@@ -104,11 +102,9 @@ Ugyanakkor továbbra is szeretné rugalmasság építve az alkalmazásba. Rugalm
 
 Amikor egy alkalmazást rugalmasnak tervez meg, ismernie kell a rendelkezésreállási követelményeket. Mennyi állásidő fogadható el? Ez részben a költség függvénye. Mennyibe kerül a lehetséges állásidő az üzletének? Mennyit kell befektetnie az alkalmazás magas rendelkezésre állásúvá tételéhez?
 
-A [rugalmassági ellenőrzőlista][resiliency-checklist] alapján áttekintheti a terveit rugalmassági szempontból.
-
 ### <a name="resiliency-guidance"></a>A rugalmasságra vonatkozó útmutatás
 
-- [Rugalmas alkalmazások tervezése az Azure-hoz][resiliency]
+- [Az Azure megbízható alkalmazások tervezése][resiliency]
 - [Tervezési minták a rugalmassághoz][resiliency-patterns]
 - Ajánlott eljárások: [Átmeneti hibák kezelése][transient-fault-handling], [újrapróbálkozási útmutatás adott szolgáltatásoknál][retry-service-specific]
 
@@ -173,7 +169,7 @@ A Key Vault használatával védje a titkosítási kulcsokat és a titkos kulcso
 
 [dr-guidance]: ../resiliency/disaster-recovery-azure-applications.md
 [identity-ref-arch]: ../reference-architectures/identity/index.md
-[resiliency]: ../resiliency/index.md
+[resiliency]: ../reliability/index.md
 
 [ad-subscriptions]: /azure/active-directory/active-directory-how-subscriptions-associated-directory
 [data-warehouse-encryption]: /azure/data-lake-store/data-lake-store-security-overview#data-protection
@@ -205,7 +201,5 @@ A Key Vault használatával védje a titkosítási kulcsokat és a titkos kulcso
 [transient-fault-handling]: ../best-practices/transient-faults.md
 
 <!-- checklist -->
-[availability-checklist]: ../checklist/availability.md
 [devops-checklist]: ../checklist/dev-ops.md
-[resiliency-checklist]: ../checklist/resiliency.md
 [scalability-checklist]: ../checklist/scalability.md

@@ -1,16 +1,16 @@
 ---
-title: Az irányítópultok használatával jelenítheti meg az Azure Databricks-metrikák
+title: Irányítópultok használata az Azure Databricks-metrikák megjelenítésére
 description: Hogyan helyezhet üzembe egy lesz a Grafana irányítópultja, az Azure Databricksben teljesítményének figyelése
 author: petertaylor9999
 ms.date: 03/26/2019
-ms.openlocfilehash: 36fcd93f6ca757e8e750d0fcbbdf0311c08560b0
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.openlocfilehash: a84203a9188848e6363a80ac455332e8f6a73cda
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887828"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640311"
 ---
-# <a name="use-dashboards-to-visualize-azure-databricks-metrics"></a>Az irányítópultok használatával jelenítheti meg az Azure Databricks-metrikák
+# <a name="use-dashboards-to-visualize-azure-databricks-metrics"></a>Irányítópultok használata az Azure Databricks-metrikák megjelenítésére
 
 Ez a cikk bemutatja, hogyan állítható be egy lesz a Grafana irányítópultja, teljesítménnyel kapcsolatos problémák az Azure Databricks-feladatok figyelése.
 
@@ -20,7 +20,7 @@ Ebben a könyvtárban lehetővé teszi, hogy az Azure Databricks szolgáltatás 
 
 ![Az irányítópult képernyőképe](./_images/dashboard-screenshot.png)
 
-## <a name="prequisites"></a>Byok
+## <a name="prerequisites"></a>Előfeltételek
 
 Klónozás a [Github-adattár](https://github.com/mspnp/spark-monitoring) és [az üzembe helyezési utasítások](./configure-cluster.md) létrehozása és konfigurálása az Azure Monitor naplózás az Azure Databricks szalagtár naplók elküldése az Azure Log Analytics-munkaterülethez.
 
@@ -40,7 +40,7 @@ Az Azure Log Analytics-munkaterület üzembe helyezéséhez kövesse az alábbi 
     az group deployment create --resource-group <resource-group-name> --template-file logAnalyticsDeploy.json --parameters location='East US' serviceTier='Standalone'
     ```
 
-Ezzel a sablonnal hoz létre a munkaterületet, és előre meghatározott lekérdezések által irányítópult által használt létrehoz.
+Ezzel a sablonnal hoz létre a munkaterületet, és előre definiált irányítópult által használt lekérdezések létrehoz.
 
 ## <a name="deploy-grafana-in-a-virtual-machine"></a>Egy virtuális gépet üzembe helyezni a Grafana
 
@@ -81,7 +81,7 @@ Ezután módosítani szeretné a Grafana rendszergazdai jelszavát a következő
 
 1. Az Azure Portalon válassza ki a virtuális Gépet, és kattintson a **áttekintése**.
 1. Másolja le a nyilvános IP-címet.
-1. Nyisson meg egy webböngészőt, és keresse meg a következő URL-cím: `http://<IP addresss>:3000`.
+1. Nyisson meg egy webböngészőt, és keresse meg a következő URL-cím: `http://<IP address>:3000`.
 1. Adja meg, a Grafana bejelentkezési képernyő, **rendszergazdai** a felhasználónév és a leírt lépések Grafana jelszavát használja.
 1. Miután bejelentkezett, válassza ki a **konfigurációs** (a fogaskerék ikonra).
 1. Válassza ki **kiszolgáló-rendszergazdai**.
@@ -153,7 +153,7 @@ A Vizualizációk a következők:
 
 ### <a name="job-latency"></a>Feldolgozás késéssel
 
-Ezt a vizualizációt egy feladatot, amely egy durva nézet az általános hátráltató feladat végrehajtási közel valós idejű jeleníti meg. A feladat-végrehajtási időtartama le a befejezési jeleníti meg. Vegye figyelembe, hogy a feladat indítási ideje nem ugyanaz, mint a feladat küldésének ideje. Késéssel jelenik meg. percentilisei (10 %-os, 30 %-os, 50 %-os, 90 %) a feladatok végrehajtásának indexeli Fürtazonosító és az alkalmazás azonosítója.
+Ezt a vizualizációt egy feladatot, amely egy durva nézet általános teljesítménye a feladat végrehajtási közel valós idejű jeleníti meg. A feladat-végrehajtási időtartama le a befejezési jeleníti meg. Vegye figyelembe, hogy a feladat indítási ideje nem ugyanaz, mint a feladat küldésének ideje. Késéssel jelenik meg. percentilisei (10 %-os, 30 %-os, 50 %-os, 90 %) a feladatok végrehajtásának indexeli Fürtazonosító és az alkalmazás azonosítója.
 
 ### <a name="stage-latency"></a>Fázis késés
 
@@ -177,7 +177,7 @@ Ezt a vizualizációt a fürt és az alkalmazások, amelyek a fürt és az alkal
 
 ### <a name="streaming-throughputlatency"></a>Folyamatos átviteli teljesítmény/késés
 
-Ez visualzation kapcsolódik a structured streaming lekérdezéshez tartozó metrikákat. A gráfok másodpercenkénti bemeneti sorok számát és a másodpercenként feldolgozott sorok számát mutatja. A streamelési metrikákat is szerepelnek az alkalmazásonként. Ezek a metrikák elküldésére, amikor a OnQueryProgress esemény jön létre a structured streaming lekérdezés feldolgozása, és a Vizualizáció jelöli streamelési várakozási ideje, hogy mennyi idő, ezredmásodpercben végrehajtásához szükséges egy lekérdezéskötegben.
+Ezt a vizualizációt a structured streaming lekérdezéshez tartozó metrikákat kapcsolódik. A gráfok másodpercenkénti bemeneti sorok számát és a másodpercenként feldolgozott sorok számát mutatja. A streamelési metrikákat is szerepelnek az alkalmazásonként. Ezek a metrikák elküldésére, amikor a OnQueryProgress esemény jön létre a structured streaming lekérdezés feldolgozása, és a Vizualizáció jelöli streamelési várakozási ideje, hogy mennyi idő, ezredmásodpercben végrehajtásához szükséges egy lekérdezéskötegben.
 
 ### <a name="resource-consumption-per-executor"></a>Erőforrás-használatot végrehajtó
 

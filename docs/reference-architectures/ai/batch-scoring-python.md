@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai, AI
-ms.openlocfilehash: b7607984bcf2c4bd046421aeb6e9d52dd8e7c18e
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.openlocfilehash: 9341b9e4c17025e9623902a6202076c352b237b9
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887743"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640549"
 ---
 # <a name="batch-scoring-of-python-machine-learning-models-on-azure"></a>Batch-pontozás Python machine learning-modellek az Azure-ban
 
@@ -25,11 +25,12 @@ Az architektúra egy referenciaimplementációt érhető el az [GitHub][github].
 **A forgatókönyv**: Ez a megoldás egy nagy számú egy IoT beállításban, ahol a minden egyes eszköz által érzékelőinek folyamatos működését figyeli. Minden egyes eszköz feltételezhető, imagenet rendellenességek észlelése modellek, amely képes előre jelezni kell társítani kell-e egy sorozatát mértékegysége, amelyek egy előre meghatározott idő alatt összesítjük, felelnek meg az anomáliadetektálási vagy nem. A valós életből vett példák ennek oka lehet egy adatfolyam érzékelőinek adatai, amelyeket a szűrt és összesítve van használatban a képzés és a valós idejű pontozási előtt kell. Az egyszerűség kedvéért ez a megoldás ugyanazon adatok fájlt használja a pontozási feladat végrehajtása közben.
 
 Ez a referenciaarchitektúra a számítási feladatok ütemezett kiváltó lett tervezve. Feldolgozás az alábbi lépésekből áll:
-1.  Az Azure Event Hubs küldése érzékelőinek támogatunk.
-2.  Hajtsa végre az adatfolyam-feldolgozás és a nyers adatok tárolásához.
-3.  Az adatok elküldése egy megkezdheti a munkát véve Machine Learning-fürtön. A fürt minden csomópontján fut egy adott érzékelő pontozási feladat. 
-4.  Hajtsa végre a pontozási folyamatot, amely a Machine Learning Python-szkriptekkel párhuzamosan fut a pontozási feladatok. A folyamat létrehozását, közzé és idő előre meghatározott időközönként ütemezve.
-5.  Hozzon létre előrejelzések, és tárolja őket Blob Storage-későbbi felhasználásra.
+
+1. Az Azure Event Hubs küldése érzékelőinek támogatunk.
+2. Hajtsa végre az adatfolyam-feldolgozás és a nyers adatok tárolásához.
+3. Az adatok elküldése egy megkezdheti a munkát véve Machine Learning-fürtön. A fürt minden csomópontján fut egy adott érzékelő pontozási feladat. 
+4. Hajtsa végre a pontozási folyamatot, amely a Machine Learning Python-szkriptekkel párhuzamosan fut a pontozási feladatok. A folyamat létrehozását, közzé és idő előre meghatározott időközönként ütemezve.
+5. Hozzon létre előrejelzések, és tárolja őket Blob Storage-későbbi felhasználásra.
 
 ## <a name="architecture"></a>Architektúra
 
@@ -66,7 +67,7 @@ Az ebben a forgatókönyvben az egyszerűség kedvéért egy pontozási tevéken
 ## <a name="management-considerations"></a>Eszközkezeléssel kapcsolatos szempontok
 
 - **Feladatok figyelése**. Fontos, hogy a futó feladatok előrehaladásának figyeléséhez, de azt az aktív csomópontból álló fürtben figyelése kihívást jelenthet. Vizsgálja meg a fürt csomópontjainak állapotát, használja a [az Azure Portal] [ portal] kezelheti a [machine learning-munkaterület][ml-workspace]. Ha egy csomópont nem aktív, vagy egy feladat sikertelen volt, a hibanaplókat blob storage-bA lesznek mentve, és a folyamatok szakaszban is elérhetők. Gazdagabb figyelés csatlakozzon a naplók [Application Insights][app-insights], vagy a fürt és a feladatok állapotát a lekérdezéséhez külön folyamatok futtatásához.
--   **Naplózás**. Machine Learning szolgáltatás a társított Azure Storage-fiók összes stdout/stderr naplóz. A naplófájlok egyszerűen megtekintéséhez használja a tárolók navigációs eszköz például [Azure Storage Explorer][explorer].
+- **Naplózás**. Machine Learning szolgáltatás a társított Azure Storage-fiók összes stdout/stderr naplóz. A naplófájlok egyszerűen megtekintéséhez használja a tárolók navigációs eszköz például [Azure Storage Explorer][explorer].
 
 ## <a name="cost-considerations"></a>Költségekkel kapcsolatos szempontok
 
@@ -75,7 +76,6 @@ Ez a referenciaarchitektúra a használt legköltségesebb összetevői a szám�
 És nem igényel azonnali feldolgozási munka konfigurálja az automatikus skálázási képletet, hogy az alapértelmezett állapot (minimum) az nulla csomópontból álló fürtben. Ezzel a konfigurációval a fürt nullára a csomópontok kezdődik, és ha a várólistán lévő feladatok csak felskálázással. Ha a kötegelt pontozási folyamat naponta csak néhány alkalommal történik, vagy kevesebb, mint ez a beállítás lehetővé teszi a jelentős költségmegtakarítást.
 
 Az automatikus skálázás nem lehet megfelelő, a kötegelt feladatok számához egymáshoz közel túl fordulhat elő. A fürt számára le üzemeltethet a idejét is felmerülő költség, így ha egy batch számítási feladatot csak néhány percet az előző feladat befejezése után kezdődik, költséghatékonyabb tartani a fürtön futó feladatok között lehet. E pontozási folyamatokat beütemezve egy nagy gyakoriságú (például minden órában), vagy ritkábban függ (például havonta egyszer).
-
 
 ## <a name="deployment"></a>Környezet
 

@@ -7,12 +7,12 @@ ms.topic: reference-architecture
 ms.service: architecture-center
 ms.subservice: reference-architecture
 ms.custom: azcat-ai
-ms.openlocfilehash: 7f10c422c65967701084859e41f9656c818ed818
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: c7e7423da11667c90d53247c2c5303a8fbd1a76a
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58298398"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640158"
 ---
 # <a name="build-a-real-time-recommendation-api-on-azure"></a>Valós idejű ajánlás API létrehozása az Azure-ban
 
@@ -96,7 +96,7 @@ Ez az architektúra üzembe helyezéséhez kövesse a **Azure Databricks** utas�
 
 1. Hozzon létre egy [Azure Databricks-munkaterület][workspace].
 
-2. Hozzon létre egy új fürtöt az Azure Databricksben a következő beállításokkal:
+1. Hozzon létre egy új fürtöt az Azure Databricksben a következő beállításokkal:
 
     - Fürt üzemmód: Standard
     - Databricks futtatókörnyezet-verziója: 4.3-as (tartalmazza az Apache Spark 2.3.1, Scala 2.11-et)
@@ -107,27 +107,27 @@ Ez az architektúra üzembe helyezéséhez kövesse a **Azure Databricks** utas�
     - Spark-Config: (a megadása kötelező)
     - Környezeti változók: (kötelezőként)
 
-3. Hozzon létre egy személyes hozzáférési tokent belül a [Azure Databricks-munkaterület][workspace]. Tekintse meg az Azure Databricks hitelesítési [dokumentáció] [ adbauthentication] részleteiről.
+1. Hozzon létre egy személyes hozzáférési tokent belül a [Azure Databricks-munkaterület][workspace]. Tekintse meg az Azure Databricks hitelesítési [dokumentáció] [ adbauthentication] részleteiről.
 
-3. Klónozás a [Microsoft Recommenders] [ github] környezetbe adattár, ahol futtathat parancsfájlokat (pl. a helyi számítógép).
+1. Klónozás a [Microsoft Recommenders] [ github] környezetbe adattár, ahol futtathat parancsfájlokat (pl. a helyi számítógép).
 
-4. Kövesse a **rövid telepítési** telepítési utasításokat a [a megfelelő kódtárak telepítése] [ setup] az Azure databricks szolgáltatásban.
+1. Kövesse a **rövid telepítési** telepítési utasításokat a [a megfelelő kódtárak telepítése] [ setup] az Azure databricks szolgáltatásban.
 
-5. Kövesse a **rövid telepítési** telepítési utasításokat a [előkészítése az Azure Databricks az operacionalizáláshoz][setupo16n].
+1. Kövesse a **rövid telepítési** telepítési utasításokat a [előkészítése az Azure Databricks az operacionalizáláshoz][setupo16n].
 
-6. Importálás a [ALS Movie Operacionalizálás notebook] [ als-example] egyszerűen a munkaterületre. Miután bejelentkezett az Azure Databricks-munkaterület, tegye a következőket:
+1. Importálás a [ALS Movie Operacionalizálás notebook] [ als-example] egyszerűen a munkaterületre. Miután bejelentkezett az Azure Databricks-munkaterület, tegye a következőket:
 
     a. Kattintson a **kezdőlap** a munkaterület bal oldalán.
 
     b. Kattintson a jobb gombbal az üres helyet a kezdőkönyvtárban. Válassza ki **importálás**.
-    
+
     c. Válassza ki **URL-cím**, és illessze be a következőt a szövegmezőhöz: `https://github.com/Microsoft/Recommenders/blob/master/notebooks/05_operationalize/als_movie_o16n.ipynb`
-    
+
     d. Kattintson az **Importálás** gombra.
 
-7. Nyissa meg a notebook az Azure databricksben, és csatolja a konfigurált fürtöt.
+1. Nyissa meg a notebook az Azure databricksben, és csatolja a konfigurált fürtöt.
 
-8. A jegyzetfüzet futtatásához használja a javaslatok API létrehozásához szükséges Azure-erőforrások létrehozása, amely az adott felhasználó számára a top-10 movie javaslatot is tartalmaz.
+1. A jegyzetfüzet futtatásához használja a javaslatok API létrehozásához szükséges Azure-erőforrások létrehozása, amely az adott felhasználó számára a top-10 movie javaslatot is tartalmaz.
 
 ## <a name="related-architectures"></a>Kapcsolódó referenciaarchitektúrák
 

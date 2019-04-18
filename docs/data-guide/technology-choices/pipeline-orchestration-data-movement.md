@@ -6,12 +6,12 @@ ms.date: 02/12/2018
 ms.topic: guide
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
-ms.openlocfilehash: 76a101b76497ae2b2aacff973175bb0fe4703d9e
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 31f052cc22f039540c89759c55028c368be1d238
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299219"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640787"
 ---
 # <a name="choosing-a-data-pipeline-orchestration-technology-in-azure"></a>Egy data pipeline vezénylési technológia kiválasztása az Azure-ban
 
@@ -75,4 +75,3 @@ A következő táblázat összefoglalja a fő különbségeket, a képességek.
 | Vertikális felskálázás | Igen | Nem | Nem |
 | Horizontális felskálázás | Igen | Nem | Igen (a fürt munkavégző csomópontok hozzáadásával) |
 | Big Data-optimalizált | Igen | Nem | Igen |
-

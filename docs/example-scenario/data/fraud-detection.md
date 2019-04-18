@@ -8,12 +8,12 @@ ms.topic: example-scenario
 ms.service: architecture-center
 ms.subservice: example-scenario
 social_image_url: /azure/architecture/example-scenario/data/media/architecture-fraud-detection.png
-ms.openlocfilehash: b10838635cb592eb93d35ce745832c55a6daae8b
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: fc2222874b807a53b5e575973aa6dd4eca63fa3b
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299211"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640047"
 ---
 # <a name="real-time-fraud-detection-on-azure"></a>Csalások valós idejű észlelése az Azure-ban
 
@@ -62,8 +62,6 @@ Ezenkívül az adathamisítások felderítése összetett algoritmusokat állít
 
 Az Azure Monitor egységes felhasználói felületet biztosít a különböző Azure-szolgáltatások figyelésére. További információkért lásd: [a Microsoft Azure figyelés](/azure/monitoring-and-diagnostics/monitoring-overview). Az Event Hubs és Stream Analytics is integrálva van az Azure Monitor szolgáltatással.
 
-Más rendelkezésre állási lehetőségekért lásd: a [rendelkezésre állási ellenőrzőlista] [ availability] a az Azure Architecture Centert.
-
 ### <a name="scalability"></a>Méretezhetőség
 
 Ez a forgatókönyv összetevőinek kapacitású adatfeldolgozást és nagy mértékben párhuzamosított valós idejű elemzési lettek kialakítva. Azure Event hubs szolgáltatás rugalmasan méretezhető, fogadására és feldolgozására másodpercenként több millió alacsony késleltetéssel képes. Az Event Hubs képes [automatikus vertikális felskálázás](/azure/event-hubs/event-hubs-auto-inflate) használati igényeknek átviteli egységek számát. Az Azure Stream Analytics képes a streamelési adatok több forrásból származó nagy mennyiségű elemzéséhez. Szerint növelje meg a Stream Analytics vertikálisan felskálázhatja [folyamatos átviteli egységek](/azure/stream-analytics/stream-analytics-streaming-unit-consumption) lefoglalva a folyamatos átviteli feladatok végrehajtásához.
@@ -78,7 +76,7 @@ Az Azure Event Hubs védi az adatokat egy [hitelesítési és biztonsági modell
 
 ### <a name="resiliency"></a>Rugalmasság
 
-Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [rugalmas alkalmazások tervezése az Azure][resiliency].
+Rugalmas megoldások tervezésével kapcsolatos általános útmutatásért lásd: [megbízható Azure-alkalmazások tervezése](../../reliability/index.md).
 
 ## <a name="deploy-the-scenario"></a>A forgatókönyv megvalósításához
 
@@ -111,7 +109,5 @@ Csalások észlelése az összetettebb esetekhez egy gépi tanulási modellt is 
 [docs-r-server-sample-solutions]: /machine-learning-server/r/sample-solutions
 [r-server-fraud-detection]: https://microsoft.github.io/r-server-fraud-detection/
 [technet-fraud-detection]: https://blogs.technet.microsoft.com/machinelearning/2017/06/28/using-azure-data-lake-and-r-for-fraud-detection/
-[availability]: /azure/architecture/checklist/availability
 [scalability]: /azure/architecture/checklist/scalability
-[resiliency]: ../../resiliency/index.md
 [security]: /azure/security/

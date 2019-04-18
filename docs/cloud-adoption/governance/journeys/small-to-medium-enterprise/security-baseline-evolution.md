@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: MAGYARÁZAT kis és közepes méretű vállalati – alapvető biztonsági fejlődést szem előtt tartva
 author: BrianBlanchard
-ms.openlocfilehash: 05bb2f7023c999cdf7154b8189a104ba06950720
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: bb26fa2f0d21bda6b1af1213bca817136b0c963f
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299374"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640243"
 ---
 # <a name="caf-small-to-medium-enterprise-security-baseline-evolution"></a>CAF: Small-to-medium enterprise: A biztonsági alapkonfiguráció fejlődése
 
@@ -53,7 +53,7 @@ A jelenlegi és jövőbeli állapot módosításai az új házirend-utasítások
 
 Az üzleti kockázat néhány műszaki kockázatok bővíthet:
 
-- Alapvető fontosságú applicationss vagy a védett adatok véletlenül is telepíthetők.
+- Alapvető fontosságú alkalmazásokhoz vagy a védett adatok véletlenül is telepíthetők.
 - Védett adatok tárolása miatt gyenge titkosítás döntések során előfordulhat, hogy ki lehetnek téve.
 - Jogosulatlan felhasználók is hozzáférhetnek a védett adatok.
 - Külső behatolás védett adatokhoz való hozzáférést eredményezhet.
@@ -109,7 +109,7 @@ A cégirányítási MVP kialakítás tartalmazza az új Azure szabályzatokat é
     4. Naplózási és engedélyezett hálózati alhálózat és virtuális hálózatok száma hálózati adapterenként használatának kényszerítése.
     5. Naplózási és a felhasználó által megadott útvonaltáblák korlátozás kényszerítése.
     6. A beépített szabályzatok alkalmazása Vendég konfiguráció a következőképpen:
-        1. Annak naplózása, hogy a windowsos webkiszolgálók biztonságos kommunikációs protokollokat használnak
+        1. A naplózási, hogy a Windows webkiszolgálók biztonságos kommunikációs protokollokat használ
         2. Naplózási, hogy a jelszó biztonsági beállításai helyesen vannak-e beállítva a Linux és Windows-gépeken belül
 7. Tűzfal-konfiguráció:
     1. Azonosítsa, amely megfelel a szükséges biztonsági követelményeket Azure tűzfal-konfiguráció. Lehetőségként azonosítson egy kompatibilis külső berendezés, amely az Azure-ral kompatibilis.

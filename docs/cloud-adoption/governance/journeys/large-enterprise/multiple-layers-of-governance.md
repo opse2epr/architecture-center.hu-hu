@@ -7,12 +7,12 @@ ms.custom: governance
 ms.date: 02/11/2019
 description: Nagyvállalati – irányítás nagyvállalatoknak az többrétegű
 author: BrianBlanchard
-ms.openlocfilehash: 5d79d54f94a39aa1e16018b9c3c9f02c6862fff2
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 1a90f8007077df0ecefa8ec5d8c0dd6bfca9ccc7
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: MT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58299376"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641212"
 ---
 # <a name="multiple-layers-of-governance-in-large-enterprises"></a>A nagyobb vállalatok a cégirányítási rétege
 
@@ -38,7 +38,7 @@ Ez a modell a felhő Cégirányítási csapat és a meglévő vállalati közöt
 
 ## <a name="requirements-to-supporting-such-a-team-sport"></a>Az ilyen csoport támogatása mellett, követelmények processzormagonként
 
-Egy többrétegű cégirányítási modell első követelmény, hogy a cégirányítási hierarchia ismertetése. A follownig kérdés megválaszolásával segít megérteni az általános cégirányítási hierarchia:
+Egy többrétegű cégirányítási modell első követelmény, hogy a cégirányítási hierarchia ismertetése. Az alábbi kérdések megválaszolásával segít megérteni az általános cégirányítási hierarchia:
 
 - Felhő számlázási (a cloud services díjszabása) hogyan van lefoglalva a részlegek között?
 - Cégirányítási feladatok kiosztás különböző vállalati informatikai és üzleti egységenként?

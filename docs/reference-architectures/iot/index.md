@@ -4,12 +4,12 @@ description: Javasolt architektúra az Azure-on futó IoT-alkalmazásokhoz PaaS-
 titleSuffix: Azure Reference Architectures
 author: MikeWasson
 ms.date: 01/09/2019
-ms.openlocfilehash: 5a4b104044f3e64ffdce98e3952201d397d41f33
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 04bff9419a30a3610d59e3ca8f27c004a0bcb2be
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58344580"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59641127"
 ---
 # <a name="azure-iot-reference-architecture"></a>Azure IoT-referenciaarchitektúra
 
@@ -142,7 +142,7 @@ Bár az egyszerű szöveges naplózás bevezetési költségei alacsonyabbak, a 
 
 ## <a name="next-steps"></a>További lépések
 
-- A javasolt architektúrát és a megvalósítási lehetőségeket a [Microsoft Azure IoT referenciaarchitektúráját](http://aka.ms/iotrefarchitecture) tartalmazó dokumentum (PDF) ismerteti részletesebben.
+- A javasolt architektúrát és a megvalósítási lehetőségeket a [Microsoft Azure IoT referenciaarchitektúráját](https://aka.ms/iotrefarchitecture) tartalmazó dokumentum (PDF) ismerteti részletesebben.
 
 - A különféle Azure IoT-szolgáltatások részletes dokumentációjáért lásd [az Azure IoT alapjait ismertető cikket](/azure/iot-fundamentals/).
 
