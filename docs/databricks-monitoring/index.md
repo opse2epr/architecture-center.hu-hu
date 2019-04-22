@@ -3,12 +3,12 @@ title: Az Azure Databricks monitorozása az Azure Monitor segítségével
 description: Egy Scala-kódtár, amely lehetővé teszi az Azure Databricks monitorozását az Azure Log Analyticsben
 author: petertaylor9999
 ms.date: 03/26/2019
-ms.openlocfilehash: 4544d3abc3264ec459a80ac1a61a912e6d30d6b2
-ms.sourcegitcommit: 1a3cc91530d56731029ea091db1f15d41ac056af
+ms.openlocfilehash: 93798ccf74735a880eab2999008b1495e6a63e10
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 04/03/2019
-ms.locfileid: "58887692"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640532"
 ---
 # <a name="monitoring-azure-databricks"></a>Az Azure Databricks monitorozása
 
@@ -18,7 +18,7 @@ A monitorozás kritikus részét képezi az éles megoldásoknak, így az Azure 
 
 Az alábbi cikkek a monitorozási adatok az Azure Databricksből az [Azure Monitorba](/azure/azure-monitor/overview), az Azure monitorozási adatok számára fenntartott platformjára való továbbításának módját mutatják be. A cikkeket sorrendben olvassa el.
 
-1. [Az Azure Databricks konfigurálása a metrikák az Azure Monitornak történő továbbítására](./configure-cluster.md)
+1. [Az Azure Databricks konfigurálása a metrikák Azure Monitornak történő továbbítására](./configure-cluster.md)
 1. [Azure Databricks-alkalmazásnaplók küldése az Azure Monitornak](./application-logs.md)
 1. [Irányítópultok használata az Azure Databricks-metrikák megjelenítésére](./dashboards.md)
 
@@ -31,4 +31,4 @@ A cikkeket és a kiegészítő kódtárat az Azure Spark és az Azure Databricks
 Első lépésként hozza létre a kódtárat, és helyezze üzembe az Azure Databricks-fürtön.
 
 > [!div class="nextstepaction"]
-> [Az Azure Databricks konfigurálása a metrikák az Azure Monitornak történő továbbítására](./configure-cluster.md)
+> [Az Azure Databricks konfigurálása a metrikák Azure Monitornak történő továbbítására](./configure-cluster.md)

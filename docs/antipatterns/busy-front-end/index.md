@@ -8,12 +8,12 @@ ms.topic: article
 ms.service: architecture-center
 ms.subservice: cloud-fundamentals
 ms.custom: seodec18
-ms.openlocfilehash: f1ab728d68747856fb2586804d58d45c4ea4fcc1
-ms.sourcegitcommit: c053e6edb429299a0ad9b327888d596c48859d4a
+ms.openlocfilehash: 4f94b181bd61b09c2ea79defe1c551402c1dc877
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/20/2019
-ms.locfileid: "58344495"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640958"
 ---
 # <a name="busy-front-end-antipattern"></a>Foglalt előtér kizárási minta
 
@@ -193,7 +193,7 @@ A teljesítményjavulás a processzor és a hálózat kihasználtságában is me
 
 ![AppDynamics-mérőszámok, amelyek a WorkInBackground vezérlő processzor- és hálózatkihasználtságát mutatják][AppDynamics-Metrics-Background-Requests]
 
-A következő grafikon egy terhelési teszt eredményeit mutatja. A kiszolgált kérések teljes mennyisége nagy mértékben nőtt a korábbi tesztekhez képest.
+A következő grafikon egy terhelési teszt eredményeit mutatja. A kiszolgált kérések teljes mennyisége nagymértékben nőtt a korábbi tesztekhez képest.
 
 ![A BackgroundImageProcessing vezérlő terhelési tesztjének eredményei][Load-Test-Results-Background]
 

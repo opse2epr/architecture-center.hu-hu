@@ -5,12 +5,12 @@ layout: LandingPage
 ms.topic: landing-page
 ms.date: 09/28/2018
 google-site-verification: b-xRLveOzJ9oSOh37wgRTRB2lMOoFY8HiHf9_0DIawE
-ms.openlocfilehash: e247985aa92e1c2bf3cb4d43514f4d06250f1141
-ms.sourcegitcommit: 548374a0133f3caed3934fda6a380c76e6eaecea
+ms.openlocfilehash: d91e905f2309792cf96fe41fa2fdf56704b95d6e
+ms.sourcegitcommit: 579c39ff4b776704ead17a006bf24cd4cdc65edd
 ms.translationtype: HT
 ms.contentlocale: hu-HU
-ms.lasthandoff: 03/25/2019
-ms.locfileid: "58419971"
+ms.lasthandoff: 04/17/2019
+ms.locfileid: "59640294"
 ---
 # <a name="azure-architecture-center"></a>Azure Architecture Center
 
@@ -162,8 +162,8 @@ ms.locfileid: "58419971"
                             </div>
                         </div>
                         <div class="cardText">
-                            <h3>Rugalmasságot szem előtt tartó tervezés</h3>
-                            <p>Megtudhatja, hogyan tervezhet rugalmas alkalmazásokat az Azure-hoz.</p>
+                            <h3>Megbízható Azure-alkalmazások tervezése</h3>
+                            <p>Megtudhatja, hogyan építheti be a hibatűrést és a magas rendelkezésre állást Azure-alkalmazásaiba.</p>
                         </div>
                     </div>
                 </div>
@@ -204,26 +204,6 @@ ms.locfileid: "58419971"
                         <div class="cardText">
                             <h3>Tervezési minták felhőkhöz</h3>
                             <p>Tervezési minták fejlesztők és megoldástervezők számára. Minden minta egy problémát, egy problémáról szóló mintát és egy Azure-alapú példát ismertet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </li>
-    <!-- Checklists -->
-    <li>
-        <a href="/azure/architecture/checklist/">
-            <div class="cardSize">
-                <div class="cardPadding">
-                    <div class="card">
-                        <div class="cardImageOuter">
-                            <div class="cardImage">
-                                <img src="_images/checklist.svg" alt="" />
-                            </div>
-                        </div>
-                        <div class="cardText">
-                            <h3>Tervezésáttekintési ellenőrzőlista</h3>
-                            <p>A tervezési folyamat során a fejlesztők és megoldástervezők munkáját segítő ellenőrzőlisták.</p>
                         </div>
                     </div>
                 </div>
