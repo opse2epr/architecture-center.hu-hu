@@ -1,38 +1,36 @@
 {
-  "need_generate_pdf": true,
-  "need_generate_intellisense": false,
   "docsets_to_publish": [
     {
-      "docset_name": "azure-architecture-center",
+      "docset_name": "azure-architecture-center-pr2",
       "build_source_folder": "docs",
-      "build_output_subfolder": "azure-architecture-center",
+      "build_output_subfolder": "azure-architecture-center-pr2",
       "locale": "hu-hu",
       "monikers": [],
+      "moniker_ranges": [],
       "open_to_public_contributors": false,
       "type_mapping": {
         "Conceptual": "Content",
         "ManagedReference": "Content",
-        "ContextObject": "Toc"
+        "RestApi": "Content"
       },
       "build_entry_point": "docs",
-      "template_folder": "_themes",
-      "version": 0
+      "template_folder": "_themes"
     }
   ],
   "notification_subscribers": [],
+  "sync_notification_subscribers": [],
   "branches_to_filter": [
     "live",
     "master-sxs"
   ],
   "git_repository_url_open_to_public_contributors": "https://github.com/microsoftdocs/architecture-center.hu-hu",
   "git_repository_branch_open_to_public_contributors": "live",
-  "contribution_branch_mappings": {
-		       "live-sxs": "live"
-  },
   "continue_with_document_error": true,
   "skip_source_output_uploading": false,
   "need_preview_pull_request": true,
-  "enable_incremental_build": true,
+  "contribution_branch_mappings": {
+    "live-sxs": "live"
+  },
   "dependent_repositories": [
     {
       "path_to_root": "_themes",
@@ -41,14 +39,8 @@
       "branch_mapping": {}
     },
     {
-      "path_to_root": "_themes.pdf",
-      "url": "https://github.com/Microsoft/templates.docs.msft.pdf",
-      "branch": "master",
-      "branch_mapping": {}
-    },
-    {
       "path_to_root": "_repo.en-us",
-      "url": "https://github.com/microsoftdocs/architecture-center",
+      "url": "https://github.com/opse2epr/architecture-center",
       "branch": "live",
       "branch_mapping": {
         "live": "live",
@@ -56,20 +48,8 @@
       }
     }
   ],
+  "branch_target_mapping": {},
   "need_generate_pdf_url_template": false,
-"branch_target_mapping": {
-     "live-sxs": [
-           "Publish",
-           "Pdf" 
-    ],
-    "live": [
-           "Publish",
-           "Pdf"
-    ]
-},
-"Targets": {
-     "Pdf": {
-               "template_folder": "_themes.pdf"
-     }
-}
+  "targets": {},
+  "need_generate_intellisense": false
 }
